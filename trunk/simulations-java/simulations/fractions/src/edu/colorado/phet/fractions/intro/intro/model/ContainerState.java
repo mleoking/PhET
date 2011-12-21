@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 public class ContainerState {
     public final List<Container> containers;
     public final int denominator;
-    public final int size;  //Number of containers to show
+    public final int numContainers;  //Number of containers to show
     public final int numerator;
 
     public ContainerState( int denominator, Container[] containers ) {
@@ -27,7 +27,7 @@ public class ContainerState {
     public ContainerState( int denominator, List<Container> containers ) {
         this.containers = containers;
         this.denominator = denominator;
-        this.size = containers.size();
+        this.numContainers = containers.size();
         int count = 0;
         for ( Container container : containers ) {
             count += container.numFilledCells;
@@ -55,7 +55,7 @@ public class ContainerState {
     //Add an empty container if this one is all full, but don't go past 6 (would be off the screen)
     public ContainerState padAndTrim() {
         ContainerState cs = trim();
-        while ( cs.size < 6 ) {
+        while ( cs.numContainers < 6 ) {
             cs = cs.addEmptyContainer();
         }
         return cs;
@@ -122,7 +122,7 @@ public class ContainerState {
 
     public ArrayList<CellPointer> getAllCellPointers() {
         return new ArrayList<CellPointer>() {{
-            for ( int i = 0; i < size; i++ ) {
+            for ( int i = 0; i < numContainers; i++ ) {
                 for ( int k = 0; k < containers.get( i ).numCells; k++ ) {
                     add( new CellPointer( i, k ) );
                 }
@@ -152,7 +152,7 @@ public class ContainerState {
 
     public ContainerState removeContainer( final int container ) {
         return new ContainerState( denominator, new ArrayList<Container>() {{
-            for ( int i = 0; i < size; i++ ) {
+            for ( int i = 0; i < numContainers; i++ ) {
                 if ( i != container ) {
                     add( getContainer( i ) );
                 }

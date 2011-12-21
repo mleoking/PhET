@@ -37,7 +37,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
                 final ContainerState state = containerState.get();
-                for ( int i = 0; i < state.size; i++ ) {
+                for ( int i = 0; i < state.numContainers; i++ ) {
                     int numSlices = state.denominator;
                     PNode pie = new PNode();
                     for ( int j = 0; j < numSlices; j++ ) {
@@ -49,14 +49,7 @@ public class PieSetFractionNode extends VisibilityNode {
                                                         empty ? 1 : 2 ) {{
 
                             //When clicking, toggle the slice
-                            addInputEventListener( new CursorHandler() );
-                            addInputEventListener( new PBasicInputEventHandler() {
-                                @Override public void mouseReleased( PInputEvent event ) {
-                                    FractionsIntroModel.setUserToggled( true );
-                                    containerState.set( containerState.get().toggle( cp ) );
-                                    FractionsIntroModel.setUserToggled( false );
-                                }
-                            } );
+                            PieSetFractionNode.addListener( this, containerState, cp );
                         }} );
 
                         //button to delete empty one
@@ -96,5 +89,16 @@ public class PieSetFractionNode extends VisibilityNode {
                 addChild( box );
             }
         }.observe( containerState );
+    }
+
+    public static void addListener( PNode node, final Property<ContainerState> containerState, final CellPointer cp ) {
+        node.addInputEventListener( new CursorHandler() );
+        node.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseReleased( PInputEvent event ) {
+                FractionsIntroModel.setUserToggled( true );
+                containerState.set( containerState.get().toggle( cp ) );
+                FractionsIntroModel.setUserToggled( false );
+            }
+        } );
     }
 }

@@ -3,11 +3,14 @@ package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
+import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 
 /**
  * Shows the fraction as a set of vertical bars
@@ -15,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
  * @author Sam Reid
  */
 public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
-    public VerticalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<Integer> numerator, final Property<Integer> denominator ) {
+    public VerticalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<ContainerState> containerState ) {
         super( chosenRepresentation, ChosenRepresentation.VERTICAL_BAR );
 
         new RichSimpleObserver() {
@@ -27,21 +30,25 @@ public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
                 final double width = spaceForBars / 6;
 
                 double barHeight = 200;
-                double cellHeight = barHeight / denominator.get();
+                int denominator = containerState.get().denominator;
+                double cellHeight = barHeight / denominator;
 
                 removeAllChildren();
 
-                int numBars = numerator.get() / denominator.get();
-                if ( numerator.get() % denominator.get() != 0 ) {
-                    numBars++;
-                }
                 int numElementsAdded = 0;
                 double x = 0;
                 double y = 0;
-                for ( int i = 0; i < numBars; i++ ) {
-                    for ( int k = 0; k < denominator.get(); k++ ) {
-                        Color color = numElementsAdded < numerator.get() ? FractionsIntroCanvas.FILL_COLOR : Color.white;
-                        addChild( new PhetPPath( new Rectangle2D.Double( x, y, width, cellHeight ), color, new BasicStroke( 2 ), Color.black ) );
+                for ( int i = 0; i < containerState.get().numContainers; i++ ) {
+                    boolean containerEmpty = containerState.get().getContainer( i ).isEmpty();
+                    for ( int k = 0; k < denominator; k++ ) {
+                        final CellPointer cp = new CellPointer( i, k );
+                        boolean filled = containerState.get().isFilled( cp );
+                        Color color = filled ? FractionsIntroCanvas.FILL_COLOR : Color.white;
+                        Color strokeColor = containerEmpty ? Color.lightGray : Color.black;
+                        Stroke stroke = containerEmpty ? new BasicStroke( 1 ) : new BasicStroke( 2 );
+                        addChild( new PhetPPath( new Rectangle2D.Double( x, y, width, cellHeight ), color, stroke, strokeColor ) {{
+                            PieSetFractionNode.addListener( this, containerState, cp );
+                        }} );
                         y = y + cellHeight;
                         numElementsAdded++;
                     }
@@ -50,6 +57,6 @@ public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
                     x = x + width + distanceBetween;
                 }
             }
-        }.observe( numerator, denominator );
+        }.observe( containerState );
     }
 }
