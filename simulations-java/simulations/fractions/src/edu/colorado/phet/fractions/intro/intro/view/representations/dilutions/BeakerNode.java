@@ -33,8 +33,8 @@ public class BeakerNode extends PComposite {
     private static final Color MINOR_TICK_COLOR = Color.DARK_GRAY;
     private static final double MINOR_TICK_SPACING = 0.1; // L
     private static final int MINOR_TICKS_PER_MAJOR_TICK = 5;
-    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
-    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
+    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
 
     private final BeakerImageNode beakerImageNode;
     public final LabelNode labelNode;

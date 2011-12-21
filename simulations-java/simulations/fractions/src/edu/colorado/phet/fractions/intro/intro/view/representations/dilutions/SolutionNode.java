@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.intro.intro.view.representations.dilutions;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
@@ -49,8 +50,9 @@ public class SolutionNode extends PComposite {
             setStroke( null );
         }};
         surfaceNode = new PPath() {{
-            setStroke( new BasicStroke( 0.5f ) );
-            setStrokePaint( new Color( 0, 0, 0, 85 ) );
+            setStroke( new BasicStroke( 0.9f ) );
+//            setStrokePaint( new Color( 0, 0, 0, 85 ) );
+            setStrokePaint( Color.black );
         }};
 
         // rendering order
@@ -108,7 +110,9 @@ public class SolutionNode extends PComposite {
             shape = new GeneralPath();
         }
         else {
-            shape = new Ellipse2D.Double( 0, cylinderSize.getHeight() - height - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight );
+            Rectangle2D.Double rect = new Rectangle2D.Double( 0, cylinderSize.getHeight() - height - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight );
+//            shape = new Ellipse2D.Double( 0, cylinderSize.getHeight() - height - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight );
+            shape = new Arc2D.Double( rect.x, rect.y, rect.width, rect.height, 0, -180, Arc2D.OPEN );
         }
         return shape;
     }
