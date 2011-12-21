@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -61,5 +62,10 @@ public class ShakerNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
+        addInputEventListener( new ShakerDragHandler() );
+    }
+
+    private static class ShakerDragHandler extends SimSharingDragSequenceEventHandler {
+        //TODO
     }
 }
