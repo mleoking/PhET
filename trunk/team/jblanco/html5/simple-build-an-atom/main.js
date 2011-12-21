@@ -65,6 +65,20 @@ function clearBackground() {
     context.restore();
 }
 
+function drawTitle() {
+    context.fillStyle = '#00f';
+    context.font = '30px sans-serif';
+    context.textBaseline = 'top';
+    context.fillText( 'Build an Atom', 10, 10 );
+}
+
+function drawPhetLogo() {
+    context.fillStyle = '#f80';
+    context.font = 'italic 20px sans-serif';
+    context.textBaseline = 'top';
+    context.fillText( 'PhET', canvas.width - 70, canvas.height - 40 );
+}
+
 function Particle( color ) {
     this.xPos = 0;
     this.yPos = 0;
@@ -86,6 +100,8 @@ Particle.prototype.draw = function( context ) {
 // Main drawing function.
 function draw() {
     clearBackground();
+    drawTitle();
+    drawPhetLogo();
     for ( var i = 0; i < particles.length; i++ ) {
         particles[i].draw( context );
     }
