@@ -53,6 +53,7 @@ public class ConcentrationModel implements Resettable {
             add( new Solute( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 159.609, 1.38, 1.0, new Color( 0x1E90FF ) /* blue */, 5, precipitateParticlesPerMole ) );
             add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 158.034, 0.48, 0.4, new Color( 0x8B008B ) /* purple */, Color.BLACK, 5, precipitateParticlesPerMole ) );
         }};
+
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
         this.shaker = new Shaker( new ImmutableVector2D( 100, 100 ), new Rectangle2D.Double( 10, 10, 400, 200 ), solute );
