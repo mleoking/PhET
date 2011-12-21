@@ -13,8 +13,9 @@ import edu.umd.cs.piccolox.PFrame;
  * This is to help with layouts for nodes that don't default to this coordinate frame.
  * It extends RichPNode to make it easier to write layout code using the methods provided in RichPNode.
  * <p>
- * NOTE: Because the offset is computed in the constructor, you must perform any transforms
- * on the child node prior to instantiating this node.
+ * NOTE: Because the offset is computed in the constructor, and is not updated if bounds change,
+ * any transforms on the node hierarchy wrapped by ZeroOffsetNode must be applied before instantiation.
+ * Any translation applied to the node passed to ZeroOffsetNode will be overwritten.
  * </p>
  *
  * @author Sam Reid
