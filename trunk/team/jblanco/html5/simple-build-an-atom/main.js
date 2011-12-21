@@ -334,10 +334,7 @@ function onDocumentTouchMove( event ) {
 }
 
 function onDocumentTouchEnd( event ) {
-    if ( event.touches.length == 1 ) {
-        event.preventDefault();
-        onTouchEnd( new Point2D( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
-    }
+    onTouchEnd();
 }
 
 function onWindowDeviceOrientation( event ) {
@@ -386,11 +383,11 @@ function onDrag( location ) {
     }
 }
 
-function onTouchEnd( location ) {
+function onTouchEnd() {
     touchInProgress = false;
     if ( particleBeingDragged != null ) {
         // If the particle is not inside the electron shell, remove it.
-        if ( !electronShell.containsPoint( location ) ) {
+        if ( !electronShell.containsPoint( particleBeingDragged.location ) ) {
             for ( i = 0; i < particles.length; i++ ) {
                 if ( particles[i] == particleBeingDragged ) {
                     particles.splice( i, 1 );
