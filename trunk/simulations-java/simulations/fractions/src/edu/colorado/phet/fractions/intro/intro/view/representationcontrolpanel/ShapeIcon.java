@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions.intro.intro.view;
+package edu.colorado.phet.fractions.intro.intro.view.representationcontrolpanel;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractions.intro.intro.view.ChosenRepresentation;
+import edu.colorado.phet.fractions.intro.intro.view.FractionsIntroCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -16,12 +18,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 /**
  * @author Sam Reid
  */
-public class ShapeElement extends PNode implements RepIcon {
+public class ShapeIcon extends PNode implements RepresentationIcon {
     //characteristic length
     public static double DIM = 24;
     public final ChosenRepresentation representation;
 
-    public ShapeElement( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Property<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation representation ) {
+    public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Property<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation representation ) {
         this.representation = representation;
         for ( Shape shape : unfilled ) {
             addChild( new PhetPPath( shape, Color.white, new BasicStroke( 1 ), Color.gray ) );

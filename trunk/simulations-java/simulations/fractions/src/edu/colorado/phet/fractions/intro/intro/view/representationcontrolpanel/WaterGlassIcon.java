@@ -1,21 +1,23 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions.intro.intro.view;
+package edu.colorado.phet.fractions.intro.intro.view.representationcontrolpanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.fractions.intro.intro.view.ChosenRepresentation;
+import edu.colorado.phet.fractions.intro.intro.view.WaterGlassNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Representation control panel icon for cake.
+ * Representation control panel icon for water glass.
  *
  * @author Sam Reid
  */
-public class CakeElement extends PNode implements RepIcon {
+public class WaterGlassIcon extends PNode implements RepresentationIcon {
 
-    public CakeElement( final Property<ChosenRepresentation> selected ) {
-        addChild( new CakeNode( 2, new int[] { 1, 2 } ) );
+    public WaterGlassIcon( final Property<ChosenRepresentation> selected ) {
+        addChild( new WaterGlassNode( 3, 4 ) );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
@@ -23,7 +25,7 @@ public class CakeElement extends PNode implements RepIcon {
                 selected.set( getRepresentation() );
             }
         } );
-        scale( 0.5 );
+        scale( 0.4 );
     }
 
     public PNode getNode() {
@@ -31,6 +33,6 @@ public class CakeElement extends PNode implements RepIcon {
     }
 
     public ChosenRepresentation getRepresentation() {
-        return ChosenRepresentation.CAKE;
+        return ChosenRepresentation.WATER_GLASSES;
     }
 }

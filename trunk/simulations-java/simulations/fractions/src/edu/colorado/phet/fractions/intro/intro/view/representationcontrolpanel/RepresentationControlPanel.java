@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions.intro.intro.view;
+package edu.colorado.phet.fractions.intro.intro.view.representationcontrolpanel;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,6 +12,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.fractions.intro.intro.view.ChosenRepresentation;
+import edu.colorado.phet.fractions.intro.intro.view.ToggleButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -26,22 +28,22 @@ public class RepresentationControlPanel extends ControlPanelNode {
 
     private static class RepresentationControlPanelContentNode extends PNode {
         private RepresentationControlPanelContentNode( final Property<ChosenRepresentation> selected ) {
-            final RepIcon[] elements = new RepIcon[] {
-                    new PieElement( selected ),
-                    new HorizontalBarElement( selected ),
-                    new VerticalBarElement( selected ),
-                    new WaterGlassElement( selected ),
-                    new NumberLineElement( selected ) {{
+            final RepresentationIcon[] elements = new RepresentationIcon[] {
+                    new PieIcon( selected ),
+                    new HorizontalBarIcon( selected ),
+                    new VerticalBarIcon( selected ),
+                    new WaterGlassIcon( selected ),
+                    new NumberLineIcon( selected ) {{
                         scale( 1.2 );
                     }},
-                    new CakeElement( selected ),
+                    new CakeIcon( selected ),
             };
 
             double maxWidth = 0;
             double maxHeight = 0;
 
-            for ( RepIcon repIcon : elements ) {
-                PNode pNode = repIcon.getNode();
+            for ( RepresentationIcon representationIcon : elements ) {
+                PNode pNode = representationIcon.getNode();
                 if ( pNode.getFullBounds().getWidth() > maxWidth ) {
                     maxWidth = pNode.getFullBounds().getWidth();
                 }
@@ -53,7 +55,7 @@ public class RepresentationControlPanel extends ControlPanelNode {
             final double finalMaxHeight = maxHeight;
             final double finalMaxWidth = maxWidth;
             final HBox representationLayer = new HBox( 10 ) {{
-                for ( final RepIcon element : elements ) {
+                for ( final RepresentationIcon element : elements ) {
 
                     PNode button = new PhetPPath( new RoundRectangle2D.Double( -2, -2, finalMaxWidth + 4, finalMaxHeight + 4, 20, 20 ), null ) {{
 
