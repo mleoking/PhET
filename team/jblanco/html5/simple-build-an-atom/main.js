@@ -6,8 +6,8 @@ var context;
 var particles = new Array();
 var neutronBucket;
 var protonBucket;
-var addProtonNext = true;
 var particleBeingDragged = null;
+var resetButton;
 
 // Hook up the initialization function.
 $( document ).ready( function() {
@@ -45,7 +45,10 @@ function init() {
 
     // Add the buckets where nucleons are created and returned.
     neutronBucket = new Bucket( new Point2D( 100, 300 ), "gray" );
-    protonBucket = new Bucket( new Point2D( 500, 300 ), "red" );
+    protonBucket = new Bucket( new Point2D( 400, 300 ), "red" );
+
+    // Add the reset button.
+    resetButton = new ResetButton( new Point2D( 600, 350 ), "orange" );
 
     // Commenting out, since iPad seems to send these continuously.
 //	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
@@ -184,8 +187,49 @@ Bucket.prototype.setLocation = function( location ) {
 
 Bucket.prototype.containsPoint = function( point ) {
     // Treat the shape as rectangle, even though it may not exactly be one.
-    return point.x > this.location.x && point.x < this.location.x &&
-           point.y > this.location.y && point.y < this.location.y;
+    return point.x > this.location.x && point.x < this.location.x + this.width &&
+           point.y > this.location.y && point.y < this.location.y + this.height;
+}
+
+//-----------------------------------------------------------------------------
+// Reset button class
+//-----------------------------------------------------------------------------
+
+function ResetButton( initialLocation, color ) {
+    this.location = initialLocation;
+    this.width = 70;
+    this.height = 30;
+    this.color = color;
+}
+
+ResetButton.prototype.draw = function( context ) {
+    var xPos = this.location.x;
+    var yPos = this.location.y;
+    var gradient = context.createLinearGradient( xPos, yPos, xPos, yPos + this.height );
+    gradient.addColorStop( 0, "white" );
+    gradient.addColorStop( 1, this.color );
+    // Draw box that defines button outline.
+    context.fillStyle = gradient;
+    context.fillRect( xPos, yPos, this.width, this.height );
+    // Put text on the box.
+    context.fillStyle = '#000';
+    context.font = '20px sans-serif';
+    context.textBaseline = 'top';
+    context.fillText( 'Reset', xPos + 5, yPos + 5 );
+}
+
+ResetButton.prototype.setLocationComponents = function( x, y ) {
+    this.location.x = x;
+    this.location.y = y;
+}
+
+ResetButton.prototype.setLocation = function( location ) {
+    this.setLocationComponents( location.x, location.y );
+}
+
+ResetButton.prototype.containsPoint = function( point ) {
+    return point.x > this.location.x && point.x < this.location.x + this.width &&
+           point.y > this.location.y && point.y < this.location.y + this.height;
 }
 
 //-----------------------------------------------------------------------------
@@ -193,19 +237,33 @@ Bucket.prototype.containsPoint = function( point ) {
 
 // Main drawing function.
 function draw() {
+
     clearBackground();
+
+    // Draw the text.
     drawTitle();
     drawPhetLogo();
+
+    // Draw the reset button.
+    resetButton.draw( context );
+
     // Draw the buckets.
     neutronBucket.draw( context );
     protonBucket.draw( context );
+
     // Draw the particles.
     for ( var i = 0; i < particles.length; i++ ) {
         particles[i].draw( context );
     }
 }
 
+function removeAllParticles() {
+    particles.length = 0;
+}
+
+//-----------------------------------------------------------------------------
 // Event handlers.
+//-----------------------------------------------------------------------------
 
 function onDocumentMouseDown( event ) {
     onTouchStart( new Point2D( event.clientX, event.clientY ) );
@@ -255,16 +313,27 @@ function onTouchStart( location ) {
         }
     }
     if ( particleBeingDragged == null ) {
-        // Create a new particle.
-        var color = 'red';
-        if ( !addProtonNext ) {
-            color = 'gray'
+        // See if the touch was on any of the buckets and, if so, create the
+        // corresponding particle.
+        if ( neutronBucket.containsPoint( location ) ) {
+            particleBeingDragged = new Particle( "gray" );
+            particles.push( particleBeingDragged );
         }
-        addProtonNext = !addProtonNext;
-        particleBeingDragged = new Particle( color );
-        particles.push( particleBeingDragged );
+        else if ( protonBucket.containsPoint( location ) ) {
+            particleBeingDragged = new Particle( "red" );
+            particles.push( particleBeingDragged );
+        }
+        // Else see if the button is being touched.
+        else if ( resetButton.containsPoint( location ) ) {
+            removeAllParticles();
+        }
     }
-    particleBeingDragged.setLocation( location );
+
+    // Position the particle (if there is one) at the location of this event.
+    if ( particleBeingDragged != null ) {
+        particleBeingDragged.setLocation( location );
+    }
+
     draw();
 }
 
