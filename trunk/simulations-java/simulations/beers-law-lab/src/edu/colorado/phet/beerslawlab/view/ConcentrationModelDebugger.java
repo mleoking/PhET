@@ -25,6 +25,8 @@ public class ConcentrationModelDebugger extends VBox {
         // nodes, initialized with "?" as a workaround for VBox bug #3191
         final PText evaporationRate = new PText( "?" );
         final PText dropperLocation = new PText( "?" );
+        final PText inputFlowRate = new PText( "?" );
+        final PText outputFlowRate = new PText( "?" );
         final PText shakerLocation = new PText( "?" );
         final PText soluteForm = new PText( "?" );
         final HTMLNode soluteFormula = new HTMLNode( "?" );
@@ -37,6 +39,8 @@ public class ConcentrationModelDebugger extends VBox {
         addChild( new PText( "MODEL PROPERTIES" ) {{ setTextPaint( Color.RED ); }} );
         addChild( dropperLocation );
         addChild( evaporationRate );
+        addChild( inputFlowRate );
+        addChild( outputFlowRate );
         addChild( shakerLocation );
         addChild( soluteForm );
         addChild( soluteFormula );
@@ -54,6 +58,16 @@ public class ConcentrationModelDebugger extends VBox {
         model.evaporationRate.addObserver( new SimpleObserver() {
             public void update() {
                 evaporationRate.setText( "evaporationRate = " + model.evaporationRate.get() + " L/sec" );
+            }
+        } );
+        model.inputFlowRate.addObserver( new SimpleObserver() {
+            public void update() {
+                inputFlowRate.setText( "inputFlowRate = " + model.inputFlowRate.get() + " L/sec" );
+            }
+        } );
+        model.outputFlowRate.addObserver( new SimpleObserver() {
+            public void update() {
+                outputFlowRate.setText( "outputFlowRate = " + model.outputFlowRate.get() + " L/sec" );
             }
         } );
         model.shaker.location.addObserver( new SimpleObserver() {
