@@ -9,6 +9,7 @@ import edu.colorado.phet.beerslawlab.control.EvaporationControlNode;
 import edu.colorado.phet.beerslawlab.control.RemoveSoluteButtonNode;
 import edu.colorado.phet.beerslawlab.control.SoluteControlNode;
 import edu.colorado.phet.beerslawlab.view.BLLCanvas;
+import edu.colorado.phet.beerslawlab.view.BeakerNode;
 import edu.colorado.phet.beerslawlab.view.ConcentrationModelDebugger;
 import edu.colorado.phet.beerslawlab.view.DropperNode;
 import edu.colorado.phet.beerslawlab.view.ShakerNode;
@@ -26,6 +27,7 @@ public class ConcentrationCanvas extends BLLCanvas {
     public ConcentrationCanvas( final ConcentrationModel model, Frame parentFrame ) {
 
         // Nodes
+        PNode beakerNode = new BeakerNode( model.beaker );
         PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
         PNode shakerNode = new ShakerNode( model.shaker, model.soluteForm );
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
@@ -38,6 +40,7 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // rendering order
         {
+            addChild( beakerNode );
             addChild( shakerNode );
             addChild( dropperNode );
             addChild( evaporationControlNode );
@@ -51,12 +54,13 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // layout
         {
+            // NOTE: Nodes that have corresponding model elements handle their own offsets.
             final double xMargin = 20;
             final double yMargin = 20;
             // upper right
             soluteControlNode.setOffset( getStageSize().getWidth() - soluteControlNode.getFullBoundsReference().getWidth() - xMargin, yMargin );
-            // bottom left
-            evaporationControlNode.setOffset( xMargin,
+            // left aligned below beaker
+            evaporationControlNode.setOffset( beakerNode.getFullBoundsReference().getMinX(),
                                               getStageSize().getHeight() - evaporationControlNode.getFullBoundsReference().getHeight() - yMargin );
             // left of evaporation control
             removeSoluteButtonNode.setOffset( evaporationControlNode.getFullBoundsReference().getMaxX() + 10,
