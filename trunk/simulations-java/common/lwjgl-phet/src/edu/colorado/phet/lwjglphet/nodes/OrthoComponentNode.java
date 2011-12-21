@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lwjglphet;
+package edu.colorado.phet.lwjglphet.nodes;
 
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
@@ -14,21 +14,32 @@ import org.lwjgl.input.Mouse;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.lwjglphet.CanvasTransform;
+import edu.colorado.phet.lwjglphet.ComponentImage;
+import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Allows overlaying a GUI onto LWJGL. This should only be rendered in an orthographic mode.
+ */
 public class OrthoComponentNode extends GLNode {
+
+    public final ValueNotifier<OrthoComponentNode> onResize = new ValueNotifier<OrthoComponentNode>( this );
+    public final Property<ImmutableVector2D> position;
+
     private final JComponent component;
     private final LWJGLTab tab;
     private final CanvasTransform canvasTransform;
-    public final Property<ImmutableVector2D> position;
-    private final VoidNotifier mouseEventNotifier;
 
     private Dimension size = new Dimension(); // our current size
     private ComponentImage componentImage;
@@ -43,7 +54,6 @@ public class OrthoComponentNode extends GLNode {
         this.tab = tab;
         this.canvasTransform = canvasTransform;
         this.position = position;
-        this.mouseEventNotifier = mouseEventNotifier;
 
         size = component.getPreferredSize();
 
@@ -65,13 +75,13 @@ public class OrthoComponentNode extends GLNode {
 
                     rebuildComponentImage();
 
-                    // run notifications in the JME thread
-//                    JMEUtils.invoke( new Runnable() {
-//                        public void run() {
-//                            // notify that we resized
-//                            onResize.updateListeners();
-//                        }
-//                    } );
+                    // run notifications in the LWJGL thread
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            // notify that we resized
+                            onResize.updateListeners();
+                        }
+                    } );
                 }
             }
         } );
@@ -148,14 +158,14 @@ public class OrthoComponentNode extends GLNode {
         glColor4f( 1, 1, 1, 1 );
 
         glBegin( GL_QUADS );
-        glTexCoord2d( 0.0, 0.0 );
-        glVertex3d( offsetX, offsetY, 0.0 );
-        glTexCoord2d( 0.0, 1.0 );
-        glVertex3d( offsetX, offsetY + componentImage.getHeight(), 0.0 );
-        glTexCoord2d( 1.0, 1.0 );
-        glVertex3d( offsetX + componentImage.getWidth(), offsetY + componentImage.getHeight(), 0.0 );
-        glTexCoord2d( 1.0, 0.0 );
-        glVertex3d( offsetX + componentImage.getWidth(), offsetY, 0.0 );
+        glTexCoord2f( 0, 0 );
+        glVertex3f( offsetX, offsetY, 0 );
+        glTexCoord2f( 0, 1 );
+        glVertex3f( offsetX, offsetY + componentImage.getHeight(), 0 );
+        glTexCoord2f( 1, 1 );
+        glVertex3f( offsetX + componentImage.getWidth(), offsetY + componentImage.getHeight(), 0 );
+        glTexCoord2f( 1, 0 );
+        glVertex3f( offsetX + componentImage.getWidth(), offsetY, 0 );
         glEnd();
 
         glShadeModel( GL_SMOOTH );

@@ -274,6 +274,7 @@ public class ImmutableMatrix4F {
                          m03, m13, m23, m33, type );
     }
 
+    // regular multiplication
     public ImmutableVector4F times( ImmutableVector4F v ) {
         float x = this.m00 * v.getX() + this.m10 * v.getY() + this.m20 * v.getZ() + this.m30 * v.getW();
         float y = this.m01 * v.getX() + this.m11 * v.getY() + this.m21 * v.getZ() + this.m31 * v.getW();
@@ -282,8 +283,29 @@ public class ImmutableMatrix4F {
         return new ImmutableVector4F( x, y, z, w );
     }
 
+    // multiplication of the transpose of this matrix and v
+    public ImmutableVector4F timesTranspose( ImmutableVector4F v ) {
+        float x = this.m00 * v.getX() + this.m01 * v.getY() + this.m02 * v.getZ() + this.m03 * v.getW();
+        float y = this.m10 * v.getX() + this.m11 * v.getY() + this.m12 * v.getZ() + this.m13 * v.getW();
+        float z = this.m20 * v.getX() + this.m21 * v.getY() + this.m22 * v.getZ() + this.m23 * v.getW();
+        float w = this.m30 * v.getX() + this.m31 * v.getY() + this.m32 * v.getZ() + this.m33 * v.getW();
+        return new ImmutableVector4F( x, y, z, w );
+    }
+
+    // multiplication of the XYZ coordinates of the vector (not including translation, so we can preserve offsets)
+    public ImmutableVector3F timesVector( ImmutableVector3F v ) {
+        float x = this.m00 * v.getX() + this.m01 * v.getY() + this.m02 * v.getZ();
+        float y = this.m10 * v.getX() + this.m11 * v.getY() + this.m12 * v.getZ();
+        float z = this.m20 * v.getX() + this.m21 * v.getY() + this.m22 * v.getZ();
+        return new ImmutableVector3F( x, y, z );
+    }
+
     public ImmutableVector3F times( ImmutableVector3F v ) {
         return times( new ImmutableVector4F( v ) ).to3F();
+    }
+
+    public ImmutableVector3F timesTranspose( ImmutableVector3F v ) {
+        return timesTranspose( new ImmutableVector4F( v ) ).to3F();
     }
 
     public ImmutableMatrix4F transposed() {

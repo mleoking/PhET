@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
-import edu.colorado.phet.lwjglphet.OrthoPiccoloNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -62,7 +62,7 @@ public class ThermometerNode3D extends OrthoPiccoloNode implements DraggableTool
     }
 
     public void dragDelta( ImmutableVector2F delta ) {
-        this.transform.append( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
 
         updateLiquidHeight();
     }

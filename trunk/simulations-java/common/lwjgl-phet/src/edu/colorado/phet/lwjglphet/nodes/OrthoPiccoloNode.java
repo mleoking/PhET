@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lwjglphet;
+package edu.colorado.phet.lwjglphet.nodes;
 
 import java.awt.FlowLayout;
 
@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.Piccolo3DCanvas;
+import edu.colorado.phet.lwjglphet.CanvasTransform;
+import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.umd.cs.piccolo.PNode;
 
 public class OrthoPiccoloNode extends OrthoComponentNode {
