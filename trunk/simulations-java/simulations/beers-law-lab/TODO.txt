@@ -8,7 +8,6 @@ DESIGN
 - if dropper is transparent and shows solution color, labels won't show up on some solutions
 
 HIGH
-- add button to dropper
 
 MEDIUM
 
