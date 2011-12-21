@@ -112,8 +112,6 @@ public class NumberLineNode extends PNode {
                     greenCircle.setOffset( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 );
                     addChild( greenCircle );
                 }
-
-                System.out.println( "tickLocations = " + tickLocations );
             }
         }.observe( numerator, denominator );
 
