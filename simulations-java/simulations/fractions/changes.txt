@@ -1,3 +1,4 @@
+# 0.00.23 (59585) Dec 21, 2011
 Fixed: Vertical bars should fill bottom to top instead of top to bottom
 For water glasses, added a darker thicker water edge for the "front" edge that aligns with the tick mark
 Show 6 empty cups on startup for cup mode
