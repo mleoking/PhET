@@ -33,6 +33,6 @@ public class SimSharingJMenuBar extends JMenuBar {
         g2.fillRect( (int) ( getWidth() * fractionToStartIndicator ), 0, getWidth() / 2, getHeight() );
 
         //Indicate the status.  Right now there is just one status identified "transmitting to network"
-        g2.drawImage( networkTransmitImage, getWidth() - networkTransmitImage.getWidth(), getHeight() / 2 - networkTransmitImage.getHeight() / 2, null );
+        g2.drawImage( networkTransmitImage, getWidth() - networkTransmitImage.getWidth() - 5, getHeight() / 2 - networkTransmitImage.getHeight() / 2, null );
     }
 }
