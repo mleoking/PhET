@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.control;
 
+import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -26,15 +27,16 @@ public class EvaporationControlNode extends ControlPanelNode {
 
                 // Label
                 new PText( Strings.EVAPORATION ) {{
-                    setFont( new PhetFont( 18 ) );
+                    setFont( new PhetFont( BLLConstants.CONTROL_FONT_SIZE ) );
                 }},
 
                 // Slider
                 new HSliderNode( range.getMin(), range.getMax(), evaporationRate ) {{
 
                     // Tick labels
-                    addLabel( range.getMin(), new PhetPText( Strings.NONE, new PhetFont( 14 ) ) );
-                    addLabel( range.getMax(), new PhetPText( Strings.LOTS, new PhetFont( 14 ) ) );
+                    PhetFont tickFont = new PhetFont( BLLConstants.TICK_LABEL_FONT_SIZE );
+                    addLabel( range.getMin(), new PhetPText( Strings.NONE, tickFont ) );
+                    addLabel( range.getMax(), new PhetPText( Strings.LOTS, tickFont ) );
 
                     // Set rate to zero when slider is released.
                     this.addInputEventListener( new PBasicInputEventHandler() {

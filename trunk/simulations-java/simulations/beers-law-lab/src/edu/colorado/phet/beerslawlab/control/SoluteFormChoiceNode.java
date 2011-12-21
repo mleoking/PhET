@@ -7,6 +7,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
@@ -25,7 +26,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SoluteFormChoiceNode extends PhetPNode {
 
-    private static final Font FONT = new PhetFont( 18 );
+    private static final Font FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
     public SoluteFormChoiceNode( final Property<SoluteForm> soluteForm ) {
 

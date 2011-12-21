@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.model.Solute;
@@ -27,8 +28,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class SoluteChoiceNode extends PhetPNode {
 
-    private static final PhetFont LABEL_FONT = new PhetFont( 18 );
-    private static final PhetFont ITEM_FONT = new PhetFont( 18 );
+    private static final PhetFont LABEL_FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
+    private static final PhetFont ITEM_FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
     private final SoluteComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
