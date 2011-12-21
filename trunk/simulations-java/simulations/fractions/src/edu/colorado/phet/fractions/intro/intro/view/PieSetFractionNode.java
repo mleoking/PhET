@@ -3,16 +3,11 @@ package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
@@ -48,7 +43,10 @@ public class PieSetFractionNode extends VisibilityNode {
                     for ( int j = 0; j < numSlices; j++ ) {
                         final CellPointer cp = new CellPointer( i, j );
                         double degreesPerSlice = 360.0 / numSlices;
-                        pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white ) {{
+                        Boolean empty = state.getContainer( cp.container ).isEmpty();
+                        pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white,
+                                                        empty ? Color.lightGray : Color.black,
+                                                        empty ? 1 : 2 ) {{
 
                             //When clicking, toggle the slice
                             addInputEventListener( new CursorHandler() );
@@ -60,26 +58,40 @@ public class PieSetFractionNode extends VisibilityNode {
                                 }
                             } );
                         }} );
+
+                        //button to delete empty one
+//                        if ( state.getContainer( cp.container ).isEmpty() ) {
+//                            pie.addChild( new TextButtonNode( "x", new PhetFont( 18, true ), Color.orange ) {{
+//                                addActionListener( new ActionListener() {
+//                                    public void actionPerformed( ActionEvent e ) {
+//                                        FractionsIntroModel.setUserToggled( true );
+//                                        containerState.set( containerState.get().removeContainer( cp.container ) );
+//                                        FractionsIntroModel.setUserToggled( false );
+//                                    }
+//                                } );
+//                            }} );
+//                        }
                     }
                     box.addChild( pie );
                 }
 
-                if ( state.size <= 5 ) {
-
-                    //Empty area to center the button in so we can use the box layout
-                    box.addChild( new PhetPPath( PIE_SIZE, new Color( 0, 0, 0, 0 ) ) {{
-                        addChild( new TextButtonNode( "+", new PhetFont( 18, true ), Color.orange ) {{
-                            setOffset( PIE_SIZE.getWidth() / 2 - getFullWidth() / 2, PIE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
-                            addActionListener( new ActionListener() {
-                                public void actionPerformed( ActionEvent e ) {
-                                    FractionsIntroModel.setUserToggled( true );
-                                    containerState.set( containerState.get().addEmptyContainer() );
-                                    FractionsIntroModel.setUserToggled( false );
-                                }
-                            } );
-                        }} );
-                    }} );
-                }
+                //add a button to create new one
+//                if ( state.size <= 5 ) {
+//
+//                    //Empty area to center the button in so we can use the box layout
+//                    box.addChild( new PhetPPath( PIE_SIZE, new Color( 0, 0, 0, 0 ) ) {{
+//                        addChild( new TextButtonNode( "+", new PhetFont( 18, true ), Color.orange ) {{
+//                            setOffset( PIE_SIZE.getWidth() / 2 - getFullWidth() / 2, PIE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
+//                            addActionListener( new ActionListener() {
+//                                public void actionPerformed( ActionEvent e ) {
+//                                    FractionsIntroModel.setUserToggled( true );
+//                                    containerState.set( containerState.get().addEmptyContainer() );
+//                                    FractionsIntroModel.setUserToggled( false );
+//                                }
+//                            } );
+//                        }} );
+//                    }} );
+//                }
 
                 addChild( box );
             }
