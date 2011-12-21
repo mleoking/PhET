@@ -1,3 +1,4 @@
+Made vertical and horizontal bars click-to-toggle
 Made number line draggable
 # 0.00.21 (59553) Dec 20, 2011
 Made default numerator 0
