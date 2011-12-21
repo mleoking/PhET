@@ -1,3 +1,4 @@
+12/20/11 add PiccoloPhetResources, convenience singleton for accessing piccolo-phet jar resources
 12/19-11 #3189, Added "setCursor" method to CursorHandler
 12/13/11 #3175, overhaul sim-sharing drag handlers to support optional functions for start/end/drag
 12/12/11 Added RichPNode and methods to facilitate layouts
