@@ -8,10 +8,8 @@ import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.SoluteForm;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -71,12 +69,6 @@ public class ShakerNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new MovableDragHandler( Objects.SHAKER, shaker, this,
-                                                       new Function1<ImmutableVector2D, ImmutableVector2D>() {
-                                                           public ImmutableVector2D apply( ImmutableVector2D v ) {
-                                                               //TODO constrain drag
-                                                               return v;
-                                                           }
-                                                       } ) );
+        addInputEventListener( new MovableDragHandler( Objects.SHAKER, shaker, this, shaker.dragBounds ) );
     }
 }
