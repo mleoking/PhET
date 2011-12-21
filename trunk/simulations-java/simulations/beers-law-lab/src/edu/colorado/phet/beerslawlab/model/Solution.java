@@ -46,6 +46,10 @@ public class Solution implements Resettable {
         return soluteAmount.get();
     }
 
+    public void setSoluteAmount( double moles ) {
+        soluteAmount.set( moles );
+    }
+
     private double getVolume() {
         return volume.get();
     }

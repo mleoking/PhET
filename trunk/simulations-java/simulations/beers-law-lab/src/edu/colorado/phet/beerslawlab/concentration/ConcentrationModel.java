@@ -26,6 +26,7 @@ public class ConcentrationModel implements Resettable {
 
     private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, 1, 0.5 ); // liters
+    private static final DoubleRange EVAPORATION_RATE_RANGE = new DoubleRange( 0, 0.25, 0 ); // liters/sec
 
     static {
         assert ( SOLUTE_AMOUNT_RANGE.getMin() >= 0 );
@@ -38,6 +39,7 @@ public class ConcentrationModel implements Resettable {
     public final Property<SoluteForm> soluteForm = new Property<SoluteForm>( SoluteForm.SOLID );
     public final Shaker shaker;
     public final Dropper dropper;
+    public final Property<Double> evaporationRate; // L/sec
 
     public ConcentrationModel() {
 
@@ -58,6 +60,7 @@ public class ConcentrationModel implements Resettable {
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
         this.shaker = new Shaker( new ImmutableVector2D( 100, 100 ), new Rectangle2D.Double( 10, 10, 400, 200 ), solute );
         this.dropper = new Dropper( new ImmutableVector2D( 100, 100 ), new Rectangle2D.Double( 10, 10, 400, 200 ), solute );
+        this.evaporationRate = new Property<Double>( EVAPORATION_RATE_RANGE.getDefault() );
     }
 
     public ArrayList<Solute> getSolutes() {
@@ -72,8 +75,13 @@ public class ConcentrationModel implements Resettable {
         return SOLUTION_VOLUME_RANGE;
     }
 
+    public DoubleRange getEvaporationRateRange() {
+        return EVAPORATION_RATE_RANGE;
+    }
+
     public void reset() {
         solution.reset();
         soluteForm.reset();
+        evaporationRate.reset();
     }
 }
