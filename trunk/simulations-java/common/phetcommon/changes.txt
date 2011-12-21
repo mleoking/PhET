@@ -1,3 +1,4 @@
+12/20/11 #3175, more refinements to sim-sharing drag handlers
 12/19/11 #3183, added sim-sharing events to AbstractValueControl (slider+textfield)
 12/19/11 #3184, Moved server code from phetcommon to simsharing
 12/14/11 #3184, repackage sim-sharing, add package doc

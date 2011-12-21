@@ -115,12 +115,12 @@ public class PHPaperNode extends PhetPNode {
         public PhPaperDragHandler( final PHPaper paper, PNode dragNode ) {
             this.paper = paper;
             this.dragNode = dragNode;
-            setStartEndDragFunction( new DragFunction() {
+            setStartEndFunction( new DragFunction() {
                 public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendEvent( action );
                 }
             } );
-            setDraggingFunction( new DragFunction() {
+            setDragFunction( new DragFunction() {
                 boolean wasInSolution = paper.isInSolution();
 
                 // send a sim-sharing event when the meter transitions between in/out of solution.

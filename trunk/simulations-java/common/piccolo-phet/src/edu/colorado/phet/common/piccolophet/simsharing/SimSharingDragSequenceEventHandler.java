@@ -31,68 +31,76 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
         public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event );
     }
 
-    private DragFunction startDragFunction; // optional function called when drag starts (on startDrag)
-    private DragFunction endDragFunction; // optional function called when drag ends (on endDrag)
-    private DragFunction draggingFunction; // optional function called while dragging (on drag).
+    private DragFunction startFunction; // optional function called when drag starts (on startDrag)
+    private DragFunction endFunction; // optional function called when drag ends (on endDrag)
+    private DragFunction dragFunction; // optional function called while dragging (on drag).
 
     public SimSharingDragSequenceEventHandler() {
         this( null, null, null );
     }
 
-    // Convenience constructor, for specifying the same function for drag start and end.
+    // Same function for start, end, drag.
     public SimSharingDragSequenceEventHandler( DragFunction startEndDragFunction ) {
-        this( startEndDragFunction, startEndDragFunction, null );
+        this( startEndDragFunction, startEndDragFunction, startEndDragFunction );
     }
 
-    // Convenience constructor, for specifying the same function for drag start and end.
-    public SimSharingDragSequenceEventHandler( DragFunction startEndDragFunction, DragFunction draggingFunction ) {
-        this( startEndDragFunction, startEndDragFunction, draggingFunction );
+    // Same function for start and end, different function for drag.
+    public SimSharingDragSequenceEventHandler( DragFunction startEndFunction, DragFunction dragFunction ) {
+        this( startEndFunction, startEndFunction, dragFunction );
     }
 
-    public SimSharingDragSequenceEventHandler( DragFunction startDragFunction, DragFunction endDragFunction, DragFunction draggingFunction ) {
-        this.startDragFunction = startDragFunction;
-        this.endDragFunction = endDragFunction;
-        this.draggingFunction = draggingFunction;
+    // Different functions for start, end, drag.
+    public SimSharingDragSequenceEventHandler( DragFunction startFunction, DragFunction endFunction, DragFunction dragFunction ) {
+        this.startFunction = startFunction;
+        this.endFunction = endFunction;
+        this.dragFunction = dragFunction;
     }
 
     // Set the function called when dragging starts.
-    public void setStartDragFunction( DragFunction startDragFunction ) {
-        this.startDragFunction = startDragFunction;
+    public void setStartFunction( DragFunction startFunction ) {
+        this.startFunction = startFunction;
     }
 
     // Set the function called when dragging ends.
-    public void setEndDragFunction( DragFunction startDragFunction ) {
-        this.endDragFunction = startDragFunction;
-    }
-
-    // Convenience method for specifying the same function for drag start and end, since this is usually what we want.
-    public void setStartEndDragFunction( DragFunction f ) {
-        setStartDragFunction( f );
-        setEndDragFunction( f );
+    public void setEndFunction( DragFunction startDragFunction ) {
+        this.endFunction = startDragFunction;
     }
 
     // Sets the function called while dragging.
-    public void setDraggingFunction( DragFunction draggingFunction ) {
-        this.draggingFunction = draggingFunction;
+    public void setDragFunction( DragFunction dragFunction ) {
+        this.dragFunction = dragFunction;
+    }
+
+    // Convenience method for specifying the same function for start and end.
+    public void setStartEndFunction( DragFunction f ) {
+        setStartFunction( f );
+        setEndFunction( f );
+    }
+
+    // Convenience method for specifying the same function for start, end, and drag.
+    public void setStartEndDragFunction( DragFunction f ) {
+        setStartFunction( f );
+        setEndFunction( f );
+        setDragFunction( f );
     }
 
     @Override protected void startDrag( final PInputEvent event ) {
-        if ( startDragFunction != null ) {
-            startDragFunction.apply( Actions.START_DRAG, getXParameter( event ), getYParameter( event ), event );
+        if ( startFunction != null ) {
+            startFunction.apply( Actions.START_DRAG, getXParameter( event ), getYParameter( event ), event );
         }
         super.startDrag( event );
     }
 
     @Override protected void endDrag( PInputEvent event ) {
-        if ( endDragFunction != null ) {
-            endDragFunction.apply( Actions.END_DRAG, getXParameter( event ), getYParameter( event ), event );
+        if ( endFunction != null ) {
+            endFunction.apply( Actions.END_DRAG, getXParameter( event ), getYParameter( event ), event );
         }
         super.endDrag( event );
     }
 
     @Override protected void drag( PInputEvent event ) {
-        if ( draggingFunction != null ) {
-            draggingFunction.apply( Actions.DRAG, getXParameter( event ), getYParameter( event ), event );
+        if ( dragFunction != null ) {
+            dragFunction.apply( Actions.DRAG, getXParameter( event ), getYParameter( event ), event );
         }
         super.drag( event );
     }
