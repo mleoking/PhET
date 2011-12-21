@@ -2,6 +2,8 @@
 package edu.colorado.phet.platetectonics.view;
 
 import edu.colorado.phet.lwjglphet.GLNode;
+import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Region;
 import edu.colorado.phet.platetectonics.model.Terrain;
@@ -28,6 +30,19 @@ public class PlateView extends GLNode {
         // add all of the regions
         for ( Region region : model.getRegions() ) {
             addChild( new RegionNode( region, model, module ) );
+        }
+    }
+
+    @Override protected void renderChildren( GLOptions options ) {
+        // render children with a normal pass
+        super.renderChildren( options );
+
+        // then render them with the transparency pass
+        GLOptions transparencyOptions = options.getCopy();
+        transparencyOptions.renderPass = RenderPass.TRANSPARENCY;
+
+        for ( GLNode child : getChildren() ) {
+            child.render( transparencyOptions );
         }
     }
 }

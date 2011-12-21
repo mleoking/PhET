@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.lwjglphet.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -47,12 +48,31 @@ public class WaterNode extends GLNode {
         addChild( new GridMesh( rows, columns, positions ) {{
             setUpdateNormals( false );
             setMaterial( new ColorMaterial( 0.2f, 0.5f, 0.8f, 0.5f ) );
+            setRenderPass( RenderPass.TRANSPARENCY );
         }} );
 
         // render the top of the water. dynamically changes as a strip mesh based on what terrain is above or below sea level
         addChild( new WaterFrontMesh() {{
             setMaterial( new ColorMaterial( 0.1f, 0.3f, 0.7f, 0.5f ) );
+            setRenderPass( RenderPass.TRANSPARENCY );
         }} );
+    }
+
+    @Override protected void preRender( GLOptions options ) {
+        super.preRender( options );
+
+        // don't write to the depth buffer
+//            glDepthMask( false );
+        glEnable( GL_BLEND );
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    }
+
+    @Override protected void postRender( GLOptions options ) {
+        super.postRender( options );
+
+        // write to the depth buffer again
+//            glDepthMask( true );
+        glDisable( GL_BLEND );
     }
 
     /**
@@ -164,23 +184,6 @@ public class WaterNode extends GLNode {
                                                           setPositions.run();
                                                       }
                                                   }, false );
-        }
-
-        @Override protected void preRender( GLOptions options ) {
-            super.preRender( options );
-
-            // don't write to the depth buffer
-//            glDepthMask( false );
-            glEnable( GL_BLEND );
-            glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-        }
-
-        @Override protected void postRender( GLOptions options ) {
-            super.postRender( options );
-
-            // write to the depth buffer again
-//            glDepthMask( true );
-            glDisable( GL_BLEND );
         }
 
         @Override public void renderSelf( GLOptions options ) {
