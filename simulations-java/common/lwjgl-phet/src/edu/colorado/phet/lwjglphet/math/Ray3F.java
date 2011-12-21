@@ -15,6 +15,19 @@ public class Ray3F {
         this.dir = dir.magnitude() == 1 ? dir : dir.normalized();
     }
 
+    // a ray whose position is shifted by the specified distance in the direction of the ray
+    public Ray3F shifted( float distance ) {
+        return new Ray3F( pointAtDistance( distance ), dir );
+    }
+
+    public ImmutableVector3F pointAtDistance( float distance ) {
+        return pos.plus( dir.times( distance ) );
+    }
+
+    public float distanceToPlane( PlaneF plane ) {
+        return ( plane.distance - pos.dot( plane.normal ) ) / dir.dot( plane.normal );
+    }
+
     @Override public String toString() {
         return pos.toString() + " => " + dir.toString();
     }

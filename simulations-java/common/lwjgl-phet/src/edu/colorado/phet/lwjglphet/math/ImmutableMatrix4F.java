@@ -101,7 +101,7 @@ public class ImmutableMatrix4F {
      * @param axis  The vector representing the rotation axis. Must be normalized.
      * @return The rotation matrix
      */
-    public static ImmutableMatrix4F rotate( ImmutableVector3F axis, float angle ) {
+    public static ImmutableMatrix4F rotation( ImmutableVector3F axis, float angle ) {
         float c = (float) Math.cos( angle );
         float s = (float) Math.sin( angle );
         float C = 1 - c;
@@ -117,7 +117,7 @@ public class ImmutableMatrix4F {
                          MatrixType.OTHER );
     }
 
-    public static ImmutableMatrix4F rotateX( float angle ) {
+    public static ImmutableMatrix4F rotationX( float angle ) {
         float c = (float) Math.cos( angle );
         float s = (float) Math.sin( angle );
 
@@ -128,7 +128,7 @@ public class ImmutableMatrix4F {
                          MatrixType.OTHER );
     }
 
-    public static ImmutableMatrix4F rotateY( float angle ) {
+    public static ImmutableMatrix4F rotationY( float angle ) {
         float c = (float) Math.cos( angle );
         float s = (float) Math.sin( angle );
 
@@ -139,7 +139,7 @@ public class ImmutableMatrix4F {
                          MatrixType.OTHER );
     }
 
-    public static ImmutableMatrix4F rotateZ( float angle ) {
+    public static ImmutableMatrix4F rotationZ( float angle ) {
         float c = (float) Math.cos( angle );
         float s = (float) Math.sin( angle );
 
