@@ -14,8 +14,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
  *
  * @author Sam Reid
  */
-public class VerticalBarChosenRepresentationNode extends ChosenRepresentationNode {
-    public VerticalBarChosenRepresentationNode( Property<ChosenRepresentation> chosenRepresentation, final Property<Integer> numerator, final Property<Integer> denominator ) {
+public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
+    public VerticalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<Integer> numerator, final Property<Integer> denominator ) {
         super( chosenRepresentation, ChosenRepresentation.VERTICAL_BAR );
 
         new RichSimpleObserver() {

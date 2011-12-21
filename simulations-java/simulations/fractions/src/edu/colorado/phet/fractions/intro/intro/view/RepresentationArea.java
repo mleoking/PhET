@@ -21,10 +21,10 @@ public class RepresentationArea extends PNode {
 //                        }
 //                    } );
 
-        addChild( new HorizontalBarChosenRepresentationNode( chosenRepresentation, numerator, denominator ) {{
+        addChild( new HorizontalBarSetFractionNode( chosenRepresentation, numerator, denominator ) {{
             setOffset( 0, -29 );
         }} );
-        addChild( new VerticalBarChosenRepresentationNode( chosenRepresentation, numerator, denominator ) {{
+        addChild( new VerticalBarSetFractionNode( chosenRepresentation, numerator, denominator ) {{
             setOffset( 0, -73 );
         }} );
         addChild( new PieSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.PIE ) ) {{
