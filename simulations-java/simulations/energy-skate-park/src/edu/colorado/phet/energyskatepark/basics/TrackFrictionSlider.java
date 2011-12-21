@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
@@ -23,10 +24,9 @@ public class TrackFrictionSlider extends PNode {
 
     private static final double FRICTION_MAX = 0.01;
 
-    private double savedFrictionValue = FRICTION_MAX / 2;
+    private Property<Double> savedFrictionValue = new Property<Double>( FRICTION_MAX / 2 );
 
     public TrackFrictionSlider( final EnergySkateParkBasicsModule module ) {
-
         final Property<Double> frictionAmount = module.frictionAmount;
 
         // Create a property and hook it up to the module.
@@ -55,12 +55,18 @@ public class TrackFrictionSlider extends PNode {
         module.frictionEnabled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isEnabled, Boolean wasEnabled ) {
                 if ( isEnabled && !wasEnabled ) {
-                    frictionAmount.set( savedFrictionValue );
+                    frictionAmount.set( savedFrictionValue.get() );
                 }
                 else if ( wasEnabled && !isEnabled ) {
-                    savedFrictionValue = frictionAmount.get();
+                    savedFrictionValue.set( frictionAmount.get() );
                     frictionAmount.set( 0.0 );
                 }
+            }
+        } );
+
+        module.addResetListener( new VoidFunction0() {
+            public void apply() {
+                savedFrictionValue.reset();
             }
         } );
     }
