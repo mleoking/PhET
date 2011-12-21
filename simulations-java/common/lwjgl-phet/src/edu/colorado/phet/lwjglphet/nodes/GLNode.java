@@ -1,9 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.lwjglphet;
+package edu.colorado.phet.lwjglphet.nodes;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.lwjglphet.GLMaterial;
+import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;

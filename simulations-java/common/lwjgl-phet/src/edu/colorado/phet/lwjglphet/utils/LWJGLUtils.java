@@ -10,8 +10,6 @@ import javax.swing.SwingUtilities;
 
 import org.lwjgl.BufferUtils;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
@@ -34,18 +32,6 @@ public class LWJGLUtils {
 
     public static boolean isPowerOf2( int n ) {
         return n == toPowerOf2( n );
-    }
-
-    public static void vertex3d( ImmutableVector3D v ) {
-        glVertex3d( v.getX(), v.getY(), v.getZ() );
-    }
-
-    public static void normal3d( ImmutableVector3D normal ) {
-        glNormal3d( normal.getX(), normal.getY(), normal.getZ() );
-    }
-
-    public static void texCoord2d( ImmutableVector2D coord ) {
-        glTexCoord2d( coord.getX(), coord.getY() );
     }
 
     public static void color4f( Color color ) {

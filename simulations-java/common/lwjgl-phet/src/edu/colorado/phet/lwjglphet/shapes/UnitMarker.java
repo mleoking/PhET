@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet.shapes;
 
-import edu.colorado.phet.lwjglphet.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.nodes.GLNode;
 
 import static org.lwjgl.opengl.GL11.*;
 

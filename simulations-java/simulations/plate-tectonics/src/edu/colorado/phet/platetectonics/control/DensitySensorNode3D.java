@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.lwjglphet.OrthoPiccoloNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -59,7 +59,7 @@ public class DensitySensorNode3D extends OrthoPiccoloNode implements DraggableTo
     }
 
     public void dragDelta( ImmutableVector2F delta ) {
-        transform.append( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         updateReadout();
     }
 

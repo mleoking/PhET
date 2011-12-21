@@ -12,9 +12,9 @@ import org.poly2tri.geometry.polygon.Polygon;
 import org.poly2tri.geometry.polygon.PolygonPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 
-import edu.colorado.phet.lwjglphet.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.nodes.GLNode;
 
 import static org.lwjgl.opengl.GL11.*;
 

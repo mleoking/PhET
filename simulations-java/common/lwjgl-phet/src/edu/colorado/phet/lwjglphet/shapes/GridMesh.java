@@ -7,9 +7,9 @@ import java.nio.IntBuffer;
 import org.lwjgl.BufferUtils;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.lwjglphet.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.nodes.GLNode;
 
 import static org.lwjgl.opengl.GL11.*;
 

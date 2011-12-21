@@ -3,7 +3,7 @@ package edu.colorado.phet.platetectonics.modules;
 
 import java.awt.Color;
 
-import edu.colorado.phet.lwjglphet.GLNode;
+import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;

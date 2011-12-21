@@ -77,4 +77,74 @@ public class LWJGLTransform {
     public boolean isIdentity() {
         return matrix.type == MatrixType.IDENTITY;
     }
+
+    /*---------------------------------------------------------------------------*
+    * forward transforms
+    *----------------------------------------------------------------------------*/
+
+    // transform a position (includes translation)
+    public ImmutableVector3F transformPosition( ImmutableVector3F position ) {
+        return matrix.times( position );
+    }
+
+    // transform a vector (excludes translation, so positional offsets are maintained). use this for transform(B-A)
+    public ImmutableVector3F transformDelta( ImmutableVector3F vector ) {
+        return matrix.timesVector( vector );
+    }
+
+    // transform a normal vector (different from the others)
+    public ImmutableVector3F transformNormal( ImmutableVector3F normal ) {
+        return inverse.timesTranspose( normal );
+    }
+
+    public float transformDeltaX( float x ) {
+        return transformDelta( new ImmutableVector3F( x, 0, 0 ) ).x;
+    }
+
+    public float transformDeltaY( float y ) {
+        return transformDelta( new ImmutableVector3F( 0, y, 0 ) ).y;
+    }
+
+    public float transformDeltaZ( float z ) {
+        return transformDelta( new ImmutableVector3F( 0, 0, z ) ).z;
+    }
+
+    public Ray3F transformRay( Ray3F ray ) {
+        return new Ray3F( transformPosition( ray.pos ), transformDelta( ray.dir ) );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * inverse transforms
+    *----------------------------------------------------------------------------*/
+
+    // inverse transform a position (includes translation)
+    public ImmutableVector3F inversePosition( ImmutableVector3F position ) {
+        return inverse.times( position );
+    }
+
+    // inverse transform a vector (excludes translation, so positional offsets are maintained). use this for transform(B-A)
+    public ImmutableVector3F inverseDelta( ImmutableVector3F vector ) {
+        return inverse.timesVector( vector );
+    }
+
+    // inverse transform a normal vector (different from the others)
+    public ImmutableVector3F inverseNormal( ImmutableVector3F normal ) {
+        return matrix.timesTranspose( normal );
+    }
+
+    public float inverseDeltaX( float x ) {
+        return inverseDelta( new ImmutableVector3F( x, 0, 0 ) ).x;
+    }
+
+    public float inverseDeltaY( float y ) {
+        return inverseDelta( new ImmutableVector3F( 0, y, 0 ) ).y;
+    }
+
+    public float inverseDeltaZ( float z ) {
+        return inverseDelta( new ImmutableVector3F( 0, 0, z ) ).z;
+    }
+
+    public Ray3F inverseRay( Ray3F ray ) {
+        return new Ray3F( inversePosition( ray.pos ), inverseDelta( ray.dir ) );
+    }
 }
