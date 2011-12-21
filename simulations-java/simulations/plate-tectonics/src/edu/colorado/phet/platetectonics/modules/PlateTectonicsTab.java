@@ -29,6 +29,7 @@ import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.PlaneF;
@@ -379,5 +380,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                        new Property<ImmutableVector2D>( new ImmutableVector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth(), stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier ) {{
             updateOnEvent( beforeFrameRender );
         }};
+    }
+
+    public ImmutableVector2F getMousePositionOnZPlane() {
+        Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
+        final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
+        return new ImmutableVector2F( intersection.x, intersection.y );
     }
 }
