@@ -388,5 +388,18 @@ function onDrag( location ) {
 
 function onTouchEnd( location ) {
     touchInProgress = false;
-    particleBeingDragged = null;
+    if ( particleBeingDragged != null ) {
+        // If the particle is not inside the electron shell, remove it.
+        if ( !electronShell.containsPoint( location ) ) {
+            for ( i = 0; i < particles.length; i++ ) {
+                if ( particles[i] == particleBeingDragged ) {
+                    particles.splice( i, 1 );
+                    break;
+                }
+            }
+        }
+        // Always set to null to indicate that no particle is being dragged.
+        particleBeingDragged = null;
+    }
+    draw();
 }
