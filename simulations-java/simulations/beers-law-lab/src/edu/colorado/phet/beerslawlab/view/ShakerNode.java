@@ -5,7 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
-import edu.colorado.phet.beerslawlab.model.Solute;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
+import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -28,7 +28,7 @@ public class ShakerNode extends PhetPNode {
     private static final double IMAGE_SCALE = 0.75;
     private static final double LABEL_X_OFFSET = 40 * IMAGE_SCALE; // x offset of the label's center from the image's center
 
-    public ShakerNode( final Property<Solute> solute, final Property<SoluteForm> soluteFormProperty ) {
+    public ShakerNode( final Shaker shaker, final Property<SoluteForm> soluteFormProperty ) {
 
         final PImage imageNode = new PImage( Images.SHAKER ) {{
             scale( IMAGE_SCALE );
@@ -46,9 +46,9 @@ public class ShakerNode extends PhetPNode {
         addChild( new ZeroOffsetNode( parentNode ) );
 
         // Change the label when the solute changes.
-        solute.addObserver( new SimpleObserver() {
+        shaker.solute.addObserver( new SimpleObserver() {
             public void update() {
-                labelNode.setHTML( solute.get().formula );
+                labelNode.setHTML( shaker.solute.get().formula );
                 labelNode.setOffset( -( labelNode.getFullBoundsReference().getWidth() / 2 ) + LABEL_X_OFFSET,
                                      -labelNode.getFullBoundsReference().getHeight() / 2 );
             }
@@ -61,11 +61,14 @@ public class ShakerNode extends PhetPNode {
             }
         } );
 
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new ShakerDragHandler() );
-    }
+        // Update location
+        shaker.location.addObserver( new SimpleObserver() {
+            public void update() {
+                setOffset( shaker.location.get().toPoint2D() );
+            }
+        } );
 
-    private static class ShakerDragHandler extends SimSharingDragSequenceEventHandler {
-        //TODO
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new MovableDragHandler( Objects.SHAKER, shaker, this ) );
     }
 }

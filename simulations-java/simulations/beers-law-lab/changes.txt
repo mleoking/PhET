@@ -1,3 +1,5 @@
+12/20/11 drag handler for shaker and dropper
+12/20/11 model elements for shaker and dropper
 12/20/11 add some sim-sharing support
 12/20/11 add additional strings for 1st tab, for new features that were added
 12/20/11 add momentary button to dropper
