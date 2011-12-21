@@ -2,6 +2,7 @@
 package edu.colorado.phet.beerslawlab.concentration;
 
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
@@ -54,8 +55,8 @@ public class ConcentrationModel implements Resettable {
         }};
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
-        this.shaker = new Shaker( new ImmutableVector2D( 100, 100 ), solute );
-        this.dropper = new Dropper( new ImmutableVector2D( 100, 100 ), solute );
+        this.shaker = new Shaker( new ImmutableVector2D( 100, 100 ), new Rectangle2D.Double( 10, 10, 400, 200 ), solute );
+        this.dropper = new Dropper( new ImmutableVector2D( 100, 100 ), new Rectangle2D.Double( 10, 10, 400, 200 ), solute );
     }
 
     public ArrayList<Solute> getSolutes() {
