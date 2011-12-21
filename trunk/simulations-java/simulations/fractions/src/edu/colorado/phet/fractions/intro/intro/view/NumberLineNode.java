@@ -63,19 +63,29 @@ public class NumberLineNode extends PNode {
 
                 for ( int i = 0; i <= divisionsBetweenTicks * 6; i++ ) {
 
+                    final int finalI = i;
+
                     //Major ticks at each integer
                     if ( i % divisionsBetweenTicks == 0 ) {
                         int div = i / divisionsBetweenTicks;
                         final int mod = div % 2;
                         double height = mod == 0 ? 8 : 8;
                         final BasicStroke stroke = mod == 0 ? new BasicStroke( 1 ) : new BasicStroke( 0.5f );
-                        final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), stroke, Color.black );
+                        final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), stroke, Color.black ) {{
+                            addInputEventListener( new CursorHandler() );
+                            addInputEventListener( new PBasicInputEventHandler() {
+                                @Override public void mousePressed( PInputEvent event ) {
+                                    numerator.set( finalI );
+                                }
+                            } );
+                        }};
                         final PhetPPath highlightPath = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), new BasicStroke( 4 ), Color.yellow );
 
-                        final int finalI = i;
                         new RichSimpleObserver() {
                             @Override public void update() {
-                                highlightPath.setVisible( numerator.get().equals( finalI ) );
+                                final boolean visible = numerator.get().equals( finalI );
+                                highlightPath.setVisible( visible );
+                                highlightPath.setPickable( visible );
                             }
                         }.observe( numerator, denominator );
                         addChild( highlightPath );
@@ -83,17 +93,25 @@ public class NumberLineNode extends PNode {
                         if ( mod == 0 || true ) {
                             addChild( new PhetPText( div + "", new PhetFont( 8 ) ) {{
                                 setOffset( path.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, path.getFullBounds().getMaxY() );
+
+                                addInputEventListener( new CursorHandler() );
+                                addInputEventListener( new PBasicInputEventHandler() {
+                                    @Override public void mousePressed( PInputEvent event ) {
+                                        numerator.set( finalI );
+                                    }
+                                } );
                             }} );
                         }
 
                         //make it so the green handle can snap to this site
                         tickLocations.add( new Pair<Double, Integer>( i * dx, i ) );
                     }
+
+                    //Minor ticks
                     else {
 
                         final PhetPPath highlightPath = new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 4 ), Color.yellow );
 
-                        final int finalI = i;
                         new RichSimpleObserver() {
                             @Override public void update() {
                                 highlightPath.setVisible( numerator.get().equals( finalI ) );
@@ -102,7 +120,14 @@ public class NumberLineNode extends PNode {
                         addChild( highlightPath );
 
                         //minor ticks between the integers
-                        addChild( new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) );
+                        addChild( new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) {{
+                            addInputEventListener( new CursorHandler() );
+                            addInputEventListener( new PBasicInputEventHandler() {
+                                @Override public void mousePressed( PInputEvent event ) {
+                                    numerator.set( finalI );
+                                }
+                            } );
+                        }} );
 
                         //make it so the green handle can snap to this site
                         tickLocations.add( new Pair<Double, Integer>( i * dx, i ) );
