@@ -234,12 +234,12 @@ public class PHMeterNode extends PhetPNode {
         public PhMeterDragHandler( final PHMeter meter, PNode dragNode ) {
             this.meter = meter;
             this.dragNode = dragNode;
-            setStartEndDragFunction( new DragFunction() {
+            setStartEndFunction( new DragFunction() {
                 public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendEvent( action );
                 }
             } );
-            setDraggingFunction( new DragFunction() {
+            setDragFunction( new DragFunction() {
                 boolean wasInSolution = meter.isInSolution();
 
                 // send a sim-sharing event when the meter transitions between in/out of solution.

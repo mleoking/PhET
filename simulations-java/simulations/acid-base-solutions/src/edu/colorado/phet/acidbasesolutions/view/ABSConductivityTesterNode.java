@@ -35,12 +35,12 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 
         // sim-sharing, positive probe
         {
-            getPositiveProbeDragHandler().setStartEndDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+            getPositiveProbeDragHandler().setStartEndFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
                 public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendProbeEvent( Objects.CONDUCTIVITY_TESTER_POSITIVE_PROBE, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                 }
             } );
-            getPositiveProbeDragHandler().setDraggingFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+            getPositiveProbeDragHandler().setDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
                 boolean inSolution = tester.isPositiveProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
@@ -55,12 +55,12 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 
         // sim-sharing, negative probe
         {
-            getNegativeProbeDragHandler().setStartEndDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+            getNegativeProbeDragHandler().setStartEndFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
                 public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendProbeEvent( Objects.CONDUCTIVITY_TESTER_NEGATIVE_PROBE, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                 }
             } );
-            getNegativeProbeDragHandler().setDraggingFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+            getNegativeProbeDragHandler().setDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
                 boolean inSolution = tester.isNegativeProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
