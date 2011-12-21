@@ -128,7 +128,7 @@ public class SkaterNode extends PNode {
     }
 
     private void snapToTrackDuringDrag() {
-        TraversalState state = getBody().getTrackMatch( 0, -1 );
+        TraversalState state = getBody().getTrackMatch( 0, -1.0 / 3.0 );
 
         //Point at the track so the skater will have the right orientation for a smooth landing
         if ( state != null ) {
