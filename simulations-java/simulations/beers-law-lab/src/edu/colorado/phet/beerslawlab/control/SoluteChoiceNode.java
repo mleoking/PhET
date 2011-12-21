@@ -64,11 +64,19 @@ public class SoluteChoiceNode extends PhetPNode {
     // Combo box, with custom creation of items (nodes)
     private static class SoluteComboBoxNode extends ComboBoxNode<Solute> {
         public SoluteComboBoxNode( ArrayList<Solute> solute, Solute selectedSolute ) {
-            super( solute, selectedSolute, new Function1<Solute, PNode>() {
-                public PNode apply( final Solute solute ) {
-                    return new SoluteItemNode( solute );
-                }
-            } );
+            super( solute, selectedSolute,
+                   new Function1<Solute, PNode>() {
+                       public PNode apply( final Solute solute ) {
+                           return new SoluteItemNode( solute );
+                       }
+                   },
+                   "soluteComboBox",
+                   new Function1<Solute, String>() {
+                       public String apply( Solute solute ) {
+                           return solute.name;
+                       }
+                   }
+            );
         }
     }
 
