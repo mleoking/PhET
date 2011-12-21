@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLResources.Symbols;
+import edu.colorado.phet.beerslawlab.model.Beaker;
 import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.Solute;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Model for the "Concentration" module.
@@ -24,13 +26,16 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class ConcentrationModel implements Resettable {
 
+    private static final double BEAKER_VOLUME = 1; // L
+    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
     private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
-    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, 1, 0.5 ); // liters
-    private static final DoubleRange EVAPORATION_RATE_RANGE = new DoubleRange( 0, 0.25, 0 ); // liters/sec
+    private static final DoubleRange EVAPORATION_RATE_RANGE = new DoubleRange( 0, 0.25, 0 ); // L/sec
 
+    // validate constants
     static {
-        assert ( SOLUTE_AMOUNT_RANGE.getMin() >= 0 );
         assert ( SOLUTION_VOLUME_RANGE.getMin() >= 0 );
+        assert ( SOLUTION_VOLUME_RANGE.getMax() <= BEAKER_VOLUME );
+        assert ( SOLUTE_AMOUNT_RANGE.getMin() >= 0 );
     }
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
@@ -40,6 +45,7 @@ public class ConcentrationModel implements Resettable {
     public final Shaker shaker;
     public final Dropper dropper;
     public final Property<Double> evaporationRate; // L/sec
+    public final Beaker beaker;
 
     public ConcentrationModel() {
 
@@ -58,21 +64,22 @@ public class ConcentrationModel implements Resettable {
 
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
-        this.shaker = new Shaker( new ImmutableVector2D( 100, 100 ), new PBounds( 10, 10, 400, 200 ), solute );
-        this.dropper = new Dropper( new ImmutableVector2D( 100, 100 ), new PBounds( 10, 10, 400, 200 ), solute );
+        this.shaker = new Shaker( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
+        this.dropper = new Dropper( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
         this.evaporationRate = new Property<Double>( EVAPORATION_RATE_RANGE.getDefault() );
+        this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
     }
 
     public ArrayList<Solute> getSolutes() {
         return new ArrayList<Solute>( solutes );
     }
 
-    public DoubleRange getSoluteAmountRange() {
-        return SOLUTE_AMOUNT_RANGE;
-    }
-
     public DoubleRange getSolutionVolumeRange() {
         return SOLUTION_VOLUME_RANGE;
+    }
+
+    public DoubleRange getSoluteAmountRange() {
+        return SOLUTE_AMOUNT_RANGE;
     }
 
     public DoubleRange getEvaporationRateRange() {
