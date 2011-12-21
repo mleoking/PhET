@@ -6,12 +6,15 @@ import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractions.FractionsResources;
 import edu.colorado.phet.fractions.intro.intro.view.representations.dilutions.BeakerNode;
 import edu.colorado.phet.fractions.intro.intro.view.representations.dilutions.Solute;
 import edu.colorado.phet.fractions.intro.intro.view.representations.dilutions.Solution;
 import edu.colorado.phet.fractions.intro.intro.view.representations.dilutions.SolutionNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -53,5 +56,17 @@ public class WaterGlassNode extends PNode {
         addChild( waterBeakerNode );
 
         scale( 0.67 );
+
+        // this node not interactive
+        // make pickable here instead of in BeakerNode to maintain compatibility with dilutions implementation.
+        waterBeakerNode.setPickable( true );
+        waterBeakerNode.setChildrenPickable( true );
+
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+                System.out.println( "WaterGlassNode.mousePressed" );
+            }
+        } );
     }
 }

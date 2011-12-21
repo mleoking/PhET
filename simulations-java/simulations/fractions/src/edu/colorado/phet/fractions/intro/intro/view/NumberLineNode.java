@@ -61,8 +61,6 @@ public class NumberLineNode extends PNode {
                 //The number line itself
                 addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 6 * divisionsBetweenTicks, 0 ) ) );
 
-                System.out.println( "line itself. getFullBounds() = " + getFullBounds() );
-
                 //For snapping
                 tickLocations = new ArrayList<Pair<Double, Integer>>();
 

@@ -6,7 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * For layout of the pies, necessary because when sliced into different regions, the bounding boxes can extend beyond the pie.
- * //So instead we ignore the full bounds and just space based on diameter
+ * So instead we ignore the full bounds and just space based on diameter
  *
  * @author Sam Reid
  */

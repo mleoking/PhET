@@ -1,3 +1,4 @@
+Started making water glasses clickable
 Change the numerator when clicking anywhere in the number line
 # 0.00.23 (59585) Dec 21, 2011
 Fixed: Vertical bars should fill bottom to top instead of top to bottom
