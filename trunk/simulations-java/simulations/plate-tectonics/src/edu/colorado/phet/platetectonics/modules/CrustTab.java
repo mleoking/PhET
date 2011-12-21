@@ -3,7 +3,10 @@ package edu.colorado.phet.platetectonics.modules;
 
 import java.awt.Color;
 
+import org.lwjgl.input.Mouse;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -47,6 +50,7 @@ public class CrustTab extends PlateTectonicsTab {
     private static final float RULER_Z = 0;
     private static final float THERMOMETER_Z = 1;
     private static final float DENSITY_SENSOR_Z = 2;
+    private OrthoPiccoloNode myCrustNode;
 
     public CrustTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
@@ -58,15 +62,16 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * mouse-button presses
         *----------------------------------------------------------------------------*/
-//        getInputHandler().addListener(
-//                new ActionListener() {
-//                    public void onAction( String name, boolean isMouseDown, float tpf ) {
-//                        // on left mouse button change
-//                        if ( name.equals( MAP_LMB ) ) {
+        mouseEventNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        // on left mouse button change
+                        if ( Mouse.getEventButton() == 0 ) {
 //                            final HUDNodeCollision toolCollision = HUDNode.getHUDCollisionUnderPoint( toolView, getInputHandler().getCursorPosition() );
 //                            final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
-//
-//                            if ( isMouseDown ) {
+
+                            // if mouse is down
+                            if ( Mouse.getEventButtonState() ) {
 //                                if ( toolCollision != null ) {
 //                                    Node parentNode = toolCollision.hudNode.getParent();
 //
@@ -74,28 +79,29 @@ public class CrustTab extends PlateTectonicsTab {
 //                                        toolDragHandler.mouseDownOnTool( (DraggableTool2D) parentNode, getMousePositionOnZPlane() );
 //                                    }
 //                                }
-//                            }
-//                            else {
+                            }
+                            else {
 //                                boolean isMouseOverToolbox = guiCollision != null && guiCollision.hudNode.getParent() == toolbox;
 //                                toolDragHandler.mouseUp( isMouseOverToolbox );
-//                            }
-//                        }
-//                    }
-//                }, MAP_LMB );
+                            }
+                        }
+                    }
+                }, false );
 
         /*---------------------------------------------------------------------------*
         * mouse motion
         *----------------------------------------------------------------------------*/
-//        getInputHandler().addListener(
-//                new AnalogListener() {
-//                    public void onAnalog( final String name, final float value, float tpf ) {
-//                        //By always updating the cursor at every mouse move, we can be sure it is always correct.
-//                        //Whenever there is a mouse move event, make sure the cursor is in the right state.
-//                        updateCursor();
-//
-//                        toolDragHandler.mouseMove( getMousePositionOnZPlane() );
-//                    }
-//                }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN );
+        mouseEventNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        updateCursor();
+
+                        if ( Mouse.getEventButton() == -1 ) {
+                            // ok, not a button press event
+                            toolDragHandler.mouseMove( getMousePositionOnZPlane() );
+                        }
+                    }
+                }, false );
 
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
@@ -214,7 +220,7 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * my crust
         *----------------------------------------------------------------------------*/
-        guiLayer.addChild( new OrthoPiccoloNode( new ControlPanelNode( new MyCrustPanel( model ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+        myCrustNode = new OrthoPiccoloNode( new ControlPanelNode( new MyCrustPanel( model ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             // layout the panel if its size changes (and on startup)
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
@@ -225,7 +231,8 @@ public class CrustTab extends PlateTectonicsTab {
             } );
 
             updateOnEvent( beforeFrameRender );
-        }} );
+        }};
+        guiLayer.addChild( myCrustNode );
 
         /*---------------------------------------------------------------------------*
         * labels
@@ -313,12 +320,6 @@ public class CrustTab extends PlateTectonicsTab {
 //                }
 //            }
 //        } );
-    }
-
-    private ImmutableVector2F getMousePositionOnZPlane() {
-        // TODO: fix this mouse positioning code!
-        return new ImmutableVector2F();
-//        return LWJGLUtils.intersectZPlaneWithRay( mainView.getCameraRayUnderCursor( getInputHandler() ) );
     }
 
 }

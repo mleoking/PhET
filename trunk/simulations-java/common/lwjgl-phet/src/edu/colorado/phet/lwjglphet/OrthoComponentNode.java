@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -91,10 +92,17 @@ public class OrthoComponentNode extends GLNode {
                     public void update() {
                         if ( componentImage != null ) {
                             // reversal of Y coordinate, and subtract out the offset that the ComponentImage doesn't have access to
-                            componentImage.handleMouseEvent( Mouse.getEventX() - offsetX, ( tab.canvasSize.get().height - Mouse.getEventY() ) - offsetY );
+                            ImmutableVector2F localCoordinates = screenToComponent( new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() ) );
+                            componentImage.handleMouseEvent( (int) localCoordinates.x, (int) localCoordinates.y );
                         }
                     }
                 }, false );
+    }
+
+    public ImmutableVector2F screenToComponent( ImmutableVector2F screenCoordinates ) {
+        return new ImmutableVector2F( screenCoordinates.x - offsetX,
+                                      ( tab.canvasSize.get().height - Mouse.getEventY() ) - offsetY
+        );
     }
 
     public <T> void updateOnEvent( Notifier<T> notifier ) {
@@ -240,9 +248,9 @@ public class OrthoComponentNode extends GLNode {
 
     public void setAntialiased( boolean antialiased ) {
         if ( antialiased ) {
-            // can't guarantee any mipmapping, so just set to nearest
-            magnificationFilter = GL_NEAREST;
-            minificationFilter = GL_NEAREST;
+            // can't guarantee any mipmapping, so just set to linear
+            magnificationFilter = GL_LINEAR;
+            minificationFilter = GL_LINEAR;
         }
         else {
             magnificationFilter = GL_NEAREST;
