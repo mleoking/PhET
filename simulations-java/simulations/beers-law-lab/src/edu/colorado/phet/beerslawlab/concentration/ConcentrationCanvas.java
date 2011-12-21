@@ -4,6 +4,7 @@ package edu.colorado.phet.beerslawlab.concentration;
 import java.awt.Color;
 import java.awt.Frame;
 
+import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.control.EvaporationControlNode;
 import edu.colorado.phet.beerslawlab.control.RemoveSoluteButtonNode;
 import edu.colorado.phet.beerslawlab.control.SoluteControlNode;
@@ -30,7 +31,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
         PNode evaporationControlNode = new EvaporationControlNode( model.evaporationRate, model.getEvaporationRateRange() );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
-        PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, Color.ORANGE ) {{
+        PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
         PNode modelDebugNode = new ConcentrationModelDebugger( model );
