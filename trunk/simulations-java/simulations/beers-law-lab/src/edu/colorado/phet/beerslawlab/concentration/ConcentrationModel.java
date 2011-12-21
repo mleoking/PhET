@@ -8,6 +8,7 @@ import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLResources.Symbols;
 import edu.colorado.phet.beerslawlab.model.Beaker;
 import edu.colorado.phet.beerslawlab.model.Dropper;
+import edu.colorado.phet.beerslawlab.model.Faucet;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.Solute;
 import edu.colorado.phet.beerslawlab.model.SoluteForm;
@@ -30,8 +31,8 @@ public class ConcentrationModel implements Resettable {
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
     private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
     private static final DoubleRange EVAPORATION_RATE_RANGE = new DoubleRange( 0, 0.25, 0 ); // L/sec
-    private static final DoubleRange INPUT_FLOW_RATE_RANGE = new DoubleRange( 0, 0.25, 0 ); // L/sec
-    private static final DoubleRange OUTPUT_FLOW_RATE_RANGE = INPUT_FLOW_RATE_RANGE; // L/sec
+    private static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
+    private static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
 
     // validate constants
     static {
@@ -48,7 +49,7 @@ public class ConcentrationModel implements Resettable {
     public final Dropper dropper;
     public final Property<Double> evaporationRate; // L/sec
     public final Beaker beaker;
-    public final Property<Double> inputFlowRate, outputFlowRate; // L/sec
+    public final Faucet inputFaucet, outputFaucet;
 
     public ConcentrationModel() {
 
@@ -71,8 +72,8 @@ public class ConcentrationModel implements Resettable {
         this.dropper = new Dropper( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
         this.evaporationRate = new Property<Double>( EVAPORATION_RATE_RANGE.getDefault() );
         this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
-        this.inputFlowRate = new Property<Double>( INPUT_FLOW_RATE_RANGE.getDefault() );
-        this.outputFlowRate = new Property<Double>( OUTPUT_FLOW_RATE_RANGE.getDefault() );
+        this.inputFaucet = new Faucet( MAX_INPUT_FLOW_RATE );
+        this.outputFaucet = new Faucet( MAX_OUTPUT_FLOW_RATE );
     }
 
     public ArrayList<Solute> getSolutes() {
@@ -91,21 +92,13 @@ public class ConcentrationModel implements Resettable {
         return EVAPORATION_RATE_RANGE;
     }
 
-    public DoubleRange getInputFlowRateRange() {
-        return INPUT_FLOW_RATE_RANGE;
-    }
-
-    public DoubleRange getOutputFlowRateRange() {
-        return OUTPUT_FLOW_RATE_RANGE;
-    }
-
     public void reset() {
         solution.reset();
         soluteForm.reset();
         shaker.reset();
         dropper.reset();
         evaporationRate.reset();
-        inputFlowRate.reset();
-        outputFlowRate.reset();
+        inputFaucet.reset();
+        outputFaucet.reset();
     }
 }

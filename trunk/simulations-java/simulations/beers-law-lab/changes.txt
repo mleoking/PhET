@@ -1,4 +1,4 @@
-12/21/11 add input and output flow rates to model
+12/21/11 add faucets model and view
 12/21/11 add beaker model and view
 12/21/11 define font sizes in constants class
 12/21/11 add debug node for model properties
