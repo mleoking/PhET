@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -23,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Shows a number line and a dot on the number line to represent a fraction.
@@ -38,7 +40,8 @@ public class NumberLineNode extends PNode {
     private final PhetPPath greenCircle;
 
     public NumberLineNode( final Property<Integer> numerator, final Property<Integer> denominator, ValueEquals<ChosenRepresentation> showing ) {
-        scale( 5 );
+        final double scale = 5;
+        scale( scale );
         showing.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean aBoolean ) {
                 setVisible( aBoolean );
@@ -58,6 +61,8 @@ public class NumberLineNode extends PNode {
                 //The number line itself
                 addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 6 * divisionsBetweenTicks, 0 ) ) );
 
+                System.out.println( "line itself. getFullBounds() = " + getFullBounds() );
+
                 //For snapping
                 tickLocations = new ArrayList<Pair<Double, Integer>>();
 
@@ -71,14 +76,7 @@ public class NumberLineNode extends PNode {
                         final int mod = div % 2;
                         double height = mod == 0 ? 8 : 8;
                         final BasicStroke stroke = mod == 0 ? new BasicStroke( 1 ) : new BasicStroke( 0.5f );
-                        final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), stroke, Color.black ) {{
-                            addInputEventListener( new CursorHandler() );
-                            addInputEventListener( new PBasicInputEventHandler() {
-                                @Override public void mousePressed( PInputEvent event ) {
-                                    numerator.set( finalI );
-                                }
-                            } );
-                        }};
+                        final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), stroke, Color.black );
                         final PhetPPath highlightPath = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), new BasicStroke( 4 ), Color.yellow );
 
                         new RichSimpleObserver() {
@@ -90,18 +88,9 @@ public class NumberLineNode extends PNode {
                         }.observe( numerator, denominator );
                         addChild( highlightPath );
                         addChild( path );
-                        if ( mod == 0 || true ) {
-                            addChild( new PhetPText( div + "", new PhetFont( 8 ) ) {{
-                                setOffset( path.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, path.getFullBounds().getMaxY() );
-
-                                addInputEventListener( new CursorHandler() );
-                                addInputEventListener( new PBasicInputEventHandler() {
-                                    @Override public void mousePressed( PInputEvent event ) {
-                                        numerator.set( finalI );
-                                    }
-                                } );
-                            }} );
-                        }
+                        addChild( new PhetPText( div + "", new PhetFont( 8 ) ) {{
+                            setOffset( path.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, path.getFullBounds().getMaxY() );
+                        }} );
 
                         //make it so the green handle can snap to this site
                         tickLocations.add( new Pair<Double, Integer>( i * dx, i ) );
@@ -120,19 +109,27 @@ public class NumberLineNode extends PNode {
                         addChild( highlightPath );
 
                         //minor ticks between the integers
-                        addChild( new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) {{
-                            addInputEventListener( new CursorHandler() );
-                            addInputEventListener( new PBasicInputEventHandler() {
-                                @Override public void mousePressed( PInputEvent event ) {
-                                    numerator.set( finalI );
-                                }
-                            } );
-                        }} );
+                        addChild( new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) );
 
                         //make it so the green handle can snap to this site
                         tickLocations.add( new Pair<Double, Integer>( i * dx, i ) );
                     }
                 }
+
+
+                //Allow the user to click anywhere in the area to set the numerator value
+                //Have to subtract out the offset of this node (set in RepresentationControlPanel) or everything is off by a little bit.  I don't know why!
+                final PBounds fullBounds = getFullBounds();
+                fullBounds.setOrigin( fullBounds.getX() - getOffset().getX(), fullBounds.getY() - getOffset().getY() );
+                addChild( new PhetPPath( AffineTransform.getScaleInstance( 1.0 / scale, 1.0 / scale ).createTransformedShape( fullBounds ), new Color( 0, 0, 0, 0 ), new BasicStroke( 1 ), new Color( 0, 0, 0, 0 ) ) {{
+                    addInputEventListener( new CursorHandler() );
+                    addInputEventListener( new PBasicInputEventHandler() {
+                        @Override public void mousePressed( PInputEvent event ) {
+                            handleMousePress( event, numerator );
+                        }
+                    } );
+                }} );
+
                 if ( greenCircle != null ) {
                     greenCircle.setOffset( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 );
                     addChild( greenCircle );
@@ -150,19 +147,23 @@ public class NumberLineNode extends PNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseDragged( PInputEvent event ) {
-                    final Point2D newPressPoint = event.getPositionRelativeTo( getParent() );
-
-                    //whichever tick mark is closer, go to that one
-                    ArrayList<Pair<Double, Integer>> sorted = new ArrayList<Pair<Double, Integer>>( tickLocations );
-                    Collections.sort( sorted, new Comparator<Pair<Double, Integer>>() {
-                        public int compare( Pair<Double, Integer> o1, Pair<Double, Integer> o2 ) {
-                            return Double.compare( Math.abs( o1._1 - newPressPoint.getX() ), Math.abs( o2._1 - newPressPoint.getX() ) );
-                        }
-                    } );
-                    numerator.set( sorted.get( 0 )._2 );
+                    handleMousePress( event, numerator );
                 }
             } );
         }};
         addChild( greenCircle );
+    }
+
+    private void handleMousePress( PInputEvent event, Property<Integer> numerator ) {
+        final Point2D newPressPoint = event.getPositionRelativeTo( event.getPickedNode().getParent() );
+
+        //whichever tick mark is closer, go to that one
+        ArrayList<Pair<Double, Integer>> sorted = new ArrayList<Pair<Double, Integer>>( tickLocations );
+        Collections.sort( sorted, new Comparator<Pair<Double, Integer>>() {
+            public int compare( Pair<Double, Integer> o1, Pair<Double, Integer> o2 ) {
+                return Double.compare( Math.abs( o1._1 - newPressPoint.getX() ), Math.abs( o2._1 - newPressPoint.getX() ) );
+            }
+        } );
+        numerator.set( sorted.get( 0 )._2 );
     }
 }
