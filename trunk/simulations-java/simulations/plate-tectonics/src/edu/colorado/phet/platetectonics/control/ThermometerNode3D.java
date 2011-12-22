@@ -31,12 +31,16 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     private final LWJGLTransform modelViewTransform;
     private final PlateModel model;
 
+    private final float sensorVerticalOffset;
+
     public ThermometerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
         super( new ThermometerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) );
         this.modelViewTransform = modelViewTransform;
         this.model = model;
+
+        sensorVerticalOffset = (float) ( (ThermometerNode2D) getNode() ).sensorVerticalOffset;
 
         // scale the node to handle the subsampling
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
