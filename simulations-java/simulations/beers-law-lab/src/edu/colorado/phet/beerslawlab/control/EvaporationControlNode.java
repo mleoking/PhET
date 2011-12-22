@@ -3,12 +3,17 @@ package edu.colorado.phet.beerslawlab.control;
 
 import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler.DragFunction;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -41,6 +46,13 @@ public class EvaporationControlNode extends ControlPanelNode {
                     this.addInputEventListener( new PBasicInputEventHandler() {
                         @Override public void mouseReleased( PInputEvent event ) {
                             evaporationRate.set( 0.0 );
+                        }
+                    } );
+
+                    // sim-sharing
+                    getDragHandler().setStartEndDragFunction( new DragFunction() {
+                        public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                            SimSharingManager.sendEvent( Objects.EVAPORATION_SLIDER, action, new Parameter( Parameters.EVAPORATION_RATE, evaporationRate.get() ) );
                         }
                     } );
                 }}

@@ -20,11 +20,10 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolox.PFrame;
 
 /**
@@ -38,6 +37,7 @@ public class VSliderNode extends SliderNode {
     private PhetPPath trackNode;
     private PNode knobNode;
     private int trackWidth;
+    private SimSharingDragSequenceEventHandler dragHandler;
 
     // Root node to which all other nodes should be added.  This is done to
     // allow the offset of this node to be at (0, 0).  Use this when adding
@@ -72,18 +72,19 @@ public class VSliderNode extends SliderNode {
                 }
             } );
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
+            addInputEventListener( dragHandler = new SimSharingDragSequenceEventHandler() {
 
                 private Point2D startPoint;
                 public Double startValue;
 
-                @Override public void mousePressed( PInputEvent event ) {
-                    super.mousePressed( event );
+                @Override public void startDrag( PInputEvent event ) {
+                    super.startDrag( event );
                     startPoint = event.getPositionRelativeTo( VSliderNode.this );
                     startValue = value.get();
                 }
 
-                @Override public void mouseDragged( PInputEvent event ) {
+                @Override public void drag( PInputEvent event ) {
+                    super.drag( event );
                     Point2D point = event.getPositionRelativeTo( VSliderNode.this );
                     final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
 
@@ -100,6 +101,11 @@ public class VSliderNode extends SliderNode {
         rootNode.addChild( knobNode );
 
         adjustOrigin();
+    }
+
+    // For sim-sharing, see
+    public SimSharingDragSequenceEventHandler getDragHandler() {
+        return dragHandler;
     }
 
     public Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
@@ -132,15 +138,22 @@ public class VSliderNode extends SliderNode {
     }
 
     public static void main( String[] args ) {
-        PDebug.debugBounds = true;
         new PFrame( "test", false, new PCanvas() {{
 
-            VSliderNode sliderNode = new VSliderNode( -1, +1, new Property<Double>( 0.0 ) ) {{
+            Property<Double> sliderValue = new Property<Double>( 0.0 ) {{
+                addObserver( new VoidFunction1<Double>() {
+                    public void apply( Double newValue ) {
+                        System.out.println( "sliderValue = " + newValue );
+                    }
+                } );
+            }};
+
+            VSliderNode sliderNode = new VSliderNode( -1, +1, sliderValue ) {{
                 setOffset( 200, 200 );
             }};
-            sliderNode.addLabel( +1, new PhetPText( "Add", new PhetFont( 16 ) ) );
+            sliderNode.addLabel( +1, new PhetPText( "Positive", new PhetFont( 16 ) ) );
             sliderNode.addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
-            sliderNode.addLabel( -1, new PhetPText( "Remove", new PhetFont( 16 ) ) );
+            sliderNode.addLabel( -1, new PhetPText( "Negative", new PhetFont( 16 ) ) );
 
             getLayer().addChild( sliderNode );
 
