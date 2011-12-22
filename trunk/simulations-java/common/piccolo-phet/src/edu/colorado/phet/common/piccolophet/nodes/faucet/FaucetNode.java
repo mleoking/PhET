@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -97,6 +98,10 @@ public class FaucetNode extends PNode {
         }};
 
         addChild( faucetImageNode );
+    }
+
+    public SimSharingDragSequenceEventHandler getDragHandler() {
+        return faucetSliderNode.sliderNode.getDragHandler();
     }
 
     //Gets the location of the input part of the pipe in global coordinates for coordination with the model coordinates.

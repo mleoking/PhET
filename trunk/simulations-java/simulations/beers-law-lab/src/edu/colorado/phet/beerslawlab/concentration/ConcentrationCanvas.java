@@ -5,17 +5,18 @@ import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.beerslawlab.BLLConstants;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.control.EvaporationControlNode;
 import edu.colorado.phet.beerslawlab.control.RemoveSoluteButtonNode;
 import edu.colorado.phet.beerslawlab.control.SoluteControlNode;
 import edu.colorado.phet.beerslawlab.view.BLLCanvas;
+import edu.colorado.phet.beerslawlab.view.BLLFaucetNode;
 import edu.colorado.phet.beerslawlab.view.BeakerNode;
 import edu.colorado.phet.beerslawlab.view.ConcentrationModelDebugger;
 import edu.colorado.phet.beerslawlab.view.DropperNode;
 import edu.colorado.phet.beerslawlab.view.ShakerNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -29,8 +30,8 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // Nodes
         PNode beakerNode = new BeakerNode( model.beaker );
-        PNode inputFaucetNode = new FaucetNode( ConcentrationModel.MAX_INPUT_FLOW_RATE, model.inputFaucet.flowRate, model.inputFaucet.enabled, 1000, true );
-        PNode outputFaucetNode = new FaucetNode( ConcentrationModel.MAX_OUTPUT_FLOW_RATE, model.outputFaucet.flowRate, model.outputFaucet.enabled, 20, true );
+        PNode inputFaucetNode = new BLLFaucetNode( Objects.INPUT_FAUCET_SLIDER, ConcentrationModel.MAX_INPUT_FLOW_RATE, model.inputFaucet, 1000 );
+        PNode outputFaucetNode = new BLLFaucetNode( Objects.OUTPUT_FAUCET_SLIDER, ConcentrationModel.MAX_OUTPUT_FLOW_RATE, model.outputFaucet, 20 );
         PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
         PNode shakerNode = new ShakerNode( model.shaker, model.soluteForm );
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
