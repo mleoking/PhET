@@ -1,10 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Mouse;
 
@@ -79,8 +84,8 @@ public class CrustTab extends PlateTectonicsTab {
                     public void update() {
                         // on left mouse button change
                         if ( Mouse.getEventButton() == 0 ) {
-                            PlanarComponentNode toolCollision = getToolUnderMouse();
-                            OrthoComponentNode guiCollision = getGuiUnderMouse();
+                            PlanarComponentNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
+                            OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
 
                             // if mouse is down
                             if ( Mouse.getEventButtonState() ) {
@@ -200,8 +205,8 @@ public class CrustTab extends PlateTectonicsTab {
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = thermometer.getInitialMouseOffset();
                     thermometer.transform.prepend( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
-                                                                              mousePosition.y - initialMouseOffset.y,
-                                                                              THERMOMETER_Z ) );
+                                                                                  mousePosition.y - initialMouseOffset.y,
+                                                                                  THERMOMETER_Z ) );
 
                     toolDragHandler.startDragging( thermometer, mousePosition );
                 }
@@ -220,8 +225,8 @@ public class CrustTab extends PlateTectonicsTab {
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = sensorNode.getInitialMouseOffset();
                     sensorNode.transform.prepend( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
-                                                                             mousePosition.y - initialMouseOffset.y,
-                                                                             DENSITY_SENSOR_Z ) );
+                                                                                 mousePosition.y - initialMouseOffset.y,
+                                                                                 DENSITY_SENSOR_Z ) );
 
                     toolDragHandler.startDragging( sensorNode, mousePosition );
                 }
@@ -298,49 +303,40 @@ public class CrustTab extends PlateTectonicsTab {
     }
 
     public void updateCursor() {
-        // TODO: cursor handling (after picking tests)
-//        JmeCanvasContext context = (JmeCanvasContext) getApp().getContext();
-//        final Canvas canvas = context.getCanvas();
-//
-//        // TODO: refactor picking to work with multiple views?
-//        final HUDNodeCollision toolCollision = HUDNode.getHUDCollisionUnderPoint( toolView, getInputHandler().getCursorPosition() );
-//        final HUDNodeCollision guiCollision = HUDNode.getHUDCollisionUnderPoint( guiView, getInputHandler().getCursorPosition() );
-//        final HUDNodeCollision mainCollision = HUDNode.getHUDCollisionUnderPoint( mainView, getInputHandler().getCursorPosition() );
-//        SwingUtilities.invokeLater( new Runnable() {
-//            public void run() {
-//                Component toolComponent = toolCollision == null ? null : toolCollision.hudNode.getRootComponent().getComponent( 0 );
-//                if ( toolComponent != null ) {
-//                    canvas.setCursor( toolComponent.getCursor() );
-//                }
-//                else {
-//                    Component guiComponent = guiCollision == null ? null : guiCollision.getGuiPlaneComponent();
-//                    if ( guiComponent != null ) {
-//                        // over a HUD node, so set the cursor to what the component would want
-//                        canvas.setCursor( guiComponent.getCursor() );
-//                    }
-//                    else {
-//                        // check if we are picking a piccolo canvas in the main view
-//                        if ( mainCollision != null && mainCollision.hudNode.getRootComponent().getComponent( 0 ) instanceof PCanvas ) {
-//                            // use the canvas's cursor
-//                            canvas.setCursor( mainCollision.hudNode.getRootComponent().getComponent( 0 ).getCursor() );
-//                        }
-//                        else {
-//                            // default to the default cursor
-//                            canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-//                        }
-//                    }
-//                }
-//            }
-//        } );
+        final Canvas canvas = getCanvas();
+
+        final PlanarComponentNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
+        final OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
+
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                Component toolComponent = toolCollision == null ? null : toolCollision.getComponent().getComponent( 0 );
+                if ( toolComponent != null ) {
+                    canvas.setCursor( toolComponent.getCursor() );
+                }
+                else {
+                    // this component is actually possibly a sub-component
+                    Component guiComponent = guiCollision == null ? null : guiCollision.getComponentAt( Mouse.getX(), Mouse.getY() );
+                    if ( guiComponent != null ) {
+                        // over a HUD node, so set the cursor to what the component would want
+                        canvas.setCursor( guiComponent.getCursor() );
+                    }
+                    else {
+                        // default to the default cursor
+                        canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                    }
+                }
+            }
+        } );
     }
 
-    public PlanarComponentNode getToolUnderMouse() {
+    public PlanarComponentNode getToolUnder( int x, int y ) {
         // iterate through the tools in reverse (front-to-back) order
         for ( GLNode node : new ArrayList<GLNode>( toolLayer.getChildren() ) {{
             Collections.reverse( this );
         }} ) {
             PlanarComponentNode tool = (PlanarComponentNode) node;
-            Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
+            Ray3F cameraRay = getCameraRay( x, y );
             Ray3F localRay = tool.transform.inverseRay( cameraRay );
             if ( tool.doesLocalRayHit( localRay ) ) {
                 // TODO: don't hit on the "transparent" parts, like corners
@@ -350,12 +346,14 @@ public class CrustTab extends PlateTectonicsTab {
         return null;
     }
 
-    public OrthoComponentNode getGuiUnderMouse() {
-        ImmutableVector2F screenPosition = new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() );
+    public OrthoComponentNode getGuiUnder( int x, int y ) {
+        ImmutableVector2F screenPosition = new ImmutableVector2F( x, y );
         for ( OrthoComponentNode guiNode : guiNodes ) {
-            ImmutableVector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
-            if ( guiNode.getComponent().contains( (int) componentPoint.x, (int) componentPoint.y ) ) {
-                return guiNode;
+            if ( guiNode.isReady() ) {
+                ImmutableVector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
+                if ( guiNode.getComponent().contains( (int) componentPoint.x, (int) componentPoint.y ) ) {
+                    return guiNode;
+                }
             }
         }
         return null;

@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -109,6 +110,16 @@ public class OrthoComponentNode extends GLNode {
                 }, false );
     }
 
+    // NOTE: run from Swing EDT
+    public Component getComponentAt( int mouseX, int mouseY ) {
+        if ( componentImage != null ) {
+            ImmutableVector2F localCoordinates = screenToLocalCoordinates( new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() ) );
+            ImmutableVector2F componentCoordinates = componentImage.localToComponentCoordinates( new ImmutableVector2F( localCoordinates.x, localCoordinates.y ) );
+            return componentImage.componentAt( (int) componentCoordinates.x, (int) componentCoordinates.y );
+        }
+        return null;
+    }
+
     public ImmutableVector2F screenToLocalCoordinates( ImmutableVector2F screenCoordinates ) {
         return new ImmutableVector2F( screenCoordinates.x - offsetX,
                                       ( tab.canvasSize.get().height - Mouse.getEventY() ) - offsetY
@@ -117,6 +128,10 @@ public class OrthoComponentNode extends GLNode {
 
     public ImmutableVector2F screentoComponentCoordinates( ImmutableVector2F screenCoordinates ) {
         return componentImage.localToComponentCoordinates( screenToLocalCoordinates( screenCoordinates ) );
+    }
+
+    public boolean isReady() {
+        return componentImage != null;
     }
 
     public <T> void updateOnEvent( Notifier<T> notifier ) {
