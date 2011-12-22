@@ -5,15 +5,14 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
-import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -21,6 +20,7 @@ import static org.lwjgl.opengl.GL11.*;
  * Displays the top terrain of a plate model, within the bounds of the specified grid
  */
 public class TerrainNode extends GridMesh {
+    private final Terrain terrain;
     private final PlateTectonicsTab module;
 //    private TerrainNode.TerrainTextureImage image;
 
@@ -30,19 +30,21 @@ public class TerrainNode extends GridMesh {
     private static final String ROAD = "plate-tectonics/images/textures/road.jpg";
     private FloatBuffer texture2;
 
+    private FloatBuffer colorBuffer;
+
     public TerrainNode( final Terrain terrain, PlateModel model, final PlateTectonicsTab module ) {
-        super( terrain.numZSamples, terrain.numXSamples, computePositions( terrain, module.getModelViewTransform() ) );
+        super( terrain.numZSamples, terrain.numXSamples, null );
+        this.terrain = terrain;
         this.module = module;
 
         texture2 = BufferUtils.createFloatBuffer( terrain.numXSamples * terrain.numZSamples * 2 );
+
+        colorBuffer = BufferUtils.createFloatBuffer( terrain.numXSamples * terrain.numZSamples * 4 );
 
         // use the gridded mesh to handle the terrain
 //        final GridMesh gridMesh = new GridMesh( terrain.numZSamples, terrain.numXSamples, positions );
 //        updateSphericalCoordinates( gridMesh, terrain );
 //        updateHeightmap( terrain, gridMesh );
-
-        // TODO: add in terrain texture
-        setMaterial( new ColorMaterial( 0.7f, 0.65f, 0.45f, 1 ) );
 
         // use a terrain-style texture. this allows us to blend between three different textures
 //        setMaterial( new Material( module.getAssetManager(), "plate-tectonics/materials/Surface.j3md" ) {{
@@ -67,13 +69,45 @@ public class TerrainNode extends GridMesh {
 ////            getAdditionalRenderState().setFaceCullMode( FaceCullMode.Off );
 //        }} );
 
-        model.modelChanged.addUpdateListener( new UpdateListener() {
-                                                  public void update() {
-                                                      updateGeometry( computePositions( terrain, module.getModelViewTransform() ) );
-//                                                      updateSphericalCoordinates( gridMesh, terrain );
-//                                                      updateHeightmap( terrain, gridMesh );
-                                                  }
-                                              }, false );
+        model.modelChanged.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        updateTerrain();
+                    }
+                }, false );
+
+        updateTerrain();
+    }
+
+    public void updateTerrain() {
+        ImmutableVector3F[] positions1 = new ImmutableVector3F[terrain.numXSamples * terrain.numZSamples];
+        ImmutableVector3F[] xRadials = new ImmutableVector3F[terrain.numXSamples];
+        ImmutableVector3F[] zRadials = new ImmutableVector3F[terrain.numZSamples];
+
+        for ( int i = 0; i < terrain.numXSamples; i++ ) {
+            xRadials[i] = PlateModel.getXRadialVector( terrain.xData[i] );
+        }
+        for ( int i = 0; i < terrain.numZSamples; i++ ) {
+            zRadials[i] = PlateModel.getZRadialVector( terrain.zData[i] );
+        }
+
+        // TODO: improve coloring and texturing of the terrain
+        colorBuffer.rewind();
+        for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
+            ImmutableVector3F zRadial = zRadials[zIndex];
+            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
+                float elevation = terrain.getElevation( xIndex, zIndex );
+                ImmutableVector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
+                ImmutableVector3F viewVector = module.getModelViewTransform().transformPosition( cartesianModelVector );
+                positions1[zIndex * terrain.numXSamples + xIndex] = viewVector;
+
+                System.out.println( elevation );
+                float value = (float) MathUtil.clamp( 0, ( elevation + 10000 ) / 20000, 1 );
+                System.out.println( value );
+                colorBuffer.put( new float[] { value, value, value, 1 } );
+            }
+        }
+        updateGeometry( positions1 );
     }
 
     // put our (constant) x and z values into the TexCoord mesh buffer. this is only needed on startup
@@ -96,36 +130,19 @@ public class TerrainNode extends GridMesh {
         super.preRender( options );
 
         glEnable( GL_LIGHTING );
+        glEnable( GL_COLOR_MATERIAL );
+        glEnableClientState( GL_COLOR_ARRAY );
+        glColorMaterial( GL_FRONT, GL_DIFFUSE );
+        colorBuffer.rewind();
+        glColorPointer( 4, 0, colorBuffer );
     }
 
     @Override protected void postRender( GLOptions options ) {
         super.postRender( options );
 
+        glDisable( GL_COLOR_MATERIAL );
         glDisable( GL_LIGHTING );
-    }
-
-    private static ImmutableVector3F[] computePositions( Terrain terrain, LWJGLTransform modelViewTransform ) {
-        ImmutableVector3F[] positions = new ImmutableVector3F[terrain.numXSamples * terrain.numZSamples];
-        ImmutableVector3F[] xRadials = new ImmutableVector3F[terrain.numXSamples];
-        ImmutableVector3F[] zRadials = new ImmutableVector3F[terrain.numZSamples];
-
-        for ( int i = 0; i < terrain.numXSamples; i++ ) {
-            xRadials[i] = PlateModel.getXRadialVector( terrain.xData[i] );
-        }
-        for ( int i = 0; i < terrain.numZSamples; i++ ) {
-            zRadials[i] = PlateModel.getZRadialVector( terrain.zData[i] );
-        }
-
-        for ( int zIndex = terrain.numZSamples - 1; zIndex >= 0; zIndex-- ) {
-            ImmutableVector3F zRadial = zRadials[zIndex];
-            for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
-                float elevation = terrain.getElevation( xIndex, zIndex );
-                ImmutableVector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
-                ImmutableVector3F viewVector = modelViewTransform.transformPosition( cartesianModelVector );
-                positions[zIndex * terrain.numXSamples + xIndex] = viewVector;
-            }
-        }
-        return positions;
+        glDisableClientState( GL_COLOR_ARRAY );
     }
 
     // put our elevation information into the x coordinate of the TexCoord2 mesh buffer

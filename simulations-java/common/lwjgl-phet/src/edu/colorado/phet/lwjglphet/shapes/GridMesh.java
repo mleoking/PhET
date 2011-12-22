@@ -50,7 +50,9 @@ public class GridMesh extends GLNode {
         int numIndices = ( rows - 1 ) * columns * 2 + ( rows - 2 ) * 2;
         indexBuffer = BufferUtils.createIntBuffer( numIndices );
 
-        setPositions( positions );
+        if ( positions != null ) {
+            setPositions( positions );
+        }
 
         // compute texture coordinates at the start
         float maxSize = Math.max( rows, columns );
@@ -100,6 +102,7 @@ public class GridMesh extends GLNode {
     }
 
     private void setPositions( ImmutableVector3F[] positions ) {
+        this.positions = positions;
         // reset the buffers
         positionBuffer.clear();
 
@@ -111,7 +114,6 @@ public class GridMesh extends GLNode {
         for ( int row = 0; row < rows; row++ ) {
             int rowOffset = row * columns;
             for ( int col = 0; col < columns; col++ ) {
-                // TODO: normals look kind of broken. investigate
                 /*---------------------------------------------------------------------------*
                 * position
                 *----------------------------------------------------------------------------*/
@@ -168,7 +170,9 @@ public class GridMesh extends GLNode {
         this.updateNormals = updateNormals;
     }
 
-    @Override public void renderSelf( GLOptions options ) {
+    @Override protected void preRender( GLOptions options ) {
+        super.preRender( options );
+
         positionBuffer.rewind();
         normalBuffer.rewind();
         textureBuffer.rewind();
@@ -186,14 +190,20 @@ public class GridMesh extends GLNode {
             glNormalPointer( 0, normalBuffer );
         }
         glVertexPointer( 3, 0, positionBuffer );
+    }
 
-        // renders in a series of triangle strips. quad strips rejected since we can't guarantee they will be planar
-        glDrawElements( GL_TRIANGLE_STRIP, indexBuffer );
+    @Override protected void postRender( GLOptions options ) {
+        super.postRender( options );
 
         // disable the changed states
         glDisableClientState( GL_VERTEX_ARRAY );
         if ( options.shouldSendTexture() ) { glDisableClientState( GL_TEXTURE_COORD_ARRAY ); }
         if ( options.shouldSendNormals() ) { glDisableClientState( GL_NORMAL_ARRAY ); }
+    }
+
+    @Override public void renderSelf( GLOptions options ) {
+        // renders in a series of triangle strips. quad strips rejected since we can't guarantee they will be planar
+        glDrawElements( GL_TRIANGLE_STRIP, indexBuffer );
     }
 
     public ImmutableVector3F getPosition( int row, int col ) {
