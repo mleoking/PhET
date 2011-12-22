@@ -51,6 +51,41 @@ public class Cell extends ShapeChangingModelElement {
     }
 
     public void stepInTime( double dt ) {
-        proteinSynthesisSimulator.stepInTime( dt );
+        // TODO: Multiplying time step, because the example used a large number.  Need to talk to George E to figure out units.
+        proteinSynthesisSimulator.stepInTime( dt * 1000 );
     }
+
+    //-------------------------------------------------------------------------
+    // The following methods are essentially "pass through" methods to the
+    // protein synthesis simulation.  This is kept separate for now.  At some
+    // point, once the protein synthesis stuff is fully debugged, it may make
+    // sense to pull the protein synthesis model into this class.
+    //-------------------------------------------------------------------------
+
+    public void setTranscriptionFactorCount( int tfCount ) {
+        proteinSynthesisSimulator.setTranscriptionFactorCount( tfCount );
+    }
+
+    public void setPolymeraseCount( int polymeraseCount ) {
+        proteinSynthesisSimulator.setPolymeraseCount( polymeraseCount );
+    }
+
+    public void setGeneTranscriptionFactorAssociationRate( double newRate ) {
+        proteinSynthesisSimulator.setGeneTranscriptionFactorAssociationRate( newRate );
+    }
+
+    public void setPolymeraseAssociationRate( double newRate ) {
+        proteinSynthesisSimulator.setPolymeraseAssociationRate( newRate );
+    }
+
+    public void setRNARibosomeAssociationRate( double newRate ) {
+        proteinSynthesisSimulator.setRNARibosomeAssociationRate( newRate );
+    }
+
+    public int getProteinCount() {
+        return proteinSynthesisSimulator.getProteinCount();
+    }
+
+    //----------- End of pass-through methods ---------------------------------
+
 }
