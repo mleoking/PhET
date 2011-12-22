@@ -11,6 +11,8 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -35,8 +37,24 @@ public class MultipleCellsModel {
     // so that placements are consistent as cells come and go.
     public final List<Point2D> cellLocations = new ArrayList<Point2D>();
 
+    /**
+     * Constructor.
+     */
     public MultipleCellsModel() {
         initializeCellLocations();
+        // Hook up the clock.
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
+    }
+
+    private void stepInTime( double dt ) {
+        // Step each of the cells.
+        for ( Cell cell : cellList ) {
+            cell.stepInTime( dt );
+        }
     }
 
     public IClock getClock() {
@@ -50,9 +68,9 @@ public class MultipleCellsModel {
     public void reset() {
         // Clear out all existing cells.
         cellList.clear();
-        // Add a single cell.  Use the cell list size as the seed so that the
-        // same cell is always the same shape.
+        // Add a single cell.
         setNumCells( 1 );
+
     }
 
     /**

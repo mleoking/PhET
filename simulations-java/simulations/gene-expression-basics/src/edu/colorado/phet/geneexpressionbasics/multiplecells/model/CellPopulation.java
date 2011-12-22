@@ -12,7 +12,7 @@ import java.util.LinkedList;
 
 public class CellPopulation {
 
-    private LinkedList<CellFromGeorge> _cells = new LinkedList<CellFromGeorge>();
+    private LinkedList<CellProteinSynthesisSimulator> _cells = new LinkedList<CellProteinSynthesisSimulator>();
     private int _minRibosomeCount = 1000;
     private int _maxRibosomeCount = 2000;
     private double _timeStep = 5e2;
@@ -45,7 +45,7 @@ public class CellPopulation {
      *
      * @return a list of cells
      */
-    public LinkedList<CellFromGeorge> getCells() {
+    public LinkedList<CellProteinSynthesisSimulator> getCells() {
         return _cells;
     }
 
@@ -53,8 +53,8 @@ public class CellPopulation {
      * Adds a cell to the this population.  A random ribosome count is selected.
      */
     public void addCell() {
-        _cells.add( new CellFromGeorge( (int) ( Math.random() * ( _maxRibosomeCount - _minRibosomeCount ) +
-                                                _minRibosomeCount ) ) );
+        _cells.add( new CellProteinSynthesisSimulator( (int) ( Math.random() * ( _maxRibosomeCount - _minRibosomeCount ) +
+                                                               _minRibosomeCount ) ) );
     }
 
     /**
@@ -78,7 +78,7 @@ public class CellPopulation {
      * Advances all cells in this population through one time step
      */
     public void takePopulationStep() {
-        for ( CellFromGeorge currentCell : _cells ) {
+        for ( CellProteinSynthesisSimulator currentCell : _cells ) {
             currentCell.stepInTime( _timeStep );
         }
     }
@@ -89,7 +89,7 @@ public class CellPopulation {
      * @param tfCount number of transcription factors
      */
     public void setTranscriptionFactorCount( int tfCount ) {
-        for ( CellFromGeorge currentCell : _cells ) {
+        for ( CellProteinSynthesisSimulator currentCell : _cells ) {
             currentCell.setTranscriptionFactorCount( tfCount );
         }
     }
@@ -100,7 +100,7 @@ public class CellPopulation {
      * @param polymeraseCount number of polymerases
      */
     public void setPolymeraseCount( int polymeraseCount ) {
-        for ( CellFromGeorge currentCell : _cells ) {
+        for ( CellProteinSynthesisSimulator currentCell : _cells ) {
             currentCell.setPolymeraseCount( polymeraseCount );
         }
     }
@@ -112,7 +112,7 @@ public class CellPopulation {
      * @param newRate
      */
     public void setGeneTranscriptionFactorAssociationRate( double newRate ) {
-        for ( CellFromGeorge currentCell : _cells ) {
+        for ( CellProteinSynthesisSimulator currentCell : _cells ) {
             currentCell.setGeneTranscriptionFactorAssociationRate( newRate );
         }
     }
@@ -124,7 +124,7 @@ public class CellPopulation {
      * @param newRate the rate for polymerase binding
      */
     public void setPolymeraseAssociationRate( double newRate ) {
-        for ( CellFromGeorge currentCell : _cells ) {
+        for ( CellProteinSynthesisSimulator currentCell : _cells ) {
             currentCell.setPolymeraseAssociationRate( newRate );
         }
     }
@@ -136,7 +136,7 @@ public class CellPopulation {
      * @param newRate the rate at which RNA binds to a ribosome
      */
     public void setRNARibosomeAssociationRate( double newRate ) {
-        for ( CellFromGeorge currentCell : _cells ) {
+        for ( CellProteinSynthesisSimulator currentCell : _cells ) {
             currentCell.setRNARibosomeAssociationRate( newRate );
         }
     }
