@@ -18,7 +18,6 @@ import javax.swing.JButton;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -46,18 +45,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * Chart for depicting the membrane potential.  This is a PNode, and as such
  * is intended for use primarily in the play area.
- *
+ * <p/>
  * Originally, this chart was designed to scroll once there was enough data
  * the fill the chart half way, but this turned out to be too CPU intensive,
  * so it was changed to draw one line of data across the screen and then stop.
  * The user can clear the chart and trigger another action potential to start
  * recording data again.
- *
+ * <p/>
  * This chart also controls the record-and-playback state of the model.  This
  * is done so that the window of recorded data in the model matches that shown
  * in the chart, allowing the user to set the model state at any time shown in
  * the chart.
-
+ * <p/>
  * Author: John Blanco
  */
 
@@ -82,8 +81,6 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     private final NeuronModel neuronModel;
     private final XYSeries dataSeries = new XYSeries( "0" );
     private final ChartCursor chartCursor;
-    private static NumberAxis xAxis;
-    private static NumberAxis yAxis;
     private boolean chartIsFull = false;
     private double updateCountdownTimer = 0; // Init to zero to an update occurs right away.
     private double timeIndexOfFirstDataPt = 0;
@@ -100,22 +97,24 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
 
         // Register for clock ticks so that we can update.
         neuronModel.getClock().addClockListener( new ClockAdapter() {
-                @Override
+            @Override
             public void clockTicked( ClockEvent clockEvent ) {
                 updateChart( clockEvent );
-                }
-                @Override
+            }
+
+            @Override
             public void simulationTimeReset( ClockEvent clockEvent ) {
                 neuronModel.setModeLive();
                 clearChart();
                 updateChartCursorVisibility();
-                }
-                @Override
+            }
+
+            @Override
             public void clockPaused( ClockEvent clockEvent ) {
                 updateChartCursorPos();
                 updateChartCursorVisibility();
-                }
-                } );
+            }
+        } );
 
         // Register for model events that are important to us.
         neuronModel.addListener( new NeuronModel.Adapter() {
@@ -139,7 +138,7 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
         // Create the chart itself, i.e. the place where date will be shown.
         XYDataset dataset = new XYSeriesCollection( dataSeries );
         chart = createXYLineChart( title, NeuronStrings.MEMBRANE_POTENTIAL_X_AXIS_LABEL,
-                NeuronStrings.MEMBRANE_POTENTIAL_Y_AXIS_LABEL, dataset, PlotOrientation.VERTICAL );
+                                   NeuronStrings.MEMBRANE_POTENTIAL_Y_AXIS_LABEL, dataset, PlotOrientation.VERTICAL );
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
         chart.getXYPlot().getRangeAxis().setRange( -100, 100 );
         jFreeChartNode = new JFreeChartNode( chart, false );
@@ -267,9 +266,9 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
     /**
      * Add a data point to the graph.
      *
-     * @param time - Time in milliseconds.
+     * @param time    - Time in milliseconds.
      * @param voltage - Voltage in volts.
-     * @param update - Controls if graph should be refreshed on the screen.
+     * @param update  - Controls if graph should be refreshed on the screen.
      */
     private void addDataPoint( double time, double voltage, boolean update ) {
 
@@ -324,16 +323,11 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
      * @return
      */
     private static JFreeChart createXYLineChart( String title, String xAxisLabel, String yAxisLabel,
-            XYDataset dataset, PlotOrientation orientation ) {
+                                                 XYDataset dataset, PlotOrientation orientation ) {
 
         if ( orientation == null ) {
             throw new IllegalArgumentException( "Null 'orientation' argument." );
         }
-
-        xAxis = new NumberAxis( xAxisLabel );
-        xAxis.setLabelFont( new PhetFont( 18 ) );
-        yAxis = new NumberAxis( yAxisLabel );
-        yAxis.setLabelFont( new PhetFont( 18 ) );
 
         JFreeChart chart = ChartFactory.createXYLineChart(
                 title,
@@ -342,8 +336,8 @@ public class MembranePotentialChart extends PNode implements SimpleObserver {
                 dataset,
                 PlotOrientation.VERTICAL,
                 false, // legend
-        false, // tooltips
-        false // urls
+                false, // tooltips
+                false // urls
         );
 
         // Set the stroke for the data line to be larger than the default.
