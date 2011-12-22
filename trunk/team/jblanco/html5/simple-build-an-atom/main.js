@@ -21,6 +21,7 @@ $( window ).resize( resizer );
 
 // Handler for window resize events.
 function resizer() {
+    console.log( "resize received" );
     canvas.width = $( window ).width();
     canvas.height = $( window ).height();
     draw();

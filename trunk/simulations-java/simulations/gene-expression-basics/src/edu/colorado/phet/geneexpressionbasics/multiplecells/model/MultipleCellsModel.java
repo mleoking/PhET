@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  */
 public class MultipleCellsModel {
 
-    public static final int MAX_CELLS = 93;
+    public static final int MAX_CELLS = 110;
     private static final Random RAND = new Random();
 
     // Clock that drives all time-dependent behavior in this model.

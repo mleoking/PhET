@@ -84,6 +84,9 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             setOffset( inset, STAGE_SIZE.getHeight() - getFullBoundsReference().height - inset );
         }} );
 
+        // Add the sliders that control the various model parameters.
+        addWorldChild( new CellParameterController( "Transcription Factor", Color.orange ) );
+
         // Add a handler that controls the zoom level.  This automatically
         // zooms in and out to allow all of the cells to be seen.
         model.cellList.addElementAddedObserver( new VoidFunction1<Cell>() {
