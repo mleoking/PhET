@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule.Tab;
 import static org.lwjgl.opengl.GL11.*;
 
 public abstract class LWJGLTab implements Tab {
+    private final LWJGLCanvas canvas;
     private final String title;
     public final Property<Boolean> active = new Property<Boolean>( false );
 
@@ -20,6 +21,7 @@ public abstract class LWJGLTab implements Tab {
     public Dimension initialCanvasSize;
 
     public LWJGLTab( final LWJGLCanvas canvas, String title ) {
+        this.canvas = canvas;
         this.title = title;
 
         // switch to this tab when active
@@ -87,6 +89,10 @@ public abstract class LWJGLTab implements Tab {
 
     public int getCanvasHeight() {
         return canvasSize.get().height;
+    }
+
+    public LWJGLCanvas getCanvas() {
+        return canvas;
     }
 
     public void setupGuiTransformations() {
