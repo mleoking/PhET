@@ -56,7 +56,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     // frustum properties
     public static final float fieldOfViewDegrees = 40;
     public static final float nearPlane = 1;
-    public static final float farPlane = 5000;
+    public static final float farPlane = 20000;
+
+    public final Property<Double> zoomRatio = new Property<Double>( 1.0 );
 
     public final LWJGLTransform sceneProjectionTransform = new LWJGLTransform();
     public final LWJGLTransform sceneModelViewTransform = new LWJGLTransform();
@@ -284,9 +286,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     public ImmutableMatrix4F getSceneModelViewMatrix() {
+        float minDistance = 1;
+        float maxDistance = 35;
+        float minAngle = 13;
+        float maxAngle = 29;
+        float distance = minDistance + ( 1 - zoomRatio.get().floatValue() ) * ( maxDistance - minDistance );
+        float angle = minAngle + ( 1 - zoomRatio.get().floatValue() ) * ( maxAngle - minAngle );
         return debugCameraTransform.getMatrix()
-                .times( ImmutableMatrix4F.rotation( X_UNIT, 13 / 180f * (float) Math.PI ) )
-                .times( ImmutableMatrix4F.translation( 0, -80, -400 ) );
+                .times( ImmutableMatrix4F.rotation( X_UNIT, angle / 180f * (float) Math.PI ) )
+                .times( ImmutableMatrix4F.translation( 0, -80 * distance, -400 * distance ) );
     }
 
     public static ImmutableMatrix4F getGluPerspective( float fovy, float aspect, float zNear, float zFar ) {
