@@ -7,8 +7,7 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 
 /**
  * LWJGL 3D version of our ModelViewTransform
- * TODO: add normal transformations! see http://www.opengl.org/documentation/specs/version1.1/glspec1.1/node26.html
- * TODO: flesh it out and document
+ * TODO: remove this!!! doesn't give us anything above our regular LWJGLTransform except naming differences
  */
 public class LWJGLModelViewTransform extends LWJGLTransform {
 

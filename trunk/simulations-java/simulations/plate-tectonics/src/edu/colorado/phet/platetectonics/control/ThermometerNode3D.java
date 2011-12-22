@@ -4,14 +4,13 @@ package edu.colorado.phet.platetectonics.control;
 import java.awt.Cursor;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
-import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
@@ -20,7 +19,7 @@ import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 /**
  * Displays a ruler in the 3D play area space
  */
-public class ThermometerNode3D extends OrthoPiccoloNode implements DraggableTool2D {
+public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
 
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
@@ -34,18 +33,12 @@ public class ThermometerNode3D extends OrthoPiccoloNode implements DraggableTool
     public ThermometerNode3D( final LWJGLModelViewTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
-        super( new ThermometerNode2D( modelViewTransform.modelToViewDeltaX( 1000 ) ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
+        super( new ThermometerNode2D( modelViewTransform.modelToViewDeltaX( 1000 ) ) );
         this.modelViewTransform = modelViewTransform;
         this.model = model;
 
         // scale the node to handle the subsampling
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
-
-        // allow antialiasing for a cleaner look
-        setAntialiased( true );
-
-        // don't forward mouse events!
-//        ignoreInput();
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
