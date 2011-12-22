@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeakerNode extends PComposite {
+public class BeakerNode extends PNode {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( BeakerNode.class.getCanonicalName() );
 
@@ -42,8 +43,8 @@ public class BeakerNode extends PComposite {
     public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, double MINOR_TICK_SPACING, int MINOR_TICKS_PER_MAJOR_TICK, final BufferedImage image ) {
 
         // this node is not interactive
-        setPickable( false );
-        setChildrenPickable( false );
+//        setPickable( false );
+//        setChildrenPickable( false );
 
         // the glass beaker
         beakerImageNode = new BeakerImageNode( image ) {{

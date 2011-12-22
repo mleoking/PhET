@@ -36,8 +36,8 @@ public class SolutionNode extends PComposite {
     public SolutionNode( PDimension cylinderSize, double cylinderEndHeight, Solution solution, DoubleRange volumeRange ) {
 
         // this node is not interactive
-        setPickable( false );
-        setChildrenPickable( false );
+//        setPickable( false );
+//        setChildrenPickable( false );
 
         this.cylinderSize = cylinderSize;
         this.cylinderEndHeight = cylinderEndHeight;
