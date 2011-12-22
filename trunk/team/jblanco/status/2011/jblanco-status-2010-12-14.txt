@@ -1,0 +1,49 @@
+PhET Weekly Progress Report
+John Blanco
+December 14th, 2011
+
+Time period covered: December 8th through December 14th.
+
+Gene Expression - 20.0 hrs
+
+•	Finished redesign of attachment state behavior.
+•	Implemented the appropriate unique attach/detach behavior for each biomolecule.
+•	Changed random walk of biomolecules to something that is easier to grab.
+•	Fixed an issue with movement of ribosomes during translation of mRNA.
+•	Made the mRNA destroyers work, i.e. they "chop up" the mRNA and the resulting fragments then fade into the cytoplasm.
+•	Communicated with Tom P about model for 3rd tab.
+•	Started implementation of 3rd tab.
+
+Balancing Act - 10.0 hrs
+
+•	Finished implementation of the first cut tilt-prediction challenge type in support of the Stanford group.
+•	Published a version for the study.
+•	Published versions of the sim with only the lab and with only the game.
+•	Integrated suggestions from the Stanford group.
+•	Changed the game to have six challenges per level (2 of each type) instead of five.
+•	Fixed a bug with tilt-prediction challenges that are perfectly balanced.
+
+Fractions - 0.5 hrs
+
+•	Reviewed and discussed latest version with Ariel P.
+
+Investigate PhET Sims on Tablets - 3.5 hrs
+
+•	Met with other developers to discuss options and tradeoffs for different approaches for getting simulations on to tablets, and specifically the iPad.
+•	Looked around for examples of HTML5 simulations and games that would run on the iPad.
+•	Briefly looked at Adobe Edge, which is a development environment for HTML5/CSS3/Javascript.
+
+Sim Sponsorship - 1.0 hrs
+
+•	Participated in discussions about what to implement and how to do it.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Weekly status meeting.
+•	Weekly status report.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+•	Taking off the week between Christmas and New Year’s Day.
