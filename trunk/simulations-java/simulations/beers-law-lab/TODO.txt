@@ -25,7 +25,6 @@ LOW
 - increase size of thumb on FaucetNode slider
 
 SIM-SHARING
-- EvaporationControlNode
 - FaucetNode (slider, non-interactive elements)
 
 MIGRATE TO COMMON
