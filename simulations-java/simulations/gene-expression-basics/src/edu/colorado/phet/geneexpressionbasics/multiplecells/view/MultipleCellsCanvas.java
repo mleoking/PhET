@@ -103,6 +103,12 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             }
         } );
 
+        // Add the chart that displays the average protein level.
+        addWorldChild( new ProteinLevelChartNode() {{
+            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20,
+                       STAGE_SIZE.getHeight() - getFullBoundsReference().height - 20 );
+        }} );
+
         // TODO: Temp - Add a textual readout of the protein level.
         final DecimalFormat formatter = new DecimalFormat( "#.0" );
         addWorldChild( new PText() {{
