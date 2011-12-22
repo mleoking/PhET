@@ -25,6 +25,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Main canvas for the Multiple Cells tab.
+ *
  * @author John Blanco
  */
 public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
