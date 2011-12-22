@@ -42,7 +42,7 @@ public class WaterNode extends GLNode {
                 float x = terrain.xData[xIndex];
                 float y = 0;
                 // TODO: performance increases
-                positions[zIndex * columns + xIndex] = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
+                positions[zIndex * columns + xIndex] = module.getModelViewTransform().transformPosition( PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
             }
         }
         addChild( new GridMesh( rows, columns, positions ) {{
@@ -131,7 +131,7 @@ public class WaterNode extends GLNode {
                                 assert xIntercept <= x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                ImmutableVector3F position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( xIntercept, 0 ) );
+                                ImmutableVector3F position = module.getModelViewTransform().transformPosition( PlateModel.convertToRadial( xIntercept, 0 ) );
                                 positionBuffer.put( new float[] {
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z } );
@@ -150,7 +150,7 @@ public class WaterNode extends GLNode {
                                 assert xIntercept <= x;
 
                                 // put in two vertices at the same location, where we compute the estimated y would be zero
-                                ImmutableVector3F position = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( xIntercept, 0 ) );
+                                ImmutableVector3F position = module.getModelViewTransform().transformPosition( PlateModel.convertToRadial( xIntercept, 0 ) );
                                 positionBuffer.put( new float[] {
                                         position.x, position.y, position.z,
                                         position.x, position.y, position.z } );
@@ -158,8 +158,8 @@ public class WaterNode extends GLNode {
                                 indexBuffer.put( vertexQuantity++ );
                             }
 
-                            ImmutableVector3F topPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( x, 0 ) );
-                            ImmutableVector3F bottomPosition = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( x, y ) );
+                            ImmutableVector3F topPosition = module.getModelViewTransform().transformPosition( PlateModel.convertToRadial( x, 0 ) );
+                            ImmutableVector3F bottomPosition = module.getModelViewTransform().transformPosition( PlateModel.convertToRadial( x, y ) );
                             positionBuffer.put( new float[] {
                                     topPosition.x, topPosition.y, topPosition.z,
                                     bottomPosition.x, bottomPosition.y, bottomPosition.z

@@ -55,7 +55,7 @@ public class RegionNode extends PlanarPolygon {
                         for ( int i = 0; i < numVertices; i++ ) {
                             float x = boundary[i].x;
                             float y = boundary[i].y;
-                            ImmutableVector3F position3d = module.getModelViewTransform().modelToView( PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
+                            ImmutableVector3F position3d = module.getModelViewTransform().transformPosition( PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
                             vertices[i] = new ImmutableVector2F( position3d.x, position3d.y );
                             textureCoordinates[i] = new ImmutableVector2F( region.getDensity( boundary[i] ), 0 ); // TODO: handle texture coordinates depending on region type
                         }

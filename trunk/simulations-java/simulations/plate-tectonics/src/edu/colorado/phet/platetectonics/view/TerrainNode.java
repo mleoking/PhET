@@ -8,12 +8,12 @@ import org.lwjgl.BufferUtils;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
-import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -104,7 +104,7 @@ public class TerrainNode extends GridMesh {
         glDisable( GL_LIGHTING );
     }
 
-    private static ImmutableVector3F[] computePositions( Terrain terrain, LWJGLModelViewTransform modelViewTransform ) {
+    private static ImmutableVector3F[] computePositions( Terrain terrain, LWJGLTransform modelViewTransform ) {
         ImmutableVector3F[] positions = new ImmutableVector3F[terrain.numXSamples * terrain.numZSamples];
         ImmutableVector3F[] xRadials = new ImmutableVector3F[terrain.numXSamples];
         ImmutableVector3F[] zRadials = new ImmutableVector3F[terrain.numZSamples];
@@ -121,7 +121,7 @@ public class TerrainNode extends GridMesh {
             for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
                 float elevation = terrain.getElevation( xIndex, zIndex );
                 ImmutableVector3F cartesianModelVector = PlateModel.convertToRadial( xRadials[xIndex], zRadial, elevation );
-                ImmutableVector3F viewVector = modelViewTransform.modelToView( cartesianModelVector );
+                ImmutableVector3F viewVector = modelViewTransform.transformPosition( cartesianModelVector );
                 positions[zIndex * terrain.numXSamples + xIndex] = viewVector;
             }
         }
