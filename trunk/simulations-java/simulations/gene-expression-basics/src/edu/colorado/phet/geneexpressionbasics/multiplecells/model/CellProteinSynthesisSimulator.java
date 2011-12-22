@@ -4,7 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 import java.util.Random;
 
 /**
- * A synthetic cell.  The central dogma is simulated as a
+ * This class defines a synthetic cell.  The central dogma is simulated as a
  * Markov process for a single protein.
  * <p/>
  * Transcription  Translation
@@ -15,7 +15,7 @@ import java.util.Random;
  * @Author George A. Emanuel
  */
 
-public class CellFromGeorge {
+public class CellProteinSynthesisSimulator {
 
     private Random _random = new Random();
     private double _timeStep = 5e2;
@@ -43,11 +43,11 @@ public class CellFromGeorge {
             0.0003f //protein degradation
     };
 
-    public CellFromGeorge() {
+    public CellProteinSynthesisSimulator() {
         _currentTime = 0.0;
     }
 
-    public CellFromGeorge( int ribosomeCount ) {
+    public CellProteinSynthesisSimulator( int ribosomeCount ) {
         _objectCounts[6] = ribosomeCount;
         System.out.println( ribosomeCount );
         _currentTime = 0.0;
