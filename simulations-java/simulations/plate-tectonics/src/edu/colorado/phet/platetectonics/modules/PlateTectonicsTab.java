@@ -22,21 +22,20 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.CanvasTransform;
 import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform;
-import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
-import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.lwjglphet.nodes.GLNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
-import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.X_UNIT;
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
@@ -70,7 +69,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     private LWJGLTransform debugCameraTransform = new LWJGLTransform();
     protected CanvasTransform canvasTransform;
-    private LWJGLModelViewTransform modelViewTransform;
+    private LWJGLTransform modelViewTransform;
     private long lastSeenTime;
     public final GLNode rootNode = new GLNode();
     public final GLNode sceneNode = new GLNode();
@@ -89,7 +88,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         super( canvas, title );
 
         // TODO: better initialization for this model view transform (for each module)
-        modelViewTransform = new LWJGLModelViewTransform( ImmutableMatrix4F.scaling( kilometerScale / 1000 ) );
+        modelViewTransform = new LWJGLTransform( ImmutableMatrix4F.scaling( kilometerScale / 1000 ) );
     }
 
     public void initialize() {
@@ -241,7 +240,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     @Override public void stop() {
     }
 
-    public LWJGLModelViewTransform getModelViewTransform() {
+    public LWJGLTransform getModelViewTransform() {
         return modelViewTransform;
     }
 

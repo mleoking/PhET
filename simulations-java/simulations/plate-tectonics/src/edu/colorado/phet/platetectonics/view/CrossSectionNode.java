@@ -75,8 +75,8 @@ public class CrossSectionNode extends GLNode {
                     ImmutableVector3F roundedModelTop = PlateModel.convertToRadial( modelTop );
                     ImmutableVector3F roundedModelBottom = PlateModel.convertToRadial( modelBottom );
 
-                    ImmutableVector3F viewTop = module.getModelViewTransform().modelToView( roundedModelTop );
-                    ImmutableVector3F viewBottom = module.getModelViewTransform().modelToView( roundedModelBottom );
+                    ImmutableVector3F viewTop = module.getModelViewTransform().transformPosition( roundedModelTop );
+                    ImmutableVector3F viewBottom = module.getModelViewTransform().transformPosition( roundedModelBottom );
 
                     positionBuffer.put( new float[] { viewTop.x, viewTop.y, viewTop.z } );
                     positionBuffer.put( new float[] { viewBottom.x, viewBottom.y, viewBottom.z } );

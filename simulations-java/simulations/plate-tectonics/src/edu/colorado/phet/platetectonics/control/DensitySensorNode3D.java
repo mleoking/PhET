@@ -9,11 +9,11 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 /**
  * Displays a ruler in the 3D play area space
@@ -23,13 +23,13 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
 
-    private final LWJGLModelViewTransform modelViewTransform;
+    private final LWJGLTransform modelViewTransform;
     private final PlateModel model;
 
-    public DensitySensorNode3D( final LWJGLModelViewTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
+    public DensitySensorNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
-        super( new DensitySensorNode2D( modelViewTransform.modelToViewDeltaX( 1000 ) ) );
+        super( new DensitySensorNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) );
         this.modelViewTransform = modelViewTransform;
         this.model = model;
 
@@ -59,7 +59,7 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     private void updateReadout() {
         // get model coordinates
 
-        ImmutableVector3F modelSensorPosition = modelViewTransform.viewToModel( transform.getMatrix().getTranslation() );//TODO: is this the hot spot of the sensor?
+        ImmutableVector3F modelSensorPosition = modelViewTransform.inversePosition( transform.getMatrix().getTranslation() );//TODO: is this the hot spot of the sensor?
 
         final Double density = model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
         DensitySensorNode2D node = (DensitySensorNode2D) getNode();

@@ -8,10 +8,10 @@ import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.util.LWJGLModelViewTransform;
 
 /**
  * Displays a ruler in the 3D play area space
@@ -24,8 +24,8 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     private static final float RULER_PIXEL_SCALE = 3f;
 
-    public RulerNode3D( final LWJGLModelViewTransform modelViewTransform, final PlateTectonicsTab tab ) {
-        super( new RulerNode2D( modelViewTransform.modelToViewDeltaX( 1000 ) ) );
+    public RulerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab ) {
+        super( new RulerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) );
 
         // scale the node to handle the subsampling
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
