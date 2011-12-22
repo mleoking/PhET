@@ -86,7 +86,7 @@ public class FaucetNode extends PNode {
         //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
         faucetSliderNode = new FaucetSliderNode( enabled, flowRatePercentage, snapToZeroWhenReleased ) {{
             setOffset( 4, 2.5 );
-            scale( 85.0 / sliderNode.getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
+            scale( 85.0 / getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
         }};
 
         //Create the image and slider node used to display and control the faucet
@@ -108,7 +108,7 @@ public class FaucetNode extends PNode {
 
     // Gets the drag handler, for adding sim-sharing feature.
     public SimSharingDragSequenceEventHandler getDragHandler() {
-        return faucetSliderNode.sliderNode.getDragHandler();
+        return faucetSliderNode.getDragHandler();
     }
 
     //Gets the location of the input part of the pipe in global coordinates for coordination with the model coordinates.
