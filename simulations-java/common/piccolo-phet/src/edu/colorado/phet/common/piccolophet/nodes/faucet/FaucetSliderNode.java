@@ -12,11 +12,14 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Slider control shown at the top of the faucet to control the flow rate.  Positioned within the image and scaled up/down with the image to ensure good correspondence
+ * Slider control shown at the top of the faucet to control the flow rate.
+ * Positioned within the image and scaled up/down with the image to ensure good correspondence
  *
  * @author Sam Reid
  */
-public class FaucetSliderNode extends PNode {
+/* package private */ class FaucetSliderNode extends PNode {
+
+    public final SliderNode sliderNode;
 
     /**
      * Creates a slider control to be shown on the faucet to control the flow rate
@@ -53,7 +56,7 @@ public class FaucetSliderNode extends PNode {
                 sliderProperty.set( value );
             }
         } );
-        final SliderNode sliderNode = new HSliderNode( 0, 1, sliderProperty, enabled );
+        sliderNode = new HSliderNode( 0, 1, sliderProperty, enabled );
 
         //Fix the size so it will fit into the specified image dimensions
         double scale = 85.0 / sliderNode.getFullBounds().getWidth();
