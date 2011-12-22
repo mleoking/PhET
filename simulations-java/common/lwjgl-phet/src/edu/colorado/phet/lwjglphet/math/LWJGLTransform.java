@@ -11,6 +11,12 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F.MatrixType;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Allows forward and inverse transforms with the power of full 4x4 matrices, allowing
+ * affine, perspective, and other transformations.
+ * <p/>
+ * Has separate functions for transforming position, deltas, and normals (as they are all different)
+ */
 public class LWJGLTransform {
     public final Notifier<LWJGLTransform> changed = new ValueNotifier<LWJGLTransform>( this );
 
