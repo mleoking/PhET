@@ -47,7 +47,15 @@ public class FaucetNode extends PNode {
     public final PImage faucetImageNode;
     public final FaucetSliderNode faucetSliderNode;
 
-    // Constructor that adapts flow rate to a percentage of max flow rate, see #3193
+    /**
+     * Constructor that adapts flow rate to a percentage of max flow rate, see #3193
+     *
+     * @param maxFlowRate            the maximum flow rate, in model units
+     * @param flowRate               the flow rate, in model units
+     * @param enabled                determines whether the slider is enabled
+     * @param faucetLength           length of the input pipe
+     * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
+     */
     public FaucetNode( final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, boolean snapToZeroWhenReleased ) {
         this( new Property<Double>( flowRate.get() / maxFlowRate ) {{
             // set the flow rate when the percentage changes
@@ -65,19 +73,15 @@ public class FaucetNode extends PNode {
         }}, enabled, faucetLength, snapToZeroWhenReleased );
     }
 
-    public FaucetNode(
-
-            //Value between 0 and 1 inclusive to indicate the percentage of max flow rate
-            final Property<Double> flowRatePercentage,
-
-            //true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
-            final ObservableProperty<Boolean> enabled,
-
-            //Length of the faucet input pipe in pixels
-            final double faucetLength,
-
-            //does the knob snap back to zero when the user releases it?
-            boolean snapToZeroWhenReleased ) {
+    /**
+     * Constructor
+     *
+     * @param flowRatePercentage     the percentage of max flow rate, a value between 0 and 1 inclusive
+     * @param enabled                determines whether the slider is enabled
+     * @param faucetLength           length of the input pipe
+     * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
+     */
+    public FaucetNode( final Property<Double> flowRatePercentage, final ObservableProperty<Boolean> enabled, final double faucetLength, boolean snapToZeroWhenReleased ) {
 
         //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
         faucetSliderNode = new FaucetSliderNode( enabled, flowRatePercentage, snapToZeroWhenReleased ) {{
@@ -89,7 +93,7 @@ public class FaucetNode extends PNode {
         faucetImageNode = new PImage( FAUCET_FRONT ) {{
 
             //Scale up the faucet since it looks better at a larger size
-            setScale( 1.2 );
+            setScale( 1.2 ); //TODO would look better if the image file were larger
 
             //Add the slider as a child of the image so it will receive the same scaling so it will stay in corresponding with the image area for the slider
             addChild( faucetSliderNode );
@@ -102,6 +106,7 @@ public class FaucetNode extends PNode {
         addChild( faucetImageNode );
     }
 
+    // Gets the drag handler, for adding sim-sharing feature.
     public SimSharingDragSequenceEventHandler getDragHandler() {
         return faucetSliderNode.sliderNode.getDragHandler();
     }
