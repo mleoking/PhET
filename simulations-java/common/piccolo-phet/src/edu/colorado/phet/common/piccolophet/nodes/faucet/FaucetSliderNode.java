@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Sam Reid
  */
-/* package private */ class FaucetSliderNode extends PNode {
+public class FaucetSliderNode extends PNode {
 
     public final SliderNode sliderNode;
 
