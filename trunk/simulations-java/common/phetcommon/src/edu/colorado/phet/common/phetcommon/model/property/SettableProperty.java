@@ -3,6 +3,7 @@
 package edu.colorado.phet.common.phetcommon.model.property;
 
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
 
 /**
  * In addition to being Observable, this SettableProperty<T> is also settable, that is, it adds the method setValue().
@@ -14,7 +15,7 @@ public abstract class SettableProperty<T> extends ObservableProperty<T> {
     private final Option<String> description;
 
     public SettableProperty( T oldValue ) {
-        this( null, oldValue );
+        this( new None<String>(), oldValue );
     }
 
     /**
