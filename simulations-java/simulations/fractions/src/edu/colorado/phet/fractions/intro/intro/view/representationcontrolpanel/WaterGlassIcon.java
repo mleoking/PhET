@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.intro.intro.view.representationcontrolpanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractions.intro.intro.view.ChosenRepresentation;
 import edu.colorado.phet.fractions.intro.intro.view.WaterGlassNode;
@@ -17,7 +18,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class WaterGlassIcon extends PNode implements RepresentationIcon {
 
     public WaterGlassIcon( final Property<ChosenRepresentation> selected ) {
-        addChild( new WaterGlassNode( 3, 4 ) );
+        addChild( new WaterGlassNode( 3, 4, new VoidFunction0.Null(), new VoidFunction0.Null() ) );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {

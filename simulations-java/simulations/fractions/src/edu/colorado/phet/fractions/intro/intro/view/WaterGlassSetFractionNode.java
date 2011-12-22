@@ -4,6 +4,8 @@ package edu.colorado.phet.fractions.intro.intro.view;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 
 /**
@@ -27,7 +29,19 @@ public class WaterGlassSetFractionNode extends VisibilityNode {
                 SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
                 for ( int i = 0; i < containerState.get().numContainers; i++ ) {
-                    box.addChild( new WaterGlassNode( containerState.get().getContainer( i ).numFilledCells, containerState.get().getContainer( i ).numCells ) );
+                    final int container = i;
+                    box.addChild( new WaterGlassNode( containerState.get().getContainer( i ).numFilledCells, containerState.get().getContainer( i ).numCells, new VoidFunction0() {
+                        public void apply() {
+                            CellPointer cp = new CellPointer( container, containerState.get().getContainer( container ).getLowestEmptyCell() );
+                            containerState.set( containerState.get().toggle( cp ) );
+                        }
+                    }, new VoidFunction0() {
+                        public void apply() {
+                            CellPointer cp = new CellPointer( container, containerState.get().getContainer( container ).getHighestFullCell() );
+                            containerState.set( containerState.get().toggle( cp ) );
+                        }
+                    }
+                    ) );
                 }
 
                 addChild( box );
