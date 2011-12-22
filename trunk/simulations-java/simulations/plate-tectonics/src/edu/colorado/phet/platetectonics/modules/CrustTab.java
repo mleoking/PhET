@@ -173,6 +173,7 @@ public class CrustTab extends PlateTectonicsTab {
         guiLayer.addChild( toolbox );
         guiNodes.add( toolbox );
 
+        // TODO: handle removal of listeners from
 
         //TODO: factor out duplicated code in tools
         toolboxState.rulerInToolbox.addObserver( new SimpleObserver() {

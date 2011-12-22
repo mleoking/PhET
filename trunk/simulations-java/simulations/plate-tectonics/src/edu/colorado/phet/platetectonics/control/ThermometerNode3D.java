@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.control;
 import java.awt.Cursor;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
@@ -48,6 +49,8 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
                                                       updateLiquidHeight();
                                                   }
                                               }, true );
+
+        updateOnEvent( tab.beforeFrameRender );
     }
 
     public boolean allowsDrag( ImmutableVector2F initialPosition ) {
@@ -64,8 +67,7 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         // get model coordinates
         ImmutableVector3F modelSensorPosition = modelViewTransform.inversePosition( transform.getMatrix().getTranslation() );
         final Double temp = model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
-        double liquidHeight = new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp );
-//        System.out.println( "liquidHeight = " + liquidHeight );
+        double liquidHeight = MathUtil.clamp( 0.2, new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp ), 1 );
         ( (LiquidExpansionThermometerNode) getNode() ).setLiquidHeight( liquidHeight );
         repaint();
     }
