@@ -60,7 +60,9 @@ public class MyCrustPanel extends PNode {
             PText titleNode = new PText( title ) {{ setFont( sliderTitleFont ); }};
             PText lowNode = new PText( lowText ) {{ setFont( limitFont ); }};
             PText highNode = new PText( highText ) {{ setFont( limitFont ); }};
-            slider = new JSlider( 0, sliderMax, getInitialValue() );
+            slider = new JSlider( 0, sliderMax, getInitialValue() ) {{
+                setPaintTicks( true );
+            }};
             PSwing sliderNode = new PSwing( slider );
 
             // center the title node
