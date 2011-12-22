@@ -45,6 +45,8 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
                                                       updateReadout();
                                                   }
                                               }, true );
+
+        updateOnEvent( tab.beforeFrameRender );
     }
 
     public boolean allowsDrag( ImmutableVector2F initialPosition ) {
@@ -58,9 +60,9 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
 
     private void updateReadout() {
         // get model coordinates
-
-        ImmutableVector3F modelSensorPosition = modelViewTransform.inversePosition( transform.getMatrix().getTranslation() );//TODO: is this the hot spot of the sensor?
-
+        // TODO: improve model/view and listening for sensor location
+        float horizontalSensorOffset = (float) ( ( (DensitySensorNode2D) getNode() ).horizontalSensorOffset / PICCOLO_PIXELS_TO_VIEW_UNIT );
+        ImmutableVector3F modelSensorPosition = modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( horizontalSensorOffset, 0, 0 ) ) );
         final Double density = model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
         DensitySensorNode2D node = (DensitySensorNode2D) getNode();
         node.pointSensor.value.set( new Option.Some<Double>( density ) );

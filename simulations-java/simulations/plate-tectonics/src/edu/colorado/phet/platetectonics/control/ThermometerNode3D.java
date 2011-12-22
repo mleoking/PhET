@@ -69,7 +69,8 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
 
     private void updateLiquidHeight() {
         // get model coordinates
-        ImmutableVector3F modelSensorPosition = modelViewTransform.inversePosition( transform.getMatrix().getTranslation() );
+        // TODO: improve model/view and listening for sensor location
+        ImmutableVector3F modelSensorPosition = modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( 0, sensorVerticalOffset / PICCOLO_PIXELS_TO_VIEW_UNIT, 0 ) ) );
         final Double temp = model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
         double liquidHeight = MathUtil.clamp( 0.2, new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp ), 1 );
         ( (LiquidExpansionThermometerNode) getNode() ).setLiquidHeight( liquidHeight );

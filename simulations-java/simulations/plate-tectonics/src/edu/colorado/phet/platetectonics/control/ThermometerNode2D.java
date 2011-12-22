@@ -15,6 +15,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ThermometerNode2D extends LiquidExpansionThermometerNode {
 
+    // TODO: change this to a 2D offset
     public final double sensorVerticalOffset;
 
     /**

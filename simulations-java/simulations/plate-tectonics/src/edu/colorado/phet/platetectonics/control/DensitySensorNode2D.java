@@ -15,6 +15,9 @@ import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
  */
 public class DensitySensorNode2D extends SensorNode<Double> {
 
+    // TODO: change this to a 2D offset
+    public final double horizontalSensorOffset;
+
     /**
      * @param kmToViewUnit Number of view units (in 3D JME) that correspond to 1 km in the model. Extracted into
      *                     a parameter so that we can add a 2D version to the toolbox that is unaffected by future
@@ -29,6 +32,8 @@ public class DensitySensorNode2D extends SensorNode<Double> {
 
         // scale it so that we achieve adherence to the model scale
         scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
+
+        horizontalSensorOffset = getFullBounds().getWidth() / 2;
 
         // give it the "Hand" cursor
         addInputEventListener( new LWJGLCursorHandler() );
