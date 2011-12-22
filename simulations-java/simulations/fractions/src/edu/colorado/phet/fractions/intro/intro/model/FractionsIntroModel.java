@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.intro.common.model.SingleFractionModel;
 import edu.colorado.phet.fractions.intro.intro.view.Fill;
-import edu.colorado.phet.fractions.intro.intro.view.Visualization;
 
 /**
  * Model for the Fractions Intro sim.
@@ -16,8 +15,9 @@ import edu.colorado.phet.fractions.intro.intro.view.Visualization;
 public class FractionsIntroModel extends SingleFractionModel {
     private static boolean userToggled = false;
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
-    public final Property<Visualization> visualization = new Property<Visualization>( Visualization.NONE );
     public final Property<ContainerState> containerState = new Property<ContainerState>( new ContainerState( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
+    public Property<Boolean> reducedShowing = new Property<Boolean>( false );
+    public Property<Boolean> mixedShowing = new Property<Boolean>( false );
 
     public FractionsIntroModel() {
         //synchronize the container state with the numerator and denominator for when the user uses the spinners
@@ -61,7 +61,8 @@ public class FractionsIntroModel extends SingleFractionModel {
     public void resetAll() {
         super.resetAll();
         fill.reset();
-        visualization.reset();
+        reducedShowing.reset();
+        mixedShowing.reset();
     }
 
     //Flag to indicate the source of changes--if coming from the user, then changes need to be pushed to numerator and denominator
