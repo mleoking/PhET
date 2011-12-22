@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
 /**
@@ -37,6 +38,11 @@ public class MultipleCellsModel {
     // so that placements are consistent as cells come and go.
     public final List<Point2D> cellLocations = new ArrayList<Point2D>();
 
+    // Property that tracks the average protein level of all the cells.  This
+    // should not be set externally, and is intended for monitoring and
+    // displaying by view components.
+    public final Property<Double> averageProteinLevel = new Property<Double>( 0.0 );
+
     /**
      * Constructor.
      */
@@ -51,10 +57,14 @@ public class MultipleCellsModel {
     }
 
     private void stepInTime( double dt ) {
+        int totalProteinCount = 0;
         // Step each of the cells.
         for ( Cell cell : cellList ) {
             cell.stepInTime( dt );
+            totalProteinCount += cell.getProteinCount();
         }
+        // Update the average protein level.
+        averageProteinLevel.set( (double) totalProteinCount / cellList.size() );
     }
 
     public IClock getClock() {
@@ -141,6 +151,64 @@ public class MultipleCellsModel {
             }
         }
         return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
+    }
+
+    /**
+     * Sets the number of transcription factors for all cells.
+     *
+     * @param tfCount number of transcription factors
+     */
+    public void setTranscriptionFactorCount( int tfCount ) {
+        for ( Cell cell : cellList ) {
+            cell.setTranscriptionFactorCount( tfCount );
+        }
+    }
+
+    /**
+     * Sets the number of polymerases for all cells in this population
+     *
+     * @param polymeraseCount number of polymerases
+     */
+    public void setPolymeraseCount( int polymeraseCount ) {
+        for ( Cell cell : cellList ) {
+            cell.setPolymeraseCount( polymeraseCount );
+        }
+    }
+
+    /**
+     * Sets the rate that transcription factors associate with genes for all
+     * cells in this population
+     *
+     * @param newRate
+     */
+    public void setGeneTranscriptionFactorAssociationRate( double newRate ) {
+        for ( Cell cell : cellList ) {
+            cell.setGeneTranscriptionFactorAssociationRate( newRate );
+        }
+    }
+
+    /**
+     * Sets the rate constant for the polymerase to bind to the gene for all cells
+     * in this population
+     *
+     * @param newRate the rate for polymerase binding
+     */
+    public void setPolymeraseAssociationRate( double newRate ) {
+        for ( Cell cell : cellList ) {
+            cell.setPolymeraseAssociationRate( newRate );
+        }
+    }
+
+    /**
+     * Sets the rate constant for RNA/ribosome association for all cells in
+     * this population
+     *
+     * @param newRate the rate at which RNA binds to a ribosome
+     */
+    public void setRNARibosomeAssociationRate( double newRate ) {
+        for ( Cell cell : cellList ) {
+            cell.setRNARibosomeAssociationRate( newRate );
+        }
     }
 
     private void initializeCellLocations() {

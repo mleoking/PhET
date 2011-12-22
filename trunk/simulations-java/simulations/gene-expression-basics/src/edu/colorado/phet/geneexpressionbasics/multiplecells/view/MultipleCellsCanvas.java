@@ -101,6 +101,20 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                 setZoomToSeeAllCells();
             }
         } );
+
+        // TODO: Temp - Add a textual readout of the protein level.
+        addWorldChild( new PText() {{
+            setFont( new PhetFont( 18 ) );
+//            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width,
+//                       STAGE_SIZE.getHeight() - getFullBoundsReference().height );
+            model.averageProteinLevel.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double averageProteinLevel ) {
+                    setText( "Average Protein Level = " + averageProteinLevel );
+                    setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20,
+                               STAGE_SIZE.getHeight() - getFullBoundsReference().height - 20 );
+                }
+            } );
+        }} );
     }
 
     private void setZoomToSeeAllCells() {
