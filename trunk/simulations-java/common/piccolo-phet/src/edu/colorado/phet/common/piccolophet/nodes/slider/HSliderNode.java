@@ -5,14 +5,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -26,9 +23,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.PFrame;
 
@@ -44,6 +41,7 @@ public class HSliderNode extends SliderNode {
 
     private PhetPPath trackNode;
     private KnobNode knobNode;
+    private SimSharingDragSequenceEventHandler dragHandler;
 
     // Root node to which all other nodes should be added.  This is done to
     // allow the offset of this node to be at (0, 0).  Use this when adding
@@ -79,18 +77,19 @@ public class HSliderNode extends SliderNode {
                 }
             } );
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
+            addInputEventListener( dragHandler = new SimSharingDragSequenceEventHandler() {
 
                 private Point2D startPoint;
                 public Double startValue;
 
-                @Override public void mousePressed( PInputEvent event ) {
-                    super.mousePressed( event );
+                @Override public void startDrag( PInputEvent event ) {
+                    super.startDrag( event );
                     startPoint = event.getPositionRelativeTo( HSliderNode.this );
                     startValue = value.get();
                 }
 
-                @Override public void mouseDragged( PInputEvent event ) {
+                @Override public void drag( PInputEvent event ) {
+                    super.drag( event );
                     Point2D point = event.getPositionRelativeTo( HSliderNode.this );
                     final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
 
@@ -130,6 +129,10 @@ public class HSliderNode extends SliderNode {
         rootNode.addChild( knobNode );
 
         adjustOrigin();
+    }
+
+    public SimSharingDragSequenceEventHandler getDragHandler() {
+        return dragHandler;
     }
 
     private Rectangle2D getKnobRect( double value ) {
@@ -187,27 +190,22 @@ public class HSliderNode extends SliderNode {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PFrame( "test", false, new PCanvas() {{
-                    Property<Double> sliderValue = new Property<Double>( 0.0 );
+
+                    Property<Double> sliderValue = new Property<Double>( 0.0 ) {{
+                        addObserver( new VoidFunction1<Double>() {
+                            public void apply( Double newValue ) {
+                                System.out.println( "sliderValue = " + newValue );
+                            }
+                        } );
+                    }};
+
                     final HSliderNode sliderNode = new HSliderNode( 0, 100, sliderValue ) {{
-                        addLabel( 0.0, new PhetPText( "Low" ) );
-                        addLabel( 100.0, new PhetPText( "High" ) );
+                        addLabel( 0.0, new PhetPText( "None" ) );
+                        addLabel( 100.0, new PhetPText( "Lots" ) );
                         setOffset( 150, 250 );
                     }};
                     getLayer().addChild( sliderNode );
 
-                    new Timer( 1000, new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            sliderNode.addLabel( 0.0, new PhetPText( "A much longer label" ) );
-                        }
-                    } ) {{
-                        setRepeats( false );
-                    }}.start();
-
-                    getLayer().addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ) ) {{
-                        setOffset( 150, 250 );
-                    }} );
-
-                    getLayer().addChild( new PhetPPath( sliderNode.getFullBounds() ) );
                     setPanEventHandler( null );
                 }} ) {{
                     setSize( 800, 600 );
