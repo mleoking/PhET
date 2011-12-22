@@ -107,8 +107,6 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         final DecimalFormat formatter = new DecimalFormat( "#.0" );
         addWorldChild( new PText() {{
             setFont( new PhetFont( 18 ) );
-//            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width,
-//                       STAGE_SIZE.getHeight() - getFullBoundsReference().height );
             model.averageProteinLevel.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double averageProteinLevel ) {
                     setText( "Average Protein Level = " + formatter.format( averageProteinLevel ) );
