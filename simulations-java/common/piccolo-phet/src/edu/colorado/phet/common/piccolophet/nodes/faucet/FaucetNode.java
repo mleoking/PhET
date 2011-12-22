@@ -80,7 +80,8 @@ public class FaucetNode extends PNode {
 
         //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
         faucetSliderNode = new FaucetSliderNode( enabled, flowRatePercentage, userHasToHoldTheSliderKnob ) {{
-            setOffset( 6, 2.5 );
+            setOffset( 4, 2.5 );
+            scale( 85.0 / sliderNode.getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
         }};
 
         //Create the image and slider node used to display and control the faucet

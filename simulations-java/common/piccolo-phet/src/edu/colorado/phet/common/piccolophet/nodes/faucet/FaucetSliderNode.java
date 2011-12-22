@@ -58,10 +58,6 @@ public class FaucetSliderNode extends PNode {
         } );
         sliderNode = new HSliderNode( 0, 1, sliderProperty, enabled );
 
-        //Fix the size so it will fit into the specified image dimensions
-        double scale = 85.0 / sliderNode.getFullBounds().getWidth();
-        sliderNode.scale( scale );
-
         //The two styles for user input are
         // a) the user has to hold the slider knob or it will snap back to zero
         // b) the user can put the slider at a value, then let go and it will retain that value (until no more water is enabled)
