@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
@@ -42,6 +43,7 @@ import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.CONTINENTAL_CRUST;
@@ -62,7 +64,6 @@ public class CrustTab extends PlateTectonicsTab {
     private static final float RULER_Z = 0;
     private static final float THERMOMETER_Z = 1;
     private static final float DENSITY_SENSOR_Z = 2;
-    private OrthoPiccoloNode myCrustNode;
 
     private final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
     private GLNode sceneLayer;
@@ -236,7 +237,7 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * my crust
         *----------------------------------------------------------------------------*/
-        myCrustNode = new OrthoPiccoloNode( new ControlPanelNode( new MyCrustPanel( model ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+        OrthoPiccoloNode myCrustNode = new OrthoPiccoloNode( new ControlPanelNode( new MyCrustPanel( model ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             // layout the panel if its size changes (and on startup)
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
@@ -247,9 +248,42 @@ public class CrustTab extends PlateTectonicsTab {
             } );
 
             updateOnEvent( beforeFrameRender );
+
+            zoomRatio.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( zoomRatio.get() == 1 );
+                }
+            } );
         }};
         guiLayer.addChild( myCrustNode );
         guiNodes.add( myCrustNode );
+
+        /*---------------------------------------------------------------------------*
+        * temporary zoom control
+        *----------------------------------------------------------------------------*/
+        OrthoPiccoloNode zoomControl = new OrthoPiccoloNode( new ControlPanelNode( new PNode() {{
+            final PText zoomText = new PText( "Zoom" );
+            VSliderNode slider = new VSliderNode( 0, 1, zoomRatio, new Property<Boolean>( true ), 100 ) {{
+                setOffset( ( zoomText.getFullBounds().getWidth() - getFullBounds().getWidth() ) / 2,
+                           zoomText.getFullBounds().getMaxY() + 10
+                );
+            }};
+            addChild( zoomText );
+            addChild( slider );
+        }} ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+            canvasSize.addObserver( new SimpleObserver() {
+                public void update() {
+                    position.set( new ImmutableVector2D(
+                            getStageSize().width - getComponentWidth() - 10,
+                            10
+                    ) );
+                }
+            } );
+
+            updateOnEvent( beforeFrameRender );
+        }};
+        guiLayer.addChild( zoomControl );
+        guiNodes.add( zoomControl );
 
         /*---------------------------------------------------------------------------*
         * labels
@@ -263,7 +297,13 @@ public class CrustTab extends PlateTectonicsTab {
                                       this,
                                       getCanvasTransform(),
                                       new Property<ImmutableVector2D>( new ImmutableVector2D( 30, getStageSize().getHeight() * 0.38 ) ),
-                                      mouseEventNotifier ) );
+                                      mouseEventNotifier ) {{
+                    zoomRatio.addObserver( new SimpleObserver() {
+                        public void update() {
+                            setVisible( zoomRatio.get() == 1 );
+                        }
+                    } );
+                }} );
 
         // "continental crust" label
         guiLayer.addChild( new OrthoPiccoloNode( new PText( CONTINENTAL_CRUST ) {{
@@ -272,6 +312,11 @@ public class CrustTab extends PlateTectonicsTab {
             // TODO: improve positioning to handle i18n?
             position.set( new ImmutableVector2D( getStageSize().getWidth() - getComponentWidth() - 30,
                                                  getStageSize().getHeight() * 0.38 ) );
+            zoomRatio.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( zoomRatio.get() == 1 );
+                }
+            } );
         }} );
 
         // earth mesh
