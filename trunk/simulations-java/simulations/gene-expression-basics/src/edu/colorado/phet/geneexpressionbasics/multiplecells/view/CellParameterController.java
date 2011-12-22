@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.PNode;
@@ -23,12 +24,12 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author John Blanco
  */
 public class CellParameterController extends PNode {
-    private static final Font LABEL_FONT = new PhetFont( 14 );
+    private static final Font LABEL_FONT = new PhetFont( 16, true );
 
-    public CellParameterController( String labelText, Color color ) {
+    public CellParameterController( String labelHtml, Color color ) {
         PNode content = new VBox(
                 10,
-                new PText( labelText ) {{
+                new HTMLNode( labelHtml ) {{
                     setFont( LABEL_FONT );
                 }},
                 new ParameterSliderNode( 0, 100, new Property<Double>( 0.0 ) )

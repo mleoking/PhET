@@ -87,7 +87,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         }} );
 
         // Add the sliders that control the various model parameters.
-        addWorldChild( new CellParameterController( "Transcription Factor", Color.orange ) );
+        addWorldChild( new CellParameterController( "<center>Transcription Factor<br>Level</center>", Color.orange ) );
 
         // Add a handler that controls the zoom level.  This automatically
         // zooms in and out to allow all of the cells to be seen.
