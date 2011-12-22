@@ -8,6 +8,8 @@ import java.awt.geom.AffineTransform;
 
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.model.event.Notifier;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.lwjglphet.ComponentImage;
 import edu.colorado.phet.lwjglphet.GLOptions;
@@ -78,6 +80,14 @@ public class PlanarComponentNode extends GLNode {
         if ( componentImage != null ) {
             componentImage.repaint();
         }
+    }
+
+    public <T> void updateOnEvent( Notifier<T> notifier ) {
+        notifier.addUpdateListener( new UpdateListener() {
+                                        public void update() {
+                                            PlanarComponentNode.this.update();
+                                        }
+                                    }, false );
     }
 
     public boolean doesLocalRayHit( Ray3F ray ) {
