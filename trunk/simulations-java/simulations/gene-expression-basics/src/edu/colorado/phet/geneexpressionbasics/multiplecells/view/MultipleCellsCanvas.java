@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -103,13 +104,14 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         } );
 
         // TODO: Temp - Add a textual readout of the protein level.
+        final DecimalFormat formatter = new DecimalFormat( "#.0" );
         addWorldChild( new PText() {{
             setFont( new PhetFont( 18 ) );
 //            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width,
 //                       STAGE_SIZE.getHeight() - getFullBoundsReference().height );
             model.averageProteinLevel.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double averageProteinLevel ) {
-                    setText( "Average Protein Level = " + averageProteinLevel );
+                    setText( "Average Protein Level = " + formatter.format( averageProteinLevel ) );
                     setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20,
                                STAGE_SIZE.getHeight() - getFullBoundsReference().height - 20 );
                 }
