@@ -47,7 +47,7 @@ public class FaucetNode extends PNode {
     public final FaucetSliderNode faucetSliderNode;
 
     // Constructor that adapts flow rate to a percentage of max flow rate, see #3193
-    public FaucetNode( final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, boolean userHasToHoldTheSliderKnob ) {
+    public FaucetNode( final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, boolean snapToZeroWhenReleased ) {
         this( new Property<Double>( flowRate.get() / maxFlowRate ) {{
             // set the flow rate when the percentage changes
             addObserver( new VoidFunction1<Double>() {
@@ -61,7 +61,7 @@ public class FaucetNode extends PNode {
                     set( newFlowRate / maxFlowRate );
                 }
             } );
-        }}, enabled, faucetLength, userHasToHoldTheSliderKnob );
+        }}, enabled, faucetLength, snapToZeroWhenReleased );
     }
 
     public FaucetNode(
@@ -75,11 +75,11 @@ public class FaucetNode extends PNode {
             //Length of the faucet input pipe in pixels
             final double faucetLength,
 
-            //flag to indicate whether the user has to hold down the knob to maintain a flow rate, and if the knob will snap back to zero if the user lets go
-            boolean userHasToHoldTheSliderKnob ) {
+            //does the knob snap back to zero when the user releases it?
+            boolean snapToZeroWhenReleased ) {
 
         //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
-        faucetSliderNode = new FaucetSliderNode( enabled, flowRatePercentage, userHasToHoldTheSliderKnob ) {{
+        faucetSliderNode = new FaucetSliderNode( enabled, flowRatePercentage, snapToZeroWhenReleased ) {{
             setOffset( 4, 2.5 );
             scale( 85.0 / sliderNode.getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
         }};
