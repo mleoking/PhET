@@ -34,11 +34,12 @@ public class FaucetNode extends PNode {
     public static final BufferedImage FAUCET_FRONT = RESOURCES.getImage( "faucet_front.png" );
     public static final BufferedImage FAUCET_PIPE = RESOURCES.getImage( "faucet_pipe.png" );
 
-    //Locations where the left side of the faucet connects to the pipe, so that the pipe can be tiled beyond the faucet image
+    // Locations in the image file where the input pipe connects to the faucet.
     private final double inputPipeY1 = 32;
     private final double inputPipeY2 = 78;
     private final double inputPipeX = 0;
 
+    // Locations in the image file where the fluid comes out of the faucet.
     private final double outputPipeX1 = 57;
     private final double outputPipeX2 = 109;
     private final double outputPipeY = 133;
