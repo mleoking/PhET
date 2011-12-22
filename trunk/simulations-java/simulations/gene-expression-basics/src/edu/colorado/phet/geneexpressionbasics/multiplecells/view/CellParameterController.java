@@ -4,7 +4,9 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 import java.awt.Color;
 import java.awt.Font;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -23,13 +25,30 @@ public class CellParameterController extends PNode {
 
     public CellParameterController( String labelText, Color color ) {
         PNode content = new VBox(
+                10,
                 new PText( labelText ) {{
                     setFont( LABEL_FONT );
                 }},
-                new HSliderNode( 0, 100, new Property<Double>( 0.0 ) )
+                new ParameterSliderNode( 0, 100, new Property<Double>( 0.0 ) )
         );
-
         addChild( new ControlPanelNode( content, color ) );
+    }
 
+    private static class ParameterSliderNode extends PNode {
+        private static final double SLIDER_TRACK_WIDTH = 100;
+        private static final double SLIDER_TRACK_HEIGHT = 5;
+        private static final Font SLIDER_LABEL_FONT = new PhetFont( 12 );
+
+        private ParameterSliderNode( double min, double max, SettableProperty<Double> settableProperty ) {
+            HSliderNode sliderNode = new HSliderNode( min, max, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, settableProperty, new BooleanProperty( true ) );
+            // TODO: i18n
+            sliderNode.addLabel( min, new PText( "Low" ) {{
+                setFont( SLIDER_LABEL_FONT );
+            }} );
+            sliderNode.addLabel( max, new PText( "High" ) {{
+                setFont( SLIDER_LABEL_FONT );
+            }} );
+            addChild( sliderNode );
+        }
     }
 }
