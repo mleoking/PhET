@@ -103,11 +103,6 @@ public class VSliderNode extends SliderNode {
         adjustOrigin();
     }
 
-    // For sim-sharing, see
-    public SimSharingDragSequenceEventHandler getDragHandler() {
-        return dragHandler;
-    }
-
     public Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
         return new GradientPaint( 0, 0, Color.gray, 0, (float) trackWidth, Color.black, false );
     }

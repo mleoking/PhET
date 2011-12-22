@@ -41,7 +41,6 @@ public class HSliderNode extends SliderNode {
 
     private PhetPPath trackNode;
     private KnobNode knobNode;
-    private SimSharingDragSequenceEventHandler dragHandler;
 
     // Root node to which all other nodes should be added.  This is done to
     // allow the offset of this node to be at (0, 0).  Use this when adding
@@ -129,10 +128,6 @@ public class HSliderNode extends SliderNode {
         rootNode.addChild( knobNode );
 
         adjustOrigin();
-    }
-
-    public SimSharingDragSequenceEventHandler getDragHandler() {
-        return dragHandler;
     }
 
     private Rectangle2D getKnobRect( double value ) {
