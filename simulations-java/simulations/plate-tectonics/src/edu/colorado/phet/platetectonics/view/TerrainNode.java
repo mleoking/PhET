@@ -101,9 +101,7 @@ public class TerrainNode extends GridMesh {
                 ImmutableVector3F viewVector = module.getModelViewTransform().transformPosition( cartesianModelVector );
                 positions1[zIndex * terrain.numXSamples + xIndex] = viewVector;
 
-                System.out.println( elevation );
                 float value = (float) MathUtil.clamp( 0, ( elevation + 10000 ) / 20000, 1 );
-                System.out.println( value );
                 colorBuffer.put( new float[] { value, value, value, 1 } );
             }
         }
