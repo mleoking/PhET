@@ -6,7 +6,6 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
@@ -54,19 +53,22 @@ public class CrustModel extends PlateModel {
     private static final int TERRAIN_Z_SAMPLES = 20;
     private Runnable updateMiddleRegions;
 
+    private double crustElevation = computeIdealCrustElevation();
+    private double crustVelocity = 0;
+
     public CrustModel( final Grid3D grid ) {
         super( grid );
         final Bounds3D bounds = grid.getBounds();
 
         // update when anything is modified
-        SimpleObserver updateObserver = new SimpleObserver() {
-            public void update() {
-                updateView();
-            }
-        };
-        temperatureRatio.addObserver( updateObserver, false );
-        compositionRatio.addObserver( updateObserver, false );
-        thickness.addObserver( updateObserver, false );
+//        SimpleObserver updateObserver = new SimpleObserver() {
+//            public void update() {
+//                updateView();
+//            }
+//        };
+//        temperatureRatio.addObserver( updateObserver, false );
+//        compositionRatio.addObserver( updateObserver, false );
+//        thickness.addObserver( updateObserver, false );
 
         /*---------------------------------------------------------------------------*
         * terrains
@@ -246,7 +248,29 @@ public class CrustModel extends PlateModel {
         };
     }
 
-    public void updateView() {
+    @Override public void update( double timeElapsed ) {
+        double idealCrustElevation = computeIdealCrustElevation();
+        double delta = idealCrustElevation - crustElevation;
+
+        double k = 0.01;
+
+        double pe = 0.5 * k * delta * delta;
+        double ke = 0.5 * crustVelocity * crustVelocity;
+        double energy = pe + ke;
+
+        // movement due to velocity
+        crustElevation += crustVelocity * timeElapsed;
+
+        // velocity change due to acceleration
+        crustVelocity += delta * k * timeElapsed;
+
+        // elapsed time-independent damping (looks OK at different framerates)
+        crustVelocity /= Math.exp( timeElapsed / 9 );
+
+        updateView();
+    }
+
+    private void updateView() {
         // update the middle elevation
         middleTerrain.setElevation( (float) getCenterCrustElevation() );
 
@@ -280,6 +304,10 @@ public class CrustModel extends PlateModel {
     }
 
     private double getCenterCrustElevation() {
+        return crustElevation;
+    }
+
+    private double computeIdealCrustElevation() {
         return computeCrustElevation( thickness.get(), getCenterCrustDensity() );
     }
 

@@ -30,6 +30,7 @@ import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
+import edu.colorado.phet.lwjglphet.utils.SwingForwardingProperty;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
 import edu.colorado.phet.platetectonics.control.DraggableTool2D;
@@ -264,7 +265,9 @@ public class CrustTab extends PlateTectonicsTab {
         *----------------------------------------------------------------------------*/
         OrthoPiccoloNode zoomControl = new OrthoPiccoloNode( new ControlPanelNode( new PNode() {{
             final PText zoomText = new PText( "Zoom" );
-            VSliderNode slider = new VSliderNode( 0, 1, zoomRatio, new Property<Boolean>( true ), 100 ) {{
+
+            // TODO: proper threading on zoomRatio
+            VSliderNode slider = new VSliderNode( 0, 1, new SwingForwardingProperty<Double>( zoomRatio ), new Property<Boolean>( true ), 100 ) {{
                 setOffset( ( zoomText.getFullBounds().getWidth() - getFullBounds().getWidth() ) / 2,
                            zoomText.getFullBounds().getMaxY() + 10
                 );
