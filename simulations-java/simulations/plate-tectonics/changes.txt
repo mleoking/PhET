@@ -1,3 +1,5 @@
+# 0.00.04 (59661) Dec 23, 2011
+12/23/11 First LWJGL version, + animation, zoom, and other tweaks
 # 0.00.03 (57593) Oct 13, 2011
 10/13/11 Added roundness, heavy refactoring for performance, etc.
 # 0.00.02 (57349) Oct 6, 2011
