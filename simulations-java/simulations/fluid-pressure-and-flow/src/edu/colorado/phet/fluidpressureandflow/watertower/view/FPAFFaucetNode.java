@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.FaucetFlowRate;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
@@ -26,28 +27,27 @@ public class FPAFFaucetNode extends FaucetNode {
         super( faucetFlowRate.flow, allowed, 10000, false );
 
         //Manually tuned to fit nicely in the scene
-        setScale( 0.7 );
-        translate( 165, 5 );
+        setScale( 0.84 );
+        translate( 138, 4 );
 
         //Radio buttons to choose between automatic and manual control
-        //Add as a child of the faucetImageNode so they will move and scale with it, since they are fitted to the pipe itself
-        faucetImageNode.addChild( new PSwing( new VerticalLayoutPanel() {{
-
+        PNode radioButtons = new PSwing( new VerticalLayoutPanel() {{
             //Bring the radio buttons a bit closer together
             setInsets( new Insets( -6, 0, 0, 0 ) );
             add( new FaucetRadioButton( MANUAL, not( faucetFlowRate.automatic ) ) );
             add( new FaucetRadioButton( MATCH_LEAKAGE, faucetFlowRate.automatic ) );
             setBackground( WaterTowerCanvas.TRANSPARENT );
-        }} ) {{
-
-            //Right align with slider's center and move down to the center of the pipe
-            setOffset( faucetSliderNode.getFullBounds().getCenterX() - getFullBounds().getWidth(), 30 );
         }} );
+        addChild( radioButtons );
 
-        //Faucet slider should be invisible when in "auto" mode
+        // Right-align radio buttons with slider's center, and vertically-align with center of input pipe.
+        radioButtons.setOffset( globalToLocal( getGlobalHandleCenter() ).getX() - radioButtons.getFullBounds().getWidth(),
+                                globalToLocal( getInputGlobalViewPoint() ).getY() - ( radioButtons.getFullBoundsReference().getHeight() / 2 ) );
+
+        // Slider is invisible when in "auto" mode
         faucetFlowRate.automatic.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean auto ) {
-                faucetSliderNode.setVisible( !auto );
+                setSliderVisible( !auto );
             }
         } );
     }

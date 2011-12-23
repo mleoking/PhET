@@ -1,3 +1,4 @@
+12/22/11 #3199, FaucetNode cleanup
 12/22/11 #3198, simplify FaucetSliderNode, behavior unchanged for existing clients
 12/22/11 #3197, add sim-sharing to FaucetNode
 12/22/11 #3196, add sim-sharing to HSliderNode and VSliderNode
