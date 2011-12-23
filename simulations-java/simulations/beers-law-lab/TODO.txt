@@ -19,10 +19,11 @@ HIGH
 - concentration meter
 
 MEDIUM
+- get dropper assets from NP
 - adjust drag bounds for shaker and dropper
 
 LOW
-- increase size of thumb on FaucetNode slider
+- #3199, misc FaucetNode work
 
 SIM-SHARING
 
