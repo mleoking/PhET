@@ -4,9 +4,12 @@ package edu.colorado.phet.platetectonics;
 
 
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -17,14 +20,11 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.StartupUtils;
+import edu.colorado.phet.platetectonics.dev.PerformanceFrame;
 import edu.colorado.phet.platetectonics.modules.CrustTab;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 
 public class PlateTectonicsApplication extends PhetApplication {
-
-    private CrustTab singlePlateTab;
-    private PlateMotionTab doublePlateTab;
-    private TabbedModule module;
 
     /**
      * Sole constructor.
@@ -78,6 +78,13 @@ public class PlateTectonicsApplication extends PhetApplication {
 
         developerMenu.add( new JSeparator() );
 
+        developerMenu.add( new JMenuItem( "Performance Options" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new PerformanceFrame();
+                }
+            } );
+        }} );
         // TODO: developer controls, like fly-by cam, etc.
     }
 
