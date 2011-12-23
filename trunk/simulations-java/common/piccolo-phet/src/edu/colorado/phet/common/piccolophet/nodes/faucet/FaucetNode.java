@@ -39,8 +39,8 @@ import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOUR
  */
 public class FaucetNode extends PNode {
 
-    private static final BufferedImage FAUCET_FRONT = RESOURCES.getImage( "faucet_front.png" );
-    private static final BufferedImage FAUCET_PIPE = RESOURCES.getImage( "faucet_pipe.png" );
+    private static final BufferedImage FAUCET_IMAGE = RESOURCES.getImage( "faucet_front.png" );
+    private static final BufferedImage PIPE_IMAGE = RESOURCES.getImage( "faucet_pipe.png" );
 
     //TODO #3199, change image-specific constants when the faucet images are revised
     // Locations in the image file where the input pipe connects to the faucet.
@@ -56,11 +56,15 @@ public class FaucetNode extends PNode {
     // Width of the faucet handle in the image file.
     private static final double HANDLE_WIDTH = 85;
 
+    // Center of the faucet handle in the image file.
+    private static final double HANDLE_CENTER_X = 46;
+    private static final double HANDLE_CENTER_Y = 8;
+
     // sim-sharing strings
     public static final String SIM_SHARING_OBJECT_FAUCET_IMAGE = "faucetImage";
 
-    public final PImage faucetImageNode;
-    public final FaucetSliderNode faucetSliderNode;
+    private final PImage faucetNode;
+    private final FaucetSliderNode sliderNode;
 
     /**
      * Constructor that adapts flow rate to a percentage of max flow rate, see #3193
@@ -98,52 +102,59 @@ public class FaucetNode extends PNode {
      */
     public FaucetNode( final Property<Double> flowRatePercentage, final ObservableProperty<Boolean> enabled, final double faucetLength, boolean snapToZeroWhenReleased ) {
 
-        //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
-        faucetSliderNode = new FaucetSliderNode( enabled, flowRatePercentage, snapToZeroWhenReleased ) {{
+        //Scale up the faucet since it looks better at a larger size
+        setScale( 1.2 ); //TODO #3199, make the image files larger instead of scaling up
+
+        // faucet
+        faucetNode = new PImage( FAUCET_IMAGE );
+        addChild( faucetNode );
+
+        // pipe, tiled to the left of the faucet
+        final Rectangle2D pipeRect = new Rectangle2D.Double( -faucetLength, INPUT_PIPE_Y1, faucetLength, INPUT_PIPE_Y2 - INPUT_PIPE_Y1 );
+        PhetPPath pipeNode = new PhetPPath( pipeRect, new TexturePaint( PIPE_IMAGE, new Rectangle2D.Double( 0, pipeRect.getY(), PIPE_IMAGE.getWidth(), PIPE_IMAGE.getHeight() ) ) );
+        addChild( pipeNode );
+
+        // faucet slider
+        sliderNode = new FaucetSliderNode( enabled, flowRatePercentage, snapToZeroWhenReleased ) {{
             setOffset( 4, 2.5 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
             scale( HANDLE_WIDTH / getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
         }};
+        addChild( sliderNode );
 
-        //Create the image and slider node used to display and control the faucet
-        faucetImageNode = new PImage( FAUCET_FRONT ) {{
-
-            //Scale up the faucet since it looks better at a larger size
-            setScale( 1.2 ); //TODO #3199, make the image file larger instead of scaling up
-
-            //Add the slider as a child of the image so it will receive the same scaling so it will stay in corresponding with the image area for the slider
-            addChild( faucetSliderNode );
-
-            //Show the pipe to the left of the faucet with a tiled image
-            final Rectangle2D.Double rect = new Rectangle2D.Double( -faucetLength, INPUT_PIPE_Y1, faucetLength, INPUT_PIPE_Y2 - INPUT_PIPE_Y1 );
-            addChild( new PhetPPath( rect, new TexturePaint( FAUCET_PIPE, new Rectangle2D.Double( 0, rect.getY(), FAUCET_PIPE.getWidth(), FAUCET_PIPE.getHeight() ) ) ) );
-
-            //sim-sharing
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( PInputEvent event ) {
-                    SimSharingManager.sendNotInteractiveEvent( SIM_SHARING_OBJECT_FAUCET_IMAGE, Actions.PRESSED );
-                }
-            } );
-        }};
-
-        addChild( faucetImageNode );
+        //sim-sharing for non-interactive nodes
+        PBasicInputEventHandler mousePressedListener = new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+                SimSharingManager.sendNotInteractiveEvent( SIM_SHARING_OBJECT_FAUCET_IMAGE, Actions.PRESSED );
+            }
+        };
+        faucetNode.addInputEventListener( mousePressedListener );
+        pipeNode.addInputEventListener( mousePressedListener );
     }
 
-    // Gets the drag handler, for adding sim-sharing feature.
+    // Gets the slider's drag handler, for adding sim-sharing feature.
     public SimSharingDragSequenceEventHandler getDragHandler() {
-        return faucetSliderNode.getDragHandler();
+        return sliderNode.getDragHandler();
+    }
+
+    public void setSliderVisible( boolean visible ) {
+        sliderNode.setVisible( visible );
     }
 
     //Gets the location of the input part of the pipe in global coordinates for coordination with the model coordinates.
     public Point2D getInputGlobalViewPoint() {
-        return faucetImageNode.localToGlobal( new Point2D.Double( INPUT_PIPE_X, ( INPUT_PIPE_Y1 + INPUT_PIPE_Y2 ) / 2 ) );
+        return faucetNode.localToGlobal( new Point2D.Double( INPUT_PIPE_X, ( INPUT_PIPE_Y1 + INPUT_PIPE_Y2 ) / 2 ) );
     }
 
     public Point2D getOutputGlobalViewPoint() {
-        return faucetImageNode.localToGlobal( new Point2D.Double( ( OUTPUT_PIPE_X2 + OUTPUT_PIPE_X1 ) / 2, OUTPUT_PIPE_Y ) );
+        return faucetNode.localToGlobal( new Point2D.Double( ( OUTPUT_PIPE_X2 + OUTPUT_PIPE_X1 ) / 2, OUTPUT_PIPE_Y ) );
     }
 
     public Dimension2D getGlobalFaucetWidthDimension() {
-        return faucetImageNode.localToGlobal( new Dimension2DDouble( OUTPUT_PIPE_X2 - OUTPUT_PIPE_X1, 0 ) );
+        return faucetNode.localToGlobal( new Dimension2DDouble( OUTPUT_PIPE_X2 - OUTPUT_PIPE_X1, 0 ) );
+    }
+
+    public Point2D getGlobalHandleCenter() {
+        return faucetNode.localToGlobal( new Point2D.Double( HANDLE_CENTER_X, HANDLE_CENTER_Y ) );
     }
 
     public static void main( String[] args ) {
