@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
@@ -77,7 +76,6 @@ public class DropperNode extends PhetPNode {
             }
         } );
 
-        addInputEventListener( new CursorHandler() );
         addInputEventListener( new MovableDragHandler( Objects.DROPPER, dropper, this, dropper.getLocationBounds() ) );
     }
 }

@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.view;
 
+import java.awt.Cursor;
 import java.awt.Image;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -8,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -22,6 +24,8 @@ public class MomentaryButtonNode extends PNode {
 
     private String simSharingObject = "MomentaryButtonNode";
 
+    private final CursorHandler cursorHandler;
+
     // Constructor that uses default images (round red buttons with 3D look)
     public MomentaryButtonNode( Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
         this( onProperty, enabledProperty,
@@ -32,6 +36,8 @@ public class MomentaryButtonNode extends PNode {
 
     public MomentaryButtonNode( final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
         assert ( onImage != offImage ); // different images are required
+
+        this.cursorHandler = new CursorHandler();
 
         final PImage imageNode = new PImage();
         addChild( imageNode );
@@ -67,13 +73,17 @@ public class MomentaryButtonNode extends PNode {
             public void update() {
                 if ( enabledProperty.get() ) {
                     imageNode.setImage( offImage );
+                    cursorHandler.setCursor( Cursor.HAND_CURSOR );
                 }
                 else {
                     onProperty.set( false );
                     imageNode.setImage( disabledImage );
+                    cursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
                 }
             }
         } );
+
+        addInputEventListener( cursorHandler );
     }
 
     public void setSimSharingObject( String simSharingObject ) {

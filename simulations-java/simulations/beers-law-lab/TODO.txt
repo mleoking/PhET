@@ -11,7 +11,7 @@ DESIGN
 
 HIGH
 - solid solute exiting shaker
-- solution exiting dropper
+- view of solution exiting dropper
 - concentration meter
 
 MEDIUM
