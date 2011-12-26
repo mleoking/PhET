@@ -106,8 +106,8 @@ public class FaucetNode extends PNode {
         faucetNode = new PImage( FAUCET_IMAGE );
         addChild( faucetNode );
 
-        // pipe, tiled to the left of the faucet
-        final Rectangle2D pipeRect = new Rectangle2D.Double( -faucetLength, INPUT_PIPE_Y1, faucetLength, INPUT_PIPE_Y2 - INPUT_PIPE_Y1 );
+        // pipe, tiled to the left of the faucet. Sub-pixel overlap to prevent seam from showing at some scale factors.
+        final Rectangle2D pipeRect = new Rectangle2D.Double( -faucetLength, INPUT_PIPE_Y1, faucetLength + 0.5, INPUT_PIPE_Y2 - INPUT_PIPE_Y1 );
         PhetPPath pipeNode = new PhetPPath( pipeRect, new TexturePaint( PIPE_IMAGE, new Rectangle2D.Double( 0, pipeRect.getY(), PIPE_IMAGE.getWidth(), PIPE_IMAGE.getHeight() ) ) );
         addChild( pipeNode );
 
