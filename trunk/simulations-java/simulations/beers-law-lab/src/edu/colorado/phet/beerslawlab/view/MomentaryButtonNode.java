@@ -23,38 +23,55 @@ public class MomentaryButtonNode extends PNode {
     private String simSharingObject = "MomentaryButtonNode";
 
     // Constructor that uses default images (round red buttons with 3D look)
-    public MomentaryButtonNode( Property<Boolean> onProperty ) {
-        this( onProperty, PiccoloPhetResources.getImage( "button_pressed.png" ), PiccoloPhetResources.getImage( "button_unpressed.png" ) );
+    public MomentaryButtonNode( Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
+        this( onProperty, enabledProperty,
+              PiccoloPhetResources.getImage( "button_pressed.png" ),
+              PiccoloPhetResources.getImage( "button_unpressed.png" ),
+              PiccoloPhetResources.getImage( "button_disabled.png" ) );
     }
 
-    public MomentaryButtonNode( final Property<Boolean> onProperty, Image onImage, Image offImage ) {
+    public MomentaryButtonNode( final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
         assert ( onImage != offImage ); // different images are required
 
-        final PImage onNode = new PImage( onImage );
-        addChild( onNode );
-
-        final PImage offNode = new PImage( offImage );
-        addChild( offNode );
-
-        // Both images must have the same size.
-        assert ( onNode.getFullBoundsReference().equals( offNode.getFullBoundsReference() ) );
+        final PImage imageNode = new PImage();
+        addChild( imageNode );
 
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendEvent( simSharingObject, Actions.PRESSED );
-                onProperty.set( true );
+                if ( enabledProperty.get() ) {
+                    SimSharingManager.sendEvent( simSharingObject, Actions.PRESSED );
+                    onProperty.set( true );
+                }
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
-                SimSharingManager.sendEvent( simSharingObject, Actions.RELEASED );
-                onProperty.set( false );
+                if ( enabledProperty.get() ) {
+                    SimSharingManager.sendEvent( simSharingObject, Actions.RELEASED );
+                    onProperty.set( false );
+                }
             }
         } );
 
         onProperty.addObserver( new SimpleObserver() {
             public void update() {
-                onNode.setVisible( onProperty.get() );
-                offNode.setVisible( !onProperty.get() );
+                if ( enabledProperty.get() ) {
+                    imageNode.setImage( onProperty.get() ? onImage : offImage );
+                }
+                else {
+                    imageNode.setImage( disabledImage );
+                }
+            }
+        } );
+
+        enabledProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( enabledProperty.get() ) {
+                    imageNode.setImage( offImage );
+                }
+                else {
+                    onProperty.set( false );
+                    imageNode.setImage( disabledImage );
+                }
             }
         } );
     }

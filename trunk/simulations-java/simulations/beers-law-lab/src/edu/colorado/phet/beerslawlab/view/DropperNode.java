@@ -47,7 +47,7 @@ public class DropperNode extends PhetPNode {
         addChild( new ZeroOffsetNode( parentNode ) );
 
         // On/off button
-        MomentaryButtonNode buttonNode = new MomentaryButtonNode( dropper.on ) {{
+        MomentaryButtonNode buttonNode = new MomentaryButtonNode( dropper.on, dropper.enabled ) {{
             setSimSharingObject( Objects.DROPPER_BUTTON );
             scale( 0.45 );
         }};

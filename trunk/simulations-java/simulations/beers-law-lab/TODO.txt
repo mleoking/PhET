@@ -13,7 +13,6 @@ HIGH
 - solid solute exiting shaker
 - solution exiting dropper
 - concentration meter
-- disable dropper when beaker is full
 
 MEDIUM
 - get dropper assets from NP
