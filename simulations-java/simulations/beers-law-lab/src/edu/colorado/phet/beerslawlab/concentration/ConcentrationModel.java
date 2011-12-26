@@ -15,6 +15,9 @@ import edu.colorado.phet.beerslawlab.model.SoluteForm;
 import edu.colorado.phet.beerslawlab.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -52,7 +55,13 @@ public class ConcentrationModel implements Resettable {
     public final Beaker beaker;
     public final Faucet inputFaucet, outputFaucet;
 
-    public ConcentrationModel() {
+    public ConcentrationModel( IClock clock ) {
+
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getWallTimeChange() );
+            }
+        } );
 
         // Solutes, in rainbow (ROYBIV) order. Values are specified in the design document.
         this.solutes = new ArrayList<Solute>() {{
@@ -97,5 +106,27 @@ public class ConcentrationModel implements Resettable {
         evaporationRate.reset();
         inputFaucet.reset();
         outputFaucet.reset();
+    }
+
+    /*
+     * Moves time forward by the specified amount of time.
+     * @param timeChange clock time change, in milliseconds.
+     */
+    private void stepInTime( double timeChange ) {
+
+        // add solvent
+        double addSolventVolume = inputFaucet.flowRate.get() * timeChange / 1000;
+        if ( addSolventVolume > 0 ) {
+            solution.volume.set( Math.min( SOLUTION_VOLUME_RANGE.getMax(), solution.volume.get() + addSolventVolume ) );
+        }
+
+        // drain solution
+        double drainSolutionVolume = outputFaucet.flowRate.get() * timeChange / 1000;
+        if ( drainSolutionVolume > 0 ) {
+            double currentVolume = solution.volume.get();
+            double molesToDrain = solution.soluteAmount.get() * drainSolutionVolume / currentVolume;
+            solution.soluteAmount.set( Math.max( SOLUTE_AMOUNT_RANGE.getMin(), solution.soluteAmount.get() - molesToDrain ) );
+            solution.volume.set( Math.max( SOLUTION_VOLUME_RANGE.getMin(), solution.volume.get() - drainSolutionVolume ) );
+        }
     }
 }
