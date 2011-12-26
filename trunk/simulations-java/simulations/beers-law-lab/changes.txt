@@ -1,3 +1,4 @@
+12/26/11 add "Saturated!" indicator
 12/26/11 add solvent and "fluid" to model, make faucet outputs show fluid
 12/26/11 add fluid coming out of faucets
 12/22/11 add sim-sharing to evaporation control

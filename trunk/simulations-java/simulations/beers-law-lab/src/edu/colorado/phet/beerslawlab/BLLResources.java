@@ -36,6 +36,7 @@ public class BLLResources {
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );
         public static final String REMOVE_SOLUTE = RESOURCES.getLocalizedString( "removeSolute" );
+        public static final String SATURATED = RESOURCES.getLocalizedString( "saturated" );
         public static final String SOLID = RESOURCES.getLocalizedString( "solid" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SOLUTION = RESOURCES.getLocalizedString( "solution" );
