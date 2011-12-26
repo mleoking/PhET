@@ -10,22 +10,24 @@ DESIGN
 - tilt dropper, ala shaker?
 
 HIGH
+- add clock to model
 - solution in beaker
-- water exiting input faucet
-- solution exiting output faucet
 - solid solute exiting shaker
 - solution exiting dropper
 - precipitate
 - concentration meter
+- disable dropper when beaker is full
 
 MEDIUM
 - get dropper assets from NP
 - adjust drag bounds for shaker and dropper
 
 LOW
-- #3199, misc FaucetNode work
+- #3199, bigger slider thumb on FaucetNode
 - derive height of fluid columns coming out of faucets, instead of using hardcoded values (see ConcentrationCanvas)
 - derive faucet locations and pipe lengths based on beaker location and size (see ConcentrationModel)
+- move shaker location to holes in shaker image
+- move dropper location to hole in dropper image
 
 SIM-SHARING
 
