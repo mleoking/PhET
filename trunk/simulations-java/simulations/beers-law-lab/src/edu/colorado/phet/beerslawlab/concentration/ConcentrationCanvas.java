@@ -18,6 +18,7 @@ import edu.colorado.phet.beerslawlab.view.OutputFluidNode;
 import edu.colorado.phet.beerslawlab.view.PrecipitateNode;
 import edu.colorado.phet.beerslawlab.view.SaturatedIndicatorNode;
 import edu.colorado.phet.beerslawlab.view.ShakerNode;
+import edu.colorado.phet.beerslawlab.view.SolutionNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -42,6 +43,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
         PNode evaporationControlNode = new EvaporationControlNode( ConcentrationModel.MAX_EVAPORATION_RATE, model.evaporationRate );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
+        PNode solutionNode = new SolutionNode( model.solution, model.beaker );
         PNode precipitateNode = new PrecipitateNode( model.solution, model.beaker );
         PNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
@@ -55,6 +57,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             addChild( inputFaucetNode );
             addChild( outputFluidNode );
             addChild( outputFaucetNode );
+            addChild( solutionNode );
             addChild( beakerNode );
             addChild( precipitateNode );
             addChild( saturatedIndicatorNode );
@@ -79,6 +82,8 @@ public class ConcentrationCanvas extends BLLCanvas {
             // left aligned below beaker
             evaporationControlNode.setOffset( beakerNode.getFullBoundsReference().getMinX(),
                                               getStageSize().getHeight() - evaporationControlNode.getFullBoundsReference().getHeight() - yMargin );
+            // aligned with beaker
+            solutionNode.setOffset( beakerNode.getOffset() );
             // aligned with beaker
             precipitateNode.setOffset( beakerNode.getOffset() );
             // centered towards bottom of beaker
