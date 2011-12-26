@@ -34,6 +34,7 @@ public class ConcentrationModelDebugger extends VBox {
         final HTMLNode soluteFormula = new HTMLNode( "?" );
         final PText solutionConcentration = new PText( "?" );
         final PText solutionPrecipitateAmount = new PText( "?" );
+        final PText solutionPrecipitateParticles = new PText( "?" );
         final PText solutionSoluteAmount = new PText( "?" );
         final PText solutionVolume = new PText( "?" );
 
@@ -48,6 +49,7 @@ public class ConcentrationModelDebugger extends VBox {
         addChild( soluteFormula );
         addChild( solutionConcentration );
         addChild( solutionPrecipitateAmount );
+        addChild( solutionPrecipitateParticles );
         addChild( solutionSoluteAmount );
         addChild( solutionVolume );
 
@@ -100,6 +102,7 @@ public class ConcentrationModelDebugger extends VBox {
         model.solution.addPrecipitateAmountObserver( new SimpleObserver() {
             public void update() {
                 solutionPrecipitateAmount.setText( "solution.precipitateAmount = " + molesFormat.format( model.solution.getPrecipitateAmount() ) + " mol" );
+                solutionPrecipitateParticles.setText( "solution.precipitateParticles = " + model.solution.getNumberOfPrecipitateParticles() );
             }
         } );
         model.solution.soluteAmount.addObserver( new SimpleObserver() {
