@@ -8,6 +8,7 @@ DESIGN
 - if dropper is transparent and shows solution color, labels won't show up on some solutions
 - move beaker ticks to left side, ala sugar-and-salt-solutions?
 - tilt dropper, ala shaker?
+- disable evaporation slider when beaker is empty?
 
 HIGH
 - solid solute exiting shaker

@@ -44,11 +44,12 @@ public class Solution implements IFluid, Resettable {
             public void update() {
                 if ( getVolume() > 0 ) {
                     concentration.set( Math.min( getSaturatedConcentration(), getSoluteAmount() / getVolume() ) ); // M = mol/L
+                    precipitateAmount.set( Math.max( 0, getVolume() * ( ( getSoluteAmount() / getVolume() ) - getSaturatedConcentration() ) ) );
                 }
                 else {
                     concentration.set( 0d );
+                    precipitateAmount.set( getSoluteAmount() );
                 }
-                precipitateAmount.set( Math.max( 0, getVolume() * ( ( getSoluteAmount() / getVolume() ) - getSaturatedConcentration() ) ) );
             }
         };
         concentrationUpdater.observe( this.solute, this.soluteAmount, this.volume );
