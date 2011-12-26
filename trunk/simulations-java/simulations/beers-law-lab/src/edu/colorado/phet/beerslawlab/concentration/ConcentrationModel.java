@@ -73,8 +73,8 @@ public class ConcentrationModel implements Resettable {
         this.dropper = new Dropper( new ImmutableVector2D( 290, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
         this.evaporationRate = new Property<Double>( 0d );
         this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
-        this.inputFaucet = new Faucet( new ImmutableVector2D( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive from beaker location & size
-        this.outputFaucet = new Faucet( new ImmutableVector2D( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive from beaker location & size
+        this.inputFaucet = new Faucet( new ImmutableVector2D( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
+        this.outputFaucet = new Faucet( new ImmutableVector2D( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive location and pipe length
 
         // Enable faucets based on amount of solution in the beaker.
         solution.volume.addObserver( new VoidFunction1<Double>() {

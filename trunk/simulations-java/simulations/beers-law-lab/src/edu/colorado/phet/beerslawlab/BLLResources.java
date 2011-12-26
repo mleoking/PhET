@@ -39,6 +39,7 @@ public class BLLResources {
         public static final String SOLID = RESOURCES.getLocalizedString( "solid" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SOLUTION = RESOURCES.getLocalizedString( "solution" );
+        public static final String WATER = RESOURCES.getLocalizedString( "water" );
     }
 
     // Symbols, no i18n needed

@@ -4,19 +4,19 @@ package edu.colorado.phet.beerslawlab.view;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.model.Faucet;
-import edu.colorado.phet.beerslawlab.model.Solution;
+import edu.colorado.phet.beerslawlab.model.IFluid;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Fluid coming out the beaker.
+ * Fluid coming out of a faucet.
  * Origin is at the top center, to simplify alignment with the center of the faucet's output pipe.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class OutputFluidNode extends PPath {
 
-    public OutputFluidNode( final BLLFaucetNode faucetNode, final double height, final Solution solution, final Faucet faucet ) {
+    public OutputFluidNode( final BLLFaucetNode faucetNode, final double height, final IFluid fluid, final Faucet faucet ) {
         setPickable( false );
         setChildrenPickable( false );
 
@@ -24,10 +24,10 @@ public class OutputFluidNode extends PPath {
 
         setOffset( globalToLocal( faucetNode.getGlobalOutputCenter() ) );
 
-        // match the color of the solution
-        solution.addSolutionColorObserver( new SimpleObserver() {
+        // match the color of the fluid
+        fluid.addFluidColorObserver( new SimpleObserver() {
             public void update() {
-                setPaint( solution.getSolutionColor() );
+                setPaint( fluid.getFluidColor() );
             }
         } );
 

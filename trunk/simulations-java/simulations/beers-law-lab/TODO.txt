@@ -24,6 +24,8 @@ MEDIUM
 
 LOW
 - #3199, misc FaucetNode work
+- derive height of fluid columns coming out of faucets, instead of using hardcoded values (see ConcentrationCanvas)
+- derive faucet locations and pipe lengths based on beaker location and size (see ConcentrationModel)
 
 SIM-SHARING
 
