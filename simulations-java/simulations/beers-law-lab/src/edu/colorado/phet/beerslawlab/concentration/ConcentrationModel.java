@@ -33,11 +33,12 @@ public class ConcentrationModel implements Resettable {
 
     private static final double BEAKER_VOLUME = 1; // L
     public static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
-    public static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
+    public static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 10, 0.5 ); // moles
     public static final double MAX_EVAPORATION_RATE = 0.25; // L/sec
     public static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
     public static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
     public static final double DROPPER_FLOW_RATE = 0.05; // L/sec
+    public static final double SHAKER_MAX_DISPENSING_RATE = 0.1; // mol/sec
 
     // validate constants
     static {
@@ -60,7 +61,7 @@ public class ConcentrationModel implements Resettable {
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                stepInTime( clockEvent.getWallTimeChange() );
+                stepInTime( clockEvent.getWallTimeChange() / 1000d );
             }
         } );
 
@@ -79,7 +80,7 @@ public class ConcentrationModel implements Resettable {
 
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
-        this.shaker = new Shaker( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
+        this.shaker = new Shaker( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute, SHAKER_MAX_DISPENSING_RATE );
         this.dropper = new Dropper( new ImmutableVector2D( 290, 20 ), new PBounds( 10, 10, 400, 200 ), solute, DROPPER_FLOW_RATE );
         this.evaporationRate = new Property<Double>( 0d );
         this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
@@ -92,6 +93,14 @@ public class ConcentrationModel implements Resettable {
                 inputFaucet.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
                 outputFaucet.enabled.set( volume > SOLUTION_VOLUME_RANGE.getMin() );
                 dropper.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
+            }
+        } );
+
+        // Enable shaker and dropper based on amount of solute in the beaker
+        solution.soluteAmount.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double soluteAmount ) {
+                shaker.enabled.set( soluteAmount < SOLUTE_AMOUNT_RANGE.getMax() );
+                dropper.enabled.set( soluteAmount < SOLUTE_AMOUNT_RANGE.getMax() );
             }
         } );
     }
@@ -111,40 +120,67 @@ public class ConcentrationModel implements Resettable {
     }
 
     /*
-     * Moves time forward by the specified amount of time.
-     * @param timeChange clock time change, in milliseconds.
+     * Moves time forward by the specified amount.
+     * @param deltaSeconds clock time change, in seconds.
      */
-    private void stepInTime( double timeChange ) {
+    private void stepInTime( double deltaSeconds ) {
+        addSolventFromInputFaucet( deltaSeconds );
+        drainSolutionFromOutputFaucet( deltaSeconds );
+        addSoluteFromShaker( deltaSeconds );
+        addStockSolutionFromDropper( deltaSeconds );
+        evaporateSolvent( deltaSeconds );
+    }
 
-        final double seconds = timeChange / 1000;
+    // Add solvent from the input faucet
+    private void addSolventFromInputFaucet( double deltaSeconds ) {
+        addSolvent( inputFaucet.flowRate.get() * deltaSeconds );
+    }
 
-        // add solvent
-        double addSolventVolume = inputFaucet.flowRate.get() * seconds;
-        if ( addSolventVolume > 0 ) {
-            solution.volume.set( Math.min( SOLUTION_VOLUME_RANGE.getMax(), solution.volume.get() + addSolventVolume ) );
+    // Drain solution from the output faucet
+    private void drainSolutionFromOutputFaucet( double deltaSeconds ) {
+        double volume = outputFaucet.flowRate.get() * deltaSeconds;
+        removeSolute( solution.getConcentration() * volume );
+        removeSolvent( volume );
+    }
+
+    // Add solute from the shaker
+    private void addSoluteFromShaker( double deltaSeconds ) {
+        addSolute( shaker.getDispensingRate() * deltaSeconds );
+    }
+
+    // Add stock solution from dropper
+    private void addStockSolutionFromDropper( double deltaSeconds ) {
+        double volume = dropper.getFlowRate() * deltaSeconds;
+        addSolvent( volume );
+        addSolute( solution.solute.get().solutionConcentration * volume );
+    }
+
+    // Evaporate solvent
+    private void evaporateSolvent( double deltaSeconds ) {
+        removeSolvent( evaporationRate.get() * deltaSeconds );
+    }
+
+    private void addSolvent( double deltaVolume ) {
+        if ( deltaVolume > 0 ) {
+            solution.volume.set( Math.min( SOLUTION_VOLUME_RANGE.getMax(), solution.volume.get() + deltaVolume ) );
         }
+    }
 
-        // drain solution
-        double drainSolutionVolume = outputFaucet.flowRate.get() * seconds;
-        if ( drainSolutionVolume > 0 ) {
-            double currentVolume = solution.volume.get();
-            double molesToDrain = solution.soluteAmount.get() * drainSolutionVolume / currentVolume;
-            solution.soluteAmount.set( Math.max( SOLUTE_AMOUNT_RANGE.getMin(), solution.soluteAmount.get() - molesToDrain ) );
-            solution.volume.set( Math.max( SOLUTION_VOLUME_RANGE.getMin(), solution.volume.get() - drainSolutionVolume ) );
+    private void removeSolvent( double deltaVolume ) {
+        if ( deltaVolume > 0 ) {
+            solution.volume.set( Math.max( SOLUTION_VOLUME_RANGE.getMin(), solution.volume.get() - deltaVolume ) );
         }
+    }
 
-        // add solute from dropper
-        double addDropperVolume = dropper.getFlowRate() * seconds;
-        if ( addDropperVolume > 0 ) {
-            solution.volume.set( Math.min( SOLUTION_VOLUME_RANGE.getMax(), solution.volume.get() + addDropperVolume ) );
-            double molesToAdd = solution.solute.get().solutionConcentration * addDropperVolume;
-            solution.soluteAmount.set( Math.min( SOLUTE_AMOUNT_RANGE.getMax(), solution.soluteAmount.get() + molesToAdd ) );
+    private void addSolute( double deltaAmount ) {
+        if ( deltaAmount > 0 ) {
+            solution.soluteAmount.set( Math.min( SOLUTE_AMOUNT_RANGE.getMax(), solution.soluteAmount.get() + deltaAmount ) );
         }
+    }
 
-        // evaporation
-        double evaporationVolume = evaporationRate.get() * seconds;
-        if ( evaporationVolume > 0 ) {
-            solution.volume.set( Math.max( SOLUTION_VOLUME_RANGE.getMin(), solution.volume.get() - evaporationVolume ) );
+    private void removeSolute( double deltaAmount ) {
+        if ( deltaAmount > 0 ) {
+            solution.soluteAmount.set( Math.max( SOLUTE_AMOUNT_RANGE.getMin(), solution.soluteAmount.get() - deltaAmount ) );
         }
     }
 }

@@ -1,3 +1,5 @@
+12/26/11 reorganize time-based portion of model
+12/26/11 model of shaker dispensing solute
 12/26/11 implement evaporation
 12/26/11 add dropper dispensing solution to model
 12/26/11 disable dropper when beaker is full (add disabled button to piccolo-phet image suite)
