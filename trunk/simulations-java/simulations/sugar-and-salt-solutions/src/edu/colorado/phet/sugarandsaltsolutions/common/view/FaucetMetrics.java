@@ -31,9 +31,9 @@ public class FaucetMetrics {
     //Creates a FaucetMetrics given the faucet node and root node
     public FaucetMetrics( ModelViewTransform transform, SugarAndSaltSolutionModel model, PNode rootNode, FaucetNode faucetNode ) {
         this( model,
-              transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( faucetNode.getInputGlobalViewPoint() ) ) ),
-              transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( faucetNode.getOutputGlobalViewPoint() ) ) ),
-              transform.viewToModelDeltaX( rootNode.globalToLocal( faucetNode.getGlobalFaucetWidthDimension() ).getWidth() ) );
+              transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( faucetNode.getGlobalInputCenter() ) ) ),
+              transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( faucetNode.getGlobalOutputCenter() ) ) ),
+              transform.viewToModelDeltaX( rootNode.globalToLocal( faucetNode.getGlobalOutputWidth() ).getWidth() ) );
     }
 
     //Creates a FaucetMetrics with the previously computed positions

@@ -140,19 +140,22 @@ public class FaucetNode extends PNode {
         sliderNode.setVisible( visible );
     }
 
-    //Gets the location of the input part of the pipe in global coordinates for coordination with the model coordinates.
-    public Point2D getInputGlobalViewPoint() {
+    // Gets the center of the input pipe, in global coordinates.
+    public Point2D getGlobalInputCenter() {
         return faucetNode.localToGlobal( new Point2D.Double( INPUT_PIPE_X, ( INPUT_PIPE_Y1 + INPUT_PIPE_Y2 ) / 2 ) );
     }
 
-    public Point2D getOutputGlobalViewPoint() {
+    // Gets the center of the output pipe, in global coordinates.
+    public Point2D getGlobalOutputCenter() {
         return faucetNode.localToGlobal( new Point2D.Double( ( OUTPUT_PIPE_X2 + OUTPUT_PIPE_X1 ) / 2, OUTPUT_PIPE_Y ) );
     }
 
-    public Dimension2D getGlobalFaucetWidthDimension() {
+    // Gets the width of the output pipe, in global coordinates.
+    public Dimension2D getGlobalOutputWidth() {
         return faucetNode.localToGlobal( new Dimension2DDouble( OUTPUT_PIPE_X2 - OUTPUT_PIPE_X1, 0 ) );
     }
 
+    // Gets the center of the handle, in global coordinates.
     public Point2D getGlobalHandleCenter() {
         return faucetNode.localToGlobal( new Point2D.Double( HANDLE_CENTER_X, HANDLE_CENTER_Y ) );
     }
