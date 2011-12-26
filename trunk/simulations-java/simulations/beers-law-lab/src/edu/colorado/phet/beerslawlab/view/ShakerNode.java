@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -69,6 +71,27 @@ public class ShakerNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new MovableDragHandler( Objects.SHAKER, shaker, this, shaker.getLocationBounds() ) );
+        addInputEventListener( new ShakerDragHandler( shaker, this, shaker.getLocationBounds() ) );
+    }
+
+    // Drag handler, specialized for the shaker.
+    private static class ShakerDragHandler extends MovableDragHandler {
+
+        private final Shaker shaker;
+
+        public ShakerDragHandler( final Shaker shaker, PNode dragNode, Rectangle2D dragBounds ) {
+            super( Objects.SHAKER, shaker, dragNode, dragBounds );
+            this.shaker = shaker;
+        }
+
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            shaker.setDispensingRate( shaker.getMaxDispensingRate() ); //TODO set rate based on direction of shake, and vigorousness of shake
+        }
+
+        @Override protected void endDrag( PInputEvent event ) {
+            super.endDrag( event );
+            shaker.setDispensingRate( 0 );
+        }
     }
 }

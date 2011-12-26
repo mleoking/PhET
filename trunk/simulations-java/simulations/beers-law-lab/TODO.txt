@@ -9,10 +9,13 @@ DESIGN
 - move beaker ticks to left side, ala sugar-and-salt-solutions?
 - tilt dropper, ala shaker?
 - disable evaporation slider when beaker is empty?
+- is there a maximum amount of solute? (will affect usability of dropper and beaker)
+- is there a maximum amount of solution that the dropper can dispense?
+- is there a maximum amount of solute that the shaker can dispense?
 
 HIGH
-- solid solute exiting shaker
-- view of solution exiting dropper
+- view of solute exiting shaker
+- view of stock solution exiting dropper
 - concentration meter
 
 MEDIUM
