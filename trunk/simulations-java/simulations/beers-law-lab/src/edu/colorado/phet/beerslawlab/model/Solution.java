@@ -102,6 +102,14 @@ public class Solution implements IFluid, Resettable {
         fluidColor.addObserver( observer );
     }
 
+    public int getNumberOfPrecipitateParticles() {
+        int numberOfParticles = (int) ( solute.get().precipitateParticlesPerMole * getPrecipitateAmount() );
+        if ( numberOfParticles == 0 && getPrecipitateAmount() > 0 ) {
+            numberOfParticles = 1;
+        }
+        return numberOfParticles;
+    }
+
     public void reset() {
         solute.reset();
         soluteAmount.reset();
