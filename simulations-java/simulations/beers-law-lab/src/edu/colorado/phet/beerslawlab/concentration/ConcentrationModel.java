@@ -90,6 +90,7 @@ public class ConcentrationModel implements Resettable {
             public void apply( Double volume ) {
                 inputFaucet.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
                 outputFaucet.enabled.set( volume > SOLUTION_VOLUME_RANGE.getMin() );
+                dropper.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
             }
         } );
     }
