@@ -10,7 +10,6 @@ DESIGN
 - tilt dropper, ala shaker?
 
 HIGH
-- add clock to model
 - solid solute exiting shaker
 - solution exiting dropper
 - concentration meter

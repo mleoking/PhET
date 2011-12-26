@@ -1,3 +1,5 @@
+12/26/11 add solvent, drain solution as clock ticks
+12/26/11 add clock to model
 12/26/11 add solution in beaker
 12/26/11 add precipitate on bottom of beaker
 12/26/11 add "Saturated!" indicator

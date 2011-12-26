@@ -15,6 +15,6 @@ public class ConcentrationModule extends BLLModule {
 
     public ConcentrationModule( Frame parentFrame ) {
         super( Strings.CONCENTRATION );
-        setSimulationPanel( new ConcentrationCanvas( new ConcentrationModel(), parentFrame ) );
+        setSimulationPanel( new ConcentrationCanvas( new ConcentrationModel( getClock() ), parentFrame ) );
     }
 }
