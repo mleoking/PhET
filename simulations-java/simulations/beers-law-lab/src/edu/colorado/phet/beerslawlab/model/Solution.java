@@ -4,6 +4,8 @@ package edu.colorado.phet.beerslawlab.model;
 import java.awt.Color;
 
 import edu.colorado.phet.beerslawlab.BLLConstants;
+import edu.colorado.phet.beerslawlab.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.BLLResources.Symbols;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -12,28 +14,30 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
 /**
- * Simple model of a solution, consisting of water (the solvent) and a solute.
+ * Simple model of a solution, consisting of a solvent and a solute.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Solution implements Resettable {
+public class Solution implements IFluid, Resettable {
 
+    public final Solvent solvent;
     public final Property<Solute> solute;
     public final Property<Double> soluteAmount; // moles
     public final Property<Double> volume; // L
     private final Property<Double> concentration; // M (derived property)
     private final Property<Double> precipitateAmount; // moles (derived property)
-    private final Property<Color> solutionColor; // derived from solute color and concentration
+    private final Property<Color> fluidColor; // derived from solute color and concentration
 
     public Solution( Property<Solute> solute, double soluteAmount, double volume ) {
 
+        this.solvent = new Solvent( Strings.WATER, Symbols.WATER, BLLConstants.WATER_COLOR );
         this.solute = solute;
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );
 
         this.concentration = new Property<Double>( 0d );
         this.precipitateAmount = new Property<Double>( 0d );
-        this.solutionColor = new Property<Color>( Color.WHITE ); // will be properly initialized when colorUpdater is registered
+        this.fluidColor = new Property<Color>( Color.WHITE ); // will be properly initialized when colorUpdater is registered
 
         // derive the concentration and precipitate amount
         RichSimpleObserver concentrationUpdater = new RichSimpleObserver() {
@@ -52,7 +56,7 @@ public class Solution implements Resettable {
         // derive the solution color
         RichSimpleObserver colorUpdater = new RichSimpleObserver() {
             @Override public void update() {
-                solutionColor.set( createColor( Solution.this.solute.get(), concentration.get() ) );
+                fluidColor.set( createColor( solvent, Solution.this.solute.get(), concentration.get() ) );
             }
         };
         colorUpdater.observe( this.solute, this.concentration );
@@ -90,12 +94,12 @@ public class Solution implements Resettable {
         precipitateAmount.addObserver( observer );
     }
 
-    public Color getSolutionColor() {
-        return solutionColor.get();
+    public Color getFluidColor() {
+        return fluidColor.get();
     }
 
-    public void addSolutionColorObserver( SimpleObserver observer ) {
-        solutionColor.addObserver( observer );
+    public void addFluidColorObserver( SimpleObserver observer ) {
+        fluidColor.addObserver( observer );
     }
 
     public void reset() {
@@ -104,9 +108,9 @@ public class Solution implements Resettable {
         volume.reset();
     }
 
-    private static final Color createColor( Solute solute, double concentration ) {
+    private static final Color createColor( Solvent solvent, Solute solute, double concentration ) {
         LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
         double colorScale = f.evaluate( concentration );
-        return ColorUtils.interpolateRBGA( BLLConstants.WATER_COLOR, solute.solutionColor, colorScale );
+        return ColorUtils.interpolateRBGA( solvent.getFluidColor(), solute.solutionColor, colorScale );
     }
 }
