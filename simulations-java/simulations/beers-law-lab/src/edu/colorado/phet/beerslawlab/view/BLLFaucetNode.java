@@ -16,8 +16,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class BLLFaucetNode extends FaucetNode {
 
-    public BLLFaucetNode( final String simSharingObject, double maxFlowRate, final Faucet faucet, double pipeLength ) {
-        super( maxFlowRate, faucet.flowRate, faucet.enabled, pipeLength, true );
+    public BLLFaucetNode( final String simSharingObject, final Faucet faucet ) {
+        super( faucet.getMaxFlowRate(), faucet.flowRate, faucet.enabled, faucet.getInputPipeLength(), true );
+
+        setOffset( faucet.getLocation().toPoint2D() );
+
         // sim-sharing
         getDragHandler().setStartEndDragFunction( new DragFunction() {
             public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {

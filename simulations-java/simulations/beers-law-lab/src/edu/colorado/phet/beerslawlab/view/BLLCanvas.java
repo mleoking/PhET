@@ -39,6 +39,10 @@ public class BLLCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
     }
 
+    protected PNode getRootNode() {
+        return rootNode;
+    }
+
     // Adds a child node to the root node.
     protected void addChild( PNode node ) {
         rootNode.addChild( node );

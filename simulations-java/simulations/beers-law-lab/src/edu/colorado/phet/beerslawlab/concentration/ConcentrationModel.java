@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -72,8 +73,16 @@ public class ConcentrationModel implements Resettable {
         this.dropper = new Dropper( new ImmutableVector2D( 290, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
         this.evaporationRate = new Property<Double>( 0d );
         this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
-        this.inputFaucet = new Faucet( MAX_INPUT_FLOW_RATE );
-        this.outputFaucet = new Faucet( MAX_OUTPUT_FLOW_RATE );
+        this.inputFaucet = new Faucet( new ImmutableVector2D( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive from beaker location & size
+        this.outputFaucet = new Faucet( new ImmutableVector2D( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive from beaker location & size
+
+        // Enable faucets based on amount of solution in the beaker.
+        solution.volume.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double volume ) {
+                inputFaucet.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
+                outputFaucet.enabled.set( volume > SOLUTION_VOLUME_RANGE.getMin() );
+            }
+        } );
     }
 
     public ArrayList<Solute> getSolutes() {
