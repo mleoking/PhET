@@ -44,6 +44,8 @@ public class FPAFFaucetNode extends FaucetNode {
         radioButtons.setOffset( globalToLocal( getGlobalHandleCenter() ).getX() - radioButtons.getFullBounds().getWidth(),
                                 globalToLocal( getGlobalInputCenter() ).getY() - ( radioButtons.getFullBoundsReference().getHeight() / 2 ) );
 
+        //TODO Should use FaucetNode.getGlobalInputSize to verify that the height of the buttons is less than the height of the input pipe. If not, scale accordingly.
+
         // Slider is invisible when in "auto" mode
         faucetFlowRate.automatic.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean auto ) {

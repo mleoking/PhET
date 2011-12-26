@@ -33,7 +33,7 @@ public class FaucetMetrics {
         this( model,
               transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( faucetNode.getGlobalInputCenter() ) ) ),
               transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( faucetNode.getGlobalOutputCenter() ) ) ),
-              transform.viewToModelDeltaX( rootNode.globalToLocal( faucetNode.getGlobalOutputWidth() ).getWidth() ) );
+              transform.viewToModelDeltaX( rootNode.globalToLocal( faucetNode.getGlobalOutputSize() ).getWidth() ) );
     }
 
     //Creates a FaucetMetrics with the previously computed positions

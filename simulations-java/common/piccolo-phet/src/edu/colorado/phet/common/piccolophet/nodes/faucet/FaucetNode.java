@@ -53,12 +53,9 @@ public class FaucetNode extends PNode {
     private static final double OUTPUT_PIPE_X2 = 109;
     private static final double OUTPUT_PIPE_Y = 133;
 
-    // Width of the faucet handle in the image file.
-    private static final double HANDLE_WIDTH = 85;
-
-    // Center of the faucet handle in the image file.
-    private static final double HANDLE_CENTER_X = 46;
-    private static final double HANDLE_CENTER_Y = 8;
+    // Faucet handle in the image file.
+    private static final Point2D HANDLE_CENTER = new Point2D.Double( 46, 8 );
+    private static final Dimension2D HANDLE_SIZE = new Dimension2DDouble( 85, 16 );
 
     // sim-sharing strings
     public static final String SIM_SHARING_OBJECT_FAUCET_IMAGE = "faucetImage";
@@ -117,7 +114,7 @@ public class FaucetNode extends PNode {
         // faucet slider
         sliderNode = new FaucetSliderNode( enabled, flowRatePercentage, snapToZeroWhenReleased ) {{
             setOffset( 4, 2.5 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
-            scale( HANDLE_WIDTH / getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
+            scale( HANDLE_SIZE.getWidth() / getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
         }};
         addChild( sliderNode );
 
@@ -145,19 +142,29 @@ public class FaucetNode extends PNode {
         return faucetNode.localToGlobal( new Point2D.Double( INPUT_PIPE_X, ( INPUT_PIPE_Y1 + INPUT_PIPE_Y2 ) / 2 ) );
     }
 
+    // Gets the size of the input pipe, in global coordinates.
+    public Dimension2D getGlobalInputSize() {
+        return faucetNode.localToGlobal( new Dimension2DDouble( 0, INPUT_PIPE_Y2 - INPUT_PIPE_Y1 ) );
+    }
+
     // Gets the center of the output pipe, in global coordinates.
     public Point2D getGlobalOutputCenter() {
         return faucetNode.localToGlobal( new Point2D.Double( ( OUTPUT_PIPE_X2 + OUTPUT_PIPE_X1 ) / 2, OUTPUT_PIPE_Y ) );
     }
 
-    // Gets the width of the output pipe, in global coordinates.
-    public Dimension2D getGlobalOutputWidth() {
+    // Gets the size of the output pipe, in global coordinates.
+    public Dimension2D getGlobalOutputSize() {
         return faucetNode.localToGlobal( new Dimension2DDouble( OUTPUT_PIPE_X2 - OUTPUT_PIPE_X1, 0 ) );
     }
 
     // Gets the center of the handle, in global coordinates.
     public Point2D getGlobalHandleCenter() {
-        return faucetNode.localToGlobal( new Point2D.Double( HANDLE_CENTER_X, HANDLE_CENTER_Y ) );
+        return faucetNode.localToGlobal( HANDLE_CENTER );
+    }
+
+    // Gets the size of the faucet handle, in global coordinates.
+    public Dimension2D getGlobalHandleSize() {
+        return faucetNode.localToGlobal( HANDLE_SIZE );
     }
 
     public static void main( String[] args ) {
