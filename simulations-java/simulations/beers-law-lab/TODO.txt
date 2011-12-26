@@ -28,6 +28,7 @@ LOW
 - derive faucet locations and pipe lengths based on beaker location and size (see ConcentrationModel)
 - move shaker location to holes in shaker image
 - move dropper location to hole in dropper image
+- fluid coming out of dropper and H2O faucet should stop at surface of solution in beaker
 
 SIM-SHARING
 
