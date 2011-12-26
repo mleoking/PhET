@@ -21,6 +21,7 @@ HIGH
 MEDIUM
 - get dropper assets from NP
 - adjust drag bounds for shaker and dropper
+- make precipitate particles sit precisely on bottom of beaker
 
 LOW
 - #3199, bigger slider thumb on FaucetNode

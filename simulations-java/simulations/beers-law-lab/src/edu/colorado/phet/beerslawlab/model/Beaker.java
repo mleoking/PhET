@@ -25,6 +25,14 @@ public class Beaker {
         return location;
     }
 
+    public double getX() {
+        return location.getX();
+    }
+
+    public double getY() {
+        return location.getY();
+    }
+
     public PDimension getSize() {
         return new PDimension( size );
     }
