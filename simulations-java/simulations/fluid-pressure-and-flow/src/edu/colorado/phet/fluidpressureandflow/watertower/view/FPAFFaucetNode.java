@@ -42,7 +42,7 @@ public class FPAFFaucetNode extends FaucetNode {
 
         // Right-align radio buttons with slider's center, and vertically-align with center of input pipe.
         radioButtons.setOffset( globalToLocal( getGlobalHandleCenter() ).getX() - radioButtons.getFullBounds().getWidth(),
-                                globalToLocal( getInputGlobalViewPoint() ).getY() - ( radioButtons.getFullBoundsReference().getHeight() / 2 ) );
+                                globalToLocal( getGlobalInputCenter() ).getY() - ( radioButtons.getFullBoundsReference().getHeight() / 2 ) );
 
         // Slider is invisible when in "auto" mode
         faucetFlowRate.automatic.addObserver( new VoidFunction1<Boolean>() {
