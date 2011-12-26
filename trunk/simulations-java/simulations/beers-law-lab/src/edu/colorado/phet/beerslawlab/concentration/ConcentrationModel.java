@@ -37,6 +37,7 @@ public class ConcentrationModel implements Resettable {
     public static final double MAX_EVAPORATION_RATE = 0.25; // L/sec
     public static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
     public static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
+    public static final double DROPPER_FLOW_RATE = 0.05; // L/sec
 
     // validate constants
     static {
@@ -79,7 +80,7 @@ public class ConcentrationModel implements Resettable {
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
         this.shaker = new Shaker( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
-        this.dropper = new Dropper( new ImmutableVector2D( 290, 20 ), new PBounds( 10, 10, 400, 200 ), solute );
+        this.dropper = new Dropper( new ImmutableVector2D( 290, 20 ), new PBounds( 10, 10, 400, 200 ), solute, DROPPER_FLOW_RATE );
         this.evaporationRate = new Property<Double>( 0d );
         this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.inputFaucet = new Faucet( new ImmutableVector2D( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
@@ -115,19 +116,29 @@ public class ConcentrationModel implements Resettable {
      */
     private void stepInTime( double timeChange ) {
 
+        final double seconds = timeChange / 1000;
+
         // add solvent
-        double addSolventVolume = inputFaucet.flowRate.get() * timeChange / 1000;
+        double addSolventVolume = inputFaucet.flowRate.get() * seconds;
         if ( addSolventVolume > 0 ) {
             solution.volume.set( Math.min( SOLUTION_VOLUME_RANGE.getMax(), solution.volume.get() + addSolventVolume ) );
         }
 
         // drain solution
-        double drainSolutionVolume = outputFaucet.flowRate.get() * timeChange / 1000;
+        double drainSolutionVolume = outputFaucet.flowRate.get() * seconds;
         if ( drainSolutionVolume > 0 ) {
             double currentVolume = solution.volume.get();
             double molesToDrain = solution.soluteAmount.get() * drainSolutionVolume / currentVolume;
             solution.soluteAmount.set( Math.max( SOLUTE_AMOUNT_RANGE.getMin(), solution.soluteAmount.get() - molesToDrain ) );
             solution.volume.set( Math.max( SOLUTION_VOLUME_RANGE.getMin(), solution.volume.get() - drainSolutionVolume ) );
+        }
+
+        // add solute from dropper
+        double addDropperVolume = dropper.getFlowRate() * seconds;
+        if ( addDropperVolume > 0 ) {
+            solution.volume.set( Math.min( SOLUTION_VOLUME_RANGE.getMax(), solution.volume.get() + addDropperVolume ) );
+            double molesToAdd = solution.solute.get().solutionConcentration * addDropperVolume;
+            solution.soluteAmount.set( Math.min( SOLUTE_AMOUNT_RANGE.getMax(), solution.soluteAmount.get() + molesToAdd ) );
         }
     }
 }

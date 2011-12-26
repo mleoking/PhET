@@ -1,3 +1,4 @@
+12/26/11 add dropper dispensing solution to model
 12/26/11 disable dropper when beaker is full (add disabled button to piccolo-phet image suite)
 12/26/11 add solvent, drain solution as clock ticks
 12/26/11 add clock to model
