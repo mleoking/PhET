@@ -15,6 +15,7 @@ import edu.colorado.phet.beerslawlab.view.BeakerNode;
 import edu.colorado.phet.beerslawlab.view.ConcentrationModelDebugger;
 import edu.colorado.phet.beerslawlab.view.DropperNode;
 import edu.colorado.phet.beerslawlab.view.OutputFluidNode;
+import edu.colorado.phet.beerslawlab.view.PrecipitateNode;
 import edu.colorado.phet.beerslawlab.view.SaturatedIndicatorNode;
 import edu.colorado.phet.beerslawlab.view.ShakerNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -41,6 +42,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
         PNode evaporationControlNode = new EvaporationControlNode( ConcentrationModel.MAX_EVAPORATION_RATE, model.evaporationRate );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
+        PNode precipitateNode = new PrecipitateNode( model.solution, model.beaker.getSize() );
         PNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
@@ -54,6 +56,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             addChild( outputFluidNode );
             addChild( outputFaucetNode );
             addChild( beakerNode );
+            addChild( precipitateNode );
             addChild( saturatedIndicatorNode );
             addChild( shakerNode );
             addChild( dropperNode );
@@ -76,7 +79,10 @@ public class ConcentrationCanvas extends BLLCanvas {
             // left aligned below beaker
             evaporationControlNode.setOffset( beakerNode.getFullBoundsReference().getMinX(),
                                               getStageSize().getHeight() - evaporationControlNode.getFullBoundsReference().getHeight() - yMargin );
-            // inside bottom of beaker
+            // aligned with beaker
+            precipitateNode.setOffset( beakerNode.getOffset().getX() - ( model.beaker.getWidth() / 2 ),
+                                       beakerNode.getOffset().getY() - model.beaker.getHeight() );
+            // centered towards bottom of beaker
             saturatedIndicatorNode.setOffset( beakerNode.getFullBoundsReference().getCenterX() - ( saturatedIndicatorNode.getFullBoundsReference().getWidth() / 2 ),
                                               beakerNode.getFullBoundsReference().getMaxY() - 0.25 * beakerNode.getFullBoundsReference().getHeight() );
             // left of evaporation control
