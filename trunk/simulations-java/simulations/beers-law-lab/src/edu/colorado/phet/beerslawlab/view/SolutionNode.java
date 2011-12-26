@@ -22,6 +22,9 @@ public class SolutionNode extends PPath {
     private final LinearFunction volumeToHeightFunction;
 
     public SolutionNode( Solution solution, Beaker beaker ) {
+        setPickable( false );
+        setChildrenPickable( false );
+        setStroke( null );
 
         this.solution = solution;
         this.beaker = beaker;
