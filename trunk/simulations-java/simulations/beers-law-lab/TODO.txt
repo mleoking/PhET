@@ -14,6 +14,7 @@ DESIGN
 - is there a maximum amount of solute that the shaker can dispense?
 
 HIGH
+- move developer display to a dialog, add a button to access
 - view of solute exiting shaker
 - view of stock solution exiting dropper
 - concentration meter
