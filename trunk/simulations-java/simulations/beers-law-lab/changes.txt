@@ -1,3 +1,4 @@
+12/26/11 add fluid coming out of faucets
 12/22/11 add sim-sharing to evaporation control
 12/22/11 add sim-sharing to faucet sliders
 12/21/11 #3193, fix "flow rate" issue in FaucetNode. Delete adapter code workaround from beers-law-lab model.
