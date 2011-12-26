@@ -140,5 +140,11 @@ public class ConcentrationModel implements Resettable {
             double molesToAdd = solution.solute.get().solutionConcentration * addDropperVolume;
             solution.soluteAmount.set( Math.min( SOLUTE_AMOUNT_RANGE.getMax(), solution.soluteAmount.get() + molesToAdd ) );
         }
+
+        // evaporation
+        double evaporationVolume = evaporationRate.get() * seconds;
+        if ( evaporationVolume > 0 ) {
+            solution.volume.set( Math.max( SOLUTION_VOLUME_RANGE.getMin(), solution.volume.get() - evaporationVolume ) );
+        }
     }
 }
