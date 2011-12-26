@@ -42,7 +42,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
         PNode evaporationControlNode = new EvaporationControlNode( ConcentrationModel.MAX_EVAPORATION_RATE, model.evaporationRate );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
-        PNode precipitateNode = new PrecipitateNode( model.solution, model.beaker.getSize() );
+        PNode precipitateNode = new PrecipitateNode( model.solution, model.beaker );
         PNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
@@ -80,8 +80,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             evaporationControlNode.setOffset( beakerNode.getFullBoundsReference().getMinX(),
                                               getStageSize().getHeight() - evaporationControlNode.getFullBoundsReference().getHeight() - yMargin );
             // aligned with beaker
-            precipitateNode.setOffset( beakerNode.getOffset().getX() - ( model.beaker.getWidth() / 2 ),
-                                       beakerNode.getOffset().getY() - model.beaker.getHeight() );
+            precipitateNode.setOffset( beakerNode.getOffset() );
             // centered towards bottom of beaker
             saturatedIndicatorNode.setOffset( beakerNode.getFullBoundsReference().getCenterX() - ( saturatedIndicatorNode.getFullBoundsReference().getWidth() / 2 ),
                                               beakerNode.getFullBoundsReference().getMaxY() - 0.25 * beakerNode.getFullBoundsReference().getHeight() );

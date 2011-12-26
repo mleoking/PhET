@@ -5,37 +5,38 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import edu.colorado.phet.beerslawlab.model.Beaker;
 import edu.colorado.phet.beerslawlab.model.Solution;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * This node manages the precipitate that forms on the bottom of the beaker when the solution is saturated.
- * Origin is at the upper-left corner of the beaker.
+ * Origin is at bottom center of the beaker.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PrecipitateNode extends PComposite {
 
     private final Solution solution;
-    private final PDimension beakerSize;
+    private final Beaker beaker;
     private final ArrayList<PrecipitateParticleNode> particleNodes;
     private final PText valueNode;
 
-    public PrecipitateNode( Solution solution, PDimension beakerSize ) {
+    public PrecipitateNode( Solution solution, Beaker beaker ) {
         this.solution = solution;
-        this.beakerSize = beakerSize;
+        this.beaker = beaker;
         this.particleNodes = new ArrayList<PrecipitateParticleNode>();
         valueNode = new PText( "?" ) {{
             setFont( new PhetFont( 12 ) );
         }};
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
             addChild( valueNode );
-            valueNode.setOffset( 0, beakerSize.getHeight() + 10 );
+            // below bottom left corner of beaker
+            valueNode.setOffset( beaker.getX() - beaker.getWidth(), 10 );
         }
 
         // when the saturation changes, update the number of precipitate particles
@@ -99,19 +100,18 @@ public class PrecipitateNode extends PComposite {
         if ( numberOfParticles == 0 && solution.getPrecipitateAmount() > 0 ) {
             numberOfParticles = 1;
         }
-        return 30;//XXX numberOfParticles;
+        return numberOfParticles;
     }
 
-    // Gets a random position towards the bottom of the beaker.
+    // Gets a random position on the bottom of the beaker.
     private Point2D getRandomOffset( PrecipitateParticleNode particleNode ) {
         // x offset
         double xMargin = particleNode.getFullBoundsReference().getWidth();
-        double width = beakerSize.getWidth() - particleNode.getFullBoundsReference().getWidth() - ( 2 * xMargin );
-        double x = xMargin + ( Math.random() * width );
+        double width = beaker.getWidth() - particleNode.getFullBoundsReference().getWidth() - ( 2 * xMargin );
+        double x = xMargin + ( Math.random() * width ) - ( beaker.getWidth() / 2 );
         // y offset
         double yMargin = particleNode.getFullBoundsReference().getHeight();
-        double height = 0.02 * beakerSize.getHeight();
-        double y = beakerSize.getHeight() - yMargin - height + ( Math.random() * height );
+        double y = -yMargin;
         // offset
         return new Point2D.Double( x, y );
     }
