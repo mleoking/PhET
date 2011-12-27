@@ -1,3 +1,4 @@
+Made division bar rounded for reduced and mixed fractions
 Changed "Reduced" and "Mixed" from radio buttons to checkboxes
 Made water glasses clickable
 Change the numerator when clicking anywhere in the number line
