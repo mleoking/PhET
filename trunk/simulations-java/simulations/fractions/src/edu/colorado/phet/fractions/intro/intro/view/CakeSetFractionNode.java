@@ -22,6 +22,7 @@ public class CakeSetFractionNode extends VisibilityNode {
     HashMap<Integer, int[]> orderToAdd = new HashMap<Integer, int[]>() {{
         put( 2, new int[] { 2, 1 } );
         put( 3, new int[] { 1, 2, 3 } );
+        put( 4, new int[] { 1, 2, 3, 4 } );
         put( 12, new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3 } );
     }};
 
@@ -29,6 +30,7 @@ public class CakeSetFractionNode extends VisibilityNode {
     HashMap<Integer, int[]> renderOrder = new HashMap<Integer, int[]>() {{
         put( 2, new int[] { 2, 1 } );
         put( 3, new int[] { 1, 2, 3 } );
+        put( 4, new int[] { 1, 2, 3, 4 } );
         put( 12, new int[] { 3, 4, 5, 2, 6, 1, 7, 12, 8, 11, 9, 10 } );
     }};
 
