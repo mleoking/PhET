@@ -142,8 +142,8 @@ public class ConcentrationModel implements Resettable {
         double drainVolume = outputFaucet.flowRate.get() * deltaSeconds;
         if ( drainVolume > 0 ) {
             double concentration = solution.getConcentration(); // get concentration before changing volume
-            double volumeRemoved = removeSolute( drainVolume );
-            removeSolvent( concentration * volumeRemoved );
+            double volumeRemoved = removeSolvent( drainVolume );
+            removeSolute( concentration * volumeRemoved );
         }
     }
 
@@ -157,6 +157,7 @@ public class ConcentrationModel implements Resettable {
         double dropperVolume = dropper.getFlowRate() * deltaSeconds;
         if ( dropperVolume > 0 ) {
             double volumeAdded = addSolvent( dropperVolume );
+            //TODO if we don't add the full amount of solute here, then we've added too much solvent.
             addSolute( solution.solute.get().stockSolutionConcentration * volumeAdded );
         }
     }
