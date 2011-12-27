@@ -14,16 +14,16 @@ public class Solvent implements IFluid {
 
     public final String name;
     public final String formula;
-    private final Color fluidColor;
+    private final Color color;
 
-    public Solvent( String name, String formula, Color fluidColor ) {
+    public Solvent( String name, String formula, Color color ) {
         this.name = name;
         this.formula = formula;
-        this.fluidColor = fluidColor;
+        this.color = color;
     }
 
     public Color getFluidColor() {
-        return fluidColor;
+        return color;
     }
 
     public void addFluidColorObserver( SimpleObserver observer ) {

@@ -19,7 +19,7 @@ public class BLLFaucetNode extends FaucetNode {
     public BLLFaucetNode( final String simSharingObject, final Faucet faucet ) {
         super( faucet.getMaxFlowRate(), faucet.flowRate, faucet.enabled, faucet.getInputPipeLength(), true );
 
-        setOffset( faucet.getLocation().toPoint2D() );
+        setOffset( faucet.getLocation() );
 
         // sim-sharing
         getDragHandler().setStartEndDragFunction( new DragFunction() {
