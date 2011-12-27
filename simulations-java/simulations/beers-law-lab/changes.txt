@@ -1,3 +1,4 @@
+12/26/11 replace ImmutableVector2D with Point2D for non-public fields
 12/26/11 first pass at stock solution coming out of dropper (not aligned with dropper hole)
 12/26/11 reorganize time-based portion of model
 12/26/11 model of shaker dispensing solute

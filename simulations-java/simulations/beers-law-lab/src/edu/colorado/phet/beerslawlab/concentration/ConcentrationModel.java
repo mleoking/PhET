@@ -2,6 +2,7 @@
 package edu.colorado.phet.beerslawlab.concentration;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
@@ -83,9 +84,9 @@ public class ConcentrationModel implements Resettable {
         this.shaker = new Shaker( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute, SHAKER_MAX_DISPENSING_RATE );
         this.dropper = new Dropper( new ImmutableVector2D( 290, 20 ), new PBounds( 10, 10, 400, 200 ), solute, DROPPER_FLOW_RATE );
         this.evaporationRate = new Property<Double>( 0d );
-        this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
-        this.inputFaucet = new Faucet( new ImmutableVector2D( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
-        this.outputFaucet = new Faucet( new ImmutableVector2D( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive location and pipe length
+        this.beaker = new Beaker( new Point2D.Double( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
+        this.inputFaucet = new Faucet( new Point2D.Double( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
+        this.outputFaucet = new Faucet( new Point2D.Double( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive location and pipe length
 
         // Enable faucets based on amount of solution in the beaker.
         solution.volume.addObserver( new VoidFunction1<Double>() {
