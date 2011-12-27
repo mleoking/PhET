@@ -14,9 +14,10 @@ DESIGN
 - is there a maximum amount of solute that the shaker can dispense?
 
 HIGH
+- move origin of dropper to hole that dispenses stock solution
+- move shaker location to holes in shaker image
 - move developer display to a dialog, add a button to access
 - view of solute exiting shaker
-- view of stock solution exiting dropper
 - concentration meter
 
 MEDIUM
@@ -28,8 +29,6 @@ LOW
 - #3199, bigger slider thumb on FaucetNode
 - derive height of fluid columns coming out of faucets, instead of using hardcoded values (see ConcentrationCanvas)
 - derive faucet locations and pipe lengths based on beaker location and size (see ConcentrationModel)
-- move shaker location to holes in shaker image
-- move dropper location to hole in dropper image
 - fluid coming out of dropper and H2O faucet should stop at surface of solution in beaker
 
 SIM-SHARING
