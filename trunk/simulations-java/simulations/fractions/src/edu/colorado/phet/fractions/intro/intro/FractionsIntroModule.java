@@ -13,7 +13,6 @@ import edu.colorado.phet.fractions.intro.intro.view.FractionsIntroCanvas;
 public class FractionsIntroModule extends AbstractFractionsModule {
     public FractionsIntroModule() {
         super( "Intro" );
-        FractionsIntroModel model = new FractionsIntroModel();
-        setSimulationPanel( new FractionsIntroCanvas( model ) );
+        setSimulationPanel( new FractionsIntroCanvas( new FractionsIntroModel() ) );
     }
 }

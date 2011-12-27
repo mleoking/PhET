@@ -1,14 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.geom.Line2D;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -20,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MixedFractionNode extends PNode {
     public MixedFractionNode( final Property<Integer> integer, final Property<Integer> numerator, final Property<Integer> denominator ) {
-        final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12 ), Color.black );
+        final PNode line = new RoundedDivisorLine();
         addChild( line );
 
         //Integer in front of the fraction part
