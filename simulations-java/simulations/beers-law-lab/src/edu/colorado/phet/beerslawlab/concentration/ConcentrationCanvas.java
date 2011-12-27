@@ -19,6 +19,7 @@ import edu.colorado.phet.beerslawlab.view.PrecipitateNode;
 import edu.colorado.phet.beerslawlab.view.SaturatedIndicatorNode;
 import edu.colorado.phet.beerslawlab.view.ShakerNode;
 import edu.colorado.phet.beerslawlab.view.SolutionNode;
+import edu.colorado.phet.beerslawlab.view.StockSolutionNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -41,6 +42,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
         PNode shakerNode = new ShakerNode( model.shaker, model.soluteForm );
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
+        PNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker, 15 ); //TODO get hole width from DropperNode
         PNode evaporationControlNode = new EvaporationControlNode( ConcentrationModel.MAX_EVAPORATION_RATE, model.evaporationRate );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
         PNode solutionNode = new SolutionNode( model.solution, model.beaker );
@@ -51,12 +53,14 @@ public class ConcentrationCanvas extends BLLCanvas {
         }};
         PNode modelDebugNode = new ConcentrationModelDebugger( model );
 
+        System.out.println( "dropperNode.getFullBoundsReference() = " + dropperNode.getFullBoundsReference() );
         // rendering order
         {
             addChild( inputFluidNode );
             addChild( inputFaucetNode );
             addChild( outputFluidNode );
             addChild( outputFaucetNode );
+            addChild( stockSolutionNode );
             addChild( solutionNode );
             addChild( beakerNode );
             addChild( precipitateNode );

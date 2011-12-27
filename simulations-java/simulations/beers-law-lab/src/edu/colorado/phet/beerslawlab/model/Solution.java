@@ -117,7 +117,7 @@ public class Solution implements IFluid, Resettable {
         volume.reset();
     }
 
-    private static final Color createColor( Solvent solvent, Solute solute, double concentration ) {
+    public static final Color createColor( Solvent solvent, Solute solute, double concentration ) {
         LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
         double colorScale = f.evaluate( concentration );
         return ColorUtils.interpolateRBGA( solvent.getFluidColor(), solute.solutionColor, colorScale );

@@ -35,7 +35,7 @@ public class OutputFluidNode extends PPath {
         faucet.flowRate.addObserver( new SimpleObserver() {
             public void update() {
                 if ( faucet.flowRate.get() == 0 ) {
-                    setPathTo( new Rectangle2D.Double( 0, 0, 0, 0 ) );
+                    setPathTo( new Rectangle2D.Double() ); // empty rectangle
                 }
                 else {
                     double maxWidth = globalToLocal( faucetNode.getGlobalOutputSize() ).getWidth();

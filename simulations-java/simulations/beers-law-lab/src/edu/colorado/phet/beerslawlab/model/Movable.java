@@ -30,6 +30,14 @@ public class Movable {
         }
     }
 
+    public double getX() {
+        return location.get().getX();
+    }
+
+    public double getY() {
+        return location.get().getY();
+    }
+
     public void reset() {
         location.reset();
     }
