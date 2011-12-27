@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.view;
 
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.intro.intro.model.FractionsIntroModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -12,34 +12,28 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class FractionEqualityPanel extends PNode {
+
+    public static final double DISTANCE_FROM_NUMBER_TO_EQUALS_SIGN = 8;
+
     public FractionEqualityPanel( final FractionsIntroModel model ) {
 
         //Show the main fraction control.  Wrap in a zero offset node since its internal layout is not normalized
         final FractionControlNode fractionNode = new FractionControlNode( model.numerator, model.denominator );
         addChild( fractionNode );
 
-        final EqualsSignNode equalsSignNode = new EqualsSignNode() {{
-            setOffset( fractionNode.getMaxX() + 50, fractionNode.getOffset().getY() - getFullHeight() / 2 );
-            new RichSimpleObserver() {
-                @Override public void update() {
-                    setVisible( model.mixedShowing.get() || model.reducedShowing.get() );
-                }
-            }.observe( model.mixedShowing, model.reducedShowing );
-        }};
-        addChild( equalsSignNode );
-
-        addChild( new FractionNode( model.reducedNumerator, model.reducedDenominator ) {{
-            setOffset( fractionNode.getFullBounds().getMaxX() + 50 + equalsSignNode.getFullBounds().getWidth() + 50, fractionNode.getOffset().getY() );
-            model.reducedShowing.addObserver( new VoidFunction1<Boolean>() {
+        final ZeroOffsetNode equalsReducedNode = new ZeroOffsetNode( new EqualsReducedNode( model.reducedNumerator, model.reducedDenominator ) ) {{
+            setOffset( fractionNode.getMaxX() + DISTANCE_FROM_NUMBER_TO_EQUALS_SIGN, fractionNode.getOffset().getY() - getFullHeight() / 2 );
+            model.showReduced.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
                 }
             } );
-        }} );
+        }};
+        addChild( equalsReducedNode );
 
-        addChild( new MixedFractionNode( model.mixedInteger, model.mixedNumerator, model.mixedDenominator ) {{
-            setOffset( fractionNode.getFullBounds().getMaxX() + 100 + equalsSignNode.getFullBounds().getWidth() + 50, fractionNode.getOffset().getY() );
-            model.mixedShowing.addObserver( new VoidFunction1<Boolean>() {
+        addChild( new ZeroOffsetNode( new EqualsMixedNode( model.mixedInteger, model.mixedNumerator, model.mixedDenominator ) ) {{
+            setOffset( equalsReducedNode.getMaxX() + DISTANCE_FROM_NUMBER_TO_EQUALS_SIGN, fractionNode.getOffset().getY() - getFullHeight() / 2 );
+            model.showMixed.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
                 }

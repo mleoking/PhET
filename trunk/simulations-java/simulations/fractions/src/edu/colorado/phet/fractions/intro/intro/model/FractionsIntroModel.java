@@ -16,8 +16,8 @@ public class FractionsIntroModel extends SingleFractionModel {
     private static boolean userToggled = false;
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
     public final Property<ContainerState> containerState = new Property<ContainerState>( new ContainerState( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
-    public Property<Boolean> reducedShowing = new Property<Boolean>( false );
-    public Property<Boolean> mixedShowing = new Property<Boolean>( false );
+    public Property<Boolean> showReduced = new Property<Boolean>( false );
+    public Property<Boolean> showMixed = new Property<Boolean>( false );
 
     public FractionsIntroModel() {
         //synchronize the container state with the numerator and denominator for when the user uses the spinners
@@ -61,8 +61,8 @@ public class FractionsIntroModel extends SingleFractionModel {
     public void resetAll() {
         super.resetAll();
         fill.reset();
-        reducedShowing.reset();
-        mixedShowing.reset();
+        showReduced.reset();
+        showMixed.reset();
     }
 
     //Flag to indicate the source of changes--if coming from the user, then changes need to be pushed to numerator and denominator
