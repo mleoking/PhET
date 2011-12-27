@@ -152,7 +152,7 @@ public class ConcentrationModel implements Resettable {
     private void addStockSolutionFromDropper( double deltaSeconds ) {
         double volume = dropper.getFlowRate() * deltaSeconds;
         addSolvent( volume );
-        addSolute( solution.solute.get().solutionConcentration * volume );
+        addSolute( solution.solute.get().stockSolutionConcentration * volume );
     }
 
     // Evaporate solvent

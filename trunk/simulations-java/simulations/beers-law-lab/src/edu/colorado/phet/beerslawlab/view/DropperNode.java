@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Dropper that contains a solute in solution form.
+ * Origin is at the center of the hole where solution comes out of the dropper (bottom center).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
