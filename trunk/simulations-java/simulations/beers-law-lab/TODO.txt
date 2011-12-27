@@ -17,7 +17,6 @@ DESIGN
 
 HIGH
 - move shaker location to holes in shaker image
-- move developer display to a dialog, add a button to access
 - view of solute exiting shaker
 
 MEDIUM

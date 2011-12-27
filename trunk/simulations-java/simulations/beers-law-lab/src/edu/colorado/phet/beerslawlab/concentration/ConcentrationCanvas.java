@@ -9,7 +9,7 @@ import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.control.EvaporationControlNode;
 import edu.colorado.phet.beerslawlab.control.RemoveSoluteButtonNode;
 import edu.colorado.phet.beerslawlab.control.SoluteControlNode;
-import edu.colorado.phet.beerslawlab.dev.ConcentrationModelDebugger;
+import edu.colorado.phet.beerslawlab.dev.ConcentrationModelButton;
 import edu.colorado.phet.beerslawlab.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.view.BLLFaucetNode;
 import edu.colorado.phet.beerslawlab.view.BeakerNode;
@@ -24,6 +24,7 @@ import edu.colorado.phet.beerslawlab.view.StockSolutionNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the "Concentration" module.
@@ -53,7 +54,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
-        PNode modelDebugNode = new ConcentrationModelDebugger( model );
+        PNode modelButton = new PSwing( new ConcentrationModelButton( parentFrame, model ) );
 
         System.out.println( "dropperNode.getFullBoundsReference() = " + dropperNode.getFullBoundsReference() );
         // rendering order
@@ -74,7 +75,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             addChild( resetAllButtonNode );
             addChild( concentrationMeterNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-                addChild( modelDebugNode );
+                addChild( modelButton );
             }
             addChild( soluteControlNode ); // on top, because it has a combo box popup
         }
@@ -102,8 +103,9 @@ public class ConcentrationCanvas extends BLLCanvas {
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
-            // below solute control panel
-            modelDebugNode.setOffset( beakerNode.getFullBoundsReference().getMaxX() + 20, soluteControlNode.getFullBoundsReference().getMaxY() + 20 );
+            // right-justified below solute control panel
+            modelButton.setOffset( soluteControlNode.getFullBoundsReference().getMaxX() - modelButton.getFullBoundsReference().getWidth(),
+                                   soluteControlNode.getFullBoundsReference().getMaxY() + 5 );
         }
     }
 }
