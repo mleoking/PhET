@@ -30,6 +30,7 @@ public class DropperNode extends PhetPNode {
     private static final double BUTTON_Y_OFFSET = 10 * IMAGE_SCALE; // y offset of button from the dropper image's center
 
     public DropperNode( final Dropper dropper, final Property<SoluteForm> soluteFormProperty ) {
+        scale( 0.75 ); //TODO eliminate need for scaling
 
         final PImage imageNode = new PImage( Images.DROPPER ) {{
             scale( IMAGE_SCALE );
