@@ -34,7 +34,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( fractionEqualityPanel );
 
-        EqualityDisplayOptionsControlPanel equalityDisplayOptionsControlPanel = new EqualityDisplayOptionsControlPanel( model.reducedShowing, model.mixedShowing );
+        EqualityDisplayOptionsControlPanel equalityDisplayOptionsControlPanel = new EqualityDisplayOptionsControlPanel( model.showReduced, model.showMixed );
         addChild( equalityDisplayOptionsControlPanel );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
