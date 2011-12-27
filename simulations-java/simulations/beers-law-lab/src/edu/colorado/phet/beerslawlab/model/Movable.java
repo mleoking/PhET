@@ -13,20 +13,20 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class Movable {
 
     public final Property<ImmutableVector2D> location;
-    private final PBounds locationBounds;
+    private final PBounds dragBounds;
 
-    public Movable( ImmutableVector2D location, PBounds locationBounds ) {
+    public Movable( ImmutableVector2D location, PBounds dragBounds ) {
         this.location = new Property<ImmutableVector2D>( location );
-        this.locationBounds = locationBounds;
+        this.dragBounds = dragBounds;
     }
 
     // Gets the bounds that define allowed locations. Null means there are no constraints on location.
-    public PBounds getLocationBounds() {
-        if ( locationBounds == null ) {
+    public PBounds getDragBounds() {
+        if ( dragBounds == null ) {
             return null;
         }
         else {
-            return new PBounds( locationBounds );
+            return new PBounds( dragBounds );
         }
     }
 

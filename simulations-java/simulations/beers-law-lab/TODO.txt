@@ -19,13 +19,13 @@ HIGH
 - move shaker location to holes in shaker image
 - move developer display to a dialog, add a button to access
 - view of solute exiting shaker
-- concentration meter
 
 MEDIUM
 - get dropper assets from NP
 - adjust drag bounds for shaker and dropper
 - make precipitate particles sit precisely on bottom of beaker
 - if we have limits on amount of solute, then make sure that we don't add solvent volume that would exceed the solute limit
+- end of wire is visible in transparent center of probe
 
 LOW
 - #3199, bigger slider thumb on FaucetNode

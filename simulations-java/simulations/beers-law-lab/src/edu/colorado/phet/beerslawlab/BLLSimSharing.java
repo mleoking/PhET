@@ -9,6 +9,8 @@ package edu.colorado.phet.beerslawlab;
 public class BLLSimSharing {
 
     public static class Objects {
+        public static final String CONCENTRATION_METER_BODY = "concentrationMeterBody";
+        public static final String CONCENTRATION_METER_PROBE = "concentrationMeterProbe";
         public static final String DROPPER = "dropper";
         public static final String DROPPER_BUTTON = "dropperButton";
         public static final String DROPPER_ICON = "dropperIcon";

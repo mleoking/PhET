@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLResources.Symbols;
 import edu.colorado.phet.beerslawlab.model.Beaker;
+import edu.colorado.phet.beerslawlab.model.ConcentrationMeter;
 import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.beerslawlab.model.Faucet;
 import edu.colorado.phet.beerslawlab.model.Shaker;
@@ -58,6 +59,7 @@ public class ConcentrationModel implements Resettable {
     public final Property<Double> evaporationRate; // L/sec
     public final Beaker beaker;
     public final Faucet inputFaucet, outputFaucet;
+    public final ConcentrationMeter concentrationMeter;
 
     public ConcentrationModel( IClock clock ) {
 
@@ -88,6 +90,7 @@ public class ConcentrationModel implements Resettable {
         this.beaker = new Beaker( new Point2D.Double( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.inputFaucet = new Faucet( new Point2D.Double( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
         this.outputFaucet = new Faucet( new Point2D.Double( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive location and pipe length
+        this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 770, 225 ), null, new ImmutableVector2D( 580, 300 ), null, solution, beaker ); //TODO drag bounds
 
         // Things to do when the solute is changed.
         solute.addObserver( new SimpleObserver() {
@@ -127,6 +130,7 @@ public class ConcentrationModel implements Resettable {
         evaporationRate.reset();
         inputFaucet.reset();
         outputFaucet.reset();
+        concentrationMeter.reset();
     }
 
     /*

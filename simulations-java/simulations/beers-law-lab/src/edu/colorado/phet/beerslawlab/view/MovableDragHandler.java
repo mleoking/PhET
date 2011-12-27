@@ -23,12 +23,10 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
     private final Movable movable;
     private final PNode dragNode;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
-    private final Rectangle2D dragBounds;
 
-    public MovableDragHandler( final String simSharingObject, final Movable movable, PNode dragNode, Rectangle2D dragBounds ) {
+    public MovableDragHandler( final String simSharingObject, final Movable movable, PNode dragNode ) {
         this.movable = movable;
         this.dragNode = dragNode;
-        this.dragBounds = dragBounds;
         // sim-sharing
         setStartEndDragFunction( new DragFunction() {
             public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
@@ -52,7 +50,7 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
         double x = pMouse.getX() - clickXOffset;
         double y = pMouse.getY() - clickYOffset;
         //TODO assumes a 1:1 model-view transform
-        movable.location.set( constraintToBounds( x, y, dragBounds ) );
+        movable.location.set( constraintToBounds( x, y, movable.getDragBounds() ) );
     }
 
     private static ImmutableVector2D constraintToBounds( double x, double y, Rectangle2D bounds ) {

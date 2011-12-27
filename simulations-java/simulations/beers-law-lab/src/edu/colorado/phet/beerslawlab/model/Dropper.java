@@ -18,9 +18,9 @@ public class Dropper extends Movable {
     public final Property<Boolean> enabled;
     private final Property<Double> flowRate;
 
-    public Dropper( ImmutableVector2D location, PBounds bounds, Property<Solute> solute, final double maxFlowRate ) {
-        super( location, bounds );
-        assert ( bounds.contains( location.toPoint2D() ) );
+    public Dropper( ImmutableVector2D location, PBounds dragBounds, Property<Solute> solute, final double maxFlowRate ) {
+        super( location, dragBounds );
+        assert ( dragBounds.contains( location.toPoint2D() ) );
 
         this.solute = solute;
         this.on = new Property<Boolean>( false );
