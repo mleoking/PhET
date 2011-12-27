@@ -12,6 +12,7 @@ DESIGN
 - is there a maximum amount of solute? (will affect usability of dropper and beaker)
 - is there a maximum amount of solution that the dropper can dispense?
 - is there a maximum amount of solute that the shaker can dispense?
+- split solute combo box items into 2 lines, so the control isn't so wide?
 
 HIGH
 - move shaker location to holes in shaker image
