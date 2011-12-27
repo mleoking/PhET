@@ -33,10 +33,10 @@ public class RepresentationControlPanel extends ControlPanelNode {
                     new HorizontalBarIcon( selected ),
                     new VerticalBarIcon( selected ),
                     new WaterGlassIcon( selected ),
+                    new CakeIcon( selected ),
                     new NumberLineIcon( selected ) {{
                         scale( 1.2 );
                     }},
-                    new CakeIcon( selected ),
             };
 
             double maxWidth = 0;
