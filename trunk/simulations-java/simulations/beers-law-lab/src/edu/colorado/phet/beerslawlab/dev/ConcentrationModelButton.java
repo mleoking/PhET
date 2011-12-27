@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import edu.colorado.phet.beerslawlab.concentration.ConcentrationModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -89,11 +90,15 @@ public class ConcentrationModelButton extends JButton {
             final JLabel meterProbeLocation = new JLabel();
             final JLabel shakerDispensingRate = new JLabel();
             final JLabel dropperFlowRate = new JLabel();
+            final JLabel soluteSaturatedConcentration = new JLabel();
+            final JLabel soluteStockConcentration = new JLabel();
 
             // populate panel
             add( new HeadingLabel( "solute:" ) );
-            add( soluteForm );
             add( soluteFormula );
+            add( soluteForm );
+            add( soluteSaturatedConcentration );
+            add( soluteStockConcentration );
             add( Box.createVerticalStrut( 5 ) );
             add( new HeadingLabel( "solution:" ) );
             add( solutionSoluteAmount );
@@ -124,78 +129,80 @@ public class ConcentrationModelButton extends JButton {
             // observers
             model.dropper.location.addObserver( new SimpleObserver() {
                 public void update() {
-                    dropperLocation.setText( "dropper.location = (" + (int) model.dropper.location.get().getX() + "," + (int) model.dropper.location.get().getY() + ")" );
+                    dropperLocation.setText( "dropper = (" + (int) model.dropper.location.get().getX() + "," + (int) model.dropper.location.get().getY() + ")" );
                 }
             } );
             model.evaporationRate.addObserver( new SimpleObserver() {
                 public void update() {
-                    evaporationRate.setText( "evaporationRate = " + rateFormat.format( model.evaporationRate.get() ) + " L/sec" );
+                    evaporationRate.setText( "evaporation = " + rateFormat.format( model.evaporationRate.get() ) + " L/sec" );
                 }
             } );
             model.inputFaucet.flowRate.addObserver( new SimpleObserver() {
                 public void update() {
-                    inputFaucetFlowRate.setText( "inputFaucet.flowRate = " + rateFormat.format( model.inputFaucet.flowRate.get() ) + " L/sec" );
+                    inputFaucetFlowRate.setText( "input faucet = " + rateFormat.format( model.inputFaucet.flowRate.get() ) + " L/sec" );
                 }
             } );
             model.outputFaucet.flowRate.addObserver( new SimpleObserver() {
                 public void update() {
-                    outputFaucetFlowRate.setText( "outputFaucet.flowRate = " + rateFormat.format( model.outputFaucet.flowRate.get() ) + " L/sec" );
+                    outputFaucetFlowRate.setText( "output faucet = " + rateFormat.format( model.outputFaucet.flowRate.get() ) + " L/sec" );
                 }
             } );
             model.shaker.location.addObserver( new SimpleObserver() {
                 public void update() {
-                    shakerLocation.setText( "shaker.location = (" + (int) model.shaker.location.get().getX() + "," + (int) model.shaker.location.get().getY() + ")" );
+                    shakerLocation.setText( "shaker = (" + (int) model.shaker.location.get().getX() + "," + (int) model.shaker.location.get().getY() + ")" );
                 }
             } );
             model.solute.addObserver( new SimpleObserver() {
                 public void update() {
-                    soluteFormula.setText( "solute.formula = " + model.solute.get().formula );
+                    soluteFormula.setText( HTMLUtils.toHTMLString( "formula = " + model.solute.get().formula ) );
+                    soluteSaturatedConcentration.setText( "saturated concentration = " + concentrationFormat.format( model.solute.get().saturatedConcentration ) + " M" );
+                    soluteStockConcentration.setText( "stock concentration = " + concentrationFormat.format( model.solute.get().stockSolutionConcentration ) + " M" );
                 }
             } );
             model.soluteForm.addObserver( new SimpleObserver() {
                 public void update() {
-                    soluteForm.setText( "soluteForm = " + model.soluteForm.get() );
+                    soluteForm.setText( "form = " + model.soluteForm.get() );
                 }
             } );
             model.solution.addConcentrationObserver( new SimpleObserver() {
                 public void update() {
-                    solutionConcentration.setText( "solution.concentration = " + concentrationFormat.format( model.solution.getConcentration() ) + " M" );
+                    solutionConcentration.setText( "concentration = " + concentrationFormat.format( model.solution.getConcentration() ) + " M" );
                 }
             } );
             model.solution.addPrecipitateAmountObserver( new SimpleObserver() {
                 public void update() {
-                    solutionPrecipitateAmount.setText( "solution.precipitateAmount = " + molesFormat.format( model.solution.getPrecipitateAmount() ) + " mol" );
-                    solutionPrecipitateParticles.setText( "solution.precipitateParticles = " + model.solution.getNumberOfPrecipitateParticles() );
+                    solutionPrecipitateAmount.setText( "precipitate amount = " + molesFormat.format( model.solution.getPrecipitateAmount() ) + " mol" );
+                    solutionPrecipitateParticles.setText( "precipitate particles = " + model.solution.getNumberOfPrecipitateParticles() );
                 }
             } );
             model.solution.soluteAmount.addObserver( new SimpleObserver() {
                 public void update() {
-                    solutionSoluteAmount.setText( "solution.soluteAmount = " + molesFormat.format( model.solution.soluteAmount.get() ) + " mol" );
+                    solutionSoluteAmount.setText( "solute amount = " + molesFormat.format( model.solution.soluteAmount.get() ) + " mol" );
                 }
             } );
             model.solution.volume.addObserver( new SimpleObserver() {
                 public void update() {
-                    solutionVolume.setText( "solution.volume = " + volumeFormat.format( model.solution.volume.get() ) + " L" );
+                    solutionVolume.setText( "volume = " + volumeFormat.format( model.solution.volume.get() ) + " L" );
                 }
             } );
             model.concentrationMeter.body.location.addObserver( new SimpleObserver() {
                 public void update() {
-                    meterBodyLocation.setText( "meter.body.location = (" + (int) model.concentrationMeter.body.location.get().getX() + "," + (int) model.concentrationMeter.body.location.get().getY() + ")" );
+                    meterBodyLocation.setText( "meter = (" + (int) model.concentrationMeter.body.location.get().getX() + "," + (int) model.concentrationMeter.body.location.get().getY() + ")" );
                 }
             } );
             model.concentrationMeter.probe.location.addObserver( new SimpleObserver() {
                 public void update() {
-                    meterProbeLocation.setText( "meter.probe.location = (" + (int) model.concentrationMeter.probe.location.get().getX() + "," + (int) model.concentrationMeter.probe.location.get().getY() + ")" );
+                    meterProbeLocation.setText( "probe = (" + (int) model.concentrationMeter.probe.location.get().getX() + "," + (int) model.concentrationMeter.probe.location.get().getY() + ")" );
                 }
             } );
             model.shaker.addDispensingRateObserver( new SimpleObserver() {
                 public void update() {
-                    shakerDispensingRate.setText( "shaker.dispensingRate = " + rateFormat.format( model.shaker.getDispensingRate() ) + " mol/sec" );
+                    shakerDispensingRate.setText( "shaker = " + rateFormat.format( model.shaker.getDispensingRate() ) + " mol/sec" );
                 }
             } );
             model.dropper.addFlowRateObserver( new SimpleObserver() {
                 public void update() {
-                    dropperFlowRate.setText( "dropper.flowRate = " + rateFormat.format( model.dropper.getFlowRate() ) + " L/sec" );
+                    dropperFlowRate.setText( "dropper = " + rateFormat.format( model.dropper.getFlowRate() ) + " L/sec" );
                 }
             } );
         }
