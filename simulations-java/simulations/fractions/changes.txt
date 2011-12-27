@@ -1,3 +1,4 @@
+# 0.00.26 (59710) Dec 27, 2011
 Fixed: When clicking the water glasses, the clicking action works fine but does not appear to affect the fraction value.
 # 0.00.25 (59702) Dec 27, 2011
 Added new images for cake 1/2 and 1/3 divisions
