@@ -34,7 +34,7 @@ public class RepresentationArea extends PNode {
             setOffset( 10, 15 );
         }} );
         addChild( new CakeSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.CAKE ) ) {{
-            setOffset( 0, 0 );
+            setOffset( -18, -40 );
         }} );
         addChild( new WaterGlassSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.WATER_GLASSES ) ) {{
             setOffset( 15, -65 );

@@ -21,12 +21,14 @@ public class CakeSetFractionNode extends VisibilityNode {
     //Order that slices appear in the cake as the user adds them
     HashMap<Integer, int[]> orderToAdd = new HashMap<Integer, int[]>() {{
         put( 2, new int[] { 2, 1 } );
+        put( 3, new int[] { 1, 2, 3 } );
         put( 12, new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3 } );
     }};
 
     //Find which should appear before/after others in z-ordering.  Must be back to front.
     HashMap<Integer, int[]> renderOrder = new HashMap<Integer, int[]>() {{
         put( 2, new int[] { 2, 1 } );
+        put( 3, new int[] { 1, 2, 3 } );
         put( 12, new int[] { 3, 4, 5, 2, 6, 1, 7, 12, 8, 11, 9, 10 } );
     }};
 
@@ -47,17 +49,29 @@ public class CakeSetFractionNode extends VisibilityNode {
                 int slicesInLastCake = numerator.get() % d;
                 SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
-                if ( d == 2 || d == 12 ) {
+                if ( orderToAdd.containsKey( d ) ) {
+
+                    int numAdded = 0;
                     for ( int i = 0; i < numFullCakes; i++ ) {
                         box.addChild( new CakeNode( d, getSliceArray( d, d ) ) {{
                             scale( 0.9 );
                         }} );
+                        numAdded++;
                     }
 
                     if ( slicesInLastCake > 0 ) {
                         box.addChild( new CakeNode( d, getSliceArray( slicesInLastCake, d ) ) {{
                             scale( 0.9 );
                         }} );
+                        numAdded++;
+                    }
+
+                    //Show empty cake grids up until the max allowed
+                    while ( numAdded <= 6 ) {
+                        box.addChild( new CakeNode( d, getSliceArray( 0, d ) ) {{
+                            scale( 0.9 );
+                        }} );
+                        numAdded++;
                     }
                 }
                 else {
