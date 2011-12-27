@@ -18,9 +18,9 @@ public class Shaker extends Movable {
     private final double maxDispensingRate;
     private final Property<Double> dispensingRate; // mol/sec
 
-    public Shaker( ImmutableVector2D location, PBounds bounds, Property<Solute> solute, double maxDispensingRate ) {
-        super( location, bounds );
-        assert ( bounds.contains( location.toPoint2D() ) );
+    public Shaker( ImmutableVector2D location, PBounds dragBounds, Property<Solute> solute, double maxDispensingRate ) {
+        super( location, dragBounds );
+        assert ( dragBounds.contains( location.toPoint2D() ) );
         this.solute = solute;
         this.enabled = new Property<Boolean>( true );
         this.maxDispensingRate = maxDispensingRate;

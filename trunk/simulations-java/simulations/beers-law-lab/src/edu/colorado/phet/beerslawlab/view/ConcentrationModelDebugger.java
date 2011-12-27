@@ -37,6 +37,8 @@ public class ConcentrationModelDebugger extends VBox {
         final PText solutionPrecipitateParticles = new PText( "?" );
         final PText solutionSoluteAmount = new PText( "?" );
         final PText solutionVolume = new PText( "?" );
+        final PText meterBodyLocation = new PText( "?" );
+        final PText meterProbeLocation = new PText( "?" );
 
         // rendering order
         addChild( new PText( "MODEL PROPERTIES (dev)" ) {{ setTextPaint( Color.RED ); }} );
@@ -52,6 +54,8 @@ public class ConcentrationModelDebugger extends VBox {
         addChild( solutionPrecipitateParticles );
         addChild( solutionSoluteAmount );
         addChild( solutionVolume );
+        addChild( meterBodyLocation );
+        addChild( meterProbeLocation );
 
         final DecimalFormat rateFormat = new DecimalFormat( "0.000" );
         final DecimalFormat volumeFormat = new DecimalFormat( "0.00" );
@@ -113,6 +117,16 @@ public class ConcentrationModelDebugger extends VBox {
         model.solution.volume.addObserver( new SimpleObserver() {
             public void update() {
                 solutionVolume.setText( "solution.volume = " + volumeFormat.format( model.solution.volume.get() ) + " L" );
+            }
+        } );
+        model.concentrationMeter.body.location.addObserver( new SimpleObserver() {
+            public void update() {
+                meterBodyLocation.setText( "meter.body.location = (" + (int) model.concentrationMeter.body.location.get().getX() + "," + (int) model.concentrationMeter.body.location.get().getY() + ")" );
+            }
+        } );
+        model.concentrationMeter.probe.location.addObserver( new SimpleObserver() {
+            public void update() {
+                meterProbeLocation.setText( "meter.probe.location = (" + (int) model.concentrationMeter.probe.location.get().getX() + "," + (int) model.concentrationMeter.probe.location.get().getY() + ")" );
             }
         } );
     }

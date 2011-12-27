@@ -27,7 +27,7 @@ public class BLLResources {
         public static final String KOOL_AID = RESOURCES.getLocalizedString( "koolAid" );
         public static final String LITERS = RESOURCES.getLocalizedString( "liters" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
-        public static final String MOLES_PER_LITER = RESOURCES.getLocalizedString( "molesPerLiter" );
+        public static final String MOLAR = RESOURCES.getLocalizedString( "molar" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
@@ -58,6 +58,8 @@ public class BLLResources {
 
     // Images
     public static class Images {
+        public static final Image CONCENTRATION_METER_BODY = RESOURCES.getImage( "concentration-meter-body.png" );
+        public static final Image CONCENTRATION_METER_PROBE = RESOURCES.getImage( "concentration-meter-probe.png" );
         public static final Image DROPPER = RESOURCES.getImage( "dropper.png" );
         public static final Image DROPPER_ICON = RESOURCES.getImage( "dropper-icon.png" );
         public static final Image SHAKER = RESOURCES.getImage( "shaker.png" );

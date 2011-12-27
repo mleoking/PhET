@@ -1,3 +1,5 @@
+12/27/11 add concentration meter (model and view)
+12/27/11 remove solute from solution when changing solute
 12/26/11 fix "Saturated!" indicator for empty beaker
 12/26/11 a little work on add/removeSolvent and add/removeSolute in model
 12/26/11 fix dropper button, doesn't disable when beaker is full

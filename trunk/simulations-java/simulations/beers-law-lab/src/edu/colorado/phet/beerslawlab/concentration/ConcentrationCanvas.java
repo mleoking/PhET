@@ -12,6 +12,7 @@ import edu.colorado.phet.beerslawlab.control.SoluteControlNode;
 import edu.colorado.phet.beerslawlab.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.view.BLLFaucetNode;
 import edu.colorado.phet.beerslawlab.view.BeakerNode;
+import edu.colorado.phet.beerslawlab.view.ConcentrationMeterNode;
 import edu.colorado.phet.beerslawlab.view.ConcentrationModelDebugger;
 import edu.colorado.phet.beerslawlab.view.DropperNode;
 import edu.colorado.phet.beerslawlab.view.OutputFluidNode;
@@ -46,6 +47,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode evaporationControlNode = new EvaporationControlNode( ConcentrationModel.MAX_EVAPORATION_RATE, model.evaporationRate );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
         PNode solutionNode = new SolutionNode( model.solution, model.beaker );
+        PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter );
         PNode precipitateNode = new PrecipitateNode( model.solution, model.beaker );
         PNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
@@ -70,6 +72,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             addChild( evaporationControlNode );
             addChild( removeSoluteButtonNode );
             addChild( resetAllButtonNode );
+            addChild( concentrationMeterNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( modelDebugNode );
             }

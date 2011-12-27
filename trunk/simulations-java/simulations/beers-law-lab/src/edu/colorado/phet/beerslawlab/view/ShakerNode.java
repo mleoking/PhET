@@ -71,7 +71,7 @@ public class ShakerNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new ShakerDragHandler( shaker, this, shaker.getLocationBounds() ) );
+        addInputEventListener( new ShakerDragHandler( shaker, this, shaker.getDragBounds() ) );
     }
 
     // Drag handler, specialized for the shaker.
@@ -80,7 +80,7 @@ public class ShakerNode extends PhetPNode {
         private final Shaker shaker;
 
         public ShakerDragHandler( final Shaker shaker, PNode dragNode, Rectangle2D dragBounds ) {
-            super( Objects.SHAKER, shaker, dragNode, dragBounds );
+            super( Objects.SHAKER, shaker, dragNode );
             this.shaker = shaker;
         }
 
