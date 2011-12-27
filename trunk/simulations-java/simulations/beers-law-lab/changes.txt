@@ -1,3 +1,4 @@
+12/26/11 fix "Saturated!" indicator for empty beaker
 12/26/11 a little work on add/removeSolvent and add/removeSolute in model
 12/26/11 fix dropper button, doesn't disable when beaker is full
 12/26/11 move origin of dropper to hole that dispenses stock solution

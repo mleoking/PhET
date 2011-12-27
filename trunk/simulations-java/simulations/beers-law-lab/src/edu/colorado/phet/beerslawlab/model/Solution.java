@@ -76,7 +76,11 @@ public class Solution implements IFluid, Resettable {
     }
 
     public boolean isSaturated() {
-        return ( getSoluteAmount() / getVolume() ) > getSaturatedConcentration();
+        boolean saturated = false;
+        if ( getVolume() > 0 ) {
+            saturated = ( getSoluteAmount() / getVolume() ) > getSaturatedConcentration();
+        }
+        return saturated;
     }
 
     public double getConcentration() {
