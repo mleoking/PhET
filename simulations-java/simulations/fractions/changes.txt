@@ -1,3 +1,4 @@
+# 0.00.24 (59700) Dec 27, 2011
 Made division bar rounded for reduced and mixed fractions
 Changed "Reduced" and "Mixed" from radio buttons to checkboxes
 Made water glasses clickable
