@@ -139,9 +139,11 @@ public class ConcentrationModel implements Resettable {
 
     // Drain solution from the output faucet
     private void drainSolutionFromOutputFaucet( double deltaSeconds ) {
-        double volume = outputFaucet.flowRate.get() * deltaSeconds;
-        removeSolute( solution.getConcentration() * volume );
-        removeSolvent( volume );
+        double drainVolume = outputFaucet.flowRate.get() * deltaSeconds;
+        if ( drainVolume > 0 ) {
+            double volumeDrained = removeSolute( solution.getConcentration() * drainVolume );
+            removeSolvent( volumeDrained );
+        }
     }
 
     // Add solute from the shaker
@@ -151,9 +153,11 @@ public class ConcentrationModel implements Resettable {
 
     // Add stock solution from dropper
     private void addStockSolutionFromDropper( double deltaSeconds ) {
-        double volume = dropper.getFlowRate() * deltaSeconds;
-        addSolvent( volume );
-        addSolute( solution.solute.get().stockSolutionConcentration * volume );
+        double dropperVolume = dropper.getFlowRate() * deltaSeconds;
+        if ( dropperVolume > 0 ) {
+            double volumeAdded = addSolute( solution.solute.get().stockSolutionConcentration * dropperVolume );
+            addSolvent( volumeAdded );
+        }
     }
 
     // Evaporate solvent
@@ -161,27 +165,51 @@ public class ConcentrationModel implements Resettable {
         removeSolvent( evaporationRate.get() * deltaSeconds );
     }
 
-    private void addSolvent( double deltaVolume ) {
+    // Adds solvent to the solution. Returns the amount actually added.
+    private double addSolvent( double deltaVolume ) {
         if ( deltaVolume > 0 ) {
+            double volumeBefore = solution.volume.get();
             solution.volume.set( Math.min( SOLUTION_VOLUME_RANGE.getMax(), solution.volume.get() + deltaVolume ) );
+            return solution.volume.get() - volumeBefore;
+        }
+        else {
+            return 0;
         }
     }
 
-    private void removeSolvent( double deltaVolume ) {
+    // Removes solvent from the solution. Returns the amount actually removed.
+    private double removeSolvent( double deltaVolume ) {
         if ( deltaVolume > 0 ) {
+            double volumeBefore = solution.volume.get();
             solution.volume.set( Math.max( SOLUTION_VOLUME_RANGE.getMin(), solution.volume.get() - deltaVolume ) );
+            return volumeBefore - solution.volume.get();
+        }
+        else {
+            return 0;
         }
     }
 
-    private void addSolute( double deltaAmount ) {
+    // Adds solvent to the solution. Returns the amount actually added.
+    private double addSolute( double deltaAmount ) {
         if ( deltaAmount > 0 ) {
+            double amountBefore = solution.soluteAmount.get();
             solution.soluteAmount.set( Math.min( SOLUTE_AMOUNT_RANGE.getMax(), solution.soluteAmount.get() + deltaAmount ) );
+            return solution.soluteAmount.get() - amountBefore;
+        }
+        else {
+            return 0;
         }
     }
 
-    private void removeSolute( double deltaAmount ) {
+    // Removes solvent from the solution. Returns the amount actually removed.
+    private double removeSolute( double deltaAmount ) {
         if ( deltaAmount > 0 ) {
+            double amountBefore = solution.soluteAmount.get();
             solution.soluteAmount.set( Math.max( SOLUTE_AMOUNT_RANGE.getMin(), solution.soluteAmount.get() - deltaAmount ) );
+            return amountBefore - solution.soluteAmount.get();
+        }
+        else {
+            return 0;
         }
     }
 }
