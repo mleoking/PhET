@@ -1,3 +1,4 @@
+12/27/11 create dev package
 12/27/11 add concentration meter (model and view)
 12/27/11 remove solute from solution when changing solute
 12/26/11 fix "Saturated!" indicator for empty beaker
