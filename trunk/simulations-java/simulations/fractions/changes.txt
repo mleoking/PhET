@@ -1,3 +1,4 @@
+Put the cake after the glass of water, and the number line last in the representation control panel
 Added more cake images for testing
 # 0.00.26 (59710) Dec 27, 2011
 Fixed: When clicking the water glasses, the clicking action works fine but does not appear to affect the fraction value.
