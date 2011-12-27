@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.beerslawlab.view;
+package edu.colorado.phet.beerslawlab.dev;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
