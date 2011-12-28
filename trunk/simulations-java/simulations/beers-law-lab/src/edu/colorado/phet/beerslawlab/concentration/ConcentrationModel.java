@@ -92,7 +92,9 @@ public class ConcentrationModel implements Resettable {
         this.beaker = new Beaker( new Point2D.Double( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.inputFaucet = new Faucet( new Point2D.Double( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
         this.outputFaucet = new Faucet( new Point2D.Double( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive location and pipe length
-        this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 770, 225 ), null, new ImmutableVector2D( 580, 300 ), null, solution, beaker ); //TODO drag bounds
+        this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 770, 225 ), new PBounds( 10, 10, 825, 530 ),
+                                                          new ImmutableVector2D( 580, 300 ), new PBounds( 30, 30, 935, 605 ),
+                                                          solution, beaker );
 
         // Things to do when the solute is changed.
         solute.addObserver( new SimpleObserver() {
