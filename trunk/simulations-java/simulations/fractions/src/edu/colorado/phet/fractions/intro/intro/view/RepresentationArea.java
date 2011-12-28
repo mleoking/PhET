@@ -33,7 +33,7 @@ public class RepresentationArea extends PNode {
         addChild( new NumberLineNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.NUMBER_LINE ) ) {{
             setOffset( 10, 15 );
         }} );
-        addChild( new CakeSetFractionNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.CAKE ) ) {{
+        addChild( new CakeSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.CAKE ) ) {{
             setOffset( -18, -40 );
         }} );
         addChild( new WaterGlassSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.WATER_GLASSES ) ) {{

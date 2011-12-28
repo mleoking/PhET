@@ -1,3 +1,4 @@
+Started click-to-toggle cake feature
 # 0.00.27 (59713) Dec 27, 2011
 Put the cake after the glass of water, and the number line last in the representation control panel
 Added more cake images for testing

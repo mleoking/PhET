@@ -9,6 +9,8 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
+import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -34,12 +36,12 @@ public class CakeSetFractionNode extends VisibilityNode {
         put( 12, new int[] { 3, 4, 5, 2, 6, 1, 7, 12, 8, 11, 9, 10 } );
     }};
 
-    public CakeSetFractionNode( final Property<Integer> numerator, final Property<Integer> denominator, ObservableProperty<Boolean> enabled ) {
+    public CakeSetFractionNode( final Property<ContainerState> state, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
             public void update() {
 
-                int d = denominator.get();
+                int d = state.get().denominator;
 
                 //6 pies fit on the screen
                 int distanceBetweenPies = 10;
@@ -47,42 +49,53 @@ public class CakeSetFractionNode extends VisibilityNode {
                 final double DIAMETER = spaceForPies / 6;
 
                 removeAllChildren();
-                int numFullCakes = numerator.get() / d;
-                int slicesInLastCake = numerator.get() % d;
                 SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
                 if ( orderToAdd.containsKey( d ) ) {
 
-                    int numAdded = 0;
-                    for ( int i = 0; i < numFullCakes; i++ ) {
-                        box.addChild( new CakeNode( d, getSliceArray( d, d ) ) {{
-                            scale( 0.9 );
-                        }} );
-                        numAdded++;
-                    }
+                    ContainerState c = state.get();
 
-                    if ( slicesInLastCake > 0 ) {
-                        box.addChild( new CakeNode( d, getSliceArray( slicesInLastCake, d ) ) {{
-                            scale( 0.9 );
-                        }} );
-                        numAdded++;
-                    }
-
-                    //Show empty cake grids up until the max allowed
-                    while ( numAdded <= 6 ) {
-                        box.addChild( new CakeNode( d, getSliceArray( 0, d ) ) {{
-                            scale( 0.9 );
-                        }} );
-                        numAdded++;
+                    for ( int i = 0; i < c.numContainers; i++ ) {
+                        box.addChild( new CakeNode( d, getSliceArray( i, c, d ), state, i ) );
                     }
                 }
                 else {
-                    box.addChild( new PText( "No images for cake for denominator = " + d ) );
+                    box.addChild( new PText( "-----------------> No images for cake for denominator = " + d ) );
                 }
 
                 addChild( box );
             }
-        }.observe( numerator, denominator );
+        }.observe( state );
+    }
+
+    private int[] getSliceArray( int container, ContainerState c, int denominator ) {
+        final int[] orderToAddThem = orderToAdd.get( denominator );
+        final int[] theRenderOrder = renderOrder.get( denominator );
+
+        final ArrayList<Integer> renderOrder = new ArrayList<Integer>();
+        for ( int aTheRenderOrder : theRenderOrder ) {
+            renderOrder.add( aTheRenderOrder );
+        }
+
+        //Find which should appear before/after others.
+        ArrayList<Integer> values = new ArrayList<Integer>();
+        for ( int i = 0; i < c.denominator; i++ ) {
+            if ( !c.isEmpty( new CellPointer( container, i ) ) ) {
+                values.add( orderToAddThem[i] );
+            }
+        }
+
+        Collections.sort( values, new Comparator<Integer>() {
+            public int compare( Integer o1, Integer o2 ) {
+                return Double.compare( renderOrder.indexOf( o1 ), renderOrder.indexOf( o2 ) );
+            }
+        } );
+
+        int[] x = new int[values.size()];
+        for ( int i = 0; i < x.length; i++ ) {
+            x[i] = values.get( i );
+        }
+        return x;
     }
 
     private int[] getSliceArray( int numSlices, Integer denominator ) {
