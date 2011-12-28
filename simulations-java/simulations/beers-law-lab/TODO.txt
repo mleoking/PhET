@@ -17,13 +17,13 @@ DESIGN
 HIGH
 - move shaker location to holes in shaker image
 - view of solute exiting shaker
+- end of wire is visible in transparent center of probe
 
 MEDIUM
 - get dropper assets from NP
 - adjust drag bounds for shaker and dropper
 - make precipitate particles sit precisely on bottom of beaker
 - if we have limits on amount of solute, then make sure that we don't add solvent volume that would exceed the solute limit
-- end of wire is visible in transparent center of probe
 
 LOW
 - #3199, bigger slider thumb on FaucetNode
