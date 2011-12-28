@@ -1,3 +1,4 @@
+12/27/11 constraining dragging of concentration meter and probe to the stage
 12/27/11 move SoluteForm enum into Solute model class
 12/27/11 disable evaporation slider when beaker is empty
 12/27/11 add "evaporator" to model
