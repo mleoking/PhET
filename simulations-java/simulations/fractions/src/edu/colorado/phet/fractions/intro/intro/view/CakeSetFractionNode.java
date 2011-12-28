@@ -70,7 +70,7 @@ public class CakeSetFractionNode extends VisibilityNode {
                     ContainerState c = state.get();
 
                     for ( int i = 0; i < c.numContainers; i++ ) {
-                        box.addChild( new CakeNode( d, getSliceArray( i, c, d ), state, i ) );
+                        box.addChild( new CakeNode( d, getSliceArray( i, c, d ), state, i, orderToAdd.get( d ) ) );
                     }
                 }
                 else {

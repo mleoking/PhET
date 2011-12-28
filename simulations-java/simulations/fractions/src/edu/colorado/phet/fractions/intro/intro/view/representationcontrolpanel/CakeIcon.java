@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class CakeIcon extends PNode implements RepresentationIcon {
 
     public CakeIcon( final Property<ChosenRepresentation> selected ) {
-        addChild( new CakeNode( 2, new int[] { 1, 2 }, new Property<ContainerState>( new ContainerState( 2, new Container[] { } ) ), 1 ) );
+        addChild( new CakeNode( 2, new int[] { 1, 2 }, new Property<ContainerState>( new ContainerState( 2, new Container[] { } ) ), 1, new int[] { 1 } ) );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
