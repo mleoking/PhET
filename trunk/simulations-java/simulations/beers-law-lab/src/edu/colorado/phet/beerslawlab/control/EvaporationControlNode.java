@@ -5,7 +5,7 @@ import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.beerslawlab.model.Evaporator;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class EvaporationControlNode extends ControlPanelNode {
 
-    public EvaporationControlNode( final double maxRate, final Property<Double> evaporationRate ) {
+    public EvaporationControlNode( final Evaporator evaporator ) {
         super( new HBox(
 
                 // Label
@@ -35,24 +35,24 @@ public class EvaporationControlNode extends ControlPanelNode {
                 }},
 
                 // Slider
-                new HSliderNode( 0, maxRate, evaporationRate ) {{
+                new HSliderNode( 0, evaporator.maxEvaporationRate, evaporator.evaporationRate, evaporator.enabled ) {{
 
                     // Tick labels
                     PhetFont tickFont = new PhetFont( BLLConstants.TICK_LABEL_FONT_SIZE );
                     addLabel( 0, new PhetPText( Strings.NONE, tickFont ) );
-                    addLabel( maxRate, new PhetPText( Strings.LOTS, tickFont ) );
+                    addLabel( evaporator.maxEvaporationRate, new PhetPText( Strings.LOTS, tickFont ) );
 
                     // Set rate to zero when slider is released.
                     this.addInputEventListener( new PBasicInputEventHandler() {
                         @Override public void mouseReleased( PInputEvent event ) {
-                            evaporationRate.set( 0.0 );
+                            evaporator.evaporationRate.set( 0.0 );
                         }
                     } );
 
                     // sim-sharing
                     getDragHandler().setStartEndDragFunction( new DragFunction() {
                         public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                            SimSharingManager.sendEvent( Objects.EVAPORATION_SLIDER, action, new Parameter( Parameters.EVAPORATION_RATE, evaporationRate.get() ) );
+                            SimSharingManager.sendEvent( Objects.EVAPORATION_SLIDER, action, new Parameter( Parameters.EVAPORATION_RATE, evaporator.evaporationRate.get() ) );
                         }
                     } );
                 }}

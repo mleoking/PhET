@@ -10,6 +10,7 @@ import edu.colorado.phet.beerslawlab.BLLResources.Symbols;
 import edu.colorado.phet.beerslawlab.model.Beaker;
 import edu.colorado.phet.beerslawlab.model.ConcentrationMeter;
 import edu.colorado.phet.beerslawlab.model.Dropper;
+import edu.colorado.phet.beerslawlab.model.Evaporator;
 import edu.colorado.phet.beerslawlab.model.Faucet;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.Solute;
@@ -34,14 +35,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ConcentrationModel implements Resettable {
 
+    // ranges and rates
     private static final double BEAKER_VOLUME = 1; // L
-    public static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
-    public static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 10, 0.5 ); // moles
-    public static final double MAX_EVAPORATION_RATE = 0.25; // L/sec
-    public static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
-    public static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
-    public static final double DROPPER_FLOW_RATE = 0.05; // L/sec
-    public static final double SHAKER_MAX_DISPENSING_RATE = 0.1; // mol/sec
+    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
+    private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 10, 0.5 ); // moles
+    private static final double MAX_EVAPORATION_RATE = 0.25; // L/sec
+    private static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
+    private static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
+    private static final double DROPPER_FLOW_RATE = 0.05; // L/sec
+    private static final double SHAKER_MAX_DISPENSING_RATE = 0.1; // mol/sec
 
     // validate constants
     static {
@@ -56,7 +58,7 @@ public class ConcentrationModel implements Resettable {
     public final Property<SoluteForm> soluteForm = new Property<SoluteForm>( SoluteForm.SOLID );
     public final Shaker shaker;
     public final Dropper dropper;
-    public final Property<Double> evaporationRate; // L/sec
+    public final Evaporator evaporator;
     public final Beaker beaker;
     public final Faucet inputFaucet, outputFaucet;
     public final ConcentrationMeter concentrationMeter;
@@ -86,7 +88,7 @@ public class ConcentrationModel implements Resettable {
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
         this.shaker = new Shaker( new ImmutableVector2D( 250, 20 ), new PBounds( 10, 10, 400, 200 ), solute, SHAKER_MAX_DISPENSING_RATE );
         this.dropper = new Dropper( new ImmutableVector2D( 375, 210 ), new PBounds( 230, 205, 250, 50 ), solute, DROPPER_FLOW_RATE );
-        this.evaporationRate = new Property<Double>( 0d );
+        this.evaporator = new Evaporator( MAX_EVAPORATION_RATE, solution );
         this.beaker = new Beaker( new Point2D.Double( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.inputFaucet = new Faucet( new Point2D.Double( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
         this.outputFaucet = new Faucet( new Point2D.Double( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive location and pipe length
@@ -127,7 +129,7 @@ public class ConcentrationModel implements Resettable {
         soluteForm.reset();
         shaker.reset();
         dropper.reset();
-        evaporationRate.reset();
+        evaporator.reset();
         inputFaucet.reset();
         outputFaucet.reset();
         concentrationMeter.reset();
@@ -177,7 +179,7 @@ public class ConcentrationModel implements Resettable {
 
     // Evaporate solvent
     private void evaporateSolvent( double deltaSeconds ) {
-        removeSolvent( evaporationRate.get() * deltaSeconds );
+        removeSolvent( evaporator.evaporationRate.get() * deltaSeconds );
     }
 
     // Adds solvent to the solution. Returns the amount actually added.

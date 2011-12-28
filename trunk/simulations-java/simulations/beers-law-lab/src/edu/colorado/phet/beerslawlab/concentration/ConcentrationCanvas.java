@@ -45,7 +45,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode shakerNode = new ShakerNode( model.shaker, model.soluteForm );
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
         PNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker, 15 ); //TODO get hole width from DropperNode
-        PNode evaporationControlNode = new EvaporationControlNode( ConcentrationModel.MAX_EVAPORATION_RATE, model.evaporationRate );
+        PNode evaporationControlNode = new EvaporationControlNode( model.evaporator );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
         PNode solutionNode = new SolutionNode( model.solution, model.beaker );
         PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter );
@@ -56,7 +56,6 @@ public class ConcentrationCanvas extends BLLCanvas {
         }};
         PNode modelButton = new PSwing( new ConcentrationModelButton( parentFrame, model ) );
 
-        System.out.println( "dropperNode.getFullBoundsReference() = " + dropperNode.getFullBoundsReference() );
         // rendering order
         {
             addChild( inputFluidNode );

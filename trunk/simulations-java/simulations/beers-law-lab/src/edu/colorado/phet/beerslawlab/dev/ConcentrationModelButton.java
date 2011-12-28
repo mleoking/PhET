@@ -132,9 +132,9 @@ public class ConcentrationModelButton extends JButton {
                     dropperLocation.setText( "dropper = (" + (int) model.dropper.location.get().getX() + "," + (int) model.dropper.location.get().getY() + ")" );
                 }
             } );
-            model.evaporationRate.addObserver( new SimpleObserver() {
+            model.evaporator.evaporationRate.addObserver( new SimpleObserver() {
                 public void update() {
-                    evaporationRate.setText( "evaporation = " + rateFormat.format( model.evaporationRate.get() ) + " L/sec" );
+                    evaporationRate.setText( "evaporation = " + rateFormat.format( model.evaporator.evaporationRate.get() ) + " L/sec" );
                 }
             } );
             model.inputFaucet.flowRate.addObserver( new SimpleObserver() {
