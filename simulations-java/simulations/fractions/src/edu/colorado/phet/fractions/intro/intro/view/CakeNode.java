@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class CakeNode extends PNode {
-    public CakeNode( int denominator, int[] pieces, final Property<ContainerState> containerStateProperty, final int container ) {
+    public CakeNode( int denominator, final int[] pieces, final Property<ContainerState> containerStateProperty, final int container ) {
         addChild( new PImage( FractionsResources.RESOURCES.getImage( "cake/cake_grid_" + denominator + ".png" ) ) {{
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
@@ -33,36 +33,51 @@ public class CakeNode extends PNode {
                 }
             } );
         }} );
+
+        final BufferedImage[] images = new BufferedImage[pieces.length];
+        for ( int i = 0; i < images.length; i++ ) {
+            images[i] = FractionsResources.RESOURCES.getImage( "cake/cake_" + denominator + "_" + pieces[i] + ".png" );
+        }
+
+
+        final PBasicInputEventHandler sharedMouseListener = new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+
+                //TODO: trim whitespace on the sides of the image so cakes don't overlap (or else space out the cakes more)
+                FractionsIntroModel.setUserToggled( true );
+
+                //Find the color of the pixel hit by the mouse.  If white or transparent in the image, subtract a piece because the user clicked the background
+                //Otherwise add a piece
+                Point2D position = event.getPositionRelativeTo( CakeNode.this );
+
+                //Chain of responsibility sort of thing to see which cake slice gets to handle it.
+                for ( int i = images.length - 1; i >= 0; i-- ) {
+                    BufferedImage image = images[i];
+                    int pixel = image.getRGB( (int) position.getX(), (int) position.getY() );
+                    Color color = new Color( pixel, true );
+                    System.out.println( "color = " + color );
+                    if ( color.getRed() > 0 || color.getGreen() > 0 || color.getBlue() > 0 ) {
+                        //Clicked on a piece of cake, turning it off...
+                        System.out.println( "//Clicked on a piece of cake, turning it off..." );
+                        int piece = pieces[i];
+                        containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, piece - 1 ) ) );
+                        return;
+                    }
+                }
+
+                //Clicked in a blank area, turning on an empty cell.
+                System.out.println( "//Clicked in a blank area, turning on an empty cell." );
+                containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, containerStateProperty.get().getContainer( container ).getLowestEmptyCell() ) ) );
+
+                FractionsIntroModel.setUserToggled( false );
+            }
+        };
+
         for ( final int piece : pieces ) {
             final BufferedImage image = FractionsResources.RESOURCES.getImage( "cake/cake_" + denominator + "_" + piece + ".png" );
             addChild( new PImage( image ) {{
                 addInputEventListener( new CursorHandler() );
-                addInputEventListener( new PBasicInputEventHandler() {
-                    @Override public void mousePressed( PInputEvent event ) {
-
-                        //TODO: trim whitespace on the sides of the image so cakes don't overlap (or else space out the cakes more)
-                        FractionsIntroModel.setUserToggled( true );
-
-                        //Find the color of the pixel hit by the mouse.  If white or transparent in the image, subtract a piece because the user clicked the background
-                        //Otherwise add a piece
-                        Point2D position = event.getPositionRelativeTo( CakeNode.this );
-                        int pixel = image.getRGB( (int) position.getX(), (int) position.getY() );
-                        Color color = new Color( pixel, true );
-                        System.out.println( "color = " + color );
-                        if ( color.getRed() > 0 || color.getGreen() > 0 || color.getBlue() > 0 ) {
-                            //Clicked on a piece of cake, turning it off...
-                            System.out.println( "//Clicked on a piece of cake, turning it off..." );
-                            containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, piece - 1 ) ) );
-                        }
-                        else {
-                            //Clicked in a blank area, turning on an empty cell.
-                            System.out.println( "//Clicked in a blank area, turning on an empty cell." );
-                            containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, containerStateProperty.get().getContainer( container ).getLowestEmptyCell() ) ) );
-                        }
-
-                        FractionsIntroModel.setUserToggled( false );
-                    }
-                } );
+                addInputEventListener( sharedMouseListener );
             }} );
         }
     }
