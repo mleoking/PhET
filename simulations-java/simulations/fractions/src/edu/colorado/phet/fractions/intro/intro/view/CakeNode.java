@@ -130,8 +130,11 @@ public class CakeNode extends PNode {
                     if ( color.getRed() > 0 || color.getGreen() > 0 || color.getBlue() > 0 ) {
                         //Clicked on a piece of cake, turning it off...
                         //System.out.println( "//Clicked on a piece of cake, turning it off..." );
-                        int piece = pieces[i];
-                        containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, piece - 1 ) ) );
+                        int piece = pieces[i] - 1;
+
+                        //I do not know why pieces are backwards for the d=2 case, but they are.  So un-backwards them with the next line:
+                        if ( denominator == 2 ) { piece = ( piece + 1 ) % denominator; }
+                        containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, piece ) ) );
                         FractionsIntroModel.setUserToggled( false );
                         return;
                     }
