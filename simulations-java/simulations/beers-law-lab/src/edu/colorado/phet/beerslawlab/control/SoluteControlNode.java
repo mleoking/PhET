@@ -4,7 +4,7 @@ package edu.colorado.phet.beerslawlab.control;
 import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.model.Solute;
-import edu.colorado.phet.beerslawlab.model.SoluteForm;
+import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;

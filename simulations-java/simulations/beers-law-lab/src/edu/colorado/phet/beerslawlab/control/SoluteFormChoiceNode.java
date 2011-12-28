@@ -11,7 +11,7 @@ import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
-import edu.colorado.phet.beerslawlab.model.SoluteForm;
+import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyLabel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -39,11 +39,11 @@ public class SoluteFormChoiceNode extends PhetPNode {
         }};
 
         final JPanel solutionPanel = new JPanel() {{
-            add( new PropertyRadioButton<SoluteForm>( Strings.SOLUTION, soluteForm, SoluteForm.SOLUTION ) {{
+            add( new PropertyRadioButton<SoluteForm>( Strings.SOLUTION, soluteForm, SoluteForm.STOCK_SOLUTION ) {{
                 setFont( FONT );
                 setOpaque( false );
             }} );
-            add( new PropertyLabel<SoluteForm>( Objects.DROPPER_ICON, new ImageIcon( Images.DROPPER_ICON ), soluteForm, SoluteForm.SOLUTION ) );
+            add( new PropertyLabel<SoluteForm>( Objects.DROPPER_ICON, new ImageIcon( Images.DROPPER_ICON ), soluteForm, SoluteForm.STOCK_SOLUTION ) );
         }};
 
         JPanel panel = new JPanel() {{

@@ -1,3 +1,4 @@
+12/27/11 move SoluteForm enum into Solute model class
 12/27/11 disable evaporation slider when beaker is empty
 12/27/11 add "evaporator" to model
 12/27/11 add sim-sharing parameter "isInSolution" for dragging of meter probe

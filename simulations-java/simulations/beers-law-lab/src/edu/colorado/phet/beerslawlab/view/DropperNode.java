@@ -7,7 +7,7 @@ import java.awt.Font;
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.model.Dropper;
-import edu.colorado.phet.beerslawlab.model.SoluteForm;
+import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -58,7 +58,7 @@ public class DropperNode extends PhetPNode {
         // Make this node visible only when the solute is in solid form.
         soluteFormProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( soluteFormProperty.get().equals( SoluteForm.SOLUTION ) );
+                setVisible( soluteFormProperty.get().equals( SoluteForm.STOCK_SOLUTION ) );
             }
         } );
 

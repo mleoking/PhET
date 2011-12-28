@@ -14,7 +14,7 @@ import edu.colorado.phet.beerslawlab.model.Evaporator;
 import edu.colorado.phet.beerslawlab.model.Faucet;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.Solute;
-import edu.colorado.phet.beerslawlab.model.SoluteForm;
+import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.beerslawlab.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;

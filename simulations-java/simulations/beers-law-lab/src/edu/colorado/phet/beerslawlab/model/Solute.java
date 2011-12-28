@@ -10,6 +10,11 @@ import java.awt.Color;
  */
 public class Solute {
 
+    // The form that the solute is delivered in, either a solid or in a stock solution.
+    public static enum SoluteForm {
+        SOLID, STOCK_SOLUTION
+    }
+
     public final String name; // localized name
     public final String formula; // chemical formula, not localized
     public final double molarMass; // g/mol
