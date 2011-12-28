@@ -2,6 +2,8 @@
 package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -23,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class CakeNode extends PNode {
     public CakeNode( int denominator, final int[] pieces, final Property<ContainerState> containerStateProperty, final int container ) {
-        addChild( new PImage( FractionsResources.RESOURCES.getImage( "cake/cake_grid_" + denominator + ".png" ) ) {{
+        addChild( new PImage( cropSides( FractionsResources.RESOURCES.getImage( "cake/cake_grid_" + denominator + ".png" ) ) ) {{
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
@@ -36,7 +38,7 @@ public class CakeNode extends PNode {
 
         final BufferedImage[] images = new BufferedImage[pieces.length];
         for ( int i = 0; i < images.length; i++ ) {
-            images[i] = FractionsResources.RESOURCES.getImage( "cake/cake_" + denominator + "_" + pieces[i] + ".png" );
+            images[i] = cropSides( FractionsResources.RESOURCES.getImage( "cake/cake_" + denominator + "_" + pieces[i] + ".png" ) );
         }
 
 
@@ -73,12 +75,21 @@ public class CakeNode extends PNode {
             }
         };
 
-        for ( final int piece : pieces ) {
-            final BufferedImage image = FractionsResources.RESOURCES.getImage( "cake/cake_" + denominator + "_" + piece + ".png" );
-            addChild( new PImage( image ) {{
+        for ( int i = 0; i < pieces.length; i++ ) {
+            addChild( new PImage( images[i] ) {{
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( sharedMouseListener );
             }} );
         }
+    }
+
+    //Trim the sides since there is too much alpha left over in the images and it causes them to overlap so that mouse presses are caught by adjacent cakes instead of the desired cake
+    private BufferedImage cropSides( BufferedImage image ) {
+        final int TRIM = 24;
+        BufferedImage im = new BufferedImage( image.getWidth() - TRIM * 2, image.getHeight(), image.getType() );
+        Graphics2D g2 = im.createGraphics();
+        g2.drawRenderedImage( image, AffineTransform.getTranslateInstance( -TRIM, 0 ) );
+        g2.dispose();
+        return im;
     }
 }
