@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -51,6 +52,15 @@ public class Parameter {
 
     public static Parameter param( String name, String value ) {
         return new Parameter( name, value );
+    }
+
+    // Appends additional parameters to an array of parameters.
+    public static Parameter[] appendParameters( Parameter[] parameters, Parameter... additionalParameters ) {
+        ArrayList<Parameter> parameterList = new ArrayList<Parameter>( Arrays.asList( parameters ) );
+        for ( Parameter parameter : additionalParameters ) {
+            parameterList.add( parameter );
+        }
+        return parameterList.toArray( new Parameter[parameterList.size()] );
     }
 
     //Parses a String into a list of parameters, used by the post-processor

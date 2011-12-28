@@ -25,6 +25,7 @@ public class BLLSimSharing {
     public static class Parameters {
         public static final String EVAPORATION_RATE = "evaporationRate";
         public static final String FLOW_RATE = "flowRate";
+        public static final String IS_IN_SOLUTION = "isInSolution";
         public static final String LOCATION_X = "locationX";
         public static final String LOCATION_Y = "locationY";
     }

@@ -1,3 +1,4 @@
+12/27/11 add sim-sharing parameter "isInSolution" for dragging of meter probe
 12/27/11 dev: move model properties to a dialog, accessible via a button in play area
 12/27/11 create dev package
 12/27/11 add concentration meter (model and view)

@@ -50,12 +50,20 @@ public class ConcentrationMeter implements Resettable {
 
     // Meter probe
     public static class ConcentrationMeterProbe extends Movable {
+
+        private final Solution solution;
+        private final Beaker beaker;
+
         public ConcentrationMeterProbe( ImmutableVector2D location, PBounds dragBounds, final Solution solution, final Beaker beaker, final Property<Double> value ) {
             super( location, dragBounds );
 
+            this.solution = solution;
+            this.beaker = beaker;
+
+            // set the value, based on the solution concentration and whether the probe is in the solution
             SimpleObserver observer = new SimpleObserver() {
                 public void update() {
-                    if ( isInSolution( solution, beaker ) ) {
+                    if ( isInSolution() ) {
                         value.set( solution.getConcentration() );
                     }
                     else {
@@ -64,11 +72,11 @@ public class ConcentrationMeter implements Resettable {
                 }
             };
             this.location.addObserver( observer );
-            solution.addConcentrationObserver( observer );
             solution.volume.addObserver( observer );
+            solution.addConcentrationObserver( observer );
         }
 
-        private boolean isInSolution( Solution solution, Beaker beaker ) {
+        public boolean isInSolution() {
             double w = beaker.getWidth();
             double h = beaker.getHeight() * solution.volume.get() / beaker.getVolume();
             double x = beaker.getX() - ( beaker.getWidth() / 2 );

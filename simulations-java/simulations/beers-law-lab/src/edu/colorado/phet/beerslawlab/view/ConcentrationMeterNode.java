@@ -10,10 +10,13 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.BLLSimSharing;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.model.ConcentrationMeter;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -142,7 +145,13 @@ public class ConcentrationMeterNode extends PhetPNode {
             } );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( Objects.CONCENTRATION_METER_PROBE, meter.probe, this ) );
+            addInputEventListener( new MovableDragHandler( Objects.CONCENTRATION_METER_PROBE, meter.probe, this,
+                                                           // sim-sharing parameters
+                                                           new Function0<Parameter[]>() {
+                                                               public Parameter[] apply() {
+                                                                   return new Parameter[] { new Parameter( BLLSimSharing.Parameters.IS_IN_SOLUTION, meter.probe.isInSolution() ) };
+                                                               }
+                                                           } ) );
         }
     }
 
