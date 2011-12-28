@@ -125,6 +125,7 @@ public class ConcentrationModel implements Resettable {
     }
 
     public void reset() {
+        solute.reset();
         solution.reset();
         soluteForm.reset();
         shaker.reset();
