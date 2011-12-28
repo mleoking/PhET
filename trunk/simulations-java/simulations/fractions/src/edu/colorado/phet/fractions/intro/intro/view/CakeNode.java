@@ -98,7 +98,7 @@ public class CakeNode extends PNode {
     }};
     private boolean debugPieceLocations = false;
 
-    public CakeNode( final int denominator, final int[] pieces, final Property<ContainerState> containerStateProperty, final int container ) {
+    public CakeNode( final int denominator, final int[] pieces, final Property<ContainerState> containerStateProperty, final int container, final int[] sliceOrder ) {
         Rectangle2D r = new Rectangle2D.Double( cakeFrame[0].getX(), cakeFrame[0].getY(), 0, 0 );
         r = r.createUnion( new Rectangle2D.Double( cakeFrame[1].getX(), cakeFrame[1].getY(), 0, 0 ) );
         r = r.createUnion( new Rectangle2D.Double( cakeFrame[2].getX(), cakeFrame[2].getY(), 0, 0 ) );
@@ -144,7 +144,7 @@ public class CakeNode extends PNode {
                 for ( int i = 0; i < denominator; i++ ) {
                     final Area shape = createShape( i, denominator );
                     if ( shape.contains( position ) ) {
-                        containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, i ) ) );
+                        containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, sliceOrder[i] - 1 ) ) );
                         FractionsIntroModel.setUserToggled( false );
                         return;
                     }
