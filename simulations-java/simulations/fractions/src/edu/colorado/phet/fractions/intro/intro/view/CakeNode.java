@@ -144,7 +144,13 @@ public class CakeNode extends PNode {
                 for ( int i = 0; i < denominator; i++ ) {
                     final Area shape = createShape( i, denominator );
                     if ( shape.contains( position ) ) {
-                        containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, sliceOrder[i] - 1 ) ) );
+                        int piece = sliceOrder[i] - 1;
+
+                        //For unknown reasons, the slice indices are off by 1 for denominator 4 and 5.  I determined this experimentally and do not know the cause.  Maybe a flaw in the original sliceOrder array?
+                        if ( denominator == 5 || denominator == 4 ) {
+                            piece = ( piece + 1 ) % denominator;
+                        }
+                        containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, piece ) ) );
                         FractionsIntroModel.setUserToggled( false );
                         return;
                     }
