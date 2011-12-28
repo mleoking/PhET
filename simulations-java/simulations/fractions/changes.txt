@@ -1,3 +1,4 @@
+Fixed: If cake slices are removed by clicking so there is an empty cake, the spinners fail to function
 Made the cake button icon image to be in fourths to be consistent with the others
 Improved empty cake piece detection
 # 0.00.29 (59730) Dec 27, 2011
