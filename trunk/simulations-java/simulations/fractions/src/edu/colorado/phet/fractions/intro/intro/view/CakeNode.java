@@ -15,7 +15,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * Shows just one cake with the specified pieces.
@@ -24,7 +23,6 @@ import edu.umd.cs.piccolo.util.PDebug;
  */
 public class CakeNode extends PNode {
     public CakeNode( int denominator, int[] pieces, final Property<ContainerState> containerStateProperty, final int container ) {
-        PDebug.debugBounds = true;
         addChild( new PImage( FractionsResources.RESOURCES.getImage( "cake/cake_grid_" + denominator + ".png" ) ) {{
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
