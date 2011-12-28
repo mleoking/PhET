@@ -72,11 +72,11 @@ public class ConcentrationCanvas extends BLLCanvas {
             addChild( evaporationControlNode );
             addChild( removeSoluteButtonNode );
             addChild( resetAllButtonNode );
-            addChild( concentrationMeterNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( modelButton );
             }
             addChild( soluteControlNode ); // on top, because it has a combo box popup
+            addChild( concentrationMeterNode ); // on top, so it doesn't get lost behind anything
         }
 
         // layout
