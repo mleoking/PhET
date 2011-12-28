@@ -1,3 +1,4 @@
+Improved empty cake piece detection
 # 0.00.29 (59730) Dec 27, 2011
 Fixed a bug in cake slice selection
 # 0.00.28 (59727) Dec 27, 2011
