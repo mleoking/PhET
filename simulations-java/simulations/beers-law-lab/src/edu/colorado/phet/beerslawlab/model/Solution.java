@@ -116,7 +116,6 @@ public class Solution implements IFluid, Resettable {
     }
 
     public void reset() {
-        solute.reset();
         soluteAmount.reset();
         volume.reset();
     }
