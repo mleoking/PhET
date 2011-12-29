@@ -18,6 +18,7 @@ public class GuiNode extends GLNode {
         glLoadIdentity();
         glOrtho( 0, tab.getCanvasWidth(), tab.getCanvasHeight(), 0, 1, -1 );
 
+        // TODO: post-render disable?
         glEnable( GL_BLEND );
         glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
