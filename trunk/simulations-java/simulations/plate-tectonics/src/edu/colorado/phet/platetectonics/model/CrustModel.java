@@ -64,6 +64,46 @@ public class CrustModel extends PlateModel {
     private double crustElevation = computeIdealCrustElevation();
     private double crustVelocity = 0;
 
+    // km, kg/m^3
+    private static final int[] mantleDepthDensity = new int[] {
+            0, 1020,
+            3, 2600,
+            15, 2900,
+            25, 3381,
+            71, 3376,
+            171, 3364,
+            220, 3436,
+            271, 3466,
+            371, 3526,
+            400, 3723,
+            471, 3813,
+            571, 3939,
+            670, 4381,
+            771, 4443,
+            871, 4503,
+            971, 4563,
+            1071, 4621,
+            1171, 4678,
+            1271, 4734,
+            1371, 4789,
+            1471, 4844,
+            1571, 4897,
+            1671, 4950,
+            1771, 5003,
+            1871, 5054,
+            1971, 5106,
+            2071, 5157,
+            2171, 5207,
+            2271, 5257,
+            2371, 5307,
+            2471, 5357,
+            2571, 5407,
+            2671, 5457,
+            2771, 5506,
+            2871, 5556,
+            2891, 5566
+    };
+
     public CrustModel( final Grid3D grid ) {
         super( grid );
         final Bounds3D bounds = grid.getBounds();
@@ -111,9 +151,10 @@ public class CrustModel extends PlateModel {
         * regions
         *----------------------------------------------------------------------------*/
 
+        final float lowerBoundary = bounds.getMinY();
         Function1<ImmutableVector2F, ImmutableVector2F> lowerBoundaryFunct = new Function1<ImmutableVector2F, ImmutableVector2F>() {
             public ImmutableVector2F apply( ImmutableVector2F vector ) {
-                return new ImmutableVector2F( vector.x, bounds.getMinY() );
+                return new ImmutableVector2F( vector.x, lowerBoundary );
             }
         };
 
@@ -173,12 +214,11 @@ public class CrustModel extends PlateModel {
                                              oceanCrustBottom,
                                              constantFunction( LEFT_OCEANIC_DENSITY ),
                                              constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
-        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                             oceanCrustBottom,
-                                             oceanSideMinY,
-                                             constantFunction( (double) MANTLE_DENSITY ),
-                                             constantFunction( 0.0 ) ) ); // TODO: mandle temperatures!
-
+        addRegion( new SimpleConstantRegion( Type.CRUST,
+                                             continentTop,
+                                             continentCrustBottom,
+                                             constantFunction( RIGHT_CONTINENTAL_DENSITY ),
+                                             constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
         addRegion( new SimpleConstantRegion( Type.CRUST,
                                              middleTop,
                                              middleCrustBottom,
@@ -187,34 +227,45 @@ public class CrustModel extends PlateModel {
                                                      return getCenterCrustDensity();
                                                  }
                                              }, constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+
+        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
+                                             oceanCrustBottom,
+                                             oceanSideMinY,
+                                             constantFunction( (double) MANTLE_DENSITY ),
+                                             constantFunction( 0.0 ) ) ); // TODO: mandle temperatures!
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              middleCrustBottom,
                                              middleSideMinY,
                                              constantFunction( (double) MANTLE_DENSITY ),
-                                             constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
-
-        addRegion( new SimpleConstantRegion( Type.CRUST,
-                                             continentTop,
-                                             continentCrustBottom,
-                                             constantFunction( RIGHT_CONTINENTAL_DENSITY ),
                                              constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              continentCrustBottom,
                                              continentSideMinY,
                                              constantFunction( (double) MANTLE_DENSITY ),
                                              constantFunction( 0.0 ) ) ); // TODO: temperatures!
+//        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
+//                                             mantleTop,
+//                                             mantleMiddle,
+//                                             constantFunction( (double) MANTLE_DENSITY ), // TODO: fix upper mantle density
+//                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
-        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                             mantleTop,
-                                             mantleMiddle,
-                                             constantFunction( (double) MANTLE_DENSITY ), // TODO: fix upper mantle density
-                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
+        addRegion( new SimpleLinearRegion( Type.UPPER_MANTLE,
+                                           mantleTop,
+                                           mantleMiddle,
+                                           lowerBoundary,
+                                           UPPER_LOWER_MANTLE_BOUNDARY_Y,
+                                           getMantleDensity( lowerBoundary ),
+                                           getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
+                                           0f, 0f ) ); // TODO: temperatures
 
-        addRegion( new SimpleConstantRegion( Type.LOWER_MANTLE,
-                                             mantleMiddle,
-                                             mantleBottom,
-                                             constantFunction( 4500.0 ), // TODO: fix lower mantle density
-                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
+        addRegion( new SimpleLinearRegion( Type.LOWER_MANTLE,
+                                           mantleMiddle,
+                                           mantleBottom,
+                                           UPPER_LOWER_MANTLE_BOUNDARY_Y,
+                                           MANTLE_CORE_BOUNDARY_Y,
+                                           getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
+                                           getMantleDensity( MANTLE_CORE_BOUNDARY_Y ),
+                                           0f, 0f ) ); // TODO: temperatures
 
         addRegion( new SimpleLinearRegion( Type.OUTER_CORE,
                                            mantleBottom,
@@ -235,6 +286,31 @@ public class CrustModel extends PlateModel {
                                            0f, 0f ) ); // TODO: temperature
 
         updateView();
+    }
+
+    public static float getMantleDensity( float y ) {
+        float depth = -y;
+        assert depth >= 0;
+        // TODO: could be faster
+        for ( int i = 0; i < mantleDepthDensity.length; i += 2 ) {
+            if ( depth < mantleDepthDensity[i] * 1000 ) {
+                if ( i > 0 ) {
+                    float minDepth = mantleDepthDensity[i - 2] * 1000;
+                    float maxDepth = mantleDepthDensity[i] * 1000;
+                    float minDensity = mantleDepthDensity[i - 1];
+                    float maxDensity = mantleDepthDensity[i + 1];
+
+                    float ratio = ( depth - minDepth ) / ( maxDepth - minDepth );
+                    return minDensity + ratio * ( maxDensity - minDensity );
+                }
+                else {
+                    throw new RuntimeException( "should not be reachable with first depth == 0" );
+                }
+            }
+        }
+
+        // below our max recorded depth, return the max density
+        return mantleDepthDensity[mantleDepthDensity.length - 1];
     }
 
     private static <T, U> U[] map( T[] array, Function1<? super T, ? extends U> mapper, U[] resultArray ) {
