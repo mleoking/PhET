@@ -285,12 +285,16 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return scalingMatrix.times( perspectiveMatrix );
     }
 
-    public ImmutableMatrix4F getSceneModelViewMatrix() {
+    protected float getSceneDistanceZoomFactor() {
         float minDistance = 1;
         float maxDistance = 35;
+        return minDistance + ( 1 - zoomRatio.get().floatValue() ) * ( maxDistance - minDistance );
+    }
+
+    public ImmutableMatrix4F getSceneModelViewMatrix() {
         float minAngle = 13;
         float maxAngle = 29;
-        float distance = minDistance + ( 1 - zoomRatio.get().floatValue() ) * ( maxDistance - minDistance );
+        float distance = getSceneDistanceZoomFactor();
         float angle = minAngle + ( 1 - zoomRatio.get().floatValue() ) * ( maxAngle - minAngle );
         return debugCameraTransform.getMatrix()
                 .times( ImmutableMatrix4F.rotation( X_UNIT, angle / 180f * (float) Math.PI ) )
@@ -391,6 +395,12 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     public ImmutableVector2F getMousePositionOnZPlane() {
         Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
+        final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
+        return new ImmutableVector2F( intersection.x, intersection.y );
+    }
+
+    public ImmutableVector2F getBottomCenterPositionOnZPlane() {
+        Ray3F cameraRay = getCameraRay( canvasSize.get().width / 2, 0 );
         final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
         return new ImmutableVector2F( intersection.x, intersection.y );
     }

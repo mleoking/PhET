@@ -17,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
@@ -41,6 +43,7 @@ import edu.colorado.phet.platetectonics.control.ThermometerNode3D;
 import edu.colorado.phet.platetectonics.control.ToolDragHandler;
 import edu.colorado.phet.platetectonics.control.Toolbox;
 import edu.colorado.phet.platetectonics.model.CrustModel;
+import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
@@ -68,6 +71,8 @@ public class CrustTab extends PlateTectonicsTab {
     private static final float THERMOMETER_Z = 1;
     private static final float DENSITY_SENSOR_Z = 2;
 
+    private Property<Float> scaleProperty = new Property<Float>( 1f );
+
     private final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
     private GLNode sceneLayer;
     private GLNode guiLayer;
@@ -75,6 +80,12 @@ public class CrustTab extends PlateTectonicsTab {
 
     public CrustTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
+
+        zoomRatio.addObserver( new SimpleObserver() {
+            @Override public void update() {
+                scaleProperty.set( getSceneDistanceZoomFactor() );
+            }
+        } );
     }
 
     @Override public void initialize() {
@@ -159,20 +170,103 @@ public class CrustTab extends PlateTectonicsTab {
         // TODO: improve the plate view
         sceneLayer.addChild( new PlateView( model, this, grid ) );
 
+        final Function1<ImmutableVector3F, ImmutableVector3F> flatModelToView = new Function1<ImmutableVector3F, ImmutableVector3F>() {
+            @Override public ImmutableVector3F apply( ImmutableVector3F v ) {
+                return getModelViewTransform().transformPosition( PlateModel.convertToRadial( v ) );
+            }
+        };
+
+        // crust label
         sceneLayer.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 @Override public void update() {
-                    set( getModelViewTransform().transformPosition( new ImmutableVector3F( 0, (float) model.getCenterCrustElevation(), 0 ) ) );
+                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) model.getCenterCrustElevation(), 0 ) ) );
                 }
             }, true );
         }}, new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 @Override public void update() {
-                    set( getModelViewTransform().transformPosition( new ImmutableVector3F( 0, (float) model.getCenterCrustBottomY(), 0 ) ) );
+                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) model.getCenterCrustBottomY(), 0 ) ) );
                 }
             }, true );
-        }}, "Crust"
+        }}, "Crust", scaleProperty
         ) ); // TODO: i18n
+
+        // TODO: refactor so label heights are from the model. AYE!
+        final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+            beforeFrameRender.addUpdateListener( new UpdateListener() {
+                @Override public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( 0, (float) model.getCenterCrustBottomY(), 0 ) ) );
+                }
+            }, true );
+        }};
+        final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, -750000, 0 ) ) );
+
+        // TODO: refactor and cleanup
+        Function2<Property<ImmutableVector3F>, Property<ImmutableVector3F>, Property<ImmutableVector3F>> labelPositionFunction
+                = new Function2<Property<ImmutableVector3F>, Property<ImmutableVector3F>, Property<ImmutableVector3F>>() {
+            @Override public Property<ImmutableVector3F> apply( final Property<ImmutableVector3F> aProp,
+                                                                final Property<ImmutableVector3F> bProp ) {
+                return new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    final SimpleObserver observer = new SimpleObserver() {
+                        @Override public void update() {
+                            ImmutableVector2F screenBottom = getBottomCenterPositionOnZPlane();
+                            if ( bProp.get().y < screenBottom.y ) {
+                                // use the screen bottom, the actual bottom is too low
+                                float averageY = ( screenBottom.y + aProp.get().y ) / 2;
+                                float ratio = ( averageY - aProp.get().y ) / ( bProp.get().y - aProp.get().y );
+                                set( aProp.get().times( 1 - ratio ).plus( bProp.get().times( ratio ) ) );
+                            }
+                            else {
+                                set( aProp.get().plus( bProp.get() ).times( 0.5f ) );
+                            }
+                        }
+                    };
+
+                    // TODO: debug listener ordering issue that is causing jittering when zooming in/out
+                    scaleProperty.addObserver( observer );
+                    beforeFrameRender.addUpdateListener( new UpdateListener() {
+                        @Override public void update() {
+                            observer.update();
+                        }
+                    }, false );
+                }};
+            }
+        };
+
+        sceneLayer.addChild( new RangeLabel(
+                upperMantleTop,
+                upperMantleBottom,
+                "Mantle", scaleProperty,   // TODO: i18n
+                labelPositionFunction.apply( upperMantleTop, upperMantleBottom )
+        ) );
+
+        Property<ImmutableVector3F> lowerMantleTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, -750000, 0 ) ) );
+        Property<ImmutableVector3F> lowerMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, -2921000, 0 ) ) );
+        sceneLayer.addChild( new RangeLabel(
+                lowerMantleTop,
+                lowerMantleBottom,
+                "Lower Mantle", scaleProperty,   // TODO: i18n
+                labelPositionFunction.apply( lowerMantleTop, lowerMantleBottom )
+        ) );
+
+        Property<ImmutableVector3F> outerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, -2921000, 0 ) ) );
+        Property<ImmutableVector3F> outerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, -5180000, 0 ) ) );
+        sceneLayer.addChild( new RangeLabel(
+                outerCoreTop,
+                outerCoreBottom,
+                "Outer Core", scaleProperty,   // TODO: i18n
+                labelPositionFunction.apply( outerCoreTop, outerCoreBottom )
+        ) );
+
+        Property<ImmutableVector3F> innerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -5180000, 0 ) ) );
+        Property<ImmutableVector3F> innerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -PlateModel.EARTH_RADIUS, 0 ) ) );
+        sceneLayer.addChild( new RangeLabel(
+                innerCoreTop,
+                innerCoreBottom,
+                "Inner Core", scaleProperty,   // TODO: i18n
+                labelPositionFunction.apply( innerCoreTop, innerCoreBottom )
+        ) );
 
         /*---------------------------------------------------------------------------*
         * toolbox
