@@ -41,10 +41,10 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
-                                                  public void update() {
-                                                      updateReadout();
-                                                  }
-                                              }, true );
+            public void update() {
+                updateReadout();
+            }
+        }, true );
 
         updateOnEvent( tab.beforeFrameRender );
     }
