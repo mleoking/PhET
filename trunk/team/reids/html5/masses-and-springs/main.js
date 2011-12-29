@@ -19,6 +19,7 @@ masses.push( new Mass( greenMassImage, 0, 400 ) );
 var neutronBucket;
 var protonBucket;
 var dragTarget = null;
+var relativeGrabPoint = null;
 var resetButton;
 var electronShell;
 var nucleusLabel;
@@ -128,6 +129,11 @@ Point2D.prototype.setComponents = function ( x, y ) {
     this.y = y;
 }
 
+Point2D.prototype.minus = function ( pt ) {
+    var pt = new Point2D( this.x - pt.x, this.y - pt.y );
+    return pt;
+}
+
 Point2D.prototype.set = function ( point2D ) {
     this.setComponents( point2D.x, point2D.y );
 }
@@ -158,7 +164,12 @@ Mass.prototype.draw = function ( context ) {
 }
 
 Mass.prototype.containsPoint = function ( point ) {
-    return Math.sqrt( Math.pow( point.x - this.position.x, 2 ) + Math.pow( point.y - this.position.y, 2 ) ) < this.radius;
+    javascript: console.log( "point = " + point.x + ", " + point.y + ", location = " + this.position.x + ", " + this.position.y + ", width = " + this.image.width + ", height = " + this.image.height );
+    return point.x >= this.position.x && point.y >= this.position.y && point.x <= this.position.x + this.image.width && point.y <= this.position.y + this.image.height;
+}
+
+Mass.prototype.setPosition = function ( point ) {
+    this.position = new Point2D( point.x, point.y );
 }
 
 Particle.prototype.draw = function ( context ) {
@@ -551,61 +562,64 @@ function onTouchStart( location ) {
 
     //See which sprite wants to handle the touch
     for ( var i = 0; i < masses.length; i++ ) {
-        if ( masses[i].containsPoint( location ) ) {
+        var containsPoint = masses[i].containsPoint( location );
+//        javascript: console.log( "checking mass contains: " + containsPoint );
+        if ( containsPoint ) {
             dragTarget = masses[i];
+            relativeGrabPoint = new Point2D( location.x - dragTarget.position.x, location.y - dragTarget.position.y );
             break;
         }
     }
 
     // See if this touch start is on any of the existing particles.
-    for ( i = 0; i < particlesInNucleus.length; i++ ) {
-        if ( particlesInNucleus[i].containsPoint( location ) ) {
-            dragTarget = particlesInNucleus[i];
-            removeParticleFromNucleus( dragTarget );
-            break;
-        }
-    }
-    if ( dragTarget == null ) {
-        // See if the touch was on any of the buckets and, if so, create the
-        // corresponding particle.
-        if ( neutronBucket.containsPoint( location ) ) {
-            dragTarget = new Particle( "gray" );
-        }
-        else if ( protonBucket.containsPoint( location ) ) {
-            dragTarget = new Particle( "red" );
-        }
-        // Else see if the button is being touched.
-        else if ( resetButton.containsPoint( location ) ) {
-            removeAllParticles();
-        }
-    }
+//    for ( i = 0; i < particlesInNucleus.length; i++ ) {
+//        if ( particlesInNucleus[i].containsPoint( location ) ) {
+//            dragTarget = particlesInNucleus[i];
+//            removeParticleFromNucleus( dragTarget );
+//            break;
+//        }
+//    }
+//    if ( dragTarget == null ) {
+//        // See if the touch was on any of the buckets and, if so, create the
+//        // corresponding particle.
+//        if ( neutronBucket.containsPoint( location ) ) {
+//            dragTarget = new Particle( "gray" );
+//        }
+//        else if ( protonBucket.containsPoint( location ) ) {
+//            dragTarget = new Particle( "red" );
+//        }
+//        // Else see if the button is being touched.
+//        else if ( resetButton.containsPoint( location ) ) {
+//            removeAllParticles();
+//        }
+//    }
 
     // Position the particle (if there is one) at the location of this event.
-    if ( dragTarget != null ) {
-        dragTarget.setLocation( location );
-    }
+//    if ( dragTarget != null ) {
+//        dragTarget.setLocation( location );
+//    }
 
     draw();
 }
 
 function onDrag( location ) {
     if ( touchInProgress && dragTarget != null ) {
-        dragTarget.setLocation( location );
+        dragTarget.setPosition( location.minus( relativeGrabPoint ) );
         draw();
     }
 }
 
 function onTouchEnd() {
     touchInProgress = false;
-    if ( dragTarget != null ) {
-        // If the particle has been dropped within the electron shell, add it
-        // to the nucleus.
-        if ( electronShell.containsPoint( dragTarget.location ) ) {
-            particlesInNucleus.push( dragTarget );
-            adjustNucleonPositions();
-        }
-        // Always set to null to indicate that no particle is being dragged.
-        dragTarget = null;
-    }
+//    if ( dragTarget != null ) {
+//        // If the particle has been dropped within the electron shell, add it
+//        // to the nucleus.
+//        if ( electronShell.containsPoint( dragTarget.position ) ) {
+//            particlesInNucleus.push( dragTarget );
+//            adjustNucleonPositions();
+//        }
+//        // Always set to null to indicate that no particle is being dragged.
+//        dragTarget = null;
+//    }
     draw();
 }
