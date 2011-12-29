@@ -24,6 +24,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
@@ -44,6 +45,7 @@ import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
+import edu.colorado.phet.platetectonics.view.RangeLabel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -156,6 +158,21 @@ public class CrustTab extends PlateTectonicsTab {
 
         // TODO: improve the plate view
         sceneLayer.addChild( new PlateView( model, this, grid ) );
+
+        sceneLayer.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+            beforeFrameRender.addUpdateListener( new UpdateListener() {
+                @Override public void update() {
+                    set( getModelViewTransform().transformPosition( new ImmutableVector3F( 0, (float) model.getCenterCrustElevation(), 0 ) ) );
+                }
+            }, true );
+        }}, new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+            beforeFrameRender.addUpdateListener( new UpdateListener() {
+                @Override public void update() {
+                    set( getModelViewTransform().transformPosition( new ImmutableVector3F( 0, (float) model.getCenterCrustBottomY(), 0 ) ) );
+                }
+            }, true );
+        }}, "Crust"
+        ) ); // TODO: i18n
 
         /*---------------------------------------------------------------------------*
         * toolbox

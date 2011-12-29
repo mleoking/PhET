@@ -13,6 +13,7 @@ import org.lwjgl.BufferUtils;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -40,6 +41,10 @@ public class LWJGLUtils {
                    (float) color.getBlue() / 255f,
                    (float) color.getAlpha() / 255f
         );
+    }
+
+    public static void vertex3f( ImmutableVector3F v ) {
+        glVertex3f( v.x, v.y, v.z );
     }
 
     public static FloatBuffer floatBuffer( float[] floats ) {

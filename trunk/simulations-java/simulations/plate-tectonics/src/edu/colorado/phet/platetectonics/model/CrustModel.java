@@ -303,7 +303,7 @@ public class CrustModel extends PlateModel {
         return 2600 + 700 * ratio;
     }
 
-    private double getCenterCrustElevation() {
+    public double getCenterCrustElevation() {
         return crustElevation;
     }
 
@@ -311,7 +311,7 @@ public class CrustModel extends PlateModel {
         return computeCrustElevation( thickness.get(), getCenterCrustDensity() );
     }
 
-    private double getCenterCrustBottomY() {
+    public double getCenterCrustBottomY() {
         return getCenterCrustElevation() - thickness.get();
     }
 
