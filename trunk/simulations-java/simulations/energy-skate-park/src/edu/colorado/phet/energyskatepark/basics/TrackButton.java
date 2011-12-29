@@ -6,6 +6,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -25,9 +28,10 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class TrackButton extends PNode {
 
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
+    private static final String OBJECT_TRACK_BUTTON_NODE = "trackButton";
 
-    public TrackButton( final EnergySkateParkBasicsModule module, final String location, final double offset ) {
-        PImage image = new PImage( createIcon( module, location ) );
+    public TrackButton( final EnergySkateParkBasicsModule module, final String trackName, final double offset ) {
+        PImage image = new PImage( createIcon( module, trackName ) );
         addChild( image );
         final PPath selectedIndicator = new PhetPPath( image.getFullBoundsReference().getBounds2D(), new BasicStroke( 3 ), INVISIBLE_COLOR );
         addChild( selectedIndicator );
@@ -37,14 +41,15 @@ public class TrackButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( PInputEvent event ) {
-                module.loadTrack( location, offset );
+                SimSharingManager.sendEvent( OBJECT_TRACK_BUTTON_NODE, SimSharingStrings.Actions.PRESSED, Parameter.param( "track", trackName ) );
+                module.loadTrack( trackName, offset );
             }
         } );
 
         //When selected, turn on highlight.
         module.currentTrackFileName.addObserver( new VoidFunction1<String>() {
             public void apply( String fileName ) {
-                selectedIndicator.setStrokePaint( fileName.equalsIgnoreCase( location ) ? Color.YELLOW : INVISIBLE_COLOR );
+                selectedIndicator.setStrokePaint( fileName.equalsIgnoreCase( trackName ) ? Color.YELLOW : INVISIBLE_COLOR );
             }
         } );
     }
