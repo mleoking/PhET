@@ -1,3 +1,4 @@
+Energy Skate Park Basics: Simsharing: fixed: sim speed slider needs a name, see #3201
 Energy Skate Park Basics: Simsharing: added message when changing tracks with track button, see #3201
 # 2.08.11 (59612) Dec 21, 2011
 Fixed: There seems to be a bug with the Track Friction still - if you turn it on, then off, the friction continues to affect the skater.
