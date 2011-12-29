@@ -29,9 +29,9 @@ public class CrustModel extends PlateModel {
     private static final int LEFT_BOUNDARY = -75000;
     private static final int RIGHT_BOUNDARY = 75000;
 
-    private static final double MANTLE_DENSITY = 3300;
-    private static final double CORE_BOUNDARY_DENSITY = 10000;
-    private static final double INNER_OUTER_CORE_BOUNDARY_DENSITY = 12800;
+    private static final float MANTLE_DENSITY = 3300;
+    private static final float CORE_BOUNDARY_DENSITY = 10000;
+    private static final float INNER_OUTER_CORE_BOUNDARY_DENSITY = 12800;
     public static final float CENTER_DENSITY = 13100;
 
     // oceanic crust properties
@@ -176,7 +176,7 @@ public class CrustModel extends PlateModel {
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              oceanCrustBottom,
                                              oceanSideMinY,
-                                             constantFunction( MANTLE_DENSITY ),
+                                             constantFunction( (double) MANTLE_DENSITY ),
                                              constantFunction( 0.0 ) ) ); // TODO: mandle temperatures!
 
         addRegion( new SimpleConstantRegion( Type.CRUST,
@@ -190,7 +190,7 @@ public class CrustModel extends PlateModel {
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              middleCrustBottom,
                                              middleSideMinY,
-                                             constantFunction( MANTLE_DENSITY ),
+                                             constantFunction( (double) MANTLE_DENSITY ),
                                              constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
 
         addRegion( new SimpleConstantRegion( Type.CRUST,
@@ -201,13 +201,13 @@ public class CrustModel extends PlateModel {
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              continentCrustBottom,
                                              continentSideMinY,
-                                             constantFunction( MANTLE_DENSITY ),
+                                             constantFunction( (double) MANTLE_DENSITY ),
                                              constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              mantleTop,
                                              mantleMiddle,
-                                             constantFunction( MANTLE_DENSITY ), // TODO: fix upper mantle density
+                                             constantFunction( (double) MANTLE_DENSITY ), // TODO: fix upper mantle density
                                              constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
         addRegion( new SimpleConstantRegion( Type.LOWER_MANTLE,
@@ -216,17 +216,23 @@ public class CrustModel extends PlateModel {
                                              constantFunction( 4500.0 ), // TODO: fix lower mantle density
                                              constantFunction( 0.0 ) ) ); // TODO: temperatures!
 
-        addRegion( new SimpleConstantRegion( Type.OUTER_CORE,
-                                             mantleBottom,
-                                             innerOuterCoreBoundary,
-                                             constantFunction( INNER_OUTER_CORE_BOUNDARY_DENSITY ), // TODO: fix core density
-                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
+        addRegion( new SimpleLinearRegion( Type.OUTER_CORE,
+                                           mantleBottom,
+                                           innerOuterCoreBoundary,
+                                           MANTLE_CORE_BOUNDARY_Y,
+                                           INNER_OUTER_CORE_BOUNDARY_Y,
+                                           CORE_BOUNDARY_DENSITY,
+                                           INNER_OUTER_CORE_BOUNDARY_DENSITY,
+                                           0f, 0f ) ); // TODO: temperature
 
-        addRegion( new SimpleConstantRegion( Type.INNER_CORE,
-                                             innerOuterCoreBoundary,
-                                             centerOfTheEarth,
-                                             constantFunction( (double) CENTER_DENSITY ), // TODO: fix core density
-                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
+        addRegion( new SimpleLinearRegion( Type.INNER_CORE,
+                                           innerOuterCoreBoundary,
+                                           centerOfTheEarth,
+                                           INNER_OUTER_CORE_BOUNDARY_Y,
+                                           CENTER_OF_EARTH_Y,
+                                           INNER_OUTER_CORE_BOUNDARY_DENSITY,
+                                           CENTER_DENSITY,
+                                           0f, 0f ) ); // TODO: temperature
 
         updateView();
     }
