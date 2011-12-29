@@ -493,6 +493,8 @@ function onDocumentMouseMove( event ) {
 
 function onDocumentTouchStart( event ) {
     if ( event.touches.length == 1 ) {
+
+        //in the  the event handler to prevent the event from being propagated to the browser and causing unwanted scrolling events.
         event.preventDefault();
         onTouchStart( new Point2D( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
     }
@@ -500,6 +502,8 @@ function onDocumentTouchStart( event ) {
 
 function onDocumentTouchMove( event ) {
     if ( event.touches.length == 1 ) {
+
+        //in the  the event handler to prevent the event from being propagated to the browser and causing unwanted scrolling events.
         event.preventDefault();
         onDrag( new Point2D( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
     }
@@ -516,6 +520,14 @@ function onWindowDeviceOrientation( event ) {
 function onTouchStart( location ) {
     touchInProgress = true;
     particleBeingDragged = null;
+
+    //See which sprite wants to handle the touch
+    for ( var i = 0; i < particlesInNucleus.length; i++ ) {
+        if ( particlesInNucleus[i].containsPoint( location ) ) {
+
+        }
+    }
+
     // See if this touch start is on any of the existing particles.
     for ( i = 0; i < particlesInNucleus.length; i++ ) {
         if ( particlesInNucleus[i].containsPoint( location ) ) {
