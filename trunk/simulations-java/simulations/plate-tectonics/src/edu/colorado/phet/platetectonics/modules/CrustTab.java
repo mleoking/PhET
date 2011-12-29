@@ -5,10 +5,13 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Mouse;
@@ -33,6 +36,7 @@ import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.lwjglphet.utils.SwingForwardingProperty;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
@@ -51,6 +55,7 @@ import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.CONTINENTAL_CRUST;
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.OCEANIC_CRUST;
@@ -72,6 +77,7 @@ public class CrustTab extends PlateTectonicsTab {
     private static final float DENSITY_SENSOR_Z = 2;
 
     private Property<Float> scaleProperty = new Property<Float>( 1f );
+    private final Property<Boolean> showLabels = new Property<Boolean>( false );
 
     private final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
     private GLNode sceneLayer;
@@ -176,8 +182,17 @@ public class CrustTab extends PlateTectonicsTab {
             }
         };
 
+        GLNode layerLabels = new GLNode() {{
+            showLabels.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    setVisible( showLabels.get() );
+                }
+            } );
+        }};
+        sceneLayer.addChild( layerLabels );
+
         // crust label
-        sceneLayer.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+        layerLabels.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                 @Override public void update() {
                     set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) model.getCenterCrustElevation(), 0 ) ) );
@@ -234,7 +249,7 @@ public class CrustTab extends PlateTectonicsTab {
             }
         };
 
-        sceneLayer.addChild( new RangeLabel(
+        layerLabels.addChild( new RangeLabel(
                 upperMantleTop,
                 upperMantleBottom,
                 "Mantle", scaleProperty,   // TODO: i18n
@@ -243,7 +258,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> lowerMantleTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, -750000, 0 ) ) );
         Property<ImmutableVector3F> lowerMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, -2921000, 0 ) ) );
-        sceneLayer.addChild( new RangeLabel(
+        layerLabels.addChild( new RangeLabel(
                 lowerMantleTop,
                 lowerMantleBottom,
                 "Lower Mantle", scaleProperty,   // TODO: i18n
@@ -252,7 +267,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> outerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, -2921000, 0 ) ) );
         Property<ImmutableVector3F> outerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, -5180000, 0 ) ) );
-        sceneLayer.addChild( new RangeLabel(
+        layerLabels.addChild( new RangeLabel(
                 outerCoreTop,
                 outerCoreBottom,
                 "Outer Core", scaleProperty,   // TODO: i18n
@@ -261,7 +276,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> innerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -5180000, 0 ) ) );
         Property<ImmutableVector3F> innerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -PlateModel.EARTH_RADIUS, 0 ) ) );
-        sceneLayer.addChild( new RangeLabel(
+        layerLabels.addChild( new RangeLabel(
                 innerCoreTop,
                 innerCoreBottom,
                 "Inner Core", scaleProperty,   // TODO: i18n
@@ -399,6 +414,44 @@ public class CrustTab extends PlateTectonicsTab {
         }};
         guiLayer.addChild( zoomControl );
         guiNodes.add( zoomControl );
+
+        // options panel
+        OrthoPiccoloNode optionsPanel = new OrthoPiccoloNode(
+                new ControlPanelNode( new PNode() {{
+                    final PNode title = new PText( "Options" );
+                    addChild( title );
+
+                    PSwing showLabelCheckBox = new PSwing( new JCheckBox( "Show Labels" ) {{
+                        setSelected( showLabels.get() );
+                        addActionListener( new ActionListener() {
+                            @Override public void actionPerformed( ActionEvent actionEvent ) {
+                                final boolean showThem = isSelected();
+                                LWJGLUtils.invoke( new Runnable() {
+                                    @Override public void run() {
+                                        showLabels.set( showThem );
+                                    }
+                                } );
+                            }
+                        } );
+                    }} ) {{
+                        setOffset( 0, title.getFullBounds().getMaxY() + 5 );
+                    }};
+                    addChild( showLabelCheckBox );
+
+                    title.setOffset( ( showLabelCheckBox.getFullBounds().getWidth() - title.getFullBounds().getWidth() ) / 2, 0 );
+                }} ),
+                this, getCanvasTransform(),
+                new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+            canvasSize.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth() - 10,
+                                                         getStageSize().height - getComponentHeight() - 10 ) );
+                }
+            } );
+            updateOnEvent( beforeFrameRender );
+        }};
+        guiLayer.addChild( optionsPanel );
+        guiNodes.add( optionsPanel );
 
         /*---------------------------------------------------------------------------*
         * labels
