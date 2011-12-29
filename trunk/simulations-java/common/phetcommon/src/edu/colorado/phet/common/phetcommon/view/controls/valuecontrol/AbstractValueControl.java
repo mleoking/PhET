@@ -176,6 +176,11 @@ public abstract class AbstractValueControl extends JPanel {
         this.simSharingObject = simSharingObject;
     }
 
+    // Allows clients to set a specific object for sim-sharing events.  Uses a heuristic that converts a class name like AbstractSlider to abstractSlider
+    public void setSimSharingObject( Class c ) {
+        setSimSharingObject( SimSharingManager.toInstanceName( c ) );
+    }
+
     //----------------------------------------------------------------------------
     // Access to components.
     //

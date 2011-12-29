@@ -284,4 +284,9 @@ public class SimSharingManager {
     private static String generateStrongId() {
         return new BigInteger( 130, new SecureRandom() ).toString( 32 );
     }
+
+    //Uses a heuristic that converts a class name like AbstractSlider to abstractSlider for use as an object in a sim sharing event.
+    public static String toInstanceName( Class c ) {
+        return Character.toLowerCase( c.getSimpleName().charAt( 0 ) ) + c.getSimpleName().substring( 1 );
+    }
 }
