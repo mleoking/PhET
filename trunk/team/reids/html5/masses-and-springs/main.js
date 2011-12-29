@@ -13,16 +13,16 @@ redMassImage.src = "resources/red-mass.png";
 var greenMassImage = new Image();
 greenMassImage.src = "resources/green-mass.png";
 
-masses.push( new Mass( redMassImage, 0, 400 ) );
-masses.push( new Mass( greenMassImage, 0, 400 ) );
+var rulerImage = new Image();
+rulerImage.src = "resources/ruler.png";
 
-var neutronBucket;
-var protonBucket;
+masses.push( new ImageSprite( redMassImage, 50, 400 ) );
+masses.push( new ImageSprite( greenMassImage, 100, 400 ) );
+masses.push( new ImageSprite( rulerImage, 0, 400 ) );
+
 var dragTarget = null;
 var relativeGrabPoint = null;
 var resetButton;
-var electronShell;
-var nucleusLabel;
 
 // Hook up the initialization function.
 $( document ).ready( function () {
@@ -59,18 +59,8 @@ function init() {
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
     document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 
-    // Add the electron shell.
-    electronShell = new ElectronShell( new Point2D( 325, 150 ) );
-
-    // Add the buckets where nucleons are created and returned.
-    neutronBucket = new Bucket( new Point2D( 100, 300 ), "gray" );
-    protonBucket = new Bucket( new Point2D( 400, 300 ), "red" );
-
     // Add the reset button.
     resetButton = new ResetButton( new Point2D( 600, 325 ), "orange" );
-
-    // Add the nucleus label.
-    nucleusLabel = new NucleusLabel( new Point2D( 500, 100 ) );
 
     // Commenting out, since iPad seems to send these continuously.
 //	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
@@ -148,7 +138,7 @@ function Particle( color ) {
     this.color = color;
 }
 
-function Mass( im, x, y ) {
+function ImageSprite( im, x, y ) {
     this.image = im;
     this.position = new Point2D( x, y );
 
@@ -158,17 +148,17 @@ function Mass( im, x, y ) {
     }
 }
 
-Mass.prototype.draw = function ( context ) {
+ImageSprite.prototype.draw = function ( context ) {
 //    javascript: console.log( "drawing mass" );
     context.drawImage( this.image, this.position.x, this.position.y );
 }
 
-Mass.prototype.containsPoint = function ( point ) {
+ImageSprite.prototype.containsPoint = function ( point ) {
     javascript: console.log( "point = " + point.x + ", " + point.y + ", location = " + this.position.x + ", " + this.position.y + ", width = " + this.image.width + ", height = " + this.image.height );
     return point.x >= this.position.x && point.y >= this.position.y && point.x <= this.position.x + this.image.width && point.y <= this.position.y + this.image.height;
 }
 
-Mass.prototype.setPosition = function ( point ) {
+ImageSprite.prototype.setPosition = function ( point ) {
     this.position = new Point2D( point.x, point.y );
 }
 
@@ -196,182 +186,6 @@ Particle.prototype.setLocationComponents = function ( x, y ) {
 
 Particle.prototype.containsPoint = function ( point ) {
     return Math.sqrt( Math.pow( point.x - this.location.x, 2 ) + Math.pow( point.y - this.location.y, 2 ) ) < this.radius;
-}
-
-//-----------------------------------------------------------------------------
-// Electron shell class.
-//-----------------------------------------------------------------------------
-
-function ElectronShell( initialLocation ) {
-    this.location = initialLocation;
-    this.radius = 120;
-}
-
-ElectronShell.prototype.draw = function ( context ) {
-    var xPos = this.location.x;
-    var yPos = this.location.y;
-    var gradient = context.createRadialGradient( xPos, yPos, 0, xPos, yPos, this.radius );
-    gradient.addColorStop( 0, "rgba( 0, 0, 200, 0.2)" );
-    gradient.addColorStop( 1, "rgba( 0, 0, 200, 0.05)" );
-    context.fillStyle = gradient;
-    context.beginPath();
-    context.arc( xPos, yPos, this.radius, 0, Math.PI * 2, true );
-    context.closePath();
-    context.fill();
-}
-
-ElectronShell.prototype.setLocationComponents = function ( x, y ) {
-    this.location.x = x;
-    this.location.y = y;
-}
-
-ElectronShell.prototype.setLocation = function ( location ) {
-    this.setLocationComponents( location.x, location.y );
-}
-
-ElectronShell.prototype.containsPoint = function ( point ) {
-    return Math.sqrt( Math.pow( point.x - this.location.x, 2 ) + Math.pow( point.y - this.location.y, 2 ) ) < this.radius;
-}
-
-//-----------------------------------------------------------------------------
-// Bucket class.
-//-----------------------------------------------------------------------------
-
-function Bucket( initialLocation, color ) {
-    this.location = initialLocation;
-    this.width = 150;
-    this.height = this.width * 0.5;
-    this.color = color;
-}
-
-Bucket.prototype.draw = function ( context ) {
-    var xPos = this.location.x;
-    var yPos = this.location.y;
-    var gradient = context.createLinearGradient( xPos, yPos, xPos + this.width, yPos );
-    gradient.addColorStop( 0, "white" );
-    gradient.addColorStop( 1, this.color );
-    context.fillStyle = gradient;
-    context.beginPath();
-    context.moveTo( xPos, yPos );
-    context.lineTo( xPos + this.width * 0.15, yPos + this.height );
-    context.lineTo( xPos + this.width * 0.85, yPos + this.height );
-    context.lineTo( xPos + this.width, yPos );
-    context.lineTo( xPos, yPos );
-    context.closePath();
-    context.fill();
-}
-
-Bucket.prototype.setLocationComponents = function ( x, y ) {
-    this.location.x = x;
-    this.location.y = y;
-}
-
-Bucket.prototype.setLocation = function ( location ) {
-    this.setLocationComponents( location.x, location.y );
-}
-
-Bucket.prototype.containsPoint = function ( point ) {
-    // Treat the shape as rectangle, even though it may not exactly be one.
-    return point.x > this.location.x && point.x < this.location.x + this.width &&
-           point.y > this.location.y && point.y < this.location.y + this.height;
-}
-
-//-----------------------------------------------------------------------------
-// Nucleus label class.
-//-----------------------------------------------------------------------------
-
-function NucleusLabel( initialLocation ) {
-    this.location = initialLocation;
-    this.text = "";
-}
-
-NucleusLabel.prototype.draw = function ( context ) {
-    var protonCount = 0;
-    var neutronCount = 0;
-    for ( i = 0; i < particlesInNucleus.length; i++ ) {
-        if ( particlesInNucleus[i].color == "red" ) {
-            protonCount++;
-        }
-        else if ( particlesInNucleus[i].color == "gray" ) {
-            neutronCount++;
-        }
-    }
-    this.updateText( protonCount, neutronCount );
-    context.fillStyle = '#000';
-    context.font = '28px sans-serif';
-    context.textBaseline = 'top';
-    context.fillText( this.text, this.location.x, this.location.y );
-}
-
-NucleusLabel.prototype.updateText = function ( protonCount, neutronCount ) {
-    switch( protonCount ) {
-        case 0:
-            this.text = "";
-            break;
-
-        case 1:
-            this.text = "Hydrogen";
-            if ( neutronCount == 0 || neutronCount == 1 ) {
-                this.text += " (Stable)";
-            }
-            else {
-                this.text += " (Unstable)";
-            }
-            break;
-
-        case 2:
-            this.text = "Helium";
-            if ( neutronCount == 1 || neutronCount == 2 ) {
-                this.text += " (Stable)";
-            }
-            else {
-                this.text += " (Unstable)";
-            }
-            break;
-
-        case 3:
-            this.text = "Lithium";
-            if ( neutronCount == 3 || neutronCount == 4 ) {
-                this.text += " (Stable)";
-            }
-            else {
-                this.text += " (Unstable)";
-            }
-            break;
-
-        case 4:
-            this.text = "Beryllium";
-            if ( neutronCount == 5 ) {
-                this.text += " (Stable)";
-            }
-            else {
-                this.text += " (Unstable)";
-            }
-            break;
-
-        case 5:
-            this.text = "Boron";
-            if ( neutronCount == 5 || neutronCount == 6 ) {
-                this.text += " (Stable)";
-            }
-            else {
-                this.text += " (Unstable)";
-            }
-            break;
-
-        default:
-            this.text = "Phetium - " + (protonCount + neutronCount);
-            break;
-    }
-}
-
-NucleusLabel.prototype.setLocationComponents = function ( x, y ) {
-    this.location.x = x;
-    this.location.y = y;
-}
-
-NucleusLabel.prototype.setLocation = function ( location ) {
-    this.setLocationComponents( location.x, location.y );
 }
 
 //-----------------------------------------------------------------------------
@@ -426,15 +240,8 @@ function draw() {
     drawTitle();
     drawPhetLogo();
 
-    // Draw the electron shell.
-    electronShell.draw( context );
-
     // Draw the reset button.
     resetButton.draw( context );
-
-    // Draw the buckets.
-    neutronBucket.draw( context );
-    protonBucket.draw( context );
 
     // Draw the particles that are in the nucleus.
     for ( var i = 0; i < particlesInNucleus.length; i++ ) {
@@ -451,8 +258,6 @@ function draw() {
         dragTarget.draw( context );
     }
 
-    // Draw the nucleus label.
-    nucleusLabel.draw( context );
 }
 
 //-----------------------------------------------------------------------------
@@ -471,47 +276,6 @@ function removeParticleFromNucleus( particle ) {
         }
     }
     adjustNucleonPositions();
-}
-
-// Adjust the positions of the nucleons to look good.
-function adjustNucleonPositions() {
-    var particleRadius = new Particle( "black" ).radius;
-    if ( particlesInNucleus.length == 0 ) {
-        return;
-    }
-    else if ( particlesInNucleus.length == 1 ) {
-        particlesInNucleus[0].setLocation( electronShell.location );
-    }
-    else if ( particlesInNucleus.length == 2 ) {
-        particlesInNucleus[0].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
-        particlesInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
-    }
-    else if ( particlesInNucleus.length == 3 ) {
-        particlesInNucleus[0].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.1 );
-        particlesInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius * 0.77, electronShell.location.y + particleRadius * 0.77 );
-        particlesInNucleus[2].setLocationComponents( electronShell.location.x - particleRadius * 0.77, electronShell.location.y + particleRadius * 0.77 );
-    }
-    else if ( particlesInNucleus.length == 4 ) {
-        particlesInNucleus[0].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.5 );
-        particlesInNucleus[1].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
-        particlesInNucleus[2].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
-        particlesInNucleus[3].setLocationComponents( electronShell.location.x, electronShell.location.y + particleRadius * 1.5 );
-    }
-    else if ( particlesInNucleus.length >= 5 ) {
-        // Place the last five as a diamond with one in center.
-        particlesInNucleus[particlesInNucleus.length - 1].setLocationComponents( electronShell.location.x, electronShell.location.y );
-        particlesInNucleus[particlesInNucleus.length - 2].setLocationComponents( electronShell.location.x, electronShell.location.y - particleRadius * 1.5 );
-        particlesInNucleus[particlesInNucleus.length - 3].setLocationComponents( electronShell.location.x + particleRadius, electronShell.location.y );
-        particlesInNucleus[particlesInNucleus.length - 4].setLocationComponents( electronShell.location.x - particleRadius, electronShell.location.y );
-        particlesInNucleus[particlesInNucleus.length - 5].setLocationComponents( electronShell.location.x, electronShell.location.y + particleRadius * 1.5 );
-        // Place remaining particles around the edges of this configuration.
-        var placementRadius = particleRadius * 2;
-        for ( i = particlesInNucleus.length - 6; i >= 0; i-- ) {
-            var angle = Math.random() * Math.PI * 2;
-            particlesInNucleus[i].setLocationComponents( electronShell.location.x + placementRadius * Math.cos( angle ),
-                                                         electronShell.location.y + placementRadius * Math.sin( angle ) );
-        }
-    }
 }
 
 //-----------------------------------------------------------------------------
@@ -571,34 +335,6 @@ function onTouchStart( location ) {
         }
     }
 
-    // See if this touch start is on any of the existing particles.
-//    for ( i = 0; i < particlesInNucleus.length; i++ ) {
-//        if ( particlesInNucleus[i].containsPoint( location ) ) {
-//            dragTarget = particlesInNucleus[i];
-//            removeParticleFromNucleus( dragTarget );
-//            break;
-//        }
-//    }
-//    if ( dragTarget == null ) {
-//        // See if the touch was on any of the buckets and, if so, create the
-//        // corresponding particle.
-//        if ( neutronBucket.containsPoint( location ) ) {
-//            dragTarget = new Particle( "gray" );
-//        }
-//        else if ( protonBucket.containsPoint( location ) ) {
-//            dragTarget = new Particle( "red" );
-//        }
-//        // Else see if the button is being touched.
-//        else if ( resetButton.containsPoint( location ) ) {
-//            removeAllParticles();
-//        }
-//    }
-
-    // Position the particle (if there is one) at the location of this event.
-//    if ( dragTarget != null ) {
-//        dragTarget.setLocation( location );
-//    }
-
     draw();
 }
 
@@ -611,15 +347,5 @@ function onDrag( location ) {
 
 function onTouchEnd() {
     touchInProgress = false;
-//    if ( dragTarget != null ) {
-//        // If the particle has been dropped within the electron shell, add it
-//        // to the nucleus.
-//        if ( electronShell.containsPoint( dragTarget.position ) ) {
-//            particlesInNucleus.push( dragTarget );
-//            adjustNucleonPositions();
-//        }
-//        // Always set to null to indicate that no particle is being dragged.
-//        dragTarget = null;
-//    }
     draw();
 }
