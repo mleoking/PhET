@@ -87,7 +87,7 @@ function drawTitle() {
     context.fillStyle = '#00f';
     context.font = '30px sans-serif';
     context.textBaseline = 'top';
-    context.fillText( 'Build an Atom', 10, 10 );
+    context.fillText( 'Masses and Springs', 10, 10 );
 }
 
 function drawPhetLogo() {
@@ -375,6 +375,8 @@ ResetButton.prototype.containsPoint = function ( point ) {
 
 //-----------------------------------------------------------------------------
 
+var image = new Image();
+image.src = "resources/red-mass.png";
 
 // Main drawing function.
 function draw() {
@@ -403,6 +405,11 @@ function draw() {
     // Draw particle that is being dragged if there is one.
     if ( particleBeingDragged != null ) {
         particleBeingDragged.draw( context );
+    }
+
+    context.drawImage( image, 0, 0 );
+    image.onload = function () {
+        context.drawImage( image, 0, 0 );
     }
 
     // Draw the nucleus label.
