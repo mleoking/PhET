@@ -388,7 +388,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             }} );
         }};
         return new OrthoComponentNode( fpsPanel, this, canvasTransform,
-                                       new Property<ImmutableVector2D>( new ImmutableVector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth(), stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier ) {{
+                                       new Property<ImmutableVector2D>(
+                                               new ImmutableVector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth() - 200,
+                                                                      stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier ) {{
             updateOnEvent( beforeFrameRender );
         }};
     }
