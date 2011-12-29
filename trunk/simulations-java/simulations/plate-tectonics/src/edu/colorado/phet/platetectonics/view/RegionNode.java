@@ -14,6 +14,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.shapes.PlanarPolygon;
+import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Region;
 import edu.colorado.phet.platetectonics.model.Region.Type;
@@ -84,9 +85,9 @@ public class RegionNode extends PlanarPolygon {
         materialMap = new HashMap<Type, GLMaterial>() {{
             put( Type.CRUST, null ); // null for now to indicate a density material
             put( Type.UPPER_MANTLE, null );
-            put( Type.LOWER_MANTLE, new ColorMaterial( 0.7f, 0.7f, 0, 1f ) );
-            put( Type.OUTER_CORE, new ColorMaterial( 0.3f, 0.3f, 0.3f, 1f ) );
-            put( Type.INNER_CORE, new ColorMaterial( 0.6f, 0.6f, 0.6f, 1f ) );
+            put( Type.LOWER_MANTLE, null );
+            put( Type.OUTER_CORE, null );
+            put( Type.INNER_CORE, null );
         }};
     }
 
@@ -102,8 +103,18 @@ public class RegionNode extends PlanarPolygon {
             float density = densityFunc.apply();
             float minDensityToShow = 2500;
             float maxDensityToShow = 3500;
+            float maxMaxDensityToShow = CrustModel.CENTER_DENSITY;
 
-            float x = 100f + ( 1f - ( density - minDensityToShow ) / ( maxDensityToShow - minDensityToShow ) ) * 155f;
+            float densityRatio = ( density - minDensityToShow ) / ( maxDensityToShow - minDensityToShow );
+            float x;
+            if( density <= 3300 ) {
+            x = 100f + ( 1f - densityRatio ) * 155f;
+            } else {
+                float start = 100f + (1f - (3300 - minDensityToShow)/(maxDensityToShow - minDensityToShow) ) * 155f;
+                float end = 50f;
+                float ratio = (density - 3300) / (maxMaxDensityToShow - 3300 );
+                x = start + (end-start) * ratio;
+            }
             x = (float) MathUtil.clamp( 0.0, x / 255.0, 1.0 ); // clamp it in the normal range
             GL11.glColor4f( x, x, x, 1f );
         }
