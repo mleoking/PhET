@@ -16,6 +16,7 @@ var nodes = new Array(
         new ImageSprite( "resources/ruler.png", 12, 51 )
 );
 
+nodes.push( new Slider( 700, 100 ) );
 nodes.push( new Slider( 700, 150 ) );
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
@@ -26,6 +27,11 @@ var springs = new Array();
 springs.push( new Spring( "1", 200 ) );
 springs.push( new Spring( "2", 300 ) );
 springs.push( new Spring( "3", 400 ) );
+
+//Add to the nodes for rendering
+for ( var i = 0; i < springs.length; i++ ) {
+    nodes.push( springs[i] );
+}
 
 var dragTarget = null;
 var relativeGrabPoint = null;
@@ -314,12 +320,6 @@ function draw() {
         particlesInNucleus[i].draw( context );
     }
 
-    //Draw the masses
-
-    for ( i = 0; i < springs.length; i++ ) {
-        springs[i].draw( context );
-    }
-
     for ( i = 0; i < nodes.length; i++ ) {
         nodes[i].draw( context );
     }
@@ -392,13 +392,19 @@ function onTouchStart( location ) {
 
     //See which sprite wants to handle the touch
     for ( var i = 0; i < nodes.length; i++ ) {
-        var containsPoint = nodes[i].containsPoint( location );
-//        javascript: console.log( "checking mass contains: " + containsPoint );
-        if ( containsPoint ) {
-            dragTarget = nodes[i];
-            var referencePoint = dragTarget.getReferencePoint();
-            relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
-            break;
+
+        //Make sure it is interactive
+        var hasContainsPointFunction = typeof nodes[i].containsPoint === 'function';
+        if ( hasContainsPointFunction ) {
+
+            var containsPoint = nodes[i].containsPoint( location );
+            //        javascript: console.log( "checking mass contains: " + containsPoint );
+            if ( containsPoint ) {
+                dragTarget = nodes[i];
+                var referencePoint = dragTarget.getReferencePoint();
+                relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
+                break;
+            }
         }
     }
 
