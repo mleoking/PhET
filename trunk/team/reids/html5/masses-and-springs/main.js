@@ -8,18 +8,9 @@ var particlesInNucleus = new Array();
 var masses = new Array();
 var springs = new Array();
 
-var redMassImage = new Image();
-redMassImage.src = "resources/red-mass.png";
-
-var greenMassImage = new Image();
-greenMassImage.src = "resources/green-mass.png";
-
-var rulerImage = new Image();
-rulerImage.src = "resources/ruler.png";
-
-masses.push( new ImageSprite( redMassImage, 114, 496 ) );
-masses.push( new ImageSprite( greenMassImage, 221, 576 ) );
-masses.push( new ImageSprite( rulerImage, 12, 51 ) );
+masses.push( new ImageSprite( "resources/red-mass.png", 114, 496 ) );
+masses.push( new ImageSprite( "resources/green-mass.png", 221, 576 ) );
+masses.push( new ImageSprite( "resources/ruler.png", 12, 51 ) );
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
@@ -195,7 +186,8 @@ Spring.prototype.draw = function ( context ) {
 }
 
 function ImageSprite( im, x, y ) {
-    this.image = im;
+    this.image = new Image();
+    this.image.src = im;
     this.position = new Point2D( x, y );
 
     //Repaint the screen when this image got loaded
