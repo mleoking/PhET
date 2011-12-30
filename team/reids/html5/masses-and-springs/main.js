@@ -5,27 +5,24 @@ var touchInProgress = false;
 var context;
 var particlesInNucleus = new Array();
 
-var springs = new Array();
+var nodes = new Array(
+        new ImageSprite( "resources/red-mass.png", 114, 496 ),
+        new ImageSprite( "resources/green-mass.png", 210, 577 ),
+        new ImageSprite( "resources/gold-mass.png", 276, 541 ),
+        new ImageSprite( "resources/gram-50.png", 577, 590 ),
+        new ImageSprite( "resources/gram-100.png", 392, 562 ),
+        new ImageSprite( "resources/gram-250.png", 465, 513 ),
 
-var nodes = new Array();
+        new ImageSprite( "resources/ruler.png", 12, 51 )
+);
 
-nodes.push( new ImageSprite( "resources/red-mass.png", 114, 496 ) );
-nodes.push( new ImageSprite( "resources/green-mass.png", 210, 577 ) );
-nodes.push( new ImageSprite( "resources/gold-mass.png", 276, 541 ) );
-nodes.push( new ImageSprite( "resources/gram-50.png", 577, 590 ) );
-nodes.push( new ImageSprite( "resources/gram-100.png", 392, 562 ) );
-nodes.push( new ImageSprite( "resources/gram-250.png", 465, 513 ) );
-
-nodes.push( new ImageSprite( "resources/ruler.png", 12, 51 ) );
-
-nodes.push( new Slider( 700, 100 ) );
 nodes.push( new Slider( 700, 150 ) );
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
 //    springs.push( new Spring( 50 + i * 50 ) );
 //}
-
+var springs = new Array();
 springs.push( new Spring( "1", 200 ) );
 springs.push( new Spring( "2", 300 ) );
 springs.push( new Spring( "3", 400 ) );
