@@ -19,7 +19,24 @@ var nodes = new Array(
 nodes.push( new Slider( 700, 100 ) );
 nodes.push( new Slider( 700, 150 ) );
 
-nodes.push( new CheckBox( 100, 100 ) );
+nodes.push( new HBox( new Array( new CheckBox( 100, 100 ), new Label( "Stopwatch" ) ) ) );
+
+//nodes.push( new CheckBox( 100, 100 ) );
+
+function Label( text ) {
+    this.text = text;
+    this.y = 0;
+    this.x = 0;
+}
+
+Label.prototype.onTouchStart = function () {
+}
+
+Label.prototype.draw = function ( context ) {
+    context.fillStyle = '#00f';
+    context.font = '30px sans-serif';
+    context.fillText( this.text, this.x, this.y );
+}
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
@@ -122,6 +139,45 @@ function drawPhetLogo() {
 // Point2D class.
 //-----------------------------------------------------------------------------
 
+function HBox( components ) {
+    this.components = components;
+    this.spacing = 5;
+    this.x = 0;
+    this.y = 0;
+    for ( var i = 1; i < components.length; i++ ) {
+        var prev = components[i - 1];
+        var c = components[i];
+        c.x = prev.x + prev.width + this.spacing;
+        c.y = prev.y;
+    }
+}
+
+HBox.prototype.getReferencePoint = function () {
+    return new Point2D( this.x, this.y );
+}
+
+HBox.prototype.draw = function ( context ) {
+    for ( var i = 0; i < this.components.length; i++ ) {
+        this.components[i].draw( context );
+    }
+}
+
+HBox.prototype.onTouchStart = function () {
+    for ( var i = 0; i < this.components.length; i++ ) {
+        this.components[i].onTouchStart();
+    }
+}
+
+HBox.prototype.containsPoint = function ( pt ) {
+    for ( var i = 0; i < this.components.length; i++ ) {
+        var component = this.components[i];
+        if ( component.containsPoint( pt ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function Point2D( x, y ) {
     // Instance Fields or Data Members
     this.x = x;
@@ -200,6 +256,9 @@ function ImageSprite( im, x, y ) {
     this.image.onload = function () {
         draw();
     }
+}
+
+ImageSprite.prototype.onTouchStart = function () {
 }
 
 ImageSprite.prototype.draw = function ( context ) {
@@ -396,20 +455,15 @@ function onTouchStart( location ) {
     for ( var i = 0; i < nodes.length; i++ ) {
 
         //Make sure it is interactive
-        if ( typeof nodes[i].containsPoint === 'function' ) {
-            var containsPoint = nodes[i].containsPoint( location );
-            if ( containsPoint ) {
-                javascript: console.log( "node contains point: " + nodes[i] );
+        var containsPoint = nodes[i].containsPoint( location );
+        if ( containsPoint ) {
+            javascript: console.log( "node contains point: " + nodes[i] );
 
-                if ( typeof nodes[i].onTouchStart === 'function' ) {
-                    nodes[i].onTouchStart();
-                }
-
-                dragTarget = nodes[i];
-                var referencePoint = dragTarget.getReferencePoint();
-                relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
-                break;
-            }
+            nodes[i].onTouchStart();
+            dragTarget = nodes[i];
+            var referencePoint = dragTarget.getReferencePoint();
+            relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
+            break;
         }
     }
 
@@ -486,6 +540,9 @@ function Slider( x, y ) {
     this.y = y;
 }
 
+Slider.prototype.onTouchStart = function () {
+
+}
 Slider.prototype.setPosition = function ( pt ) {
     var x = Math.max( 0, pt.x );
     var x2 = Math.min( x, this.width );
