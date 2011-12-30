@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
@@ -39,19 +38,13 @@ public class CrustChooserPanel extends PNode {
 
         verticalOffset = (int) ( continentalLabel.getFullBounds().getHeight() + 10 );
 
-        continentalSpacer = new Spacer( 0, verticalOffset, CRUST_AREA_MAX_WIDTH, CRUST_AREA_MAX_HEIGHT ) {{
-            setPaint( Color.WHITE );
-        }};
+        continentalSpacer = new Spacer( 0, verticalOffset, CRUST_AREA_MAX_WIDTH, CRUST_AREA_MAX_HEIGHT );
         addChild( continentalSpacer );
 
-        youngOceanicSpacer = new Spacer( ( CRUST_AREA_PADDING + CRUST_AREA_MAX_WIDTH ), verticalOffset, CRUST_AREA_MAX_WIDTH, CRUST_AREA_MAX_HEIGHT ) {{
-            setPaint( Color.WHITE );
-        }};
+        youngOceanicSpacer = new Spacer( ( CRUST_AREA_PADDING + CRUST_AREA_MAX_WIDTH ), verticalOffset, CRUST_AREA_MAX_WIDTH, CRUST_AREA_MAX_HEIGHT );
         addChild( youngOceanicSpacer );
 
-        oldOceanicSpacer = new Spacer( ( CRUST_AREA_PADDING + CRUST_AREA_MAX_WIDTH ) * 2, verticalOffset, CRUST_AREA_MAX_WIDTH, CRUST_AREA_MAX_HEIGHT ) {{
-            setPaint( Color.WHITE );
-        }};
+        oldOceanicSpacer = new Spacer( ( CRUST_AREA_PADDING + CRUST_AREA_MAX_WIDTH ) * 2, verticalOffset, CRUST_AREA_MAX_WIDTH, CRUST_AREA_MAX_HEIGHT );
         addChild( oldOceanicSpacer );
     }
 
