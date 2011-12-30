@@ -89,4 +89,22 @@ public class PlateMotionTab extends PlateTectonicsTab {
             transform.append( ImmutableMatrix4F.scaling( 10 ) );
         }} );
     }
+
+    private ImmutableVector2F getCrustOffset( ImmutableVector2F pieceOffset ) {
+        ImmutableVector2D nodeOffset = crustChooserNode.position.get();
+        return new ImmutableVector2F( (float) nodeOffset.getX() + pieceOffset.x,
+                                      (float) nodeOffset.getY() + pieceOffset.y );
+    }
+
+    private ImmutableVector2F getContinentalOffset() {
+        return getCrustOffset( crustChooserPanel.getContinentalCenter() );
+    }
+
+    private ImmutableVector2F getYoungOceanicOffset() {
+        return getCrustOffset( crustChooserPanel.getYoungOceanicCenter() );
+    }
+
+    private ImmutableVector2F getOldOceanicOffset() {
+        return getCrustOffset( crustChooserPanel.getOldOceanicCenter() );
+    }
 }
