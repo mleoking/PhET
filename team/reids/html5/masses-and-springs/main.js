@@ -5,21 +5,21 @@ var touchInProgress = false;
 var context;
 var particlesInNucleus = new Array();
 
-var masses = new Array();
 var springs = new Array();
 
-masses.push( new ImageSprite( "resources/red-mass.png", 114, 496 ) );
-masses.push( new ImageSprite( "resources/green-mass.png", 210, 577 ) );
-masses.push( new ImageSprite( "resources/gold-mass.png", 276, 541 ) );
-masses.push( new ImageSprite( "resources/gram-50.png", 577, 590 ) );
-masses.push( new ImageSprite( "resources/gram-100.png", 392, 562 ) );
-masses.push( new ImageSprite( "resources/gram-250.png", 465, 513 ) );
+var nodes = new Array();
 
-masses.push( new ImageSprite( "resources/ruler.png", 12, 51 ) );
+nodes.push( new ImageSprite( "resources/red-mass.png", 114, 496 ) );
+nodes.push( new ImageSprite( "resources/green-mass.png", 210, 577 ) );
+nodes.push( new ImageSprite( "resources/gold-mass.png", 276, 541 ) );
+nodes.push( new ImageSprite( "resources/gram-50.png", 577, 590 ) );
+nodes.push( new ImageSprite( "resources/gram-100.png", 392, 562 ) );
+nodes.push( new ImageSprite( "resources/gram-250.png", 465, 513 ) );
 
-var sliders = new Array();
-sliders.push( new Slider( 700, 100 ) );
-sliders.push( new Slider( 700, 150 ) );
+nodes.push( new ImageSprite( "resources/ruler.png", 12, 51 ) );
+
+nodes.push( new Slider( 700, 100 ) );
+nodes.push( new Slider( 700, 150 ) );
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
@@ -206,9 +206,13 @@ ImageSprite.prototype.containsPoint = function ( point ) {
     return point.x >= this.position.x && point.y >= this.position.y && point.x <= this.position.x + this.image.width && point.y <= this.position.y + this.image.height;
 }
 
+ImageSprite.prototype.getReferencePoint = function () {
+    return this.position;
+}
+
 ImageSprite.prototype.setPosition = function ( point ) {
     this.position = new Point2D( point.x, point.y );
-    javascript: console.log( "translated image to " + this.position.x + ", " + this.position.y );
+//    javascript: console.log( "translated image to " + this.position.x + ", " + this.position.y );
 }
 
 Particle.prototype.draw = function ( context ) {
@@ -314,21 +318,18 @@ function draw() {
     }
 
     //Draw the masses
-    for ( i = 0; i < masses.length; i++ ) {
-        masses[i].draw( context );
-    }
-
-    // Draw particle that is being dragged if there is one.
-    if ( dragTarget != null ) {
-        dragTarget.draw( context );
-    }
 
     for ( i = 0; i < springs.length; i++ ) {
         springs[i].draw( context );
     }
 
-    for ( i = 0; i < sliders.length; i++ ) {
-        sliders[i].draw( context );
+    for ( i = 0; i < nodes.length; i++ ) {
+        nodes[i].draw( context );
+    }
+
+    // Draw particle that is being dragged if there is one so it will be on top
+    if ( dragTarget != null ) {
+        dragTarget.draw( context );
     }
 }
 
@@ -393,24 +394,13 @@ function onTouchStart( location ) {
     dragTarget = null;
 
     //See which sprite wants to handle the touch
-    for ( var i = 0; i < masses.length; i++ ) {
-        var containsPoint = masses[i].containsPoint( location );
+    for ( var i = 0; i < nodes.length; i++ ) {
+        var containsPoint = nodes[i].containsPoint( location );
 //        javascript: console.log( "checking mass contains: " + containsPoint );
         if ( containsPoint ) {
-            dragTarget = masses[i];
-            relativeGrabPoint = new Point2D( location.x - dragTarget.position.x, location.y - dragTarget.position.y );
-            break;
-        }
-    }
-
-    for ( i = 0; i < sliders.length; i++ ) {
-        var slider = sliders[i];
-        if ( location.x > slider.x + slider.knobX &&
-             location.x < slider.x + slider.knobX + 22 &&
-             location.y > slider.y &&
-             location.y < slider.y + 22 ) {
-            dragTarget = slider;
-            relativeGrabPoint = new Point2D( location.x - slider.knobX, location.y - slider.y );
+            dragTarget = nodes[i];
+            var referencePoint = dragTarget.getReferencePoint();
+            relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
             break;
         }
     }
@@ -448,14 +438,28 @@ Slider.prototype.setPosition = function ( pt ) {
 Slider.prototype.draw = function ( context ) {
     //draw gray bar
     context.drawImage( this.image, 20, 24, 1, 9, this.x + 9, this.y + 8, this.width - 18, 9 );
+
     //draw right cap
     context.drawImage( this.image, 10, 24, 9, 9, this.x + this.width - 9, this.y + 8, 9, 9 );
+
     // draw left cap
     context.drawImage( this.image, 0, 24, 9, 9, this.x, this.y + 8, 9, 9 );
+
     // draw blue bar
     if ( this.knobX > 9 ) {
         context.drawImage( this.image, 22, 24, 1, 9, this.x + 9, this.y + 8, this.knobX, 9 );
     }
     // draw control button
-    context.drawImage( this.image, 0, 0, 22, 22, this.x + this.knobX, this.y + 1, 22, 22 );
+    context.drawImage( this.image, 0, 0, 22, 22, this.x + this.knobX - 22 / 2, this.y + 1, 22, 22 );
+}
+
+Slider.prototype.containsPoint = function ( location ) {
+    return location.x > this.x + this.knobX - 22 &&
+           location.x < this.x + this.knobX + 22 / 2 &&
+           location.y > this.y &&
+           location.y < this.y + 22
+}
+
+Slider.prototype.getReferencePoint = function () {
+    return new Point2D( this.knobX, this.y );
 }
