@@ -8,13 +8,16 @@ var particlesInNucleus = new Array();
 var masses = new Array();
 var springs = new Array();
 
-masses.push( new ImageSprite( "resources/ruler.png", 12, 51 ) );
 masses.push( new ImageSprite( "resources/red-mass.png", 114, 496 ) );
 masses.push( new ImageSprite( "resources/green-mass.png", 210, 577 ) );
 masses.push( new ImageSprite( "resources/gold-mass.png", 276, 541 ) );
 masses.push( new ImageSprite( "resources/gram-50.png", 577, 590 ) );
 masses.push( new ImageSprite( "resources/gram-100.png", 392, 562 ) );
 masses.push( new ImageSprite( "resources/gram-250.png", 465, 513 ) );
+
+masses.push( new ImageSprite( "resources/ruler.png", 12, 51 ) );
+
+slider = new Slider();
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
@@ -84,22 +87,6 @@ function init() {
 
     // Start the game loop
     animate();
-
-    // mozilla proposal
-//    document.requestFullScreen();
-//    document.cancelFullScreen();
-
-    // Webkit (works in Safari and Chrome Canary)
-//    document.webkitRequestFullScreen();
-//    document.webkitCancelFullScreen();
-
-    // Firefox (works in nightly)
-//    document.mozRequestFullScreen();
-//    document.mozCancelFullScreen();
-
-    // W3C Proposal
-//    document.requestFullscreen();
-//    document.exitFullscreen();
 }
 
 function clearBackground() {
@@ -338,6 +325,7 @@ function draw() {
         springs[i].draw( context );
     }
 
+    slider.draw( context );
 }
 
 var count = 0;
@@ -429,6 +417,11 @@ function onTouchStart( location ) {
         }
     }
 
+    if ( location.x > slider.position.x && location.y < slider.position.x + 22 ) {
+        dragTarget = slider;
+        relativeGrabPoint = new Point2D( location.x - dragTarget.position.x, location.y - dragTarget.position.y );
+    }
+
     draw();
 }
 
@@ -442,4 +435,29 @@ function onDrag( location ) {
 function onTouchEnd() {
     touchInProgress = false;
     draw();
+}
+
+function Slider() {
+    this.image = new Image();
+    this.image.src = "resources/bonniemslider.png";
+    this.position = new Point2D( 0, 0 );
+}
+
+Slider.prototype.setPosition = function ( pt ) {
+    this.position = pt;
+}
+
+Slider.prototype.draw = function ( context ) {
+    //draw gray bar
+    context.drawImage( this.image, 20, 24, 1, 9, 9, 8, canvas.width - 18, 9 );
+    //draw right cap
+    context.drawImage( this.image, 10, 24, 9, 9, canvas.width - 9, 8, 9, 9 );
+    // draw left cap
+    context.drawImage( this.image, 0, 24, 9, 9, 0, 8, 9, 9 );
+    // draw blue bar
+    if ( this.position.x > 9 ) {
+        context.drawImage( this.image, 22, 24, 1, 9, 9, 8, this.position.x, 9 );
+    }
+    // draw control button
+    context.drawImage( this.image, 0, 0, 22, 22, this.position.x, 1, 22, 22 );
 }
