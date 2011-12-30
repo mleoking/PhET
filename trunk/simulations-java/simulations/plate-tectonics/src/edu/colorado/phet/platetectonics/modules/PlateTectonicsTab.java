@@ -1,11 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
+import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,8 +41,17 @@ import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
+import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
+import edu.colorado.phet.platetectonics.control.DraggableTool2D;
+import edu.colorado.phet.platetectonics.control.RulerNode3D;
+import edu.colorado.phet.platetectonics.control.ThermometerNode3D;
+import edu.colorado.phet.platetectonics.control.ToolDragHandler;
+import edu.colorado.phet.platetectonics.control.Toolbox;
+import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.ToolboxState;
 
 import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.X_UNIT;
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
@@ -53,6 +68,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public static final String MAP_UP = "CameraUp";
     public static final String MAP_DOWN = "CameraDown";
     public static final String MAP_LMB = "CameraDrag";
+
+    private static final float RULER_Z = 0;
+    private static final float THERMOMETER_Z = 1;
+    private static final float DENSITY_SENSOR_Z = 2;
 
     // frustum properties
     public static final float fieldOfViewDegrees = 40;
@@ -82,6 +101,13 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     protected GLNode guiLayer;
     protected GLNode toolLayer;
     private boolean showWireframe = false;
+
+    private PlateModel model;
+
+    protected final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
+    protected ToolboxState toolboxState = new ToolboxState();
+    protected ToolDragHandler toolDragHandler = new ToolDragHandler( toolboxState );
+    protected Toolbox toolbox;
 
     // in seconds
     private float timeElapsed;
@@ -192,6 +218,134 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                         }
                     }
                 }, false );
+
+        /*---------------------------------------------------------------------------*
+        * mouse motion
+        *----------------------------------------------------------------------------*/
+        mouseEventNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        updateCursor();
+
+                        if ( Mouse.getEventButton() == -1 ) {
+                            // ok, not a button press event
+                            toolDragHandler.mouseMove( getMousePositionOnZPlane() );
+                        }
+                    }
+
+                }, false );
+
+        /*---------------------------------------------------------------------------*
+        * mouse-button presses
+        *----------------------------------------------------------------------------*/
+        mouseEventNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        // on left mouse button change
+                        if ( Mouse.getEventButton() == 0 ) {
+                            PlanarComponentNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
+                            OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
+
+                            // if mouse is down
+                            if ( Mouse.getEventButtonState() ) {
+                                if ( toolCollision != null ) {
+                                    toolDragHandler.mouseDownOnTool( (DraggableTool2D) toolCollision, getMousePositionOnZPlane() );
+                                }
+                            }
+                            else {
+                                boolean isMouseOverToolbox = guiCollision != null && guiCollision == toolbox;
+                                toolDragHandler.mouseUp( isMouseOverToolbox );
+                                // TODO: remove the "removed" tool from the guiNodes list
+                            }
+                        }
+                    }
+                }, false );
+
+        /*---------------------------------------------------------------------------*
+        * toolbox
+        *----------------------------------------------------------------------------*/
+        toolbox = new Toolbox( this, toolboxState ) {{
+            // layout the panel if its size changes (and on startup)
+            canvasSize.addObserver( new SimpleObserver() {
+                public void update() {
+                    position.set( new ImmutableVector2D(
+                            10, // left side
+                            getStageSize().height - getComponentHeight() - 10 ) ); // offset from bottom
+                }
+            } );
+            updateOnEvent( beforeFrameRender );
+        }};
+        addGuiNode( toolbox );
+
+        // TODO: handle removal of listeners from
+
+        //TODO: factor out duplicated code in tools
+        toolboxState.rulerInToolbox.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( !toolboxState.rulerInToolbox.get() ) {
+
+                    // we just "removed" the ruler from the toolbox, so add it to our scene
+                    RulerNode3D ruler = new RulerNode3D( getModelViewTransform(), PlateTectonicsTab.this );
+                    toolLayer.addChild( ruler );
+
+                    // offset the ruler slightly from the mouse, and start the drag
+                    ImmutableVector2F mousePosition = getMousePositionOnZPlane();
+                    ImmutableVector2F initialMouseOffset = ruler.getInitialMouseOffset();
+                    ruler.transform.prepend( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
+                                                                            mousePosition.y - initialMouseOffset.y,
+                                                                            RULER_Z ) );
+                    toolDragHandler.startDragging( ruler, mousePosition );
+                }
+            }
+        } );
+
+        toolboxState.thermometerInToolbox.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( !toolboxState.thermometerInToolbox.get() ) {
+
+                    // we just "removed" the ruler from the toolbox, so add it to our scene
+                    ThermometerNode3D thermometer = new ThermometerNode3D( getModelViewTransform(), PlateTectonicsTab.this, model );
+                    toolLayer.addChild( thermometer );
+
+                    // offset the ruler slightly from the mouse, and start the drag
+                    ImmutableVector2F mousePosition = getMousePositionOnZPlane();
+                    ImmutableVector2F initialMouseOffset = thermometer.getInitialMouseOffset();
+                    thermometer.transform.prepend( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
+                                                                                  mousePosition.y - initialMouseOffset.y,
+                                                                                  THERMOMETER_Z ) );
+
+                    toolDragHandler.startDragging( thermometer, mousePosition );
+                }
+            }
+        } );
+
+        toolboxState.densitySensorInToolbox.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( !toolboxState.densitySensorInToolbox.get() ) {
+
+                    // we just "removed" the ruler from the toolbox, so add it to our scene
+                    DensitySensorNode3D sensorNode = new DensitySensorNode3D( getModelViewTransform(), PlateTectonicsTab.this, model );
+                    toolLayer.addChild( sensorNode );
+
+                    // offset the ruler slightly from the mouse, and start the drag
+                    ImmutableVector2F mousePosition = getMousePositionOnZPlane();
+                    ImmutableVector2F initialMouseOffset = sensorNode.getInitialMouseOffset();
+                    sensorNode.transform.prepend( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
+                                                                                 mousePosition.y - initialMouseOffset.y,
+                                                                                 DENSITY_SENSOR_Z ) );
+
+                    toolDragHandler.startDragging( sensorNode, mousePosition );
+                }
+            }
+        } );
+    }
+
+    public PlateModel getModel() {
+        return model;
+    }
+
+    protected void setModel( PlateModel model ) {
+        this.model = model;
     }
 
     @Override public void start() {
@@ -265,6 +419,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         sceneNode.render( new GLOptions() );
 
         Display.update();
+
+        // TODO: why do we wait until here to update the model?
+        getModel().update( getTimeElapsed() );
     }
 
     @Override public void stop() {
@@ -433,5 +590,67 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         Ray3F cameraRay = getCameraRay( canvasSize.get().width / 2, 0 );
         final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
         return new ImmutableVector2F( intersection.x, intersection.y );
+    }
+
+    public void addGuiNode( OrthoComponentNode node ) {
+        guiLayer.addChild( node );
+        guiNodes.add( node );
+    }
+
+    public OrthoComponentNode getGuiUnder( int x, int y ) {
+        ImmutableVector2F screenPosition = new ImmutableVector2F( x, y );
+        for ( OrthoComponentNode guiNode : guiNodes ) {
+            if ( guiNode.isReady() ) {
+                ImmutableVector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
+                if ( guiNode.getComponent().contains( (int) componentPoint.x, (int) componentPoint.y ) ) {
+                    return guiNode;
+                }
+            }
+        }
+        return null;
+    }
+
+    public PlanarComponentNode getToolUnder( int x, int y ) {
+        // iterate through the tools in reverse (front-to-back) order
+        for ( GLNode node : new ArrayList<GLNode>( toolLayer.getChildren() ) {{
+            Collections.reverse( this );
+        }} ) {
+            PlanarComponentNode tool = (PlanarComponentNode) node;
+            Ray3F cameraRay = getCameraRay( x, y );
+            Ray3F localRay = tool.transform.inverseRay( cameraRay );
+            if ( tool.doesLocalRayHit( localRay ) ) {
+                // TODO: don't hit on the "transparent" parts, like corners
+                return tool;
+            }
+        }
+        return null;
+    }
+
+    public void updateCursor() {
+        final Canvas canvas = getCanvas();
+
+        final PlanarComponentNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
+        final OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
+
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                Component toolComponent = toolCollision == null ? null : toolCollision.getComponent().getComponent( 0 );
+                if ( toolComponent != null ) {
+                    canvas.setCursor( toolComponent.getCursor() );
+                }
+                else {
+                    // this component is actually possibly a sub-component
+                    Component guiComponent = guiCollision == null ? null : guiCollision.getComponentAt( Mouse.getX(), Mouse.getY() );
+                    if ( guiComponent != null ) {
+                        // over a HUD node, so set the cursor to what the component would want
+                        canvas.setCursor( guiComponent.getCursor() );
+                    }
+                    else {
+                        // default to the default cursor
+                        canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                    }
+                }
+            }
+        } );
     }
 }
