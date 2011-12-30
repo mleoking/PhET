@@ -1,3 +1,4 @@
+12/30/11 Fixed class to string method for sim sharing
 12/22/11 fix NullPointerException in SettableProperty, occurs for all properties that don't have a description when sim-sharing is enabled
 12/20/11 add PropertyLabel, for interactive labels that are associated with Swing controls (eg, icon next to radio button or check box)
 12/20/11 #3175, more refinements to sim-sharing drag handlers
