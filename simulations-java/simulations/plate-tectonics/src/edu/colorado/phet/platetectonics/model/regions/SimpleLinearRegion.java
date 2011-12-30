@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.platetectonics.model;
+package edu.colorado.phet.platetectonics.model.regions;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 

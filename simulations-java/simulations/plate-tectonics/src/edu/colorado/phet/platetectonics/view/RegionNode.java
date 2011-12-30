@@ -10,8 +10,8 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.shapes.PlanarPolygon;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.Region;
-import edu.colorado.phet.platetectonics.model.Region.Type;
+import edu.colorado.phet.platetectonics.model.regions.Region;
+import edu.colorado.phet.platetectonics.model.regions.Region.Type;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
 /**

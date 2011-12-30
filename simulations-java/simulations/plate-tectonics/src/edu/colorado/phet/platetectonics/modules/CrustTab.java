@@ -5,13 +5,10 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JCheckBox;
 import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Mouse;
@@ -24,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
@@ -36,16 +32,16 @@ import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
-import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
-import edu.colorado.phet.lwjglphet.utils.SwingForwardingProperty;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
 import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
+import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.RulerNode3D;
 import edu.colorado.phet.platetectonics.control.ThermometerNode3D;
 import edu.colorado.phet.platetectonics.control.ToolDragHandler;
 import edu.colorado.phet.platetectonics.control.Toolbox;
+import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
@@ -53,9 +49,7 @@ import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.CONTINENTAL_CRUST;
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.OCEANIC_CRUST;
@@ -389,18 +383,8 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * temporary zoom control
         *----------------------------------------------------------------------------*/
-        OrthoPiccoloNode zoomControl = new OrthoPiccoloNode( new ControlPanelNode( new PNode() {{
-            final PText zoomText = new PText( "Zoom" );
-
-            // TODO: proper threading on zoomRatio
-            VSliderNode slider = new VSliderNode( 0, 1, new SwingForwardingProperty<Double>( zoomRatio ), new Property<Boolean>( true ), 100 ) {{
-                setOffset( ( zoomText.getFullBounds().getWidth() - getFullBounds().getWidth() ) / 2,
-                           zoomText.getFullBounds().getMaxY() + 10
-                );
-            }};
-            addChild( zoomText );
-            addChild( slider );
-        }} ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+        OrthoPiccoloNode zoomControl = new OrthoPiccoloNode( new ControlPanelNode( new ZoomPanel( zoomRatio ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+            // top right
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
                     position.set( new ImmutableVector2D(
@@ -417,29 +401,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         // options panel
         OrthoPiccoloNode optionsPanel = new OrthoPiccoloNode(
-                new ControlPanelNode( new PNode() {{
-                    final PNode title = new PText( "Options" );
-                    addChild( title );
-
-                    PSwing showLabelCheckBox = new PSwing( new JCheckBox( "Show Labels" ) {{
-                        setSelected( showLabels.get() );
-                        addActionListener( new ActionListener() {
-                            @Override public void actionPerformed( ActionEvent actionEvent ) {
-                                final boolean showThem = isSelected();
-                                LWJGLUtils.invoke( new Runnable() {
-                                    @Override public void run() {
-                                        showLabels.set( showThem );
-                                    }
-                                } );
-                            }
-                        } );
-                    }} ) {{
-                        setOffset( 0, title.getFullBounds().getMaxY() + 5 );
-                    }};
-                    addChild( showLabelCheckBox );
-
-                    title.setOffset( ( showLabelCheckBox.getFullBounds().getWidth() - title.getFullBounds().getWidth() ) / 2, 0 );
-                }} ),
+                new ControlPanelNode( new OptionsPanel( showLabels ) ),
                 this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {
@@ -486,23 +448,6 @@ public class CrustTab extends PlateTectonicsTab {
                 }
             } );
         }} );
-
-        // earth mesh
-//        final float viewRadius = getModelViewTransform().modelToViewDeltaY( PlateModel.EARTH_RADIUS );
-//        mainView.getScene().attachChild( new Geometry( "Earth Mesh", new Sphere( 50, 50, viewRadius ) ) {{
-//            setMaterial( new Material( getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-//                setColor( "Color", new ColorRGBA( 0.5f, 0.5f, 0.5f, 0.5f ) );
-//                getAdditionalRenderState().setWireframe( true );
-//                getAdditionalRenderState().setFaceCullMode( FaceCullMode.Off );
-//
-//                // allow transparency
-//                getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
-//                setTransparent( true );
-//            }} );
-//
-//            setLocalTranslation( 0, -viewRadius, 0 );
-//            setQueueBucket( Bucket.Transparent );
-//        }} );
     }
 
     @Override public void start() {
