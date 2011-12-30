@@ -17,13 +17,18 @@ greenMassImage.src = "resources/green-mass.png";
 var rulerImage = new Image();
 rulerImage.src = "resources/ruler.png";
 
-masses.push( new ImageSprite( redMassImage, 50, 400 ) );
-masses.push( new ImageSprite( greenMassImage, 100, 400 ) );
-masses.push( new ImageSprite( rulerImage, 0, 400 ) );
+masses.push( new ImageSprite( redMassImage, 114, 496 ) );
+masses.push( new ImageSprite( greenMassImage, 221, 576 ) );
+masses.push( new ImageSprite( rulerImage, 12, 51 ) );
 
-springs.push( new Spring( 50 ) );
-springs.push( new Spring( 100 ) );
-springs.push( new Spring( 150 ) );
+//Performance consideration: 10 springs of 20 line segments each causes problems.
+//for ( var i = 0; i < 10; i++ ) {
+//    springs.push( new Spring( 50 + i * 50 ) );
+//}
+
+springs.push( new Spring( 200 ) );
+springs.push( new Spring( 300 ) );
+springs.push( new Spring( 400 ) );
 
 var dragTarget = null;
 var relativeGrabPoint = null;
@@ -65,7 +70,7 @@ function init() {
     document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 
     // Add the reset button.
-    resetButton = new ResetButton( new Point2D( 600, 325 ), "orange" );
+    resetButton = new ResetButton( new Point2D( 900, 618 ), "orange" );
 
     // Commenting out, since iPad seems to send these continuously.
 //	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
@@ -200,7 +205,6 @@ function ImageSprite( im, x, y ) {
 }
 
 ImageSprite.prototype.draw = function ( context ) {
-//    javascript: console.log( "drawing mass" );
     context.drawImage( this.image, this.position.x, this.position.y );
 }
 
@@ -211,6 +215,7 @@ ImageSprite.prototype.containsPoint = function ( point ) {
 
 ImageSprite.prototype.setPosition = function ( point ) {
     this.position = new Point2D( point.x, point.y );
+    javascript: console.log( "translated image to " + this.position.x + ", " + this.position.y );
 }
 
 Particle.prototype.draw = function ( context ) {
