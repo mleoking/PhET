@@ -1,3 +1,4 @@
+# 0.00.05 (59777) Dec 29, 2011
 Added 2nd tab toolbox, mode-control box and crust chooser box with draggable crust pieces
 Added 1st tab labels and redid density gradients (and various internals)
 # 0.00.04 (59661) Dec 23, 2011
