@@ -87,10 +87,10 @@ public class OrthoComponentNode extends GLNode {
             }
         } );
         position.addObserver( new SimpleObserver() {
-                                  public void update() {
-                                      rebuildComponentImage();
-                                  }
-                              }, false );
+            public void update() {
+                rebuildComponentImage();
+            }
+        }, false );
         canvasTransform.transform.addObserver( new SimpleObserver() {
             public void update() {
                 rebuildComponentImage();
@@ -136,10 +136,10 @@ public class OrthoComponentNode extends GLNode {
 
     public <T> void updateOnEvent( Notifier<T> notifier ) {
         notifier.addUpdateListener( new UpdateListener() {
-                                        public void update() {
-                                            OrthoComponentNode.this.update();
-                                        }
-                                    }, false );
+            public void update() {
+                OrthoComponentNode.this.update();
+            }
+        }, false );
     }
 
     // should be called every frame
