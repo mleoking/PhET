@@ -1,3 +1,5 @@
+Added 2nd tab toolbox, mode-control box and crust chooser box with draggable crust pieces
+Added 1st tab labels and redid density gradients (and various internals)
 # 0.00.04 (59661) Dec 23, 2011
 12/23/11 First LWJGL version, + animation, zoom, and other tweaks
 # 0.00.03 (57593) Oct 13, 2011
