@@ -19,7 +19,8 @@ var nodes = new Array(
 nodes.push( new Slider( 700, 100 ) );
 nodes.push( new Slider( 700, 150 ) );
 
-nodes.push( new HBox( new Array( new CheckBox( 100, 100 ), new Label( "Stopwatch" ) ) ) );
+nodes.push( new HBox( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300} ) );
+nodes.push( new HBox( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350} ) );
 
 //nodes.push( new CheckBox( 100, 100 ) );
 
@@ -30,6 +31,10 @@ function Label( text ) {
 }
 
 Label.prototype.onTouchStart = function () {
+}
+
+Label.prototype.containsPoint = function ( point ) {
+    return false;
 }
 
 Label.prototype.draw = function ( context ) {
@@ -139,14 +144,17 @@ function drawPhetLogo() {
 // Point2D class.
 //-----------------------------------------------------------------------------
 
-function HBox( components ) {
-    this.components = components;
+function HBox( param ) {
+    this.components = param.components;
     this.spacing = 5;
-    this.x = 0;
-    this.y = 0;
-    for ( var i = 1; i < components.length; i++ ) {
-        var prev = components[i - 1];
-        var c = components[i];
+    this.x = param.x;
+    this.y = param.y;
+
+    this.components[0].x = this.x;
+    this.components[0].y = this.y;
+    for ( var i = 1; i < this.components.length; i++ ) {
+        var prev = this.components[i - 1];
+        var c = this.components[i];
         c.x = prev.x + prev.width + this.spacing;
         c.y = prev.y;
     }
@@ -482,9 +490,9 @@ function onTouchEnd() {
     draw();
 }
 
-function CheckBox( x, y ) {
-    this.x = x;
-    this.y = y;
+function CheckBox() {
+    this.x = 0;
+    this.y = 0;
     this.width = 30;
     this.height = 30;
     this.selected = true;
