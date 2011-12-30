@@ -17,7 +17,9 @@ masses.push( new ImageSprite( "resources/gram-250.png", 465, 513 ) );
 
 masses.push( new ImageSprite( "resources/ruler.png", 12, 51 ) );
 
-slider = new Slider();
+var sliders = new Array();
+sliders.push( new Slider( 700, 100 ) );
+sliders.push( new Slider( 700, 150 ) );
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
@@ -325,7 +327,9 @@ function draw() {
         springs[i].draw( context );
     }
 
-    slider.draw( context );
+    for ( i = 0; i < sliders.length; i++ ) {
+        sliders[i].draw( context );
+    }
 }
 
 var count = 0;
@@ -399,9 +403,16 @@ function onTouchStart( location ) {
         }
     }
 
-    if ( location.x > slider.position.x && location.y < slider.position.x + 22 ) {
-        dragTarget = slider;
-        relativeGrabPoint = new Point2D( location.x - dragTarget.position.x, location.y - dragTarget.position.y );
+    for ( i = 0; i < sliders.length; i++ ) {
+        var slider = sliders[i];
+        if ( location.x > slider.x + slider.knobX &&
+             location.x < slider.x + slider.knobX + 22 &&
+             location.y > slider.y &&
+             location.y < slider.y + 22 ) {
+            dragTarget = slider;
+            relativeGrabPoint = new Point2D( location.x - slider.knobX, location.y - slider.y );
+            break;
+        }
     }
 
     draw();
@@ -419,19 +430,19 @@ function onTouchEnd() {
     draw();
 }
 
-function Slider() {
+function Slider( x, y ) {
     this.image = new Image();
     this.image.src = "resources/bonniemslider.png";
-    this.position = new Point2D( 0, 0 );
-    this.width = 200;
-    this.x = 400;
-    this.y = 0;
+    this.knobX = 0;
+    this.width = 250;
+    this.x = x;
+    this.y = y;
 }
 
 Slider.prototype.setPosition = function ( pt ) {
     var x = Math.max( 0, pt.x );
     var x2 = Math.min( x, this.width );
-    this.position = new Point2D( x2, 0 );
+    this.knobX = x2;
 }
 
 Slider.prototype.draw = function ( context ) {
@@ -442,9 +453,9 @@ Slider.prototype.draw = function ( context ) {
     // draw left cap
     context.drawImage( this.image, 0, 24, 9, 9, this.x, this.y + 8, 9, 9 );
     // draw blue bar
-    if ( this.position.x > 9 ) {
-        context.drawImage( this.image, 22, 24, 1, 9, this.x + 9, this.y + 8, this.position.x, 9 );
+    if ( this.knobX > 9 ) {
+        context.drawImage( this.image, 22, 24, 1, 9, this.x + 9, this.y + 8, this.knobX, 9 );
     }
     // draw control button
-    context.drawImage( this.image, 0, 0, 22, 22, this.x + this.position.x, this.y + 1, 22, 22 );
+    context.drawImage( this.image, 0, 0, 22, 22, this.x + this.knobX, this.y + 1, 22, 22 );
 }
