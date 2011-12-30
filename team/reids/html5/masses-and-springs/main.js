@@ -144,8 +144,7 @@ Point2D.prototype.setComponents = function ( x, y ) {
 }
 
 Point2D.prototype.minus = function ( pt ) {
-    var pt = new Point2D( this.x - pt.x, this.y - pt.y );
-    return pt;
+    return new Point2D( this.x - pt.x, this.y - pt.y );
 }
 
 Point2D.prototype.set = function ( point2D ) {
@@ -164,7 +163,7 @@ function Particle( color ) {
 
 function Spring( x ) {
     this.anchor = new Point2D( x, 50 );
-    this.attachmentPoint = new Point2D( x, 200 );
+    this.attachmentPoint = new Point2D( x, 250 );
 }
 
 Spring.prototype.draw = function ( context ) {
@@ -174,8 +173,18 @@ Spring.prototype.draw = function ( context ) {
     context.lineWidth = 4;
     context.beginPath();
     context.moveTo( this.anchor.x, this.anchor.y );
-    context.lineTo( this.attachmentPoint.x, this.attachmentPoint.y );
-    context.lineTo( this.attachmentPoint.x + 20, this.attachmentPoint.y );
+    const numZigs = 10;
+    const zigHeight = -(this.attachmentPoint.y - this.anchor.y) / numZigs / 2;
+//    javascript: console.log( "zig Height = " + zigHeight );
+
+    var pt = new Point2D( this.anchor.x, this.anchor.y );
+    for ( var i = 0; i < numZigs; i++ ) {
+        var pt2 = new Point2D( pt.x + 10, pt.y - zigHeight );
+        var pt3 = new Point2D( pt2.x - 10, pt2.y - zigHeight );
+        context.lineTo( pt2.x, pt2.y );
+        context.lineTo( pt3.x, pt3.y );
+        pt = pt3;
+    }
     context.stroke();
     context.closePath();
 }
@@ -329,7 +338,7 @@ function animate() {
     // insert your code to update your animation here
 
     for ( i = 0; i < springs.length; i++ ) {
-        springs[i].attachmentPoint.y = 100 + 100 * Math.sin( 6 * count / 100.0 );
+        springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
     }
     count++;
     requestAnimationFrame( animate );
