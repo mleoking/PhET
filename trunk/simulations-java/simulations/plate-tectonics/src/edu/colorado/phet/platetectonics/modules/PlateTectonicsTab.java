@@ -41,9 +41,11 @@ import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.control.CrustPiece;
 import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
 import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.RulerNode3D;
@@ -108,6 +110,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     protected ToolboxState toolboxState = new ToolboxState();
     protected ToolDragHandler toolDragHandler = new ToolDragHandler( toolboxState );
     protected Toolbox toolbox;
+    private OrthoPiccoloNode draggedCrustPiece = null;
 
     // in seconds
     private float timeElapsed;
@@ -229,7 +232,16 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
                         if ( Mouse.getEventButton() == -1 ) {
                             // ok, not a button press event
-                            toolDragHandler.mouseMove( getMousePositionOnZPlane() );
+
+                            if ( draggedCrustPiece != null ) {
+                                System.out.println( "crust piece move" );
+                                draggedCrustPiece.position.set( draggedCrustPiece.position.get().plus(
+                                        new ImmutableVector2D( Mouse.getEventDX(), -Mouse.getEventDY() ) ) );
+                                movedCrustPiece( draggedCrustPiece );
+                            }
+                            else {
+                                toolDragHandler.mouseMove( getMousePositionOnZPlane() );
+                            }
                         }
                     }
 
@@ -248,11 +260,21 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
                             // if mouse is down
                             if ( Mouse.getEventButtonState() ) {
-                                if ( toolCollision != null ) {
+                                if ( guiCollision instanceof OrthoPiccoloNode && ( (OrthoPiccoloNode) guiCollision ).getNode() instanceof CrustPiece ) {
+                                    System.out.println( "start drag crust piece" );
+                                    draggedCrustPiece = (OrthoPiccoloNode) guiCollision;
+                                    pickedCrustPiece( draggedCrustPiece );
+                                }
+                                else if ( toolCollision != null ) {
                                     toolDragHandler.mouseDownOnTool( (DraggableTool2D) toolCollision, getMousePositionOnZPlane() );
                                 }
                             }
                             else {
+                                if ( draggedCrustPiece != null ) {
+                                    System.out.println( "stop drag crust piece" );
+                                    droppedCrustPiece( draggedCrustPiece );
+                                    draggedCrustPiece = null;
+                                }
                                 boolean isMouseOverToolbox = guiCollision != null && guiCollision == toolbox;
                                 toolDragHandler.mouseUp( isMouseOverToolbox );
                                 // TODO: remove the "removed" tool from the guiNodes list
@@ -610,11 +632,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return null;
     }
 
+    public ArrayList<GLNode> getToolNodes() {
+        return new ArrayList<GLNode>( toolLayer.getChildren() ) {{
+            Collections.reverse( this );
+        }};
+    }
+
     public PlanarComponentNode getToolUnder( int x, int y ) {
         // iterate through the tools in reverse (front-to-back) order
-        for ( GLNode node : new ArrayList<GLNode>( toolLayer.getChildren() ) {{
-            Collections.reverse( this );
-        }} ) {
+        for ( GLNode node : getToolNodes() ) {
             PlanarComponentNode tool = (PlanarComponentNode) node;
             Ray3F cameraRay = getCameraRay( x, y );
             Ray3F localRay = tool.transform.inverseRay( cameraRay );
@@ -652,5 +678,17 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 }
             }
         } );
+    }
+
+    public void pickedCrustPiece( OrthoPiccoloNode crustPiece ) {
+        // overridden in PlateMotionTab
+    }
+
+    public void movedCrustPiece( OrthoPiccoloNode crustPiece ) {
+        // overridden in PlateMotionTab
+    }
+
+    public void droppedCrustPiece( OrthoPiccoloNode crustPiece ) {
+        // overridden in PlateMotionTab
     }
 }
