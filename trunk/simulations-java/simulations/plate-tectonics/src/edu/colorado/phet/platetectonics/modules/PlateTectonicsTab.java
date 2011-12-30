@@ -33,6 +33,7 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
+import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -73,8 +74,13 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     protected CanvasTransform canvasTransform;
     private LWJGLTransform modelViewTransform;
     private long lastSeenTime;
+
+    // TODO: why sceneNode and sceneLayer?
     public final GLNode rootNode = new GLNode();
     public final GLNode sceneNode = new GLNode();
+    protected GLNode sceneLayer;
+    protected GLNode guiLayer;
+    protected GLNode toolLayer;
     private boolean showWireframe = false;
 
     // in seconds
@@ -100,6 +106,28 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // show both sides
         glPolygonMode( GL_FRONT, GL_FILL );
         glPolygonMode( GL_BACK, GL_FILL );
+
+        // layers
+        sceneLayer = new GLNode() {
+            @Override protected void preRender( GLOptions options ) {
+                loadCameraMatrices();
+                loadLighting();
+                glEnable( GL_DEPTH_TEST );
+            }
+
+            @Override protected void postRender( GLOptions options ) {
+                glDisable( GL_DEPTH_TEST );
+            }
+        };
+        guiLayer = new GuiNode( this );
+        toolLayer = new GLNode() {
+            @Override protected void preRender( GLOptions options ) {
+                loadCameraMatrices();
+            }
+        };
+        rootNode.addChild( sceneLayer );
+        rootNode.addChild( guiLayer );
+        rootNode.addChild( toolLayer );
 
         /*---------------------------------------------------------------------------*
         * debug camera controls
