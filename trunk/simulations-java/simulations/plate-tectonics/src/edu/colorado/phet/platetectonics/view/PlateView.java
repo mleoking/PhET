@@ -5,7 +5,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.Region;
+import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.Grid3D;

@@ -4,7 +4,8 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.Random;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.platetectonics.model.Region.Type;
+import edu.colorado.phet.platetectonics.model.regions.Region.Type;
+import edu.colorado.phet.platetectonics.model.regions.SimpleRegion;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 
 public class PlateMotionModel extends PlateModel {

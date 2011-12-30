@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 
