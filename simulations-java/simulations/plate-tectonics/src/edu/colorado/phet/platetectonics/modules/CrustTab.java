@@ -74,9 +74,6 @@ public class CrustTab extends PlateTectonicsTab {
     private final Property<Boolean> showLabels = new Property<Boolean>( false );
 
     private final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
-    private GLNode sceneLayer;
-    private GLNode guiLayer;
-    private GLNode toolLayer;
 
     public CrustTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
@@ -142,28 +139,6 @@ public class CrustTab extends PlateTectonicsTab {
 
         // create the model and terrain
         model = new CrustModel( grid );
-
-        // layers
-        sceneLayer = new GLNode() {
-            @Override protected void preRender( GLOptions options ) {
-                loadCameraMatrices();
-                loadLighting();
-                glEnable( GL_DEPTH_TEST );
-            }
-
-            @Override protected void postRender( GLOptions options ) {
-                glDisable( GL_DEPTH_TEST );
-            }
-        };
-        guiLayer = new GuiNode( this );
-        toolLayer = new GLNode() {
-            @Override protected void preRender( GLOptions options ) {
-                loadCameraMatrices();
-            }
-        };
-        rootNode.addChild( sceneLayer );
-        rootNode.addChild( guiLayer );
-        rootNode.addChild( toolLayer );
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
