@@ -8,18 +8,22 @@ var particlesInNucleus = new Array();
 var masses = new Array();
 var springs = new Array();
 
-masses.push( new ImageSprite( "resources/red-mass.png", 114, 496 ) );
-masses.push( new ImageSprite( "resources/green-mass.png", 221, 576 ) );
 masses.push( new ImageSprite( "resources/ruler.png", 12, 51 ) );
+masses.push( new ImageSprite( "resources/red-mass.png", 114, 496 ) );
+masses.push( new ImageSprite( "resources/green-mass.png", 210, 577 ) );
+masses.push( new ImageSprite( "resources/gold-mass.png", 276, 541 ) );
+masses.push( new ImageSprite( "resources/gram-50.png", 577, 590 ) );
+masses.push( new ImageSprite( "resources/gram-100.png", 392, 562 ) );
+masses.push( new ImageSprite( "resources/gram-250.png", 465, 513 ) );
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
 //    springs.push( new Spring( 50 + i * 50 ) );
 //}
 
-springs.push( new Spring( 200 ) );
-springs.push( new Spring( 300 ) );
-springs.push( new Spring( 400 ) );
+springs.push( new Spring( "1", 200 ) );
+springs.push( new Spring( "2", 300 ) );
+springs.push( new Spring( "3", 400 ) );
 
 var dragTarget = null;
 var relativeGrabPoint = null;
@@ -110,7 +114,7 @@ function drawTitle() {
     context.fillStyle = '#00f';
     context.font = '30px sans-serif';
     context.textBaseline = 'top';
-    context.fillText( 'Masses and Springs', 10, 10 );
+    context.fillText( 'Masses and Springs', 700, 10 );
 }
 
 function drawPhetLogo() {
@@ -157,7 +161,8 @@ function Particle( color ) {
     this.color = color;
 }
 
-function Spring( x ) {
+function Spring( name, x ) {
+    this.name = name;
     this.anchor = new Point2D( x, 50 );
     this.attachmentPoint = new Point2D( x, 250 );
 }
@@ -183,6 +188,13 @@ Spring.prototype.draw = function ( context ) {
     }
     context.stroke();
     context.closePath();
+
+    const textHeight = 32;
+    context.font = textHeight + "px sans-serif";
+    const defaultTextAlign = context.textAlign;
+    context.textAlign = "center";
+    context.fillText( this.name, this.anchor.x, this.anchor.y - 32, 1000 );
+    context.textAlign = defaultTextAlign;
 }
 
 function ImageSprite( im, x, y ) {
