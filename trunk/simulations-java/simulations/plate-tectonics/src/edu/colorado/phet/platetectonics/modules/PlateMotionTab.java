@@ -96,34 +96,40 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }} );
 
         // continental piece
-        crustPieceLayer.addChild( new OrthoPiccoloNode( new CrustPiece( CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ), this, getCanvasTransform(),
-                                                        new Property<ImmutableVector2D>(
-                                                                new ImmutableVector2D() ),
-                                                        mouseEventNotifier ) {{
+        OrthoPiccoloNode continentalPiece = new OrthoPiccoloNode( new CrustPiece( CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ), this, getCanvasTransform(),
+                                                                  new Property<ImmutableVector2D>(
+                                                                          new ImmutableVector2D() ),
+                                                                  mouseEventNotifier ) {{
             position.set( new ImmutableVector2D(
                     getContinentalOffset().x - getNode().getFullBounds().getWidth() / 2,
                     getContinentalOffset().y - getNode().getFullBounds().getHeight() / 2 ) );
-        }} );
+        }};
+        crustPieceLayer.addChild( continentalPiece );
+        guiNodes.add( continentalPiece );
 
         // young oceanic piece
-        crustPieceLayer.addChild( new OrthoPiccoloNode( new CrustPiece( 35, 0.5f ), this, getCanvasTransform(),
-                                                        new Property<ImmutableVector2D>(
-                                                                new ImmutableVector2D() ),
-                                                        mouseEventNotifier ) {{
+        OrthoPiccoloNode youngOceanicPiece = new OrthoPiccoloNode( new CrustPiece( 35, 0.5f ), this, getCanvasTransform(),
+                                                                   new Property<ImmutableVector2D>(
+                                                                           new ImmutableVector2D() ),
+                                                                   mouseEventNotifier ) {{
             position.set( new ImmutableVector2D(
                     getYoungOceanicOffset().x - getNode().getFullBounds().getWidth() / 2,
                     getYoungOceanicOffset().y - getNode().getFullBounds().getHeight() / 2 ) );
-        }} );
+        }};
+        crustPieceLayer.addChild( youngOceanicPiece );
+        guiNodes.add( youngOceanicPiece );
 
         // old oceanic piece
-        crustPieceLayer.addChild( new OrthoPiccoloNode( new CrustPiece( 35, 0.4f ), this, getCanvasTransform(),
-                                                        new Property<ImmutableVector2D>(
-                                                                new ImmutableVector2D() ),
-                                                        mouseEventNotifier ) {{
+        OrthoPiccoloNode oldOceanicPiece = new OrthoPiccoloNode( new CrustPiece( 35, 0.4f ), this, getCanvasTransform(),
+                                                                 new Property<ImmutableVector2D>(
+                                                                         new ImmutableVector2D() ),
+                                                                 mouseEventNotifier ) {{
             position.set( new ImmutableVector2D(
                     getOldOceanicOffset().x - getNode().getFullBounds().getWidth() / 2,
                     getOldOceanicOffset().y - getNode().getFullBounds().getHeight() / 2 ) );
-        }} );
+        }};
+        crustPieceLayer.addChild( oldOceanicPiece );
+        guiNodes.add( oldOceanicPiece );
     }
 
     private static class CrustPiece extends PNode {
