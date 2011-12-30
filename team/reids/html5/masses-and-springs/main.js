@@ -6,6 +6,7 @@ var context;
 var particlesInNucleus = new Array();
 
 var masses = new Array();
+var springs = new Array();
 
 var redMassImage = new Image();
 redMassImage.src = "resources/red-mass.png";
@@ -19,6 +20,10 @@ rulerImage.src = "resources/ruler.png";
 masses.push( new ImageSprite( redMassImage, 50, 400 ) );
 masses.push( new ImageSprite( greenMassImage, 100, 400 ) );
 masses.push( new ImageSprite( rulerImage, 0, 400 ) );
+
+springs.push( new Spring( 50 ) );
+springs.push( new Spring( 100 ) );
+springs.push( new Spring( 150 ) );
 
 var dragTarget = null;
 var relativeGrabPoint = null;
@@ -76,6 +81,25 @@ function init() {
 
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
+
+    // Start the game loop
+    animate();
+
+    // mozilla proposal
+//    document.requestFullScreen();
+//    document.cancelFullScreen();
+
+    // Webkit (works in Safari and Chrome Canary)
+//    document.webkitRequestFullScreen();
+//    document.webkitCancelFullScreen();
+
+    // Firefox (works in nightly)
+//    document.mozRequestFullScreen();
+//    document.mozCancelFullScreen();
+
+    // W3C Proposal
+//    document.requestFullscreen();
+//    document.exitFullscreen();
 }
 
 function clearBackground() {
@@ -136,6 +160,24 @@ function Particle( color ) {
     this.location = new Point2D( 0, 0 );
     this.radius = 20;
     this.color = color;
+}
+
+function Spring( x ) {
+    this.anchor = new Point2D( x, 50 );
+    this.attachmentPoint = new Point2D( x, 200 );
+}
+
+Spring.prototype.draw = function ( context ) {
+    context.beginPath();
+    context.fillStyle = '#00f';
+    context.strokeStyle = '#f00';
+    context.lineWidth = 4;
+    context.beginPath();
+    context.moveTo( this.anchor.x, this.anchor.y );
+    context.lineTo( this.attachmentPoint.x, this.attachmentPoint.y );
+    context.lineTo( this.attachmentPoint.x + 20, this.attachmentPoint.y );
+    context.stroke();
+    context.closePath();
 }
 
 function ImageSprite( im, x, y ) {
@@ -229,7 +271,23 @@ ResetButton.prototype.containsPoint = function ( point ) {
            point.y > this.location.y && point.y < this.location.y + this.height;
 }
 
-//-----------------------------------------------------------------------------
+/**
+ * Provides requestAnimationFrame in a cross browser way.
+ * https://gist.github.com/838785
+ * @author paulirish / http://paulirish.com/
+ */
+
+if ( !window.requestAnimationFrame ) {
+    window.requestAnimationFrame = ( function () {
+        return window.webkitRequestAnimationFrame ||
+               window.mozRequestAnimationFrame ||
+               window.oRequestAnimationFrame ||
+               window.msRequestAnimationFrame ||
+               function ( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
+                   window.setTimeout( callback, 1000 / 60 );
+               };
+    } )();
+}
 
 // Main drawing function.
 function draw() {
@@ -258,6 +316,24 @@ function draw() {
         dragTarget.draw( context );
     }
 
+    for ( i = 0; i < springs.length; i++ ) {
+        springs[i].draw( context );
+    }
+
+}
+
+var count = 0;
+function animate() {
+
+    //http://animaljoy.com/?p=254
+    // insert your code to update your animation here
+
+    for ( i = 0; i < springs.length; i++ ) {
+        springs[i].attachmentPoint.y = 100 + 100 * Math.sin( 6 * count / 100.0 );
+    }
+    count++;
+    requestAnimationFrame( animate );
+    draw();
 }
 
 //-----------------------------------------------------------------------------
