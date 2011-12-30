@@ -19,6 +19,8 @@ var nodes = new Array(
 nodes.push( new Slider( 700, 100 ) );
 nodes.push( new Slider( 700, 150 ) );
 
+nodes.push( new CheckBox( 100, 100 ) );
+
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
 //    springs.push( new Spring( 50 + i * 50 ) );
@@ -394,12 +396,15 @@ function onTouchStart( location ) {
     for ( var i = 0; i < nodes.length; i++ ) {
 
         //Make sure it is interactive
-        var hasContainsPointFunction = typeof nodes[i].containsPoint === 'function';
-        if ( hasContainsPointFunction ) {
-
+        if ( typeof nodes[i].containsPoint === 'function' ) {
             var containsPoint = nodes[i].containsPoint( location );
-            //        javascript: console.log( "checking mass contains: " + containsPoint );
             if ( containsPoint ) {
+                javascript: console.log( "node contains point: " + nodes[i] );
+
+                if ( typeof nodes[i].onTouchStart === 'function' ) {
+                    nodes[i].onTouchStart();
+                }
+
                 dragTarget = nodes[i];
                 var referencePoint = dragTarget.getReferencePoint();
                 relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
@@ -421,6 +426,63 @@ function onDrag( location ) {
 function onTouchEnd() {
     touchInProgress = false;
     draw();
+}
+
+function CheckBox( x, y ) {
+    this.x = x;
+    this.y = y;
+    this.width = 30;
+    this.height = 30;
+    this.selected = true;
+}
+
+CheckBox.prototype.draw = function ( context ) {
+    context.beginPath();
+    context.fillStyle = '#00f';
+    context.strokeStyle = '#77b';
+    context.lineWidth = 2;
+    context.beginPath();
+    context.moveTo( this.x, this.y );
+    context.lineTo( this.x + this.width, this.y );
+    context.lineTo( this.x + this.width, this.y + this.height );
+    context.lineTo( this.x, this.y + this.height );
+    context.lineTo( this.x, this.y );
+    context.stroke();
+    context.closePath();
+
+    if ( this.selected ) {
+        context.beginPath();
+        context.fillStyle = '#00f';
+        context.strokeStyle = '#88e';
+        context.lineWidth = 2;
+        context.beginPath();
+        context.moveTo( this.x, this.y );
+        context.lineTo( this.x + this.width, this.y + this.width );
+        context.moveTo( this.x + this.width, this.y );
+        context.lineTo( this.x, this.y + this.height );
+        context.stroke();
+        context.closePath();
+    }
+}
+
+CheckBox.prototype.onTouchStart = function () {
+    this.selected = !this.selected;
+    draw();
+}
+
+CheckBox.prototype.containsPoint = function ( location ) {
+    return location.x > this.x &&
+           location.x < this.x + this.width &&
+           location.y > this.y &&
+           location.y < this.y + this.height;
+}
+
+CheckBox.prototype.getReferencePoint = function () {
+    return new Point2D( this.x, this.y );
+}
+
+CheckBox.prototype.setPosition = function ( position ) {
+//    return new Point2D( this.x, this.y );
 }
 
 function Slider( x, y ) {
