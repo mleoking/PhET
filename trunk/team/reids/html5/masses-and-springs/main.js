@@ -343,24 +343,6 @@ function animate() {
 }
 
 //-----------------------------------------------------------------------------
-// Utility functions
-//-----------------------------------------------------------------------------
-
-function removeAllParticles() {
-    particlesInNucleus.length = 0;
-}
-
-function removeParticleFromNucleus( particle ) {
-    for ( i = 0; i < particlesInNucleus.length; i++ ) {
-        if ( particlesInNucleus[i] == particle ) {
-            particlesInNucleus.splice( i, 1 );
-            break;
-        }
-    }
-    adjustNucleonPositions();
-}
-
-//-----------------------------------------------------------------------------
 // Event handlers.
 //-----------------------------------------------------------------------------
 
@@ -441,23 +423,28 @@ function Slider() {
     this.image = new Image();
     this.image.src = "resources/bonniemslider.png";
     this.position = new Point2D( 0, 0 );
+    this.width = 200;
+    this.x = 400;
+    this.y = 0;
 }
 
 Slider.prototype.setPosition = function ( pt ) {
-    this.position = pt;
+    var x = Math.max( 0, pt.x );
+    var x2 = Math.min( x, this.width );
+    this.position = new Point2D( x2, 0 );
 }
 
 Slider.prototype.draw = function ( context ) {
     //draw gray bar
-    context.drawImage( this.image, 20, 24, 1, 9, 9, 8, canvas.width - 18, 9 );
+    context.drawImage( this.image, 20, 24, 1, 9, this.x + 9, this.y + 8, this.width - 18, 9 );
     //draw right cap
-    context.drawImage( this.image, 10, 24, 9, 9, canvas.width - 9, 8, 9, 9 );
+    context.drawImage( this.image, 10, 24, 9, 9, this.x + this.width - 9, this.y + 8, 9, 9 );
     // draw left cap
-    context.drawImage( this.image, 0, 24, 9, 9, 0, 8, 9, 9 );
+    context.drawImage( this.image, 0, 24, 9, 9, this.x, this.y + 8, 9, 9 );
     // draw blue bar
     if ( this.position.x > 9 ) {
-        context.drawImage( this.image, 22, 24, 1, 9, 9, 8, this.position.x, 9 );
+        context.drawImage( this.image, 22, 24, 1, 9, this.x + 9, this.y + 8, this.position.x, 9 );
     }
     // draw control button
-    context.drawImage( this.image, 0, 0, 22, 22, this.position.x, 1, 22, 22 );
+    context.drawImage( this.image, 0, 0, 22, 22, this.x + this.position.x, this.y + 1, 22, 22 );
 }
