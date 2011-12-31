@@ -19,8 +19,78 @@ var nodes = new Array(
 nodes.push( new Slider( 700, 100 ) );
 nodes.push( new Slider( 700, 150 ) );
 
-//nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ) );
-//nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} ) );
+//Performance consideration: 10 springs of 20 line segments each causes problems.
+//for ( var i = 0; i < 10; i++ ) {
+//    springs.push( new Spring( 50 + i * 50 ) );
+//}
+var springs = new Array();
+springs.push( new Spring( "1", 200 ) );
+springs.push( new Spring( "2", 300 ) );
+springs.push( new Spring( "3", 400 ) );
+
+//Add to the nodes for rendering
+for ( var i = 0; i < springs.length; i++ ) {
+    nodes.push( springs[i] );
+}
+
+var dragTarget = null;
+var relativeGrabPoint = null;
+var resetButton;
+
+// Hook up the initialization function.
+$( document ).ready( function () {
+    init();
+} );
+
+// Hook up event handler for window resize.
+$( window ).resize( resizer );
+
+// Initialize the canvas, context,
+function init() {
+
+    // Initialize references to the HTML5 canvas and its context.
+    canvas = $( '#canvas' )[0];
+    if ( canvas.getContext ) {
+        context = canvas.getContext( '2d' );
+    }
+
+    // Set up event handlers.
+    // TODO: Work with JO to "jquery-ize".
+    document.onmousedown = onDocumentMouseDown;
+    document.onmouseup = onDocumentMouseUp;
+    document.onmousemove = onDocumentMouseMove;
+
+    document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+    document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+    document.addEventListener( 'touchend', onDocumentTouchEnd, false );
+
+    // Add the reset button.
+    resetButton = new ResetButton( new Point2D( 900, 618 ), "orange" );
+
+    // Commenting out, since iPad seems to send these continuously.
+//	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
+
+    // Disable elastic scrolling.  This is specific to iOS.
+    document.addEventListener(
+            'touchmove',
+            function ( e ) {
+                e.preventDefault();
+            },
+            false
+    );
+
+    //Init label components after canvas non-null
+    nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
+
+    nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ) );
+    nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} ) );
+
+    // Do the initial drawing, events will cause subsequent updates.
+    resizer();
+
+    // Start the game loop
+    animate();
+}
 
 function horizontal( components, spacing ) {
     for ( var i = 1; i < components.length; i++ ) {
@@ -70,82 +140,12 @@ Label.prototype.draw = function ( context ) {
     context.fillText( this.text, this.x, this.y );
 }
 
-//Performance consideration: 10 springs of 20 line segments each causes problems.
-//for ( var i = 0; i < 10; i++ ) {
-//    springs.push( new Spring( 50 + i * 50 ) );
-//}
-var springs = new Array();
-springs.push( new Spring( "1", 200 ) );
-springs.push( new Spring( "2", 300 ) );
-springs.push( new Spring( "3", 400 ) );
-
-//Add to the nodes for rendering
-for ( var i = 0; i < springs.length; i++ ) {
-    nodes.push( springs[i] );
-}
-
-var dragTarget = null;
-var relativeGrabPoint = null;
-var resetButton;
-
-// Hook up the initialization function.
-$( document ).ready( function () {
-    init();
-} );
-
-// Hook up event handler for window resize.
-$( window ).resize( resizer );
-
 // Handler for window resize events.
 function resizer() {
     console.log( "resize received" );
     canvas.width = $( window ).width();
     canvas.height = $( window ).height();
     draw();
-}
-
-// Initialize the canvas, context,
-function init() {
-
-    // Initialize references to the HTML5 canvas and its context.
-    canvas = $( '#canvas' )[0];
-    if ( canvas.getContext ) {
-        context = canvas.getContext( '2d' );
-    }
-
-    // Set up event handlers.
-    // TODO: Work with JO to "jquery-ize".
-    document.onmousedown = onDocumentMouseDown;
-    document.onmouseup = onDocumentMouseUp;
-    document.onmousemove = onDocumentMouseMove;
-
-    document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-    document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-    document.addEventListener( 'touchend', onDocumentTouchEnd, false );
-
-    // Add the reset button.
-    resetButton = new ResetButton( new Point2D( 900, 618 ), "orange" );
-
-    // Commenting out, since iPad seems to send these continuously.
-//	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
-
-    // Disable elastic scrolling.  This is specific to iOS.
-    document.addEventListener(
-            'touchmove',
-            function ( e ) {
-                e.preventDefault();
-            },
-            false
-    );
-
-    //Init label components after canvas non-null
-    nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
-
-    // Do the initial drawing, events will cause subsequent updates.
-    resizer();
-
-    // Start the game loop
-    animate();
 }
 
 function clearBackground() {
@@ -248,6 +248,10 @@ function Spring( name, x ) {
     this.name = name;
     this.anchor = new Point2D( x, 50 );
     this.attachmentPoint = new Point2D( x, 250 );
+}
+
+Spring.prototype.containsPoint = function ( context ) {
+    return false;
 }
 
 Spring.prototype.draw = function ( context ) {
