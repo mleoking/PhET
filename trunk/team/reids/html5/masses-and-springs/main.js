@@ -16,9 +16,6 @@ var nodes = new Array(
         new ImageSprite( "resources/ruler.png", 12, 51 )
 );
 
-nodes.push( new Slider( 700, 100 ) );
-nodes.push( new Slider( 700, 150 ) );
-
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
 //    springs.push( new Spring( 50 + i * 50 ) );
@@ -79,8 +76,11 @@ function init() {
             false
     );
 
+    nodes.push( new BoxNode( {components:new Array( new Label( "Friction" ), new Slider( 0, 0 ) ), x:700, y:80, layout:vertical} ) );
+    nodes.push( new BoxNode( {components:new Array( new Label( "Spring 3 Smoothness" ), new Slider( 0, 0 ) ), x:700, y:150, layout:vertical} ) );
+
     //Init label components after canvas non-null
-    nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
+//    nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
 
     nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ) );
     nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} ) );
@@ -116,11 +116,15 @@ function Label( text ) {
     this.text = text;
     this.y = 0;
     this.x = 0;
+    this.height = 30;
 
     //Context must be initialized for us to determine the width
     context.fillStyle = '#00f';
     context.font = '30px sans-serif';
     this.width = context.measureText( text ).width;
+}
+
+Label.prototype.setPosition = function () {
 }
 
 Label.prototype.onTouchStart = function () {
@@ -183,6 +187,13 @@ function BoxNode( param ) {
     this.components[0].x = this.x;
     this.components[0].y = this.y;
     param.layout( this.components, this.spacing );
+}
+
+BoxNode.prototype.setPosition = function ( position ) {
+    for ( var i = 0; i < this.components.length; i++ ) {
+        var component = this.components[i];
+        component.setPosition( position );
+    }
 }
 
 BoxNode.prototype.getReferencePoint = function () {
