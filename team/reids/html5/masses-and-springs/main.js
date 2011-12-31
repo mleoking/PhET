@@ -192,16 +192,17 @@ function Node( param ) {
 }
 
 Node.prototype.findTarget = function ( location ) {
+    var relativeLocation = location.minus( {x:this.x, y:this.y} );
     var that = {};
 
     //See which sprite wants to handle the touch
     for ( var i = 0; i < this.components.length; i++ ) {
-        if ( this.components[i].containsPoint( location ) ) {
+        if ( this.components[i].containsPoint( relativeLocation ) ) {
             javascript: console.log( "node contains point: " + this.components[i] );
 
             that.dragTarget = this.components[i];
             var referencePoint = this.components[i].getReferencePoint();
-            that.relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
+            that.relativeGrabPoint = new Point2D( relativeLocation.x - referencePoint.x, relativeLocation.y - referencePoint.y );
             break;
         }
     }
