@@ -495,9 +495,8 @@ function onWindowDeviceOrientation( event ) {
     console.log( "onWindowDeviceOrientation" );
 }
 
-function onTouchStart( location ) {
-    touchInProgress = true;
-    dragTarget = null;
+function findTarget( location ) {
+    var that = {};
 
     //See which sprite wants to handle the touch
     for ( var i = 0; i < nodes.length; i++ ) {
@@ -507,20 +506,29 @@ function onTouchStart( location ) {
         if ( containsPoint ) {
             javascript: console.log( "node contains point: " + nodes[i] );
 
-            nodes[i].onTouchStart();
-            dragTarget = nodes[i];
-            var referencePoint = dragTarget.getReferencePoint();
-            relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
+            that.dragTarget = nodes[i];
+            var referencePoint = nodes[i].getReferencePoint();
+            that.relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
             break;
         }
     }
+    return that;
+}
 
+function onTouchStart( location ) {
+    touchInProgress = true;
+    var result = findTarget( location );
+    dragTarget = result.dragTarget;
+    relativeGrabPoint = result.relativeGrabPoint;
+    dragTarget.onTouchStart();
     draw();
 }
 
 function onDrag( location ) {
     if ( touchInProgress && dragTarget != null ) {
-        dragTarget.setPosition( location.minus( relativeGrabPoint ) );
+        var position = location.minus( relativeGrabPoint );
+        dragTarget.setPosition( position );
+        javascript: console.log( "dragging to " + position );
         draw();
     }
 }
