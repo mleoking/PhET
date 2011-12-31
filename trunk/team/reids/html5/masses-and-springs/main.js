@@ -19,15 +19,35 @@ var nodes = new Array(
 nodes.push( new Slider( 700, 100 ) );
 nodes.push( new Slider( 700, 150 ) );
 
-nodes.push( new HBox( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300} ) );
-nodes.push( new HBox( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350} ) );
+nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
+//nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ) );
+//nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} ) );
 
-//nodes.push( new CheckBox( 100, 100 ) );
+function horizontal( components, spacing ) {
+    for ( var i = 1; i < components.length; i++ ) {
+        var prev = components[i - 1];
+        var c = components[i];
+        c.x = prev.x + prev.width + spacing;
+        c.y = prev.y;
+
+        console.log( "x[" + i + "] = " + c.x );
+    }
+}
+
+function vertical( components, spacing ) {
+    for ( var i = 1; i < components.length; i++ ) {
+        var prev = components[i - 1];
+        var c = components[i];
+        c.y = prev.y + prev.height + spacing;
+        c.x = prev.x;
+    }
+}
 
 function Label( text ) {
     this.text = text;
     this.y = 0;
     this.x = 0;
+    this.width = 50;
 }
 
 Label.prototype.onTouchStart = function () {
@@ -35,6 +55,10 @@ Label.prototype.onTouchStart = function () {
 
 Label.prototype.containsPoint = function ( point ) {
     return false;
+}
+
+Label.prototype.width = function () {
+    return 50;
 }
 
 Label.prototype.draw = function ( context ) {
@@ -144,7 +168,7 @@ function drawPhetLogo() {
 // Point2D class.
 //-----------------------------------------------------------------------------
 
-function HBox( param ) {
+function BoxNode( param ) {
     this.components = param.components;
     this.spacing = 5;
     this.x = param.x;
@@ -152,31 +176,26 @@ function HBox( param ) {
 
     this.components[0].x = this.x;
     this.components[0].y = this.y;
-    for ( var i = 1; i < this.components.length; i++ ) {
-        var prev = this.components[i - 1];
-        var c = this.components[i];
-        c.x = prev.x + prev.width + this.spacing;
-        c.y = prev.y;
-    }
+    param.layout( this.components, this.spacing );
 }
 
-HBox.prototype.getReferencePoint = function () {
+BoxNode.prototype.getReferencePoint = function () {
     return new Point2D( this.x, this.y );
 }
 
-HBox.prototype.draw = function ( context ) {
+BoxNode.prototype.draw = function ( context ) {
     for ( var i = 0; i < this.components.length; i++ ) {
         this.components[i].draw( context );
     }
 }
 
-HBox.prototype.onTouchStart = function () {
+BoxNode.prototype.onTouchStart = function () {
     for ( var i = 0; i < this.components.length; i++ ) {
         this.components[i].onTouchStart();
     }
 }
 
-HBox.prototype.containsPoint = function ( pt ) {
+BoxNode.prototype.containsPoint = function ( pt ) {
     for ( var i = 0; i < this.components.length; i++ ) {
         var component = this.components[i];
         if ( component.containsPoint( pt ) ) {
@@ -549,8 +568,8 @@ function Slider( x, y ) {
 }
 
 Slider.prototype.onTouchStart = function () {
-
 }
+
 Slider.prototype.setPosition = function ( pt ) {
     var x = Math.max( 0, pt.x );
     var x2 = Math.min( x, this.width );
