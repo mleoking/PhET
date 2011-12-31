@@ -3,36 +3,17 @@
 var canvas;
 var touchInProgress = false;
 var context;
-var particlesInNucleus = new Array();
-
-var nodes = new Array(
-        new ImageSprite( "resources/red-mass.png", 114, 496 ),
-        new ImageSprite( "resources/green-mass.png", 210, 577 ),
-        new ImageSprite( "resources/gold-mass.png", 276, 541 ),
-        new ImageSprite( "resources/gram-50.png", 577, 590 ),
-        new ImageSprite( "resources/gram-100.png", 392, 562 ),
-        new ImageSprite( "resources/gram-250.png", 465, 513 ),
-
-        new ImageSprite( "resources/ruler.png", 12, 51 )
-);
 
 //Performance consideration: 10 springs of 20 line segments each causes problems.
 //for ( var i = 0; i < 10; i++ ) {
 //    springs.push( new Spring( 50 + i * 50 ) );
 //}
-var springs = new Array();
-springs.push( new Spring( "1", 200 ) );
-springs.push( new Spring( "2", 300 ) );
-springs.push( new Spring( "3", 400 ) );
-
-//Add to the nodes for rendering
-for ( var i = 0; i < springs.length; i++ ) {
-    nodes.push( springs[i] );
-}
 
 var dragTarget = null;
 var relativeGrabPoint = null;
 var resetButton;
+
+var globals = {};
 
 // Hook up the initialization function.
 $( document ).ready( function () {
@@ -76,14 +57,31 @@ function init() {
             false
     );
 
-    nodes.push( new BoxNode( {components:new Array( new Label( "Friction" ), new Slider( 0, 0 ) ), x:700, y:80, layout:vertical} ) );
-    nodes.push( new BoxNode( {components:new Array( new Label( "Spring 3 Smoothness" ), new Slider( 0, 0 ) ), x:700, y:150, layout:vertical} ) );
+    globals.springs = new Array();
+    globals.springs.push( new Spring( "1", 200 ) );
+    globals.springs.push( new Spring( "2", 300 ) );
+    globals.springs.push( new Spring( "3", 400 ) );
+
+    var rootComponents = new Array( new ImageSprite( "resources/red-mass.png", 114, 496 ),
+                                    new ImageSprite( "resources/green-mass.png", 210, 577 ),
+                                    new ImageSprite( "resources/gold-mass.png", 276, 541 ),
+                                    new ImageSprite( "resources/gram-50.png", 577, 590 ),
+                                    new ImageSprite( "resources/gram-100.png", 392, 562 ),
+                                    new ImageSprite( "resources/gram-250.png", 465, 513 ),
+                                    new ImageSprite( "resources/ruler.png", 12, 51 ),
+                                    new Node( {components:new Array( new Label( "Friction" ), new Slider( 0, 0 ) ), x:700, y:80, layout:vertical} ),
+                                    new Node( {components:new Array( new Label( "Spring 3 Smoothness" ), new Slider( 0, 0 ) ), x:700, y:150, layout:vertical} ),
+                                    new Node( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ),
+                                    new Node( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} ) );
+
+    //Add to the nodes for rendering
+    for ( var i = 0; i < globals.springs.length; i++ ) {
+        rootComponents.push( globals.springs[i] );
+    }
+    globals.rootNode = new Node( { components:rootComponents, x:0, y:0, layout:absolute } );
 
     //Init label components after canvas non-null
 //    nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
-
-    nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ) );
-    nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} ) );
 
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
@@ -101,6 +99,10 @@ function horizontal( components, spacing ) {
 
         console.log( "x[" + i + "] = " + c.x );
     }
+}
+
+//Do nothing, the components lay themselves out
+function absolute( components, spacing ) {
 }
 
 function vertical( components, spacing ) {
@@ -178,7 +180,7 @@ function drawPhetLogo() {
 // Point2D class.
 //-----------------------------------------------------------------------------
 
-function BoxNode( param ) {
+function Node( param ) {
     this.components = param.components;
     this.spacing = 5;
     this.x = param.x;
@@ -189,30 +191,47 @@ function BoxNode( param ) {
     param.layout( this.components, this.spacing );
 }
 
-BoxNode.prototype.setPosition = function ( position ) {
+Node.prototype.findTarget = function ( location ) {
+    var that = {};
+
+    //See which sprite wants to handle the touch
+    for ( var i = 0; i < this.components.length; i++ ) {
+        if ( this.components[i].containsPoint( location ) ) {
+            javascript: console.log( "node contains point: " + this.components[i] );
+
+            that.dragTarget = this.components[i];
+            var referencePoint = this.components[i].getReferencePoint();
+            that.relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
+            break;
+        }
+    }
+    return that;
+}
+
+Node.prototype.setPosition = function ( position ) {
     for ( var i = 0; i < this.components.length; i++ ) {
         var component = this.components[i];
         component.setPosition( position );
     }
 }
 
-BoxNode.prototype.getReferencePoint = function () {
+Node.prototype.getReferencePoint = function () {
     return new Point2D( this.x, this.y );
 }
 
-BoxNode.prototype.draw = function ( context ) {
+Node.prototype.draw = function ( context ) {
     for ( var i = 0; i < this.components.length; i++ ) {
         this.components[i].draw( context );
     }
 }
 
-BoxNode.prototype.onTouchStart = function () {
+Node.prototype.onTouchStart = function () {
     for ( var i = 0; i < this.components.length; i++ ) {
         this.components[i].onTouchStart();
     }
 }
 
-BoxNode.prototype.containsPoint = function ( pt ) {
+Node.prototype.containsPoint = function ( pt ) {
     for ( var i = 0; i < this.components.length; i++ ) {
         var component = this.components[i];
         if ( component.containsPoint( pt ) ) {
@@ -424,14 +443,7 @@ function draw() {
     // Draw the reset button.
     resetButton.draw( context );
 
-    // Draw the particles that are in the nucleus.
-    for ( var i = 0; i < particlesInNucleus.length; i++ ) {
-        particlesInNucleus[i].draw( context );
-    }
-
-    for ( i = 0; i < nodes.length; i++ ) {
-        nodes[i].draw( context );
-    }
+    globals.rootNode.draw( context );
 
     // Draw particle that is being dragged if there is one so it will be on top
     if ( dragTarget != null ) {
@@ -445,8 +457,8 @@ function animate() {
     //http://animaljoy.com/?p=254
     // insert your code to update your animation here
 
-    for ( i = 0; i < springs.length; i++ ) {
-        springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
+    for ( i = 0; i < globals.springs.length; i++ ) {
+        globals.springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
     }
     count++;
     requestAnimationFrame( animate );
@@ -495,31 +507,15 @@ function onWindowDeviceOrientation( event ) {
     console.log( "onWindowDeviceOrientation" );
 }
 
-function findTarget( location ) {
-    var that = {};
-
-    //See which sprite wants to handle the touch
-    for ( var i = 0; i < nodes.length; i++ ) {
-
-        if ( nodes[i].containsPoint( location ) ) {
-            javascript: console.log( "node contains point: " + nodes[i] );
-
-            that.dragTarget = nodes[i];
-            var referencePoint = nodes[i].getReferencePoint();
-            that.relativeGrabPoint = new Point2D( location.x - referencePoint.x, location.y - referencePoint.y );
-            break;
-        }
-    }
-    return that;
-}
-
 function onTouchStart( location ) {
     touchInProgress = true;
-    var result = findTarget( location );
+    var result = globals.rootNode.findTarget( location );
     dragTarget = result.dragTarget;
     relativeGrabPoint = result.relativeGrabPoint;
-    dragTarget.onTouchStart();
-    draw();
+    if ( dragTarget ) {
+        dragTarget.onTouchStart();
+        draw();
+    }
 }
 
 function onDrag( location ) {
