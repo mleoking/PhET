@@ -116,11 +116,11 @@ function vertical( components, spacing ) {
 
 function Label( text ) {
     this.text = text;
-    this.y = 0;
     this.x = 0;
+    this.y = 0;
     this.height = 30;
 
-    //Context must be initialized for us to determine the width
+    //Context must be initialized for us to determine the width, so only create labels during or after init
     context.fillStyle = '#00f';
     context.font = '30px sans-serif';
     this.width = context.measureText( text ).width;
@@ -334,7 +334,7 @@ ImageSprite.prototype.draw = function ( context ) {
 }
 
 ImageSprite.prototype.containsPoint = function ( point ) {
-    javascript: console.log( "point = " + point.x + ", " + point.y + ", location = " + this.position.x + ", " + this.position.y + ", width = " + this.image.width + ", height = " + this.image.height );
+//    javascript: console.log( "point = " + point.x + ", " + point.y + ", location = " + this.position.x + ", " + this.position.y + ", width = " + this.image.width + ", height = " + this.image.height );
     return point.x >= this.position.x && point.y >= this.position.y && point.x <= this.position.x + this.image.width && point.y <= this.position.y + this.image.height;
 }
 
