@@ -19,7 +19,6 @@ var nodes = new Array(
 nodes.push( new Slider( 700, 100 ) );
 nodes.push( new Slider( 700, 150 ) );
 
-nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
 //nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ) );
 //nodes.push( new BoxNode( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} ) );
 
@@ -47,7 +46,11 @@ function Label( text ) {
     this.text = text;
     this.y = 0;
     this.x = 0;
-    this.width = 50;
+
+    //Context must be initialized for us to determine the width
+    context.fillStyle = '#00f';
+    context.font = '30px sans-serif';
+    this.width = context.measureText( text ).width;
 }
 
 Label.prototype.onTouchStart = function () {
@@ -134,6 +137,9 @@ function init() {
             },
             false
     );
+
+    //Init label components after canvas non-null
+    nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
 
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
