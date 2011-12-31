@@ -501,9 +501,7 @@ function findTarget( location ) {
     //See which sprite wants to handle the touch
     for ( var i = 0; i < nodes.length; i++ ) {
 
-        //Make sure it is interactive
-        var containsPoint = nodes[i].containsPoint( location );
-        if ( containsPoint ) {
+        if ( nodes[i].containsPoint( location ) ) {
             javascript: console.log( "node contains point: " + nodes[i] );
 
             that.dragTarget = nodes[i];
