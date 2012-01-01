@@ -62,17 +62,19 @@ function init() {
     globals.springs.push( new Spring( "2", 300 ) );
     globals.springs.push( new Spring( "3", 400 ) );
 
-    var rootComponents = new Array( new ImageSprite( "resources/red-mass.png", 114, 496 ),
-                                    new ImageSprite( "resources/green-mass.png", 210, 577 ),
-                                    new ImageSprite( "resources/gold-mass.png", 276, 541 ),
-                                    new ImageSprite( "resources/gram-50.png", 577, 590 ),
-                                    new ImageSprite( "resources/gram-100.png", 392, 562 ),
-                                    new ImageSprite( "resources/gram-250.png", 465, 513 ),
-                                    new ImageSprite( "resources/ruler.png", 12, 51 ),
-                                    new Node( {components:new Array( new Label( "Friction" ), new Slider( 0, 0 ) ), x:700, y:80, layout:vertical} ),
-                                    new Node( {components:new Array( new Label( "Spring 3 Smoothness" ), new Slider( 0, 0 ) ), x:700, y:150, layout:vertical} ),
-                                    new Node( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ),
-                                    new Node( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} ) );
+    var rootComponents = new Array(
+//            new ImageSprite( "resources/red-mass.png", 114, 496 ),
+//            new ImageSprite( "resources/green-mass.png", 210, 577 ),
+//            new ImageSprite( "resources/gold-mass.png", 276, 541 ),
+//            new ImageSprite( "resources/gram-50.png", 577, 590 ),
+//            new ImageSprite( "resources/gram-100.png", 392, 562 ),
+//            new ImageSprite( "resources/gram-250.png", 465, 513 ),
+//            new ImageSprite( "resources/ruler.png", 12, 51 ),
+            new Node( {components:new Array( new Label( "Friction" ), new Slider( 0, 0 ) ), x:700, y:80, layout:vertical} )
+//            new Node( {components:new Array( new Label( "Spring 3 Smoothness" ), new Slider( 0, 0 ) ), x:700, y:150, layout:vertical} ),
+//            new Node( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ),
+//            new Node( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} )
+    );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -90,7 +92,24 @@ function init() {
     animate();
 }
 
+defaultFindTarget = function ( relativeLocation ) {
+    var that = {};
+    if ( this.containsPoint( relativeLocation ) ) {
+        javascript: console.log( "node contains point: " + this );
+
+        that.dragTarget = this;
+        var referencePoint = this.getReferencePoint();
+        that.relativeGrabPoint = new Point2D( relativeLocation.x - referencePoint.x, relativeLocation.y - referencePoint.y );
+        return that;
+    }
+    else {
+        return null;
+    }
+}
+
 function horizontal( components, spacing ) {
+    components[0].x = 0;
+    components[0].y = 0;
     for ( var i = 1; i < components.length; i++ ) {
         var prev = components[i - 1];
         var c = components[i];
@@ -106,6 +125,8 @@ function absolute( components, spacing ) {
 }
 
 function vertical( components, spacing ) {
+    components[0].x = 0;
+    components[0].y = 0;
     for ( var i = 1; i < components.length; i++ ) {
         var prev = components[i - 1];
         var c = components[i];
@@ -135,6 +156,8 @@ Label.prototype.onTouchStart = function () {
 Label.prototype.containsPoint = function ( point ) {
     return false;
 }
+
+Label.prototype.findTarget = defaultFindTarget;
 
 Label.prototype.width = function () {
     return 50;
@@ -186,8 +209,6 @@ function Node( param ) {
     this.x = param.x;
     this.y = param.y;
 
-    this.components[0].x = this.x;
-    this.components[0].y = this.y;
     param.layout( this.components, this.spacing );
 }
 
@@ -197,23 +218,17 @@ Node.prototype.findTarget = function ( location ) {
 
     //See which sprite wants to handle the touch
     for ( var i = 0; i < this.components.length; i++ ) {
-        if ( this.components[i].containsPoint( relativeLocation ) ) {
-            javascript: console.log( "node contains point: " + this.components[i] );
-
-            that.dragTarget = this.components[i];
-            var referencePoint = this.components[i].getReferencePoint();
-            that.relativeGrabPoint = new Point2D( relativeLocation.x - referencePoint.x, relativeLocation.y - referencePoint.y );
-            break;
+        var result = this.components[i].findTarget( relativeLocation );
+        if ( result != null ) {
+            return result;
         }
     }
-    return that;
+    return null;
 }
 
 Node.prototype.setPosition = function ( position ) {
-    for ( var i = 0; i < this.components.length; i++ ) {
-        var component = this.components[i];
-        component.setPosition( position );
-    }
+    this.x = position.x;
+    this.y = position.y;
 }
 
 Node.prototype.getReferencePoint = function () {
@@ -221,15 +236,15 @@ Node.prototype.getReferencePoint = function () {
 }
 
 Node.prototype.draw = function ( context ) {
+    context.save();
+    context.translate( this.x, this.y );
     for ( var i = 0; i < this.components.length; i++ ) {
         this.components[i].draw( context );
     }
+    context.restore();
 }
 
 Node.prototype.onTouchStart = function () {
-    for ( var i = 0; i < this.components.length; i++ ) {
-        this.components[i].onTouchStart();
-    }
 }
 
 Node.prototype.containsPoint = function ( pt ) {
@@ -332,6 +347,8 @@ ImageSprite.prototype.onTouchStart = function () {
 ImageSprite.prototype.draw = function ( context ) {
     context.drawImage( this.image, this.position.x, this.position.y );
 }
+
+ImageSprite.prototype.findTarget = defaultFindTarget
 
 ImageSprite.prototype.containsPoint = function ( point ) {
 //    javascript: console.log( "point = " + point.x + ", " + point.y + ", location = " + this.position.x + ", " + this.position.y + ", width = " + this.image.width + ", height = " + this.image.height );
@@ -447,9 +464,10 @@ function draw() {
     globals.rootNode.draw( context );
 
     // Draw particle that is being dragged if there is one so it will be on top
-    if ( dragTarget != null ) {
-        dragTarget.draw( context );
-    }
+    //TODO: This will only work if the draw is in the right coordinate frame
+//    if ( dragTarget != null ) {
+//        dragTarget.draw( context );
+//    }
 }
 
 var count = 0;
@@ -511,6 +529,7 @@ function onWindowDeviceOrientation( event ) {
 function onTouchStart( location ) {
     touchInProgress = true;
     var result = globals.rootNode.findTarget( location );
+    javascript: console.log( "result = " + result );
     dragTarget = result.dragTarget;
     relativeGrabPoint = result.relativeGrabPoint;
     if ( dragTarget ) {
@@ -530,6 +549,8 @@ function onDrag( location ) {
 
 function onTouchEnd() {
     touchInProgress = false;
+    dragTarget = null;
+    relativeGrabPoint = null;
     draw();
 }
 
@@ -568,10 +589,10 @@ CheckBox.prototype.onTouchStart = function () {
 }
 
 CheckBox.prototype.containsPoint = function ( location ) {
-    return location.x > this.x &&
-           location.x < this.x + this.width &&
-           location.y > this.y &&
-           location.y < this.y + this.height;
+    return location.x >= 0 &&
+           location.x <= this.width &&
+           location.y > 0 &&
+           location.y < this.height;
 }
 
 CheckBox.prototype.getReferencePoint = function () {
@@ -582,6 +603,8 @@ CheckBox.prototype.setPosition = function ( position ) {
 //    return new Point2D( this.x, this.y );
 }
 
+CheckBox.prototype.findTarget = defaultFindTarget
+
 function Slider( x, y ) {
     this.image = new Image();
     this.image.src = "resources/bonniemslider.png";
@@ -590,6 +613,8 @@ function Slider( x, y ) {
     this.x = x;
     this.y = y;
 }
+
+Slider.prototype.findTarget = defaultFindTarget
 
 Slider.prototype.onTouchStart = function () {
 }
