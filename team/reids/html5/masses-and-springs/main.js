@@ -10,6 +10,7 @@ var context;
 //}
 
 var dragTarget = null;
+var pickPath = null;
 var relativeGrabPoint = null;
 var resetButton;
 
@@ -63,17 +64,17 @@ function init() {
     globals.springs.push( new Spring( "3", 400 ) );
 
     var rootComponents = new Array(
-//            new ImageSprite( "resources/red-mass.png", 114, 496 ),
-//            new ImageSprite( "resources/green-mass.png", 210, 577 ),
-//            new ImageSprite( "resources/gold-mass.png", 276, 541 ),
-//            new ImageSprite( "resources/gram-50.png", 577, 590 ),
-//            new ImageSprite( "resources/gram-100.png", 392, 562 ),
-//            new ImageSprite( "resources/gram-250.png", 465, 513 ),
-//            new ImageSprite( "resources/ruler.png", 12, 51 ),
-            new Node( {components:new Array( new Label( "Friction" ), new Slider( 0, 0 ) ), x:700, y:80, layout:vertical} )
-//            new Node( {components:new Array( new Label( "Spring 3 Smoothness" ), new Slider( 0, 0 ) ), x:700, y:150, layout:vertical} ),
-//            new Node( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ),
-//            new Node( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} )
+            new ImageSprite( "resources/red-mass.png", 114, 496 ),
+            new ImageSprite( "resources/green-mass.png", 210, 577 ),
+            new ImageSprite( "resources/gold-mass.png", 276, 541 ),
+            new ImageSprite( "resources/gram-50.png", 577, 590 ),
+            new ImageSprite( "resources/gram-100.png", 392, 562 ),
+            new ImageSprite( "resources/gram-250.png", 465, 513 ),
+            new ImageSprite( "resources/ruler.png", 12, 51 ),
+            new Node( { components:new Array( new Label( "Friction" ), new SliderKnob( 0, 0 ) ), x:700, y:80, layout:vertical} ),
+            new Node( { components:new Array( new Label( "Spring 3 Smoothness" ), new SliderKnob( 0, 0 ) ), x:700, y:150, layout:vertical} ),
+            new Node( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ),
+            new Node( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} )
     );
 
     //Add to the nodes for rendering
@@ -212,6 +213,34 @@ function Node( param ) {
     param.layout( this.components, this.spacing );
 }
 
+//Find the path of nodes to a sub-sub child for purposes of finding relative transform for drag events
+//Recursive function, assumes this node contains dragTarget
+Node.prototype.getPickPath = function ( dragTarget ) {
+    for ( var i = 0; i < this.components.length; i++ ) {
+        var component = this.components[i];
+        if ( typeof component.getPickPath == 'function' ) {
+            var path = component.getPickPath( dragTarget );
+            if ( path != null ) {
+                return path.unshift( this );
+            }
+        }
+
+        else if ( component == dragTarget ) {
+            return new Array( this );
+        }
+    }
+    return null;
+}
+
+Node.prototype.contains = function ( dragTarget ) {
+    for ( var i = 0; i < this.components.length; i++ ) {
+        if ( this.components[i] == dragTarget ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 Node.prototype.findTarget = function ( location ) {
     var relativeLocation = location.minus( {x:this.x, y:this.y} );
     var that = {};
@@ -276,6 +305,10 @@ Point2D.prototype.minus = function ( pt ) {
     return new Point2D( this.x - pt.x, this.y - pt.y );
 }
 
+Point2D.prototype.minus = function ( pt ) {
+    return new Point2D( this.x + pt.x, this.y + pt.y );
+}
+
 Point2D.prototype.set = function ( point2D ) {
     this.setComponents( point2D.x, point2D.y );
 }
@@ -295,6 +328,8 @@ function Spring( name, x ) {
     this.anchor = new Point2D( x, 50 );
     this.attachmentPoint = new Point2D( x, 250 );
 }
+
+Spring.prototype.findTarget = defaultFindTarget
 
 Spring.prototype.containsPoint = function ( context ) {
     return false;
@@ -530,9 +565,10 @@ function onTouchStart( location ) {
     touchInProgress = true;
     var result = globals.rootNode.findTarget( location );
     javascript: console.log( "result = " + result );
-    dragTarget = result.dragTarget;
-    relativeGrabPoint = result.relativeGrabPoint;
-    if ( dragTarget ) {
+    if ( result != null && result.dragTarget != null ) {
+        dragTarget = result.dragTarget;
+        pickPath = globals.rootNode.getPickPath( dragTarget );
+        relativeGrabPoint = result.relativeGrabPoint;
         dragTarget.onTouchStart();
         draw();
     }
@@ -541,6 +577,12 @@ function onTouchStart( location ) {
 function onDrag( location ) {
     if ( touchInProgress && dragTarget != null ) {
         var position = location.minus( relativeGrabPoint );
+
+        //TODO: Convert global to local position
+        for ( var i = 0; i < pickPath.length; i++ ) {
+            position.x = position.x - pickPath[i].x;
+            position.y = position.y - pickPath[i].y;
+        }
         dragTarget.setPosition( position );
         javascript: console.log( "dragging to " + position );
         draw();
@@ -605,7 +647,7 @@ CheckBox.prototype.setPosition = function ( position ) {
 
 CheckBox.prototype.findTarget = defaultFindTarget
 
-function Slider( x, y ) {
+function SliderTrack( x, y ) {
     this.image = new Image();
     this.image.src = "resources/bonniemslider.png";
     this.knobX = 0;
@@ -614,18 +656,7 @@ function Slider( x, y ) {
     this.y = y;
 }
 
-Slider.prototype.findTarget = defaultFindTarget
-
-Slider.prototype.onTouchStart = function () {
-}
-
-Slider.prototype.setPosition = function ( pt ) {
-    var x = Math.max( 0, pt.x );
-    var x2 = Math.min( x, this.width );
-    this.knobX = x2;
-}
-
-Slider.prototype.draw = function ( context ) {
+SliderTrack.prototype.draw = function ( context ) {
     //draw gray bar
     context.drawImage( this.image, 20, 24, 1, 9, this.x + 9, this.y + 8, this.width - 18, 9 );
 
@@ -639,18 +670,42 @@ Slider.prototype.draw = function ( context ) {
     if ( this.knobX > 9 ) {
         context.drawImage( this.image, 22, 24, 1, 9, this.x + 9, this.y + 8, this.knobX, 9 );
     }
+}
+
+function SliderKnob( x, y ) {
+    this.image = new Image();
+    this.image.src = "resources/bonniemslider.png";
+    this.knobX = 0;
+    this.width = 250;
+    this.x = x;
+    this.y = y;
+}
+
+SliderKnob.prototype.findTarget = defaultFindTarget
+
+SliderKnob.prototype.onTouchStart = function () {
+}
+
+SliderKnob.prototype.setPosition = function ( pt ) {
+    javascript: console.log( "knob set position: " + pt.x );
+    var x = Math.max( 0, pt.x );
+    var x2 = Math.min( x, this.width );
+    this.knobX = x2;
+}
+
+SliderKnob.prototype.draw = function ( context ) {
     // draw control button
     context.drawImage( this.image, 0, 0, 22, 22, this.x + this.knobX - 22 / 2, this.y + 1, 22, 22 );
 }
 
-Slider.prototype.containsPoint = function ( location ) {
+SliderKnob.prototype.containsPoint = function ( location ) {
     return location.x > this.x + this.knobX - 22 &&
            location.x < this.x + this.knobX + 22 / 2 &&
            location.y > this.y &&
            location.y < this.y + 22
 }
 
-Slider.prototype.getReferencePoint = function () {
+SliderKnob.prototype.getReferencePoint = function () {
     return new Point2D( this.knobX, this.y );
 }
 
