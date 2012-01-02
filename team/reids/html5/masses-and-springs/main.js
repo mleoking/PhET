@@ -244,7 +244,7 @@ function init() {
             fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
             textNode( "hello" ),
             vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} ),
-            checkbox( 300, 0 ) );
+            vbox( {children:new Array( checkbox( 0, 0 ), checkbox( 0, 0 ), checkbox( 0, 0 ) ), x:600, y:0} ) );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
