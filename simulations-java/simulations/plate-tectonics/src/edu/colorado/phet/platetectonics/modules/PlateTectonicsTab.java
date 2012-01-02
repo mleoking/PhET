@@ -620,16 +620,23 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     public OrthoComponentNode getGuiUnder( int x, int y ) {
-        ImmutableVector2F screenPosition = new ImmutableVector2F( x, y );
         for ( OrthoComponentNode guiNode : guiNodes ) {
-            if ( guiNode.isReady() ) {
-                ImmutableVector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
-                if ( guiNode.getComponent().contains( (int) componentPoint.x, (int) componentPoint.y ) ) {
-                    return guiNode;
-                }
+            if ( isGuiUnder( guiNode, x, y ) ) {
+                return guiNode;
             }
         }
         return null;
+    }
+
+    public boolean isGuiUnder( OrthoComponentNode guiNode, int screenX, int screenY ) {
+        ImmutableVector2F screenPosition = new ImmutableVector2F( screenX, screenY );
+        if ( guiNode.isReady() ) {
+            ImmutableVector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
+            if ( guiNode.getComponent().contains( (int) componentPoint.x, (int) componentPoint.y ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<GLNode> getToolNodes() {
