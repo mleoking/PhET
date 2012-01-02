@@ -51,17 +51,21 @@ function fillRectNode( width, height, style ) {
 
 function textNode( string ) {
 
+    context.save();
     //Context must be initialized for us to determine the width, so only create labels during or after init
     context.fillStyle = '#00f';
     context.font = '30px sans-serif';
     var width = context.measureText( string ).width;
-
     var that = rectangularNode( width, 30 );
+
+    context.restore();
     that.draw = function ( context ) {
+        context.save();
         context.textBaseline = 'top';
         context.fillStyle = '#00f';
         context.font = '30px sans-serif';
         context.fillText( string, that.x, that.y );
+        context.restore();
     };
     return that;
 }
@@ -103,10 +107,56 @@ function vbox( args ) {
             var c = components[i];
             c.y = prev.y + prev.height + spacing;
             c.x = prev.x;
+
+            if ( isNaN( c.y ) ) {
+                console.log( "not a number" );
+            }
         }
     }
 
     vertical( args.children, 10 );
+
+    //compute width and height
+    that.width = 0;
+    that.height = args.children[args.children.length - 1].y + args.children[args.children.length - 1].height;
+    for ( var i = 0; i < args.children.length; i++ ) {
+        var obj = args.children[i];
+        that.width = Math.max( obj.width, that.width );
+    }
+
+    return that;
+}
+
+function hbox( args ) {
+    var that = compositeNode( args.children );
+    that.x = args.x;
+    that.y = args.y;
+
+    function horizontal( components, spacing ) {
+        components[0].x = 0;
+        components[0].y = 0;
+        for ( var i = 1; i < components.length; i++ ) {
+            var prev = components[i - 1];
+            var c = components[i];
+            c.x = prev.x + prev.width + spacing;
+            c.y = prev.y;
+        }
+    }
+
+    horizontal( args.children, 10 );
+    if ( isNaN( that.y ) ) {
+        console.log( "not a number" );
+    }
+
+    //compute width and height
+    that.height = 0;
+    that.width = args.children[args.children.length - 1].x + args.children[args.children.length - 1].width;
+    for ( var i = 0; i < args.children.length; i++ ) {
+        var obj = args.children[i];
+        that.height = Math.max( obj.height, that.height );
+    }
+
+    console.log( "hbox height = " + that.height );
 
     return that;
 }
@@ -233,6 +283,8 @@ function init() {
 //        };
 //    }
 
+    var stopwatchCheckBox = hbox( {children:new Array( checkbox( 0, 0 ), textNode( "Stopwatch" ) ), x:0, y:0} );
+    var soundCheckBox = hbox( {children:new Array( checkbox( 0, 0 ), textNode( "Sound" ) ), x:0, y:0} );
     var rootNodeComponents = new Array(
             imageNode( "resources/red-mass.png", 114, 496 ),
             imageNode( "resources/green-mass.png", 210, 577 ),
@@ -241,10 +293,11 @@ function init() {
             imageNode( "resources/gram-100.png", 392, 562 ),
             imageNode( "resources/gram-250.png", 465, 513 ),
             imageNode( "resources/ruler.png", 12, 51 ),
-            fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
-            textNode( "hello" ),
-            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} ),
-            vbox( {children:new Array( checkbox( 0, 0 ), checkbox( 0, 0 ), checkbox( 0, 0 ) ), x:600, y:0} ) );
+////            fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
+////            textNode( "hello" ),
+////            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} ),
+//            hbox( {children:new Array( checkbox( 0, 0 ), checkbox( 0, 0 ), checkbox( 0, 0 ) ), x:600, y:0} ),
+            vbox( {children:new Array( stopwatchCheckBox, soundCheckBox ), x:700, y:100} ) );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -398,7 +451,7 @@ function spring( name, x ) {
         context.font = textHeight + "px sans-serif";
         const defaultTextAlign = context.textAlign;
         context.textAlign = "center";
-        context.fillText( this.name, this.anchor.x, this.anchor.y - 32, 1000 );
+        context.fillText( this.name, this.anchor.x, this.anchor.y - 10, 1000 );
         context.textAlign = defaultTextAlign;
     }
     return that;
@@ -432,7 +485,6 @@ Point2D.prototype.set = function ( point2D ) {
 }
 
 function checkbox( x, y ) {
-    var that = rectangularNode( 30, 30 );
     var that = rectangularNode( 30, 30 );
     that.x = x;
     that.y = y;
