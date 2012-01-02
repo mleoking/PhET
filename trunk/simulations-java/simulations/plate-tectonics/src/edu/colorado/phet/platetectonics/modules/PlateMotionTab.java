@@ -16,6 +16,7 @@ import edu.colorado.phet.platetectonics.control.CrustChooserPanel;
 import edu.colorado.phet.platetectonics.control.CrustPiece;
 import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.PlateView;
@@ -80,7 +81,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         addGuiNode( crustChooserNode );
 
         // continental piece
-        OrthoPiccoloNode continentalPiece = new OrthoPiccoloNode( new CrustPiece( CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ), this, getCanvasTransform(),
+        OrthoPiccoloNode continentalPiece = new OrthoPiccoloNode( new CrustPiece( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ), this, getCanvasTransform(),
                                                                   new Property<ImmutableVector2D>(
                                                                           new ImmutableVector2D() ),
                                                                   mouseEventNotifier ) {{
@@ -92,7 +93,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiNodes.add( 0, continentalPiece );
 
         // young oceanic piece
-        OrthoPiccoloNode youngOceanicPiece = new OrthoPiccoloNode( new CrustPiece( 35, 0.5f ), this, getCanvasTransform(),
+        OrthoPiccoloNode youngOceanicPiece = new OrthoPiccoloNode( new CrustPiece( PlateType.YOUNG_OCEANIC, 35, 0.5f ), this, getCanvasTransform(),
                                                                    new Property<ImmutableVector2D>(
                                                                            new ImmutableVector2D() ),
                                                                    mouseEventNotifier ) {{
@@ -104,7 +105,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiNodes.add( 0, youngOceanicPiece );
 
         // old oceanic piece
-        OrthoPiccoloNode oldOceanicPiece = new OrthoPiccoloNode( new CrustPiece( 35, 0.4f ), this, getCanvasTransform(),
+        OrthoPiccoloNode oldOceanicPiece = new OrthoPiccoloNode( new CrustPiece( PlateType.OLD_OCEANIC, 35, 0.4f ), this, getCanvasTransform(),
                                                                  new Property<ImmutableVector2D>(
                                                                          new ImmutableVector2D() ),
                                                                  mouseEventNotifier ) {{
@@ -132,5 +133,28 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
     private ImmutableVector2F getOldOceanicOffset() {
         return getCrustOffset( crustChooserPanel.getOldOceanicCenter() );
+    }
+
+    public PlateMotionModel getPlateMotionModel() {
+        return (PlateMotionModel) getModel();
+    }
+
+    @Override public void droppedCrustPiece( OrthoPiccoloNode crustPieceNode ) {
+        PlateMotionModel model = getPlateMotionModel();
+        CrustPiece piece = (CrustPiece) crustPieceNode.getNode();
+        if ( crustPieceNode.position.get().getX() < getStageSize().getWidth() / 2 ) {
+            if ( !model.hasLeftPlate() ) {
+                model.dropLeftCrust( piece.type );
+                crustPieceNode.getParent().removeChild( crustPieceNode );
+                guiNodes.remove( crustPieceNode );
+            }
+        }
+        else {
+            if ( !model.hasRightPlate() ) {
+                model.dropRightCrust( piece.type );
+                crustPieceNode.getParent().removeChild( crustPieceNode );
+                guiNodes.remove( crustPieceNode );
+            }
+        }
     }
 }
