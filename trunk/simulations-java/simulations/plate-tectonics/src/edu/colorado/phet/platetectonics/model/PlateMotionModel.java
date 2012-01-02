@@ -72,7 +72,7 @@ public class PlateMotionModel extends PlateModel {
         leftCrustSamples.add( middleCrustSample );
         leftMantleSamples.add( middleMantleSample );
         for ( int i = 0; i < totalSamples; i++ ) {
-            float x = minX + ( maxX - minX ) * ( (float) i ) / ( (float) ( sideSamples - 1 ) );
+            float x = minX + ( maxX - minX ) * ( (float) i ) / ( (float) ( totalSamples - 1 ) );
             bottomSamples.add( new Sample( new ImmutableVector2F( x, simpleMantleBottom ) ) );
         }
 
@@ -148,14 +148,18 @@ public class PlateMotionModel extends PlateModel {
     private void updateRegions() {
         mantleTop[sideSamples] = middleMantleSample.position;
         leftCrustTop[sideSamples] = middleCrustSample.position;
+        leftMantleTop[sideSamples] = middleMantleSample.position;
         rightCrustTop[0] = middleCrustSample.position;
+        rightMantleTop[0] = middleMantleSample.position;
         for ( int i = 0; i < sideSamples; i++ ) {
             // left side
             mantleTop[i] = leftMantleSamples.get( i ).position;
+            leftMantleTop[i] = leftMantleSamples.get( i ).position;
             leftCrustTop[i] = leftCrustSamples.get( i ).position;
 
             // right side
             mantleTop[i + sideSamples + 1] = rightMantleSamples.get( i ).position;
+            rightMantleTop[i + 1] = rightMantleSamples.get( i ).position;
             rightCrustTop[i + 1] = rightCrustSamples.get( i ).position;
         }
     }

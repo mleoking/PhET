@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
@@ -31,6 +32,15 @@ public class PlateView extends GLNode {
         for ( Region region : model.getRegions() ) {
             addChild( new RegionNode( region, model, module ) );
         }
+
+        // handle regions when they are added
+        model.regionAdded.addListener( new VoidFunction1<Region>() {
+            @Override public void apply( Region region ) {
+                addChild( new RegionNode( region, model, module ) );
+            }
+        } );
+
+        // TODO: handle region removals
     }
 
     @Override protected void renderChildren( GLOptions options ) {
