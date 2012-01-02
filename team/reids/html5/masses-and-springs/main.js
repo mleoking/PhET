@@ -84,12 +84,14 @@ function imageNode( string, x, y ) {
     };
     that.draw = function ( context ) {
         context.drawImage( image, that.x, that.y );
-        if ( that.selected ) {
-            context.fillStyle = '#00f';
-            context.font = '30px sans-serif';
-            context.textBaseline = 'top';
-            context.fillText( 'dragging', that.x, that.y );
-        }
+
+        //For debugging
+//        if ( that.selected ) {
+//            context.fillStyle = '#00f';
+//            context.font = '30px sans-serif';
+//            context.textBaseline = 'top';
+//            context.fillText( 'dragging', that.x, that.y );
+//        }
     };
     return that;
 }
