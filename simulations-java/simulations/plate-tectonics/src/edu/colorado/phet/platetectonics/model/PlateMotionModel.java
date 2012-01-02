@@ -12,9 +12,11 @@ import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 public class PlateMotionModel extends PlateModel {
 
-    public static final float CONTINENTAL_NEW_DENSITY = 2750;
-    public static final float YOUNG_OCEANIC_DENSITY = 3000;
-    public static final float OLD_OCEANIC_DENSITY = 3070;
+    public static enum PlateType {
+        CONTINENTAL,
+        YOUNG_OCEANIC,
+        OLD_OCEANIC
+    }
 
     private final Terrain leftTerrain;
     private final Terrain rightTerrain;
@@ -35,11 +37,15 @@ public class PlateMotionModel extends PlateModel {
     private List<Sample> rightMantleSamples = new ArrayList<Sample>();
 
     private List<Sample> bottomSamples = new ArrayList<Sample>();
+    private final ImmutableVector2F[] leftCrustTop;
+    private final ImmutableVector2F[] rightCrustTop;
+    private final ImmutableVector2F[] leftMantleTop;
+    private final ImmutableVector2F[] rightMantleTop;
     private final ImmutableVector2F[] mantleTop;
     private final ImmutableVector2F[] mantleBottom;
 
-    private boolean hasLeftCrust = false;
-    private boolean hasRightCrust = false;
+    private PlateType leftPlateType = null;
+    private PlateType rightPlateType = null;
 
     public PlateMotionModel( final Bounds3D bounds ) {
         super( bounds );
@@ -56,8 +62,8 @@ public class PlateMotionModel extends PlateModel {
         rightCrustSamples.add( middleCrustSample );
         rightMantleSamples.add( middleMantleSample );
         for ( int i = 0; i < sideSamples; i++ ) {
-            float leftX = minX + ( centerX - minX ) * ( (float) i ) / (float) sideSamples;
-            float rightX = centerX + ( maxX - centerX ) * ( (float) ( i + 1 ) ) / (float) sideSamples;
+            float leftX = getLeftX( i );
+            float rightX = getRightX( i );
             leftCrustSamples.add( new Sample( new ImmutableVector2F( leftX, 0 ) ) );
             rightCrustSamples.add( new Sample( new ImmutableVector2F( rightX, 0 ) ) );
             leftMantleSamples.add( new Sample( new ImmutableVector2F( leftX, simpleMantleTop ) ) );
@@ -81,6 +87,10 @@ public class PlateMotionModel extends PlateModel {
         }};
         addTerrain( rightTerrain );
 
+        leftCrustTop = new ImmutableVector2F[sideSamples + 1];
+        rightCrustTop = new ImmutableVector2F[sideSamples + 1];
+        leftMantleTop = new ImmutableVector2F[sideSamples + 1];
+        rightMantleTop = new ImmutableVector2F[sideSamples + 1];
         mantleTop = new ImmutableVector2F[totalSamples];
         mantleBottom = new ImmutableVector2F[totalSamples];
 
@@ -95,21 +105,65 @@ public class PlateMotionModel extends PlateModel {
                                              new Constant<Double>( 0.0 ) ) );
     }
 
+    // i from 0 to sideSamples-1
+    private float getLeftX( int i ) {
+        return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) i ) / (float) sideSamples;
+    }
+
+    // i from 0 to sideSamples-1
+    private float getRightX( int i ) {
+        return bounds.getCenterX() + ( bounds.getMaxX() - bounds.getCenterX() ) * ( (float) ( i + 1 ) ) / (float) sideSamples;
+    }
+
+    public void dropLeftCrust( PlateType type ) {
+        // TODO: update the middle crust sample sometime
+        leftPlateType = type;
+        for ( int i = 0; i < sideSamples; i++ ) {
+            float x = getLeftX( i );
+            leftCrustSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustTop( type ) );
+            leftMantleSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustBottom( type ) );
+        }
+        updateRegions();
+        updateTerrain();
+        addRegion( new SimpleConstantRegion( Type.CRUST, leftCrustTop, leftMantleTop,
+                                             new Constant<Double>( (double) getFreshDensity( type ) ),
+                                             new Constant<Double>( 0.0 ) ) );
+    }
+
+    public void dropRightCrust( PlateType type ) {
+        // TODO: update the middle crust sample sometime
+        rightPlateType = type;
+        for ( int i = 0; i < sideSamples; i++ ) {
+            float x = getRightX( i );
+            rightCrustSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustTop( type ) );
+            rightMantleSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustBottom( type ) );
+        }
+        updateRegions();
+        updateTerrain();
+        addRegion( new SimpleConstantRegion( Type.CRUST, rightCrustTop, rightMantleTop,
+                                             new Constant<Double>( (double) getFreshDensity( type ) ),
+                                             new Constant<Double>( 0.0 ) ) );
+    }
+
     private void updateRegions() {
         mantleTop[sideSamples] = middleMantleSample.position;
+        leftCrustTop[sideSamples] = middleCrustSample.position;
+        rightCrustTop[0] = middleCrustSample.position;
         for ( int i = 0; i < sideSamples; i++ ) {
             // left side
             mantleTop[i] = leftMantleSamples.get( i ).position;
+            leftCrustTop[i] = leftCrustSamples.get( i ).position;
 
             // right side
             mantleTop[i + sideSamples + 1] = rightMantleSamples.get( i ).position;
+            rightCrustTop[i + 1] = rightCrustSamples.get( i ).position;
         }
     }
 
     private void updateTerrain() {
         // middle elevation is average between the two (for now)
-        float middleLeftY = ( hasLeftCrust ? leftCrustSamples : leftMantleSamples ).get( sideSamples - 1 ).position.y;
-        float middleRightY = ( hasRightCrust ? rightCrustSamples : rightMantleSamples ).get( 0 ).position.y;
+        float middleLeftY = ( hasLeftPlate() ? leftCrustSamples : leftMantleSamples ).get( sideSamples - 1 ).position.y;
+        float middleRightY = ( hasRightPlate() ? rightCrustSamples : rightMantleSamples ).get( 0 ).position.y;
         float middleElevation = ( middleLeftY + middleRightY ) / 2;
         for ( int row = 0; row < zSamples; row++ ) {
             leftTerrain.setElevation( middleElevation, sideSamples, row );
@@ -117,18 +171,65 @@ public class PlateMotionModel extends PlateModel {
         }
         for ( int column = 0; column < sideSamples; column++ ) {
             // left side
-            float leftElevation = hasLeftCrust ? leftCrustSamples.get( column ).position.y : leftMantleSamples.get( column ).position.y;
+            float leftElevation = hasLeftPlate() ? leftCrustSamples.get( column ).position.y : leftMantleSamples.get( column ).position.y;
             for ( int row = 0; row < zSamples; row++ ) {
                 // set the elevation for the whole column
                 leftTerrain.setElevation( leftElevation, column, row );
             }
 
             // right side
-            float rightElevation = hasRightCrust ? rightCrustSamples.get( column ).position.y : rightMantleSamples.get( column ).position.y;
+            float rightElevation = hasRightPlate() ? rightCrustSamples.get( column ).position.y : rightMantleSamples.get( column ).position.y;
             for ( int row = 0; row < zSamples; row++ ) {
                 rightTerrain.setElevation( rightElevation, column + 1, row );
             }
         }
+    }
+
+    public static float getFreshDensity( PlateType type ) {
+        switch( type ) {
+            case CONTINENTAL:
+                return 2750;
+            case YOUNG_OCEANIC:
+                return 3000;
+            case OLD_OCEANIC:
+                return 3070;
+            default:
+                throw new RuntimeException( "unknown type: " + type );
+        }
+    }
+
+    public static float getFreshCrustBottom( PlateType type ) {
+        switch( type ) {
+            case CONTINENTAL:
+                return -40000;
+            case YOUNG_OCEANIC:
+                return -10000;
+            case OLD_OCEANIC:
+                return -10000;
+            default:
+                throw new RuntimeException( "unknown type: " + type );
+        }
+    }
+
+    public static float getFreshCrustTop( PlateType type ) {
+        switch( type ) {
+            case CONTINENTAL:
+                return 5000;
+            case YOUNG_OCEANIC:
+                return -3000;
+            case OLD_OCEANIC:
+                return -3000;
+            default:
+                throw new RuntimeException( "unknown type: " + type );
+        }
+    }
+
+    public boolean hasLeftPlate() {
+        return leftPlateType != null;
+    }
+
+    public boolean hasRightPlate() {
+        return rightPlateType != null;
     }
 
     @Override public void update( double timeElapsed ) {
