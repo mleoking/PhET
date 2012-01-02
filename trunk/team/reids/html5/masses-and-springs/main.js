@@ -243,8 +243,8 @@ function init() {
             imageNode( "resources/ruler.png", 12, 51 ),
             fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
             textNode( "hello" ),
-            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} )
-    );
+            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} ),
+            checkbox( 300, 0 ) );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -429,4 +429,84 @@ Point2D.prototype.minus = function ( pt ) {
 
 Point2D.prototype.set = function ( point2D ) {
     this.setComponents( point2D.x, point2D.y );
+}
+
+function checkbox( x, y ) {
+    var that = rectangularNode( 30, 30 );
+    var that = rectangularNode( 30, 30 );
+    that.x = x;
+    that.y = y;
+    that.checkboxSelected = true;
+    that.draw = function ( context ) {
+        context.fillStyle = '#fff';
+        context.strokeStyle = '#88e';
+        context.lineWidth = 2;
+        roundRect( context, this.x, this.y, this.width, this.height, 7, true, true )
+
+        context.strokeStyle = '#000';
+        context.lineWidth = 4;
+        if ( this.checkboxSelected ) {
+            context.beginPath();
+            context.beginPath();
+            context.strokeStyle = '#222';
+            context.moveTo( this.x + 5, this.y + 5 );
+            context.lineTo( this.x + this.width - 5, this.y + this.width - 5 );
+            context.moveTo( this.x + this.width - 5, this.y + 5 );
+            context.lineTo( this.x + 5, this.y + this.height - 5 );
+            context.stroke();
+            context.closePath();
+        }
+    }
+
+    that.onTouchStart = function ( point ) {
+
+        //todo factor out
+        var contains = point.x >= that.x && point.x <= that.x + that.width && point.y >= that.y && point.y <= that.y + that.height;
+        if ( contains ) {
+            this.checkboxSelected = !this.checkboxSelected;
+            draw();
+        }
+    }
+    return that;
+}
+
+/**
+ * Draws a rounded rectangle using the current state of the canvas.
+ * If you omit the last three params, it will draw a rectangle
+ * outline with a 5 pixel border radius
+ * @param {CanvasRenderingContext2D} ctx
+ * @param {Number} x The top left x coordinate
+ * @param {Number} y The top left y coordinate
+ * @param {Number} width The width of the rectangle
+ * @param {Number} height The height of the rectangle
+ * @param {Number} radius The corner radius. Defaults to 5;
+ * @param {Boolean} fill Whether to fill the rectangle. Defaults to false.
+ * @param {Boolean} stroke Whether to stroke the rectangle. Defaults to true.
+ *
+ * @author http://js-bits.blogspot.com/2010/07/canvas-rounded-corner-rectangles.html
+ */
+function roundRect( ctx, x, y, width, height, radius, fill, stroke ) {
+    if ( typeof stroke == "undefined" ) {
+        stroke = true;
+    }
+    if ( typeof radius === "undefined" ) {
+        radius = 5;
+    }
+    ctx.beginPath();
+    ctx.moveTo( x + radius, y );
+    ctx.lineTo( x + width - radius, y );
+    ctx.quadraticCurveTo( x + width, y, x + width, y + radius );
+    ctx.lineTo( x + width, y + height - radius );
+    ctx.quadraticCurveTo( x + width, y + height, x + width - radius, y + height );
+    ctx.lineTo( x + radius, y + height );
+    ctx.quadraticCurveTo( x, y + height, x, y + height - radius );
+    ctx.lineTo( x, y + radius );
+    ctx.quadraticCurveTo( x, y, x + radius, y );
+    ctx.closePath();
+    if ( stroke ) {
+        ctx.stroke();
+    }
+    if ( fill ) {
+        ctx.fill();
+    }
 }
