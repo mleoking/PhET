@@ -1,9 +1,6 @@
 // Copyright 2002-2011, University of Colorado
-var touchInProgress = false;
 var canvas;
 var context;
-//var globals = new Array();
-var dragTarget = null;
 
 var rootNode = null;
 
@@ -15,14 +12,6 @@ function loadImage( string ) {
         draw();
     }
     return image;
-}
-
-function clearBackground( context ) {
-    context.save();
-    context.globalCompositeOperation = "source-over";
-    context.fillStyle = "rgb(255, 255, 153)";
-    context.fillRect( 0, 0, canvas.width, canvas.height );
-    context.restore();
 }
 
 function imageNode( string ) {
@@ -251,26 +240,11 @@ function onTouchStart( location ) {
 
 function onDrag( location ) {
     rootNode.onTouchMove( location );
-
-    if ( touchInProgress && dragTarget != null ) {
-        var position = location.minus( relativeGrabPoint );
-
-        //TODO: Convert global to local position
-        for ( var i = 0; i < pickPath.length; i++ ) {
-            position.x = position.x - pickPath[i].x;
-            position.y = position.y - pickPath[i].y;
-        }
-        dragTarget.setPosition( position );
-        javascript: console.log( "dragging to " + position );
-        draw();
-    }
+    draw();
 }
 
 function onTouchEnd( point ) {
     rootNode.onTouchEnd( point );
-    touchInProgress = false;
-    dragTarget = null;
-    relativeGrabPoint = null;
     draw();
 }
 
