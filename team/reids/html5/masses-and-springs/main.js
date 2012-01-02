@@ -116,7 +116,7 @@ function vbox( args ) {
         }
     }
 
-    vertical( args.children, 10 );
+    vertical( args.children, 30 );
 
     //compute width and height
     that.width = 0;
@@ -253,40 +253,9 @@ function init() {
     globals.springs.push( spring( "2", 300 ) );
     globals.springs.push( spring( "3", 400 ) );
 
-//    var rootComponents = new Array(
-//            new ImageSprite( "resources/red-mass.png", 114, 496 ),
-//            new ImageSprite( "resources/green-mass.png", 210, 577 ),
-//            new ImageSprite( "resources/gold-mass.png", 276, 541 ),
-//            new ImageSprite( "resources/gram-50.png", 577, 590 ),
-//            new ImageSprite( "resources/gram-100.png", 392, 562 ),
-//            new ImageSprite( "resources/gram-250.png", 465, 513 ),
-//            new ImageSprite( "resources/ruler.png", 12, 51 ),
-//            new Node( { components:new Array( new Label( "Friction" ), new SliderKnob( 0, 0 ) ), x:700, y:80, layout:vertical} ),
-//            new Node( { components:new Array( new Label( "Spring 3 Smoothness" ), new SliderKnob( 0, 0 ) ), x:700, y:150, layout:vertical} ),
-//            new Node( { components:new Array( new CheckBox(), new Label( "Stopwatch" ) ), x:700, y:300, layout:horizontal} ),
-//            new Node( { components:new Array( new CheckBox(), new Label( "Sound" ) ), x:700, y:350, layout:horizontal} )
-//    );
-//
-//    //Add to the nodes for rendering
-//    for ( var i = 0; i < globals.springs.length; i++ ) {
-//        rootComponents.push( globals.springs[i] );
-//    }
-//    globals.rootNode = new Node( { components:rootComponents, x:0, y:0, layout:absolute } );
-
-    //Init label components after canvas non-null
-//    nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
-
-
-    //Function that returns a function for rending from an image
-//    function drawImageFromString( string ) {
-//        var image = loadImage( string );
-//        return function drawImage( context ) {
-//            context.drawImage( image, 0, 0 );
-//        };
-//    }
-
     var stopwatchCheckBox = hbox( {children:new Array( checkbox( 0, 0 ), textNode( "Stopwatch" ) ), x:0, y:0} );
     var soundCheckBox = hbox( {children:new Array( checkbox( 0, 0 ), textNode( "Sound" ) ), x:0, y:0} );
+    var frictionSlider = vbox( {children:new Array( textNode( "Friction" ), slider() ), x:0, y:0} );
     var rootNodeComponents = new Array(
             imageNode( "resources/red-mass.png", 114, 496 ),
             imageNode( "resources/green-mass.png", 210, 577 ),
@@ -295,11 +264,14 @@ function init() {
             imageNode( "resources/gram-100.png", 392, 562 ),
             imageNode( "resources/gram-250.png", 465, 513 ),
             imageNode( "resources/ruler.png", 12, 51 ),
+//            slider(),
+//            imageNode( "resources/bonniemsliderthumb.png", 100, 100 ),
+//            sliderTrack(),
 ////            fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
 ////            textNode( "hello" ),
 ////            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} ),
 //            hbox( {children:new Array( checkbox( 0, 0 ), checkbox( 0, 0 ), checkbox( 0, 0 ) ), x:600, y:0} ),
-            vbox( {children:new Array( stopwatchCheckBox, soundCheckBox ), x:700, y:100} ) );
+            vbox( {children:new Array( frictionSlider, stopwatchCheckBox, soundCheckBox ), x:700, y:100} ) );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -486,6 +458,30 @@ Point2D.prototype.set = function ( point2D ) {
     this.setComponents( point2D.x, point2D.y );
 }
 
+function sliderTrack() {
+    var that = rectangularNode( 250, 5 );
+    that.knobX = 0;
+    that.image = new Image();
+    that.image.src = "resources/bonniemslider.png";
+
+    that.draw = function ( context ) {
+        //draw gray bar
+        context.drawImage( that.image, 20, 24, 1, 9, that.x + 9, that.y + 8, that.width - 18, 9 );
+
+        //draw right cap
+        context.drawImage( that.image, 10, 24, 9, 9, that.x + that.width - 9, that.y + 8, 9, 9 );
+
+        // draw left cap
+        context.drawImage( that.image, 0, 24, 9, 9, that.x, that.y + 8, 9, 9 );
+
+        // draw blue bar
+        if ( that.knobX > 9 ) {
+            context.drawImage( that.image, 22, 24, 1, 9, that.x + 9, that.y + 8, that.knobX, 9 );
+        }
+    };
+    return that;
+}
+
 function checkbox( x, y ) {
     var that = rectangularNode( 30, 30 );
     that.x = x;
@@ -563,4 +559,31 @@ function roundRect( ctx, x, y, width, height, radius, fill, stroke ) {
     if ( fill ) {
         ctx.fill();
     }
+}
+
+function clamp( min, value, max ) {
+    var minClamp = Math.min( value, max );
+    var maxClamp = Math.max( min, minClamp );
+    return maxClamp;
+}
+
+function slider() {
+    var track = sliderTrack();
+    track.onTouchmove = function ( point ) {
+    };
+    var knob = imageNode( "resources/bonniemsliderthumb.png", 0, 0 );
+    var that = compositeNode( new Array( track, knob ) );
+
+    knob.onTouchMove = function ( point ) {
+        console.log( "touchmove in slider knob" );
+        if ( knob.selected ) {
+            knob.x = clamp( 0, point.x + knob.objectTouchPoint.x - knob.initTouchPoint.x, track.width );
+            track.knobX = knob.x;
+        }
+    };
+
+    //compute width and height
+    that.width = track.width;
+    that.height = knob.height;
+    return that;
 }
