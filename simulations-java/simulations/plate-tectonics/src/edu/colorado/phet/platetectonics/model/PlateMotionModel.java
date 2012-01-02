@@ -1,230 +1,140 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function0.Constant;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.regions.Region.Type;
-import edu.colorado.phet.platetectonics.model.regions.SimpleRegion;
-import edu.colorado.phet.platetectonics.util.Grid3D;
+import edu.colorado.phet.platetectonics.model.regions.SimpleConstantRegion;
+import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 public class PlateMotionModel extends PlateModel {
 
-    private final Terrain terrain;
-    private int rightCrustOffset;
+    public static final float CONTINENTAL_NEW_DENSITY = 2750;
+    public static final float YOUNG_OCEANIC_DENSITY = 3000;
+    public static final float OLD_OCEANIC_DENSITY = 3070;
 
-    public PlateMotionModel( final Grid3D grid ) {
-        super( grid );
+    private final Terrain leftTerrain;
+    private final Terrain rightTerrain;
 
-        terrain = new Terrain( 255, 32 ) {{
-            setXBounds( grid.getBounds().getMinX(), grid.getBounds().getMaxX() );
-            setZBounds( grid.getBounds().getMinZ(), grid.getBounds().getMaxZ() );
-        }};
-        addTerrain( terrain );
-        updateTerrain();
+    private float simpleMantleTop = -10000; // 10km depth
+    private float simpleMantleBottom = -200000; // 200km depth
 
+    private final int sideSamples = 127;
+    private final int totalSamples = 2 * sideSamples + 1;
+    private final int zSamples = 32;
 
-        ImmutableVector2F[] leftCrustTop = new ImmutableVector2F[terrain.numXSamples];
-        ImmutableVector2F[] leftCrustBottom = new ImmutableVector2F[terrain.numXSamples];
-        ImmutableVector2F[] leftLithosphereBottom = new ImmutableVector2F[terrain.numXSamples];
-        ImmutableVector2F[] lowerBounds = new ImmutableVector2F[terrain.numXSamples];
+    private List<Sample> leftCrustSamples = new ArrayList<Sample>();
+    private Sample middleCrustSample;
+    private List<Sample> rightCrustSamples = new ArrayList<Sample>();
 
-        rightCrustOffset = 0;
+    private List<Sample> leftMantleSamples = new ArrayList<Sample>();
+    private Sample middleMantleSample;
+    private List<Sample> rightMantleSamples = new ArrayList<Sample>();
 
-        // initialize subducting plate coordinates
-        for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
-            float x = terrain.xData[xIndex];
-            float minX = terrain.xData[0];
-            if ( x <= 0 ) {
-                rightCrustOffset = xIndex;
-            }
-            float topElevation = getLeftCrustTopElevation( x );
-            leftCrustTop[xIndex] = new ImmutableVector2F( x, topElevation );
-            leftCrustBottom[xIndex] = new ImmutableVector2F( Math.max( x - 2000, minX ), topElevation - 7000 );
-            leftLithosphereBottom[xIndex] = new ImmutableVector2F( Math.max( x - 17000, minX ), topElevation - 57000 );
-            if ( x < 0 ) {
-                leftLithosphereBottom[xIndex] = new ImmutableVector2F(
-                        leftLithosphereBottom[xIndex].x, // original x
-                        leftLithosphereBottom[xIndex].getY() - x / 75 ); // offset y
-            }
-            lowerBounds[xIndex] = new ImmutableVector2F( x, grid.getBounds().getMinY() - 500000 );
+    private List<Sample> bottomSamples = new ArrayList<Sample>();
+    private final ImmutableVector2F[] mantleTop;
+    private final ImmutableVector2F[] mantleBottom;
+
+    private boolean hasLeftCrust = false;
+    private boolean hasRightCrust = false;
+
+    public PlateMotionModel( final Bounds3D bounds ) {
+        super( bounds );
+
+        final float minX = bounds.getMinX();
+        final float maxX = bounds.getMaxX();
+        final float centerX = bounds.getCenterX();
+
+        final float minZ = bounds.getMinZ();
+        final float maxZ = bounds.getMaxZ();
+
+        middleCrustSample = new Sample( new ImmutableVector2F( centerX, 0 ) );
+        middleMantleSample = new Sample( new ImmutableVector2F( centerX, simpleMantleTop ) );
+        rightCrustSamples.add( middleCrustSample );
+        rightMantleSamples.add( middleMantleSample );
+        for ( int i = 0; i < sideSamples; i++ ) {
+            float leftX = minX + ( centerX - minX ) * ( (float) i ) / (float) sideSamples;
+            float rightX = centerX + ( maxX - centerX ) * ( (float) ( i + 1 ) ) / (float) sideSamples;
+            leftCrustSamples.add( new Sample( new ImmutableVector2F( leftX, 0 ) ) );
+            rightCrustSamples.add( new Sample( new ImmutableVector2F( rightX, 0 ) ) );
+            leftMantleSamples.add( new Sample( new ImmutableVector2F( leftX, simpleMantleTop ) ) );
+            rightMantleSamples.add( new Sample( new ImmutableVector2F( rightX, simpleMantleTop ) ) );
+        }
+        leftCrustSamples.add( middleCrustSample );
+        leftMantleSamples.add( middleMantleSample );
+        for ( int i = 0; i < totalSamples; i++ ) {
+            float x = minX + ( maxX - minX ) * ( (float) i ) / ( (float) ( sideSamples - 1 ) );
+            bottomSamples.add( new Sample( new ImmutableVector2F( x, simpleMantleBottom ) ) );
         }
 
-        // lazy-blur the left lithosphere bottom
-        boxBlurY( leftLithosphereBottom );
-        boxBlurY( leftLithosphereBottom );
-        boxBlurY( leftLithosphereBottom );
-        boxBlurY( leftLithosphereBottom );
-        boxBlurY( leftLithosphereBottom );
-        boxBlurY( leftLithosphereBottom );
+        leftTerrain = new Terrain( sideSamples + 1, zSamples ) {{
+            setXBounds( minX, centerX );
+            setZBounds( minZ, maxZ );
+        }};
+        addTerrain( leftTerrain );
+        rightTerrain = new Terrain( sideSamples + 1, zSamples ) {{
+            setXBounds( centerX, maxX );
+            setZBounds( minZ, maxZ );
+        }};
+        addTerrain( rightTerrain );
 
-        // left crust region
-        addRegion( new SimpleRegion( Type.CRUST, leftCrustTop, leftCrustBottom ) {
-            @Override public float getDensity( ImmutableVector2F position ) {
-                return 2700; // TODO!
-            }
+        mantleTop = new ImmutableVector2F[totalSamples];
+        mantleBottom = new ImmutableVector2F[totalSamples];
 
-            @Override public float getTemperature( ImmutableVector2F position ) {
-                return 0;
-            }
+        updateTerrain();
+        updateRegions();
 
-            @Override public boolean isStatic() {
-                return true;
-            }
-        } );
+        for ( int i = 0; i < totalSamples; i++ ) {
+            mantleBottom[i] = bottomSamples.get( i ).position;
+        }
 
-        addRegion( new SimpleRegion( Type.UPPER_MANTLE, leftCrustBottom, leftLithosphereBottom ) {
-            @Override public float getDensity( ImmutableVector2F position ) {
-                return 3300; // TODO!
-            }
-
-            @Override public float getTemperature( ImmutableVector2F position ) {
-                return 0;
-            }
-
-            @Override public boolean isStatic() {
-                return true;
-            }
-        } );
-
-        addRegion( new SimpleRegion( Type.UPPER_MANTLE, leftLithosphereBottom, lowerBounds ) {
-            @Override public float getDensity( ImmutableVector2F position ) {
-                return 3500; // TODO!
-            }
-
-            @Override public float getTemperature( ImmutableVector2F position ) {
-                return 0;
-            }
-
-            @Override public boolean isStatic() {
-                return true;
-            }
-        } );
+        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE, mantleTop, mantleBottom, new Constant<Double>( 3700.0 ),
+                                             new Constant<Double>( 0.0 ) ) );
     }
 
-    private int eruptZIndex = 0;
-    private int eruptCounter = 0;
-    private final Random random = new Random( System.currentTimeMillis() );
+    private void updateRegions() {
+        mantleTop[sideSamples] = middleMantleSample.position;
+        for ( int i = 0; i < sideSamples; i++ ) {
+            // left side
+            mantleTop[i] = leftMantleSamples.get( i ).position;
+
+            // right side
+            mantleTop[i + sideSamples + 1] = rightMantleSamples.get( i ).position;
+        }
+    }
+
+    private void updateTerrain() {
+        // middle elevation is average between the two (for now)
+        float middleLeftY = ( hasLeftCrust ? leftCrustSamples : leftMantleSamples ).get( sideSamples - 1 ).position.y;
+        float middleRightY = ( hasRightCrust ? rightCrustSamples : rightMantleSamples ).get( 0 ).position.y;
+        float middleElevation = ( middleLeftY + middleRightY ) / 2;
+        for ( int row = 0; row < zSamples; row++ ) {
+            leftTerrain.setElevation( middleElevation, sideSamples, row );
+            rightTerrain.setElevation( middleElevation, 0, row );
+        }
+        for ( int column = 0; column < sideSamples; column++ ) {
+            // left side
+            float leftElevation = hasLeftCrust ? leftCrustSamples.get( column ).position.y : leftMantleSamples.get( column ).position.y;
+            for ( int row = 0; row < zSamples; row++ ) {
+                // set the elevation for the whole column
+                leftTerrain.setElevation( leftElevation, column, row );
+            }
+
+            // right side
+            float rightElevation = hasRightCrust ? rightCrustSamples.get( column ).position.y : rightMantleSamples.get( column ).position.y;
+            for ( int row = 0; row < zSamples; row++ ) {
+                rightTerrain.setElevation( rightElevation, column + 1, row );
+            }
+        }
+    }
 
     @Override public void update( double timeElapsed ) {
         super.update( timeElapsed );
-        if ( eruptCounter++ > 2000 ) {
-            eruptCounter = 0;
-            eruptZIndex = random.nextInt( terrain.numZSamples );
-        }
-//        erupt( rightCrustOffset + 15, eruptZIndex );
-//        erode();
-//        smootheRightCrust();
-//        randomCrustStuff();
 
         modelChanged.updateListeners();
-    }
-
-    private void randomCrustStuff() {
-        for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
-            for ( int xIndex = rightCrustOffset + 2; xIndex < terrain.numXSamples; xIndex++ ) {
-                float elevation = terrain.getElevation( xIndex, zIndex );
-                if ( elevation < 30 ) {
-                    continue;
-                }
-                terrain.setElevation( elevation + 50 * ( random.nextFloat() - 0.499f ), xIndex, zIndex );
-            }
-        }
-    }
-
-    private void erupt( int xIndex, int zIndex ) {
-        terrain.setElevation( terrain.getElevation( xIndex, zIndex ) + 150, xIndex, zIndex );
-    }
-
-    private void erode( int xFrom, int zFrom, int xTo, int zTo, float ratio ) {
-        float fromElevation = terrain.getElevation( xFrom, zFrom );
-        float toElevation = terrain.getElevation( xTo, zTo );
-        float difference = ( fromElevation - toElevation ) * ratio;
-        terrain.setElevation( fromElevation - difference, xFrom, zFrom );
-        terrain.setElevation( toElevation + difference, xTo, zTo );
-    }
-
-    private void erode() {
-        for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
-            for ( int xIndex = rightCrustOffset + 2; xIndex < terrain.numXSamples; xIndex++ ) {
-                float elevation = terrain.getElevation( xIndex, zIndex );
-                if ( elevation < 30 ) {
-                    continue;
-                }
-                erode( xIndex - 1, zIndex, xIndex, zIndex, 0.00001f );
-                if ( zIndex > 1 ) {
-                    erode( xIndex - 1, zIndex - 1, xIndex, zIndex, 0.00001f );
-                }
-                if ( zIndex < terrain.numZSamples - 1 ) {
-                    erode( xIndex - 1, zIndex + 1, xIndex, zIndex, 0.00001f );
-                }
-            }
-        }
-    }
-
-    private void smootheRightCrust() {
-        for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
-            for ( int xIndex = rightCrustOffset + 1; xIndex < terrain.numXSamples; xIndex++ ) {
-                float elevation = terrain.getElevation( xIndex, zIndex );
-                if ( elevation < 30 ) {
-                    continue;
-                }
-                float newRatio = 0.001f;
-                terrain.setElevation( elevation * ( 1 - newRatio ) + terrain.getElevation( xIndex - 1, zIndex ) * newRatio, xIndex, zIndex );
-            }
-        }
-    }
-
-    private void boxBlurY( ImmutableVector2F[] vertexArray ) {
-        for ( int i = 2; i < vertexArray.length - 2; i++ ) {
-            vertexArray[i].y = (
-                                       vertexArray[i - 2].getY() +
-                                       vertexArray[i - 1].getY() +
-                                       vertexArray[i].getY() +
-                                       vertexArray[i + 1].getY() +
-                                       vertexArray[i + 2].getY()
-                               ) / 5;
-        }
-    }
-
-    private float trenchDepth = -11000;
-    private float oceanSlope = -0.005f;
-
-    private void updateTerrain() {
-        for ( int xIndex = 0; xIndex < terrain.numXSamples; xIndex++ ) {
-            float x = terrain.xData[xIndex];
-            for ( int zIndex = 0; zIndex < terrain.numZSamples; zIndex++ ) {
-                float z = terrain.zData[zIndex];
-
-                if ( x < 0 ) {
-                    terrain.setElevation( getLeftCrustTopElevation( x ), xIndex, zIndex );
-                }
-                else {
-                    terrain.setElevation( (float) ( trenchDepth + Math.atan( x / 20000 ) * 9000 ), xIndex, zIndex );
-                }
-            }
-        }
-    }
-
-    private float trenchPointSlope = -0.5f;
-    private float finalSlope = -1;
-    private float leftXScale = 8000;
-    private float rightXScale = 80000;
-
-    private float getLeftCrustTopElevation( float x ) {
-        if ( x <= 0 ) {
-            return ( (float) ( trenchDepth + oceanSlope * x + Math.atan( x / leftXScale ) * leftXScale * trenchPointSlope ) );
-        }
-        else {
-            // used mathematica to integrate: Integrate[((-ArcTan[x/rightXScale] + \[Pi]/2)/(\[Pi]/2))*(trenchPointSlope - finalSlope) + finalSlope,x] // InputForm
-            // then offset so at x=0 it is trenchDepth
-            return (float) ( ( Math.PI * trenchPointSlope * x +
-                               2 * ( finalSlope - trenchPointSlope ) * x * Math.atan( x / rightXScale ) -
-                               rightXScale * ( finalSlope - trenchPointSlope ) *
-                               Math.log( rightXScale * rightXScale + x * x ) ) /
-                             Math.PI + ( ( rightXScale * ( finalSlope - trenchPointSlope ) *
-                                           Math.log( rightXScale * rightXScale ) ) / Math.PI ) + trenchDepth );
-        }
     }
 
     @Override public double getElevation( double x, double z ) {
@@ -242,6 +152,14 @@ public class PlateMotionModel extends PlateModel {
     public static double getSimplifiedMantleTemperature( double y ) {
         double depth = -y;
         return 273.15 + ( 0.0175 - 3.04425e-9 * depth ) * depth; // based on T0 + (q00/k)*y - (rho*H/(2*k))*y^2 from model doc
+    }
+
+    public static class Sample {
+        public ImmutableVector2F position;
+
+        public Sample( ImmutableVector2F position ) {
+            this.position = position;
+        }
     }
 
     public static void main( String[] args ) {

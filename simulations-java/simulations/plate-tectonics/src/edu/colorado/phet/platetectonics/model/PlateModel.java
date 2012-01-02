@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
-import edu.colorado.phet.platetectonics.util.Grid3D;
 
 /**
  * All units in SI unless otherwise noted
@@ -21,9 +20,6 @@ public abstract class PlateModel {
     public final Notifier<Terrain> terrainAdded = new Notifier<Terrain>();
     public final Notifier<Region> regionAdded = new Notifier<Region>();
 
-    // grid used mainly for the (x,z) terrain and elevation in general
-    public final Grid3D grid;
-
     // full bounds of the simulated model
     public final Bounds3D bounds;
 
@@ -33,9 +29,8 @@ public abstract class PlateModel {
     // regions model the interior of the earth in the z=0 plane
     private final List<Region> regions = new ArrayList<Region>();
 
-    protected PlateModel( Grid3D grid ) {
-        this.grid = grid;
-        this.bounds = grid.getBounds();
+    protected PlateModel( final Bounds3D bounds ) {
+        this.bounds = bounds;
     }
 
     public abstract double getElevation( double x, double z );
@@ -114,6 +109,7 @@ public abstract class PlateModel {
     *----------------------------------------------------------------------------*/
 
     public static final float EARTH_RADIUS = 6371000;
+    public static final float CENTER_OF_EARTH_Y = -PlateModel.EARTH_RADIUS;
     public static final ImmutableVector3F EARTH_CENTER = new ImmutableVector3F( 0, -EARTH_RADIUS, 0 );
     public static final ImmutableVector3F RADIAL_Z_0 = new ImmutableVector3F( 1, 1, 0 );
 

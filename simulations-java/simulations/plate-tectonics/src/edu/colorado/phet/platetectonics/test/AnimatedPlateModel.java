@@ -13,7 +13,7 @@ public class AnimatedPlateModel extends PlateModel {
     private final Terrain terrain;
 
     public AnimatedPlateModel( final Grid3D grid ) {
-        super( grid );
+        super( grid.getBounds() );
 
         terrain = new Terrain( 256, 32 ) {{
             setXBounds( grid.getBounds().getMinX(), grid.getBounds().getMaxX() );

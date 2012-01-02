@@ -22,7 +22,6 @@ import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
  */
 public class CrustModel extends PlateModel {
 
-    public static final float CENTER_OF_EARTH_Y = -PlateModel.EARTH_RADIUS;
     public static final float INNER_OUTER_CORE_BOUNDARY_Y = -5180000;
     public static final float MANTLE_CORE_BOUNDARY_Y = -2921000;
     public static final float UPPER_LOWER_MANTLE_BOUNDARY_Y = -750000;
@@ -107,7 +106,7 @@ public class CrustModel extends PlateModel {
     };
 
     public CrustModel( final Grid3D grid ) {
-        super( grid );
+        super( grid.getBounds() );
         final Bounds3D bounds = grid.getBounds();
 
         // update when anything is modified

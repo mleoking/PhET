@@ -86,4 +86,12 @@ public class Bounds3D {
     public ImmutableVector3F getCenter() {
         return getPosition().plus( getExtent() ).times( 0.5f );
     }
+
+    public float getCenterX() {
+        return getCenter().x;
+    }
+
+    public float getCenterY() {
+        return getCenter().y;
+    }
 }

@@ -49,7 +49,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         // create the model and terrain
 //        model = new AnimatedPlateModel( grid );
-        setModel( new PlateMotionModel( grid ) );
+        setModel( new PlateMotionModel( grid.getBounds() ) );
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
