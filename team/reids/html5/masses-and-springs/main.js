@@ -65,10 +65,12 @@ function textNode( string ) {
     return that;
 }
 
-function imageNode( string ) {
+function imageNode( string, x, y ) {
     var image = loadImage( string );
 
     var that = rectangularNode( image.width, image.height );
+    that.x = x;
+    that.y = y;
     that.image = image;
     that.image.onload = function () {
         that.width = that.image.width;
@@ -231,9 +233,13 @@ function init() {
 //    }
 
     rootNode = compositeNode( new Array(
-            imageNode( "resources/red-mass.png" ),
-            imageNode( "resources/green-mass.png" ),
-            imageNode( "resources/gold-mass.png" ),
+            imageNode( "resources/red-mass.png", 114, 496 ),
+            imageNode( "resources/green-mass.png", 210, 577 ),
+            imageNode( "resources/gold-mass.png", 276, 541 ),
+            imageNode( "resources/gram-50.png", 577, 590 ),
+            imageNode( "resources/gram-100.png", 392, 562 ),
+            imageNode( "resources/gram-250.png", 465, 513 ),
+            imageNode( "resources/ruler.png", 12, 51 ),
             fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
             textNode( "hello" ),
             vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} )
