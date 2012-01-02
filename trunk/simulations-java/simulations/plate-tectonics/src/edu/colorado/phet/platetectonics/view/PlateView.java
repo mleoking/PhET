@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
@@ -9,7 +11,6 @@ import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.util.Grid3D;
 
 /**
  * A view (node) that displays everything physical related to a plate model, within the bounds
@@ -17,14 +18,31 @@ import edu.colorado.phet.platetectonics.util.Grid3D;
  */
 public class PlateView extends GLNode {
 
-    public PlateView( final PlateModel model, final PlateTectonicsTab module, final Grid3D grid ) {
+    // by default, show water
+    public PlateView( final PlateModel model, final PlateTectonicsTab module ) {
+        this( model, module, new Property<Boolean>( true ) );
+    }
+
+    public PlateView( final PlateModel model, final PlateTectonicsTab module, final Property<Boolean> showWater ) {
         // add all of the terrain
-        for ( Terrain terrain : model.getTerrains() ) {
+        for ( final Terrain terrain : model.getTerrains() ) {
             addChild( new TerrainNode( terrain, model, module ) ); // TODO: strip out model reference? a lot of unneeded stuff
 
             // only include water nodes if it wants water
             if ( terrain.hasWater() ) {
-                addChild( new WaterNode( terrain, model, module ) );
+                final WaterNode waterNode = new WaterNode( terrain, model, module );
+                showWater.addObserver( new SimpleObserver() {
+                    @Override public void update() {
+                        if ( showWater.get() ) {
+                            addChild( waterNode );
+                        }
+                        else {
+                            if ( waterNode.getParent() != null ) {
+                                removeChild( waterNode );
+                            }
+                        }
+                    }
+                } );
             }
         }
 

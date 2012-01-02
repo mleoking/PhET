@@ -58,7 +58,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
-        sceneLayer.addChild( new PlateView( getModel(), this, grid ) );
+        sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
 
         /*---------------------------------------------------------------------------*
          * manual / automatic switch

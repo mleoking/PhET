@@ -66,7 +66,7 @@ public class CrustTab extends PlateTectonicsTab {
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         // TODO: improve the plate view
-        sceneLayer.addChild( new PlateView( getModel(), this, grid ) );
+        sceneLayer.addChild( new PlateView( getModel(), this ) );
 
         final Function1<ImmutableVector3F, ImmutableVector3F> flatModelToView = new Function1<ImmutableVector3F, ImmutableVector3F>() {
             @Override public ImmutableVector3F apply( ImmutableVector3F v ) {
