@@ -218,7 +218,11 @@ public class CrustTab extends PlateTectonicsTab {
          * options panel
          *----------------------------------------------------------------------------*/
         addGuiNode( new OrthoPiccoloNode(
-                new ControlPanelNode( new OptionsPanel( showLabels ) ),
+                new ControlPanelNode( new OptionsPanel( showLabels, new Runnable() {
+                    @Override public void run() {
+                        resetAll();
+                    }
+                } ) ),
                 CrustTab.this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {

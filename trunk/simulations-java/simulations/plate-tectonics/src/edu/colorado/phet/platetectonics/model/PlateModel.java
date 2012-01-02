@@ -19,6 +19,7 @@ public abstract class PlateModel {
     public final VoidNotifier modelChanged = new VoidNotifier();
     public final Notifier<Terrain> terrainAdded = new Notifier<Terrain>();
     public final Notifier<Region> regionAdded = new Notifier<Region>();
+    public final Notifier<Region> regionRemoved = new Notifier<Region>();
 
     // full bounds of the simulated model
     public final Bounds3D bounds;
@@ -43,6 +44,10 @@ public abstract class PlateModel {
 
     }
 
+    public void resetAll() {
+
+    }
+
     public void addTerrain( Terrain terrain ) {
         terrains.add( terrain );
         terrainAdded.updateListeners( terrain );
@@ -55,6 +60,11 @@ public abstract class PlateModel {
     public void addRegion( Region region ) {
         regions.add( region );
         regionAdded.updateListeners( region );
+    }
+
+    public void removeRegion( Region region ) {
+        regions.remove( region );
+        regionRemoved.updateListeners( region );
     }
 
     public List<Region> getRegions() {

@@ -2,6 +2,8 @@
 package edu.colorado.phet.platetectonics.modules;
 
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.lwjgl.input.Mouse;
 
@@ -38,6 +40,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
     private final Property<Boolean> showLabels = new Property<Boolean>( false );
     private final Property<Boolean> showWater = new Property<Boolean>( false );
+
+    private final List<OrthoPiccoloNode> placedPieces = new ArrayList<OrthoPiccoloNode>();
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
@@ -171,7 +175,11 @@ public class PlateMotionTab extends PlateTectonicsTab {
         * options panel
         *----------------------------------------------------------------------------*/
         addGuiNode( new OrthoPiccoloNode(
-                new ControlPanelNode( new OptionsPanel( showLabels, true, showWater ) ),
+                new ControlPanelNode( new OptionsPanel( showLabels, true, showWater, new Runnable() {
+                    @Override public void run() {
+                        resetAll();
+                    }
+                } ) ),
                 this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {
@@ -222,6 +230,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 if ( !model.hasLeftPlate() ) {
                     model.dropLeftCrust( piece.type );
                     crustPieceNode.getParent().removeChild( crustPieceNode );
+                    placedPieces.add( crustPieceNode );
                     guiNodes.remove( crustPieceNode );
                 }
                 else {
@@ -232,12 +241,29 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 if ( !model.hasRightPlate() ) {
                     model.dropRightCrust( piece.type );
                     crustPieceNode.getParent().removeChild( crustPieceNode );
+                    placedPieces.add( crustPieceNode );
                     guiNodes.remove( crustPieceNode );
                 }
                 else {
                     crustPieceNode.position.reset();
                 }
             }
+        }
+    }
+
+    @Override public void resetAll() {
+        super.resetAll();
+
+        // TODO: this is probably buggy?
+        showLabels.reset();
+        showWater.reset();
+        isAutoMode.reset();
+
+        for ( OrthoPiccoloNode placedPiece : placedPieces ) {
+            // add in to the front
+            guiNodes.add( 0, placedPiece );
+            placedPiece.position.reset();
+            crustPieceLayer.addChild( placedPiece );
         }
     }
 

@@ -13,6 +13,9 @@ import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 public class PlateMotionModel extends PlateModel {
 
+    private SimpleConstantRegion leftCrustRegion;
+    private SimpleConstantRegion rightCrustRegion;
+
     public static enum PlateType {
         CONTINENTAL,
         YOUNG_OCEANIC,
@@ -108,6 +111,35 @@ public class PlateMotionModel extends PlateModel {
                                              new Constant<Double>( 0.0 ) ) );
     }
 
+    @Override public void resetAll() {
+        super.resetAll();
+
+        if ( leftCrustRegion != null ) {
+            removeRegion( leftCrustRegion );
+            leftCrustRegion = null;
+        }
+        leftPlateType.reset();
+
+        if ( rightCrustRegion != null ) {
+            removeRegion( rightCrustRegion );
+            rightCrustRegion = null;
+        }
+        rightPlateType.reset();
+
+        // TODO: refactor this, since it is used in init
+        leftCrustBottomSamples.clear();
+        rightCrustBottomSamples.clear();
+        for ( int i = 0; i < sideCount; i++ ) {
+            float leftX = getLeftX( i );
+            float rightX = getRightX( i );
+            leftCrustBottomSamples.add( new Sample( new ImmutableVector2F( leftX, SIMPLE_MANTLE_TOP_Y ) ) );
+            rightCrustBottomSamples.add( new Sample( new ImmutableVector2F( rightX, SIMPLE_MANTLE_TOP_Y ) ) );
+        }
+
+        updateRegions();
+        updateTerrain();
+    }
+
     // i from 0 to sideCount-1
     private float getLeftX( int i ) {
         return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) i ) / (float) ( sideCount - 1 );
@@ -128,9 +160,10 @@ public class PlateMotionModel extends PlateModel {
         }
         updateRegions();
         updateTerrain();
-        addRegion( new SimpleConstantRegion( Type.CRUST, leftCrustTop, leftCrustBottom,
-                                             new Constant<Double>( (double) getFreshDensity( type ) ),
-                                             new Constant<Double>( 0.0 ) ) );
+        leftCrustRegion = new SimpleConstantRegion( Type.CRUST, leftCrustTop, leftCrustBottom,
+                                                    new Constant<Double>( (double) getFreshDensity( type ) ),
+                                                    new Constant<Double>( 0.0 ) );
+        addRegion( leftCrustRegion );
     }
 
     public void dropRightCrust( PlateType type ) {
@@ -143,9 +176,10 @@ public class PlateMotionModel extends PlateModel {
         }
         updateRegions();
         updateTerrain();
-        addRegion( new SimpleConstantRegion( Type.CRUST, rightCrustTop, rightCrustBottom,
-                                             new Constant<Double>( (double) getFreshDensity( type ) ),
-                                             new Constant<Double>( 0.0 ) ) );
+        rightCrustRegion = new SimpleConstantRegion( Type.CRUST, rightCrustTop, rightCrustBottom,
+                                                     new Constant<Double>( (double) getFreshDensity( type ) ),
+                                                     new Constant<Double>( 0.0 ) );
+        addRegion( rightCrustRegion );
     }
 
     private void updateRegions() {
