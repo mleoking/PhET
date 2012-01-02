@@ -7,6 +7,16 @@ var dragTarget = null;
 
 var rootNode = null;
 
+function loadImage( string ) {
+    var image = new Image();
+    image.src = string;
+    //Repaint the screen when this image got loaded
+    image.onload = function () {
+        draw();
+    }
+    return image;
+}
+
 function clearBackground( context ) {
     context.save();
     context.globalCompositeOperation = "source-over";
@@ -15,18 +25,36 @@ function clearBackground( context ) {
     context.restore();
 }
 
-function node( params ) {
-    return {draw:params.draw};
-}
-
-//Returns a function that gives the drawing function but translated
-function translate( drawingFunction, x, y ) {
-    return function ( context ) {
-        context.save();
-        context.translate( x, y );
-        drawingFunction( context );
-        context.restore();
+function imageNode( string ) {
+    var that = {x:0, y:0, selected:false};
+    var image = loadImage( string );
+    that.draw = function ( context ) {
+        context.drawImage( image, that.x, that.y );
+        if ( that.selected ) {
+            context.fillStyle = '#00f';
+            context.font = '30px sans-serif';
+            context.textBaseline = 'top';
+            context.fillText( 'dragging', that.x, that.y );
+        }
     };
+    that.onTouchStart = function ( point ) {
+        that.selected = point.x >= that.x && point.x <= that.x + image.width && point.y >= that.y && point.y <= that.y + image.height;
+        that.initTouchPoint = point;
+        that.objectTouchPoint = {x:that.x, y:that.y};
+
+        //flag for consumed
+        return that.selected;
+    }
+    that.onTouchEnd = function ( point ) {
+        that.selected = false;
+    }
+    that.onTouchMove = function ( point ) {
+        if ( that.selected ) {
+            that.x = point.x + that.objectTouchPoint.x - that.initTouchPoint.x;
+            that.y = point.y + that.objectTouchPoint.y - that.initTouchPoint.y;
+        }
+    }
+    return that;
 }
 
 function compositeNode( children ) {
@@ -38,24 +66,32 @@ function compositeNode( children ) {
         },
         onTouchStart:function ( point ) {
 
+            //Reverse order so things in front will consume the event
+            for ( var i = children.length - 1; i >= 0; i-- ) {
+                var consumed = children[i].onTouchStart( point );
+                if ( consumed ) {
+
+                    var child = children[i];
+
+                    //Move to front (i.e. end of list) by default
+                    children.splice( i, 1 );
+                    children.push( child );
+
+                    break;
+                }
+            }
+        },
+        onTouchEnd:function ( point ) {
             for ( var i = 0; i < children.length; i++ ) {
-                children[i].draw( context );
+                children[i].onTouchEnd( point );
             }
-
-            javascript: console.log( "onTouchStart: " + point.x + ", " + point.y );
-
-            touchInProgress = true;
-            var result = rootNode.findTarget( location );
-            javascript: console.log( "result = " + result );
-            if ( result != null && result.dragTarget != null ) {
-                dragTarget = result.dragTarget;
-                pickPath = globals.rootNode.getPickPath( dragTarget );
-                relativeGrabPoint = result.relativeGrabPoint;
-                dragTarget.onTouchStart();
-                draw();
+        },
+        onTouchMove:function ( point ) {
+            for ( var i = 0; i < children.length; i++ ) {
+                children[i].onTouchMove( point );
             }
-
-        }};
+        }
+    };
 }
 
 //Functional way; a node has a draw, bounds and interaction functions.  Or is a composite of those methods.
@@ -130,29 +166,18 @@ function init() {
     //Init label components after canvas non-null
 //    nodes.push( new BoxNode( { components:new Array( new Label( "Friction" ), new Label( "other label" ) ), x:700, y:200, layout:horizontal} ) );
 
-    function loadImage( string ) {
-        var image = new Image();
-        image.src = string;
-        //Repaint the screen when this image got loaded
-        image.onload = function () {
-            draw();
-        }
-        return image;
-    }
-
 
     //Function that returns a function for rending from an image
-    function drawImageFromString( string ) {
-        var image = loadImage( string );
-        return function drawImage( context ) {
-            context.drawImage( image, 0, 0 );
-        };
-    }
+//    function drawImageFromString( string ) {
+//        var image = loadImage( string );
+//        return function drawImage( context ) {
+//            context.drawImage( image, 0, 0 );
+//        };
+//    }
 
-    rootNode = compositeNode( new Array( node( {draw:clearBackground} ),
-                                         node( {draw:drawImageFromString( "resources/red-mass.png" )} ),
-                                         node( {draw:translate( drawImageFromString( "resources/green-mass.png" ), 100, 100 )} )
-    ) );
+    rootNode = compositeNode( new Array( imageNode( "resources/red-mass.png" ),
+                                         imageNode( "resources/green-mass.png" ),
+                                         imageNode( "resources/gold-mass.png" ) ) );
 
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
@@ -169,8 +194,16 @@ function resizer() {
     draw();
 }
 
+function clearBackground() {
+    context.save();
+    context.globalCompositeOperation = "source-over";
+    context.fillStyle = "rgb(255, 255, 153)";
+    context.fillRect( 0, 0, canvas.width, canvas.height );
+    context.restore();
+}
 // Main drawing function.
 function draw() {
+    clearBackground();
     rootNode.draw( context );
 }
 
@@ -205,7 +238,7 @@ function onDocumentTouchMove( event ) {
 }
 
 function onDocumentTouchEnd( event ) {
-    onTouchEnd();
+    onTouchEnd( {x:event.clientX, y:event.clientY} );
 }
 
 function onWindowDeviceOrientation( event ) {
@@ -217,6 +250,8 @@ function onTouchStart( location ) {
 }
 
 function onDrag( location ) {
+    rootNode.onTouchMove( location );
+
     if ( touchInProgress && dragTarget != null ) {
         var position = location.minus( relativeGrabPoint );
 
@@ -231,7 +266,8 @@ function onDrag( location ) {
     }
 }
 
-function onTouchEnd() {
+function onTouchEnd( point ) {
+    rootNode.onTouchEnd( point );
     touchInProgress = false;
     dragTarget = null;
     relativeGrabPoint = null;
