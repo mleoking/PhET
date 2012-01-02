@@ -3,6 +3,8 @@ package edu.colorado.phet.platetectonics.modules;
 
 import java.awt.Color;
 
+import org.lwjgl.input.Mouse;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -85,40 +87,40 @@ public class PlateMotionTab extends PlateTectonicsTab {
         addGuiNode( crustChooserNode );
 
         // continental piece
-        OrthoPiccoloNode continentalPiece = new OrthoPiccoloNode( new CrustPiece( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ), this, getCanvasTransform(),
-                                                                  new Property<ImmutableVector2D>(
-                                                                          new ImmutableVector2D() ),
-                                                                  mouseEventNotifier ) {{
-            position.set( new ImmutableVector2D(
-                    getContinentalOffset().x - getNode().getFullBounds().getWidth() / 2,
-                    getContinentalOffset().y - getNode().getFullBounds().getHeight() / 2 ) );
-        }};
-        crustPieceLayer.addChild( continentalPiece );
-        guiNodes.add( 0, continentalPiece );
+        final CrustPiece continentalPiece = new CrustPiece( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f );
+        OrthoPiccoloNode continentalPieceNode = new OrthoPiccoloNode(
+                continentalPiece, this, getCanvasTransform(),
+                new Property<ImmutableVector2D>(
+                        new ImmutableVector2D(
+                                getContinentalOffset().x - continentalPiece.getFullBounds().getWidth() / 2,
+                                getContinentalOffset().y - continentalPiece.getFullBounds().getHeight() / 2 ) ),
+                mouseEventNotifier );
+        crustPieceLayer.addChild( continentalPieceNode );
+        guiNodes.add( 0, continentalPieceNode );
 
         // young oceanic piece
-        OrthoPiccoloNode youngOceanicPiece = new OrthoPiccoloNode( new CrustPiece( PlateType.YOUNG_OCEANIC, 35, 0.5f ), this, getCanvasTransform(),
-                                                                   new Property<ImmutableVector2D>(
-                                                                           new ImmutableVector2D() ),
-                                                                   mouseEventNotifier ) {{
-            position.set( new ImmutableVector2D(
-                    getYoungOceanicOffset().x - getNode().getFullBounds().getWidth() / 2,
-                    getYoungOceanicOffset().y - getNode().getFullBounds().getHeight() / 2 ) );
-        }};
-        crustPieceLayer.addChild( youngOceanicPiece );
-        guiNodes.add( 0, youngOceanicPiece );
+        final CrustPiece youngOceanicPiece = new CrustPiece( PlateType.YOUNG_OCEANIC, 35, 0.5f );
+        OrthoPiccoloNode youngOceanicPieceNode = new OrthoPiccoloNode(
+                youngOceanicPiece, this, getCanvasTransform(),
+                new Property<ImmutableVector2D>(
+                        new ImmutableVector2D(
+                                getYoungOceanicOffset().x - youngOceanicPiece.getFullBounds().getWidth() / 2,
+                                getYoungOceanicOffset().y - youngOceanicPiece.getFullBounds().getHeight() / 2 ) ),
+                mouseEventNotifier );
+        crustPieceLayer.addChild( youngOceanicPieceNode );
+        guiNodes.add( 0, youngOceanicPieceNode );
 
         // old oceanic piece
-        OrthoPiccoloNode oldOceanicPiece = new OrthoPiccoloNode( new CrustPiece( PlateType.OLD_OCEANIC, 35, 0.4f ), this, getCanvasTransform(),
-                                                                 new Property<ImmutableVector2D>(
-                                                                         new ImmutableVector2D() ),
-                                                                 mouseEventNotifier ) {{
-            position.set( new ImmutableVector2D(
-                    getOldOceanicOffset().x - getNode().getFullBounds().getWidth() / 2,
-                    getOldOceanicOffset().y - getNode().getFullBounds().getHeight() / 2 ) );
-        }};
-        crustPieceLayer.addChild( oldOceanicPiece );
-        guiNodes.add( 0, oldOceanicPiece );
+        final CrustPiece oldOceanicPiece = new CrustPiece( PlateType.OLD_OCEANIC, 35, 0.4f );
+        OrthoPiccoloNode oldOceanicPieceNode = new OrthoPiccoloNode(
+                oldOceanicPiece, this, getCanvasTransform(),
+                new Property<ImmutableVector2D>(
+                        new ImmutableVector2D(
+                                getOldOceanicOffset().x - oldOceanicPiece.getFullBounds().getWidth() / 2,
+                                getOldOceanicOffset().y - oldOceanicPiece.getFullBounds().getHeight() / 2 ) ),
+                mouseEventNotifier );
+        crustPieceLayer.addChild( oldOceanicPieceNode );
+        guiNodes.add( 0, oldOceanicPieceNode );
 
         /*---------------------------------------------------------------------------*
         * options panel
@@ -164,18 +166,32 @@ public class PlateMotionTab extends PlateTectonicsTab {
     @Override public void droppedCrustPiece( OrthoPiccoloNode crustPieceNode ) {
         PlateMotionModel model = getPlateMotionModel();
         CrustPiece piece = (CrustPiece) crustPieceNode.getNode();
-        if ( crustPieceNode.position.get().getX() < getStageSize().getWidth() / 2 ) {
-            if ( !model.hasLeftPlate() ) {
-                model.dropLeftCrust( piece.type );
-                crustPieceNode.getParent().removeChild( crustPieceNode );
-                guiNodes.remove( crustPieceNode );
-            }
+
+        boolean droppedBackInPanel = isGuiUnder( crustChooserNode, Mouse.getEventX(), Mouse.getEventY() );
+
+        if ( droppedBackInPanel ) {
+            crustPieceNode.position.reset();
         }
         else {
-            if ( !model.hasRightPlate() ) {
-                model.dropRightCrust( piece.type );
-                crustPieceNode.getParent().removeChild( crustPieceNode );
-                guiNodes.remove( crustPieceNode );
+            if ( crustPieceNode.position.get().getX() < getStageSize().getWidth() / 2 ) {
+                if ( !model.hasLeftPlate() ) {
+                    model.dropLeftCrust( piece.type );
+                    crustPieceNode.getParent().removeChild( crustPieceNode );
+                    guiNodes.remove( crustPieceNode );
+                }
+                else {
+                    crustPieceNode.position.reset();
+                }
+            }
+            else {
+                if ( !model.hasRightPlate() ) {
+                    model.dropRightCrust( piece.type );
+                    crustPieceNode.getParent().removeChild( crustPieceNode );
+                    guiNodes.remove( crustPieceNode );
+                }
+                else {
+                    crustPieceNode.position.reset();
+                }
             }
         }
     }
