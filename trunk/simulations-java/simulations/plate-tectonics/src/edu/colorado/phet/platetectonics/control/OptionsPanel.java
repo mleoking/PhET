@@ -26,7 +26,7 @@ public class OptionsPanel extends PNode {
         final PNode title = new PText( "Options" );
         addChild( title );
 
-        PSwing showLabelCheckBox = new PSwing( new JCheckBox( "Show Labels" ) {{
+        final PSwing showLabelCheckBox = new PSwing( new JCheckBox( "Show Labels" ) {{
             setSelected( showLabels.get() );
             addActionListener( new ActionListener() {
                 @Override public void actionPerformed( ActionEvent actionEvent ) {
@@ -42,6 +42,25 @@ public class OptionsPanel extends PNode {
             setOffset( 0, title.getFullBounds().getMaxY() + 5 );
         }};
         addChild( showLabelCheckBox );
+        
+        if( containsWaterOption ) {
+            PSwing showWaterCheckBox = new PSwing( new JCheckBox( "Show Seawater" ) {{
+                setSelected( showWater.get() );
+                addActionListener( new ActionListener() {
+                    @Override public void actionPerformed( ActionEvent actionEvent ) {
+                        final boolean showThem = isSelected();
+                        LWJGLUtils.invoke( new Runnable() {
+                            @Override public void run() {
+                                showWater.set( showThem );
+                            }
+                        } );
+                    }
+                } );
+            }} ) {{
+                setOffset( 0, showLabelCheckBox.getFullBounds().getMaxY() + 5 );
+            }};
+            addChild( showWaterCheckBox );
+        }
 
         title.setOffset( ( showLabelCheckBox.getFullBounds().getWidth() - title.getFullBounds().getWidth() ) / 2, 0 );
 
