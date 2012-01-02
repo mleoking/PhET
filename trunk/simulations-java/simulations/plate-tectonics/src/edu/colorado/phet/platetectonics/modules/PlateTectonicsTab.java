@@ -110,7 +110,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     protected ToolboxState toolboxState = new ToolboxState();
     protected ToolDragHandler toolDragHandler = new ToolDragHandler( toolboxState );
     protected Toolbox toolbox;
-    private OrthoPiccoloNode draggedCrustPiece = null;
+    protected OrthoPiccoloNode draggedCrustPiece = null;
 
     // in seconds
     private float timeElapsed;

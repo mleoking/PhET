@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0.Constant;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.regions.Region.Type;
@@ -22,8 +23,8 @@ public class PlateMotionModel extends PlateModel {
     private final Terrain rightTerrain;
     private final TerrainConnector centerTerrain;
 
-    private float simpleMantleTop = -10000; // 10km depth
-    private float simpleMantleBottom = -500000; // 200km depth
+    private static float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
+    private static float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
 
     private final int sideCount = 128;
     private final int totalCount = 2 * sideCount;
@@ -43,8 +44,9 @@ public class PlateMotionModel extends PlateModel {
     private final ImmutableVector2F[] mantleTop;
     private final ImmutableVector2F[] mantleBottom;
 
-    private PlateType leftPlateType = null;
-    private PlateType rightPlateType = null;
+    // TODO: better handling for this. ugly
+    public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
+    public final Property<PlateType> rightPlateType = new Property<PlateType>( null );
 
     public PlateMotionModel( final Bounds3D bounds ) {
         super( bounds );
@@ -64,12 +66,12 @@ public class PlateMotionModel extends PlateModel {
             float rightX = getRightX( i );
             leftCrustTopSamples.add( new Sample( new ImmutableVector2F( leftX, 0 ) ) );
             rightCrustTopSamples.add( new Sample( new ImmutableVector2F( rightX, 0 ) ) );
-            leftCrustBottomSamples.add( new Sample( new ImmutableVector2F( leftX, simpleMantleTop ) ) );
-            rightCrustBottomSamples.add( new Sample( new ImmutableVector2F( rightX, simpleMantleTop ) ) );
+            leftCrustBottomSamples.add( new Sample( new ImmutableVector2F( leftX, SIMPLE_MANTLE_TOP_Y ) ) );
+            rightCrustBottomSamples.add( new Sample( new ImmutableVector2F( rightX, SIMPLE_MANTLE_TOP_Y ) ) );
         }
         for ( int i = 0; i < bottomCount; i++ ) {
             float x = minX + ( maxX - minX ) * ( (float) i ) / ( (float) ( bottomCount - 1 ) );
-            bottomSamples.add( new Sample( new ImmutableVector2F( x, simpleMantleBottom ) ) );
+            bottomSamples.add( new Sample( new ImmutableVector2F( x, SIMPLE_MANTLE_BOTTOM_Y ) ) );
         }
 
         /*---------------------------------------------------------------------------*
@@ -118,7 +120,7 @@ public class PlateMotionModel extends PlateModel {
 
     public void dropLeftCrust( PlateType type ) {
         // TODO: update the middle crust sample sometime
-        leftPlateType = type;
+        leftPlateType.set( type );
         for ( int i = 0; i < sideCount; i++ ) {
             float x = getLeftX( i );
             leftCrustTopSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustTop( type ) );
@@ -133,7 +135,7 @@ public class PlateMotionModel extends PlateModel {
 
     public void dropRightCrust( PlateType type ) {
         // TODO: update the middle crust sample sometime
-        rightPlateType = type;
+        rightPlateType.set( type );
         for ( int i = 0; i < sideCount; i++ ) {
             float x = getRightX( i );
             rightCrustTopSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustTop( type ) );
@@ -218,11 +220,11 @@ public class PlateMotionModel extends PlateModel {
     }
 
     public boolean hasLeftPlate() {
-        return leftPlateType != null;
+        return leftPlateType.get() != null;
     }
 
     public boolean hasRightPlate() {
-        return rightPlateType != null;
+        return rightPlateType.get() != null;
     }
 
     @Override public void update( double timeElapsed ) {
@@ -246,6 +248,18 @@ public class PlateMotionModel extends PlateModel {
     public static double getSimplifiedMantleTemperature( double y ) {
         double depth = -y;
         return 273.15 + ( 0.0175 - 3.04425e-9 * depth ) * depth; // based on T0 + (q00/k)*y - (rho*H/(2*k))*y^2 from model doc
+    }
+
+    public Bounds3D getLeftDropAreaBounds() {
+        return Bounds3D.fromMinMax( bounds.getMinX(), bounds.getCenterX(),
+                                    SIMPLE_MANTLE_TOP_Y, 15000,
+                                    bounds.getMinZ(), bounds.getMaxZ() );
+    }
+
+    public Bounds3D getRightDropAreaBounds() {
+        return Bounds3D.fromMinMax( bounds.getCenterX(), bounds.getMaxX(),
+                                    SIMPLE_MANTLE_TOP_Y, 15000,
+                                    bounds.getMinZ(), bounds.getMaxZ() );
     }
 
     public static class Sample {
