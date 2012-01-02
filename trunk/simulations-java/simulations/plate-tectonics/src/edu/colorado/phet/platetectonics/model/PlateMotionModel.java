@@ -20,27 +20,26 @@ public class PlateMotionModel extends PlateModel {
 
     private final Terrain leftTerrain;
     private final Terrain rightTerrain;
+    private final TerrainConnector centerTerrain;
 
     private float simpleMantleTop = -10000; // 10km depth
-    private float simpleMantleBottom = -200000; // 200km depth
+    private float simpleMantleBottom = -500000; // 200km depth
 
-    private final int sideSamples = 127;
-    private final int totalSamples = 2 * sideSamples + 1;
-    private final int zSamples = 32;
+    private final int sideCount = 128;
+    private final int totalCount = 2 * sideCount;
+    private final int depthCount = 32;
+    private final int bottomCount = 64;
 
-    private List<Sample> leftCrustSamples = new ArrayList<Sample>();
-    private Sample middleCrustSample;
-    private List<Sample> rightCrustSamples = new ArrayList<Sample>();
-
-    private List<Sample> leftMantleSamples = new ArrayList<Sample>();
-    private Sample middleMantleSample;
-    private List<Sample> rightMantleSamples = new ArrayList<Sample>();
-
+    private List<Sample> leftCrustTopSamples = new ArrayList<Sample>();
+    private List<Sample> rightCrustTopSamples = new ArrayList<Sample>();
+    private List<Sample> leftCrustBottomSamples = new ArrayList<Sample>();
+    private List<Sample> rightCrustBottomSamples = new ArrayList<Sample>();
     private List<Sample> bottomSamples = new ArrayList<Sample>();
+
     private final ImmutableVector2F[] leftCrustTop;
     private final ImmutableVector2F[] rightCrustTop;
-    private final ImmutableVector2F[] leftMantleTop;
-    private final ImmutableVector2F[] rightMantleTop;
+    private final ImmutableVector2F[] leftCrustBottom;
+    private final ImmutableVector2F[] rightCrustBottom;
     private final ImmutableVector2F[] mantleTop;
     private final ImmutableVector2F[] mantleBottom;
 
@@ -57,47 +56,49 @@ public class PlateMotionModel extends PlateModel {
         final float minZ = bounds.getMinZ();
         final float maxZ = bounds.getMaxZ();
 
-        middleCrustSample = new Sample( new ImmutableVector2F( centerX, 0 ) );
-        middleMantleSample = new Sample( new ImmutableVector2F( centerX, simpleMantleTop ) );
-        rightCrustSamples.add( middleCrustSample );
-        rightMantleSamples.add( middleMantleSample );
-        for ( int i = 0; i < sideSamples; i++ ) {
+        /*---------------------------------------------------------------------------*
+         * samples (intial values)
+         *----------------------------------------------------------------------------*/
+        for ( int i = 0; i < sideCount; i++ ) {
             float leftX = getLeftX( i );
             float rightX = getRightX( i );
-            leftCrustSamples.add( new Sample( new ImmutableVector2F( leftX, 0 ) ) );
-            rightCrustSamples.add( new Sample( new ImmutableVector2F( rightX, 0 ) ) );
-            leftMantleSamples.add( new Sample( new ImmutableVector2F( leftX, simpleMantleTop ) ) );
-            rightMantleSamples.add( new Sample( new ImmutableVector2F( rightX, simpleMantleTop ) ) );
+            leftCrustTopSamples.add( new Sample( new ImmutableVector2F( leftX, 0 ) ) );
+            rightCrustTopSamples.add( new Sample( new ImmutableVector2F( rightX, 0 ) ) );
+            leftCrustBottomSamples.add( new Sample( new ImmutableVector2F( leftX, simpleMantleTop ) ) );
+            rightCrustBottomSamples.add( new Sample( new ImmutableVector2F( rightX, simpleMantleTop ) ) );
         }
-        leftCrustSamples.add( middleCrustSample );
-        leftMantleSamples.add( middleMantleSample );
-        for ( int i = 0; i < totalSamples; i++ ) {
-            float x = minX + ( maxX - minX ) * ( (float) i ) / ( (float) ( totalSamples - 1 ) );
+        for ( int i = 0; i < bottomCount; i++ ) {
+            float x = minX + ( maxX - minX ) * ( (float) i ) / ( (float) ( bottomCount - 1 ) );
             bottomSamples.add( new Sample( new ImmutableVector2F( x, simpleMantleBottom ) ) );
         }
 
-        leftTerrain = new Terrain( sideSamples + 1, zSamples ) {{
+        /*---------------------------------------------------------------------------*
+         * terrains
+         *----------------------------------------------------------------------------*/
+        leftTerrain = new Terrain( sideCount, depthCount ) {{
             setXBounds( minX, centerX );
             setZBounds( minZ, maxZ );
         }};
         addTerrain( leftTerrain );
-        rightTerrain = new Terrain( sideSamples + 1, zSamples ) {{
+        rightTerrain = new Terrain( sideCount, depthCount ) {{
             setXBounds( centerX, maxX );
             setZBounds( minZ, maxZ );
         }};
         addTerrain( rightTerrain );
+        centerTerrain = new TerrainConnector( leftTerrain, rightTerrain, 2 );
+        addTerrain( centerTerrain );
 
-        leftCrustTop = new ImmutableVector2F[sideSamples + 1];
-        rightCrustTop = new ImmutableVector2F[sideSamples + 1];
-        leftMantleTop = new ImmutableVector2F[sideSamples + 1];
-        rightMantleTop = new ImmutableVector2F[sideSamples + 1];
-        mantleTop = new ImmutableVector2F[totalSamples];
-        mantleBottom = new ImmutableVector2F[totalSamples];
+        leftCrustTop = new ImmutableVector2F[sideCount];
+        rightCrustTop = new ImmutableVector2F[sideCount];
+        leftCrustBottom = new ImmutableVector2F[sideCount];
+        rightCrustBottom = new ImmutableVector2F[sideCount];
+        mantleTop = new ImmutableVector2F[totalCount];
+        mantleBottom = new ImmutableVector2F[bottomCount];
 
         updateTerrain();
         updateRegions();
 
-        for ( int i = 0; i < totalSamples; i++ ) {
+        for ( int i = 0; i < bottomCount; i++ ) {
             mantleBottom[i] = bottomSamples.get( i ).position;
         }
 
@@ -105,27 +106,27 @@ public class PlateMotionModel extends PlateModel {
                                              new Constant<Double>( 0.0 ) ) );
     }
 
-    // i from 0 to sideSamples-1
+    // i from 0 to sideCount-1
     private float getLeftX( int i ) {
-        return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) i ) / (float) sideSamples;
+        return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) i ) / (float) ( sideCount - 1 );
     }
 
-    // i from 0 to sideSamples-1
+    // i from 0 to sideCount-1
     private float getRightX( int i ) {
-        return bounds.getCenterX() + ( bounds.getMaxX() - bounds.getCenterX() ) * ( (float) ( i + 1 ) ) / (float) sideSamples;
+        return bounds.getCenterX() + ( bounds.getMaxX() - bounds.getCenterX() ) * ( (float) i ) / (float) ( sideCount - 1 );
     }
 
     public void dropLeftCrust( PlateType type ) {
         // TODO: update the middle crust sample sometime
         leftPlateType = type;
-        for ( int i = 0; i < sideSamples; i++ ) {
+        for ( int i = 0; i < sideCount; i++ ) {
             float x = getLeftX( i );
-            leftCrustSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustTop( type ) );
-            leftMantleSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustBottom( type ) );
+            leftCrustTopSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustTop( type ) );
+            leftCrustBottomSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustBottom( type ) );
         }
         updateRegions();
         updateTerrain();
-        addRegion( new SimpleConstantRegion( Type.CRUST, leftCrustTop, leftMantleTop,
+        addRegion( new SimpleConstantRegion( Type.CRUST, leftCrustTop, leftCrustBottom,
                                              new Constant<Double>( (double) getFreshDensity( type ) ),
                                              new Constant<Double>( 0.0 ) ) );
     }
@@ -133,60 +134,48 @@ public class PlateMotionModel extends PlateModel {
     public void dropRightCrust( PlateType type ) {
         // TODO: update the middle crust sample sometime
         rightPlateType = type;
-        for ( int i = 0; i < sideSamples; i++ ) {
+        for ( int i = 0; i < sideCount; i++ ) {
             float x = getRightX( i );
-            rightCrustSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustTop( type ) );
-            rightMantleSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustBottom( type ) );
+            rightCrustTopSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustTop( type ) );
+            rightCrustBottomSamples.get( i ).position = new ImmutableVector2F( x, getFreshCrustBottom( type ) );
         }
         updateRegions();
         updateTerrain();
-        addRegion( new SimpleConstantRegion( Type.CRUST, rightCrustTop, rightMantleTop,
+        addRegion( new SimpleConstantRegion( Type.CRUST, rightCrustTop, rightCrustBottom,
                                              new Constant<Double>( (double) getFreshDensity( type ) ),
                                              new Constant<Double>( 0.0 ) ) );
     }
 
     private void updateRegions() {
-        mantleTop[sideSamples] = middleMantleSample.position;
-        leftCrustTop[sideSamples] = middleCrustSample.position;
-        leftMantleTop[sideSamples] = middleMantleSample.position;
-        rightCrustTop[0] = middleCrustSample.position;
-        rightMantleTop[0] = middleMantleSample.position;
-        for ( int i = 0; i < sideSamples; i++ ) {
+        for ( int i = 0; i < sideCount; i++ ) {
             // left side
-            mantleTop[i] = leftMantleSamples.get( i ).position;
-            leftMantleTop[i] = leftMantleSamples.get( i ).position;
-            leftCrustTop[i] = leftCrustSamples.get( i ).position;
+            mantleTop[i] = leftCrustBottomSamples.get( i ).position;
+            leftCrustBottom[i] = leftCrustBottomSamples.get( i ).position;
+            leftCrustTop[i] = leftCrustTopSamples.get( i ).position;
 
             // right side
-            mantleTop[i + sideSamples + 1] = rightMantleSamples.get( i ).position;
-            rightMantleTop[i + 1] = rightMantleSamples.get( i ).position;
-            rightCrustTop[i + 1] = rightCrustSamples.get( i ).position;
+            mantleTop[i + sideCount] = rightCrustBottomSamples.get( i ).position;
+            rightCrustBottom[i] = rightCrustBottomSamples.get( i ).position;
+            rightCrustTop[i] = rightCrustTopSamples.get( i ).position;
         }
     }
 
     private void updateTerrain() {
-        // middle elevation is average between the two (for now)
-        float middleLeftY = ( hasLeftPlate() ? leftCrustSamples : leftMantleSamples ).get( sideSamples - 1 ).position.y;
-        float middleRightY = ( hasRightPlate() ? rightCrustSamples : rightMantleSamples ).get( 0 ).position.y;
-        float middleElevation = ( middleLeftY + middleRightY ) / 2;
-        for ( int row = 0; row < zSamples; row++ ) {
-            leftTerrain.setElevation( middleElevation, sideSamples, row );
-            rightTerrain.setElevation( middleElevation, 0, row );
-        }
-        for ( int column = 0; column < sideSamples; column++ ) {
+        for ( int column = 0; column < sideCount; column++ ) {
             // left side
-            float leftElevation = hasLeftPlate() ? leftCrustSamples.get( column ).position.y : leftMantleSamples.get( column ).position.y;
-            for ( int row = 0; row < zSamples; row++ ) {
+            float leftElevation = hasLeftPlate() ? leftCrustTopSamples.get( column ).position.y : leftCrustBottomSamples.get( column ).position.y;
+            for ( int row = 0; row < depthCount; row++ ) {
                 // set the elevation for the whole column
                 leftTerrain.setElevation( leftElevation, column, row );
             }
 
             // right side
-            float rightElevation = hasRightPlate() ? rightCrustSamples.get( column ).position.y : rightMantleSamples.get( column ).position.y;
-            for ( int row = 0; row < zSamples; row++ ) {
-                rightTerrain.setElevation( rightElevation, column + 1, row );
+            float rightElevation = hasRightPlate() ? rightCrustTopSamples.get( column ).position.y : rightCrustBottomSamples.get( column ).position.y;
+            for ( int row = 0; row < depthCount; row++ ) {
+                rightTerrain.setElevation( rightElevation, column, row );
             }
         }
+        centerTerrain.update();
     }
 
     public static float getFreshDensity( PlateType type ) {
