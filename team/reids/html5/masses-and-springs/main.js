@@ -3,6 +3,7 @@ var canvas;
 var context;
 
 var rootNode = null;
+var globals = {};
 
 function loadImage( string ) {
     var image = new Image();
@@ -195,10 +196,10 @@ function init() {
             false
     );
 
-//    globals.springs = new Array();
-//    globals.springs.push( new Spring( "1", 200 ) );
-//    globals.springs.push( new Spring( "2", 300 ) );
-//    globals.springs.push( new Spring( "3", 400 ) );
+    globals.springs = new Array();
+    globals.springs.push( spring( "1", 200 ) );
+    globals.springs.push( spring( "2", 300 ) );
+    globals.springs.push( spring( "3", 400 ) );
 
 //    var rootComponents = new Array(
 //            new ImageSprite( "resources/red-mass.png", 114, 496 ),
@@ -232,7 +233,7 @@ function init() {
 //        };
 //    }
 
-    rootNode = compositeNode( new Array(
+    var rootNodeComponents = new Array(
             imageNode( "resources/red-mass.png", 114, 496 ),
             imageNode( "resources/green-mass.png", 210, 577 ),
             imageNode( "resources/gold-mass.png", 276, 541 ),
@@ -243,7 +244,14 @@ function init() {
             fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
             textNode( "hello" ),
             vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} )
-    ) );
+    );
+
+    //Add to the nodes for rendering
+    for ( var i = 0; i < globals.springs.length; i++ ) {
+        rootNodeComponents.push( globals.springs[i] );
+    }
+
+    rootNode = compositeNode( rootNodeComponents );
 
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
@@ -333,9 +341,9 @@ function animate() {
     //http://animaljoy.com/?p=254
     // insert your code to update your animation here
 
-//    for ( i = 0; i < globals.springs.length; i++ ) {
-//        globals.springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
-//    }
+    for ( i = 0; i < globals.springs.length; i++ ) {
+        globals.springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
+    }
     count++;
     requestAnimationFrame( animate );
     draw();
@@ -357,4 +365,68 @@ if ( !window.requestAnimationFrame ) {
                    window.setTimeout( callback, 1000 / 60 );
                };
     } )();
+}
+
+function spring( name, x ) {
+    var that = rectangularNode( 0, 0 );
+    that.name = name;
+    that.anchor = new Point2D( x, 50 );
+    that.attachmentPoint = new Point2D( x, 250 );
+    that.draw = function ( context ) {
+        context.beginPath();
+        context.fillStyle = '#00f';
+        context.strokeStyle = '#f00';
+        context.lineWidth = 4;
+        context.beginPath();
+        context.moveTo( this.anchor.x, this.anchor.y );
+        const numZigs = 10;
+        const zigHeight = -(this.attachmentPoint.y - this.anchor.y) / numZigs / 2;
+        //    javascript: console.log( "zig Height = " + zigHeight );
+
+        var pt = new Point2D( this.anchor.x, this.anchor.y );
+        for ( var i = 0; i < numZigs; i++ ) {
+            var pt2 = new Point2D( pt.x + 10, pt.y - zigHeight );
+            var pt3 = new Point2D( pt2.x - 10, pt2.y - zigHeight );
+            context.lineTo( pt2.x, pt2.y );
+            context.lineTo( pt3.x, pt3.y );
+            pt = pt3;
+        }
+        context.stroke();
+        context.closePath();
+
+        const textHeight = 32;
+        context.font = textHeight + "px sans-serif";
+        const defaultTextAlign = context.textAlign;
+        context.textAlign = "center";
+        context.fillText( this.name, this.anchor.x, this.anchor.y - 32, 1000 );
+        context.textAlign = defaultTextAlign;
+    }
+    return that;
+}
+
+function Point2D( x, y ) {
+    // Instance Fields or Data Members
+    this.x = x;
+    this.y = y;
+}
+
+Point2D.prototype.toString = function () {
+    return this.x + ", " + this.y;
+}
+
+Point2D.prototype.setComponents = function ( x, y ) {
+    this.x = x;
+    this.y = y;
+}
+
+Point2D.prototype.minus = function ( pt ) {
+    return new Point2D( this.x - pt.x, this.y - pt.y );
+}
+
+Point2D.prototype.minus = function ( pt ) {
+    return new Point2D( this.x + pt.x, this.y + pt.y );
+}
+
+Point2D.prototype.set = function ( point2D ) {
+    this.setComponents( point2D.x, point2D.y );
 }
