@@ -7,27 +7,16 @@ var rootNode = null;
 function loadImage( string ) {
     var image = new Image();
     image.src = string;
-    //Repaint the screen when this image got loaded
-    image.onload = function () {
-        draw();
-    }
     return image;
 }
 
-function imageNode( string ) {
+function rectangularNode( width, height ) {
     var that = {x:0, y:0, selected:false};
-    var image = loadImage( string );
-    that.draw = function ( context ) {
-        context.drawImage( image, that.x, that.y );
-        if ( that.selected ) {
-            context.fillStyle = '#00f';
-            context.font = '30px sans-serif';
-            context.textBaseline = 'top';
-            context.fillText( 'dragging', that.x, that.y );
-        }
-    };
+    that.width = width;
+    that.height = height;
+
     that.onTouchStart = function ( point ) {
-        that.selected = point.x >= that.x && point.x <= that.x + image.width && point.y >= that.y && point.y <= that.y + image.height;
+        that.selected = point.x >= that.x && point.x <= that.x + that.width && point.y >= that.y && point.y <= that.y + that.height;
         that.initTouchPoint = point;
         that.objectTouchPoint = {x:that.x, y:that.y};
 
@@ -43,6 +32,76 @@ function imageNode( string ) {
             that.y = point.y + that.objectTouchPoint.y - that.initTouchPoint.y;
         }
     }
+    return that;
+}
+
+function fillRectNode( width, height, style ) {
+    var that = rectangularNode( width, height );
+    that.draw = function ( context ) {
+        context.save();
+        context.globalCompositeOperation = "source-over";
+        context.fillStyle = style;
+        context.fillRect( that.x, that.y, width, height );
+        context.restore();
+    };
+    return that;
+}
+
+function textNode( string ) {
+
+    //Context must be initialized for us to determine the width, so only create labels during or after init
+    context.fillStyle = '#00f';
+    context.font = '30px sans-serif';
+    var width = context.measureText( string ).width;
+
+    var that = rectangularNode( width, 30 );
+    that.draw = function ( context ) {
+        context.textBaseline = 'top';
+        context.fillStyle = '#00f';
+        context.font = '30px sans-serif';
+        context.fillText( string, that.x, that.y );
+    };
+    return that;
+}
+
+function imageNode( string ) {
+    var image = loadImage( string );
+
+    var that = rectangularNode( image.width, image.height );
+    that.image = image;
+    that.image.onload = function () {
+        that.width = that.image.width;
+        that.height = that.image.height;
+        draw();
+    };
+    that.draw = function ( context ) {
+        context.drawImage( image, that.x, that.y );
+        if ( that.selected ) {
+            context.fillStyle = '#00f';
+            context.font = '30px sans-serif';
+            context.textBaseline = 'top';
+            context.fillText( 'dragging', that.x, that.y );
+        }
+    };
+    return that;
+}
+
+function vbox( children ) {
+    var that = compositeNode( children );
+
+    function vertical( components, spacing ) {
+        components[0].x = 0;
+        components[0].y = 0;
+        for ( var i = 1; i < components.length; i++ ) {
+            var prev = components[i - 1];
+            var c = components[i];
+            c.y = prev.y + prev.height + spacing;
+            c.x = prev.x;
+        }
+    }
+
+    vertical( children, 10 );
+
     return that;
 }
 
@@ -164,9 +223,14 @@ function init() {
 //        };
 //    }
 
-    rootNode = compositeNode( new Array( imageNode( "resources/red-mass.png" ),
-                                         imageNode( "resources/green-mass.png" ),
-                                         imageNode( "resources/gold-mass.png" ) ) );
+    rootNode = compositeNode( new Array(
+            imageNode( "resources/red-mass.png" ),
+            imageNode( "resources/green-mass.png" ),
+            imageNode( "resources/gold-mass.png" ),
+            fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
+            textNode( "hello" ),
+            vbox( new Array( textNode( "label" ), textNode( "bottom" ) ) )
+    ) );
 
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
