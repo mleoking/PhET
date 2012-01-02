@@ -14,6 +14,7 @@ import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.CrustChooserPanel;
 import edu.colorado.phet.platetectonics.control.CrustPiece;
+import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
@@ -30,6 +31,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private CrustChooserPanel crustChooserPanel;
     private OrthoPiccoloNode crustChooserNode;
     private GuiNode crustPieceLayer;
+
+    private final Property<Boolean> showLabels = new Property<Boolean>( false );
+    private final Property<Boolean> showWater = new Property<Boolean>( false );
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
@@ -115,6 +119,24 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }};
         crustPieceLayer.addChild( oldOceanicPiece );
         guiNodes.add( 0, oldOceanicPiece );
+
+        /*---------------------------------------------------------------------------*
+        * options panel
+        *----------------------------------------------------------------------------*/
+        addGuiNode( new OrthoPiccoloNode(
+                new ControlPanelNode( new OptionsPanel( showLabels, true, showWater ) ),
+                this, getCanvasTransform(),
+                new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+            canvasSize.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    int center = (int) ( ( toolbox.position.get().getX() + toolbox.getComponentWidth() )
+                                         + ( crustChooserNode.position.get().getX() ) ) / 2;
+                    position.set( new ImmutableVector2D( center - getComponentWidth() / 2,
+                                                         getStageSize().height - getComponentHeight() - 10 ) );
+                }
+            } );
+            updateOnEvent( beforeFrameRender );
+        }} );
     }
 
     private ImmutableVector2F getCrustOffset( ImmutableVector2F pieceOffset ) {
