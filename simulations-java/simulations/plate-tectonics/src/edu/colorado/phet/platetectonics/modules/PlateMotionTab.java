@@ -6,6 +6,7 @@ import java.awt.Color;
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -22,6 +23,7 @@ import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
+import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 
 /**
@@ -61,6 +63,49 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
+
+        final Color overHighlightColor = new Color( 1, 1, 0.5f, 0.3f );
+        final Color regularHighlightColor = new Color( 0.5f, 0.5f, 0.5f, 0.3f );
+
+        /*---------------------------------------------------------------------------*
+         * left highlight box
+         *----------------------------------------------------------------------------*/
+        final Property<Color> leftHighlightColor = new Property<Color>( regularHighlightColor );
+        sceneLayer.addChild( new BoxHighlightNode( getPlateMotionModel().getLeftDropAreaBounds(), getModelViewTransform(),
+                                                   leftHighlightColor ) {{
+            getPlateMotionModel().leftPlateType.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    setVisible( getPlateMotionModel().leftPlateType.get() == null );
+                }
+            } );
+        }} );
+
+        /*---------------------------------------------------------------------------*
+         * right highlight box
+         *----------------------------------------------------------------------------*/
+        final Property<Color> rightHighlightColor = new Property<Color>( regularHighlightColor );
+        sceneLayer.addChild( new BoxHighlightNode( getPlateMotionModel().getRightDropAreaBounds(), getModelViewTransform(),
+                                                   rightHighlightColor ) {{
+            getPlateMotionModel().rightPlateType.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    setVisible( getPlateMotionModel().rightPlateType.get() == null );
+                }
+            } );
+        }} );
+
+        mouseEventNotifier.addUpdateListener( new UpdateListener() {
+            @Override public void update() {
+                if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
+                    leftHighlightColor.set( regularHighlightColor );
+                    rightHighlightColor.set( regularHighlightColor );
+                }
+                else {
+                    boolean overLeft = isMouseOverLeftSide();
+                    leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
+                    rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
+                }
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
@@ -167,13 +212,13 @@ public class PlateMotionTab extends PlateTectonicsTab {
         PlateMotionModel model = getPlateMotionModel();
         CrustPiece piece = (CrustPiece) crustPieceNode.getNode();
 
-        boolean droppedBackInPanel = isGuiUnder( crustChooserNode, Mouse.getEventX(), Mouse.getEventY() );
+        boolean droppedBackInPanel = isMouseOverCrustChooser();
 
         if ( droppedBackInPanel ) {
             crustPieceNode.position.reset();
         }
         else {
-            if ( crustPieceNode.position.get().getX() < getStageSize().getWidth() / 2 ) {
+            if ( isMouseOverLeftSide() ) {
                 if ( !model.hasLeftPlate() ) {
                     model.dropLeftCrust( piece.type );
                     crustPieceNode.getParent().removeChild( crustPieceNode );
@@ -194,5 +239,13 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 }
             }
         }
+    }
+
+    private boolean isMouseOverLeftSide() {
+        return getMousePositionOnZPlane().x < 0;
+    }
+
+    private boolean isMouseOverCrustChooser() {
+        return isGuiUnder( crustChooserNode, Mouse.getEventX(), Mouse.getEventY() );
     }
 }
