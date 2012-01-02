@@ -10,6 +10,7 @@ function loadImage( string ) {
     return image;
 }
 
+//Uses width and height for bounds checking
 function rectangularNode( width, height ) {
     var that = {x:0, y:0, selected:false};
     that.width = width;
@@ -86,8 +87,10 @@ function imageNode( string ) {
     return that;
 }
 
-function vbox( children ) {
-    var that = compositeNode( children );
+function vbox( args ) {
+    var that = compositeNode( args.children );
+    that.x = args.x;
+    that.y = args.y;
 
     function vertical( components, spacing ) {
         components[0].x = 0;
@@ -100,55 +103,59 @@ function vbox( children ) {
         }
     }
 
-    vertical( children, 10 );
+    vertical( args.children, 10 );
 
     return that;
 }
 
 function compositeNode( children ) {
-    return {
-        draw:function ( context ) {
-            for ( var i = 0; i < children.length; i++ ) {
-                children[i].draw( context );
-            }
-        },
-        onTouchStart:function ( point ) {
+    var that = {
+        x:0,
+        y:0
+    };
 
-            //Reverse order so things in front will consume the event
-            for ( var i = children.length - 1; i >= 0; i-- ) {
-                var consumed = children[i].onTouchStart( point );
-                if ( consumed ) {
-
-                    var child = children[i];
-
-                    //Move to front (i.e. end of list) by default
-                    children.splice( i, 1 );
-                    children.push( child );
-
-                    break;
-                }
-            }
-        },
-        onTouchEnd:function ( point ) {
-            for ( var i = 0; i < children.length; i++ ) {
-                children[i].onTouchEnd( point );
-            }
-        },
-        onTouchMove:function ( point ) {
-            for ( var i = 0; i < children.length; i++ ) {
-                children[i].onTouchMove( point );
-            }
+    that.onTouchEnd = function ( point ) {
+        var relativePoint = {x:point.x - that.x, y:point.y - that.y};
+        for ( var i = 0; i < children.length; i++ ) {
+            children[i].onTouchEnd( relativePoint );
         }
     };
+    that.onTouchMove = function ( point ) {
+        var relativePoint = {x:point.x - that.x, y:point.y - that.y};
+        for ( var i = 0; i < children.length; i++ ) {
+            children[i].onTouchMove( relativePoint );
+        }
+    };
+
+    //Define these methods outside of initial that declaration so we can refer to that. (Maybe a better way to do that)
+    that.onTouchStart = function ( point ) {
+
+        var relativePoint = {x:point.x - that.x, y:point.y - that.y};
+        //Reverse order so things in front will consume the event
+        for ( var i = children.length - 1; i >= 0; i-- ) {
+            var consumed = children[i].onTouchStart( relativePoint );
+            if ( consumed ) {
+
+                var child = children[i];
+
+                //Move to front (i.e. end of list) by default
+                children.splice( i, 1 );
+                children.push( child );
+
+                break;
+            }
+        }
+    }
+    that.draw = function ( context ) {
+        context.save();
+        context.translate( that.x, that.y );
+        for ( var i = 0; i < children.length; i++ ) {
+            children[i].draw( context );
+        }
+        context.restore();
+    };
+    return that;
 }
-
-//Functional way; a node has a draw, bounds and interaction functions.  Or is a composite of those methods.
-
-//function Node( children ) {
-//    this.draw = function ( context ) {
-//
-//    };
-//}
 
 // Hook up the initialization function.
 $( document ).ready( function () {
@@ -229,7 +236,7 @@ function init() {
             imageNode( "resources/gold-mass.png" ),
             fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
             textNode( "hello" ),
-            vbox( new Array( textNode( "label" ), textNode( "bottom" ) ) )
+            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} )
     ) );
 
     // Do the initial drawing, events will cause subsequent updates.
@@ -257,7 +264,9 @@ function clearBackground() {
 // Main drawing function.
 function draw() {
     clearBackground();
-    rootNode.draw( context );
+    if ( rootNode != null ) {
+        rootNode.draw( context );
+    }
 }
 
 function onDocumentMouseDown( event ) {
