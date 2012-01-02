@@ -1,3 +1,5 @@
+# 0.00.06 (59809) Jan 2, 2012
+1/2/12 Added start of 2nd tab model (blocky start positions) with drag-drop of crust and initial 2nd tab reset functionality
 # 0.00.05 (59777) Dec 29, 2011
 Added 2nd tab toolbox, mode-control box and crust chooser box with draggable crust pieces
 Added 1st tab labels and redid density gradients (and various internals)
