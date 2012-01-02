@@ -79,5 +79,7 @@ public class RegionNode extends PlanarPolygon {
         }};
     }
 
-
+    public Region getRegion() {
+        return region;
+    }
 }

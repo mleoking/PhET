@@ -698,4 +698,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public void droppedCrustPiece( OrthoPiccoloNode crustPiece ) {
         // overridden in PlateMotionTab
     }
+
+    public void resetAll() {
+        zoomRatio.reset();
+        debugCameraTransform.set( ImmutableMatrix4F.IDENTITY );
+        model.resetAll();
+    }
 }
