@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -30,7 +30,7 @@ public class SpinnerButtonNode extends PNode {
     public final BooleanProperty pressed = new BooleanProperty( false );
     public final BooleanProperty entered = new BooleanProperty( true );
     private final PImage imageNode;
-    private final CursorHandler listener = new CursorHandler();
+    private final DynamicCursorHandler listener = new DynamicCursorHandler();
 
     //If holding down the button, then automatically spin
     private Timer timer = new Timer( 200, new ActionListener() {
