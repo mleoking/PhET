@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Dec 22 - Jan 4, 2011
+
+Beer's Law Lab
+-
+
+Sim Sharing (aka Data Collection)
+-
+
+Mobile Devices
+- various email discussions about HTML5
+
+Common Code
+
+Administrative
+- status meeting
+- weekly reports
+- misc developer discussions via email
+
+WHAT'S NEXT:
+
+- Beer's Law Lab: design & implementation
+- Acid-Base Solutions: #3170, add sim-sharing for 1/23/12 study
+- Sim-Sharing:
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- Jan 19-22 (not working)
+- Feb 24-26 (not working)
+
+--
