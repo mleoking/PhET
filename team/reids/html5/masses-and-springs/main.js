@@ -278,9 +278,11 @@ function init() {
     );
 
     globals.springs = new Array();
-    globals.springs.push( spring( "1", 200 ) );
-    globals.springs.push( spring( "2", 300 ) );
-    globals.springs.push( spring( "3", 400 ) );
+    var springSpacing = 180;
+    var springOffset = 200;
+    globals.springs.push( spring( "1", springOffset ) );
+    globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
+    globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
 
     function labeledCheckBox( label ) {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
