@@ -74,6 +74,9 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     public final BooleanProperty speedVisible = new BooleanProperty( DEFAULT_SPEED_VISIBLE );
     public final BooleanProperty barChartVisible = new BooleanProperty( DEFAULT_BAR_CHARTS_VISIBLE );
 
+    //Speed for the sim to run, normal or slow/mo
+    public final Property<Boolean> normalSpeed = new Property<Boolean>( true );
+
     //Observable speed of the 0th skater, should be in the model, but model must be serialized for record/playback, so keep it here
     private final Property<Double> primarySkaterSpeed = new Property<Double>( 0.0 );
 
@@ -152,6 +155,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
 
     private void setDefaults() {
         barChartVisible.reset();
+        normalSpeed.reset();
         setEnergyTimePlotVisible( DEFAULT_PLOT_VISIBLE );
         setEnergyPositionPlotVisible( DEFAULT_ENERGY_POSITION_PLOT_VISIBLE );
     }
@@ -173,6 +177,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
         energyModel.reset();
         energySkateParkSimulationPanel.reset();
         timeSeriesModel.reset();
+        normalSpeed.reset();
         timeSeriesModel.setLiveMode();
         timeSeriesModel.startLiveMode();
         energyTimePlot.reset();

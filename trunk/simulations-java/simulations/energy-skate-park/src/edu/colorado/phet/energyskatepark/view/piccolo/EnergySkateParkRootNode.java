@@ -31,11 +31,9 @@ import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
-import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkTimePanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -220,14 +218,24 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         } );
 
         //add the floating clock control panel
-        EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( module, module.getTimeSeriesModel().getTimeModelClock() );
-        final PSwing timePanelNode = new PSwing( timePanel ) {{
-            final double scale = 0.02;
-            final AffineTransform transform = AffineTransform.getScaleInstance( scale, -scale );
-            transform.preConcatenate( AffineTransform.getTranslateInstance( EnergySkateParkSimulationPanel.VIEW_WIDTH / 2 - getFullBounds().getWidth() / 2 * scale, 0 ) );
-            setTransform( transform );
-        }};
-        addWorldChild( timePanelNode );
+//        EnergySkateParkTimePanel timePanel = new EnergySkateParkTimePanel( module, module.getTimeSeriesModel().getTimeModelClock() );
+//        final PSwing timePanelNode = new PSwing( timePanel ) {{
+//            final double scale = 0.02;
+//            final AffineTransform transform = AffineTransform.getScaleInstance( scale, -scale );
+//            transform.preConcatenate( AffineTransform.getTranslateInstance( EnergySkateParkSimulationPanel.VIEW_WIDTH / 2 - getFullBounds().getWidth() / 2 * scale, 0 ) );
+//            setTransform( transform );
+//        }};
+//        addWorldChild( timePanelNode );
+
+        addScreenChild( new EnergySkateParkTimeControlPanel( module, module.getTimeSeriesModel().getTimeModelClock() ) {{
+            final ComponentAdapter listener = new ComponentAdapter() {
+                @Override public void componentResized( ComponentEvent e ) {
+                    setOffset( simulationPanel.getWidth() / 2 - getFullWidth() / 2, simulationPanel.getHeight() - getFullHeight() - 10 );
+                }
+            };
+            simulationPanel.addComponentListener( listener );
+            listener.componentResized( null );
+        }} );
 
         //Add the speedometer
         addWorldChild( new ESPSpeedometerNode( module.getPrimarySkaterSpeed() ) {{
