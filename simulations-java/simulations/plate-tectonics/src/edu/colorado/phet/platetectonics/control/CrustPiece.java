@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
-import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.umd.cs.piccolo.PNode;
 
@@ -16,9 +15,9 @@ import edu.umd.cs.piccolo.PNode;
  * Stylized piece of crust that can be dragged into open spots in the plate motion tab
  */
 public class CrustPiece extends PNode {
-    
+
     public final PlateType type;
-    
+
     public CrustPiece( PlateType type, final float height, float intensity ) {
         this.type = type;
         final float topHeight = 20;

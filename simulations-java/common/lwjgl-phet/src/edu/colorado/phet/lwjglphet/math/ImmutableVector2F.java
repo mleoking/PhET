@@ -25,6 +25,9 @@ public class ImmutableVector2F implements Serializable {
     //Immutable instance for zero so it doesn't need to be duplicated/re-instantiated in multiple places
     public static final ImmutableVector2F ZERO = new ImmutableVector2F();
 
+    public static final ImmutableVector2F X_UNIT = new ImmutableVector2F( 1, 0 );
+    public static final ImmutableVector2F Y_UNIT = new ImmutableVector2F( 0, 1 );
+
     public ImmutableVector2F() {
         this( 0, 0 );
     }
@@ -135,6 +138,10 @@ public class ImmutableVector2F implements Serializable {
 
     public float getMagnitude() {
         return (float) Math.sqrt( getMagnitudeSq() );
+    }
+
+    public ImmutableVector2F normalized() {
+        return times( 1 / getMagnitude() );
     }
 
     //The following setter methods are protected so that clients of ImmutableVector2D won't be able to mutate the object
