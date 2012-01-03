@@ -6,3 +6,4 @@ This project contains:
 - status reports
 - hours reports
 - Eclipse files
+- IntelliJ IDEA files
