@@ -133,6 +133,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     protected void loadDefaultTrack() {
+
+        //Move the pre-set parabola to the left so it doesn't encroach on the control panel
         loadTrack( PARABOLA_TRACK, -1.0 );
     }
 
@@ -170,11 +172,11 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     //Show buttons that allows the user to choose different tracks
     public void addTrackSelectionControlPanel() {
         final ControlPanelNode trackSelectionNode = new ControlPanelNode( new VBox(
-                new TrackButton( this, PARABOLA_TRACK, 0.0 ),
+                new TrackButton( this, PARABOLA_TRACK, -1.0 ),
                 new TrackButton( this, "energy-skate-park/tracks/basics/to-the-floor.esp", 0.0 ),
 
-                //Move the double-well to the right so it will have its lowest peak directly on the 6 meter mark for the grid
-                new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp", 6.0 - 5.88033509545687 )
+                //Move the double-well to the right so it will have its lowest peak directly on a discrete meter mark for the grid, but also make sure it doesn't overlap the control panel
+                new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp", 6.0 - 5.88033509545687 - 1.0 )
         ), EnergySkateParkLookAndFeel.backgroundColor ) {{
 
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
