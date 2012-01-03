@@ -48,6 +48,7 @@ public class MultipleCellsModel {
      */
     public MultipleCellsModel() {
         initializeCellLocations();
+
         // Hook up the clock.
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
@@ -78,9 +79,16 @@ public class MultipleCellsModel {
     public void reset() {
         // Clear out all existing cells.
         cellList.clear();
+
         // Add a single cell.
         setNumCells( 1 );
 
+        // Step the model a bunch of times in order to allow it to reach a
+        // steady state.  The number of times that are needed to reach steady
+        // state was empirically determined.
+        for ( int i = 0; i < 1000; i++ ) {
+            stepInTime( clock.getDt() );
+        }
     }
 
     /**
