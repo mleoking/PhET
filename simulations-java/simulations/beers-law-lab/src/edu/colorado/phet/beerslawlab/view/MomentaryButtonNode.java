@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -24,7 +24,7 @@ public class MomentaryButtonNode extends PNode {
 
     private String simSharingObject = "MomentaryButtonNode";
 
-    private final CursorHandler cursorHandler;
+    private final DynamicCursorHandler cursorHandler;
 
     // Constructor that uses default images (round red buttons with 3D look)
     public MomentaryButtonNode( Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
@@ -37,7 +37,7 @@ public class MomentaryButtonNode extends PNode {
     public MomentaryButtonNode( final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
         assert ( onImage != offImage ); // different images are required
 
-        this.cursorHandler = new CursorHandler();
+        this.cursorHandler = new DynamicCursorHandler();
 
         final PImage imageNode = new PImage();
         addChild( imageNode );
