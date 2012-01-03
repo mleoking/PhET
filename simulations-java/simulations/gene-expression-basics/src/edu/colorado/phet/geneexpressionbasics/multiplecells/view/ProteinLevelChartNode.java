@@ -14,6 +14,10 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -29,26 +33,40 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ProteinLevelChartNode extends PNode {
 
-    private static final Dimension2D SIZE = new PDimension( 300, 200 );  // In screen coordinates, which is close to pixels.
+    private static final Dimension2D SIZE = new PDimension( 400, 200 );  // In screen coordinates, which is close to pixels.
     private static final double TIME_SPAN = 60; // In seconds.
 
     private final XYSeries dataSeries = new XYSeries( "0" );
+    private double timeOffset = 0;
 
-    public ProteinLevelChartNode() {
-        // Create the chart itself, i.e. the place where date will be shown.
+    public ProteinLevelChartNode( final Property<Double> observableDataValue, final IClock clock ) {
         XYDataset dataSet = new XYSeriesCollection( dataSeries );
+        // Create the chart itself, i.e. the place where data will be shown.
+        // TODO: i18n
         JFreeChart chart = createXYLineChart( "Average Protein Level vs. Time", "Time", "Average Protein Level", dataSet, PlotOrientation.VERTICAL );
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
-        chart.getXYPlot().getRangeAxis().setRange( -100, 100 );
+        chart.getXYPlot().getRangeAxis().setRange( 0, 600 );
+        chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
+
+        // Embed the chart in a PNode.
         JFreeChartNode jFreeChartNode = new JFreeChartNode( chart, false );
         jFreeChartNode.setBounds( 0, 0, SIZE.getWidth(), SIZE.getHeight() );
-        chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
         jFreeChartNode.updateChartRenderingInfo();
 
-        // Add the chart to this node.
-        addChild( jFreeChartNode );
+        // Put the chart in a control panel node in order to give it a decent
+        // looking border.
+        PNode panel = new ControlPanelNode( jFreeChartNode );
+        addChild( panel );
 
-
+        // Hook up a listener to the average protein level and update the data
+        // data on the chart.
+        observableDataValue.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double aDouble ) {
+                if ( clock.getSimulationTime() < TIME_SPAN ) {
+                    dataSeries.add( clock.getSimulationTime(), observableDataValue.get() );
+                }
+            }
+        } );
     }
 
     /**
