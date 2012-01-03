@@ -101,7 +101,7 @@ public class ProteinLevelChartNode extends PNode {
         // Set the stroke for the data line to be larger than the default.
         XYPlot plot = chart.getXYPlot();
         XYItemRenderer renderer = plot.getRenderer();
-        renderer.setStroke( new BasicStroke( 3f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL ) );
+        renderer.setStroke( new BasicStroke( 1f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL ) );
 
         return chart;
     }
