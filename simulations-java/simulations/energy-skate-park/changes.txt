@@ -1,3 +1,4 @@
+common: Changed "Return Skater" button to be green instead of orange to distinguish from "Reset all" Button
 Energy Skate Park Basics: Reduced the size of the "W" track and adjusted layout so it doesn't overlap the control panels
 Energy Skate Park Basics: Moved the pre-set parabola to the left so it doesn't encroach on the control panel
 Energy Skate Park Basics: Simsharing: fixed: sim speed slider needs a name, see #3201
