@@ -49,7 +49,6 @@ public class CellProteinSynthesisSimulator {
 
     public CellProteinSynthesisSimulator( int ribosomeCount ) {
         _objectCounts[6] = ribosomeCount;
-        System.out.println( ribosomeCount );
         _currentTime = 0.0;
     }
 
