@@ -36,6 +36,7 @@ public class MonthlyReportFilter {
         allList.add( "balance-and-torque" );
         allList.add( "forces-and-motion" );
         allList.add( "fractions-intro" );
+        allList.add( "ipad" );
 
         allList.add( "leave:sick:family" );
         allList.add( "leave:sick:personal" );
@@ -56,43 +57,28 @@ public class MonthlyReportFilter {
     }
 
     public static ArrayList<String> getPredefinedCategories() {
-        String categorieString =
-//                "Accessibility\n" +
+        String categoryString =
                 "Administrative/Documentation\n" +            //includes meetings
                 "Build Process\n" +
                 "Common Code\n" +
                 "Conferences, Workshops and Booths\n" +
-//                "Email\n" +
                 "Customer Support\n" +
                 "Environment/Maintenance/Tools\n" +
-//                "Flash Future\n" +
-//                "Flash_Flash Common\n" +
                 "Installer\n" +
                 "Interviewing\n" +
                 "KSU Translation Credits\n" +
                 "Licensing\n" +
-//                "Look & Feel\n" +
-//                "Meetings\n" +
                 "Miscellaneous\n" +
                 "New Sim Investigations\n" +
                 "OVSD\n" +
-//                "PhET Basic\n" +
-//                "PhET Help\n" +
-//                "Common Code\n" +
-//                "Piccolo\n" +
-//                "Respository, SVN, CVS\n" +
                 "Research, Surveys, Interviews & Observations\n" +
-//                "Scala\n" +
                 "Sim-sharing\n" +
-//                "Statistics Database\n" +
-//                "Testing & IOM\n" +
                 "Translations\n" +
                 "Unfuddle\n" +
-//                "Sim Updates\n" +
                 "Website";
 
         ArrayList<String> categories = new ArrayList<String>();
-        StringTokenizer st = new StringTokenizer( categorieString, "\n" );
+        StringTokenizer st = new StringTokenizer( categoryString, "\n" );
         while ( st.hasMoreElements() ) {
             categories.add( st.nextToken() );
         }
@@ -174,6 +160,9 @@ public class MonthlyReportFilter {
         if ( category.equals( "spongelab" ) ) { return mapCategory( "Customer Support" ); }
         if ( category.equals( "javafx" ) ) { return mapCategory( "Miscellaneous" ); }
         if ( category.equals( "developer-meeting" ) ) { return mapCategory( "Administrative/Documentation" ); }
+        if ( category.equals( "sponsor" ) ) { return mapCategory( "sponsorship" ); }
+        if ( category.equals( "sim-event-data-collection" ) ) { return mapCategory( "Sim data collection/processing" ); }
+        if ( category.equals( "sim-event-collection" ) ) { return mapCategory( "Sim data collection/processing" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
