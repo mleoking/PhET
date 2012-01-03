@@ -1,3 +1,4 @@
+Energy Skate Park Basics: Reduced the size of the "W" track and adjusted layout so it doesn't overlap the control panels
 Energy Skate Park Basics: Moved the pre-set parabola to the left so it doesn't encroach on the control panel
 Energy Skate Park Basics: Simsharing: fixed: sim speed slider needs a name, see #3201
 Energy Skate Park Basics: Simsharing: added message when changing tracks with track button, see #3201
