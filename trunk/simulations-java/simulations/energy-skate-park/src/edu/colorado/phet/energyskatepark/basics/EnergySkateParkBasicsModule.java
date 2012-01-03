@@ -133,7 +133,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     protected void loadDefaultTrack() {
-        loadTrack( PARABOLA_TRACK, 0.0 );
+        loadTrack( PARABOLA_TRACK, -1.0 );
     }
 
     //Move splines so they sit on the ground with y=0 and move by the specified x amount
