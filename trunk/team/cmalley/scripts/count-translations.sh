@@ -6,7 +6,7 @@
 #================================================================================
 
 TRUNK=${1}
-TRUNK=/Users/cmalley/phet-workspace/trunk
+TRUNK=/Users/cmalley/IdeaProjects/phet/svn/trunk
 
 echo "================== JAVA SIM TRANSLATIONS =================="
 for stringFile in `ls ${TRUNK}/simulations-java/*/*/*/*/*/*-strings*.properties | grep "_"`
