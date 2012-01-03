@@ -116,7 +116,7 @@ function vbox( args ) {
         }
     }
 
-    vertical( args.children, 30 );
+    vertical( args.children, 10 );
 
     //compute width and height
     that.width = 0;
@@ -127,6 +127,24 @@ function vbox( args ) {
     }
 
     return that;
+}
+
+//Varargs variant for creating vbox at 0,0
+function vbox00() {
+    var array = new Array();
+    for ( var i = 0; i < arguments.length; i++ ) {
+        array.push( arguments[i] );
+    }
+    return vbox( {children:array, x:0, y:0} );
+}
+
+//Varargs variant for creating hbox at 0,0
+function hbox00() {
+    var array = new Array();
+    for ( var i = 0; i < arguments.length; i++ ) {
+        array.push( arguments[i] );
+    }
+    return hbox( {children:array, x:0, y:0} );
 }
 
 function hbox( args ) {
@@ -220,6 +238,17 @@ $( document ).ready( function () {
 // Hook up event handler for window resize.
 $( window ).resize( resizer );
 
+
+//Non-interactive spacer for layouts
+function spacer() {
+    var that = rectangularNode( 30, 30 );
+    that.draw = function ( context ) {
+    }
+    that.onTouchStart = function ( point ) {
+    }
+    return that;
+}
+
 // Initialize the canvas, context,
 function init() {
 
@@ -253,9 +282,18 @@ function init() {
     globals.springs.push( spring( "2", 300 ) );
     globals.springs.push( spring( "3", 400 ) );
 
-    var stopwatchCheckBox = hbox( {children:new Array( checkbox( 0, 0 ), textNode( "Stopwatch" ) ), x:0, y:0} );
-    var soundCheckBox = hbox( {children:new Array( checkbox( 0, 0 ), textNode( "Sound" ) ), x:0, y:0} );
-    var frictionSlider = vbox( {children:new Array( textNode( "Friction" ), slider() ), x:0, y:0} );
+    function labeledCheckBox( label ) {
+        return hbox00( checkbox( 0, 0 ), textNode( label ) );
+    }
+
+    var stopwatchCheckBox = labeledCheckBox( "Stopwatch" );
+    var soundCheckBox = labeledCheckBox( "Sound" );
+    var frictionSlider = vbox00( textNode( "friction" ), slider() );
+    var softnessSlider = vbox00( textNode( "softness spring 3" ), slider() );
+
+    var oneTwoThree = hbox00( labeledCheckBox( "1" ), labeledCheckBox( "2" ), labeledCheckBox( "3" ) );
+    var showEnergyBox = vbox00( textNode( "Show Energy of" ), oneTwoThree, labeledCheckBox( "No show" ) );
+
     var rootNodeComponents = new Array(
             imageNode( "resources/red-mass.png", 114, 496 ),
             imageNode( "resources/green-mass.png", 210, 577 ),
@@ -271,7 +309,7 @@ function init() {
 ////            textNode( "hello" ),
 ////            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} ),
 //            hbox( {children:new Array( checkbox( 0, 0 ), checkbox( 0, 0 ), checkbox( 0, 0 ) ), x:600, y:0} ),
-            vbox( {children:new Array( frictionSlider, stopwatchCheckBox, soundCheckBox ), x:700, y:100} ) );
+            vbox( {children:new Array( frictionSlider, spacer(), softnessSlider, spacer(), showEnergyBox, spacer(), hbox00( stopwatchCheckBox, soundCheckBox ) ), x:700, y:100} ) );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
