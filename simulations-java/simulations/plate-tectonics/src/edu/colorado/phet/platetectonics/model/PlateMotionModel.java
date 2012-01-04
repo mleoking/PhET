@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0.Constant;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.regions.Region.Type;
@@ -51,6 +52,16 @@ public class PlateMotionModel extends PlateModel {
     // TODO: better handling for this. ugly
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
     public final Property<PlateType> rightPlateType = new Property<PlateType>( null );
+
+    public final Property<Boolean> canRun = new Property<Boolean>( false ) {{
+        SimpleObserver observer = new SimpleObserver() {
+            @Override public void update() {
+                set( hasLeftPlate() && hasRightPlate() );
+            }
+        };
+        leftPlateType.addObserver( observer );
+        rightPlateType.addObserver( observer );
+    }};
 
     public PlateMotionModel( final Bounds3D bounds ) {
         super( bounds );
@@ -136,6 +147,8 @@ public class PlateMotionModel extends PlateModel {
             leftCrustBottomSamples.add( new Sample( new ImmutableVector2F( leftX, SIMPLE_MANTLE_TOP_Y ) ) );
             rightCrustBottomSamples.add( new Sample( new ImmutableVector2F( rightX, SIMPLE_MANTLE_TOP_Y ) ) );
         }
+
+        canRun.reset();
 
         updateRegions();
         updateTerrain();
@@ -273,7 +286,6 @@ public class PlateMotionModel extends PlateModel {
         super.update( timeElapsed );
 
         if ( hasLeftPlate() && hasRightPlate() ) {
-            System.out.println( "transforming samples" );
             for ( Sample sample : FunctionalUtils.concat(
                     leftCrustTopSamples,
                     rightCrustTopSamples,
