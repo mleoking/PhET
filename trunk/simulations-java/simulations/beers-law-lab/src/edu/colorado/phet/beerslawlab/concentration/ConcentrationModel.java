@@ -86,7 +86,7 @@ public class ConcentrationModel implements Resettable {
 
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
-        this.shaker = new Shaker( new ImmutableVector2D( 340, 170 ), new PBounds( 225, 165, 400, 50 ), solute, SHAKER_MAX_DISPENSING_RATE );
+        this.shaker = new Shaker( new ImmutableVector2D( 340, 170 ), new PBounds( 225, 165, 400, 45 ), solute, SHAKER_MAX_DISPENSING_RATE );
         this.dropper = new Dropper( new ImmutableVector2D( 375, 210 ), new PBounds( 230, 205, 250, 30 ), solute, DROPPER_FLOW_RATE );
         this.evaporator = new Evaporator( MAX_EVAPORATION_RATE, solution );
         this.beaker = new Beaker( new Point2D.Double( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
