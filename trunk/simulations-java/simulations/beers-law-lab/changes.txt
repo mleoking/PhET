@@ -1,3 +1,5 @@
+# 0.00.01 (59868) Jan 4, 2012
+1/4/12 early dev version for discussion of design issues with JC
 1/3/12 add precipitate and particles to the model
 1/3/12 add relative location of shaker holes to model
 1/3/12 move shaker origin to center holes in shaker image
