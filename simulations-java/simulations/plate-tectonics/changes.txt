@@ -1,3 +1,5 @@
+# 0.00.07 (59864) Jan 3, 2012
+1/3/12 Added UI for 2nd tab "Auto" mode with clock, added inaccurate example "convergence" model
 # 0.00.06 (59809) Jan 2, 2012
 1/2/12 Added start of 2nd tab model (blocky start positions) with drag-drop of crust and initial 2nd tab reset functionality
 # 0.00.05 (59777) Dec 29, 2011
