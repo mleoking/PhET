@@ -22,6 +22,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -53,6 +55,7 @@ import edu.colorado.phet.platetectonics.control.ThermometerNode3D;
 import edu.colorado.phet.platetectonics.control.ToolDragHandler;
 import edu.colorado.phet.platetectonics.control.Toolbox;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.TectonicsClock;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 
 import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.X_UNIT;
@@ -112,6 +115,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     protected Toolbox toolbox;
     protected OrthoPiccoloNode draggedCrustPiece = null;
 
+    private final TectonicsClock clock = new TectonicsClock( 1 ); // TODO: work on time multiplier
+
     // in seconds
     private float timeElapsed;
 
@@ -131,6 +136,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public void initialize() {
         stageSize = initialCanvasSize;
         canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
+
+        clock.addClockListener( new ClockAdapter(){
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                if( getModel() != null ) {
+                    double timeChange = clockEvent.getSimulationTimeChange();
+                    getModel().update( timeChange );
+                }
+            }
+        } );
 
         // show both sides
         glPolygonMode( GL_FRONT, GL_FILL );
@@ -392,6 +406,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             framesPerSecond.set( (double) ( 1000 * ( (float) framesToCount ) / ( (float) ( current - previous ) ) ) );
         }
 
+        // calculate time elapsed
+        long newTime = System.currentTimeMillis();
+        timeElapsed = Math.min(
+                1000f / (float) framesPerSecondLimit.get(), // don't let our time elapsed go over the frame rate limit value
+                (float) ( newTime - lastSeenTime ) / 1000f ); // take elapsed milliseconds => seconds
+        lastSeenTime = newTime;
+
+        clock.stepByWallSeconds( timeElapsed );
+
         beforeFrameRender.updateListeners();
 
         // Clear the screen and depth buffer
@@ -401,12 +424,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // reset the modelview matrix
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity();
-
-        // calculate time elapsed
-        long newTime = System.currentTimeMillis();
-        timeElapsed = Math.min(
-                1000f / (float) framesPerSecondLimit.get(), // don't let our time elapsed go over the frame rate limit value
-                (float) ( newTime - lastSeenTime ) / 1000f ); // take elapsed milliseconds => seconds
 
         // walk through all of the mouse events that occurred
         while ( Mouse.next() ) {
@@ -441,9 +458,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         sceneNode.render( new GLOptions() );
 
         Display.update();
-
-        // TODO: why do we wait until here to update the model?
-        getModel().update( getTimeElapsed() );
     }
 
     @Override public void stop() {
@@ -703,5 +717,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         zoomRatio.reset();
         debugCameraTransform.set( ImmutableMatrix4F.IDENTITY );
         model.resetAll();
+    }
+
+    public TectonicsClock getClock() {
+        return clock;
     }
 }
