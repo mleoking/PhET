@@ -31,8 +31,16 @@ public class MultipleCellsModel {
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
-    // List of cells in the model.
-    public final ObservableList<Cell> cellList = new ObservableList<Cell>();
+    // List of cells in the model that should be visible to the user and that
+    // are being used in the average protein level calculation.
+    public final ObservableList<Cell> visibleCellList = new ObservableList<Cell>();
+
+    // List of cells that are NOT visible to the user and that are NOT used in
+    // the average protein count calculation.  These are still clocked and
+    // simulated so that their levels stay reasonably close to that of the
+    // visible cells, thus preventing large discontinuities in the graph when
+    // cells are added or removed.
+    private final List<Cell> invisibleCellList = new ArrayList<Cell>();
 
     // Locations where cells are placed.  This is initialized at construction
     // so that placements are consistent as cells come and go.
@@ -55,17 +63,24 @@ public class MultipleCellsModel {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
+
+        // Set the initial state.
+        reset();
     }
 
     private void stepInTime( double dt ) {
         int totalProteinCount = 0;
         // Step each of the cells.
-        for ( Cell cell : cellList ) {
+        for ( Cell cell : visibleCellList ) {
             cell.stepInTime( dt );
             totalProteinCount += cell.getProteinCount();
         }
+        for ( Cell cell : invisibleCellList ) {
+            cell.stepInTime( dt );
+            // Note that invisible cells are not included in average protein level.
+        }
         // Update the average protein level.
-        averageProteinLevel.set( (double) totalProteinCount / cellList.size() );
+        averageProteinLevel.set( (double) totalProteinCount / visibleCellList.size() );
     }
 
     public IClock getClock() {
@@ -78,10 +93,18 @@ public class MultipleCellsModel {
      */
     public void reset() {
         // Clear out all existing cells.
-        cellList.clear();
+        visibleCellList.clear();
+        invisibleCellList.clear();
 
-        // Add a single cell.
-        setNumCells( 1 );
+        // Add the max number of cells to the list of invisible cells.
+        while ( invisibleCellList.size() < MAX_CELLS ) {
+            Cell newCell = new Cell( invisibleCellList.size() ); // Use index as seed so that same cell looks the same.
+            newCell.setPosition( cellLocations.get( invisibleCellList.size() ) );
+            invisibleCellList.add( newCell );
+        }
+
+        // Start with one visible cell.
+        setNumVisibleCells( 1 );
 
         // Step the model a bunch of times in order to allow it to reach a
         // steady state.  The number of times that are needed to reach steady
@@ -92,27 +115,26 @@ public class MultipleCellsModel {
     }
 
     /**
-     * Set the number of cells currently in the model.  Adds or removes cells
-     * from the model until the number matches the target.
+     * Set the number of cells that should be visible to the user and that
+     * are included in the calculation of average protein level.
      *
      * @param numCells - target number of cells.
      */
-    public void setNumCells( int numCells ) {
+    public void setNumVisibleCells( int numCells ) {
 
         assert numCells > 0 && numCells <= MAX_CELLS;  // Bounds checking.
         numCells = MathUtil.clamp( 1, numCells, MAX_CELLS ); // Defensive programming.
 
-        if ( cellList.size() > numCells ) {
-            // Remove cells from the end of the list.
-            while ( cellList.size() > numCells ) {
-                cellList.remove( cellList.size() - 1 );
+        if ( visibleCellList.size() < numCells ) {
+            // Transfer cells from the end of the invisible list to visible list.
+            while ( visibleCellList.size() < numCells ) {
+                visibleCellList.add( invisibleCellList.remove( 0 ) );
             }
         }
-        else if ( cellList.size() < numCells ) {
-            while ( cellList.size() < numCells ) {
-                Cell newCell = new Cell( cellList.size() ); // Use index as seed so that same cell looks the same.
-                newCell.setPosition( cellLocations.get( cellList.size() ) );
-                cellList.add( newCell );
+        else if ( visibleCellList.size() > numCells ) {
+            // Transfer cells from visible list to invisible list.
+            while ( visibleCellList.size() > numCells ) {
+                invisibleCellList.add( 0, visibleCellList.remove( visibleCellList.size() - 1 ) );
             }
         }
     }
@@ -123,7 +145,7 @@ public class MultipleCellsModel {
      * @return - current number of cells.
      */
     public int getNumCells() {
-        return cellList.size();
+        return visibleCellList.size();
     }
 
     /**
@@ -134,13 +156,13 @@ public class MultipleCellsModel {
      */
     public Rectangle2D getCellCollectionBounds() {
 
-        assert cellList.size() > 0;  // Check that the model isn't in a state the makes this operation meaningless.
+        assert visibleCellList.size() > 0;  // Check that the model isn't in a state the makes this operation meaningless.
 
         double minX = 0;
         double minY = 0;
         double maxX = 0;
         double maxY = 0;
-        for ( Cell cell : cellList ) {
+        for ( Cell cell : visibleCellList ) {
             if ( cell.getShape().getBounds2D().getMinX() < minX ) {
                 minX = cell.getShape().getBounds2D().getMinX();
                 maxX = -minX;
@@ -167,7 +189,7 @@ public class MultipleCellsModel {
      * @param tfCount number of transcription factors
      */
     public void setTranscriptionFactorCount( int tfCount ) {
-        for ( Cell cell : cellList ) {
+        for ( Cell cell : visibleCellList ) {
             cell.setTranscriptionFactorCount( tfCount );
         }
     }
@@ -178,7 +200,7 @@ public class MultipleCellsModel {
      * @param polymeraseCount number of polymerases
      */
     public void setPolymeraseCount( int polymeraseCount ) {
-        for ( Cell cell : cellList ) {
+        for ( Cell cell : visibleCellList ) {
             cell.setPolymeraseCount( polymeraseCount );
         }
     }
@@ -190,7 +212,7 @@ public class MultipleCellsModel {
      * @param newRate
      */
     public void setGeneTranscriptionFactorAssociationRate( double newRate ) {
-        for ( Cell cell : cellList ) {
+        for ( Cell cell : visibleCellList ) {
             cell.setGeneTranscriptionFactorAssociationRate( newRate );
         }
     }
@@ -202,7 +224,7 @@ public class MultipleCellsModel {
      * @param newRate the rate for polymerase binding
      */
     public void setPolymeraseAssociationRate( double newRate ) {
-        for ( Cell cell : cellList ) {
+        for ( Cell cell : visibleCellList ) {
             cell.setPolymeraseAssociationRate( newRate );
         }
     }
@@ -214,7 +236,7 @@ public class MultipleCellsModel {
      * @param newRate the rate at which RNA binds to a ribosome
      */
     public void setRNARibosomeAssociationRate( double newRate ) {
-        for ( Cell cell : cellList ) {
+        for ( Cell cell : visibleCellList ) {
             cell.setRNARibosomeAssociationRate( newRate );
         }
     }
