@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -41,16 +40,12 @@ public class ShakerNode extends PhetPNode {
 
         // Combine image and label into a parent, to simplify rotation and label alignment.
         PNode parentNode = new PNode();
+        addChild( parentNode );
         parentNode.addChild( imageNode );
         parentNode.addChild( labelNode );
         imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
         parentNode.rotate( 0.25 * -Math.PI ); // Image file is assumed to be oriented with shaker holes pointing left.
-
-        // Apply a wrapper node to move the origin to (0,0). Do this after transforming parentNode and its children.
-        ZeroOffsetNode zeroOffsetNode = new ZeroOffsetNode( parentNode );
-        addChild( zeroOffsetNode );
-
-        zeroOffsetNode.setOffset( -45, -170 ); // manually adjust these values until the origin is in the middle hole of the shaker
+        parentNode.setOffset( -45, -170 ); // Manually adjust these values until the origin is in the middle hole of the shaker.
 
         // origin debugging
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
