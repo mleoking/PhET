@@ -3,6 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+
 /**
  * This class defines a synthetic cell.  The central dogma is simulated as a
  * Markov process for a single protein.
@@ -17,12 +19,15 @@ import java.util.Random;
 
 public class CellProteinSynthesisSimulator {
 
+    public static final int DEFAULT_TRANSCRIPTION_FACTOR_COUNT = 2000;
+    public static final IntegerRange TRANSCRIPTION_FACTOR_COUNT_RANGE = new IntegerRange( 0, 4000 );
+
     private Random _random = new Random();
     private double _timeStep = 5e2;
     private double _currentTime;
 
     private int[] _objectCounts = { 20, //gene count
-            2000, //free transcription factor count
+            DEFAULT_TRANSCRIPTION_FACTOR_COUNT, //free transcription factor count
             5000, //polymerase count
             0, //gene, transcription factor complex count
             0, //gene, TF, polymerase count
@@ -58,6 +63,8 @@ public class CellProteinSynthesisSimulator {
      * @param tfCount number of transcription factors
      */
     public void setTranscriptionFactorCount( int tfCount ) {
+        // Parameter checking.
+        assert tfCount >= TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin() && tfCount <= TRANSCRIPTION_FACTOR_COUNT_RANGE.getMax();
         _objectCounts[1] = tfCount;
     }
 

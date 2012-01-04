@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
+import edu.colorado.phet.geneexpressionbasics.multiplecells.model.CellProteinSynthesisSimulator;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -87,7 +88,11 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         }} );
 
         // Add the sliders that control the various model parameters.
-        addWorldChild( new CellParameterController( "<center>Transcription Factor<br>Level</center>", Color.orange ) );
+        // TODO: i18n
+        addWorldChild( new CellParameterController( "<center>Transcription Factor<br>Level</center>",
+                                                    model.transcriptionFactorLevel,
+                                                    CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE,
+                                                    Color.orange ) );
 
         // Add a handler that controls the zoom level.  This automatically
         // zooms in and out to allow all of the cells to be seen.
@@ -110,12 +115,13 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     }
 
     private void setZoomToSeeAllCells() {
-        if ( model.getNumCells() > 0 ) {
-            // Set the existing transform back to default, unzoomed state.
-            localWorldRootNode.setTransform( new AffineTransform() );
+        // Set the existing transform back to default, unzoomed state.
+        localWorldRootNode.setTransform( new AffineTransform() );
 
-            // Set the scale so that the cells fit on the "stage".
-            double scale = Math.min( ( STAGE_SIZE.getWidth() * 0.75 ) / mvt.modelToViewDeltaX( model.getCellCollectionBounds().getWidth() ), 1 );
+        // Set the scale so that the visible cells fit on the "stage".
+        Rectangle2D visibleCellCollectionBounds = model.getVisibleCellCollectionBounds();
+        if ( visibleCellCollectionBounds.getWidth() > 0 && visibleCellCollectionBounds.getHeight() > 0 ) {
+            double scale = Math.min( ( STAGE_SIZE.getWidth() * 0.75 ) / mvt.modelToViewDeltaX( visibleCellCollectionBounds.getWidth() ), 1 );
             localWorldRootNode.scaleAboutPoint( scale, mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         }
     }
