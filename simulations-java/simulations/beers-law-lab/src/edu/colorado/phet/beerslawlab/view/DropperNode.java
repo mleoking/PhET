@@ -6,8 +6,10 @@ import java.awt.Font;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
+import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -44,6 +46,11 @@ public class DropperNode extends PhetPNode {
         addChild( buttonNode );
         buttonNode.setOffset( imageNode.getFullBoundsReference().getCenterX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ),
                               imageNode.getFullBoundsReference().getMaxY() - ( imageNode.getFullBoundsReference().getHeight() - BUTTON_Y_OFFSET ) - ( buttonNode.getFullBoundsReference().getHeight() / 2 ) );
+
+        // origin debugging
+        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+            addChild( new DebugOriginNode() );
+        }
 
         // Change the label when the solute changes.
         dropper.solute.addObserver( new SimpleObserver() {

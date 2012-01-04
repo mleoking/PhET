@@ -7,8 +7,10 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
+import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -46,6 +48,11 @@ public class ShakerNode extends PhetPNode {
 
         // Apply a wrapper node to move the origin to (0,0). Do this after transforming parentNode and its children.
         addChild( new ZeroOffsetNode( parentNode ) );
+
+        // origin debugging
+        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+            addChild( new DebugOriginNode() );
+        }
 
         // Change the label when the solute changes.
         shaker.solute.addObserver( new SimpleObserver() {
