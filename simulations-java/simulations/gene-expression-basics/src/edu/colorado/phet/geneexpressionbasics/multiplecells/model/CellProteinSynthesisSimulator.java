@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
@@ -21,12 +22,17 @@ public class CellProteinSynthesisSimulator {
 
     public static final int DEFAULT_TRANSCRIPTION_FACTOR_COUNT = 2000;
     public static final IntegerRange TRANSCRIPTION_FACTOR_COUNT_RANGE = new IntegerRange( 0, 4000 );
+    public static final double DEFAULT_TF_ASSOCIATION_PROBABILITY = 0.001f;
+    public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 0.01 );
+    public static final double DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY = 0.001f;
+    public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 0.01 );
 
     private Random _random = new Random();
     private double _timeStep = 5e2;
     private double _currentTime;
 
-    private int[] _objectCounts = { 20, //gene count
+    private int[] _objectCounts = {
+            20, //gene count
             DEFAULT_TRANSCRIPTION_FACTOR_COUNT, //free transcription factor count
             5000, //polymerase count
             0, //gene, transcription factor complex count
@@ -37,9 +43,10 @@ public class CellProteinSynthesisSimulator {
             0 //protein count
     };
 
-    private double[] _reactionProbabilities = { 0.001f, //gene, TF association
+    private double[] _reactionProbabilities = {
+            DEFAULT_TF_ASSOCIATION_PROBABILITY, //gene, TF association
             0.0009f, //gene-TF degradation
-            0.001f, //gene-TF-polymerase association
+            DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY, //gene-TF-polymerase association
             0.00085f, //gene-TF-polymerase degradation
             0.003f, //transcription
             0.001f, //mRNA-ribosome association
@@ -64,7 +71,7 @@ public class CellProteinSynthesisSimulator {
      */
     public void setTranscriptionFactorCount( int tfCount ) {
         // Parameter checking.
-        assert tfCount >= TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin() && tfCount <= TRANSCRIPTION_FACTOR_COUNT_RANGE.getMax();
+        assert TRANSCRIPTION_FACTOR_COUNT_RANGE.contains( tfCount );
         _objectCounts[1] = tfCount;
     }
 
@@ -83,6 +90,7 @@ public class CellProteinSynthesisSimulator {
      * @param newRate
      */
     public void setGeneTranscriptionFactorAssociationRate( double newRate ) {
+        assert TF_ASSOCIATION_PROBABILITY_RANGE.contains( newRate );
         _reactionProbabilities[0] = newRate;
     }
 
@@ -92,6 +100,7 @@ public class CellProteinSynthesisSimulator {
      * @param newRate the rate for polymerase binding
      */
     public void setPolymeraseAssociationRate( double newRate ) {
+        assert POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.contains( newRate );
         _reactionProbabilities[2] = newRate;
     }
 
