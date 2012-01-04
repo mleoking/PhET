@@ -133,7 +133,9 @@ public class ConcentrationMeterNode extends PhetPNode {
 
         public ProbeNode( final ConcentrationMeter meter ) {
 
-            PImage imageNode = new PImage( Images.CONCENTRATION_METER_PROBE );
+            PImage imageNode = new PImage( Images.CONCENTRATION_METER_PROBE ) {{
+                scale( 0.5 );
+            }};
             addChild( imageNode );
             imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
 

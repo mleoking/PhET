@@ -1,5 +1,5 @@
 concentration-meter-body.png author=PhET notes=copied intensity_meter_box.png from bending-light
-concentration-meter-probe.png author=PhET notes=copied wave_detector_probe_light.png from bending-light
+concentration-meter-probe.png author=PhET notes=copied and hacked intensity_meter_probe.png from bending-light
 dropper-icon.png author=PhET
 dropper.png author=PhET notes=retrieved by Sam Reid from changeset [54402]
 shaker-icon.png author=PhET

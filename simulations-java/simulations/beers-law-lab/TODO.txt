@@ -18,7 +18,6 @@ DESIGN
 HIGH
 - move shaker location to holes in shaker image
 - view of solute exiting shaker
-- end of wire is visible in transparent center of probe
 
 MEDIUM
 - get dropper assets from NP
