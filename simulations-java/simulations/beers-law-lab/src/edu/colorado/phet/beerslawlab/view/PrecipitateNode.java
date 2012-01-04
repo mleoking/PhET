@@ -1,12 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.view;
 
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-
-import edu.colorado.phet.beerslawlab.model.Beaker;
-import edu.colorado.phet.beerslawlab.model.Solution;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.beerslawlab.model.Precipitate;
+import edu.colorado.phet.beerslawlab.model.Precipitate.PrecipitateListener;
+import edu.colorado.phet.beerslawlab.model.PrecipitateParticle;
+import edu.colorado.phet.beerslawlab.view.PrecipitateParticleNode.PrecipitateParticleNodeListener;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -17,73 +15,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class PrecipitateNode extends PComposite {
 
-    private final Solution solution;
-    private final Beaker beaker;
-    private final ArrayList<PrecipitateParticleNode> particleNodes;
+    public PrecipitateNode( Precipitate precipitate ) {
 
-    public PrecipitateNode( Solution solution, Beaker beaker ) {
-        this.solution = solution;
-        this.beaker = beaker;
-        this.particleNodes = new ArrayList<PrecipitateParticleNode>();
-
-        // when the saturation changes, update the number of precipitate particles
-        solution.addPrecipitateAmountObserver( new SimpleObserver() {
-            public void update() {
-                updateParticles();
+        final PrecipitateParticleNodeListener nodeListener = new PrecipitateParticleNodeListener() {
+            public void removeNode( PrecipitateParticleNode node ) {
+                removeChild( node );
             }
-        } );
+        };
 
-        // when the solute changes, remove all particles and create new particles for the solute
-        solution.solute.addObserver( new SimpleObserver() {
-            public void update() {
-                removeAllParticles();
-                updateParticles();
-            }
-        } );
-    }
-
-    private void removeAllParticles() {
-        for ( PrecipitateParticleNode particleNode : particleNodes ) {
-            removeChild( particleNode );
-        }
-        particleNodes.clear();
-    }
-
-    private void updateParticles() {
-        int numberOfParticles = solution.getNumberOfPrecipitateParticles();
-        if ( numberOfParticles == 0 ) {
-            removeAllParticles();
-        }
-        else if ( numberOfParticles > particleNodes.size() ) {
-            // add particles
-            while ( numberOfParticles > particleNodes.size() ) {
-                PrecipitateParticleNode particleNode = new PrecipitateParticleNode( solution.solute.get() );
+        precipitate.addListener( new PrecipitateListener() {
+            public void particleAdded( PrecipitateParticle particle ) {
+                PrecipitateParticleNode particleNode = new PrecipitateParticleNode( particle );
+                particleNode.addListener( nodeListener );
                 addChild( particleNode );
-                particleNodes.add( particleNode );
-
-                particleNode.setOffset( getRandomOffset( particleNode ) );
             }
-        }
-        else {
-            // remove particles
-            while ( numberOfParticles < particleNodes.size() ) {
-                PrecipitateParticleNode particleNode = particleNodes.get( particleNodes.size() - 1 );
-                removeChild( particleNode );
-                particleNodes.remove( particleNode );
-            }
-        }
-    }
-
-    // Gets a random position on the bottom of the beaker.
-    private Point2D getRandomOffset( PrecipitateParticleNode particleNode ) {
-        // x offset
-        double xMargin = particleNode.getFullBoundsReference().getWidth();
-        double width = beaker.getWidth() - particleNode.getFullBoundsReference().getWidth() - ( 2 * xMargin );
-        double x = xMargin + ( Math.random() * width ) - ( beaker.getWidth() / 2 );
-        // y offset
-        double yMargin = particleNode.getFullBoundsReference().getHeight();
-        double y = -yMargin;
-        // offset
-        return new Point2D.Double( x, y );
+        } );
     }
 }

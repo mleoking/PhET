@@ -50,7 +50,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
         PNode solutionNode = new SolutionNode( model.solution, model.beaker );
         PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter );
-        PNode precipitateNode = new PrecipitateNode( model.solution, model.beaker );
+        PNode precipitateNode = new PrecipitateNode( model.precipitate );
         PNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
