@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_el.xml created Mon Apr 27 20:32:11 EEST 2009 using: pendulum-lab 2.00.00 (30671), translation-utility 1.12.00 (29256)-->
+<!--pendulum-lab-strings_el.xml created Sat Dec 31 18:45:28 EET 2011 using: pendulum-lab 2.03.00 (52288), translation-utility 2.13.00 (59150) Δεκ 8, 2011-->
 <SimStrings>
-<string key="resetStopwatch" value="επαναφορά"/>
+<string key="resetStopwatch" value="reset"/>
 <string key="earth" value="Γη"/>
 <string key="showPhotoGateTimer" value="χρονόμετρο φωτοπύλης"/>
 <string key="planetX" value="Πλανήτης Χ"/>
-<string key="acceleration" value="επιτάχυνση"/>
-<string key="showEnergyOf" value="δείξε την ενέργεια του:"/>
-<string key="PE" value="ΔΕ"/>
-<string key="velocity" value="ταχύτητα"/>
-<string key="realTime" value="πραγματικός χρόνος"/>
-<string key="length" value="μήκος"/>
-<string key="lots" value="πολύ"/>
+<string key="acceleration" value="επιτάχυνσης"/>
+<string key="showEnergyOf" value="Γραφήματα ενεργειών"/>
+<string key="PE" value="Δυναμική"/>
+<string key="velocity" value="ταχύτητας"/>
+<string key="translation.credits" value="&lt;html&gt;Βαγγέλης.Κολτσάκης &lt;br&gt;για το &quot;ψηφιακό σχολείο&quot;&lt;br&gt;http://digitalschool.minedu.gov.gr/&lt;/html&gt;"/>
+<string key="realTime" value="κίνηση  (1/1)"/>
+<string key="length" value="μήκος του 1"/>
+<string key="lots" value="μεγάλη"/>
 <string key="friction" value="τριβή"/>
-<string key="showSecondPendulum" value="δείξε 2ο εκκρεμές"/>
+<string key="showSecondPendulum" value="δείξε και το εκκρεμές 2    "/>
 <string key="start" value="ξεκίνημα"/>
 <string key="mass_unit" value="kg"/>
 <string key="jupiter" value="Δίας"/>
 <string key="moon" value="Σελήνη"/>
-<string key="energyOf" value="ενέργεια του"/>
-<string key="period" value="περίοδος"/>
-<string key="simStrings" value="εργαστήριο εκκρεμούς"/>
-<string key="noneFriction" value="καθόλου"/>
-<string key="total" value="συνολική"/>
-<string key="mass2" value="μάζα 2"/>
-<string key="pendulum" value="Εκκρεμές"/>
-<string key="startPauseStopwatch" value="ξεκίνημα/σταμάτημα"/>
-<string key="show" value="δείξε:"/>
-<string key="length2" value="μήκος 2:"/>
+<string key="energyOf" value="Ενέργεια του "/>
+<string key="period" value="Περίοδος:"/>
+<string key="simStrings" value="Εργαστήριο εκκρεμούς"/>
+<string key="noneFriction" value="μηδενική"/>
+<string key="total" value="Ολική"/>
+<string key="mass2" value="μάζα του 2"/>
+<string key="pendulum" value="Εκκρεμές "/>
+<string key="startPauseStopwatch" value="on/off"/>
+<string key="show" value="Προβολή:"/>
+<string key="length2" value="μήκος του 2"/>
 <string key="photoGateTimer" value="χρονόμετρο φωτοπύλης"/>
-<string key="thermal" value="θερμική"/>
+<string key="thermal" value="Θερμική"/>
 <string key="pausePlay" value="σταμάτημα/ξεκίνημα"/>
 <string key="reset" value="Επαναφορά"/>
-<string key="mass" value="μάζα"/>
-<string key="quarterTime" value="1/4 του χρόνου"/>
-<string key="KE" value="ΚΕ"/>
+<string key="mass" value="μάζα του 1"/>
+<string key="quarterTime" value="κίνηση  (1/4)"/>
+<string key="KE" value="Κινητική"/>
 <string key="gEqZero" value="g=0"/>
 <string key="length_unit" value="m"/>
-<string key="noneEnergy" value="χωρίς"/>
-<string key="otherTools" value="άλλα εργαλεία"/>
-<string key="angleUnit" value="μοίρες"/>
-<string key="paused" value="σταματημένο"/>
-<string key="sixteenthTime" value="1/16 του χρόνου"/>
+<string key="noneEnergy" value="κανενός      "/>
+<string key="simTitle" value="Εργαστήριο εκκρεμούς"/>
+<string key="otherTools" value="άλλα εργαλεία                 "/>
+<string key="angleUnit" value=" μοίρες"/>
+<string key="paused" value="                       σταματημένο"/>
+<string key="sixteenthTime" value="κίνηση (1/16)"/>
 </SimStrings>
