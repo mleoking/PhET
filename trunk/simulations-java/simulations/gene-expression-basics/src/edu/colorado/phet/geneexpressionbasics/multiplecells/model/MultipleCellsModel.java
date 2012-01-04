@@ -115,8 +115,8 @@ public class MultipleCellsModel {
     }
 
     /**
-     * Set the number of cells that should be visible to the user and that
-     * are included in the calculation of average protein level.
+     * Set the number of cells that should be visible to the user and that are
+     * included in the calculation of average protein level.
      *
      * @param numCells - target number of cells.
      */
