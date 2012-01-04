@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0.Constant;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.regions.Region.Type;
 import edu.colorado.phet.platetectonics.model.regions.SimpleConstantRegion;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
@@ -19,9 +20,30 @@ public class PlateMotionModel extends PlateModel {
     private SimpleConstantRegion rightCrustRegion;
 
     public static enum PlateType {
-        CONTINENTAL,
-        YOUNG_OCEANIC,
-        OLD_OCEANIC
+        CONTINENTAL( true, false ),
+        YOUNG_OCEANIC( false, true ),
+        OLD_OCEANIC( false, true );
+        private boolean continental;
+        private boolean oceanic;
+
+        PlateType( boolean isContinental, boolean isOceanic ) {
+            continental = isContinental;
+            oceanic = isOceanic;
+        }
+
+        public boolean isContinental() {
+            return continental;
+        }
+
+        public boolean isOceanic() {
+            return oceanic;
+        }
+    }
+
+    public static enum MotionType {
+        CONVERGENT,
+        DIVERGENT,
+        TRANSFORM
     }
 
     private final Terrain leftTerrain;
@@ -52,8 +74,11 @@ public class PlateMotionModel extends PlateModel {
     // TODO: better handling for this. ugly
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
     public final Property<PlateType> rightPlateType = new Property<PlateType>( null );
+    public final Property<MotionType> motionType = new Property<MotionType>( null );
 
-    public final Property<Boolean> canRun = new Property<Boolean>( false ) {{
+    public final Property<Boolean> animationStarted = new Property<Boolean>( false );
+
+    public final Property<Boolean> hasBothPlates = new Property<Boolean>( false ) {{
         SimpleObserver observer = new SimpleObserver() {
             @Override public void update() {
                 set( hasLeftPlate() && hasRightPlate() );
@@ -63,8 +88,26 @@ public class PlateMotionModel extends PlateModel {
         rightPlateType.addObserver( observer );
     }};
 
+    public final Property<Boolean> canRun = new Property<Boolean>( false ) {{
+        SimpleObserver observer = new SimpleObserver() {
+            @Override public void update() {
+                set( hasLeftPlate() && hasRightPlate() && motionType.get() != null );
+            }
+        };
+        leftPlateType.addObserver( observer );
+        rightPlateType.addObserver( observer );
+        motionType.addObserver( observer );
+    }};
+
     public PlateMotionModel( final Bounds3D bounds ) {
         super( bounds );
+
+        addDebugPropertyListener( "canRun", canRun );
+        addDebugPropertyListener( "hasBothPlates", hasBothPlates );
+        addDebugPropertyListener( "animationStarted", animationStarted );
+        addDebugPropertyListener( "leftPlateType", leftPlateType );
+        addDebugPropertyListener( "rightPlateType", rightPlateType );
+        addDebugPropertyListener( "motionType", motionType );
 
         final float minX = bounds.getMinX();
         final float maxX = bounds.getMaxX();
@@ -123,6 +166,16 @@ public class PlateMotionModel extends PlateModel {
                                              new Constant<Double>( 0.0 ) ) );
     }
 
+    private <T> void addDebugPropertyListener( final String name, final Property<T> property ) {
+        property.addObserver( new SimpleObserver() {
+            @Override public void update() {
+                if ( PlateTectonicsConstants.DEBUG.get() ) {
+                    System.out.println( name + " changed to " + property.get() );
+                }
+            }
+        }, false );
+    }
+
     @Override public void resetAll() {
         super.resetAll();
 
@@ -149,9 +202,13 @@ public class PlateMotionModel extends PlateModel {
         }
 
         canRun.reset();
+        motionType.reset();
+        animationStarted.reset();
 
         updateRegions();
         updateTerrain();
+
+        modelChanged.updateListeners();
     }
 
     // i from 0 to sideCount-1
@@ -199,6 +256,9 @@ public class PlateMotionModel extends PlateModel {
     }
 
     private void updateRegions() {
+        if ( PlateTectonicsConstants.DEBUG.get() ) {
+            System.out.println( "updateRegions" );
+        }
         for ( int i = 0; i < sideCount; i++ ) {
             // left side
             mantleTop[i] = leftCrustBottomSamples.get( i ).position;
@@ -217,6 +277,9 @@ public class PlateMotionModel extends PlateModel {
     }
 
     private void updateTerrain() {
+        if ( PlateTectonicsConstants.DEBUG.get() ) {
+            System.out.println( "updateTerrain" );
+        }
         for ( int column = 0; column < sideCount; column++ ) {
             // left side
             ImmutableVector2F leftPosition = hasLeftPlate() ? leftCrustTopSamples.get( column ).position : leftCrustBottomSamples.get( column ).position;
@@ -288,13 +351,16 @@ public class PlateMotionModel extends PlateModel {
         super.update( timeElapsed );
 
         if ( hasLeftPlate() && hasRightPlate() ) {
-            for ( Sample sample : FunctionalUtils.concat(
-                    leftCrustTopSamples,
-                    rightCrustTopSamples,
-                    leftCrustBottomSamples,
-                    rightCrustBottomSamples,
-                    bottomSamples ) ) {
-                transformSample( sample, (float) timeElapsed );
+            animationStarted.set( true );
+            if ( motionType.get() == MotionType.CONVERGENT ) {
+                for ( Sample sample : FunctionalUtils.concat(
+                        leftCrustTopSamples,
+                        rightCrustTopSamples,
+                        leftCrustBottomSamples,
+                        rightCrustBottomSamples,
+                        bottomSamples ) ) {
+                    transformSample( sample, (float) timeElapsed );
+                }
             }
             updateRegions();
             updateTerrain();

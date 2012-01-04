@@ -21,6 +21,7 @@ import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.CrustChooserPanel;
 import edu.colorado.phet.platetectonics.control.CrustPiece;
+import edu.colorado.phet.platetectonics.control.MotionTypeChooserPanel;
 import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
@@ -45,6 +46,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private final Property<Boolean> showWater = new Property<Boolean>( false );
 
     private final List<OrthoPiccoloNode> placedPieces = new ArrayList<OrthoPiccoloNode>();
+
+    private OrthoPiccoloNode motionTypeChooserPanel = null;
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
@@ -117,9 +120,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
          *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new PlayModePanel( isAutoMode ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D( 10, 10 ) ), mouseEventNotifier ) {{
+        final OrthoPiccoloNode modeSwitchPanel = new OrthoPiccoloNode( new ControlPanelNode( new PlayModePanel( isAutoMode, getPlateMotionModel().animationStarted ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D( 10, 10 ) ), mouseEventNotifier ) {{
             updateOnEvent( beforeFrameRender );
-        }} );
+        }};
+        addGuiNode( modeSwitchPanel );
 
         /*---------------------------------------------------------------------------*
          * crust chooser
@@ -136,9 +140,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
             } );
             updateOnEvent( beforeFrameRender );
 
-            getPlateMotionModel().canRun.addObserver( new SimpleObserver() {
-                @Override public void update() {
-                    setVisible( !getPlateMotionModel().canRun.get() );
+            // hide piece when we go into the running mode
+            getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
+                @Override public void update( Boolean newValue, Boolean oldValue ) {
+                    setVisible( !newValue );
                 }
             } );
         }};
@@ -156,11 +161,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 mouseEventNotifier ) {{
 
             // hide piece when we go into the running mode
-            getPlateMotionModel().canRun.addObserver( new ChangeObserver<Boolean>() {
+            getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
                 @Override public void update( Boolean newValue, Boolean oldValue ) {
-                    if ( newValue ) {
-                        setVisible( false );
-                    }
+                    setVisible( !newValue );
                 }
             } );
         }};
@@ -177,11 +180,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                 getYoungOceanicOffset().y - youngOceanicPiece.getFullBounds().getHeight() / 2 ) ),
                 mouseEventNotifier ) {{
             // hide piece when we go into the running mode
-            getPlateMotionModel().canRun.addObserver( new ChangeObserver<Boolean>() {
+            getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
                 @Override public void update( Boolean newValue, Boolean oldValue ) {
-                    if ( newValue ) {
-                        setVisible( false );
-                    }
+                    setVisible( !newValue );
                 }
             } );
         }};
@@ -198,11 +199,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                 getOldOceanicOffset().y - oldOceanicPiece.getFullBounds().getHeight() / 2 ) ),
                 mouseEventNotifier ) {{
             // hide piece when we go into the running mode
-            getPlateMotionModel().canRun.addObserver( new ChangeObserver<Boolean>() {
+            getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
                 @Override public void update( Boolean newValue, Boolean oldValue ) {
-                    if ( newValue ) {
-                        setVisible( false );
-                    }
+                    setVisible( !newValue );
                 }
             } );
         }};
@@ -234,9 +233,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
          * time control
          *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoComponentNode( new TectonicsTimeControl( getClock() ),
-                                            this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
-                                            mouseEventNotifier ) {{
+        final OrthoComponentNode timeControlPanelNode = new OrthoComponentNode( new TectonicsTimeControl( getClock() ),
+                                                                                this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
+                                                                                mouseEventNotifier ) {{
             position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
                                                  0 ) );
             updateOnEvent( beforeFrameRender );
@@ -249,7 +248,45 @@ public class PlateMotionTab extends PlateTectonicsTab {
             };
             getPlateMotionModel().canRun.addObserver( visibilityObserver );
             isAutoMode.addObserver( visibilityObserver );
-        }} );
+        }};
+        addGuiNode( timeControlPanelNode );
+
+        // TODO: refactoring here
+        SimpleObserver motionTypeChooserObserver = new SimpleObserver() {
+            @Override public void update() {
+                boolean leftPlaced = getPlateMotionModel().leftPlateType.get() != null;
+                boolean rightPlaced = getPlateMotionModel().rightPlateType.get() != null;
+                boolean automode = isAutoMode.get();
+                boolean shouldShow = leftPlaced && rightPlaced && automode;
+
+                if ( shouldShow && motionTypeChooserPanel == null ) {
+                    // show the chooser panel
+                    motionTypeChooserPanel = new OrthoPiccoloNode( new ControlPanelNode( new MotionTypeChooserPanel( getPlateMotionModel() ) ),
+                                                                   PlateMotionTab.this, getCanvasTransform(),
+                                                                   new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+                        double left = modeSwitchPanel.position.get().getX() + modeSwitchPanel.getComponentWidth();
+                        double right = timeControlPanelNode.position.get().getX();
+                        position.set( new ImmutableVector2D( ( ( left + right ) - getComponentWidth() ) * 0.5,
+                                                             10 ) );
+                        updateOnEvent( beforeFrameRender );
+                    }};
+                    addGuiNode( motionTypeChooserPanel );
+                }
+
+                if ( !shouldShow && motionTypeChooserPanel != null ) {
+                    // hide the chooser panel
+                    // TODO: add a "removeGuiNode" function
+                    guiNodes.remove( motionTypeChooserPanel );
+                    guiLayer.removeChild( motionTypeChooserPanel );
+                    motionTypeChooserPanel = null;
+                    // TODO: get rid of superfluous listeners, and do cleanup
+                }
+            }
+        };
+
+        getPlateMotionModel().leftPlateType.addObserver( motionTypeChooserObserver, false );
+        getPlateMotionModel().rightPlateType.addObserver( motionTypeChooserObserver, false );
+        isAutoMode.addObserver( motionTypeChooserObserver, false );
     }
 
     private ImmutableVector2F getCrustOffset( ImmutableVector2F pieceOffset ) {
