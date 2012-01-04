@@ -54,10 +54,13 @@ public class MultipleCellsModel {
     // components.
     public final Property<Double> averageProteinLevel = new Property<Double>( 0.0 );
 
-    // Property that defines the level of the transcription factor in all of
-    // the cells.  This is intended to be set externally, i.e. from the user
-    // interface, and the changes to the setting get propagated to the
-    // individual cells by this model class.
+    // TODO: I'm not sure how to actually reconcile the following two parameters
+    // between what the spec requires and what the model provides.  For now,
+    // I've gone with two properties that seem related, but need to work with
+    // George and possibly MK to finalize this.
+    public final Property<Double> transcriptionFactorAssociationProbability = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_TF_ASSOCIATION_PROBABILITY );
+    public final Property<Double> polymeraseAssociationProbability = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
+
     public final Property<Integer> transcriptionFactorLevel = new Property<Integer>( CellProteinSynthesisSimulator.DEFAULT_TRANSCRIPTION_FACTOR_COUNT );
 
     /**
