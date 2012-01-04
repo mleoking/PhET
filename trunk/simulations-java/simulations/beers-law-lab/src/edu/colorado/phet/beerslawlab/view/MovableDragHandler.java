@@ -61,10 +61,10 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
         double x = pMouse.getX() - clickXOffset;
         double y = pMouse.getY() - clickYOffset;
         //TODO assumes a 1:1 model-view transform
-        movable.location.set( constraintToBounds( x, y, movable.getDragBounds() ) );
+        movable.location.set( constrainToBounds( x, y, movable.getDragBounds() ) );
     }
 
-    private static ImmutableVector2D constraintToBounds( double x, double y, Rectangle2D bounds ) {
+    private static ImmutableVector2D constrainToBounds( double x, double y, Rectangle2D bounds ) {
         ImmutableVector2D vConstrained;
         if ( bounds != null && !bounds.contains( x, y ) ) {
             double xConstrained = Math.max( Math.min( x, bounds.getMaxX() ), bounds.getX() );
