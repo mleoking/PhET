@@ -1,7 +1,7 @@
 TODO list for beers-law-lab
 
 DEADLINES
-- 1.0 in April 2012
+- 3/5/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
 - desired behavior of solute particles that fall out of shaker?
