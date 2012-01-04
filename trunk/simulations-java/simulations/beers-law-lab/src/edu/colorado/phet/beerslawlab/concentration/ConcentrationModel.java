@@ -12,6 +12,7 @@ import edu.colorado.phet.beerslawlab.model.ConcentrationMeter;
 import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.beerslawlab.model.Evaporator;
 import edu.colorado.phet.beerslawlab.model.Faucet;
+import edu.colorado.phet.beerslawlab.model.Precipitate;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.Solute;
 import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
@@ -62,6 +63,7 @@ public class ConcentrationModel implements Resettable {
     public final Beaker beaker;
     public final Faucet inputFaucet, outputFaucet;
     public final ConcentrationMeter concentrationMeter;
+    public final Precipitate precipitate;
 
     public ConcentrationModel( IClock clock ) {
 
@@ -95,6 +97,7 @@ public class ConcentrationModel implements Resettable {
         this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 770, 225 ), new PBounds( 10, 10, 825, 530 ),
                                                           new ImmutableVector2D( 580, 300 ), new PBounds( 30, 30, 935, 605 ),
                                                           solution, beaker );
+        this.precipitate = new Precipitate( solution, beaker );
 
         // Things to do when the solute is changed.
         solute.addObserver( new SimpleObserver() {
