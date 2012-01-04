@@ -2,9 +2,9 @@
 package edu.colorado.phet.beerslawlab.dev;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DebugOriginNode extends PhetPNode {
+public class DebugOriginNode extends PPath {
 
     private static final double DIAMETER = 6;
 
@@ -24,11 +24,20 @@ public class DebugOriginNode extends PhetPNode {
         super();
         setPickable( false );
         setChildrenPickable( false );
+        setPathTo( new Ellipse2D.Double( -( DIAMETER / 2 ), -( DIAMETER ) / 2, DIAMETER, DIAMETER ) );
+        setStroke( null );
+        setPaint( color );
+    }
 
-        PPath originNode = new PPath();
-        originNode.setPathTo( new Ellipse2D.Double( -( DIAMETER / 2 ), -( DIAMETER ) / 2, DIAMETER, DIAMETER ) );
-        originNode.setStroke( null );
-        originNode.setPaint( color );
-        addChild( originNode );
+    @Override public void setOffset( double x, double y ) {
+        throw new UnsupportedOperationException( "don't translate me" );
+    }
+
+    @Override public void translate( double dx, double dy ) {
+        throw new UnsupportedOperationException( "don't translate me" );
+    }
+
+    @Override public void setTransform( AffineTransform transform ) {
+        throw new UnsupportedOperationException( "don't translate me" );
     }
 }
