@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Primary model class for the Multiple Cells tab.
@@ -31,25 +32,33 @@ public class MultipleCellsModel {
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
-    // List of cells in the model that should be visible to the user and that
-    // are being used in the average protein level calculation.
-    public final ObservableList<Cell> visibleCellList = new ObservableList<Cell>();
+    // List of all cells that are being simulated.  Some of these cells will be
+    // visible to the user at any given time, but some may not.  All are
+    // clocked and their parameters are kept the same in order to keep them
+    // "in sync" with the visible cells.  This prevents large discontinuities
+    // in the protein level when the user adds or removes cells.
+    private final List<Cell> cellList = new ArrayList<Cell>();
 
-    // List of cells that are NOT visible to the user and that are NOT used in
-    // the average protein count calculation.  These are still clocked and
-    // simulated so that their levels stay reasonably close to that of the
-    // visible cells, thus preventing large discontinuities in the graph when
-    // cells are added or removed.
-    private final List<Cell> invisibleCellList = new ArrayList<Cell>();
+    // List of cells in the model that should be visible to the user and that
+    // are being used in the average protein level calculation.  It is
+    // observable so that the view can track them coming and going.
+    public final ObservableList<Cell> visibleCellList = new ObservableList<Cell>();
 
     // Locations where cells are placed.  This is initialized at construction
     // so that placements are consistent as cells come and go.
     public final List<Point2D> cellLocations = new ArrayList<Point2D>();
 
     // Property that tracks the average protein level of all the cells.  This
-    // should not be set externally, and is intended for monitoring and
-    // displaying by view components.
+    // should not be set externally, only internally.  From the external
+    // perspective, it is intended for monitoring and displaying by view
+    // components.
     public final Property<Double> averageProteinLevel = new Property<Double>( 0.0 );
+
+    // Property that defines the level of the transcription factor in all of
+    // the cells.  This is intended to be set externally, i.e. from the user
+    // interface, and the changes to the setting get propagated to the
+    // individual cells by this model class.
+    public final Property<Integer> transcriptionFactorLevel = new Property<Integer>( CellProteinSynthesisSimulator.DEFAULT_TRANSCRIPTION_FACTOR_COUNT );
 
     /**
      * Constructor.
@@ -64,22 +73,34 @@ public class MultipleCellsModel {
             }
         } );
 
+        // Hook up the transcription factor level property so that changes
+        // made to it are propagated to all the cells.
+        transcriptionFactorLevel.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer integer ) {
+                for ( Cell cell : cellList ) {
+                    cell.setTranscriptionFactorCount( integer );
+                }
+            }
+        } );
+
         // Set the initial state.
         reset();
     }
 
     private void stepInTime( double dt ) {
-        int totalProteinCount = 0;
         // Step each of the cells.
+        for ( Cell cell : cellList ) {
+            cell.stepInTime( dt );
+        }
+
+        // Update the average protein level.  Note that only the visible cells
+        // are used for this calculation.  This helps convey the concept that
+        // the more visible cells are 
+        int totalProteinCount = 0;
         for ( Cell cell : visibleCellList ) {
             cell.stepInTime( dt );
             totalProteinCount += cell.getProteinCount();
         }
-        for ( Cell cell : invisibleCellList ) {
-            cell.stepInTime( dt );
-            // Note that invisible cells are not included in average protein level.
-        }
-        // Update the average protein level.
         averageProteinLevel.set( (double) totalProteinCount / visibleCellList.size() );
     }
 
@@ -94,13 +115,13 @@ public class MultipleCellsModel {
     public void reset() {
         // Clear out all existing cells.
         visibleCellList.clear();
-        invisibleCellList.clear();
+        cellList.clear();
 
         // Add the max number of cells to the list of invisible cells.
-        while ( invisibleCellList.size() < MAX_CELLS ) {
-            Cell newCell = new Cell( invisibleCellList.size() ); // Use index as seed so that same cell looks the same.
-            newCell.setPosition( cellLocations.get( invisibleCellList.size() ) );
-            invisibleCellList.add( newCell );
+        while ( cellList.size() < MAX_CELLS ) {
+            Cell newCell = new Cell( cellList.size() ); // Use index as seed so that same cell looks the same.
+            newCell.setPosition( cellLocations.get( cellList.size() ) );
+            cellList.add( newCell );
         }
 
         // Start with one visible cell.
@@ -126,38 +147,26 @@ public class MultipleCellsModel {
         numCells = MathUtil.clamp( 1, numCells, MAX_CELLS ); // Defensive programming.
 
         if ( visibleCellList.size() < numCells ) {
-            // Transfer cells from the end of the invisible list to visible list.
+            // Add cells to the visible list.
             while ( visibleCellList.size() < numCells ) {
-                visibleCellList.add( invisibleCellList.remove( 0 ) );
+                visibleCellList.add( cellList.get( visibleCellList.size() ) );
             }
         }
         else if ( visibleCellList.size() > numCells ) {
-            // Transfer cells from visible list to invisible list.
+            // Remove cells from the visible list.  Take them off the end.
             while ( visibleCellList.size() > numCells ) {
-                invisibleCellList.add( 0, visibleCellList.remove( visibleCellList.size() - 1 ) );
+                visibleCellList.remove( visibleCellList.size() - 1 );
             }
         }
-    }
-
-    /**
-     * Get the number of cells currently in the model.
-     *
-     * @return - current number of cells.
-     */
-    public int getNumCells() {
-        return visibleCellList.size();
     }
 
     /**
      * Get a rectangle in model space that is centered at coordinates (0, 0)
-     * and that is large enough to contain all of the cells.
+     * and that is large enough to contain all of the visible cells.
      *
      * @return
      */
-    public Rectangle2D getCellCollectionBounds() {
-
-        assert visibleCellList.size() > 0;  // Check that the model isn't in a state the makes this operation meaningless.
-
+    public Rectangle2D getVisibleCellCollectionBounds() {
         double minX = 0;
         double minY = 0;
         double maxX = 0;
@@ -181,17 +190,6 @@ public class MultipleCellsModel {
             }
         }
         return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
-    }
-
-    /**
-     * Sets the number of transcription factors for all cells.
-     *
-     * @param tfCount number of transcription factors
-     */
-    public void setTranscriptionFactorCount( int tfCount ) {
-        for ( Cell cell : visibleCellList ) {
-            cell.setTranscriptionFactorCount( tfCount );
-        }
     }
 
     /**
