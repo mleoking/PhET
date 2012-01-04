@@ -15,6 +15,7 @@ import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -40,25 +41,40 @@ public class MotionTypeChooserPanel extends PNode {
         PSwing divergentButton = new PSwing( new MotionTypeChooserRadioButton( "Divergent", MotionType.DIVERGENT ) );
         PSwing transformButton = new PSwing( new MotionTypeChooserRadioButton( "Transform", MotionType.TRANSFORM ) );
 
-        Property<Double> x = new Property<Double>( 0.0 );
+        final Property<Double> x = new Property<Double>( 0.0 );
 
         // TODO: refactor for simplicity
         convergentButton.setOffset( x.get(), ICON_HEIGHT + 10 );
         addChild( convergentButton );
-        addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) );
+        addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) {{
+            addChild( new PText( "icon here" ) {{
+                setOffset( x.get() + ( ICON_WIDTH - getFullBounds().getWidth() ) / 2,
+                           ( ICON_HEIGHT - getFullBounds().getHeight() ) / 2 );
+            }} );
+        }} );
         x.set( x.get() + ICON_WIDTH + SPACING );
 
 
         if ( showDivergent ) {
             divergentButton.setOffset( x.get(), ICON_HEIGHT + 10 );
             addChild( divergentButton );
-            addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) );
+            addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) {{
+                addChild( new PText( "icon here" ) {{
+                    setOffset( x.get() + ( ICON_WIDTH - getFullBounds().getWidth() ) / 2,
+                               ( ICON_HEIGHT - getFullBounds().getHeight() ) / 2 );
+                }} );
+            }} );
             x.set( x.get() + ICON_WIDTH + SPACING );
         }
 
         transformButton.setOffset( x.get(), ICON_HEIGHT + 10 );
         addChild( transformButton );
-        addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) );
+        addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) {{
+            addChild( new PText( "icon here" ) {{
+                setOffset( x.get() + ( ICON_WIDTH - getFullBounds().getWidth() ) / 2,
+                           ( ICON_HEIGHT - getFullBounds().getHeight() ) / 2 );
+            }} );
+        }} );
         x.set( x.get() + ICON_WIDTH + SPACING );
     }
 
