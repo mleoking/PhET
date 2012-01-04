@@ -235,23 +235,6 @@ public class PlateMotionTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
          * time control
          *----------------------------------------------------------------------------*/
-//        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new TectonicsTimeControl( new ConstantDtClock( 60 ) {
-//            @Override public void start() {
-//                super.start();    //To change body of overridden methods use File | Settings | File Templates.
-//                System.out.println( "start" );
-//            }
-//
-//            @Override public void pause() {
-//                super.pause();    //To change body of overridden methods use File | Settings | File Templates.
-//                System.out.println( "pause" );
-//            }
-//        } ) ),
-//                                          this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
-//                                          mouseEventNotifier ) {{
-//            position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth() - 10,
-//                                                 10 ) );
-//            updateOnEvent( beforeFrameRender );
-//        }} );
         addGuiNode( new OrthoComponentNode( new TectonicsTimeControl( new ConstantDtClock( 60 ) {
             @Override public void start() {
                 super.start();    //To change body of overridden methods use File | Settings | File Templates.
@@ -269,11 +252,14 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                                  0 ) );
             updateOnEvent( beforeFrameRender );
 
-            getPlateMotionModel().canRun.addObserver( new SimpleObserver() {
+            // enable this time control when we can run AND we are in auto mode
+            SimpleObserver visibilityObserver = new SimpleObserver() {
                 @Override public void update() {
-                    setVisible( getPlateMotionModel().canRun.get() );
+                    setVisible( getPlateMotionModel().canRun.get() && isAutoMode.get() );
                 }
-            } );
+            };
+            getPlateMotionModel().canRun.addObserver( visibilityObserver );
+            isAutoMode.addObserver( visibilityObserver );
         }} );
     }
 
