@@ -62,9 +62,13 @@ public class ProteinLevelChartNode extends PNode {
         // data on the chart.
         observableDataValue.addObserver( new VoidFunction1<Double>() {
             public void apply( Double aDouble ) {
-                if ( clock.getSimulationTime() < TIME_SPAN ) {
-                    dataSeries.add( clock.getSimulationTime(), observableDataValue.get() );
+                if ( clock.getSimulationTime() - timeOffset > TIME_SPAN ) {
+                    // Clear the chart.
+                    dataSeries.clear();
+                    timeOffset = clock.getSimulationTime();
                 }
+                // Add the data to the chart.
+                dataSeries.add( clock.getSimulationTime() - timeOffset, observableDataValue.get() );
             }
         } );
     }
