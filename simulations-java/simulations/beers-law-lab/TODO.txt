@@ -16,7 +16,6 @@ DESIGN
 - does concentration meter need to read the concentration of the water faucet and drain faucet?
 
 HIGH
-- move shaker location to holes in shaker image
 - view of solute exiting shaker
 
 MEDIUM
