@@ -8,7 +8,6 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -235,17 +234,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
          * time control
          *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoComponentNode( new TectonicsTimeControl( new ConstantDtClock( 60 ) {
-            @Override public void start() {
-                super.start();    //To change body of overridden methods use File | Settings | File Templates.
-                System.out.println( "start" );
-            }
-
-            @Override public void pause() {
-                super.pause();    //To change body of overridden methods use File | Settings | File Templates.
-                System.out.println( "pause" );
-            }
-        } ),
+        addGuiNode( new OrthoComponentNode( new TectonicsTimeControl( getClock() ),
                                             this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
                                             mouseEventNotifier ) {{
             position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
@@ -327,6 +316,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         showLabels.reset();
         showWater.reset();
         isAutoMode.reset();
+        getClock().resetSimulationTime();
 
         for ( OrthoPiccoloNode placedPiece : placedPieces ) {
             // add in to the front

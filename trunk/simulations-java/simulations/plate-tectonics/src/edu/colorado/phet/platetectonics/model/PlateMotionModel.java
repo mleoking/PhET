@@ -178,6 +178,7 @@ public class PlateMotionModel extends PlateModel {
                                                     new Constant<Double>( (double) getFreshDensity( type ) ),
                                                     new Constant<Double>( 0.0 ) );
         addRegion( leftCrustRegion );
+        modelChanged.updateListeners();
     }
 
     public void dropRightCrust( PlateType type ) {
@@ -194,6 +195,7 @@ public class PlateMotionModel extends PlateModel {
                                                      new Constant<Double>( (double) getFreshDensity( type ) ),
                                                      new Constant<Double>( 0.0 ) );
         addRegion( rightCrustRegion );
+        modelChanged.updateListeners();
     }
 
     private void updateRegions() {
@@ -318,7 +320,7 @@ public class PlateMotionModel extends PlateModel {
 
         float value = toDir.dot( pos ) * fromDir.dot( pos );
         float currentProgress = motionDir.dot( pos );
-        float newProgress = currentProgress + timeElapsed * 100;
+        float newProgress = currentProgress + timeElapsed * 5000;
 
         ImmutableVector2F highSolution;
         ImmutableVector2F lowSolution;

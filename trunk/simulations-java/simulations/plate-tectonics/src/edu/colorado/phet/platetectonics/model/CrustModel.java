@@ -340,6 +340,7 @@ public class CrustModel extends PlateModel {
     }
 
     @Override public void update( double timeElapsed ) {
+        timeElapsed *= 100;
         double idealCrustElevation = computeIdealCrustElevation();
         double delta = idealCrustElevation - crustElevation;
 

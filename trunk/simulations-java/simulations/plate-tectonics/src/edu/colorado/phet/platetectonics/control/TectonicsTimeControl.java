@@ -8,6 +8,8 @@ import java.util.Hashtable;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
@@ -15,9 +17,10 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStr
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.platetectonics.model.TectonicsClock;
 
 public class TectonicsTimeControl extends PiccoloClockControlPanel {
-    public TectonicsTimeControl( final IClock clock ) {
+    public TectonicsTimeControl( final TectonicsClock clock ) {
         super( clock );
 
         setRewindButtonVisible( false );
@@ -27,11 +30,11 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
         setTimeColumns( 4 );
 
         // TODO: LinearValueControl seems severely broken in Mac visual display
-        LinearValueControl frameRateControl;
+        final LinearValueControl frameRateControl;
         // Frame Rate control
         {
-            double min = 1;
-            double max = 100;
+            double min = 0.1;
+            double max = 10;
             String label = "";
             String textFieldPattern = "";
             String units = "";
@@ -40,7 +43,7 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
                     valueControl.add( valueControl.getSlider() );
                 }
             } );
-            frameRateControl.setValue( 20 ); // TODO: improve here
+            frameRateControl.setValue( clock.getTimeMultiplier() ); // TODO: improve here
             frameRateControl.setMinorTicksVisible( false );
 
             // Tick labels
@@ -59,6 +62,13 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
 
             // Slider width
             frameRateControl.setSliderWidth( 125 );
+
+            // TODO: handle resetting properly
+            frameRateControl.addChangeListener( new ChangeListener() {
+                @Override public void stateChanged( ChangeEvent changeEvent ) {
+                    clock.setTimeMultiplier( frameRateControl.getValue() );
+                }
+            } );
         }
         addBetweenTimeDisplayAndButtons( frameRateControl );
         //addBetweenTimeDisplayAndButtons( new JLabel( "Speed control" ) );

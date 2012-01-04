@@ -53,6 +53,8 @@ public class CrustTab extends PlateTectonicsTab {
     @Override public void initialize() {
         super.initialize();
 
+        getClock().start();
+
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
                 Bounds3D.fromMinMax( -1500000, 1500000,
