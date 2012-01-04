@@ -47,7 +47,10 @@ public class ShakerNode extends PhetPNode {
         parentNode.rotate( 0.25 * -Math.PI ); // Image file is assumed to be oriented with shaker holes pointing left.
 
         // Apply a wrapper node to move the origin to (0,0). Do this after transforming parentNode and its children.
-        addChild( new ZeroOffsetNode( parentNode ) );
+        ZeroOffsetNode zeroOffsetNode = new ZeroOffsetNode( parentNode );
+        addChild( zeroOffsetNode );
+
+        zeroOffsetNode.setOffset( -45, -170 ); // manually adjust these values until the origin is in the middle hole of the shaker
 
         // origin debugging
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {

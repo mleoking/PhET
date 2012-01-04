@@ -1,3 +1,4 @@
+1/3/12 move shaker origin to center holes in shaker image
 1/3/12 add node for debugging origin of shaker and dropper
 1/3/12 make location of ticks configurable, move ticks to left edge of beaker
 1/3/12 use a different probe for concentration meter that doesn't have problem with wire showing in center
