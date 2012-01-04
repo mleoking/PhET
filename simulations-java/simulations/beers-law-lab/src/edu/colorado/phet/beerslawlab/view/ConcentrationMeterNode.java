@@ -160,7 +160,7 @@ public class ConcentrationMeterNode extends PhetPNode {
     private static class WireNode extends PPath {
 
         public WireNode( final ConcentrationMeter meter, final ImmutableVector2D bodyCenterOffset ) {
-            setStrokePaint( Color.BLACK );
+            setStrokePaint( new Color( 0, 133, 65 ).darker() ); // green, a little darker than the meter body
             setStroke( new BasicStroke( 6f ) );
 
             SimpleObserver observer = new SimpleObserver() {
