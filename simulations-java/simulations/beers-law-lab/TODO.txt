@@ -13,6 +13,7 @@ DESIGN
 - is there a maximum amount of solute that the shaker can dispense?
 - split solute combo box items into 2 lines, so the control isn't so wide?
 - what colors to use for solute coming out of shaker? Solute.solutionColor? Solute.precipitateColor? other?
+- does concentration meter need to read the concentration of the water faucet and drain faucet?
 
 HIGH
 - move shaker location to holes in shaker image
