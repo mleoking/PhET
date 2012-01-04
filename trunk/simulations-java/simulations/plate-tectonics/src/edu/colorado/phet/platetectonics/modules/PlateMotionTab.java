@@ -8,19 +8,23 @@ import java.util.List;
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
+import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.CrustChooserPanel;
 import edu.colorado.phet.platetectonics.control.CrustPiece;
 import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.PlayModePanel;
+import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
@@ -132,9 +136,16 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 }
             } );
             updateOnEvent( beforeFrameRender );
+
+            getPlateMotionModel().canRun.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    setVisible( !getPlateMotionModel().canRun.get() );
+                }
+            } );
         }};
         addGuiNode( crustChooserNode );
 
+        // TODO: remove duplication in piece code
         // continental piece
         final CrustPiece continentalPiece = new CrustPiece( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f );
         OrthoPiccoloNode continentalPieceNode = new OrthoPiccoloNode(
@@ -143,7 +154,17 @@ public class PlateMotionTab extends PlateTectonicsTab {
                         new ImmutableVector2D(
                                 getContinentalOffset().x - continentalPiece.getFullBounds().getWidth() / 2,
                                 getContinentalOffset().y - continentalPiece.getFullBounds().getHeight() / 2 ) ),
-                mouseEventNotifier );
+                mouseEventNotifier ) {{
+
+            // hide piece when we go into the running mode
+            getPlateMotionModel().canRun.addObserver( new ChangeObserver<Boolean>() {
+                @Override public void update( Boolean newValue, Boolean oldValue ) {
+                    if ( newValue ) {
+                        setVisible( false );
+                    }
+                }
+            } );
+        }};
         crustPieceLayer.addChild( continentalPieceNode );
         guiNodes.add( 0, continentalPieceNode );
 
@@ -155,7 +176,16 @@ public class PlateMotionTab extends PlateTectonicsTab {
                         new ImmutableVector2D(
                                 getYoungOceanicOffset().x - youngOceanicPiece.getFullBounds().getWidth() / 2,
                                 getYoungOceanicOffset().y - youngOceanicPiece.getFullBounds().getHeight() / 2 ) ),
-                mouseEventNotifier );
+                mouseEventNotifier ) {{
+            // hide piece when we go into the running mode
+            getPlateMotionModel().canRun.addObserver( new ChangeObserver<Boolean>() {
+                @Override public void update( Boolean newValue, Boolean oldValue ) {
+                    if ( newValue ) {
+                        setVisible( false );
+                    }
+                }
+            } );
+        }};
         crustPieceLayer.addChild( youngOceanicPieceNode );
         guiNodes.add( 0, youngOceanicPieceNode );
 
@@ -167,7 +197,16 @@ public class PlateMotionTab extends PlateTectonicsTab {
                         new ImmutableVector2D(
                                 getOldOceanicOffset().x - oldOceanicPiece.getFullBounds().getWidth() / 2,
                                 getOldOceanicOffset().y - oldOceanicPiece.getFullBounds().getHeight() / 2 ) ),
-                mouseEventNotifier );
+                mouseEventNotifier ) {{
+            // hide piece when we go into the running mode
+            getPlateMotionModel().canRun.addObserver( new ChangeObserver<Boolean>() {
+                @Override public void update( Boolean newValue, Boolean oldValue ) {
+                    if ( newValue ) {
+                        setVisible( false );
+                    }
+                }
+            } );
+        }};
         crustPieceLayer.addChild( oldOceanicPieceNode );
         guiNodes.add( 0, oldOceanicPieceNode );
 
@@ -191,6 +230,50 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 }
             } );
             updateOnEvent( beforeFrameRender );
+        }} );
+
+        /*---------------------------------------------------------------------------*
+         * time control
+         *----------------------------------------------------------------------------*/
+//        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new TectonicsTimeControl( new ConstantDtClock( 60 ) {
+//            @Override public void start() {
+//                super.start();    //To change body of overridden methods use File | Settings | File Templates.
+//                System.out.println( "start" );
+//            }
+//
+//            @Override public void pause() {
+//                super.pause();    //To change body of overridden methods use File | Settings | File Templates.
+//                System.out.println( "pause" );
+//            }
+//        } ) ),
+//                                          this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
+//                                          mouseEventNotifier ) {{
+//            position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth() - 10,
+//                                                 10 ) );
+//            updateOnEvent( beforeFrameRender );
+//        }} );
+        addGuiNode( new OrthoComponentNode( new TectonicsTimeControl( new ConstantDtClock( 60 ) {
+            @Override public void start() {
+                super.start();    //To change body of overridden methods use File | Settings | File Templates.
+                System.out.println( "start" );
+            }
+
+            @Override public void pause() {
+                super.pause();    //To change body of overridden methods use File | Settings | File Templates.
+                System.out.println( "pause" );
+            }
+        } ),
+                                            this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
+                                            mouseEventNotifier ) {{
+            position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
+                                                 0 ) );
+            updateOnEvent( beforeFrameRender );
+
+            getPlateMotionModel().canRun.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    setVisible( getPlateMotionModel().canRun.get() );
+                }
+            } );
         }} );
     }
 
