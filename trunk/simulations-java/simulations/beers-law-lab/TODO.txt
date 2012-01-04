@@ -4,9 +4,10 @@ DEADLINES
 - 1.0 in April 2012
 
 DESIGN
+- desired behavior of solute particles that fall out of shaker?
 - what should happen when solute is changed?
 - is a stubby dropper OK? because that's the only way we're going to fit a label and button
-- what do you want to see inside the dropper? how does this interact with solute label?
+- make solution visible inside the dropper? how does this interact with solute label?
 - move beaker ticks to left side, ala sugar-and-salt-solutions?
 - is there a maximum amount of solute? (will affect usability of dropper and beaker)
 - is there a maximum amount of solution that the dropper can dispense?
@@ -19,7 +20,6 @@ HIGH
 - view of solute exiting shaker
 
 MEDIUM
-- get dropper assets from NP
 - adjust drag bounds for shaker and dropper
 - make precipitate particles sit precisely on bottom of beaker
 - if we have limits on amount of solute, then make sure that we don't add solvent volume that would exceed the solute limit
