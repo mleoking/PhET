@@ -137,9 +137,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         stageSize = initialCanvasSize;
         canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
 
-        clock.addClockListener( new ClockAdapter(){
+        clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
-                if( getModel() != null ) {
+                if ( getModel() != null ) {
                     double timeChange = clockEvent.getSimulationTimeChange();
                     getModel().update( timeChange );
                 }
@@ -248,7 +248,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                             // ok, not a button press event
 
                             if ( draggedCrustPiece != null ) {
-                                System.out.println( "crust piece move" );
                                 draggedCrustPiece.position.set( draggedCrustPiece.position.get().plus(
                                         new ImmutableVector2D( Mouse.getEventDX(), -Mouse.getEventDY() ) ) );
                                 movedCrustPiece( draggedCrustPiece );

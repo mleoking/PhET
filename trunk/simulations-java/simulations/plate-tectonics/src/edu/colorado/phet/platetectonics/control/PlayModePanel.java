@@ -17,7 +17,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Allows the user to select between automatic and manual mode
  */
 public class PlayModePanel extends PNode {
-    public PlayModePanel( final Property<Boolean> isAutoMode ) {
+    public PlayModePanel( final Property<Boolean> isAutoMode, final Property<Boolean> hasAnimationStarted ) {
         // TODO: refactor for better radio button handling (this is really fairly ugly)
         PSwing autoRadioButton = new PSwing( new JRadioButton( "Automatic Mode" ) {{
             isAutoMode.addObserver( new SimpleObserver() {
@@ -28,6 +28,11 @@ public class PlayModePanel extends PNode {
                             setSelected( is );
                         }
                     } );
+                }
+            } );
+            hasAnimationStarted.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    setEnabled( !hasAnimationStarted.get() );
                 }
             } );
             addActionListener( new ActionListener() {
@@ -50,6 +55,11 @@ public class PlayModePanel extends PNode {
                             setSelected( is );
                         }
                     } );
+                }
+            } );
+            hasAnimationStarted.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    setEnabled( !hasAnimationStarted.get() );
                 }
             } );
             addActionListener( new ActionListener() {
