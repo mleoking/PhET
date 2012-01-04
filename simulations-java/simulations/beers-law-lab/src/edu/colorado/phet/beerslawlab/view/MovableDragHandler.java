@@ -64,6 +64,7 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
         movable.location.set( constrainToBounds( x, y, movable.getDragBounds() ) );
     }
 
+    // Constrains xy coordinates to be within the specified bounds.
     private static ImmutableVector2D constrainToBounds( double x, double y, Rectangle2D bounds ) {
         ImmutableVector2D vConstrained;
         if ( bounds != null && !bounds.contains( x, y ) ) {
