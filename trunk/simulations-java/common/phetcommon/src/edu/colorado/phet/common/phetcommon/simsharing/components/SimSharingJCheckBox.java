@@ -10,7 +10,7 @@ import javax.swing.JCheckBox;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 
 /**
@@ -20,41 +20,51 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Paramete
  */
 public class SimSharingJCheckBox extends JCheckBox {
 
-    public SimSharingJCheckBox() {
+    private final String object;
+
+    public SimSharingJCheckBox( String object ) {
+        this.object = object;
     }
 
-    public SimSharingJCheckBox( Icon icon ) {
+    public SimSharingJCheckBox( String object, Icon icon ) {
         super( icon );
+        this.object = object;
     }
 
-    public SimSharingJCheckBox( Icon icon, boolean selected ) {
+    public SimSharingJCheckBox( String object, Icon icon, boolean selected ) {
         super( icon, selected );
+        this.object = object;
     }
 
-    public SimSharingJCheckBox( String text ) {
+    public SimSharingJCheckBox( String object, String text ) {
         super( text );
+        this.object = object;
     }
 
-    public SimSharingJCheckBox( Action a ) {
+    public SimSharingJCheckBox( String object, Action a ) {
         super( a );
+        this.object = object;
     }
 
-    public SimSharingJCheckBox( String text, boolean selected ) {
+    public SimSharingJCheckBox( String object, String text, boolean selected ) {
         super( text, selected );
+        this.object = object;
     }
 
-    public SimSharingJCheckBox( String text, Icon icon ) {
+    public SimSharingJCheckBox( String object, String text, Icon icon ) {
         super( text, icon );
+        this.object = object;
     }
 
-    public SimSharingJCheckBox( String text, Icon icon, boolean selected ) {
+    public SimSharingJCheckBox( String object, String text, Icon icon, boolean selected ) {
         super( text, icon, selected );
+        this.object = object;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendEvent( Objects.CHECK_BOX,
+        SimSharingManager.sendEvent( object,
                                      Actions.PRESSED,
-                                     Parameter.param( Parameters.TEXT, getText() ),
+                                     Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.CHECK_BOX ),
                                      Parameter.param( Parameters.IS_SELECTED, isSelected() ) );
         super.fireActionPerformed( event );
     }

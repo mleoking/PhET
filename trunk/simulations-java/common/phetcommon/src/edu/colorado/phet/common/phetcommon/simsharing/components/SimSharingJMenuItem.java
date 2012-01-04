@@ -10,7 +10,7 @@ import javax.swing.JMenuItem;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 
 /**
@@ -19,33 +19,42 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Paramete
  * @author Sam Reid
  */
 public class SimSharingJMenuItem extends JMenuItem {
-    public SimSharingJMenuItem() {
+
+    private final String object;
+
+    public SimSharingJMenuItem( String object ) {
+        this.object = object;
     }
 
-    public SimSharingJMenuItem( Icon icon ) {
+    public SimSharingJMenuItem( String object, Icon icon ) {
         super( icon );
+        this.object = object;
     }
 
-    public SimSharingJMenuItem( String text ) {
+    public SimSharingJMenuItem( String object, String text ) {
         super( text );
+        this.object = object;
     }
 
-    public SimSharingJMenuItem( Action a ) {
+    public SimSharingJMenuItem( String object, Action a ) {
         super( a );
+        this.object = object;
     }
 
-    public SimSharingJMenuItem( String text, Icon icon ) {
+    public SimSharingJMenuItem( String object, String text, Icon icon ) {
         super( text, icon );
+        this.object = object;
     }
 
-    public SimSharingJMenuItem( String text, int mnemonic ) {
+    public SimSharingJMenuItem( String object, String text, int mnemonic ) {
         super( text, mnemonic );
+        this.object = object;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendEvent( Objects.MENU_ITEM,
+        SimSharingManager.sendEvent( object,
                                      Actions.PRESSED,
-                                     Parameter.param( Parameters.TEXT, getText() ) );
+                                     Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.MENU_ITEM ) );
         super.fireActionPerformed( event );
     }
 }

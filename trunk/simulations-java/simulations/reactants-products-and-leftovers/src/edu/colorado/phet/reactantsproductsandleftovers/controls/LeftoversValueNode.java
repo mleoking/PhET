@@ -18,37 +18,37 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.IDynamicNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class LeftoversValueNode extends ValueNode implements IDynamicNode {
-    
+
     private Reactant reactant;
     private final ReactantChangeListener reactantChangeListener;
-    
-    public LeftoversValueNode( Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
-        super( range, reactant.getLeftovers(), reactant.getImage(), imageScale, reactant.getName(), showName, false /* editable */ );
-        
+
+    public LeftoversValueNode( String simSharingObject, Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
+        super( simSharingObject, range, reactant.getLeftovers(), reactant.getImage(), imageScale, reactant.getName(), showName, false /* editable */ );
+
         this.reactant = reactant;
-        
+
         // update this control when the model changes
         reactantChangeListener = new ReactantChangeAdapter() {
             @Override
             public void leftoversChanged() {
                 updateLeftovers();
             }
-            
+
             @Override
             public void imageChanged() {
                 updateImage();
             }
         };
         reactant.addReactantChangeListener( reactantChangeListener );
-        
+
         // update the model when this control changes
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateModel();
             }
-        });
+        } );
     }
-    
+
     public void setReactant( Reactant reactant ) {
         if ( reactant != this.reactant ) {
             this.reactant.removeSubstanceChangeListener( reactantChangeListener );
@@ -58,19 +58,19 @@ public class LeftoversValueNode extends ValueNode implements IDynamicNode {
             this.reactant.addSubstanceChangeListener( reactantChangeListener );
         }
     }
-    
+
     public void cleanup() {
         reactant.removeReactantChangeListener( reactantChangeListener );
     }
-    
+
     private void updateLeftovers() {
         setValue( reactant.getLeftovers() );
     }
-    
+
     private void updateImage() {
         setImage( reactant.getImage() );
     }
-    
+
     private void updateModel() {
         reactant.setLeftovers( getValue() );
     }

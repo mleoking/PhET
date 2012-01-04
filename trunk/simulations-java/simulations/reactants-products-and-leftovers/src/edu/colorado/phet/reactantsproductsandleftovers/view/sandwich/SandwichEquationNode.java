@@ -37,25 +37,25 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
-    
+
     private static final PhetFont COEFFICIENT_FONT = new PhetFont( 24 );
     private static final PhetFont NO_REACTION_FONT = new PhetFont( 24 );
-    
+
     private static final int IMAGE_X_SPACING = 6;
     private static final int TERM_X_SPACING = 20;
-    
+
     private final ChemicalReaction reaction;
     private final PNode arrowNode;
     private final ArrayList<PNode> lhsCoefficientNodes, lhsImageNodes, lhsPlusNodes, rhsCoefficientNodes, rhsImageNodes, rhsPlusNodes;
     private final ArrayList<ReactantChangeListener> reactantChangeListeners;
     private final ChangeListener reactionChangeListener;
     private final PText noReactionNode;
-    
+
     public SandwichEquationNode( SandwichShopModel model ) {
         super();
-        
+
         this.reaction = model.getReaction();
-        
+
         // image change listener, for sandwich image
         PropertyChangeListener imageChangeListener = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
@@ -64,7 +64,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
                 }
             }
         };
-        
+
         // left side (reactants)
         lhsCoefficientNodes = new ArrayList<PNode>();
         lhsImageNodes = new ArrayList<PNode>();
@@ -72,11 +72,12 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         reactantChangeListeners = new ArrayList<ReactantChangeListener>();
         Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
-            
+
             final Reactant reactant = reactants[i];
-            
+
             // coefficient spinner
-            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( SandwichShopModel.getCoefficientRange() );
+            String simSharingObject = reactant.getName() + "EquationSpinner";
+            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( simSharingObject, SandwichShopModel.getCoefficientRange() );
             spinnerNode.scale( 2 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
             spinnerNode.setValue( reactant.getCoefficient() );
             spinnerNode.addChangeListener( new ChangeListener() {
@@ -86,7 +87,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             } );
             addChild( spinnerNode );
             lhsCoefficientNodes.add( spinnerNode );
-            
+
             // update spinner when reactant changes
             ReactantChangeListener listener = new ReactantChangeAdapter() {
                 @Override
@@ -97,7 +98,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             };
             reactant.addReactantChangeListener( listener );
             reactantChangeListeners.add( listener );
-            
+
             // image
             final SubstanceImageNode imageNode = new SubstanceImageNode( reactant );
             imageNode.scale( RPALConstants.EQUATION_IMAGE_SCALE );
@@ -111,7 +112,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
                 lhsPlusNodes.add( plusNode );
             }
         }
-        
+
         // arrow
         arrowNode = new RightArrowNode();
         addChild( arrowNode );
@@ -122,45 +123,45 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
         rhsPlusNodes = new ArrayList<PNode>();
         Product[] products = reaction.getProducts();
         for ( int i = 0; i < products.length; i++ ) {
-            
+
             final Product product = products[i];
-            
+
             // coefficient display
             final PText coefficientNode = new PText( String.valueOf( product.getCoefficient() ) );
             coefficientNode.setFont( COEFFICIENT_FONT );
             addChild( coefficientNode );
             rhsCoefficientNodes.add( coefficientNode );
-            
+
             // image
             final SubstanceImageNode imageNode = new SubstanceImageNode( product );
             imageNode.addPropertyChangeListener( imageChangeListener );
             imageNode.scale( RPALConstants.EQUATION_IMAGE_SCALE );
             addChild( imageNode );
             rhsImageNodes.add( imageNode );
-            
-             // plus sign
+
+            // plus sign
             if ( i < products.length - 1 ) {
                 PNode plusNode = new PlusNode();
                 addChild( plusNode );
                 rhsPlusNodes.add( plusNode );
             }
         }
-        
+
         noReactionNode = new PText( RPALStrings.LABEL_NO_SANDWICH );
         noReactionNode.setFont( NO_REACTION_FONT );
         addChild( noReactionNode );
-        
+
         reactionChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-               updateVisibility();
+                updateVisibility();
             }
         };
         reaction.addChangeListener( reactionChangeListener );
-     
+
         updateVisibility();
         updateLayout();
     }
-    
+
     /**
      * Cleans up all listeners that could cause memory leaks.
      */
@@ -173,12 +174,12 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             reactants[i].removeReactantChangeListener( reactantChangeListeners.get( i ) );
         }
     }
-    
+
     /*
-     * Controls visibility of parts of the right-hand side of the equation,
-     * depending on whether we have a valid reaction.
-     * If the reaction is invalid, the right-hand side should simply say "no reaction".
-     */
+    * Controls visibility of parts of the right-hand side of the equation,
+    * depending on whether we have a valid reaction.
+    * If the reaction is invalid, the right-hand side should simply say "no reaction".
+    */
     private void updateVisibility() {
         boolean isReaction = reaction.isReaction();
         noReactionNode.setVisible( !isReaction );
@@ -195,17 +196,17 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
     }
 
     private void updateLayout() {
-        
+
         PNode previousNode = null;
         double spinnerYOffset = 0;
-        
+
         // title
         double x = 0;
         double y = 0;
-        
+
         // left side
         for ( int i = 0; i < lhsCoefficientNodes.size(); i++ ) {
-            
+
             // coefficient
             PNode coefficientNode = lhsCoefficientNodes.get( i );
             if ( i == 0 ) {
@@ -220,13 +221,13 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
                 x = previousNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
                 coefficientNode.setOffset( x, spinnerYOffset );
             }
-            
+
             // image
             PNode imageNode = lhsImageNodes.get( i );
             x = coefficientNode.getFullBoundsReference().getMaxX() + IMAGE_X_SPACING;
             y = coefficientNode.getFullBoundsReference().getCenterY() - ( imageNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( imageNode );
             imageNode.setOffset( x, y );
-            
+
             // plus sign 
             if ( i < lhsCoefficientNodes.size() - 1 ) {
                 PNode plusNode = lhsPlusNodes.get( i );
@@ -239,34 +240,34 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
                 previousNode = imageNode;
             }
         }
-        
+
         // arrow
         x = previousNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
         y = previousNode.getFullBoundsReference().getCenterY() - ( arrowNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( arrowNode );
         arrowNode.setOffset( x, y );
         previousNode = arrowNode;
-        
+
         // right side
         for ( int i = 0; i < rhsCoefficientNodes.size(); i++ ) {
-            
+
             // coefficient
             PNode coefficientNode = rhsCoefficientNodes.get( i );
             x = previousNode.getFullBoundsReference().getMaxX() + TERM_X_SPACING;
-            y = previousNode.getFullBoundsReference().getCenterY() - ( coefficientNode.getFullBoundsReference().getHeight() / 2 ) - - PNodeLayoutUtils.getOriginYOffset( coefficientNode );
+            y = previousNode.getFullBoundsReference().getCenterY() - ( coefficientNode.getFullBoundsReference().getHeight() / 2 ) - -PNodeLayoutUtils.getOriginYOffset( coefficientNode );
             coefficientNode.setOffset( x, y );
-            
+
             // "no reaction" label
             if ( i == 0 ) {
-                y = previousNode.getFullBoundsReference().getCenterY() - ( noReactionNode.getFullBoundsReference().getHeight() / 2 ) - - PNodeLayoutUtils.getOriginYOffset( noReactionNode );
+                y = previousNode.getFullBoundsReference().getCenterY() - ( noReactionNode.getFullBoundsReference().getHeight() / 2 ) - -PNodeLayoutUtils.getOriginYOffset( noReactionNode );
                 noReactionNode.setOffset( x, y );
             }
-            
+
             // image
             PNode imageNode = rhsImageNodes.get( i );
             x = coefficientNode.getFullBoundsReference().getMaxX() + IMAGE_X_SPACING - PNodeLayoutUtils.getOriginXOffset( imageNode );
             y = coefficientNode.getFullBoundsReference().getCenterY() - ( imageNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( imageNode );
             imageNode.setOffset( x, y );
-            
+
             // plus
             if ( i < rhsCoefficientNodes.size() - 1 ) {
                 PNode plusNode = rhsPlusNodes.get( i );

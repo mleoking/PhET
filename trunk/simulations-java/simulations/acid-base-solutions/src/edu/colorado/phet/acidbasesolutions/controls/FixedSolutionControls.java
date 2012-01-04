@@ -72,19 +72,19 @@ public class FixedSolutionControls extends PhetTitledPanel {
                 }
             };
 
-            waterRadioButton = new SolutionRadioButton( ABSStrings.WATER, new WaterMolecule() );
+            waterRadioButton = new SolutionRadioButton( "waterRadioButton", ABSStrings.WATER, new WaterMolecule() );
             waterRadioButton.addActionListener( actionListener );
 
-            strongAcidRadioButton = new SolutionRadioButton( ABSStrings.STRONG_ACID, new GenericAcidMolecule() );
+            strongAcidRadioButton = new SolutionRadioButton( "strongAcidRadioButton", ABSStrings.STRONG_ACID, new GenericAcidMolecule() );
             strongAcidRadioButton.addActionListener( actionListener );
 
-            weakAcidRadioButton = new SolutionRadioButton( ABSStrings.WEAK_ACID, new GenericAcidMolecule() );
+            weakAcidRadioButton = new SolutionRadioButton( "weakAcidRadioButton", ABSStrings.WEAK_ACID, new GenericAcidMolecule() );
             weakAcidRadioButton.addActionListener( actionListener );
 
-            strongBaseRadioButton = new SolutionRadioButton( ABSStrings.STRONG_BASE, new GenericStrongBaseMolecule() );
+            strongBaseRadioButton = new SolutionRadioButton( "strongBaseRadioButton", ABSStrings.STRONG_BASE, new GenericStrongBaseMolecule() );
             strongBaseRadioButton.addActionListener( actionListener );
 
-            weakBaseRadioButton = new SolutionRadioButton( ABSStrings.WEAK_BASE, new GenericWeakBaseMolecule() );
+            weakBaseRadioButton = new SolutionRadioButton( "weakBaseRadioButton", ABSStrings.WEAK_BASE, new GenericWeakBaseMolecule() );
             weakBaseRadioButton.addActionListener( actionListener );
 
             ButtonGroup group = new ButtonGroup();
@@ -96,31 +96,31 @@ public class FixedSolutionControls extends PhetTitledPanel {
         }
 
         // icons - clicking on these selects associated radio buttons
-        JLabel waterIcon = new MoleculeIcon( new WaterMolecule(), waterRadioButton.getText(), new VoidFunction0() {
+        JLabel waterIcon = new MoleculeIcon( "waterIcon", new WaterMolecule(), new VoidFunction0() {
             public void apply() {
                 waterRadioButton.setSelected( true );
                 updateModel();
             }
         } );
-        JLabel strongAcidIcon = new MoleculeIcon( new GenericAcidMolecule(), strongAcidRadioButton.getText(), new VoidFunction0() {
+        JLabel strongAcidIcon = new MoleculeIcon( "strongAcidIcon", new GenericAcidMolecule(), new VoidFunction0() {
             public void apply() {
                 strongAcidRadioButton.setSelected( true );
                 updateModel();
             }
         } );
-        JLabel weakAcidIcon = new MoleculeIcon( new GenericAcidMolecule(), weakAcidRadioButton.getText(), new VoidFunction0() {
+        JLabel weakAcidIcon = new MoleculeIcon( "weakAcidIcon", new GenericAcidMolecule(), new VoidFunction0() {
             public void apply() {
                 weakAcidRadioButton.setSelected( true );
                 updateModel();
             }
         } );
-        JLabel strongBaseIcon = new MoleculeIcon( new GenericStrongBaseMolecule(), strongBaseRadioButton.getText(), new VoidFunction0() {
+        JLabel strongBaseIcon = new MoleculeIcon( "strongBaseIcon", new GenericStrongBaseMolecule(), new VoidFunction0() {
             public void apply() {
                 strongBaseRadioButton.setSelected( true );
                 updateModel();
             }
         } );
-        JLabel weakBaseIcon = new MoleculeIcon( new GenericWeakBaseMolecule(), weakBaseRadioButton.getText(), new VoidFunction0() {
+        JLabel weakBaseIcon = new MoleculeIcon( "weakBaseIcon", new GenericWeakBaseMolecule(), new VoidFunction0() {
             public void apply() {
                 weakBaseRadioButton.setSelected( true );
                 updateModel();
@@ -230,7 +230,8 @@ public class FixedSolutionControls extends PhetTitledPanel {
 
     // Radio button with a label, symbol and molecule icon.
     private static class SolutionRadioButton extends SimSharingJRadioButton {
-        public SolutionRadioButton( String label, Molecule molecule ) {
+        public SolutionRadioButton( String object, String label, Molecule molecule ) {
+            super( object );
             String s = MessageFormat.format( ABSStrings.PATTERN_SOLUTION_SYMBOL, label, molecule.getSymbol() );
             String html = HTMLUtils.toHTMLString( s );
             setText( html );
@@ -239,8 +240,8 @@ public class FixedSolutionControls extends PhetTitledPanel {
 
     // Molecule icon
     private static final class MoleculeIcon extends SimSharingIcon {
-        public MoleculeIcon( final Molecule molecule, String description, final VoidFunction0 function ) {
-            super( ABSImages.createIcon( molecule.getImage(), 0.75 /* scale */ ), description, function );
+        public MoleculeIcon( String object, final Molecule molecule, final VoidFunction0 function ) {
+            super( object, ABSImages.createIcon( molecule.getImage(), 0.75 /* scale */ ), function );
         }
     }
 }

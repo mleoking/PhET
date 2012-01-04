@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
@@ -21,12 +21,12 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
  */
 public class SimSharingIcon extends JLabel {
 
-    private final String description; // description parameter value, for sim-sharing event
+    private final String object;
     private final VoidFunction0 function;
 
-    public SimSharingIcon( Icon icon, final String description, final VoidFunction0 function ) {
+    public SimSharingIcon( String object, Icon icon, final VoidFunction0 function ) {
         super( icon );
-        this.description = description;
+        this.object = object;
         this.function = function;
         addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent event ) {
@@ -36,8 +36,8 @@ public class SimSharingIcon extends JLabel {
     }
 
     protected void handleMousePressed() {
-        SimSharingManager.sendEvent( Objects.ICON, Actions.PRESSED,
-                                     Parameter.param( Parameters.DESCRIPTION, description ) );
+        SimSharingManager.sendEvent( object, Actions.PRESSED,
+                                     Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.ICON ) );
         function.apply();
     }
 }

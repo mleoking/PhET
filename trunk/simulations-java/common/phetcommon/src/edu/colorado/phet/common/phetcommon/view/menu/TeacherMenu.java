@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
 public class TeacherMenu extends SimSharingJMenu {
 
     public TeacherMenu() {
-        super( PhetCommonResources.getString( "Common.TeacherMenu" ) );
+        super( "teacherMenu", PhetCommonResources.getString( "Common.TeacherMenu" ) );
         setMnemonic( PhetCommonResources.getChar( "Common.TeacherMenu.mnemonic", 'T' ) );
     }
 

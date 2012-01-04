@@ -22,7 +22,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
  */
 public class TeachersMenu extends SimSharingJMenu {
     public TeachersMenu() {
-        super( PhetCommonResources.getString( "Common.TeacherMenu" ) );
+        super( "teacherMenu", PhetCommonResources.getString( "Common.TeacherMenu" ) );
         setMnemonic( PhetCommonResources.getChar( "Common.TeacherMenu.mnemonic", 'T' ) );
         add( new JCheckBoxMenuItem( PhetCommonResources.getString( "Common.WhiteBackground" ) ) {{
             setSelected( false );

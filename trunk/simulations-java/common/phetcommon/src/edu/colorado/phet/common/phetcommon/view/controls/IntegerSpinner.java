@@ -13,12 +13,12 @@ import java.text.MessageFormat;
 import java.text.ParseException;
 
 import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSpinner;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
@@ -27,13 +27,13 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntegerSpinner extends JSpinner {
+public class IntegerSpinner extends SimSharingJSpinner {
 
     private final IntegerRange range;
     private final JFormattedTextField textField;
 
-    public IntegerSpinner( IntegerRange range ) {
-        super();
+    public IntegerSpinner( String simSharingObject, IntegerRange range ) {
+        super( simSharingObject );
 
         this.range = range;
 

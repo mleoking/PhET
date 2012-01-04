@@ -26,8 +26,8 @@ public class HTMLRadioButton extends SimSharingJRadioButton {
      *
      * @param text plain text, HTML fragment, or HTML document
      */
-    public HTMLRadioButton( String text ) {
-        super( HTMLUtils.toHTMLString( text ) );
+    public HTMLRadioButton( String simSharingObject, String text ) {
+        super( simSharingObject, HTMLUtils.toHTMLString( text ) );
         this.foreground = getForeground();
     }
 
