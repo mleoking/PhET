@@ -1,3 +1,5 @@
+# 1.02.03 (59874) Jan 4, 2012
+1/4/12 dev version with sim-sharing for Stanford collaboration
 # 1.02.02 (59468) Dec 19, 2011
 12/19/11 dev version with many sim-sharing change requests
 12/19/11 #3170, distinguish between slider and textfield input for custom solution controls
