@@ -13,6 +13,18 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class Shaker extends Movable {
 
+    //TODO might be better if these points were in the coordinate system of the image file
+    // Locations of the shaker holes, relative to the shaker's local origin, and specific to the shaker image file.
+    private static final ImmutableVector2D[] RELATIVE_HOLE_LOCATIONS = {
+            new ImmutableVector2D( 0, 0 ),
+            new ImmutableVector2D( -10, -16 ),
+            new ImmutableVector2D( -16, -10 ),
+            new ImmutableVector2D( -8, 5 ),
+            new ImmutableVector2D( 8, -5 ),
+            new ImmutableVector2D( 10, 17 ),
+            new ImmutableVector2D( 21, 15 ),
+    };
+
     public final Property<Solute> solute;
     public final Property<Boolean> enabled;
     private final double maxDispensingRate;
@@ -43,5 +55,9 @@ public class Shaker extends Movable {
 
     public void addDispensingRateObserver( SimpleObserver observer ) {
         dispensingRate.addObserver( observer );
+    }
+
+    public ImmutableVector2D[] getRelativeHoleLocations() {
+        return RELATIVE_HOLE_LOCATIONS;
     }
 }

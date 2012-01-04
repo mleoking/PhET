@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
@@ -11,15 +12,18 @@ import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Shaker that contains a solute in solid form.
@@ -40,16 +44,19 @@ public class ShakerNode extends PhetPNode {
 
         // Combine image and label into a parent, to simplify rotation and label alignment.
         PNode parentNode = new PNode();
-        addChild( parentNode );
         parentNode.addChild( imageNode );
         parentNode.addChild( labelNode );
         imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
         parentNode.rotate( 0.25 * -Math.PI ); // Image file is assumed to be oriented with shaker holes pointing left.
-        parentNode.setOffset( -45, -170 ); // Manually adjust these values until the origin is in the middle hole of the shaker.
 
-        // origin debugging
+        ZeroOffsetNode zeroOffsetNode = new ZeroOffsetNode( parentNode );
+        addChild( zeroOffsetNode );
+        zeroOffsetNode.setOffset( -45, -170 ); // Manually adjust these values until the origin is in the middle hole of the shaker.
+
+        // debugging for origin and holes
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
             addChild( new DebugOriginNode() );
+            addHoleNodes( shaker.getRelativeHoleLocations() );
         }
 
         // Change the label when the solute changes.
@@ -77,6 +84,27 @@ public class ShakerNode extends PhetPNode {
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new ShakerDragHandler( shaker, this, shaker.getDragBounds() ) );
+    }
+
+    private void addHoleNodes( ImmutableVector2D[] holeLocations ) {
+        for ( ImmutableVector2D location : holeLocations ) {
+            PNode holeNode = new HoleNode();
+            holeNode.setOffset( location.toPoint2D() );
+            addChild( holeNode );
+        }
+    }
+
+    private static class HoleNode extends PPath {
+
+        private static final double DIAMETER = 4;
+
+        public HoleNode() {
+            setPickable( false );
+            setChildrenPickable( false );
+            setPathTo( new Ellipse2D.Double( -( DIAMETER / 2 ), -( DIAMETER ) / 2, DIAMETER, DIAMETER ) );
+            setStroke( null );
+            setPaint( Color.GREEN );
+        }
     }
 
     // Drag handler, specialized for the shaker.
