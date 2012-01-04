@@ -47,8 +47,8 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         addModule( new WaterModule( globalState ) );
 
         //Add developer menus for changing the color of background and salt
-        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", globalState.colorScheme.backgroundColorSet.selectedColor ) );
-        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", globalState.colorScheme.saltColor.selectedColor ) );
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( "backgroundColorMenuItem", getPhetFrame(), "Background Color...", globalState.colorScheme.backgroundColorSet.selectedColor ) );
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( "saltColorMenuItem", getPhetFrame(), "Salt Color...", globalState.colorScheme.saltColor.selectedColor ) );
 
         //Add a Teacher menu with an item to change the background to white for use on projectors in bright classrooms
         getPhetFrame().addMenu( new TeacherMenu() {{addWhiteBackgroundMenuItem( globalState.colorScheme.whiteBackground );}} );

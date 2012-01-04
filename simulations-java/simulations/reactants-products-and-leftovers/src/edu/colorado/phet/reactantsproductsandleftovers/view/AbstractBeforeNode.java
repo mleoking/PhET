@@ -24,21 +24,21 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for all "Before Reaction" displays.
- * Includes a box for displaying a reactant's reactant molecule images, 
+ * Includes a box for displaying a reactant's reactant molecule images,
  * and a set of controls for the reaction's reactant quantities.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNode {
-    
+
     private static final double CONTROLS_Y_SPACING = 15;
-    
+
     private static final double BRACKET_Y_SPACING = 3;
     private static final PhetFont BRACKET_FONT = new PhetFont( 16 );
     private static final Color BRACKET_TEXT_COLOR = Color.BLACK;
     private static final Color BRACKET_COLOR = RPALConstants.BEFORE_AFTER_BOX_COLOR;
     private static final Stroke BRACKET_STROKE = new BasicStroke( 0.75f );
-    
+
     private final ChemicalReaction reaction;
     private final ChangeListener reactionChangeListener;
 
@@ -46,10 +46,10 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
     private final ArrayList<ArrayList<SubstanceImageNode>> imageNodeLists; // one list of images per reactant
     private final ArrayList<QuantityValueNode> reactantValueNodes; // quantity controls for reactants
     private final ImageLayoutNode imageLayoutNode;
-    
+
     public AbstractBeforeNode( String title, PDimension boxSize, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames, ImageLayoutNode imageLayoutNode ) {
         super();
-        
+
         this.reaction = reaction;
         reactionChangeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -57,31 +57,32 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             }
         };
         reaction.addChangeListener( reactionChangeListener );
-        
+
         this.imageLayoutNode = imageLayoutNode;
-        
+
         imageNodeLists = new ArrayList<ArrayList<SubstanceImageNode>>();
         reactantValueNodes = new ArrayList<QuantityValueNode>();
-        
+
         // titled box
         titledBoxNode = new TitledBoxNode( title, boxSize );
         addChild( titledBoxNode );
         addChild( imageLayoutNode );
-        
+
         // images and controls
         Reactant[] reactants = reaction.getReactants();
         for ( Reactant reactant : reactants ) {
-            
+
             // one list of image nodes for each reactant 
             imageNodeLists.add( new ArrayList<SubstanceImageNode>() );
-            
+
             // one quantity control for each reactant
-            QuantityValueNode quantityNode = new QuantityValueNode( reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
+            String simSharingObject = reactant.getName() + "ReactantSpinner";
+            QuantityValueNode quantityNode = new QuantityValueNode( simSharingObject, reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             quantityNode.setEditable( true );
             addChild( quantityNode );
             reactantValueNodes.add( quantityNode );
         }
-        
+
         // layout, origin at upper-left corner of box
         double x = 0;
         double y = 0;
@@ -95,7 +96,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             reactantValueNodes.get( i ).setOffset( x, y );
             x += deltaX;
         }
-        
+
         // reactants bracket, after doing layout of leftover quantity displays
         double startX = reactantValueNodes.get( 0 ).getFullBoundsReference().getMinX();
         double endX = reactantValueNodes.get( reactantValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
@@ -108,10 +109,10 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
         reactantsLabelNode.setOffset( x, y );
-        
+
         updateImages();
     }
-    
+
     /**
      * Cleans up all listeners that could cause memory leaks.
      */
@@ -128,46 +129,46 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             }
         }
     }
-    
+
     /*
-     * Sets the visibility of reaction molecule images.
-     * Intended for use by subclasses that may want to hide images.
-     */
+    * Sets the visibility of reaction molecule images.
+    * Intended for use by subclasses that may want to hide images.
+    */
     protected void setReactionImagesVisible( boolean visible ) {
         imageLayoutNode.setVisible( visible );
-        
+
     }
-    
+
     protected void setValueNodeImagesVisible( boolean visible ) {
         for ( ValueNode valueNode : reactantValueNodes ) {
             valueNode.setImageVisible( visible );
         }
     }
-    
+
     /*
-     * Sets the visibility of the numeric values below the box.
-     * Intended for use by subclasses that may want to hide numbers.
-     */
+    * Sets the visibility of the numeric values below the box.
+    * Intended for use by subclasses that may want to hide numbers.
+    */
     protected void setNumbersVisible( boolean visible ) {
         for ( ValueNode valueNode : reactantValueNodes ) {
             valueNode.setValueVisible( visible );
             valueNode.setHistogramBarVisible( visible );
         }
     }
-    
+
     /*
-     * Gets a list of the reactant value nodes.
-     * Intended for use by subclasses that need to fiddle with these.
-     */
+    * Gets a list of the reactant value nodes.
+    * Intended for use by subclasses that need to fiddle with these.
+    */
     protected ArrayList<QuantityValueNode> getReactantValueNodes() {
         return reactantValueNodes;
     }
-    
+
     /*
-     * For each reactant, update number of images to match the quantity.
-     */
+    * For each reactant, update number of images to match the quantity.
+    */
     private void updateImages() {
-     
+
         // remove all images first, so that there's room in the layout...
         Reactant[] reactants = reaction.getReactants();
         for ( int i = 0; i < reactants.length; i++ ) {
@@ -180,7 +181,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
                 imageNodes.remove( imageNode );
             }
         }
-        
+
         // ...then add all images
         for ( int i = 0; i < reactants.length; i++ ) {
             Reactant reactant = reactants[i];

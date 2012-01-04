@@ -72,13 +72,13 @@ public class TestControls extends PhetTitledPanel {
                 }
             };
 
-            pHMeterRadioButton = new SimSharingJRadioButton( ABSStrings.PH_METER );
+            pHMeterRadioButton = new SimSharingJRadioButton( "phMeterRadioButton", ABSStrings.PH_METER );
             pHMeterRadioButton.addActionListener( actionListener );
 
-            pHPaperRadioButton = new SimSharingJRadioButton( ABSStrings.PH_PAPER );
+            pHPaperRadioButton = new SimSharingJRadioButton( "phPaperRadioButton", ABSStrings.PH_PAPER );
             pHPaperRadioButton.addActionListener( actionListener );
 
-            conductivityTesterRadioButton = new SimSharingJRadioButton( ABSStrings.CONDUCTIVITY );
+            conductivityTesterRadioButton = new SimSharingJRadioButton( "conductivityTesterRadioButton", ABSStrings.CONDUCTIVITY );
             conductivityTesterRadioButton.addActionListener( actionListener );
 
             ButtonGroup group = new ButtonGroup();
@@ -88,21 +88,21 @@ public class TestControls extends PhetTitledPanel {
         }
 
         // icons - clicking on these selects associated radio buttons
-        JLabel pHMeterIcon = new SimSharingIcon( ABSImages.PH_METER_ICON, pHMeterRadioButton.getText(), new VoidFunction0() {
+        JLabel pHMeterIcon = new SimSharingIcon( "pHMeterIcon", ABSImages.PH_METER_ICON, new VoidFunction0() {
             public void apply() {
                 pHMeterRadioButton.setSelected( true );
                 updateModel();
             }
         } );
 
-        JLabel pHPaperIcon = new SimSharingIcon( ABSImages.PH_PAPER_ICON, pHPaperRadioButton.getText(), new VoidFunction0() {
+        JLabel pHPaperIcon = new SimSharingIcon( "pHPaperIcon", ABSImages.PH_PAPER_ICON, new VoidFunction0() {
             public void apply() {
                 pHPaperRadioButton.setSelected( true );
                 updateModel();
             }
         } );
 
-        JLabel conductivityTesterIcon = new SimSharingIcon( ABSImages.LIGHT_BULB_ICON, conductivityTesterRadioButton.getText(), new VoidFunction0() {
+        JLabel conductivityTesterIcon = new SimSharingIcon( "conductivityTesterIcon", ABSImages.LIGHT_BULB_ICON, new VoidFunction0() {
             public void apply() {
                 conductivityTesterRadioButton.setSelected( true );
                 updateModel();

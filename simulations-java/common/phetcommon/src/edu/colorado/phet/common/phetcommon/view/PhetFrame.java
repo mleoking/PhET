@@ -400,7 +400,7 @@ public class PhetFrame extends JFrame {
      */
     public void addFileSaveLoadMenuItems() {
 
-        JMenuItem saveItem = new SimSharingJMenuItem( PhetCommonResources.getString( "Common.FileMenu.Save" ) );
+        JMenuItem saveItem = new SimSharingJMenuItem( "saveMenuItem", PhetCommonResources.getString( "Common.FileMenu.Save" ) );
         saveItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Save.mnemonic", 'S' ) );
         saveItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -408,7 +408,7 @@ public class PhetFrame extends JFrame {
             }
         } );
 
-        JMenuItem loadItem = new SimSharingJMenuItem( PhetCommonResources.getString( "Common.FileMenu.Load" ) );
+        JMenuItem loadItem = new SimSharingJMenuItem( "loadMenuItem", PhetCommonResources.getString( "Common.FileMenu.Load" ) );
         loadItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Load.mnemonic", 'L' ) );
         loadItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

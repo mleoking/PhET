@@ -9,7 +9,7 @@ import javax.swing.JCheckBoxMenuItem;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
@@ -20,37 +20,47 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
  * @author Sam Reid
  */
 public class SimSharingJCheckBoxMenuItem extends JCheckBoxMenuItem {
-    public SimSharingJCheckBoxMenuItem() {
+
+    private final String object;
+
+    public SimSharingJCheckBoxMenuItem( String object ) {
+        this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( Icon icon ) {
+    public SimSharingJCheckBoxMenuItem( String object, Icon icon ) {
         super( icon );
+        this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String text ) {
+    public SimSharingJCheckBoxMenuItem( String object, String text ) {
         super( text );
+        this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( Action a ) {
+    public SimSharingJCheckBoxMenuItem( String object, Action a ) {
         super( a );
+        this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String text, Icon icon ) {
+    public SimSharingJCheckBoxMenuItem( String object, String text, Icon icon ) {
         super( text, icon );
+        this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String text, boolean b ) {
+    public SimSharingJCheckBoxMenuItem( String object, String text, boolean b ) {
         super( text, b );
+        this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String text, Icon icon, boolean b ) {
+    public SimSharingJCheckBoxMenuItem( String object, String text, Icon icon, boolean b ) {
         super( text, icon, b );
+        this.object = object;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendEvent( Objects.CHECK_BOX_MENU_ITEM,
-                                     Actions.TOGGLED, //TODO shouldn't this be PRESSED, to be consistent with PropertyCheckBox?
-                                     param( Parameters.TEXT, getText() ),
+        SimSharingManager.sendEvent( object,
+                                     Actions.PRESSED,
+                                     param( Parameters.COMPONENT_TYPE, ParameterValues.CHECK_BOX_MENU_ITEM ),
                                      param( Parameters.IS_SELECTED, isSelected() ) );
         super.fireActionPerformed( event );
     }

@@ -11,11 +11,6 @@ public class SimSharingStrings {
     public static class Objects {
 
         public static final String CHECK_BOX = "checkBox";
-        public static final String CHECK_BOX_MENU_ITEM = "checkBoxMenuItem";
-        public static final String COMBO_BOX_ITEM = "comboBoxItem";
-        public static final String ICON = "icon";
-        public static final String MENU = "menu";
-        public static final String MENU_ITEM = "menuItem";
         public static final String RADIO_BUTTON = "radioButton";
         public static final String SPINNER = "spinner";
         public static final String SYSTEM = "system";
@@ -42,8 +37,6 @@ public class SimSharingStrings {
         public static final String RESIZED = "resized";
         public static final String SELECTED = "selected";
         public static final String START_DRAG = "startDrag";
-        public static final String TEXT_ENTERED = "textEntered";
-        public static final String TOGGLED = "toggled";
         public static final String WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED = "windowSystemCloseButtonPressed";
     }
 
@@ -51,6 +44,7 @@ public class SimSharingStrings {
 
         public static final String CANVAS_POSITION_X = "canvasPositionX";
         public static final String CANVAS_POSITION_Y = "canvasPositionY";
+        public static final String COMPONENT_TYPE = "componentType";
         public static final String DESCRIPTION = "description";
         public static final String HEIGHT = "height";
         public static final String INTERACTIVE = "interactive";
@@ -68,8 +62,16 @@ public class SimSharingStrings {
     }
 
     public static class ParameterValues {
+        public static final String BUTTON = "button";
+        public static final String CHECK_BOX = "checkBox";
+        public static final String CHECK_BOX_MENU_ITEM = "checkBoxMenuItem";
         public static final String DOWN_ARROW = "downArrow";
         public static final String ENTER = "enter";
+        public static final String ICON = "icon";
+        public static final String MENU = "menu";
+        public static final String MENU_ITEM = "menuItem";
+        public static final String RADIO_BUTTON = "radioButton";
+        public static final String SPINNER = "spinner";
         public static final String UP_ARROW = "upArrow";
     }
 }

@@ -6,12 +6,12 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
 
 /**
  * Swing version of the "Reset All" button.
@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ResetAllButton extends JButton {
+public class ResetAllButton extends SimSharingJButton {
 
     private final ResetAllDelegate delegate; // delegate that implements Reset All behavior
 
@@ -44,7 +44,7 @@ public class ResetAllButton extends JButton {
      * @param parent      parent component for the confirmation dialog
      */
     public ResetAllButton( final Resettable[] resettables, final Component parent ) {
-        super( PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_RESET_ALL ) );
+        super( "resetAllButton", PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_RESET_ALL ) );
         this.delegate = new ResetAllDelegate( resettables, parent );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

@@ -7,7 +7,7 @@ import javax.swing.JMenu;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 
 /**
@@ -16,25 +16,32 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Paramete
  * @author Sam Reid
  */
 public class SimSharingJMenu extends JMenu {
-    public SimSharingJMenu() {
+
+    private final String object;
+
+    public SimSharingJMenu( String object ) {
+        this.object = object;
     }
 
-    public SimSharingJMenu( String s ) {
-        super( s );
+    public SimSharingJMenu( String object, String text ) {
+        super( text );
+        this.object = object;
     }
 
-    public SimSharingJMenu( Action a ) {
-        super( a );
+    public SimSharingJMenu( String object, Action action ) {
+        super( action );
+        this.object = object;
     }
 
-    public SimSharingJMenu( String s, boolean b ) {
-        super( s, b );
+    public SimSharingJMenu( String object, String text, boolean canBeTornOff ) {
+        super( text, canBeTornOff );
+        this.object = object;
     }
 
     @Override protected void fireMenuSelected() {
-        SimSharingManager.sendEvent( Objects.MENU,
+        SimSharingManager.sendEvent( object,
                                      Actions.PRESSED,
-                                     Parameter.param( Parameters.TEXT, getText() ) );
+                                     Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.MENU ) );
         super.fireMenuSelected();
     }
 }

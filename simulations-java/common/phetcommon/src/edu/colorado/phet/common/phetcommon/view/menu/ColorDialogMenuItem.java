@@ -20,8 +20,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Sam Reid
  */
 public class ColorDialogMenuItem extends SimSharingJMenuItem {
-    public ColorDialogMenuItem( Component parent, String title, final Property<Color> colorProperty ) {
-        super( title );
+    public ColorDialogMenuItem( String simSharingObject, Component parent, String title, final Property<Color> colorProperty ) {
+        super( simSharingObject, title );
 
         //Adapter to pass information from the ColorChooserFactory.Listener to the Property<Color>
         Listener listener = new Listener() {

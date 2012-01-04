@@ -192,7 +192,8 @@ public class EquationNode extends PhetPNode {
         public TermNode( IntegerRange coefficientRange, EquationTerm term, boolean editable ) {
 
             // coefficient
-            coefficientNode = new CoefficientNode( coefficientRange, term.getUserCoefficientProperty(), editable );
+            String simSharingObject = term.getMolecule().getSymbol() + "Spinner";
+            coefficientNode = new CoefficientNode( simSharingObject, coefficientRange, term.getUserCoefficientProperty(), editable );
             addChild( coefficientNode );
 
             // molecule symbol
@@ -225,7 +226,7 @@ public class EquationNode extends PhetPNode {
         private final PText textNode;
         private final PSwing spinnerNode;
 
-        public CoefficientNode( IntegerRange range, final Property<Integer> coefficientProperty, boolean editable ) {
+        public CoefficientNode( String simSharingObject, IntegerRange range, final Property<Integer> coefficientProperty, boolean editable ) {
 
             // read-only text
             textNode = new PText();
@@ -233,7 +234,7 @@ public class EquationNode extends PhetPNode {
             textNode.setTextPaint( COEFFICIENT_COLOR );
 
             // editable spinner
-            final IntegerSpinner spinner = new IntegerSpinner( range );
+            final IntegerSpinner spinner = new IntegerSpinner( simSharingObject, range );
             spinner.setForeground( COEFFICIENT_COLOR );
             spinner.setFont( FONT );
             spinner.setValue( coefficientProperty.get() );

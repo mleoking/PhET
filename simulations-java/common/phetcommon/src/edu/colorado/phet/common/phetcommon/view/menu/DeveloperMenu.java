@@ -2,8 +2,9 @@
 package edu.colorado.phet.common.phetcommon.view.menu;
 
 
+import javax.swing.JMenu;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -11,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperMenu extends SimSharingJMenu {
+public class DeveloperMenu extends JMenu {
 
     public DeveloperMenu( PhetApplication app ) {
         super( "Developer" );

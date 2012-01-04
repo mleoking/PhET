@@ -28,59 +28,59 @@ import edu.umd.cs.piccolo.util.PDimension;
  * The numeric value is optionally editable, via a spinner.
  * Labeled using an image and text label.
  * The origin is at the top-center of the histogram bar.
- * <p>
+ * <p/>
  * This control has no dependencies on the model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ValueNode extends PhetPNode {
-    
+
     private static final PDimension HISTOGRAM_BAR_SIZE = RPALConstants.HISTOGRAM_BAR_SIZE;
     private static final Font VALUE_FONT = new PhetFont( 24 );
     private static final Font NAME_FONT = new PhetFont( 18 );
-    
+
     private final EventListenerList listeners;
     private final HistogramBarNode barNode;
     private final PImage imageNode;
     private final HTMLNode nameNode;
     private final IntegerSpinnerNode spinnerNode;
     private final PText valueNode;
-    
+
     private int value;
-    
-    public ValueNode( IntegerRange range, int value, Image image, double imageScale, String name, boolean showName, boolean editable ) {
+
+    public ValueNode( String simSharingObject, IntegerRange range, int value, Image image, double imageScale, String name, boolean showName, boolean editable ) {
         super();
-        
+
         if ( !range.contains( value ) ) {
             throw new IllegalArgumentException( "value is out of range: " + value );
         }
-        
+
         listeners = new EventListenerList();
-        
+
         // bar
         barNode = new HistogramBarNode( value, range.getMin(), range.getMax(), HISTOGRAM_BAR_SIZE );
 
         // image
         imageNode = new PImage( image );
         imageNode.scale( imageScale );
-        
+
         // name
         nameNode = new HTMLNode( HTMLUtils.toHTMLString( name ) );
         nameNode.setFont( NAME_FONT );
 
         // editable value
-        spinnerNode = new IntegerSpinnerNode( range );
+        spinnerNode = new IntegerSpinnerNode( simSharingObject, range );
         spinnerNode.scale( 1.5 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
         spinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 setValue( spinnerNode.getValue() );
             }
-        });
+        } );
 
         // read-only value
-        valueNode = new PText(); 
+        valueNode = new PText();
         valueNode.setFont( VALUE_FONT );
-        
+
         // rendering order
         addChild( barNode );
         addChild( imageNode );
@@ -89,35 +89,35 @@ public class ValueNode extends PhetPNode {
         }
         addChild( spinnerNode );
         addChild( valueNode );
-        
+
         // children that are not pickable
         barNode.setPickable( false );
         imageNode.setPickable( false );
         nameNode.setPickable( false );
         valueNode.setPickable( false );
-        
+
         imageNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
                     updateLayout(); // to preserve center justification
                 }
             }
-        });
-        
+        } );
+
         valueNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PROPERTY_FULL_BOUNDS ) ) {
                     updateLayout(); // to preserve right justification
                 }
             }
-        });
-        
+        } );
+
         updateLayout();
         setEditable( editable );
         this.value = value - 1; // force update
         setValue( value );
     }
-    
+
     public void setValue( int value ) {
         if ( value != this.value ) {
             this.value = value;
@@ -127,11 +127,11 @@ public class ValueNode extends PhetPNode {
             fireStateChanged();
         }
     }
-    
+
     public int getValue() {
         return spinnerNode.getValue();
     }
-    
+
     public void setEditable( boolean editable ) {
         spinnerNode.setPickable( editable );
         if ( editable ) {
@@ -143,23 +143,23 @@ public class ValueNode extends PhetPNode {
             addChild( valueNode );
         }
     }
-    
+
     public void setImage( Image image ) {
         imageNode.setImage( image );
     }
-    
+
     public void setValueVisible( boolean visible ) {
         valueNode.setVisible( visible );
     }
-    
+
     public void setHistogramBarVisible( boolean visible ) {
         barNode.setVisible( visible );
     }
-    
+
     public void setImageVisible( boolean visible ) {
         imageNode.setVisible( visible );
     }
-    
+
     private void updateLayout() {
         // origin at top center of bar
         double x = -( barNode.getFullBoundsReference().getWidth() / 2 );
@@ -186,11 +186,11 @@ public class ValueNode extends PhetPNode {
     public void addChangeListener( ChangeListener listener ) {
         listeners.add( ChangeListener.class, listener );
     }
-    
+
     public void removeChangeListener( ChangeListener listener ) {
         listeners.remove( ChangeListener.class, listener );
     }
-    
+
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
         for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {

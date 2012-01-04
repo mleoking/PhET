@@ -18,13 +18,13 @@ import edu.colorado.phet.reactantsproductsandleftovers.view.IDynamicNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class QuantityValueNode extends ValueNode implements IDynamicNode {
-    
+
     private Substance substance;
     private final SubstanceChangeListener substanceChangeListener;
-    
-    public QuantityValueNode( Substance substance, IntegerRange range, double imageScale, boolean showName ) {
-        super( range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), showName, false /* editable */ );
-        
+
+    public QuantityValueNode( String simSharingObject, Substance substance, IntegerRange range, double imageScale, boolean showName ) {
+        super( simSharingObject, range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), showName, false /* editable */ );
+
         this.substance = substance;
 
         // update this control when the model changes
@@ -33,7 +33,7 @@ public class QuantityValueNode extends ValueNode implements IDynamicNode {
             public void quantityChanged() {
                 updateQuantity();
             }
-            
+
             @Override
             public void imageChanged() {
                 updateImage();
@@ -46,9 +46,9 @@ public class QuantityValueNode extends ValueNode implements IDynamicNode {
             public void stateChanged( ChangeEvent e ) {
                 updateModel();
             }
-        });
+        } );
     }
-    
+
     public void setSubstance( Substance substance ) {
         if ( substance != this.substance ) {
             this.substance.removeSubstanceChangeListener( substanceChangeListener );
@@ -58,19 +58,19 @@ public class QuantityValueNode extends ValueNode implements IDynamicNode {
             this.substance.addSubstanceChangeListener( substanceChangeListener );
         }
     }
-    
+
     public void cleanup() {
         substance.removeSubstanceChangeListener( substanceChangeListener );
     }
-    
+
     private void updateQuantity() {
         setValue( substance.getQuantity() );
     }
-    
+
     private void updateImage() {
         setImage( substance.getImage() );
     }
-    
+
     private void updateModel() {
         substance.setQuantity( getValue() );
     }

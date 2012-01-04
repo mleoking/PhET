@@ -42,7 +42,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
     private SimSharingLogDialog dialog;
 
     public SimSharingLogMenuItem( final PhetFrame parent ) {
-        super( TITLE + "..." );
+        super( "dataCollectionLogMenuItem", TITLE + "..." );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {
