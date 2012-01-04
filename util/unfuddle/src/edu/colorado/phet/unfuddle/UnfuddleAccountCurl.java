@@ -59,7 +59,7 @@ public class UnfuddleAccountCurl implements IUnfuddleAccount {
                     throw new RuntimeException( "Null component for ID: " + id );
                 }
                 XMLObject object = new XMLObject( component );
-                final String name = new UnfuddleAccountDump.UnfuddleComponent( object.getNode() ).getName();
+                final String name = new UnfuddleComponent( object.getNode() ).getName();
                 components.put( id, name );
             }
             catch ( Exception e ) {

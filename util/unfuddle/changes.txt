@@ -1,3 +1,4 @@
+Removed unused class UnfuddleAccountDump and its usages, see #619
 Fixed StackOverFlowException in logger output
 Improved error handling for id=-1 in TicketCommentMessage
 Kill the process sooner if a crash/halt is expected
