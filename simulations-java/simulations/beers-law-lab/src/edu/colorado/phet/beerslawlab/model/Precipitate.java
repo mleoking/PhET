@@ -8,14 +8,18 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * The precipitate that forms on the bottom of the beaker.
+ * Manages the creation and deletion of precipitate particles.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class Precipitate {
 
     public interface PrecipitateListener {
-        // Informs listeners that a particle has been added to the precipitate.
+        // A particle has been added to the precipitate.
         public void particleAdded( PrecipitateParticle particle );
+
+        // A particle has been removed from the precipitate.
+        public void particleRemoved( PrecipitateParticle particle );
     }
 
     private final Solution solution;
@@ -76,7 +80,7 @@ public class Precipitate {
 
     private void removeParticle( PrecipitateParticle particle ) {
         particles.remove( particle );
-        particle.delete();
+        fireParticleRemoved( particle );
     }
 
     private void removeAllParticles() {
@@ -88,6 +92,12 @@ public class Precipitate {
     private void fireParticleAdded( PrecipitateParticle particle ) {
         for ( PrecipitateListener listener : new ArrayList<PrecipitateListener>( listeners ) ) {
             listener.particleAdded( particle );
+        }
+    }
+
+    private void fireParticleRemoved( PrecipitateParticle particle ) {
+        for ( PrecipitateListener listener : new ArrayList<PrecipitateListener>( listeners ) ) {
+            listener.particleRemoved( particle );
         }
     }
 
