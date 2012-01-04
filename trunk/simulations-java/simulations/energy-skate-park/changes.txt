@@ -1,3 +1,4 @@
+# 2.08.12 (59884) Jan 4, 2012
 common: Converted sim speed slider to "normal" and "slow motion" radio buttons
 common: Changed "Return Skater" button to be green instead of orange to distinguish from "Reset all" Button
 Energy Skate Park Basics: Reduced the size of the "W" track and adjusted layout so it doesn't overlap the control panels
