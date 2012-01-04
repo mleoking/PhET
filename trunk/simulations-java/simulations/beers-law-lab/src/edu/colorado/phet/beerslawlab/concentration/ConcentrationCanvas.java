@@ -13,6 +13,7 @@ import edu.colorado.phet.beerslawlab.dev.ConcentrationModelButton;
 import edu.colorado.phet.beerslawlab.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.view.BLLFaucetNode;
 import edu.colorado.phet.beerslawlab.view.BeakerNode;
+import edu.colorado.phet.beerslawlab.view.BeakerNode.TicksLocation;
 import edu.colorado.phet.beerslawlab.view.ConcentrationMeterNode;
 import edu.colorado.phet.beerslawlab.view.DropperNode;
 import edu.colorado.phet.beerslawlab.view.OutputFluidNode;
@@ -36,7 +37,7 @@ public class ConcentrationCanvas extends BLLCanvas {
     public ConcentrationCanvas( final ConcentrationModel model, Frame parentFrame ) {
 
         // Nodes
-        PNode beakerNode = new BeakerNode( model.beaker );
+        PNode beakerNode = new BeakerNode( model.beaker, TicksLocation.LEFT );
         BLLFaucetNode inputFaucetNode = new BLLFaucetNode( Objects.INPUT_FAUCET_SLIDER, model.inputFaucet );
         BLLFaucetNode outputFaucetNode = new BLLFaucetNode( Objects.OUTPUT_FAUCET_SLIDER, model.outputFaucet );
         PNode inputFluidNode = new OutputFluidNode( inputFaucetNode, 360, model.solution.solvent, model.inputFaucet ); //TODO derive height
