@@ -1,8 +1,11 @@
 package edu.colorado.phet.unfuddle;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -59,7 +62,7 @@ public class EmailList {
             System.exit( 1 );
         }
         UnfuddleCurl curl = new UnfuddleCurl( new BasicProcess(), args[0], args[1], UnfuddleNotifierConstants.PHET_ACCOUNT_ID, args[2] );
-        UnfuddleAccountDump unfuddleAccount = new UnfuddleAccountDump( new File( args[2] + "\\util\\unfuddle\\data\\phet.unfuddled.xml" ) );//TODO separator is Windows specific
+        IUnfuddleAccount unfuddleAccount = new UnfuddleAccountCurl( curl );
         EmailList readEmailList = new EmailList( unfuddleAccount, curl );
         String[] s = readEmailList.getEmailsForComponent( "charts" );
         System.out.println( "Arrays.asList( = " + Arrays.asList( s ) );
