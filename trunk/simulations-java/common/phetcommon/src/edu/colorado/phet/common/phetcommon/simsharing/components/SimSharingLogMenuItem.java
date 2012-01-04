@@ -11,7 +11,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -21,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -56,6 +56,8 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
     // Dialog that displays the event log, and allows it to be saved to a file.
     public static class SimSharingLogDialog extends JDialog {
 
+        private File currentDirectory = null;
+
         public SimSharingLogDialog( final JFrame parent ) {
             super( parent, TITLE );
             setContentPane( new JPanel( new BorderLayout() ) {{
@@ -72,18 +74,21 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                 }} ), BorderLayout.CENTER );
                 // Save button that saves the log to a file
                 add( new JPanel() {{
-                    add( new JButton( ACTION + "..." ) {{
+                    add( new SimSharingJButton( "saveButton", ACTION + "..." ) {{
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
 
                                 // Choose the file
-                                JFileChooser fileChooser = new JFileChooser();
+                                JFileChooser fileChooser = new JFileChooser( currentDirectory );
                                 fileChooser.setDialogTitle( TITLE + " : " + ACTION );
                                 int rval = fileChooser.showSaveDialog( parent ); // blocks
                                 File selectedFile = fileChooser.getSelectedFile();
                                 if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
+                                    SimSharingManager.sendEvent( "fileChooserCancelButton", Actions.PRESSED );
                                     return;
                                 }
+                                currentDirectory = selectedFile.getParentFile();
+                                SimSharingManager.sendEvent( "fileChooserSaveButton", Actions.PRESSED );
 
                                 // Ensure that the file has the proper suffix.
                                 if ( !FileUtils.hasSuffix( selectedFile, FILE_SUFFIX ) ) {
@@ -95,8 +100,10 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                     String message = MessageFormat.format( "File {0} exists. OK to replace?", selectedFile.getName() );
                                     int reply = PhetOptionPane.showYesNoDialog( parent, message, "Confirm" );
                                     if ( reply != JOptionPane.YES_OPTION ) {
+                                        SimSharingManager.sendEvent( "replaceFileNoButton", Actions.PRESSED );
                                         return;
                                     }
+                                    SimSharingManager.sendEvent( "replaceFileYesButton", Actions.PRESSED );
                                 }
 
                                 // Write log to file.
