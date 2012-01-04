@@ -65,15 +65,15 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
         // Set up an observer of the list of cells in the model so that the
         // view representations can come and go as needed.
-        model.cellList.addElementAddedObserver( new VoidFunction1<Cell>() {
+        model.visibleCellList.addElementAddedObserver( new VoidFunction1<Cell>() {
             public void apply( final Cell addedCell ) {
                 final PNode cellNode = new CellNode( addedCell, mvt );
                 localWorldRootNode.addChild( cellNode );
-                model.cellList.addElementRemovedObserver( new VoidFunction1<Cell>() {
+                model.visibleCellList.addElementRemovedObserver( new VoidFunction1<Cell>() {
                     public void apply( Cell removedCell ) {
                         if ( removedCell == addedCell ) {
                             localWorldRootNode.removeChild( cellNode );
-                            model.cellList.removeElementRemovedObserver( this );
+                            model.visibleCellList.removeElementRemovedObserver( this );
                         }
                     }
                 } );
@@ -91,12 +91,12 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
         // Add a handler that controls the zoom level.  This automatically
         // zooms in and out to allow all of the cells to be seen.
-        model.cellList.addElementAddedObserver( new VoidFunction1<Cell>() {
+        model.visibleCellList.addElementAddedObserver( new VoidFunction1<Cell>() {
             public void apply( Cell cell ) {
                 setZoomToSeeAllCells();
             }
         } );
-        model.cellList.addElementRemovedObserver( new VoidFunction1<Cell>() {
+        model.visibleCellList.addElementRemovedObserver( new VoidFunction1<Cell>() {
             public void apply( Cell cell ) {
                 setZoomToSeeAllCells();
             }
@@ -153,7 +153,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             // model accordingly.
             numCellsProperty.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double numCells ) {
-                    model.setNumCells( (int) Math.round( numCells ) );
+                    model.setNumVisibleCells( (int) Math.round( numCells ) );
                 }
             } );
         }
