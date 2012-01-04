@@ -195,6 +195,10 @@ public class PlateMotionModel extends PlateModel {
             rightCrustBottom[i] = rightCrustBottomSamples.get( i ).position;
             rightCrustTop[i] = rightCrustTopSamples.get( i ).position;
         }
+
+        for ( int i = 0; i < bottomCount; i++ ) {
+            mantleBottom[i] = bottomSamples.get( i ).position;
+        }
     }
 
     private void updateTerrain() {
