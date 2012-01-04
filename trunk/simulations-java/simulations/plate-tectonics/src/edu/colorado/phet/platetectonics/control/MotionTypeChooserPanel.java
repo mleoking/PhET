@@ -73,13 +73,14 @@ public class MotionTypeChooserPanel extends PNode {
                             motionType.set( type );
                         }
                     } );
+                    setSelected( true );
                 }
             } );
             motionType.addObserver( new ChangeObserver<MotionType>() {
                 @Override public void update( final MotionType newValue, MotionType oldValue ) {
                     SwingUtilities.invokeLater( new Runnable() {
                         @Override public void run() {
-                            setSelected( motionType.get() == newValue );
+                            setSelected( type == newValue );
                         }
                     } );
                 }
