@@ -84,7 +84,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         sceneLayer.addChild( new BoxHighlightNode( getPlateMotionModel().getLeftDropAreaBounds(), getModelViewTransform(),
                                                    leftHighlightColor ) {{
             getPlateMotionModel().leftPlateType.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     setVisible( getPlateMotionModel().leftPlateType.get() == null );
                 }
             } );
@@ -97,25 +97,25 @@ public class PlateMotionTab extends PlateTectonicsTab {
         sceneLayer.addChild( new BoxHighlightNode( getPlateMotionModel().getRightDropAreaBounds(), getModelViewTransform(),
                                                    rightHighlightColor ) {{
             getPlateMotionModel().rightPlateType.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     setVisible( getPlateMotionModel().rightPlateType.get() == null );
                 }
             } );
         }} );
 
         mouseEventNotifier.addUpdateListener( new UpdateListener() {
-            @Override public void update() {
-                if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
-                    leftHighlightColor.set( regularHighlightColor );
-                    rightHighlightColor.set( regularHighlightColor );
-                }
-                else {
-                    boolean overLeft = isMouseOverLeftSide();
-                    leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
-                    rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
-                }
-            }
-        }, false );
+                                                  public void update() {
+                                                      if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
+                                                          leftHighlightColor.set( regularHighlightColor );
+                                                          rightHighlightColor.set( regularHighlightColor );
+                                                      }
+                                                      else {
+                                                          boolean overLeft = isMouseOverLeftSide();
+                                                          leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
+                                                          rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
+                                                      }
+                                                  }
+                                              }, false );
 
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
@@ -142,7 +142,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
             // hide piece when we go into the running mode
             getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
-                @Override public void update( Boolean newValue, Boolean oldValue ) {
+                public void update( Boolean newValue, Boolean oldValue ) {
                     setVisible( !newValue );
                 }
             } );
@@ -162,7 +162,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
             // hide piece when we go into the running mode
             getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
-                @Override public void update( Boolean newValue, Boolean oldValue ) {
+                public void update( Boolean newValue, Boolean oldValue ) {
                     setVisible( !newValue );
                 }
             } );
@@ -181,7 +181,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 mouseEventNotifier ) {{
             // hide piece when we go into the running mode
             getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
-                @Override public void update( Boolean newValue, Boolean oldValue ) {
+                public void update( Boolean newValue, Boolean oldValue ) {
                     setVisible( !newValue );
                 }
             } );
@@ -200,7 +200,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 mouseEventNotifier ) {{
             // hide piece when we go into the running mode
             getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
-                @Override public void update( Boolean newValue, Boolean oldValue ) {
+                public void update( Boolean newValue, Boolean oldValue ) {
                     setVisible( !newValue );
                 }
             } );
@@ -213,14 +213,14 @@ public class PlateMotionTab extends PlateTectonicsTab {
         *----------------------------------------------------------------------------*/
         addGuiNode( new OrthoPiccoloNode(
                 new ControlPanelNode( new OptionsPanel( showLabels, true, showWater, new Runnable() {
-                    @Override public void run() {
+                    public void run() {
                         resetAll();
                     }
                 } ) ),
                 this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     int center = (int) ( ( toolbox.position.get().getX() + toolbox.getComponentWidth() )
                                          + ( crustChooserNode.position.get().getX() ) ) / 2;
                     position.set( new ImmutableVector2D( center - getComponentWidth() / 2,
@@ -242,7 +242,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
             // enable this time control when we can run AND we are in auto mode
             SimpleObserver visibilityObserver = new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     setVisible( getPlateMotionModel().canRun.get() && isAutoMode.get() );
                 }
             };
@@ -253,7 +253,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         // TODO: refactoring here
         SimpleObserver motionTypeChooserObserver = new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 boolean leftPlaced = getPlateMotionModel().leftPlateType.get() != null;
                 boolean rightPlaced = getPlateMotionModel().rightPlateType.get() != null;
                 boolean automode = isAutoMode.get();
@@ -353,6 +353,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         showLabels.reset();
         showWater.reset();
         isAutoMode.reset();
+        getClock().pause();
         getClock().resetSimulationTime();
 
         for ( OrthoPiccoloNode placedPiece : placedPieces ) {

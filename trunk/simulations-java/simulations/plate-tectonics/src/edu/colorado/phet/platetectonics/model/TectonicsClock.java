@@ -24,7 +24,7 @@ public class TectonicsClock implements IClock {
         this.timeMultiplier = timeMultiplier;
 
         running.addObserver( new ChangeObserver<Boolean>() {
-            @Override public void update( Boolean runningNow, Boolean wasRunning ) {
+            public void update( Boolean runningNow, Boolean wasRunning ) {
                 ClockEvent event = new ClockEvent( TectonicsClock.this );
                 if ( runningNow ) {
                     for ( ClockListener listener : listeners ) {
@@ -58,31 +58,31 @@ public class TectonicsClock implements IClock {
         }
     }
 
-    @Override public synchronized void start() {
+    public synchronized void start() {
         running.set( true );
     }
 
-    @Override public synchronized void pause() {
+    public synchronized void pause() {
         running.set( false );
     }
 
-    @Override public synchronized boolean isPaused() {
+    public synchronized boolean isPaused() {
         return !running.get();
     }
 
-    @Override public synchronized boolean isRunning() {
+    public synchronized boolean isRunning() {
         return running.get();
     }
 
-    @Override public synchronized void addClockListener( ClockListener clockListener ) {
+    public synchronized void addClockListener( ClockListener clockListener ) {
         listeners.add( clockListener );
     }
 
-    @Override public synchronized void removeClockListener( ClockListener clockListener ) {
+    public synchronized void removeClockListener( ClockListener clockListener ) {
         listeners.remove( clockListener );
     }
 
-    @Override public synchronized void resetSimulationTime() {
+    public synchronized void resetSimulationTime() {
         setSimulationTime( 0 );
 
         ClockEvent event = new ClockEvent( this );
@@ -91,23 +91,23 @@ public class TectonicsClock implements IClock {
         }
     }
 
-    @Override public synchronized long getWallTime() {
+    public synchronized long getWallTime() {
         return wallTime;
     }
 
-    @Override public synchronized long getWallTimeChange() {
+    public synchronized long getWallTimeChange() {
         return wallTime - lastWallTime;
     }
 
-    @Override public synchronized double getSimulationTimeChange() {
+    public synchronized double getSimulationTimeChange() {
         return simulationTime - lastSimulationTime;
     }
 
-    @Override public synchronized double getSimulationTime() {
+    public synchronized double getSimulationTime() {
         return simulationTime;
     }
 
-    @Override public synchronized void setSimulationTime( double simulationTime ) {
+    public synchronized void setSimulationTime( double simulationTime ) {
         lastSimulationTime = this.simulationTime;
         this.simulationTime = simulationTime;
 
@@ -117,16 +117,16 @@ public class TectonicsClock implements IClock {
         }
     }
 
-    @Override public synchronized void stepClockWhilePaused() {
+    public synchronized void stepClockWhilePaused() {
         // TODO: updating here isn't fully working (nicely). investigate
         tick( 5 );
     }
 
-    @Override public synchronized void stepClockBackWhilePaused() {
+    public synchronized void stepClockBackWhilePaused() {
         tick( 5 );
     }
 
-    @Override public synchronized boolean containsClockListener( ClockListener clockListener ) {
+    public synchronized boolean containsClockListener( ClockListener clockListener ) {
         return listeners.contains( clockListener );
     }
 

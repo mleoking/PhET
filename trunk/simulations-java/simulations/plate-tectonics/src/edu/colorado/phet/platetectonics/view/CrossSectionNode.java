@@ -95,10 +95,10 @@ public class CrossSectionNode extends GLNode {
         setPositions.run();
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
-            public void update() {
-                setPositions.run();
-            }
-        }, false );
+                                                  public void update() {
+                                                      setPositions.run();
+                                                  }
+                                              }, false );
 
         // TODO: cross section texture, if we still decide to go this route
 //        setMaterial( new Material( module.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md" ) {{

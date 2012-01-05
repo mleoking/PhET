@@ -168,12 +168,12 @@ public class PlateMotionModel extends PlateModel {
 
     private <T> void addDebugPropertyListener( final String name, final Property<T> property ) {
         property.addObserver( new SimpleObserver() {
-            @Override public void update() {
-                if ( PlateTectonicsConstants.DEBUG.get() ) {
-                    System.out.println( name + " changed to " + property.get() );
-                }
-            }
-        }, false );
+                                  @Override public void update() {
+                                      if ( PlateTectonicsConstants.DEBUG.get() ) {
+                                          System.out.println( name + " changed to " + property.get() );
+                                      }
+                                  }
+                              }, false );
     }
 
     @Override public void resetAll() {
