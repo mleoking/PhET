@@ -34,7 +34,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ProteinLevelChartNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 400, 200 );  // In screen coordinates, which is close to pixels.
-    private static final double TIME_SPAN = 60; // In seconds.
+    private static final double TIME_SPAN = 30; // In seconds.
 
     private final XYSeries dataSeries = new XYSeries( "0" );
     private double timeOffset = 0;
@@ -45,7 +45,7 @@ public class ProteinLevelChartNode extends PNode {
         // TODO: i18n
         JFreeChart chart = createXYLineChart( "Average Protein Level vs. Time", "Time", "Average Protein Level", dataSet, PlotOrientation.VERTICAL );
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
-        chart.getXYPlot().getRangeAxis().setRange( 0, 600 );
+        chart.getXYPlot().getRangeAxis().setRange( 100, 500 );
         chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
 
         // Embed the chart in a PNode.
