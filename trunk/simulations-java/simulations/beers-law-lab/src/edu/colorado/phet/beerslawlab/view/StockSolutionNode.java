@@ -46,7 +46,7 @@ public class StockSolutionNode extends PPath {
 
     private void updateNode() {
         // color
-        setPaint( Solution.createColor( solvent, solute.get(), solute.get().saturatedConcentration ) );
+        setPaint( Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration ) );
         // shape
         if ( dropper.on.get() ) {
             double x = dropper.getX() - ( dropperHoleWidth / 2 );
