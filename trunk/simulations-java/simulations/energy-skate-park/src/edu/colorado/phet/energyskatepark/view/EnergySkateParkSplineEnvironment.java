@@ -15,4 +15,12 @@ public interface EnergySkateParkSplineEnvironment {
     SplineMatch proposeMatch( SplineNode splineNode, Point2D toMatch );
 
     void attach( SplineNode splineNode, int index, SplineMatch match );
+
+    double getMinDragY();
+
+    double getMaxDragY();
+
+    double getMinDragX();
+
+    double getMaxDragX();
 }

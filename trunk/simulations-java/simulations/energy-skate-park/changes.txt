@@ -1,3 +1,4 @@
+Made spline and spline node dragging bounds respect dynamic change in window size and aspect ratio
 # 2.08.14 (59924) Jan 5, 2012
 Energy Skate Park Basics: Added sim sharing for skater mass, see #3201
 common: Make it so the track cannot be dragged out of the rectangle (minX=0, maxX=12, maxY=8) (doesn't dynamically adjust to aspect ratios)

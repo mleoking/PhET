@@ -44,8 +44,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.energyskatepark.model.BumpUpSplines.MIN_SPLINE_Y;
-
 /**
  * User: Sam Reid
  * Date: Sep 26, 2005
@@ -73,9 +71,6 @@ public class SplineNode extends PNode {
     private final SplineNode.TrackPopupMenu popupMenu;
     private final EnergySkateParkSpline.Listener splineListener;
     private final boolean isDev = false;
-    private final int MAX_SPLINE_Y;
-    private final int MIN_SPLINE_X = 0;
-    private final int MAX_SPLINE_X;
 
     public SplineNode( JComponent parent, EnergySkateParkSpline energySkateParkSpline, EnergySkateParkSplineEnvironment splineEnvironment, boolean controllable ) {
         this.parent = parent;
@@ -131,8 +126,6 @@ public class SplineNode extends PNode {
         };
         energySkateParkSpline.addListener( splineListener );
         update();
-        MAX_SPLINE_Y = 8;
-        MAX_SPLINE_X = 12;
     }
 
     private void showColorControls() {
@@ -175,9 +168,9 @@ public class SplineNode extends PNode {
 
         //Make it so the spline can't be dragged out of the screen, tricky since the visible screen changes depending on the aspect ratio
         if ( dy < 0 && spline.getMinControlPointY() < 0 ||
-             dy > 0 && spline.getMaxControlPointY() > MAX_SPLINE_Y ||
-             dx < 0 && spline.getMinControlPointX() < MIN_SPLINE_X ||
-             dx > 0 && spline.getMaxControlPointX() > MAX_SPLINE_X ) {
+             dy > 0 && spline.getMaxControlPointY() > splineEnvironment.getMaxDragY() ||
+             dx < 0 && spline.getMinControlPointX() < splineEnvironment.getMinDragX() ||
+             dx > 0 && spline.getMaxControlPointX() > splineEnvironment.getMaxDragX() ) {
             return;
         }
 
@@ -361,17 +354,17 @@ public class SplineNode extends PNode {
                     PDimension rel = event.getDeltaRelativeTo( SplineNode.this );
 
                     //Not allowed to drag out of the stage
-                    if ( spline.getControlPoints()[index].getY() + rel.getHeight() < MIN_SPLINE_Y ) {
-                        rel.height = MIN_SPLINE_Y - spline.getControlPoints()[index].getY();
+                    if ( spline.getControlPoints()[index].getY() + rel.getHeight() < splineEnvironment.getMinDragY() ) {
+                        rel.height = splineEnvironment.getMinDragY() - spline.getControlPoints()[index].getY();
                     }
-                    if ( spline.getControlPoints()[index].getY() + rel.getHeight() > MAX_SPLINE_Y ) {
-                        rel.height = MAX_SPLINE_Y - spline.getControlPoints()[index].getY();
+                    if ( spline.getControlPoints()[index].getY() + rel.getHeight() > splineEnvironment.getMaxDragY() ) {
+                        rel.height = splineEnvironment.getMaxDragY() - spline.getControlPoints()[index].getY();
                     }
-                    if ( spline.getControlPoints()[index].getX() + rel.getWidth() < MIN_SPLINE_X ) {
-                        rel.width = MIN_SPLINE_X - spline.getControlPoints()[index].getX();
+                    if ( spline.getControlPoints()[index].getX() + rel.getWidth() < splineEnvironment.getMinDragX() ) {
+                        rel.width = splineEnvironment.getMinDragX() - spline.getControlPoints()[index].getX();
                     }
-                    if ( spline.getControlPoints()[index].getX() + rel.getWidth() > MAX_SPLINE_X ) {
-                        rel.width = MAX_SPLINE_X - spline.getControlPoints()[index].getX();
+                    if ( spline.getControlPoints()[index].getX() + rel.getWidth() > splineEnvironment.getMaxDragX() ) {
+                        rel.width = splineEnvironment.getMaxDragX() - spline.getControlPoints()[index].getX();
                     }
 
                     spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
