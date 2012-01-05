@@ -34,8 +34,8 @@ public class SimSharingEvent {
 
     //Subclass to use for user events
     public static class UserEvent extends SimSharingEvent {
-        public UserEvent( String object, String action, Parameter... parameters ) {
-            super( MessageType.user, object, action, parameters );
+        public UserEvent( String component, String action, Parameter... parameters ) {
+            super( MessageType.user, component, action, parameters );
         }
     }
 
