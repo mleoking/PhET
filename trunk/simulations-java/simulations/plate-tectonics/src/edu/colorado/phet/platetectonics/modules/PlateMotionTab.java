@@ -150,7 +150,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }};
         addGuiNode( crustChooserNode );
 
-        // continental piece
+        // continental pieces (2 can be dragged out)
+        addCrustPieceGLNode( new CrustPieceGLNode(
+                new CrustPieceNode( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ),
+                getContinentalOffset() ) );
         addCrustPieceGLNode( new CrustPieceGLNode(
                 new CrustPieceNode( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ),
                 getContinentalOffset() ) );

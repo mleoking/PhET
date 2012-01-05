@@ -1,3 +1,4 @@
+Added extra continental crust piece for 2nd tab
 Updated 2nd tab view location to a slight side-angle
 Fixed reset "freeze" bug
 Flipped ruler tick mark labels vertically, added a 4x multiplier to the ruler on the 2nd tab
