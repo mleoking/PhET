@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -31,6 +30,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendEvent;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.END_DRAG;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.START_DRAG;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters.X;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters.Y;
 import static edu.colorado.phet.energyskatepark.simsharing.ESPSimSharingStrings.Objects.SKATER;
 
 /**
@@ -147,11 +148,11 @@ public class SkaterNode extends PNode {
     }
 
     private Parameter getXParameter() {
-        return new Parameter( SimSharingStrings.Parameters.X, getBody().getX() );
+        return new Parameter( X, getBody().getX() );
     }
 
     private Parameter getYParameter() {
-        return new Parameter( SimSharingStrings.Parameters.X, getBody().getY() );
+        return new Parameter( Y, getBody().getY() );
     }
 
     private void snapToTrackDuringDrag() {
