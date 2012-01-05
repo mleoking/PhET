@@ -32,6 +32,7 @@ public class MassControl extends PNode {
                                 }
 
                                 {
+                                    setSimSharingObject( "skaterMassSlider" );
                                     addLabel( min, new PText( "Small" ) );
                                     addLabel( max, new PText( "Large" ) );
                                 }

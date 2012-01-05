@@ -21,6 +21,7 @@ public class SimSharingStrings {
         public static final String STEP_BUTTON = "stepButton";
         public static final String STEP_BACK_BUTTON = "stepBackButton";
         public static final String REWIND_BUTTON = "rewindButton";
+        public static final String SLIDER = "slider";
     }
 
     public static class Actions {
@@ -79,5 +80,6 @@ public class SimSharingStrings {
         public static final String RADIO_BUTTON = "radioButton";
         public static final String SPINNER = "spinner";
         public static final String UP_ARROW = "upArrow";
+        public static final String SLIDER = "slider";
     }
 }
