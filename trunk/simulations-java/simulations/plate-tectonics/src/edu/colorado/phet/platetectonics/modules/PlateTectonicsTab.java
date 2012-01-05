@@ -94,6 +94,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public final VoidNotifier mouseEventNotifier = new VoidNotifier();
     public final VoidNotifier keyboardEventNotifier = new VoidNotifier();
     public final VoidNotifier beforeFrameRender = new VoidNotifier();
+    public final VoidNotifier timeChangeNotifier = new VoidNotifier();
 
     private LWJGLTransform debugCameraTransform = new LWJGLTransform();
     protected CanvasTransform canvasTransform;
@@ -288,6 +289,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                 else if ( toolCollision != null ) {
                                     toolDragHandler.mouseDownOnTool( (DraggableTool2D) toolCollision, getMousePositionOnZPlane() );
                                 }
+                                else {
+                                    uncaughtMouseButton();
+                                }
                             }
                             else {
                                 if ( draggedCrustPiece != null ) {
@@ -295,9 +299,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                     droppedCrustPiece( draggedCrustPiece );
                                     draggedCrustPiece = null;
                                 }
-                                boolean isMouseOverToolbox = guiCollision != null && guiCollision == toolbox;
-                                toolDragHandler.mouseUp( isMouseOverToolbox );
-                                // TODO: remove the "removed" tool from the guiNodes list
+                                else if ( toolDragHandler.isDragging() ) {
+
+                                    boolean isMouseOverToolbox = guiCollision != null && guiCollision == toolbox;
+                                    toolDragHandler.mouseUp( isMouseOverToolbox );
+                                    // TODO: remove the "removed" tool from the guiNodes list
+                                }
+                                else {
+                                    uncaughtMouseButton();
+                                }
                             }
                         }
                     }
@@ -422,6 +432,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 1000f / (float) framesPerSecondLimit.get(), // don't let our time elapsed go over the frame rate limit value
                 (float) ( newTime - lastSeenTime ) / 1000f ); // take elapsed milliseconds => seconds
         lastSeenTime = newTime;
+
+        timeChangeNotifier.updateListeners();
 
         if ( allowClockTickOnFrame() ) {
             clock.stepByWallSeconds( timeElapsed );
@@ -705,12 +717,17 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                         canvas.setCursor( guiComponent.getCursor() );
                     }
                     else {
-                        // default to the default cursor
-                        canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                        // default to the default cursor, unless it is overridden
+                        uncaughtCursor();
                     }
                 }
             }
         } );
+    }
+
+    protected void uncaughtCursor() {
+        // default to the default cursor
+        getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
     }
 
     public void pickedCrustPiece( OrthoPiccoloNode crustPiece ) {
@@ -733,5 +750,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     public TectonicsClock getClock() {
         return clock;
+    }
+
+    // called when a mouse click is detected that isn't dragging a tool or manipulating a GUI
+    protected void uncaughtMouseButton() {
+
     }
 }

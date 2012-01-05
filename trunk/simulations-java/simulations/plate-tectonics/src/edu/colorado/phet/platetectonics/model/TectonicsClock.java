@@ -42,8 +42,12 @@ public class TectonicsClock implements IClock {
 
     public synchronized void stepByWallSeconds( float timeElapsed ) {
         if ( running.get() ) {
-            tick( timeElapsed );
+            stepByWallSecondsForced( timeElapsed );
         }
+    }
+
+    public synchronized void stepByWallSecondsForced( float timeElapsed ) {
+        tick( timeElapsed );
     }
 
     protected synchronized void tick( float timeElapsed ) {

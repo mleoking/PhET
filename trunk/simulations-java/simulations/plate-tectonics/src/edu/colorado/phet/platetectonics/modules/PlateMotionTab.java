@@ -2,6 +2,7 @@
 package edu.colorado.phet.platetectonics.modules;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
@@ -51,6 +53,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private final List<OrthoPiccoloNode> placedPieces = new ArrayList<OrthoPiccoloNode>();
 
     private OrthoPiccoloNode motionTypeChooserPanel = null;
+
+    private boolean draggingPlate = false;
+    private ImmutableVector2F draggingPlateStartMousePosition = null;
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
@@ -215,6 +220,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }};
         addGuiNode( timeControlPanelNode );
 
+        /*---------------------------------------------------------------------------*
+        * motion direction chooser
+        *----------------------------------------------------------------------------*/
         // TODO: refactoring here
         SimpleObserver motionTypeChooserObserver = new SimpleObserver() {
             public void update() {
@@ -251,6 +259,43 @@ public class PlateMotionTab extends PlateTectonicsTab {
         getPlateMotionModel().leftPlateType.addObserver( motionTypeChooserObserver, false );
         getPlateMotionModel().rightPlateType.addObserver( motionTypeChooserObserver, false );
         isAutoMode.addObserver( motionTypeChooserObserver, false );
+
+        /*---------------------------------------------------------------------------*
+        * plate drag handling
+        *----------------------------------------------------------------------------*/
+        timeChangeNotifier.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        if ( draggingPlate ) {
+                            ImmutableVector2F currentPosition = getMousePositionOnZPlane();
+                            ImmutableVector2F deltaXY = currentPosition.minus( draggingPlateStartMousePosition );
+                            MotionType startingMotionType = getPlateMotionModel().motionType.get();
+
+                            if ( startingMotionType == null ) {
+                                // TODO: handle starting of motion type
+                            }
+                            else {
+                                boolean draggingRightPlate = draggingPlateStartMousePosition.x > 0;
+                                boolean pullingLeft = deltaXY.x < 0;
+                                switch( startingMotionType ) {
+                                    case CONVERGENT:
+                                        // comparison works for opposite direction
+                                        if ( draggingRightPlate == pullingLeft ) {
+                                            getClock().stepByWallSecondsForced( getTimeElapsed() * Math.abs( deltaXY.x ) / 10 );
+                                        }
+                                        break;
+                                    case DIVERGENT:
+                                        if ( draggingRightPlate != pullingLeft ) {
+                                            getClock().stepByWallSecondsForced( getTimeElapsed() * Math.abs( deltaXY.x ) / 10 );
+                                        }
+                                        break;
+                                    case TRANSFORM:
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                }, false );
     }
 
     private ImmutableVector2F getCrustOffset( ImmutableVector2F pieceOffset ) {
@@ -373,5 +418,18 @@ public class PlateMotionTab extends PlateTectonicsTab {
     // do not allow automatic clock progress when in manual mode
     @Override public boolean allowClockTickOnFrame() {
         return isAutoMode.get();
+    }
+
+    // show the hand cursor instead of the "default" when over the play area (AND plates exist)
+    @Override protected void uncaughtCursor() {
+        // TODO: use a closed-hand grab cursor instead?
+        getCanvas().setCursor( Cursor.getPredefinedCursor( getPlateMotionModel().hasBothPlates.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR ) );
+    }
+
+    @Override protected void uncaughtMouseButton() {
+        if ( !isAutoMode.get() ) {
+            draggingPlate = Mouse.getEventButtonState();
+            draggingPlateStartMousePosition = getMousePositionOnZPlane();
+        }
     }
 }
