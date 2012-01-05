@@ -6,8 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
@@ -20,12 +22,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class OptionsPanel extends PNode {
     public OptionsPanel( final Property<Boolean> showLabels, Runnable resetAll ) {
-        this( showLabels, false, new Property<Boolean>( false ), resetAll );
+        this( showLabels, false, new Property<Boolean>( false ), new Property<Boolean>( false ), resetAll );
     }
 
     public OptionsPanel( final Property<Boolean> showLabels,
                          final boolean containsWaterOption,
                          final Property<Boolean> showWater,
+                         final Property<Boolean> showWaterEnabled,
                          final Runnable resetAll ) {
         final PNode title = new PText( "Options" );
         addChild( title );
@@ -36,11 +39,21 @@ public class OptionsPanel extends PNode {
         final PSwing showLabelCheckBox = new PSwing( new JCheckBox( "Show Labels" ) {{
             setSelected( showLabels.get() );
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( ActionEvent actionEvent ) {
+                public void actionPerformed( ActionEvent actionEvent ) {
                     final boolean showThem = isSelected();
                     LWJGLUtils.invoke( new Runnable() {
-                        @Override public void run() {
+                        public void run() {
                             showLabels.set( showThem );
+                        }
+                    } );
+                }
+            } );
+            showLabels.addObserver( new SimpleObserver() {
+                public void update() {
+                    final boolean showThem = showLabels.get();
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            setSelected( showThem );
                         }
                     } );
                 }
@@ -57,11 +70,31 @@ public class OptionsPanel extends PNode {
             showWaterCheckBox = new PSwing( new JCheckBox( "Show Seawater" ) {{
                 setSelected( showWater.get() );
                 addActionListener( new ActionListener() {
-                    @Override public void actionPerformed( ActionEvent actionEvent ) {
+                    public void actionPerformed( ActionEvent actionEvent ) {
                         final boolean showThem = isSelected();
                         LWJGLUtils.invoke( new Runnable() {
-                            @Override public void run() {
+                            public void run() {
                                 showWater.set( showThem );
+                            }
+                        } );
+                    }
+                } );
+                showWaterEnabled.addObserver( new SimpleObserver() {
+                    public void update() {
+                        final Boolean enabled = showWaterEnabled.get();
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                setEnabled( enabled );
+                            }
+                        } );
+                    }
+                } );
+                showWater.addObserver( new SimpleObserver() {
+                    public void update() {
+                        final boolean showThem = showWater.get();
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                setSelected( showThem );
                             }
                         } );
                     }
@@ -79,7 +112,7 @@ public class OptionsPanel extends PNode {
             y.set( getFullBounds().getMaxY() );
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( ActionEvent actionEvent ) {
+                public void actionPerformed( ActionEvent actionEvent ) {
                     LWJGLUtils.invoke( resetAll );
                 }
             } );
