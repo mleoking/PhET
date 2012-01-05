@@ -399,6 +399,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         lastSeenTime = System.currentTimeMillis();
     }
 
+    public boolean allowClockTickOnFrame() {
+        return true;
+    }
+
     @Override public void loop() {
         // delay if we need to, limiting our FPS
         Display.sync( framesPerSecondLimit.get() );
@@ -419,7 +423,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 (float) ( newTime - lastSeenTime ) / 1000f ); // take elapsed milliseconds => seconds
         lastSeenTime = newTime;
 
-        clock.stepByWallSeconds( timeElapsed );
+        if ( allowClockTickOnFrame() ) {
+            clock.stepByWallSeconds( timeElapsed );
+        }
 
         beforeFrameRender.updateListeners();
 
