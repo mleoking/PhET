@@ -44,7 +44,7 @@ public class CrustTab extends PlateTectonicsTab {
         super( canvas, Strings.CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
 
         zoomRatio.addObserver( new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 scaleProperty.set( getSceneDistanceZoomFactor() );
             }
         } );
@@ -71,14 +71,14 @@ public class CrustTab extends PlateTectonicsTab {
         sceneLayer.addChild( new PlateView( getModel(), this ) );
 
         final Function1<ImmutableVector3F, ImmutableVector3F> flatModelToView = new Function1<ImmutableVector3F, ImmutableVector3F>() {
-            @Override public ImmutableVector3F apply( ImmutableVector3F v ) {
+            public ImmutableVector3F apply( ImmutableVector3F v ) {
                 return getModelViewTransform().transformPosition( PlateModel.convertToRadial( v ) );
             }
         };
 
         GLNode layerLabels = new GLNode() {{
             showLabels.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     setVisible( showLabels.get() );
                 }
             } );
@@ -88,13 +88,13 @@ public class CrustTab extends PlateTectonicsTab {
         // crust label
         layerLabels.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     @Override public void update() {
+                                                     public void update() {
                                                          set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
                                                      }
                                                  }, true );
         }}, new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     @Override public void update() {
+                                                     public void update() {
                                                          set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
                                                      }
                                                  }, true );
@@ -104,7 +104,7 @@ public class CrustTab extends PlateTectonicsTab {
         // TODO: refactor so label heights are from the model. AYE!
         final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     @Override public void update() {
+                                                     public void update() {
                                                          set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
                                                      }
                                                  }, true );
@@ -114,11 +114,11 @@ public class CrustTab extends PlateTectonicsTab {
         // TODO: refactor and cleanup
         Function2<Property<ImmutableVector3F>, Property<ImmutableVector3F>, Property<ImmutableVector3F>> labelPositionFunction
                 = new Function2<Property<ImmutableVector3F>, Property<ImmutableVector3F>, Property<ImmutableVector3F>>() {
-            @Override public Property<ImmutableVector3F> apply( final Property<ImmutableVector3F> aProp,
-                                                                final Property<ImmutableVector3F> bProp ) {
+            public Property<ImmutableVector3F> apply( final Property<ImmutableVector3F> aProp,
+                                                      final Property<ImmutableVector3F> bProp ) {
                 return new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
                     final SimpleObserver observer = new SimpleObserver() {
-                        @Override public void update() {
+                        public void update() {
                             ImmutableVector2F screenBottom = getBottomCenterPositionOnZPlane();
                             if ( bProp.get().y < screenBottom.y ) {
                                 // use the screen bottom, the actual bottom is too low
@@ -135,7 +135,7 @@ public class CrustTab extends PlateTectonicsTab {
                     // TODO: debug listener ordering issue that is causing jittering when zooming in/out
                     scaleProperty.addObserver( observer );
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                             @Override public void update() {
+                                                             public void update() {
                                                                  observer.update();
                                                              }
                                                          }, false );
@@ -221,14 +221,14 @@ public class CrustTab extends PlateTectonicsTab {
          *----------------------------------------------------------------------------*/
         addGuiNode( new OrthoPiccoloNode(
                 new ControlPanelNode( new OptionsPanel( showLabels, new Runnable() {
-                    @Override public void run() {
+                    public void run() {
                         resetAll();
                     }
                 } ) ),
                 CrustTab.this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth() - 10,
                                                          getStageSize().height - getComponentHeight() - 10 ) );
                 }
@@ -269,6 +269,12 @@ public class CrustTab extends PlateTectonicsTab {
                 }
             } );
         }} );
+    }
+
+    @Override public void resetAll() {
+        super.resetAll();
+
+        showLabels.reset();
     }
 
     public CrustModel getCrustModel() {
