@@ -289,7 +289,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                 else if ( toolCollision != null ) {
                                     toolDragHandler.mouseDownOnTool( (DraggableTool2D) toolCollision, getMousePositionOnZPlane() );
                                 }
-                                else {
+                                else if ( guiCollision == null ) {
                                     uncaughtMouseButton();
                                 }
                             }

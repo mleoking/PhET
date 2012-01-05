@@ -1,3 +1,4 @@
+Bugfix for 2nd tab dragging of tools that doesn't trigger the manual mode motion
 # 0.00.08 (59921) Jan 5, 2012
 Added majority of UI for controlling the 2nd tab (manual and auto mode).
 Now allows mode changes after animation has started
