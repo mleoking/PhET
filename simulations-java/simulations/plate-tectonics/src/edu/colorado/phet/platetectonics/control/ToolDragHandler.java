@@ -52,4 +52,8 @@ public class ToolDragHandler {
             lastPosition = viewPosition;
         }
     }
+
+    public boolean isDragging() {
+        return dragging;
+    }
 }
