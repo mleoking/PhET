@@ -135,7 +135,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     protected void loadDefaultTrack() {
 
         //Move the pre-set parabola to the left so it doesn't encroach on the control panel
-        loadTrack( PARABOLA_TRACK, -1.0 );
+        //Interacts with grid location epsilon in EnergySkateParkRootNode
+        loadTrack( PARABOLA_TRACK, -0.5 );
     }
 
     //Move splines so they sit on the ground with y=0 and move by the specified x amount
