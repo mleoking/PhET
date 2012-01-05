@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
@@ -75,26 +76,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
-        sceneLayer.addChild( new HandleNode() {{
-            translate( -150, 15, -125 / 2 );
-            SimpleObserver visibilityObserver = new SimpleObserver() {
-                public void update() {
-                    setVisible( getPlateMotionModel().hasBothPlates.get() && !isAutoMode.get() );
-                }
-            };
-            getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
-            isAutoMode.addObserver( visibilityObserver );
-        }} );
-        sceneLayer.addChild( new HandleNode() {{
-            translate( 150, 15, -125 / 2 );
-            SimpleObserver visibilityObserver = new SimpleObserver() {
-                public void update() {
-                    setVisible( getPlateMotionModel().hasBothPlates.get() && !isAutoMode.get() );
-                }
-            };
-            getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
-            isAutoMode.addObserver( visibilityObserver );
-        }} );
+        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 15, -125 / 2 ) ), this ) );
+        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 150, 15, -125 / 2 ) ), this ) );
 
         final Color overHighlightColor = new Color( 1, 1, 0.5f, 0.3f );
         final Color regularHighlightColor = new Color( 0.5f, 0.5f, 0.5f, 0.3f );

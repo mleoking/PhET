@@ -1,10 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
+import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
 import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.Z_UNIT;
@@ -20,8 +24,21 @@ public class HandleNode extends GLNode {
     private static float downLength = 30;
     private ImmutableVector3F[] positions;
     private GridMesh handleMesh;
+    private final Property<ImmutableVector3F> offset;
+    private final PlateMotionTab tab;
 
-    public HandleNode() {
+    public HandleNode( final Property<ImmutableVector3F> offset, final PlateMotionTab tab ) {
+        this.offset = offset;
+        this.tab = tab;
+
+        // update visibility correctly
+        SimpleObserver visibilityObserver = new SimpleObserver() {
+            public void update() {
+                setVisible( tab.getPlateMotionModel().hasBothPlates.get() && !tab.isAutoMode.get() );
+            }
+        };
+        tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
+        tab.isAutoMode.addObserver( visibilityObserver );
 
         positions = new ImmutableVector3F[radialRows * columns];
 
@@ -62,7 +79,13 @@ public class HandleNode extends GLNode {
             float radialRatio = ( (float) row ) / ( (float) ( radialRows - 1 ) );
             float sin = (float) ( smallRadius * Math.sin( 2 * Math.PI * radialRatio ) );
             float cos = (float) ( smallRadius * Math.cos( 2 * Math.PI * radialRatio ) );
-            positions[row * columns + col] = positioner.position( sin, cos );
+
+            // warp the coordinates around the earth's frame
+            ImmutableVector3F planarViewCoordinates = positioner.position( sin, cos ).plus( offset.get() );
+            ImmutableVector3F planarModelCoordinates = tab.getModelViewTransform().inversePosition( planarViewCoordinates );
+            ImmutableVector3F radialModelCoordinates = PlateModel.convertToRadial( planarModelCoordinates );
+            ImmutableVector3F radialViewCoordinates = tab.getModelViewTransform().transformPosition( radialModelCoordinates );
+            positions[row * columns + col] = radialViewCoordinates;
         }
     }
 
