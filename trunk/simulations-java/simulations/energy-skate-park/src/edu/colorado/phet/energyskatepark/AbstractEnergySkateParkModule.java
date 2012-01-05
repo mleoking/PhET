@@ -81,6 +81,7 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
     private final Property<Double> primarySkaterSpeed = new Property<Double>( 0.0 );
 
     public final Property<Double> mass;
+    public final Property<Integer> numberOfSplines = new Property<Integer>( 0 );
 
     public AbstractEnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX ) {
         super( name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
@@ -103,6 +104,12 @@ public abstract class AbstractEnergySkateParkModule extends PiccoloModule {
                 updatePrimarySkaterSpeed();
             }
         };
+
+        energyModel.addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+            @Override public void splineCountChanged() {
+                numberOfSplines.set( energyModel.getNumSplines() );
+            }
+        } );
         timeSeriesModel = new TimeSeriesModel( energyTimeSeriesModel, clock );
         timeSeriesModel.setMaxAllowedRecordTime( EnergyTimePlot.MAX_TIME );
         clock.addClockListener( timeSeriesModel );

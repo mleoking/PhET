@@ -1,3 +1,4 @@
+common: Limited the number of user-created tracks to be 4
 Removed the "simulation is paused" message when paused (unnecessary remnant)
 Made return skater button same color as restart skater button
 # 2.08.13 (59889) Jan 4, 2012
