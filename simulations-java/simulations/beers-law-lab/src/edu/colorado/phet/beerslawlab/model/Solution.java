@@ -123,7 +123,7 @@ public class Solution implements IFluid, Resettable {
         Color color = solvent.getFluidColor();
         if ( concentration > 0 ) {
             LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
-            color = solute.solutionColor.interpolate( f.evaluate( concentration ) );
+            color = solute.solutionColor.interpolateLinear( f.evaluate( concentration ) );
         }
         return color;
     }

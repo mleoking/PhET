@@ -27,8 +27,10 @@ public class ColorRange {
         return max;
     }
 
-    public Color interpolate( double distance ) {
-        assert ( distance >= 0 && distance <= 1 );
+    public Color interpolateLinear( double distance ) {
+        if ( distance < 0 || distance > 1 ) {
+            throw new IllegalArgumentException( "distance out of range: " + distance );
+        }
         return ColorUtils.interpolateRBGA( min, max, distance );
     }
 }
