@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class MultipleCellsModel {
 
-    public static final int MAX_CELLS = 110;
+    public static final int MAX_CELLS = 130;
     private static final Random RAND = new Random();
 
     // Clock that drives all time-dependent behavior in this model.
