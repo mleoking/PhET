@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -41,7 +42,20 @@ public class SplineToolboxNode extends PNode {
     public SplineToolboxNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, boolean splinesMovable ) {
         this.energySkateParkSimulationPanel = energySkateParkSimulationPanel;
         this.splinesMovable = splinesMovable;
-        this.draggableIcon = new PNodeFacade( createSplineGraphic() );
+        this.draggableIcon = new PNodeFacade( createSplineGraphic() ) {{
+
+            //Limit the number of user-created splines to be 4 (keep in mind the floor is another spline in the count)
+            energySkateParkSimulationPanel.getEnergySkateParkModule().numberOfSplines.addObserver( new VoidFunction1<Integer>() {
+                public void apply( Integer numSplines ) {
+
+                    //Really not sure why this number should be 3.  I determined it experimentally and it seemed to have the right behavior as described above
+                    final boolean visible = numSplines <= 3;
+                    setVisible( visible );
+                    setPickable( visible );
+                    setChildrenPickable( visible );
+                }
+            } );
+        }};
         draggableIcon.addInputEventListener( new CursorHandler() );
         draggableIcon.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
