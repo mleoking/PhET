@@ -33,7 +33,6 @@ import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
-import edu.colorado.phet.energyskatepark.model.BumpUpSplines;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
@@ -44,6 +43,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.energyskatepark.model.BumpUpSplines.MIN_SPLINE_Y;
 
 /**
  * User: Sam Reid
@@ -72,6 +73,9 @@ public class SplineNode extends PNode {
     private final SplineNode.TrackPopupMenu popupMenu;
     private final EnergySkateParkSpline.Listener splineListener;
     private final boolean isDev = false;
+    private final int MAX_SPLINE_Y;
+    private final int MIN_SPLINE_X = 0;
+    private final int MAX_SPLINE_X;
 
     public SplineNode( JComponent parent, EnergySkateParkSpline energySkateParkSpline, EnergySkateParkSplineEnvironment splineEnvironment, boolean controllable ) {
         this.parent = parent;
@@ -127,6 +131,8 @@ public class SplineNode extends PNode {
         };
         energySkateParkSpline.addListener( splineListener );
         update();
+        MAX_SPLINE_Y = 8;
+        MAX_SPLINE_X = 12;
     }
 
     private void showColorControls() {
@@ -164,6 +170,17 @@ public class SplineNode extends PNode {
     }
 
     private void dragSpline( PInputEvent event, Point2D.Double tx ) {
+        double dy = tx.getY();
+        double dx = tx.getX();
+
+        //Make it so the spline can't be dragged out of the screen, tricky since the visible screen changes depending on the aspect ratio
+        if ( dy < 0 && spline.getMinControlPointY() < 0 ||
+             dy > 0 && spline.getMaxControlPointY() > MAX_SPLINE_Y ||
+             dx < 0 && spline.getMinControlPointX() < MIN_SPLINE_X ||
+             dx > 0 && spline.getMaxControlPointX() > MAX_SPLINE_X ) {
+            return;
+        }
+
         translateAll( tx );
         if ( isAttachAllowed( event ) ) {
             proposeMatchesTrunk();
@@ -342,10 +359,21 @@ public class SplineNode extends PNode {
 
                 public void mouseDragged( PInputEvent event ) {
                     PDimension rel = event.getDeltaRelativeTo( SplineNode.this );
-                    double epsilon = BumpUpSplines.MIN_SPLINE_Y;
-                    if ( spline.getControlPoints()[index].getY() + rel.getHeight() < epsilon ) {
-                        rel.height = epsilon - spline.getControlPoints()[index].getY();
+
+                    //Not allowed to drag out of the stage
+                    if ( spline.getControlPoints()[index].getY() + rel.getHeight() < MIN_SPLINE_Y ) {
+                        rel.height = MIN_SPLINE_Y - spline.getControlPoints()[index].getY();
                     }
+                    if ( spline.getControlPoints()[index].getY() + rel.getHeight() > MAX_SPLINE_Y ) {
+                        rel.height = MAX_SPLINE_Y - spline.getControlPoints()[index].getY();
+                    }
+                    if ( spline.getControlPoints()[index].getX() + rel.getWidth() < MIN_SPLINE_X ) {
+                        rel.width = MIN_SPLINE_X - spline.getControlPoints()[index].getX();
+                    }
+                    if ( spline.getControlPoints()[index].getX() + rel.getWidth() > MAX_SPLINE_X ) {
+                        rel.width = MAX_SPLINE_X - spline.getControlPoints()[index].getX();
+                    }
+
                     spline.translateControlPoint( index, rel.getWidth(), rel.getHeight() );
                     if ( index == 0 || index == numControlPointGraphics() - 1 ) {
                         controlPointLoc.x += rel.getWidth();

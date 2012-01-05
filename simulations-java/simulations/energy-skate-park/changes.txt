@@ -1,3 +1,4 @@
+common: Make it so the track cannot be dragged out of the rectangle (minX=0, maxX=12, maxY=8) (doesn't dynamically adjust to aspect ratios)
 common: Only show the grid for y>=0
 common: Moved the grid a little to the left (and the default parabola a little to the right) so the grid numbers will be to the left of the default tracks
 common: Fixed: The speedometer would go into some strange behavior if the skater was left unreturned for a bit of time (the needle would just start spinning for no apparent reason).  This was caused by the skater falling off the edge of the world.
