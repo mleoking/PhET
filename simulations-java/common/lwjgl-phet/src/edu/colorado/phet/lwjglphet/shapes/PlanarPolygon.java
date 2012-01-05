@@ -3,6 +3,7 @@ package edu.colorado.phet.lwjglphet.shapes;
 
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.BufferUtils;
@@ -107,15 +108,37 @@ public class PlanarPolygon extends GLNode {
 
         // ignore polygons with less than 3 vertices
         if ( vertices.length >= 3 ) {
-            // make a list of polygon points that we can refer to later
-            PolygonPoint[] points = new PolygonPoint[vertices.length];
-            for ( short i = 0; i < points.length; i++ ) {
-                points[i] = new IndexedPolygonPoint( i, vertices[i].getX(), vertices[i].getY() );
+            // TODO: currently we ditch identical vertices that are one after another. find better way or ditch the tesselation code?
+            List<PolygonPoint> pointList = new ArrayList<PolygonPoint>( vertices.length );
+            float lastX = 0;
+            float lastY = 0;
+            for ( short i = 0; i < vertices.length; i++ ) {
+                float x = vertices[i].getX();
+                float y = vertices[i].getY();
+                if ( i > 0 && x == lastX && y == lastY ) {
+                    continue;
+                }
+                pointList.add( new IndexedPolygonPoint( i, x, y ) );
+                lastX = x;
+                lastY = y;
             }
+
+            // make a list of polygon points that we can refer to later
+            PolygonPoint[] points = pointList.toArray( new PolygonPoint[pointList.size()] );
 
             // create and triangulate our polygon
             Polygon polygon = new Polygon( points );
-            Poly2Tri.triangulate( polygon );
+            try {
+                Poly2Tri.triangulate( polygon );
+            }
+            catch ( Exception e ) {
+                System.out.println( "triangulation failure:" );
+                for ( PolygonPoint point : points ) {
+                    System.out.println( "{" + point.getX() + ", " + point.getY() + "}," );
+                }
+                System.out.flush();
+                throw new RuntimeException( "polygon failure", e );
+            }
 
             // iterate through the triangles, and add their indices into the index buffer
             List<DelaunayTriangle> triangles = polygon.getTriangles();
