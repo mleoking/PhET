@@ -94,7 +94,9 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         backgroundScreenNode = new BackgroundScreenNode( simulationPanel, null, floorNode );
         zeroPointPotentialNode = new ZeroPointPotentialNode( simulationPanel, energySkateParkModel );
 
-        gridNode = new GridNode( -50, -150, 100, 150, 1, 1, gridHighlightX );
+        //Move the grid a little to the left so the grid numbers will be to the left of the track
+        double epsilon = -0.5;
+        gridNode = new GridNode( -50 + epsilon, -150, 100, 150, 1, 1, gridHighlightX + epsilon );
 
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void gravityChanged() {
