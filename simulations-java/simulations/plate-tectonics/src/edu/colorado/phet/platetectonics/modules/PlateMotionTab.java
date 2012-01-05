@@ -357,9 +357,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
             if ( isMouseOverLeftSide() ) {
                 if ( !model.hasLeftPlate() ) {
                     model.dropLeftCrust( piece.type );
-                    crustPieceNode.getParent().removeChild( crustPieceNode );
                     placedPieces.add( crustPieceNode );
-                    guiNodes.remove( crustPieceNode );
+                    removeCrustPieceGLNode( (CrustPieceGLNode) crustPieceNode );
                 }
                 else {
                     crustPieceNode.position.reset();
@@ -368,9 +367,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
             else {
                 if ( !model.hasRightPlate() ) {
                     model.dropRightCrust( piece.type );
-                    crustPieceNode.getParent().removeChild( crustPieceNode );
                     placedPieces.add( crustPieceNode );
-                    guiNodes.remove( crustPieceNode );
+                    removeCrustPieceGLNode( (CrustPieceGLNode) crustPieceNode );
                 }
                 else {
                     crustPieceNode.position.reset();
@@ -382,6 +380,13 @@ public class PlateMotionTab extends PlateTectonicsTab {
     public void addCrustPieceGLNode( CrustPieceGLNode crustPieceGLNode ) {
         crustPieceLayer.addChild( crustPieceGLNode );
         guiNodes.add( 0, crustPieceGLNode );
+        crustPieceGLNode.setVisible( true );
+    }
+
+    public void removeCrustPieceGLNode( CrustPieceGLNode crustPieceGLNode ) {
+        crustPieceLayer.removeChild( crustPieceGLNode );
+        guiNodes.remove( crustPieceGLNode );
+        crustPieceGLNode.setVisible( false );
     }
 
     @Override public void resetAll() {
@@ -396,9 +401,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         for ( OrthoPiccoloNode placedPiece : placedPieces ) {
             // add in to the front
-            guiNodes.add( 0, placedPiece );
+            addCrustPieceGLNode( (CrustPieceGLNode) placedPiece );
             placedPiece.position.reset();
-            crustPieceLayer.addChild( placedPiece );
         }
     }
 
