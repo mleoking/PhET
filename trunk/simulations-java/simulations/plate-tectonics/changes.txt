@@ -1,3 +1,4 @@
+Added majority of UI for controlling the 2nd tab (manual and auto mode).
 Now allows mode changes after animation has started
 Added simplified handle prototypes
 Added temporary (inaccurate) "divergent" boundary animation (reverse of convergent)
