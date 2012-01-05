@@ -97,4 +97,8 @@ public class ImmutableRectangle2D {
     public double getMaxY() {
         return y + height;
     }
+
+    public ImmutableRectangle2D shrink( double delta ) {
+        return new ImmutableRectangle2D( x + delta / 2, y + delta / 2, width - delta, height - delta );
+    }
 }

@@ -7,6 +7,8 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -17,6 +19,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
@@ -55,11 +62,26 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private boolean thrustEnabled = true;
     public static final double VIEW_WIDTH = 15;
 
+    public final Property<ImmutableRectangle2D> viewRect = new Property<ImmutableRectangle2D>( new ImmutableRectangle2D( 0, 0 ) ) {{
+        addComponentListener( new ComponentAdapter() {
+            @Override public void componentResized( ComponentEvent e ) {
+                set( new ImmutableRectangle2D( getWidth(), getHeight() ) );
+            }
+        } );
+    }};
+    public final ObservableProperty<ImmutableRectangle2D> modelRect;
+
     public EnergySkateParkSimulationPanel( final AbstractEnergySkateParkModule module, boolean hasZoomControls, double gridHighlightX ) {
         super( new Rectangle2D.Double( 0, -1.5, VIEW_WIDTH, 10 ) );
         this.module = module;
         this.energySkateParkModel = module.getEnergySkateParkModel();
         this.rootNode = new EnergySkateParkRootNode( module, this, hasZoomControls, gridHighlightX );
+        modelRect = new CompositeProperty<ImmutableRectangle2D>( new Function0<ImmutableRectangle2D>() {
+            public ImmutableRectangle2D apply() {
+                //Shrink by 50px so less chance of jumping out of the screen
+                return new ImmutableRectangle2D( rootNode.gridNode.globalToLocal( viewRect.get().shrink( 50 ).toRectangle2D() ) );
+            }
+        }, viewRect );
         setPhetRootNode( rootNode );
         addFocusRequest();
         addKeyHandling();
@@ -85,7 +107,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             }
         } );
 
-        //Some Events should be captured even if the simulation panel doesn't have focus, e.g. for thrust 
+        //Some Events should be captured even if the simulation panel doesn't have focus, e.g. for thrust
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher( new KeyEventDispatcher() {
             public boolean dispatchKeyEvent( KeyEvent e ) {
                 if ( !hasFocus() ) {
@@ -266,6 +288,23 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             TraversalState traversalState = energySkateParkModel.getBody( 0 ).getBestTraversalState( origState );
             energySkateParkModel.getBody( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
         }
+    }
+
+    //Can't drag below ground
+    public double getMinDragY() {
+        return 0;
+    }
+
+    public double getMaxDragY() {
+        return modelRect.get().getMaxY();
+    }
+
+    public double getMinDragX() {
+        return modelRect.get().x;
+    }
+
+    public double getMaxDragX() {
+        return modelRect.get().getMaxX();
     }
 
     private boolean getRollerCoaster( EnergySkateParkSpline s1, EnergySkateParkSpline s2 ) {

@@ -59,7 +59,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private final SplineToolboxNode splineToolbox;
     private final FloorNode floorNode;
     private final ZeroPointPotentialNode zeroPointPotentialNode;
-    private final GridNode gridNode;
+    public final GridNode gridNode;
     private final PanZoomOnscreenControlNode panZoomControls;
     private final PNode energyErrorIndicatorContainer = new PNode();
     private final EnergyErrorIndicatorNode energyErrorIndicatorNode;

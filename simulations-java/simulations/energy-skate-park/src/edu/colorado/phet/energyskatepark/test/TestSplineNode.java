@@ -38,6 +38,22 @@ public class TestSplineNode {
 
             public void attach( SplineNode splineNode, int index, SplineMatch match ) {
             }
+
+            public double getMinDragY() {
+                return 0;
+            }
+
+            public double getMaxDragY() {
+                return 0;
+            }
+
+            public double getMinDragX() {
+                return 0;
+            }
+
+            public double getMaxDragX() {
+                return 0;
+            }
         }, true );
         phetPCanvas.addWorldChild( splineNode );
 
