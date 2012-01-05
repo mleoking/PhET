@@ -10,6 +10,7 @@ import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.control.RulerNode3D.RulerNode2D;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
+import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -22,10 +23,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class Toolbox extends OrthoPiccoloNode {
     private static final double INSET = 5;
 
-    public Toolbox( PlateTectonicsTab tab, final ToolboxState toolboxState ) {
+    public Toolbox( final PlateTectonicsTab tab, final ToolboxState toolboxState ) {
         super( new ControlPanelNode( new PNode() {{
             final float kmToViewUnit = 0.75f;
-            final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( kmToViewUnit ) {{
+            final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( kmToViewUnit, tab) {{
                 // make the ruler visible when it is in the toolbox
                 toolboxState.rulerInToolbox.addObserver( LWJGLUtils.swingObserver( new Runnable() {
                     public void run() {

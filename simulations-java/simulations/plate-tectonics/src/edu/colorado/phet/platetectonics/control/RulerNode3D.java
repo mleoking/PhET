@@ -2,8 +2,12 @@
 package edu.colorado.phet.platetectonics.control;
 
 import java.awt.Cursor;
+import java.util.Collections;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
@@ -11,6 +15,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
+import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
 /**
@@ -25,10 +30,13 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
     private static final float RULER_PIXEL_SCALE = 3f;
 
     public RulerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab ) {
-        super( new RulerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) );
+        super( new RulerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ), tab ) {{
+            scale( scaleMultiplier( tab ) );
+        }} );
 
         // scale the node to handle the subsampling
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
+        //scale( ( ( tab instanceof PlateMotionTab ) ? 4 : 1 ) / PICCOLO_PIXELS_TO_VIEW_UNIT );
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -61,9 +69,9 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
          *                     a parameter so that we can add a 2D version to the toolbox that is unaffected by future
          *                     model-view-transform size changes.
          */
-        public RulerNode2D( float kmToViewUnit ) {
-            // TODO: i18n
-            super( 100 * RulerNode3D.RULER_PIXEL_SCALE, 10 * RulerNode3D.RULER_PIXEL_SCALE, new String[] { "0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100" }, "km", 1, 9 );
+        public RulerNode2D( float kmToViewUnit, final PlateTectonicsTab tab ) {
+            super( 100 * RulerNode3D.RULER_PIXEL_SCALE, 10 * RulerNode3D.RULER_PIXEL_SCALE, getLabels( tab ),
+                   "km", 1, 9 );
 
             // make it vertical
             rotate( -Math.PI / 2 );
@@ -77,5 +85,20 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
             // give it the "Hand" cursor
             addInputEventListener( new LWJGLCursorHandler() );
         }
+    }
+
+    private static String[] getLabels( final PlateTectonicsTab tab ) {
+        List<String> labels = FunctionalUtils.map( FunctionalUtils.rangeInclusive( 0, 10 ), new Function1<Integer, String>() {
+            public String apply( Integer integer ) {
+                return Integer.toString( integer * 10 * scaleMultiplier( tab ) );
+            }
+        } );
+        Collections.reverse( labels );
+        String[] result = new String[labels.size()];
+        return labels.toArray( result );
+    }
+
+    private static int scaleMultiplier( PlateTectonicsTab tab ) {
+        return ( tab instanceof PlateMotionTab ) ? 4 : 1;
     }
 }
