@@ -4,23 +4,26 @@ DEADLINES
 - 3/5/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
-- desired behavior of solute particles that fall out of shaker?
-- what should happen when solute is changed?
-- is a stubby dropper OK? because that's the only way we're going to fit a label and button
-- make solution visible inside the dropper? how does this interact with solute label?
-- move beaker ticks to left side, ala sugar-and-salt-solutions?
-- is there a maximum amount of solute? (will affect usability of dropper and beaker)
-- is there a maximum amount of solution that the dropper can dispense?
-- is there a maximum amount of solute that the shaker can dispense?
 - split solute combo box items into 2 lines, so the control isn't so wide?
-- what colors to use for solute coming out of shaker? Solute.solutionColor? Solute.precipitateColor? other?
-- does concentration meter need to read the concentration of the water faucet and drain faucet?
 
 HIGH
-- view of solute exiting shaker
+- view of solute exiting shaker (magic particles, trajectory ala SASS)
+- redo dropper image: start with original dropper, shorten cap and glass
+- gray out "Remove Solute" button when there is no solute in the beaker
+- start and reset with 0 moles in beaker
+- change dropper's horizontal drag bounds to be full width of beaker (like shaker)
+- spend a little time on combo box popup iss (create ticket, low priority)
+- use precipitate color for particles exiting shaker
+- compute stock color based on stock concentration, show stock inside dropper
+- add color range for solutes (min-max), use min for >0 concentration, interpolate between min and max colors
+- add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
+- try a 3D looking beaker (water glass from Fractions?)
+- make maxSolute a model property, start with 10 moles, but may make this based on Solute.saturatedConcentration
+- shaker and dropper: setEnabled(soluteInPlay<=maxSolute)
+- make concentration meter read solution exiting: water faucet, drain faucet, dropper
 
 MEDIUM
-- adjust drag bounds for shaker and dropper
+- experiment with making control panel less wide: split solute combo box items into 2 lines, vertically stack radio buttons
 - make precipitate particles sit precisely on bottom of beaker
 - if we have limits on amount of solute, then make sure that we don't add solvent volume that would exceed the solute limit
 
