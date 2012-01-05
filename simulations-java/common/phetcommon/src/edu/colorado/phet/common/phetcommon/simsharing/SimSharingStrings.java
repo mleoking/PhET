@@ -15,6 +15,12 @@ public class SimSharingStrings {
         public static final String SPINNER = "spinner";
         public static final String SYSTEM = "system";
         public static final String TAB = "tab";
+
+        //More specific but still reusable in different implementations
+        public static final String PLAY_PAUSE_BUTTON = "playPauseButton";
+        public static final String STEP_BUTTON = "stepButton";
+        public static final String STEP_BACK_BUTTON = "stepBackButton";
+        public static final String REWIND_BUTTON = "rewindButton";
     }
 
     public static class Actions {

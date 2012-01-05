@@ -4,9 +4,14 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventAdapter;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.PRESSED;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects.PLAY_PAUSE_BUTTON;
 
 
 public class PlayPauseButton extends IconButton {
@@ -25,6 +30,9 @@ public class PlayPauseButton extends IconButton {
         handler.addButtonEventListener( new ButtonEventAdapter() {
             public void fire() {
                 if ( isEnabled() ) {
+
+                    SimSharingManager.sendEvent( PLAY_PAUSE_BUTTON, PRESSED, new Parameter( "isPlaying", !isPlaying() ) );
+
                     setPlaying( !isPlaying() );
                     update();
                     notifyListeners();

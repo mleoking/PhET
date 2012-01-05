@@ -34,12 +34,17 @@ public class SimSharingManager {
 
     // logging
     private static final Logger LOGGER = Logger.getLogger( SimSharingManager.class.getCanonicalName() );
+
     //This number should be increased when the data format changes so that a different parser must be used
     private static final int PARSER_VERSION = 1;
+
     //Flag for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
     private static final boolean ALLOW_SERVER_CONNECTION = true;
+
     // Delimiter between fields. We use Tab instead of comma since it is much less common in string representation of objects.
-    private static final String DELIMITER = "\t";
+    // Must be public for usage in the processing tools (in Scala)
+    public static final String DELIMITER = "\t";
+
     // Command line option to enable sim-sharing
     private static final String COMMAND_LINE_OPTION = "-study";
 

@@ -3,6 +3,8 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects.STEP_BUTTON;
+
 /**
  * Created by: Sam
  * Sep 12, 2008 at 7:13:02 AM
@@ -10,9 +12,8 @@ import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 public class StepButton extends DefaultIconButton {
 
     public StepButton( int buttonHeight ) {
-        super( buttonHeight, new ButtonIconSet( buttonHeight, buttonHeight ).createStepIconShape() );
+        super( STEP_BUTTON, buttonHeight, new ButtonIconSet( buttonHeight, buttonHeight ).createStepIconShape() );
     }
-
 
     public static void main( String[] args ) {
         PiccoloTestFrame testFrame = new PiccoloTestFrame( "Button Test" );
