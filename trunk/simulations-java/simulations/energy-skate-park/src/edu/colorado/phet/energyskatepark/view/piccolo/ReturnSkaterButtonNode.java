@@ -28,8 +28,8 @@ public class ReturnSkaterButtonNode extends PhetPNode {
     private final PNode buttonNode;
     private final ButtonNode bringBackSkater = new TextButtonNode( EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
 
-        //Changed "Return Skater" button to be green instead of orange to distinguish from "Reset all" Button
-        setBackground( Color.GREEN );
+        //Changed "Return Skater" button to be orange instead of yellow to distinguish from "Reset all" Button
+        setBackground( Color.ORANGE );
     }};
 
     public ReturnSkaterButtonNode( PSwingCanvas canvas, final AbstractEnergySkateParkModule module, SkaterNode skaterNode ) {
