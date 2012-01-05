@@ -259,7 +259,11 @@ public class Particle implements Serializable {
                         attachToFloor();
                     }
                     else {
-                        switchToFreeFall();
+
+                        //Fall off the edge, but not of the world
+                        if ( getSpline() != particleStage.getFloorSpline() ) {
+                            switchToFreeFall();
+                        }
                     }
                 }
             }
