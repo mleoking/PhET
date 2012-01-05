@@ -54,7 +54,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
     private final MeasuringTape measuringTape;
     private final ReturnSkaterButtonNode returnSkaterButtonNode;
     private boolean ignoreThermal = EnergySkateParkApplication.IGNORE_THERMAL_DEFAULT;
-    private final PauseIndicatorNode pauseIndicator;
     private final EnergySkateParkLegend legend;
     private final BackgroundScreenNode backgroundScreenNode;
     private final SplineToolboxNode splineToolbox;
@@ -90,7 +89,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         updateMapping();
         resetMeasuringTapeLocation();
 
-        pauseIndicator = new PauseIndicatorNode( module );
         legend = new EnergySkateParkLegend( module );
         floorNode = new FloorNode( module, getModel(), floor );
         backgroundScreenNode = new BackgroundScreenNode( simulationPanel, null, floorNode );
@@ -134,7 +132,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( historyReadoutLayer );
         addScreenChild( measuringTape );
         addScreenChild( pieChartLayer );
-        addScreenChild( pauseIndicator );
         addScreenChild( legend );
         addScreenChild( zeroPointPotentialNode );
         addScreenChild( returnSkaterButtonNode );
@@ -467,7 +464,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 
     protected void layoutChildren() {
         super.layoutChildren();
-        pauseIndicator.relayout();
         double insetX = 10;
         double insetY = 10;
         legend.setOffset( getSimulationPanel().getWidth() - legend.getFullBounds().getWidth() - insetX, insetY );
