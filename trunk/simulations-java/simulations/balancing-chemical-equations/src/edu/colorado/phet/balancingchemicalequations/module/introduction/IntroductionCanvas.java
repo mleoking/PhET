@@ -41,7 +41,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
-        balanceChoiceProperty = new Property<BalancedRepresentation>( "Balanced Representation", BalancedRepresentation.NONE );
+        balanceChoiceProperty = new Property<BalancedRepresentation>( BalancedRepresentation.NONE );
 
         // control for choosing an equation
         EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.currentEquation, globalProperties.canvasColor );

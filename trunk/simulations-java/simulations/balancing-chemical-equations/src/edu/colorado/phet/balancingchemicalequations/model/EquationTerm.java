@@ -26,7 +26,7 @@ public class EquationTerm {
         this.balancedCoefficient = balancedCoefficient;
 
         //Use description to report changes to the server
-        this.userCoefficientProperty = new Property<Integer>( "coefficient for " + molecule.getSymbol(), actualCoefficient );
+        this.userCoefficientProperty = new Property<Integer>( actualCoefficient );
     }
 
     public void reset() {

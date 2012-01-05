@@ -241,7 +241,6 @@ public class EquationNode extends PhetPNode {
             spinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     SimSharingManager.sendEvent( Objects.SPINNER, Actions.CHANGED,
-                                                 param( Parameters.DESCRIPTION, coefficientProperty.getDescriptionOrElseQuestion() ),
                                                  param( Parameters.VALUE, spinner.getIntValue() ) );
 
                     coefficientProperty.set( spinner.getIntValue() );

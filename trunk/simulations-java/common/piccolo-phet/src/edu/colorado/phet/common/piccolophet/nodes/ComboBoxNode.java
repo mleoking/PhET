@@ -117,7 +117,7 @@ public class ComboBoxNode<T> extends PNode {
         //Make sure the initial item is in the list
         assert items.contains( initialItem );
 
-        selectedItem = new Property<T>( simSharingObject, initialItem );
+        selectedItem = new Property<T>( initialItem );
 
         //Create the text nodes for the drop down box for determining their metrics (so they can all be created with equal widths)
         PNode[] itemNodes = new PNode[items.size()];

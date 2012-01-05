@@ -18,9 +18,9 @@ public class GameSettings {
     public final Property<Boolean> timerEnabled;
 
     public GameSettings( IntegerRange levelsRange, boolean soundEnabled, boolean timerEnabled ) {
-        this.level = new ConstrainedIntegerProperty( "Selected Level", levelsRange );
-        this.soundEnabled = new Property<Boolean>( "Sound Enabled", soundEnabled );
-        this.timerEnabled = new Property<Boolean>( "Timer Enabled", timerEnabled );
+        this.level = new ConstrainedIntegerProperty( levelsRange );
+        this.soundEnabled = new Property<Boolean>( soundEnabled );
+        this.timerEnabled = new Property<Boolean>( timerEnabled );
     }
 
     public int getNumberOfLevels() {

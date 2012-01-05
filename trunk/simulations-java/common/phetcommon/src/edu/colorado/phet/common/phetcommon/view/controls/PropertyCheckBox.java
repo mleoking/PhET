@@ -57,7 +57,6 @@ public class PropertyCheckBox extends JCheckBox {
     public static void notifyActionPerformed( JCheckBox checkBox, SettableProperty<Boolean> property ) {
         SimSharingManager.sendEvent( Objects.CHECK_BOX, Actions.PRESSED,
                                      param( Parameters.TEXT, checkBox.getText() ),
-                                     param( Parameters.DESCRIPTION, property.getDescriptionOrElseQuestion() ),
                                      param( Parameters.IS_SELECTED, checkBox.isSelected() ) );
     }
 }

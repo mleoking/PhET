@@ -42,8 +42,8 @@ public abstract class Equation {
         this.products = products;
 
         //Use description to report changes to the server
-        this.balancedProperty = new Property<Boolean>( "balanced", false );
-        this.balancedAndSimplifiedProperty = new Property<Boolean>( "balanced-and-simplified", false );
+        this.balancedProperty = new Property<Boolean>( false );
+        this.balancedAndSimplifiedProperty = new Property<Boolean>( false );
 
         // equation is balanced if all terms are balanced.
         {
