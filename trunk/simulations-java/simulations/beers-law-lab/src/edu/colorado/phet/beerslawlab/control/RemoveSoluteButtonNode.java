@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.model.Solution;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 
@@ -23,6 +24,11 @@ public class RemoveSoluteButtonNode extends TextButtonNode {
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 solution.soluteAmount.set( 0d );
+            }
+        } );
+        solution.soluteAmount.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double soluteAmount ) {
+                setEnabled( soluteAmount > 0 );
             }
         } );
     }

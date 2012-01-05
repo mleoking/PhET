@@ -9,7 +9,6 @@ DESIGN
 HIGH
 - view of solute exiting shaker (magic particles, trajectory ala SASS)
 - redo dropper image: start with original dropper, shorten cap and glass
-- gray out "Remove Solute" button when there is no solute in the beaker
 - start and reset with 0 moles in beaker
 - change dropper's horizontal drag bounds to be full width of beaker (like shaker)
 - spend a little time on combo box popup iss (create ticket, low priority)
