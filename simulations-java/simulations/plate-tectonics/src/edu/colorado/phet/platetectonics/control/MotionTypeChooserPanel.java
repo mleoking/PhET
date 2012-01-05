@@ -33,9 +33,7 @@ public class MotionTypeChooserPanel extends PNode {
         this.plateModel = plateModel;
         this.motionType = plateModel.motionType;
 
-        boolean showDivergent = plateModel.leftPlateType.get().isContinental() && plateModel.rightPlateType.get().isContinental();
-
-        motionType.set( MotionType.CONVERGENT );
+        boolean showDivergent = plateModel.allowsDivergentMotion();
 
         PSwing convergentButton = new PSwing( new MotionTypeChooserRadioButton( "Convergent", MotionType.CONVERGENT ) );
         PSwing divergentButton = new PSwing( new MotionTypeChooserRadioButton( "Divergent", MotionType.DIVERGENT ) );
@@ -78,34 +76,44 @@ public class MotionTypeChooserPanel extends PNode {
         x.set( x.get() + ICON_WIDTH + SPACING );
     }
 
+    private boolean typeEquals( MotionType myType, MotionType current ) {
+        return myType == current || ( myType == MotionType.CONVERGENT && current == null );
+    }
+
     private class MotionTypeChooserRadioButton extends JRadioButton {
         private MotionTypeChooserRadioButton( String title, final MotionType type ) {
+            // TODO: clean up handling with this and the other mode. very complicated interactions
             super( title );
-            setSelected( motionType.get() == type );
+            if ( plateModel.animationStarted.get() ) {
+                setSelected( typeEquals( type, motionType.get() ) );
+            }
+            else {
+                setSelected( typeEquals( type, plateModel.motionTypeIfStarted.get() ) );
+            }
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( ActionEvent actionEvent ) {
+                public void actionPerformed( ActionEvent actionEvent ) {
                     LWJGLUtils.invoke( new Runnable() {
-                        @Override public void run() {
-                            motionType.set( type );
+                        public void run() {
+                            plateModel.motionTypeIfStarted.set( type );
                         }
                     } );
                     setSelected( true );
                 }
             } );
-            motionType.addObserver( new ChangeObserver<MotionType>() {
-                @Override public void update( final MotionType newValue, MotionType oldValue ) {
+            plateModel.motionTypeIfStarted.addObserver( new ChangeObserver<MotionType>() {
+                public void update( final MotionType newValue, MotionType oldValue ) {
                     SwingUtilities.invokeLater( new Runnable() {
-                        @Override public void run() {
-                            setSelected( type == newValue );
+                        public void run() {
+                            setSelected( typeEquals( type, newValue ) );
                         }
                     } );
                 }
             } );
             plateModel.animationStarted.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     final boolean enabled = !plateModel.animationStarted.get();
                     SwingUtilities.invokeLater( new Runnable() {
-                        @Override public void run() {
+                        public void run() {
                             setEnabled( enabled );
                         }
                     } );
