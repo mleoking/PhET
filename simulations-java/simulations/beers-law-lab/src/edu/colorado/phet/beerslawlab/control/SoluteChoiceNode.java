@@ -88,7 +88,7 @@ public class SoluteChoiceNode extends PhetPNode {
 
             // solute color chip
             PPath colorNode = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) ) {{
-                setPaint( solute.solutionColor );
+                setPaint( solute.solutionColor.getMax() );
                 setStroke( null );
             }};
             addChild( colorNode );
