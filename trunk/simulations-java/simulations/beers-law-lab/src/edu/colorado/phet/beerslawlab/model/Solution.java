@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
 /**
  * Simple model of a solution, consisting of a solvent and a solute.
@@ -121,8 +120,11 @@ public class Solution implements IFluid, Resettable {
     }
 
     public static final Color createColor( Solvent solvent, Solute solute, double concentration ) {
-        LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
-        double colorScale = f.evaluate( concentration );
-        return ColorUtils.interpolateRBGA( solvent.getFluidColor(), solute.solutionColor, colorScale );
+        Color color = solvent.getFluidColor();
+        if ( concentration > 0 ) {
+            LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
+            color = solute.solutionColor.interpolate( f.evaluate( concentration ) );
+        }
+        return color;
     }
 }

@@ -4,14 +4,12 @@ DEADLINES
 - 3/5/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
-- split solute combo box items into 2 lines, so the control isn't so wide?
 
 HIGH
 - view of solute exiting shaker (magic particles, trajectory ala SASS)
 - redo dropper image: start with original dropper, shorten cap and glass
 - use precipitate color for particles exiting shaker
 - compute stock color based on stock concentration, show stock inside dropper
-- add color range for solutes (min-max), use min for >0 concentration, interpolate between min and max colors
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - try a 3D looking beaker (water glass from Fractions?)
 - make maxSolute a model property, start with 10 moles, but may make this based on Solute.saturatedConcentration

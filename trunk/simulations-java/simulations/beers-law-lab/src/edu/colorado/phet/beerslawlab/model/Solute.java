@@ -3,6 +3,8 @@ package edu.colorado.phet.beerslawlab.model;
 
 import java.awt.Color;
 
+import edu.colorado.phet.beerslawlab.util.ColorRange;
+
 /**
  * Model of a solute, an immutable data structure.
  *
@@ -20,18 +22,18 @@ public class Solute {
     public final double molarMass; // g/mol
     public final double saturatedConcentration; // M, in beaker
     public final double stockSolutionConcentration; // M, stock solution in dropper
-    public final Color solutionColor; // color in a fully-saturated solution
+    public final ColorRange solutionColor; // color range for a solution with non-zero concentration
     public final Color precipitateColor; // color as a precipitate
     public final double precipitateSize; // size of the precipitate particles in view coordinates
     public final int precipitateParticlesPerMole; // number of precipitate particles to show per mol of saturation
 
-    // For most solutes, the color of the precipitate is the same as the color in solution.
-    public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration, Color solutionColor, double precipitateSize, int precipitateParticlesPerMole ) {
-        this( name, formula, molarMass, saturatedConcentration, stockSolutionConcentration, solutionColor, solutionColor, precipitateSize, precipitateParticlesPerMole );
+    // For most solutes, the color of the precipitate is the same as the color of the saturated solution.
+    public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration, ColorRange solutionColor, double precipitateSize, int precipitateParticlesPerMole ) {
+        this( name, formula, molarMass, saturatedConcentration, stockSolutionConcentration, solutionColor, solutionColor.getMax(), precipitateSize, precipitateParticlesPerMole );
     }
 
     public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration,
-                   Color solutionColor, Color precipitateColor, double precipitateSize, int precipitateParticlesPerMole ) {
+                   ColorRange solutionColor, Color precipitateColor, double precipitateSize, int precipitateParticlesPerMole ) {
         this.name = name;
         this.formula = formula;
         this.molarMass = molarMass;
