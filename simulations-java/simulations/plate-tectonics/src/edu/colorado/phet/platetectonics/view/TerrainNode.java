@@ -123,7 +123,7 @@ public class TerrainNode extends GridMesh {
 //        }
 //    }
 
-
+    // TODO: better handling for the enabling/disabling of lighting
     @Override protected void preRender( GLOptions options ) {
         super.preRender( options );
 
