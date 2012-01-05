@@ -75,6 +75,7 @@ public class PlateMotionModel extends PlateModel {
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
     public final Property<PlateType> rightPlateType = new Property<PlateType>( null );
     public final Property<MotionType> motionType = new Property<MotionType>( null );
+    public final Property<MotionType> motionTypeIfStarted = new Property<MotionType>( MotionType.CONVERGENT );
 
     public final Property<Boolean> animationStarted = new Property<Boolean>( false );
 
@@ -108,6 +109,7 @@ public class PlateMotionModel extends PlateModel {
         addDebugPropertyListener( "leftPlateType", leftPlateType );
         addDebugPropertyListener( "rightPlateType", rightPlateType );
         addDebugPropertyListener( "motionType", motionType );
+        addDebugPropertyListener( "motionTypeIfStarted", motionTypeIfStarted );
 
         final float minX = bounds.getMinX();
         final float maxX = bounds.getMaxX();
@@ -200,9 +202,15 @@ public class PlateMotionModel extends PlateModel {
             leftCrustBottomSamples.add( new Sample( new ImmutableVector2F( leftX, SIMPLE_MANTLE_TOP_Y ) ) );
             rightCrustBottomSamples.add( new Sample( new ImmutableVector2F( rightX, SIMPLE_MANTLE_TOP_Y ) ) );
         }
+        bottomSamples.clear();
+        for ( int i = 0; i < bottomCount; i++ ) {
+            float x = bounds.getMinX() + ( bounds.getMaxX() - bounds.getMinX() ) * ( (float) i ) / ( (float) ( bottomCount - 1 ) );
+            bottomSamples.add( new Sample( new ImmutableVector2F( x, SIMPLE_MANTLE_BOTTOM_Y ) ) );
+        }
 
         canRun.reset();
         motionType.reset();
+        motionTypeIfStarted.reset();
         animationStarted.reset();
 
         updateRegions();
@@ -256,9 +264,6 @@ public class PlateMotionModel extends PlateModel {
     }
 
     private void updateRegions() {
-        if ( PlateTectonicsConstants.DEBUG.get() ) {
-            System.out.println( "updateRegions" );
-        }
         for ( int i = 0; i < sideCount; i++ ) {
             // left side
             mantleTop[i] = leftCrustBottomSamples.get( i ).position;
@@ -277,9 +282,6 @@ public class PlateMotionModel extends PlateModel {
     }
 
     private void updateTerrain() {
-        if ( PlateTectonicsConstants.DEBUG.get() ) {
-            System.out.println( "updateTerrain" );
-        }
         for ( int column = 0; column < sideCount; column++ ) {
             // left side
             ImmutableVector2F leftPosition = hasLeftPlate() ? leftCrustTopSamples.get( column ).position : leftCrustBottomSamples.get( column ).position;
@@ -351,6 +353,10 @@ public class PlateMotionModel extends PlateModel {
         super.update( timeElapsed );
 
         if ( hasLeftPlate() && hasRightPlate() ) {
+            if ( motionType.get() == null ) {
+                motionType.set( motionTypeIfStarted.get() );
+            }
+
             animationStarted.set( true );
             if ( motionType.get() == MotionType.CONVERGENT ) {
                 for ( Sample sample : FunctionalUtils.concat(
@@ -486,6 +492,10 @@ public class PlateMotionModel extends PlateModel {
         public Sample( ImmutableVector2F position ) {
             this.position = position;
         }
+    }
+
+    public boolean allowsDivergentMotion() {
+        return hasBothPlates.get() && leftPlateType.get().isContinental() && rightPlateType.get().isContinental();
     }
 
     public static void main( String[] args ) {

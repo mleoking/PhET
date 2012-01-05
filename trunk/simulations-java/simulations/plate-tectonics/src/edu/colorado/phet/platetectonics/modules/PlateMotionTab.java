@@ -37,6 +37,9 @@ import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 
+import static edu.colorado.phet.lwjglphet.math.ImmutableVector2F.X_UNIT;
+import static edu.colorado.phet.lwjglphet.math.ImmutableVector2F.Y_UNIT;
+
 /**
  * Displays two main plates that the user can direct to move towards, away from, or along each other.
  */
@@ -212,10 +215,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
             // enable this time control when we can run AND we are in auto mode
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
-                    setVisible( getPlateMotionModel().canRun.get() && isAutoMode.get() );
+                    setVisible( getPlateMotionModel().hasBothPlates.get() && isAutoMode.get() );
                 }
             };
-            getPlateMotionModel().canRun.addObserver( visibilityObserver );
+            getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
             isAutoMode.addObserver( visibilityObserver );
         }};
         addGuiNode( timeControlPanelNode );
@@ -271,12 +274,32 @@ public class PlateMotionTab extends PlateTectonicsTab {
                             ImmutableVector2F deltaXY = currentPosition.minus( draggingPlateStartMousePosition );
                             MotionType startingMotionType = getPlateMotionModel().motionType.get();
 
+                            boolean draggingRightPlate = draggingPlateStartMousePosition.x > 0;
+                            boolean pullingLeft = deltaXY.x < 0;
+
                             if ( startingMotionType == null ) {
-                                // TODO: handle starting of motion type
+                                if ( deltaXY.getMagnitude() > 5 ) {
+                                    float rightStrength = deltaXY.dot( X_UNIT );
+                                    float verticalStrength = Math.abs( deltaXY.dot( Y_UNIT ) );
+                                    if ( verticalStrength > Math.abs( rightStrength ) ) {
+                                        // starting transform
+                                        System.out.println( "transform movement" );
+                                        getPlateMotionModel().motionType.set( MotionType.TRANSFORM );
+                                        // TODO: handle transform direction
+                                    }
+                                    else {
+                                        if ( ( rightStrength > 0 ) == draggingRightPlate && getPlateMotionModel().allowsDivergentMotion() ) {
+                                            getPlateMotionModel().motionType.set( MotionType.DIVERGENT );
+                                            System.out.println( "divergent movement" );
+                                        }
+                                        else {
+                                            getPlateMotionModel().motionType.set( MotionType.CONVERGENT );
+                                            System.out.println( "convergent movement" );
+                                        }
+                                    }
+                                }
                             }
                             else {
-                                boolean draggingRightPlate = draggingPlateStartMousePosition.x > 0;
-                                boolean pullingLeft = deltaXY.x < 0;
                                 switch( startingMotionType ) {
                                     case CONVERGENT:
                                         // comparison works for opposite direction
@@ -290,6 +313,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                         }
                                         break;
                                     case TRANSFORM:
+                                        // TODO: handle transform
                                         break;
                                 }
                             }
