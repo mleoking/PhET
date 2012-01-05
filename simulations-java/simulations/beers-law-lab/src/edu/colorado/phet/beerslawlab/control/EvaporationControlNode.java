@@ -52,7 +52,7 @@ public class EvaporationControlNode extends ControlPanelNode {
                     // sim-sharing
                     getDragHandler().setStartEndDragFunction( new DragFunction() {
                         public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                            SimSharingManager.sendEvent( Objects.EVAPORATION_SLIDER, action, new Parameter( Parameters.EVAPORATION_RATE, evaporator.evaporationRate.get() ) );
+                            SimSharingManager.sendUserEvent( Objects.EVAPORATION_SLIDER, action, new Parameter( Parameters.EVAPORATION_RATE, evaporator.evaporationRate.get() ) );
                         }
                     } );
                 }}

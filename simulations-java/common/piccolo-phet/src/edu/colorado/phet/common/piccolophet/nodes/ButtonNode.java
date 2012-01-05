@@ -379,7 +379,7 @@ public class ButtonNode extends PhetPNode {
     private void notifyActionPerformed() {
 
         //Notify about the event first so that listener callbacks were clearly caused by this action
-        SimSharingManager.sendEvent( OBJECT_BUTTON_NODE, Actions.PRESSED, Parameter.param( PARAM_ACTION_COMMAND, actionCommand ) );
+        SimSharingManager.sendUserEvent( OBJECT_BUTTON_NODE, Actions.PRESSED, Parameter.param( PARAM_ACTION_COMMAND, actionCommand ) );
 
         ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, actionCommand ); // use Swing convention from AbstractButton.fireActionPerformed
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {

@@ -253,7 +253,7 @@ public class PHMeterNode extends PhetPNode {
         }
 
         private void sendEvent( String action ) {
-            SimSharingManager.sendEvent( Objects.PH_METER, action, new Parameter( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) );
+            SimSharingManager.sendUserEvent( Objects.PH_METER, action, new Parameter( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {

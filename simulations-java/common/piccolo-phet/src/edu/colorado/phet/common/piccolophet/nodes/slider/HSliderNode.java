@@ -55,7 +55,7 @@ public class HSliderNode extends SliderNode {
     // allow the offset of this node to be at (0, 0).  Use this when adding
     // children in subclasses if you want to keep the origin at (0, 0).
     protected PNode rootNode = new PNode();
-    private String simSharingObject = SimSharingStrings.Objects.SLIDER;
+    private String simSharingObject = SimSharingStrings.Components.SLIDER;
 
     public HSliderNode( final double min, final double max, final SettableProperty<Double> value ) {
         this( min, max, value, new Property<Boolean>( true ) );
@@ -88,11 +88,11 @@ public class HSliderNode extends SliderNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( dragHandler = new SimSharingDragSequenceEventHandler( new SimSharingDragSequenceEventHandler.DragFunction() {
                 public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingManager.sendEvent( simSharingObject, START_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
+                    SimSharingManager.sendUserEvent( simSharingObject, START_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
                 }
             }, new SimSharingDragSequenceEventHandler.DragFunction() {
                 public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingManager.sendEvent( simSharingObject, END_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
+                    SimSharingManager.sendUserEvent( simSharingObject, END_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
                 }
             }, null
             ) {

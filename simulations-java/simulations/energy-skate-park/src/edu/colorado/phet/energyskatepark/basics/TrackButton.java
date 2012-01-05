@@ -41,7 +41,7 @@ public class TrackButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendEvent( OBJECT_TRACK_BUTTON_NODE, SimSharingStrings.Actions.PRESSED, Parameter.param( "track", trackName ) );
+                SimSharingManager.sendUserEvent( OBJECT_TRACK_BUTTON_NODE, SimSharingStrings.Actions.PRESSED, Parameter.param( "track", trackName ) );
                 module.loadTrack( trackName, offset );
             }
         } );

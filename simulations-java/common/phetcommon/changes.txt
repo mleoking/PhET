@@ -1,3 +1,4 @@
+1/5/12 Added user/system/model message types, see #3209
 1/5/12 Removed Property<T> descriptions, see #3202
 1/3/12 #3202, add missing sim-sharing events to SimSharingLogMenuItem, remember directory last visited in file chooser
 1/3/12 #3202, sim-sharing changes related to Swing controls (explicitly specify event "object" for sim-sharing subclasses of Swing components; add "componentType" parameter; add missing sim-sharing subclasses of Swing components - SimSharingJButton, SimSharingJSpinner)

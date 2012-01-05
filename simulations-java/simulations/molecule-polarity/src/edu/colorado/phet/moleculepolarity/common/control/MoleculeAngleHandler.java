@@ -33,15 +33,15 @@ public class MoleculeAngleHandler extends PDragSequenceEventHandler {
         super.startDrag( event );
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
-        SimSharingManager.sendEvent( Objects.OBJECT_MOLECULE_ANGLE, Actions.START_DRAG,
-                                     Parameter.param( Parameters.PARAM_ANGLE, molecule.angle.get() ) );
+        SimSharingManager.sendUserEvent( Objects.OBJECT_MOLECULE_ANGLE, Actions.START_DRAG,
+                                         Parameter.param( Parameters.PARAM_ANGLE, molecule.angle.get() ) );
     }
 
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
-        SimSharingManager.sendEvent( Objects.OBJECT_MOLECULE_ANGLE, Actions.END_DRAG,
-                                     Parameter.param( Parameters.PARAM_ANGLE, molecule.angle.get() ) );
+        SimSharingManager.sendUserEvent( Objects.OBJECT_MOLECULE_ANGLE, Actions.END_DRAG,
+                                         Parameter.param( Parameters.PARAM_ANGLE, molecule.angle.get() ) );
     }
 
     // Drag to rotate the molecule.

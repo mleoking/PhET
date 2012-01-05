@@ -47,9 +47,9 @@ public class SimSharingJButton extends JButton {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendEvent( object,
-                                     Actions.PRESSED,
-                                     Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.BUTTON ) );
+        SimSharingManager.sendUserEvent( object,
+                                         Actions.PRESSED,
+                                         Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.BUTTON ) );
         super.fireActionPerformed( event );
     }
 }

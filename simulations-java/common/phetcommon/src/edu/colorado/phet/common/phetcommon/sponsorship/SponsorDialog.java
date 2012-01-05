@@ -44,7 +44,7 @@ public class SponsorDialog extends JDialog {
         addMouseListener( new MouseAdapter() {
             @Override
             public void mousePressed( MouseEvent event ) {
-                SimSharingManager.sendEvent( SIMSHARING_OBJECT, Actions.PRESSED );
+                SimSharingManager.sendUserEvent( SIMSHARING_OBJECT, Actions.PRESSED );
                 dispose();
             }
         } );
@@ -57,7 +57,7 @@ public class SponsorDialog extends JDialog {
         dialog.addWindowListener( new WindowAdapter() {
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
-                SimSharingManager.sendEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED );
+                SimSharingManager.sendUserEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED );
                 dialog.dispose();
             }
         } );
@@ -69,7 +69,7 @@ public class SponsorDialog extends JDialog {
             final Timer timer = new Timer( DISPLAY_TIME * 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( dialog.isDisplayable() ) {
-                        SimSharingManager.sendSystemEvent( Actions.CLOSED, Parameter.param( Parameters.WINDOW, SIMSHARING_OBJECT ) );
+                        SimSharingManager.sendSystemEvent( "sponsorDialog", Actions.CLOSED, Parameter.param( Parameters.WINDOW, SIMSHARING_OBJECT ) );
                         dialog.dispose();
                     }
                 }

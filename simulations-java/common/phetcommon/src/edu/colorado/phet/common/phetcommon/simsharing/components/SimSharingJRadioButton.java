@@ -62,9 +62,9 @@ public class SimSharingJRadioButton extends JRadioButton {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendEvent( object,
-                                     Actions.PRESSED,
-                                     Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.RADIO_BUTTON ) );
+        SimSharingManager.sendUserEvent( object,
+                                         Actions.PRESSED,
+                                         Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.RADIO_BUTTON ) );
         super.fireActionPerformed( event );
     }
 }

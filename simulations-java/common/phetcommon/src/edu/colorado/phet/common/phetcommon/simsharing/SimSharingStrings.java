@@ -8,7 +8,7 @@ package edu.colorado.phet.common.phetcommon.simsharing;
  */
 public class SimSharingStrings {
 
-    public static class Objects {
+    public static class Components {
 
         public static final String CHECK_BOX = "checkBox";
         public static final String RADIO_BUTTON = "radioButton";
@@ -22,6 +22,7 @@ public class SimSharingStrings {
         public static final String STEP_BACK_BUTTON = "stepBackButton";
         public static final String REWIND_BUTTON = "rewindButton";
         public static final String SLIDER = "slider";
+        public static final String RESET_ALL_CONFIRMATION_DIALOG = "resetAllConfirmationDialog";
     }
 
     public static class Actions {

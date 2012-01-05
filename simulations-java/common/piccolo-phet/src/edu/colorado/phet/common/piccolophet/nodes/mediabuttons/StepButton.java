@@ -3,7 +3,7 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects.STEP_BUTTON;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components.STEP_BUTTON;
 
 /**
  * Created by: Sam

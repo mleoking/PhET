@@ -58,10 +58,10 @@ public class SimSharingJCheckBoxMenuItem extends JCheckBoxMenuItem {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendEvent( object,
-                                     Actions.PRESSED,
-                                     param( Parameters.COMPONENT_TYPE, ParameterValues.CHECK_BOX_MENU_ITEM ),
-                                     param( Parameters.IS_SELECTED, isSelected() ) );
+        SimSharingManager.sendUserEvent( object,
+                                         Actions.PRESSED,
+                                         param( Parameters.COMPONENT_TYPE, ParameterValues.CHECK_BOX_MENU_ITEM ),
+                                         param( Parameters.IS_SELECTED, isSelected() ) );
         super.fireActionPerformed( event );
     }
 }
