@@ -369,4 +369,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
             } );
         }
     }
+
+    // do not allow automatic clock progress when in manual mode
+    @Override public boolean allowClockTickOnFrame() {
+        return isAutoMode.get();
+    }
 }

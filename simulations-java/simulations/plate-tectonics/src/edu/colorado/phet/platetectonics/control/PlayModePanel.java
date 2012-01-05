@@ -21,25 +21,25 @@ public class PlayModePanel extends PNode {
         // TODO: refactor for better radio button handling (this is really fairly ugly)
         PSwing autoRadioButton = new PSwing( new JRadioButton( "Automatic Mode" ) {{
             isAutoMode.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     final boolean is = isAutoMode.get();
                     SwingUtilities.invokeLater( new Runnable() {
-                        @Override public void run() {
+                        public void run() {
                             setSelected( is );
                         }
                     } );
                 }
             } );
-            hasAnimationStarted.addObserver( new SimpleObserver() {
-                @Override public void update() {
-                    setEnabled( !hasAnimationStarted.get() );
-                }
-            } );
+//            hasAnimationStarted.addObserver( new SimpleObserver() {
+//                 public void update() {
+//                    setEnabled( !hasAnimationStarted.get() );
+//                }
+//            } );
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( ActionEvent actionEvent ) {
+                public void actionPerformed( ActionEvent actionEvent ) {
                     final boolean is = isSelected();
                     LWJGLUtils.invoke( new Runnable() {
-                        @Override public void run() {
+                        public void run() {
                             isAutoMode.set( is );
                         }
                     } );
@@ -48,25 +48,25 @@ public class PlayModePanel extends PNode {
         }} );
         PSwing manualRadioButton = new PSwing( new JRadioButton( "Manual Mode" ) {{
             isAutoMode.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     final boolean is = !isAutoMode.get();
                     SwingUtilities.invokeLater( new Runnable() {
-                        @Override public void run() {
+                        public void run() {
                             setSelected( is );
                         }
                     } );
                 }
             } );
-            hasAnimationStarted.addObserver( new SimpleObserver() {
-                @Override public void update() {
-                    setEnabled( !hasAnimationStarted.get() );
-                }
-            } );
+//            hasAnimationStarted.addObserver( new SimpleObserver() {
+//                 public void update() {
+//                    setEnabled( !hasAnimationStarted.get() );
+//                }
+//            } );
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( ActionEvent actionEvent ) {
+                public void actionPerformed( ActionEvent actionEvent ) {
                     final boolean is = !isSelected();
                     LWJGLUtils.invoke( new Runnable() {
-                        @Override public void run() {
+                        public void run() {
                             isAutoMode.set( is );
                         }
                     } );

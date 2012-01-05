@@ -1,3 +1,5 @@
+Now allows mode changes after animation has started
+Added simplified handle prototypes
 Added temporary (inaccurate) "divergent" boundary animation (reverse of convergent)
 Added extra continental crust piece for 2nd tab
 Updated 2nd tab view location to a slight side-angle
