@@ -4,13 +4,18 @@ package edu.colorado.phet.platetectonics.view;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.math.Arrow2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.nodes.ArrowNode;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
+import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.Y_UNIT;
 import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.Z_UNIT;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -27,7 +32,7 @@ public class HandleNode extends GLNode {
     private final Property<ImmutableVector3F> offset;
     private final PlateMotionTab tab;
 
-    public HandleNode( final Property<ImmutableVector3F> offset, final PlateMotionTab tab ) {
+    public HandleNode( final Property<ImmutableVector3F> offset, final PlateMotionTab tab, final boolean isRightHandle ) {
         this.offset = offset;
         this.tab = tab;
 
@@ -70,8 +75,130 @@ public class HandleNode extends GLNode {
         }
         apply( rightBase, col++ );
 
-        handleMesh = new GridMesh( radialRows, columns, positions );
+        handleMesh = new GridMesh( radialRows, columns, positions ) {
+            @Override protected void preRender( GLOptions options ) {
+                super.preRender( options );
+
+                glEnable( GL_LIGHTING );
+                glEnable( GL_COLOR_MATERIAL );
+                glColorMaterial( GL_FRONT, GL_DIFFUSE );
+                glEnable( GL_CULL_FACE );
+            }
+
+            @Override protected void postRender( GLOptions options ) {
+                super.postRender( options );
+
+                glDisable( GL_COLOR_MATERIAL );
+                glDisable( GL_LIGHTING );
+                glDisable( GL_CULL_FACE );
+            }
+        };
         addChild( handleMesh );
+
+        final ColorMaterial arrowConvergentFill = new ColorMaterial( 0, 0.8f, 0, 0.8f );
+        final ColorMaterial arrowDivergentFill = new ColorMaterial( 0.8f, 0, 0, 0.8f );
+        final ColorMaterial arrowTransformFill = new ColorMaterial( 0, 0, 1, 0.8f );
+        final ColorMaterial arrowStroke = new ColorMaterial( 0, 0, 0, 1 );
+
+        // TODO: wrapping better?
+
+        // TODO: refactor to motion types
+
+        float arrowOffset = 5;
+        float arrowExtent = 50;
+        float arrowHeadHeight = 14;
+        float arrowHeadWidth = 14;
+        float arrowTailWidth = 8;
+
+        final Property<MotionType> motionType = tab.getPlateMotionModel().motionType;
+
+        // back arrow
+        addChild( new ArrowNode( new Arrow2F( new ImmutableVector2F( arrowOffset, 0 ),
+                                              new ImmutableVector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
+            setFillMaterial( arrowTransformFill );
+            setStrokeMaterial( arrowStroke );
+            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( 50 ) );
+            ImmutableVector3F viewPosition = convertToRadial( position );
+            translate( viewPosition.x, viewPosition.y, viewPosition.z );
+            rotate( Y_UNIT, (float) ( Math.PI / 2 ) );
+
+            SimpleObserver visibilityObserver = new SimpleObserver() {
+                public void update() {
+                    setVisible( ( motionType.get() == null ) || motionType.get() == MotionType.TRANSFORM );
+                }
+            };
+            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
+            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
+        }} );
+
+        // right arrow
+        addChild( new ArrowNode( new Arrow2F( new ImmutableVector2F( arrowOffset, 0 ),
+                                              new ImmutableVector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
+            final boolean isConvergent = !isRightHandle;
+            setFillMaterial( isConvergent ? arrowConvergentFill : arrowDivergentFill );
+            setStrokeMaterial( arrowStroke );
+            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( 50 ) );
+            ImmutableVector3F viewPosition = convertToRadial( position );
+            translate( viewPosition.x, viewPosition.y, viewPosition.z );
+
+            SimpleObserver visibilityObserver = new SimpleObserver() {
+                public void update() {
+                    if ( isConvergent ) {
+                        setVisible( motionType.get() == null || motionType.get() == MotionType.CONVERGENT );
+                    }
+                    else {
+                        setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsDivergentMotion() )
+                                    || motionType.get() == MotionType.DIVERGENT );
+                    }
+                }
+            };
+            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
+            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
+        }} );
+
+        // left arrow
+        addChild( new ArrowNode( new Arrow2F( new ImmutableVector2F( -arrowOffset, 0 ),
+                                              new ImmutableVector2F( -arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
+            final boolean isConvergent = isRightHandle;
+            setFillMaterial( isConvergent ? arrowConvergentFill : arrowDivergentFill );
+            setStrokeMaterial( arrowStroke );
+            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( 50 ) );
+            ImmutableVector3F viewPosition = convertToRadial( position );
+            translate( viewPosition.x, viewPosition.y, viewPosition.z );
+
+            SimpleObserver visibilityObserver = new SimpleObserver() {
+                public void update() {
+                    if ( isConvergent ) {
+                        setVisible( motionType.get() == null || motionType.get() == MotionType.CONVERGENT );
+                    }
+                    else {
+                        setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsDivergentMotion() )
+                                    || motionType.get() == MotionType.DIVERGENT );
+                    }
+                }
+            };
+            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
+            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
+        }} );
+
+        // front arrow
+        addChild( new ArrowNode( new Arrow2F( new ImmutableVector2F( arrowOffset, 0 ),
+                                              new ImmutableVector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
+            setFillMaterial( arrowTransformFill );
+            setStrokeMaterial( arrowStroke );
+            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( 50 ) );
+            ImmutableVector3F viewPosition = convertToRadial( position );
+            translate( viewPosition.x, viewPosition.y, viewPosition.z );
+            rotate( Y_UNIT, (float) ( -Math.PI / 2 ) );
+
+            SimpleObserver visibilityObserver = new SimpleObserver() {
+                public void update() {
+                    setVisible( ( motionType.get() == null ) || motionType.get() == MotionType.TRANSFORM );
+                }
+            };
+            tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
+            tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
+        }} );
     }
 
     private void apply( RingPositioner positioner, int col ) {
@@ -82,11 +209,15 @@ public class HandleNode extends GLNode {
 
             // warp the coordinates around the earth's frame
             ImmutableVector3F planarViewCoordinates = positioner.position( sin, cos ).plus( offset.get() );
-            ImmutableVector3F planarModelCoordinates = tab.getModelViewTransform().inversePosition( planarViewCoordinates );
-            ImmutableVector3F radialModelCoordinates = PlateModel.convertToRadial( planarModelCoordinates );
-            ImmutableVector3F radialViewCoordinates = tab.getModelViewTransform().transformPosition( radialModelCoordinates );
-            positions[row * columns + col] = radialViewCoordinates;
+            positions[row * columns + col] = convertToRadial( planarViewCoordinates );
         }
+    }
+
+    private ImmutableVector3F convertToRadial( ImmutableVector3F planarViewCoordinates ) {
+        ImmutableVector3F planarModelCoordinates = tab.getModelViewTransform().inversePosition( planarViewCoordinates );
+        ImmutableVector3F radialModelCoordinates = PlateModel.convertToRadial( planarModelCoordinates );
+        ImmutableVector3F radialViewCoordinates = tab.getModelViewTransform().transformPosition( radialModelCoordinates );
+        return radialViewCoordinates;
     }
 
     private static interface RingPositioner {
@@ -136,23 +267,14 @@ public class HandleNode extends GLNode {
         super.renderSelf( options );
     }
 
-    // TODO: better handling for the enabling/disabling of lighting
     @Override protected void preRender( GLOptions options ) {
         super.preRender( options );
 
         glEnable( GL_BLEND );
-        glEnable( GL_LIGHTING );
-        glEnable( GL_COLOR_MATERIAL );
-        glColorMaterial( GL_FRONT, GL_DIFFUSE );
-        glEnable( GL_CULL_FACE );
     }
 
     @Override protected void postRender( GLOptions options ) {
         super.postRender( options );
-
-        glDisable( GL_COLOR_MATERIAL );
-        glDisable( GL_LIGHTING );
-        glDisable( GL_CULL_FACE );
 
         // TODO: fix blend handling, this disable was screwing other stuff up
 //        glDisable( GL_BLEND );
