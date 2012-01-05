@@ -4,6 +4,7 @@ package edu.colorado.phet.energyskatepark.model;
 import java.awt.geom.GeneralPath;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
@@ -153,14 +154,45 @@ public class EnergySkateParkSpline implements Serializable {
 
     //Find the y-value of the lowest control point so the track can be aligned with the ground in basics mode
     public double getMinControlPointY() {
-        double y = Double.POSITIVE_INFINITY;
-        for ( int i = 0; i < getControlPoints().length; i++ ) {
-            SerializablePoint2D point2D = getControlPoints()[i];
-            if ( point2D.getY() < y ) {
-                y = point2D.getY();
+        ArrayList<Double> y = getSortedYControlPointValues();
+        return y.get( 0 );
+    }
+
+    public double getMinControlPointX() {
+        ArrayList<Double> x = getSortedXControlPointValues();
+        return x.get( 0 );
+    }
+
+    public double getMaxControlPointX() {
+        ArrayList<Double> x = getSortedXControlPointValues();
+        return x.get( x.size() - 1 );
+    }
+
+    public double getMaxControlPointY() {
+        ArrayList<Double> y = getSortedYControlPointValues();
+        return y.get( y.size() - 1 );
+    }
+
+    private ArrayList<Double> getSortedYControlPointValues() {
+        ArrayList<Double> y = new ArrayList<Double>() {{
+            for ( int i = 0; i < getControlPoints().length; i++ ) {
+                SerializablePoint2D serializablePoint2D = getControlPoints()[i];
+                add( serializablePoint2D.getY() );
             }
-        }
+        }};
+        Collections.sort( y );
         return y;
+    }
+
+    private ArrayList<Double> getSortedXControlPointValues() {
+        ArrayList<Double> x = new ArrayList<Double>() {{
+            for ( int i = 0; i < getControlPoints().length; i++ ) {
+                SerializablePoint2D serializablePoint2D = getControlPoints()[i];
+                add( serializablePoint2D.getX() );
+            }
+        }};
+        Collections.sort( x );
+        return x;
     }
 
     public double getMinY() {
