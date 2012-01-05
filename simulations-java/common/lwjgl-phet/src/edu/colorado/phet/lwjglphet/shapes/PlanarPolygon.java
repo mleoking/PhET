@@ -119,8 +119,6 @@ public class PlanarPolygon extends GLNode {
 
             // iterate through the triangles, and add their indices into the index buffer
             List<DelaunayTriangle> triangles = polygon.getTriangles();
-            System.out.println( "triangles: " + triangles.size() );
-            System.out.println( "indexBuffer.capacity() = " + indexBuffer.capacity() );
             for ( DelaunayTriangle triangle : triangles ) {
                 if ( !( triangle.points[0] instanceof IndexedPolygonPoint ) ||
                      !( triangle.points[1] instanceof IndexedPolygonPoint ) ||

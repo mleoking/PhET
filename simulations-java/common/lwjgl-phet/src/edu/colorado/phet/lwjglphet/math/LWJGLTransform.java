@@ -43,6 +43,8 @@ public class LWJGLTransform {
         // store both into buffers so they can be sent to OpenGL with less overhead
         matrix.store( transformBuffer );
         inverse.store( inverseTransformBuffer );
+
+        changed.updateListeners( this );
     }
 
     public void prepend( ImmutableMatrix4F matrix ) {
