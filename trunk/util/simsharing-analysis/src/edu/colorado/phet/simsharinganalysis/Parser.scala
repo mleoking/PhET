@@ -5,8 +5,8 @@ package edu.colorado.phet.simsharinganalysis
 
 import java.util.StringTokenizer
 import java.io.{File, FileReader, BufferedReader}
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter
 import collection.mutable.{HashMap, ArrayBuffer}
+import edu.colorado.phet.common.phetcommon.simsharing.{SimSharingManager, Parameter}
 
 /**
  * @author Sam Reid
@@ -46,10 +46,10 @@ class Parser {
     val remainderOfLineBuf = new StringBuffer
     while ( tokenizer.hasMoreTokens ) {
       remainderOfLineBuf.append(tokenizer.nextToken)
-      remainderOfLineBuf.append(Parameter.DELIMITER)
+      remainderOfLineBuf.append(SimSharingManager.DELIMITER)
     }
     val remainderOfLine = remainderOfLineBuf.toString.trim
-    val parameters = Parameter.parseParameters(remainderOfLine)
+    val parameters = Parameter.parseParameters(remainderOfLine, SimSharingManager.DELIMITER)
     val map = new HashMap[String, String]()
     for ( p <- parameters ) {
       if ( map.contains(p.name) ) {

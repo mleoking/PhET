@@ -3,6 +3,8 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects.STEP_BACK_BUTTON;
+
 /**
  * Button for moving one step backwards in time.
  *
@@ -11,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 public class StepBackButton extends DefaultIconButton {
 
     public StepBackButton( int buttonHeight ) {
-        super( buttonHeight, new ButtonIconSet( buttonHeight, buttonHeight ).createStepBackIconShape() );
+        super( STEP_BACK_BUTTON, buttonHeight, new ButtonIconSet( buttonHeight, buttonHeight ).createStepBackIconShape() );
     }
 
 

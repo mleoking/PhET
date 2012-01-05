@@ -6,15 +6,19 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 public class DefaultIconButton extends IconButton {
     protected PhetPPath iconNode;
     private ArrayList listeners = new ArrayList();
+    private final String simSharingObject;
 
-    public DefaultIconButton( int buttonHeight, Shape shape ) {
+    public DefaultIconButton( String simSharingObject, int buttonHeight, Shape shape ) {
         super( buttonHeight );
+        this.simSharingObject = simSharingObject;
         iconNode = new PhetPPath( shape, Color.BLACK, new BasicStroke( 1 ), Color.LIGHT_GRAY );
         addChild( iconNode );
 
@@ -40,6 +44,7 @@ public class DefaultIconButton extends IconButton {
     }
 
     public void notifyListeners() {
+        SimSharingManager.sendEvent( simSharingObject, SimSharingStrings.Actions.PRESSED );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).buttonPressed();
         }
