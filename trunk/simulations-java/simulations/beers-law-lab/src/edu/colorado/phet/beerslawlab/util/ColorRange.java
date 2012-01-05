@@ -6,7 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
 /**
- * Range for a color, with linear interpolation.
+ * Range for a color, with interpolation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -27,6 +27,12 @@ public class ColorRange {
         return max;
     }
 
+    /**
+     * Performs a linear interpolation between min and max colors in RGBA colorspace.
+     *
+     * @param distance 0-1 (0=min, 1=max)
+     * @return
+     */
     public Color interpolateLinear( double distance ) {
         if ( distance < 0 || distance > 1 ) {
             throw new IllegalArgumentException( "distance out of range: " + distance );
