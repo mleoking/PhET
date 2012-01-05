@@ -48,7 +48,7 @@ import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
-import edu.colorado.phet.platetectonics.control.CrustPiece;
+import edu.colorado.phet.platetectonics.control.CrustPieceNode;
 import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
 import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.RulerNode3D;
@@ -280,7 +280,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
                             // if mouse is down
                             if ( Mouse.getEventButtonState() ) {
-                                if ( guiCollision instanceof OrthoPiccoloNode && ( (OrthoPiccoloNode) guiCollision ).getNode() instanceof CrustPiece ) {
+                                if ( guiCollision instanceof OrthoPiccoloNode && ( (OrthoPiccoloNode) guiCollision ).getNode() instanceof CrustPieceNode ) {
                                     System.out.println( "start drag crust piece" );
                                     draggedCrustPiece = (OrthoPiccoloNode) guiCollision;
                                     pickedCrustPiece( draggedCrustPiece );

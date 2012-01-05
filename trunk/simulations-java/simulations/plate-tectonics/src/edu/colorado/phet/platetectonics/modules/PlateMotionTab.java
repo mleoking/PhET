@@ -21,7 +21,7 @@ import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.CrustChooserPanel;
-import edu.colorado.phet.platetectonics.control.CrustPiece;
+import edu.colorado.phet.platetectonics.control.CrustPieceNode;
 import edu.colorado.phet.platetectonics.control.MotionTypeChooserPanel;
 import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.PlayModePanel;
@@ -150,64 +150,20 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }};
         addGuiNode( crustChooserNode );
 
-        // TODO: remove duplication in piece code
         // continental piece
-        final CrustPiece continentalPiece = new CrustPiece( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f );
-        OrthoPiccoloNode continentalPieceNode = new OrthoPiccoloNode(
-                continentalPiece, this, getCanvasTransform(),
-                new Property<ImmutableVector2D>(
-                        new ImmutableVector2D(
-                                getContinentalOffset().x - continentalPiece.getFullBounds().getWidth() / 2,
-                                getContinentalOffset().y - continentalPiece.getFullBounds().getHeight() / 2 ) ),
-                mouseEventNotifier ) {{
-
-            // hide piece when we go into the running mode
-            getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
-                public void update( Boolean newValue, Boolean oldValue ) {
-                    setVisible( !newValue );
-                }
-            } );
-        }};
-        crustPieceLayer.addChild( continentalPieceNode );
-        guiNodes.add( 0, continentalPieceNode );
+        addCrustPieceGLNode( new CrustPieceGLNode(
+                new CrustPieceNode( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ),
+                getContinentalOffset() ) );
 
         // young oceanic piece
-        final CrustPiece youngOceanicPiece = new CrustPiece( PlateType.YOUNG_OCEANIC, 35, 0.5f );
-        OrthoPiccoloNode youngOceanicPieceNode = new OrthoPiccoloNode(
-                youngOceanicPiece, this, getCanvasTransform(),
-                new Property<ImmutableVector2D>(
-                        new ImmutableVector2D(
-                                getYoungOceanicOffset().x - youngOceanicPiece.getFullBounds().getWidth() / 2,
-                                getYoungOceanicOffset().y - youngOceanicPiece.getFullBounds().getHeight() / 2 ) ),
-                mouseEventNotifier ) {{
-            // hide piece when we go into the running mode
-            getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
-                public void update( Boolean newValue, Boolean oldValue ) {
-                    setVisible( !newValue );
-                }
-            } );
-        }};
-        crustPieceLayer.addChild( youngOceanicPieceNode );
-        guiNodes.add( 0, youngOceanicPieceNode );
+        addCrustPieceGLNode( new CrustPieceGLNode(
+                new CrustPieceNode( PlateType.YOUNG_OCEANIC, 35, 0.5f ),
+                getYoungOceanicOffset() ) );
 
         // old oceanic piece
-        final CrustPiece oldOceanicPiece = new CrustPiece( PlateType.OLD_OCEANIC, 35, 0.4f );
-        OrthoPiccoloNode oldOceanicPieceNode = new OrthoPiccoloNode(
-                oldOceanicPiece, this, getCanvasTransform(),
-                new Property<ImmutableVector2D>(
-                        new ImmutableVector2D(
-                                getOldOceanicOffset().x - oldOceanicPiece.getFullBounds().getWidth() / 2,
-                                getOldOceanicOffset().y - oldOceanicPiece.getFullBounds().getHeight() / 2 ) ),
-                mouseEventNotifier ) {{
-            // hide piece when we go into the running mode
-            getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
-                public void update( Boolean newValue, Boolean oldValue ) {
-                    setVisible( !newValue );
-                }
-            } );
-        }};
-        crustPieceLayer.addChild( oldOceanicPieceNode );
-        guiNodes.add( 0, oldOceanicPieceNode );
+        addCrustPieceGLNode( new CrustPieceGLNode(
+                new CrustPieceNode( PlateType.OLD_OCEANIC, 35, 0.4f ),
+                getOldOceanicOffset() ) );
 
         /*---------------------------------------------------------------------------*
         * options panel
@@ -314,7 +270,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
     @Override public void droppedCrustPiece( OrthoPiccoloNode crustPieceNode ) {
         PlateMotionModel model = getPlateMotionModel();
-        CrustPiece piece = (CrustPiece) crustPieceNode.getNode();
+        CrustPieceNode piece = (CrustPieceNode) crustPieceNode.getNode();
 
         boolean droppedBackInPanel = isMouseOverCrustChooser();
 
@@ -345,6 +301,11 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 }
             }
         }
+    }
+
+    public void addCrustPieceGLNode( CrustPieceGLNode crustPieceGLNode ) {
+        crustPieceLayer.addChild( crustPieceGLNode );
+        guiNodes.add( 0, crustPieceGLNode );
     }
 
     @Override public void resetAll() {
@@ -381,5 +342,24 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                            -0.0018950196f, 0.9999494f, -0.0098764775f, 0.11180614f,
                                            0.109761804f, 0.010024817f, 0.9939069f, -6.4759464f,
                                            0.0f, 0.0f, 0.0f, 1.0f ).times( regularView );
+    }
+
+    // 3D GLNode responsible for showing the CrustPiece
+    private class CrustPieceGLNode extends OrthoPiccoloNode {
+        private CrustPieceGLNode( CrustPieceNode crustPiece, final ImmutableVector2F offset ) {
+            super( crustPiece, PlateMotionTab.this, getCanvasTransform(),
+                   new Property<ImmutableVector2D>(
+                           new ImmutableVector2D(
+                                   offset.x - crustPiece.getFullBounds().getWidth() / 2,
+                                   offset.y - crustPiece.getFullBounds().getHeight() / 2 ) ),
+                   mouseEventNotifier );
+
+            // hide piece when we go into the running mode
+            getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
+                public void update( Boolean newValue, Boolean oldValue ) {
+                    setVisible( !newValue );
+                }
+            } );
+        }
     }
 }
