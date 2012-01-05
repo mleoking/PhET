@@ -10,10 +10,13 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.LinearFloorSpline2D;
@@ -24,6 +27,11 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.END_DRAG;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.START_DRAG;
+import static edu.colorado.phet.energyskatepark.simsharing.ESPSimSharingStrings.Objects.SKATER;
 
 /**
  * User: Sam Reid
@@ -81,17 +89,28 @@ public class SkaterNode extends PNode {
             addChild( centerDebugger );
         }
 
-        addInputEventListener( new PBasicInputEventHandler() {
+        addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingDragSequenceEventHandler.DragFunction() {
+            public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                sendEvent( SKATER, START_DRAG, getXParameter(), getYParameter() );
+            }
+        }, new SimSharingDragSequenceEventHandler.DragFunction() {
+            public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                sendEvent( SKATER, END_DRAG, getXParameter(), getYParameter() );
+            }
+        }, null
+        ) {
 
             public Point2D pressPoint;
             public SerializablePoint2D bodyPosition;
 
             @Override public void mousePressed( PInputEvent event ) {
+                super.mousePressed( event );
                 pressPoint = event.getPositionRelativeTo( SkaterNode.this );
                 bodyPosition = getBody().getPosition();
             }
 
             public void mouseDragged( PInputEvent event ) {
+                super.mouseDragged( event );
                 Point2D dragPoint = event.getPositionRelativeTo( SkaterNode.this );
                 Point2D delta = new Point2D.Double( dragPoint.getX() - pressPoint.getX(), dragPoint.getY() - pressPoint.getY() );
 
@@ -125,6 +144,14 @@ public class SkaterNode extends PNode {
 
         getBody().addListener( bodyListener );
         update();
+    }
+
+    private Parameter getXParameter() {
+        return new Parameter( SimSharingStrings.Parameters.X, getBody().getX() );
+    }
+
+    private Parameter getYParameter() {
+        return new Parameter( SimSharingStrings.Parameters.X, getBody().getY() );
     }
 
     private void snapToTrackDuringDrag() {
