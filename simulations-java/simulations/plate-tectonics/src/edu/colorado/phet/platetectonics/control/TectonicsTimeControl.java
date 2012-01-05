@@ -38,7 +38,7 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
             String textFieldPattern = "";
             String units = "";
             frameRateControl = new LinearValueControl( min, max, label, textFieldPattern, units, new ILayoutStrategy() {
-                @Override public void doLayout( AbstractValueControl valueControl ) {
+                public void doLayout( AbstractValueControl valueControl ) {
                     valueControl.add( valueControl.getSlider() );
                 }
             } );
@@ -64,7 +64,7 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
 
             // TODO: handle resetting properly
             frameRateControl.addChangeListener( new ChangeListener() {
-                @Override public void stateChanged( ChangeEvent changeEvent ) {
+                public void stateChanged( ChangeEvent changeEvent ) {
                     clock.setTimeMultiplier( frameRateControl.getValue() );
                 }
             } );

@@ -61,7 +61,9 @@ public class PlanarPolygon extends GLNode {
         positionBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
         normalBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
         textureBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 2 );
-        indexBuffer = BufferUtils.createShortBuffer( maxVertexCount * 3 ); // allow a bit extra index information
+
+        // TODO: remove the extra "* 2" here, since it ideally shouldn't be necessary? investigate the tesselation code
+        indexBuffer = BufferUtils.createShortBuffer( maxVertexCount * 3 * 2 ); // allow a bit extra index information
 
         // pre-initialize the normal data
         for ( int i = 0; i < maxVertexCount; i++ ) {
@@ -117,7 +119,14 @@ public class PlanarPolygon extends GLNode {
 
             // iterate through the triangles, and add their indices into the index buffer
             List<DelaunayTriangle> triangles = polygon.getTriangles();
+            System.out.println( "triangles: " + triangles.size() );
+            System.out.println( "indexBuffer.capacity() = " + indexBuffer.capacity() );
             for ( DelaunayTriangle triangle : triangles ) {
+                if ( !( triangle.points[0] instanceof IndexedPolygonPoint ) ||
+                     !( triangle.points[1] instanceof IndexedPolygonPoint ) ||
+                     !( triangle.points[2] instanceof IndexedPolygonPoint ) ) {
+                    continue;
+                }
                 // find the indices of the points
                 short[] indices = new short[] {
                         ( (IndexedPolygonPoint) triangle.points[0] ).index,
