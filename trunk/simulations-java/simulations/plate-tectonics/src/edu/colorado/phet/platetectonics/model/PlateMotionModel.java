@@ -495,7 +495,7 @@ public class PlateMotionModel extends PlateModel {
     }
 
     public boolean allowsDivergentMotion() {
-        return hasBothPlates.get() && leftPlateType.get().isContinental() && rightPlateType.get().isContinental();
+        return hasLeftPlate() && hasRightPlate() && leftPlateType.get().isContinental() && rightPlateType.get().isContinental();
     }
 
     public static void main( String[] args ) {
