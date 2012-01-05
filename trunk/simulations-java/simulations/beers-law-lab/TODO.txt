@@ -9,7 +9,6 @@ DESIGN
 HIGH
 - view of solute exiting shaker (magic particles, trajectory ala SASS)
 - redo dropper image: start with original dropper, shorten cap and glass
-- start and reset with 0 moles in beaker
 - use precipitate color for particles exiting shaker
 - compute stock color based on stock concentration, show stock inside dropper
 - add color range for solutes (min-max), use min for >0 concentration, interpolate between min and max colors
