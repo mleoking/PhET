@@ -10,6 +10,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.ArrowNode;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
@@ -95,9 +96,9 @@ public class HandleNode extends GLNode {
         };
         addChild( handleMesh );
 
-        final ColorMaterial arrowConvergentFill = new ColorMaterial( 0, 0.8f, 0, 0.8f );
-        final ColorMaterial arrowDivergentFill = new ColorMaterial( 0.8f, 0, 0, 0.8f );
-        final ColorMaterial arrowTransformFill = new ColorMaterial( 0, 0, 1, 0.8f );
+        final ColorMaterial arrowConvergentFill = new ColorMaterial( PlateTectonicsConstants.ARROW_CONVERGENT_FILL );
+        final ColorMaterial arrowDivergentFill = new ColorMaterial( PlateTectonicsConstants.ARROW_DIVERGENT_FILL );
+        final ColorMaterial arrowTransformFill = new ColorMaterial( PlateTectonicsConstants.ARROW_TRANSFORM_FILL );
         final ColorMaterial arrowStroke = new ColorMaterial( 0, 0, 0, 1 );
 
         // TODO: wrapping better?
