@@ -31,6 +31,7 @@ import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
+import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 
 /**
@@ -74,6 +75,26 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
+        sceneLayer.addChild( new HandleNode() {{
+            translate( -150, 15, -125 / 2 );
+            SimpleObserver visibilityObserver = new SimpleObserver() {
+                public void update() {
+                    setVisible( getPlateMotionModel().hasBothPlates.get() && !isAutoMode.get() );
+                }
+            };
+            getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
+            isAutoMode.addObserver( visibilityObserver );
+        }} );
+        sceneLayer.addChild( new HandleNode() {{
+            translate( 150, 15, -125 / 2 );
+            SimpleObserver visibilityObserver = new SimpleObserver() {
+                public void update() {
+                    setVisible( getPlateMotionModel().hasBothPlates.get() && !isAutoMode.get() );
+                }
+            };
+            getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
+            isAutoMode.addObserver( visibilityObserver );
+        }} );
 
         final Color overHighlightColor = new Color( 1, 1, 0.5f, 0.3f );
         final Color regularHighlightColor = new Color( 0.5f, 0.5f, 0.5f, 0.3f );
