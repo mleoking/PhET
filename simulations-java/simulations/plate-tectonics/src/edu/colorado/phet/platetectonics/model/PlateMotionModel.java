@@ -80,7 +80,7 @@ public class PlateMotionModel extends PlateModel {
 
     public final Property<Boolean> hasBothPlates = new Property<Boolean>( false ) {{
         SimpleObserver observer = new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 set( hasLeftPlate() && hasRightPlate() );
             }
         };
@@ -90,7 +90,7 @@ public class PlateMotionModel extends PlateModel {
 
     public final Property<Boolean> canRun = new Property<Boolean>( false ) {{
         SimpleObserver observer = new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 set( hasLeftPlate() && hasRightPlate() && motionType.get() != null );
             }
         };
@@ -168,7 +168,7 @@ public class PlateMotionModel extends PlateModel {
 
     private <T> void addDebugPropertyListener( final String name, final Property<T> property ) {
         property.addObserver( new SimpleObserver() {
-                                  @Override public void update() {
+                                  public void update() {
                                       if ( PlateTectonicsConstants.DEBUG.get() ) {
                                           System.out.println( name + " changed to " + property.get() );
                                       }
@@ -360,6 +360,16 @@ public class PlateMotionModel extends PlateModel {
                         rightCrustBottomSamples,
                         bottomSamples ) ) {
                     transformSample( sample, (float) timeElapsed );
+                }
+            }
+            else if ( motionType.get() == MotionType.DIVERGENT ) {
+                for ( Sample sample : FunctionalUtils.concat(
+                        leftCrustTopSamples,
+                        rightCrustTopSamples,
+                        leftCrustBottomSamples,
+                        rightCrustBottomSamples,
+                        bottomSamples ) ) {
+                    transformSample( sample, (float) -timeElapsed );
                 }
             }
             updateRegions();
