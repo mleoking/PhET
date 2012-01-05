@@ -172,7 +172,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         * options panel
         *----------------------------------------------------------------------------*/
         addGuiNode( new OrthoPiccoloNode(
-                new ControlPanelNode( new OptionsPanel( showLabels, true, showWater, new Runnable() {
+                new ControlPanelNode( new OptionsPanel( showLabels, true, showWater, getPlateMotionModel().hasBothPlates, new Runnable() {
                     public void run() {
                         resetAll();
                     }
