@@ -149,24 +149,39 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     //Show the reset all button below the bottom control panel
     public void addResetAllButton( final PNode parent ) {
 
-        //Add the "Reset all" button
-        energySkateParkSimulationPanel.getRootNode().addChild( new TextButtonNode( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) ) {{
+        //Add the "Restart skater" button
+        final TextButtonNode restartSkaterButton = new TextButtonNode( "Restart Skater" ) {{
             setFont( CONTROL_FONT );
             setBackground( Color.ORANGE );
 
-            //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
-            energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
-                public void apply() {
-                    setOffset( controlPanel.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, parent.getFullBounds().getMaxY() + INSET * 2 );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    returnOrResetSkater();
                 }
             } );
+        }};
+
+        //Add the "Reset all" button
+        final TextButtonNode resetAllButton = new TextButtonNode( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) ) {{
+            setFont( CONTROL_FONT );
+            setBackground( Color.YELLOW );
 
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     reset();
                 }
             } );
-        }} );
+        }};
+
+        //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
+        energySkateParkSimulationPanel.getRootNode().addLayoutListener( new VoidFunction0() {
+            public void apply() {
+                restartSkaterButton.setOffset( controlPanel.getFullBounds().getCenterX() - restartSkaterButton.getFullBounds().getWidth() / 2, parent.getFullBounds().getMaxY() + INSET * 2 );
+                resetAllButton.setOffset( controlPanel.getFullBounds().getCenterX() - resetAllButton.getFullBounds().getWidth() / 2, restartSkaterButton.getFullBounds().getMaxY() + INSET * 2 );
+            }
+        } );
+        energySkateParkSimulationPanel.getRootNode().addChild( restartSkaterButton );
+        energySkateParkSimulationPanel.getRootNode().addChild( resetAllButton );
     }
 
     //Show buttons that allows the user to choose different tracks

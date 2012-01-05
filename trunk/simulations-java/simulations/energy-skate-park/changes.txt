@@ -1,3 +1,4 @@
+Energy Skate Park Basics: Added a "restart skater" button
 # 2.08.12 (59884) Jan 4, 2012
 common: Converted sim speed slider to "normal" and "slow motion" radio buttons
 common: Changed "Return Skater" button to be green instead of orange to distinguish from "Reset all" Button
