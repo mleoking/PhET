@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
@@ -370,5 +371,15 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
     private boolean isMouseOverCrustChooser() {
         return isGuiUnder( crustChooserNode, Mouse.getEventX(), Mouse.getEventY() );
+    }
+
+    @Override public ImmutableMatrix4F getSceneModelViewMatrix() {
+        ImmutableMatrix4F regularView = super.getSceneModelViewMatrix();
+
+        // calculated this as a debug matrix by camera manipulation, then dumping and inputting here
+        return ImmutableMatrix4F.rowMajor( 0.9939557f, 7.9941313E-4f, -0.109775305f, -58.643387f,
+                                           -0.0018950196f, 0.9999494f, -0.0098764775f, 0.11180614f,
+                                           0.109761804f, 0.010024817f, 0.9939069f, -6.4759464f,
+                                           0.0f, 0.0f, 0.0f, 1.0f ).times( regularView );
     }
 }

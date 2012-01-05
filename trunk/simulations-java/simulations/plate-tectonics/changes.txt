@@ -1,3 +1,4 @@
+Updated 2nd tab view location to a slight side-angle
 Fixed reset "freeze" bug
 Flipped ruler tick mark labels vertically, added a 4x multiplier to the ruler on the 2nd tab
 # 0.00.07 (59864) Jan 3, 2012

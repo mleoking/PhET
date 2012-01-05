@@ -28,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.CanvasTransform;
 import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform;
 import edu.colorado.phet.lwjglphet.GLOptions;
@@ -131,6 +132,12 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
         // TODO: better initialization for this model view transform (for each module)
         modelViewTransform = new LWJGLTransform( ImmutableMatrix4F.scaling( kilometerScale / 1000 ) );
+
+        debugCameraTransform.changed.addListener( new VoidFunction1<LWJGLTransform>() {
+            public void apply( LWJGLTransform debugTransform ) {
+                System.out.println( "debug matrix:\n" + debugTransform.getMatrix() );
+            }
+        } );
     }
 
     public void initialize() {
