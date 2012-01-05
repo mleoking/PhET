@@ -22,10 +22,10 @@ public class CellProteinSynthesisSimulator {
 
     public static final int DEFAULT_TRANSCRIPTION_FACTOR_COUNT = 2000;
     public static final IntegerRange TRANSCRIPTION_FACTOR_COUNT_RANGE = new IntegerRange( 0, 4000 );
-    public static final double DEFAULT_TF_ASSOCIATION_PROBABILITY = 0.001f;
-    public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 0.01 );
+    public static final double DEFAULT_TF_ASSOCIATION_PROBABILITY = 0.0005f;
+    public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 0.001 );
     public static final double DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY = 0.001f;
-    public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 0.01 );
+    public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 0.002 );
 
     private Random _random = new Random();
     private double _timeStep = 5e2;
@@ -91,6 +91,7 @@ public class CellProteinSynthesisSimulator {
      */
     public void setGeneTranscriptionFactorAssociationRate( double newRate ) {
         assert TF_ASSOCIATION_PROBABILITY_RANGE.contains( newRate );
+        System.out.println( "newRate = " + newRate );
         _reactionProbabilities[0] = newRate;
     }
 
@@ -235,7 +236,6 @@ public class CellProteinSynthesisSimulator {
                 _objectCounts[7]--;
                 break;
             case 7:
-                _objectCounts[5]++;
                 _objectCounts[6]++;
                 _objectCounts[7]--;
                 _objectCounts[8]++;
@@ -279,5 +279,22 @@ public class CellProteinSynthesisSimulator {
      */
     public double getTime() {
         return _currentTime;
+    }
+
+    // TODO: Temp for debugging, remove eventually.
+    public int getTranscriptionFactorCount() {
+        return _objectCounts[1];
+    }
+
+    public void printDebugInfo() {
+        System.out.println( "================ DEBUG INFO ======================= " );
+        System.out.println( " ---------------- reaction probs ------------------ " );
+        for ( int i = 0; i < _reactionProbabilities.length; i++ ) {
+            System.out.println( "_reactionProbabilities[" + i + "] = " + _reactionProbabilities[i] );
+        }
+        System.out.println( " ---------------- object counts ------------------ " );
+        for ( int i = 0; i < _objectCounts.length; i++ ) {
+            System.out.println( "_objectCounts[" + i + "] = " + _objectCounts[i] );
+        }
     }
 }
