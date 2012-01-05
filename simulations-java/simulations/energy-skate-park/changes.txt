@@ -1,3 +1,4 @@
+Made return skater button same color as restart skater button
 # 2.08.13 (59889) Jan 4, 2012
 Energy Skate Park Basics: Added a "restart skater" button
 # 2.08.12 (59884) Jan 4, 2012
