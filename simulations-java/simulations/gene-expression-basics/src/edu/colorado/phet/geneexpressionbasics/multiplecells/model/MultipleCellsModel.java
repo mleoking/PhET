@@ -76,12 +76,26 @@ public class MultipleCellsModel {
             }
         } );
 
-        // Hook up the transcription factor level property so that changes
-        // made to it are propagated to all the cells.
+        // Hook up the cell property parameters to the individual cells so
+        // that changes are propagated.
         transcriptionFactorLevel.addObserver( new VoidFunction1<Integer>() {
-            public void apply( Integer integer ) {
+            public void apply( Integer transcriptionFactorLevel ) {
                 for ( Cell cell : cellList ) {
-                    cell.setTranscriptionFactorCount( integer );
+                    cell.setTranscriptionFactorCount( transcriptionFactorLevel );
+                }
+            }
+        } );
+        polymeraseAssociationProbability.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double polymeraseAssociationProbability ) {
+                for ( Cell cell : cellList ) {
+                    cell.setPolymeraseAssociationRate( polymeraseAssociationProbability );
+                }
+            }
+        } );
+        transcriptionFactorAssociationProbability.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double transcriptionFactorAssociationProbability ) {
+                for ( Cell cell : cellList ) {
+                    cell.setGeneTranscriptionFactorAssociationRate( transcriptionFactorAssociationProbability );
                 }
             }
         } );
