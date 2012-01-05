@@ -66,8 +66,8 @@ public class GeometryNameNode extends PNode {
     // vertical padding between the checkboxes and the labels
     private static final double VERTICAL_PADDING = 0; // currently 0, since it looks nice on Windows
 
-    public final Property<Boolean> showMolecularShapeName = new Property<Boolean>( "Show molecular shape name", false );
-    public final Property<Boolean> showElectronShapeName = new Property<Boolean>( "Show electron shape name", false );
+    public final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
+    public final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
 
     private PText molecularText;
     private PText electronText;

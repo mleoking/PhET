@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property;
 
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -21,26 +20,12 @@ public class Property<T> extends SettableProperty<T> {
     private final T initialValue;
 
     /**
-     * Create a property with the specified initial value and no description.
+     * Create a property with the specified initial value
      *
      * @param value
      */
     public Property( T value ) {
-        this( new Option.None<String>(), value );
-    }
-
-    public Property( String description, T value ) {
-        this( new Option.Some<String>( description ), value );
-    }
-
-    /**
-     * Create a property with the specified initial value and the specified description.
-     *
-     * @param value
-     * @param description for use in sim data collection/processing
-     */
-    public Property( Option<String> description, T value ) {
-        super( description, value );
+        super( value );
         this.initialValue = value;
         this.value = value;
     }

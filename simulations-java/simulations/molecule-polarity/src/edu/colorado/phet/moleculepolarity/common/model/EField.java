@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class EField implements Resettable {
 
     //Give property description for use in Sim data collection/processing
-    public final Property<Boolean> enabled = new Property<Boolean>( "Electric field on", false );
+    public final Property<Boolean> enabled = new Property<Boolean>( false );
 
     public void reset() {
         enabled.reset();

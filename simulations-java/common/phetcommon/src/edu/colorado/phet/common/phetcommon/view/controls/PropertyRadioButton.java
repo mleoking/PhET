@@ -37,7 +37,6 @@ public class PropertyRadioButton<T> extends JRadioButton {
             public void actionPerformed( ActionEvent e ) {
                 SimSharingManager.sendEvent( Objects.RADIO_BUTTON, Actions.PRESSED,
                                              param( Parameters.TEXT, text ),
-                                             param( Parameters.DESCRIPTION, property.getDescriptionOrElseQuestion() ),
                                              param( Parameters.VALUE, value.toString() ) );
                 property.set( value );
                 propertyObserver.update();//make sure radio buttons don't toggle off, in case they're not in a button group

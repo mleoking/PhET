@@ -15,13 +15,13 @@ public abstract class MoleculeViewTab extends JMETab {
     private Property<Molecule> molecule = new Property<Molecule>( null );
 
     // whether bond angles should be shown
-    public final Property<Boolean> showBondAngles = new Property<Boolean>( "Show bond angles", false );
+    public final Property<Boolean> showBondAngles = new Property<Boolean>( false );
 
     // whether lone pairs should be shown
-    public final Property<Boolean> showLonePairs = new Property<Boolean>( "Show lone pairs", true );
+    public final Property<Boolean> showLonePairs = new Property<Boolean>( true );
 
     // whether terminal lone pairs should also be shown
-    public final Property<Boolean> showAllLonePairs = new Property<Boolean>( "Show all lone pairs", false );
+    public final Property<Boolean> showAllLonePairs = new Property<Boolean>( false );
 
     public MoleculeViewTab( String name ) {
         super( JMEUtils.getApplication(), name );

@@ -10,8 +10,8 @@ package edu.colorado.phet.common.phetcommon.model.property;
  */
 public abstract class ConstrainedProperty<T> extends Property<T> {
 
-    public ConstrainedProperty( String name, T value ) {
-        super( name, value );
+    public ConstrainedProperty( T value ) {
+        super( value );
     }
 
     /**

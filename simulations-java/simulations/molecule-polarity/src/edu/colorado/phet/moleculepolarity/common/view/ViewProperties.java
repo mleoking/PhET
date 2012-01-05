@@ -28,13 +28,13 @@ public class ViewProperties implements Resettable {
                            boolean electronegativityTableVisible ) {
 
         //Give property description for use in Sim data collection/processing
-        this.surfaceType = new Property<SurfaceType>( "Surface type", surfaceType );
-        this.bondDipolesVisible = new Property<Boolean>( "Bond dipoles visible", bondDipolesVisible );
-        this.molecularDipoleVisible = new Property<Boolean>( "Molecular dipole visible", molecularDipoleVisible );
-        this.partialChargesVisible = new Property<Boolean>( "Partial Charges Visible", partialChargesVisible );
-        this.bondCharacterVisible = new Property<Boolean>( "Bond character visible", bondCharacterVisible );
-        this.atomLabelsVisible = new Property<Boolean>( "Atom labels visible", atomLabelsVisible );
-        this.electronegativityTableVisible = new Property<Boolean>( "Electronegativity table visible", electronegativityTableVisible );
+        this.surfaceType = new Property<SurfaceType>( surfaceType );
+        this.bondDipolesVisible = new Property<Boolean>( bondDipolesVisible );
+        this.molecularDipoleVisible = new Property<Boolean>( molecularDipoleVisible );
+        this.partialChargesVisible = new Property<Boolean>( partialChargesVisible );
+        this.bondCharacterVisible = new Property<Boolean>( bondCharacterVisible );
+        this.atomLabelsVisible = new Property<Boolean>( atomLabelsVisible );
+        this.electronegativityTableVisible = new Property<Boolean>( electronegativityTableVisible );
     }
 
     public void reset() {
