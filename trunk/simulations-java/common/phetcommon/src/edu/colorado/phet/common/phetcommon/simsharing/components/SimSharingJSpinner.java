@@ -29,9 +29,9 @@ public class SimSharingJSpinner extends JSpinner {
     }
 
     @Override protected void fireStateChanged() {
-        SimSharingManager.sendEvent( object, Actions.CHANGED,
-                                     new Parameter( Parameters.COMPONENT_TYPE, ParameterValues.SPINNER ),
-                                     new Parameter( Parameters.VALUE, getValue().toString() ) );
+        SimSharingManager.sendUserEvent( object, Actions.CHANGED,
+                                         new Parameter( Parameters.COMPONENT_TYPE, ParameterValues.SPINNER ),
+                                         new Parameter( Parameters.VALUE, getValue().toString() ) );
         super.fireStateChanged();
     }
 }

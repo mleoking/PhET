@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEvent
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.PRESSED;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects.PLAY_PAUSE_BUTTON;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components.PLAY_PAUSE_BUTTON;
 
 
 public class PlayPauseButton extends IconButton {
@@ -31,7 +31,7 @@ public class PlayPauseButton extends IconButton {
             public void fire() {
                 if ( isEnabled() ) {
 
-                    SimSharingManager.sendEvent( PLAY_PAUSE_BUTTON, PRESSED, new Parameter( "isPlaying", !isPlaying() ) );
+                    SimSharingManager.sendUserEvent( PLAY_PAUSE_BUTTON, PRESSED, new Parameter( "isPlaying", !isPlaying() ) );
 
                     setPlaying( !isPlaying() );
                     update();

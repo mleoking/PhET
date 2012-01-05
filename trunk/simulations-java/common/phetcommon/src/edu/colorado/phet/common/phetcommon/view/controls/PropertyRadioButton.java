@@ -9,7 +9,7 @@ import javax.swing.JRadioButton;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -35,9 +35,9 @@ public class PropertyRadioButton<T> extends JRadioButton {
         // update the model when the check box changes
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SimSharingManager.sendEvent( Objects.RADIO_BUTTON, Actions.PRESSED,
-                                             param( Parameters.TEXT, text ),
-                                             param( Parameters.VALUE, value.toString() ) );
+                SimSharingManager.sendUserEvent( Components.RADIO_BUTTON, Actions.PRESSED,
+                                                 param( Parameters.TEXT, text ),
+                                                 param( Parameters.VALUE, value.toString() ) );
                 property.set( value );
                 propertyObserver.update();//make sure radio buttons don't toggle off, in case they're not in a button group
             }

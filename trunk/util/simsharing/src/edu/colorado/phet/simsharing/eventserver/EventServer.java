@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.EXITED;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects.SYSTEM;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components.SYSTEM;
 
 /**
  * Server that stores messages sent from SimSharingEvents.

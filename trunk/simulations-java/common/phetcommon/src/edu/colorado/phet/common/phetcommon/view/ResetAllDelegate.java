@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
@@ -73,14 +74,14 @@ public class ResetAllDelegate {
     private boolean confirmReset() {
         //Show a message that reset confirmation was requested--this allows us to keep track of how many times the user pressed cancel vs ok,
         //And helps correlate the window activated/deactivated with this feature (otherwise you wouldn't be able to tell that the user wasn't going to another application)
-        SimSharingManager.sendSystemEvent( "reset all confirmation dialog shown" );
+        SimSharingManager.sendModelEvent( SimSharingStrings.Components.RESET_ALL_CONFIRMATION_DIALOG, "shown" );
 
         String message = getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
         String title = getInstance().getLocalizedString( "Common.title.confirm" );
         int option = PhetOptionPane.showYesNoDialog( parent, message, title );
         final boolean shouldReset = option == JOptionPane.YES_OPTION;
 
-        SimSharingManager.sendEvent( "resetAllConfirmationDialog", "userSelectedOption", param( "shouldReset", shouldReset ) );
+        SimSharingManager.sendUserEvent( "resetAllConfirmationDialog", "userSelectedOption", param( "shouldReset", shouldReset ) );
         return shouldReset;
     }
 }

@@ -44,7 +44,7 @@ public class DefaultIconButton extends IconButton {
     }
 
     public void notifyListeners() {
-        SimSharingManager.sendEvent( simSharingObject, SimSharingStrings.Actions.PRESSED );
+        SimSharingManager.sendUserEvent( simSharingObject, SimSharingStrings.Actions.PRESSED );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).buttonPressed();
         }

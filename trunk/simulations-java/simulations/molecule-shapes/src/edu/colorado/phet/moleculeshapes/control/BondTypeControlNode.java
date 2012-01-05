@@ -26,8 +26,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendEvent;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendModelEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserEvent;
 
 /**
  * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic
@@ -68,7 +68,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removeGroup( candidate );
-                            sendEvent( Objects.BOND, Actions.REMOVED, param( Parameters.BOND_ORDER, bondOrder ) );
+                            sendUserEvent( Objects.BOND, Actions.REMOVED, param( Parameters.BOND_ORDER, bondOrder ) );
 
                             //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                             systemResponseForGeometries( module.getMolecule() );
@@ -102,7 +102,7 @@ public class BondTypeControlNode extends PNode {
             public void run() {
                 module.startNewInstanceDrag( bondOrder );
 
-                sendEvent( Objects.BOND, Actions.CREATED, param( Parameters.BOND_ORDER, bondOrder ) );
+                sendUserEvent( Objects.BOND, Actions.CREATED, param( Parameters.BOND_ORDER, bondOrder ) );
 
                 //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                 systemResponseForGeometries( module.getMolecule() );
@@ -133,7 +133,7 @@ public class BondTypeControlNode extends PNode {
 
         final String moleculeGeometry = molecule.getCentralVseprConfiguration().name;
         String moleculeGeometryName = moleculeGeometry == null ? MoleculeShapesResources.Strings.SHAPE__EMPTY : moleculeGeometry;
-        sendSystemEvent( "bondsChanged", param( "electronGeometry", electronGeometryName ), param( "moleculeGeometry", moleculeGeometryName ) );
+        sendModelEvent( "molecule", "bondsChanged", param( "electronGeometry", electronGeometryName ), param( "moleculeGeometry", moleculeGeometryName ) );
     }
 
     private boolean hasMatchingGroup() {

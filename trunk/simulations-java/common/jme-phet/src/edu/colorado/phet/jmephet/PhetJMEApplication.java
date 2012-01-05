@@ -311,7 +311,7 @@ public class PhetJMEApplication extends Application {
 
     @Override public void handleError( String errMsg, final Throwable t ) {
         super.handleError( errMsg, t );
-        SimSharingManager.sendSystemEvent( "erred", Parameter.param( "errMsg", errMsg ) );
+        SimSharingManager.sendSystemEvent( "phetJMEApplication", "erred", Parameter.param( "errMsg", errMsg ) );
         showErrorDialog( t );
     }
 

@@ -40,10 +40,10 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
         // sim-sharing
         setStartEndDragFunction( new DragFunction() {
             public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                SimSharingManager.sendEvent( simSharingObject, action,
-                                             Parameter.appendParameters( simSharingParametersFunction.apply(),
-                                                                         new Parameter( Parameters.LOCATION_X, (int) movable.location.get().getX() ),
-                                                                         new Parameter( Parameters.LOCATION_Y, (int) movable.location.get().getY() ) ) );
+                SimSharingManager.sendUserEvent( simSharingObject, action,
+                                                 Parameter.appendParameters( simSharingParametersFunction.apply(),
+                                                                             new Parameter( Parameters.LOCATION_X, (int) movable.location.get().getX() ),
+                                                                             new Parameter( Parameters.LOCATION_Y, (int) movable.location.get().getY() ) ) );
             }
         } );
     }

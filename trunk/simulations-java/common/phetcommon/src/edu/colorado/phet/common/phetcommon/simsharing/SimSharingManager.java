@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Objects;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.StringActor;
@@ -21,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDia
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvent.*;
 
 /**
  * Central access point for sim-sharing initialization and event sending.
@@ -136,18 +136,22 @@ public class SimSharingManager {
     }
 
     // Convenience method for sending an event performed by the system (not necessarily directly by the user).
-    public static String sendSystemEvent( String action, Parameter... parameters ) {
-        return sendEvent( Objects.SYSTEM, action, parameters );
+    public static String sendModelEvent( String object, String action, Parameter... parameters ) {
+        return getInstance().sendEvent( new ModelEvent( object, action, parameters ) );
+    }
+
+    public static String sendSystemEvent( String object, String action, Parameter... parameters ) {
+        return getInstance().sendEvent( new SystemEvent( object, action, parameters ) );
     }
 
     // Convenience method for sending an event.
-    public static String sendEvent( String object, String action, Parameter... parameters ) {
-        return getInstance().sendEvent( new SimSharingEvent( object, action, parameters ) );
+    public static String sendUserEvent( String object, String action, Parameter... parameters ) {
+        return getInstance().sendEvent( new UserEvent( object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
     public static String sendNotInteractiveEvent( String object, String action ) {
-        return SimSharingManager.sendEvent( object, action, new Parameter( Parameters.INTERACTIVE, false ) );
+        return SimSharingManager.sendUserEvent( object, action, new Parameter( Parameters.INTERACTIVE, false ) );
     }
 
     // Sends an event. If sim-sharing is disabled, this is a no-op.
@@ -166,7 +170,7 @@ public class SimSharingManager {
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             eventCount++;
             if ( eventCount % 100 == 0 && eventCount > 0 ) {
-                sendSystemEvent( "eventCount", param( "eventCount", eventCount ) );
+                sendSystemEvent( "simsharingManager", "sentEvent", param( "eventCount", eventCount ) );
             }
 
             return eventString;
@@ -252,7 +256,7 @@ public class SimSharingManager {
     // Sends an event when sim-sharing has been started up.
     private void sendStartedEvent( PhetApplicationConfig config ) {
         assert ( enabled );
-        sendSystemEvent( "started",
+        sendSystemEvent( "simsharingManager", "started",
                          param( "time", simStartedTime ),
                          param( "name", config.getName() ),
                          param( "version", config.getVersion().formatForAboutDialog() ),
@@ -272,7 +276,7 @@ public class SimSharingManager {
     // Sends an event when we've connected to the sim-sharing server.
     private void sendConnectedEvent() {
         assert ( enabled && actor != null );
-        sendSystemEvent( "connectedToServer" );
+        sendModelEvent( "simsharingManager", "connectedToServer" );
     }
 
     //TODO fix synchronization issues #3188

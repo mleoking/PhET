@@ -134,7 +134,7 @@ public class PHPaperNode extends PhetPNode {
         }
 
         private void sendEvent( String action ) {
-            SimSharingManager.sendEvent( Objects.PH_PAPER, action, new Parameter( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
+            SimSharingManager.sendUserEvent( Objects.PH_PAPER, action, new Parameter( Parameters.IS_IN_SOLUTION, paper.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {

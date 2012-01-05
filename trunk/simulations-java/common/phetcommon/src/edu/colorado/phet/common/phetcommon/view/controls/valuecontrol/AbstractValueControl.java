@@ -274,7 +274,7 @@ public abstract class AbstractValueControl extends JPanel {
             else if ( value > getMaximum() ) {
                 _value = getMaximum();
             }
-            SimSharingManager.sendEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( CORRECTED_VALUE, _value ) );
+            SimSharingManager.sendUserEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( CORRECTED_VALUE, _value ) );
             beep();
             updateView(); // revert
         }
@@ -777,7 +777,7 @@ public abstract class AbstractValueControl extends JPanel {
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileAdjusting || !_isAdjusting );
                 double modelValue = _slider.getModelValue();
-                SimSharingManager.sendEvent( simSharingObject, SLIDER_MOVED, new Parameter( Parameters.VALUE, modelValue ) );
+                SimSharingManager.sendUserEvent( simSharingObject, SLIDER_MOVED, new Parameter( Parameters.VALUE, modelValue ) );
                 setValue( modelValue, notify );
             }
         }
@@ -796,14 +796,14 @@ public abstract class AbstractValueControl extends JPanel {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
                     final double value = getValue() + _upDownArrowDelta;
                     if ( value <= getMaximum() ) {
-                        SimSharingManager.sendEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.UP_ARROW ), new Parameter( Parameters.VALUE, value ) );
+                        SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.UP_ARROW ), new Parameter( Parameters.VALUE, value ) );
                         setValue( value );
                     }
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
                     final double value = getValue() - _upDownArrowDelta;
                     if ( value >= getMinimum() ) {
-                        SimSharingManager.sendEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.DOWN_ARROW ), new Parameter( Parameters.VALUE, value ) );
+                        SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.DOWN_ARROW ), new Parameter( Parameters.VALUE, value ) );
                         setValue( value );
                     }
                 }
@@ -816,7 +816,7 @@ public abstract class AbstractValueControl extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _textField ) {
                 double value = getTextFieldValue();
-                SimSharingManager.sendEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.ENTER ), new Parameter( Parameters.VALUE, value ) );
+                SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.ENTER ), new Parameter( Parameters.VALUE, value ) );
                 setValue( value );
             }
         }
@@ -838,11 +838,11 @@ public abstract class AbstractValueControl extends JPanel {
                 try {
                     _textField.commitEdit();
                     double value = getTextFieldValue();
-                    SimSharingManager.sendEvent( simSharingObject, Actions.FOCUS_LOST, new Parameter( Parameters.VALUE, value ) );
+                    SimSharingManager.sendUserEvent( simSharingObject, Actions.FOCUS_LOST, new Parameter( Parameters.VALUE, value ) );
                     setValue( value );
                 }
                 catch ( ParseException pe ) {
-                    SimSharingManager.sendEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( Parameters.VALUE, getValue() ) );
+                    SimSharingManager.sendUserEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( Parameters.VALUE, getValue() ) );
                     beep();
                     updateView(); // revert
                 }

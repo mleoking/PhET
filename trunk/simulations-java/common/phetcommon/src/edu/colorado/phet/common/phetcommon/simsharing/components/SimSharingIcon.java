@@ -36,8 +36,8 @@ public class SimSharingIcon extends JLabel {
     }
 
     protected void handleMousePressed() {
-        SimSharingManager.sendEvent( object, Actions.PRESSED,
-                                     Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.ICON ) );
+        SimSharingManager.sendUserEvent( object, Actions.PRESSED,
+                                         Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.ICON ) );
         function.apply();
     }
 }

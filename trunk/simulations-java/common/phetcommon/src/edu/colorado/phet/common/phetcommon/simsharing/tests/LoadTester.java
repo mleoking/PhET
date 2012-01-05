@@ -77,7 +77,7 @@ public class LoadTester {
     private void sendEvent() {
         eventCount++;
 
-        String message = SimSharingManager.sendEvent( "loadTester", "sentTest", rand() );
+        String message = SimSharingManager.sendUserEvent( "loadTester", "sentTest", rand() );
         System.out.println( "LoadTester.sendEvent, eventCount = " + eventCount );
 
         try {

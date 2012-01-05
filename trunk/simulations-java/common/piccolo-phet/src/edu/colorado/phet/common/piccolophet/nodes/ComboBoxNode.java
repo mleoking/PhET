@@ -139,8 +139,8 @@ public class ComboBoxNode<T> extends PNode {
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
 
-                        SimSharingManager.sendEvent( simSharingObject, Actions.SELECTED,
-                                                     Parameter.param( Parameters.ITEM, simSharingItem.apply( item ) ) );
+                        SimSharingManager.sendUserEvent( simSharingObject, Actions.SELECTED,
+                                                         Parameter.param( Parameters.ITEM, simSharingItem.apply( item ) ) );
 
                         selectedItem.set( item );
                     }

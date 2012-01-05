@@ -84,11 +84,11 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                 int rval = fileChooser.showSaveDialog( parent ); // blocks
                                 File selectedFile = fileChooser.getSelectedFile();
                                 if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-                                    SimSharingManager.sendEvent( "fileChooserCancelButton", Actions.PRESSED );
+                                    SimSharingManager.sendUserEvent( "fileChooserCancelButton", Actions.PRESSED );
                                     return;
                                 }
                                 currentDirectory = selectedFile.getParentFile();
-                                SimSharingManager.sendEvent( "fileChooserSaveButton", Actions.PRESSED );
+                                SimSharingManager.sendUserEvent( "fileChooserSaveButton", Actions.PRESSED );
 
                                 // Ensure that the file has the proper suffix.
                                 if ( !FileUtils.hasSuffix( selectedFile, FILE_SUFFIX ) ) {
@@ -100,10 +100,10 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                     String message = MessageFormat.format( "File {0} exists. OK to replace?", selectedFile.getName() );
                                     int reply = PhetOptionPane.showYesNoDialog( parent, message, "Confirm" );
                                     if ( reply != JOptionPane.YES_OPTION ) {
-                                        SimSharingManager.sendEvent( "replaceFileNoButton", Actions.PRESSED );
+                                        SimSharingManager.sendUserEvent( "replaceFileNoButton", Actions.PRESSED );
                                         return;
                                     }
-                                    SimSharingManager.sendEvent( "replaceFileYesButton", Actions.PRESSED );
+                                    SimSharingManager.sendUserEvent( "replaceFileYesButton", Actions.PRESSED );
                                 }
 
                                 // Write log to file.
