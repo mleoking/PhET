@@ -107,22 +107,25 @@ public class OptionsPanel extends PNode {
             addChild( showWaterCheckBox );
         }
 
-        PNode resetAllNode = new TextButtonNode( "Reset All", new PhetFont( 14 ), Color.ORANGE ) {{
-            setOffset( 0, y.get() + 15 );
-            y.set( getFullBounds().getMaxY() );
-            maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent actionEvent ) {
-                    LWJGLUtils.invoke( resetAll );
-                }
-            } );
-        }};
-        addChild( resetAllNode );
+        // TODO: remove. hiding the reset all button on the 1st tab not ideal
+        if ( containsWaterOption ) {
+            PNode resetAllNode = new TextButtonNode( "Reset All", new PhetFont( 14 ), Color.ORANGE ) {{
+                setOffset( 0, y.get() + 15 );
+                y.set( getFullBounds().getMaxY() );
+                maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent actionEvent ) {
+                        LWJGLUtils.invoke( resetAll );
+                    }
+                } );
+            }};
+            addChild( resetAllNode );
+
+            // horizontally center reset all button
+            resetAllNode.setOffset( ( maxWidth.get() - resetAllNode.getFullBounds().getWidth() ) / 2, resetAllNode.getYOffset() );
+        }
 
         // horizontally center title
         title.setOffset( ( maxWidth.get() - title.getFullBounds().getWidth() ) / 2, title.getYOffset() );
-
-        // horizontally center reset all button
-        resetAllNode.setOffset( ( maxWidth.get() - resetAllNode.getFullBounds().getWidth() ) / 2, resetAllNode.getYOffset() );
     }
 }
