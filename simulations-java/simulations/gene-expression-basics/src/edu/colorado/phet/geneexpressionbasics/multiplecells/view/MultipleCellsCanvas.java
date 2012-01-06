@@ -87,7 +87,9 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         }} );
 
         // Add the control panel that controls the cell parameters.
-        addWorldChild( new MultiCellParameterController( model ) );
+        addWorldChild( new MultiCellParameterController( model ) {{
+            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, 20 );
+        }} );
 
         /*
         // Add the sliders that control the various model parameters.
