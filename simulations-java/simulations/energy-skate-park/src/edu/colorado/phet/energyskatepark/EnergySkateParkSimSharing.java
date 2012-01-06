@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 public class EnergySkateParkSimSharing {
 
     public static enum Objects implements SimSharingConstants.User.UserComponent {
-        skater, trackButton
+        skater, trackButton, slowMotionRadioButton, normalSpeedRadioButton
     }
 
     public static class Actions {
