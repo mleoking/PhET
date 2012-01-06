@@ -367,7 +367,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                         break;
                                     case TRANSFORM:
                                         // TODO: fix transform
-                                        motionVectorRight.set( new ImmutableVector2F( 0, deltaXY.y ) );
+                                        motionVectorRight.set( new ImmutableVector2F( 0, -deltaXY.y ) );
                                         break;
                                 }
                             }

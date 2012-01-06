@@ -18,6 +18,7 @@ import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
@@ -42,7 +43,22 @@ public class HandleNode extends GLNode {
         // update visibility correctly
         SimpleObserver visibilityObserver = new SimpleObserver() {
             public void update() {
-                setVisible( tab.getPlateMotionModel().hasBothPlates.get() && !tab.isAutoMode.get() );
+                final boolean modesOK = tab.getPlateMotionModel().hasBothPlates.get() && !tab.isAutoMode.get();
+                if ( !modesOK ) {
+                    setVisible( false );
+                    return;
+                }
+                PlateType myType = ( isRightHandle ? tab.getPlateMotionModel().rightPlateType : tab.getPlateMotionModel().leftPlateType ).get();
+                PlateType otherType = ( isRightHandle ? tab.getPlateMotionModel().leftPlateType : tab.getPlateMotionModel().rightPlateType ).get();
+
+                // set visibility based on making sure we are the most dense plate if visible
+                if ( ( myType.isContinental() && otherType.isOceanic() )
+                     || ( myType == PlateType.YOUNG_OCEANIC && otherType == PlateType.OLD_OCEANIC ) ) {
+                    setVisible( false );
+                }
+                else {
+                    setVisible( true );
+                }
             }
         };
         tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
