@@ -65,6 +65,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private boolean draggingPlate = false;
     private ImmutableVector2F draggingPlateStartMousePosition = null;
 
+    private Property<ImmutableVector2F> motionVectorRight = new Property<ImmutableVector2F>( new ImmutableVector2F() );
+
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
     }
@@ -89,8 +91,20 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
-        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 0, -125 / 2 ) ), this, false ) );
-        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 150, 0, -125 / 2 ) ), this, true ) );
+        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 0, -125 / 2 ) ), this, false ) {{
+            motionVectorRight.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateTransform( -motionVectorRight.get().getX() / 500, -motionVectorRight.get().getY() / 500 );
+                }
+            } );
+        }} );
+        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 150, 0, -125 / 2 ) ), this, true ) {{
+            motionVectorRight.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateTransform( motionVectorRight.get().getX() / 500, motionVectorRight.get().getY() / 500 );
+                }
+            } );
+        }} );
 
         final Color overHighlightColor = new Color( 1, 1, 0.5f, 0.3f );
         final Color regularHighlightColor = new Color( 0.5f, 0.5f, 0.5f, 0.3f );
@@ -339,16 +353,21 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                     case CONVERGENT:
                                         // comparison works for opposite direction
                                         if ( draggingRightPlate == pullingLeft ) {
-                                            getClock().stepByWallSecondsForced( getTimeElapsed() * Math.abs( deltaXY.x ) / 10 );
+                                            final float timeChange = getTimeElapsed() * Math.abs( deltaXY.x ) / 10;
+                                            getClock().stepByWallSecondsForced( timeChange );
+                                            motionVectorRight.set( new ImmutableVector2F( -Math.abs( deltaXY.x ), 0 ) );
                                         }
                                         break;
                                     case DIVERGENT:
                                         if ( draggingRightPlate != pullingLeft ) {
-                                            getClock().stepByWallSecondsForced( getTimeElapsed() * Math.abs( deltaXY.x ) / 10 );
+                                            final float timeChange = getTimeElapsed() * Math.abs( deltaXY.x ) / 10;
+                                            getClock().stepByWallSecondsForced( timeChange );
+                                            motionVectorRight.set( new ImmutableVector2F( Math.abs( deltaXY.x ), 0 ) );
                                         }
                                         break;
                                     case TRANSFORM:
-                                        // TODO: handle transform
+                                        // TODO: fix transform
+                                        motionVectorRight.set( new ImmutableVector2F( 0, deltaXY.y ) );
                                         break;
                                 }
                             }
@@ -492,6 +511,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     @Override protected void uncaughtMouseButton() {
         if ( !isAutoMode.get() ) {
             draggingPlate = Mouse.getEventButtonState();
+            motionVectorRight.reset();
             draggingPlateStartMousePosition = getMousePositionOnZPlane();
         }
     }

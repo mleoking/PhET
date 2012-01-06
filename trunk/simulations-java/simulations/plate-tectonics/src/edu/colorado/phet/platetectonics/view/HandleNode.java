@@ -33,7 +33,7 @@ public class HandleNode extends GLNode {
     private GridMesh ballMesh;
     private final Property<ImmutableVector3F> offset;
     private final PlateMotionTab tab;
-    private final LWJGLTransform transform = new LWJGLTransform();
+    private final LWJGLTransform transform = new LWJGLTransform();  // for rotation of the handle
 
     public HandleNode( final Property<ImmutableVector3F> offset, final PlateMotionTab tab, final boolean isRightHandle ) {
         this.offset = offset;
@@ -51,7 +51,7 @@ public class HandleNode extends GLNode {
         handlePositions = new ImmutableVector3F[radialColumns * 2];
         ballPositions = new ImmutableVector3F[radialColumns * rows];
 
-        updateLocations( 0, 0 );
+        updateLocations();
 
         handleMesh = new GridMesh( 2, radialColumns, handlePositions ) {
             @Override protected void preRender( GLOptions options ) {
@@ -181,21 +181,34 @@ public class HandleNode extends GLNode {
             tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
             tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
         }} );
+
+        offset.addObserver( new SimpleObserver() {
+            public void update() {
+                updateLocations();
+            }
+        } );
     }
 
     private float stickRadius = 5;
     private float stickHeight = 50;
 
-    public void updateLocations( float xRotation, float zRotation ) {
-        transform.set( ImmutableMatrix4F.rotationZ( xRotation ).times( ImmutableMatrix4F.rotationX( zRotation ) ) );
+    public void updateTransform( float xRotation, float zRotation ) {
+        transform.set( ImmutableMatrix4F.rotationZ( -xRotation ).times( ImmutableMatrix4F.rotationX( zRotation ) ) );
+        updateLocations();
+    }
 
+    private void updateLocations() {
         for ( int col = 0; col < radialColumns; col++ ) {
             float radialRatio = ( (float) col ) / ( (float) ( radialColumns - 1 ) );
             float sin = (float) ( Math.sin( 2 * Math.PI * radialRatio ) );
             float cos = (float) ( Math.cos( 2 * Math.PI * radialRatio ) );
 
-            handlePositions[col] = convertToRadial( transform.transformPosition( new ImmutableVector3F( sin * stickRadius, stickHeight, cos * stickRadius ).plus( offset.get() ) ) );
-            handlePositions[radialColumns + col] = convertToRadial( transform.transformPosition( new ImmutableVector3F( sin * stickRadius, 0, cos * stickRadius ).plus( offset.get() ) ) );
+            handlePositions[col] = convertToRadial( transform.transformPosition( new ImmutableVector3F( sin * stickRadius, stickHeight, cos * stickRadius ) ).plus( offset.get() ) );
+            handlePositions[radialColumns + col] = convertToRadial( transform.transformPosition( new ImmutableVector3F( sin * stickRadius, 0, cos * stickRadius ) ).plus( offset.get() ) );
+        }
+
+        if ( handleMesh != null ) {
+            handleMesh.updateGeometry( handlePositions );
         }
     }
 
@@ -210,7 +223,7 @@ public class HandleNode extends GLNode {
     @Override public void renderSelf( GLOptions options ) {
         // red sphere TODO cleanup
         GL11.glPushMatrix();
-        ImmutableVector3F center = convertToRadial( transform.transformPosition( new ImmutableVector3F( 0, stickHeight, 0 ).plus( offset.get() ) ) );
+        ImmutableVector3F center = convertToRadial( transform.transformPosition( new ImmutableVector3F( 0, stickHeight, 0 ) ).plus( offset.get() ) );
         GL11.glTranslatef( center.x, center.y, center.z );
         glEnable( GL_COLOR_MATERIAL );
         glColorMaterial( GL_FRONT, GL_DIFFUSE );

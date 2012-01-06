@@ -1,3 +1,4 @@
+Handle rotation based on movement
 Changed handle to stick-and-ball style
 Reduced ruler size in toolbox for more visibility
 Added manual mode time readout
