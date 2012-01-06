@@ -91,7 +91,6 @@ public class CellProteinSynthesisSimulator {
      */
     public void setGeneTranscriptionFactorAssociationRate( double newRate ) {
         assert TF_ASSOCIATION_PROBABILITY_RANGE.contains( newRate );
-        System.out.println( "newRate = " + newRate );
         _reactionProbabilities[0] = newRate;
     }
 
@@ -102,7 +101,6 @@ public class CellProteinSynthesisSimulator {
      */
     public void setPolymeraseAssociationRate( double newRate ) {
         assert POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.contains( newRate );
-        System.out.println( "newRate = " + newRate );
         _reactionProbabilities[2] = newRate;
     }
 
