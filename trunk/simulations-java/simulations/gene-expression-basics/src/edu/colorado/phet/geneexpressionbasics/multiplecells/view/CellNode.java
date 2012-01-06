@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.ManualGeneExpressionCanvas;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
 import edu.umd.cs.piccolo.PNode;
 
@@ -20,7 +19,8 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class CellNode extends PNode {
-    private static final Color NOMINAL_FILL_COLOR = ManualGeneExpressionCanvas.CELL_INTERIOR_COLOR;
+
+    private static final Color NOMINAL_FILL_COLOR = new Color( 140, 162, 185 ); // Gray
     private static final Color FLORESCENT_FILL_COLOR = new Color( 173, 255, 47 );
     private static final Stroke FILL_STROKE = new BasicStroke( 1 );
     private static final Color STROKE_COLOR = Color.BLACK;
