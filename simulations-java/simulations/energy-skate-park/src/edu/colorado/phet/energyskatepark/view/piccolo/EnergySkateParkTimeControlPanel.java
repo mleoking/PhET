@@ -5,7 +5,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.TimeControlListener;
-import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyRadioButton2;
+import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -48,10 +48,10 @@ public class EnergySkateParkTimeControlPanel extends RichPNode {
             }
         } );
 
-        addChild( new HBox( new PSwing( new SimSharingPropertyRadioButton2<Boolean>( EnergySkateParkSimSharing.Objects.slowMotionRadioButton, "Slow Motion", module.normalSpeed, false ) {{
+        addChild( new HBox( new PSwing( new SimSharingPropertyRadioButton<Boolean>( EnergySkateParkSimSharing.Objects.slowMotionRadioButton, "Slow Motion", module.normalSpeed, false ) {{
             setBackground( new Color( 0, 0, 0, 0 ) );
             setFont( new PhetFont( 16 ) );
-        }} ), new PSwing( new SimSharingPropertyRadioButton2<Boolean>( EnergySkateParkSimSharing.Objects.normalSpeedRadioButton, "Normal", module.normalSpeed, true ) {{
+        }} ), new PSwing( new SimSharingPropertyRadioButton<Boolean>( EnergySkateParkSimSharing.Objects.normalSpeedRadioButton, "Normal", module.normalSpeed, true ) {{
             setBackground( new Color( 0, 0, 0, 0 ) );
             setFont( new PhetFont( 16 ) );
         }} ), new PSwing( controlPanel ) ) );
