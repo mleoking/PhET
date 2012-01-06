@@ -22,10 +22,10 @@ public class CellProteinSynthesisSimulator {
 
     public static final int DEFAULT_TRANSCRIPTION_FACTOR_COUNT = 2000;
     public static final IntegerRange TRANSCRIPTION_FACTOR_COUNT_RANGE = new IntegerRange( 0, 4000 );
-    public static final double DEFAULT_TF_ASSOCIATION_PROBABILITY = 0.0005f;
-    public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 0.001 );
-    public static final double DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY = 0.001f;
-    public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 0.002 );
+    public static final double DEFAULT_TF_ASSOCIATION_PROBABILITY = 2.5E-6;
+    public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, DEFAULT_TF_ASSOCIATION_PROBABILITY * 2 );
+    public static final double DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY = 9.5E-7;
+    public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 2 * DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
 
     private Random _random = new Random();
     private double _timeStep = 5e2;
@@ -102,6 +102,7 @@ public class CellProteinSynthesisSimulator {
      */
     public void setPolymeraseAssociationRate( double newRate ) {
         assert POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.contains( newRate );
+        System.out.println( "newRate = " + newRate );
         _reactionProbabilities[2] = newRate;
     }
 
