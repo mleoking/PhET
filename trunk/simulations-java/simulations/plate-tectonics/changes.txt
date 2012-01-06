@@ -1,3 +1,4 @@
+# 0.00.10 (59979) Jan 6, 2012
 Added "Temperature / Density" views on 1st tab
 # 0.00.09 (59977) Jan 6, 2012
 Can now only drag plates by their handles. Handle top matches mouse position as well as possible
