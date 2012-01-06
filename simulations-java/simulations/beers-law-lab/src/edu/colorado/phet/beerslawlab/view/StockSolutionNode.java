@@ -19,6 +19,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class StockSolutionNode extends PPath {
 
+    // height of the glass portion of the dropper image, determines how far the solution extends up into the dropper.
+    private static final double GLASS_HEIGHT = 150;
+
     private final Solvent solvent;
     private final Property<Solute> solute;
     private final Dropper dropper;
@@ -50,9 +53,9 @@ public class StockSolutionNode extends PPath {
         // shape
         if ( dropper.on.get() ) {
             double x = dropper.getX() - ( dropperHoleWidth / 2 );
-            double y = dropper.getY();
+            double y = dropper.getY() - GLASS_HEIGHT;
             double width = dropperHoleWidth;
-            double height = beaker.getY() - dropper.getY();
+            double height = beaker.getY() - dropper.getY() + GLASS_HEIGHT;
             setPathTo( new Rectangle2D.Double( x, y, width, height ) );
         }
         else {

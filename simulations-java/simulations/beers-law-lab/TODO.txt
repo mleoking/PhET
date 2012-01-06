@@ -4,6 +4,8 @@ DEADLINES
 - 3/5/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
+- should the stock inside the dropper conform to the shape of the dropper glass, and fill the portion of the glass that overlaps the dropper cap?
+- do we need to show the long names of the solutes in the combo box? this is taking up a lot of horizontal space
 
 HIGH
 - view of solute exiting shaker (magic particles, trajectory ala SASS)
@@ -15,9 +17,7 @@ HIGH
 - make maxSolute a model property, start with 10 moles, but may make this based on Solute.saturatedConcentration
 
 MEDIUM
-- experiment with making control panel less wide: split solute combo box items into 2 lines, vertically stack radio buttons
 - make precipitate particles sit precisely on bottom of beaker
-- if we have limits on amount of solute, then make sure that we don't add solvent volume that would exceed the solute limit
 
 LOW
 - #3199, bigger slider thumb on FaucetNode
