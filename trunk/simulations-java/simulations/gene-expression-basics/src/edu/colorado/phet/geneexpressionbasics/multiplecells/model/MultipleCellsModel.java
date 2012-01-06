@@ -112,11 +112,11 @@ public class MultipleCellsModel {
 
         // Update the average protein level.  Note that only the visible cells
         // are used for this calculation.  This helps convey the concept that
-        // the more visible cells are 
+        // the more cells there are, the more even the average level is.
         int totalProteinCount = 0;
         for ( Cell cell : visibleCellList ) {
             cell.stepInTime( dt );
-            totalProteinCount += cell.getProteinCount();
+            totalProteinCount += cell.proteinCount.get();
         }
         averageProteinLevel.set( (double) totalProteinCount / visibleCellList.size() );
     }
