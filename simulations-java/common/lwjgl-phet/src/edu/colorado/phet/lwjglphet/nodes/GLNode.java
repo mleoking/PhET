@@ -102,8 +102,8 @@ public class GLNode {
 
     public void addChild( GLNode node ) {
         // don't re-add children
-        if ( node.parent == this && children.contains( node ) ) {
-            return;
+        if( node.parent == this && children.contains( node )) {
+                return;
         }
         node.parent = this;
         children.add( node );
