@@ -34,12 +34,20 @@ public class MultiCellParameterController extends PNode {
     public MultiCellParameterController( MultipleCellsModel model ) {
         // Create the content for this panel.
         PNode content = new VBox(
-                10,
+                20,
                 new PText( "Cell Parameters" ) {{setFont( TITLE_LABEL_FONT );}},
                 new IntegerParameterSliderNode( CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin(),
                                                 CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMax(),
                                                 model.transcriptionFactorLevel,
-                                                "<center>Transcription Factor<br>Level</center>" )
+                                                "<center>Transcription Factor<br>Level</center>" ),
+                new DoubleParameterSliderNode( CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMin(),
+                                               CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMax(),
+                                               model.transcriptionFactorAssociationProbability,
+                                               "<center>Transcription Factor<br>Affinity</center>" ),
+                new DoubleParameterSliderNode( CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMin(),
+                                               CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMax(),
+                                               model.polymeraseAssociationProbability,
+                                               "<center>Polymerase<br>Affinity</center>" )
         );
 
         // Add the content to a control panel.
@@ -78,7 +86,7 @@ public class MultiCellParameterController extends PNode {
             }} );
 
             // Add the label and slider to a vertical box.
-            addChild( new VBox( labelNode, sliderNode ) );
+            addChild( new VBox( 0, labelNode, sliderNode ) );
         }
     }
 
