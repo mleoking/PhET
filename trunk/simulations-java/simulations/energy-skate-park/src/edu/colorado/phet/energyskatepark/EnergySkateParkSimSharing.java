@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 /**
  * @author Sam Reid
  */
-public class ESPSimSharing {
+public class EnergySkateParkSimSharing {
 
     public static enum Objects implements SimSharingConstants.User.UserComponent {
         skater, trackButton
