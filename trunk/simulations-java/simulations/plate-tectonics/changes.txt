@@ -1,3 +1,4 @@
+Don't show handle on plate if it is a lighter plate
 Handle rotation based on movement
 Changed handle to stick-and-ball style
 Reduced ruler size in toolbox for more visibility
