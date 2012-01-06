@@ -38,7 +38,7 @@ public abstract class PlateModel {
 
     public abstract double getDensity( double x, double y ); // z = 0 (cross section plate)
 
-    public abstract double getTemperature( double x, double y ); // z = 0 (cross section plate)
+    public abstract double getTemperature( double x, double y ); // z = 0 (cross section plate), in...
 
     public void update( double timeElapsed ) {
 
@@ -75,7 +75,7 @@ public abstract class PlateModel {
     * common temperature models
     *----------------------------------------------------------------------------*/
 
-    public static double ZERO_CELSIUS = 293.15;
+    public static float ZERO_CELSIUS = 293.15f;
 
     // mean air temperature
     public static double getAirTemperature( double y ) {

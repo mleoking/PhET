@@ -12,6 +12,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.regions.Region.Type;
 import edu.colorado.phet.platetectonics.model.regions.SimpleConstantRegion;
 import edu.colorado.phet.platetectonics.model.regions.SimpleLinearRegion;
+import edu.colorado.phet.platetectonics.model.regions.SimpleRegion;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
@@ -220,30 +221,37 @@ public class CrustModel extends PlateModel {
                                              continentCrustBottom,
                                              constantFunction( RIGHT_CONTINENTAL_DENSITY ),
                                              constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
-        addRegion( new SimpleConstantRegion( Type.CRUST,
-                                             middleTop,
-                                             middleCrustBottom,
-                                             new Function0<Double>() {
-                                                 public Double apply() {
-                                                     return getCenterCrustDensity();
-                                                 }
-                                             }, constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+        addRegion( new SimpleRegion( Type.CRUST,
+                                     middleTop,
+                                     middleCrustBottom ) {
+            @Override public float getDensity( ImmutableVector2F position ) {
+                return (float) getCenterCrustDensity();
+            }
+
+            @Override public float getTemperature( ImmutableVector2F position ) {
+                return 0;
+            }
+
+            @Override public boolean isStatic() {
+                return false;
+            }
+        } ); // TODO: crustal temperatures!
 
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              oceanCrustBottom,
                                              oceanSideMinY,
                                              constantFunction( (double) MANTLE_DENSITY ),
-                                             constantFunction( 0.0 ) ) ); // TODO: mandle temperatures!
+                                             constantFunction( (double) ( ZERO_CELSIUS + 700 ) ) ) ); // TODO: mandle temperatures!
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              middleCrustBottom,
                                              middleSideMinY,
                                              constantFunction( (double) MANTLE_DENSITY ),
-                                             constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+                                             constantFunction( (double) ( ZERO_CELSIUS + 700 ) ) ) ); // TODO: crustal temperatures!
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              continentCrustBottom,
                                              continentSideMinY,
                                              constantFunction( (double) MANTLE_DENSITY ),
-                                             constantFunction( 0.0 ) ) ); // TODO: temperatures!
+                                             constantFunction( (double) ( ZERO_CELSIUS + 700 ) ) ) ); // TODO: temperatures!
 //        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
 //                                             mantleTop,
 //                                             mantleMiddle,
@@ -257,7 +265,7 @@ public class CrustModel extends PlateModel {
                                            UPPER_LOWER_MANTLE_BOUNDARY_Y,
                                            getMantleDensity( lowerBoundary ),
                                            getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
-                                           0f, 0f ) ); // TODO: temperatures
+                                           ZERO_CELSIUS + 700, ZERO_CELSIUS + 1100 ) ); // TODO: temperatures
 
         addRegion( new SimpleLinearRegion( Type.LOWER_MANTLE,
                                            mantleMiddle,
@@ -266,7 +274,7 @@ public class CrustModel extends PlateModel {
                                            MANTLE_CORE_BOUNDARY_Y,
                                            getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
                                            getMantleDensity( MANTLE_CORE_BOUNDARY_Y ),
-                                           0f, 0f ) ); // TODO: temperatures
+                                           ZERO_CELSIUS + 1100, ZERO_CELSIUS + 4000 ) ); // TODO: temperatures
 
         addRegion( new SimpleLinearRegion( Type.OUTER_CORE,
                                            mantleBottom,
@@ -275,7 +283,7 @@ public class CrustModel extends PlateModel {
                                            INNER_OUTER_CORE_BOUNDARY_Y,
                                            CORE_BOUNDARY_DENSITY,
                                            INNER_OUTER_CORE_BOUNDARY_DENSITY,
-                                           0f, 0f ) ); // TODO: temperature
+                                           ZERO_CELSIUS + 4400f, ZERO_CELSIUS + 6100 ) ); // TODO: temperature
 
         addRegion( new SimpleLinearRegion( Type.INNER_CORE,
                                            innerOuterCoreBoundary,
@@ -284,7 +292,7 @@ public class CrustModel extends PlateModel {
                                            CENTER_OF_EARTH_Y,
                                            INNER_OUTER_CORE_BOUNDARY_DENSITY,
                                            CENTER_DENSITY,
-                                           0f, 0f ) ); // TODO: temperature
+                                           5778, 5778 ) ); // TODO: temperature
 
         updateView();
     }
