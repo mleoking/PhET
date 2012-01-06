@@ -19,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
-import edu.colorado.phet.geneexpressionbasics.multiplecells.model.CellProteinSynthesisSimulator;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -87,6 +86,10 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             setOffset( inset, STAGE_SIZE.getHeight() - getFullBoundsReference().height - inset );
         }} );
 
+        // Add the control panel that controls the cell parameters.
+        addWorldChild( new MultiCellParameterController( model ) );
+
+        /*
         // Add the sliders that control the various model parameters.
         // TODO: i18n
         addWorldChild( new CellParameterController( "<center>Transcription Factor<br>Level</center>",
@@ -109,6 +112,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                                                     new Color( 216, 191, 216 ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 10, 100 );
         }} );
+        */
 
         // Add a handler that controls the zoom level.  This automatically
         // zooms in and out to allow all of the cells to be seen.
