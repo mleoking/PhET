@@ -10,8 +10,8 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.model.ConcentrationMeter;
 import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.beerslawlab.model.Faucet;
@@ -187,7 +187,7 @@ public class ConcentrationMeterNode extends PhetPNode {
             } );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( Objects.concentrationMeterBody, meter.body, this ) );
+            addInputEventListener( new MovableDragHandler( UserComponents.concentrationMeterBody, meter.body, this ) );
         }
 
         private static String createDisplayText( String value ) {
@@ -226,7 +226,7 @@ public class ConcentrationMeterNode extends PhetPNode {
             } );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( Objects.concentrationMeterProbe, meter.probe, this,
+            addInputEventListener( new MovableDragHandler( UserComponents.concentrationMeterProbe, meter.probe, this,
                                                            // sim-sharing parameters
                                                            new Function0<Parameter[]>() {
                                                                public Parameter[] apply() {
