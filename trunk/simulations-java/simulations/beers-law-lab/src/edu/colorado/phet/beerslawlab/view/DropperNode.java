@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
-import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -38,7 +38,7 @@ public class DropperNode extends PhetPNode {
         addChild( labelNode );
 
         // On/off button
-        MomentaryButtonNode buttonNode = new MomentaryButtonNode( Objects.dropperButton, dropper.on, dropper.enabled ) {{
+        MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.dropperButton, dropper.on, dropper.enabled ) {{
             scale( 0.65 );
         }};
         addChild( buttonNode );
@@ -74,6 +74,6 @@ public class DropperNode extends PhetPNode {
             }
         } );
 
-        addInputEventListener( new MovableDragHandler( Objects.dropper, dropper, this ) );
+        addInputEventListener( new MovableDragHandler( UserComponents.dropper, dropper, this ) );
     }
 }

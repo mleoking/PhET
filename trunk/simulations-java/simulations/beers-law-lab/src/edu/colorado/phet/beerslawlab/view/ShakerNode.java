@@ -7,7 +7,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
-import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Shaker;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -112,7 +112,7 @@ public class ShakerNode extends PhetPNode {
         private final Shaker shaker;
 
         public ShakerDragHandler( final Shaker shaker, PNode dragNode, Rectangle2D dragBounds ) {
-            super( Objects.shaker, shaker, dragNode );
+            super( UserComponents.shaker, shaker, dragNode );
             this.shaker = shaker;
         }
 

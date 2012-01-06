@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyLabel;
@@ -35,7 +35,7 @@ public class SoluteFormChoiceNode extends PhetPNode {
                 setFont( FONT );
                 setOpaque( false );
             }} );
-            add( new PropertyLabel<SoluteForm>( Objects.shakerIcon, new ImageIcon( Images.SHAKER_ICON ), soluteForm, SoluteForm.SOLID ) );
+            add( new PropertyLabel<SoluteForm>( UserComponents.shakerIcon, new ImageIcon( Images.SHAKER_ICON ), soluteForm, SoluteForm.SOLID ) );
         }};
 
         final JPanel solutionPanel = new JPanel() {{
@@ -43,7 +43,7 @@ public class SoluteFormChoiceNode extends PhetPNode {
                 setFont( FONT );
                 setOpaque( false );
             }} );
-            add( new PropertyLabel<SoluteForm>( Objects.dropperIcon, new ImageIcon( Images.DROPPER_ICON ), soluteForm, SoluteForm.STOCK_SOLUTION ) );
+            add( new PropertyLabel<SoluteForm>( UserComponents.dropperIcon, new ImageIcon( Images.DROPPER_ICON ), soluteForm, SoluteForm.STOCK_SOLUTION ) );
         }};
 
         JPanel panel = new JPanel() {{
