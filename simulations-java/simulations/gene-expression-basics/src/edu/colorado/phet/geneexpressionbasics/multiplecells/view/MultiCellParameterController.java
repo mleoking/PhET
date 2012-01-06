@@ -9,57 +9,57 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.geneexpressionbasics.multiplecells.model.CellProteinSynthesisSimulator;
+import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * PNode that contains a slider and a textual title and allows the user to
- * control the level of some parameter.
+ * Control panel that allows the user to alter various parameters of cell
+ * operation within a population of cells.
  *
  * @author John Blanco
  */
-public class CellParameterController extends PNode {
+public class MultiCellParameterController extends PNode {
+
     private static final Font TITLE_LABEL_FONT = new PhetFont( 16, true );
-    private static final double SLIDER_TRACK_WIDTH = 100;
-    private static final double SLIDER_TRACK_HEIGHT = 4;
-    private static final Font SLIDER_LABEL_FONT = new PhetFont( 12 );
+    private static final Color BACKGROUND_COLOR = Color.WHITE;
 
-    /**
-     * Constructor for a parameter controller that controls an double property.
-     *
-     * @param labelHtml
-     * @param doubleParameter
-     * @param range
-     * @param backgroundColor
-     */
-    public CellParameterController( String labelHtml, Property<Double> doubleParameter, DoubleRange range, Color backgroundColor ) {
-        // Parameter checking.
-        assert doubleParameter.get() >= range.getMin() && doubleParameter.get() <= range.getMax();
-
+    public MultiCellParameterController( MultipleCellsModel model ) {
         // Create the content for this panel.
         PNode content = new VBox(
                 10,
-                new HTMLNode( labelHtml ) {{
-                    setFont( TITLE_LABEL_FONT );
-                }},
-                new DoubleParameterSliderNode( range.getMin(), range.getMax(), doubleParameter )
+                new PText( "Cell Parameters" ) {{setFont( TITLE_LABEL_FONT );}},
+                new IntegerParameterSliderNode( CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin(),
+                                                CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMax(),
+                                                model.transcriptionFactorLevel,
+                                                "<center>Transcription Factor<br>Level</center>" )
         );
 
         // Add the content to a control panel.
-        addChild( new ControlPanelNode( content, backgroundColor ) );
+        addChild( new ControlPanelNode( content, BACKGROUND_COLOR ) );
     }
 
     // Class that defines the slider and its labels.
     private static class DoubleParameterSliderNode extends PNode {
 
-        private DoubleParameterSliderNode( double min, double max, final SettableProperty<Double> settableProperty ) {
+        private static final Font TITLE_FONT = new PhetFont( 14 );
+        private static final double SLIDER_TRACK_WIDTH = 100;
+        private static final double SLIDER_TRACK_HEIGHT = 4;
+        private static final Font LABEL_FONT = new PhetFont( 12 );
+
+        private DoubleParameterSliderNode( double min, double max, final SettableProperty<Double> settableProperty, String htmlLabelText ) {
+
+            // Create the label.
+            PNode labelNode = new HTMLNode( htmlLabelText ) {{
+                setFont( TITLE_FONT );
+            }};
 
             // Create the slider node.
             HSliderNode sliderNode = new HSliderNode( min, max, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, settableProperty, new BooleanProperty( true ) ) {
@@ -68,22 +68,25 @@ public class CellParameterController extends PNode {
                 }
             };
 
-            // Add the label to the slider node.
+            // Add the labels to the slider node.
             // TODO: i18n
             sliderNode.addLabel( min, new PText( "Low" ) {{
-                setFont( SLIDER_LABEL_FONT );
+                setFont( LABEL_FONT );
             }} );
             sliderNode.addLabel( max, new PText( "High" ) {{
-                setFont( SLIDER_LABEL_FONT );
+                setFont( LABEL_FONT );
             }} );
-            addChild( sliderNode );
+
+            // Add the label and slider to a vertical box.
+            addChild( new VBox( labelNode, sliderNode ) );
         }
     }
 
-    // Wrapper version of slider that allows integer properties to be controlled.
+    // Class that wraps DoubleParameterSliderNode in such a way that it can be
+    // used to control an integer property.
     private static class IntegerParameterSliderNode extends PNode {
 
-        private IntegerParameterSliderNode( int min, int max, final SettableProperty<Integer> settableProperty ) {
+        private IntegerParameterSliderNode( int min, int max, final SettableProperty<Integer> settableProperty, String htmlLabelText ) {
 
             // Create a property of type double and hook it to the integer
             // property.
@@ -95,7 +98,7 @@ public class CellParameterController extends PNode {
             } );
 
             // Create the slider node.
-            addChild( new DoubleParameterSliderNode( min, max, doubleProperty ) );
+            addChild( new DoubleParameterSliderNode( min, max, doubleProperty, htmlLabelText ) );
         }
     }
 }
