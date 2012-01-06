@@ -1,3 +1,4 @@
+Implemented first cut of third tab, which allows the user to tweak cell parameters for one or several cells and see how protein levels change.
 Fixed an issue where mRNA would be above the ribosome in the z-order in some cases, which looked weird.
 Added placement hint for mRNA destroyer.
 Added "capture signal" to the protein capture area.  This is a flashing node that surrounds the location where the protein is moved when captured.
