@@ -63,6 +63,10 @@ public class ImmutableVector3F {
         return (float) Math.sqrt( x * x + y * y + z * z );
     }
 
+    public float magnitudeSquared() {
+        return x * x + y * y + z * z ;
+    }
+
     public ImmutableVector3F normalized() {
         float mag = magnitude();
         return new ImmutableVector3F( x / mag, y / mag, z / mag );

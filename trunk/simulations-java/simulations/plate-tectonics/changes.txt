@@ -1,3 +1,4 @@
+Can now only drag plates by their handles. Handle top matches mouse position as well as possible
 Don't show handle on plate if it is a lighter plate
 Handle rotation based on movement
 Changed handle to stick-and-ball style

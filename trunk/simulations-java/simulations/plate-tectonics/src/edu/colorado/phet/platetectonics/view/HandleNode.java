@@ -12,11 +12,14 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+import edu.colorado.phet.lwjglphet.math.PlaneF;
+import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.ArrowNode;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
@@ -34,11 +37,15 @@ public class HandleNode extends GLNode {
     private GridMesh ballMesh;
     private final Property<ImmutableVector3F> offset;
     private final PlateMotionTab tab;
+    private final boolean isRightHandle;
     private final LWJGLTransform transform = new LWJGLTransform();  // for rotation of the handle
+    private PlateMotionModel model;
 
     public HandleNode( final Property<ImmutableVector3F> offset, final PlateMotionTab tab, final boolean isRightHandle ) {
         this.offset = offset;
         this.tab = tab;
+        this.isRightHandle = isRightHandle;
+        model = tab.getPlateMotionModel();
 
         // update visibility correctly
         SimpleObserver visibilityObserver = new SimpleObserver() {
@@ -207,10 +214,149 @@ public class HandleNode extends GLNode {
 
     private float stickRadius = 5;
     private float stickHeight = 50;
+    private float ballRadius = 10;
 
     public void updateTransform( float xRotation, float zRotation ) {
         transform.set( ImmutableMatrix4F.rotationZ( -xRotation ).times( ImmutableMatrix4F.rotationX( zRotation ) ) );
         updateLocations();
+    }
+
+    private ImmutableVector3F yzHit( Ray3F ray ) {
+        return new PlaneF( new ImmutableVector3F( 1, 0, 0 ), offset.get().getX() ).intersectWithRay( ray );
+    }
+
+    private ImmutableVector3F xyHit( Ray3F ray ) {
+        return new PlaneF( new ImmutableVector3F( 0, 0, 1 ), offset.get().getZ() ).intersectWithRay( ray );
+    }
+
+    private Ray3F startRay = null;
+
+    public void startDrag( Ray3F ray ) {
+        startRay = ray;
+    }
+
+    public void drag( Ray3F ray ) {
+        if ( model.motionType.get() == null ) {
+            ImmutableVector3F xyDelta = xyHit( ray ).minus( xyHit( startRay ) );
+            if ( xyDelta.magnitude() > 5 ) {
+                float rightStrength = xyDelta.dot( ImmutableVector3F.X_UNIT );
+                float verticalStrength = Math.abs( xyDelta.dot( Y_UNIT ) );
+                if ( verticalStrength > Math.abs( rightStrength ) ) {
+                    // starting transform
+                    System.out.println( "transform movement" );
+                    model.motionType.set( MotionType.TRANSFORM );
+                    // TODO: handle transform direction
+                }
+                else {
+                    boolean pullingLeft = xyDelta.x < 0;
+                    if ( model.allowsDivergentMotion() && ( pullingLeft != isRightHandle ) ) {
+                        model.motionType.set( MotionType.DIVERGENT );
+                        System.out.println( "divergent movement" );
+                    }
+                    else if ( pullingLeft == isRightHandle ) {
+                        model.motionType.set( MotionType.CONVERGENT );
+                        System.out.println( "convergent movement" );
+                    }
+                    else {
+                        return;
+                    }
+                }
+            }
+            else {
+                return;
+            }
+        }
+        assert model.motionType.get() != null;
+
+        boolean horizontal = model.motionType.get() != MotionType.TRANSFORM;
+
+        if ( horizontal ) {
+            ImmutableVector3F hit = xyHit( ray );
+            ImmutableVector3F startHit = xyHit( startRay );
+            ImmutableVector3F origin = getBase();
+
+            ImmutableVector3F hitDir = hit.minus( origin );
+            ImmutableVector3F startDir = startHit.minus( origin );
+
+            float angle = (float) ( Math.signum( hitDir.x - startDir.x ) * Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.normalized().dot( startDir.normalized() ) ) ) );
+
+            switch( model.motionType.get() ) {
+                case CONVERGENT:
+                    if ( isRightHandle ) {
+                        angle = Math.min( 0, angle );
+                    }
+                    else {
+                        angle = Math.max( 0, angle );
+                    }
+                    break;
+                case DIVERGENT:
+                    if ( isRightHandle ) {
+                        angle = Math.max( 0, angle );
+                    }
+                    else {
+                        angle = Math.min( 0, angle );
+                    }
+                    break;
+                case TRANSFORM:
+                    break;
+            }
+
+            tab.motionVectorRight.set( new ImmutableVector2F( isRightHandle ? angle : -angle, 0 ) );
+
+//            updateTransform( angle, 0 );
+        }
+        else {
+            ImmutableVector3F hit = yzHit( ray );
+            ImmutableVector3F startHit = yzHit( startRay );
+            ImmutableVector3F origin = getBase();
+
+            ImmutableVector3F hitDir = hit.minus( origin );
+            ImmutableVector3F startDir = startHit.minus( origin );
+
+            float angle = (float) ( Math.min( 0.8f * Math.PI / 2, Math.acos( hitDir.normalized().dot( startDir.normalized() ) ) ) );
+            if ( hitDir.z < startDir.z ) {
+                angle = 0;
+            }
+//            updateTransform( 0, angle );
+            tab.motionVectorRight.set( new ImmutableVector2F( 0, isRightHandle ? angle : -angle ) );
+        }
+
+//        switch( model.motionType.get() ) {
+//            case CONVERGENT:
+//                // comparison works for opposite direction
+//                if ( isRightHandle == pullingLeft ) {
+//                    final float timeChange = getTimeElapsed() * Math.abs( deltaXY.x ) / 10;
+//                    getClock().stepByWallSecondsForced( timeChange );
+//                    motionVectorRight.set( new ImmutableVector2F( -Math.abs( deltaXY.x ), 0 ) );
+//                }
+//                break;
+//            case DIVERGENT:
+//                if ( isRightHandle != pullingLeft ) {
+//                    final float timeChange = getTimeElapsed() * Math.abs( deltaXY.x ) / 10;
+//                    getClock().stepByWallSecondsForced( timeChange );
+//                    motionVectorRight.set( new ImmutableVector2F( Math.abs( deltaXY.x ), 0 ) );
+//                }
+//                break;
+//            case TRANSFORM:
+//                // TODO: fix transform
+//                motionVectorRight.set( new ImmutableVector2F( 0, -deltaXY.y ) );
+//                break;
+//        }
+    }
+
+    public void endDrag() {
+        tab.motionVectorRight.set( new ImmutableVector2F() );
+    }
+
+    public boolean intersectRay( Ray3F ray ) {
+        // transform it to intersect with a unit sphere at the origin
+        Ray3F localRay = new Ray3F( ray.pos.minus( getBallCenter() ).times( 1 / ballRadius ), ray.dir );
+
+        ImmutableVector3F centerToRay = localRay.pos;
+        float tmp = localRay.dir.dot( centerToRay );
+        float centerToRayDistSq = centerToRay.magnitudeSquared();
+        float det = 4 * tmp * tmp - 4 * ( centerToRayDistSq - 1 ); // 1 is radius
+        return det >= 0;
     }
 
     private void updateLocations() {
@@ -239,18 +385,18 @@ public class HandleNode extends GLNode {
     @Override public void renderSelf( GLOptions options ) {
         // red sphere TODO cleanup
         GL11.glPushMatrix();
-        ImmutableVector3F center = convertToRadial( transform.transformPosition( new ImmutableVector3F( 0, stickHeight, 0 ) ).plus( offset.get() ) );
+        ImmutableVector3F center = getBallCenter();
         GL11.glTranslatef( center.x, center.y, center.z );
         glEnable( GL_COLOR_MATERIAL );
         glColorMaterial( GL_FRONT, GL_DIFFUSE );
         glEnable( GL_CULL_FACE );
         glEnable( GL_LIGHTING );
         GL11.glColor4f( 0.6f, 0, 0, 1 );
-        new Sphere().draw( 10, 50, 50 );
+        new Sphere().draw( ballRadius, 50, 50 );
         glDisable( GL_LIGHTING );
         glDisable( GL_DEPTH_TEST );
         GL11.glColor4f( 1, 0, 0, 0.4f );
-        new Sphere().draw( 10, 50, 50 );
+        new Sphere().draw( ballRadius, 50, 50 );
         glEnable( GL_DEPTH_TEST );
         glDisable( GL_COLOR_MATERIAL );
         glDisable( GL_CULL_FACE );
@@ -266,6 +412,14 @@ public class HandleNode extends GLNode {
         handleMesh.setMaterial( new ColorMaterial( 1, 1, 1, 0.4f ) );
 
         super.renderSelf( options );
+    }
+
+    private ImmutableVector3F getBallCenter() {
+        return convertToRadial( transform.transformPosition( new ImmutableVector3F( 0, stickHeight, 0 ) ).plus( offset.get() ) );
+    }
+
+    private ImmutableVector3F getBase() {
+        return convertToRadial( offset.get() );
     }
 
     @Override protected void preRender( GLOptions options ) {
