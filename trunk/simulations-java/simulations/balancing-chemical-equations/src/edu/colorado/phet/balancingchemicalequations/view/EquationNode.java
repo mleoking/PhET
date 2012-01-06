@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.balancingchemicalequations.BCESimSharing;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -26,7 +26,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents;
 
 /**
  * Displays a chemical equation.
@@ -189,11 +191,10 @@ public class EquationNode extends PhetPNode {
 
         private final CoefficientNode coefficientNode;
 
-        public TermNode( IntegerRange coefficientRange, EquationTerm term, boolean editable ) {
+        public TermNode( IntegerRange coefficientRange, final EquationTerm term, boolean editable ) {
 
             // coefficient
-            String simSharingObject = term.getMolecule().getSymbol() + "Spinner";
-            coefficientNode = new CoefficientNode( simSharingObject, coefficientRange, term.getUserCoefficientProperty(), editable );
+            coefficientNode = new CoefficientNode( new BCESimSharing.CoefficientNodeSpinner( term.getMolecule().getSymbol() ), coefficientRange, term.getUserCoefficientProperty(), editable );
             addChild( coefficientNode );
 
             // molecule symbol
@@ -226,7 +227,7 @@ public class EquationNode extends PhetPNode {
         private final PText textNode;
         private final PSwing spinnerNode;
 
-        public CoefficientNode( String simSharingObject, IntegerRange range, final Property<Integer> coefficientProperty, boolean editable ) {
+        public CoefficientNode( final SimSharingConstants.User.UserComponent userComponent, IntegerRange range, final Property<Integer> coefficientProperty, boolean editable ) {
 
             // read-only text
             textNode = new PText();
@@ -234,14 +235,14 @@ public class EquationNode extends PhetPNode {
             textNode.setTextPaint( COEFFICIENT_COLOR );
 
             // editable spinner
-            final IntegerSpinner spinner = new IntegerSpinner( simSharingObject, range );
+            final IntegerSpinner spinner = new IntegerSpinner( userComponent, range );
             spinner.setForeground( COEFFICIENT_COLOR );
             spinner.setFont( FONT );
             spinner.setValue( coefficientProperty.get() );
             spinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    SimSharingManager.sendUserEvent( Components.SPINNER, Actions.CHANGED,
-                                                     param( Parameters.VALUE, spinner.getIntValue() ) );
+                    SimSharingManager.sendUserEvent( chain( userComponent, UserComponents.spinner ), UserActions.changed,
+                                                     Parameter.param( SimSharingConstants.ParameterKeys.value, spinner.getIntValue() ) );
 
                     coefficientProperty.set( spinner.getIntValue() );
                 }

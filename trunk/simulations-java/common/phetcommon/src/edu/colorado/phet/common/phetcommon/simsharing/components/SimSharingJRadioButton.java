@@ -7,11 +7,12 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JRadioButton;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentTypes.radioButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
 
 /**
  * Swing radio button that sends sim-sharing events.
@@ -20,51 +21,51 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Paramete
  */
 public class SimSharingJRadioButton extends JRadioButton {
 
-    private final String object;
+    private final UserComponent object;
 
-    public SimSharingJRadioButton( String object ) {
+    public SimSharingJRadioButton( UserComponent object ) {
         this.object = object;
     }
 
-    public SimSharingJRadioButton( String object, Icon icon ) {
+    public SimSharingJRadioButton( UserComponent object, Icon icon ) {
         super( icon );
         this.object = object;
     }
 
-    public SimSharingJRadioButton( String object, Action a ) {
+    public SimSharingJRadioButton( UserComponent object, Action a ) {
         super( a );
         this.object = object;
     }
 
-    public SimSharingJRadioButton( String object, Icon icon, boolean selected ) {
+    public SimSharingJRadioButton( UserComponent object, Icon icon, boolean selected ) {
         super( icon, selected );
         this.object = object;
     }
 
-    public SimSharingJRadioButton( String object, String text ) {
+    public SimSharingJRadioButton( UserComponent object, String text ) {
         super( text );
         this.object = object;
     }
 
-    public SimSharingJRadioButton( String object, String text, boolean selected ) {
+    public SimSharingJRadioButton( UserComponent object, String text, boolean selected ) {
         super( text, selected );
         this.object = object;
     }
 
-    public SimSharingJRadioButton( String object, String text, Icon icon ) {
+    public SimSharingJRadioButton( UserComponent object, String text, Icon icon ) {
         super( text, icon );
         this.object = object;
     }
 
-    public SimSharingJRadioButton( String object, String text, Icon icon, boolean selected ) {
+    public SimSharingJRadioButton( UserComponent object, String text, Icon icon, boolean selected ) {
         super( text, icon, selected );
         this.object = object;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
         SimSharingManager.sendUserEvent( object,
-                                         Actions.PRESSED,
-                                         Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.RADIO_BUTTON ) );
+                                         pressed,
+                                         componentType( radioButton ) );
         super.fireActionPerformed( event );
     }
 }

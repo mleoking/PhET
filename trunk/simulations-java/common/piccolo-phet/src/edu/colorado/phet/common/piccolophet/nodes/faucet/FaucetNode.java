@@ -13,8 +13,8 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -56,9 +56,6 @@ public class FaucetNode extends PNode {
     // Faucet handle in the image file.
     private static final Point2D HANDLE_CENTER = new Point2D.Double( 46, 8 );
     private static final Dimension2D HANDLE_SIZE = new Dimension2DDouble( 85, 16 );
-
-    // sim-sharing strings
-    public static final String SIM_SHARING_OBJECT_FAUCET_IMAGE = "faucetImage";
 
     private final PImage faucetNode;
     private final FaucetSliderNode sliderNode;
@@ -121,7 +118,7 @@ public class FaucetNode extends PNode {
         //sim-sharing for non-interactive nodes
         PBasicInputEventHandler mousePressedListener = new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( SIM_SHARING_OBJECT_FAUCET_IMAGE, Actions.PRESSED );
+                SimSharingManager.sendNotInteractiveEvent( SimSharingConstants.User.UserComponents.faucetImage, SimSharingConstants.User.UserActions.pressed );
             }
         };
         faucetNode.addInputEventListener( mousePressedListener );

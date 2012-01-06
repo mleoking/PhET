@@ -4,11 +4,12 @@ package edu.colorado.phet.common.phetcommon.simsharing.components;
 import javax.swing.Action;
 import javax.swing.JMenu;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
 
 /**
  * Menu used in phetcommon for transmitting data on student usage of menus, see #3144
@@ -17,31 +18,31 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Paramete
  */
 public class SimSharingJMenu extends JMenu {
 
-    private final String object;
+    private final UserComponent object;
 
-    public SimSharingJMenu( String object ) {
+    public SimSharingJMenu( UserComponent object ) {
         this.object = object;
     }
 
-    public SimSharingJMenu( String object, String text ) {
+    public SimSharingJMenu( UserComponent object, String text ) {
         super( text );
         this.object = object;
     }
 
-    public SimSharingJMenu( String object, Action action ) {
+    public SimSharingJMenu( UserComponent object, Action action ) {
         super( action );
         this.object = object;
     }
 
-    public SimSharingJMenu( String object, String text, boolean canBeTornOff ) {
+    public SimSharingJMenu( UserComponent object, String text, boolean canBeTornOff ) {
         super( text, canBeTornOff );
         this.object = object;
     }
 
     @Override protected void fireMenuSelected() {
         SimSharingManager.sendUserEvent( object,
-                                         Actions.PRESSED,
-                                         Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.MENU ) );
+                                         pressed,
+                                         componentType( SimSharingConstants.ComponentTypes.menu ) );
         super.fireMenuSelected();
     }
 }

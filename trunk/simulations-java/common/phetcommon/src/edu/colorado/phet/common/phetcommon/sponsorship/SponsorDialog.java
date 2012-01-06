@@ -15,11 +15,13 @@ import javax.swing.JDialog;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.closed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.windowCloseButtonPressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.sponsorDialog;
 
 /**
  * Dialog that displays a simulation's sponsor.
@@ -27,8 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SponsorDialog extends JDialog {
-
-    public static final String SIMSHARING_OBJECT = "sponsorDialog";
 
     private static final int DISPLAY_TIME = 5; // seconds
 
@@ -44,7 +44,7 @@ public class SponsorDialog extends JDialog {
         addMouseListener( new MouseAdapter() {
             @Override
             public void mousePressed( MouseEvent event ) {
-                SimSharingManager.sendUserEvent( SIMSHARING_OBJECT, Actions.PRESSED );
+                SimSharingManager.sendUserEvent( sponsorDialog, SimSharingConstants.User.UserActions.pressed );
                 dispose();
             }
         } );
@@ -57,7 +57,7 @@ public class SponsorDialog extends JDialog {
         dialog.addWindowListener( new WindowAdapter() {
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
-                SimSharingManager.sendUserEvent( SponsorDialog.SIMSHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED );
+                SimSharingManager.sendUserEvent( sponsorDialog, windowCloseButtonPressed );
                 dialog.dispose();
             }
         } );
@@ -69,7 +69,7 @@ public class SponsorDialog extends JDialog {
             final Timer timer = new Timer( DISPLAY_TIME * 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( dialog.isDisplayable() ) {
-                        SimSharingManager.sendSystemEvent( "sponsorDialog", Actions.CLOSED, Parameter.param( Parameters.WINDOW, SIMSHARING_OBJECT ) );
+                        SimSharingManager.sendSystemEvent( sponsorDialog, closed );
                         dialog.dispose();
                     }
                 }

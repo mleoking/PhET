@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.optionsMenu;
+
 /**
  * OptionsMenu is the "Options" menu that appears in the menu bar.
  *
@@ -14,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
 public class OptionsMenu extends SimSharingJMenu {
 
     public OptionsMenu() {
-        super( "optionsMenu", PhetCommonResources.getString( "Common.OptionsMenu" ) );
+        super( optionsMenu, PhetCommonResources.getString( "Common.OptionsMenu" ) );
         setMnemonic( PhetCommonResources.getChar( "Common.OptionsMenu.mnemonic", 'O' ) );
     }
 

@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
+import edu.colorado.phet.reactantsproductsandleftovers.SimSharing;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.IntegerSpinnerNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
@@ -76,8 +77,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             final Reactant reactant = reactants[i];
 
             // coefficient spinner
-            String simSharingObject = reactant.getName() + "EquationSpinner";
-            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( simSharingObject, SandwichShopModel.getCoefficientRange() );
+            final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( new SimSharing.ReactantEquationSpinner( reactant ), SandwichShopModel.getCoefficientRange() );
             spinnerNode.scale( 2 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
             spinnerNode.setValue( reactant.getCoefficient() );
             spinnerNode.addChangeListener( new ChangeListener() {

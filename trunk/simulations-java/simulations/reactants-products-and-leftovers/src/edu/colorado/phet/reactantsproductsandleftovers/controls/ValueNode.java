@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -48,7 +49,7 @@ public class ValueNode extends PhetPNode {
 
     private int value;
 
-    public ValueNode( String simSharingObject, IntegerRange range, int value, Image image, double imageScale, String name, boolean showName, boolean editable ) {
+    public ValueNode( SimSharingConstants.User.UserComponent userComponent, IntegerRange range, int value, Image image, double imageScale, String name, boolean showName, boolean editable ) {
         super();
 
         if ( !range.contains( value ) ) {
@@ -69,7 +70,7 @@ public class ValueNode extends PhetPNode {
         nameNode.setFont( NAME_FONT );
 
         // editable value
-        spinnerNode = new IntegerSpinnerNode( simSharingObject, range );
+        spinnerNode = new IntegerSpinnerNode( userComponent, range );
         spinnerNode.scale( 1.5 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
         spinnerNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

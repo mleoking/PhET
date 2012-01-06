@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.StringActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.ThreadedActor;
@@ -20,7 +19,14 @@ import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDia
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingEvent.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.PhetCommonMessageSource.phetcommon;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.System.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.System.SystemActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.System.SystemObjects.simsharingManager;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.system;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.user;
 
 /**
  * Central access point for sim-sharing initialization and event sending.
@@ -71,7 +77,7 @@ public class SimSharingManager {
     private String sessionId; // identifies the session
     private String machineCookie; // identifies the host machine
     private IActor actor; // actor for sending messages to the server
-    private int eventCount; // number of delivered events, for cross-checking that no events were dropped
+    private int messageCount; // number of delivered events, for cross-checking that no events were dropped
     private static Collection<String> queue = Collections.synchronizedCollection( new ArrayList<String>() ); // queue of events that occurred before init finished
     public Property<String> log = new Property<String>( "" ); // log events locally, as a fallback plan //TODO StringBuffer would be more efficient
 
@@ -117,8 +123,8 @@ public class SimSharingManager {
 
 
     // Gets the number of events that have been sent.
-    public int getEventCount() {
-        return eventCount;
+    public int getMessageCount() {
+        return messageCount;
     }
 
     // Events will be sent only if sim-sharing is enabled.
@@ -136,31 +142,35 @@ public class SimSharingManager {
     }
 
     // Convenience method for sending an event performed by the system (not necessarily directly by the user).
-    public static String sendModelEvent( String object, String action, Parameter... parameters ) {
-        return getInstance().sendEvent( new ModelEvent( object, action, parameters ) );
+//    public static String sendModelEvent( String object, String action, Parameter... parameters ) {
+//        return getInstance().sendEvent( new ModelMessage( object, action, parameters ) );
+//    }
+
+    public static String sendSystemEvent( SystemObject object, SystemAction action, Parameter... parameters ) {
+        return getInstance().sendEvent( new SystemMessage( phetcommon, system, object, action, parameters ) );
     }
 
-    public static String sendSystemEvent( String object, String action, Parameter... parameters ) {
-        return getInstance().sendEvent( new SystemEvent( object, action, parameters ) );
+    // Convenience method for sending an event from something the user did
+    public static String sendUserEvent( UserComponent object, UserAction action, Parameter... parameters ) {
+        return getInstance().sendEvent( new UserMessage( phetcommon, user, object, action, parameters ) );
     }
 
-    // Convenience method for sending an event.
-    public static String sendUserEvent( String object, String action, Parameter... parameters ) {
-        return getInstance().sendEvent( new UserEvent( object, action, parameters ) );
+    public static String sendModelEvent( SimSharingConstants.Model.ModelObject object, SimSharingConstants.Model.ModelAction action, Parameter... parameters ) {
+        return getInstance().sendEvent( new SimSharingConstants.Model.ModelMessage( phetcommon, user, object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
-    public static String sendNotInteractiveEvent( String object, String action ) {
-        return SimSharingManager.sendUserEvent( object, action, new Parameter( Parameters.INTERACTIVE, false ) );
+    public static String sendNotInteractiveEvent( UserComponent object, UserAction action ) {
+        return SimSharingManager.sendUserEvent( object, action, new Parameter( interactive, false ) );
     }
 
     // Sends an event. If sim-sharing is disabled, this is a no-op.
-    public String sendEvent( SimSharingEvent event ) {
+    public String sendEvent( SimSharingMessage message ) {
         if ( enabled ) {
 
             // create the event string
             String timestamp = Long.toString( System.currentTimeMillis() - simStartedTime );
-            String eventString = timestamp + DELIMITER + event.toString( DELIMITER );
+            String eventString = timestamp + DELIMITER + message.toString( DELIMITER );
 
             // send the event string
             sendToConsole( eventString );
@@ -168,9 +178,9 @@ public class SimSharingManager {
             sendToServer( eventString );
 
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
-            eventCount++;
-            if ( eventCount % 100 == 0 && eventCount > 0 ) {
-                sendSystemEvent( "simsharingManager", "sentEvent", param( "eventCount", eventCount ) );
+            messageCount++;
+            if ( messageCount % 100 == 0 && messageCount > 0 ) {
+                sendSystemEvent( simsharingManager, sentEvent, param( SimSharingConstants.ParameterKeys.messageCount, messageCount ) );
             }
 
             return eventString;
@@ -256,27 +266,27 @@ public class SimSharingManager {
     // Sends an event when sim-sharing has been started up.
     private void sendStartedEvent( PhetApplicationConfig config ) {
         assert ( enabled );
-        sendSystemEvent( "simsharingManager", "started",
-                         param( "time", simStartedTime ),
-                         param( "name", config.getName() ),
-                         param( "version", config.getVersion().formatForAboutDialog() ),
-                         param( "project", config.getProjectName() ),
-                         param( "flavor", config.getFlavor() ),
-                         param( "locale", config.getLocale().toString() ),
-                         param( "distributionTag", config.getDistributionTag() ),
-                         param( "javaVersion", System.getProperty( "java.version" ) ),
-                         param( "osName", System.getProperty( "os.name" ) ),
-                         param( "osVersion", System.getProperty( "os.version" ) ),
-                         param( "parserVersion", PARSER_VERSION ),
-                         param( "study", studyName ),
-                         param( "id", studentId ),
-                         param( "machineCookie", machineCookie ) );
+        sendSystemEvent( simsharingManager, started,
+                         param( time, simStartedTime ),
+                         param( name, config.getName() ),
+                         param( version, config.getVersion().formatForAboutDialog() ),
+                         param( project, config.getProjectName() ),
+                         param( flavor, config.getFlavor() ),
+                         param( locale, config.getLocale().toString() ),
+                         param( distributionTag, config.getDistributionTag() ),
+                         param( javaVersion, System.getProperty( "java.version" ) ),
+                         param( osName, System.getProperty( "os.name" ) ),
+                         param( osVersion, System.getProperty( "os.version" ) ),
+                         param( parserVersion, PARSER_VERSION ),
+                         param( study, studyName ),
+                         param( id, studentId ),
+                         param( SimSharingConstants.ParameterKeys.machineCookie, machineCookie ) );
     }
 
     // Sends an event when we've connected to the sim-sharing server.
     private void sendConnectedEvent() {
         assert ( enabled && actor != null );
-        sendModelEvent( "simsharingManager", "connectedToServer" );
+        sendSystemEvent( simsharingManager, connectedToServer );
     }
 
     //TODO fix synchronization issues #3188

@@ -112,7 +112,7 @@ public class ShakerNode extends PhetPNode {
         private final Shaker shaker;
 
         public ShakerDragHandler( final Shaker shaker, PNode dragNode, Rectangle2D dragBounds ) {
-            super( Objects.SHAKER, shaker, dragNode );
+            super( Objects.shaker, shaker, dragNode );
             this.shaker = shaker;
         }
 

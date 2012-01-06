@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.model.Solute;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -72,7 +71,6 @@ public class SoluteChoiceNode extends PhetPNode {
                            return new SoluteItemNode( solute );
                        }
                    },
-                   Objects.SOLUTE_COMBO_BOX,
                    new Function1<Solute, String>() {
                        public String apply( Solute solute ) {
                            return solute.name;

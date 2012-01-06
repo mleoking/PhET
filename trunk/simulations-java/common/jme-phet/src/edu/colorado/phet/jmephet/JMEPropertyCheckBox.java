@@ -9,7 +9,6 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 
 public class JMEPropertyCheckBox extends JCheckBox {
     private final SettableProperty<Boolean> property;
@@ -26,7 +25,8 @@ public class JMEPropertyCheckBox extends JCheckBox {
                 JMEUtils.invoke( new Runnable() {
                     public void run() {
 
-                        PropertyCheckBox.notifyActionPerformed( JMEPropertyCheckBox.this, property );
+                        //TODO: Simsharing
+                        //PropertyCheckBox.notifyActionPerformed( JMEPropertyCheckBox.this, property );
 
                         property.set( isSelected() );
                     }

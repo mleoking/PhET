@@ -16,12 +16,13 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Parameters;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -235,7 +236,7 @@ public class PHMeterNode extends PhetPNode {
             this.meter = meter;
             this.dragNode = dragNode;
             setStartEndFunction( new DragFunction() {
-                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendEvent( action );
                 }
             } );
@@ -243,7 +244,7 @@ public class PHMeterNode extends PhetPNode {
                 boolean wasInSolution = meter.isInSolution();
 
                 // send a sim-sharing event when the meter transitions between in/out of solution.
-                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     if ( wasInSolution != meter.isInSolution() ) {
                         sendEvent( action );
                     }
@@ -252,8 +253,8 @@ public class PHMeterNode extends PhetPNode {
             } );
         }
 
-        private void sendEvent( String action ) {
-            SimSharingManager.sendUserEvent( Objects.PH_METER, action, new Parameter( Parameters.IS_IN_SOLUTION, meter.isInSolution() ) );
+        private void sendEvent( SimSharingConstants.User.UserAction action ) {
+            SimSharingManager.sendUserEvent( Components.phMeter, action, new Parameter( ABSSimSharing.ABSParameterKeys.isInSolution, meter.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {

@@ -5,6 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.controls;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Substance.SubstanceChangeAdapter;
@@ -22,7 +23,7 @@ public class QuantityValueNode extends ValueNode implements IDynamicNode {
     private Substance substance;
     private final SubstanceChangeListener substanceChangeListener;
 
-    public QuantityValueNode( String simSharingObject, Substance substance, IntegerRange range, double imageScale, boolean showName ) {
+    public QuantityValueNode( SimSharingConstants.User.UserComponent simSharingObject, Substance substance, IntegerRange range, double imageScale, boolean showName ) {
         super( simSharingObject, range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), showName, false /* editable */ );
 
         this.substance = substance;

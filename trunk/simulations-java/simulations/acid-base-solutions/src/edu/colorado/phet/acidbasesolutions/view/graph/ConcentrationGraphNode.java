@@ -10,7 +10,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
 import edu.colorado.phet.acidbasesolutions.model.AcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.ConcentrationGraph;
@@ -20,7 +19,6 @@ import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -28,6 +26,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.concentrationGraph;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
 
 /**
  * Graph that depicts the concentrations related to a solution.
@@ -86,7 +87,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         // send sim-sharing event if user tries to interact
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( Objects.CONCENTRATION_GRAPH, Actions.PRESSED );
+                SimSharingManager.sendNotInteractiveEvent( concentrationGraph, pressed );
             }
         } );
     }

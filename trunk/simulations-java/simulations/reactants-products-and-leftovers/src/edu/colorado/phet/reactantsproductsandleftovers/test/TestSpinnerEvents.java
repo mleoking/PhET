@@ -13,6 +13,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
 
@@ -24,31 +25,31 @@ public class TestSpinnerEvents extends JFrame {
     private final IntegerSpinner spinner1, spinner2;
 
     public static class TestIntegerSpinner extends IntegerSpinner {
-        public TestIntegerSpinner( final String name, IntegerRange range ) {
-            super( name, range );
+        public TestIntegerSpinner( final SimSharingConstants.User.UserComponent userComponent, IntegerRange range ) {
+            super( userComponent, range );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    System.out.println( name + ".stateChanged value=" + getValue() );
+                    System.out.println( userComponent + ".stateChanged value=" + getValue() );
                 }
             } );
             addMouseListener( new MouseAdapter() {
                 @Override
                 public void mousePressed( MouseEvent event ) {
-                    System.out.println( name + ".mousePressed" );
+                    System.out.println( userComponent + ".mousePressed" );
                 }
 
                 @Override
                 public void mouseReleased( MouseEvent event ) {
-                    System.out.println( name + ".mouseRelease" );
+                    System.out.println( userComponent + ".mouseRelease" );
                 }
             } );
             ( (NumberEditor) getEditor() ).getTextField().addFocusListener( new FocusListener() {
                 public void focusGained( FocusEvent e ) {
-                    System.out.println( name + ".focusGained" );
+                    System.out.println( userComponent + ".focusGained" );
                 }
 
                 public void focusLost( FocusEvent e ) {
-                    System.out.println( name + ".focusLost" );
+                    System.out.println( userComponent + ".focusLost" );
                 }
             } );
         }
@@ -56,8 +57,10 @@ public class TestSpinnerEvents extends JFrame {
 
     public TestSpinnerEvents() {
         super( TestSpinnerEvents.class.getName() );
-        spinner1 = new TestIntegerSpinner( "spinner1", SPINNER_RANGE );
-        spinner2 = new TestIntegerSpinner( "spinner2", SPINNER_RANGE );
+        spinner1 = new TestIntegerSpinner( new SimSharingConstants.User.UserComponent() {
+        }, SPINNER_RANGE );
+        spinner2 = new TestIntegerSpinner( new SimSharingConstants.User.UserComponent() {
+        }, SPINNER_RANGE );
         JPanel panel = new JPanel();
         panel.add( spinner1 );
         panel.add( spinner2 );

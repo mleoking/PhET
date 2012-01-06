@@ -5,8 +5,8 @@ import java.awt.Cursor;
 import java.awt.Image;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
@@ -15,6 +15,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
+
 /**
  * A momentary button is "on" while pressed.
  *
@@ -22,21 +24,21 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class MomentaryButtonNode extends PNode {
 
-    private String simSharingObject = "MomentaryButtonNode";
-
     private final DynamicCursorHandler cursorHandler;
+    private final UserComponent userComponent;
 
     // Constructor that uses default images (round red buttons with 3D look)
-    public MomentaryButtonNode( Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
-        this( onProperty, enabledProperty,
+    public MomentaryButtonNode( UserComponent userComponent, Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
+        this( userComponent, onProperty, enabledProperty,
               PiccoloPhetResources.getImage( "button_pressed.png" ),
               PiccoloPhetResources.getImage( "button_unpressed.png" ),
               PiccoloPhetResources.getImage( "button_disabled.png" ) );
     }
 
-    public MomentaryButtonNode( final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
+    public MomentaryButtonNode( final UserComponent userComponent, final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
         assert ( onImage != offImage ); // different images are required
 
+        this.userComponent = userComponent;
         this.cursorHandler = new DynamicCursorHandler();
 
         final PImage imageNode = new PImage();
@@ -45,14 +47,14 @@ public class MomentaryButtonNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserEvent( simSharingObject, Actions.PRESSED );
+                    SimSharingManager.sendUserEvent( userComponent, SimSharingConstants.User.UserActions.pressed );
                     onProperty.set( true );
                 }
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserEvent( simSharingObject, Actions.RELEASED );
+                    SimSharingManager.sendUserEvent( userComponent, SimSharingConstants.User.UserActions.released );
                     onProperty.set( false );
                 }
             }
@@ -84,9 +86,5 @@ public class MomentaryButtonNode extends PNode {
         } );
 
         addInputEventListener( cursorHandler );
-    }
-
-    public void setSimSharingObject( String simSharingObject ) {
-        this.simSharingObject = simSharingObject;
     }
 }

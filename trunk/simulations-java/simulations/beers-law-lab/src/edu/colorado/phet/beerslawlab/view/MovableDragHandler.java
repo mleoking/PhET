@@ -8,6 +8,7 @@ import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.model.Movable;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
@@ -25,8 +26,8 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
     private final PNode dragNode;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
-    public MovableDragHandler( final String simSharingObject, final Movable movable, PNode dragNode ) {
-        this( simSharingObject, movable, dragNode,
+    public MovableDragHandler( final SimSharingConstants.User.UserComponent userComponent, final Movable movable, PNode dragNode ) {
+        this( userComponent, movable, dragNode,
               new Function0<Parameter[]>() {
                   public Parameter[] apply() {
                       return new Parameter[0];
@@ -34,16 +35,16 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
               } );
     }
 
-    public MovableDragHandler( final String simSharingObject, final Movable movable, PNode dragNode, final Function0<Parameter[]> simSharingParametersFunction ) {
+    public MovableDragHandler( final SimSharingConstants.User.UserComponent userComponent, final Movable movable, PNode dragNode, final Function0<Parameter[]> simSharingParametersFunction ) {
         this.movable = movable;
         this.dragNode = dragNode;
         // sim-sharing
         setStartEndDragFunction( new DragFunction() {
-            public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                SimSharingManager.sendUserEvent( simSharingObject, action,
+            public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                SimSharingManager.sendUserEvent( userComponent, action,
                                                  Parameter.appendParameters( simSharingParametersFunction.apply(),
-                                                                             new Parameter( Parameters.LOCATION_X, (int) movable.location.get().getX() ),
-                                                                             new Parameter( Parameters.LOCATION_Y, (int) movable.location.get().getY() ) ) );
+                                                                             new Parameter( Parameters.locationX, (int) movable.location.get().getX() ),
+                                                                             new Parameter( Parameters.locationY, (int) movable.location.get().getY() ) ) );
             }
         } );
     }

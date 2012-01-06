@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -28,11 +29,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserEvent;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.END_DRAG;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.START_DRAG;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters.X;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters.Y;
-import static edu.colorado.phet.energyskatepark.simsharing.ESPSimSharingStrings.Objects.SKATER;
+import static edu.colorado.phet.energyskatepark.ESPSimSharing.Objects.skater;
 
 /**
  * User: Sam Reid
@@ -91,12 +88,12 @@ public class SkaterNode extends PNode {
         }
 
         addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingDragSequenceEventHandler.DragFunction() {
-            public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                sendUserEvent( SKATER, START_DRAG, getXParameter(), getYParameter() );
+            public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                sendUserEvent( skater, SimSharingConstants.User.UserActions.startDrag, getXParameter(), getYParameter() );
             }
         }, new SimSharingDragSequenceEventHandler.DragFunction() {
-            public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                sendUserEvent( SKATER, END_DRAG, getXParameter(), getYParameter() );
+            public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                sendUserEvent( skater, SimSharingConstants.User.UserActions.endDrag, getXParameter(), getYParameter() );
             }
         }, null
         ) {
@@ -148,11 +145,11 @@ public class SkaterNode extends PNode {
     }
 
     private Parameter getXParameter() {
-        return new Parameter( X, getBody().getX() );
+        return new Parameter( SimSharingConstants.ParameterKeys.x, getBody().getX() );
     }
 
     private Parameter getYParameter() {
-        return new Parameter( Y, getBody().getY() );
+        return new Parameter( SimSharingConstants.ParameterKeys.y, getBody().getY() );
     }
 
     private void snapToTrackDuringDrag() {

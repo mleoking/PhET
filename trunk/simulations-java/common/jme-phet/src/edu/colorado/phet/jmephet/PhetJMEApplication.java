@@ -26,7 +26,6 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -47,6 +46,11 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.AppSettings;
 import com.jme3.system.Timer;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.errorMessage;
+import static edu.colorado.phet.jmephet.JMEPhetSimsharing.Actions.erred;
+import static edu.colorado.phet.jmephet.JMEPhetSimsharing.Objects.jmePhetApplication;
 
 /**
  * PhET-specific behavior needed instead of the generic SimpleApplication JME3 class.
@@ -311,7 +315,7 @@ public class PhetJMEApplication extends Application {
 
     @Override public void handleError( String errMsg, final Throwable t ) {
         super.handleError( errMsg, t );
-        SimSharingManager.sendSystemEvent( "phetJMEApplication", "erred", Parameter.param( "errMsg", errMsg ) );
+        SimSharingManager.sendSystemEvent( jmePhetApplication, erred, param( errorMessage, errMsg ) );
         showErrorDialog( t );
     }
 

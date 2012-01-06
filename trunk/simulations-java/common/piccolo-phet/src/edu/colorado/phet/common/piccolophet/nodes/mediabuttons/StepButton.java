@@ -3,7 +3,7 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components.STEP_BUTTON;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.stepButton;
 
 /**
  * Created by: Sam
@@ -12,7 +12,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.C
 public class StepButton extends DefaultIconButton {
 
     public StepButton( int buttonHeight ) {
-        super( STEP_BUTTON, buttonHeight, new ButtonIconSet( buttonHeight, buttonHeight ).createStepIconShape() );
+        super( stepButton, buttonHeight, new ButtonIconSet( buttonHeight, buttonHeight ).createStepIconShape() );
     }
 
     public static void main( String[] args ) {

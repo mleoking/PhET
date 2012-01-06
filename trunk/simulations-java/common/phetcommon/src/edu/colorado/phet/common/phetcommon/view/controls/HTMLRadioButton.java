@@ -9,6 +9,8 @@ import javax.swing.UIManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
+
 /**
  * A radio button whose text is HTML.  Swing doesn't properly handle the "graying out"
  * of text for JComponents that use HTML strings. See Unfuddle #1704.  This is a
@@ -26,7 +28,7 @@ public class HTMLRadioButton extends SimSharingJRadioButton {
      *
      * @param text plain text, HTML fragment, or HTML document
      */
-    public HTMLRadioButton( String simSharingObject, String text ) {
+    public HTMLRadioButton( UserComponent simSharingObject, String text ) {
         super( simSharingObject, HTMLUtils.toHTMLString( text ) );
         this.foreground = getForeground();
     }

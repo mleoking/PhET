@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -30,8 +30,7 @@ import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Objects;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
@@ -69,6 +68,8 @@ import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Components.draggingState;
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Components.mouseMiddleButton;
 
 /**
  * Main module for Molecule Shapes
@@ -200,7 +201,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                             if ( pair != null && pair != getMolecule().getCentralAtom() ) {
                                 getMolecule().removeGroup( pair );
                             }
-                            SimSharingManager.sendUserEvent( Objects.MOUSE_MIDDLE_BUTTON, Actions.PRESSED, param( Parameters.REMOVED_PAIR, pair != null ) );
+                            SimSharingManager.sendUserEvent( mouseMiddleButton, SimSharingConstants.User.UserActions.pressed, param( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
@@ -452,9 +453,9 @@ public class MoleculeShapesTab extends MoleculeViewTab {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingManager.sendUserEvent( Objects.DRAGGING_STATE, Actions.CHANGED,
-                                             param( Parameters.DRAGGING, dragging ),
-                                             param( Parameters.DRAG_MODE, dragMode.toString() ) );
+            SimSharingManager.sendUserEvent( draggingState, SimSharingConstants.User.UserActions.changed,
+                                             param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ),
+                                             param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

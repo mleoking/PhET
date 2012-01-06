@@ -8,13 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * JCheckBox that is wired to a Property<Boolean>.
@@ -34,8 +28,8 @@ public class PropertyCheckBox extends JCheckBox {
         // update the model when the check box is toggled.  Use ActionListener instead of ChangeListener to suppress multiple events.
         this.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                notifyActionPerformed( PropertyCheckBox.this, property );
-
+//                notifyActionPerformed( PropertyCheckBox.this, property );
+                //TODO: add hook for subclass to call simsharing here
                 property.set( isSelected() );
             }
         } );
@@ -54,9 +48,9 @@ public class PropertyCheckBox extends JCheckBox {
     }
 
     //Send a message to the sim sharing event collector that the user toggled the check box
-    public static void notifyActionPerformed( JCheckBox checkBox, SettableProperty<Boolean> property ) {
-        SimSharingManager.sendUserEvent( Components.CHECK_BOX, Actions.PRESSED,
-                                         param( Parameters.TEXT, checkBox.getText() ),
-                                         param( Parameters.IS_SELECTED, checkBox.isSelected() ) );
-    }
+//    public static void notifyActionPerformed( JCheckBox checkBox, SettableProperty<Boolean> property ) {
+//        SimSharingManager.sendUserEvent( Components.CHECK_BOX, Actions.PRESSED,
+//                                         param( Parameters.TEXT, checkBox.getText() ),
+//                                         param( Parameters.IS_SELECTED, checkBox.isSelected() ) );
+//    }
 }

@@ -7,16 +7,18 @@ import java.awt.Shape;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
 
 public class DefaultIconButton extends IconButton {
     protected PhetPPath iconNode;
     private ArrayList listeners = new ArrayList();
-    private final String simSharingObject;
+    private final UserComponent simSharingObject;
 
-    public DefaultIconButton( String simSharingObject, int buttonHeight, Shape shape ) {
+    public DefaultIconButton( UserComponent simSharingObject, int buttonHeight, Shape shape ) {
         super( buttonHeight );
         this.simSharingObject = simSharingObject;
         iconNode = new PhetPPath( shape, Color.BLACK, new BasicStroke( 1 ), Color.LIGHT_GRAY );
@@ -44,7 +46,7 @@ public class DefaultIconButton extends IconButton {
     }
 
     public void notifyListeners() {
-        SimSharingManager.sendUserEvent( simSharingObject, SimSharingStrings.Actions.PRESSED );
+        SimSharingManager.sendUserEvent( simSharingObject, pressed );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).buttonPressed();
         }
