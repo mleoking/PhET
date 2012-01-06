@@ -1,3 +1,5 @@
+# 0.00.11 (59967) Jan 6, 2012
+1/6/12 Snapshot of version reviewed with biology expert.
 Implemented first cut of third tab, which allows the user to tweak cell parameters for one or several cells and see how protein levels change.
 Fixed an issue where mRNA would be above the ribosome in the z-order in some cases, which looked weird.
 Added placement hint for mRNA destroyer.
