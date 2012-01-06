@@ -55,7 +55,7 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
     }
 
     public ImmutableVector2F getInitialMouseOffset() {
-        return new ImmutableVector2F( 10, 10 );
+        return new ImmutableVector2F( 10, 190 );
     }
 
     public void recycle() {

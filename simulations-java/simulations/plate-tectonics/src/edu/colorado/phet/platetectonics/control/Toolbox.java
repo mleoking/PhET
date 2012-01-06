@@ -43,6 +43,8 @@ public class Toolbox extends OrthoPiccoloNode {
                         } );
                     }
                 } );
+
+                scale( 0.5 );
             }} ); // wrap it in a zero-offset node, since we are rotating and scaling it (bad origin)
 
             addChild( rulerNode2D ); // approximate scaling to get the size right

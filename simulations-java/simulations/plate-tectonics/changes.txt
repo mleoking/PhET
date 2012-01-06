@@ -1,3 +1,6 @@
+Reduced ruler size in toolbox for more visibility
+Added manual mode time readout
+Ruler drags from the top
 Bugfix for 2nd tab dragging of tools that doesn't trigger the manual mode motion
 # 0.00.08 (59921) Jan 5, 2012
 Added majority of UI for controlling the 2nd tab (manual and auto mode).
