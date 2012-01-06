@@ -9,21 +9,28 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Model of the concentration meter.
+ * <p/>
+ * NOTE: Determining when the probe is in one of the various fluids is handled in the view,
+ * where testing node intersections simplifies the process. Otherwise we'd need to
+ * model the shapes of the various fluids, an unnecessary complication.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConcentrationMeter implements Resettable {
 
     private final Property<Double> value;
-    public final ConcentrationMeterBody body;
-    public final ConcentrationMeterProbe probe;
+    public final Movable body;
+    public final Movable probe;
 
     public ConcentrationMeter( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
-                               ImmutableVector2D probeLocation, PBounds probeDragBounds,
-                               Solution solution, Beaker beaker ) {
+                               ImmutableVector2D probeLocation, PBounds probeDragBounds ) {
         this.value = new Property<Double>( null );
-        this.body = new ConcentrationMeterBody( bodyLocation, bodyDragBounds, solution, beaker );
-        this.probe = new ConcentrationMeterProbe( probeLocation, probeDragBounds, solution, beaker, value );
+        this.body = new Movable( bodyLocation, bodyDragBounds );
+        this.probe = new Movable( probeLocation, probeDragBounds );
+    }
+
+    public void setValue( Double value ) {
+        this.value.set( value );
     }
 
     // Gets the value to be displayed by the meter, null if the meter is not reading a value.
@@ -39,50 +46,5 @@ public class ConcentrationMeter implements Resettable {
         this.value.reset();
         this.body.reset();
         this.probe.reset();
-    }
-
-    // Meter body
-    public static class ConcentrationMeterBody extends Movable {
-        public ConcentrationMeterBody( ImmutableVector2D location, PBounds dragBounds, Solution solution, Beaker beaker ) {
-            super( location, dragBounds );
-        }
-    }
-
-    // Meter probe
-    public static class ConcentrationMeterProbe extends Movable {
-
-        private final Solution solution;
-        private final Beaker beaker;
-
-        public ConcentrationMeterProbe( ImmutableVector2D location, PBounds dragBounds, final Solution solution, final Beaker beaker, final Property<Double> value ) {
-            super( location, dragBounds );
-
-            this.solution = solution;
-            this.beaker = beaker;
-
-            // set the value, based on the solution concentration and whether the probe is in the solution
-            SimpleObserver observer = new SimpleObserver() {
-                public void update() {
-                    if ( isInSolution() ) {
-                        value.set( solution.getConcentration() );
-                    }
-                    else {
-                        value.set( null );
-                    }
-                }
-            };
-            this.location.addObserver( observer );
-            solution.volume.addObserver( observer );
-            solution.addConcentrationObserver( observer );
-        }
-
-        public boolean isInSolution() {
-            double w = beaker.getWidth();
-            double h = beaker.getHeight() * solution.volume.get() / beaker.getVolume();
-            double x = beaker.getX() - ( beaker.getWidth() / 2 );
-            double y = beaker.getY() - h;
-            PBounds bounds = new PBounds( x, y, w, h );
-            return bounds.contains( location.get().toPoint2D() );
-        }
     }
 }

@@ -137,14 +137,14 @@ public class ConcentrationModelButton extends JButton {
                     evaporationRate.setText( "evaporation = " + rateFormat.format( model.evaporator.evaporationRate.get() ) + " L/sec" );
                 }
             } );
-            model.inputFaucet.flowRate.addObserver( new SimpleObserver() {
+            model.solventFaucet.flowRate.addObserver( new SimpleObserver() {
                 public void update() {
-                    inputFaucetFlowRate.setText( "input faucet = " + rateFormat.format( model.inputFaucet.flowRate.get() ) + " L/sec" );
+                    inputFaucetFlowRate.setText( "solvent faucet = " + rateFormat.format( model.solventFaucet.flowRate.get() ) + " L/sec" );
                 }
             } );
-            model.outputFaucet.flowRate.addObserver( new SimpleObserver() {
+            model.drainFaucet.flowRate.addObserver( new SimpleObserver() {
                 public void update() {
-                    outputFaucetFlowRate.setText( "output faucet = " + rateFormat.format( model.outputFaucet.flowRate.get() ) + " L/sec" );
+                    outputFaucetFlowRate.setText( "drain faucet = " + rateFormat.format( model.drainFaucet.flowRate.get() ) + " L/sec" );
                 }
             } );
             model.shaker.location.addObserver( new SimpleObserver() {

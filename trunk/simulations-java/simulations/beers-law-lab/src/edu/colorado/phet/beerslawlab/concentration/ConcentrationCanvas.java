@@ -38,18 +38,20 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // Nodes
         PNode beakerNode = new BeakerNode( model.beaker, TicksLocation.LEFT );
-        BLLFaucetNode inputFaucetNode = new BLLFaucetNode( Objects.INPUT_FAUCET_SLIDER, model.inputFaucet );
-        BLLFaucetNode outputFaucetNode = new BLLFaucetNode( Objects.OUTPUT_FAUCET_SLIDER, model.outputFaucet );
-        PNode inputFluidNode = new OutputFluidNode( inputFaucetNode, 360, model.solution.solvent, model.inputFaucet ); //TODO derive height
-        PNode outputFluidNode = new OutputFluidNode( outputFaucetNode, 1000, model.solution, model.outputFaucet ); //TODO derive height based on play area height
+        BLLFaucetNode solventFaucetNode = new BLLFaucetNode( Objects.INPUT_FAUCET_SLIDER, model.solventFaucet );
+        BLLFaucetNode drainFaucetNode = new BLLFaucetNode( Objects.OUTPUT_FAUCET_SLIDER, model.drainFaucet );
+        OutputFluidNode solventFluidNode = new OutputFluidNode( solventFaucetNode, 360, model.solution.solvent, model.solventFaucet ); //TODO derive height
+        OutputFluidNode drainFluidNode = new OutputFluidNode( drainFaucetNode, 1000, model.solution, model.drainFaucet ); //TODO derive height based on play area height
         PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
         PNode shakerNode = new ShakerNode( model.shaker, model.soluteForm );
         PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
-        PNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker, 15 ); //TODO get hole width from DropperNode
+        StockSolutionNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker, 15 ); //TODO get hole width from DropperNode
         PNode evaporationControlNode = new EvaporationControlNode( model.evaporator );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
-        PNode solutionNode = new SolutionNode( model.solution, model.beaker );
-        PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter );
+        SolutionNode solutionNode = new SolutionNode( model.solution, model.beaker );
+        PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter, model.solution, solutionNode,
+                                                                   model.solventFaucet, solventFluidNode, model.drainFaucet, drainFluidNode,
+                                                                   model.dropper, stockSolutionNode );
         PNode precipitateNode = new PrecipitateNode( model.precipitate );
         PNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
@@ -59,10 +61,10 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // rendering order
         {
-            addChild( inputFluidNode );
-            addChild( inputFaucetNode );
-            addChild( outputFluidNode );
-            addChild( outputFaucetNode );
+            addChild( solventFluidNode );
+            addChild( solventFaucetNode );
+            addChild( drainFluidNode );
+            addChild( drainFaucetNode );
             addChild( stockSolutionNode );
             addChild( solutionNode );
             addChild( beakerNode );
