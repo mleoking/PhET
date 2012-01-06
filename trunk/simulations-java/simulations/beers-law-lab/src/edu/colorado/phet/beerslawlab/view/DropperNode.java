@@ -8,10 +8,9 @@ import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Dropper;
-import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -28,7 +27,7 @@ public class DropperNode extends PhetPNode {
     private static final double BUTTON_Y_OFFSET = 60; // y offset of button center in dropper image file
     private static final double LABEL_Y_OFFSET = 255; // y offset of the label's center in dropper image file
 
-    public DropperNode( final Dropper dropper, final Property<SoluteForm> soluteFormProperty ) {
+    public DropperNode( final Dropper dropper ) {
         scale( 0.5 ); //TODO eliminate need for scaling
 
         final PImage imageNode = new PImage( Images.DROPPER );
@@ -62,10 +61,10 @@ public class DropperNode extends PhetPNode {
             }
         } );
 
-        // Make this node visible only when the solute is in solid form.
-        soluteFormProperty.addObserver( new SimpleObserver() {
-            public void update() {
-                setVisible( soluteFormProperty.get().equals( SoluteForm.STOCK_SOLUTION ) );
+        // Visibility
+        dropper.visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
             }
         } );
 

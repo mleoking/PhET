@@ -10,11 +10,10 @@ import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Shaker;
-import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -35,7 +34,7 @@ public class ShakerNode extends PhetPNode {
     private static final double IMAGE_SCALE = 0.75;
     private static final double LABEL_X_OFFSET = 40 * IMAGE_SCALE; // x offset of the label's center from the image's center
 
-    public ShakerNode( final Shaker shaker, final Property<SoluteForm> soluteFormProperty ) {
+    public ShakerNode( final Shaker shaker ) {
 
         final PImage imageNode = new PImage( Images.SHAKER ) {{
             scale( IMAGE_SCALE );
@@ -68,10 +67,10 @@ public class ShakerNode extends PhetPNode {
             }
         } );
 
-        // Make this node visible only when the solute is in solid form.
-        soluteFormProperty.addObserver( new SimpleObserver() {
-            public void update() {
-                setVisible( soluteFormProperty.get().equals( SoluteForm.SOLID ) );
+        // Visibility
+        shaker.visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
             }
         } );
 

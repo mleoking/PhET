@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class Dropper extends Movable {
 
     public final Property<Solute> solute;
+    public final Property<Boolean> visible;
     public final Property<Boolean> on; // true if the dropper is dispensing solution
     public final Property<Boolean> enabled;
     private final Property<Double> flowRate;
@@ -23,6 +24,7 @@ public class Dropper extends Movable {
         assert ( dragBounds.contains( location.toPoint2D() ) );
 
         this.solute = solute;
+        this.visible = new Property<Boolean>( true );
         this.on = new Property<Boolean>( false );
         this.enabled = new Property<Boolean>( true );
         this.flowRate = new Property<Double>( 0d );
