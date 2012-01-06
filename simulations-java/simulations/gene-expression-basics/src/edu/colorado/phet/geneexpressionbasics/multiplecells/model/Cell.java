@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelElement;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -18,6 +19,14 @@ public class Cell extends ShapeChangingModelElement {
     // Bounding size for cells
     public static final Dimension2D CELL_SIZE = new PDimension( 2E-6, 1E-6 ); // In meters.
 
+    // Protein level at which the cell color starts to change.  This is meant
+    // to make the cell act as though the protein being produced is florescent.
+    public static final double PROTEIN_LEVEL_WHERE_COLOR_CHANGE_STARTS = 75;
+
+    // Protein level at which the color change (towards the florescent color)
+    // is complete.
+    public static final double PROTEIN_LEVEL_WHERE_COLOR_CHANGE_COMPLETES = 200;
+
     // This is a separate object in which the protein synthesis is simulated.
     // The reason that this is broken out into a separate class is that it was
     // supplied by someone outside of the PhET project, and this keeps it
@@ -25,6 +34,16 @@ public class Cell extends ShapeChangingModelElement {
     // TODO: I have no idea what the original ribosome count should be, so I'm just taking a wild guess here.
     private CellProteinSynthesisSimulator proteinSynthesisSimulator = new CellProteinSynthesisSimulator( 100 );
 
+    // Property that indicates the current protein count in the cell.  This
+    // should not be set by external users, only monitored.
+    public Property<Integer> proteinCount = new Property<Integer>( 0 );
+
+    /**
+     * Constructor.
+     *
+     * @param seed - seed for random number generator, used to make the shape
+     *             of the cell be somewhat unique.
+     */
     public Cell( long seed ) {
         this( new Point2D.Double( 0, 0 ), seed );
     }
@@ -53,6 +72,7 @@ public class Cell extends ShapeChangingModelElement {
     public void stepInTime( double dt ) {
         // TODO: Multiplying time step, because the example used a large number.  Need to talk to George E to figure out units.
         proteinSynthesisSimulator.stepInTime( dt * 1000 );
+        proteinCount.set( proteinSynthesisSimulator.getProteinCount() );
     }
 
     //-------------------------------------------------------------------------
@@ -65,6 +85,17 @@ public class Cell extends ShapeChangingModelElement {
     public void setTranscriptionFactorCount( int tfCount ) {
         proteinSynthesisSimulator.setTranscriptionFactorCount( tfCount );
     }
+
+    // TODO: Temp for debug, remove eventually.
+    public int getTranscriptionFactorCount() {
+        return proteinSynthesisSimulator.getTranscriptionFactorCount();
+    }
+
+    // TODO: Temp for debug, remove eventually.
+    public void printCellDebugInfo() {
+        proteinSynthesisSimulator.printDebugInfo();
+    }
+
 
     public void setPolymeraseCount( int polymeraseCount ) {
         proteinSynthesisSimulator.setPolymeraseCount( polymeraseCount );
@@ -80,10 +111,6 @@ public class Cell extends ShapeChangingModelElement {
 
     public void setRNARibosomeAssociationRate( double newRate ) {
         proteinSynthesisSimulator.setRNARibosomeAssociationRate( newRate );
-    }
-
-    public int getProteinCount() {
-        return proteinSynthesisSimulator.getProteinCount();
     }
 
     //----------- End of pass-through methods ---------------------------------

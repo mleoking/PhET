@@ -45,7 +45,7 @@ public class ProteinLevelChartNode extends PNode {
         // TODO: i18n
         JFreeChart chart = createXYLineChart( "Average Protein Level vs. Time", "Time", "Average Protein Level", dataSet, PlotOrientation.VERTICAL );
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
-        chart.getXYPlot().getRangeAxis().setRange( 100, 500 );
+        chart.getXYPlot().getRangeAxis().setRange( 0, 300 );
         chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
 
         // Embed the chart in a PNode.
@@ -105,7 +105,7 @@ public class ProteinLevelChartNode extends PNode {
         // Set the stroke for the data line to be larger than the default.
         XYPlot plot = chart.getXYPlot();
         XYItemRenderer renderer = plot.getRenderer();
-        renderer.setStroke( new BasicStroke( 1f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL ) );
+        renderer.setStroke( new BasicStroke( 2f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL ) );
 
         return chart;
     }
