@@ -224,7 +224,7 @@ public class CrustTab extends PlateTectonicsTab {
                     public void run() {
                         resetAll();
                     }
-                } ) ),
+                }, colorMode ) ),
                 CrustTab.this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {

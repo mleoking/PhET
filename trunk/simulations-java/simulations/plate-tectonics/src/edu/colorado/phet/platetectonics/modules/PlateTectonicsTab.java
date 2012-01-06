@@ -84,6 +84,13 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public static final float nearPlane = 1;
     public static final float farPlane = 20000;
 
+    public static enum ColorMode {
+        DENSITY,
+        TEMPERATURE
+    }
+
+    public final Property<ColorMode> colorMode = new Property<ColorMode>( ColorMode.DENSITY );
+
     public final Property<Double> zoomRatio = new Property<Double>( 1.0 );
 
     public final LWJGLTransform sceneProjectionTransform = new LWJGLTransform();
@@ -746,6 +753,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         zoomRatio.reset();
         debugCameraTransform.set( ImmutableMatrix4F.IDENTITY );
         model.resetAll();
+        colorMode.reset();
     }
 
     public TectonicsClock getClock() {

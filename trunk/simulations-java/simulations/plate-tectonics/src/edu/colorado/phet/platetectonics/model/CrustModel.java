@@ -211,16 +211,38 @@ public class CrustModel extends PlateModel {
                                                           }, new ImmutableVector2F[mantleTop.length] );
         ImmutableVector2F[] centerOfTheEarth = new ImmutableVector2F[] { new ImmutableVector2F( 0, CENTER_OF_EARTH_Y ) };
 
-        addRegion( new SimpleConstantRegion( Type.CRUST,
-                                             oceanTop,
-                                             oceanCrustBottom,
-                                             constantFunction( LEFT_OCEANIC_DENSITY ),
-                                             constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
-        addRegion( new SimpleConstantRegion( Type.CRUST,
-                                             continentTop,
-                                             continentCrustBottom,
-                                             constantFunction( RIGHT_CONTINENTAL_DENSITY ),
-                                             constantFunction( 0.0 ) ) ); // TODO: crustal temperatures!
+        addRegion( new SimpleRegion( Type.CRUST,
+                                     oceanTop,
+                                     oceanCrustBottom ) {
+            @Override public float getDensity( ImmutableVector2F position ) {
+                return (float) LEFT_OCEANIC_DENSITY;
+            }
+
+            @Override public float getTemperature( ImmutableVector2F position ) {
+                float ratio = (float) -( ( position.y - LEFT_OCEANIC_ELEVATION ) / LEFT_OCEANIC_THICKNESS );
+                return ZERO_CELSIUS + ratio * 450;
+            }
+
+            @Override public boolean isStatic() {
+                return false;
+            }
+        } ); // TODO: crustal temperatures!
+        addRegion( new SimpleRegion( Type.CRUST,
+                                     continentTop,
+                                     continentCrustBottom ) {
+            @Override public float getDensity( ImmutableVector2F position ) {
+                return (float) RIGHT_CONTINENTAL_DENSITY;
+            }
+
+            @Override public float getTemperature( ImmutableVector2F position ) {
+                float ratio = (float) -( ( position.y - RIGHT_CONTINENTAL_ELEVATION ) / RIGHT_CONTINENTAL_THICKNESS );
+                return ZERO_CELSIUS + ratio * 450;
+            }
+
+            @Override public boolean isStatic() {
+                return false;
+            }
+        } ); // TODO: crustal temperatures!
         addRegion( new SimpleRegion( Type.CRUST,
                                      middleTop,
                                      middleCrustBottom ) {
@@ -229,7 +251,10 @@ public class CrustModel extends PlateModel {
             }
 
             @Override public float getTemperature( ImmutableVector2F position ) {
-                return 0;
+                // surface 10 C
+                // 30km ~ 300 C
+                float ratio = (float) -( ( position.y - getCenterCrustElevation() ) / thickness.get() );
+                return (float) (ZERO_CELSIUS + ratio * 700 * temperatureRatio.get());
             }
 
             @Override public boolean isStatic() {

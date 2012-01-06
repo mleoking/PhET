@@ -210,7 +210,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                     public void run() {
                         resetAll();
                     }
-                } ) ),
+                }, colorMode ) ),
                 this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {

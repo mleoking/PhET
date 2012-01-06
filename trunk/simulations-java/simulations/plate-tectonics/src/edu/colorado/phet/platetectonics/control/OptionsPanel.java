@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab.ColorMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -21,20 +23,78 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Gives the user a list of options
  */
 public class OptionsPanel extends PNode {
-    public OptionsPanel( final Property<Boolean> showLabels, Runnable resetAll ) {
-        this( showLabels, false, new Property<Boolean>( false ), new Property<Boolean>( false ), resetAll );
+    public OptionsPanel( final Property<Boolean> showLabels, Runnable resetAll, Property<ColorMode> colorMode ) {
+        this( showLabels, false, new Property<Boolean>( false ), new Property<Boolean>( false ), resetAll, colorMode );
     }
 
     public OptionsPanel( final Property<Boolean> showLabels,
                          final boolean containsWaterOption,
                          final Property<Boolean> showWater,
                          final Property<Boolean> showWaterEnabled,
-                         final Runnable resetAll ) {
+                         final Runnable resetAll,
+                         final Property<ColorMode> colorMode ) {
         final PNode title = new PText( "Options" );
         addChild( title );
 
         final Property<Double> maxWidth = new Property<Double>( title.getFullBounds().getWidth() );
         final Property<Double> y = new Property<Double>( title.getFullBounds().getMaxY() );
+
+        if ( !containsWaterOption ) {
+            final PSwing densityMode = new PSwing( new JRadioButton( "Density View" ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        setSelected( true );
+                        LWJGLUtils.invoke( new Runnable() {
+                            public void run() {
+                                colorMode.set( ColorMode.DENSITY );
+                            }
+                        } );
+                    }
+                } );
+                colorMode.addObserver( new SimpleObserver() {
+                    public void update() {
+                        final boolean set = colorMode.get() == ColorMode.DENSITY;
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                setSelected( set );
+                            }
+                        } );
+                    }
+                } );
+            }} ) {{
+                setOffset( 0, y.get() + 5 );
+                y.set( getFullBounds().getMaxY() );
+                maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
+            }};
+            addChild( densityMode );
+            final PSwing temperatureMode = new PSwing( new JRadioButton( "Temperature View" ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        setSelected( true );
+                        LWJGLUtils.invoke( new Runnable() {
+                            public void run() {
+                                colorMode.set( ColorMode.TEMPERATURE );
+                            }
+                        } );
+                    }
+                } );
+                colorMode.addObserver( new SimpleObserver() {
+                    public void update() {
+                        final boolean set = colorMode.get() == ColorMode.TEMPERATURE;
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                setSelected( set );
+                            }
+                        } );
+                    }
+                } );
+            }} ) {{
+                setOffset( 0, y.get() );
+                y.set( getFullBounds().getMaxY() );
+                maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
+            }};
+            addChild( temperatureMode );
+        }
 
         final PSwing showLabelCheckBox = new PSwing( new JCheckBox( "Show Labels" ) {{
             setSelected( showLabels.get() );
