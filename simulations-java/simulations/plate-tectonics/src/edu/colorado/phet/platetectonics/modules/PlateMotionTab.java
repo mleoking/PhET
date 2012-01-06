@@ -22,6 +22,7 @@ import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
@@ -33,7 +34,6 @@ import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
-import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
@@ -41,9 +41,6 @@ import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import static edu.colorado.phet.lwjglphet.math.ImmutableVector2F.X_UNIT;
-import static edu.colorado.phet.lwjglphet.math.ImmutableVector2F.Y_UNIT;
 
 /**
  * Displays two main plates that the user can direct to move towards, away from, or along each other.
@@ -63,9 +60,13 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private OrthoPiccoloNode motionTypeChooserPanel = null;
 
     private boolean draggingPlate = false;
+    private HandleNode draggedHandle = null;
     private ImmutableVector2F draggingPlateStartMousePosition = null;
 
-    private Property<ImmutableVector2F> motionVectorRight = new Property<ImmutableVector2F>( new ImmutableVector2F() );
+    // now this actually contains angles!!!!
+    public final Property<ImmutableVector2F> motionVectorRight = new Property<ImmutableVector2F>( new ImmutableVector2F() );
+    private HandleNode leftHandle;
+    private HandleNode rightHandle;
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
@@ -91,20 +92,22 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
-        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 0, -125 / 2 ) ), this, false ) {{
+        leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 0, -125 / 2 ) ), this, false ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
-                    updateTransform( -motionVectorRight.get().getX() / 500, -motionVectorRight.get().getY() / 500 );
+                    updateTransform( -motionVectorRight.get().getX(), -motionVectorRight.get().getY() );
                 }
             } );
-        }} );
-        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 150, 0, -125 / 2 ) ), this, true ) {{
+        }};
+        sceneLayer.addChild( leftHandle );
+        rightHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 150, 0, -125 / 2 ) ), this, true ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
-                    updateTransform( motionVectorRight.get().getX() / 500, motionVectorRight.get().getY() / 500 );
+                    updateTransform( motionVectorRight.get().getX(), motionVectorRight.get().getY() );
                 }
             } );
-        }} );
+        }};
+        sceneLayer.addChild( rightHandle );
 
         final Color overHighlightColor = new Color( 1, 1, 0.5f, 0.3f );
         final Color regularHighlightColor = new Color( 0.5f, 0.5f, 0.5f, 0.3f );
@@ -242,13 +245,16 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }};
         addGuiNode( timeControlPanelNode );
 
+        /*---------------------------------------------------------------------------*
+        * time readout
+        *----------------------------------------------------------------------------*/
         final OrthoPiccoloNode timeReadoutNode = new OrthoPiccoloNode( new ControlPanelNode( new PText() {{
             getClock().addClockListener( new ClockAdapter() {
                 @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
                     final double time = getClock().getSimulationTime();
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            setText( Math.floor( time ) + " Million Years" );
+                            setText( ( (int) time ) + " Million Years" );
                             repaint();
                         }
                     } );
@@ -319,61 +325,36 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 new UpdateListener() {
                     public void update() {
                         if ( draggingPlate ) {
-                            ImmutableVector2F currentPosition = getMousePositionOnZPlane();
-                            ImmutableVector2F deltaXY = currentPosition.minus( draggingPlateStartMousePosition );
-                            MotionType startingMotionType = getPlateMotionModel().motionType.get();
+                            Ray3F ray = getCameraRay( Mouse.getX(), Mouse.getY() );
+                            draggedHandle.drag( ray );
 
-                            boolean draggingRightPlate = draggingPlateStartMousePosition.x > 0;
-                            boolean pullingLeft = deltaXY.x < 0;
-
-                            if ( startingMotionType == null ) {
-                                if ( deltaXY.getMagnitude() > 5 ) {
-                                    float rightStrength = deltaXY.dot( X_UNIT );
-                                    float verticalStrength = Math.abs( deltaXY.dot( Y_UNIT ) );
-                                    if ( verticalStrength > Math.abs( rightStrength ) ) {
-                                        // starting transform
-                                        System.out.println( "transform movement" );
-                                        getPlateMotionModel().motionType.set( MotionType.TRANSFORM );
-                                        // TODO: handle transform direction
-                                    }
-                                    else {
-                                        if ( getPlateMotionModel().allowsDivergentMotion() && ( pullingLeft != draggingRightPlate ) ) {
-                                            getPlateMotionModel().motionType.set( MotionType.DIVERGENT );
-                                            System.out.println( "divergent movement" );
-                                        }
-                                        else if ( pullingLeft == draggingRightPlate ) {
-                                            getPlateMotionModel().motionType.set( MotionType.CONVERGENT );
-                                            System.out.println( "convergent movement" );
-                                        }
-                                    }
-                                }
-                            }
-                            else {
-                                switch( startingMotionType ) {
+                            if ( getPlateMotionModel().motionType.get() != null ) {
+                                switch( getPlateMotionModel().motionType.get() ) {
                                     case CONVERGENT:
                                         // comparison works for opposite direction
-                                        if ( draggingRightPlate == pullingLeft ) {
-                                            final float timeChange = getTimeElapsed() * Math.abs( deltaXY.x ) / 10;
+                                        if ( motionVectorRight.get().x != 0 ) {
+                                            final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().x ) );
                                             getClock().stepByWallSecondsForced( timeChange );
-                                            motionVectorRight.set( new ImmutableVector2F( -Math.abs( deltaXY.x ), 0 ) );
                                         }
                                         break;
                                     case DIVERGENT:
-                                        if ( draggingRightPlate != pullingLeft ) {
-                                            final float timeChange = getTimeElapsed() * Math.abs( deltaXY.x ) / 10;
+                                        if ( motionVectorRight.get().x != 0 ) {
+                                            final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().x ) );
                                             getClock().stepByWallSecondsForced( timeChange );
-                                            motionVectorRight.set( new ImmutableVector2F( Math.abs( deltaXY.x ), 0 ) );
                                         }
                                         break;
                                     case TRANSFORM:
                                         // TODO: fix transform
-                                        motionVectorRight.set( new ImmutableVector2F( 0, -deltaXY.y ) );
                                         break;
                                 }
                             }
                         }
                     }
                 }, false );
+    }
+
+    private float mapDragMagnitude( float mag ) {
+        return mag * mag * 10;
     }
 
     private ImmutableVector2F getCrustOffset( ImmutableVector2F pieceOffset ) {
@@ -505,14 +486,47 @@ public class PlateMotionTab extends PlateTectonicsTab {
     // show the hand cursor instead of the "default" when over the play area (AND plates exist)
     @Override protected void uncaughtCursor() {
         // TODO: use a closed-hand grab cursor instead?
-        getCanvas().setCursor( Cursor.getPredefinedCursor( getPlateMotionModel().hasBothPlates.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR ) );
+        final Ray3F ray = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
+        final boolean hitsRightHandle = isOverRightHandle( ray );
+        final boolean hitsLeftHandle = isOverLeftHandle( ray );
+        final Boolean showHand = ( getPlateMotionModel().hasBothPlates.get() && ( hitsRightHandle || hitsLeftHandle ) ) || draggingPlate;
+        getCanvas().setCursor( Cursor.getPredefinedCursor( showHand ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR ) );
+    }
+
+    private boolean isOverLeftHandle( Ray3F ray ) {
+        return leftHandle.isVisible() && leftHandle.intersectRay( ray );
+    }
+
+    private boolean isOverRightHandle( Ray3F ray ) {
+        return rightHandle.isVisible() && rightHandle.intersectRay( ray );
     }
 
     @Override protected void uncaughtMouseButton() {
         if ( !isAutoMode.get() ) {
-            draggingPlate = Mouse.getEventButtonState();
-            motionVectorRight.reset();
-            draggingPlateStartMousePosition = getMousePositionOnZPlane();
+            final Ray3F ray = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
+            final boolean overLeft = isOverLeftHandle( ray );
+            final boolean overRight = isOverRightHandle( ray );
+            if ( Mouse.getEventButtonState() && ( overLeft || overRight ) ) {
+                // mouse down
+                draggingPlate = true;
+                draggingPlateStartMousePosition = getMousePositionOnZPlane();
+                if ( overLeft ) {
+                    leftHandle.startDrag( ray );
+                    draggedHandle = leftHandle;
+                }
+                else {
+                    rightHandle.startDrag( ray );
+                    draggedHandle = rightHandle;
+                }
+            }
+            else {
+                if ( draggedHandle != null ) {
+                    draggedHandle.endDrag();
+                    draggedHandle = null;
+                }
+                draggingPlate = false;
+                motionVectorRight.reset();
+            }
         }
     }
 }
