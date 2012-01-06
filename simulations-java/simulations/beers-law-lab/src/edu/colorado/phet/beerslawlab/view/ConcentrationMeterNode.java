@@ -10,11 +10,15 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.BLLSimSharing;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.model.ConcentrationMeter;
+import edu.colorado.phet.beerslawlab.model.Dropper;
+import edu.colorado.phet.beerslawlab.model.Faucet;
+import edu.colorado.phet.beerslawlab.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -29,16 +33,51 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Concentration meter, with probe.
+ * <p/>
+ * The probe needs to register the concentration when of all possible fluids that it may contact, including:
+ * <ul>
+ * <li>solution in the beaker
+ * <li>output of the solvent faucet
+ * <li>output of the drain faucet
+ * <li>output of the dropper
+ * </ul>
+ * <p/>
+ * Rather than trying to model the shapes of all of these fluids, we handle "probe is in fluid"
+ * herein via intersection of view shapes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConcentrationMeterNode extends PhetPNode {
 
-    public ConcentrationMeterNode( ConcentrationMeter meter ) {
+    private final ConcentrationMeter meter;
+    private final Solution solution;
+    private final SolutionNode solutionNode;
+    private final Faucet solventFaucet, drainFaucet;
+    private final OutputFluidNode solventFluidNode, drainFluidNode;
+    private final Dropper dropper;
+    private final StockSolutionNode stockSolutionNode;
+
+    private final ProbeNode probeNode;
+
+    public ConcentrationMeterNode( ConcentrationMeter meter,
+                                   Solution solution, SolutionNode solutionNode,
+                                   Faucet solventFaucet, OutputFluidNode solventFluidNode,
+                                   Faucet drainFaucet, OutputFluidNode drainFluidNode,
+                                   Dropper dropper, StockSolutionNode stockSolutionNode ) {
+
+        this.meter = meter;
+        this.solutionNode = solutionNode;
+        this.solution = solution;
+        this.solventFaucet = solventFaucet;
+        this.solventFluidNode = solventFluidNode;
+        this.drainFaucet = drainFaucet;
+        this.drainFluidNode = drainFluidNode;
+        this.dropper = dropper;
+        this.stockSolutionNode = stockSolutionNode;
 
         // nodes
         BodyNode bodyNode = new BodyNode( meter );
-        ProbeNode probeNode = new ProbeNode( meter );
+        probeNode = new ProbeNode( meter, solutionNode, solventFluidNode, drainFluidNode, stockSolutionNode );
         WireNode wireNode = new WireNode( meter, new ImmutableVector2D( bodyNode.getFullBoundsReference().getWidth() / 2, bodyNode.getFullBoundsReference().getHeight() / 2 ) );
 
         // rendering order
@@ -47,6 +86,34 @@ public class ConcentrationMeterNode extends PhetPNode {
         addChild( probeNode );
 
         //NOTE: layout is handled by child nodes observing model elements.
+
+        // Update the meter value
+        RichSimpleObserver valueUpdater = new RichSimpleObserver() {
+            public void update() {
+                updateValue();
+            }
+        };
+        valueUpdater.observe( meter.probe.location, solution.solute, solution.volume, solventFaucet.flowRate, drainFaucet.flowRate, dropper.location );
+        solution.addConcentrationObserver( valueUpdater );
+        dropper.addFlowRateObserver( valueUpdater );
+    }
+
+    private void updateValue() {
+        if ( probeNode.isInSolution() ) {
+            meter.setValue( solution.getConcentration() );
+        }
+        else if ( probeNode.isInSolvent() ) {
+            meter.setValue( 0d );
+        }
+        else if ( probeNode.isInDrain() ) {
+            meter.setValue( solution.getConcentration() );
+        }
+        else if ( probeNode.isInStockSolution() ) {
+            meter.setValue( dropper.solute.get().stockSolutionConcentration );
+        }
+        else {
+            meter.setValue( null );
+        }
     }
 
     // Meter body, origin at upper left.
@@ -131,7 +198,19 @@ public class ConcentrationMeterNode extends PhetPNode {
     // Meter probe, origin at geometric center.
     private static class ProbeNode extends PNode {
 
-        public ProbeNode( final ConcentrationMeter meter ) {
+        private final ConcentrationMeter meter;
+        private final SolutionNode solutionNode;
+        private final OutputFluidNode solventFluidNode;
+        private final OutputFluidNode drainFluidNode;
+        private final StockSolutionNode stockSolutionNode;
+
+        public ProbeNode( final ConcentrationMeter meter, SolutionNode solutionNode, OutputFluidNode solventFluidNode, OutputFluidNode drainFluidNode, StockSolutionNode stockSolutionNode ) {
+
+            this.meter = meter;
+            this.solutionNode = solutionNode;
+            this.solventFluidNode = solventFluidNode;
+            this.drainFluidNode = drainFluidNode;
+            this.stockSolutionNode = stockSolutionNode;
 
             PImage imageNode = new PImage( Images.CONCENTRATION_METER_PROBE ) {{
                 scale( 0.5 );
@@ -151,12 +230,35 @@ public class ConcentrationMeterNode extends PhetPNode {
                                                            // sim-sharing parameters
                                                            new Function0<Parameter[]>() {
                                                                public Parameter[] apply() {
-                                                                   return new Parameter[] { new Parameter( BLLSimSharing.Parameters.IS_IN_SOLUTION, meter.probe.isInSolution() ) };
+                                                                   return new Parameter[] {
+                                                                           new Parameter( Parameters.IS_IN_SOLUTION, isInSolution() ) };
                                                                }
                                                            } ) );
         }
+
+        private boolean isInSolution() {
+            return isInNode( solutionNode );
+        }
+
+        private boolean isInSolvent() {
+            return isInNode( solventFluidNode );
+        }
+
+        private boolean isInDrain() {
+            return isInNode( drainFluidNode );
+        }
+
+        private boolean isInStockSolution() {
+            return isInNode( stockSolutionNode );
+        }
+
+        private boolean isInNode( PNode node ) {
+            //TODO ...or should this return true if any part of ProbeNode intersects node?
+            return node.getFullBoundsReference().contains( meter.probe.location.get().toPoint2D() );
+        }
     }
 
+    // Wire that connects the probe to the body of the meter.
     private static class WireNode extends PPath {
 
         public WireNode( final ConcentrationMeter meter, final ImmutableVector2D bodyCenterOffset ) {
@@ -165,7 +267,7 @@ public class ConcentrationMeterNode extends PhetPNode {
 
             SimpleObserver observer = new SimpleObserver() {
                 public void update() {
-                    //TODO end of wire is visible in transparent center of probe
+                    // straight line from the center of the probe to the center of the body.
                     setPathTo( new Line2D.Double( meter.probe.getX(), meter.probe.getY(),
                                                   meter.body.getX() + bodyCenterOffset.getX(), meter.body.getY() + bodyCenterOffset.getY() ) );
                 }

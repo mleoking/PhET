@@ -63,7 +63,7 @@ public class ConcentrationModel implements Resettable {
     public final Evaporator evaporator;
     public final Beaker beaker;
     public final Precipitate precipitate;
-    public final Faucet inputFaucet, outputFaucet;
+    public final Faucet solventFaucet, drainFaucet;
     public final ConcentrationMeter concentrationMeter;
 
     public ConcentrationModel( IClock clock ) {
@@ -94,11 +94,10 @@ public class ConcentrationModel implements Resettable {
         this.evaporator = new Evaporator( MAX_EVAPORATION_RATE, solution );
         this.beaker = new Beaker( new Point2D.Double( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.precipitate = new Precipitate( solution, beaker );
-        this.inputFaucet = new Faucet( new Point2D.Double( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
-        this.outputFaucet = new Faucet( new Point2D.Double( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive location and pipe length
+        this.solventFaucet = new Faucet( new Point2D.Double( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE ); //TODO derive location and pipe length
+        this.drainFaucet = new Faucet( new Point2D.Double( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE ); //TODO derive location and pipe length
         this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 770, 225 ), new PBounds( 10, 10, 825, 530 ),
-                                                          new ImmutableVector2D( 580, 300 ), new PBounds( 30, 30, 935, 605 ),
-                                                          solution, beaker );
+                                                          new ImmutableVector2D( 580, 300 ), new PBounds( 30, 30, 935, 605 ) );
 
         // Things to do when the solute is changed.
         solute.addObserver( new SimpleObserver() {
@@ -111,8 +110,8 @@ public class ConcentrationModel implements Resettable {
         // Enable faucets based on amount of solution in the beaker.
         solution.volume.addObserver( new VoidFunction1<Double>() {
             public void apply( Double volume ) {
-                inputFaucet.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
-                outputFaucet.enabled.set( volume > SOLUTION_VOLUME_RANGE.getMin() );
+                solventFaucet.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
+                drainFaucet.enabled.set( volume > SOLUTION_VOLUME_RANGE.getMin() );
                 dropper.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() && solution.soluteAmount.get() < SOLUTE_AMOUNT_RANGE.getMax() );
             }
         } );
@@ -137,8 +136,8 @@ public class ConcentrationModel implements Resettable {
         shaker.reset();
         dropper.reset();
         evaporator.reset();
-        inputFaucet.reset();
-        outputFaucet.reset();
+        solventFaucet.reset();
+        drainFaucet.reset();
         concentrationMeter.reset();
     }
 
@@ -156,12 +155,12 @@ public class ConcentrationModel implements Resettable {
 
     // Add solvent from the input faucet
     private void addSolventFromInputFaucet( double deltaSeconds ) {
-        addSolvent( inputFaucet.flowRate.get() * deltaSeconds );
+        addSolvent( solventFaucet.flowRate.get() * deltaSeconds );
     }
 
     // Drain solution from the output faucet
     private void drainSolutionFromOutputFaucet( double deltaSeconds ) {
-        double drainVolume = outputFaucet.flowRate.get() * deltaSeconds;
+        double drainVolume = drainFaucet.flowRate.get() * deltaSeconds;
         if ( drainVolume > 0 ) {
             double concentration = solution.getConcentration(); // get concentration before changing volume
             double volumeRemoved = removeSolvent( drainVolume );

@@ -14,7 +14,6 @@ HIGH
 - try a 3D looking beaker (water glass from Fractions?)
 - make maxSolute a model property, start with 10 moles, but may make this based on Solute.saturatedConcentration
 - shaker and dropper: setEnabled(soluteInPlay<=maxSolute)
-- make concentration meter read solution exiting: water faucet, drain faucet, dropper
 
 MEDIUM
 - experiment with making control panel less wide: split solute combo box items into 2 lines, vertically stack radio buttons
