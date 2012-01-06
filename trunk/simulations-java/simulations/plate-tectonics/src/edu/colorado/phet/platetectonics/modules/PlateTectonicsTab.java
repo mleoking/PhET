@@ -589,7 +589,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[] { 0, 0, 0, 0 } );
     private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[] { 50 } );
-    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[] { 1, 3, -2, 0 } );
+    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[] { 1, 3, 2, 0 } );
     private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[] { -2, 1, -1, 0 } );
 
     public void loadLighting() {

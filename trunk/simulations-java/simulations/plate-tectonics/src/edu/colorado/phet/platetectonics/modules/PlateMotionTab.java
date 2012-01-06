@@ -89,8 +89,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
-        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 15, -125 / 2 ) ), this, false ) );
-        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 150, 15, -125 / 2 ) ), this, true ) );
+        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 0, -125 / 2 ) ), this, false ) );
+        sceneLayer.addChild( new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 150, 0, -125 / 2 ) ), this, true ) );
 
         final Color overHighlightColor = new Color( 1, 1, 0.5f, 0.3f );
         final Color regularHighlightColor = new Color( 0.5f, 0.5f, 0.5f, 0.3f );
