@@ -1,12 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.Sphere;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.Arrow2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ArrowNode;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
@@ -17,21 +22,18 @@ import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
 import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.Y_UNIT;
-import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.Z_UNIT;
 import static org.lwjgl.opengl.GL11.*;
 
 public class HandleNode extends GLNode {
-    private static int radialRows = 30;
     private static int radialColumns = 30;
-    private static int columns = radialColumns * 2 + 2; // radialColumns for each bend, with one for each base
-    private static float smallRadius = 8;
-    private static float largeRadius = 15;
-    private static float middleLength = 70;
-    private static float downLength = 30;
-    private ImmutableVector3F[] positions;
+    private static int rows = 30;
+    private ImmutableVector3F[] handlePositions;
+    private ImmutableVector3F[] ballPositions;
     private GridMesh handleMesh;
+    private GridMesh ballMesh;
     private final Property<ImmutableVector3F> offset;
     private final PlateMotionTab tab;
+    private final LWJGLTransform transform = new LWJGLTransform();
 
     public HandleNode( final Property<ImmutableVector3F> offset, final PlateMotionTab tab, final boolean isRightHandle ) {
         this.offset = offset;
@@ -46,37 +48,12 @@ public class HandleNode extends GLNode {
         tab.getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
         tab.isAutoMode.addObserver( visibilityObserver );
 
-        positions = new ImmutableVector3F[radialRows * columns];
+        handlePositions = new ImmutableVector3F[radialColumns * 2];
+        ballPositions = new ImmutableVector3F[radialColumns * rows];
 
-        RingPositioner leftBase = new RingPositioner() {
-            public ImmutableVector3F position( float sin, float cos ) {
-                return new ImmutableVector3F(
-                        -middleLength / 2 + cos,
-                        -downLength,
-                        -sin
-                );
-            }
-        };
-        RingPositioner rightBase = new RingPositioner() {
-            public ImmutableVector3F position( float sin, float cos ) {
-                return new ImmutableVector3F(
-                        middleLength / 2 - cos,
-                        -downLength,
-                        -sin
-                );
-            }
-        };
-        int col = 0;
-        apply( leftBase, col++ );
-        for ( int radialCol = 0; radialCol < radialColumns; radialCol++ ) {
-            apply( new CurvePositioner( ( (float) radialCol ) / ( (float) ( radialColumns - 1 ) ), false ), col++ );
-        }
-        for ( int radialCol = radialColumns - 1; radialCol >= 0; radialCol-- ) {
-            apply( new CurvePositioner( ( (float) radialCol ) / ( (float) ( radialColumns - 1 ) ), true ), col++ );
-        }
-        apply( rightBase, col++ );
+        updateLocations( 0, 0 );
 
-        handleMesh = new GridMesh( radialRows, columns, positions ) {
+        handleMesh = new GridMesh( 2, radialColumns, handlePositions ) {
             @Override protected void preRender( GLOptions options ) {
                 super.preRender( options );
 
@@ -96,6 +73,8 @@ public class HandleNode extends GLNode {
         };
         addChild( handleMesh );
 
+        // TODO: create ball mesh
+
         final ColorMaterial arrowConvergentFill = new ColorMaterial( PlateTectonicsConstants.ARROW_CONVERGENT_FILL );
         final ColorMaterial arrowDivergentFill = new ColorMaterial( PlateTectonicsConstants.ARROW_DIVERGENT_FILL );
         final ColorMaterial arrowTransformFill = new ColorMaterial( PlateTectonicsConstants.ARROW_TRANSFORM_FILL );
@@ -111,6 +90,8 @@ public class HandleNode extends GLNode {
         float arrowHeadWidth = 14;
         float arrowTailWidth = 8;
 
+        final float arrowPaddingAbove = 80;
+
         final Property<MotionType> motionType = tab.getPlateMotionModel().motionType;
 
         // back arrow
@@ -118,7 +99,7 @@ public class HandleNode extends GLNode {
                                               new ImmutableVector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
             setFillMaterial( arrowTransformFill );
             setStrokeMaterial( arrowStroke );
-            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( 50 ) );
+            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
             ImmutableVector3F viewPosition = convertToRadial( position );
             translate( viewPosition.x, viewPosition.y, viewPosition.z );
             rotate( Y_UNIT, (float) ( Math.PI / 2 ) );
@@ -138,7 +119,7 @@ public class HandleNode extends GLNode {
             final boolean isConvergent = !isRightHandle;
             setFillMaterial( isConvergent ? arrowConvergentFill : arrowDivergentFill );
             setStrokeMaterial( arrowStroke );
-            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( 50 ) );
+            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
             ImmutableVector3F viewPosition = convertToRadial( position );
             translate( viewPosition.x, viewPosition.y, viewPosition.z );
 
@@ -163,7 +144,7 @@ public class HandleNode extends GLNode {
             final boolean isConvergent = isRightHandle;
             setFillMaterial( isConvergent ? arrowConvergentFill : arrowDivergentFill );
             setStrokeMaterial( arrowStroke );
-            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( 50 ) );
+            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
             ImmutableVector3F viewPosition = convertToRadial( position );
             translate( viewPosition.x, viewPosition.y, viewPosition.z );
 
@@ -187,7 +168,7 @@ public class HandleNode extends GLNode {
                                               new ImmutableVector2F( arrowExtent, 0 ), arrowHeadHeight, arrowHeadWidth, arrowTailWidth ) ) {{
             setFillMaterial( arrowTransformFill );
             setStrokeMaterial( arrowStroke );
-            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( 50 ) );
+            ImmutableVector3F position = offset.get().plus( Y_UNIT.times( arrowPaddingAbove ) );
             ImmutableVector3F viewPosition = convertToRadial( position );
             translate( viewPosition.x, viewPosition.y, viewPosition.z );
             rotate( Y_UNIT, (float) ( -Math.PI / 2 ) );
@@ -202,15 +183,19 @@ public class HandleNode extends GLNode {
         }} );
     }
 
-    private void apply( RingPositioner positioner, int col ) {
-        for ( int row = 0; row < radialRows; row++ ) {
-            float radialRatio = ( (float) row ) / ( (float) ( radialRows - 1 ) );
-            float sin = (float) ( smallRadius * Math.sin( 2 * Math.PI * radialRatio ) );
-            float cos = (float) ( smallRadius * Math.cos( 2 * Math.PI * radialRatio ) );
+    private float stickRadius = 5;
+    private float stickHeight = 50;
 
-            // warp the coordinates around the earth's frame
-            ImmutableVector3F planarViewCoordinates = positioner.position( sin, cos ).plus( offset.get() );
-            positions[row * columns + col] = convertToRadial( planarViewCoordinates );
+    public void updateLocations( float xRotation, float zRotation ) {
+        transform.set( ImmutableMatrix4F.rotationZ( xRotation ).times( ImmutableMatrix4F.rotationX( zRotation ) ) );
+
+        for ( int col = 0; col < radialColumns; col++ ) {
+            float radialRatio = ( (float) col ) / ( (float) ( radialColumns - 1 ) );
+            float sin = (float) ( Math.sin( 2 * Math.PI * radialRatio ) );
+            float cos = (float) ( Math.cos( 2 * Math.PI * radialRatio ) );
+
+            handlePositions[col] = convertToRadial( transform.transformPosition( new ImmutableVector3F( sin * stickRadius, stickHeight, cos * stickRadius ).plus( offset.get() ) ) );
+            handlePositions[radialColumns + col] = convertToRadial( transform.transformPosition( new ImmutableVector3F( sin * stickRadius, 0, cos * stickRadius ).plus( offset.get() ) ) );
         }
     }
 
@@ -221,41 +206,27 @@ public class HandleNode extends GLNode {
         return radialViewCoordinates;
     }
 
-    private static interface RingPositioner {
-        public ImmutableVector3F position( float sin, float cos );
-    }
-
-    private static class CurvePositioner implements RingPositioner {
-        private final float ratio;
-        private final boolean flip;
-
-        private CurvePositioner( float ratio, boolean flip ) {
-            this.ratio = ratio;
-            this.flip = flip;
-        }
-
-        public ImmutableVector3F position( float sin, float cos ) {
-            ImmutableVector3F direction = new ImmutableVector3F(
-                    (float) -Math.cos( ratio * Math.PI / 2 ),
-                    (float) Math.sin( ratio * Math.PI / 2 ),
-                    0
-            );
-            ImmutableVector3F center = direction.times( largeRadius ).plus( new ImmutableVector3F(
-                    -middleLength / 2 + largeRadius,
-                    0,
-                    0
-            ) );
-
-            // use the direction and Z_UNIT to span the plane our circle is in
-            return center.plus( direction.times( -cos ) ).plus( Z_UNIT.times( -sin ) )
-
-                    // flip the X component if "flip" is true
-                    .componentTimes( new ImmutableVector3F( flip ? -1 : 1, 1, 1 ) );
-        }
-    }
-
     // TODO: we are using the rendering order very particularly. find a better way
     @Override public void renderSelf( GLOptions options ) {
+        // red sphere TODO cleanup
+        GL11.glPushMatrix();
+        ImmutableVector3F center = convertToRadial( transform.transformPosition( new ImmutableVector3F( 0, stickHeight, 0 ).plus( offset.get() ) ) );
+        GL11.glTranslatef( center.x, center.y, center.z );
+        glEnable( GL_COLOR_MATERIAL );
+        glColorMaterial( GL_FRONT, GL_DIFFUSE );
+        glEnable( GL_CULL_FACE );
+        glEnable( GL_LIGHTING );
+        GL11.glColor4f( 0.6f, 0, 0, 1 );
+        new Sphere().draw( 10, 50, 50 );
+        glDisable( GL_LIGHTING );
+        glDisable( GL_DEPTH_TEST );
+        GL11.glColor4f( 1, 0, 0, 0.4f );
+        new Sphere().draw( 10, 50, 50 );
+        glEnable( GL_DEPTH_TEST );
+        glDisable( GL_COLOR_MATERIAL );
+        glDisable( GL_CULL_FACE );
+        GL11.glPopMatrix();
+
         // render the back-facing parts
         handleMesh.setMaterial( new ColorMaterial( 1, 1, 1, 0.2f ) );
         glFrontFace( GL_CW );
