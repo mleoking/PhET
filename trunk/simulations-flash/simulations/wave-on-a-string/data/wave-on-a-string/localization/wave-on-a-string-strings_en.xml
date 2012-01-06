@@ -15,7 +15,7 @@
   <string key="manual" value="Manual" />
   <string key="oscillate" value="Oscillate" />
   <string key="pulse" value="Pulse" />
-  <string key="reset" value="Reset" />
+  <string key="reset" value="Restart" />
   <string key="pulse2" value="Pulse" />
   <string key="paused" value="Paused" />
   <string key="fixedEnd" value="Fixed End" />
