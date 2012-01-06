@@ -46,7 +46,6 @@ public class SimSpeedControl extends JPanel {
 
         // slider
         linearSlider = new LinearValueControl( min, max, "", "", "", new SliderOnlyLayoutStrategy() );
-        linearSlider.setSimSharingObject( getClass() );
         Hashtable<Double, JLabel> table = new Hashtable<Double, JLabel>();
         table.put( new Double( min ), new TimeSpeederLabel( PhetCommonResources.getString( "Common.time.slow" ), textColor ) );
         table.put( new Double( max ), new TimeSpeederLabel( PhetCommonResources.getString( "Common.time.fast" ), textColor ) );

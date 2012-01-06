@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSpinner;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -32,7 +33,7 @@ public class IntegerSpinner extends SimSharingJSpinner {
     private final IntegerRange range;
     private final JFormattedTextField textField;
 
-    public IntegerSpinner( String simSharingObject, IntegerRange range ) {
+    public IntegerSpinner( SimSharingConstants.User.UserComponent simSharingObject, IntegerRange range ) {
         super( simSharingObject );
 
         this.range = range;

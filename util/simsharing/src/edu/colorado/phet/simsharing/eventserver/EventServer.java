@@ -14,9 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.EXITED;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components.SYSTEM;
-
 /**
  * Server that stores messages sent from SimSharingEvents.
  *
@@ -47,7 +44,8 @@ public class EventServer implements MessageHandler {
             bufferedWriter.newLine();
             bufferedWriter.flush();
 
-            if ( object.equals( SYSTEM ) && action.equals( EXITED ) ) {
+            //TODO: is this the right message to end on?
+            if ( object.equals( "system" ) && action.equals( "exited" ) ) {
                 bufferedWriter.close();
 
                 String key = getKey( machineID, sessionID );

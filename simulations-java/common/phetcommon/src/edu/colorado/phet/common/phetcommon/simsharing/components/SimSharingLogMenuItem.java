@@ -19,13 +19,17 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.*;
 
 /**
  * Menu item and dialog for accessing the sim-sharing event log.
@@ -42,7 +46,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
     private SimSharingLogDialog dialog;
 
     public SimSharingLogMenuItem( final PhetFrame parent ) {
-        super( "dataCollectionLogMenuItem", TITLE + "..." );
+        super( SimSharingConstants.User.UserComponents.dataCollectionLogMenuItem, TITLE + "..." );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {
@@ -74,7 +78,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                 }} ), BorderLayout.CENTER );
                 // Save button that saves the log to a file
                 add( new JPanel() {{
-                    add( new SimSharingJButton( "saveButton", ACTION + "..." ) {{
+                    add( new SimSharingJButton( chain( simSharingLogFileDialog, saveButton ), ACTION + "..." ) {{
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
 
@@ -84,11 +88,11 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                 int rval = fileChooser.showSaveDialog( parent ); // blocks
                                 File selectedFile = fileChooser.getSelectedFile();
                                 if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-                                    SimSharingManager.sendUserEvent( "fileChooserCancelButton", Actions.PRESSED );
+                                    SimSharingManager.sendUserEvent( chain( simSharingLogFileDialog, fileChooserCancelButton ), pressed );
                                     return;
                                 }
                                 currentDirectory = selectedFile.getParentFile();
-                                SimSharingManager.sendUserEvent( "fileChooserSaveButton", Actions.PRESSED );
+                                SimSharingManager.sendUserEvent( chain( simSharingLogFileDialog, fileChooserSaveButton ), pressed );
 
                                 // Ensure that the file has the proper suffix.
                                 if ( !FileUtils.hasSuffix( selectedFile, FILE_SUFFIX ) ) {
@@ -100,10 +104,10 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                     String message = MessageFormat.format( "File {0} exists. OK to replace?", selectedFile.getName() );
                                     int reply = PhetOptionPane.showYesNoDialog( parent, message, "Confirm" );
                                     if ( reply != JOptionPane.YES_OPTION ) {
-                                        SimSharingManager.sendUserEvent( "replaceFileNoButton", Actions.PRESSED );
+                                        SimSharingManager.sendUserEvent( chain( simSharingLogFileDialog, replaceFileNoButton ), pressed );
                                         return;
                                     }
-                                    SimSharingManager.sendUserEvent( "replaceFileYesButton", Actions.PRESSED );
+                                    SimSharingManager.sendUserEvent( chain( simSharingLogFileDialog, replaceFileYesButton ), pressed );
                                 }
 
                                 // Write log to file.

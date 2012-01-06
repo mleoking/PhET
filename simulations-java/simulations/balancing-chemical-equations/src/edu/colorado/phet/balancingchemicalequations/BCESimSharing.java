@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balancingchemicalequations;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
+
 /**
  * Sim-sharing strings that are specific to this sim.
  *
@@ -8,11 +10,26 @@ package edu.colorado.phet.balancingchemicalequations;
  */
 public class BCESimSharing {
 
-    public static final String ACTION_GUESS_CHECKED = "guessChecked";
+    public static enum Actions implements SimSharingConstants.User.UserAction, SimSharingConstants.Model.ModelAction {
+        guessChecked
+    }
 
-    public static final String PARAM_ATTEMPTS = "attempts";
-    public static final String PARAM_EQUATION = "equation";
-    public static final String PARAM_IS_BALANCED_AND_SIMPLIFIED = "isBalancedAndSimplified";
-    public static final String PARAM_IS_BALANCED = "isBalanced";
+    public static enum Components implements SimSharingConstants.User.UserComponent {
+    }
 
+    public static enum Parameters implements SimSharingConstants.ParameterKey {
+        attempts, equation, isBalancedAndSimplified, isBalanced
+    }
+
+    public static class CoefficientNodeSpinner implements SimSharingConstants.User.UserComponent {
+        private final String symbol;
+
+        public CoefficientNodeSpinner( String symbol ) {
+            this.symbol = symbol;
+        }
+
+        @Override public String toString() {
+            return symbol;
+        }
+    }
 }

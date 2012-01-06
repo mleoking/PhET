@@ -12,10 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -99,20 +95,15 @@ public class ComboBoxNode<T> extends PNode {
         } );
     }
 
-    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator, final Function1<T, String> toString ) {
-        this( items, initialItem, nodeGenerator, "ComboBoxNode", toString );
-    }
-
     /**
      * Create a ComboBoxNode with the specified items and specified way to convert the items to strings
      *
-     * @param items            items the items to show in the combo box
+     * @param items          items the items to show in the combo box
      * @param initialItem
-     * @param nodeGenerator    the function to use to convert the T items to PNodes to show in the drop down box or in the selection region
-     * @param simSharingObject used in Sim Sharing reports
-     * @param simSharingItem   for Sim Sharing, the way to get a string from the T for reporting it
+     * @param nodeGenerator  the function to use to convert the T items to PNodes to show in the drop down box or in the selection region
+     * @param simSharingItem for Sim Sharing, the way to get a string from the T for reporting it
      */
-    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator, final String simSharingObject, final Function1<T, String> simSharingItem ) {
+    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator, final Function1<T, String> simSharingItem ) {
 
         //Make sure the initial item is in the list
         assert items.contains( initialItem );
@@ -139,8 +130,7 @@ public class ComboBoxNode<T> extends PNode {
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
 
-                        SimSharingManager.sendUserEvent( simSharingObject, Actions.SELECTED,
-                                                         Parameter.param( Parameters.ITEM, simSharingItem.apply( item ) ) );
+                        itemSelected();
 
                         selectedItem.set( item );
                     }
@@ -192,6 +182,11 @@ public class ComboBoxNode<T> extends PNode {
 
         //Show the popup beneath the selected item displayer
         popup.setOffset( 0, selectedItemNode.getFullBounds().getHeight() + 2 );
+    }
+
+    //For simsharing
+    public void itemSelected() {
+//        SimSharingManager.sendUserEvent( simSharingObject, Actions.SELECTED, Parameter.param( Parameters.ITEM, simSharingItem.apply( item ) ) );
     }
 
     //Hide the popup and unregister all registered listeners
@@ -340,7 +335,7 @@ public class ComboBoxNode<T> extends PNode {
                     public PNode apply( Integer integer ) {
                         return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
                     }
-                }, "number", new Function1<Integer, String>() {
+                }, new Function1<Integer, String>() {
                     public String apply( Integer integer ) {
                         return integer.toString();
                     }

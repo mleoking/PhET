@@ -19,6 +19,7 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -31,7 +32,7 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighligh
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.MPSimSharing.Objects;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.Components;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
@@ -285,10 +286,10 @@ public class ElectronegativityControlNode extends PhetPNode {
             this.molecule = molecule;
             this.snapInterval = snapInterval;
             setStartEndFunction( new DragFunction() {
-                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingManager.sendUserEvent( Objects.OBJECT_ELECTRONEGATIVITY_CONTROL, action, xParameter, yParameter,
-                                                     new Parameter( Parameters.PARAM_ATOM, atom.getName() ),
-                                                     new Parameter( Parameters.PARAM_ELECTRONEGATIVITY, atom.electronegativity.get() ) );
+                public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                    SimSharingManager.sendUserEvent( Components.electronegativityControl, action, xParameter, yParameter,
+                                                     new Parameter( Parameters.atom, atom.getName() ),
+                                                     new Parameter( Parameters.electronegativity, atom.electronegativity.get() ) );
                 }
             } );
         }

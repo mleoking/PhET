@@ -18,7 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
@@ -243,11 +243,11 @@ public class CustomSolutionControls extends PhetTitledPanel {
                     }
                 };
 
-                acidRadioButton = new SimSharingJRadioButton( ABSStrings.ACID );
+                acidRadioButton = new SimSharingJRadioButton( Components.acidRadioButton, ABSStrings.ACID );
                 group.add( acidRadioButton );
                 acidRadioButton.addActionListener( actionListener );
 
-                baseRadioButton = new SimSharingJRadioButton( ABSStrings.BASE );
+                baseRadioButton = new SimSharingJRadioButton( Components.baseRadioButton, ABSStrings.BASE );
                 group.add( baseRadioButton );
                 baseRadioButton.addActionListener( actionListener );
             }
@@ -297,7 +297,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                         fireStateChanged();
                     }
                 } );
-                concentrationControl.setSimSharingObject( Objects.CONCENTRATION_CONTROL );
+//                concentrationControl.setSimSharingObject( Objects.CONCENTRATION_CONTROL );
             }
 
             // labels on the slider
@@ -369,11 +369,11 @@ public class CustomSolutionControls extends PhetTitledPanel {
                     }
                 };
 
-                weakRadioButton = new SimSharingJRadioButton( ABSStrings.WEAK );
+                weakRadioButton = new SimSharingJRadioButton( Components.weakRadioButton, ABSStrings.WEAK );
                 group.add( weakRadioButton );
                 weakRadioButton.addActionListener( actionListener );
 
-                strongRadioButton = new SimSharingJRadioButton( ABSStrings.STRONG );
+                strongRadioButton = new SimSharingJRadioButton( Components.strongRadioButton, ABSStrings.STRONG );
                 group.add( strongRadioButton );
                 strongRadioButton.addActionListener( actionListener );
             }
@@ -397,7 +397,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                         fireStateChanged();
                     }
                 } );
-                weakStrengthControl.setSimSharingObject( Objects.WEAK_STRENGTH_CONTROL );
+//                weakStrengthControl.setSimSharingObject( Objects.WEAK_STRENGTH_CONTROL );
             }
 
             // layout with inner panel

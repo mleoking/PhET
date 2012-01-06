@@ -36,10 +36,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -52,6 +50,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.text;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
 
 /**
  * The PhetTabbedPane is a Piccolo implementation of a tabbed pane.  In general, the interface resembles JTabbedPane.
@@ -918,7 +919,7 @@ public class PhetTabbedPane extends JPanel {
         public void mouseReleased( PInputEvent e ) {
             if ( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
 
-                SimSharingManager.sendUserEvent( Components.TAB, Actions.PRESSED, Parameter.param( Parameters.TEXT, tab.getText() ) );
+                SimSharingManager.sendUserEvent( SimSharingConstants.User.UserComponents.tab, pressed, Parameter.param( text, tab.getText() ) );
 
                 setSelectedTab( tab );
             }
@@ -1019,7 +1020,7 @@ public class PhetTabbedPane extends JPanel {
                     @Override public void mouseReleased( PInputEvent event ) {
                         if ( getFullBounds().contains( event.getCanvasPosition() ) ) {
 
-                            SimSharingManager.sendUserEvent( Components.TAB, Actions.PRESSED, Parameter.param( Parameters.TEXT, getText() ) );
+                            SimSharingManager.sendUserEvent( SimSharingConstants.User.UserComponents.tab, pressed, Parameter.param( text, getText() ) );
 
                             selectedTab.set( tabNodeReverseMap.get( htmlTabNode ) );
                         }

@@ -3,7 +3,7 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Components.REWIND_BUTTON;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.rewindButton;
 
 /**
  * Created by: Sam
@@ -12,7 +12,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.C
 public class RewindButton extends DefaultIconButton {
 
     public RewindButton( int buttonHeight ) {
-        super( REWIND_BUTTON, buttonHeight, new ButtonIconSet( buttonHeight, buttonHeight ).createRewindIconShape() );
+        super( rewindButton, buttonHeight, new ButtonIconSet( buttonHeight, buttonHeight ).createRewindIconShape() );
     }
 
     public static void main( String[] args ) {

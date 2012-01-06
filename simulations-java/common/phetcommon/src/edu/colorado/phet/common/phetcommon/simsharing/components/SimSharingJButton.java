@@ -8,10 +8,11 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
 
 /**
  * Swing button that sends sim-sharing events.
@@ -20,36 +21,36 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Paramete
  */
 public class SimSharingJButton extends JButton {
 
-    private final String object;
+    private final UserComponent object;
 
-    public SimSharingJButton( String object ) {
+    public SimSharingJButton( UserComponent object ) {
         this.object = object;
     }
 
-    public SimSharingJButton( String object, Icon icon ) {
+    public SimSharingJButton( UserComponent object, Icon icon ) {
         super( icon );
         this.object = object;
     }
 
-    public SimSharingJButton( String object, String text ) {
+    public SimSharingJButton( UserComponent object, String text ) {
         super( text );
         this.object = object;
     }
 
-    public SimSharingJButton( String object, Action a ) {
+    public SimSharingJButton( UserComponent object, Action a ) {
         super( a );
         this.object = object;
     }
 
-    public SimSharingJButton( String object, String text, Icon icon ) {
+    public SimSharingJButton( UserComponent object, String text, Icon icon ) {
         super( text, icon );
         this.object = object;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
         SimSharingManager.sendUserEvent( object,
-                                         Actions.PRESSED,
-                                         Parameter.param( Parameters.COMPONENT_TYPE, ParameterValues.BUTTON ) );
+                                         pressed,
+                                         Parameter.componentType( SimSharingConstants.ComponentTypes.button ) );
         super.fireActionPerformed( event );
     }
 }

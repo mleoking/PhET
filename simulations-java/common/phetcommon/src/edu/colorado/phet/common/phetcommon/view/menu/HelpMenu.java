@@ -29,6 +29,8 @@ import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.*;
+
 /**
  * HelpMenu
  *
@@ -39,13 +41,13 @@ public class HelpMenu extends SimSharingJMenu implements ModuleObserver {
     private final JMenuItem onscreenHelp;
 
     public HelpMenu( final PhetApplication phetApplication, PhetFrame phetFrame ) {
-        super( "helpMenu", PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Title" ) );
+        super( helpMenu, PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Title" ) );
         this.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         phetApplication.addModuleObserver( this );
 
         //----------------------------------------------------------------------
         // "Help" menu item
-        onscreenHelp = new SimSharingJCheckBoxMenuItem( "helpMenuItem", PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Help" ) );
+        onscreenHelp = new SimSharingJCheckBoxMenuItem( helpMenuItem, PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Help" ) );
         onscreenHelp.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.HelpMnemonic" ).charAt( 0 ) );
         onscreenHelp.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -57,7 +59,7 @@ public class HelpMenu extends SimSharingJMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
-        final JMenuItem megaHelpItem = new SimSharingJMenuItem( "megaHelpMenuItem", PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelp" ) );
+        final JMenuItem megaHelpItem = new SimSharingJMenuItem( megaHelpMenuItem, PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelp" ) );
         megaHelpItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
         megaHelpItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -99,7 +101,7 @@ public class HelpMenu extends SimSharingJMenu implements ModuleObserver {
 
         //----------------------------------------------------------------------
         // "About" menu item
-        final JMenuItem about = new SimSharingJMenuItem( "aboutMenuItem", PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.About" ) );
+        final JMenuItem about = new SimSharingJMenuItem( aboutMenuItem, PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.About" ) );
         about.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -141,7 +143,7 @@ public class HelpMenu extends SimSharingJMenu implements ModuleObserver {
 
     private class CheckForSimUpdateMenuItem extends SimSharingJMenuItem {
         private CheckForSimUpdateMenuItem() {
-            super( "checkForSimulationUpdateMenuItem", PhetCommonResources.getInstance().getLocalizedString( "Common.updates.checkForSimUpdate" ) );
+            super( checkForSimulationUpdateMenuItem, PhetCommonResources.getInstance().getLocalizedString( "Common.updates.checkForSimUpdate" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ManualUpdatesManager.getInstance().checkForSimUpdates();

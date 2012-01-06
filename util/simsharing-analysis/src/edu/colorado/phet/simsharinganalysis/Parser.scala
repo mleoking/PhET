@@ -52,10 +52,10 @@ class Parser {
     val parameters = Parameter.parseParameters(remainderOfLine, SimSharingManager.DELIMITER)
     val map = new HashMap[String, String]()
     for ( p <- parameters ) {
-      if ( map.contains(p.name) ) {
+      if ( map.contains(p.name.toString) ) {
         throw new RuntimeException("Duplicate string key for " + p.name)
       }
-      map.put(p.name, p.value)
+      map.put(p.name.toString, p.value)
     }
 
     if ( lines.length == 0 ) {

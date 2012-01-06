@@ -7,12 +7,13 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyskatepark.ESPSimSharing;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -28,7 +29,6 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class TrackButton extends PNode {
 
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
-    private static final String OBJECT_TRACK_BUTTON_NODE = "trackButton";
 
     public TrackButton( final EnergySkateParkBasicsModule module, final String trackName, final double offset ) {
         PImage image = new PImage( createIcon( module, trackName ) );
@@ -41,7 +41,7 @@ public class TrackButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendUserEvent( OBJECT_TRACK_BUTTON_NODE, SimSharingStrings.Actions.PRESSED, Parameter.param( "track", trackName ) );
+                SimSharingManager.sendUserEvent( ESPSimSharing.Objects.trackButton, SimSharingConstants.User.UserActions.pressed, Parameter.param( ESPSimSharing.ParameterKeys.track, trackName ) );
                 module.loadTrack( trackName, offset );
             }
         } );

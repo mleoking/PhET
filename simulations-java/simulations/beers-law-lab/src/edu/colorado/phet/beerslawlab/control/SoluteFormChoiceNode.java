@@ -35,7 +35,7 @@ public class SoluteFormChoiceNode extends PhetPNode {
                 setFont( FONT );
                 setOpaque( false );
             }} );
-            add( new PropertyLabel<SoluteForm>( Objects.SHAKER_ICON, new ImageIcon( Images.SHAKER_ICON ), soluteForm, SoluteForm.SOLID ) );
+            add( new PropertyLabel<SoluteForm>( Objects.shakerIcon, new ImageIcon( Images.SHAKER_ICON ), soluteForm, SoluteForm.SOLID ) );
         }};
 
         final JPanel solutionPanel = new JPanel() {{
@@ -43,7 +43,7 @@ public class SoluteFormChoiceNode extends PhetPNode {
                 setFont( FONT );
                 setOpaque( false );
             }} );
-            add( new PropertyLabel<SoluteForm>( Objects.DROPPER_ICON, new ImageIcon( Images.DROPPER_ICON ), soluteForm, SoluteForm.STOCK_SOLUTION ) );
+            add( new PropertyLabel<SoluteForm>( Objects.dropperIcon, new ImageIcon( Images.DROPPER_ICON ), soluteForm, SoluteForm.STOCK_SOLUTION ) );
         }};
 
         JPanel panel = new JPanel() {{

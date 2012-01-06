@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.resetAllButton;
+
 /**
  * Swing version of the "Reset All" button.
  * When it's pressed, requests confirmation.
@@ -44,7 +46,7 @@ public class ResetAllButton extends SimSharingJButton {
      * @param parent      parent component for the confirmation dialog
      */
     public ResetAllButton( final Resettable[] resettables, final Component parent ) {
-        super( "resetAllButton", PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_RESET_ALL ) );
+        super( resetAllButton, PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_RESET_ALL ) );
         this.delegate = new ResetAllDelegate( resettables, parent );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

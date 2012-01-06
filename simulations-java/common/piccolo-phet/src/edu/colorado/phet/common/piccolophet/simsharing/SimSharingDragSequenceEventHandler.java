@@ -2,10 +2,11 @@
 package edu.colorado.phet.common.piccolophet.simsharing;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserAction;
 
 /**
  * Base class for drag sequence handlers that perform sim-sharing data collection.
@@ -28,7 +29,7 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
      * X and Y coordinates are provided as standardized "convenience" parameters, since they are frequently desired by clients.
      */
     public interface DragFunction {
-        public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event );
+        public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event );
     }
 
     private DragFunction startFunction; // optional function called when drag starts (on startDrag)
@@ -86,30 +87,30 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
 
     @Override protected void startDrag( final PInputEvent event ) {
         if ( startFunction != null ) {
-            startFunction.apply( Actions.START_DRAG, getXParameter( event ), getYParameter( event ), event );
+            startFunction.apply( SimSharingConstants.User.UserActions.startDrag, getXParameter( event ), getYParameter( event ), event );
         }
         super.startDrag( event );
     }
 
     @Override protected void endDrag( PInputEvent event ) {
         if ( endFunction != null ) {
-            endFunction.apply( Actions.END_DRAG, getXParameter( event ), getYParameter( event ), event );
+            endFunction.apply( SimSharingConstants.User.UserActions.endDrag, getXParameter( event ), getYParameter( event ), event );
         }
         super.endDrag( event );
     }
 
     @Override protected void drag( PInputEvent event ) {
         if ( dragFunction != null ) {
-            dragFunction.apply( Actions.DRAG, getXParameter( event ), getYParameter( event ), event );
+            dragFunction.apply( SimSharingConstants.User.UserActions.drag, getXParameter( event ), getYParameter( event ), event );
         }
         super.drag( event );
     }
 
     private static Parameter getXParameter( PInputEvent event ) {
-        return new Parameter( Parameters.CANVAS_POSITION_X, event.getCanvasPosition().getX() );
+        return new Parameter( SimSharingConstants.ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() );
     }
 
     private static Parameter getYParameter( PInputEvent event ) {
-        return new Parameter( Parameters.CANVAS_POSITION_Y, event.getCanvasPosition().getY() );
+        return new Parameter( SimSharingConstants.ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() );
     }
 }

@@ -5,9 +5,9 @@ import java.awt.event.InputEvent;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.moleculepolarity.MPSimSharing.Objects;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.Components;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.colorado.phet.moleculepolarity.common.view.AtomNode;
@@ -68,8 +68,8 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
         arrowsNode.setVisible( false );
-        SimSharingManager.sendUserEvent( Objects.OBJECT_BOND_ANGLE, Actions.START_DRAG,
-                                         param( Parameters.PARAM_ATOM, atomNode.atom.getName() ), param( Parameters.PARAM_ANGLE, bondAngle.get() ) );
+        SimSharingManager.sendUserEvent( Components.bondAngle, SimSharingConstants.User.UserActions.startDrag,
+                                         param( Parameters.atom, atomNode.atom.getName() ), param( Parameters.angle, bondAngle.get() ) );
     }
 
     // Drag to rotate the molecule.
@@ -83,8 +83,8 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
-        SimSharingManager.sendUserEvent( Objects.OBJECT_BOND_ANGLE, Actions.END_DRAG,
-                                         param( Parameters.PARAM_ATOM, atomNode.atom.getName() ), param( Parameters.PARAM_ANGLE, bondAngle.get() ) );
+        SimSharingManager.sendUserEvent( Components.bondAngle, SimSharingConstants.User.UserActions.endDrag,
+                                         param( Parameters.atom, atomNode.atom.getName() ), param( Parameters.angle, bondAngle.get() ) );
     }
 
     // Find the angle about the molecule's location.

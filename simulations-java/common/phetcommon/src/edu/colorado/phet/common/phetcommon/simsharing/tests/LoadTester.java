@@ -16,6 +16,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 
 import static java.lang.Integer.parseInt;
@@ -77,7 +78,8 @@ public class LoadTester {
     private void sendEvent() {
         eventCount++;
 
-        String message = SimSharingManager.sendUserEvent( "loadTester", "sentTest", rand() );
+        //Send a weird but identifiable message "menu iconified" for testing
+        String message = SimSharingManager.sendUserEvent( SimSharingConstants.User.UserComponents.menu, SimSharingConstants.User.UserActions.iconified, rand() );
         System.out.println( "LoadTester.sendEvent, eventCount = " + eventCount );
 
         try {
@@ -95,7 +97,7 @@ public class LoadTester {
         Parameter[] p = new Parameter[numParams];
         for ( int i = 0; i < p.length; i++ ) {
             if ( i == 0 ) {
-                p[i] = Parameter.param( "messageIndex", messageIndex );
+                p[i] = Parameter.param( SimSharingConstants.ParameterKeys.messageIndex, messageIndex );
                 messageIndex++;
             }
             else {
@@ -105,8 +107,12 @@ public class LoadTester {
         return p;
     }
 
-    private Parameter randomParam( int i ) {
-        return new Parameter( "key_" + i, "value_" + i );
+    private Parameter randomParam( final int i ) {
+        return new Parameter( new SimSharingConstants.ParameterKey() {
+            @Override public String toString() {
+                return "key_" + i;
+            }
+        }, "value_" + i );
     }
 
     public static void main( final String[] args ) {

@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
+import edu.colorado.phet.reactantsproductsandleftovers.SimSharing;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ValueNode;
@@ -85,8 +86,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             productImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
 
             // one quantity display for each product
-            String simSharingObject = product.getName() + "ProductSpinner";
-            QuantityValueNode quantityNode = new QuantityValueNode( simSharingObject, product, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
+            QuantityValueNode quantityNode = new QuantityValueNode( new SimSharing.ProductSpinner( product ), product, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( quantityNode );
             productValueNodes.add( quantityNode );
         }
@@ -99,8 +99,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             leftoverImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
 
             // one quantity display for each leftover
-            String simSharingObject = reactant.getName() + "ReactantSpinner";
-            LeftoversValueNode leftoverNode = new LeftoversValueNode( simSharingObject, reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
+            LeftoversValueNode leftoverNode = new LeftoversValueNode( new SimSharing.ReactantSpinner( reactant ), reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( leftoverNode );
             leftoverValueNodes.add( leftoverNode );
         }

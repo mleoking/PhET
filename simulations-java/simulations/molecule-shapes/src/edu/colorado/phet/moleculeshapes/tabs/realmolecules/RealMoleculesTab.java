@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -33,8 +33,7 @@ import edu.colorado.phet.jmephet.input.JMEInputHandler;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Objects;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Parameters;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel;
@@ -436,9 +435,9 @@ public class RealMoleculesTab extends MoleculeViewTab {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingManager.sendUserEvent( Objects.DRAGGING_STATE, Actions.CHANGED,
-                                             param( Parameters.DRAGGING, dragging ),
-                                             param( Parameters.DRAG_MODE, dragMode.toString() ) );
+            SimSharingManager.sendUserEvent( MoleculeShapesSimSharing.Components.draggingState, SimSharingConstants.User.UserActions.changed,
+                                             param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ),
+                                             param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

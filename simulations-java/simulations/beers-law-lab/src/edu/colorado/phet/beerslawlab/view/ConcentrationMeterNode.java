@@ -187,7 +187,7 @@ public class ConcentrationMeterNode extends PhetPNode {
             } );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( Objects.CONCENTRATION_METER_BODY, meter.body, this ) );
+            addInputEventListener( new MovableDragHandler( Objects.concentrationMeterBody, meter.body, this ) );
         }
 
         private static String createDisplayText( String value ) {
@@ -226,12 +226,12 @@ public class ConcentrationMeterNode extends PhetPNode {
             } );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( Objects.CONCENTRATION_METER_PROBE, meter.probe, this,
+            addInputEventListener( new MovableDragHandler( Objects.concentrationMeterProbe, meter.probe, this,
                                                            // sim-sharing parameters
                                                            new Function0<Parameter[]>() {
                                                                public Parameter[] apply() {
                                                                    return new Parameter[] {
-                                                                           new Parameter( Parameters.IS_IN_SOLUTION, isInSolution() ) };
+                                                                           new Parameter( Parameters.isInSolution, isInSolution() ) };
                                                                }
                                                            } ) );
         }

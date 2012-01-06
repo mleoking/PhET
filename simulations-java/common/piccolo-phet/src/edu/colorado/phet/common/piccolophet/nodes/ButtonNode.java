@@ -11,9 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -27,10 +24,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Sam Reid
  */
 public class ButtonNode extends PhetPNode {
-
-    // sim-sharing strings
-    public static final String OBJECT_BUTTON_NODE = "buttonNode";
-    public static final String PARAM_ACTION_COMMAND = "actionCommand";
 
     public static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
     public static final int DEFAULT_FONT_STYLE = Font.PLAIN; // #2846, using plain as the default style, add bold/italic emphasis explicitly
@@ -376,10 +369,11 @@ public class ButtonNode extends PhetPNode {
         actionListeners.remove( listener );
     }
 
-    private void notifyActionPerformed() {
+    protected void notifyActionPerformed() {
 
+        //TODO: override for simsharing
         //Notify about the event first so that listener callbacks were clearly caused by this action
-        SimSharingManager.sendUserEvent( OBJECT_BUTTON_NODE, Actions.PRESSED, Parameter.param( PARAM_ACTION_COMMAND, actionCommand ) );
+        //SimSharingManager.sendUserEvent( SimSharingConstants.ComponentType.button, pressed, Parameter.param( PARAM_ACTION_COMMAND, actionCommand ) );
 
         ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, actionCommand ); // use Swing convention from AbstractButton.fireActionPerformed
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {

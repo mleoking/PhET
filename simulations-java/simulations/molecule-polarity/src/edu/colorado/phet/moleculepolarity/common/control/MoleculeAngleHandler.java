@@ -3,14 +3,15 @@ package edu.colorado.phet.moleculepolarity.common.control;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.moleculepolarity.MPSimSharing.Objects;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import static edu.colorado.phet.moleculepolarity.MPSimSharing.Components.moleculeAngle;
 
 /**
  * Drag handler for manipulating molecule angle.
@@ -33,15 +34,15 @@ public class MoleculeAngleHandler extends PDragSequenceEventHandler {
         super.startDrag( event );
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
-        SimSharingManager.sendUserEvent( Objects.OBJECT_MOLECULE_ANGLE, Actions.START_DRAG,
-                                         Parameter.param( Parameters.PARAM_ANGLE, molecule.angle.get() ) );
+        SimSharingManager.sendUserEvent( moleculeAngle, SimSharingConstants.User.UserActions.startDrag,
+                                         Parameter.param( Parameters.angle, molecule.angle.get() ) );
     }
 
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
-        SimSharingManager.sendUserEvent( Objects.OBJECT_MOLECULE_ANGLE, Actions.END_DRAG,
-                                         Parameter.param( Parameters.PARAM_ANGLE, molecule.angle.get() ) );
+        SimSharingManager.sendUserEvent( moleculeAngle, SimSharingConstants.User.UserActions.endDrag,
+                                         Parameter.param( Parameters.angle, molecule.angle.get() ) );
     }
 
     // Drag to rotate the molecule.

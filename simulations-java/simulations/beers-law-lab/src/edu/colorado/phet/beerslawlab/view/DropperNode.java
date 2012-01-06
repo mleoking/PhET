@@ -38,8 +38,7 @@ public class DropperNode extends PhetPNode {
         addChild( labelNode );
 
         // On/off button
-        MomentaryButtonNode buttonNode = new MomentaryButtonNode( dropper.on, dropper.enabled ) {{
-            setSimSharingObject( Objects.DROPPER_BUTTON );
+        MomentaryButtonNode buttonNode = new MomentaryButtonNode( Objects.dropperButton, dropper.on, dropper.enabled ) {{
             scale( 0.65 );
         }};
         addChild( buttonNode );
@@ -75,6 +74,6 @@ public class DropperNode extends PhetPNode {
             }
         } );
 
-        addInputEventListener( new MovableDragHandler( Objects.DROPPER, dropper, this ) );
+        addInputEventListener( new MovableDragHandler( Objects.dropper, dropper, this ) );
     }
 }

@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.Image;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Objects;
 import edu.colorado.phet.acidbasesolutions.model.AcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.AqueousSolution;
 import edu.colorado.phet.acidbasesolutions.model.Molecule.WaterMolecule;
@@ -17,7 +16,6 @@ import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.Solution
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ChemicalSymbolNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -26,6 +24,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.reactionEquation;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
 
 /**
  * Reaction equation for solutions.
@@ -75,7 +76,7 @@ public class ReactionEquationNode extends PComposite {
         // send sim-sharing event if user tries to interact
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( Objects.REACTION_EQUATION, Actions.PRESSED );
+                SimSharingManager.sendNotInteractiveEvent( reactionEquation, pressed );
             }
         } );
 

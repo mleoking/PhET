@@ -17,9 +17,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -31,12 +28,6 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.PFrame;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.END_DRAG;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions.START_DRAG;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues.SLIDER;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters.COMPONENT_TYPE;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters.VALUE;
 
 /**
  * Horizontal slider that uses only Piccolo, i.e. there is no Swing involved.
@@ -55,7 +46,6 @@ public class HSliderNode extends SliderNode {
     // allow the offset of this node to be at (0, 0).  Use this when adding
     // children in subclasses if you want to keep the origin at (0, 0).
     protected PNode rootNode = new PNode();
-    private String simSharingObject = SimSharingStrings.Components.SLIDER;
 
     public HSliderNode( final double min, final double max, final SettableProperty<Double> value ) {
         this( min, max, value, new Property<Boolean>( true ) );
@@ -63,9 +53,7 @@ public class HSliderNode extends SliderNode {
 
     public HSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         this( min, max, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT, value, enabled );
-
     }
-
 
     public HSliderNode( final double min, final double max, double trackWidth, double trackHeight,
                         final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
@@ -86,16 +74,20 @@ public class HSliderNode extends SliderNode {
                 }
             } );
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( dragHandler = new SimSharingDragSequenceEventHandler( new SimSharingDragSequenceEventHandler.DragFunction() {
-                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingManager.sendUserEvent( simSharingObject, START_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
-                }
-            }, new SimSharingDragSequenceEventHandler.DragFunction() {
-                public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingManager.sendUserEvent( simSharingObject, END_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
-                }
-            }, null
-            ) {
+
+            //TODO: sim sharing
+//            new SimSharingDragSequenceEventHandler.DragFunction() {
+//                            public void apply( SimSharingConstants.User.IAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+//                                SimSharingManager.sendUserEvent( simSharingObject, START_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
+//                            }
+//
+//                        }, new SimSharingDragSequenceEventHandler.DragFunction() {
+//                            public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+//                                SimSharingManager.sendUserEvent( simSharingObject, END_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
+//                            }
+//                        }, null
+
+            addInputEventListener( dragHandler = new SimSharingDragSequenceEventHandler() {
 
                 private Point2D startPoint;
                 public Double startValue;
@@ -227,9 +219,5 @@ public class HSliderNode extends SliderNode {
                 }}.setVisible( true );
             }
         } );
-    }
-
-    public void setSimSharingObject( String simSharingObject ) {
-        this.simSharingObject = simSharingObject;
     }
 }

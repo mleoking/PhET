@@ -30,8 +30,6 @@ import edu.colorado.phet.common.phetcommon.application.SessionCounter;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuBar;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
@@ -41,6 +39,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.height;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.width;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.*;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
@@ -49,8 +52,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
  * @version $Revision:14677 $
  */
 public class PhetFrame extends JFrame {
-
-    private static final String SIM_SHARING_OBJECT = "phetFrame";
 
     private PhetApplication application;
     private Container contentPanel;
@@ -75,7 +76,7 @@ public class PhetFrame extends JFrame {
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
 
-                SimSharingManager.sendUserEvent( SIM_SHARING_OBJECT, Actions.WINDOW_SYSTEM_CLOSE_BUTTON_PRESSED, param( Parameters.TITLE, getTitle() ) );
+                SimSharingManager.sendUserEvent( phetFrame, windowCloseButtonPressed );
                 application.exit();
             }
         } );
@@ -84,23 +85,23 @@ public class PhetFrame extends JFrame {
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
 
-                SimSharingManager.sendUserEvent( SIM_SHARING_OBJECT, Actions.ICONIFIED, param( Parameters.TITLE, getTitle() ) );
+                SimSharingManager.sendUserEvent( phetFrame, iconified );
                 application.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
 
-                SimSharingManager.sendUserEvent( SIM_SHARING_OBJECT, Actions.DEICONIFIED, param( Parameters.TITLE, getTitle() ) );
+                SimSharingManager.sendUserEvent( phetFrame, deiconified );
                 application.resume();
             }
 
             @Override public void windowActivated( WindowEvent e ) {
-                SimSharingManager.sendUserEvent( SIM_SHARING_OBJECT, Actions.ACTIVATED, param( Parameters.TITLE, getTitle() ) );
+                SimSharingManager.sendUserEvent( phetFrame, activated );
             }
 
             @Override public void windowDeactivated( WindowEvent e ) {
-                SimSharingManager.sendUserEvent( SIM_SHARING_OBJECT, Actions.DEACTIVATED, param( Parameters.TITLE, getTitle() ) );
+                SimSharingManager.sendUserEvent( phetFrame, deactivated );
             }
         } );
 
@@ -109,9 +110,9 @@ public class PhetFrame extends JFrame {
         addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
                 if ( !getSize().equals( prevSize ) ) {
-                    SimSharingManager.sendUserEvent( SIM_SHARING_OBJECT, Actions.RESIZED,
-                                                     param( Parameters.WIDTH, getWidth() ),
-                                                     param( Parameters.HEIGHT, getHeight() ) );
+                    SimSharingManager.sendUserEvent( phetFrame, resized,
+                                                     param( width, getWidth() ),
+                                                     param( height, getHeight() ) );
                     prevSize = new Dimension( getSize() );
                 }
             }
@@ -400,7 +401,7 @@ public class PhetFrame extends JFrame {
      */
     public void addFileSaveLoadMenuItems() {
 
-        JMenuItem saveItem = new SimSharingJMenuItem( "saveMenuItem", PhetCommonResources.getString( "Common.FileMenu.Save" ) );
+        JMenuItem saveItem = new SimSharingJMenuItem( chain( fileMenu, saveMenuItem ), PhetCommonResources.getString( "Common.FileMenu.Save" ) );
         saveItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Save.mnemonic", 'S' ) );
         saveItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -408,7 +409,7 @@ public class PhetFrame extends JFrame {
             }
         } );
 
-        JMenuItem loadItem = new SimSharingJMenuItem( "loadMenuItem", PhetCommonResources.getString( "Common.FileMenu.Load" ) );
+        JMenuItem loadItem = new SimSharingJMenuItem( chain( fileMenu, loadMenuItem ), PhetCommonResources.getString( "Common.FileMenu.Load" ) );
         loadItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Load.mnemonic", 'L' ) );
         loadItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

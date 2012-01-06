@@ -7,12 +7,12 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
 
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentTypes.checkBoxMenuItem;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
 
 /**
  * CheckBoxMenuItem used in phetcommon for transmitting data on student usage of menus, see #3144
@@ -21,47 +21,47 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
  */
 public class SimSharingJCheckBoxMenuItem extends JCheckBoxMenuItem {
 
-    private final String object;
+    private final UserComponent object;
 
-    public SimSharingJCheckBoxMenuItem( String object ) {
+    public SimSharingJCheckBoxMenuItem( UserComponent object ) {
         this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String object, Icon icon ) {
+    public SimSharingJCheckBoxMenuItem( UserComponent object, Icon icon ) {
         super( icon );
         this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String object, String text ) {
+    public SimSharingJCheckBoxMenuItem( UserComponent object, String text ) {
         super( text );
         this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String object, Action a ) {
+    public SimSharingJCheckBoxMenuItem( UserComponent object, Action a ) {
         super( a );
         this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String object, String text, Icon icon ) {
+    public SimSharingJCheckBoxMenuItem( UserComponent object, String text, Icon icon ) {
         super( text, icon );
         this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String object, String text, boolean b ) {
+    public SimSharingJCheckBoxMenuItem( UserComponent object, String text, boolean b ) {
         super( text, b );
         this.object = object;
     }
 
-    public SimSharingJCheckBoxMenuItem( String object, String text, Icon icon, boolean b ) {
+    public SimSharingJCheckBoxMenuItem( UserComponent object, String text, Icon icon, boolean b ) {
         super( text, icon, b );
         this.object = object;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
         SimSharingManager.sendUserEvent( object,
-                                         Actions.PRESSED,
-                                         param( Parameters.COMPONENT_TYPE, ParameterValues.CHECK_BOX_MENU_ITEM ),
-                                         param( Parameters.IS_SELECTED, isSelected() ) );
+                                         SimSharingConstants.User.UserActions.pressed,
+                                         Parameter.componentType( checkBoxMenuItem ),
+                                         Parameter.param( SimSharingConstants.ParameterKeys.isSelected, isSelected() ) );
         super.fireActionPerformed( event );
     }
 }

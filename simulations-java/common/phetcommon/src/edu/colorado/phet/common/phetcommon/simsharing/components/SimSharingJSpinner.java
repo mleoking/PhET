@@ -6,9 +6,11 @@ import javax.swing.SpinnerModel;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.ParameterValues;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentTypes.spinner;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.value;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.changed;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
 
 /**
  * Swing spinner that sends sim-sharing events.
@@ -17,21 +19,21 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Paramete
  */
 public class SimSharingJSpinner extends JSpinner {
 
-    private final String object;
+    private final UserComponent object;
 
-    public SimSharingJSpinner( String object, SpinnerModel model ) {
+    public SimSharingJSpinner( UserComponent object, SpinnerModel model ) {
         super( model );
         this.object = object;
     }
 
-    public SimSharingJSpinner( String object ) {
+    public SimSharingJSpinner( UserComponent object ) {
         this.object = object;
     }
 
     @Override protected void fireStateChanged() {
-        SimSharingManager.sendUserEvent( object, Actions.CHANGED,
-                                         new Parameter( Parameters.COMPONENT_TYPE, ParameterValues.SPINNER ),
-                                         new Parameter( Parameters.VALUE, getValue().toString() ) );
+        SimSharingManager.sendUserEvent( object, changed,
+                                         Parameter.componentType( spinner ),
+                                         Parameter.param( value, getValue().toString() ) );
         super.fireStateChanged();
     }
 }

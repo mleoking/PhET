@@ -110,7 +110,6 @@ public class RealMoleculesControlPanel extends PNode {
                         return new HTMLNode( ChemUtils.toSubscript( realMoleculeShape.getDisplayName() ) );
                     }
                 },
-                "realMoleculeComboBox",
                 new Function1<RealMoleculeShape, String>() {
                     public String apply( RealMoleculeShape realMoleculeShape ) {
                         return realMoleculeShape.getDisplayName();

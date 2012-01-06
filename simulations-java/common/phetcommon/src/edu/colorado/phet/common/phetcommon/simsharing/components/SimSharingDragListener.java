@@ -5,8 +5,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Actions;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingStrings.Parameters;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserAction;
 
 /**
  * Base class for drag listeners that perform sim-sharing data collection.
@@ -28,7 +29,7 @@ public class SimSharingDragListener extends MouseAdapter {
      * X and Y coordinates are provided as standardized "convenience" parameters, since they are frequently desired by clients.
      */
     public interface DragFunction {
-        public void apply( String action, Parameter xParameter, Parameter yParameter, MouseEvent event );
+        public void apply( UserAction action, Parameter xParameter, Parameter yParameter, MouseEvent event );
     }
 
     private DragFunction startFunction; // optional function called when drag starts (on mousePressed)
@@ -85,30 +86,30 @@ public class SimSharingDragListener extends MouseAdapter {
 
     @Override public void mousePressed( MouseEvent event ) {
         if ( startFunction != null ) {
-            startFunction.apply( Actions.START_DRAG, getXParameter( event ), getYParameter( event ), event );
+            startFunction.apply( SimSharingConstants.User.UserActions.startDrag, getXParameter( event ), getYParameter( event ), event );
         }
         super.mousePressed( event );
     }
 
     @Override public void mouseReleased( MouseEvent event ) {
         if ( endFunction != null ) {
-            endFunction.apply( Actions.END_DRAG, getXParameter( event ), getYParameter( event ), event );
+            endFunction.apply( SimSharingConstants.User.UserActions.endDrag, getXParameter( event ), getYParameter( event ), event );
         }
         super.mouseReleased( event );
     }
 
     @Override public void mouseDragged( MouseEvent event ) {
         if ( dragFunction != null ) {
-            dragFunction.apply( Actions.DRAG, getXParameter( event ), getYParameter( event ), event );
+            dragFunction.apply( SimSharingConstants.User.UserActions.drag, getXParameter( event ), getYParameter( event ), event );
         }
         super.mouseDragged( event );
     }
 
     private static Parameter getXParameter( MouseEvent event ) {
-        return new Parameter( Parameters.X, event.getX() );
+        return new Parameter( SimSharingConstants.ParameterKeys.x, event.getX() );
     }
 
     private static Parameter getYParameter( MouseEvent event ) {
-        return new Parameter( Parameters.Y, event.getY() );
+        return new Parameter( SimSharingConstants.ParameterKeys.y, event.getY() );
     }
 }

@@ -7,6 +7,7 @@ import edu.colorado.phet.beerslawlab.BLLSimSharing.Objects;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.model.Evaporator;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -51,8 +52,8 @@ public class EvaporationControlNode extends ControlPanelNode {
 
                     // sim-sharing
                     getDragHandler().setStartEndDragFunction( new DragFunction() {
-                        public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                            SimSharingManager.sendUserEvent( Objects.EVAPORATION_SLIDER, action, new Parameter( Parameters.EVAPORATION_RATE, evaporator.evaporationRate.get() ) );
+                        public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                            SimSharingManager.sendUserEvent( Objects.evaporationSlider, action, new Parameter( Parameters.evaporationRate, evaporator.evaporationRate.get() ) );
                         }
                     } );
                 }}
