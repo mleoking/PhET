@@ -43,8 +43,8 @@ public class ConcentrationCanvas extends BLLCanvas {
         OutputFluidNode solventFluidNode = new OutputFluidNode( solventFaucetNode, 360, model.solution.solvent, model.solventFaucet ); //TODO derive height
         OutputFluidNode drainFluidNode = new OutputFluidNode( drainFaucetNode, 1000, model.solution, model.drainFaucet ); //TODO derive height based on play area height
         PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
-        PNode shakerNode = new ShakerNode( model.shaker, model.soluteForm );
-        PNode dropperNode = new DropperNode( model.dropper, model.soluteForm );
+        PNode shakerNode = new ShakerNode( model.shaker );
+        PNode dropperNode = new DropperNode( model.dropper );
         StockSolutionNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker, 15 ); //TODO get hole width from DropperNode
         PNode evaporationControlNode = new EvaporationControlNode( model.evaporator );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );

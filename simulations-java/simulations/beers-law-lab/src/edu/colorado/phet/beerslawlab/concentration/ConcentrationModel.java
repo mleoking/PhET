@@ -40,7 +40,9 @@ public class ConcentrationModel implements Resettable {
     // ranges and rates
     private static final double BEAKER_VOLUME = 1; // L
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
-    private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 10, 0 ); // moles
+    //TODO consider setting maxSoluteAmount dynamically, based on the amount required to saturate 1L of the current solute
+    private static final DoubleRange SOLUTE_AMOUNT = new DoubleRange( 0, 6, 0 ); // moles
+    private static final double DEFAULT_SOLUTE_AMOUNT = 0; // moles
     private static final double MAX_EVAPORATION_RATE = 0.25; // L/sec
     private static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
     private static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
@@ -51,7 +53,6 @@ public class ConcentrationModel implements Resettable {
     static {
         assert ( SOLUTION_VOLUME_RANGE.getMin() >= 0 );
         assert ( SOLUTION_VOLUME_RANGE.getMax() <= BEAKER_VOLUME );
-        assert ( SOLUTE_AMOUNT_RANGE.getMin() >= 0 );
     }
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
@@ -88,7 +89,7 @@ public class ConcentrationModel implements Resettable {
         }};
 
         this.solute = new Property<Solute>( solutes.get( 0 ) );
-        this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
+        this.solution = new Solution( solute, DEFAULT_SOLUTE_AMOUNT, SOLUTION_VOLUME_RANGE.getDefault() );
         this.shaker = new Shaker( new ImmutableVector2D( 340, 170 ), new PBounds( 225, 50, 400, 160 ), solute, SHAKER_MAX_DISPENSING_RATE );
         this.dropper = new Dropper( new ImmutableVector2D( 375, 210 ), new PBounds( 230, 205, 400, 30 ), solute, DROPPER_FLOW_RATE );
         this.evaporator = new Evaporator( MAX_EVAPORATION_RATE, solution );
@@ -103,24 +104,31 @@ public class ConcentrationModel implements Resettable {
         solute.addObserver( new SimpleObserver() {
             public void update() {
                 solution.soluteAmount.set( 0d );
-                //TODO anything else?
             }
         } );
 
-        // Enable faucets based on amount of solution in the beaker.
+        // Show the correct dispenser for the solute form
+        soluteForm.addObserver( new VoidFunction1<SoluteForm>() {
+            public void apply( SoluteForm form ) {
+                shaker.visible.set( form == SoluteForm.SOLID );
+                dropper.visible.set( form == SoluteForm.STOCK_SOLUTION );
+            }
+        } );
+
+        // Enable faucets and dropper based on amount of solution in the beaker.
         solution.volume.addObserver( new VoidFunction1<Double>() {
             public void apply( Double volume ) {
                 solventFaucet.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
                 drainFaucet.enabled.set( volume > SOLUTION_VOLUME_RANGE.getMin() );
-                dropper.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() && solution.soluteAmount.get() < SOLUTE_AMOUNT_RANGE.getMax() );
+                dropper.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() && solution.soluteAmount.get() < SOLUTE_AMOUNT.getMax() );
             }
         } );
 
         // Enable shaker and dropper based on amount of solute in the beaker
         solution.soluteAmount.addObserver( new VoidFunction1<Double>() {
             public void apply( Double soluteAmount ) {
-                shaker.enabled.set( soluteAmount < SOLUTE_AMOUNT_RANGE.getMax() );
-                dropper.enabled.set( solution.volume.get() < SOLUTION_VOLUME_RANGE.getMax() && soluteAmount < SOLUTE_AMOUNT_RANGE.getMax() );
+                shaker.enabled.set( soluteAmount < SOLUTE_AMOUNT.getMax() );
+                dropper.enabled.set( solution.volume.get() < SOLUTION_VOLUME_RANGE.getMax() && soluteAmount < SOLUTE_AMOUNT.getMax() );
             }
         } );
     }
@@ -216,7 +224,7 @@ public class ConcentrationModel implements Resettable {
     private double addSolute( double deltaAmount ) {
         if ( deltaAmount > 0 ) {
             double amountBefore = solution.soluteAmount.get();
-            solution.soluteAmount.set( Math.min( SOLUTE_AMOUNT_RANGE.getMax(), solution.soluteAmount.get() + deltaAmount ) );
+            solution.soluteAmount.set( Math.min( SOLUTE_AMOUNT.getMax(), solution.soluteAmount.get() + deltaAmount ) );
             return solution.soluteAmount.get() - amountBefore;
         }
         else {
@@ -228,7 +236,7 @@ public class ConcentrationModel implements Resettable {
     private double removeSolute( double deltaAmount ) {
         if ( deltaAmount > 0 ) {
             double amountBefore = solution.soluteAmount.get();
-            solution.soluteAmount.set( Math.max( SOLUTE_AMOUNT_RANGE.getMin(), solution.soluteAmount.get() - deltaAmount ) );
+            solution.soluteAmount.set( Math.max( SOLUTE_AMOUNT.getMin(), solution.soluteAmount.get() - deltaAmount ) );
             return amountBefore - solution.soluteAmount.get();
         }
         else {
