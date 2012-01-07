@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  * This makes the text appear in the form: simSharingLog.fileSaveButton
  */
 public class ComponentChain implements UserComponent {
-    UserComponent[] components;
+    private final UserComponent[] components;
 
     public ComponentChain( UserComponent... components ) {
         this.components = components;
