@@ -6,20 +6,24 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.radioButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.track;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackButton;
 
 /**
  * Button that shows a track; when pressed it selects the track.
@@ -41,7 +45,7 @@ public class TrackButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendUserEvent( EnergySkateParkSimSharing.UserComponents.trackButton, UserActions.pressed, Parameter.param( EnergySkateParkSimSharing.ParameterKeys.track, trackName ) );
+                SimSharingManager.sendUserEvent( trackButton, pressed, param( track, trackName ), componentType( radioButton ) );
                 module.loadTrack( trackName, offset );
             }
         } );
