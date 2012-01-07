@@ -6,12 +6,4 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  */
 public class System {
 
-    public static enum SystemObjects implements SystemObject {
-        simsharingManager, application
-    }
-
-    public static enum SystemActions implements SystemAction {
-        started, stopped, connectedToServer, sentEvent, exited, shown
-    }
-
 }

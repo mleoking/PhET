@@ -8,7 +8,7 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
@@ -37,7 +37,7 @@ public class SimSharingIcon extends JLabel {
     }
 
     protected void handleMousePressed() {
-        SimSharingManager.sendUserEvent( object, User.UserActions.pressed, componentType( icon ) );
+        SimSharingManager.sendUserEvent( object, UserActions.pressed, componentType( icon ) );
         function.apply();
     }
 }

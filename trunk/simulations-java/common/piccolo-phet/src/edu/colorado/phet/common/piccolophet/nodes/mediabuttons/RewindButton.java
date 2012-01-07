@@ -3,7 +3,7 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.rewindButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.rewindButton;
 
 /**
  * Created by: Sam

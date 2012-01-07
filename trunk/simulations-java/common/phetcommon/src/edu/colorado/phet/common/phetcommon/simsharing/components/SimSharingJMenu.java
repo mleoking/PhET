@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstan
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**
  * Menu used in phetcommon for transmitting data on student usage of menus, see #3144

@@ -2,8 +2,10 @@
 package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
 /**
+ * Enumeration of objects used by the system.
+ *
  * @author Sam Reid
  */
-public class User {
-
+public enum SystemObjects implements SystemObject {
+    simsharingManager, application
 }

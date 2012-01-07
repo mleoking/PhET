@@ -9,7 +9,8 @@ import javax.swing.JCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 
@@ -23,14 +24,14 @@ import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ParamVal
  */
 public class TeachersMenu extends SimSharingJMenu {
     public TeachersMenu() {
-        super( User.UserComponents.teacherMenu, PhetCommonResources.getString( "Common.TeacherMenu" ) );
+        super( UserComponents.teacherMenu, PhetCommonResources.getString( "Common.TeacherMenu" ) );
         setMnemonic( PhetCommonResources.getChar( "Common.TeacherMenu.mnemonic", 'T' ) );
         add( new JCheckBoxMenuItem( PhetCommonResources.getString( "Common.WhiteBackground" ) ) {{
             setSelected( false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
 
-                    SimSharingManager.sendUserEvent( MoleculeShapesSimSharing.Components.backgroundColor, User.UserActions.changed, param( color, isSelected() ? white.toString() : black.toString() ) );
+                    SimSharingManager.sendUserEvent( MoleculeShapesSimSharing.Components.backgroundColor, UserActions.changed, param( color, isSelected() ? white.toString() : black.toString() ) );
 
                     if ( isSelected() ) {
                         MoleculeShapesColor.PROJECTOR.apply( MoleculeShapesColor.handler );

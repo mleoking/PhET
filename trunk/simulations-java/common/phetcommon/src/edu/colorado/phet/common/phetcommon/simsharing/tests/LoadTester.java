@@ -18,7 +18,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 
 import static java.lang.Integer.parseInt;
 
@@ -80,7 +81,7 @@ public class LoadTester {
         eventCount++;
 
         //Send a weird but identifiable message "menu iconified" for testing
-        String message = SimSharingManager.sendUserEvent( User.UserComponents.menu, User.UserActions.iconified, rand() );
+        String message = SimSharingManager.sendUserEvent( UserComponents.menu, UserActions.iconified, rand() );
         System.out.println( "LoadTester.sendEvent, eventCount = " + eventCount );
 
         try {

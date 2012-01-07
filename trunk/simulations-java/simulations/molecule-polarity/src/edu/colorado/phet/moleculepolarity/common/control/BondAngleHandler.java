@@ -6,7 +6,7 @@ import java.awt.event.InputEvent;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Components;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
@@ -68,7 +68,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
         arrowsNode.setVisible( false );
-        SimSharingManager.sendUserEvent( Components.bondAngle, User.UserActions.startDrag,
+        SimSharingManager.sendUserEvent( Components.bondAngle, UserActions.startDrag,
                                          param( Parameters.atom, atomNode.atom.getName() ), param( Parameters.angle, bondAngle.get() ) );
     }
 
@@ -83,7 +83,7 @@ public class BondAngleHandler extends PDragSequenceEventHandler {
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
-        SimSharingManager.sendUserEvent( Components.bondAngle, User.UserActions.endDrag,
+        SimSharingManager.sendUserEvent( Components.bondAngle, UserActions.endDrag,
                                          param( Parameters.atom, atomNode.atom.getName() ), param( Parameters.angle, bondAngle.get() ) );
     }
 

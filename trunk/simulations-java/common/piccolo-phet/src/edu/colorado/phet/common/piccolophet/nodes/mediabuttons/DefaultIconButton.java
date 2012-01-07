@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 public class DefaultIconButton extends IconButton {
     protected PhetPPath iconNode;

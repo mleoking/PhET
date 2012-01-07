@@ -6,7 +6,7 @@ import java.awt.Image;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
@@ -46,14 +46,14 @@ public class MomentaryButtonNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserEvent( userComponent, User.UserActions.pressed );
+                    SimSharingManager.sendUserEvent( userComponent, UserActions.pressed );
                     onProperty.set( true );
                 }
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserEvent( userComponent, User.UserActions.released );
+                    SimSharingManager.sendUserEvent( userComponent, UserActions.released );
                     onProperty.set( false );
                 }
             }

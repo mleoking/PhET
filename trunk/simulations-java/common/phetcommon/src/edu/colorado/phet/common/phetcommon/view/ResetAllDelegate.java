@@ -11,12 +11,12 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.System.SystemActions.shown;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.resetAllConfirmationDialog;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.shown;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.resetAllConfirmationDialog;
 
 /**
  * Delegate for "Reset All" behavior.
@@ -84,7 +84,7 @@ public class ResetAllDelegate {
         int option = PhetOptionPane.showYesNoDialog( parent, message, title );
         final boolean shouldReset = option == JOptionPane.YES_OPTION;
 
-        SimSharingManager.sendUserEvent( resetAllConfirmationDialog, User.UserActions.pressed, Parameter.param( SimSharingConstants.ParameterKeys.shouldReset, shouldReset ) );
+        SimSharingManager.sendUserEvent( resetAllConfirmationDialog, UserActions.pressed, Parameter.param( SimSharingConstants.ParameterKeys.shouldReset, shouldReset ) );
         return shouldReset;
     }
 }

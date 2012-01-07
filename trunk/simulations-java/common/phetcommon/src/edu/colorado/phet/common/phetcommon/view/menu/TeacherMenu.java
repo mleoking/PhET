@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.teacherMenu;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.teacherMenu;
 
 /**
  * TeacherMenu is the "Teacher" menu that appears in the menu bar.
