@@ -13,6 +13,8 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.swing.PropertyCheckBoxNode;
 import edu.colorado.phet.energyskatepark.view.swing.PropertyTogglingImageNode;
 
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.*;
+
 /**
  * Misc controls for visibility of things in the view (charts, grid).
  *
@@ -33,10 +35,10 @@ public class ViewControlPanel extends ControlPanelNode {
                    new VBox(
                            VBox.LEFT_ALIGNED,
                            //Checkbox to show/hide bar chart
-                           new PropertyCheckBoxNode( EnergySkateParkResources.getString( "plots.bar-graph" ), module.barChartVisible ),
-                           new PropertyCheckBoxNode( EnergySkateParkResources.getString( "pieChart" ), module.pieChartVisible ),
-                           new PropertyCheckBoxNode( EnergySkateParkResources.getString( "controls.show-grid" ), module.gridVisible ),
-                           new PropertyCheckBoxNode( EnergySkateParkResources.getString( "properties.speed" ), module.speedVisible )
+                           new PropertyCheckBoxNode( barGraphCheckBox, EnergySkateParkResources.getString( "plots.bar-graph" ), module.barChartVisible ),
+                           new PropertyCheckBoxNode( pieChartCheckBox, EnergySkateParkResources.getString( "pieChart" ), module.pieChartVisible ),
+                           new PropertyCheckBoxNode( gridCheckBox, EnergySkateParkResources.getString( "controls.show-grid" ), module.gridVisible ),
+                           new PropertyCheckBoxNode( speedCheckBox, EnergySkateParkResources.getString( "properties.speed" ), module.speedVisible )
                    ),
 
                    new VBox(

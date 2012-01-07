@@ -41,7 +41,7 @@ public class TrackButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendUserEvent( EnergySkateParkSimSharing.Objects.trackButton, UserActions.pressed, Parameter.param( EnergySkateParkSimSharing.ParameterKeys.track, trackName ) );
+                SimSharingManager.sendUserEvent( EnergySkateParkSimSharing.UserComponents.trackButton, UserActions.pressed, Parameter.param( EnergySkateParkSimSharing.ParameterKeys.track, trackName ) );
                 module.loadTrack( trackName, offset );
             }
         } );

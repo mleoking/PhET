@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.button;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 public class DefaultIconButton extends IconButton {
@@ -46,7 +48,7 @@ public class DefaultIconButton extends IconButton {
     }
 
     public void notifyListeners() {
-        SimSharingManager.sendUserEvent( simSharingObject, pressed );
+        SimSharingManager.sendUserEvent( simSharingObject, pressed, componentType( button ) );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).buttonPressed();
         }

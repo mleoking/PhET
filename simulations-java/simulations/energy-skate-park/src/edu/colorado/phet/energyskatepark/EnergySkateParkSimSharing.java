@@ -8,8 +8,9 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
  */
 public class EnergySkateParkSimSharing {
 
-    public static enum Objects implements UserComponent {
-        skater, trackButton, slowMotionRadioButton, normalSpeedRadioButton
+    public static enum UserComponents implements UserComponent {
+        skater, trackButton, slowMotionRadioButton, normalSpeedRadioButton,
+        barGraphCheckBox, pieChartCheckBox, gridCheckBox, speedCheckBox
     }
 
     public static class Actions {

@@ -20,8 +20,8 @@ public class SimSharingPropertyRadioButton<T> extends PropertyRadioButton<T> {
         this.userComponent = userComponent;
     }
 
-    @Override protected void buttonPressed() {
-        super.buttonPressed();
+    @Override protected void doActionPerformed() {
+        super.doActionPerformed();
         SimSharingJRadioButton.sendEvent( userComponent );
     }
 }

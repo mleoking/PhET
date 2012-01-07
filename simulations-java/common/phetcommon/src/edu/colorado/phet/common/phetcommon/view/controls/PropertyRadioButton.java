@@ -30,7 +30,7 @@ public class PropertyRadioButton<T> extends JRadioButton {
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 
-                buttonPressed();
+                doActionPerformed();
 
                 property.set( value );
                 propertyObserver.update();//make sure radio buttons don't toggle off, in case they're not in a button group
@@ -46,7 +46,7 @@ public class PropertyRadioButton<T> extends JRadioButton {
         property.addObserver( propertyObserver );
     }
 
-    protected void buttonPressed() {
+    protected void doActionPerformed() {
     }
 
     public void cleanup() {
