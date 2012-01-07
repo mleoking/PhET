@@ -7,10 +7,10 @@ import javax.swing.SpinnerModel;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentTypes.spinner;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.value;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.changed;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentTypes.spinner;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.value;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.changed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
 
 /**
  * Swing spinner that sends sim-sharing events.

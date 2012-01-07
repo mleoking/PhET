@@ -39,11 +39,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.height;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.width;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.height;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.width;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponents.*;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.

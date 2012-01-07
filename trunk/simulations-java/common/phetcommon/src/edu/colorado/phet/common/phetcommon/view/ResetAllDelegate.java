@@ -9,13 +9,13 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.System.SystemActions.shown;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.resetAllConfirmationDialog;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.System.SystemActions.shown;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponents.resetAllConfirmationDialog;
 
 /**
  * Delegate for "Reset All" behavior.
