@@ -2,8 +2,8 @@
 package edu.colorado.phet.moleculeshapes;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 
 /**
  * Sim-sharing strings for this sim.

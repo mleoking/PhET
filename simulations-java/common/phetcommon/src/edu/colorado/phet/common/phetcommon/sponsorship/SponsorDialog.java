@@ -15,13 +15,13 @@ import javax.swing.JDialog;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.closed;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.windowCloseButtonPressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.sponsorDialog;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.closed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.windowCloseButtonPressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponents.sponsorDialog;
 
 /**
  * Dialog that displays a simulation's sponsor.

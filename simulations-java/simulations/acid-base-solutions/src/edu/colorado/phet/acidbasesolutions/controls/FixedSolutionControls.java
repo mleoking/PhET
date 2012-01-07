@@ -37,7 +37,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
 
 /**
  * Controls used to select a between several "fixed" (immutable) solution.

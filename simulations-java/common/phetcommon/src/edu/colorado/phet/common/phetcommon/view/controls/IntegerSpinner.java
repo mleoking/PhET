@@ -18,8 +18,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSpinner;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 

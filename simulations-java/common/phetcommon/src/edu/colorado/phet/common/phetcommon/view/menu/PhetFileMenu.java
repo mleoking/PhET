@@ -11,15 +11,15 @@ import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
 import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.exitMenuItem;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponents.fileMenu;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponents.exitMenuItem;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponents.fileMenu;
 
 /**
  * PhetFileMenu

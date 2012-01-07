@@ -5,9 +5,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserAction;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserAction;
 
 /**
  * Base class for drag listeners that perform sim-sharing data collection.

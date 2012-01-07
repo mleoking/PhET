@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.phColorKey;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.pressed;
 
 /**
  * Displays a color key for the pH paper.

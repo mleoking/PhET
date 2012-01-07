@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balancingchemicalequations;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 
 /**
  * Sim-sharing strings that are specific to this sim.

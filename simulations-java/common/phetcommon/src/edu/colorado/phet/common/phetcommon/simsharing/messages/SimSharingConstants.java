@@ -1,9 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.simsharing;
+package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
+import edu.colorado.phet.common.phetcommon.simsharing.IMessageSource;
+import edu.colorado.phet.common.phetcommon.simsharing.IMessageType;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
 
 /**
  * Reusable sim-sharing strings, grouped by their role in sim-sharing events.  Uses marker interfaces to ensure that all strings are "sancitioned" i.e. appearing

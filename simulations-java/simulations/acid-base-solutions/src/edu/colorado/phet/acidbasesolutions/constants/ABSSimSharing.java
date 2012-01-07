@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.acidbasesolutions.constants;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
 
 /**
  * Strings related to sim-sharing.

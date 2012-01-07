@@ -16,17 +16,18 @@ import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.StringActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.ThreadedActor;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDialog;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.PhetCommonMessageSource.phetcommon;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.System.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.System.SystemActions.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.System.SystemObjects.simsharingManager;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.system;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.user;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.PhetCommonMessageSource.phetcommon;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.System.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.System.SystemActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.System.SystemObjects.simsharingManager;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.*;
 
 /**
  * Central access point for sim-sharing initialization and event sending.

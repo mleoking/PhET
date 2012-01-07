@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ComponentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKey;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.ParameterKeys.componentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKey;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.componentType;
 
 /**
  * Parameter portion of a sim-sharing event.

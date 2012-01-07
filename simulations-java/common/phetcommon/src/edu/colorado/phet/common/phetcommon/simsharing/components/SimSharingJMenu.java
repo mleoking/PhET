@@ -4,12 +4,12 @@ package edu.colorado.phet.common.phetcommon.simsharing.components;
 import javax.swing.Action;
 import javax.swing.JMenu;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserActions.pressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConstants.User.UserComponent;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
 
 /**
  * Menu used in phetcommon for transmitting data on student usage of menus, see #3144
