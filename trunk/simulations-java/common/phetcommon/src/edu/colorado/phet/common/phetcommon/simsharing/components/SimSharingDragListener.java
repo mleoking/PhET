@@ -5,7 +5,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 
@@ -106,10 +106,10 @@ public class SimSharingDragListener extends MouseAdapter {
     }
 
     private static Parameter getXParameter( MouseEvent event ) {
-        return new Parameter( SimSharingConstants.ParameterKeys.x, event.getX() );
+        return new Parameter( ParameterKeys.x, event.getX() );
     }
 
     private static Parameter getYParameter( MouseEvent event ) {
-        return new Parameter( SimSharingConstants.ParameterKeys.y, event.getY() );
+        return new Parameter( ParameterKeys.y, event.getY() );
     }
 }

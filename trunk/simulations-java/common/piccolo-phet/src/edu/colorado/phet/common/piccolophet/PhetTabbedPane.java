@@ -51,7 +51,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.text;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.text;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**

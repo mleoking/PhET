@@ -1,6 +1,6 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
@@ -15,7 +15,7 @@ public class EnergySkateParkSimSharing {
     public static class Actions {
     }
 
-    public static enum ParameterKeys implements SimSharingConstants.ParameterKey {
+    public static enum ParameterKeys implements ParameterKey {
         track
     }
 }

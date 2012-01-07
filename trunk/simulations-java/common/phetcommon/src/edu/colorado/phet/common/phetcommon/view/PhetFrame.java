@@ -40,8 +40,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.height;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.width;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.height;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.width;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.*;
 

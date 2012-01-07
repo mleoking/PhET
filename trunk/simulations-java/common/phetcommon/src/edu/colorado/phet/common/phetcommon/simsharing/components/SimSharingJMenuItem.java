@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentTypes.menuItem;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.menuItem;
 
 /**
  * MenuItem used in phetcommon for transmitting data on student usage of menus, see #3144

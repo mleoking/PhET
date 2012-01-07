@@ -5,7 +5,7 @@ import javax.swing.Action;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
@@ -42,7 +42,7 @@ public class SimSharingJMenu extends JMenu {
     @Override protected void fireMenuSelected() {
         SimSharingManager.sendUserEvent( object,
                                          pressed,
-                                         componentType( SimSharingConstants.ComponentTypes.menu ) );
+                                         componentType( ComponentTypes.menu ) );
         super.fireMenuSelected();
     }
 }

@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
@@ -84,7 +84,7 @@ public class ResetAllDelegate {
         int option = PhetOptionPane.showYesNoDialog( parent, message, title );
         final boolean shouldReset = option == JOptionPane.YES_OPTION;
 
-        SimSharingManager.sendUserEvent( resetAllConfirmationDialog, UserActions.pressed, Parameter.param( SimSharingConstants.ParameterKeys.shouldReset, shouldReset ) );
+        SimSharingManager.sendUserEvent( resetAllConfirmationDialog, UserActions.pressed, Parameter.param( ParameterKeys.shouldReset, shouldReset ) );
         return shouldReset;
     }
 }

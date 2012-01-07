@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKey;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.componentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.componentType;
 
 /**
  * Parameter portion of a sim-sharing event.
