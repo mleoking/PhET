@@ -3,12 +3,15 @@ package edu.colorado.phet.common.phetcommon.view.controls.simsharing;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.checkBox;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.isSelected;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**
  * @author Sam Reid
@@ -22,7 +25,7 @@ public class SimSharingPropertyCheckBox extends PropertyCheckBox {
     }
 
     @Override protected void doActionPerformed( SettableProperty<Boolean> property ) {
-        SimSharingManager.sendUserEvent( userComponent, UserActions.pressed, Parameter.componentType( ComponentTypes.checkBox ) );
+        SimSharingManager.sendUserEvent( userComponent, pressed, componentType( checkBox ), param( isSelected, isSelected() ) );
         super.doActionPerformed( property );
     }
 }
