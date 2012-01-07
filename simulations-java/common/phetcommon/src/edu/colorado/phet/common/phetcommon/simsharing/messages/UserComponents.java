@@ -6,7 +6,7 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  * These objects can be used automatically by the system (like if the system automatically hides a dialog), so mark them as SystemObjects as well.
  */
 public enum UserComponents implements UserComponent, SystemObject {
-    playPauseButton, menu, system, tab, stepButton, stepBackButton, rewindButton, resetAllConfirmationDialog, sponsorDialog, dataCollectionLogMenuItem,
+    playPauseButton, menu, tab, stepButton, stepBackButton, rewindButton, resetAllConfirmationDialog, sponsorDialog, dataCollectionLogMenuItem,
 
     simSharingLogFileDialog,
     fileChooserCancelButton, fileChooserSaveButton, replaceFileNoButton, replaceFileYesButton, saveButton,
