@@ -54,7 +54,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.5 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.4 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.32 ) ),
                 1E8 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
