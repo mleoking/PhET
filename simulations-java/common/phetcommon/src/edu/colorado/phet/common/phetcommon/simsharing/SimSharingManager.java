@@ -50,7 +50,7 @@ public class SimSharingManager {
     private static final Logger LOGGER = Logger.getLogger( SimSharingManager.class.getCanonicalName() );
 
     //This number should be increased when the data format changes so that a different parser must be used
-    private static final int PARSER_VERSION = 1;
+    private static final int PARSER_VERSION = 2;
 
     //Flag for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
     private static final boolean ALLOW_SERVER_CONNECTION = true;
