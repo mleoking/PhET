@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -147,11 +147,11 @@ public class SkaterNode extends PNode {
     }
 
     private Parameter getXParameter() {
-        return new Parameter( SimSharingConstants.ParameterKeys.x, getBody().getX() );
+        return new Parameter( ParameterKeys.x, getBody().getX() );
     }
 
     private Parameter getYParameter() {
-        return new Parameter( SimSharingConstants.ParameterKeys.y, getBody().getY() );
+        return new Parameter( ParameterKeys.y, getBody().getY() );
     }
 
     private void snapToTrackDuringDrag() {

@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentTypes.icon;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.icon;
 
 /**
  * Clicking on this icon (label) sends a sim-sharing event and performs a function.

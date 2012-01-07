@@ -2,7 +2,7 @@
 package edu.colorado.phet.common.piccolophet.simsharing;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -107,10 +107,10 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
     }
 
     private static Parameter getXParameter( PInputEvent event ) {
-        return new Parameter( SimSharingConstants.ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() );
+        return new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() );
     }
 
     private static Parameter getYParameter( PInputEvent event ) {
-        return new Parameter( SimSharingConstants.ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() );
+        return new Parameter( ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() );
     }
 }

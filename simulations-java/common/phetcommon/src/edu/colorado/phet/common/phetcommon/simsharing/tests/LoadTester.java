@@ -17,7 +17,8 @@ import javax.swing.Timer;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 
@@ -99,7 +100,7 @@ public class LoadTester {
         Parameter[] p = new Parameter[numParams];
         for ( int i = 0; i < p.length; i++ ) {
             if ( i == 0 ) {
-                p[i] = Parameter.param( SimSharingConstants.ParameterKeys.messageIndex, messageIndex );
+                p[i] = Parameter.param( ParameterKeys.messageIndex, messageIndex );
                 messageIndex++;
             }
             else {
@@ -110,7 +111,7 @@ public class LoadTester {
     }
 
     private Parameter randomParam( final int i ) {
-        return new Parameter( new SimSharingConstants.ParameterKey() {
+        return new Parameter( new ParameterKey() {
             @Override public String toString() {
                 return "key_" + i;
             }

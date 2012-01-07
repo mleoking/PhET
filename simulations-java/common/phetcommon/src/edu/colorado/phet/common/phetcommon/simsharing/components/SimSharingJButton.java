@@ -9,7 +9,7 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
@@ -50,7 +50,7 @@ public class SimSharingJButton extends JButton {
     @Override protected void fireActionPerformed( ActionEvent event ) {
         SimSharingManager.sendUserEvent( object,
                                          pressed,
-                                         Parameter.componentType( SimSharingConstants.ComponentTypes.button ) );
+                                         Parameter.componentType( ComponentTypes.button ) );
         super.fireActionPerformed( event );
     }
 }

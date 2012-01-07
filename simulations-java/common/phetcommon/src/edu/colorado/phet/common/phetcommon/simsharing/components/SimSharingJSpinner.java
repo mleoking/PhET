@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentTypes.spinner;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.value;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.spinner;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.value;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.changed;
 
 /**

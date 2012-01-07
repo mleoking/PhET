@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
@@ -25,7 +25,7 @@ public class MoleculeShapesSimSharing {
         created, removed
     }
 
-    public static enum ParamKeys implements SimSharingConstants.ParameterKey {
+    public static enum ParamKeys implements ParameterKey {
         bondOrder, color, dragging, dragMode, electronGeometry, moleculeGeometry, removedPair
     }
 

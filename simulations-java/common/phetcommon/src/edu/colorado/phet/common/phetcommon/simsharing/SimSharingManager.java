@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDia
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObject;
@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.system;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.user;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.PhetCommonMessageSource.phetcommon;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects.simsharingManager;
@@ -188,7 +188,7 @@ public class SimSharingManager {
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             messageCount++;
             if ( messageCount % 100 == 0 && messageCount > 0 ) {
-                sendSystemEvent( simsharingManager, sentEvent, param( SimSharingConstants.ParameterKeys.messageCount, messageCount ) );
+                sendSystemEvent( simsharingManager, sentEvent, param( ParameterKeys.messageCount, messageCount ) );
             }
 
             return eventString;
@@ -288,7 +288,7 @@ public class SimSharingManager {
                          param( parserVersion, PARSER_VERSION ),
                          param( study, studyName ),
                          param( id, studentId ),
-                         param( SimSharingConstants.ParameterKeys.machineCookie, machineCookie ) );
+                         param( ParameterKeys.machineCookie, machineCookie ) );
     }
 
     // Sends an event when we've connected to the sim-sharing server.

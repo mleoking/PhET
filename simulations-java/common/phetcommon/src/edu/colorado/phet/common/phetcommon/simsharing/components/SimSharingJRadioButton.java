@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentTypes.radioButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.radioButton;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**
