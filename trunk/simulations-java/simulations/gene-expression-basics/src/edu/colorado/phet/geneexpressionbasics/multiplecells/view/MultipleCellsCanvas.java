@@ -181,7 +181,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
             // Put the title and slider together in a box and add to the node
             // and enclose in a control panel.
-            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( title, sliderNode ), Color.WHITE );
+            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( title, sliderNode ), new Color( 245, 145, 241 ) );
 
             // Add the control panel as a child.
             addChild( controlPanel );
