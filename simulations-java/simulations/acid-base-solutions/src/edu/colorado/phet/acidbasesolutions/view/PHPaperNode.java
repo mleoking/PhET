@@ -15,7 +15,7 @@ import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
@@ -117,7 +117,7 @@ public class PHPaperNode extends PhetPNode {
             this.paper = paper;
             this.dragNode = dragNode;
             setStartEndFunction( new DragFunction() {
-                public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendEvent( action );
                 }
             } );
@@ -125,7 +125,7 @@ public class PHPaperNode extends PhetPNode {
                 boolean wasInSolution = paper.isInSolution();
 
                 // send a sim-sharing event when the meter transitions between in/out of solution.
-                public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     if ( wasInSolution != paper.isInSolution() ) {
                         sendEvent( action );
                     }
@@ -134,7 +134,7 @@ public class PHPaperNode extends PhetPNode {
             } );
         }
 
-        private void sendEvent( SimSharingConstants.User.UserAction action ) {
+        private void sendEvent( UserAction action ) {
             SimSharingManager.sendUserEvent( Components.phPaper, action, new Parameter( ABSSimSharing.ABSParameterKeys.isInSolution, paper.isInSolution() ) );
         }
 

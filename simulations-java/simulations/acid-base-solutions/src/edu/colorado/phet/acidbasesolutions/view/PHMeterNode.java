@@ -23,7 +23,7 @@ import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -236,7 +236,7 @@ public class PHMeterNode extends PhetPNode {
             this.meter = meter;
             this.dragNode = dragNode;
             setStartEndFunction( new DragFunction() {
-                public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendEvent( action );
                 }
             } );
@@ -244,7 +244,7 @@ public class PHMeterNode extends PhetPNode {
                 boolean wasInSolution = meter.isInSolution();
 
                 // send a sim-sharing event when the meter transitions between in/out of solution.
-                public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     if ( wasInSolution != meter.isInSolution() ) {
                         sendEvent( action );
                     }
@@ -253,7 +253,7 @@ public class PHMeterNode extends PhetPNode {
             } );
         }
 
-        private void sendEvent( SimSharingConstants.User.UserAction action ) {
+        private void sendEvent( UserAction action ) {
             SimSharingManager.sendUserEvent( Components.phMeter, action, new Parameter( ABSSimSharing.ABSParameterKeys.isInSolution, meter.isInSolution() ) );
         }
 

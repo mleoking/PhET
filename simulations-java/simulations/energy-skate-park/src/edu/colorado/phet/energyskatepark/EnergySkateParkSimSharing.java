@@ -1,13 +1,14 @@
 package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
  * @author Sam Reid
  */
 public class EnergySkateParkSimSharing {
 
-    public static enum Objects implements SimSharingConstants.User.UserComponent {
+    public static enum Objects implements UserComponent {
         skater, trackButton, slowMotionRadioButton, normalSpeedRadioButton
     }
 

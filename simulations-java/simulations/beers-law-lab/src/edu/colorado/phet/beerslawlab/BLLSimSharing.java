@@ -2,6 +2,7 @@
 package edu.colorado.phet.beerslawlab;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
  * Strings related to sim-sharing.
@@ -10,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstan
  */
 public class BLLSimSharing {
 
-    public static enum UserComponents implements SimSharingConstants.User.UserComponent {concentrationMeterBody, concentrationMeterProbe, dropper, dropperButton, dropperIcon, evaporationSlider, inputFaucetSlider, outputFaucetSlider, shaker, shakerIcon, soluteComboBox}
+    public static enum UserComponents implements UserComponent {concentrationMeterBody, concentrationMeterProbe, dropper, dropperButton, dropperIcon, evaporationSlider, inputFaucetSlider, outputFaucetSlider, shaker, shakerIcon, soluteComboBox}
 
     public static enum Parameters implements SimSharingConstants.ParameterKey {evaporationRate, flowRate, isInSolution, locationX, locationY}
 }

@@ -2,8 +2,7 @@
 package edu.colorado.phet.acidbasesolutions.constants;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
  * Strings related to sim-sharing.

@@ -9,7 +9,8 @@ import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
  * Pressing this label sets a property value.
@@ -19,11 +20,11 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstan
  */
 public class PropertyLabel<T> extends JLabel {
 
-    public PropertyLabel( final SimSharingConstants.User.UserComponent simSharingObject, Icon icon, final Property<T> property, final T value ) {
+    public PropertyLabel( final UserComponent simSharingObject, Icon icon, final Property<T> property, final T value ) {
         super( icon );
         addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-                SimSharingManager.sendUserEvent( simSharingObject, SimSharingConstants.User.UserActions.pressed );
+                SimSharingManager.sendUserEvent( simSharingObject, User.UserActions.pressed );
                 property.set( value );
             }
         } );

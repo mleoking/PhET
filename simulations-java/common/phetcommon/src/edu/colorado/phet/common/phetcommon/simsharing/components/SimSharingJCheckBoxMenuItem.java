@@ -10,9 +10,10 @@ import javax.swing.JCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentTypes.checkBoxMenuItem;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
 
 /**
  * CheckBoxMenuItem used in phetcommon for transmitting data on student usage of menus, see #3144
@@ -59,7 +60,7 @@ public class SimSharingJCheckBoxMenuItem extends JCheckBoxMenuItem {
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
         SimSharingManager.sendUserEvent( object,
-                                         SimSharingConstants.User.UserActions.pressed,
+                                         User.UserActions.pressed,
                                          Parameter.componentType( checkBoxMenuItem ),
                                          Parameter.param( SimSharingConstants.ParameterKeys.isSelected, isSelected() ) );
         super.fireActionPerformed( event );

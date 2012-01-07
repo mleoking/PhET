@@ -6,7 +6,8 @@ import java.awt.Image;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
@@ -14,8 +15,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
 
 /**
  * A momentary button is "on" while pressed.
@@ -47,14 +46,14 @@ public class MomentaryButtonNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserEvent( userComponent, SimSharingConstants.User.UserActions.pressed );
+                    SimSharingManager.sendUserEvent( userComponent, User.UserActions.pressed );
                     onProperty.set( true );
                 }
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserEvent( userComponent, SimSharingConstants.User.UserActions.released );
+                    SimSharingManager.sendUserEvent( userComponent, User.UserActions.released );
                     onProperty.set( false );
                 }
             }
