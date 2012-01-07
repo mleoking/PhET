@@ -14,7 +14,7 @@ public class EnergySkateParkSimSharing {
 
         trackPlaygroundTab, introTab, frictionTab,
 
-        restartSkaterButton, skaterMassSlider
+        restartSkaterButton, skaterMassSlider, trackFrictionSlider
     }
 
     public static class Actions {
