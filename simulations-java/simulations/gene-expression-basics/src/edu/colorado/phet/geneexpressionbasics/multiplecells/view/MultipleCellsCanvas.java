@@ -82,14 +82,20 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             }
         } );
 
-        // Add the slider that controls one vs. many cells.
-        addWorldChild( new CellNumberController( model ) );
+        // Create and add the slider that controls one vs. many cells.
+        CellNumberController cellNumberController = new CellNumberController( model );
+        addWorldChild( cellNumberController );
 
-        // Add the control panel that controls the cell parameters.
-        addWorldChild( new MultiCellParameterController( model ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, 20 );
-        }} );
+        // Create and add the control panel that controls the cell parameters.
+        MultiCellParameterController cellParameterController = new MultiCellParameterController( model );
+        addWorldChild( cellParameterController );
 
+        // Lay out the controllers.
+        double maxControllerWidth = Math.max( cellNumberController.getFullBoundsReference().width, cellParameterController.getFullBoundsReference().width );
+        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 10,
+                                        10 );
+        cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
+                                           cellNumberController.getFullBoundsReference().getMaxY() + 5 );
         /*
         // Add the sliders that control the various model parameters.
         // TODO: i18n
