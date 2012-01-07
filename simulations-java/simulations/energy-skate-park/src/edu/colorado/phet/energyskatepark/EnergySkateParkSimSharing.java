@@ -12,7 +12,9 @@ public class EnergySkateParkSimSharing {
         skater, trackButton, slowMotionRadioButton, normalSpeedRadioButton,
         barGraphCheckBox, pieChartCheckBox, gridCheckBox, speedCheckBox,
 
-        trackPlaygroundTab, introTab, frictionTab
+        trackPlaygroundTab, introTab, frictionTab,
+
+        restartSkaterButton,
     }
 
     public static class Actions {

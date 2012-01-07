@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -18,7 +19,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.Planet;
@@ -152,7 +155,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public void addResetAllButton( final PNode parent ) {
 
         //Add the "Restart skater" button
-        final TextButtonNode restartSkaterButton = new TextButtonNode( "Restart Skater" ) {{
+        final SimSharingTextButtonNode restartSkaterButton = new SimSharingTextButtonNode( EnergySkateParkSimSharing.UserComponents.restartSkaterButton, "Restart Skater" ) {{
             setFont( CONTROL_FONT );
             setBackground( Color.ORANGE );
 
@@ -164,7 +167,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         }};
 
         //Add the "Reset all" button
-        final TextButtonNode resetAllButton = new TextButtonNode( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) ) {{
+        final TextButtonNode resetAllButton = new SimSharingTextButtonNode( UserComponents.resetAllButton, PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) ) {{
             setFont( CONTROL_FONT );
             setBackground( Color.YELLOW );
 
