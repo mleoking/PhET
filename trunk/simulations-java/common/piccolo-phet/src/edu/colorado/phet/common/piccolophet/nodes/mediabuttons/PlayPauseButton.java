@@ -11,8 +11,8 @@ import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEvent
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.isPlaying;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.pressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponents.playPauseButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.playPauseButton;
 
 public class PlayPauseButton extends IconButton {
 

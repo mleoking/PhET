@@ -7,9 +7,8 @@ import java.awt.Color;
 import javax.swing.UIManager;
 
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponent;
 
 /**
  * A radio button whose text is HTML.  Swing doesn't properly handle the "graying out"

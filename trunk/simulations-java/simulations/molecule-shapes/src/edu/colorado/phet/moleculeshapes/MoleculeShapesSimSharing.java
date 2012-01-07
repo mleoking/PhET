@@ -3,7 +3,11 @@ package edu.colorado.phet.moleculeshapes;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
  * Sim-sharing strings for this sim.
@@ -13,11 +17,11 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstan
  */
 public class MoleculeShapesSimSharing {
 
-    public static enum Components implements SimSharingConstants.User.UserComponent {
+    public static enum Components implements UserComponent {
         backgroundColor, bond, draggingState, mouseMiddleButton
     }
 
-    public static enum Actions implements SimSharingConstants.User.UserAction {
+    public static enum Actions implements UserAction {
         created, removed
     }
 
@@ -29,11 +33,11 @@ public class MoleculeShapesSimSharing {
         black, white
     }
 
-    public static enum ModelObjects implements SimSharingConstants.Model.ModelObject {
+    public static enum ModelObjects implements ModelObject {
         molecule
     }
 
-    public static enum ModelActions implements SimSharingConstants.Model.ModelAction {
+    public static enum ModelActions implements ModelAction {
         bondsChanged
     }
 

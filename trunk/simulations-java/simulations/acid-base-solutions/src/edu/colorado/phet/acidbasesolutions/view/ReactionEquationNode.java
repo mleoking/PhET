@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.reactionEquation;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions.pressed;
 
 /**
  * Reaction equation for solutions.

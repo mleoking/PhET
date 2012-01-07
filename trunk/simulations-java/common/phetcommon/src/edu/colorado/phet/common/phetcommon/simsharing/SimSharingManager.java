@@ -16,7 +16,16 @@ import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.StringActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.ThreadedActor;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDialog;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObject;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
@@ -24,10 +33,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.M
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.user;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.PhetCommonMessageSource.phetcommon;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.System.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.System.SystemActions.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.System.SystemObjects.simsharingManager;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.System.SystemActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.System.SystemObjects.simsharingManager;
 
 /**
  * Central access point for sim-sharing initialization and event sending.
@@ -156,8 +163,8 @@ public class SimSharingManager {
         return getInstance().sendEvent( new UserMessage( phetcommon, user, object, action, parameters ) );
     }
 
-    public static String sendModelEvent( SimSharingConstants.Model.ModelObject object, SimSharingConstants.Model.ModelAction action, Parameter... parameters ) {
-        return getInstance().sendEvent( new SimSharingConstants.Model.ModelMessage( phetcommon, user, object, action, parameters ) );
+    public static String sendModelEvent( ModelObject object, ModelAction action, Parameter... parameters ) {
+        return getInstance().sendEvent( new ModelMessage( phetcommon, user, object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.

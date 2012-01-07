@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculepolarity;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
  * Sim-sharing strings that are specific to this sim.
@@ -10,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstan
  */
 public class MPSimSharing {
 
-    public static enum Components implements SimSharingConstants.User.UserComponent {
+    public static enum Components implements UserComponent {
         bondAngle, bondCharacterNode, electronegativityControl, moleculeAngle, rainboxMenuItem, jmolViewerNode
     }
 

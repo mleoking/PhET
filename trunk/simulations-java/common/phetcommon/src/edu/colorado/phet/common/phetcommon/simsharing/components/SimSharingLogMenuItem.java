@@ -20,16 +20,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserActions.pressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserComponents.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.*;
 
 /**
  * Menu item and dialog for accessing the sim-sharing event log.
@@ -46,7 +46,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
     private SimSharingLogDialog dialog;
 
     public SimSharingLogMenuItem( final PhetFrame parent ) {
-        super( SimSharingConstants.User.UserComponents.dataCollectionLogMenuItem, TITLE + "..." );
+        super( User.UserComponents.dataCollectionLogMenuItem, TITLE + "..." );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {

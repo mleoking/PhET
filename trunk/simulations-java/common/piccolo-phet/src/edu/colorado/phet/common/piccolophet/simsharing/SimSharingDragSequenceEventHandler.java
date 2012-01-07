@@ -3,10 +3,10 @@ package edu.colorado.phet.common.piccolophet.simsharing;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.User.UserAction;
 
 /**
  * Base class for drag sequence handlers that perform sim-sharing data collection.
@@ -87,21 +87,21 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
 
     @Override protected void startDrag( final PInputEvent event ) {
         if ( startFunction != null ) {
-            startFunction.apply( SimSharingConstants.User.UserActions.startDrag, getXParameter( event ), getYParameter( event ), event );
+            startFunction.apply( User.UserActions.startDrag, getXParameter( event ), getYParameter( event ), event );
         }
         super.startDrag( event );
     }
 
     @Override protected void endDrag( PInputEvent event ) {
         if ( endFunction != null ) {
-            endFunction.apply( SimSharingConstants.User.UserActions.endDrag, getXParameter( event ), getYParameter( event ), event );
+            endFunction.apply( User.UserActions.endDrag, getXParameter( event ), getYParameter( event ), event );
         }
         super.endDrag( event );
     }
 
     @Override protected void drag( PInputEvent event ) {
         if ( dragFunction != null ) {
-            dragFunction.apply( SimSharingConstants.User.UserActions.drag, getXParameter( event ), getYParameter( event ), event );
+            dragFunction.apply( User.UserActions.drag, getXParameter( event ), getYParameter( event ), event );
         }
         super.drag( event );
     }

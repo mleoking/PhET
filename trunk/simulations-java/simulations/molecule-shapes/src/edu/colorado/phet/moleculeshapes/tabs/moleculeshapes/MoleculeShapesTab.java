@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -201,7 +201,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                             if ( pair != null && pair != getMolecule().getCentralAtom() ) {
                                 getMolecule().removeGroup( pair );
                             }
-                            SimSharingManager.sendUserEvent( mouseMiddleButton, SimSharingConstants.User.UserActions.pressed, param( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
+                            SimSharingManager.sendUserEvent( mouseMiddleButton, User.UserActions.pressed, param( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
@@ -453,7 +453,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingManager.sendUserEvent( draggingState, SimSharingConstants.User.UserActions.changed,
+            SimSharingManager.sendUserEvent( draggingState, User.UserActions.changed,
                                              param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ),
                                              param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }

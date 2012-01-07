@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -88,12 +90,12 @@ public class SkaterNode extends PNode {
         }
 
         addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingDragSequenceEventHandler.DragFunction() {
-            public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                sendUserEvent( skater, SimSharingConstants.User.UserActions.startDrag, getXParameter(), getYParameter() );
+            public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                sendUserEvent( skater, User.UserActions.startDrag, getXParameter(), getYParameter() );
             }
         }, new SimSharingDragSequenceEventHandler.DragFunction() {
-            public void apply( SimSharingConstants.User.UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                sendUserEvent( skater, SimSharingConstants.User.UserActions.endDrag, getXParameter(), getYParameter() );
+            public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                sendUserEvent( skater, User.UserActions.endDrag, getXParameter(), getYParameter() );
             }
         }, null
         ) {
