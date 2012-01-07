@@ -94,12 +94,14 @@ public class HSliderNode extends SliderNode {
 
                 @Override public void startDrag( PInputEvent event ) {
                     super.startDrag( event );
+                    dragStarted();
                     startPoint = event.getPositionRelativeTo( HSliderNode.this );
                     startValue = value.get();
                 }
 
                 @Override public void drag( PInputEvent event ) {
                     super.drag( event );
+                    dragged();
                     Point2D point = event.getPositionRelativeTo( HSliderNode.this );
                     final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
 
@@ -112,6 +114,11 @@ public class HSliderNode extends SliderNode {
                     if ( enabled.get() ) {
                         value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
                     }
+                }
+
+                @Override protected void endDrag( PInputEvent event ) {
+                    super.endDrag( event );
+                    dragEnded();
                 }
             } );
         }};
@@ -139,6 +146,15 @@ public class HSliderNode extends SliderNode {
         rootNode.addChild( knobNode );
 
         adjustOrigin();
+    }
+
+    protected void dragEnded() {
+    }
+
+    protected void dragged() {
+    }
+
+    protected void dragStarted() {
     }
 
     private Rectangle2D getKnobRect( double value ) {

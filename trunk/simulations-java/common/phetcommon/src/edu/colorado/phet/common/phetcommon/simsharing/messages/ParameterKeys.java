@@ -11,5 +11,7 @@ public enum ParameterKeys implements ParameterKey {
     //For system:
     time, name, version, project, flavor, locale, distributionTag, javaVersion, osName, osVersion, parserVersion, study, id, machineCookie, messageCount, messageIndex, shouldReset,
 
-    errorMessage
+    errorMessage,
+    //For drag events
+    numberDragEvents, minValue, maxValue, averageValue
 }
