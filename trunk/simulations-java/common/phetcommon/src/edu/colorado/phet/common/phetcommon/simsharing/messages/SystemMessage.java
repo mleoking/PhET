@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 
 /**
+ * Message for events performed automatically by the system, like startup.
+ *
  * @author Sam Reid
  */
 public class SystemMessage extends SimSharingMessage<SystemObject, SystemAction> {
