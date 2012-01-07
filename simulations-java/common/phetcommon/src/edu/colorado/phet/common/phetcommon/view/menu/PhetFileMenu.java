@@ -13,13 +13,13 @@ import edu.colorado.phet.common.phetcommon.preferences.PreferencesDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.exitMenuItem;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.fileMenu;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.exitMenuItem;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.fileMenu;
 
 /**
  * PhetFileMenu
@@ -48,7 +48,7 @@ public class PhetFileMenu extends SimSharingJMenu {
     }
 
     private void addPreferencesMenuItem( final PhetFrame phetFrame, final ISimInfo simInfo ) {
-        JMenuItem preferencesMenuItem = new SimSharingJMenuItem( chain( fileMenu, User.UserComponents.preferencesMenuItem ), PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
+        JMenuItem preferencesMenuItem = new SimSharingJMenuItem( chain( fileMenu, UserComponents.preferencesMenuItem ), PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Preferences" ) );
         preferencesMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 new PreferencesDialog( phetFrame,

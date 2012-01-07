@@ -33,8 +33,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.M
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.user;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.PhetCommonMessageSource.phetcommon;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.System.SystemActions.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.System.SystemObjects.simsharingManager;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects.simsharingManager;
 
 /**
  * Central access point for sim-sharing initialization and event sending.

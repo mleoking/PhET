@@ -8,7 +8,7 @@ import javax.swing.Icon;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
@@ -54,7 +54,7 @@ public class SimSharingJMenuItem extends JMenuItem {
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
         SimSharingManager.sendUserEvent( object,
-                                         User.UserActions.pressed,
+                                         UserActions.pressed,
                                          componentType( menuItem ) );
         super.fireActionPerformed( event );
     }

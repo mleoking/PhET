@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.phPaper;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions.moved;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.moved;
 
 /**
  * Canvas (play area) for all modules.

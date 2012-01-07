@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.resetAllButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.resetAllButton;
 
 /**
  * Swing version of the "Reset All" button.

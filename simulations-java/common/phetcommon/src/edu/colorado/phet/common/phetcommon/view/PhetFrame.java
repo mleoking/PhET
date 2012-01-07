@@ -42,8 +42,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.height;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.width;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.*;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.

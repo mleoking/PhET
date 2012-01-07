@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ComponentTypes.spinner;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.ParameterKeys.value;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions.changed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.changed;
 
 /**
  * Swing spinner that sends sim-sharing events.

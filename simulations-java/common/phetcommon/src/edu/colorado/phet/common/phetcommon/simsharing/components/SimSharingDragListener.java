@@ -6,8 +6,8 @@ import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 
 /**
  * Base class for drag listeners that perform sim-sharing data collection.
@@ -86,21 +86,21 @@ public class SimSharingDragListener extends MouseAdapter {
 
     @Override public void mousePressed( MouseEvent event ) {
         if ( startFunction != null ) {
-            startFunction.apply( User.UserActions.startDrag, getXParameter( event ), getYParameter( event ), event );
+            startFunction.apply( UserActions.startDrag, getXParameter( event ), getYParameter( event ), event );
         }
         super.mousePressed( event );
     }
 
     @Override public void mouseReleased( MouseEvent event ) {
         if ( endFunction != null ) {
-            endFunction.apply( User.UserActions.endDrag, getXParameter( event ), getYParameter( event ), event );
+            endFunction.apply( UserActions.endDrag, getXParameter( event ), getYParameter( event ), event );
         }
         super.mouseReleased( event );
     }
 
     @Override public void mouseDragged( MouseEvent event ) {
         if ( dragFunction != null ) {
-            dragFunction.apply( User.UserActions.drag, getXParameter( event ), getYParameter( event ), event );
+            dragFunction.apply( UserActions.drag, getXParameter( event ), getYParameter( event ), event );
         }
         super.mouseDragged( event );
     }

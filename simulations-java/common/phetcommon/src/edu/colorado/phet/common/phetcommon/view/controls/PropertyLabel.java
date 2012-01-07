@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
@@ -24,7 +24,7 @@ public class PropertyLabel<T> extends JLabel {
         super( icon );
         addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-                SimSharingManager.sendUserEvent( simSharingObject, User.UserActions.pressed );
+                SimSharingManager.sendUserEvent( simSharingObject, UserActions.pressed );
                 property.set( value );
             }
         } );

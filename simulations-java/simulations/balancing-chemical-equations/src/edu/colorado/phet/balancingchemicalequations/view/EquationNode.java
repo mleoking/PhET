@@ -15,7 +15,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -28,8 +30,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserActions;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.User.UserComponents;
 
 /**
  * Displays a chemical equation.

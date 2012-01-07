@@ -14,7 +14,8 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.User;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -118,7 +119,7 @@ public class FaucetNode extends PNode {
         //sim-sharing for non-interactive nodes
         PBasicInputEventHandler mousePressedListener = new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( User.UserComponents.faucetImage, User.UserActions.pressed );
+                SimSharingManager.sendNotInteractiveEvent( UserComponents.faucetImage, UserActions.pressed );
             }
         };
         faucetNode.addInputEventListener( mousePressedListener );
