@@ -28,9 +28,7 @@ public class PropertyCheckBox extends JCheckBox {
         // update the model when the check box is toggled.  Use ActionListener instead of ChangeListener to suppress multiple events.
         this.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                notifyActionPerformed( PropertyCheckBox.this, property );
-                //TODO: add hook for subclass to call simsharing here
-                property.set( isSelected() );
+                doActionPerformed( property );
             }
         } );
 
@@ -41,6 +39,11 @@ public class PropertyCheckBox extends JCheckBox {
             }
         };
         property.addObserver( propertyObserver );
+    }
+
+    //Override for simsharing
+    protected void doActionPerformed( SettableProperty<Boolean> property ) {
+        property.set( isSelected() );
     }
 
     public void cleanup() {
