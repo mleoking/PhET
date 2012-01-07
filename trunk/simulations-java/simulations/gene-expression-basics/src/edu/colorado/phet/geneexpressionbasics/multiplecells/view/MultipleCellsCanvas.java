@@ -16,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
@@ -81,10 +83,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         } );
 
         // Add the slider that controls one vs. many cells.
-        addWorldChild( new CellNumberSlider( model ) {{
-            double inset = 40;
-            setOffset( inset, STAGE_SIZE.getHeight() - getFullBoundsReference().height - inset );
-        }} );
+        addWorldChild( new CellNumberController( model ) );
 
         // Add the control panel that controls the cell parameters.
         addWorldChild( new MultiCellParameterController( model ) {{
@@ -156,26 +155,30 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
      * Class the defines the slider that controls the number of cells in the
      * model.
      */
-    private static class CellNumberSlider extends PNode {
-        private CellNumberSlider( final MultipleCellsModel model ) {
+    private static class CellNumberController extends PNode {
+        private CellNumberController( final MultipleCellsModel model ) {
 
             // Create the title.
-            PText title = new PLabel( "Number of Cells", 18, true );
+            PNode title = new HTMLNode( "<center>Number of<br>Cells</center>", Color.black, new PhetFont( 16, true ) );
 
             // Create the slider.
             Property<Double> numCellsProperty = new Property<Double>( 1.0 );
-            HSliderNode sliderNode = new HSliderNode( 1, (double) MultipleCellsModel.MAX_CELLS, 200, 5, numCellsProperty, new BooleanProperty( true ) ) {
+            HSliderNode sliderNode = new HSliderNode( 1, (double) MultipleCellsModel.MAX_CELLS, 100, 4, numCellsProperty, new BooleanProperty( true ) ) {
                 @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
-                    // Gradient doesn't look good, keep it white.
-                    return Color.WHITE;
+                    // Gradient doesn't look good, make it black.
+                    return Color.BLACK;
                 }
             };
             sliderNode.addLabel( 1, new PLabel( "One", 14 ) );
             sliderNode.addLabel( (double) MultipleCellsModel.MAX_CELLS, new PLabel( "Many", 14 ) );
             addChild( sliderNode );
 
-            // Put them together in a box and add to the node.
-            addChild( new VBox( title, sliderNode ) );
+            // Put the title and slider together in a box and add to the node
+            // and enclose in a control panel.
+            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( title, sliderNode ), Color.WHITE );
+
+            // Add the control panel as a child.
+            addChild( controlPanel );
 
             // Listen to the property and adjust the number of cells in the
             // model accordingly.

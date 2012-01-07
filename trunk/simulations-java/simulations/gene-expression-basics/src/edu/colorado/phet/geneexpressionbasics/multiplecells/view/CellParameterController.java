@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -50,6 +51,31 @@ public class CellParameterController extends PNode {
                     setFont( TITLE_LABEL_FONT );
                 }},
                 new DoubleParameterSliderNode( range.getMin(), range.getMax(), doubleParameter )
+        );
+
+        // Add the content to a control panel.
+        addChild( new ControlPanelNode( content, backgroundColor ) );
+    }
+
+    /**
+     * Constructor for a parameter controller that controls an integer property.
+     *
+     * @param labelHtml
+     * @param parameter
+     * @param range
+     * @param backgroundColor
+     */
+    public CellParameterController( String labelHtml, Property<Integer> parameter, IntegerRange range, Color backgroundColor ) {
+        // Parameter checking.
+        assert parameter.get() >= range.getMin() && parameter.get() <= range.getMax();
+
+        // Create the content for this panel.
+        PNode content = new VBox(
+                10,
+                new HTMLNode( labelHtml ) {{
+                    setFont( TITLE_LABEL_FONT );
+                }},
+                new IntegerParameterSliderNode( range.getMin(), range.getMax(), parameter )
         );
 
         // Add the content to a control panel.
