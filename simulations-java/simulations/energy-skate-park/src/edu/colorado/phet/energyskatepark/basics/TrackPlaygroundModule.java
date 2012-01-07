@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackPlaygroundTab;
+
 /**
  * Module for the "Energy Skate Park Basics" Track Playground tab
  *
@@ -12,7 +14,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
  */
 public class TrackPlaygroundModule extends EnergySkateParkBasicsModule {
     public TrackPlaygroundModule( PhetFrame phetFrame ) {
-        super( EnergySkateParkResources.getString( "tab.trackPlayground" ), phetFrame, true );
+        super( trackPlaygroundTab, EnergySkateParkResources.getString( "tab.trackPlayground" ), phetFrame, true );
 
         addResetAllButton( controlPanel );
 

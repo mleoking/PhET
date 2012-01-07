@@ -37,6 +37,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -269,8 +271,8 @@ public class PhetTabbedPane extends JPanel {
      * @param title   text or HTML
      * @param content
      */
-    public void addTab( String title, JComponent content ) {
-        final AbstractTabNode tab = createTab( title, content );
+    public void addTab( UserComponent userComponent, String title, JComponent content ) {
+        final AbstractTabNode tab = createTab( userComponent, title, content );
         tab.addInputEventListener( new TabInputListener( tab ) );
         if ( tabPane.getTabs().length == 0 ) {
             setSelectedTab( tab );
@@ -292,8 +294,8 @@ public class PhetTabbedPane extends JPanel {
      * @param content
      * @return the AbstractTabNode
      */
-    protected AbstractTabNode createTab( String title, JComponent content ) {
-        return new HTMLTabNode( title, content, selectedTabColor, unselectedTabColor, selectedTextColor, unselectedTextColor, tabFont );
+    protected AbstractTabNode createTab( UserComponent userComponent, String title, JComponent content ) {
+        return new HTMLTabNode( userComponent, title, content, selectedTabColor, unselectedTabColor, selectedTextColor, unselectedTextColor, tabFont );
     }
 
     /**
@@ -408,8 +410,8 @@ public class PhetTabbedPane extends JPanel {
     private static class HTMLTabNode extends AbstractTabNode {
         private HTMLNode htmlNode;
 
-        public HTMLTabNode( String html, JComponent component, Color selectedTabColor, Color unselectedTabColor, Color selectedTextColor, Color unselectedTextColor, Font tabFont ) {
-            super( html, component, selectedTabColor, unselectedTabColor, selectedTextColor, unselectedTextColor, tabFont );
+        public HTMLTabNode( UserComponent userComponent, String html, JComponent component, Color selectedTabColor, Color unselectedTabColor, Color selectedTextColor, Color unselectedTextColor, Font tabFont ) {
+            super( userComponent, html, component, selectedTabColor, unselectedTabColor, selectedTextColor, unselectedTextColor, tabFont );
         }
 
         protected PNode createTextNode( String html ) {
@@ -433,6 +435,7 @@ public class PhetTabbedPane extends JPanel {
      */
     private static abstract class AbstractTabNode extends PNode {
 
+        private final UserComponent userComponent;
         private String text;/*The text for the tab*/
         private JComponent component;/*The swing component associated with this tab.*/
         private PNode textNode;/*The PNode that draws the text*/
@@ -448,7 +451,8 @@ public class PhetTabbedPane extends JPanel {
 
         private static final Insets tabInsets = new Insets( 2, 15, 0, 15 );/* Insets for the text in the tab.*/
 
-        public AbstractTabNode( String text, JComponent component, Color selectedTabColor, Color unselectedTabColor, Color selectedTextColor, Color unselectedTextColor, Font tabFont ) {
+        public AbstractTabNode( UserComponent userComponent, String text, JComponent component, Color selectedTabColor, Color unselectedTabColor, Color selectedTextColor, Color unselectedTextColor, Font tabFont ) {
+            this.userComponent = userComponent;
 
             this.text = text;
             this.component = component;
@@ -918,9 +922,7 @@ public class PhetTabbedPane extends JPanel {
 
         public void mouseReleased( PInputEvent e ) {
             if ( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
-
-                SimSharingManager.sendUserEvent( UserComponents.tab, pressed, Parameter.param( text, tab.getText() ) );
-
+                SimSharingManager.sendUserEvent( tab.userComponent, pressed, Parameter.componentType( ComponentTypes.tab ) );
                 setSelectedTab( tab );
             }
         }
@@ -1010,7 +1012,7 @@ public class PhetTabbedPane extends JPanel {
         }
 
         public void addTab( Tab tab ) {
-            HTMLTabNode tabNode = new HTMLTabNode( tab.getTitle(), null,
+            HTMLTabNode tabNode = new HTMLTabNode( tab.getUserComponent(), tab.getTitle(), null,
                                                    PhetTabbedPane.DEFAULT_SELECTED_TAB_COLOR, PhetTabbedPane.DEFAULT_UNSELECTED_TAB_COLOR,
                                                    PhetTabbedPane.DEFAULT_SELECTED_TEXT_COLOR, PhetTabbedPane.DEFAULT_UNSELECTED_TEXT_COLOR,
                                                    PhetTabbedPane.DEFAULT_TAB_FONT ) {{
@@ -1077,28 +1079,8 @@ public class PhetTabbedPane extends JPanel {
             public String getTitle();
 
             public void setActive( boolean active );
-        }
 
-        public static class AbstractTab implements Tab {
-            private String title;
-            private boolean active = false;
-
-            public AbstractTab( String title ) {
-                this.title = title;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setActive( boolean active ) {
-                this.active = active;
-            }
-
-            public boolean isActive() {
-                return active;
-            }
+            UserComponent getUserComponent();
         }
     }
-
 }

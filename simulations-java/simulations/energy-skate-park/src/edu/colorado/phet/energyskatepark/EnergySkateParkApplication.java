@@ -27,7 +27,7 @@ public class EnergySkateParkApplication extends PhetApplication {
     public EnergySkateParkApplication( PhetApplicationConfig config ) {
         super( config );
 
-        module = new EnergySkateParkModule( "Module", getPhetFrame(), new EnergySkateParkOptions() );
+        module = new EnergySkateParkModule( null, "Module", getPhetFrame(), new EnergySkateParkOptions() );
         setModules( new Module[] { module } );
 
         if ( config.isDev() ) {

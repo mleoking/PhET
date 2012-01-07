@@ -52,7 +52,7 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
     }
 
     public void addTab( Module module ) {
-        addTab( module.getName(), module.getModulePanel() );
+        addTab( module.getTabUserComponent(), module.getName(), module.getModulePanel() );
     }
 
     public void moduleAdded( ModuleEvent event ) {

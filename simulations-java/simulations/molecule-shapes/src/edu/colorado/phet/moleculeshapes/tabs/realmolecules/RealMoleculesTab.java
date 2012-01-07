@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -75,6 +76,7 @@ import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.realMoleculesTab;
 
 /**
  * Module that shows the difference between the model and the real shapes the molecules make
@@ -435,7 +437,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingManager.sendUserEvent( MoleculeShapesSimSharing.Components.draggingState, UserActions.changed,
+            SimSharingManager.sendUserEvent( MoleculeShapesSimSharing.UserComponents.draggingState, UserActions.changed,
                                              param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ),
                                              param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
@@ -687,5 +689,9 @@ public class RealMoleculesTab extends MoleculeViewTab {
 
     public boolean canAutoRotateRealMolecule() {
         return !( dragging && dragMode == DragMode.REAL_MOLECULE_ROTATE );
+    }
+
+    public UserComponent getUserComponent() {
+        return realMoleculesTab;
     }
 }

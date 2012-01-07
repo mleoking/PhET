@@ -7,6 +7,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacterSet;
 
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.introTab;
+
 /**
  * Module for the "Energy Skate Park Basics" Introduction
  *
@@ -14,7 +16,7 @@ import edu.colorado.phet.energyskatepark.view.SkaterCharacterSet;
  */
 public class IntroModule extends EnergySkateParkBasicsModule {
     public IntroModule( PhetFrame phetFrame ) {
-        super( EnergySkateParkResources.getString( "tab.introduction" ), phetFrame, false );
+        super( introTab, EnergySkateParkResources.getString( "tab.introduction" ), phetFrame, false );
 
         //Don't allow the user to drag their own tracks in this module
         getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
@@ -27,6 +28,7 @@ import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.control.CrustChooserPanel;
 import edu.colorado.phet.platetectonics.control.CrustPieceNode;
 import edu.colorado.phet.platetectonics.control.MotionTypeChooserPanel;
@@ -139,18 +141,18 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }} );
 
         mouseEventNotifier.addUpdateListener( new UpdateListener() {
-                                                  public void update() {
-                                                      if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
-                                                          leftHighlightColor.set( regularHighlightColor );
-                                                          rightHighlightColor.set( regularHighlightColor );
-                                                      }
-                                                      else {
-                                                          boolean overLeft = isMouseOverLeftSide();
-                                                          leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
-                                                          rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
-                                                      }
-                                                  }
-                                              }, false );
+            public void update() {
+                if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
+                    leftHighlightColor.set( regularHighlightColor );
+                    rightHighlightColor.set( regularHighlightColor );
+                }
+                else {
+                    boolean overLeft = isMouseOverLeftSide();
+                    leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
+                    rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
+                }
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
@@ -528,5 +530,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 motionVectorRight.reset();
             }
         }
+    }
+
+    public UserComponent getUserComponent() {
+        return PlateTectonicsSimSharing.UserComponents.plateMotionTab;
     }
 }

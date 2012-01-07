@@ -4,6 +4,7 @@ package edu.colorado.phet.energyskatepark;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -19,8 +20,8 @@ import edu.umd.cs.piccolo.PNode;
 public class EnergySkateParkModule extends AbstractEnergySkateParkModule {
     private final EnergySkateParkControlPanel energySkateParkControlPanel;
 
-    public EnergySkateParkModule( String name, PhetFrame phetFrame, EnergySkateParkOptions options ) {
-        super( name, phetFrame, options, true, true, Floor.DEFAULT_FRICTION, true /* hasZoomControls */, 1.0 );
+    public EnergySkateParkModule( UserComponent userComponent, String name, PhetFrame phetFrame, EnergySkateParkOptions options ) {
+        super( userComponent, name, phetFrame, options, true, true, Floor.DEFAULT_FRICTION, true /* hasZoomControls */, 1.0 );
 
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );
