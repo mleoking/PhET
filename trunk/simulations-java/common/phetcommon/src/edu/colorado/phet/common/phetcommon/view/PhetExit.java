@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.System;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
