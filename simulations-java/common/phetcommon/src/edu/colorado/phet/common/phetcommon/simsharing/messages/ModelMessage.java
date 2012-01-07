@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 
 /**
+ * Message sent about something the model did (without direct user interaction, though it may be a response to a user action.)
+ *
  * @author Sam Reid
  */
 public class ModelMessage extends SimSharingMessage<ModelObject, ModelAction> {
