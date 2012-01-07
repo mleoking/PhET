@@ -67,7 +67,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removeGroup( candidate );
-                            sendUserEvent( MoleculeShapesSimSharing.Components.bond, Actions.removed, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
+                            sendUserEvent( MoleculeShapesSimSharing.UserComponents.bond, Actions.removed, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
 
                             //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                             systemResponseForGeometries( module.getMolecule() );
@@ -101,7 +101,7 @@ public class BondTypeControlNode extends PNode {
             public void run() {
                 module.startNewInstanceDrag( bondOrder );
 
-                sendUserEvent( MoleculeShapesSimSharing.Components.bond, Actions.created, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
+                sendUserEvent( MoleculeShapesSimSharing.UserComponents.bond, Actions.created, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
 
                 //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                 systemResponseForGeometries( module.getMolecule() );

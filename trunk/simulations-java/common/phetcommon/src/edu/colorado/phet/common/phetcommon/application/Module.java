@@ -24,6 +24,8 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
@@ -473,6 +475,11 @@ public abstract class Module implements Resettable {
             public void deactivated() {
             }
         } );
+    }
+
+    //Sims using simsharing should use SimSharingPiccoloModule to override this default dummy value (which is provided to prevent nullpointer exceptions in the tab node code).
+    public UserComponent getTabUserComponent() {
+        return UserComponents.tab;
     }
 
     public static interface Listener {

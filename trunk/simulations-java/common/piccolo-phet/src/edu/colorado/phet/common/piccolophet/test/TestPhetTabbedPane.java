@@ -35,7 +35,7 @@ public class TestPhetTabbedPane {
             }
         } );
         verticalLayoutPanel.add( comp );
-        phetTabbedPane.addTab( "Hello!", verticalLayoutPanel );
+        phetTabbedPane.addTab( null, "Hello!", verticalLayoutPanel );
         final JSlider slider = new JSlider( 6, 60, 10 );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -54,9 +54,9 @@ public class TestPhetTabbedPane {
                 phetTabbedPane.setSelectedTabColor( newColor );
             }
         } );
-        phetTabbedPane.addTab( "Tab Colors", colorChooser );
+        phetTabbedPane.addTab( null, "Tab Colors", colorChooser );
         JButton content = new JButton( "button" );
-        phetTabbedPane.addTab( "Large Button", content );
+        phetTabbedPane.addTab( null, "Large Button", content );
 
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 

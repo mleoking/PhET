@@ -24,6 +24,8 @@ import org.lwjgl.opengl.Display;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -34,9 +36,9 @@ import edu.colorado.phet.lwjglphet.CanvasTransform.StageCenteringCanvasTransform
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -437,5 +439,10 @@ public class TestingTab extends LWJGLTab {
         float phi = (float) Math.PI / 2 - z / RADIUS; // dividing by the radius actually gets us the correct angle
         float sinPhi = (float) Math.sin( phi );
         return new ImmutableVector3F( sinPhi, sinPhi, (float) Math.cos( phi ) );
+    }
+
+    //Return a wrong component for the convenience of not having to create a new UserComponent.  OK since not used in production.
+    public UserComponent getUserComponent() {
+        return UserComponents.fileMenu;
     }
 }

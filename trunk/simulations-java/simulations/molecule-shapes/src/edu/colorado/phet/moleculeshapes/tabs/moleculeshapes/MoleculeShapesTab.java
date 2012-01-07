@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -68,8 +69,7 @@ import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
-import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Components.draggingState;
-import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Components.mouseMiddleButton;
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.*;
 
 /**
  * Main module for Molecule Shapes
@@ -729,5 +729,9 @@ public class MoleculeShapesTab extends MoleculeViewTab {
 
     @Override public boolean allowTogglingAllLonePairs() {
         return false;
+    }
+
+    public UserComponent getUserComponent() {
+        return moleculeShapesTab;
     }
 }

@@ -13,10 +13,13 @@ import java.io.IOException;
 import javax.jnlp.UnavailableServiceException;
 import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.phetcommon.application.*;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
@@ -37,11 +40,11 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
     private IntensityModule intensityModule;
     private SingleParticleModule singleParticleModule;
     private MandelModule mandelModule;
-    
+
     private static class QWTTabbedModulePane extends TabbedModulePanePiccolo {
         //workaround for bug: "High Intensity" module tab renders as "High      " under Java 1.4
         public void addTab( Module module ) {
-            super.addTab( "<html>" + module.getName() + "</html>", module.getModulePanel() );
+            super.addTab( module.getTabUserComponent(), "<html>" + module.getName() + "</html>", module.getModulePanel() );
         }
     }
 
@@ -75,10 +78,10 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
                     QWIState state = (QWIState) new PersistenceManager( qwiModule.getSchrodingerPanel() ).load();
                     state.restore( qwiModule );
                 }
-                catch( IOException e1 ) {
+                catch ( IOException e1 ) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
-                catch( UnavailableServiceException e1 ) {
+                catch ( UnavailableServiceException e1 ) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
@@ -87,7 +90,7 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
         getPhetFrame().addFileMenuSeparator();
 
     }
-    
+
     public void startApplication() {
         super.startApplication();
         // add wiggle me after the app starts so that we see it move
@@ -118,7 +121,7 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
 
     private void addWiggleMe() {
         QWIPanel schrodingerPanel = intensityModule.getSchrodingerPanel();
-        
+
         final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( schrodingerPanel, QWIResources.getString( "qwi.invitation" ) );
         helpBalloon.setTextColor( Color.white );
         helpBalloon.setShadowTextColor( Color.gray );
@@ -137,13 +140,13 @@ public class QuantumWaveInterferenceApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new QuantumWaveInterferenceApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, QWIConstants.PROJECT_NAME, QWIConstants.FLAVOR_QUANTUM_WAVE_INTERFERENCE );
         appConfig.setLookAndFeel( new QWIPhetLookAndFeel() );
         appConfig.setFrameSetup( new QWIFrameSetup() );

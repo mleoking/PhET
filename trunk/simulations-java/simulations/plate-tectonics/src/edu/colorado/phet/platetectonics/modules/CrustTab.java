@@ -6,6 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -17,6 +18,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
@@ -88,26 +90,26 @@ public class CrustTab extends PlateTectonicsTab {
         // crust label
         layerLabels.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
+                }
+            }, true );
         }}, new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                }
+            }, true );
         }}, "Crust", scaleProperty
         ) ); // TODO: i18n
 
         // TODO: refactor so label heights are from the model. AYE!
         final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                }
+            }, true );
         }};
         final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, -750000, 0 ) ) );
 
@@ -135,10 +137,10 @@ public class CrustTab extends PlateTectonicsTab {
                     // TODO: debug listener ordering issue that is causing jittering when zooming in/out
                     scaleProperty.addObserver( observer );
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                             public void update() {
-                                                                 observer.update();
-                                                             }
-                                                         }, false );
+                        public void update() {
+                            observer.update();
+                        }
+                    }, false );
                 }};
             }
         };
@@ -279,5 +281,9 @@ public class CrustTab extends PlateTectonicsTab {
 
     public CrustModel getCrustModel() {
         return (CrustModel) getModel();
+    }
+
+    public UserComponent getUserComponent() {
+        return PlateTectonicsSimSharing.UserComponents.crustTab;
     }
 }

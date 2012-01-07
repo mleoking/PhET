@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -56,8 +57,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         } );
     }};
 
-    public EnergySkateParkBasicsModule( String name, final PhetFrame phetFrame, boolean splinesMovable ) {
-        super( name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false,
+    public EnergySkateParkBasicsModule( UserComponent userComponent, String name, final PhetFrame phetFrame, boolean splinesMovable ) {
+        super( userComponent, name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false,
 
                //Use the skater friction only in *Basics
                0.0,
