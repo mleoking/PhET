@@ -17,6 +17,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
 import static java.util.Collections.sort;
 
 /**
+ * HSliderNode that also sends message about drag events.
+ *
  * @author Sam Reid
  */
 public class SimSharingHSliderNode extends HSliderNode {
