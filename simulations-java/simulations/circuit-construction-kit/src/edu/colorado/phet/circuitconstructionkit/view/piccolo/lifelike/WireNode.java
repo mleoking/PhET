@@ -1,8 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Shape;
 
+import edu.colorado.phet.circuitconstructionkit.CCKSimSharing;
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -71,7 +75,7 @@ public class WireNode extends BranchNode {
         } );
         wire.addObserver( wireObserver );
         update();
-        addInputEventListener( new PopupMenuHandler( component, new WirePopupMenu( cckModel, wire ) ) );
+        addInputEventListener( new PopupMenuHandler( CCKSimSharing.UserComponents.wire, component, new WirePopupMenu( cckModel, wire ) ) );
     }
 
     public void setHighlightStrokeWidth( double highlightStrokeWidth ) {
