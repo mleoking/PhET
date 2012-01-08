@@ -20,6 +20,7 @@ public class EnergySkateParkSimSharing {
     public static enum UserComponents implements UserComponent {
         trackButton, slowMotionRadioButton, normalSpeedRadioButton,
         barGraphCheckBox, pieChartCheckBox, gridCheckBox, speedCheckBox,
+        barGraphCheckBoxIcon, pieChartCheckBoxIcon, gridCheckBoxIcon, speedCheckBoxIcon,
 
         trackPlaygroundTab, introTab, frictionTab,
 

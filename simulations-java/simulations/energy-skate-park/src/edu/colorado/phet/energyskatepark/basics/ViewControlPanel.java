@@ -43,10 +43,10 @@ public class ViewControlPanel extends ControlPanelNode {
 
                    new VBox(
                            //Checkbox to show/hide the pie chart
-                           new PropertyTogglingImageNode( EnergySkateParkResources.getImage( "icons/bar_icon.png" ), module.barChartVisible ),
-                           new PropertyTogglingImageNode( PIE_ICON, module.pieChartVisible ),
-                           new PropertyTogglingImageNode( EnergySkateParkResources.getImage( "icons/grid_icon.png" ), module.gridVisible ),
-                           new PropertyTogglingImageNode( new ESPSpeedometerNode( new Property<Double>( 0.0 ) ).toImage( PIE_ICON.getWidth(), PIE_ICON.getWidth(), new Color( 0, 0, 0, 0 ) ), module.speedVisible )
+                           new PropertyTogglingImageNode( barGraphCheckBoxIcon, EnergySkateParkResources.getImage( "icons/bar_icon.png" ), module.barChartVisible ),
+                           new PropertyTogglingImageNode( pieChartCheckBoxIcon, PIE_ICON, module.pieChartVisible ),
+                           new PropertyTogglingImageNode( gridCheckBoxIcon, EnergySkateParkResources.getImage( "icons/grid_icon.png" ), module.gridVisible ),
+                           new PropertyTogglingImageNode( speedCheckBoxIcon, new ESPSpeedometerNode( new Property<Double>( 0.0 ) ).toImage( PIE_ICON.getWidth(), PIE_ICON.getWidth(), new Color( 0, 0, 0, 0 ) ), module.speedVisible )
                    )
             );
         }
