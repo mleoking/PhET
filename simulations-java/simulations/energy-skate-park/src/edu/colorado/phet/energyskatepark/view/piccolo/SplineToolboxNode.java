@@ -9,6 +9,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -23,6 +24,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserEvent;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.numTracks;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.toolboxTrack;
 
 /**
  * User: Sam Reid
@@ -73,6 +79,9 @@ public class SplineToolboxNode extends PNode {
             }
 
             private void create( PInputEvent event ) {
+
+                //Add 1 to account for the track this will create.
+                sendUserEvent( toolboxTrack, UserActions.drag, param( numTracks, energySkateParkSimulationPanel.getEnergySkateParkModel().getNumSplines() + 1 ) );
                 Point2D pt = new Point2D.Double( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() );
                 energySkateParkSimulationPanel.getRootNode().screenToWorld( pt );
                 PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline();
