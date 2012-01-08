@@ -29,7 +29,11 @@ public class EnergySkateParkSimSharing {
         //Parents for on/off controls
         friction, stickToTrack,
 
-        toolboxTrack
+        //For dragging out of toolbox
+        toolboxTrack,
+
+        //For dragging track
+        track
     }
 
     public static enum ModelObjects implements ModelObject {
