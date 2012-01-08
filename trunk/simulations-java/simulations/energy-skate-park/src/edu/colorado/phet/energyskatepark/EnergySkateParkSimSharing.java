@@ -33,7 +33,7 @@ public class EnergySkateParkSimSharing {
         toolboxTrack,
 
         //For dragging track
-        track
+        track, trackControlPoint
     }
 
     public static enum ModelObjects implements ModelObject {
