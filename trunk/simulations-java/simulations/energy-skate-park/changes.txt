@@ -1,3 +1,4 @@
+Energy Skate Park Basics: Internationalize new features in ESPB like sim speed slider "slow motion" "normal"
 Energy Skate Park Basics: Send a message when creating track, see #3201
 Energy Skate Park Basics: renamed "restart skater" to "return skater" in order to match the button that appears in the play area
 Energy Skate Park Basics: Simsharing: added message for when the skater is dragged and released, see #3201
