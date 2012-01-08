@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.simsharing;
+package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
 /**
  * Marker interface for message types so we can constrain what values are allowed for message types.  The default values are provided as an enum that implements
