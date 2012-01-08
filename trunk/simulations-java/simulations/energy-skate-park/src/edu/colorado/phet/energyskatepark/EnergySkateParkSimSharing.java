@@ -27,7 +27,9 @@ public class EnergySkateParkSimSharing {
         restartSkaterButton, skaterMassSlider, trackFrictionSlider,
 
         //Parents for on/off controls
-        friction, stickToTrack
+        friction, stickToTrack,
+
+        toolboxTrack
     }
 
     public static enum ModelObjects implements ModelObject {
@@ -41,6 +43,8 @@ public class EnergySkateParkSimSharing {
     }
 
     public static enum ParameterKeys implements ParameterKey {
-        track
+
+        //Apparently the floor doesn't count as a track (a bit surprising based on how I thought the model worked)
+        track, numTracks
     }
 }
