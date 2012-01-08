@@ -25,6 +25,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -47,6 +49,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.track;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackControlPoint;
 
 /**
@@ -117,12 +120,14 @@ public class SplineNode extends PNode {
                 initDragSpline();
             }
         };
+        //TODO: add track ID
+        UserComponent userComponent = track;
 
         popupMenu = new TrackPopupMenu( splineEnvironment );
         if ( controllable ) {
             splinePath.addInputEventListener( this.dragHandler );
             splinePath.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-            splinePath.addInputEventListener( new PopupMenuHandler( parent, popupMenu ) );
+            splinePath.addInputEventListener( new PopupMenuHandler( userComponent, parent, popupMenu ) );
         }
 
         splineListener = new EnergySkateParkSpline.Listener() {
@@ -345,7 +350,8 @@ public class SplineNode extends PNode {
             setStrokePaint( Color.black );
             setPaint( new Color( 0, 0, 1f, 0.5f ) );
 
-            addInputEventListener( new SimSharingDragSequenceEventHandler2( chain( trackControlPoint, index ) ) {
+            final ComponentChain controlPointUserComponent = chain( trackControlPoint, index );
+            addInputEventListener( new SimSharingDragSequenceEventHandler2( controlPointUserComponent ) {
                 @Override protected void startDrag( PInputEvent event ) {
                     super.startDrag( event );
                     initDragControlPoint( index );
@@ -392,7 +398,7 @@ public class SplineNode extends PNode {
                 }
             } );
             addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-            addInputEventListener( new PopupMenuHandler( parent, new ControlCirclePopupMenu( index ) ) );
+            addInputEventListener( new PopupMenuHandler( controlPointUserComponent, parent, new ControlCirclePopupMenu( index ) ) );
         }
     }
 

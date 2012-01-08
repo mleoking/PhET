@@ -46,6 +46,8 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.colorado.phet.energyskatepark.view.swing.EnergySkateParkPlaybackPanel;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.energyTimePlot;
+
 /**
  * Author: Sam Reid
  * May 22, 2007, 2:18:52 AM
@@ -199,14 +201,14 @@ public class EnergyTimePlot {
         developerControlDialog.setLocation( dialog.getLocation().x, dialog.getLocation().y - developerControlDialog.getHeight() );
 
         JPopupMenu popupMenu = new JPopupMenu();
-        JMenuItem item = new JMenuItem( "Show Renderers" );
+        JMenuItem item = new JMenuItem( "Show Renderers" );//TODO: not interationalized, but maybe nobody even knows about this feature!
         item.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 developerControlDialog.setVisible( true );
             }
         } );
         popupMenu.add( item );
-        phetPCanvas.addInputEventListener( new PopupMenuHandler( phetPCanvas, popupMenu ) );
+        phetPCanvas.addInputEventListener( new PopupMenuHandler( energyTimePlot, phetPCanvas, popupMenu ) );
     }
 
     private void updateReadouts() {

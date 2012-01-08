@@ -5,7 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.colorado.phet.waveinterference.WallPotential;
@@ -13,6 +15,8 @@ import edu.colorado.phet.waveinterference.model.CompositePotential;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import static edu.colorado.phet.waveinterference.WaveInterferenceSimSharing.UserComponents.wallPotential;
 
 /**
  * Created by: Sam
@@ -68,7 +72,7 @@ public class CompositeWallPotentialGraphic extends PNode {
                 }
             } );
             itemMenu.add( menuItem );
-            child.addInputEventListener( new PopupMenuHandler( panel, itemMenu ) );
+            child.addInputEventListener( new PopupMenuHandler( wallPotential, panel, itemMenu ) );
             child.addInputEventListener( new PBasicInputEventHandler() {//todo: why isn't this working?
 
                 public void keyReleased( PInputEvent event ) {
