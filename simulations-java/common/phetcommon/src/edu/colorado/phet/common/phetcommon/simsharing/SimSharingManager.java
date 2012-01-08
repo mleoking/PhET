@@ -29,8 +29,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.system;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.user;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.PhetCommonMessageSource.phetcommon;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
@@ -164,7 +163,7 @@ public class SimSharingManager {
     }
 
     public static String sendModelEvent( ModelObject object, ModelAction action, Parameter... parameters ) {
-        return getInstance().sendEvent( new ModelMessage( phetcommon, user, object, action, parameters ) );
+        return getInstance().sendEvent( new ModelMessage( phetcommon, model, object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
