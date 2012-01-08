@@ -21,5 +21,9 @@ public enum UserComponents implements UserComponent, SystemObject {
     resetAllButton,
 
     faucetImage,
-    spinner
+    spinner,
+
+    //chained with other features, used in Energy Skate Park but declared here for reusability elsewhere
+    onRadioButton,
+    offRadioButton
 }
