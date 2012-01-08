@@ -9,7 +9,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
+import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
@@ -551,6 +553,9 @@ public class Particle implements Serializable {
             else {
                 //grab the track
                 double dE0 = getTotalEnergy() - origEnergy;
+                SimSharingManager.sendModelEvent( EnergySkateParkSimSharing.SharedComponents.skater, EnergySkateParkSimSharing.ModelActions.landed
+//                        , Parameter.param( EnergySkateParkSimSharing.ParameterKeys.track, )
+                );
                 switchToTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
                 double dE2 = getTotalEnergy() - origEnergy;
                 if ( Math.abs( dE2 ) > 1E-6 ) {

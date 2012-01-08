@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserEvent;
-import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.skater;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.SharedComponents.skater;
 
 /**
  * User: Sam Reid
