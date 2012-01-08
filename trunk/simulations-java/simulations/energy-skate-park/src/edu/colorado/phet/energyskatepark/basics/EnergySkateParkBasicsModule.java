@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
+import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
@@ -155,7 +156,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public void addResetAllButton( final PNode parent ) {
 
         //Add the "Restart skater" button
-        final SimSharingTextButtonNode restartSkaterButton = new SimSharingTextButtonNode( EnergySkateParkSimSharing.UserComponents.restartSkaterButton, "Restart Skater" ) {{
+        final SimSharingTextButtonNode restartSkaterButton = new SimSharingTextButtonNode( EnergySkateParkSimSharing.UserComponents.restartSkaterButton, EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
             setFont( CONTROL_FONT );
             setBackground( Color.ORANGE );
 

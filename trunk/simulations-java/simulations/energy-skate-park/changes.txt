@@ -1,3 +1,4 @@
+Energy Skate Park Basics: renamed "restart skater" to "return skater" in order to match the button that appears in the play area
 Energy Skate Park Basics: Simsharing: added message for when the skater is dragged and released, see #3201
 Made spline and spline node dragging bounds respect dynamic change in window size and aspect ratio
 # 2.08.14 (59924) Jan 5, 2012
