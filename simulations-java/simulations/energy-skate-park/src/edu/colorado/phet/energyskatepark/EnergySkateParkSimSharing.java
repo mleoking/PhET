@@ -23,7 +23,10 @@ public class EnergySkateParkSimSharing {
 
         trackPlaygroundTab, introTab, frictionTab,
 
-        restartSkaterButton, skaterMassSlider, trackFrictionSlider
+        restartSkaterButton, skaterMassSlider, trackFrictionSlider,
+
+        //Parents for on/off controls
+        friction, stickToTrack
     }
 
     public static enum ModelObjects implements ModelObject {

@@ -9,6 +9,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.friction;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.stickToTrack;
 import static edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel.backgroundColor;
 
 /**
@@ -29,7 +31,7 @@ public class TrackControlPanel extends ControlPanelNode {
                    //Control box for track friction
                    new VBox( 10,
                              new PhetPText( EnergySkateParkResources.getString( "controls.show-friction" ), EnergySkateParkBasicsModule.TITLE_FONT ),
-                             new OnOffPanel( module.frictionEnabled ),
+                             new OnOffPanel( friction, module.frictionEnabled ),
                              new TrackFrictionSlider( module ) ),
 
                    //vertical space
@@ -40,7 +42,7 @@ public class TrackControlPanel extends ControlPanelNode {
                    //Control box for stickiness
                    new VBox( 0,
                              new PhetPText( EnergySkateParkResources.getString( "stickToTrack" ), EnergySkateParkBasicsModule.TITLE_FONT ),
-                             new OnOffPanel( module.stickToTrack ) ) );
+                             new OnOffPanel( stickToTrack, module.stickToTrack ) ) );
         }
     }
 }
