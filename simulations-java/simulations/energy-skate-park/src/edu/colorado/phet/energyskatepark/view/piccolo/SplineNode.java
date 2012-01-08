@@ -46,6 +46,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackControlPoint;
+
 /**
  * User: Sam Reid
  * Date: Sep 26, 2005
@@ -342,22 +345,16 @@ public class SplineNode extends PNode {
             setStrokePaint( Color.black );
             setPaint( new Color( 0, 0, 1f, 0.5f ) );
 
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
+            addInputEventListener( new SimSharingDragSequenceEventHandler2( chain( trackControlPoint, index ) ) {
+                @Override protected void startDrag( PInputEvent event ) {
+                    super.startDrag( event );
                     initDragControlPoint( index );
                     spline.setUserControlled( true );
                     event.setHandled( true );
                 }
 
-                public void mouseReleased( PInputEvent event ) {
-                    if ( isAttachAllowed( event ) ) {
-                        finishDragControlPoint( index );
-                    }
-                    spline.setUserControlled( false );
-                    event.setHandled( true );
-                }
-
-                public void mouseDragged( PInputEvent event ) {
+                @Override protected void drag( PInputEvent event ) {
+                    super.drag( event );
                     PDimension rel = event.getDeltaRelativeTo( SplineNode.this );
 
                     //Not allowed to drag out of the stage
@@ -382,6 +379,15 @@ public class SplineNode extends PNode {
                     if ( isAttachAllowed( event ) ) {
                         proposeMatchesEndpoint( index );
                     }
+                    event.setHandled( true );
+                }
+
+                @Override protected void endDrag( PInputEvent event ) {
+                    super.endDrag( event );
+                    if ( isAttachAllowed( event ) ) {
+                        finishDragControlPoint( index );
+                    }
+                    spline.setUserControlled( false );
                     event.setHandled( true );
                 }
             } );

@@ -18,6 +18,11 @@ public class ComponentChain implements UserComponent {
         return new ObservableList<UserComponent>( components ).mkString( "." );
     }
 
+    //Provide an index name for a component, such as "the 3rd track" would be track.3
+    public static ComponentChain chain( UserComponent component, int index ) {
+        return chain( component, new IntegerUserComponent( index ) );
+    }
+
     public static ComponentChain chain( UserComponent... components ) {
         return new ComponentChain( components );
     }
