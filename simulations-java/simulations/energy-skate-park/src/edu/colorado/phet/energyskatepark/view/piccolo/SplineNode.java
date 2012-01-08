@@ -31,8 +31,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler2;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
+import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
@@ -95,19 +97,24 @@ public class SplineNode extends PNode {
             addChild( controlPointLayer );
         }
 
-        dragHandler = new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                initDragSpline();
-            }
+        dragHandler = new SimSharingDragSequenceEventHandler2( EnergySkateParkSimSharing.UserComponents.track ) {
 
-            public void mouseDragged( PInputEvent event ) {
+            @Override protected void drag( PInputEvent event ) {
+                super.drag( event );
                 dragSpline( event );
             }
 
-            public void mouseReleased( PInputEvent event ) {
+            @Override protected void endDrag( PInputEvent event ) {
+                super.endDrag( event );
                 finishDragSpline( event );
             }
+
+            @Override protected void startDrag( PInputEvent event ) {
+                super.startDrag( event );
+                initDragSpline();
+            }
         };
+
         popupMenu = new TrackPopupMenu( splineEnvironment );
         if ( controllable ) {
             splinePath.addInputEventListener( this.dragHandler );
