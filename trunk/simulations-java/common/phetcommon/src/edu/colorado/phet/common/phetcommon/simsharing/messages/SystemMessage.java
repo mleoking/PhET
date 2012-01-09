@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
  * @author Sam Reid
  */
 public class SystemMessage extends SimSharingMessage<SystemObject, SystemAction> {
-    public SystemMessage( IMessageSource source, IMessageType messageType, SystemObject object, SystemAction systemAction, Parameter... parameters ) {
-        super( source, messageType, object, systemAction, parameters );
+    public SystemMessage( IMessageType messageType, SystemObject object, SystemAction systemAction, Parameter... parameters ) {
+        super( messageType, object, systemAction, parameters );
     }
 }

@@ -3,7 +3,6 @@ package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.util.HashMap;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IMessageSource;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IMessageType;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
@@ -19,7 +18,6 @@ public class SimSharingMessage<T, U> {
 
     enum MessageType implements IMessageType {user, system, model}
 
-    private final IMessageSource messageSource;
     private final IMessageType messageType;
     private final T object;
     private final U action;
@@ -28,8 +26,7 @@ public class SimSharingMessage<T, U> {
     //Alternatively could have been implemented as a map.  Since it is not a map, we have to make sure no two parameter keys are the same.
     private final Parameter[] parameters;
 
-    public SimSharingMessage( IMessageSource source, IMessageType messageType, T object, U action, final Parameter... parameters ) {
-        this.messageSource = source;
+    public SimSharingMessage( IMessageType messageType, T object, U action, final Parameter... parameters ) {
         this.object = object;
         this.action = action;
         this.parameters = parameters;
