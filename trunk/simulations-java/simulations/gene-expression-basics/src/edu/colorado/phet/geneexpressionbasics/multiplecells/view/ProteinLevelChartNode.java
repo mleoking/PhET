@@ -14,6 +14,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -31,15 +32,17 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class ProteinLevelChartNode extends PNode {
+public class ProteinLevelChartNode extends PNode implements Resettable {
 
     private static final Dimension2D SIZE = new PDimension( 400, 200 );  // In screen coordinates, which is close to pixels.
     private static final double TIME_SPAN = 30; // In seconds.
 
+    private final IClock clock;
     private final XYSeries dataSeries = new XYSeries( "0" );
     private double timeOffset = 0;
 
     public ProteinLevelChartNode( final Property<Double> observableDataValue, final IClock clock ) {
+        this.clock = clock;
         XYDataset dataSet = new XYSeriesCollection( dataSeries );
         // Create the chart itself, i.e. the place where data will be shown.
         // TODO: i18n
@@ -63,9 +66,7 @@ public class ProteinLevelChartNode extends PNode {
         observableDataValue.addObserver( new VoidFunction1<Double>() {
             public void apply( Double aDouble ) {
                 if ( clock.getSimulationTime() - timeOffset > TIME_SPAN ) {
-                    // Clear the chart.
-                    dataSeries.clear();
-                    timeOffset = clock.getSimulationTime();
+                    reset();
                 }
                 // Add the data to the chart.
                 dataSeries.add( clock.getSimulationTime() - timeOffset, observableDataValue.get() );
@@ -108,5 +109,13 @@ public class ProteinLevelChartNode extends PNode {
         renderer.setStroke( new BasicStroke( 2f, BasicStroke.JOIN_ROUND, BasicStroke.JOIN_BEVEL ) );
 
         return chart;
+    }
+
+    public void reset() {
+        // Clear the chart.
+        dataSeries.clear();
+
+        // Save the time offset for charting new data that is added.
+        timeOffset = clock.getSimulationTime();
     }
 }
