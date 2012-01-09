@@ -47,7 +47,11 @@ public class MultiCellParameterController extends PNode {
                 new DoubleParameterSliderNode( CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMin(),
                                                CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMax(),
                                                model.polymeraseAssociationProbability,
-                                               "<center>Polymerase<br>Affinity</center>" )
+                                               "<center>Polymerase<br>Affinity</center>" ),
+                new DoubleParameterSliderNode( CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMin(),
+                                               CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMax(),
+                                               model.proteinDegradationRate,
+                                               "<center>Protein<br>Degradation Rate</center>" )
         );
 
         // Add the content to a control panel.
