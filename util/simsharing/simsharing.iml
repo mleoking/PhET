@@ -127,6 +127,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="sim-event-data-collection-server" />
   </component>
 </module>
 
