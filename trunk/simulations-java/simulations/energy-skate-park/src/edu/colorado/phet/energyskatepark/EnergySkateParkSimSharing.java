@@ -26,6 +26,7 @@ public class EnergySkateParkSimSharing {
         trackPlaygroundTab, introTab, frictionTab,
 
         returnSkaterButton, skaterMassSlider, trackFrictionSlider,
+        playAreaReturnSkaterButton,
 
         //Parents for on/off controls
         friction, stickToTrack,

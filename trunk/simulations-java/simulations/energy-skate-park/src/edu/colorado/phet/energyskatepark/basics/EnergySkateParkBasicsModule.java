@@ -22,7 +22,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
-import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
@@ -30,6 +29,8 @@ import edu.colorado.phet.energyskatepark.model.Planet;
 import edu.colorado.phet.energyskatepark.serialization.EnergySkateParkIO;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.returnSkaterButton;
 
 /**
  * Module for Energy Skate Park Basics.
@@ -162,7 +163,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public void addResetAllButton( final PNode parent ) {
 
         //Add the "Restart skater" button
-        final SimSharingTextButtonNode restartSkaterButton = new SimSharingTextButtonNode( EnergySkateParkSimSharing.UserComponents.returnSkaterButton, EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
+        final SimSharingTextButtonNode restartSkaterButton = new SimSharingTextButtonNode( returnSkaterButton, EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
             setFont( CONTROL_FONT );
             setBackground( Color.ORANGE );
 

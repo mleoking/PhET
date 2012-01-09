@@ -9,6 +9,9 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.button;
+
 /**
  * Text button node that also sends sim sharing messages.
  *
@@ -33,7 +36,7 @@ public class SimSharingTextButtonNode extends TextButtonNode {
     }
 
     @Override protected void notifyActionPerformed() {
-        SimSharingManager.sendUserMessage( userComponent, UserActions.pressed );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.pressed, componentType( button ) );
         super.notifyActionPerformed();
     }
 }
