@@ -13,17 +13,14 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
@@ -117,13 +114,8 @@ public class FaucetNode extends PNode {
         addChild( sliderNode );
 
         //sim-sharing for non-interactive nodes
-        PBasicInputEventHandler mousePressedListener = new PBasicInputEventHandler() {
-            @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNonInteractiveUserMessage( UserComponents.faucetImage, UserActions.pressed );
-            }
-        };
-        faucetNode.addInputEventListener( mousePressedListener );
-        pipeNode.addInputEventListener( mousePressedListener );
+        faucetNode.addInputEventListener( new NonInteractiveUserComponent( UserComponents.faucetImage ) );
+        pipeNode.addInputEventListener( new NonInteractiveUserComponent( UserComponents.faucetImage ) );
     }
 
     // Gets the slider's drag handler, for adding sim-sharing feature.
