@@ -22,6 +22,7 @@ public class ParameterSet {
         this( new ArrayList<ParameterKey>(), new HashMap<ParameterKey, String>() );
     }
 
+    //No defensive copy made here (to go easy on the heap/GC), so clients must take care not to modify these data structures once created.
     public ParameterSet( ArrayList<ParameterKey> keys, HashMap<ParameterKey, String> map ) {
         this.keys = keys;
         this.map = map;
