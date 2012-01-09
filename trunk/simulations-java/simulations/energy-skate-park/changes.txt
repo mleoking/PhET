@@ -1,5 +1,5 @@
-Simsharing: Energy Skate Park Basics: #3201: Removed extraneous output on startup and when switching tracks
-Simsharing: Energy Skate Park Basics: improved names for track buttons, see #3201
+Energy Skate Park Basics: Simsharing: #3201: Removed extraneous output on startup and when switching tracks
+Energy Skate Park Basics: Simsharing: improved names for track buttons, see #3201
 Energy Skate Park Basics: send a message when the skater bounces off a track, see #3201
 Energy Skate Park Basics: Internationalize new features in ESPB like sim speed slider "slow motion" "normal"
 Energy Skate Park Basics: Send a message when creating track, see #3201
