@@ -167,7 +167,7 @@ public class SimSharingManager {
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
-    public static String sendNonInteractiveMessage( UserComponent object, UserAction action ) {
+    public static String sendNonInteractiveUserMessage( UserComponent object, UserAction action ) {
         return SimSharingManager.sendUserMessage( object, action, new Parameter( interactive, false ) );
     }
 
