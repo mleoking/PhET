@@ -42,7 +42,7 @@ public class EnergySkateParkSimSharing {
     }
 
     public static enum ModelActions implements ModelAction {
-        landed
+        landed, bounced
     }
 
     public static class Actions {
