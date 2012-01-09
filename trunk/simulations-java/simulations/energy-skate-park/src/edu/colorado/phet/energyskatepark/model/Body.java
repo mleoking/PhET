@@ -59,7 +59,11 @@ public class Body implements Serializable {
     }
 
     public void setSpline( EnergySkateParkSpline spline, boolean top, double alpha ) {
-        particle.switchToTrack( spline.getParametricFunction2D(), alpha, top );
+        switchToTrack( spline.getParametricFunction2D(), top, alpha );
+    }
+
+    public void switchToTrack( ParametricFunction2D parametricFunction2D, boolean top, double alpha ) {
+        particle.switchToTrack( parametricFunction2D, alpha, top );
     }
 
     public void setFreeFallMode() {
@@ -151,7 +155,7 @@ public class Body implements Serializable {
         return fractionalEnergyError;
     }
 
-    private void updateStateFromParticle() {
+    public void updateStateFromParticle() {
         if ( getSpeed() > 0.01 ) {
             if ( !isFreeFallMode() && !isUserControlled() ) {
                 facingRight = getVelocity().dot( Vector2D.createPolar( 1, getAngle() ) ) > 0;
@@ -484,6 +488,10 @@ public class Body implements Serializable {
 
     public double getHeightAboveZero() {
         return particle.getHeightAboveZero();
+    }
+
+    public Particle getParticle() {
+        return particle;
     }
 
     public static interface Listener {

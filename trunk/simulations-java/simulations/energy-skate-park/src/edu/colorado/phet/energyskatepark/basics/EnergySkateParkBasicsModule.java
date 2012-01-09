@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButto
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkOptions;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.Planet;
@@ -129,6 +130,17 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         getEnergySkateParkModel().getBody( 0 ).setPosition( 10, 0 );
         getEnergySkateParkModel().getBody( 0 ).setVelocity( 0, 0 );
         getEnergySkateParkModel().getBody( 0 ).setFrictionCoefficient( getCoefficientOfFriction() );
+
+        //Use this code to sample alpha positions from a spline to come up with good initial conditions
+        if ( false ) {
+            getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
+                @Override public void preStep() {
+                    System.out.println( getEnergySkateParkModel().getBody( 0 ).getSpline() + ", " + getEnergySkateParkModel().getBody( 0 ).getParticle().getParticle1D().getAlpha() );
+                }
+            } );
+        }
+        getEnergySkateParkModel().getBody( 0 ).switchToTrack( getEnergySkateParkModel().getFloor().getParametricFunction2D(), false, 0.36666702272486873 );
+        getEnergySkateParkModel().getBody( 0 ).updateStateFromParticle();
     }
 
     protected void loadDefaultTrack() {
