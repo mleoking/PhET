@@ -119,7 +119,7 @@ public class FaucetNode extends PNode {
         //sim-sharing for non-interactive nodes
         PBasicInputEventHandler mousePressedListener = new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNonInteractiveMessage( UserComponents.faucetImage, UserActions.pressed );
+                SimSharingManager.sendNonInteractiveUserMessage( UserComponents.faucetImage, UserActions.pressed );
             }
         };
         faucetNode.addInputEventListener( mousePressedListener );

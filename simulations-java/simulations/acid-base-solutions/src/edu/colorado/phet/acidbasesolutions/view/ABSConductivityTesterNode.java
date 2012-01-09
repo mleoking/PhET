@@ -79,12 +79,12 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         {
             getLightBulbNode().addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
-                    SimSharingManager.sendNonInteractiveMessage( Components.lightBulb, UserActions.pressed );
+                    SimSharingManager.sendNonInteractiveUserMessage( Components.lightBulb, UserActions.pressed );
                 }
             } );
             getBatteryNode().addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
-                    SimSharingManager.sendNonInteractiveMessage( Components.battery, UserActions.pressed );
+                    SimSharingManager.sendNonInteractiveUserMessage( Components.battery, UserActions.pressed );
                 }
             } );
         }
