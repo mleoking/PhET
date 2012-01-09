@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObject;
@@ -152,22 +153,36 @@ public class SimSharingManager {
 //        return getInstance().sendEvent( new ModelMessage( object, action, parameters ) );
 //    }
 
-    public static String sendSystemMessage( SystemObject object, SystemAction action, Parameter... parameters ) {
+    //Convenience overload to provide no parameters
+    public static String sendSystemMessage( SystemObject object, SystemAction action ) {
+        return sendSystemMessage( object, action, new ParameterSet() );
+    }
+
+    public static String sendSystemMessage( SystemObject object, SystemAction action, ParameterSet parameters ) {
         return getInstance().sendMessage( new SystemMessage( system, object, action, parameters ) );
     }
 
+    //Convenience overload to provide no parameters
+    public static String sendUserMessage( UserComponent object, UserAction action ) {
+        return sendUserMessage( object, action );
+    }
+
     // Convenience method for sending an event from something the user did
-    public static String sendUserMessage( UserComponent object, UserAction action, Parameter... parameters ) {
+    public static String sendUserMessage( UserComponent object, UserAction action, ParameterSet parameters ) {
         return getInstance().sendMessage( new UserMessage( user, object, action, parameters ) );
     }
 
-    public static String sendModelMessage( ModelObject object, ModelAction action, Parameter... parameters ) {
+    public static String sendModelMessage( ModelObject object, ModelAction action ) {
+        return getInstance().sendMessage( new ModelMessage( model, object, action, new ParameterSet() ) );
+    }
+
+    public static String sendModelMessage( ModelObject object, ModelAction action, ParameterSet parameters ) {
         return getInstance().sendMessage( new ModelMessage( model, object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
     public static String sendNonInteractiveUserMessage( UserComponent object, UserAction action ) {
-        return SimSharingManager.sendUserMessage( object, action, new Parameter( interactive, false ) );
+        return SimSharingManager.sendUserMessage( object, action, param( interactive, false ) );
     }
 
     // Sends an event. If sim-sharing is disabled, this is a no-op.
@@ -273,21 +288,20 @@ public class SimSharingManager {
     // Sends a message when sim-sharing has been started up.
     private void sendStartupMessage( PhetApplicationConfig config ) {
         assert ( enabled );
-        sendSystemMessage( simsharingManager, started,
-                           param( time, simStartedTime ),
-                           param( name, config.getName() ),
-                           param( version, config.getVersion().formatForAboutDialog() ),
-                           param( project, config.getProjectName() ),
-                           param( flavor, config.getFlavor() ),
-                           param( locale, config.getLocale().toString() ),
-                           param( distributionTag, config.getDistributionTag() ),
-                           param( javaVersion, System.getProperty( "java.version" ) ),
-                           param( osName, System.getProperty( "os.name" ) ),
-                           param( osVersion, System.getProperty( "os.version" ) ),
-                           param( parserVersion, PARSER_VERSION ),
-                           param( study, studyName ),
-                           param( id, studentId ),
-                           param( ParameterKeys.machineCookie, machineCookie ) );
+        sendSystemMessage( simsharingManager, started, param( time, simStartedTime ).
+                param( name, config.getName() ).
+                param( version, config.getVersion().formatForAboutDialog() ).
+                param( project, config.getProjectName() ).
+                param( flavor, config.getFlavor() ).
+                param( locale, config.getLocale().toString() ).
+                param( distributionTag, config.getDistributionTag() ).
+                param( javaVersion, System.getProperty( "java.version" ) ).
+                param( osName, System.getProperty( "os.name" ) ).
+                param( osVersion, System.getProperty( "os.version" ) ).
+                param( parserVersion, PARSER_VERSION ).
+                param( study, studyName ).
+                param( id, studentId ).
+                param( ParameterKeys.machineCookie, machineCookie ) );
     }
 
     // Sends an event when we've connected to the sim-sharing server.

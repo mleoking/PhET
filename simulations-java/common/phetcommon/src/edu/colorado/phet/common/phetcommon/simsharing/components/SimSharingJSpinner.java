@@ -4,10 +4,10 @@ package edu.colorado.phet.common.phetcommon.simsharing.components;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.spinner;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.value;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.changed;
@@ -32,8 +32,7 @@ public class SimSharingJSpinner extends JSpinner {
 
     @Override protected void fireStateChanged() {
         SimSharingManager.sendUserMessage( object, changed,
-                                           Parameter.componentType( spinner ),
-                                           Parameter.param( value, getValue().toString() ) );
+                                           componentType( spinner ).param( value, getValue().toString() ) );
         super.fireStateChanged();
     }
 }

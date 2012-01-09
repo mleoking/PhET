@@ -1,3 +1,4 @@
+1/9/12 Simsharing: Converter varargs Parameter to ParameterSet, see #3209
 1/6/12 Simsharing: Converted to use interface/enum messages, see #3209
 1/5/12 Added user/system/model message types, see #3209
 1/5/12 Removed Property<T> descriptions, see #3202

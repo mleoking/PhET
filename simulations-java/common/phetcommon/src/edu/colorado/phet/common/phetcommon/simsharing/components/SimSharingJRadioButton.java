@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.radioButton;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
@@ -70,6 +69,6 @@ public class SimSharingJRadioButton extends JRadioButton {
     }
 
     public static void sendEvent( UserComponent userComponent, boolean isSelected ) {
-        SimSharingManager.sendUserMessage( userComponent, pressed, componentType( radioButton ), param( ParameterKeys.isSelected, isSelected ) );
+        SimSharingManager.sendUserMessage( userComponent, pressed, componentType( radioButton ).param( ParameterKeys.isSelected, isSelected ) );
     }
 }

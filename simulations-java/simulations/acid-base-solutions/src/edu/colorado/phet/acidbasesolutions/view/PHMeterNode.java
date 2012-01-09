@@ -16,7 +16,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
 import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
@@ -35,6 +34,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ABSParameterKeys;
 
 /**
  * pH meter, displays the pH of a solution. Origin is at the tip of the probe.
@@ -254,7 +255,7 @@ public class PHMeterNode extends PhetPNode {
         }
 
         private void sendEvent( UserAction action ) {
-            SimSharingManager.sendUserMessage( Components.phMeter, action, new Parameter( ABSSimSharing.ABSParameterKeys.isInSolution, meter.isInSolution() ) );
+            SimSharingManager.sendUserMessage( Components.phMeter, action, Parameter.param( ABSParameterKeys.isInSolution, meter.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {

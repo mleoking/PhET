@@ -7,7 +7,6 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.ABSConductivityTesterNode;
@@ -26,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ABSParameterKeys;
 import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.phPaper;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.moved;
 
@@ -80,7 +80,7 @@ public class ABSCanvas extends PhetPCanvas {
                                                        pHPaperNode.getFullBoundsReference().getMaxX() > pHColorKeyNode.getFullBoundsReference().getMinX() );
                 if ( isPaperAlignedWithColorKey != ABSCanvas.this.isPaperAlignedWithColorKey ) {
                     // send an event whenever the alignment status changes
-                    SimSharingManager.sendUserMessage( phPaper, moved, new Parameter( ABSSimSharing.ABSParameterKeys.isPaperAlignedWithColorKey, isPaperAlignedWithColorKey ) );
+                    SimSharingManager.sendUserMessage( phPaper, moved, Parameter.param( ABSParameterKeys.isPaperAlignedWithColorKey, isPaperAlignedWithColorKey ) );
                     ABSCanvas.this.isPaperAlignedWithColorKey = isPaperAlignedWithColorKey;
                 }
             }

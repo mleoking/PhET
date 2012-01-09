@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingDragListener;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -41,8 +42,6 @@ import edu.colorado.phet.moleculepolarity.common.model.Element;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
  * Piccolo node that displays a Jmol viewer.
@@ -105,8 +104,8 @@ public class JmolViewerNode extends PhetPNode {
         viewerPanel.addMouseListener( new SimSharingDragListener() {{
             setStartEndFunction( new DragFunction() {
                 public void apply( UserAction action, Parameter xParam, Parameter yParam, MouseEvent event ) {
-                    SimSharingManager.sendUserMessage( Components.jmolViewerNode, action, xParam, yParam,
-                                                       param( Parameters.currentMolecule, currentMolecule.get().getName() ) );
+                    SimSharingManager.sendUserMessage( Components.jmolViewerNode, action,
+                                                       new ParameterSet().add( xParam ).add( yParam ).param( Parameters.currentMolecule, currentMolecule.get().getName() ) );
                 }
             } );
         }} );

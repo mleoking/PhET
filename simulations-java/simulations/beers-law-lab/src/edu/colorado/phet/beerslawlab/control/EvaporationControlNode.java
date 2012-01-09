@@ -19,6 +19,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+
 /**
  * Evaporation control, appropriated from sugar-and-salt-solutions.
  *
@@ -53,7 +55,7 @@ public class EvaporationControlNode extends ControlPanelNode {
                     // sim-sharing
                     getDragHandler().setStartEndDragFunction( new DragFunction() {
                         public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                            SimSharingManager.sendUserMessage( UserComponents.evaporationSlider, action, new Parameter( Parameters.evaporationRate, evaporator.evaporationRate.get() ) );
+                            SimSharingManager.sendUserMessage( UserComponents.evaporationSlider, action, param( Parameters.evaporationRate, evaporator.evaporationRate.get() ) );
                         }
                     } );
                 }}

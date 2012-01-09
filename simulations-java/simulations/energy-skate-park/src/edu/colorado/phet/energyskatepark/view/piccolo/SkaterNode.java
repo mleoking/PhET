@@ -11,7 +11,9 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -30,7 +32,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.SharedComponents.skater;
 
 /**
@@ -91,11 +92,11 @@ public class SkaterNode extends PNode {
 
         addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingDragSequenceEventHandler.DragFunction() {
             public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                sendUserMessage( skater, UserActions.startDrag, getXParameter(), getYParameter() );
+                SimSharingManager.sendUserMessage( skater, UserActions.startDrag, getXParameter().addAll( getYParameter() ) );
             }
         }, new SimSharingDragSequenceEventHandler.DragFunction() {
             public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                sendUserMessage( skater, UserActions.endDrag, getXParameter(), getYParameter() );
+                SimSharingManager.sendUserMessage( skater, UserActions.endDrag, getXParameter().addAll( getYParameter() ) );
             }
         }, null
         ) {
@@ -146,12 +147,12 @@ public class SkaterNode extends PNode {
         update();
     }
 
-    private Parameter getXParameter() {
-        return new Parameter( ParameterKeys.x, getBody().getX() );
+    private ParameterSet getXParameter() {
+        return new ParameterSet( new Parameter( ParameterKeys.x, getBody().getX() ) );
     }
 
-    private Parameter getYParameter() {
-        return new Parameter( ParameterKeys.y, getBody().getY() );
+    private ParameterSet getYParameter() {
+        return new ParameterSet( new Parameter( ParameterKeys.y, getBody().getY() ) );
     }
 
     private void snapToTrackDuringDrag() {

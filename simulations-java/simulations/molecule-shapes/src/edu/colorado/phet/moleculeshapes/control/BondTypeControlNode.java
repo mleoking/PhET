@@ -8,6 +8,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMECursorHandler;
 import edu.colorado.phet.jmephet.JMEUtils;
@@ -15,6 +16,9 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesResources;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.Actions;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelActions;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelObjects;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ParamKeys;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -67,7 +71,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removeGroup( candidate );
-                            sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, Actions.removed, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
+                            sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, Actions.removed, param( ParamKeys.bondOrder, bondOrder ) );
 
                             //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                             systemResponseForGeometries( module.getMolecule() );
@@ -101,7 +105,7 @@ public class BondTypeControlNode extends PNode {
             public void run() {
                 module.startNewInstanceDrag( bondOrder );
 
-                sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, Actions.created, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
+                sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, Actions.created, param( ParamKeys.bondOrder, bondOrder ) );
 
                 //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                 systemResponseForGeometries( module.getMolecule() );
@@ -132,7 +136,7 @@ public class BondTypeControlNode extends PNode {
 
         final String moleculeGeometry = molecule.getCentralVseprConfiguration().name;
         String moleculeGeometryName = moleculeGeometry == null ? MoleculeShapesResources.Strings.SHAPE__EMPTY : moleculeGeometry;
-        MoleculeShapesSimSharing.sendModelEvent( MoleculeShapesSimSharing.ModelObjects.molecule, MoleculeShapesSimSharing.ModelActions.bondsChanged, Parameter.param( MoleculeShapesSimSharing.ParamKeys.electronGeometry, electronGeometryName ), param( MoleculeShapesSimSharing.ParamKeys.moleculeGeometry, moleculeGeometryName ) );
+        SimSharingManager.sendModelMessage( ModelObjects.molecule, ModelActions.bondsChanged, Parameter.param( ParamKeys.electronGeometry, electronGeometryName ).param( ParamKeys.moleculeGeometry, moleculeGeometryName ) );
     }
 
     private boolean hasMatchingGroup() {

@@ -111,8 +111,7 @@ public class PhetFrame extends JFrame {
             @Override public void componentResized( ComponentEvent e ) {
                 if ( !getSize().equals( prevSize ) ) {
                     SimSharingManager.sendUserMessage( phetFrame, resized,
-                                                       param( width, getWidth() ),
-                                                       param( height, getHeight() ) );
+                                                       param( width, getWidth() ).param( height, getHeight() ) );
                     prevSize = new Dimension( getSize() );
                 }
             }

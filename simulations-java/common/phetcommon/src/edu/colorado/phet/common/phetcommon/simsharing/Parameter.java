@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.componentType;
 
@@ -45,24 +46,24 @@ public class Parameter {
         return name + " = " + value;
     }
 
-    public static Parameter param( ParameterKey name, double value ) {
-        return new Parameter( name, value );
+    public static ParameterSet param( ParameterKey name, double value ) {
+        return new ParameterSet( new Parameter( name, value ) );
     }
 
-    public static Parameter param( ParameterKey name, boolean value ) {
-        return new Parameter( name, value );
+    public static ParameterSet param( ParameterKey name, boolean value ) {
+        return new ParameterSet( new Parameter( name, value ) );
     }
 
-    public static Parameter componentType( ComponentType component ) {
-        return new Parameter( componentType, component + "" );
+    public static ParameterSet componentType( ComponentType component ) {
+        return new ParameterSet( new Parameter( componentType, component + "" ) );
     }
 
-    public static Parameter param( ParameterKey name, long value ) {
-        return new Parameter( name, value );
+    public static ParameterSet param( ParameterKey name, long value ) {
+        return new ParameterSet( new Parameter( name, value ) );
     }
 
-    public static Parameter param( ParameterKey name, String value ) {
-        return new Parameter( name, value );
+    public static ParameterSet param( ParameterKey name, String value ) {
+        return new ParameterSet( new Parameter( name, value ) );
     }
 
     // Appends additional parameters to an array of parameters.

@@ -6,17 +6,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
-import edu.colorado.phet.balancingchemicalequations.BCESimSharing;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.view.game.IBalancedRepresentationStrategy;
 import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.games.SimSharing;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
+import static edu.colorado.phet.balancingchemicalequations.BCESimSharing.Actions.guessChecked;
+import static edu.colorado.phet.balancingchemicalequations.BCESimSharing.Parameters;
+import static edu.colorado.phet.common.games.SimSharing.Components.game;
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
@@ -112,11 +113,11 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
      */
     public void check() {
         attempts++;
-        SimSharingManager.sendModelMessage( SimSharing.Components.game, BCESimSharing.Actions.guessChecked,
-                                            param( BCESimSharing.Parameters.equation, currentEquation.get().getName() ),
-                                            param( BCESimSharing.Parameters.attempts, attempts ),
-                                            param( BCESimSharing.Parameters.isBalancedAndSimplified, currentEquation.get().isBalancedAndSimplified() ),
-                                            param( BCESimSharing.Parameters.isBalanced, currentEquation.get().isBalanced() ) );
+        SimSharingManager.sendModelMessage( game, guessChecked,
+                                            param( Parameters.equation, currentEquation.get().getName() ).
+                                                    param( Parameters.attempts, attempts ).
+                                                    param( Parameters.isBalancedAndSimplified, currentEquation.get().isBalancedAndSimplified() ).
+                                                    param( Parameters.isBalanced, currentEquation.get().isBalanced() ) );
         if ( currentEquation.get().isBalancedAndSimplified() ) {
 
             // award points

@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 
@@ -95,16 +96,16 @@ public class LoadTester {
         }
     }
 
-    private Parameter[] rand() {
+    private ParameterSet rand() {
         int numParams = random.nextInt( 10 );
-        Parameter[] p = new Parameter[numParams];
-        for ( int i = 0; i < p.length; i++ ) {
+        ParameterSet p = new ParameterSet();
+        for ( int i = 0; i < numParams; i++ ) {
             if ( i == 0 ) {
-                p[i] = Parameter.param( ParameterKeys.messageIndex, messageIndex );
+                p = p.param( ParameterKeys.messageIndex, messageIndex );
                 messageIndex++;
             }
             else {
-                p[i] = randomParam( i );
+                p = p.add( randomParam( i ) );
             }
         }
         return p;

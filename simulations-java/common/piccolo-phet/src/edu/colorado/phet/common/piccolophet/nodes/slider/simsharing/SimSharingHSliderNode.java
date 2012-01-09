@@ -52,7 +52,7 @@ public class SimSharingHSliderNode extends HSliderNode {
     }
 
     @Override protected void dragEnded() {
-        SimSharingManager.sendUserMessage( userComponent, endDrag, param( ParameterKeys.value, value.get() ), param( numberDragEvents, dragValues.size() ), param( minValue, min( dragValues ) ), param( maxValue, max( dragValues ) ), param( averageValue, average( dragValues ) ) );
+        SimSharingManager.sendUserMessage( userComponent, endDrag, param( ParameterKeys.value, value.get() ).param( numberDragEvents, dragValues.size() ).param( minValue, min( dragValues ) ).param( maxValue, max( dragValues ) ).param( averageValue, average( dragValues ) ) );
         dragValues.clear();
     }
 

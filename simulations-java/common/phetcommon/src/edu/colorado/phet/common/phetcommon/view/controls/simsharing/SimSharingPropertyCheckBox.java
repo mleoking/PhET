@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.checkBox;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
@@ -31,6 +30,6 @@ public class SimSharingPropertyCheckBox extends PropertyCheckBox {
 
     //For other check boxes that need to send standardized messages (e.g., as SimSharingJCheckBox should be using this).
     public static void sendCheckBoxMessage( UserComponent userComponent, boolean selected ) {
-        SimSharingManager.sendUserMessage( userComponent, pressed, componentType( checkBox ), param( ParameterKeys.isSelected, selected ) );
+        SimSharingManager.sendUserMessage( userComponent, pressed, componentType( checkBox ).param( ParameterKeys.isSelected, selected ) );
     }
 }
