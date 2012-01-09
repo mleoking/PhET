@@ -21,6 +21,7 @@ public abstract class SimSharingConfig {
         addConfig( new ColoradoConfig() );
         addConfig( new UtahConfig() );
         addConfig( new Spring2012AcidBaseSolutionsConfig() );
+        addConfig( new DallasJan2012() );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
@@ -35,6 +36,10 @@ public abstract class SimSharingConfig {
     public final boolean requestId; // does the study request that students provide an id?
     public final boolean idRequired; // true=id required, false=optional
     public final String idPrompt; // prompt used to request student's id (irrelevant if requestId is false)
+
+    protected SimSharingConfig( String studyName, boolean requestId, boolean idRequired ) {
+        this( studyName, requestId, idRequired, null );
+    }
 
     protected SimSharingConfig( String studyName, boolean requestId, boolean idRequired, String idPrompt ) {
         this.studyName = studyName;
@@ -87,12 +92,25 @@ public abstract class SimSharingConfig {
     }
 
     /*
+    * Location: Dallas, TX
+    * Dates: Week of Jan 23 2012
+    * Sims: Energy Skate Park
+    * PhET researchers: Emily B. Moore
+    * Contacts: DMcLeod@uplifteducation.org
+    */
+    private static class DallasJan2012 extends SimSharingConfig {
+        public DallasJan2012() {
+            super( "dallas-jan-2012", false, false );
+        }
+    }
+
+    /*
      * Acid-Base Solutions study to be done in Spring 2012.
      * TODO document details
      */
     private static class Spring2012AcidBaseSolutionsConfig extends SimSharingConfig {
         public Spring2012AcidBaseSolutionsConfig() {
-            super( "acid-base-solutions-spring-2012", false, false, "" );
+            super( "acid-base-solutions-spring-2012", false, false );
         }
     }
 }
