@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
@@ -83,11 +84,11 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         } );
 
         // Create and add the slider that controls one vs. many cells.
-        CellNumberController cellNumberController = new CellNumberController( model );
+        final CellNumberController cellNumberController = new CellNumberController( model );
         addWorldChild( cellNumberController );
 
         // Create and add the control panel that controls the cell parameters.
-        MultiCellParameterController cellParameterController = new MultiCellParameterController( model );
+        final MultiCellParameterController cellParameterController = new MultiCellParameterController( model );
         addWorldChild( cellParameterController );
 
         // Lay out the controllers.
@@ -96,6 +97,13 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                                         10 );
         cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
                                            cellNumberController.getFullBoundsReference().getMaxY() + 5 );
+
+        // Add the Reset All button.
+        addWorldChild( new ResetAllButtonNode( model, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+            setConfirmationEnabled( false );
+            setOffset( cellParameterController.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
+                       cellParameterController.getFullBoundsReference().getMaxY() + 20 );
+        }} );
         /*
         // Add the sliders that control the various model parameters.
         // TODO: i18n
