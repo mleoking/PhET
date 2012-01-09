@@ -83,6 +83,13 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             }
         } );
 
+        // Add the chart that displays the average protein level.
+        ProteinLevelChartNode proteinLevelChartNode = new ProteinLevelChartNode( model.averageProteinLevel, model.getClock() ) {{
+            setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
+                       STAGE_SIZE.getHeight() - getFullBoundsReference().height - 10 );
+        }};
+        addWorldChild( proteinLevelChartNode );
+
         // Create and add the slider that controls one vs. many cells.
         final CellNumberController cellNumberController = new CellNumberController( model );
         addWorldChild( cellNumberController );
@@ -99,7 +106,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                                            cellNumberController.getFullBoundsReference().getMaxY() + 5 );
 
         // Add the Reset All button.
-        addWorldChild( new ResetAllButtonNode( model, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        addWorldChild( new ResetAllButtonNode( new Resettable[] { model, proteinLevelChartNode }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             setOffset( cellParameterController.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
                        cellParameterController.getFullBoundsReference().getMaxY() + 20 );
@@ -141,12 +148,6 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                 setZoomToSeeAllCells();
             }
         } );
-
-        // Add the chart that displays the average protein level.
-        addWorldChild( new ProteinLevelChartNode( model.averageProteinLevel, model.getClock() ) {{
-            setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
-                       STAGE_SIZE.getHeight() - getFullBoundsReference().height - 10 );
-        }} );
     }
 
     private void setZoomToSeeAllCells() {
