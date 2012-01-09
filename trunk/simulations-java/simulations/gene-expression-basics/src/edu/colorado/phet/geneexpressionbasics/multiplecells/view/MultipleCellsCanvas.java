@@ -99,10 +99,9 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
         // Lay out the controllers.
         double maxControllerWidth = Math.max( cellNumberController.getFullBoundsReference().width, cellParameterController.getFullBoundsReference().width );
-        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 10,
-                                        10 );
+        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
         cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
-                                           cellNumberController.getFullBoundsReference().getMaxY() + 5 );
+                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
 
         // Add the Reset All button.
         addWorldChild( new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
@@ -184,7 +183,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
             // Put the title and slider together in a box and add to the node
             // and enclose in a control panel.
-            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( title, sliderNode ), new Color( 245, 145, 241 ) );
+            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( title, sliderNode ), new Color( 245, 205, 245 ) );
 
             // Add the control panel as a child.
             addChild( controlPanel );
