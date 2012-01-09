@@ -4,15 +4,19 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.playAreaReturnSkaterButton;
 
 /**
  * User: Sam Reid
@@ -26,22 +30,22 @@ public class ReturnSkaterButtonNode extends PhetPNode {
 
     private SkaterNode skaterNode;
     private final PNode buttonNode;
-    private final ButtonNode bringBackSkater = new TextButtonNode( EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
-
-        //Changed "Return Skater" button to be orange instead of yellow to distinguish from "Reset all" Button
-        setBackground( Color.ORANGE );
-    }};
 
     public ReturnSkaterButtonNode( PSwingCanvas canvas, final AbstractEnergySkateParkModule module, SkaterNode skaterNode ) {
         this.canvas = canvas;
         this.skaterNode = skaterNode;
         this.module = module;
-        bringBackSkater.addActionListener( new ActionListener() {
+        ButtonNode returnSkaterButton = new SimSharingTextButtonNode( playAreaReturnSkaterButton, EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
+
+            //Changed "Return Skater" button to be orange instead of yellow to distinguish from "Reset all" Button
+            setBackground( Color.ORANGE );
+        }};
+        returnSkaterButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.returnOrResetSkater();
             }
         } );
-        buttonNode = new PhetPNode( bringBackSkater );
+        buttonNode = new PhetPNode( returnSkaterButton );
         addChild( buttonNode );
         module.getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
             public void primaryBodyChanged() {
@@ -49,6 +53,11 @@ public class ReturnSkaterButtonNode extends PhetPNode {
             }
         } );
         update();
+        canvas.addComponentListener( new ComponentAdapter() {
+            @Override public void componentResized( ComponentEvent e ) {
+                update();
+            }
+        } );
     }
 
     private void update() {
