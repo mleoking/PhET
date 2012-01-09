@@ -26,4 +26,8 @@ public class ComponentChain implements UserComponent {
     public static ComponentChain chain( UserComponent... components ) {
         return new ComponentChain( components );
     }
+
+    public static UserComponent chain( UserComponent userComponent, String name ) {
+        return new ComponentChain( userComponent, new StringUserComponent( name ) );
+    }
 }

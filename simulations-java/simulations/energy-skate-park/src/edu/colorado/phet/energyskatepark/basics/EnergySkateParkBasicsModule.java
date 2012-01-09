@@ -38,7 +38,7 @@ import edu.umd.cs.piccolo.PNode;
 public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public static final double INSET = 5;
     public final ControlPanelNode controlPanel;
-    private final String PARABOLA_TRACK = "energy-skate-park/tracks/basics/parabola.esp";
+    private final String PARABOLA_TRACK = "parabola";
     public static final Font CONTROL_FONT = new PhetFont( 15 );
     public static final Font TITLE_FONT = new PhetFont( Font.BOLD, 16 );
 
@@ -112,9 +112,9 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     //Load the specified track and set its roller coaster mode, used when the user presses different track selection buttons
-    public void loadTrack( String filename, double xOffset ) {
-        EnergySkateParkIO.open( filename, this );
-        currentTrackFileName.set( filename );
+    public void loadTrack( String trackName, double xOffset ) {
+        EnergySkateParkIO.open( "energy-skate-park/tracks/basics/" + trackName + ".esp", this );
+        currentTrackFileName.set( trackName );
         getEnergySkateParkModel().setRollerCoasterMode( stickToTrack.get() );
 
         //Move it so it sits on the ground with y=0
@@ -188,10 +188,10 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public void addTrackSelectionControlPanel() {
         final ControlPanelNode trackSelectionNode = new ControlPanelNode( new VBox(
                 new TrackButton( this, PARABOLA_TRACK, -1.0 ),
-                new TrackButton( this, "energy-skate-park/tracks/basics/to-the-floor.esp", 0.0 ),
+                new TrackButton( this, "rampToFloor", 0.0 ),
 
                 //Move the double-well to the right so it will have its lowest peak directly on a discrete meter mark for the grid, but also make sure it doesn't overlap the control panel
-                new TrackButton( this, "energy-skate-park/tracks/basics/double-well.esp", 6.0 - 5.88033509545687 - 1.0 )
+                new TrackButton( this, "doubleWell", 6.0 - 5.88033509545687 - 1.0 )
         ), EnergySkateParkLookAndFeel.backgroundColor ) {{
 
             //Set its location when the layout changes in the piccolo node, since this sim isn't using stage coordinates
