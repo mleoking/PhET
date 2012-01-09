@@ -155,15 +155,10 @@ public class MultipleCellsModel implements Resettable {
      * during initialization of the module.
      */
     public void reset() {
+
         // Clear out all existing cells.
         visibleCellList.clear();
         cellList.clear();
-
-        // Reset all the cell control parameters.
-        transcriptionFactorLevel.reset();
-        proteinDegradationRate.reset();
-        transcriptionFactorAssociationProbability.reset();
-        polymeraseAssociationProbability.reset();
 
         // Add the max number of cells to the list of invisible cells.
         while ( cellList.size() < MAX_CELLS ) {
@@ -171,6 +166,13 @@ public class MultipleCellsModel implements Resettable {
             newCell.setPosition( cellLocations.get( cellList.size() ) );
             cellList.add( newCell );
         }
+
+        // Reset all the cell control parameters.
+        numberOfVisibleCells.reset();
+        transcriptionFactorLevel.reset();
+        proteinDegradationRate.reset();
+        transcriptionFactorAssociationProbability.reset();
+        polymeraseAssociationProbability.reset();
 
         // Start with one visible cell.
         setNumVisibleCells( 1 );
