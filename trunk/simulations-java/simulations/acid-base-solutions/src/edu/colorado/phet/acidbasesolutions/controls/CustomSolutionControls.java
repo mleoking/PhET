@@ -38,6 +38,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SimSharingLogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -290,14 +291,13 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 String label = ABSStrings.INITIAL_CONCENTRATION;
                 String textFieldPattern = "0.000";
                 String units = ABSStrings.MOLES_PER_LITER;
-                concentrationControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units );
+                concentrationControl = new SimSharingLogarithmicValueControl( Components.concentrationControl, min, max, label, textFieldPattern, units );
                 concentrationControl.setValue( value );
                 concentrationControl.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         fireStateChanged();
                     }
                 } );
-//                concentrationControl.setSimSharingObject( Objects.CONCENTRATION_CONTROL );
             }
 
             // labels on the slider
@@ -386,7 +386,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 String label = "";
                 String textFieldPattern = "";
                 String units = "";
-                weakStrengthControl = new LogarithmicValueControl( min, max, label, textFieldPattern, units, new SliderLayoutStrategy() );
+                weakStrengthControl = new SimSharingLogarithmicValueControl( Components.weakStrengthControl, min, max, label, textFieldPattern, units, new SliderLayoutStrategy() );
                 weakStrengthControl.setValue( value );
                 Hashtable<Double, JLabel> strengthLabelTable = new Hashtable<Double, JLabel>();
                 strengthLabelTable.put( new Double( weakStrengthControl.getMinimum() ), new JLabel( ABSStrings.WEAKER ) );
@@ -397,7 +397,6 @@ public class CustomSolutionControls extends PhetTitledPanel {
                         fireStateChanged();
                     }
                 } );
-//                weakStrengthControl.setSimSharingObject( Objects.WEAK_STRENGTH_CONTROL );
             }
 
             // layout with inner panel
