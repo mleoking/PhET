@@ -19,7 +19,7 @@ import java.util.StringTokenizer;
  *
  * @author Sam Reid
  */
-public class EventServer implements MessageHandler {
+public class SimEventDataCollectionServer implements MessageHandler {
 
     private final Map<String, BufferedWriter> map = Collections.synchronizedMap( new HashMap<String, BufferedWriter>() );
 
@@ -99,7 +99,7 @@ public class EventServer implements MessageHandler {
     }
 
     public static void main( String[] args ) throws IOException {
-        EventServer.parseArgs( args );
-        new EventServer().start();
+        SimEventDataCollectionServer.parseArgs( args );
+        new SimEventDataCollectionServer().start();
     }
 }
