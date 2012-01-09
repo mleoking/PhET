@@ -84,7 +84,7 @@ public class SimSharingManager {
     private String studyName; // name for the study, as provided on the command line
     private String studentId; // student id, as provided by the student
     private String sessionId; // identifies the session
-    private String machineCookie; // identifies the host machine
+    private String machineCookie; // identifies the client machine
     private IActor actor; // actor for sending messages to the server
     private int messageCount; // number of delivered events, for cross-checking that no events were dropped
     private static Collection<String> queue = Collections.synchronizedCollection( new ArrayList<String>() ); // queue of events that occurred before init finished
