@@ -40,6 +40,9 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     // the set of cells.  This exists in order to support zooming.
     private final PNode localWorldRootNode = new PNode();
 
+    // Chart that depicts the average protein level.
+    protected ProteinLevelChartNode proteinLevelChartNode;
+
     public MultipleCellsCanvas( final MultipleCellsModel model ) {
         this.model = model;
 
@@ -80,7 +83,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         } );
 
         // Add the chart that displays the average protein level.
-        ProteinLevelChartNode proteinLevelChartNode = new ProteinLevelChartNode( model.averageProteinLevel, model.getClock() ) {{
+        proteinLevelChartNode = new ProteinLevelChartNode( model.averageProteinLevel, model.getClock() ) {{
             setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
                        STAGE_SIZE.getHeight() - getFullBoundsReference().height - 10 );
         }};
@@ -102,7 +105,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                                            cellNumberController.getFullBoundsReference().getMaxY() + 5 );
 
         // Add the Reset All button.
-        addWorldChild( new ResetAllButtonNode( new Resettable[] { model, proteinLevelChartNode }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        addWorldChild( new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             setOffset( cellParameterController.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
                        cellParameterController.getFullBoundsReference().getMaxY() + 20 );
@@ -159,7 +162,8 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     }
 
     public void reset() {
-        // TODO: Implement or remove at some point.
+        // Reset the chart.
+        proteinLevelChartNode.clear();
     }
 
     /**

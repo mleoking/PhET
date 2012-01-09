@@ -55,8 +55,8 @@ public class MultipleCellsModel implements Resettable {
     public final Property<Integer> numberOfVisibleCells = new Property<Integer>( 1 );
 
     // Properties used to control the rate at which protein is synthesized and
-    // degraded in the cells.  These are intended to be set by clients, such
-    // as the view.
+    // degraded in the cells.  These are intended to be set by clients, such as
+    // the view.
     public final Property<Integer> transcriptionFactorLevel = new Property<Integer>( CellProteinSynthesisSimulator.DEFAULT_TRANSCRIPTION_FACTOR_COUNT );
     public final Property<Double> proteinDegradationRate = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_PROTEIN_DEGRADATION_RATE );
     // TODO: I'm not sure how to actually reconcile the following two parameters
