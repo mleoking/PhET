@@ -3,6 +3,7 @@ package edu.colorado.phet.common.piccolophet.simsharing;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -20,6 +21,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterK
  * To use it, specify the user component in the constructor as well as any args for computing drag information.
  * <p/>
  * Other implementation did not follow the same standard pattern of sim sharing subclasses in which information is required in constructor and the class sending the messages itself.
+ * <p/>
+ * Unlike other simsharing subclasses, this one allows client code to supply additional information via overriding the get***Parameters methods.
  * TODO: add more summary information and hooks for the sim client to send additional param info.
  *
  * @author Sam Reid
@@ -35,8 +38,17 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
 
     @Override protected void startDrag( final PInputEvent event ) {
         dragPoints.clear();
-        SimSharingManager.sendUserEvent( userComponent, UserActions.startDrag, getXParameter( event ), getYParameter( event ) );
+        SimSharingManager.sendUserEvent( userComponent, UserActions.startDrag, new ArrayList<Parameter>() {{
+            add( getXParameter( event ) );
+            add( getYParameter( event ) );
+            addAll( Arrays.asList( getStartDragParameters() ) );
+        }}.toArray( new Parameter[0] ) );
         super.startDrag( event );
+    }
+
+    //Override to supply any additional parameters to send on start drag message
+    public Parameter[] getStartDragParameters() {
+        return new Parameter[0];
     }
 
     @Override protected void drag( PInputEvent event ) {
