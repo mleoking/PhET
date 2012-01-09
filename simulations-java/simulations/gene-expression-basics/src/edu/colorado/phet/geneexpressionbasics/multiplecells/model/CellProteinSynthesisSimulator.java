@@ -26,6 +26,8 @@ public class CellProteinSynthesisSimulator {
     public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, DEFAULT_TF_ASSOCIATION_PROBABILITY * 2 );
     public static final double DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY = 9.5E-7;
     public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 2 * DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
+    public static final double DEFAULT_PROTEIN_DEGRADATION_RATE = 0.0003f;
+    public static final DoubleRange PROTEIN_DEGRADATION_RANGE = new DoubleRange( 0.0, 2 * DEFAULT_PROTEIN_DEGRADATION_RATE );
 
     private Random _random = new Random();
     private double _timeStep = 5e2;
@@ -52,7 +54,7 @@ public class CellProteinSynthesisSimulator {
             0.001f, //mRNA-ribosome association
             0.0009f, //mRNA-ribosome degradation
             0.0009f, //translation
-            0.0003f //protein degradation
+            DEFAULT_PROTEIN_DEGRADATION_RATE //protein degradation
     };
 
     public CellProteinSynthesisSimulator() {
@@ -113,6 +115,9 @@ public class CellProteinSynthesisSimulator {
         _reactionProbabilities[5] = newRate;
     }
 
+    public void setProteinDegradationRate( double proteinDegradationRate ) {
+        _reactionProbabilities[8] = proteinDegradationRate;
+    }
 
     /**
      * Moves forward one time step in the simulation

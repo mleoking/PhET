@@ -113,6 +113,10 @@ public class Cell extends ShapeChangingModelElement {
         proteinSynthesisSimulator.setRNARibosomeAssociationRate( newRate );
     }
 
+    public void setProteinDegradationRate( double newRate ) {
+        proteinSynthesisSimulator.setProteinDegradationRate( newRate );
+    }
+
     //----------- End of pass-through methods ---------------------------------
 
 }
