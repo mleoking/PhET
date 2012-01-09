@@ -454,8 +454,8 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
             SimSharingManager.sendUserMessage( draggingState, UserActions.changed,
-                                               param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ),
-                                               param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
+                                               param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
+                                                       param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

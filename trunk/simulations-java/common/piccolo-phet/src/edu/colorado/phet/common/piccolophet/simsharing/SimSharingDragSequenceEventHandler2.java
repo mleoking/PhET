@@ -3,11 +3,11 @@ package edu.colorado.phet.common.piccolophet.simsharing;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -38,11 +38,7 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
 
     @Override protected void startDrag( final PInputEvent event ) {
         dragPoints.clear();
-        SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, new ArrayList<Parameter>() {{
-            add( getXParameter( event ) );
-            add( getYParameter( event ) );
-            addAll( Arrays.asList( getStartDragParameters() ) );
-        }}.toArray( new Parameter[0] ) );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) ).addAll( getStartDragParameters() ) );
         super.startDrag( event );
     }
 
@@ -60,7 +56,7 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
     }
 
     @Override protected void endDrag( PInputEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, getXParameter( event ), getYParameter( event ), param( numberDragEvents, dragPoints.size() ) );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) ).addAll( param( numberDragEvents, dragPoints.size() ) ) );
         dragPoints.clear();
         super.endDrag( event );
     }

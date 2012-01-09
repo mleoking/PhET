@@ -4,13 +4,13 @@ package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventAdapter;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.isPlaying;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.playPauseButton;
@@ -32,7 +32,7 @@ public class PlayPauseButton extends IconButton {
             public void fire() {
                 if ( isEnabled() ) {
 
-                    SimSharingManager.sendUserMessage( playPauseButton, pressed, new Parameter( isPlaying, !isPlaying() ), Parameter.componentType( ComponentTypes.button ) );
+                    SimSharingManager.sendUserMessage( playPauseButton, pressed, componentType( ComponentTypes.button ).param( isPlaying, !isPlaying() ) );
 
                     setPlaying( !isPlaying() );
                     update();

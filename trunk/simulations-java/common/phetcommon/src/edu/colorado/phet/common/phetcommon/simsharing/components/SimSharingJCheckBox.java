@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**
@@ -67,8 +66,7 @@ public class SimSharingJCheckBox extends JCheckBox {
     @Override protected void fireActionPerformed( ActionEvent event ) {
         SimSharingManager.sendUserMessage( object,
                                            pressed,
-                                           componentType( ComponentTypes.checkBox ),
-                                           param( ParameterKeys.isSelected, isSelected() ) );
+                                           componentType( ComponentTypes.checkBox ).param( ParameterKeys.isSelected, isSelected() ) );
         super.fireActionPerformed( event );
     }
 }

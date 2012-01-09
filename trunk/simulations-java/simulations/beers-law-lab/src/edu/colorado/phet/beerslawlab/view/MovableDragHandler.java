@@ -9,6 +9,7 @@ import edu.colorado.phet.beerslawlab.model.Movable;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -43,9 +44,8 @@ public class MovableDragHandler extends SimSharingDragSequenceEventHandler {
         setStartEndDragFunction( new DragFunction() {
             public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                 SimSharingManager.sendUserMessage( userComponent, action,
-                                                   Parameter.appendParameters( simSharingParametersFunction.apply(),
-                                                                               new Parameter( Parameters.locationX, (int) movable.location.get().getX() ),
-                                                                               new Parameter( Parameters.locationY, (int) movable.location.get().getY() ) ) );
+                                                   new ParameterSet( simSharingParametersFunction.apply() ).param( Parameters.locationX, (int) movable.location.get().getX() ).
+                                                           param( Parameters.locationY, (int) movable.location.get().getY() ) );
             }
         } );
     }

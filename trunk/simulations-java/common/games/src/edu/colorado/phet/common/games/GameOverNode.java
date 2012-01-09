@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.games.SimSharing.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 
 /**
@@ -87,14 +88,14 @@ public class GameOverNode extends PhetPNode {
         super();
 
         //Report on the game over, assumes that this node is only created at the end of a game (a safe assumption because the constructor args are only available at end of game)
-        SimSharingManager.sendModelMessage( SimSharing.Components.game, SimSharing.Actions.ended,
-                                            param( SimSharing.Parameters.level, level ),
-                                            param( SimSharing.Parameters.score, score ),
-                                            param( SimSharing.Parameters.perfectScore, perfectScore ),
-                                            param( SimSharing.Parameters.time, time ),
-                                            param( SimSharing.Parameters.bestTime, bestTime ),
-                                            param( SimSharing.Parameters.isNewBestTime, isNewBestTime ),
-                                            param( SimSharing.Parameters.timerVisible, timerVisible ) );
+        SimSharingManager.sendModelMessage( Components.game, Actions.ended,
+                                            param( Parameters.level, level ).
+                                                    param( Parameters.score, score ).
+                                                    param( Parameters.perfectScore, perfectScore ).
+                                                    param( Parameters.time, time ).
+                                                    param( Parameters.bestTime, bestTime ).
+                                                    param( Parameters.isNewBestTime, isNewBestTime ).
+                                                    param( Parameters.timerVisible, timerVisible ) );
 
         this.scoreFormat = scoreFormat;
         this.listeners = new EventListenerList();

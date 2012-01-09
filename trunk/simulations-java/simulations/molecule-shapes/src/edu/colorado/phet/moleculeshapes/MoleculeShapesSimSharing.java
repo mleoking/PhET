@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
@@ -39,9 +37,5 @@ public class MoleculeShapesSimSharing {
 
     public static enum ModelActions implements ModelAction {
         bondsChanged
-    }
-
-    public static void sendModelEvent( ModelObjects modelObject, ModelActions modelAction, Parameter... params ) {
-        SimSharingManager.sendModelMessage( modelObject, modelAction, params );
     }
 }
