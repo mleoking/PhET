@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemMessage;
 
 /**
  * PhetExit encapsulates the various ways of exiting a sim.  It also sends out notifications before System.exit(0) is
@@ -39,7 +39,7 @@ public class PhetExit {
             exitListener.apply();
         }
         // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
-        sendSystemEvent( SystemObjects.application, SystemActions.exited, Parameter.param( ParameterKeys.messageCount, SimSharingManager.getInstance().getMessageCount() ) );
+        sendSystemMessage( SystemObjects.application, SystemActions.exited, Parameter.param( ParameterKeys.messageCount, SimSharingManager.getInstance().getMessageCount() ) );
         System.exit( 0 );
     }
 }

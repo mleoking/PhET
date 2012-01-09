@@ -80,7 +80,7 @@ public class ABSCanvas extends PhetPCanvas {
                                                        pHPaperNode.getFullBoundsReference().getMaxX() > pHColorKeyNode.getFullBoundsReference().getMinX() );
                 if ( isPaperAlignedWithColorKey != ABSCanvas.this.isPaperAlignedWithColorKey ) {
                     // send an event whenever the alignment status changes
-                    SimSharingManager.sendUserEvent( phPaper, moved, new Parameter( ABSSimSharing.ABSParameterKeys.isPaperAlignedWithColorKey, isPaperAlignedWithColorKey ) );
+                    SimSharingManager.sendUserMessage( phPaper, moved, new Parameter( ABSSimSharing.ABSParameterKeys.isPaperAlignedWithColorKey, isPaperAlignedWithColorKey ) );
                     ABSCanvas.this.isPaperAlignedWithColorKey = isPaperAlignedWithColorKey;
                 }
             }

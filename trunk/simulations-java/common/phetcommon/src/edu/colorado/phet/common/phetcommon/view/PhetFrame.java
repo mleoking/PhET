@@ -76,7 +76,7 @@ public class PhetFrame extends JFrame {
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
 
-                SimSharingManager.sendUserEvent( phetFrame, windowCloseButtonPressed );
+                SimSharingManager.sendUserMessage( phetFrame, windowCloseButtonPressed );
                 application.exit();
             }
         } );
@@ -85,23 +85,23 @@ public class PhetFrame extends JFrame {
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
 
-                SimSharingManager.sendUserEvent( phetFrame, iconified );
+                SimSharingManager.sendUserMessage( phetFrame, iconified );
                 application.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
 
-                SimSharingManager.sendUserEvent( phetFrame, deiconified );
+                SimSharingManager.sendUserMessage( phetFrame, deiconified );
                 application.resume();
             }
 
             @Override public void windowActivated( WindowEvent e ) {
-                SimSharingManager.sendUserEvent( phetFrame, activated );
+                SimSharingManager.sendUserMessage( phetFrame, activated );
             }
 
             @Override public void windowDeactivated( WindowEvent e ) {
-                SimSharingManager.sendUserEvent( phetFrame, deactivated );
+                SimSharingManager.sendUserMessage( phetFrame, deactivated );
             }
         } );
 
@@ -110,9 +110,9 @@ public class PhetFrame extends JFrame {
         addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
                 if ( !getSize().equals( prevSize ) ) {
-                    SimSharingManager.sendUserEvent( phetFrame, resized,
-                                                     param( width, getWidth() ),
-                                                     param( height, getHeight() ) );
+                    SimSharingManager.sendUserMessage( phetFrame, resized,
+                                                       param( width, getWidth() ),
+                                                       param( height, getHeight() ) );
                     prevSize = new Dimension( getSize() );
                 }
             }

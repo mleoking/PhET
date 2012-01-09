@@ -922,7 +922,7 @@ public class PhetTabbedPane extends JPanel {
 
         public void mouseReleased( PInputEvent e ) {
             if ( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
-                SimSharingManager.sendUserEvent( tab.userComponent, pressed, Parameter.componentType( ComponentTypes.tab ) );
+                SimSharingManager.sendUserMessage( tab.userComponent, pressed, Parameter.componentType( ComponentTypes.tab ) );
                 setSelectedTab( tab );
             }
         }
@@ -1022,7 +1022,7 @@ public class PhetTabbedPane extends JPanel {
                     @Override public void mouseReleased( PInputEvent event ) {
                         if ( getFullBounds().contains( event.getCanvasPosition() ) ) {
 
-                            SimSharingManager.sendUserEvent( UserComponents.tab, pressed, Parameter.param( text, getText() ) );
+                            SimSharingManager.sendUserMessage( UserComponents.tab, pressed, Parameter.param( text, getText() ) );
 
                             selectedTab.set( tabNodeReverseMap.get( htmlTabNode ) );
                         }

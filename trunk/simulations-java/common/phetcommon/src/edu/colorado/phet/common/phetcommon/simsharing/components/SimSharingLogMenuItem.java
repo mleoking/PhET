@@ -88,11 +88,11 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                 int rval = fileChooser.showSaveDialog( parent ); // blocks
                                 File selectedFile = fileChooser.getSelectedFile();
                                 if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-                                    SimSharingManager.sendUserEvent( chain( simSharingLogFileDialog, fileChooserCancelButton ), pressed );
+                                    SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, fileChooserCancelButton ), pressed );
                                     return;
                                 }
                                 currentDirectory = selectedFile.getParentFile();
-                                SimSharingManager.sendUserEvent( chain( simSharingLogFileDialog, fileChooserSaveButton ), pressed );
+                                SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, fileChooserSaveButton ), pressed );
 
                                 // Ensure that the file has the proper suffix.
                                 if ( !FileUtils.hasSuffix( selectedFile, FILE_SUFFIX ) ) {
@@ -104,10 +104,10 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                     String message = MessageFormat.format( "File {0} exists. OK to replace?", selectedFile.getName() );
                                     int reply = PhetOptionPane.showYesNoDialog( parent, message, "Confirm" );
                                     if ( reply != JOptionPane.YES_OPTION ) {
-                                        SimSharingManager.sendUserEvent( chain( simSharingLogFileDialog, replaceFileNoButton ), pressed );
+                                        SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, replaceFileNoButton ), pressed );
                                         return;
                                     }
-                                    SimSharingManager.sendUserEvent( chain( simSharingLogFileDialog, replaceFileYesButton ), pressed );
+                                    SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, replaceFileYesButton ), pressed );
                                 }
 
                                 // Write log to file.

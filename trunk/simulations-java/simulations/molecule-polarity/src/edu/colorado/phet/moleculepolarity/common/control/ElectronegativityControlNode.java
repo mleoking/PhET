@@ -287,9 +287,9 @@ public class ElectronegativityControlNode extends PhetPNode {
             this.snapInterval = snapInterval;
             setStartEndFunction( new DragFunction() {
                 public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingManager.sendUserEvent( Components.electronegativityControl, action, xParameter, yParameter,
-                                                     new Parameter( Parameters.atom, atom.getName() ),
-                                                     new Parameter( Parameters.electronegativity, atom.electronegativity.get() ) );
+                    SimSharingManager.sendUserMessage( Components.electronegativityControl, action, xParameter, yParameter,
+                                                       new Parameter( Parameters.atom, atom.getName() ),
+                                                       new Parameter( Parameters.electronegativity, atom.electronegativity.get() ) );
                 }
             } );
         }

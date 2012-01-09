@@ -31,6 +31,6 @@ public class SimSharingPropertyCheckBox extends PropertyCheckBox {
 
     //For other check boxes that need to send standardized messages (e.g., as SimSharingJCheckBox should be using this).
     public static void sendCheckBoxMessage( UserComponent userComponent, boolean selected ) {
-        SimSharingManager.sendUserEvent( userComponent, pressed, componentType( checkBox ), param( ParameterKeys.isSelected, selected ) );
+        SimSharingManager.sendUserMessage( userComponent, pressed, componentType( checkBox ), param( ParameterKeys.isSelected, selected ) );
     }
 }

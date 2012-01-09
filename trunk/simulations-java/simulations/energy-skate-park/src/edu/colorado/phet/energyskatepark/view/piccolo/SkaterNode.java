@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.SharedComponents.skater;
 
 /**
@@ -91,11 +91,11 @@ public class SkaterNode extends PNode {
 
         addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingDragSequenceEventHandler.DragFunction() {
             public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                sendUserEvent( skater, UserActions.startDrag, getXParameter(), getYParameter() );
+                sendUserMessage( skater, UserActions.startDrag, getXParameter(), getYParameter() );
             }
         }, new SimSharingDragSequenceEventHandler.DragFunction() {
             public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                sendUserEvent( skater, UserActions.endDrag, getXParameter(), getYParameter() );
+                sendUserMessage( skater, UserActions.endDrag, getXParameter(), getYParameter() );
             }
         }, null
         ) {

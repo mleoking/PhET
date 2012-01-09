@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
 
 /**
  * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic
@@ -67,7 +67,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removeGroup( candidate );
-                            sendUserEvent( MoleculeShapesSimSharing.UserComponents.bond, Actions.removed, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
+                            sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, Actions.removed, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
 
                             //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                             systemResponseForGeometries( module.getMolecule() );
@@ -101,7 +101,7 @@ public class BondTypeControlNode extends PNode {
             public void run() {
                 module.startNewInstanceDrag( bondOrder );
 
-                sendUserEvent( MoleculeShapesSimSharing.UserComponents.bond, Actions.created, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
+                sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, Actions.created, param( MoleculeShapesSimSharing.ParamKeys.bondOrder, bondOrder ) );
 
                 //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                 systemResponseForGeometries( module.getMolecule() );

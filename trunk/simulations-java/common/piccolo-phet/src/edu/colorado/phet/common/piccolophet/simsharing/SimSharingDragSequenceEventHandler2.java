@@ -38,7 +38,7 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
 
     @Override protected void startDrag( final PInputEvent event ) {
         dragPoints.clear();
-        SimSharingManager.sendUserEvent( userComponent, UserActions.startDrag, new ArrayList<Parameter>() {{
+        SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, new ArrayList<Parameter>() {{
             add( getXParameter( event ) );
             add( getYParameter( event ) );
             addAll( Arrays.asList( getStartDragParameters() ) );
@@ -60,7 +60,7 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
     }
 
     @Override protected void endDrag( PInputEvent event ) {
-        SimSharingManager.sendUserEvent( userComponent, UserActions.endDrag, getXParameter( event ), getYParameter( event ), param( numberDragEvents, dragPoints.size() ) );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, getXParameter( event ), getYParameter( event ), param( numberDragEvents, dragPoints.size() ) );
         dragPoints.clear();
         super.endDrag( event );
     }

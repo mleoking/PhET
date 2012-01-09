@@ -30,7 +30,7 @@ public class TeachersMenu extends SimSharingJMenu {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
 
-                    SimSharingManager.sendUserEvent( MoleculeShapesSimSharing.UserComponents.backgroundColor, UserActions.changed, param( color, isSelected() ? white.toString() : black.toString() ) );
+                    SimSharingManager.sendUserMessage( MoleculeShapesSimSharing.UserComponents.backgroundColor, UserActions.changed, param( color, isSelected() ? white.toString() : black.toString() ) );
 
                     if ( isSelected() ) {
                         MoleculeShapesColor.PROJECTOR.apply( MoleculeShapesColor.handler );

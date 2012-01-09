@@ -76,7 +76,7 @@ public class ReactionEquationNode extends PComposite {
         // send sim-sharing event if user tries to interact
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( reactionEquation, pressed );
+                SimSharingManager.sendNonInteractiveMessage( reactionEquation, pressed );
             }
         } );
 

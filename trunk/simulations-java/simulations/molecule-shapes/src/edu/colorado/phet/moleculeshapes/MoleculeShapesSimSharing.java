@@ -42,6 +42,6 @@ public class MoleculeShapesSimSharing {
     }
 
     public static void sendModelEvent( ModelObjects modelObject, ModelActions modelAction, Parameter... params ) {
-        SimSharingManager.sendModelEvent( modelObject, modelAction, params );
+        SimSharingManager.sendModelMessage( modelObject, modelAction, params );
     }
 }

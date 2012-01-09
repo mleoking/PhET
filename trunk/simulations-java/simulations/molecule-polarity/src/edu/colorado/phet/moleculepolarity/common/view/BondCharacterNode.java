@@ -104,7 +104,7 @@ public class BondCharacterNode extends PComposite {
         //Report when the user tries to interactive with this non-interactive control
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( Components.bondCharacterNode, UserActions.pressed );
+                SimSharingManager.sendNonInteractiveMessage( Components.bondCharacterNode, UserActions.pressed );
             }
         } );
     }

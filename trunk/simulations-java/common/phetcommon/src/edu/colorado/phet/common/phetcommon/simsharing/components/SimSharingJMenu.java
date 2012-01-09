@@ -40,9 +40,9 @@ public class SimSharingJMenu extends JMenu {
     }
 
     @Override protected void fireMenuSelected() {
-        SimSharingManager.sendUserEvent( object,
-                                         pressed,
-                                         componentType( ComponentTypes.menu ) );
+        SimSharingManager.sendUserMessage( object,
+                                           pressed,
+                                           componentType( ComponentTypes.menu ) );
         super.fireMenuSelected();
     }
 }

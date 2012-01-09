@@ -105,8 +105,8 @@ public class JmolViewerNode extends PhetPNode {
         viewerPanel.addMouseListener( new SimSharingDragListener() {{
             setStartEndFunction( new DragFunction() {
                 public void apply( UserAction action, Parameter xParam, Parameter yParam, MouseEvent event ) {
-                    SimSharingManager.sendUserEvent( Components.jmolViewerNode, action, xParam, yParam,
-                                                     param( Parameters.currentMolecule, currentMolecule.get().getName() ) );
+                    SimSharingManager.sendUserMessage( Components.jmolViewerNode, action, xParam, yParam,
+                                                       param( Parameters.currentMolecule, currentMolecule.get().getName() ) );
                 }
             } );
         }} );
