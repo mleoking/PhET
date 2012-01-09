@@ -172,7 +172,8 @@ public class SimSharingManager {
     }
 
     // Sends an event. If sim-sharing is disabled, this is a no-op.
-    public String sendMessage( SimSharingMessage message ) {
+    // Private because clients should use the send*Message methods to indicate the message type
+    private String sendMessage( SimSharingMessage message ) {
         if ( enabled ) {
 
             // create the event string

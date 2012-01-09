@@ -150,7 +150,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public void addResetAllButton( final PNode parent ) {
 
         //Add the "Restart skater" button
-        final SimSharingTextButtonNode restartSkaterButton = new SimSharingTextButtonNode( EnergySkateParkSimSharing.UserComponents.restartSkaterButton, EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
+        final SimSharingTextButtonNode restartSkaterButton = new SimSharingTextButtonNode( EnergySkateParkSimSharing.UserComponents.returnSkaterButton, EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
             setFont( CONTROL_FONT );
             setBackground( Color.ORANGE );
 
