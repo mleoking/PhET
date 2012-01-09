@@ -21,7 +21,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class MultiCellParameterController extends PNode {
 
     private static final Font TITLE_LABEL_FONT = new PhetFont( 16, true );
-    private static final Color BACKGROUND_COLOR = new Color( 162, 205, 90 );
+    //    private static final Color BACKGROUND_COLOR = new Color( 162, 205, 90 );
+    private static final Color BACKGROUND_COLOR = new Color( 220, 236, 255 );
 
     public MultiCellParameterController( MultipleCellsModel model ) {
         // Create the content for this panel.
