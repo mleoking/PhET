@@ -54,14 +54,16 @@ public class MultipleCellsModel {
     // components.
     public final Property<Double> averageProteinLevel = new Property<Double>( 0.0 );
 
+    // Properties used to control the rate at which protein is synthesized and
+    // degraded in the cells.
+    public final Property<Integer> transcriptionFactorLevel = new Property<Integer>( CellProteinSynthesisSimulator.DEFAULT_TRANSCRIPTION_FACTOR_COUNT );
+    public final Property<Double> proteinDegradationRate = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_PROTEIN_DEGRADATION_RATE );
     // TODO: I'm not sure how to actually reconcile the following two parameters
     // between what the spec requires and what the model provides.  For now,
     // I've gone with two properties that seem related, but need to work with
     // George and possibly MK to finalize this.
     public final Property<Double> transcriptionFactorAssociationProbability = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_TF_ASSOCIATION_PROBABILITY );
     public final Property<Double> polymeraseAssociationProbability = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
-
-    public final Property<Integer> transcriptionFactorLevel = new Property<Integer>( CellProteinSynthesisSimulator.DEFAULT_TRANSCRIPTION_FACTOR_COUNT );
 
     /**
      * Constructor.
@@ -96,6 +98,13 @@ public class MultipleCellsModel {
             public void apply( Double transcriptionFactorAssociationProbability ) {
                 for ( Cell cell : cellList ) {
                     cell.setGeneTranscriptionFactorAssociationRate( transcriptionFactorAssociationProbability );
+                }
+            }
+        } );
+        proteinDegradationRate.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double proteinDegradationRate ) {
+                for ( Cell cell : cellList ) {
+                    cell.setProteinDegradationRate( proteinDegradationRate );
                 }
             }
         } );
