@@ -14,7 +14,6 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -32,17 +31,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class ProteinLevelChartNode extends PNode implements Resettable {
+public class ProteinLevelChartNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 400, 200 );  // In screen coordinates, which is close to pixels.
     private static final double TIME_SPAN = 30; // In seconds.
 
-    private final IClock clock;
     private final XYSeries dataSeries = new XYSeries( "0" );
     private double timeOffset = 0;
 
-    public ProteinLevelChartNode( final Property<Double> observableDataValue, final IClock clock ) {
-        this.clock = clock;
+    public ProteinLevelChartNode( final Property<Double> averageProteinLevelProperty, final IClock clock ) {
         XYDataset dataSet = new XYSeriesCollection( dataSeries );
         // Create the chart itself, i.e. the place where data will be shown.
         // TODO: i18n
@@ -62,14 +59,20 @@ public class ProteinLevelChartNode extends PNode implements Resettable {
         addChild( panel );
 
         // Hook up a listener to the average protein level and update the data
-        // data on the chart.
-        observableDataValue.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double aDouble ) {
+        // on the chart.
+        averageProteinLevelProperty.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double averageProteinLevel ) {
                 if ( clock.getSimulationTime() - timeOffset > TIME_SPAN ) {
-                    reset();
+                    // If the end of the chart has been reached, clear it.
+                    clear();
+                }
+                if ( dataSeries.getItemCount() == 0 ) {
+                    // This is the first data added after the most recent
+                    // clear, so record the time offset.
+                    timeOffset = clock.getSimulationTime();
                 }
                 // Add the data to the chart.
-                dataSeries.add( clock.getSimulationTime() - timeOffset, observableDataValue.get() );
+                dataSeries.add( clock.getSimulationTime() - timeOffset, averageProteinLevelProperty.get() );
             }
         } );
     }
@@ -111,11 +114,8 @@ public class ProteinLevelChartNode extends PNode implements Resettable {
         return chart;
     }
 
-    public void reset() {
-        // Clear the chart.
+    public void clear() {
+        // Clear the data series, which clears the chart.
         dataSeries.clear();
-
-        // Save the time offset for charting new data that is added.
-        timeOffset = clock.getSimulationTime();
     }
 }

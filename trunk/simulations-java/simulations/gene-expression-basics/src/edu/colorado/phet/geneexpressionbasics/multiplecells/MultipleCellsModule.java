@@ -44,7 +44,7 @@ public class MultipleCellsModule extends Module {
 
         // Create canvas.
         canvas = new MultipleCellsCanvas( model );
-        setSimulationPanel( new MultipleCellsCanvas( model ) );
+        setSimulationPanel( canvas );
 
         // Set initial state.
         reset();
