@@ -3,9 +3,11 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import java.awt.BasicStroke;
 import java.awt.geom.Dimension2D;
+import java.text.DecimalFormat;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -46,7 +48,10 @@ public class ProteinLevelChartNode extends PNode {
         JFreeChart chart = createXYLineChart( "Average Protein Level vs. Time", "Time", "Average Protein Level", dataSet, PlotOrientation.VERTICAL );
         chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
         chart.getXYPlot().getRangeAxis().setRange( 0, 300 );
-        chart.getXYPlot().getDomainAxis().setRange( 0, TIME_SPAN );
+        NumberAxis xAxis = new NumberAxis( "Time(s)" );
+        xAxis.setRange( 0, TIME_SPAN );
+        xAxis.setNumberFormatOverride( new DecimalFormat( "##" ) );
+        chart.getXYPlot().setDomainAxis( xAxis );
 
         // Embed the chart in a PNode.
         JFreeChartNode jFreeChartNode = new JFreeChartNode( chart, false );
