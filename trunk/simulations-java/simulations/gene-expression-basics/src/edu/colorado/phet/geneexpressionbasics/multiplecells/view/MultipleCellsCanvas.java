@@ -2,7 +2,6 @@
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
@@ -10,8 +9,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -20,7 +17,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
@@ -177,13 +173,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             PNode title = new HTMLNode( "<center>Number of<br>Cells</center>", Color.black, new PhetFont( 16, true ) );
 
             // Create the slider.
-            Property<Double> numCellsProperty = new Property<Double>( 1.0 );
-            HSliderNode sliderNode = new HSliderNode( 1, (double) MultipleCellsModel.MAX_CELLS, 100, 4, numCellsProperty, new BooleanProperty( true ) ) {
-                @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
-                    // Gradient doesn't look good, make it black.
-                    return Color.BLACK;
-                }
-            };
+            IntegerHSliderNode sliderNode = new IntegerHSliderNode( 1, MultipleCellsModel.MAX_CELLS, 100, 4, model.numberOfVisibleCells );
             sliderNode.addLabel( 1, new PLabel( "One", 14 ) );
             sliderNode.addLabel( (double) MultipleCellsModel.MAX_CELLS, new PLabel( "Many", 14 ) );
             addChild( sliderNode );
@@ -194,14 +184,6 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
             // Add the control panel as a child.
             addChild( controlPanel );
-
-            // Listen to the property and adjust the number of cells in the
-            // model accordingly.
-            numCellsProperty.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double numCells ) {
-                    model.setNumVisibleCells( (int) Math.round( numCells ) );
-                }
-            } );
         }
     }
 

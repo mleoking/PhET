@@ -49,14 +49,14 @@ public class MultipleCellsModel implements Resettable {
     // so that placements are consistent as cells come and go.
     public final List<Point2D> cellLocations = new ArrayList<Point2D>();
 
-    // Property that tracks the average protein level of all the cells.  This
-    // should not be set externally, only internally.  From the external
-    // perspective, it is intended for monitoring and displaying by view
-    // components.
-    public final Property<Double> averageProteinLevel = new Property<Double>( 0.0 );
+    // Property that controls the number of cells that are visible and that are
+    // being included in the calculation of the average protein level.  This is
+    // intended to be set by clients, such as the view.
+    public final Property<Integer> numberOfVisibleCells = new Property<Integer>( 1 );
 
     // Properties used to control the rate at which protein is synthesized and
-    // degraded in the cells.
+    // degraded in the cells.  These are intended to be set by clients, such
+    // as the view.
     public final Property<Integer> transcriptionFactorLevel = new Property<Integer>( CellProteinSynthesisSimulator.DEFAULT_TRANSCRIPTION_FACTOR_COUNT );
     public final Property<Double> proteinDegradationRate = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_PROTEIN_DEGRADATION_RATE );
     // TODO: I'm not sure how to actually reconcile the following two parameters
@@ -65,6 +65,12 @@ public class MultipleCellsModel implements Resettable {
     // George and possibly MK to finalize this.
     public final Property<Double> transcriptionFactorAssociationProbability = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_TF_ASSOCIATION_PROBABILITY );
     public final Property<Double> polymeraseAssociationProbability = new Property<Double>( CellProteinSynthesisSimulator.DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
+
+    // Property that tracks the average protein level of all the cells.  This
+    // should not be set externally, only internally.  From the external
+    // perspective, it is intended for monitoring and displaying by view
+    // components.
+    public final Property<Double> averageProteinLevel = new Property<Double>( 0.0 );
 
     /**
      * Constructor.
@@ -76,6 +82,18 @@ public class MultipleCellsModel implements Resettable {
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
+
+        // Set the initial state.  This must be done before hooking up the
+        // properties.
+        reset();
+
+        // Hook up the property that controls the number of visible cells.
+        numberOfVisibleCells.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer numVisibleCells ) {
+                assert numVisibleCells >= 1 && numVisibleCells <= MAX_CELLS;
+                setNumVisibleCells( numVisibleCells );
             }
         } );
 
@@ -109,9 +127,6 @@ public class MultipleCellsModel implements Resettable {
                 }
             }
         } );
-
-        // Set the initial state.
-        reset();
     }
 
     private void stepInTime( double dt ) {
@@ -174,7 +189,7 @@ public class MultipleCellsModel implements Resettable {
      *
      * @param numCells - target number of cells.
      */
-    public void setNumVisibleCells( int numCells ) {
+    private void setNumVisibleCells( int numCells ) {
 
         assert numCells > 0 && numCells <= MAX_CELLS;  // Bounds checking.
         numCells = MathUtil.clamp( 1, numCells, MAX_CELLS ); // Defensive programming.
