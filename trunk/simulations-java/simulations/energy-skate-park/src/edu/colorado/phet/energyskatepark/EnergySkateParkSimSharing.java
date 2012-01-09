@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
@@ -45,7 +46,8 @@ public class EnergySkateParkSimSharing {
         landed, bounced
     }
 
-    public static class Actions {
+    public static enum UserActions implements UserAction {
+        attached
     }
 
     public static enum ParameterKeys implements ParameterKey {

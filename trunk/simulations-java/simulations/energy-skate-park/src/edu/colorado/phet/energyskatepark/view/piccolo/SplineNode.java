@@ -25,6 +25,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -49,6 +50,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserActions.attached;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.track;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackControlPoint;
 
@@ -238,6 +240,7 @@ public class SplineNode extends PNode {
     private boolean testAttach( int index ) {
         SplineMatch startMatch = getTrunkMatch( index );
         if ( startMatch != null ) {
+            SimSharingManager.sendUserEvent( track, attached );
             attach( index, startMatch );
             return true;
         }
