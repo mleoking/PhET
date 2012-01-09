@@ -10,12 +10,11 @@ import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.Solution
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -77,16 +76,8 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 
         // sim-sharing, light bulb and battery (not interactive)
         {
-            getLightBulbNode().addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( PInputEvent event ) {
-                    SimSharingManager.sendNonInteractiveUserMessage( Components.lightBulb, UserActions.pressed );
-                }
-            } );
-            getBatteryNode().addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( PInputEvent event ) {
-                    SimSharingManager.sendNonInteractiveUserMessage( Components.battery, UserActions.pressed );
-                }
-            } );
+            getLightBulbNode().addInputEventListener( new NonInteractiveUserComponent( Components.lightBulb ) );
+            getBatteryNode().addInputEventListener( new NonInteractiveUserComponent( Components.battery ) );
         }
     }
 

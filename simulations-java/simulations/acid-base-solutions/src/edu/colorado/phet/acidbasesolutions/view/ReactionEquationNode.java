@@ -15,18 +15,15 @@ import edu.colorado.phet.acidbasesolutions.model.ReactionEquation;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.ChemicalSymbolNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.reactionEquation;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**
  * Reaction equation for solutions.
@@ -74,11 +71,7 @@ public class ReactionEquationNode extends PComposite {
         } );
 
         // send sim-sharing event if user tries to interact
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNonInteractiveUserMessage( reactionEquation, pressed );
-            }
-        } );
+        addInputEventListener( new NonInteractiveUserComponent( reactionEquation ) );
 
         setOffset( equation.getLocationReference() );
         update();

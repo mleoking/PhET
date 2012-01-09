@@ -18,17 +18,14 @@ import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.Solution
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.concentrationGraph;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**
  * Graph that depicts the concentrations related to a solution.
@@ -85,11 +82,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         updateValues();
 
         // send sim-sharing event if user tries to interact
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNonInteractiveUserMessage( concentrationGraph, pressed );
-            }
-        } );
+        addInputEventListener( new NonInteractiveUserComponent( concentrationGraph ) );
     }
 
     /*

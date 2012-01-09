@@ -10,18 +10,15 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Components;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -102,11 +99,7 @@ public class BondCharacterNode extends PComposite {
         } );
 
         //Report when the user tries to interactive with this non-interactive control
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNonInteractiveUserMessage( Components.bondCharacterNode, UserActions.pressed );
-            }
-        } );
+        addInputEventListener( new NonInteractiveUserComponent( Components.bondCharacterNode ) );
     }
 
     // Pointer looks like a horizontally aligned diatomic molecule.
