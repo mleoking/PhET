@@ -751,7 +751,7 @@ public abstract class AbstractValueControl extends JPanel {
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileAdjusting || !_isAdjusting );
                 double modelValue = _slider.getModelValue();
-                sliderDragged();
+                sliderDragged( modelValue );
                 setValue( modelValue, notify );
             }
         }
@@ -763,7 +763,7 @@ public abstract class AbstractValueControl extends JPanel {
     }
     //    SimSharingManager.sendUserEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( CORRECTED_VALUE, _value ) );
 
-    protected void sliderDragged() {
+    protected void sliderDragged( double modelValue ) {
     }
 //    SimSharingManager.sendUserEvent( simSharingObject, SLIDER_MOVED, new Parameter( Parameters.VALUE, modelValue ) );
 
@@ -771,19 +771,19 @@ public abstract class AbstractValueControl extends JPanel {
     }
     //    SimSharingManager.sendUserEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( Parameters.VALUE, getValue() ) );
 
-    protected void userFocusLost() {
+    protected void userFocusLost( double value ) {
     }
     //    SimSharingManager.sendUserEvent( simSharingObject, Actions.FOCUS_LOST, new Parameter( Parameters.VALUE, value ) );
 
-    protected void userPressedEnter() {
+    protected void userPressedEnter( double value ) {
     }
     //SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.ENTER ), new Parameter( Parameters.VALUE, value ) );
 
-    public void downPressed() {
+    public void downPressed( double value ) {
     }
     //    SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.DOWN_ARROW ), new Parameter( Parameters.VALUE, value ) );
 
-    protected void upPressed() {
+    protected void upPressed( double value ) {
     }
     //    SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.UP_ARROW ), new Parameter( Parameters.VALUE, value ) );
 
@@ -800,14 +800,14 @@ public abstract class AbstractValueControl extends JPanel {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
                     final double value = getValue() + _upDownArrowDelta;
                     if ( value <= getMaximum() ) {
-                        upPressed();
+                        upPressed( value );
                         setValue( value );
                     }
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
                     final double value = getValue() - _upDownArrowDelta;
                     if ( value >= getMinimum() ) {
-                        downPressed();
+                        downPressed( value );
                         setValue( value );
                     }
                 }
@@ -820,7 +820,7 @@ public abstract class AbstractValueControl extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _textField ) {
                 double value = getTextFieldValue();
-                userPressedEnter();
+                userPressedEnter( value );
                 setValue( value );
             }
         }
@@ -842,7 +842,7 @@ public abstract class AbstractValueControl extends JPanel {
                 try {
                     _textField.commitEdit();
                     double value = getTextFieldValue();
-                    userFocusLost();
+                    userFocusLost( value );
                     setValue( value );
                 }
                 catch ( ParseException pe ) {

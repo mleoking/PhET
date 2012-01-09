@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterValue;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.componentType;
 
@@ -48,6 +49,10 @@ public class Parameter {
 
     public static ParameterSet param( ParameterKey name, double value ) {
         return new ParameterSet( new Parameter( name, value ) );
+    }
+
+    public static ParameterSet param( ParameterKey name, ParameterValue value ) {
+        return new ParameterSet( new Parameter( name, value.toString() ) );
     }
 
     public static ParameterSet param( ParameterKey name, boolean value ) {

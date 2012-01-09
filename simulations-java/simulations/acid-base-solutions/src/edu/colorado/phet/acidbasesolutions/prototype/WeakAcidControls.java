@@ -13,7 +13,10 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SimSharingLogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components;
 
 /**
  * Controls for the weak acid.
@@ -21,38 +24,38 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 class WeakAcidControls extends JPanel {
-    
+
     private final WeakAcid weakAcid;
     private final LogarithmicValueControl concentrationControl, strengthControl;
-    
+
     public WeakAcidControls( final JFrame parentFrame, final WeakAcid weakAcid ) {
         setBorder( new TitledBorder( "Solution (weak acid)" ) );
-        
+
         this.weakAcid = weakAcid;
         weakAcid.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateControls();
             }
-        });
-        
+        } );
+
         DoubleRange concentrationRange = MGPConstants.WEAK_ACID_CONCENTRATION_RANGE;
-        concentrationControl = new LogarithmicValueControl( concentrationRange.getMin(), concentrationRange.getMax(), "concentration:", "0.0E0", "mol/L" );
+        concentrationControl = new SimSharingLogarithmicValueControl( Components.concentrationControl, concentrationRange.getMin(), concentrationRange.getMax(), "concentration:", "0.0E0", "mol/L" );
         concentrationControl.setBorder( new EtchedBorder() );
         concentrationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 weakAcid.setConcentration( concentrationControl.getValue() );
             }
-        });
-        
+        } );
+
         DoubleRange strengthRange = MGPConstants.WEAK_ACID_STRENGTH_RANGE;
-        strengthControl = new LogarithmicValueControl( strengthRange.getMin(), strengthRange.getMax(), "strength:", "0.0E0", "" );
+        strengthControl = new SimSharingLogarithmicValueControl( Components.weakStrengthControl, strengthRange.getMin(), strengthRange.getMax(), "strength:", "0.0E0", "" );
         strengthControl.setBorder( new EtchedBorder() );
         strengthControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 weakAcid.setStrength( strengthControl.getValue() );
             }
-        });
-        
+        } );
+
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -61,11 +64,11 @@ class WeakAcidControls extends JPanel {
         int column = 0;
         layout.addComponent( concentrationControl, row++, column );
         layout.addComponent( strengthControl, row++, column );
-        
+
         // default state
         updateControls();
     }
-    
+
     private void updateControls() {
         concentrationControl.setValue( weakAcid.getConcentration() );
         strengthControl.setValue( weakAcid.getStrength() );

@@ -164,7 +164,7 @@ public class SimSharingManager {
 
     //Convenience overload to provide no parameters
     public static String sendUserMessage( UserComponent object, UserAction action ) {
-        return sendUserMessage( object, action );
+        return sendUserMessage( object, action, new ParameterSet() );
     }
 
     // Convenience method for sending an event from something the user did

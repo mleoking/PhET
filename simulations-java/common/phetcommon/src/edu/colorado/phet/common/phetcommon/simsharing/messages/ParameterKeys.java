@@ -13,5 +13,7 @@ public enum ParameterKeys implements ParameterKey {
 
     errorMessage,
     //For drag events
-    numberDragEvents, minValue, maxValue, averageValue
+    numberDragEvents, minValue, maxValue, averageValue,
+
+    correctedValue
 }
