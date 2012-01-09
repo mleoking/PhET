@@ -116,9 +116,9 @@ public class SimSharingManager {
         new Thread( new Runnable() {
             public void run() {
                 actor = createActor(); // Connect to the server
-                sendStartedEvent( config );
+                sendStartupMessage( config );
                 if ( actor != null ) {
-                    sendConnectedEvent();
+                    sendConnectedMessage();
                     deliverQueue(); //Process any events that were collected while we were trying to connect to the server
                 }
                 else {
@@ -129,7 +129,7 @@ public class SimSharingManager {
     }
 
 
-    // Gets the number of events that have been sent.
+    // Gets the number of messages that have been sent.
     public int getMessageCount() {
         return messageCount;
     }
@@ -154,16 +154,16 @@ public class SimSharingManager {
 //    }
 
     public static String sendSystemMessage( SystemObject object, SystemAction action, Parameter... parameters ) {
-        return getInstance().sendEvent( new SystemMessage( phetcommon, system, object, action, parameters ) );
+        return getInstance().sendMessage( new SystemMessage( phetcommon, system, object, action, parameters ) );
     }
 
     // Convenience method for sending an event from something the user did
     public static String sendUserMessage( UserComponent object, UserAction action, Parameter... parameters ) {
-        return getInstance().sendEvent( new UserMessage( phetcommon, user, object, action, parameters ) );
+        return getInstance().sendMessage( new UserMessage( phetcommon, user, object, action, parameters ) );
     }
 
     public static String sendModelMessage( ModelObject object, ModelAction action, Parameter... parameters ) {
-        return getInstance().sendEvent( new ModelMessage( phetcommon, model, object, action, parameters ) );
+        return getInstance().sendMessage( new ModelMessage( phetcommon, model, object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
@@ -172,17 +172,17 @@ public class SimSharingManager {
     }
 
     // Sends an event. If sim-sharing is disabled, this is a no-op.
-    public String sendEvent( SimSharingMessage message ) {
+    public String sendMessage( SimSharingMessage message ) {
         if ( enabled ) {
 
             // create the event string
             String timestamp = Long.toString( System.currentTimeMillis() - simStartedTime );
-            String eventString = timestamp + DELIMITER + message.toString( DELIMITER );
+            String messageString = timestamp + DELIMITER + message.toString( DELIMITER );
 
             // send the event string
-            sendToConsole( eventString );
-            sendToLog( eventString );
-            sendToServer( eventString );
+            sendToConsole( messageString );
+            sendToLog( messageString );
+            sendToServer( messageString );
 
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             messageCount++;
@@ -190,7 +190,7 @@ public class SimSharingManager {
                 sendSystemMessage( simsharingManager, sentEvent, param( ParameterKeys.messageCount, messageCount ) );
             }
 
-            return eventString;
+            return messageString;
         }
         else {
             return null;
@@ -198,26 +198,26 @@ public class SimSharingManager {
     }
 
     // Sends an event to the console.
-    private void sendToConsole( String event ) {
+    private void sendToConsole( String message ) {
         assert ( enabled );
-        System.out.println( event );
+        System.out.println( message );
     }
 
-    // Sends an event to the sim-sharing log.
-    private void sendToLog( String event ) {
+    // Sends a message to the sim-sharing log.
+    private void sendToLog( String message ) {
         assert ( enabled );
         if ( log.get().length() != 0 ) {
             log.set( log.get() + "\n" );
         }
-        log.set( log.get() + event );
+        log.set( log.get() + message );
     }
 
-    // Sends an event to the server, and prefixes the event with a couple of additional fields.
-    private void sendToServer( String event ) {
+    // Sends a message to the server, and prefixes the message with a couple of additional fields.
+    private void sendToServer( String message ) {
         assert ( enabled );
         if ( actor != null ) {
             try {
-                actor.tell( machineCookie + "\t" + sessionId + "\t" + event );
+                actor.tell( machineCookie + "\t" + sessionId + "\t" + message );
             }
             catch ( IOException e ) {
                 e.printStackTrace();
@@ -227,8 +227,8 @@ public class SimSharingManager {
             }
         }
         else {
-            // Actor is initialized in a separate thread, queue any events that occur before it is initialized.
-            queue.add( event );
+            // Actor is initialized in a separate thread, queue any messages that occur before it is initialized.
+            queue.add( message );
         }
     }
 
@@ -270,8 +270,8 @@ public class SimSharingManager {
         return actor;
     }
 
-    // Sends an event when sim-sharing has been started up.
-    private void sendStartedEvent( PhetApplicationConfig config ) {
+    // Sends a message when sim-sharing has been started up.
+    private void sendStartupMessage( PhetApplicationConfig config ) {
         assert ( enabled );
         sendSystemMessage( simsharingManager, started,
                            param( time, simStartedTime ),
@@ -291,7 +291,7 @@ public class SimSharingManager {
     }
 
     // Sends an event when we've connected to the sim-sharing server.
-    private void sendConnectedEvent() {
+    private void sendConnectedMessage() {
         assert ( enabled && actor != null );
         sendSystemMessage( simsharingManager, connectedToServer );
     }
