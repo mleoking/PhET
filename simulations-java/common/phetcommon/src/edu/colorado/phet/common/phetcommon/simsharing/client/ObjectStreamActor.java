@@ -8,7 +8,8 @@ import java.net.Socket;
 import java.util.logging.Logger;
 
 /**
- * Fairly general-purpose class for communicating with a server over sockets.
+ * Fairly general-purpose class for communicating with a server over sockets using an ObjectStream.
+ * We send java.lang.Strings over an ObjectStream.
  *
  * @author Sam Reid
  */
@@ -20,8 +21,9 @@ public abstract class ObjectStreamActor<T, U> implements IActor<T, U> {
     public final ObjectOutputStream writeToServer;
     public final ObjectInputStream readFromServer;
 
-    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
-//    public static String HOST_IP_ADDRESS = "localhost";//Settings for running locally
+    //Default to phet-server, but you can use this command line arg for local testing:
+    //-Dsim-event-data-collection-server-host-ip-address=localhost
+    public static String HOST_IP_ADDRESS = System.getProperty( "sim-event-data-collection-server-host-ip-address", "128.138.145.107" );
 
     //On phet-server, port must be in a specific range of allowed ports, see Unfuddle ticket
     public static int PORT = 44101;
