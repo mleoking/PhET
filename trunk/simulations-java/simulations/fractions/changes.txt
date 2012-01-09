@@ -1,3 +1,4 @@
+Fixed: Fraction goes off the screen to the left on mac
 # 0.00.31 (59741) Dec 28, 2011
 Removed other tabs for posting feasibility test for Tab 1
 Nudged cakes slightly to the right to avoid colliding with left edge of window

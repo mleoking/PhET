@@ -30,7 +30,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         addChild( representationArea );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionEqualityPanel( model ) ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            setOffset( 35, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
         addChild( fractionEqualityPanel );
 
