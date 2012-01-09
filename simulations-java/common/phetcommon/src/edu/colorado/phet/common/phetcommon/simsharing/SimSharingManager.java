@@ -31,7 +31,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SimSharingConstants.PhetCommonMessageSource.phetcommon;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects.simsharingManager;
 
@@ -154,16 +153,16 @@ public class SimSharingManager {
 //    }
 
     public static String sendSystemMessage( SystemObject object, SystemAction action, Parameter... parameters ) {
-        return getInstance().sendMessage( new SystemMessage( phetcommon, system, object, action, parameters ) );
+        return getInstance().sendMessage( new SystemMessage( system, object, action, parameters ) );
     }
 
     // Convenience method for sending an event from something the user did
     public static String sendUserMessage( UserComponent object, UserAction action, Parameter... parameters ) {
-        return getInstance().sendMessage( new UserMessage( phetcommon, user, object, action, parameters ) );
+        return getInstance().sendMessage( new UserMessage( user, object, action, parameters ) );
     }
 
     public static String sendModelMessage( ModelObject object, ModelAction action, Parameter... parameters ) {
-        return getInstance().sendMessage( new ModelMessage( phetcommon, model, object, action, parameters ) );
+        return getInstance().sendMessage( new ModelMessage( model, object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
