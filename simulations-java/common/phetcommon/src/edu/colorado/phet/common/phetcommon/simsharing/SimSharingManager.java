@@ -39,6 +39,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObje
  * Central access point for sim-sharing initialization and event sending.
  * If sim-sharing is enabled, events are sent to the Console, a log, and the server (if a connection is made.)
  * If sim-sharing is disabled, all event-sending methods are no-ops.
+ * <p/>
+ * For instructions on how to instrument a sim, please read simulations-java\common\phetcommon\simsharing-readme.txt
  *
  * @author Sam Reid
  * @author Chris Malley (cmalley@pixelzoom.com)
