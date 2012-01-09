@@ -87,14 +87,14 @@ public class GameOverNode extends PhetPNode {
         super();
 
         //Report on the game over, assumes that this node is only created at the end of a game (a safe assumption because the constructor args are only available at end of game)
-        SimSharingManager.sendModelEvent( SimSharing.Components.game, SimSharing.Actions.ended,
-                                          param( SimSharing.Parameters.level, level ),
-                                          param( SimSharing.Parameters.score, score ),
-                                          param( SimSharing.Parameters.perfectScore, perfectScore ),
-                                          param( SimSharing.Parameters.time, time ),
-                                          param( SimSharing.Parameters.bestTime, bestTime ),
-                                          param( SimSharing.Parameters.isNewBestTime, isNewBestTime ),
-                                          param( SimSharing.Parameters.timerVisible, timerVisible ) );
+        SimSharingManager.sendModelMessage( SimSharing.Components.game, SimSharing.Actions.ended,
+                                            param( SimSharing.Parameters.level, level ),
+                                            param( SimSharing.Parameters.score, score ),
+                                            param( SimSharing.Parameters.perfectScore, perfectScore ),
+                                            param( SimSharing.Parameters.time, time ),
+                                            param( SimSharing.Parameters.bestTime, bestTime ),
+                                            param( SimSharing.Parameters.isNewBestTime, isNewBestTime ),
+                                            param( SimSharing.Parameters.timerVisible, timerVisible ) );
 
         this.scoreFormat = scoreFormat;
         this.listeners = new EventListenerList();

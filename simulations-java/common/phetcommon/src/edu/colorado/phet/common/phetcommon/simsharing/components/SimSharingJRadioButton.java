@@ -70,6 +70,6 @@ public class SimSharingJRadioButton extends JRadioButton {
     }
 
     public static void sendEvent( UserComponent userComponent, boolean isSelected ) {
-        SimSharingManager.sendUserEvent( userComponent, pressed, componentType( radioButton ), param( ParameterKeys.isSelected, isSelected ) );
+        SimSharingManager.sendUserMessage( userComponent, pressed, componentType( radioButton ), param( ParameterKeys.isSelected, isSelected ) );
     }
 }

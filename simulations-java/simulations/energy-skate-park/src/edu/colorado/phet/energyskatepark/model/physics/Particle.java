@@ -540,7 +540,7 @@ public class Particle implements Serializable {
             boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
             if ( bounce || !velocityTowardTrack ) {
 
-                SimSharingManager.sendModelEvent( skater, bounced );
+                SimSharingManager.sendModelMessage( skater, bounced );
                 double energyBeforeBounce = getTotalEnergy();
                 setVelocity( newVelocity );
 
@@ -558,7 +558,7 @@ public class Particle implements Serializable {
             else {
                 //grab the track
                 double dE0 = getTotalEnergy() - origEnergy;
-                SimSharingManager.sendModelEvent( skater, landed
+                SimSharingManager.sendModelMessage( skater, landed
 //                        , Parameter.param( EnergySkateParkSimSharing.ParameterKeys.track, )
                 );
                 switchToTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );

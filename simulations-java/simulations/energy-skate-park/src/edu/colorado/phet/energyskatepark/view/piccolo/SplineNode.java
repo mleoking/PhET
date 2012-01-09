@@ -240,7 +240,7 @@ public class SplineNode extends PNode {
     private boolean testAttach( int index ) {
         SplineMatch startMatch = getTrunkMatch( index );
         if ( startMatch != null ) {
-            SimSharingManager.sendUserEvent( track, attached );
+            SimSharingManager.sendUserMessage( track, attached );
             attach( index, startMatch );
             return true;
         }

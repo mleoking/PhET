@@ -33,7 +33,7 @@ public class SimSharingTextButtonNode extends TextButtonNode {
     }
 
     @Override protected void notifyActionPerformed() {
-        SimSharingManager.sendUserEvent( userComponent, UserActions.pressed );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.pressed );
         super.notifyActionPerformed();
     }
 }

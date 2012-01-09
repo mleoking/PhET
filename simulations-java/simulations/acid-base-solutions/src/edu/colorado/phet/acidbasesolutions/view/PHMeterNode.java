@@ -254,7 +254,7 @@ public class PHMeterNode extends PhetPNode {
         }
 
         private void sendEvent( UserAction action ) {
-            SimSharingManager.sendUserEvent( Components.phMeter, action, new Parameter( ABSSimSharing.ABSParameterKeys.isInSolution, meter.isInSolution() ) );
+            SimSharingManager.sendUserMessage( Components.phMeter, action, new Parameter( ABSSimSharing.ABSParameterKeys.isInSolution, meter.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {

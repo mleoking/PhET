@@ -71,7 +71,7 @@ public class PHColorKeyNode extends PhetPNode {
         // send sim-sharing event if user tries to interact
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( phColorKey, pressed );
+                SimSharingManager.sendNonInteractiveMessage( phColorKey, pressed );
             }
         } );
     }

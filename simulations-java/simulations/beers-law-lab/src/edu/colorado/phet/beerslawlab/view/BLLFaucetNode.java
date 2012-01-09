@@ -26,7 +26,7 @@ public class BLLFaucetNode extends FaucetNode {
         // sim-sharing
         getDragHandler().setStartEndDragFunction( new DragFunction() {
             public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                SimSharingManager.sendUserEvent( userComponent, action, Parameter.param( Parameters.flowRate, faucet.flowRate.get() ) );
+                SimSharingManager.sendUserMessage( userComponent, action, Parameter.param( Parameters.flowRate, faucet.flowRate.get() ) );
             }
         } );
     }

@@ -32,7 +32,7 @@ public class PlayPauseButton extends IconButton {
             public void fire() {
                 if ( isEnabled() ) {
 
-                    SimSharingManager.sendUserEvent( playPauseButton, pressed, new Parameter( isPlaying, !isPlaying() ), Parameter.componentType( ComponentTypes.button ) );
+                    SimSharingManager.sendUserMessage( playPauseButton, pressed, new Parameter( isPlaying, !isPlaying() ), Parameter.componentType( ComponentTypes.button ) );
 
                     setPlaying( !isPlaying() );
                     update();

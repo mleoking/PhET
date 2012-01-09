@@ -201,7 +201,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                             if ( pair != null && pair != getMolecule().getCentralAtom() ) {
                                 getMolecule().removeGroup( pair );
                             }
-                            SimSharingManager.sendUserEvent( mouseMiddleButton, UserActions.pressed, param( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
+                            SimSharingManager.sendUserMessage( mouseMiddleButton, UserActions.pressed, param( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
@@ -453,9 +453,9 @@ public class MoleculeShapesTab extends MoleculeViewTab {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingManager.sendUserEvent( draggingState, UserActions.changed,
-                                             param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ),
-                                             param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
+            SimSharingManager.sendUserMessage( draggingState, UserActions.changed,
+                                               param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ),
+                                               param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

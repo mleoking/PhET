@@ -24,7 +24,7 @@ public class PropertyLabel<T> extends JLabel {
         super( icon );
         addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-                SimSharingManager.sendUserEvent( simSharingObject, UserActions.pressed );
+                SimSharingManager.sendUserMessage( simSharingObject, UserActions.pressed );
                 property.set( value );
             }
         } );

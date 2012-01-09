@@ -112,9 +112,9 @@ public class MagnifyingGlassNode extends PhetPNode {
                 else {
                     partValue = ABSSimSharing.ABSParameterKeys.lens;
                 }
-                SimSharingManager.sendUserEvent( Components.magnifyingGlass, UserActions.pressed,
-                                                 new Parameter( ParameterKeys.interactive, false ),
-                                                 new Parameter( ParameterKeys.part, partValue.toString() ) );
+                SimSharingManager.sendUserMessage( Components.magnifyingGlass, UserActions.pressed,
+                                                   new Parameter( ParameterKeys.interactive, false ),
+                                                   new Parameter( ParameterKeys.part, partValue.toString() ) );
             }
         } );
     }

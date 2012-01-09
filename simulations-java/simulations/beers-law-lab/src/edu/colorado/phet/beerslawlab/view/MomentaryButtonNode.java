@@ -46,14 +46,14 @@ public class MomentaryButtonNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserEvent( userComponent, UserActions.pressed );
+                    SimSharingManager.sendUserMessage( userComponent, UserActions.pressed );
                     onProperty.set( true );
                 }
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserEvent( userComponent, UserActions.released );
+                    SimSharingManager.sendUserMessage( userComponent, UserActions.released );
                     onProperty.set( false );
                 }
             }

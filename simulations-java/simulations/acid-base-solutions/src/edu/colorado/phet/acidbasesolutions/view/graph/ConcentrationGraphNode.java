@@ -87,7 +87,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         // send sim-sharing event if user tries to interact
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendNotInteractiveEvent( concentrationGraph, pressed );
+                SimSharingManager.sendNonInteractiveMessage( concentrationGraph, pressed );
             }
         } );
     }

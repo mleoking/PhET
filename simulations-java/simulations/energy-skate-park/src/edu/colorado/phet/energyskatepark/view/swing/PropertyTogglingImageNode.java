@@ -36,7 +36,7 @@ public class PropertyTogglingImageNode extends PNode {
         // Hook up the image node to toggle the property.
         imageNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( PInputEvent event ) {
-                SimSharingManager.sendUserEvent( userComponent, pressed, componentType( icon ), param( ParameterKeys.isSelected, !property.get() ) );
+                SimSharingManager.sendUserMessage( userComponent, pressed, componentType( icon ), param( ParameterKeys.isSelected, !property.get() ) );
                 property.set( !property.get() );
             }
         } );
