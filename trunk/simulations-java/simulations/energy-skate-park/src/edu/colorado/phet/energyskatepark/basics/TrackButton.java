@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.radioButton;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.track;
@@ -44,7 +45,7 @@ public class TrackButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendUserMessage( trackButton, pressed, componentType( radioButton ).param( track, trackName ) );
+                SimSharingManager.sendUserMessage( chain( trackButton, trackName ), pressed, componentType( radioButton ).param( track, trackName ) );
                 module.loadTrack( trackName, offset );
             }
         } );
