@@ -1,17 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventdatacollectionmonitor;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-
-import edu.colorado.phet.simsharinganalysis.Entry;
-import edu.colorado.phet.simsharinganalysis.EntryJavaUtil;
+import javax.swing.table.DefaultTableModel;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -26,9 +30,24 @@ import com.mongodb.Mongo;
  */
 public class QueryMongoDB {
     Mongo m;
+    final Object[] columnNames = { "Machine ID", "Session ID", "User ID", "last event received", "event count" };
+    private final JTable table = new JTable() {{
+        setAutoCreateRowSorter( true );
+        setModel( new DefaultTableModel() {{
+            setColumnIdentifiers( columnNames );
+        }} );
+    }};
+    private final JFrame frame = new JFrame( "MongoDB Monitor" ) {{
+        setDefaultCloseOperation( EXIT_ON_CLOSE );
+    }};
 
     public QueryMongoDB() throws UnknownHostException {
         m = new Mongo();
+
+        frame.setContentPane( new JPanel( new BorderLayout() ) {{
+            add( new JScrollPane( table ), BorderLayout.CENTER );
+        }} );
+        frame.pack();
     }
 
     public static void main( String[] args ) throws UnknownHostException {
@@ -45,6 +64,8 @@ public class QueryMongoDB {
     }
 
     private void start() throws UnknownHostException {
+        frame.setVisible( true );
+
         //Run timer in swing thread for ease of integration with swing components.
         new Timer( 1000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -53,7 +74,10 @@ public class QueryMongoDB {
         } ).start();
     }
 
+    //Columns in table:
+    //Machine ID | Session ID | user ID | last event received | numberEvents
     private void process() {
+        ArrayList<Object[]> rows = new ArrayList<Object[]>();
         List<String> names = m.getDatabaseNames();
         System.out.println( "names = " + names );
         for ( String machineID : names ) {
@@ -71,10 +95,17 @@ public class QueryMongoDB {
 //                            System.out.println( "obj = " + obj );
                             parse( obj );
                         }
+                        Object[] row = new Object[] { machineID, session, "?", "?", collection.getCount() };
+                        rows.add( row );
                     }
                 }
             }
         }
+        Object[][] data = new Object[rows.size()][columnNames.length];
+        for ( int i = 0; i < data.length; i++ ) {
+            data[i] = rows.get( i );
+        }
+        table.setModel( new DefaultTableModel( data, columnNames ) );
     }
 
     private void parse( DBObject obj ) {
@@ -86,7 +117,7 @@ public class QueryMongoDB {
         String action = obj.get( "action" ).toString();
         DBObject parameters = (DBObject) obj.get( "parameters" );
 //        System.out.println( "parameters = " + parameters );
-        Entry e = EntryJavaUtil.EntryJavaUtil( Long.parseLong( time ), messageType, object, action, null );
-        System.out.println( e );
+//        Entry e = EntryJavaUtil.EntryJavaUtil( Long.parseLong( time ), messageType, object, action, null );
+//        System.out.println( e );
     }
 }

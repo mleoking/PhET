@@ -21,13 +21,16 @@ import com.mongodb.Mongo;
 public class MongoDBStorage {
 
     private final Mongo mongo;
+    private boolean clearAllOnRestart = false;
 
     public MongoDBStorage() throws UnknownHostException {
         mongo = new Mongo();
 
         //During development, keep database clear
-        for ( String name : mongo.getDatabaseNames() ) {
-            mongo.getDB( name ).dropDatabase();
+        if ( clearAllOnRestart ) {
+            for ( String name : mongo.getDatabaseNames() ) {
+                mongo.getDB( name ).dropDatabase();
+            }
         }
     }
 
