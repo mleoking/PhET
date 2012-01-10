@@ -24,7 +24,7 @@ public class SymbolAxisDemo {
         ValueAxis xAxis = new NumberAxis( "x" );
 //      ValueAxis yAxis = new SymbolAxis("Symbol", new String[]{"One","Two","Three","Four","Five"});
         SymbolAxis yAxis = new SymbolAxis( "Symbol", new String[] { "None", "One", "Two", "Three", "Four", "Five", "Six" } );
-        yAxis.setRange( 0, 10 );
+        yAxis.setRange( 2, 10 );
         yAxis.setTickUnit( new NumberTickUnit( 2 ) );
         XYItemRenderer renderer = new XYLineAndShapeRenderer();
         XYPlot plot = new XYPlot( dataset, xAxis, yAxis, renderer );
