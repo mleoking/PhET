@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,6 +48,9 @@ public class SimEventDataCollectionMonitor {
 
         frame.setContentPane( new JPanel( new BorderLayout() ) {{
             add( new JScrollPane( table ), BorderLayout.CENTER );
+            add( new JPanel() {{
+                add( new JButton( "Export" ) );
+            }}, BorderLayout.SOUTH );
         }} );
         frame.pack();
     }
