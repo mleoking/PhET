@@ -1,6 +1,7 @@
 concentration-meter-body.png author=PhET notes=copied intensity_meter_box.png from bending-light
 concentration-meter-probe.png author=PhET notes=copied and hacked intensity_meter_probe.png from bending-light
-dropper.png author=PhET notes=created by Noah P.
-dropper-icon.png author=PhET notes=scaled version of dropper.png
+dropper_background.png author=PhET notes=created by Noah P.
+dropper_foreground.png author=PhET notes=created by Noah P.
+dropper-icon.png author=PhET notes=scaled version of dropper_foreground.png
 shaker-icon.png author=PhET
 shaker.png author=PhET notes=copied salt_micro.png from sugar-and-salt-solutions
