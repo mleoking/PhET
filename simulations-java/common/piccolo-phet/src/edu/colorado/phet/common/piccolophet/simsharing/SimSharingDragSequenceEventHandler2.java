@@ -10,10 +10,11 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.piccolophet.nodes.slider.simsharing.SimSharingHSliderNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.numberDragEvents;
 
 /**
@@ -38,7 +39,7 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
 
     @Override protected void startDrag( final PInputEvent event ) {
         dragPoints.clear();
-        SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) ).addAll( getStartDragParameters() ) );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, getStartDragParameters().add( getXParameter( event ) ).add( getYParameter( event ) ) );
         super.startDrag( event );
     }
 
@@ -60,10 +61,44 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
         super.drag( event );
     }
 
+    //Finish the drag and report on simsharing for this drag event.
     @Override protected void endDrag( PInputEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) ).addAll( param( numberDragEvents, dragPoints.size() ) ).addAll( getEndDragParameters() ) );
+        ArrayList<Double> xValues = extract( dragPoints, new Function1<Point2D, Double>() {
+            public Double apply( Point2D point2D ) {
+                return point2D.getX();
+            }
+        } );
+        ArrayList<Double> yValues = extract( dragPoints, new Function1<Point2D, Double>() {
+            public Double apply( Point2D point2D ) {
+                return point2D.getY();
+            }
+        } );
+        double minX = SimSharingHSliderNode.min( xValues );
+        double maxX = SimSharingHSliderNode.max( xValues );
+        double averageX = SimSharingHSliderNode.average( xValues );
+        double minY = SimSharingHSliderNode.min( yValues );
+        double maxY = SimSharingHSliderNode.max( yValues );
+        double averageY = SimSharingHSliderNode.average( yValues );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, getEndDragParameters().
+                add( getXParameter( event ) ).
+                add( getYParameter( event ) ).
+                param( numberDragEvents, dragPoints.size() ).
+                param( ParameterKeys.minX, minX ).
+                param( ParameterKeys.maxX, maxX ).
+                param( ParameterKeys.averageX, averageX ).
+                param( ParameterKeys.minY, minY ).
+                param( ParameterKeys.maxY, maxY ).
+                param( ParameterKeys.averageY, averageY ) );
         dragPoints.clear();
         super.endDrag( event );
+    }
+
+    private ArrayList<Double> extract( ArrayList<Point2D> all, Function1<Point2D, Double> extractor ) {
+        ArrayList<Double> list = new ArrayList<Double>();
+        for ( Point2D point2D : all ) {
+            list.add( extractor.apply( point2D ) );
+        }
+        return list;
     }
 
     public ParameterSet getEndDragParameters() {

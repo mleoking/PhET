@@ -11,27 +11,25 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler2;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.LinearFloorSpline2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.view.SkaterCharacter;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.skaterX;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.skaterY;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.SharedComponents.skater;
 
 /**
@@ -90,28 +88,26 @@ public class SkaterNode extends PNode {
             addChild( centerDebugger );
         }
 
-        addInputEventListener( new SimSharingDragSequenceEventHandler( new SimSharingDragSequenceEventHandler.DragFunction() {
-            public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                SimSharingManager.sendUserMessage( skater, UserActions.startDrag, getXParameter().addAll( getYParameter() ) );
-            }
-        }, new SimSharingDragSequenceEventHandler.DragFunction() {
-            public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                SimSharingManager.sendUserMessage( skater, UserActions.endDrag, getXParameter().addAll( getYParameter() ) );
-            }
-        }, null
-        ) {
+        addInputEventListener( new SimSharingDragSequenceEventHandler2( skater ) {
 
             public Point2D pressPoint;
             public SerializablePoint2D bodyPosition;
 
-            @Override public void mousePressed( PInputEvent event ) {
-                super.mousePressed( event );
-                pressPoint = event.getPositionRelativeTo( SkaterNode.this );
-                bodyPosition = getBody().getPosition();
+            @Override public ParameterSet getParametersForAllEvents() {
+                return Parameter.param( skaterX, body.getX() ).param( skaterY, body.getY() );
             }
 
-            public void mouseDragged( PInputEvent event ) {
-                super.mouseDragged( event );
+            @Override protected void startDrag( PInputEvent event ) {
+                super.startDrag( event );
+                pressPoint = event.getPositionRelativeTo( SkaterNode.this );
+                bodyPosition = getBody().getPosition();
+
+                getBody().setUserControlled( true );
+                getBody().setVelocity( 0, 0 );
+            }
+
+            @Override protected void drag( PInputEvent event ) {
+                super.drag( event );
                 Point2D dragPoint = event.getPositionRelativeTo( SkaterNode.this );
                 Point2D delta = new Point2D.Double( dragPoint.getX() - pressPoint.getX(), dragPoint.getY() - pressPoint.getY() );
 
@@ -123,25 +119,17 @@ public class SkaterNode extends PNode {
                 if ( newBodyPosition.getY() > 0 ) {
                     snapToTrackDuringDrag();
                 }
+
+                getBody().setUserControlled( true );
+                getBody().setVelocity( 0, 0 );
+            }
+
+            @Override protected void endDrag( PInputEvent event ) {
+                super.endDrag( event );
+                getBody().setUserControlled( false );
             }
         } );
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-
-        addInputEventListener( new PBasicInputEventHandler() {
-            public void mousePressed( PInputEvent event ) {
-                getBody().setUserControlled( true );
-                getBody().setVelocity( 0, 0 );
-            }
-
-            public void mouseReleased( PInputEvent event ) {
-                getBody().setUserControlled( false );
-            }
-
-            public void mouseDragged( PInputEvent event ) {
-                getBody().setUserControlled( true );
-                getBody().setVelocity( 0, 0 );
-            }
-        } );
 
         getBody().addListener( bodyListener );
         update();

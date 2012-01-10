@@ -56,6 +56,8 @@ public class EnergySkateParkSimSharing {
         //Apparently the floor doesn't count as a track (a bit surprising based on how I thought the model worked)
         trackName, numTracks, isFloor,
 
+        skaterX, skaterY,
+
         //For combining tracks
         inputTrack1, inputTrack2, outputTrack,
 
