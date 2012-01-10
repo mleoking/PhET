@@ -90,8 +90,8 @@ public class ConcentrationCanvas extends BLLCanvas {
             // upper right
             soluteControlNode.setOffset( getStageSize().getWidth() - soluteControlNode.getFullBoundsReference().getWidth() - xMargin, yMargin );
             // left aligned below beaker
-            evaporationControlNode.setOffset( beakerNode.getFullBoundsReference().getMinX(),
-                                              getStageSize().getHeight() - evaporationControlNode.getFullBoundsReference().getHeight() - yMargin );
+            evaporationControlNode.setOffset( beakerNode.getFullBoundsReference().getMinX() + 20,
+                                              beakerNode.getFullBoundsReference().getMaxY() + 20 );
             // aligned with beaker
             solutionNode.setOffset( beakerNode.getOffset() );
             // aligned with beaker
