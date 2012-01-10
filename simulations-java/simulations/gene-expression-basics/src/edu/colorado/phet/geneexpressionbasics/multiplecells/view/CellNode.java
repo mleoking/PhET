@@ -20,8 +20,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class CellNode extends PNode {
 
-    private static final Color NOMINAL_FILL_COLOR = new Color( 140, 162, 185 ); // Gray
-    private static final Color FLORESCENT_FILL_COLOR = new Color( 173, 255, 47 );
+    public static final Color NOMINAL_FILL_COLOR = new Color( 140, 162, 185 ); // Gray
+    public static final Color FLORESCENT_FILL_COLOR = new Color( 173, 255, 47 );
     private static final Stroke FILL_STROKE = new BasicStroke( 1 );
     private static final Color STROKE_COLOR = Color.BLACK;
 
