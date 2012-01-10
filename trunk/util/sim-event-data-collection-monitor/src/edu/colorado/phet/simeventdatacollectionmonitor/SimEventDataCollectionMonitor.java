@@ -28,7 +28,7 @@ import com.mongodb.Mongo;
  *
  * @author Sam Reid
  */
-public class QueryMongoDB {
+public class SimEventDataCollectionMonitor {
     Mongo m;
     final Object[] columnNames = { "Machine ID", "Session ID", "User ID", "last event received", "event count" };
     private final JTable table = new JTable() {{
@@ -41,7 +41,7 @@ public class QueryMongoDB {
         setDefaultCloseOperation( EXIT_ON_CLOSE );
     }};
 
-    public QueryMongoDB() throws UnknownHostException {
+    public SimEventDataCollectionMonitor() throws UnknownHostException {
         m = new Mongo();
 
         frame.setContentPane( new JPanel( new BorderLayout() ) {{
@@ -54,7 +54,7 @@ public class QueryMongoDB {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 try {
-                    new QueryMongoDB().start();
+                    new SimEventDataCollectionMonitor().start();
                 }
                 catch ( UnknownHostException e ) {
                     e.printStackTrace();
