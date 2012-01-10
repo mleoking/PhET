@@ -9,9 +9,8 @@ DESIGN
 
 HIGH
 - view of solute exiting shaker (magic particles, trajectory ala SASS)
-- redo dropper image: start with original dropper, shorten cap and glass
+- new dropper image and icon, with license.txt entries
 - use precipitate color for particles exiting shaker
-- show stock inside dropper
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - try a 3D looking beaker (water glass from Fractions?)
 - make maxSolute a model property, start with 10 moles, but may make this based on Solute.saturatedConcentration
