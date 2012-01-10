@@ -4,21 +4,18 @@ DEADLINES
 - 3/5/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
-- should the stock inside the dropper conform to the shape of the dropper glass, and fill the portion of the glass that overlaps the dropper cap?
 - do we need to show the long names of the solutes in the combo box? this is taking up a lot of horizontal space
 
 HIGH
 - view of solute exiting shaker (magic particles, trajectory ala SASS)
-- new dropper image and icon, with license.txt entries
 - use precipitate color for particles exiting shaker
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
-- try a 3D looking beaker (water glass from Fractions?)
-- make maxSolute a model property, start with 10 moles, but may make this based on Solute.saturatedConcentration
 
 MEDIUM
 - make precipitate particles sit precisely on bottom of beaker
 
 LOW
+- rotate button on dropper so that lighting direction is consistent
 - #3199, bigger slider thumb on FaucetNode
 - spend a little time on combo box popup iss (create ticket, low priority)
 - derive height of fluid columns coming out of faucets, instead of using hardcoded values (see ConcentrationCanvas)
