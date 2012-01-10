@@ -54,6 +54,9 @@ public class EnergySkateParkSimSharing {
     public static enum ParameterKeys implements ParameterKey {
 
         //Apparently the floor doesn't count as a track (a bit surprising based on how I thought the model worked)
-        track, numTracks
+        track, numTracks, isFloor,
+
+        //For combining tracks
+        inputTrack1, inputTrack2, outputTrack
     }
 }

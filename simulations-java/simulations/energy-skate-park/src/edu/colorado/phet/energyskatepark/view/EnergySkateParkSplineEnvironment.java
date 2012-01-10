@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.view.piccolo.SplineNode;
 
 /**
@@ -14,7 +15,7 @@ public interface EnergySkateParkSplineEnvironment {
 
     SplineMatch proposeMatch( SplineNode splineNode, Point2D toMatch );
 
-    void attach( SplineNode splineNode, int index, SplineMatch match );
+    EnergySkateParkSpline attach( SplineNode splineNode, int index, SplineMatch match );
 
     double getMinDragY();
 
