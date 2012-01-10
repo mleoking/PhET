@@ -4,6 +4,7 @@ package edu.colorado.phet.simeventdatacollectionserver;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -15,7 +16,12 @@ import java.util.StringTokenizer;
  */
 public class SimEventDataCollectionServer implements MessageHandler {
 
-    FileStorage fileStorage = new FileStorage();
+    //    FileStorage fileStorage = new FileStorage();
+    MongoDBStorage fileStorage;
+
+    public SimEventDataCollectionServer() throws UnknownHostException {
+        fileStorage = new MongoDBStorage();
+    }
 
     private void start() throws IOException {
         new StringServer( ObjectStreamMessageServer.PORT, this ).start();
@@ -42,7 +48,6 @@ public class SimEventDataCollectionServer implements MessageHandler {
             }
         }
     }
-
 
     //Use phet-server for deployments, but localhost for local testing.
     public static void parseArgs( String[] args ) {
