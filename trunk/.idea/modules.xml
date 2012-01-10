@@ -126,7 +126,6 @@
       <module fileurl="file://$PROJECT_DIR$/util/sim-event-data-collection-server/sim-event-data-collection-server.iml" filepath="$PROJECT_DIR$/util/sim-event-data-collection-server/sim-event-data-collection-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/simsharing/simsharing.iml" filepath="$PROJECT_DIR$/util/simsharing/simsharing.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/simsharing-analysis/simsharing-analysis.iml" filepath="$PROJECT_DIR$/util/simsharing-analysis/simsharing-analysis.iml" />
-      <module fileurl="file://$PROJECT_DIR$/util/simsharing-cassandra/simsharing-cassandra.iml" filepath="$PROJECT_DIR$/util/simsharing-cassandra/simsharing-cassandra.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/simsharing-test-sim/simsharing-test-sim.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/simsharing-test-sim/simsharing-test-sim.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/slf4j/slf4j.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/slf4j/slf4j.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
