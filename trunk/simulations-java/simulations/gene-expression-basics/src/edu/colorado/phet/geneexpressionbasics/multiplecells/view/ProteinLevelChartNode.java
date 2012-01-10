@@ -2,7 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
@@ -64,21 +64,8 @@ public class ProteinLevelChartNode extends PNode {
         xAxis.setLabelFont( new PhetFont( 12 ) );
         chart.getXYPlot().setDomainAxis( xAxis );
 
-        // Create a Y axis with "None" and "Lots" as the labels.  There may be
-        // a better way to do with in JFreeChart, but this is the best I could
-        // come up with with limited time.
-//        String[] yAxisLabels = new String[PROTEIN_LEVEL_RANGE.getMax() + 1];
-//        for ( int i = 0; i <= PROTEIN_LEVEL_RANGE.getMax(); i++ ) {
-//            yAxisLabels[i] = "";
-//        }
-//        yAxisLabels[PROTEIN_LEVEL_RANGE.getMin()] = "None";
-//        yAxisLabels[PROTEIN_LEVEL_RANGE.getMax()] = "Lots";
-//        SymbolAxis yAxis = new SymbolAxis( "Average Protein Level", yAxisLabels );
-//        yAxis.setTickUnit( new NumberTickUnit( PROTEIN_LEVEL_RANGE.getLength() / 4 ) );
-//        yAxis.setLabelFont( new PhetFont( 12 ) );
-//        yAxis.setRange( PROTEIN_LEVEL_RANGE.getMin(), PROTEIN_LEVEL_RANGE.getMax() );
-//        chart.getXYPlot().setRangeAxis( yAxis );
-
+        // Make the Y axis, and have it be essentially blank, since we are
+        // going to create our own custom label.
         NumberAxis yAxis = new NumberAxis();
         yAxis.setRange( 0, TIME_SPAN );
         yAxis.setRange( PROTEIN_LEVEL_RANGE.getMin(), PROTEIN_LEVEL_RANGE.getMax() );
@@ -91,17 +78,23 @@ public class ProteinLevelChartNode extends PNode {
         jFreeChartNode.setBounds( 0, 0, SIZE.getWidth(), SIZE.getHeight() );
         jFreeChartNode.updateChartRenderingInfo();
 
-        // Create a rectangle with a gradient that maps the amount of protein
-        // to a color.  This is admittedly a bit "tweaky", and the size and
-        // position may need to be adjusted if the size of the chart changes.
-        PPath proteinLevelColorKey = new PhetPPath( new Rectangle2D.Double( 0, 0, 20, jFreeChartNode.getFullBounds().height * 0.7 ) );
-        proteinLevelColorKey.setStroke( new BasicStroke( 1 ) );
-        proteinLevelColorKey.setPaint( Color.GREEN );
+        // Create the Y axis label, which includes a key to the colors used to
+        // indicate the protein level in the cells.  The size an position are
+        // empirically determined and may need to change if the chart size
+        // changes.
+        PNode yAxisLabelNode = new YAxisLabel( jFreeChartNode.getFullBoundsReference().height * 0.65 );
+        yAxisLabelNode.setOffset( 0, 21 );
 
         // Put the chart and the Y axis label in a horizontal box.  The
         // height of the Y axis label is a bit "tweaky" and may need to be
         // adjusted if the size of the chart changes.
-        PNode contents = new HBox( 0, new YAxisLabel( jFreeChartNode.getFullBoundsReference().height * 0.6 ), jFreeChartNode );
+//        PNode contents = new HBox( 0, yAxisLabelNode, jFreeChartNode );
+
+        // Lay out the chart and the Y axis label in parent PNode.
+        PNode contents = new PNode();
+        contents.addChild( yAxisLabelNode );
+        jFreeChartNode.setOffset( yAxisLabelNode.getFullBoundsReference().width, 0 );
+        contents.addChild( jFreeChartNode );
 
         // Put the content in a control panel node in order to give it a decent
         // looking border.
@@ -171,13 +164,7 @@ public class ProteinLevelChartNode extends PNode {
     // Convenience class for combining the elements of the label for the
     // chart's y axis.
     public static class YAxisLabel extends PNode {
-        public YAxisLabel( double height ) {
-            // TODO: i18n
-            PText mainLabel = new PText( "Average Protein Level" ) {{
-                setFont( new PhetFont( 12 ) );
-                rotate( -Math.PI / 2 );
-            }};
-
+        public YAxisLabel( final double height ) {
             // Labels for the top and bottom of the scale.
             // TODO: i18n
             PText lotsLabel = new PText( "Lots" );
@@ -198,8 +185,21 @@ public class ProteinLevelChartNode extends PNode {
             // protein to a color.  Width is arbitrarily chosen.
             PPath proteinLevelColorKey = new PhetPPath( new Rectangle2D.Double( 0, 0, 20, height ) );
             proteinLevelColorKey.setStroke( new BasicStroke( 1 ) );
-            proteinLevelColorKey.setPaint( Color.GREEN );
+            proteinLevelColorKey.setPaint( new GradientPaint( 0, (float) height, CellNode.NOMINAL_FILL_COLOR, 0, 0, CellNode.FLORESCENT_FILL_COLOR ) );
 
+            // Create the main label.  This may need to be offset a bit in
+            // the y direction so that the offset of the containing node will
+            // correspond to the gradient rectangle and not this label.
+            // TODO: i18n
+            PText mainLabel = new PText( "Average Protein Level" ) {{
+                setFont( new PhetFont( 14 ) );
+                rotate( -Math.PI / 2 );
+                if ( getFullBoundsReference().height > height ) {
+                    setOffset( 0, height - getFullBoundsReference().height );
+                }
+            }};
+
+            // Put the parts together into an HBox and add it as a child node.
             addChild( new HBox( mainLabel, tickLabelsNode, proteinLevelColorKey ) );
         }
     }
