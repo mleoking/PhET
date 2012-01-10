@@ -36,7 +36,8 @@ public class TestSplineNode {
             public void splineTranslated( EnergySkateParkSpline splineSurface, double dx, double dy ) {
             }
 
-            public void attach( SplineNode splineNode, int index, SplineMatch match ) {
+            public EnergySkateParkSpline attach( SplineNode splineNode, int index, SplineMatch match ) {
+                return null;
             }
 
             public double getMinDragY() {

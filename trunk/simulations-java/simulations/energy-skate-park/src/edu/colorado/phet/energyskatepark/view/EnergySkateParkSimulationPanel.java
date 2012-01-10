@@ -246,7 +246,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         return rootNode.numSplineGraphics();
     }
 
-    public void attach( SplineNode splineNode, int index, SplineMatch match ) {
+    public EnergySkateParkSpline attach( SplineNode splineNode, int index, SplineMatch match ) {
         TraversalState origState = getEnergySkateParkModel().getBody( 0 ).getTraversalState();
         boolean change = false;
         boolean rollerCoaster = getRollerCoaster( splineNode.getSpline(), match.getEnergySkateParkSpline() );
@@ -288,6 +288,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             TraversalState traversalState = energySkateParkModel.getBody( 0 ).getBestTraversalState( origState );
             energySkateParkModel.getBody( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
         }
+        return energySkateParkSpline;
     }
 
     //Can't drag below ground

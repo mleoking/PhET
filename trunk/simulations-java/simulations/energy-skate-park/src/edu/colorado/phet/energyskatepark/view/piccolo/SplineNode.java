@@ -27,6 +27,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -49,7 +50,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.*;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserActions.attached;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.track;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackControlPoint;
@@ -106,6 +109,10 @@ public class SplineNode extends PNode {
         }
 
         dragHandler = new SimSharingDragSequenceEventHandler2( EnergySkateParkSimSharing.UserComponents.track ) {
+
+            @Override public ParameterSet getParametersForAllEvents() {
+                return param( EnergySkateParkSimSharing.ParameterKeys.track, spline.getParametricFunction2D().index );
+            }
 
             @Override protected void drag( PInputEvent event ) {
                 super.drag( event );
@@ -240,8 +247,11 @@ public class SplineNode extends PNode {
     private boolean testAttach( int index ) {
         SplineMatch startMatch = getTrunkMatch( index );
         if ( startMatch != null ) {
-            SimSharingManager.sendUserMessage( track, attached );
-            attach( index, startMatch );
+            EnergySkateParkSpline result = attach( index, startMatch );
+            SimSharingManager.sendUserMessage( track, attached
+                    , param( inputTrack1, spline.getParametricFunction2D().index ).
+                    param( inputTrack2, startMatch.getEnergySkateParkSpline().getParametricFunction2D().index ).
+                    param( outputTrack, result.getParametricFunction2D().index ) );
             return true;
         }
         return false;
@@ -362,6 +372,10 @@ public class SplineNode extends PNode {
                     event.setHandled( true );
                 }
 
+                @Override public ParameterSet getParametersForAllEvents() {
+                    return param( EnergySkateParkSimSharing.ParameterKeys.track, spline.getParametricFunction2D().index );
+                }
+
                 @Override protected void drag( PInputEvent event ) {
                     super.drag( event );
                     PDimension rel = event.getDeltaRelativeTo( SplineNode.this );
@@ -458,8 +472,8 @@ public class SplineNode extends PNode {
         }
     }
 
-    private void attach( int index, SplineMatch match ) {
-        splineEnvironment.attach( this, index, match );
+    private EnergySkateParkSpline attach( int index, SplineMatch match ) {
+        return splineEnvironment.attach( this, index, match );
     }
 
     private void initDragControlPoint( int index ) {
