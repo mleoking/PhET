@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
@@ -10,6 +11,7 @@ import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -26,6 +28,26 @@ public class DropperNode extends PhetPNode {
     private static final boolean SHOW_ORIGIN = false;
     private static final double BUTTON_Y_OFFSET = 30; // y offset of button center in dropper image file
     private static final double LABEL_Y_OFFSET = 125; // y offset of the label's center in dropper image file
+
+    public static final double TIP_WIDTH = 15; // specific to image file
+
+    // glass portion of the dropper, used to fill dropper with stock solution, specific to the dropper image file
+    public static final GeneralPath GLASS_PATH = new DoubleGeneralPath() {{
+        final double tipWidth = TIP_WIDTH;
+        final double tipHeight = 5;
+        final double glassWidth = 46;
+        final double glassHeight = 150;
+        final double glassYOffset = tipHeight + 14;
+        moveTo( -tipWidth / 2, 0 );
+        lineTo( -tipWidth / 2, -tipHeight );
+        lineTo( -glassWidth / 2, -glassYOffset );
+        lineTo( -glassWidth / 2, -glassHeight );
+        lineTo( glassWidth / 2, -glassHeight );
+        lineTo( glassWidth / 2, -glassYOffset );
+        lineTo( tipWidth / 2, -tipHeight );
+        lineTo( tipWidth / 2, 0 );
+        closePath();
+    }}.getGeneralPath();
 
     public DropperNode( final Dropper dropper ) {
 

@@ -45,7 +45,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
         PNode shakerNode = new ShakerNode( model.shaker );
         PNode dropperNode = new DropperNode( model.dropper );
-        StockSolutionNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker, 15 ); //TODO get hole width from DropperNode
+        StockSolutionNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker );
         PNode evaporationControlNode = new EvaporationControlNode( model.evaporator );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
         SolutionNode solutionNode = new SolutionNode( model.solution, model.beaker );
