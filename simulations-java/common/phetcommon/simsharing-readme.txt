@@ -24,8 +24,8 @@ Add sub-consructors for all constructors in the parent class, make UserComponent
 Details and design notes:
 
 Messages have the form:
-message := time object action parameterList
-parameterList := parameter +
+message := time TAB messageType TAB object TAB action TAB parameterList
+parameterList := (parameter TAB)*
 parameter := parameterKey = parameterValue
 
 system, object, action, parameterKey are marked with interfaces to encourage reusing defined constants (typically in enums that implement the marker interface).
