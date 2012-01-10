@@ -39,6 +39,7 @@ public class SimEventDataCollectionServer implements MessageHandler {
             String object = st.nextToken();
             String action = st.nextToken();
 
+            //TODO: add server time to the message
             fileStorage.store( m, machineID, sessionID );
 
             //TODO: is this the right message to end on?

@@ -2,9 +2,11 @@
 package edu.colorado.phet.simeventdatacollectionserver;
 
 import java.net.UnknownHostException;
+import java.util.Map;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.simsharinganalysis.Entry;
+import edu.colorado.phet.simsharinganalysis.Parser;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -45,6 +47,13 @@ public class MongoDBStorage {
         //One collection per session, lets us easily iterate and add messages per session.
         DBCollection coll = database.getCollection( sessionID );
 
+        //Use the analysis code (in Scala) to parse the message
+        //I permitted this use of Scala from Java in this case because
+        //1. Scala parsing code already written
+        //2. Expect to add more server dependencies on analysis code for real time result presentation.
+        Entry e = new Parser().parseKeyValueLine( m );
+        final Map<String, String> params = e.parametersToHashMap();
+
         BasicDBObject doc = new BasicDBObject() {{
             put( "machineID", machineID );
             put( "sessionID", sessionID );
@@ -52,11 +61,13 @@ public class MongoDBStorage {
             put( "messageType", messageType );
             put( "object", object );
             put( "action", action );
-            String delimiter = SimSharingManager.DELIMITER;
             put( "parameters", new BasicDBObject() {{
-
+                for ( String key : params.keySet() ) {
+                    put( key, params.get( key ) );
+                }
             }} );
         }};
+        System.out.println( "doc.toString() = " + doc.toString() );
         coll.insert( doc );
     }
 

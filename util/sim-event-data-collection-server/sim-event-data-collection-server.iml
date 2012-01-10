@@ -26,6 +26,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="phetcommon" />
+    <orderEntry type="module" module-name="simsharing-analysis" />
   </component>
 </module>
 
