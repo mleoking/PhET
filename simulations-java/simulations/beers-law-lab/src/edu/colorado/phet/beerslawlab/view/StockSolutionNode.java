@@ -62,7 +62,7 @@ public class StockSolutionNode extends PPath {
                 updateNode();
             }
         };
-        observer.observe( solute, dropper.location, dropper.on );
+        observer.observe( solute, dropper.location, dropper.on, dropper.empty );
 
         dropper.visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
@@ -72,29 +72,33 @@ public class StockSolutionNode extends PPath {
     }
 
     private void updateNode() {
-
-        // color
-        setPaint( Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration ) );
-
-        // solution outside the dropper
-        Rectangle2D solutionOutsideDropper = null;
-        if ( dropper.on.get() ) {
-
-            double x = -dropperHoleWidth / 2;
-            double y = 0;
-            double width = dropperHoleWidth;
-            double height = beaker.getY() - dropper.getY();
-            solutionOutsideDropper = new Rectangle2D.Double( x, y, width, height );
+        if ( dropper.empty.get() ) {
+            setPathTo( new Rectangle2D.Double() );
         }
+        else {
+            // color
+            setPaint( Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration ) );
 
-        // union of inside + outside
-        Area area = new Area( SOLUTION_INSIDE_DROPPER.getGeneralPath() );
-        if ( solutionOutsideDropper != null ) {
-            area.add( new Area( solutionOutsideDropper ) );
+            // solution outside the dropper
+            Rectangle2D solutionOutsideDropper = null;
+            if ( dropper.on.get() ) {
+
+                double x = -dropperHoleWidth / 2;
+                double y = 0;
+                double width = dropperHoleWidth;
+                double height = beaker.getY() - dropper.getY();
+                solutionOutsideDropper = new Rectangle2D.Double( x, y, width, height );
+            }
+
+            // union of inside + outside
+            Area area = new Area( SOLUTION_INSIDE_DROPPER.getGeneralPath() );
+            if ( solutionOutsideDropper != null ) {
+                area.add( new Area( solutionOutsideDropper ) );
+            }
+            setPathTo( area );
+
+            // move this node to the dropper's location
+            setOffset( dropper.location.get().toPoint2D() );
         }
-        setPathTo( area );
-
-        // move this node to the dropper's location
-        setOffset( dropper.location.get().toPoint2D() );
     }
 }

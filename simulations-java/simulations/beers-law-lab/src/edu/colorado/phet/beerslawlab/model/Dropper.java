@@ -17,6 +17,7 @@ public class Dropper extends Movable {
     public final Property<Boolean> visible;
     public final Property<Boolean> on; // true if the dropper is dispensing solution
     public final Property<Boolean> enabled;
+    public final Property<Boolean> empty;
     private final Property<Double> flowRate;
 
     public Dropper( ImmutableVector2D location, PBounds dragBounds, Property<Solute> solute, final double maxFlowRate ) {
@@ -27,6 +28,7 @@ public class Dropper extends Movable {
         this.visible = new Property<Boolean>( true );
         this.on = new Property<Boolean>( false );
         this.enabled = new Property<Boolean>( true );
+        this.empty = new Property<Boolean>( false );
         this.flowRate = new Property<Double>( 0d );
 
         // turn off the dropper when it's disabled
@@ -46,6 +48,15 @@ public class Dropper extends Movable {
                 }
                 else {
                     flowRate.set( 0d );
+                }
+            }
+        } );
+
+        // when the dropper becomes empty, disable it.
+        this.empty.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( empty.get() ) {
+                    enabled.set( false );
                 }
             }
         } );

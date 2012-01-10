@@ -27,7 +27,7 @@ public class Shaker extends Movable {
 
     public final Property<Solute> solute;
     public final Property<Boolean> visible;
-    public final Property<Boolean> enabled;
+    public final Property<Boolean> empty;
     private final double maxDispensingRate;
     private final Property<Double> dispensingRate; // mol/sec
 
@@ -36,14 +36,14 @@ public class Shaker extends Movable {
         assert ( dragBounds.contains( location.toPoint2D() ) );
         this.solute = solute;
         this.visible = new Property<Boolean>( true );
-        this.enabled = new Property<Boolean>( true );
+        this.empty = new Property<Boolean>( false );
         this.maxDispensingRate = maxDispensingRate;
         this.dispensingRate = new Property<Double>( 0d );
 
-        // set the dispensing rate to zero when the shaker is disabled
-        this.enabled.addObserver( new SimpleObserver() {
+        // set the dispensing rate to zero when the shaker becomes empty
+        this.empty.addObserver( new SimpleObserver() {
             public void update() {
-                if ( !Shaker.this.enabled.get() ) {
+                if ( !Shaker.this.empty.get() ) {
                     dispensingRate.set( 0d );
                 }
             }
@@ -59,7 +59,7 @@ public class Shaker extends Movable {
     }
 
     public void setDispensingRate( double dispensingRate ) {
-        if ( enabled.get() ) {
+        if ( !empty.get() ) {
             this.dispensingRate.set( dispensingRate );
         }
     }

@@ -1,3 +1,6 @@
+1/10/12 add background image for empty dropper
+1/10/12 add Dropper.empty, handle proper interaction with Shaker.enabled
+1/10/12 replace Shaker.enabled with Shaker.empty
 # 0.00.04 (60076) Jan 10, 2012
 1/10/12 dev version for discussion of whether to make dropper transparent or translucent
 1/10/12 dropper with transparent glass
