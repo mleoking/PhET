@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="JAVA_MODULE" version="4">
   <component name="FacetManager">
-    <facet type="hibernate" name="Hibernate">
+    <facet type="scala" name="Scala">
       <configuration>
-        <datasource-map>
-          <unit-entry name="foo" />
-        </datasource-map>
+        <option name="compilerLibraryLevel" value="Global" />
+        <option name="compilerLibraryName" value="scala-compiler-2.9.0.1 (3)" />
       </configuration>
     </facet>
   </component>
@@ -16,16 +15,18 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="simsharing-analysis" />
+    <orderEntry type="module" module-name="sim-event-data-collection-server" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/contrib/mongodb/mongo-2.7.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/../sim-event-data-collection-server/contrib/mongodb/mongo-2.7.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="phetcommon" />
+    <orderEntry type="library" name="scala-library-2.9.0.1 (3)" level="application" />
   </component>
 </module>
 

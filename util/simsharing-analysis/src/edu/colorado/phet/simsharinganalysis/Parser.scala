@@ -66,7 +66,7 @@ class Parser {
     }
 
     //make map immutable
-    new Entry(time - originalTime, obj, event, map.toMap)
+    new Entry(time - originalTime, messageType, obj, event, map.toMap)
   }
 
   def parse(file: File): Log = {

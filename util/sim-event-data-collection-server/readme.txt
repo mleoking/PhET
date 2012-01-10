@@ -1,0 +1,1 @@
+This module collects data from incoming connections and writes it to a MongoDB database.
