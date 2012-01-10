@@ -56,11 +56,11 @@ public class RealMoleculesControlPanel extends PNode {
     public RealMoleculesControlPanel( final RealMoleculesTab module, final Function0<Double> getControlPanelXPosition, boolean isBasicsVersion ) {
         if ( isBasicsVersion ) {
             kitMolecules = new RealMoleculeShape[][] {
-                    { BERYLLIUM_CHLORIDE, BORON_TRIFLUORIDE, METHANE, PHOSPHORUS_PENTACHLORIDE, SULFUR_HEXAFLUORIDE } };
+                    { BORON_TRIFLUORIDE, METHANE, PHOSPHORUS_PENTACHLORIDE, SULFUR_HEXAFLUORIDE } };
         }
         else {
             kitMolecules = new RealMoleculeShape[][] {
-                    { BERYLLIUM_CHLORIDE, BORON_TRIFLUORIDE, METHANE, PHOSPHORUS_PENTACHLORIDE, SULFUR_HEXAFLUORIDE },
+                    { BORON_TRIFLUORIDE, METHANE, PHOSPHORUS_PENTACHLORIDE, SULFUR_HEXAFLUORIDE },
                     { CARBON_DIOXIDE, SULFUR_DIOXIDE, WATER, XENON_DIFLUORIDE },
                     { SULFUR_DIOXIDE, AMMONIA, SULFUR_TETRAFLUORIDE, BROMINE_PENTAFLUORIDE },
                     { WATER, CHLORINE_TRIFLUORIDE, XENON_TETRAFLUORIDE } };
@@ -153,23 +153,23 @@ public class RealMoleculesControlPanel extends PNode {
             final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__MODEL_VIEW, module.showRealView, false );
             addChild( modelRadioNode );
 
-            if ( module.shouldUseKit() ) {
-                // center the radio buttons side-by-side
-                double spacer = 10;
-                double width = realRadioNode.getFullBounds().getWidth() + spacer + modelRadioNode.getFullBounds().getWidth();
-                double x = ( INNER_WIDTH - width ) / 2;
-                double y = moleculeSelectionSpacer.getFullBounds().getMaxY();
-                realRadioNode.setOffset( x, y );
-                modelRadioNode.setOffset( x + realRadioNode.getFullBounds().getWidth() + spacer, y );
-            }
-            else {
-                // center the radio buttons individually, with one on top of the other
-                final double maxWidth = Math.max( realRadioNode.getFullBounds().getWidth(), modelRadioNode.getFullBounds().getWidth() );
-                double radioButtonHorizontalOffset = ( MoleculeShapesConstants.RIGHT_MIN_WIDTH - maxWidth ) / 2;
-
-                realRadioNode.setOffset( radioButtonHorizontalOffset, moleculeSelectionSpacer.getFullBounds().getMaxY() );
-                modelRadioNode.setOffset( radioButtonHorizontalOffset, realRadioNode.getFullBounds().getMaxY() );
-            }
+//            if ( module.shouldUseKit() ) {
+            // center the radio buttons side-by-side
+            double spacer = 10;
+            double width = realRadioNode.getFullBounds().getWidth() + spacer + modelRadioNode.getFullBounds().getWidth();
+            double x = ( INNER_WIDTH - width ) / 2;
+            double y = moleculeSelectionSpacer.getFullBounds().getMaxY();
+            realRadioNode.setOffset( x, y );
+            modelRadioNode.setOffset( x + realRadioNode.getFullBounds().getWidth() + spacer, y );
+//            }
+//            else {
+//                // center the radio buttons individually, with one on top of the other
+//                final double maxWidth = Math.max( realRadioNode.getFullBounds().getWidth(), modelRadioNode.getFullBounds().getWidth() );
+//                double radioButtonHorizontalOffset = ( MoleculeShapesConstants.RIGHT_MIN_WIDTH - maxWidth ) / 2;
+//
+//                realRadioNode.setOffset( radioButtonHorizontalOffset, moleculeSelectionSpacer.getFullBounds().getMaxY() );
+//                modelRadioNode.setOffset( radioButtonHorizontalOffset, realRadioNode.getFullBounds().getMaxY() );
+//            }
         }}, Strings.CONTROL__MOLECULE );
         addChild( moleculePanel );
 
