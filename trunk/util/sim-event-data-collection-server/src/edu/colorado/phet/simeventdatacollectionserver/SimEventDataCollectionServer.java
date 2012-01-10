@@ -1,17 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventdatacollectionserver;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
@@ -21,7 +15,7 @@ import java.util.StringTokenizer;
  */
 public class SimEventDataCollectionServer implements MessageHandler {
 
-    private final Map<String, BufferedWriter> map = Collections.synchronizedMap( new HashMap<String, BufferedWriter>() );
+    FileStorage fileStorage = new FileStorage();
 
     private void start() throws IOException {
         new StringServer( ObjectStreamMessageServer.PORT, this ).start();
@@ -39,55 +33,16 @@ public class SimEventDataCollectionServer implements MessageHandler {
             String object = st.nextToken();
             String action = st.nextToken();
 
-            BufferedWriter bufferedWriter = getBufferedWriter( machineID, sessionID );
-            bufferedWriter.write( stripMachineAndUserID( m, machineID, sessionID ) );
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
+            fileStorage.store( m, machineID, sessionID );
 
             //TODO: is this the right message to end on?
             if ( object.equals( "system" ) && action.equals( "exited" ) ) {
-                bufferedWriter.close();
-
-                String key = getKey( machineID, sessionID );
-                map.remove( key );
-
+                fileStorage.close( machineID, sessionID );
                 System.out.println( "Session exited: " + m );
             }
         }
     }
 
-    private String stripMachineAndUserID( String m, String machineID, String sessionID ) {
-        String prefix = machineID + "\t" + sessionID + "\t";
-        if ( m.startsWith( prefix ) ) {
-            return m.substring( prefix.length() );
-        }
-        else {
-            System.out.println( "Bogus prefix for message, returning full string: " + m );
-            return m;
-        }
-    }
-
-    private BufferedWriter getBufferedWriter( String machineID, String sessionID ) throws IOException {
-        String key = getKey( machineID, sessionID );
-
-        if ( map.containsKey( key ) ) {
-            return map.get( key );
-        }
-        else {
-            File file = new File( "/home/phet/eventserver/data/" + key + ".txt" );
-            file.getParentFile().mkdirs();
-            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file, true ) );
-            bufferedWriter.write( "machineID = " + machineID + "\n" + "sessionID = " + sessionID + "\n" + "serverTime = " + System.currentTimeMillis() );
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
-            map.put( key, bufferedWriter );
-            return bufferedWriter;
-        }
-    }
-
-    private String getKey( String machineID, String sessionID ) {
-        return machineID + "_" + sessionID;
-    }
 
     //Use phet-server for deployments, but localhost for local testing.
     public static void parseArgs( String[] args ) {
