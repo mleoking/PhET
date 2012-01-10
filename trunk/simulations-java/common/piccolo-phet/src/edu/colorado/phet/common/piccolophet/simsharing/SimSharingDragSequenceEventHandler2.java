@@ -43,8 +43,13 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
     }
 
     //Override to supply any additional parameters to send on start drag message
-    public Parameter[] getStartDragParameters() {
-        return new Parameter[0];
+    public ParameterSet getStartDragParameters() {
+        return getParametersForAllEvents();
+    }
+
+    //Return parameters that are used for startDrag/drag/endDrag
+    public ParameterSet getParametersForAllEvents() {
+        return new ParameterSet();
     }
 
     @Override protected void drag( PInputEvent event ) {
@@ -56,9 +61,13 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
     }
 
     @Override protected void endDrag( PInputEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) ).addAll( param( numberDragEvents, dragPoints.size() ) ) );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) ).addAll( param( numberDragEvents, dragPoints.size() ) ).addAll( getEndDragParameters() ) );
         dragPoints.clear();
         super.endDrag( event );
+    }
+
+    public ParameterSet getEndDragParameters() {
+        return getParametersForAllEvents();
     }
 
     private static Parameter getXParameter( PInputEvent event ) {
