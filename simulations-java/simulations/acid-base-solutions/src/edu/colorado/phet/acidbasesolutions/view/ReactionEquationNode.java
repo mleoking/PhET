@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.reactionEquation;
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents.reactionEquation;
 
 /**
  * Reaction equation for solutions.

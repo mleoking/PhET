@@ -8,7 +8,7 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ABSParameterKeys;
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ParameterKeys;
 
 /**
  * pH paper, changes color based on the pH of a solution.
@@ -136,7 +136,7 @@ public class PHPaperNode extends PhetPNode {
         }
 
         private void sendEvent( UserAction action ) {
-            SimSharingManager.sendUserMessage( Components.phPaper, action, Parameter.param( ABSParameterKeys.isInSolution, paper.isInSolution() ) );
+            SimSharingManager.sendUserMessage( UserComponents.phPaper, action, Parameter.param( ParameterKeys.isInSolution, paper.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {

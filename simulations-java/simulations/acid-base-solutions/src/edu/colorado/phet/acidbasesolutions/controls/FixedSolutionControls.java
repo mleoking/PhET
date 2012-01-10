@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
@@ -74,19 +74,19 @@ public class FixedSolutionControls extends PhetTitledPanel {
                 }
             };
 
-            waterRadioButton = new SolutionRadioButton( ABSSimSharing.Components.waterRadioButton, ABSStrings.WATER, new WaterMolecule() );
+            waterRadioButton = new SolutionRadioButton( UserComponents.waterRadioButton, ABSStrings.WATER, new WaterMolecule() );
             waterRadioButton.addActionListener( actionListener );
 
-            strongAcidRadioButton = new SolutionRadioButton( ABSSimSharing.Components.strongAcidRadioButton, ABSStrings.STRONG_ACID, new GenericAcidMolecule() );
+            strongAcidRadioButton = new SolutionRadioButton( UserComponents.strongAcidRadioButton, ABSStrings.STRONG_ACID, new GenericAcidMolecule() );
             strongAcidRadioButton.addActionListener( actionListener );
 
-            weakAcidRadioButton = new SolutionRadioButton( ABSSimSharing.Components.weakAcidRadioButton, ABSStrings.WEAK_ACID, new GenericAcidMolecule() );
+            weakAcidRadioButton = new SolutionRadioButton( UserComponents.weakAcidRadioButton, ABSStrings.WEAK_ACID, new GenericAcidMolecule() );
             weakAcidRadioButton.addActionListener( actionListener );
 
-            strongBaseRadioButton = new SolutionRadioButton( ABSSimSharing.Components.strongBaseRadioButton, ABSStrings.STRONG_BASE, new GenericStrongBaseMolecule() );
+            strongBaseRadioButton = new SolutionRadioButton( UserComponents.strongBaseRadioButton, ABSStrings.STRONG_BASE, new GenericStrongBaseMolecule() );
             strongBaseRadioButton.addActionListener( actionListener );
 
-            weakBaseRadioButton = new SolutionRadioButton( ABSSimSharing.Components.weakBaseRadioButton, ABSStrings.WEAK_BASE, new GenericWeakBaseMolecule() );
+            weakBaseRadioButton = new SolutionRadioButton( UserComponents.weakBaseRadioButton, ABSStrings.WEAK_BASE, new GenericWeakBaseMolecule() );
             weakBaseRadioButton.addActionListener( actionListener );
 
             ButtonGroup group = new ButtonGroup();
@@ -98,31 +98,31 @@ public class FixedSolutionControls extends PhetTitledPanel {
         }
 
         // icons - clicking on these selects associated radio buttons
-        JLabel waterIcon = new MoleculeIcon( ABSSimSharing.Components.waterIcon, new WaterMolecule(), new VoidFunction0() {
+        JLabel waterIcon = new MoleculeIcon( UserComponents.waterIcon, new WaterMolecule(), new VoidFunction0() {
             public void apply() {
                 waterRadioButton.setSelected( true );
                 updateModel();
             }
         } );
-        JLabel strongAcidIcon = new MoleculeIcon( ABSSimSharing.Components.strongAcidIcon, new GenericAcidMolecule(), new VoidFunction0() {
+        JLabel strongAcidIcon = new MoleculeIcon( UserComponents.strongAcidIcon, new GenericAcidMolecule(), new VoidFunction0() {
             public void apply() {
                 strongAcidRadioButton.setSelected( true );
                 updateModel();
             }
         } );
-        JLabel weakAcidIcon = new MoleculeIcon( ABSSimSharing.Components.weakAcidIcon, new GenericAcidMolecule(), new VoidFunction0() {
+        JLabel weakAcidIcon = new MoleculeIcon( UserComponents.weakAcidIcon, new GenericAcidMolecule(), new VoidFunction0() {
             public void apply() {
                 weakAcidRadioButton.setSelected( true );
                 updateModel();
             }
         } );
-        JLabel strongBaseIcon = new MoleculeIcon( ABSSimSharing.Components.strongBaseIcon, new GenericStrongBaseMolecule(), new VoidFunction0() {
+        JLabel strongBaseIcon = new MoleculeIcon( UserComponents.strongBaseIcon, new GenericStrongBaseMolecule(), new VoidFunction0() {
             public void apply() {
                 strongBaseRadioButton.setSelected( true );
                 updateModel();
             }
         } );
-        JLabel weakBaseIcon = new MoleculeIcon( ABSSimSharing.Components.weakBaseIcon, new GenericWeakBaseMolecule(), new VoidFunction0() {
+        JLabel weakBaseIcon = new MoleculeIcon( UserComponents.weakBaseIcon, new GenericWeakBaseMolecule(), new VoidFunction0() {
             public void apply() {
                 weakBaseRadioButton.setSelected( true );
                 updateModel();

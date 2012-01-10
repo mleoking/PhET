@@ -3,8 +3,8 @@ package edu.colorado.phet.acidbasesolutions.view;
 
 import java.awt.Color;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ParameterKeys;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
@@ -38,7 +38,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         {
             getPositiveProbeDragHandler().setStartEndFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
                 public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    sendProbeEvent( Components.conductivityTesterPositiveProbe, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
+                    sendProbeEvent( UserComponents.conductivityTesterPositiveProbe, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                 }
             } );
             getPositiveProbeDragHandler().setDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
@@ -47,7 +47,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                 // Send event when probe transitions between in/out of solution.
                 public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     if ( inSolution != tester.isPositiveProbeInSolution() ) {
-                        sendProbeEvent( Components.conductivityTesterPositiveProbe, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
+                        sendProbeEvent( UserComponents.conductivityTesterPositiveProbe, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                     }
                     inSolution = tester.isPositiveProbeInSolution();
                 }
@@ -58,7 +58,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         {
             getNegativeProbeDragHandler().setStartEndFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
                 public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    sendProbeEvent( Components.conductivityTesterNegativeProbe, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
+                    sendProbeEvent( UserComponents.conductivityTesterNegativeProbe, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                 }
             } );
             getNegativeProbeDragHandler().setDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
@@ -67,7 +67,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                 // Send event when probe transitions between in/out of solution.
                 public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     if ( inSolution != tester.isNegativeProbeInSolution() ) {
-                        sendProbeEvent( Components.conductivityTesterNegativeProbe, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
+                        sendProbeEvent( UserComponents.conductivityTesterNegativeProbe, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                     }
                     inSolution = tester.isNegativeProbeInSolution();
                 }
@@ -76,14 +76,14 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 
         // sim-sharing, light bulb and battery (not interactive)
         {
-            getLightBulbNode().addInputEventListener( new NonInteractiveUserComponent( Components.lightBulb ) );
-            getBatteryNode().addInputEventListener( new NonInteractiveUserComponent( Components.battery ) );
+            getLightBulbNode().addInputEventListener( new NonInteractiveUserComponent( UserComponents.lightBulb ) );
+            getBatteryNode().addInputEventListener( new NonInteractiveUserComponent( UserComponents.battery ) );
         }
     }
 
     private static void sendProbeEvent( UserComponent object, UserAction action, boolean inSolution, boolean circuitCompleted ) {
         SimSharingManager.sendUserMessage( object, action,
-                                           Parameter.param( ABSSimSharing.ABSParameterKeys.isInSolution, inSolution ).
-                                                   param( ABSSimSharing.ABSParameterKeys.isCircuitCompleted, circuitCompleted ) );
+                                           Parameter.param( ParameterKeys.isInSolution, inSolution ).
+                                                   param( ParameterKeys.isCircuitCompleted, circuitCompleted ) );
     }
 }
