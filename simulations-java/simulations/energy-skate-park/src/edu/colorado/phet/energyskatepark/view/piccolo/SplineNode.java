@@ -111,7 +111,7 @@ public class SplineNode extends PNode {
         dragHandler = new SimSharingDragSequenceEventHandler2( EnergySkateParkSimSharing.UserComponents.track ) {
 
             @Override public ParameterSet getParametersForAllEvents() {
-                return param( EnergySkateParkSimSharing.ParameterKeys.track, spline.getParametricFunction2D().index );
+                return param( trackIndex, spline.getParametricFunction2D().index );
             }
 
             @Override protected void drag( PInputEvent event ) {
@@ -373,7 +373,7 @@ public class SplineNode extends PNode {
                 }
 
                 @Override public ParameterSet getParametersForAllEvents() {
-                    return param( EnergySkateParkSimSharing.ParameterKeys.track, spline.getParametricFunction2D().index );
+                    return param( trackIndex, spline.getParametricFunction2D().index );
                 }
 
                 @Override protected void drag( PInputEvent event ) {
