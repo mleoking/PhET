@@ -22,6 +22,24 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class StockSolutionNode extends PPath {
 
+    // solution inside the dropper, specific to the dropper image file
+    private static final DoubleGeneralPath SOLUTION_INSIDE_DROPPER = new DoubleGeneralPath() {{
+        final double tipWidth = 16;
+        final double tipHeight = 10;
+        final double glassWidth = 50;
+        final double glassHeight = 150;
+        final double glassYOffset = tipHeight + 10;
+        moveTo( -tipWidth / 2, 0 );
+        lineTo( -tipWidth / 2, -tipHeight );
+        lineTo( -glassWidth / 2, -glassYOffset );
+        lineTo( -glassWidth / 2, -glassHeight );
+        lineTo( glassWidth / 2, -glassHeight );
+        lineTo( glassWidth / 2, -glassYOffset );
+        lineTo( tipWidth / 2, -tipHeight );
+        lineTo( tipWidth / 2, 0 );
+        closePath();
+    }};
+
     private final Solvent solvent;
     private final Property<Solute> solute;
     private final Dropper dropper;
@@ -58,41 +76,25 @@ public class StockSolutionNode extends PPath {
         // color
         setPaint( Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration ) );
 
-        // solution inside the dropper
-        DoubleGeneralPath solutionInsideDropper = new DoubleGeneralPath() {{
-            // These constants are specific to the dropper image file.
-            final double tipWidth = 16;
-            final double tipHeight = 10;
-            final double glassWidth = 50;
-            final double glassHeight = 150;
-            final double glassYOffset = tipHeight + 10;
-            moveTo( dropper.getX() - tipWidth / 2, dropper.getY() );
-            lineTo( dropper.getX() - tipWidth / 2, dropper.getY() - tipHeight );
-            lineTo( dropper.getX() - glassWidth / 2, dropper.getY() - glassYOffset );
-            lineTo( dropper.getX() - glassWidth / 2, dropper.getY() - glassHeight );
-            lineTo( dropper.getX() + glassWidth / 2, dropper.getY() - glassHeight );
-            lineTo( dropper.getX() + glassWidth / 2, dropper.getY() - glassYOffset );
-            lineTo( dropper.getX() + tipWidth / 2, dropper.getY() - tipHeight );
-            lineTo( dropper.getX() + tipWidth / 2, dropper.getY() );
-            closePath();
-        }};
-
         // solution outside the dropper
         Rectangle2D solutionOutsideDropper = null;
         if ( dropper.on.get() ) {
 
-            double x = dropper.getX() - ( dropperHoleWidth / 2 );
-            double y = dropper.getY();
+            double x = -dropperHoleWidth / 2;
+            double y = 0;
             double width = dropperHoleWidth;
             double height = beaker.getY() - dropper.getY();
             solutionOutsideDropper = new Rectangle2D.Double( x, y, width, height );
         }
 
         // union of inside + outside
-        Area area = new Area( solutionInsideDropper.getGeneralPath() );
+        Area area = new Area( SOLUTION_INSIDE_DROPPER.getGeneralPath() );
         if ( solutionOutsideDropper != null ) {
             area.add( new Area( solutionOutsideDropper ) );
         }
         setPathTo( area );
+
+        // move this node to the dropper's location
+        setOffset( dropper.location.get().toPoint2D() );
     }
 }
