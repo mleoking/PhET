@@ -5,10 +5,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IMessageType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 
 /**
- * Sim-sharing event.
- * The object (required) is the subject of the event.
- * The action (required) is the verb of the event.
- * The parameters (optional) provide additional information about the event.
+ * Sim-sharing message.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
