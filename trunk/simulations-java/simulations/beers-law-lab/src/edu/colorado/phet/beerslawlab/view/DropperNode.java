@@ -29,20 +29,26 @@ public class DropperNode extends PhetPNode {
 
     public DropperNode( final Dropper dropper ) {
 
-        final PImage imageNode = new PImage( Images.DROPPER );
-        addChild( imageNode );
-        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() );
+        final PImage foregroundImageNode = new PImage( Images.DROPPER_FOREGROUND );
+        foregroundImageNode.setOffset( -foregroundImageNode.getFullBoundsReference().getWidth() / 2, -foregroundImageNode.getFullBoundsReference().getHeight() );
+
+        final PImage backgroundImageNode = new PImage( Images.DROPPER_BACKGROUND );
+        backgroundImageNode.setOffset( -backgroundImageNode.getFullBoundsReference().getWidth() / 2, -backgroundImageNode.getFullBoundsReference().getHeight() );
 
         final HTMLNode labelNode = new HTMLNode( "", Color.BLACK, new PhetFont( Font.BOLD, 15 ) );
-        addChild( labelNode );
 
         // On/off button
         MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.dropperButton, dropper.on, dropper.enabled ) {{
             scale( 0.3 );
         }};
+        buttonNode.setOffset( foregroundImageNode.getFullBoundsReference().getCenterX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ),
+                              foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - BUTTON_Y_OFFSET ) - ( buttonNode.getFullBoundsReference().getHeight() / 2 ) );
+
+        // rendering order
+        addChild( backgroundImageNode );
+        addChild( foregroundImageNode );
+        addChild( labelNode );
         addChild( buttonNode );
-        buttonNode.setOffset( imageNode.getFullBoundsReference().getCenterX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ),
-                              imageNode.getFullBoundsReference().getMaxY() - ( imageNode.getFullBoundsReference().getHeight() - BUTTON_Y_OFFSET ) - ( buttonNode.getFullBoundsReference().getHeight() / 2 ) );
 
         // origin debugging
         if ( SHOW_ORIGIN ) {
@@ -55,7 +61,7 @@ public class DropperNode extends PhetPNode {
                 labelNode.setHTML( dropper.solute.get().formula );
                 labelNode.setRotation( -Math.PI / 2 );
                 labelNode.setOffset( -( labelNode.getFullBoundsReference().getWidth() / 2 ),
-                                     imageNode.getFullBoundsReference().getMaxY() - ( imageNode.getFullBoundsReference().getHeight() - LABEL_Y_OFFSET ) + ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
+                                     foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - LABEL_Y_OFFSET ) + ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
             }
         } );
 
@@ -70,6 +76,13 @@ public class DropperNode extends PhetPNode {
         dropper.location.addObserver( new SimpleObserver() {
             public void update() {
                 setOffset( dropper.location.get().toPoint2D() );
+            }
+        } );
+
+        // Make the background visible only when the dropper is empty
+        dropper.empty.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean empty ) {
+                backgroundImageNode.setVisible( empty );
             }
         } );
 
