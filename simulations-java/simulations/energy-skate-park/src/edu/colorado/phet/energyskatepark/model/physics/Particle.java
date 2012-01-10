@@ -14,8 +14,10 @@ import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ModelActions.bounced;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ModelActions.landed;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.track;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.SharedComponents.skater;
 
 /**
@@ -540,7 +542,7 @@ public class Particle implements Serializable {
             boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
             if ( bounce || !velocityTowardTrack ) {
 
-                SimSharingManager.sendModelMessage( skater, bounced );
+                SimSharingManager.sendModelMessage( skater, bounced, param( track, cubicSpline.index ) );
                 double energyBeforeBounce = getTotalEnergy();
                 setVelocity( newVelocity );
 
@@ -558,9 +560,7 @@ public class Particle implements Serializable {
             else {
                 //grab the track
                 double dE0 = getTotalEnergy() - origEnergy;
-                SimSharingManager.sendModelMessage( skater, landed
-//                        , Parameter.param( EnergySkateParkSimSharing.ParameterKeys.track, )
-                );
+                SimSharingManager.sendModelMessage( skater, landed, param( track, cubicSpline.index ) );
                 switchToTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
                 double dE2 = getTotalEnergy() - origEnergy;
                 if ( Math.abs( dE2 ) > 1E-6 ) {

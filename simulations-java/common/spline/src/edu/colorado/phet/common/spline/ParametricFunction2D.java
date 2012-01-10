@@ -17,6 +17,9 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public abstract class ParametricFunction2D implements Serializable {
 
+    public static int count = 0;
+    public final int index = count++;
+
     public double getClosestPoint( SerializablePoint2D pt ) {
         return getClosestPointBinarySearch( pt );
     }
