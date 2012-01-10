@@ -1,3 +1,5 @@
+# 0.00.02 (60062) Jan 9, 2012
+1/9/12 early dev version for discussion of dropper issues
 1/9/12 use an unlicensed placeholder for dropper that will have proper shape and prospective
 1/5/12 simplistic version of stock solution inside dropper glass, doesn't conform to glass shape
 1/5/12 move responsibility for visibility of shaker and dropper into the model
