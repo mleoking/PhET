@@ -33,7 +33,9 @@ This also makes it possible to use autocompletion on these values and to assist 
 
 Dynamic strings can still be constructed but must implementing the marker interface.  Dynamic strings should all contain a "." to indicate they were dynamically constructed and won't appear explicitly in the enum.
 
-For drag events, use SimSharingDragSequenceEventHandler instead of PBasicInputEventListener
+For drag events, use SimSharingDragSequenceEventHandler2 instead of PBasicInputEventListener (once other usages are converted to SimSharingDragSequenceEventHandler2, SimSharingDragSequenceEventHandler will be deleted)
+
+Where necessary (and possible), assign ID's to objects that are created and removed.
 
 Non-interactive components should send messages too, so we can see that the user is clicking on them with no effect.  The code is:
 faucetNode.addInputEventListener( new NonInteractiveUserComponent( UserComponents.faucetImage ) );
