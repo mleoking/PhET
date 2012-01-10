@@ -8,6 +8,8 @@ import java.text.DecimalFormat;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.chart.axis.SymbolAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
@@ -18,7 +20,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -37,6 +41,7 @@ public class ProteinLevelChartNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 400, 200 );  // In screen coordinates, which is close to pixels.
     private static final double TIME_SPAN = 30; // In seconds.
+    private static final IntegerRange PROTEIN_LEVEL_RANGE = new IntegerRange( 0, 300 );
 
     private final XYSeries dataSeries = new XYSeries( "0" );
     private double timeOffset = 0;
@@ -45,13 +50,28 @@ public class ProteinLevelChartNode extends PNode {
         XYDataset dataSet = new XYSeriesCollection( dataSeries );
         // Create the chart itself, i.e. the place where data will be shown.
         // TODO: i18n
-        JFreeChart chart = createXYLineChart( "Average Protein Level vs. Time", "Time", "Average Protein Level", dataSet, PlotOrientation.VERTICAL );
-        chart.getXYPlot().getRangeAxis().setTickLabelsVisible( true );
-        chart.getXYPlot().getRangeAxis().setRange( 0, 300 );
+        JFreeChart chart = createXYLineChart( "Average Protein Level vs. Time", "Time", null, dataSet, PlotOrientation.VERTICAL );
+
         NumberAxis xAxis = new NumberAxis( "Time(s)" );
         xAxis.setRange( 0, TIME_SPAN );
         xAxis.setNumberFormatOverride( new DecimalFormat( "##" ) );
+        xAxis.setLabelFont( new PhetFont( 12 ) );
         chart.getXYPlot().setDomainAxis( xAxis );
+
+        // Create a Y axis with "None" and "Lots" as the labels.  There may be
+        // a better way to do with in JFreeChart, but this is the best I could
+        // come up with with limited time.
+        String[] yAxisLabels = new String[PROTEIN_LEVEL_RANGE.getMax() + 1];
+        for ( int i = 0; i <= PROTEIN_LEVEL_RANGE.getMax(); i++ ) {
+            yAxisLabels[i] = "";
+        }
+        yAxisLabels[PROTEIN_LEVEL_RANGE.getMin()] = "None";
+        yAxisLabels[PROTEIN_LEVEL_RANGE.getMax()] = "Lots";
+        SymbolAxis yAxis = new SymbolAxis( "Average Protein Level", yAxisLabels );
+        yAxis.setTickUnit( new NumberTickUnit( PROTEIN_LEVEL_RANGE.getLength() / 4 ) );
+        yAxis.setLabelFont( new PhetFont( 12 ) );
+        yAxis.setRange( PROTEIN_LEVEL_RANGE.getMin(), PROTEIN_LEVEL_RANGE.getMax() );
+        chart.getXYPlot().setRangeAxis( yAxis );
 
         // Embed the chart in a PNode.
         JFreeChartNode jFreeChartNode = new JFreeChartNode( chart, false );
