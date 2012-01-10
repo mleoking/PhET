@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharinganalysis
 
+import java.util.HashMap
+
 // Copyright 2002-2011, University of Colorado
 case class Entry(time: Long, //Time since sim started in millisec
                  actor: String,
@@ -15,6 +17,14 @@ case class Entry(time: Long, //Time since sim started in millisec
       }
     }
     this.actor == actor && this.event == event
+  }
+
+  lazy val parametersToHashMap = {
+    val h = new HashMap[String, String]
+    for ( k <- parameters.keys ) {
+      h.put(k, parameters(k))
+    }
+    h
   }
 
   //Checks for a match for actor (event omitted) and optional params
