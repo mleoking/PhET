@@ -1,3 +1,4 @@
+Energy Skate Park Basics: Simsharing: #3201: Added trackIndex to distinguish from trackName
 Energy Skate Park Basics: Simsharing: #3201: Added track ID's
 Energy Skate Park Basics: Simsharing: #3201: Fixed location and simsharing of play area "return skater" button
 Energy Skate Park Basics: Simsharing: #3201: Removed extraneous output on startup and when switching tracks

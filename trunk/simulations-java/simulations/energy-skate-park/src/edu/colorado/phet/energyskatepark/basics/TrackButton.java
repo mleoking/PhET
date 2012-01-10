@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -22,7 +23,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.component
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.radioButton;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
-import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.track;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackButton;
 
 /**
@@ -45,7 +45,7 @@ public class TrackButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendUserMessage( chain( trackButton, trackName ), pressed, componentType( radioButton ).param( track, trackName ) );
+                SimSharingManager.sendUserMessage( chain( trackButton, trackName ), pressed, componentType( radioButton ).param( EnergySkateParkSimSharing.ParameterKeys.trackName, trackName ) );
                 module.loadTrack( trackName, offset );
             }
         } );
