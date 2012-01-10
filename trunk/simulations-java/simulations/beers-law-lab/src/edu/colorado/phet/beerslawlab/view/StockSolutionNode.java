@@ -24,11 +24,11 @@ public class StockSolutionNode extends PPath {
 
     // solution inside the dropper, specific to the dropper image file
     private static final DoubleGeneralPath SOLUTION_INSIDE_DROPPER = new DoubleGeneralPath() {{
-        final double tipWidth = 18;
-        final double tipHeight = 10;
-        final double glassWidth = 50;
+        final double tipWidth = 15;
+        final double tipHeight = 5;
+        final double glassWidth = 46;
         final double glassHeight = 150;
-        final double glassYOffset = tipHeight + 10;
+        final double glassYOffset = tipHeight + 14;
         moveTo( -tipWidth / 2, 0 );
         lineTo( -tipWidth / 2, -tipHeight );
         lineTo( -glassWidth / 2, -glassYOffset );

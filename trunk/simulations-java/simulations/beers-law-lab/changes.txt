@@ -1,3 +1,4 @@
+1/10/11 new dropper image, created by Noah P.
 # 0.00.02 (60062) Jan 9, 2012
 1/9/12 early dev version for discussion of dropper issues
 1/9/12 use an unlicensed placeholder for dropper that will have proper shape and prospective
