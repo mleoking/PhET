@@ -10,7 +10,6 @@ import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.dev.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.model.Shaker;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -31,6 +30,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ShakerNode extends PhetPNode {
 
+    private static final boolean SHOW_ORIGIN = false;
     private static final double IMAGE_SCALE = 0.75;
     private static final double LABEL_X_OFFSET = 40 * IMAGE_SCALE; // x offset of the label's center from the image's center
 
@@ -53,7 +53,7 @@ public class ShakerNode extends PhetPNode {
         zeroOffsetNode.setOffset( -45, -170 ); // Manually adjust these values until the origin is in the middle hole of the shaker.
 
         // debugging for origin and holes
-        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+        if ( SHOW_ORIGIN ) {
             addChild( new DebugOriginNode() );
             addHoleNodes( shaker.getRelativeHoleLocations() );
         }
