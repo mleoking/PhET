@@ -9,12 +9,11 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ParameterKeys;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents;
 import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -103,19 +102,19 @@ public class MagnifyingGlassNode extends PhetPNode {
         // send sim-sharing event if user tries to interact, identify which part they clicked on
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
-                ABSSimSharing.ABSParameterKeys partValue;
+                ParameterKeys partValue;
                 if ( event.getPickedNode() == handleNode ) {
-                    partValue = ABSSimSharing.ABSParameterKeys.handle;
+                    partValue = ParameterKeys.handle;
                 }
                 else if ( event.getPickedNode() == moleculesNode ) {
-                    partValue = ABSSimSharing.ABSParameterKeys.molecule;
+                    partValue = ParameterKeys.molecule;
                 }
                 else {
-                    partValue = ABSSimSharing.ABSParameterKeys.lens;
+                    partValue = ParameterKeys.lens;
                 }
-                SimSharingManager.sendUserMessage( Components.magnifyingGlass, UserActions.pressed,
-                                                   param( ParameterKeys.interactive, false ).
-                                                           param( ParameterKeys.part, partValue.toString() ) );
+                SimSharingManager.sendUserMessage( UserComponents.magnifyingGlass, UserActions.pressed,
+                                                   param( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive, false ).
+                                                           param( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.part, partValue.toString() ) );
             }
         } );
     }

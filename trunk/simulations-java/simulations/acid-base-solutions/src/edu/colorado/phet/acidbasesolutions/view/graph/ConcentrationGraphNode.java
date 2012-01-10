@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.concentrationGraph;
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents.concentrationGraph;
 
 /**
  * Graph that depicts the concentrations related to a solution.

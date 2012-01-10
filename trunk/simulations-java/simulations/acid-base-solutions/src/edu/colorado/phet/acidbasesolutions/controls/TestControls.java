@@ -13,7 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
@@ -24,8 +24,8 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
-import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.phMeterRadioButton;
-import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.phPaperRadioButton;
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents.phMeterRadioButton;
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents.phPaperRadioButton;
 
 /**
  * Control panel that provides access to various tests.
@@ -82,7 +82,7 @@ public class TestControls extends PhetTitledPanel {
             pHPaperRadioButton = new SimSharingJRadioButton( phPaperRadioButton, ABSStrings.PH_PAPER );
             pHPaperRadioButton.addActionListener( actionListener );
 
-            conductivityTesterRadioButton = new SimSharingJRadioButton( ABSSimSharing.Components.conductivityTesterRadioButton, ABSStrings.CONDUCTIVITY );
+            conductivityTesterRadioButton = new SimSharingJRadioButton( UserComponents.conductivityTesterRadioButton, ABSStrings.CONDUCTIVITY );
             conductivityTesterRadioButton.addActionListener( actionListener );
 
             ButtonGroup group = new ButtonGroup();
@@ -92,21 +92,21 @@ public class TestControls extends PhetTitledPanel {
         }
 
         // icons - clicking on these selects associated radio buttons
-        JLabel pHMeterIcon = new SimSharingIcon( ABSSimSharing.Components.phMeterIcon, ABSImages.PH_METER_ICON, new VoidFunction0() {
+        JLabel pHMeterIcon = new SimSharingIcon( UserComponents.phMeterIcon, ABSImages.PH_METER_ICON, new VoidFunction0() {
             public void apply() {
                 pHMeterRadioButton.setSelected( true );
                 updateModel();
             }
         } );
 
-        JLabel pHPaperIcon = new SimSharingIcon( ABSSimSharing.Components.pHPaperIcon, ABSImages.PH_PAPER_ICON, new VoidFunction0() {
+        JLabel pHPaperIcon = new SimSharingIcon( UserComponents.pHPaperIcon, ABSImages.PH_PAPER_ICON, new VoidFunction0() {
             public void apply() {
                 pHPaperRadioButton.setSelected( true );
                 updateModel();
             }
         } );
 
-        JLabel conductivityTesterIcon = new SimSharingIcon( ABSSimSharing.Components.conductivityTesterIcon, ABSImages.LIGHT_BULB_ICON, new VoidFunction0() {
+        JLabel conductivityTesterIcon = new SimSharingIcon( UserComponents.conductivityTesterIcon, ABSImages.LIGHT_BULB_ICON, new VoidFunction0() {
             public void apply() {
                 conductivityTesterRadioButton.setSelected( true );
                 updateModel();

@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components.phColorKey;
+import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents.phColorKey;
 
 /**
  * Displays a color key for the pH paper.

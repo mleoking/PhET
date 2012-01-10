@@ -18,7 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.Components;
+import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents;
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel.ModelChangeListener;
@@ -244,11 +244,11 @@ public class CustomSolutionControls extends PhetTitledPanel {
                     }
                 };
 
-                acidRadioButton = new SimSharingJRadioButton( Components.acidRadioButton, ABSStrings.ACID );
+                acidRadioButton = new SimSharingJRadioButton( UserComponents.acidRadioButton, ABSStrings.ACID );
                 group.add( acidRadioButton );
                 acidRadioButton.addActionListener( actionListener );
 
-                baseRadioButton = new SimSharingJRadioButton( Components.baseRadioButton, ABSStrings.BASE );
+                baseRadioButton = new SimSharingJRadioButton( UserComponents.baseRadioButton, ABSStrings.BASE );
                 group.add( baseRadioButton );
                 baseRadioButton.addActionListener( actionListener );
             }
@@ -291,7 +291,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 String label = ABSStrings.INITIAL_CONCENTRATION;
                 String textFieldPattern = "0.000";
                 String units = ABSStrings.MOLES_PER_LITER;
-                concentrationControl = new SimSharingLogarithmicValueControl( Components.concentrationControl, min, max, label, textFieldPattern, units );
+                concentrationControl = new SimSharingLogarithmicValueControl( UserComponents.concentrationControl, min, max, label, textFieldPattern, units );
                 concentrationControl.setValue( value );
                 concentrationControl.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
@@ -369,11 +369,11 @@ public class CustomSolutionControls extends PhetTitledPanel {
                     }
                 };
 
-                weakRadioButton = new SimSharingJRadioButton( Components.weakRadioButton, ABSStrings.WEAK );
+                weakRadioButton = new SimSharingJRadioButton( UserComponents.weakRadioButton, ABSStrings.WEAK );
                 group.add( weakRadioButton );
                 weakRadioButton.addActionListener( actionListener );
 
-                strongRadioButton = new SimSharingJRadioButton( Components.strongRadioButton, ABSStrings.STRONG );
+                strongRadioButton = new SimSharingJRadioButton( UserComponents.strongRadioButton, ABSStrings.STRONG );
                 group.add( strongRadioButton );
                 strongRadioButton.addActionListener( actionListener );
             }
@@ -386,7 +386,7 @@ public class CustomSolutionControls extends PhetTitledPanel {
                 String label = "";
                 String textFieldPattern = "";
                 String units = "";
-                weakStrengthControl = new SimSharingLogarithmicValueControl( Components.weakStrengthControl, min, max, label, textFieldPattern, units, new SliderLayoutStrategy() );
+                weakStrengthControl = new SimSharingLogarithmicValueControl( UserComponents.weakStrengthControl, min, max, label, textFieldPattern, units, new SliderLayoutStrategy() );
                 weakStrengthControl.setValue( value );
                 Hashtable<Double, JLabel> strengthLabelTable = new Hashtable<Double, JLabel>();
                 strengthLabelTable.put( new Double( weakStrengthControl.getMinimum() ), new JLabel( ABSStrings.WEAKER ) );
