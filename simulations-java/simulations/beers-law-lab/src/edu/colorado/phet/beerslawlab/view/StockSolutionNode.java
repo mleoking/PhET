@@ -12,7 +12,6 @@ import edu.colorado.phet.beerslawlab.model.Solvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -22,31 +21,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class StockSolutionNode extends PPath {
 
-    // solution inside the dropper, specific to the dropper image file
-    private static final DoubleGeneralPath SOLUTION_INSIDE_DROPPER = new DoubleGeneralPath() {{
-        final double tipWidth = 15;
-        final double tipHeight = 5;
-        final double glassWidth = 46;
-        final double glassHeight = 150;
-        final double glassYOffset = tipHeight + 14;
-        moveTo( -tipWidth / 2, 0 );
-        lineTo( -tipWidth / 2, -tipHeight );
-        lineTo( -glassWidth / 2, -glassYOffset );
-        lineTo( -glassWidth / 2, -glassHeight );
-        lineTo( glassWidth / 2, -glassHeight );
-        lineTo( glassWidth / 2, -glassYOffset );
-        lineTo( tipWidth / 2, -tipHeight );
-        lineTo( tipWidth / 2, 0 );
-        closePath();
-    }};
-
     private final Solvent solvent;
     private final Property<Solute> solute;
     private final Dropper dropper;
     private final Beaker beaker;
-    private final double dropperHoleWidth;
+    private final double dropperTipWidth;
 
-    public StockSolutionNode( Solvent solvent, Property<Solute> solute, Dropper dropper, Beaker beaker, double dropperHoleWidth ) {
+    public StockSolutionNode( Solvent solvent, Property<Solute> solute, Dropper dropper, Beaker beaker ) {
         setPickable( false );
         setChildrenPickable( false );
         setStroke( null );
@@ -55,7 +36,7 @@ public class StockSolutionNode extends PPath {
         this.solute = solute;
         this.dropper = dropper;
         this.beaker = beaker;
-        this.dropperHoleWidth = dropperHoleWidth;
+        this.dropperTipWidth = DropperNode.TIP_WIDTH;
 
         RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
@@ -83,15 +64,15 @@ public class StockSolutionNode extends PPath {
             Rectangle2D solutionOutsideDropper = null;
             if ( dropper.on.get() ) {
 
-                double x = -dropperHoleWidth / 2;
+                double x = -dropperTipWidth / 2;
                 double y = 0;
-                double width = dropperHoleWidth;
+                double width = dropperTipWidth;
                 double height = beaker.getY() - dropper.getY();
                 solutionOutsideDropper = new Rectangle2D.Double( x, y, width, height );
             }
 
             // union of inside + outside
-            Area area = new Area( SOLUTION_INSIDE_DROPPER.getGeneralPath() );
+            Area area = new Area( DropperNode.GLASS_PATH );
             if ( solutionOutsideDropper != null ) {
                 area.add( new Area( solutionOutsideDropper ) );
             }
