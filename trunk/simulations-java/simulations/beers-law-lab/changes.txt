@@ -1,3 +1,5 @@
+# 0.00.04 (60076) Jan 10, 2012
+1/10/12 dev version for discussion of whether to make dropper transparent or translucent
 1/10/12 dropper with transparent glass
 # 0.00.03 (60074) Jan 10, 2012
 1/10/12 dev version for discussion of whether to make dropper transparent or translucent
