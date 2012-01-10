@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -101,11 +102,34 @@ public class SimEventDataCollectionMonitor {
                 }
             }
         }
-        Object[][] data = new Object[rows.size()][columnNames.length];
+        final Object[][] data = new Object[rows.size()][columnNames.length];
         for ( int i = 0; i < data.length; i++ ) {
             data[i] = rows.get( i );
         }
+
+        //Store user selection so it isn't cleared when table data changes
+        int[] selectedRows = table.getSelectedRows();
+        final String[] selectedSessionIDs = new String[selectedRows.length];
+        for ( int i = 0; i < selectedSessionIDs.length; i++ ) {
+            selectedSessionIDs[i] = data[selectedRows[i]][1].toString();
+            System.out.println( "Selected " + i + " = " + selectedSessionIDs[i] );
+        }
         table.setModel( new DefaultTableModel( data, columnNames ) );
+        if ( selectedRows.length > 0 ) {
+            table.setSelectionModel( new DefaultListSelectionModel() {{
+                addSelectionInterval( indexForUserID( selectedSessionIDs[0], data ), indexForUserID( selectedSessionIDs[selectedSessionIDs.length - 1], data ) );
+            }} );
+        }
+    }
+
+    public int indexForUserID( String sessionID, Object[][] data ) {
+        for ( int i = 0; i < data.length; i++ ) {
+            String s = data[i][1].toString();
+            if ( s.equals( sessionID ) ) {
+                return i;
+            }
+        }
+        throw new RuntimeException( "SSID not found" );
     }
 
     private void parse( DBObject obj ) {
