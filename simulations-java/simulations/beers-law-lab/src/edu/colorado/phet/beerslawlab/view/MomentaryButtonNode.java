@@ -24,7 +24,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class MomentaryButtonNode extends PNode {
 
     private final DynamicCursorHandler cursorHandler;
-    private final UserComponent userComponent;
 
     // Constructor that uses default images (round red buttons with 3D look)
     public MomentaryButtonNode( UserComponent userComponent, Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
@@ -37,7 +36,6 @@ public class MomentaryButtonNode extends PNode {
     public MomentaryButtonNode( final UserComponent userComponent, final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
         assert ( onImage != offImage ); // different images are required
 
-        this.userComponent = userComponent;
         this.cursorHandler = new DynamicCursorHandler();
 
         final PImage imageNode = new PImage();
