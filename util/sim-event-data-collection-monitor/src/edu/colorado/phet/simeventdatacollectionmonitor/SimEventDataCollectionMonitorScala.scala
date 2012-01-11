@@ -2,33 +2,32 @@
 package edu.colorado.phet.simeventdatacollectionmonitor
 
 import com.mongodb._
-import javax.swing.table.DefaultTableModel
 import javax.swing._
-import java.awt.event.{ActionEvent, ActionListener}
 import java.lang.String
 import collection.mutable.ArrayBuffer
 import collection.JavaConversions.asScalaBuffer
 import collection.JavaConversions.asScalaSet
-import swing.{ScrollPane, Table, BorderPanel, Frame}
+import swing._
+import java.awt.event.{ActionListener, ActionEvent}
+import table.DefaultTableModel
 
 /**
  * @author Sam Reid
  */
-
-object SimEventDataCollectionMonitorScala {
-  def main(args: Array[String]) {
-    SwingUtilities.invokeLater(new Runnable {
-      def run() {
-        new SimEventDataCollectionMonitorScala().start()
-      }
-    })
-  }
+object SimEventDataCollectionMonitorScala extends App {
+  SwingUtilities.invokeLater(new Runnable {
+    def run() {
+      new SimEventDataCollectionMonitorScala().start()
+    }
+  })
 }
 
 class SimEventDataCollectionMonitorScala {
   val mongo = new Mongo
-  final val columnNames: Array[AnyRef] = Array("Machine ID", "Session ID", "study", "User ID", "last event received", "event count")
-  val table = new Table
+  final val columns = List("Machine ID" -> classOf[String], "Session ID" -> classOf[String], "study" -> classOf[String], "User ID" -> classOf[String], "last event received" -> classOf[Integer], "Event Count" -> classOf[java.lang.Integer])
+  final val columnNames: Array[Object] = columns.map(_._1).toArray
+  val table = new SimpleTable()
+
   val frame = new Frame {
     title = "MongoDB Monitor"
     contents = new BorderPanel() {
@@ -41,7 +40,7 @@ class SimEventDataCollectionMonitorScala {
 
   def start() {
     frame.visible = true
-    new Timer(10000, new ActionListener {
+    new Timer(5000, new ActionListener {
       def actionPerformed(e: ActionEvent) {
         process()
       }
@@ -51,7 +50,7 @@ class SimEventDataCollectionMonitorScala {
   }
 
   private def process() {
-    val rows = new ArrayBuffer[Array[AnyRef]]
+    val rows = new ArrayBuffer[Array[Object]]
     for ( machineID: String <- asScalaBuffer(mongo.getDatabaseNames) if machineID != "admin" ) {
       val database = mongo.getDB(machineID)
       for ( session: String <- asScalaSet(database.getCollectionNames) if session != "system.indexes" ) {
@@ -61,20 +60,21 @@ class SimEventDataCollectionMonitorScala {
         val parameters: DBObject = obj.get("parameters").asInstanceOf[DBObject]
         val study = parameters.get("study").toString
 
-        val row = Array(machineID, session, study, "?", "?", collection.getCount.toString.asInstanceOf[AnyRef])
+        val row = Array(machineID, session, study, "?", "?", collection.getCount.asInstanceOf[Object])
         rows += row
       }
     }
-    val data: Array[Array[AnyRef]] = rows.toArray
+    val data: Array[Array[Object]] = rows.toArray[Array[Object]]
     val selectedRows: Array[Int] = table.peer.getSelectedRows
     val selectedSessionIDs = selectedRows.map(i => data(i)(1).toString).toList
-    table.model = new DefaultTableModel(data, columnNames)
+    table.peer.setModel(new DefaultTableModel(data, columnNames) {
+      override def getColumnClass(columnIndex: Int) = columns(columnIndex)._2
+    })
     if ( selectedRows.length > 0 ) {
       table.peer.setSelectionModel(new DefaultListSelectionModel {
         addSelectionInterval(indexForUserID(selectedSessionIDs(0), data), indexForUserID(selectedSessionIDs(selectedSessionIDs.length - 1), data));
       })
     }
-    table.peer setAutoCreateRowSorter true
   }
 
   def indexForUserID(sessionID: String, data: Array[Array[AnyRef]]): Int = {
