@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -83,12 +83,7 @@ public class ProteinLevelChartNode extends PNode {
         // empirically determined and may need to change if the chart size
         // changes.
         PNode yAxisLabelNode = new YAxisLabel( jFreeChartNode.getFullBoundsReference().height * 0.65 );
-        yAxisLabelNode.setOffset( 0, 21 );
-
-        // Put the chart and the Y axis label in a horizontal box.  The
-        // height of the Y axis label is a bit "tweaky" and may need to be
-        // adjusted if the size of the chart changes.
-//        PNode contents = new HBox( 0, yAxisLabelNode, jFreeChartNode );
+        yAxisLabelNode.setOffset( 0, 29 );
 
         // Lay out the chart and the Y axis label in parent PNode.
         PNode contents = new PNode();
@@ -163,9 +158,14 @@ public class ProteinLevelChartNode extends PNode {
 
     // Convenience class for combining the elements of the label for the
     // chart's y axis.
+
+    /**
+     * Convenience class for combining the elements of the label for the
+     * chart's y axis.
+     */
     public static class YAxisLabel extends PNode {
         public YAxisLabel( final double height ) {
-            // Labels for the top and bottom of the scale.
+            // Labels for the top and bottom of the gradient key.
             // TODO: i18n
             PText lotsLabel = new PText( "Lots" );
             lotsLabel.setFont( new PhetFont( 12 ) );
@@ -179,6 +179,8 @@ public class ProteinLevelChartNode extends PNode {
                                                                       Math.max( lotsLabel.getFullBoundsReference().width, noneLabel.getFullBoundsReference().width ) * 1.1,
                                                                       height - lotsLabel.getFullBoundsReference().height / 2 - noneLabel.getFullBoundsReference().height / 2 ) );
             spacerRect.setStroke( null );
+
+            // Box up the "Lots" and "None" labels with the spacer rect.
             PNode tickLabelsNode = new VBox( 0, lotsLabel, spacerRect, noneLabel );
 
             // Create a rectangle with a gradient that maps the amount of
@@ -187,20 +189,23 @@ public class ProteinLevelChartNode extends PNode {
             proteinLevelColorKey.setStroke( new BasicStroke( 1 ) );
             proteinLevelColorKey.setPaint( new GradientPaint( 0, (float) height, CellNode.NOMINAL_FILL_COLOR, 0, 0, CellNode.FLORESCENT_FILL_COLOR ) );
 
-            // Create the main label.  This may need to be offset a bit in
-            // the y direction so that the offset of the containing node will
-            // correspond to the gradient rectangle and not this label.
+            // Create the main label.
             // TODO: i18n
-            PText mainLabel = new PText( "Average Protein Level" ) {{
+            PNode mainLabel = new ZeroOffsetNode( new PText( "Average Protein Level" ) {{
                 setFont( new PhetFont( 14 ) );
                 rotate( -Math.PI / 2 );
-                if ( getFullBoundsReference().height > height ) {
-                    setOffset( 0, height - getFullBoundsReference().height );
-                }
-            }};
+            }} );
 
-            // Put the parts together into an HBox and add it as a child node.
-            addChild( new HBox( mainLabel, tickLabelsNode, proteinLevelColorKey ) );
+            // Add all the parts to the parent node.  Set this up so that the
+            // upper Y coordinate is based on the gradient rectangle and NOT
+            // the label.  This is done so that translation of the labels
+            // doesn't mess up the layout of the overall chart.
+            mainLabel.setOffset( 0, height / 2 - mainLabel.getFullBoundsReference().height / 2 );
+            addChild( mainLabel );
+            tickLabelsNode.setOffset( mainLabel.getFullBoundsReference().getMaxX(), height / 2 - tickLabelsNode.getFullBoundsReference().height / 2 );
+            addChild( tickLabelsNode );
+            proteinLevelColorKey.setOffset( tickLabelsNode.getFullBoundsReference().getMaxX() + 3, 0 );
+            addChild( proteinLevelColorKey );
         }
     }
 }
