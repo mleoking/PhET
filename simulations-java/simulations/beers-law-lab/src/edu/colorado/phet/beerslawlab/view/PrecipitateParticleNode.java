@@ -23,7 +23,7 @@ public class PrecipitateParticleNode extends PPath {
         setStrokePaint( particle.getColor().darker() );
         setStroke( new BasicStroke( STROKE_WIDTH ) );
         setPathTo( new Rectangle2D.Double( -particle.getSize() / 2, -particle.getSize() / 2, particle.getSize(), particle.getSize() ) ); // square
-        setRotation( Math.random() * 2 * Math.PI );
+        setRotation( particle.getOrientation() );
         setOffset( particle.getLocation().getX(), particle.getLocation().getY() - STROKE_WIDTH ); // account for stroke width so there's no overlap with bottom of beaker
     }
 }
