@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
@@ -80,7 +81,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         }} );
 
         //Add the faucet
-        addChild( new FPAFFaucetNode( module.model.faucetFlowRate, new Not( module.model.waterTower.full ) ) );
+        addChild( new FPAFFaucetNode( UserComponents.waterTowerFaucet, module.model.faucetFlowRate, new Not( module.model.waterTower.full ) ) );
 
         module.model.addWaterTowerDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {

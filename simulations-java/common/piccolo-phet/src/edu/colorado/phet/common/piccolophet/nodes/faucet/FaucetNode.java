@@ -13,6 +13,8 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
@@ -60,14 +62,15 @@ public class FaucetNode extends PNode {
     /**
      * Constructor that adapts flow rate to a percentage of max flow rate, see #3193
      *
+     * @param userComponent          sim-sharing user component
      * @param maxFlowRate            the maximum flow rate, in model units
      * @param flowRate               the flow rate, in model units
      * @param enabled                determines whether the slider is enabled
      * @param faucetLength           length of the input pipe
      * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
      */
-    public FaucetNode( final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, boolean snapToZeroWhenReleased ) {
-        this( new Property<Double>( flowRate.get() / maxFlowRate ) {{
+    public FaucetNode( IUserComponent userComponent, final double maxFlowRate, final Property<Double> flowRate, ObservableProperty<Boolean> enabled, double faucetLength, boolean snapToZeroWhenReleased ) {
+        this( userComponent, new Property<Double>( flowRate.get() / maxFlowRate ) {{
             // set the flow rate when the percentage changes
             addObserver( new VoidFunction1<Double>() {
                 public void apply( Double newFlowRatePercentage ) {
@@ -86,12 +89,13 @@ public class FaucetNode extends PNode {
     /**
      * Constructor
      *
+     * @param userComponent          sim-sharing user component
      * @param flowRatePercentage     the percentage of max flow rate, a value between 0 and 1 inclusive
      * @param enabled                determines whether the slider is enabled
      * @param faucetLength           length of the input pipe
      * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
      */
-    public FaucetNode( final Property<Double> flowRatePercentage, final ObservableProperty<Boolean> enabled, final double faucetLength, boolean snapToZeroWhenReleased ) {
+    public FaucetNode( IUserComponent userComponent, final Property<Double> flowRatePercentage, final ObservableProperty<Boolean> enabled, final double faucetLength, boolean snapToZeroWhenReleased ) {
 
         //Scale up the faucet since it looks better at a larger size
         setScale( 1.2 ); //TODO #3199, make the image files larger instead of scaling up
@@ -106,7 +110,7 @@ public class FaucetNode extends PNode {
         addChild( pipeNode );
 
         // faucet slider
-        sliderNode = new FaucetSliderNode( enabled, flowRatePercentage, snapToZeroWhenReleased ) {{
+        sliderNode = new FaucetSliderNode( userComponent, enabled, flowRatePercentage, snapToZeroWhenReleased ) {{
             setOffset( 4, 2.5 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
             scale( HANDLE_SIZE.getWidth() / getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
         }};
@@ -160,7 +164,7 @@ public class FaucetNode extends PNode {
                 }
             } );
         }};
-        final FaucetNode faucetNode = new FaucetNode( maxFlowRate, flowRate, new Property<Boolean>( true ), 50, true ) {{
+        final FaucetNode faucetNode = new FaucetNode( new UserComponentId( "faucet" ), maxFlowRate, flowRate, new Property<Boolean>( true ), 50, true ) {{
             setOffset( 100, 100 );
         }};
         final PhetPCanvas canvas = new PhetPCanvas() {{

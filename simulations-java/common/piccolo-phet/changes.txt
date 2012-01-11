@@ -1,3 +1,4 @@
+1/11/12 Simsharing: add UserComponent chaining for FaucetNode and its FaucetSlider
 1/11/12 Simsharing: remove broken drag handler accessor from FaucetNode, make FaucetSliderNode a subclass of SimSharingHSliderNode
 1/11/12 Simsharing: remove simsharing from HSliderNode and VSliderNode, to be added via subclassing
 1/11/12 Simsharing: add PInputEvent parameter to SimSharingDragHandler methods that are intended to be overridden
