@@ -5,6 +5,7 @@ DEADLINES
 
 DESIGN
 - do we need to show the long names of the solutes in the combo box? this is taking up a lot of horizontal space
+- should shaker particles be removed when the shaker is made invisible?
 
 HIGH
 - implement ShakerParticle.stepInTime and ShakerParticles.stepInTime
