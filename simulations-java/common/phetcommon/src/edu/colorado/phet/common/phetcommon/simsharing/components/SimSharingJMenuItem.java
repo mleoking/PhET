@@ -21,39 +21,39 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentT
  */
 public class SimSharingJMenuItem extends JMenuItem {
 
-    private final IUserComponent object;
+    private final IUserComponent userComponent;
 
-    public SimSharingJMenuItem( IUserComponent object ) {
-        this.object = object;
+    public SimSharingJMenuItem( IUserComponent userComponent ) {
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJMenuItem( IUserComponent object, Icon icon ) {
+    public SimSharingJMenuItem( IUserComponent userComponent, Icon icon ) {
         super( icon );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJMenuItem( IUserComponent object, String text ) {
+    public SimSharingJMenuItem( IUserComponent userComponent, String text ) {
         super( text );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJMenuItem( IUserComponent object, Action a ) {
+    public SimSharingJMenuItem( IUserComponent userComponent, Action a ) {
         super( a );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJMenuItem( IUserComponent object, String text, Icon icon ) {
+    public SimSharingJMenuItem( IUserComponent userComponent, String text, Icon icon ) {
         super( text, icon );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJMenuItem( IUserComponent object, String text, int mnemonic ) {
+    public SimSharingJMenuItem( IUserComponent userComponent, String text, int mnemonic ) {
         super( text, mnemonic );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( object,
+        SimSharingManager.sendUserMessage( userComponent,
                                            UserActions.pressed,
                                            componentType( menuItem ) );
         super.fireActionPerformed( event );
