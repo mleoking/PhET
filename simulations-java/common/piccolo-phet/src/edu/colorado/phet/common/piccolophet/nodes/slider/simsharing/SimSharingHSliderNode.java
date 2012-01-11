@@ -52,7 +52,7 @@ public class SimSharingHSliderNode extends HSliderNode {
     }
 
     @Override protected void dragEnded() {
-        SimSharingManager.sendUserMessage( userComponent, endDrag, param( ParameterKeys.value, value.get() ).param( numberDragEvents, dragValues.size() ).param( minValue, min( dragValues ) ).param( maxValue, max( dragValues ) ).param( averageValue, average( dragValues ) ) );
+        SimSharingManager.sendUserMessage( userComponent, endDrag, param( ParameterKeys.value, value.get() ).param( numberDragEvents, dragValues.size() ).param( minValue, Collections.min( dragValues ) ).param( maxValue, Collections.max( dragValues ) ).param( averageValue, average( dragValues ) ) );
         dragValues.clear();
     }
 
@@ -62,13 +62,5 @@ public class SimSharingHSliderNode extends HSliderNode {
             sum += entry;
         }
         return sum / v.size();
-    }
-
-    public static double min( ArrayList<Double> v ) {
-        return Collections.min( v );
-    }
-
-    public static double max( ArrayList<Double> v ) {
-        return Collections.max( v );
     }
 }

@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -227,8 +228,8 @@ public class ConcentrationMeterNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new MovableDragHandler( UserComponents.concentrationMeterProbe, meter.probe, this ) {
-                @Override public ParameterSet getParametersForAllEvents() {
-                    return super.getParametersForAllEvents().param( Parameters.isInSolution, isInSolution() );
+                @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
+                    return super.getParametersForAllEvents( event ).param( Parameters.isInSolution, isInSolution() );
                 }
             } );
         }

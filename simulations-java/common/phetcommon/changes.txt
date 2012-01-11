@@ -1,3 +1,5 @@
+1/11/12 Simsharing: revise SimSharingDragListener (Swing) to use same pattern as SimSharingDragHandler (Piccolo)
+1/11/12 Simsharing: factor out SimSharingDragPoints, for use in Swing and Piccolo drag handlers
 1/9/12 Simsharing: Converter varargs Parameter to ParameterSet, see #3209
 1/6/12 Simsharing: Converted to use interface/enum messages, see #3209
 1/5/12 Added user/system/model message types, see #3209

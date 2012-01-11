@@ -110,7 +110,7 @@ public class SplineNode extends PNode {
 
         dragHandler = new SimSharingDragHandler( EnergySkateParkSimSharing.UserComponents.track ) {
 
-            @Override public ParameterSet getParametersForAllEvents() {
+            @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
                 return param( trackIndex, spline.getParametricFunction2D().index );
             }
 
@@ -372,7 +372,7 @@ public class SplineNode extends PNode {
                     event.setHandled( true );
                 }
 
-                @Override public ParameterSet getParametersForAllEvents() {
+                @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
                     return param( trackIndex, spline.getParametricFunction2D().index );
                 }
 

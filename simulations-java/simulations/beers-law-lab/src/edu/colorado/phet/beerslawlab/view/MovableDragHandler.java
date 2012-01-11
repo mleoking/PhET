@@ -45,8 +45,8 @@ public class MovableDragHandler extends SimSharingDragHandler {
         movable.location.set( constrainToBounds( x, y, movable.getDragBounds() ) ); // assumes a 1:1 model-view transform
     }
 
-    @Override public ParameterSet getParametersForAllEvents() {
-        return super.getParametersForAllEvents().param( Parameters.locationX, (int) movable.location.get().getX() ).param( Parameters.locationY, (int) movable.location.get().getY() );
+    @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
+        return super.getParametersForAllEvents( event ).param( Parameters.locationX, (int) movable.location.get().getX() ).param( Parameters.locationY, (int) movable.location.get().getY() );
     }
 
     // Constrains xy coordinates to be within the specified bounds.
