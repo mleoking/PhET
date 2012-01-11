@@ -120,15 +120,17 @@ public class ConcentrationModel implements Resettable {
             public void apply( Double volume ) {
                 solventFaucet.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() );
                 drainFaucet.enabled.set( volume > SOLUTION_VOLUME_RANGE.getMin() );
-                dropper.enabled.set( volume < SOLUTION_VOLUME_RANGE.getMax() && !dropper.empty.get() );
+                dropper.enabled.set( !dropper.empty.get() && ( volume < SOLUTION_VOLUME_RANGE.getMax() ) );
             }
         } );
 
         // Empty shaker and dropper when max solute is reached.
         solution.soluteAmount.addObserver( new VoidFunction1<Double>() {
             public void apply( Double soluteAmount ) {
-                shaker.empty.set( soluteAmount >= SOLUTE_AMOUNT.getMax() );
-                dropper.empty.set( soluteAmount >= SOLUTE_AMOUNT.getMax() );
+                final boolean containsMaxSolute = ( soluteAmount >= SOLUTE_AMOUNT.getMax() );
+                shaker.empty.set( containsMaxSolute );
+                dropper.empty.set( containsMaxSolute );
+                dropper.enabled.set( !dropper.empty.get() && !containsMaxSolute );
             }
         } );
     }
