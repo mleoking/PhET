@@ -97,7 +97,7 @@ public class ConcentrationModel implements Resettable {
         this.precipitate = new Precipitate( solution, beaker );
         this.solventFaucet = new Faucet( new Point2D.Double( 50, 30 ), 1000, MAX_INPUT_FLOW_RATE );
         this.drainFaucet = new Faucet( new Point2D.Double( 723, 458 ), 20, MAX_OUTPUT_FLOW_RATE );
-        this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 770, 225 ), new PBounds( 10, 10, 825, 530 ),
+        this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 770, 225 ), new PBounds( 10, 150, 825, 530 ) /* chosen so that meter can't go behind control panel */,
                                                           new ImmutableVector2D( 580, 300 ), new PBounds( 30, 30, 935, 605 ) );
 
         // Things to do when the solute is changed.

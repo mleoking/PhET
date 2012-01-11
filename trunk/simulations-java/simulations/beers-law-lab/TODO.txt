@@ -14,10 +14,9 @@ MEDIUM
 - BLLFaucetNode does not have its origin at the output pipe's center, which is where the Faucet model origin is; fix OutputFluidNode, too
 
 LOW
-- dropper flickers excessively while dragging
+- dropper flickers/tears excessively while dragging
 - rotate button on dropper so that lighting direction is consistent
 - #3199, bigger slider thumb on FaucetNode
-- spend a little time on combo box popup issue (create ticket, low priority)
 
 SIM-SHARING
 
