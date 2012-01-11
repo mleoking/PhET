@@ -2,8 +2,8 @@
 package edu.colorado.phet.common.piccolophet.simsharing;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -30,7 +30,7 @@ public class SimSharingDragHandlerOld extends PDragSequenceEventHandler {
      * X and Y coordinates are provided as standardized "convenience" parameters, since they are frequently desired by clients.
      */
     public interface DragFunction {
-        public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event );
+        public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event );
     }
 
     private DragFunction startFunction; // optional function called when drag starts (on startDrag)

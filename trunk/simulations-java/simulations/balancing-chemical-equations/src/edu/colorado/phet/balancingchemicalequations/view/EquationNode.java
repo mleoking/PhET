@@ -14,9 +14,9 @@ import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -228,7 +228,7 @@ public class EquationNode extends PhetPNode {
         private final PText textNode;
         private final PSwing spinnerNode;
 
-        public CoefficientNode( final UserComponent userComponent, IntegerRange range, final Property<Integer> coefficientProperty, boolean editable ) {
+        public CoefficientNode( final IUserComponent userComponent, IntegerRange range, final Property<Integer> coefficientProperty, boolean editable ) {
 
             // read-only text
             textNode = new PText();

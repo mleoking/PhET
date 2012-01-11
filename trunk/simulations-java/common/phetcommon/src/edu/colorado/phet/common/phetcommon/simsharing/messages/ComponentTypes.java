@@ -6,6 +6,6 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  *
  * @author Sam Reid
  */
-public enum ComponentTypes implements ComponentType {
+public enum ComponentTypes implements IComponentType {
     button, checkBox, menuItem, radioButton, spinner, checkBoxMenuItem, icon, menu, tab
 }

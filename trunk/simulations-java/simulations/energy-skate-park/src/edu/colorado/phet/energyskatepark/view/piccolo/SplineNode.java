@@ -27,8 +27,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -130,7 +130,7 @@ public class SplineNode extends PNode {
             }
         };
         //TODO: add track ID
-        UserComponent userComponent = track;
+        IUserComponent userComponent = track;
 
         popupMenu = new TrackPopupMenu( splineEnvironment );
         if ( controllable ) {

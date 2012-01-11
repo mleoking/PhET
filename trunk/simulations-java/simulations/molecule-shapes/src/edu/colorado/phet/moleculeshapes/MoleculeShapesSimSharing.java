@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
  * Sim-sharing strings for this sim.
@@ -15,15 +15,15 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
  */
 public class MoleculeShapesSimSharing {
 
-    public static enum UserComponents implements UserComponent {
+    public static enum UserComponents implements IUserComponent {
         backgroundColor, bond, draggingState, mouseMiddleButton, moleculeShapesTab, realMoleculesTab
     }
 
-    public static enum Actions implements UserAction {
+    public static enum Actions implements IUserAction {
         created, removed
     }
 
-    public static enum ParamKeys implements ParameterKey {
+    public static enum ParamKeys implements IParameterKey {
         bondOrder, color, dragging, dragMode, electronGeometry, moleculeGeometry, removedPair
     }
 
@@ -35,7 +35,7 @@ public class MoleculeShapesSimSharing {
         molecule
     }
 
-    public static enum ModelActions implements ModelAction {
+    public static enum ModelActions implements IModelAction {
         bondsChanged
     }
 }

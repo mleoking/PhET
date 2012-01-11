@@ -7,8 +7,8 @@ import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.model.Faucet;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld.DragFunction;
 import edu.umd.cs.piccolo.PNode;
@@ -23,7 +23,7 @@ public class BLLFaucetNode extends PNode {
 
     private final FaucetNode faucetNode;
 
-    public BLLFaucetNode( final UserComponent userComponent, final Faucet faucet ) {
+    public BLLFaucetNode( final IUserComponent userComponent, final Faucet faucet ) {
 
         // use composition, so we can move the origin to the center of the output pipe
         faucetNode = new FaucetNode( faucet.getMaxFlowRate(), faucet.flowRate, faucet.enabled, faucet.getInputPipeLength(), true );
@@ -33,7 +33,7 @@ public class BLLFaucetNode extends PNode {
 
         // sim-sharing
         faucetNode.getDragHandler().setStartEndDragFunction( new DragFunction() {
-            public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+            public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                 SimSharingManager.sendUserMessage( userComponent, action, Parameter.param( Parameters.flowRate, faucet.flowRate.get() ) );
             }
         } );

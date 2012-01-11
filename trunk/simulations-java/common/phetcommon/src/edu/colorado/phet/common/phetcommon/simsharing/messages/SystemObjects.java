@@ -6,6 +6,6 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  *
  * @author Sam Reid
  */
-public enum SystemObjects implements SystemObject {
+public enum SystemObjects implements ISystemObject {
     simsharingManager, application
 }

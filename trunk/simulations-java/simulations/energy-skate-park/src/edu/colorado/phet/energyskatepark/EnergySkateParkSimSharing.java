@@ -1,10 +1,10 @@
 package edu.colorado.phet.energyskatepark;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
  * Constants for sim sharing.
@@ -14,11 +14,11 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 public class EnergySkateParkSimSharing {
 
     //Anything that the model or user can interact with.  In this sim, the model can signify that the skater landed, or the user can drag the skater.
-    public static enum SharedComponents implements UserComponent, ModelObject {
+    public static enum SharedComponents implements IUserComponent, ModelObject {
         skater
     }
 
-    public static enum UserComponents implements UserComponent {
+    public static enum UserComponents implements IUserComponent {
         trackButton, slowMotionRadioButton, normalSpeedRadioButton,
         barGraphCheckBox, pieChartCheckBox, gridCheckBox, speedCheckBox,
         barGraphCheckBoxIcon, pieChartCheckBoxIcon, gridCheckBoxIcon, speedCheckBoxIcon,
@@ -43,15 +43,15 @@ public class EnergySkateParkSimSharing {
     public static enum ModelObjects implements ModelObject {
     }
 
-    public static enum ModelActions implements ModelAction {
+    public static enum ModelActions implements IModelAction {
         landed, bounced
     }
 
-    public static enum UserActions implements UserAction {
+    public static enum UserActions implements IUserAction {
         attached
     }
 
-    public static enum ParameterKeys implements ParameterKey {
+    public static enum ParameterKeys implements IParameterKey {
 
         //Apparently the floor doesn't count as a track (a bit surprising based on how I thought the model worked)
         trackName, numTracks, isFloor,

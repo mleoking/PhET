@@ -9,8 +9,8 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
@@ -22,43 +22,43 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  */
 public class SimSharingJCheckBox extends JCheckBox {
 
-    private final UserComponent object;
+    private final IUserComponent object;
 
-    public SimSharingJCheckBox( UserComponent object ) {
+    public SimSharingJCheckBox( IUserComponent object ) {
         this.object = object;
     }
 
-    public SimSharingJCheckBox( UserComponent object, Icon icon ) {
+    public SimSharingJCheckBox( IUserComponent object, Icon icon ) {
         super( icon );
         this.object = object;
     }
 
-    public SimSharingJCheckBox( UserComponent object, Icon icon, boolean selected ) {
+    public SimSharingJCheckBox( IUserComponent object, Icon icon, boolean selected ) {
         super( icon, selected );
         this.object = object;
     }
 
-    public SimSharingJCheckBox( UserComponent object, String text ) {
+    public SimSharingJCheckBox( IUserComponent object, String text ) {
         super( text );
         this.object = object;
     }
 
-    public SimSharingJCheckBox( UserComponent object, Action a ) {
+    public SimSharingJCheckBox( IUserComponent object, Action a ) {
         super( a );
         this.object = object;
     }
 
-    public SimSharingJCheckBox( UserComponent object, String text, boolean selected ) {
+    public SimSharingJCheckBox( IUserComponent object, String text, boolean selected ) {
         super( text, selected );
         this.object = object;
     }
 
-    public SimSharingJCheckBox( UserComponent object, String text, Icon icon ) {
+    public SimSharingJCheckBox( IUserComponent object, String text, Icon icon ) {
         super( text, icon );
         this.object = object;
     }
 
-    public SimSharingJCheckBox( UserComponent object, String text, Icon icon, boolean selected ) {
+    public SimSharingJCheckBox( IUserComponent object, String text, Icon icon, boolean selected ) {
         super( text, icon, selected );
         this.object = object;
     }

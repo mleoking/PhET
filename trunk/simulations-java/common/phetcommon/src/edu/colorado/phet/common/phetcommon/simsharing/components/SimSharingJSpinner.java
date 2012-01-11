@@ -5,7 +5,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.spinner;
@@ -19,14 +19,14 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  */
 public class SimSharingJSpinner extends JSpinner {
 
-    private final UserComponent object;
+    private final IUserComponent object;
 
-    public SimSharingJSpinner( UserComponent object, SpinnerModel model ) {
+    public SimSharingJSpinner( IUserComponent object, SpinnerModel model ) {
         super( model );
         this.object = object;
     }
 
-    public SimSharingJSpinner( UserComponent object ) {
+    public SimSharingJSpinner( IUserComponent object ) {
         this.object = object;
     }
 

@@ -55,18 +55,18 @@ public class ParameterSet {
         }
     }
 
-    private String getValue( ParameterKey name ) {
+    private String getValue( IParameterKey name ) {
         return get( name ).value;
     }
 
-    public Parameter get( ParameterKey name ) {
+    public Parameter get( IParameterKey name ) {
         for ( Parameter parameter : parameters ) {
             if ( parameter.name.equals( name ) ) { return parameter; }
         }
         return null;
     }
 
-    private boolean containsKey( ParameterKey name ) {
+    private boolean containsKey( IParameterKey name ) {
         return get( name ) != null;
     }
 
@@ -74,19 +74,19 @@ public class ParameterSet {
         return new ObservableList<Parameter>( parameters ).mkString( delimiter );
     }
 
-    public ParameterSet param( ParameterKey name, boolean value ) {
+    public ParameterSet param( IParameterKey name, boolean value ) {
         return add( new Parameter( name, value ) );
     }
 
-    public ParameterSet param( ParameterKey name, double value ) {
+    public ParameterSet param( IParameterKey name, double value ) {
         return add( new Parameter( name, value ) );
     }
 
-    public ParameterSet param( ParameterKey name, String value ) {
+    public ParameterSet param( IParameterKey name, String value ) {
         return add( new Parameter( name, value ) );
     }
 
-    public ParameterSet param( ParameterKey name, int value ) {
+    public ParameterSet param( IParameterKey name, int value ) {
         return add( new Parameter( name, value ) );
     }
 

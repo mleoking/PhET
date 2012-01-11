@@ -6,8 +6,8 @@ import java.awt.Image;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
@@ -28,14 +28,14 @@ public class MomentaryButtonNode extends PNode {
     private final DynamicCursorHandler cursorHandler;
 
     // Constructor that uses default images (round red buttons with 3D look)
-    public MomentaryButtonNode( UserComponent userComponent, Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
+    public MomentaryButtonNode( IUserComponent userComponent, Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
         this( userComponent, onProperty, enabledProperty,
               PiccoloPhetResources.getImage( "button_pressed.png" ),
               PiccoloPhetResources.getImage( "button_unpressed.png" ),
               PiccoloPhetResources.getImage( "button_disabled.png" ) );
     }
 
-    public MomentaryButtonNode( final UserComponent userComponent, final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
+    public MomentaryButtonNode( final IUserComponent userComponent, final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
         assert ( onImage != offImage ); // different images are required
 
         cursorHandler = new DynamicCursorHandler();

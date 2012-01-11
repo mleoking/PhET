@@ -24,7 +24,7 @@ import org.lwjgl.opengl.Display;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -442,7 +442,7 @@ public class TestingTab extends LWJGLTab {
     }
 
     //Return a wrong component for the convenience of not having to create a new UserComponent.  OK since not used in production.
-    public UserComponent getUserComponent() {
+    public IUserComponent getUserComponent() {
         return UserComponents.fileMenu;
     }
 }

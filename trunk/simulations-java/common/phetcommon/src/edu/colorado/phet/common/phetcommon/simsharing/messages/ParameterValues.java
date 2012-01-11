@@ -4,6 +4,6 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
 /**
  * @author Sam Reid
  */
-public enum ParameterValues implements ParameterValue {
+public enum ParameterValues implements IParameterValue {
     enter, down, up
 }

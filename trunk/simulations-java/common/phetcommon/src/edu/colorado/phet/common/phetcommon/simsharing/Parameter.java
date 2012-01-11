@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentType;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterValue;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.componentType;
 
@@ -21,24 +21,24 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterK
  */
 public class Parameter {
 
-    public final ParameterKey name;
+    public final IParameterKey name;
 
     //Values can be anything, so just use plain string class and do not try to constrain or make it easy to identify
     public final String value;
 
-    public Parameter( ParameterKey name, boolean value ) {
+    public Parameter( IParameterKey name, boolean value ) {
         this( name, value + "" );
     }
 
-    public Parameter( ParameterKey name, double value ) {
+    public Parameter( IParameterKey name, double value ) {
         this( name, value + "" );
     }
 
-    public Parameter( ParameterKey name, long value ) {
+    public Parameter( IParameterKey name, long value ) {
         this( name, value + "" );
     }
 
-    public Parameter( ParameterKey name, String value ) {
+    public Parameter( IParameterKey name, String value ) {
         this.name = name;
         this.value = value;
     }
@@ -47,27 +47,27 @@ public class Parameter {
         return name + " = " + value;
     }
 
-    public static ParameterSet param( ParameterKey name, double value ) {
+    public static ParameterSet param( IParameterKey name, double value ) {
         return new ParameterSet( new Parameter( name, value ) );
     }
 
-    public static ParameterSet param( ParameterKey name, ParameterValue value ) {
+    public static ParameterSet param( IParameterKey name, IParameterValue value ) {
         return new ParameterSet( new Parameter( name, value.toString() ) );
     }
 
-    public static ParameterSet param( ParameterKey name, boolean value ) {
+    public static ParameterSet param( IParameterKey name, boolean value ) {
         return new ParameterSet( new Parameter( name, value ) );
     }
 
-    public static ParameterSet componentType( ComponentType component ) {
+    public static ParameterSet componentType( IComponentType component ) {
         return new ParameterSet( new Parameter( componentType, component + "" ) );
     }
 
-    public static ParameterSet param( ParameterKey name, long value ) {
+    public static ParameterSet param( IParameterKey name, long value ) {
         return new ParameterSet( new Parameter( name, value ) );
     }
 
-    public static ParameterSet param( ParameterKey name, String value ) {
+    public static ParameterSet param( IParameterKey name, String value ) {
         return new ParameterSet( new Parameter( name, value ) );
     }
 
@@ -120,7 +120,7 @@ public class Parameter {
      * This class allows us to represent a parsed parameter key.  This is required since IParameterKey is a marker interface
      * that makes it easy to identify the source of different parameters.  This parameter is one that was parsed during postprocessing/analysis.
      */
-    private static class ParsedParameter implements ParameterKey {
+    private static class ParsedParameter implements IParameterKey {
         private final String parsed;
 
         public ParsedParameter( String parsed ) {

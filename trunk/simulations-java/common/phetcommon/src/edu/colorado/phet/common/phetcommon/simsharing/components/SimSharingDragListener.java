@@ -5,8 +5,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 
 /**
@@ -29,7 +29,7 @@ public class SimSharingDragListener extends MouseAdapter {
      * X and Y coordinates are provided as standardized "convenience" parameters, since they are frequently desired by clients.
      */
     public interface DragFunction {
-        public void apply( UserAction action, Parameter xParameter, Parameter yParameter, MouseEvent event );
+        public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, MouseEvent event );
     }
 
     private DragFunction startFunction; // optional function called when drag starts (on mousePressed)

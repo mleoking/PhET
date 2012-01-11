@@ -3,7 +3,7 @@ package edu.colorado.phet.common.phetcommon.view.controls.simsharing;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 
 /**
@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
  */
 public class SimSharingPropertyRadioButton<T> extends PropertyRadioButton<T> {
 
-    private final UserComponent userComponent;
+    private final IUserComponent userComponent;
 
-    public SimSharingPropertyRadioButton( UserComponent userComponent, final String text, final SettableProperty<T> settableProperty, final T value ) {
+    public SimSharingPropertyRadioButton( IUserComponent userComponent, final String text, final SettableProperty<T> settableProperty, final T value ) {
         super( text, settableProperty, value );
         this.userComponent = userComponent;
     }

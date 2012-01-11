@@ -2,8 +2,8 @@
 package edu.colorado.phet.common.piccolophet.event.simsharing;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -14,9 +14,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class NonInteractiveUserComponent extends PBasicInputEventHandler {
 
-    private final UserComponent userComponent;
+    private final IUserComponent userComponent;
 
-    public NonInteractiveUserComponent( UserComponent userComponent ) {
+    public NonInteractiveUserComponent( IUserComponent userComponent ) {
         this.userComponent = userComponent;
     }
 

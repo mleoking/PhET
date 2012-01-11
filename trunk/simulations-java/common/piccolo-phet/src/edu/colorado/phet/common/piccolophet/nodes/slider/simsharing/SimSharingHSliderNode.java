@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
@@ -23,20 +23,20 @@ import static java.util.Collections.sort;
  */
 public class SimSharingHSliderNode extends HSliderNode {
 
-    private final UserComponent userComponent;
+    private final IUserComponent userComponent;
     private final ArrayList<Double> dragValues = new ArrayList<Double>();
 
-    public SimSharingHSliderNode( UserComponent userComponent, final double min, final double max, final SettableProperty<Double> value ) {
+    public SimSharingHSliderNode( IUserComponent userComponent, final double min, final double max, final SettableProperty<Double> value ) {
         super( min, max, value );
         this.userComponent = userComponent;
     }
 
-    public SimSharingHSliderNode( UserComponent userComponent, final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    public SimSharingHSliderNode( IUserComponent userComponent, final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( min, max, value, enabled );
         this.userComponent = userComponent;
     }
 
-    public SimSharingHSliderNode( UserComponent userComponent, final double min, final double max, double trackWidth, double trackHeight, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    public SimSharingHSliderNode( IUserComponent userComponent, final double min, final double max, double trackWidth, double trackHeight, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( min, max, trackWidth, trackHeight, value, enabled );
         this.userComponent = userComponent;
     }

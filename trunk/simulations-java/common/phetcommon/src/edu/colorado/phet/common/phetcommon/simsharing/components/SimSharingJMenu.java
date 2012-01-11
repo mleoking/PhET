@@ -6,7 +6,7 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
@@ -18,23 +18,23 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  */
 public class SimSharingJMenu extends JMenu {
 
-    private final UserComponent object;
+    private final IUserComponent object;
 
-    public SimSharingJMenu( UserComponent object ) {
+    public SimSharingJMenu( IUserComponent object ) {
         this.object = object;
     }
 
-    public SimSharingJMenu( UserComponent object, String text ) {
+    public SimSharingJMenu( IUserComponent object, String text ) {
         super( text );
         this.object = object;
     }
 
-    public SimSharingJMenu( UserComponent object, Action action ) {
+    public SimSharingJMenu( IUserComponent object, Action action ) {
         super( action );
         this.object = object;
     }
 
-    public SimSharingJMenu( UserComponent object, String text, boolean canBeTornOff ) {
+    public SimSharingJMenu( IUserComponent object, String text, boolean canBeTornOff ) {
         super( text, canBeTornOff );
         this.object = object;
     }

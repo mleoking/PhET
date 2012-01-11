@@ -20,8 +20,8 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -287,7 +287,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             this.molecule = molecule;
             this.snapInterval = snapInterval;
             setStartEndFunction( new DragFunction() {
-                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     SimSharingManager.sendUserMessage( Components.electronegativityControl, action,
                                                        new ParameterSet( xParameter ).
                                                                add( yParameter ).

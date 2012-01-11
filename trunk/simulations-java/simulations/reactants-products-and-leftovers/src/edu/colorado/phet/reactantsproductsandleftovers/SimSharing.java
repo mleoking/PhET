@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.reactantsproductsandleftovers;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
@@ -9,7 +9,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
  * @author Sam Reid
  */
 public class SimSharing {
-    public static class ReactantEquationSpinner implements UserComponent {
+    public static class ReactantEquationSpinner implements IUserComponent {
         private final Reactant reactant;
 
         public ReactantEquationSpinner( Reactant reactant ) {
@@ -21,7 +21,7 @@ public class SimSharing {
         }
     }
 
-    public static class ProductSpinner implements UserComponent {
+    public static class ProductSpinner implements IUserComponent {
         private final Product reactant;
 
         public ProductSpinner( Product reactant ) {
@@ -33,7 +33,7 @@ public class SimSharing {
         }
     }
 
-    public static class ReactantSpinner implements UserComponent {
+    public static class ReactantSpinner implements IUserComponent {
         private final Reactant reactant;
 
         public ReactantSpinner( Reactant reactant ) {

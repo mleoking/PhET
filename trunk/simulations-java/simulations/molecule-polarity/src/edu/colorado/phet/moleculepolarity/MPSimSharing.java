@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
  * Sim-sharing strings that are specific to this sim.
@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
  */
 public class MPSimSharing {
 
-    public static enum Components implements UserComponent {
+    public static enum Components implements IUserComponent {
         bondAngle, bondCharacterNode, electronegativityControl, moleculeAngle, rainbowMenuItem, jmolViewerNode
     }
 
-    public static enum Parameters implements ParameterKey {
+    public static enum Parameters implements IParameterKey {
         angle, atom, currentMolecule, electronegativity, interactive
     }
 }

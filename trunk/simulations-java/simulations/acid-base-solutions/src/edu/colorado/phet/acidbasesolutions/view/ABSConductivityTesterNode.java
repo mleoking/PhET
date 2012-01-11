@@ -9,8 +9,8 @@ import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
@@ -37,7 +37,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         // sim-sharing, positive probe
         {
             getPositiveProbeDragHandler().setStartEndFunction( new SimSharingDragHandlerOld.DragFunction() {
-                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendProbeEvent( UserComponents.conductivityTesterPositiveProbe, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                 }
             } );
@@ -45,7 +45,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                 boolean inSolution = tester.isPositiveProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
-                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     if ( inSolution != tester.isPositiveProbeInSolution() ) {
                         sendProbeEvent( UserComponents.conductivityTesterPositiveProbe, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                     }
@@ -57,7 +57,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         // sim-sharing, negative probe
         {
             getNegativeProbeDragHandler().setStartEndFunction( new SimSharingDragHandlerOld.DragFunction() {
-                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendProbeEvent( UserComponents.conductivityTesterNegativeProbe, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                 }
             } );
@@ -65,7 +65,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                 boolean inSolution = tester.isNegativeProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
-                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
+                public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     if ( inSolution != tester.isNegativeProbeInSolution() ) {
                         sendProbeEvent( UserComponents.conductivityTesterNegativeProbe, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                     }
@@ -81,7 +81,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         }
     }
 
-    private static void sendProbeEvent( UserComponent object, UserAction action, boolean inSolution, boolean circuitCompleted ) {
+    private static void sendProbeEvent( IUserComponent object, IUserAction action, boolean inSolution, boolean circuitCompleted ) {
         SimSharingManager.sendUserMessage( object, action,
                                            Parameter.param( ParameterKeys.isInSolution, inSolution ).
                                                    param( ParameterKeys.isCircuitCompleted, circuitCompleted ) );

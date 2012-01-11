@@ -31,7 +31,7 @@ import edu.colorado.phet.acidbasesolutions.model.WeakAcidSolution.TestWeakAcidSo
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution.TestWeakBaseSolution;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIcon;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
@@ -232,7 +232,7 @@ public class FixedSolutionControls extends PhetTitledPanel {
 
     // Radio button with a label, symbol and molecule icon.
     private static class SolutionRadioButton extends SimSharingJRadioButton {
-        public SolutionRadioButton( UserComponent object, String label, Molecule molecule ) {
+        public SolutionRadioButton( IUserComponent object, String label, Molecule molecule ) {
             super( object );
             String s = MessageFormat.format( ABSStrings.PATTERN_SOLUTION_SYMBOL, label, molecule.getSymbol() );
             String html = HTMLUtils.toHTMLString( s );
@@ -242,7 +242,7 @@ public class FixedSolutionControls extends PhetTitledPanel {
 
     // Molecule icon
     private static final class MoleculeIcon extends SimSharingIcon {
-        public MoleculeIcon( UserComponent object, final Molecule molecule, final VoidFunction0 function ) {
+        public MoleculeIcon( IUserComponent object, final Molecule molecule, final VoidFunction0 function ) {
             super( object, ABSImages.createIcon( molecule.getImage(), 0.75 /* scale */ ), function );
         }
     }

@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
@@ -16,14 +16,14 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  * @author Sam Reid
  */
 public class SimSharingLogarithmicValueControl extends LogarithmicValueControl {
-    private final UserComponent userComponent;
+    private final IUserComponent userComponent;
 
-    public SimSharingLogarithmicValueControl( UserComponent userComponent, double min, double max, String label, String textFieldPattern, String units ) {
+    public SimSharingLogarithmicValueControl( IUserComponent userComponent, double min, double max, String label, String textFieldPattern, String units ) {
         super( min, max, label, textFieldPattern, units );
         this.userComponent = userComponent;
     }
 
-    public SimSharingLogarithmicValueControl( UserComponent userComponent, double min, double max, String label, String textFieldPattern, String units, ILayoutStrategy layoutStrategy ) {
+    public SimSharingLogarithmicValueControl( IUserComponent userComponent, double min, double max, String label, String textFieldPattern, String units, ILayoutStrategy layoutStrategy ) {
         super( min, max, label, textFieldPattern, units, layoutStrategy );
         this.userComponent = userComponent;
     }

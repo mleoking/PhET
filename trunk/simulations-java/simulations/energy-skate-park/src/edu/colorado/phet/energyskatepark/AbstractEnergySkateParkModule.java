@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -84,7 +84,7 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
     public final Property<Double> mass;
     public final Property<Integer> numberOfSplines = new Property<Integer>( 0 );
 
-    public AbstractEnergySkateParkModule( UserComponent tabComponent, String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX ) {
+    public AbstractEnergySkateParkModule( IUserComponent tabComponent, String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX ) {
         super( tabComponent, name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
         this.splinesMovable = splinesMovable;
         this.bumpUpSplines = bumpUpSplines;

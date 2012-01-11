@@ -6,18 +6,18 @@ import java.awt.Component;
 import javax.swing.JPopupMenu;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.popupTriggered;
 
 public class PopupMenuHandler extends PBasicInputEventHandler {
-    private final UserComponent userComponent;
+    private final IUserComponent userComponent;
     private Component parent;
     private JPopupMenu popupMenu;
 
-    public PopupMenuHandler( UserComponent userComponent, Component parent, JPopupMenu popupMenu ) {
+    public PopupMenuHandler( IUserComponent userComponent, Component parent, JPopupMenu popupMenu ) {
         this.userComponent = userComponent;
         this.parent = parent;
         this.popupMenu = popupMenu;
