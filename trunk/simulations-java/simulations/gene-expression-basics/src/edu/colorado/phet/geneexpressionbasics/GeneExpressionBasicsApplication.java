@@ -31,7 +31,7 @@ public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
         // module(s)
         addModule( new ManualGeneExpressionModule( "Manual Gene Expression" ) );
         addModule( new ProteinLevelsInCellModule( "Protein Levels in a Cell" ) );
-        addModule( new MultipleCellsModule( "Multiple Cells" ) );
+        addModule( new MultipleCellsModule( "Multiple Cells", getPhetFrame() ) );
     }
 
     /**

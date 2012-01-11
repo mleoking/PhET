@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.view.MultipleCellsCanvas;
@@ -23,8 +25,8 @@ public class MultipleCellsModule extends Module {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public MultipleCellsModule( String name ) {
-        this( name, new MultipleCellsModel() );
+    public MultipleCellsModule( String name, Frame parentFrame ) {
+        this( name, new MultipleCellsModel(), parentFrame );
         setClockControlPanel( null );
     }
 
@@ -35,7 +37,7 @@ public class MultipleCellsModule extends Module {
      * @param name
      * @param model
      */
-    private MultipleCellsModule( String name, MultipleCellsModel model ) {
+    private MultipleCellsModule( String name, MultipleCellsModel model, Frame parentFrame ) {
         // TODO: i18n
         super( name, model.getClock() );
 
@@ -43,7 +45,7 @@ public class MultipleCellsModule extends Module {
         this.model = model;
 
         // Create canvas.
-        canvas = new MultipleCellsCanvas( model );
+        canvas = new MultipleCellsCanvas( model, parentFrame );
         setSimulationPanel( canvas );
 
         // Set initial state.
