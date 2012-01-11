@@ -36,24 +36,34 @@ public class ConcentrationCanvas extends BLLCanvas {
 
     public ConcentrationCanvas( final ConcentrationModel model, Frame parentFrame ) {
 
-        // Nodes
+        // Beaker and stuff inside it
         PNode beakerNode = new BeakerNode( model.beaker, TicksLocation.LEFT );
-        BLLFaucetNode solventFaucetNode = new BLLFaucetNode( UserComponents.inputFaucetSlider, model.solventFaucet );
-        BLLFaucetNode drainFaucetNode = new BLLFaucetNode( UserComponents.outputFaucetSlider, model.drainFaucet );
-        OutputFluidNode solventFluidNode = new OutputFluidNode( solventFaucetNode, 360, model.solution.solvent, model.solventFaucet ); //TODO derive height
-        OutputFluidNode drainFluidNode = new OutputFluidNode( drainFaucetNode, 1000, model.solution, model.drainFaucet ); //TODO derive height based on play area height
-        PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
+        SolutionNode solutionNode = new SolutionNode( model.solution, model.beaker );
+        PNode precipitateNode = new PrecipitateNode( model.precipitate );
+        PNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
+
+        // Shaker and Dropper
         PNode shakerNode = new ShakerNode( model.shaker );
         PNode dropperNode = new DropperNode( model.dropper );
         StockSolutionNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker );
-        PNode evaporationControlNode = new EvaporationControlNode( model.evaporator );
-        PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
-        SolutionNode solutionNode = new SolutionNode( model.solution, model.beaker );
+
+        // Faucets
+        BLLFaucetNode solventFaucetNode = new BLLFaucetNode( UserComponents.inputFaucetSlider, model.solventFaucet );
+        BLLFaucetNode drainFaucetNode = new BLLFaucetNode( UserComponents.outputFaucetSlider, model.drainFaucet );
+        final double solventFluidHeight = beakerNode.getFullBoundsReference().getMaxY() - solventFaucetNode.getFullBoundsReference().getMaxY();
+        OutputFluidNode solventFluidNode = new OutputFluidNode( solventFaucetNode, solventFluidHeight, model.solution.solvent, model.solventFaucet );
+        final double drainFluidHeight = 1000; // tall enough that resizing the play area is unlikely to show bottom of fluid
+        OutputFluidNode drainFluidNode = new OutputFluidNode( drainFaucetNode, drainFluidHeight, model.solution, model.drainFaucet );
+
+        // Meter
         PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter, model.solution, solutionNode,
                                                                    model.solventFaucet, solventFluidNode, model.drainFaucet, drainFluidNode,
                                                                    model.dropper, stockSolutionNode );
-        PNode precipitateNode = new PrecipitateNode( model.precipitate );
-        PNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
+
+        // Various controls
+        PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
+        PNode evaporationControlNode = new EvaporationControlNode( model.evaporator );
+        PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};

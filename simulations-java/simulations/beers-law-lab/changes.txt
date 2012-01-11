@@ -1,3 +1,4 @@
+1/10/12 derive height of solute fluid stream
 1/10/12 use precipitate color for particles that come out of the shaker
 1/10/12 adjust location of "Saturated!" indicator, use light gray background instead of white
 1/10/12 base class for solute particles, specializations for precipitate particles and shaker particles
