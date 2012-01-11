@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPr
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.offRadioButton;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.onRadioButton;
 import static edu.colorado.phet.energyskatepark.basics.EnergySkateParkBasicsModule.CONTROL_FONT;

@@ -39,10 +39,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.height;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.width;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.*;
 
 /**

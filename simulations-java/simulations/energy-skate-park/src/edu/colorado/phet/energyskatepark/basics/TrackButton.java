@@ -20,9 +20,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.radioButton;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackButton;
 
 /**
