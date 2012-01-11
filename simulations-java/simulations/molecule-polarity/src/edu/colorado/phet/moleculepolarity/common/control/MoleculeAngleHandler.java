@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.moleculepolarity.MPSimSharing.Components.moleculeAngle;
+import static edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents.moleculeAngle;
 
 /**
  * Drag handler for manipulating molecule angle.

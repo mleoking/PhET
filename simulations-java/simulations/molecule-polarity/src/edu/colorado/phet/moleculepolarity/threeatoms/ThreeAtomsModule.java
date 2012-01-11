@@ -3,7 +3,8 @@ package edu.colorado.phet.moleculepolarity.threeatoms;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.MPClock;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
@@ -14,10 +15,10 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ThreeAtomsModule extends PiccoloModule {
+public class ThreeAtomsModule extends SimSharingPiccoloModule {
 
     public ThreeAtomsModule( Frame parentFrame ) {
-        super( MPStrings.THREE_ATOMS, new MPClock() );
+        super( UserComponents.threeAtomsTab, MPStrings.THREE_ATOMS, new MPClock() );
 
         ThreeAtomsModel model = new ThreeAtomsModel( getClock() );
         ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, false, true, false, false, false, false );
