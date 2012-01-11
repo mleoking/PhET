@@ -5,13 +5,19 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 /**
- * Strings related to sim-sharing.
+ * Sim-sharing enums that are specific to this sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BLLSimSharing {
 
-    public static enum UserComponents implements UserComponent {concentrationMeterBody, concentrationMeterProbe, dropper, dropperButton, dropperIcon, evaporationSlider, inputFaucetSlider, outputFaucetSlider, shaker, shakerIcon, soluteComboBox}
+    public static enum UserComponents implements UserComponent {
+        concentrationMeterBody, concentrationMeterProbe, dropper, dropperButton,
+        dropperIcon, evaporationSlider, inputFaucetSlider, outputFaucetSlider,
+        shaker, shakerIcon, soluteComboBox
+    }
 
-    public static enum Parameters implements ParameterKey {evaporationRate, flowRate, isInSolution, locationX, locationY}
+    public static enum Parameters implements ParameterKey {
+        evaporationRate, flowRate, isInSolution, locationX, locationY
+    }
 }
