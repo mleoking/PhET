@@ -23,7 +23,7 @@ public class Solute {
     public final double saturatedConcentration; // M, in beaker
     public final double stockSolutionConcentration; // M, stock solution in dropper
     public final ColorRange solutionColor; // color range for a solution with non-zero concentration
-    public final Color precipitateColor; // color as a precipitate
+    public final Color precipitateColor; // color as a precipitate  //TODO rename this particleColor, if used for both shaker and precipitate particles
     public final double particleSize; // solid particles are square, this is the length of one side
     public final int precipitateParticlesPerMole; // number of precipitate particles to show per mol of saturation
 
