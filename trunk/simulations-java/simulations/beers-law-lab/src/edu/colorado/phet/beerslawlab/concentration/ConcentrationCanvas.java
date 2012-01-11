@@ -98,7 +98,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             precipitateNode.setOffset( beakerNode.getOffset() );
             // centered towards bottom of beaker
             saturatedIndicatorNode.setOffset( beakerNode.getFullBoundsReference().getCenterX() - ( saturatedIndicatorNode.getFullBoundsReference().getWidth() / 2 ),
-                                              beakerNode.getFullBoundsReference().getMaxY() - 0.25 * beakerNode.getFullBoundsReference().getHeight() );
+                                              beakerNode.getFullBoundsReference().getMaxY() - saturatedIndicatorNode.getFullBoundsReference().getHeight() - 30 );
             // left of evaporation control
             removeSoluteButtonNode.setOffset( evaporationControlNode.getFullBoundsReference().getMaxX() + 10,
                                               evaporationControlNode.getFullBoundsReference().getCenterY() - ( removeSoluteButtonNode.getFullBoundsReference().getHeight() / 2 ) );
