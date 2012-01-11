@@ -4,6 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.module.introduction;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEModule;
+import edu.colorado.phet.balancingchemicalequations.BCESimSharing.UserComponents;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 
@@ -18,7 +19,7 @@ public class IntroductionModule extends BCEModule {
     private final IntroductionCanvas canvas;
 
     public IntroductionModule( BCEGlobalProperties globalProperties ) {
-        super( BCEStrings.INTRODUCTION, new BCEClock(), true /* startsPaused */ );
+        super( UserComponents.introductionTab, BCEStrings.INTRODUCTION, new BCEClock(), true /* startsPaused */ );
         model = new IntroductionModel();
         canvas = new IntroductionCanvas( model, globalProperties, this );
         setSimulationPanel( canvas );

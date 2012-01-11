@@ -13,11 +13,12 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class BCESimSharing {
 
-    public static enum Actions implements IUserAction, IModelAction {
-        guessChecked
+    public static enum UserComponents implements IUserComponent {
+        introductionTab, balancingGameTab
     }
 
-    public static enum Components implements IUserComponent {
+    public static enum Actions implements IUserAction, IModelAction {
+        guessChecked
     }
 
     public static enum Parameters implements IParameterKey {
