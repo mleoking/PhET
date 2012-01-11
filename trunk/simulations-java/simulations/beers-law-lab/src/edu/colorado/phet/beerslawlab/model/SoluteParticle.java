@@ -2,7 +2,10 @@
 package edu.colorado.phet.beerslawlab.model;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Base class for solute particles.
@@ -11,31 +14,15 @@ import java.awt.geom.Point2D;
  */
 public abstract class SoluteParticle {
 
-    //TODO if there's no difference between shaker and precipitate particles, make base class concrete and delete subclasses
-
-    // One particle that comes out of the shaker.
-    public static class ShakerParticle extends SoluteParticle {
-        public ShakerParticle( Solute solute, Point2D location, double orientation ) {
-            super( solute.precipitateColor, solute.particleSize, location, orientation );
-        }
-    }
-
-    // One particle that makes up the precipitate that forms on the bottom of the beaker.
-    public static class PrecipitateParticle extends SoluteParticle {
-        public PrecipitateParticle( Solute solute, Point2D location, double orientation ) {
-            super( solute.precipitateColor, solute.particleSize, location, orientation );
-        }
-    }
-
     private final Color color;
     private final double size; // particles are square, this is the length of one side
-    private final Point2D location; // location of the particle in the coordinate frame of the beaker
+    private final Property<ImmutableVector2D> location; // location of the particle in the coordinate frame of the beaker
     private final double orientation; // rotation angle, in radians
 
-    public SoluteParticle( Color color, double size, Point2D location, double orientation ) {
+    public SoluteParticle( Color color, double size, ImmutableVector2D location, double orientation ) {
         this.color = color;
         this.size = size;
-        this.location = location;
+        this.location = new Property<ImmutableVector2D>( location );
         this.orientation = orientation;
     }
 
@@ -47,8 +34,20 @@ public abstract class SoluteParticle {
         return size;
     }
 
-    public Point2D getLocation() {
-        return new Point2D.Double( location.getX(), location.getY() );
+    public ImmutableVector2D getLocation() {
+        return location.get();
+    }
+
+    protected void setLocation( ImmutableVector2D location ) {
+        this.location.set( location );
+    }
+
+    public void addLocationObserver( VoidFunction1<ImmutableVector2D> observer ) {
+        location.addObserver( observer );
+    }
+
+    public void removeLocationObserver( VoidFunction1<ImmutableVector2D> observer ) {
+        location.removeObserver( observer );
     }
 
     public double getOrientation() {

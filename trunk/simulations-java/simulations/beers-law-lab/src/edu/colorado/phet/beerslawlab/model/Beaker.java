@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.model;
 
-import java.awt.geom.Point2D;
-
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -12,18 +11,18 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class Beaker {
 
-    private final Point2D location; // bottom center
+    private final ImmutableVector2D location; // bottom center
     private final PDimension size;
     private final double volume; // L
 
-    public Beaker( Point2D location, PDimension size, double volume ) {
+    public Beaker( ImmutableVector2D location, PDimension size, double volume ) {
         this.location = location;
         this.size = new PDimension( size );
         this.volume = volume;
     }
 
-    public Point2D getLocation() {
-        return new Point2D.Double( location.getX(), location.getY() );
+    public ImmutableVector2D getLocation() {
+        return location;
     }
 
     public double getX() {

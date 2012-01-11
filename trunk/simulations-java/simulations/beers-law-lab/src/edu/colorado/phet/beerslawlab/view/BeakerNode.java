@@ -72,7 +72,7 @@ public class BeakerNode extends PComposite {
         ticksNode = new PComposite();
         addChild( ticksNode );
 
-        setOffset( beaker.getLocation() );
+        setOffset( beaker.getLocation().toPoint2D() );
         createOutline();
         updateTicks( ticksLocation );
     }

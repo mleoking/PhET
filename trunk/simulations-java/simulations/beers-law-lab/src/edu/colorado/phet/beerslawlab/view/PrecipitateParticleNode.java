@@ -4,7 +4,7 @@ package edu.colorado.phet.beerslawlab.view;
 import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.beerslawlab.model.SoluteParticle;
+import edu.colorado.phet.beerslawlab.model.PrecipitateParticle;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -18,7 +18,7 @@ public class PrecipitateParticleNode extends PPath {
 
     private static final float STROKE_WIDTH = 1f;
 
-    public PrecipitateParticleNode( SoluteParticle particle ) {
+    public PrecipitateParticleNode( PrecipitateParticle particle ) {
         setPaint( particle.getColor() );
         setStrokePaint( particle.getColor().darker() );
         setStroke( new BasicStroke( STROKE_WIDTH ) );

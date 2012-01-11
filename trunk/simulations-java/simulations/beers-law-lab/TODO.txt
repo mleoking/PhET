@@ -7,8 +7,9 @@ DESIGN
 - do we need to show the long names of the solutes in the combo box? this is taking up a lot of horizontal space
 
 HIGH
-- view of solute exiting shaker (magic particles, trajectory ala SASS)
+- implement ShakerParticle.stepInTime and ShakerParticles.stepInTime
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
+- shaker shouldn't dispense more than the max amount of solute
 
 MEDIUM
 - Beer's Law tab

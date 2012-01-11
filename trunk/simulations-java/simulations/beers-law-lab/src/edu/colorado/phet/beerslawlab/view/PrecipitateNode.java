@@ -4,8 +4,8 @@ package edu.colorado.phet.beerslawlab.view;
 import java.util.HashMap;
 
 import edu.colorado.phet.beerslawlab.model.Precipitate;
-import edu.colorado.phet.beerslawlab.model.Precipitate.PrecipitateListener;
-import edu.colorado.phet.beerslawlab.model.SoluteParticle;
+import edu.colorado.phet.beerslawlab.model.Precipitate.ParticlesChangeListener;
+import edu.colorado.phet.beerslawlab.model.PrecipitateParticle;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -20,19 +20,19 @@ public class PrecipitateNode extends PComposite {
     public PrecipitateNode( Precipitate precipitate ) {
 
         // Maps model elements to their corresponding nodes.
-        final HashMap<SoluteParticle, PrecipitateParticleNode> map = new HashMap<SoluteParticle, PrecipitateParticleNode>();
+        final HashMap<PrecipitateParticle, PrecipitateParticleNode> map = new HashMap<PrecipitateParticle, PrecipitateParticleNode>();
 
-        precipitate.addListener( new PrecipitateListener() {
+        precipitate.addParticlesChangeListener( new ParticlesChangeListener() {
 
             // A particle was added.
-            public void particleAdded( SoluteParticle particle ) {
+            public void particleAdded( PrecipitateParticle particle ) {
                 PrecipitateParticleNode particleNode = new PrecipitateParticleNode( particle );
                 map.put( particle, particleNode );
                 addChild( particleNode );
             }
 
             // A particle was removed.
-            public void particleRemoved( SoluteParticle particle ) {
+            public void particleRemoved( PrecipitateParticle particle ) {
                 PrecipitateParticleNode particleNode = map.get( particle );
                 map.remove( particle );
                 removeChild( particleNode );
