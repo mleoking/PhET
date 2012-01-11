@@ -8,6 +8,7 @@ import swing._
 import table.DefaultTableModel
 
 /**
+ * Simple wrapper for JTable so it can be embedded in Scala swing component tree
  * @author Sam Reid
  */
 class SimpleTable(model: DefaultTableModel) extends Component {

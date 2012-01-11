@@ -9,7 +9,7 @@ import collection.JavaConversions.asScalaBuffer
 import collection.JavaConversions.asScalaSet
 import swing._
 import java.awt.event.{ActionListener, ActionEvent}
-import table.{DefaultTableModel, TableModel, TableRowSorter}
+import table.{DefaultTableModel, TableRowSorter}
 
 /**
  * @author Sam Reid
@@ -22,17 +22,41 @@ object SimEventDataCollectionMonitorScala extends App {
   })
 }
 
+object SimEventDataTableModel {
+  val columns = List("Machine ID" -> classOf[String], "Session ID" -> classOf[String], "study" -> classOf[String], "User ID" -> classOf[String], "last event received" -> classOf[String], "Event Count" -> classOf[java.lang.Long])
+  val columnNames: Array[Object] = columns.map(_._1).toArray
+}
+
+//See http://stackoverflow.com/questions/996948/live-sorting-of-jtable
+class SimEventDataTableModel extends DefaultTableModel(SimEventDataTableModel.columnNames, 0) {
+  def containsSession(s: String): Boolean = getRow(s) >= 0
+
+  def getRow(session: String): Int = {
+    for ( i <- 0 until getRowCount ) {
+      if ( getValueAt(i, 1) == session ) {
+        return i
+      }
+    }
+    -1
+  }
+
+  def setEventCount(session: String, count: java.lang.Long) {
+    setValueAt(count.asInstanceOf[Object], getRow(session), 5)
+  }
+
+  override def getColumnClass(columnIndex: Int) = SimEventDataTableModel.columns(columnIndex)._2
+}
+
 class SimEventDataCollectionMonitorScala {
   val mongo = new Mongo
-  final val columns = List("Machine ID" -> classOf[String], "Session ID" -> classOf[String], "study" -> classOf[String], "User ID" -> classOf[String], "last event received" -> classOf[Integer], "Event Count" -> classOf[java.lang.Integer])
-  final val columnNames: Array[Object] = columns.map(_._1).toArray
-  val model1 = new DefaultTableModel()
-  val table = new SimpleTable(model1)
-  val sorter = new TableRowSorter[DefaultTableModel](model1)
+  val tableModel = new SimEventDataTableModel
+  val table = new SimpleTable(tableModel)
+  val sorter = new TableRowSorter[DefaultTableModel](tableModel)
   table.peer.setRowSorter(sorter)
   sorter.setSortsOnUpdates(true)
 
   val frame = new Frame {
+    peer setDefaultCloseOperation JFrame.EXIT_ON_CLOSE
     title = "MongoDB Monitor"
     contents = new BorderPanel() {
       add(new ScrollPane() {
@@ -65,23 +89,18 @@ class SimEventDataCollectionMonitorScala {
         val study = parameters.get("study").toString
 
         val row = Array(machineID, session, study, "?", "?", collection.getCount.asInstanceOf[Object])
+
+        //If the tableModel already has this session, then update the updatable fields
+        if ( tableModel.containsSession(session) ) {
+          tableModel.setEventCount(session, collection.getCount)
+        }
+        else {
+          tableModel.addRow(row)
+        }
+
+        //Otherwise add it as a new row
         rows += row
       }
-    }
-    val data: Array[Array[Object]] = rows.toArray[Array[Object]]
-    val selectedRows: Array[Int] = table.peer.getSelectedRows
-    val selectedSessionIDs = selectedRows.map(i => data(i)(1).toString).toList
-    val m = new DefaultTableModel(data, columnNames) {
-      override def getColumnClass(columnIndex: Int) = columns(columnIndex)._2
-    }
-    table.peer.setModel(m)
-    sorter.setModel(m)
-
-    //See http://stackoverflow.com/questions/996948/live-sorting-of-jtable
-    if ( selectedRows.length > 0 ) {
-      table.peer.setSelectionModel(new DefaultListSelectionModel {
-        addSelectionInterval(indexForUserID(selectedSessionIDs(0), data), indexForUserID(selectedSessionIDs(selectedSessionIDs.length - 1), data));
-      })
     }
   }
 
