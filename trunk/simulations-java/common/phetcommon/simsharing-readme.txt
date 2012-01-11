@@ -6,7 +6,7 @@ PhET Simulations have a feature that allow usage data to be collected for analys
 This document describes how a simulation can be instrumented with this feature.
 
 General pattern for development:
-1. Run your code with command line args: -dev -study acid-base-solutions-spring-2012
+1. Run your code with command line args: -dev -study
 This study is easy to test with since it does not show a dialog on startup, but you can still see the logging messages in the console or in the menu system.
 2. Work through the features in the sim and see if they are being outputted for each user activity and important model activity (important is defined by the sim or research team)
 3. When you find something missing a message, convert it to the corresponding SimSharing subclass, such as converting ButtonNode to SimSharingButtonNode.  For the SimSharing* classes, the UserComponent will be the first field.
