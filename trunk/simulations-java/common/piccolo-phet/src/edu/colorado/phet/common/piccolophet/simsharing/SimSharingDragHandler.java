@@ -39,6 +39,7 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     @Override protected void startDrag( final PInputEvent event ) {
         dragPoints.clear();
+        addDragPoint( event );
         SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, getStartDragParameters().add( getXParameter( event ) ).add( getYParameter( event ) ) );
         super.startDrag( event );
     }
@@ -55,6 +56,7 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     //Finish the drag and report on simsharing for this drag event.
     @Override protected void endDrag( PInputEvent event ) {
+        addDragPoint( event );
         ArrayList<Double> xValues = extract( dragPoints, new Function1<Point2D, Double>() {
             public Double apply( Point2D point2D ) {
                 return point2D.getX();
@@ -91,6 +93,15 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
             list.add( extractor.apply( point2D ) );
         }
         return list;
+    }
+
+    @Override protected void drag( PInputEvent event ) {
+        addDragPoint( event );
+        super.drag( event );
+    }
+
+    private void addDragPoint( PInputEvent event ) {
+        dragPoints.add( new Point2D.Double( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() ) );
     }
 
     public ParameterSet getEndDragParameters() {
