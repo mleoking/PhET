@@ -12,7 +12,6 @@ HIGH
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 
 MEDIUM
-- make precipitate particles sit precisely on bottom of beaker
 
 LOW
 - dropper flickers excessively while dragging
