@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
- * Sim-sharing strings that are specific to this sim.
+ * Sim-sharing enums that are specific to this sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
