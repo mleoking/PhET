@@ -43,7 +43,7 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
         parentFrame.addMenu( new OptionsMenu() {{
 
             //Report on student usage for menus and menu items, see #3144
-            add( new SimSharingJCheckBoxMenuItem( MPSimSharing.Components.rainboxMenuItem, MPStrings.RAINBOW_OPTION, JmolViewerNode.RAINBOW_MEP.get() ) {{
+            add( new SimSharingJCheckBoxMenuItem( MPSimSharing.Components.rainbowMenuItem, MPStrings.RAINBOW_OPTION, JmolViewerNode.RAINBOW_MEP.get() ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         JmolViewerNode.RAINBOW_MEP.set( ( (JCheckBoxMenuItem) e.getSource() ).isSelected() );

@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 public class MPSimSharing {
 
     public static enum Components implements UserComponent {
-        bondAngle, bondCharacterNode, electronegativityControl, moleculeAngle, rainboxMenuItem, jmolViewerNode
+        bondAngle, bondCharacterNode, electronegativityControl, moleculeAngle, rainbowMenuItem, jmolViewerNode
     }
 
     public static enum Parameters implements ParameterKey {
