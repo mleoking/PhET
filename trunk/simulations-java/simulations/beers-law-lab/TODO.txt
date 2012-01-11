@@ -15,6 +15,7 @@ MEDIUM
 - make precipitate particles sit precisely on bottom of beaker
 
 LOW
+- dropper flickers excessively while dragging
 - rotate button on dropper so that lighting direction is consistent
 - #3199, bigger slider thumb on FaucetNode
 - spend a little time on combo box popup iss (create ticket, low priority)
