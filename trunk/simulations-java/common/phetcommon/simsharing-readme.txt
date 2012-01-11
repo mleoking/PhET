@@ -19,7 +19,7 @@ instead of like:
 6. If you need to use a SimSharing* class that does not exist, please create it in a package simsharing that is a sibling of the original object.  For instance, for edu.colorado.phet.common.piccolophet.nodes.TextButtonNode create edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode.  Make sure the message is sent before any other listeners are notified so that events don't appear out of order.
 Add sub-consructors for all constructors in the parent class, make UserComponent the new first arg in all, store as a field and use in an overriden fireActionPerformed() or similar method.
 7. Try to send system response in param where possible
-8. Instead of subclassing PiccoloModule, subclass SimSharingPiccoloModule and provide the ID to use for the tab (OK to be null if no tabs in sim)
+8. Instead of subclassing PiccoloModule, subclass SimSharingPiccoloModule and provide the UserComponent to use for the tab (OK to be null if no tabs in sim)
 
 Details and design notes:
 
