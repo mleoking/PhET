@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.exitMenuItem;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.fileMenu;
 

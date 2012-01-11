@@ -13,8 +13,8 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -90,7 +90,7 @@ public class FaucetNode extends PNode {
         addChild( pipeNode );
 
         // faucet slider
-        sliderNode = new FaucetSliderNode( ComponentChain.chain( userComponent, UserComponents.slider ), enabled, maxFlowRate, flowRate, snapToZeroWhenReleased ) {{
+        sliderNode = new FaucetSliderNode( UserComponentChain.chain( userComponent, UserComponents.slider ), enabled, maxFlowRate, flowRate, snapToZeroWhenReleased ) {{
             setOffset( 4, 2.5 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
             scale( HANDLE_SIZE.getWidth() / getFullBounds().getWidth() ); //scale to fit into the handle portion of the faucet image
         }};

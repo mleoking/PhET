@@ -26,9 +26,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -51,7 +51,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentChain.chain;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.*;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserActions.attached;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.track;
@@ -363,7 +363,7 @@ public class SplineNode extends PNode {
             setStrokePaint( Color.black );
             setPaint( new Color( 0, 0, 1f, 0.5f ) );
 
-            final ComponentChain controlPointUserComponent = chain( trackControlPoint, index );
+            final UserComponentChain controlPointUserComponent = chain( trackControlPoint, index );
             addInputEventListener( new SimSharingDragHandler( controlPointUserComponent ) {
                 @Override protected void startDrag( PInputEvent event ) {
                     super.startDrag( event );
