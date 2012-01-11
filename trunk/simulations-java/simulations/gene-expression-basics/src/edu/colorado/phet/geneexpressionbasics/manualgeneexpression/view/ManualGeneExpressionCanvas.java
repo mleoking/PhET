@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
@@ -25,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
@@ -199,9 +201,22 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }} );
 
         // Add the zoom control slider.
-        controlsRootNode.addChild( new ZoomControlSliderNode( new PDimension( 20, 120 ), new Property<Double>( 1.0 ), 1, 20, 19 ) {{
+        Property<Double> zoomFactorProperty = new Property<Double>( 1.0 );
+        double minZoom = 0.01;
+        double maxZoom = 1;
+        controlsRootNode.addChild( new ZoomControlSliderNode( new PDimension( 20, 120 ), zoomFactorProperty, minZoom, maxZoom, 10 ) {{
             setOffset( 20, 300 );
         }} );
+        zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double zoomFactor ) {
+                // Reset any previous transformation.
+                modelRootNode.setTransform( new AffineTransform() );
+                // Zoom around a point that is in the center of the stage in
+                // the x direction and the location of the DNA strand in the
+                // y direction.
+                modelRootNode.scaleAboutPoint( zoomFactor, STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ) );
+            }
+        } );
 
         // Monitor the active gene and move the view port to be centered on it
         // whenever it changes.
