@@ -3,9 +3,10 @@ package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.simsharing.SimSharingHSliderNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -15,7 +16,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Sam Reid
  */
-public class FaucetSliderNode extends HSliderNode {
+public class FaucetSliderNode extends SimSharingHSliderNode {
 
     /**
      * Creates a slider control to be shown on the faucet to control the flow.
@@ -25,7 +26,7 @@ public class FaucetSliderNode extends HSliderNode {
      * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
      */
     public FaucetSliderNode( final ObservableProperty<Boolean> enabled, final Property<Double> flowRatePercentage, final boolean snapToZeroWhenReleased ) {
-        super( 0, 1, flowRatePercentage, enabled );
+        super( UserComponents.faucetSlider, 0, 1, flowRatePercentage, enabled );
 
         // Sets the flow to zero.
         final VoidFunction0 snapToZero = new VoidFunction0() {

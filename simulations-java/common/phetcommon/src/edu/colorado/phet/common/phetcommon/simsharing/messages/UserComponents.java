@@ -21,7 +21,7 @@ public enum UserComponents implements IUserComponent, ISystemObject {
     teacherMenu,
     resetAllButton,
 
-    faucetImage,
+    faucetImage, faucetSlider,
     spinner,
 
     //chained with other features, used in Energy Skate Park but declared here for reusability elsewhere

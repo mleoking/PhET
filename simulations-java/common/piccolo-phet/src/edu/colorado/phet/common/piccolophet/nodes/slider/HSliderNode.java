@@ -23,9 +23,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.PFrame;
 
@@ -75,19 +75,7 @@ public class HSliderNode extends SliderNode {
             } );
             addInputEventListener( new CursorHandler() );
 
-            //TODO: sim sharing
-//            new SimSharingDragSequenceEventHandler.DragFunction() {
-//                            public void apply( SimSharingConstants.User.IAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-//                                SimSharingManager.sendUserEvent( simSharingObject, START_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
-//                            }
-//
-//                        }, new SimSharingDragSequenceEventHandler.DragFunction() {
-//                            public void apply( String action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-//                                SimSharingManager.sendUserEvent( simSharingObject, END_DRAG, new Parameter( VALUE, value.get() ), new Parameter( COMPONENT_TYPE, SLIDER ) );
-//                            }
-//                        }, null
-
-            addInputEventListener( dragHandler = new SimSharingDragHandlerOld() {
+            addInputEventListener( new PDragSequenceEventHandler() {
 
                 private Point2D startPoint;
                 public Double startValue;
