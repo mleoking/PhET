@@ -71,7 +71,7 @@ public class DropperNode extends PhetPNode {
 
         // layout
         {
-            // move origin to bottom center (tip) to images
+            // move origin to bottom center (tip) of images
             foregroundImageNode.setOffset( -foregroundImageNode.getFullBoundsReference().getWidth() / 2, -foregroundImageNode.getFullBoundsReference().getHeight() );
             backgroundImageNode.setOffset( -backgroundImageNode.getFullBoundsReference().getWidth() / 2, -backgroundImageNode.getFullBoundsReference().getHeight() );
             // center the button in the dropper's bulb
