@@ -62,7 +62,7 @@ public class Precipitate {
         else if ( numberOfParticles > particles.size() ) {
             // add particles
             while ( numberOfParticles > particles.size() ) {
-                addParticle( new PrecipitateParticle( getRandomOffset(), solution.solute.get().precipitateColor, solution.solute.get().precipitateSize ) );
+                addParticle( new PrecipitateParticle( getRandomOffset(), getRandomOrientation(), solution.solute.get().precipitateColor, solution.solute.get().precipitateSize ) );
             }
         }
         else {
@@ -113,5 +113,10 @@ public class Precipitate {
         double y = -yMargin;
         // offset
         return new Point2D.Double( x, y );
+    }
+
+    // Gets a random orientation, in radians.
+    private double getRandomOrientation() {
+        return Math.random() * 2 * Math.PI;
     }
 }
