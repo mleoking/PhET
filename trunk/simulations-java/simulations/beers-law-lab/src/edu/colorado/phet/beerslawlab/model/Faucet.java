@@ -32,6 +32,14 @@ public class Faucet implements Resettable {
         return new Point2D.Double( location.getX(), location.getY() );
     }
 
+    public double getX() {
+        return location.getX();
+    }
+
+    public double getY() {
+        return location.getY();
+    }
+
     public double getInputPipeLength() {
         return inputPipeLength;
     }
