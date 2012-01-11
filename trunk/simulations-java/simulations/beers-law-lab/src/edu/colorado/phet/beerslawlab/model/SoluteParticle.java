@@ -11,16 +11,18 @@ import java.awt.geom.Point2D;
  */
 public abstract class SoluteParticle {
 
-    // One particle that makes up the precipitate that forms on the bottom of the beaker.
-    public static class PrecipitateParticle extends SoluteParticle {
-        public PrecipitateParticle( Solute solute, Point2D location, double orientation ) {
-            super( solute.precipitateColor, solute.particleSize, location, orientation );
-        }
-    }
+    //TODO if there's no difference between shaker and precipitate particles, make base class concrete and delete subclasses
 
     // One particle that comes out of the shaker.
     public static class ShakerParticle extends SoluteParticle {
         public ShakerParticle( Solute solute, Point2D location, double orientation ) {
+            super( solute.precipitateColor, solute.particleSize, location, orientation );
+        }
+    }
+
+    // One particle that makes up the precipitate that forms on the bottom of the beaker.
+    public static class PrecipitateParticle extends SoluteParticle {
+        public PrecipitateParticle( Solute solute, Point2D location, double orientation ) {
             super( solute.precipitateColor, solute.particleSize, location, orientation );
         }
     }
