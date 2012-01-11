@@ -1,10 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.beerslawlab.model.SoluteParticle.PrecipitateParticle;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -15,25 +14,25 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Precipitate {
 
-    public interface PrecipitateListener {
+    public interface ParticlesChangeListener {
         // A particle has been added to the precipitate.
-        public void particleAdded( SoluteParticle particle );
+        public void particleAdded( PrecipitateParticle particle );
 
         // A particle has been removed from the precipitate.
-        public void particleRemoved( SoluteParticle particle );
+        public void particleRemoved( PrecipitateParticle particle );
     }
 
     private final Solution solution;
     private final Beaker beaker;
-    private final ArrayList<SoluteParticle> particles;
-    private final ArrayList<PrecipitateListener> listeners;
+    private final ArrayList<PrecipitateParticle> particles;
+    private final ArrayList<ParticlesChangeListener> listeners;
 
     public Precipitate( Solution solution, Beaker beaker ) {
 
         this.solution = solution;
         this.beaker = beaker;
-        this.particles = new ArrayList<SoluteParticle>();
-        this.listeners = new ArrayList<PrecipitateListener>();
+        this.particles = new ArrayList<PrecipitateParticle>();
+        this.listeners = new ArrayList<ParticlesChangeListener>();
 
         // when the saturation changes, update the number of precipitate particles
         solution.addPrecipitateAmountObserver( new SimpleObserver() {
@@ -51,7 +50,7 @@ public class Precipitate {
         } );
     }
 
-    public void addListener( PrecipitateListener listener ) {
+    public void addParticlesChangeListener( ParticlesChangeListener listener ) {
         listeners.add( listener );
     }
 
@@ -74,36 +73,36 @@ public class Precipitate {
         }
     }
 
-    private void addParticle( SoluteParticle particle ) {
+    private void addParticle( PrecipitateParticle particle ) {
         particles.add( particle );
         fireParticleAdded( particle );
     }
 
-    private void removeParticle( SoluteParticle particle ) {
+    private void removeParticle( PrecipitateParticle particle ) {
         particles.remove( particle );
         fireParticleRemoved( particle );
     }
 
     private void removeAllParticles() {
-        for ( SoluteParticle particle : new ArrayList<SoluteParticle>( particles ) ) {
+        for ( PrecipitateParticle particle : new ArrayList<PrecipitateParticle>( particles ) ) {
             removeParticle( particle );
         }
     }
 
-    private void fireParticleAdded( SoluteParticle particle ) {
-        for ( PrecipitateListener listener : new ArrayList<PrecipitateListener>( listeners ) ) {
+    private void fireParticleAdded( PrecipitateParticle particle ) {
+        for ( ParticlesChangeListener listener : new ArrayList<ParticlesChangeListener>( listeners ) ) {
             listener.particleAdded( particle );
         }
     }
 
-    private void fireParticleRemoved( SoluteParticle particle ) {
-        for ( PrecipitateListener listener : new ArrayList<PrecipitateListener>( listeners ) ) {
+    private void fireParticleRemoved( PrecipitateParticle particle ) {
+        for ( ParticlesChangeListener listener : new ArrayList<ParticlesChangeListener>( listeners ) ) {
             listener.particleRemoved( particle );
         }
     }
 
     // Gets a random location, relative to the coordinate frame of the beaker.
-    private Point2D getRandomOffset() {
+    private ImmutableVector2D getRandomOffset() {
         final double particleSize = solution.solute.get().particleSize;
         // x offset
         double xMargin = particleSize;
@@ -113,7 +112,7 @@ public class Precipitate {
         double yMargin = particleSize;
         double y = -yMargin;
         // offset
-        return new Point2D.Double( x, y );
+        return new ImmutableVector2D( x, y );
     }
 
     // Gets a random orientation, in radians.

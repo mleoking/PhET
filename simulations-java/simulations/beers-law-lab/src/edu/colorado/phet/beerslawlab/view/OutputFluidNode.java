@@ -22,7 +22,7 @@ public class OutputFluidNode extends PPath {
 
         setStroke( null );
 
-        setOffset( faucet.getLocation() );
+        setOffset( faucet.getLocation().toPoint2D() );
 
         // match the color of the fluid
         fluid.addFluidColorObserver( new SimpleObserver() {

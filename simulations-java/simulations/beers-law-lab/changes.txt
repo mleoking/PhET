@@ -1,3 +1,6 @@
+1/10/12 make "Remove Solute" button remove any solute that is falling between the shaker and beaker
+1/10/12 first pass at particles exiting shaker (motion is not physical, particles disappear when they reach y=500)
+1/10/12 use ImmutableVector2D for all model locations
 1/10/12 rotate button on dropper so that lighting direction is consistent
 1/10/12 move origin of MomentaryButtonNode to center, to facilitate rotation and layout
 1/10/12 move origin of faucet node to center of output pipe, so that it's consistent with the faucet model

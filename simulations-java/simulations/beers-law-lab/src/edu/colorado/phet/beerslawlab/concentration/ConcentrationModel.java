@@ -2,7 +2,6 @@
 package edu.colorado.phet.beerslawlab.concentration;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
@@ -14,6 +13,7 @@ import edu.colorado.phet.beerslawlab.model.Evaporator;
 import edu.colorado.phet.beerslawlab.model.Faucet;
 import edu.colorado.phet.beerslawlab.model.Precipitate;
 import edu.colorado.phet.beerslawlab.model.Shaker;
+import edu.colorado.phet.beerslawlab.model.ShakerParticles;
 import edu.colorado.phet.beerslawlab.model.Solute;
 import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
 import edu.colorado.phet.beerslawlab.model.Solution;
@@ -60,6 +60,7 @@ public class ConcentrationModel implements Resettable {
     public final Solution solution;
     public final Property<SoluteForm> soluteForm = new Property<SoluteForm>( SoluteForm.SOLID );
     public final Shaker shaker;
+    public final ShakerParticles shakerParticles;
     public final Dropper dropper;
     public final Evaporator evaporator;
     public final Beaker beaker;
@@ -91,12 +92,13 @@ public class ConcentrationModel implements Resettable {
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, DEFAULT_SOLUTE_AMOUNT, SOLUTION_VOLUME_RANGE.getDefault() );
         this.shaker = new Shaker( new ImmutableVector2D( 340, 170 ), new PBounds( 225, 50, 400, 160 ), solute, SHAKER_MAX_DISPENSING_RATE );
+        this.shakerParticles = new ShakerParticles( shaker, solution );
         this.dropper = new Dropper( new ImmutableVector2D( 375, 210 ), new PBounds( 230, 205, 400, 30 ), solute, DROPPER_FLOW_RATE );
         this.evaporator = new Evaporator( MAX_EVAPORATION_RATE, solution );
-        this.beaker = new Beaker( new Point2D.Double( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
+        this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.precipitate = new Precipitate( solution, beaker );
-        this.solventFaucet = new Faucet( new Point2D.Double( 150, 190 ), 1000, MAX_INPUT_FLOW_RATE );
-        this.drainFaucet = new Faucet( new Point2D.Double( 825, 618 ), 20, MAX_OUTPUT_FLOW_RATE );
+        this.solventFaucet = new Faucet( new ImmutableVector2D( 150, 190 ), 1000, MAX_INPUT_FLOW_RATE );
+        this.drainFaucet = new Faucet( new ImmutableVector2D( 825, 618 ), 20, MAX_OUTPUT_FLOW_RATE );
         //  meter drag bounds chosen so that meter and probe can't go behind control panel */
         this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 785, 270 ), new PBounds( 10, 150, 825, 530 ),
                                                           new ImmutableVector2D( 580, 330 ), new PBounds( 30, 150, 935, 605 ) );
@@ -159,9 +161,9 @@ public class ConcentrationModel implements Resettable {
     private void stepInTime( double deltaSeconds ) {
         addSolventFromInputFaucet( deltaSeconds );
         drainSolutionFromOutputFaucet( deltaSeconds );
-        addSoluteFromShaker( deltaSeconds );
         addStockSolutionFromDropper( deltaSeconds );
         evaporateSolvent( deltaSeconds );
+        propagateShakerParticles( deltaSeconds );
     }
 
     // Add solvent from the input faucet
@@ -179,9 +181,9 @@ public class ConcentrationModel implements Resettable {
         }
     }
 
-    // Add solute from the shaker
-    private void addSoluteFromShaker( double deltaSeconds ) {
-        addSolute( shaker.getDispensingRate() * deltaSeconds );
+    // Propagate solid solute that came out of the shaker
+    private void propagateShakerParticles( double deltaSeconds ) {
+        shakerParticles.stepInTime( deltaSeconds );
     }
 
     // Add stock solution from dropper

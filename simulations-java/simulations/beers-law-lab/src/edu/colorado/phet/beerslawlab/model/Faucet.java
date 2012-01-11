@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.model;
 
-import java.awt.geom.Point2D;
-
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -13,13 +12,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class Faucet implements Resettable {
 
-    private final Point2D location; // center of output pipe
+    private final ImmutableVector2D location; // center of output pipe
     private final double inputPipeLength;
     private final double maxFlowRate;
     public final Property<Double> flowRate;
     public final Property<Boolean> enabled;
 
-    public Faucet( Point2D location, double inputPipeLength, double maxFlowRate ) {
+    public Faucet( ImmutableVector2D location, double inputPipeLength, double maxFlowRate ) {
         assert ( maxFlowRate > 0 );
         this.location = location;
         this.inputPipeLength = inputPipeLength;
@@ -28,8 +27,8 @@ public class Faucet implements Resettable {
         this.enabled = new Property<Boolean>( true );
     }
 
-    public Point2D getLocation() {
-        return new Point2D.Double( location.getX(), location.getY() );
+    public ImmutableVector2D getLocation() {
+        return location;
     }
 
     public double getX() {
