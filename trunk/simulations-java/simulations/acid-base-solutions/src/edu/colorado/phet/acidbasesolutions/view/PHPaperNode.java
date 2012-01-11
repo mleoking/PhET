@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -107,7 +107,7 @@ public class PHPaperNode extends PhetPNode {
     }
 
     // Handles everything related to dragging of the paper.
-    private static class PhPaperDragHandler extends SimSharingDragSequenceEventHandler {
+    private static class PhPaperDragHandler extends SimSharingDragHandlerOld {
 
         private final PHPaper paper;
         private final PNode dragNode;

@@ -28,12 +28,12 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterK
  *
  * @author Sam Reid
  */
-public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandler {
+public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     protected final UserComponent userComponent;
     private ArrayList<Point2D> dragPoints = new ArrayList<Point2D>();
 
-    public SimSharingDragSequenceEventHandler2( UserComponent userComponent ) {
+    public SimSharingDragHandler( UserComponent userComponent ) {
         this.userComponent = userComponent;
     }
 

@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler2;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -227,7 +227,7 @@ public class PHMeterNode extends PhetPNode {
     }
 
     // Handles everything related to dragging of the meter.
-    private static class PhMeterDragHandler extends SimSharingDragSequenceEventHandler2 {
+    private static class PhMeterDragHandler extends SimSharingDragHandler {
 
         private final PHMeter meter;
         private final PNode dragNode;

@@ -18,8 +18,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Client overrides should take care to called super first, so that events are sent first.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
+ * @deprecated
  */
-public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandler {
+public class SimSharingDragHandlerOld extends PDragSequenceEventHandler {
 
     /*
      * Function implemented by clients who want to send sim-sharing events.
@@ -36,22 +37,22 @@ public class SimSharingDragSequenceEventHandler extends PDragSequenceEventHandle
     private DragFunction endFunction; // optional function called when drag ends (on endDrag)
     private DragFunction dragFunction; // optional function called while dragging (on drag).
 
-    public SimSharingDragSequenceEventHandler() {
+    public SimSharingDragHandlerOld() {
         this( null, null, null );
     }
 
     // Same function for start, end, drag.
-    public SimSharingDragSequenceEventHandler( DragFunction startEndDragFunction ) {
+    public SimSharingDragHandlerOld( DragFunction startEndDragFunction ) {
         this( startEndDragFunction, startEndDragFunction, startEndDragFunction );
     }
 
     // Same function for start and end, different function for drag.
-    public SimSharingDragSequenceEventHandler( DragFunction startEndFunction, DragFunction dragFunction ) {
+    public SimSharingDragHandlerOld( DragFunction startEndFunction, DragFunction dragFunction ) {
         this( startEndFunction, startEndFunction, dragFunction );
     }
 
     // Different functions for start, end, drag.
-    public SimSharingDragSequenceEventHandler( DragFunction startFunction, DragFunction endFunction, DragFunction dragFunction ) {
+    public SimSharingDragHandlerOld( DragFunction startFunction, DragFunction endFunction, DragFunction dragFunction ) {
         this.startFunction = startFunction;
         this.endFunction = endFunction;
         this.dragFunction = dragFunction;

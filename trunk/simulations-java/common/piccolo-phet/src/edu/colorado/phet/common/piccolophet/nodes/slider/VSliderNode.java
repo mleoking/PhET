@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -37,7 +37,7 @@ public class VSliderNode extends SliderNode {
     private PhetPPath trackNode;
     private PNode knobNode;
     private int trackWidth;
-    private SimSharingDragSequenceEventHandler dragHandler;
+    private SimSharingDragHandlerOld dragHandler;
 
     // Root node to which all other nodes should be added.  This is done to
     // allow the offset of this node to be at (0, 0).  Use this when adding
@@ -72,7 +72,7 @@ public class VSliderNode extends SliderNode {
                 }
             } );
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( dragHandler = new SimSharingDragSequenceEventHandler() {
+            addInputEventListener( dragHandler = new SimSharingDragHandlerOld() {
 
                 private Point2D startPoint;
                 public Double startValue;

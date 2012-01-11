@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler2;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.LinearFloorSpline2D;
@@ -88,7 +88,7 @@ public class SkaterNode extends PNode {
             addChild( centerDebugger );
         }
 
-        addInputEventListener( new SimSharingDragSequenceEventHandler2( skater ) {
+        addInputEventListener( new SimSharingDragHandler( skater ) {
 
             public Point2D pressPoint;
             public SerializablePoint2D bodyPosition;

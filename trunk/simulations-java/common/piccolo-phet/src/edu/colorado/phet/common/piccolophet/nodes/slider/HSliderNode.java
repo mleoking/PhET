@@ -23,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -87,7 +87,7 @@ public class HSliderNode extends SliderNode {
 //                            }
 //                        }, null
 
-            addInputEventListener( dragHandler = new SimSharingDragSequenceEventHandler() {
+            addInputEventListener( dragHandler = new SimSharingDragHandlerOld() {
 
                 private Point2D startPoint;
                 public Double startValue;
