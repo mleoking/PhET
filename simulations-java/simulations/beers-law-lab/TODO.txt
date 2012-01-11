@@ -14,7 +14,6 @@ MEDIUM
 
 LOW
 - dropper flickers/tears excessively while dragging
-- rotate button on dropper so that lighting direction is consistent
 - #3199, bigger slider thumb on FaucetNode
 
 SIM-SHARING
