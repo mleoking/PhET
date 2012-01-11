@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -116,11 +115,6 @@ public class FaucetNode extends PNode {
         //sim-sharing for non-interactive nodes
         faucetNode.addInputEventListener( new NonInteractiveUserComponent( UserComponents.faucetImage ) );
         pipeNode.addInputEventListener( new NonInteractiveUserComponent( UserComponents.faucetImage ) );
-    }
-
-    // Gets the slider's drag handler, for adding sim-sharing feature.
-    public SimSharingDragHandlerOld getDragHandler() {
-        return sliderNode.getDragHandler();
     }
 
     public void setSliderVisible( boolean visible ) {
