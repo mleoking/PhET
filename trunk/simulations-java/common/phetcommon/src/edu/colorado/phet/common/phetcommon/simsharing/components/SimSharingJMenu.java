@@ -18,29 +18,29 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  */
 public class SimSharingJMenu extends JMenu {
 
-    private final IUserComponent object;
+    private final IUserComponent userComponent;
 
-    public SimSharingJMenu( IUserComponent object ) {
-        this.object = object;
+    public SimSharingJMenu( IUserComponent userComponent ) {
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJMenu( IUserComponent object, String text ) {
+    public SimSharingJMenu( IUserComponent userComponent, String text ) {
         super( text );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJMenu( IUserComponent object, Action action ) {
+    public SimSharingJMenu( IUserComponent userComponent, Action action ) {
         super( action );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJMenu( IUserComponent object, String text, boolean canBeTornOff ) {
+    public SimSharingJMenu( IUserComponent userComponent, String text, boolean canBeTornOff ) {
         super( text, canBeTornOff );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
     @Override protected void fireMenuSelected() {
-        SimSharingManager.sendUserMessage( object,
+        SimSharingManager.sendUserMessage( userComponent,
                                            pressed,
                                            componentType( ComponentTypes.menu ) );
         super.fireMenuSelected();

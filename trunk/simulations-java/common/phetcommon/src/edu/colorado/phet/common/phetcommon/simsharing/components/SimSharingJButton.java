@@ -21,34 +21,34 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  */
 public class SimSharingJButton extends JButton {
 
-    private final IUserComponent object;
+    private final IUserComponent userComponent;
 
-    public SimSharingJButton( IUserComponent object ) {
-        this.object = object;
+    public SimSharingJButton( IUserComponent userComponent ) {
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJButton( IUserComponent object, Icon icon ) {
+    public SimSharingJButton( IUserComponent userComponent, Icon icon ) {
         super( icon );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJButton( IUserComponent object, String text ) {
+    public SimSharingJButton( IUserComponent userComponent, String text ) {
         super( text );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJButton( IUserComponent object, Action a ) {
+    public SimSharingJButton( IUserComponent userComponent, Action a ) {
         super( a );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJButton( IUserComponent object, String text, Icon icon ) {
+    public SimSharingJButton( IUserComponent userComponent, String text, Icon icon ) {
         super( text, icon );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( object,
+        SimSharingManager.sendUserMessage( userComponent,
                                            pressed,
                                            Parameter.componentType( ComponentTypes.button ) );
         super.fireActionPerformed( event );

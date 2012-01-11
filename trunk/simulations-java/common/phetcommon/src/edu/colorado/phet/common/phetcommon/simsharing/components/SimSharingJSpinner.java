@@ -19,19 +19,19 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  */
 public class SimSharingJSpinner extends JSpinner {
 
-    private final IUserComponent object;
+    private final IUserComponent userComponent;
 
-    public SimSharingJSpinner( IUserComponent object, SpinnerModel model ) {
+    public SimSharingJSpinner( IUserComponent userComponent, SpinnerModel model ) {
         super( model );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJSpinner( IUserComponent object ) {
-        this.object = object;
+    public SimSharingJSpinner( IUserComponent userComponent ) {
+        this.userComponent = userComponent;
     }
 
     @Override protected void fireStateChanged() {
-        SimSharingManager.sendUserMessage( object, changed,
+        SimSharingManager.sendUserMessage( userComponent, changed,
                                            componentType( spinner ).param( value, getValue().toString() ) );
         super.fireStateChanged();
     }

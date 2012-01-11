@@ -22,44 +22,44 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentT
  */
 public class SimSharingJCheckBoxMenuItem extends JCheckBoxMenuItem {
 
-    private final IUserComponent object;
+    private final IUserComponent userComponent;
 
-    public SimSharingJCheckBoxMenuItem( IUserComponent object ) {
-        this.object = object;
+    public SimSharingJCheckBoxMenuItem( IUserComponent userComponent ) {
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJCheckBoxMenuItem( IUserComponent object, Icon icon ) {
+    public SimSharingJCheckBoxMenuItem( IUserComponent userComponent, Icon icon ) {
         super( icon );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJCheckBoxMenuItem( IUserComponent object, String text ) {
+    public SimSharingJCheckBoxMenuItem( IUserComponent userComponent, String text ) {
         super( text );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJCheckBoxMenuItem( IUserComponent object, Action a ) {
+    public SimSharingJCheckBoxMenuItem( IUserComponent userComponent, Action a ) {
         super( a );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJCheckBoxMenuItem( IUserComponent object, String text, Icon icon ) {
+    public SimSharingJCheckBoxMenuItem( IUserComponent userComponent, String text, Icon icon ) {
         super( text, icon );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJCheckBoxMenuItem( IUserComponent object, String text, boolean b ) {
+    public SimSharingJCheckBoxMenuItem( IUserComponent userComponent, String text, boolean b ) {
         super( text, b );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
-    public SimSharingJCheckBoxMenuItem( IUserComponent object, String text, Icon icon, boolean b ) {
+    public SimSharingJCheckBoxMenuItem( IUserComponent userComponent, String text, Icon icon, boolean b ) {
         super( text, icon, b );
-        this.object = object;
+        this.userComponent = userComponent;
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( object,
+        SimSharingManager.sendUserMessage( userComponent,
                                            UserActions.pressed,
                                            componentType( checkBoxMenuItem ).param( ParameterKeys.isSelected, isSelected() ) );
         super.fireActionPerformed( event );
