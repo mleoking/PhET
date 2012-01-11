@@ -17,10 +17,9 @@ import edu.colorado.phet.beerslawlab.model.Dropper;
 import edu.colorado.phet.beerslawlab.model.Faucet;
 import edu.colorado.phet.beerslawlab.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -227,14 +226,11 @@ public class ConcentrationMeterNode extends PhetPNode {
             } );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( UserComponents.concentrationMeterProbe, meter.probe, this,
-                                                           // sim-sharing parameters
-                                                           new Function0<Parameter[]>() {
-                                                               public Parameter[] apply() {
-                                                                   return new Parameter[] {
-                                                                           new Parameter( Parameters.isInSolution, isInSolution() ) };
-                                                               }
-                                                           } ) );
+            addInputEventListener( new MovableDragHandler( UserComponents.concentrationMeterProbe, meter.probe, this ) {
+                @Override public ParameterSet getParametersForAllEvents() {
+                    return super.getParametersForAllEvents().param( Parameters.isInSolution, isInSolution() );
+                }
+            } );
         }
 
         private boolean isInSolution() {
