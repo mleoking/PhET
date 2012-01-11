@@ -237,7 +237,6 @@ public class PHMeterNode extends PhetPNode {
             super( UserComponents.phPaper );
             this.meter = meter;
             this.dragNode = dragNode;
-
         }
 
         @Override protected void startDrag( PInputEvent event ) {
