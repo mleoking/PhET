@@ -25,15 +25,18 @@ public class Shaker extends Movable {
             new ImmutableVector2D( 21, 15 ),
     };
 
+    private final double orientation; // rotation angle, in radians
     public final Property<Solute> solute;
     public final Property<Boolean> visible;
     public final Property<Boolean> empty;
     private final double maxDispensingRate;
     private final Property<Double> dispensingRate; // mol/sec
 
-    public Shaker( ImmutableVector2D location, PBounds dragBounds, Property<Solute> solute, double maxDispensingRate ) {
+    public Shaker( ImmutableVector2D location, double orientation, PBounds dragBounds, Property<Solute> solute, double maxDispensingRate ) {
         super( location, dragBounds );
         assert ( dragBounds.contains( location.toPoint2D() ) );
+
+        this.orientation = orientation;
         this.solute = solute;
         this.visible = new Property<Boolean>( true );
         this.empty = new Property<Boolean>( false );
@@ -48,6 +51,10 @@ public class Shaker extends Movable {
                 }
             }
         } );
+    }
+
+    public double getOrientation() {
+        return orientation;
     }
 
     public double getMaxDispensingRate() {
