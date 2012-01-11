@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import edu.colorado.phet.beerslawlab.model.Precipitate;
 import edu.colorado.phet.beerslawlab.model.Precipitate.PrecipitateListener;
-import edu.colorado.phet.beerslawlab.model.PrecipitateParticle;
+import edu.colorado.phet.beerslawlab.model.SoluteParticle;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -20,19 +20,19 @@ public class PrecipitateNode extends PComposite {
     public PrecipitateNode( Precipitate precipitate ) {
 
         // Maps model elements to their corresponding nodes.
-        final HashMap<PrecipitateParticle, PrecipitateParticleNode> map = new HashMap<PrecipitateParticle, PrecipitateParticleNode>();
+        final HashMap<SoluteParticle, PrecipitateParticleNode> map = new HashMap<SoluteParticle, PrecipitateParticleNode>();
 
         precipitate.addListener( new PrecipitateListener() {
 
             // A particle was added.
-            public void particleAdded( PrecipitateParticle particle ) {
+            public void particleAdded( SoluteParticle particle ) {
                 PrecipitateParticleNode particleNode = new PrecipitateParticleNode( particle );
                 map.put( particle, particleNode );
                 addChild( particleNode );
             }
 
             // A particle was removed.
-            public void particleRemoved( PrecipitateParticle particle ) {
+            public void particleRemoved( SoluteParticle particle ) {
                 PrecipitateParticleNode particleNode = map.get( particle );
                 map.remove( particle );
                 removeChild( particleNode );

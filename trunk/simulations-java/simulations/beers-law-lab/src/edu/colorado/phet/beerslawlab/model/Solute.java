@@ -24,16 +24,16 @@ public class Solute {
     public final double stockSolutionConcentration; // M, stock solution in dropper
     public final ColorRange solutionColor; // color range for a solution with non-zero concentration
     public final Color precipitateColor; // color as a precipitate
-    public final double precipitateSize; // size of the precipitate particles in view coordinates
+    public final double particleSize; // solid particles are square, this is the length of one side
     public final int precipitateParticlesPerMole; // number of precipitate particles to show per mol of saturation
 
     // For most solutes, the color of the precipitate is the same as the color of the saturated solution.
-    public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration, ColorRange solutionColor, double precipitateSize, int precipitateParticlesPerMole ) {
-        this( name, formula, molarMass, saturatedConcentration, stockSolutionConcentration, solutionColor, solutionColor.getMax(), precipitateSize, precipitateParticlesPerMole );
+    public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration, ColorRange solutionColor, double particleSize, int precipitateParticlesPerMole ) {
+        this( name, formula, molarMass, saturatedConcentration, stockSolutionConcentration, solutionColor, solutionColor.getMax(), particleSize, precipitateParticlesPerMole );
     }
 
     public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration,
-                   ColorRange solutionColor, Color precipitateColor, double precipitateSize, int precipitateParticlesPerMole ) {
+                   ColorRange solutionColor, Color precipitateColor, double particleSize, int precipitateParticlesPerMole ) {
         this.name = name;
         this.formula = formula;
         this.molarMass = molarMass;
@@ -41,7 +41,7 @@ public class Solute {
         this.stockSolutionConcentration = stockSolutionConcentration;
         this.solutionColor = solutionColor;
         this.precipitateColor = precipitateColor;
-        this.precipitateSize = precipitateSize;
+        this.particleSize = particleSize;
         this.precipitateParticlesPerMole = precipitateParticlesPerMole;
     }
 }
