@@ -49,6 +49,8 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class ConcentrationMeterNode extends PhetPNode {
 
+    public static final String VALUE_PATTERN = "0.00000";
+
     private final ConcentrationMeter meter;
     private final Solution solution;
     private final SolutionNode solutionNode;
@@ -119,7 +121,6 @@ public class ConcentrationMeterNode extends PhetPNode {
     // Meter body, origin at upper left.
     private static class BodyNode extends PNode {
 
-        private static final String VALUE_PATTERN = "0.00000";
         private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( VALUE_PATTERN );
         private static final String NO_VALUE = "-";
 
