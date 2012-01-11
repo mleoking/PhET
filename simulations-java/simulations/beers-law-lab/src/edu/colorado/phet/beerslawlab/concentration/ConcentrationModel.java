@@ -130,7 +130,7 @@ public class ConcentrationModel implements Resettable {
                 final boolean containsMaxSolute = ( soluteAmount >= SOLUTE_AMOUNT.getMax() );
                 shaker.empty.set( containsMaxSolute );
                 dropper.empty.set( containsMaxSolute );
-                dropper.enabled.set( !dropper.empty.get() && !containsMaxSolute );
+                dropper.enabled.set( !dropper.empty.get() && !containsMaxSolute && solution.volume.get() < SOLUTION_VOLUME_RANGE.getMax() );
             }
         } );
     }
