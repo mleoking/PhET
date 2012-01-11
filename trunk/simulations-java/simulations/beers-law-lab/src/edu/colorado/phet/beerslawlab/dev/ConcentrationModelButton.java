@@ -124,7 +124,7 @@ public class ConcentrationModelButton extends JButton {
             final DecimalFormat rateFormat = new DecimalFormat( "0.000" );
             final DecimalFormat volumeFormat = new DecimalFormat( "0.00" );
             final DecimalFormat molesFormat = new DecimalFormat( "0.0000" );
-            final DecimalFormat concentrationFormat = new DecimalFormat( "0.0000" );
+            final DecimalFormat concentrationFormat = new DecimalFormat( "0.00000" );
 
             // observers
             model.dropper.location.addObserver( new SimpleObserver() {
