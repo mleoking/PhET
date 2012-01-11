@@ -8,7 +8,6 @@ DESIGN
 
 HIGH
 - view of solute exiting shaker (magic particles, trajectory ala SASS)
-- use precipitate color for particles exiting shaker
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 
 MEDIUM

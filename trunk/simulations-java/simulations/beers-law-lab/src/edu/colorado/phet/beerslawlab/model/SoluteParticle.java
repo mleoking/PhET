@@ -21,7 +21,7 @@ public abstract class SoluteParticle {
     // One particle that comes out of the shaker.
     public static class ShakerParticle extends SoluteParticle {
         public ShakerParticle( Solute solute, Point2D location, double orientation ) {
-            super( solute.solutionColor.getMax(), solute.particleSize, location, orientation );
+            super( solute.precipitateColor, solute.particleSize, location, orientation );
         }
     }
 
