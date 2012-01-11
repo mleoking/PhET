@@ -20,8 +20,8 @@ public class GeneExpressionBasicsResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage ECOLI_IMAGE = RESOURCES.getImage( "ecoli_image.gif" );
         public static final BufferedImage GRAY_ARROW = RESOURCES.getImage( "gray-arrow.png" );
         public static final BufferedImage SECOND_TAB_STATIC_PICTURE = RESOURCES.getImage( "second-tab-static-picture.png" );
-        public static final BufferedImage THIRD_TAB_STATIC_PICTURE = RESOURCES.getImage( "third-tab-static-picture.png" );
     }
 }

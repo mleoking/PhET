@@ -2,7 +2,10 @@
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -12,8 +15,10 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -43,7 +48,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     // Chart that depicts the average protein level.
     protected ProteinLevelChartNode proteinLevelChartNode;
 
-    public MultipleCellsCanvas( final MultipleCellsModel model ) {
+    public MultipleCellsCanvas( final MultipleCellsModel model, final Frame parentFrame ) {
         this.model = model;
 
         // Set up the canvas-screen transform.
@@ -104,10 +109,26 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                                            cellNumberController.getFullBoundsReference().getMaxY() + 20 );
 
         // Add the Reset All button.
-        addWorldChild( new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             setOffset( cellParameterController.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
                        cellParameterController.getFullBoundsReference().getMaxY() + 20 );
+        }};
+        addWorldChild( resetAllButtonNode );
+
+        // Add button for showing a picture of real fluorescent cells.
+        addWorldChild( new HTMLImageButtonNode( "Show Real Cells", new PhetFont( 18 ), Color.YELLOW ) {{
+            centerFullBoundsOnPoint( ( proteinLevelChartNode.getFullBoundsReference().getMaxX() + resetAllButtonNode.getFullBoundsReference().getMinX() ) / 2,
+                                     resetAllButtonNode.getFullBoundsReference().getCenterY() );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    FluorescentCellsPictureDialog dialog = new FluorescentCellsPictureDialog( parentFrame );
+                    if ( dialog != null ) {
+                        SwingUtils.centerInParent( dialog );
+                    }
+                    dialog.setVisible( true );
+                }
+            } );
         }} );
         /*
         // Add the sliders that control the various model parameters.
