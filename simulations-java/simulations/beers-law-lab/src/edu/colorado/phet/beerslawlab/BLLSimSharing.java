@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class BLLSimSharing {
 
     public static enum UserComponents implements IUserComponent {
+        concentrationTab, beersLawTab,
         concentrationMeterBody, concentrationMeterProbe, dropper, dropperButton,
         dropperIcon, evaporationSlider, inputFaucetSlider, outputFaucetSlider,
         shaker, shakerIcon, soluteComboBox

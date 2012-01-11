@@ -4,6 +4,7 @@ package edu.colorado.phet.beerslawlab.concentration;
 import java.awt.Frame;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.view.BLLModule;
 
 /**
@@ -14,7 +15,7 @@ import edu.colorado.phet.beerslawlab.view.BLLModule;
 public class ConcentrationModule extends BLLModule {
 
     public ConcentrationModule( Frame parentFrame ) {
-        super( Strings.CONCENTRATION );
+        super( UserComponents.concentrationTab, Strings.CONCENTRATION );
         setSimulationPanel( new ConcentrationCanvas( new ConcentrationModel( getClock() ), parentFrame ) );
     }
 }
