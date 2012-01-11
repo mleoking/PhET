@@ -211,10 +211,14 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             public void apply( Double zoomFactor ) {
                 // Reset any previous transformation.
                 modelRootNode.setTransform( new AffineTransform() );
-                // Zoom around a point that is in the center of the stage in
-                // the x direction and the location of the DNA strand in the
-                // y direction.
-                modelRootNode.scaleAboutPoint( zoomFactor, STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ) );
+
+                // Scale the canvas to the zoom factor.
+                modelRootNode.setScale( zoomFactor );
+
+                // Set the offset so that the center of the currently selected
+                // gene stays in the same location.
+                modelRootNode.setOffset( ( 1 - zoomFactor ) * STAGE_SIZE.getWidth() / 2 + zoomFactor * viewportOffset.getX(),
+                                         ( 1 - zoomFactor ) * mvt.modelToViewY( DnaMolecule.Y_POS ) + zoomFactor * viewportOffset.getY() );
             }
         } );
 
