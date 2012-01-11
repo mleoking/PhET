@@ -24,16 +24,4 @@ public class BCESimSharing {
     public static enum Parameters implements IParameterKey {
         attempts, equation, isBalancedAndSimplified, isBalanced
     }
-
-    public static class CoefficientNodeSpinner implements IUserComponent {
-        private final String symbol;
-
-        public CoefficientNodeSpinner( String symbol ) {
-            this.symbol = symbol;
-        }
-
-        @Override public String toString() {
-            return symbol;
-        }
-    }
 }
