@@ -4,6 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.module.game;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEModule;
+import edu.colorado.phet.balancingchemicalequations.BCESimSharing.UserComponents;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 
@@ -19,7 +20,7 @@ public class GameModule extends BCEModule {
     private boolean rewardWasRunning = false; // was the game reward animation running when this module was deactivated?
 
     public GameModule( BCEGlobalProperties globalProperties ) {
-        super( BCEStrings.BALANCING_GAME, new BCEClock(), true /* startsPaused */ );
+        super( UserComponents.balancingGameTab, BCEStrings.BALANCING_GAME, new BCEClock(), true /* startsPaused */ );
         model = new GameModel( globalProperties );
         canvas = new GameCanvas( model, globalProperties );
         setSimulationPanel( canvas );
