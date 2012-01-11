@@ -4,7 +4,7 @@ DEADLINES
 - 3/5/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
-- do we need to show the long names of the solutes in the combo box? this is taking up a lot of horizontal space
+- long names in solute combo box are taking up a lot of horizontal space
 - should shaker particles be removed when the shaker is made invisible?
 
 HIGH
