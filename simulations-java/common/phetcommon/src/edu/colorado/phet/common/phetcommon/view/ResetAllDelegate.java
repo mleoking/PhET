@@ -8,15 +8,13 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.shown;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.resetAllConfirmationDialog;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.*;
 
 /**
  * Delegate for "Reset All" behavior.
@@ -83,8 +81,8 @@ public class ResetAllDelegate {
         String title = getInstance().getLocalizedString( "Common.title.confirm" );
         int option = PhetOptionPane.showYesNoDialog( parent, message, title );
         final boolean shouldReset = option == JOptionPane.YES_OPTION;
+        SimSharingManager.sendUserMessage( shouldReset ? resetAllConfirmationDialogYesButton : resetAllConfirmationDialogNoButton, UserActions.pressed );
 
-        SimSharingManager.sendUserMessage( resetAllConfirmationDialog, UserActions.pressed, Parameter.param( ParameterKeys.shouldReset, shouldReset ) );
         return shouldReset;
     }
 }
