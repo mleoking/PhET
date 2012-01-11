@@ -51,31 +51,33 @@ public class DropperNode extends PhetPNode {
 
     public DropperNode( final Dropper dropper ) {
 
+        // nodes
         final PImage foregroundImageNode = new PImage( Images.DROPPER_FOREGROUND );
-        foregroundImageNode.setOffset( -foregroundImageNode.getFullBoundsReference().getWidth() / 2, -foregroundImageNode.getFullBoundsReference().getHeight() );
-
         final PImage backgroundImageNode = new PImage( Images.DROPPER_BACKGROUND );
-        backgroundImageNode.setOffset( -backgroundImageNode.getFullBoundsReference().getWidth() / 2, -backgroundImageNode.getFullBoundsReference().getHeight() );
-
         final HTMLNode labelNode = new HTMLNode( "", Color.BLACK, new PhetFont( Font.BOLD, 15 ) );
-
-        // On/off button, with origin at its center
         MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.dropperButton, dropper.on, dropper.enabled ) {{
             scale( 0.3 );
             rotate( Math.toRadians( 110 ) ); // rotate to match lighting in dropper images
         }};
-        buttonNode.setOffset( foregroundImageNode.getFullBoundsReference().getCenterX(),
-                              foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - BUTTON_Y_OFFSET ) );
 
         // rendering order
         addChild( backgroundImageNode );
         addChild( foregroundImageNode );
         addChild( labelNode );
         addChild( buttonNode );
-
-        // origin debugging
         if ( SHOW_ORIGIN ) {
             addChild( new DebugOriginNode() );
+        }
+
+        // layout
+        {
+            // move origin to bottom center (tip) to images
+            foregroundImageNode.setOffset( -foregroundImageNode.getFullBoundsReference().getWidth() / 2, -foregroundImageNode.getFullBoundsReference().getHeight() );
+            backgroundImageNode.setOffset( -backgroundImageNode.getFullBoundsReference().getWidth() / 2, -backgroundImageNode.getFullBoundsReference().getHeight() );
+            // center the button in the dropper's bulb
+            buttonNode.setOffset( foregroundImageNode.getFullBoundsReference().getCenterX(),
+                                  foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - BUTTON_Y_OFFSET ) );
+            //NOTE: label will be positioned whenever its text is set, to keep it centered in the dropper's glass
         }
 
         // Change the label when the solute changes.
@@ -83,6 +85,7 @@ public class DropperNode extends PhetPNode {
             public void update() {
                 labelNode.setHTML( dropper.solute.get().formula );
                 labelNode.setRotation( -Math.PI / 2 );
+                // center the label in the dropper's glass
                 labelNode.setOffset( -( labelNode.getFullBoundsReference().getWidth() / 2 ),
                                      foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - LABEL_Y_OFFSET ) + ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
             }
