@@ -20,9 +20,9 @@ public class ShakerParticle extends SoluteParticle {
     private ImmutableVector2D velocity;
     private ImmutableVector2D acceleration;
 
-    public ShakerParticle( Solute solute, ImmutableVector2D location, double orientation ) {
+    public ShakerParticle( Solute solute, ImmutableVector2D location, double orientation, ImmutableVector2D initialVelocity ) {
         super( solute.precipitateColor, solute.particleSize, location, orientation );
-        velocity = getInitialVelocity();
+        this.velocity = initialVelocity;
     }
 
     public void stepInTime( double deltaSeconds ) {
@@ -41,10 +41,5 @@ public class ShakerParticle extends SoluteParticle {
         //TODO Did the particle hit the beaker walls? If so, change direction.
 
         //TODO Did the particle hit the surface of the solution or bottom of the beaker? If so, delete the particle and add an appropriate amount of solute to the solution.
-    }
-
-    // Computes an initial velocity for the particle.
-    protected ImmutableVector2D getInitialVelocity() {
-        return new ImmutableVector2D( -5, 5 ); // in the direction the shaker is pointing, 45 degrees down to the left
     }
 }

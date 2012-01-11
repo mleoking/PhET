@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -61,9 +62,15 @@ public class ShakerParticles {
         if ( shaker.getDispensingRate() > 0 ) {
             int numberOfParticles = 1; //TODO number of particles created is a function of shaker.getDispensingRate
             for ( int i = 0; i < numberOfParticles; i++ ) {
-                addParticle( new ShakerParticle( solution.solute.get(), shaker.location.get(), 0 ) );
+                addParticle( new ShakerParticle( solution.solute.get(), shaker.location.get(), 0, getInitialVelocity() ) );
             }
         }
+    }
+
+    // Computes an initial velocity for the particle.
+    protected ImmutableVector2D getInitialVelocity() {
+        //TODO create a constant for magnitude, or compute based on particle mass?
+        return ImmutableVector2D.createPolar( 5, shaker.getOrientation() ); // in the direction the shaker is pointing
     }
 
     public void addParticlesChangeListener( ParticlesChangeListener listener ) {
