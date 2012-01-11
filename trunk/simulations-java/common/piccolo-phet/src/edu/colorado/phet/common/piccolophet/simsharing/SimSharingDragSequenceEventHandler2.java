@@ -30,7 +30,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterK
  */
 public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandler {
 
-    private final UserComponent userComponent;
+    protected final UserComponent userComponent;
     private ArrayList<Point2D> dragPoints = new ArrayList<Point2D>();
 
     public SimSharingDragSequenceEventHandler2( UserComponent userComponent ) {
@@ -51,14 +51,6 @@ public class SimSharingDragSequenceEventHandler2 extends PDragSequenceEventHandl
     //Return parameters that are used for startDrag/drag/endDrag
     public ParameterSet getParametersForAllEvents() {
         return new ParameterSet();
-    }
-
-    @Override protected void drag( PInputEvent event ) {
-
-        //Don't send a message for each event, may require too much bandwidth.
-//        SimSharingManager.sendUserEvent( userComponent, UserActions.drag, getXParameter( event ), getYParameter( event ) );
-        dragPoints.add( new Point2D.Double( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() ) );
-        super.drag( event );
     }
 
     //Finish the drag and report on simsharing for this drag event.
