@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -691,7 +691,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
         return !( dragging && dragMode == DragMode.REAL_MOLECULE_ROTATE );
     }
 
-    public UserComponent getUserComponent() {
+    public IUserComponent getUserComponent() {
         return realMoleculesTab;
     }
 }

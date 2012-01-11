@@ -4,7 +4,7 @@ package edu.colorado.phet.energyskatepark.view.swing;
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyCheckBox;
 import edu.colorado.phet.energyskatepark.basics.EnergySkateParkBasicsModule;
 import edu.umd.cs.piccolo.PNode;
@@ -18,7 +18,7 @@ public class PropertyCheckBoxNode extends PNode {
 
     private static final Font LABEL_FONT = EnergySkateParkBasicsModule.CONTROL_FONT;
 
-    public PropertyCheckBoxNode( UserComponent userComponent, String text, final BooleanProperty property ) {
+    public PropertyCheckBoxNode( IUserComponent userComponent, String text, final BooleanProperty property ) {
 
         // Create the check box, which is a Swing component.
         SimSharingPropertyCheckBox checkBox = new SimSharingPropertyCheckBox( userComponent, text, property ) {{

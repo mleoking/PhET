@@ -1,10 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balancingchemicalequations;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
  * Sim-sharing strings that are specific to this sim.
@@ -13,18 +13,18 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
  */
 public class BCESimSharing {
 
-    public static enum Actions implements UserAction, ModelAction {
+    public static enum Actions implements IUserAction, IModelAction {
         guessChecked
     }
 
-    public static enum Components implements UserComponent {
+    public static enum Components implements IUserComponent {
     }
 
-    public static enum Parameters implements ParameterKey {
+    public static enum Parameters implements IParameterKey {
         attempts, equation, isBalancedAndSimplified, isBalanced
     }
 
-    public static class CoefficientNodeSpinner implements UserComponent {
+    public static class CoefficientNodeSpinner implements IUserComponent {
         private final String symbol;
 
         public CoefficientNodeSpinner( String symbol ) {

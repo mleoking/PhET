@@ -5,8 +5,8 @@ import java.awt.Image;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -26,7 +26,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
 
 public class PropertyTogglingImageNode extends PNode {
 
-    public PropertyTogglingImageNode( final UserComponent userComponent, Image image, final BooleanProperty property ) {
+    public PropertyTogglingImageNode( final IUserComponent userComponent, Image image, final BooleanProperty property ) {
 
         // Create and add the image node.
         PNode imageNode = new PImage( image );

@@ -2,7 +2,7 @@
 package edu.colorado.phet.common.piccolophet;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
  * Adds simsharing features to tab button presses.
@@ -11,20 +11,20 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
  */
 public class SimSharingPiccoloModule extends PiccoloModule {
 
-    private final UserComponent tabUserComponent;
+    private final IUserComponent tabUserComponent;
 
-    public SimSharingPiccoloModule( UserComponent tabUserComponent, String name, IClock clock ) {
+    public SimSharingPiccoloModule( IUserComponent tabUserComponent, String name, IClock clock ) {
         super( name, clock );
         this.tabUserComponent = tabUserComponent;
     }
 
-    public SimSharingPiccoloModule( UserComponent tabUserComponent, String name, IClock clock, boolean startsPaused ) {
+    public SimSharingPiccoloModule( IUserComponent tabUserComponent, String name, IClock clock, boolean startsPaused ) {
         super( name, clock, startsPaused );
         this.tabUserComponent = tabUserComponent;
     }
 
     //Used in Tab node code for sim sharing, to have a good ID for the tab associated with this module.
-    @Override public UserComponent getTabUserComponent() {
+    @Override public IUserComponent getTabUserComponent() {
         return tabUserComponent;
     }
 }

@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
  *
  * @author Sam Reid
  */
-public class UserMessage extends SimSharingMessage<UserComponent, UserAction> {
-    public UserMessage( IMessageType messageType, UserComponent object, UserAction action, ParameterSet parameters ) {
+public class UserMessage extends SimSharingMessage<IUserComponent, IUserAction> {
+    public UserMessage( IMessageType messageType, IUserComponent object, IUserAction action, ParameterSet parameters ) {
         super( messageType, object, action, parameters );
     }
 }

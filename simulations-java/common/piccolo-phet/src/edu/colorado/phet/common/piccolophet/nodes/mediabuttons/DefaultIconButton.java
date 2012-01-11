@@ -7,7 +7,7 @@ import java.awt.Shape;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
@@ -18,9 +18,9 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
 public class DefaultIconButton extends IconButton {
     protected PhetPPath iconNode;
     private ArrayList listeners = new ArrayList();
-    private final UserComponent simSharingObject;
+    private final IUserComponent simSharingObject;
 
-    public DefaultIconButton( UserComponent simSharingObject, int buttonHeight, Shape shape ) {
+    public DefaultIconButton( IUserComponent simSharingObject, int buttonHeight, Shape shape ) {
         super( buttonHeight );
         this.simSharingObject = simSharingObject;
         iconNode = new PhetPPath( shape, Color.BLACK, new BasicStroke( 1 ), Color.LIGHT_GRAY );

@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -49,7 +49,7 @@ public class ValueNode extends PhetPNode {
 
     private int value;
 
-    public ValueNode( UserComponent userComponent, IntegerRange range, int value, Image image, double imageScale, String name, boolean showName, boolean editable ) {
+    public ValueNode( IUserComponent userComponent, IntegerRange range, int value, Image image, double imageScale, String name, boolean showName, boolean editable ) {
         super();
 
         if ( !range.contains( value ) ) {

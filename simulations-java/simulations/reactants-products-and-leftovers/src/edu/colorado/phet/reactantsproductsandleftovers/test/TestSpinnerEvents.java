@@ -13,7 +13,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
 
@@ -25,7 +25,7 @@ public class TestSpinnerEvents extends JFrame {
     private final IntegerSpinner spinner1, spinner2;
 
     public static class TestIntegerSpinner extends IntegerSpinner {
-        public TestIntegerSpinner( final UserComponent userComponent, IntegerRange range ) {
+        public TestIntegerSpinner( final IUserComponent userComponent, IntegerRange range ) {
             super( userComponent, range );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -57,9 +57,9 @@ public class TestSpinnerEvents extends JFrame {
 
     public TestSpinnerEvents() {
         super( TestSpinnerEvents.class.getName() );
-        spinner1 = new TestIntegerSpinner( new UserComponent() {
+        spinner1 = new TestIntegerSpinner( new IUserComponent() {
         }, SPINNER_RANGE );
-        spinner2 = new TestIntegerSpinner( new UserComponent() {
+        spinner2 = new TestIntegerSpinner( new IUserComponent() {
         }, SPINNER_RANGE );
         JPanel panel = new JPanel();
         panel.add( spinner1 );

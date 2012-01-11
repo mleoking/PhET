@@ -6,7 +6,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -23,7 +23,7 @@ public class IntegerSpinnerNode extends PNode {
     private final IntegerSpinner spinner;
     private final EventListenerList listeners;
 
-    public IntegerSpinnerNode( UserComponent userComponent, IntegerRange range ) {
+    public IntegerSpinnerNode( IUserComponent userComponent, IntegerRange range ) {
         super();
 
         addInputEventListener( new CursorHandler() );

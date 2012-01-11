@@ -6,7 +6,7 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  *
  * @author Sam Reid
  */
-public class UserComponentId implements UserComponent {
+public class UserComponentId implements IUserComponent {
 
     public final String id;
 

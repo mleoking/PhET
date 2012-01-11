@@ -16,16 +16,16 @@ import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.StringActor;
 import edu.colorado.phet.common.phetcommon.simsharing.client.ThreadedActor;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDialog;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemObject;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObject;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -156,34 +156,34 @@ public class SimSharingManager {
 //    }
 
     //Convenience overload to provide no parameters
-    public static String sendSystemMessage( SystemObject object, SystemAction action ) {
+    public static String sendSystemMessage( ISystemObject object, ISystemAction action ) {
         return sendSystemMessage( object, action, new ParameterSet() );
     }
 
-    public static String sendSystemMessage( SystemObject object, SystemAction action, ParameterSet parameters ) {
+    public static String sendSystemMessage( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
         return getInstance().sendMessage( new SystemMessage( system, object, action, parameters ) );
     }
 
     //Convenience overload to provide no parameters
-    public static String sendUserMessage( UserComponent object, UserAction action ) {
+    public static String sendUserMessage( IUserComponent object, IUserAction action ) {
         return sendUserMessage( object, action, new ParameterSet() );
     }
 
     // Convenience method for sending an event from something the user did
-    public static String sendUserMessage( UserComponent object, UserAction action, ParameterSet parameters ) {
+    public static String sendUserMessage( IUserComponent object, IUserAction action, ParameterSet parameters ) {
         return getInstance().sendMessage( new UserMessage( user, object, action, parameters ) );
     }
 
-    public static String sendModelMessage( ModelObject object, ModelAction action ) {
+    public static String sendModelMessage( ModelObject object, IModelAction action ) {
         return getInstance().sendMessage( new ModelMessage( model, object, action, new ParameterSet() ) );
     }
 
-    public static String sendModelMessage( ModelObject object, ModelAction action, ParameterSet parameters ) {
+    public static String sendModelMessage( ModelObject object, IModelAction action, ParameterSet parameters ) {
         return getInstance().sendMessage( new ModelMessage( model, object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
-    public static String sendNonInteractiveUserMessage( UserComponent object, UserAction action ) {
+    public static String sendNonInteractiveUserMessage( IUserComponent object, IUserAction action ) {
         return SimSharingManager.sendUserMessage( object, action, param( interactive, false ) );
     }
 

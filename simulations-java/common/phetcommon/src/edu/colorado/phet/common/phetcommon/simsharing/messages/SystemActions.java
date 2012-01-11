@@ -6,6 +6,6 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  *
  * @author Sam Reid
  */
-public enum SystemActions implements SystemAction {
+public enum SystemActions implements ISystemAction {
     started, stopped, connectedToServer, sentEvent, exited, shown
 }

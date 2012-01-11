@@ -8,8 +8,8 @@ import javax.swing.Icon;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.menuItem;
@@ -21,33 +21,33 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentT
  */
 public class SimSharingJMenuItem extends JMenuItem {
 
-    private final UserComponent object;
+    private final IUserComponent object;
 
-    public SimSharingJMenuItem( UserComponent object ) {
+    public SimSharingJMenuItem( IUserComponent object ) {
         this.object = object;
     }
 
-    public SimSharingJMenuItem( UserComponent object, Icon icon ) {
+    public SimSharingJMenuItem( IUserComponent object, Icon icon ) {
         super( icon );
         this.object = object;
     }
 
-    public SimSharingJMenuItem( UserComponent object, String text ) {
+    public SimSharingJMenuItem( IUserComponent object, String text ) {
         super( text );
         this.object = object;
     }
 
-    public SimSharingJMenuItem( UserComponent object, Action a ) {
+    public SimSharingJMenuItem( IUserComponent object, Action a ) {
         super( a );
         this.object = object;
     }
 
-    public SimSharingJMenuItem( UserComponent object, String text, Icon icon ) {
+    public SimSharingJMenuItem( IUserComponent object, String text, Icon icon ) {
         super( text, icon );
         this.object = object;
     }
 
-    public SimSharingJMenuItem( UserComponent object, String text, int mnemonic ) {
+    public SimSharingJMenuItem( IUserComponent object, String text, int mnemonic ) {
         super( text, mnemonic );
         this.object = object;
     }

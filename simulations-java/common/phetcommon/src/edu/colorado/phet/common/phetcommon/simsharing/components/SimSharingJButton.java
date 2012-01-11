@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
@@ -21,28 +21,28 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
  */
 public class SimSharingJButton extends JButton {
 
-    private final UserComponent object;
+    private final IUserComponent object;
 
-    public SimSharingJButton( UserComponent object ) {
+    public SimSharingJButton( IUserComponent object ) {
         this.object = object;
     }
 
-    public SimSharingJButton( UserComponent object, Icon icon ) {
+    public SimSharingJButton( IUserComponent object, Icon icon ) {
         super( icon );
         this.object = object;
     }
 
-    public SimSharingJButton( UserComponent object, String text ) {
+    public SimSharingJButton( IUserComponent object, String text ) {
         super( text );
         this.object = object;
     }
 
-    public SimSharingJButton( UserComponent object, Action a ) {
+    public SimSharingJButton( IUserComponent object, Action a ) {
         super( a );
         this.object = object;
     }
 
-    public SimSharingJButton( UserComponent object, String text, Icon icon ) {
+    public SimSharingJButton( IUserComponent object, String text, Icon icon ) {
         super( text, icon );
         this.object = object;
     }

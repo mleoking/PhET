@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory.Listener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Sam Reid
  */
 public class ColorDialogMenuItem extends SimSharingJMenuItem {
-    public ColorDialogMenuItem( UserComponent component, Component parent, String title, final Property<Color> colorProperty ) {
+    public ColorDialogMenuItem( IUserComponent component, Component parent, String title, final Property<Color> colorProperty ) {
         super( component, title );
 
         //Adapter to pass information from the ColorChooserFactory.Listener to the Property<Color>

@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
  * Sim-sharing enums that are specific to this sim.
@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
  */
 public class BLLSimSharing {
 
-    public static enum UserComponents implements UserComponent {
+    public static enum UserComponents implements IUserComponent {
         concentrationMeterBody, concentrationMeterProbe, dropper, dropperButton,
         dropperIcon, evaporationSlider, inputFaucetSlider, outputFaucetSlider,
         shaker, shakerIcon, soluteComboBox
     }
 
-    public static enum Parameters implements ParameterKey {
+    public static enum Parameters implements IParameterKey {
         evaporationRate, flowRate, isInSolution, locationX, locationY
     }
 }

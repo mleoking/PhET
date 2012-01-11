@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
@@ -532,7 +532,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }
     }
 
-    public UserComponent getUserComponent() {
+    public IUserComponent getUserComponent() {
         return PlateTectonicsSimSharing.UserComponents.plateMotionTab;
     }
 }

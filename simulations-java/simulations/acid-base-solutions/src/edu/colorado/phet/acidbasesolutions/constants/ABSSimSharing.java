@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.acidbasesolutions.constants;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
  * Sim-sharing enums that are specific to this sim.
@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
  */
 public class ABSSimSharing {
 
-    public static enum UserComponents implements UserComponent {
+    public static enum UserComponents implements IUserComponent {
         battery, concentrationControl, concentrationGraph, conductivityTesterNegativeProbe,
         conductivityTesterPositiveProbe, lightBulb, magnifyingGlass, phMeter, phPaper,
         reactionEquation, weakStrengthControl, phMeterRadioButton, phPaperRadioButton,
@@ -24,7 +24,7 @@ public class ABSSimSharing {
         customSolutionTab, introductionTab
     }
 
-    public static enum ParameterKeys implements ParameterKey {
+    public static enum ParameterKeys implements IParameterKey {
         handle, isCircuitCompleted, isInSolution, isPaperAlignedWithColorKey, lens, molecule
     }
 }

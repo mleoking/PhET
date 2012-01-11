@@ -5,7 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.controls;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantChangeAdapter;
@@ -23,7 +23,7 @@ public class LeftoversValueNode extends ValueNode implements IDynamicNode {
     private Reactant reactant;
     private final ReactantChangeListener reactantChangeListener;
 
-    public LeftoversValueNode( UserComponent simSharingObject, Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
+    public LeftoversValueNode( IUserComponent simSharingObject, Reactant reactant, IntegerRange range, double imageScale, boolean showName ) {
         super( simSharingObject, range, reactant.getLeftovers(), reactant.getImage(), imageScale, reactant.getName(), showName, false /* editable */ );
 
         this.reactant = reactant;

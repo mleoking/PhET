@@ -2,10 +2,12 @@
 package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
 /**
- * Marker interface for identifying actions that can be performed by the system (simsharing, or other system things)
+ * Marker interface for identifying objects that can be acted on by the system.
  * The marker interface makes it easy for us to make sure that we don't have typos in string copies, and use auto-complete for development.
+ * <p/>
+ * Extend IComponent here since the system sometimes acts on user items, like automatically closing a dialog
  *
  * @author Sam Reid
  */
-public interface SystemAction {
+public interface ISystemObject extends IUserComponent {
 }

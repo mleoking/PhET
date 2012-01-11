@@ -7,7 +7,7 @@ import java.awt.Color;
 import javax.swing.UIManager;
 
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 
 /**
@@ -27,7 +27,7 @@ public class HTMLRadioButton extends SimSharingJRadioButton {
      *
      * @param text plain text, HTML fragment, or HTML document
      */
-    public HTMLRadioButton( UserComponent simSharingObject, String text ) {
+    public HTMLRadioButton( IUserComponent simSharingObject, String text ) {
         super( simSharingObject, HTMLUtils.toHTMLString( text ) );
         this.foreground = getForeground();
     }

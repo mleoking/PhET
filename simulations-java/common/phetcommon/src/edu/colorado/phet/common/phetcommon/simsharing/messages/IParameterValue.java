@@ -6,5 +6,5 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  *
  * @author Sam Reid
  */
-public interface ParameterValue {
+public interface IParameterValue {
 }

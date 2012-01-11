@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.slider.simsharing.SimSharingHSliderNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -30,10 +30,10 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterK
  */
 public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
-    protected final UserComponent userComponent;
+    protected final IUserComponent userComponent;
     private ArrayList<Point2D> dragPoints = new ArrayList<Point2D>();
 
-    public SimSharingDragHandler( UserComponent userComponent ) {
+    public SimSharingDragHandler( IUserComponent userComponent ) {
         this.userComponent = userComponent;
     }
 
