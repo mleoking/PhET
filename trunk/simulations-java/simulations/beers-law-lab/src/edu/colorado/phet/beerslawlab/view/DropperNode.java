@@ -59,12 +59,13 @@ public class DropperNode extends PhetPNode {
 
         final HTMLNode labelNode = new HTMLNode( "", Color.BLACK, new PhetFont( Font.BOLD, 15 ) );
 
-        // On/off button
+        // On/off button, with origin at its center
         MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.dropperButton, dropper.on, dropper.enabled ) {{
             scale( 0.3 );
+            rotate( Math.toRadians( 110 ) ); // rotate to match lighting in dropper images
         }};
-        buttonNode.setOffset( foregroundImageNode.getFullBoundsReference().getCenterX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ),
-                              foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - BUTTON_Y_OFFSET ) - ( buttonNode.getFullBoundsReference().getHeight() / 2 ) );
+        buttonNode.setOffset( foregroundImageNode.getFullBoundsReference().getCenterX(),
+                              foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - BUTTON_Y_OFFSET ) );
 
         // rendering order
         addChild( backgroundImageNode );
