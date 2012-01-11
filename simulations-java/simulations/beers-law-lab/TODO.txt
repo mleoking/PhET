@@ -11,7 +11,6 @@ HIGH
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 
 MEDIUM
-- BLLFaucetNode does not have its origin at the output pipe's center, which is where the Faucet model origin is; fix OutputFluidNode, too
 
 LOW
 - dropper flickers/tears excessively while dragging

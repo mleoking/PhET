@@ -1,3 +1,4 @@
+1/10/12 move origin of faucet node to center of output pipe, so that it's consistent with the faucet model
 1/10/12 make meter and model properties dialog use the same number of decimal places for concentration values
 1/10/12 constrain meter from being dragged behind control panel; move control panel with combo box to front, so that combo box popup is aways on top
 1/10/12 derive height of solute fluid stream

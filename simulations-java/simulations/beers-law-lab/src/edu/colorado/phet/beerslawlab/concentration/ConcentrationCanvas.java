@@ -50,10 +50,10 @@ public class ConcentrationCanvas extends BLLCanvas {
         // Faucets
         BLLFaucetNode solventFaucetNode = new BLLFaucetNode( UserComponents.inputFaucetSlider, model.solventFaucet );
         BLLFaucetNode drainFaucetNode = new BLLFaucetNode( UserComponents.outputFaucetSlider, model.drainFaucet );
-        final double solventFluidHeight = beakerNode.getFullBoundsReference().getMaxY() - solventFaucetNode.getFullBoundsReference().getMaxY();
-        OutputFluidNode solventFluidNode = new OutputFluidNode( solventFaucetNode, solventFluidHeight, model.solution.solvent, model.solventFaucet );
+        final double solventFluidHeight = model.beaker.getY() - model.solventFaucet.getY();
+        OutputFluidNode solventFluidNode = new OutputFluidNode( model.solventFaucet, model.solution.solvent, solventFaucetNode.getFluidWidth(), solventFluidHeight );
         final double drainFluidHeight = 1000; // tall enough that resizing the play area is unlikely to show bottom of fluid
-        OutputFluidNode drainFluidNode = new OutputFluidNode( drainFaucetNode, drainFluidHeight, model.solution, model.drainFaucet );
+        OutputFluidNode drainFluidNode = new OutputFluidNode( model.drainFaucet, model.solution, drainFaucetNode.getFluidWidth(), drainFluidHeight );
 
         // Meter
         PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter, model.solution, solutionNode,

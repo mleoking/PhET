@@ -16,13 +16,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class OutputFluidNode extends PPath {
 
-    public OutputFluidNode( final BLLFaucetNode faucetNode, final double height, final IFluid fluid, final Faucet faucet ) {
+    public OutputFluidNode( final Faucet faucet, final IFluid fluid, final double maxWidth, final double height ) {
         setPickable( false );
         setChildrenPickable( false );
 
         setStroke( null );
 
-        setOffset( globalToLocal( faucetNode.getGlobalOutputCenter() ) );
+        setOffset( faucet.getLocation() );
 
         // match the color of the fluid
         fluid.addFluidColorObserver( new SimpleObserver() {
@@ -38,7 +38,6 @@ public class OutputFluidNode extends PPath {
                     setPathTo( new Rectangle2D.Double() ); // empty rectangle
                 }
                 else {
-                    double maxWidth = globalToLocal( faucetNode.getGlobalOutputSize() ).getWidth();
                     double width = maxWidth * faucet.flowRate.get() / faucet.getMaxFlowRate();
                     setPathTo( new Rectangle2D.Double( -width / 2, 0, width, height ) );
                 }
