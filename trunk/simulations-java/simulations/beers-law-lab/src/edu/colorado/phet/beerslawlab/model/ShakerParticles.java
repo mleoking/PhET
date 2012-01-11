@@ -60,10 +60,6 @@ public class ShakerParticles {
         listeners.add( listener );
     }
 
-    public void removeParticlesChangeListener( ParticlesChangeListener listener ) {
-        listeners.remove( listener );
-    }
-
     private void addParticle( ShakerParticle particle ) {
         particles.add( particle );
         fireParticleAdded( particle );
