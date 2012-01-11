@@ -6,14 +6,19 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  *
  * @author Sam Reid
  */
-public class StringUserComponent implements UserComponent {
-    public final String name;
+public class UserComponentId implements UserComponent {
 
-    public StringUserComponent( String name ) {
-        this.name = name;
+    public final String id;
+
+    public UserComponentId( int id ) {
+        this( String.valueOf( id ) );
+    }
+
+    public UserComponentId( String id ) {
+        this.id = id;
     }
 
     @Override public String toString() {
-        return name;
+        return id;
     }
 }
