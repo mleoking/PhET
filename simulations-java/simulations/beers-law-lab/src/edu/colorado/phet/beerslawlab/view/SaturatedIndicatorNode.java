@@ -31,11 +31,11 @@ public class SaturatedIndicatorNode extends PComposite {
             setFont( new PhetFont( 20 ) );
         }};
 
-        // translucent white background, so this shows up on all solution colors
+        // translucent light-gray background, so this shows up on all solution colors
         double width = 1.2 * textNode.getFullBoundsReference().getWidth();
         double height = 1.2 * textNode.getFullBoundsReference().getHeight();
         PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, 8, 8 ) ) {{
-            setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
+            setPaint( ColorUtils.createColor( new Color( 240, 240, 240 ), 150 ) );
             setStroke( null );
         }};
 
