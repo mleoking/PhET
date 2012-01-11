@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.piccolophet.nodes.slider.simsharing;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -14,7 +15,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.endDrag;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.startDrag;
-import static java.util.Collections.sort;
 
 /**
  * HSliderNode that also sends message about drag events.
@@ -65,15 +65,10 @@ public class SimSharingHSliderNode extends HSliderNode {
     }
 
     public static double min( ArrayList<Double> v ) {
-        return new ArrayList<Double>( v ) {{
-            sort( this );
-        }}.get( 0 );
+        return Collections.min( v );
     }
 
     public static double max( ArrayList<Double> v ) {
-        ArrayList<Double> copy = new ArrayList<Double>( v ) {{
-            sort( this );
-        }};
-        return copy.get( copy.size() - 1 );
+        return Collections.max( v );
     }
 }
