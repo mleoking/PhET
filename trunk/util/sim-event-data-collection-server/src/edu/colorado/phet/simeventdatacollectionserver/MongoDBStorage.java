@@ -70,7 +70,6 @@ public class MongoDBStorage {
                 }
             }} );
         }};
-        System.out.println( "doc.toString() = " + doc.toString() );
         coll.insert( doc );
     }
 
