@@ -48,7 +48,7 @@ class SimEventDataTableModel extends DefaultTableModel(SimEventDataTableModel.co
 }
 
 class SimEventDataCollectionMonitorScala {
-  val mongo = new Mongo
+  val mongo = new Mongo("phet-server.colorado.edu")
   val tableModel = new SimEventDataTableModel
   val table = new SimpleTable(tableModel)
   val sorter = new TableRowSorter[DefaultTableModel](tableModel)
