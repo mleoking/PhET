@@ -22,11 +22,11 @@ import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler2;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -227,35 +227,17 @@ public class PHMeterNode extends PhetPNode {
     }
 
     // Handles everything related to dragging of the meter.
-    private static class PhMeterDragHandler extends SimSharingDragSequenceEventHandler {
+    private static class PhMeterDragHandler extends SimSharingDragSequenceEventHandler2 {
 
         private final PHMeter meter;
         private final PNode dragNode;
         private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
         public PhMeterDragHandler( final PHMeter meter, PNode dragNode ) {
+            super( UserComponents.phPaper );
             this.meter = meter;
             this.dragNode = dragNode;
-            setStartEndFunction( new DragFunction() {
-                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    sendEvent( action );
-                }
-            } );
-            setDragFunction( new DragFunction() {
-                boolean wasInSolution = meter.isInSolution();
 
-                // send a sim-sharing event when the meter transitions between in/out of solution.
-                public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    if ( wasInSolution != meter.isInSolution() ) {
-                        sendEvent( action );
-                    }
-                    wasInSolution = meter.isInSolution();
-                }
-            } );
-        }
-
-        private void sendEvent( UserAction action ) {
-            SimSharingManager.sendUserMessage( UserComponents.phMeter, action, Parameter.param( ParameterKeys.isInSolution, meter.isInSolution() ) );
         }
 
         @Override protected void startDrag( PInputEvent event ) {
@@ -266,10 +248,18 @@ public class PHMeterNode extends PhetPNode {
 
         @Override protected void drag( final PInputEvent event ) {
             super.drag( event );
+
+            boolean wasInSolution = meter.isInSolution();
+
+            // adjust the meter's location
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
             double y = pMouse.getY() - clickYOffset;
-            //TODO map y from view to model coordinate frame
             meter.setLocation( meter.getLocationReference().getX(), y );
+
+            // send a sim-sharing event when the meter transitions between in/out of solution.
+            if ( wasInSolution != meter.isInSolution() ) {
+                SimSharingManager.sendUserMessage( userComponent, UserActions.drag, Parameter.param( ParameterKeys.isInSolution, meter.isInSolution() ) );
+            }
         }
     }
 }
