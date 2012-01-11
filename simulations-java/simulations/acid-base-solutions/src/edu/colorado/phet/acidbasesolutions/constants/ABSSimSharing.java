@@ -20,7 +20,8 @@ public class ABSSimSharing {
         waterIcon, concentrationGraphIcon, liquidIcon, phColorKey, acidRadioButton, baseRadioButton,
         weakRadioButton, strongRadioButton, waterRadioButton, strongAcidRadioButton, weakAcidRadioButton,
         strongBaseRadioButton, weakBaseRadioButton, strongAcidIcon, weakAcidIcon, strongBaseIcon,
-        weakBaseIcon, conductivityTesterRadioButton
+        weakBaseIcon, conductivityTesterRadioButton,
+        customSolutionTab, introductionTab
     }
 
     public static enum ParameterKeys implements ParameterKey {
