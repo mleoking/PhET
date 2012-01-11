@@ -5,17 +5,13 @@ package edu.colorado.phet.simeventdatacollectionmonitor
 
 import javax.swing._
 import swing._
+import table.DefaultTableModel
 
 /**
  * @author Sam Reid
  */
-class SimpleTable extends Component {
-  override lazy val peer: JTable = new JTable(JTableTest.tableModel) {
-    setAutoCreateRowSorter(true)
-
+class SimpleTable(model: DefaultTableModel) extends Component {
+  override lazy val peer: JTable = new JTable(model) {
     def tableWrapper = SimpleTable.this
   }
 }
-
-
-
