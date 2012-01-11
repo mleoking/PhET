@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 
 /**
- * Sim-sharing strings for this sim.
+ * Sim-sharing enums that are specific to this sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Sam Reid
