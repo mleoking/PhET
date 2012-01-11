@@ -14,7 +14,7 @@ public class PrecipitateParticle {
     private final Point2D location; // location of the particle in the coordinate frame of the beaker
     private final double orientation; // rotation angle, in radians
     private final Color color;
-    private final double size;
+    private final double size; // particles are square, this is the length of one side
 
     public PrecipitateParticle( Point2D location, double orientation, Color color, double size ) {
         this.location = location;
