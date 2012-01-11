@@ -15,9 +15,10 @@ import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.Solution
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -107,7 +108,7 @@ public class PHPaperNode extends PhetPNode {
     }
 
     // Handles everything related to dragging of the paper.
-    private static class PhPaperDragHandler extends SimSharingDragHandlerOld {
+    private static class PhPaperDragHandler extends SimSharingDragHandler {
 
         private final PHPaper paper;
         private final PNode dragNode;
@@ -115,24 +116,9 @@ public class PHPaperNode extends PhetPNode {
         private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
         public PhPaperDragHandler( final PHPaper paper, PNode dragNode ) {
+            super( UserComponents.phPaper );
             this.paper = paper;
             this.dragNode = dragNode;
-            setStartEndFunction( new DragFunction() {
-                public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    sendEvent( action );
-                }
-            } );
-            setDragFunction( new DragFunction() {
-                boolean wasInSolution = paper.isInSolution();
-
-                // send a sim-sharing event when the meter transitions between in/out of solution.
-                public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    if ( wasInSolution != paper.isInSolution() ) {
-                        sendEvent( action );
-                    }
-                    wasInSolution = paper.isInSolution();
-                }
-            } );
         }
 
         private void sendEvent( IUserAction action ) {
@@ -148,10 +134,19 @@ public class PHPaperNode extends PhetPNode {
 
         @Override protected void drag( final PInputEvent event ) {
             super.drag( event );
+
+            boolean wasInSolution = paper.isInSolution();
+
+            // adjust location
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
             double x = pMouse.getX() - clickXOffset;
             double y = pMouse.getY() - clickYOffset;
             paper.setLocation( x, y );
+
+            // send a sim-sharing event when the paper transitions between in/out of solution.
+            if ( wasInSolution != paper.isInSolution() ) {
+                SimSharingManager.sendUserMessage( userComponent, UserActions.drag, Parameter.param( ParameterKeys.isInSolution, paper.isInSolution() ) );
+            }
         }
     }
 }
