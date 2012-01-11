@@ -1,3 +1,4 @@
+1/10/12 change min colors for K2CrO4 (RGB=255,255,199) and KMnO4 (RGB=255,0,255)
 1/10/12 enable dropper when amount of solute is reduced below max
 # 0.00.05 (60092) Jan 10, 2012
 1/10/12 move dropper-specific image dependencies into DropperNode
