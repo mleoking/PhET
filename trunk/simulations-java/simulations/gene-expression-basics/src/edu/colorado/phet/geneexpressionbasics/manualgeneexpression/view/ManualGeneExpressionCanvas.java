@@ -16,6 +16,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -197,6 +198,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
         }} );
 
+        // Add the zoom control slider.
+        controlsRootNode.addChild( new ZoomControlSliderNode( new PDimension( 20, 120 ), new Property<Double>( 1.0 ), 1, 20, 19 ) {{
+            setOffset( 20, 300 );
+        }} );
+
         // Monitor the active gene and move the view port to be centered on it
         // whenever it changes.
         model.activeGene.addObserver( new VoidFunction1<Gene>() {
@@ -241,8 +247,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             model.addOffLimitsMotionSpace( mvt.viewToModel( biomoleculeToolBoxNode.getFullBoundsReference() ) );
         }
 
-        // Uncomment this line to add zoom on right mouse click drag
-        addInputEventListener( getZoomEventHandler() );
+        // Uncomment this line to add zoom on right mouse click drag.  TODO: Probably should be removed eventually.
+//        addInputEventListener( getZoomEventHandler() );
 
         // Add a node to depict the motion bounds.  This is for debug purposes.
         if ( SHOW_MOTION_BOUNDS ) {
