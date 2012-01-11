@@ -3,6 +3,8 @@ package edu.colorado.phet.beerslawlab.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+
 /**
  * Manages the creation and deletion of shaker particles in the model,
  * and their contribution to the amount of solute in solution.
@@ -26,10 +28,18 @@ public class ShakerParticles {
     private final ArrayList<ShakerParticle> particles;
 
     public ShakerParticles( Shaker shaker, Solution solution ) {
+
         this.shaker = shaker;
         this.solution = solution;
         this.listeners = new ArrayList<ParticlesChangeListener>();
         this.particles = new ArrayList<ShakerParticle>();
+
+        // when the solute changes, remove all particles
+        solution.solute.addObserver( new SimpleObserver() {
+            public void update() {
+                removeAllParticles();
+            }
+        } );
     }
 
     public void stepInTime( double deltaSeconds ) {
