@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.beerslawlab.concentration.ConcentrationModel;
+import edu.colorado.phet.beerslawlab.view.ConcentrationMeterNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
@@ -124,7 +125,7 @@ public class ConcentrationModelButton extends JButton {
             final DecimalFormat rateFormat = new DecimalFormat( "0.000" );
             final DecimalFormat volumeFormat = new DecimalFormat( "0.00" );
             final DecimalFormat molesFormat = new DecimalFormat( "0.0000" );
-            final DecimalFormat concentrationFormat = new DecimalFormat( "0.00000" );
+            final DecimalFormat concentrationFormat = new DecimalFormat( ConcentrationMeterNode.VALUE_PATTERN );
 
             // observers
             model.dropper.location.addObserver( new SimpleObserver() {
