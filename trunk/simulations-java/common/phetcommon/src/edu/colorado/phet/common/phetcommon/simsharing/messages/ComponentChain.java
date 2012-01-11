@@ -20,7 +20,7 @@ public class ComponentChain implements UserComponent {
 
     //Provide an index name for a component, such as "the 3rd track" would be track.3
     public static ComponentChain chain( UserComponent component, int index ) {
-        return chain( component, new IntegerUserComponent( index ) );
+        return chain( component, new UserComponentId( index ) );
     }
 
     public static ComponentChain chain( UserComponent... components ) {
@@ -28,6 +28,6 @@ public class ComponentChain implements UserComponent {
     }
 
     public static UserComponent chain( UserComponent userComponent, String name ) {
-        return new ComponentChain( userComponent, new StringUserComponent( name ) );
+        return new ComponentChain( userComponent, new UserComponentId( name ) );
     }
 }
