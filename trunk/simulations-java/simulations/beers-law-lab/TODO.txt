@@ -11,6 +11,7 @@ HIGH
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 
 MEDIUM
+- Beer's Law tab
 
 LOW
 - dropper flickers/tears excessively while dragging
