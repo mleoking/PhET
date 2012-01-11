@@ -18,6 +18,7 @@ MEDIUM
 LOW
 - dropper flickers/tears excessively while dragging
 - #3199, bigger slider thumb on FaucetNode
+- flat spot on top of concentration probe image
 
 SIM-SHARING
 
