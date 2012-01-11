@@ -67,14 +67,14 @@ public class SplineToolboxNode extends PNode {
         draggableIcon.addInputEventListener( new SimSharingDragHandler( toolboxTrack ) {
 
             //Indicate how many tracks the user has created, including this one
-            @Override public ParameterSet getStartDragParameters() {
+            @Override public ParameterSet getStartDragParameters( PInputEvent event ) {
 
                 //Use the class count to get the new track ID, assumes nothing else will happen between now and then to change that index
-                return super.getStartDragParameters().param( numTracks, energySkateParkSimulationPanel.getEnergySkateParkModel().getNumSplines() + 1 ).param( trackIndex, ParametricFunction2D.count );
+                return super.getStartDragParameters( event ).param( numTracks, energySkateParkSimulationPanel.getEnergySkateParkModel().getNumSplines() + 1 ).param( trackIndex, ParametricFunction2D.count );
             }
 
-            @Override public ParameterSet getEndDragParameters() {
-                return super.getEndDragParameters().addAll( param( trackIndex, createdSurface.getParametricFunction2D().index ) );
+            @Override public ParameterSet getEndDragParameters( PInputEvent event ) {
+                return super.getEndDragParameters( event ).addAll( param( trackIndex, createdSurface.getParametricFunction2D().index ) );
             }
 
             @Override protected void startDrag( PInputEvent event ) {

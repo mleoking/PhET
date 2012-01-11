@@ -2,20 +2,16 @@
 package edu.colorado.phet.common.piccolophet.simsharing;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingDragPoints;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.piccolophet.nodes.slider.simsharing.SimSharingHSliderNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.numberDragEvents;
 
 /**
  * Base class for drag sequence handlers that perform sim-sharing data collection.
@@ -31,88 +27,71 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterK
 public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     protected final IUserComponent userComponent;
-    private ArrayList<Point2D> dragPoints = new ArrayList<Point2D>();
+    private final SimSharingDragPoints dragPoints; // canvas coordinates, accumulated during a drag sequence
 
     public SimSharingDragHandler( IUserComponent userComponent ) {
         this.userComponent = userComponent;
+        this.dragPoints = new SimSharingDragPoints();
     }
 
+    // Start the drag and send a sim-sharing message.
     @Override protected void startDrag( final PInputEvent event ) {
-        dragPoints.clear();
+        clearDragPoints();
         addDragPoint( event );
-        SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, getStartDragParameters().add( getXParameter( event ) ).add( getYParameter( event ) ) );
+        SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, getStartDragParameters( event ).add( getXParameter( event ) ).add( getYParameter( event ) ) );
         super.startDrag( event );
     }
 
-    //Override to supply any additional parameters to send on start drag message
-    public ParameterSet getStartDragParameters() {
-        return getParametersForAllEvents();
-    }
-
-    //Return parameters that are used for startDrag/drag/endDrag
-    public ParameterSet getParametersForAllEvents() {
-        return new ParameterSet();
-    }
-
-    //Finish the drag and report on simsharing for this drag event.
+    // Finish the drag and send a sim-sharing message.
     @Override protected void endDrag( PInputEvent event ) {
         addDragPoint( event );
-        ArrayList<Double> xValues = extract( dragPoints, new Function1<Point2D, Double>() {
-            public Double apply( Point2D point2D ) {
-                return point2D.getX();
-            }
-        } );
-        ArrayList<Double> yValues = extract( dragPoints, new Function1<Point2D, Double>() {
-            public Double apply( Point2D point2D ) {
-                return point2D.getY();
-            }
-        } );
-        double minX = SimSharingHSliderNode.min( xValues );
-        double maxX = SimSharingHSliderNode.max( xValues );
-        double averageX = SimSharingHSliderNode.average( xValues );
-        double minY = SimSharingHSliderNode.min( yValues );
-        double maxY = SimSharingHSliderNode.max( yValues );
-        double averageY = SimSharingHSliderNode.average( yValues );
-        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, getEndDragParameters().
+        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, getEndDragParameters( event ).
                 add( getXParameter( event ) ).
                 add( getYParameter( event ) ).
-                param( numberDragEvents, dragPoints.size() ).
-                param( ParameterKeys.minX, minX ).
-                param( ParameterKeys.maxX, maxX ).
-                param( ParameterKeys.averageX, averageX ).
-                param( ParameterKeys.minY, minY ).
-                param( ParameterKeys.maxY, maxY ).
-                param( ParameterKeys.averageY, averageY ) );
-        dragPoints.clear();
+                addAll( dragPoints.getParameters() ) );
+        clearDragPoints();
         super.endDrag( event );
     }
 
-    private ArrayList<Double> extract( ArrayList<Point2D> all, Function1<Point2D, Double> extractor ) {
-        ArrayList<Double> list = new ArrayList<Double>();
-        for ( Point2D point2D : all ) {
-            list.add( extractor.apply( point2D ) );
-        }
-        return list;
-    }
-
+    // Override this is you want to send messages during drags. Be sure to call super.mouseDragged
     @Override protected void drag( PInputEvent event ) {
         addDragPoint( event );
         super.drag( event );
     }
 
     private void addDragPoint( PInputEvent event ) {
-        dragPoints.add( new Point2D.Double( event.getCanvasPosition().getX(), event.getCanvasPosition().getY() ) );
+        dragPoints.add( getPosition( event ) );
     }
 
-    public ParameterSet getEndDragParameters() {
-        return getParametersForAllEvents();
+    private void clearDragPoints() {
+        dragPoints.clear();
+    }
+
+    //Override to supply any additional parameters to send on start drag message
+    public ParameterSet getStartDragParameters( PInputEvent event ) {
+        return getParametersForAllEvents( event );
+    }
+
+    //Override to supply any additional parameters to send on end drag message
+    public ParameterSet getEndDragParameters( PInputEvent event ) {
+        return getParametersForAllEvents( event );
+    }
+
+    //Return parameters that are used by default for startDrag and endDrag
+    public ParameterSet getParametersForAllEvents( PInputEvent event ) {
+        return new ParameterSet();
     }
 
     private static Parameter getXParameter( PInputEvent event ) {
-        return new Parameter( ParameterKeys.canvasPositionX, event.getCanvasPosition().getX() );
+        return new Parameter( ParameterKeys.canvasPositionX, getPosition( event ).getX() );
     }
 
     private static Parameter getYParameter( PInputEvent event ) {
-        return new Parameter( ParameterKeys.canvasPositionY, event.getCanvasPosition().getY() );
+        return new Parameter( ParameterKeys.canvasPositionY, getPosition( event ).getY() );
+    }
+
+    // Gets the interpretation of the position used throughout this class.
+    private static Point2D getPosition( PInputEvent event ) {
+        return event.getCanvasPosition();
     }
 }
