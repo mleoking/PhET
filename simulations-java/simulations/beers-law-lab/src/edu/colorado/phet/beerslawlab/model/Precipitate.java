@@ -4,6 +4,7 @@ package edu.colorado.phet.beerslawlab.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.beerslawlab.model.SoluteParticle.PrecipitateParticle;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -16,22 +17,22 @@ public class Precipitate {
 
     public interface PrecipitateListener {
         // A particle has been added to the precipitate.
-        public void particleAdded( PrecipitateParticle particle );
+        public void particleAdded( SoluteParticle particle );
 
         // A particle has been removed from the precipitate.
-        public void particleRemoved( PrecipitateParticle particle );
+        public void particleRemoved( SoluteParticle particle );
     }
 
     private final Solution solution;
     private final Beaker beaker;
-    private final ArrayList<PrecipitateParticle> particles;
+    private final ArrayList<SoluteParticle> particles;
     private final ArrayList<PrecipitateListener> listeners;
 
     public Precipitate( Solution solution, Beaker beaker ) {
 
         this.solution = solution;
         this.beaker = beaker;
-        this.particles = new ArrayList<PrecipitateParticle>();
+        this.particles = new ArrayList<SoluteParticle>();
         this.listeners = new ArrayList<PrecipitateListener>();
 
         // when the saturation changes, update the number of precipitate particles
@@ -62,7 +63,7 @@ public class Precipitate {
         else if ( numberOfParticles > particles.size() ) {
             // add particles
             while ( numberOfParticles > particles.size() ) {
-                addParticle( new PrecipitateParticle( getRandomOffset(), getRandomOrientation(), solution.solute.get().precipitateColor, solution.solute.get().precipitateSize ) );
+                addParticle( new PrecipitateParticle( solution.solute.get(), getRandomOffset(), getRandomOrientation() ) );
             }
         }
         else {
@@ -73,29 +74,29 @@ public class Precipitate {
         }
     }
 
-    private void addParticle( PrecipitateParticle particle ) {
+    private void addParticle( SoluteParticle particle ) {
         particles.add( particle );
         fireParticleAdded( particle );
     }
 
-    private void removeParticle( PrecipitateParticle particle ) {
+    private void removeParticle( SoluteParticle particle ) {
         particles.remove( particle );
         fireParticleRemoved( particle );
     }
 
     private void removeAllParticles() {
-        for ( PrecipitateParticle particle : new ArrayList<PrecipitateParticle>( particles ) ) {
+        for ( SoluteParticle particle : new ArrayList<SoluteParticle>( particles ) ) {
             removeParticle( particle );
         }
     }
 
-    private void fireParticleAdded( PrecipitateParticle particle ) {
+    private void fireParticleAdded( SoluteParticle particle ) {
         for ( PrecipitateListener listener : new ArrayList<PrecipitateListener>( listeners ) ) {
             listener.particleAdded( particle );
         }
     }
 
-    private void fireParticleRemoved( PrecipitateParticle particle ) {
+    private void fireParticleRemoved( SoluteParticle particle ) {
         for ( PrecipitateListener listener : new ArrayList<PrecipitateListener>( listeners ) ) {
             listener.particleRemoved( particle );
         }
@@ -103,7 +104,7 @@ public class Precipitate {
 
     // Gets a random location, relative to the coordinate frame of the beaker.
     private Point2D getRandomOffset() {
-        final double particleSize = solution.solute.get().precipitateSize;
+        final double particleSize = solution.solute.get().particleSize;
         // x offset
         double xMargin = particleSize;
         double width = beaker.getWidth() - particleSize - ( 2 * xMargin );
