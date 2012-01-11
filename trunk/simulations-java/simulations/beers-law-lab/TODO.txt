@@ -20,8 +20,6 @@ LOW
 - spend a little time on combo box popup iss (create ticket, low priority)
 - derive height of fluid columns coming out of faucets, instead of using hardcoded values (see ConcentrationCanvas)
 - derive faucet locations and pipe lengths based on beaker location and size (see ConcentrationModel)
-- fluid coming out of dropper and H2O faucet should stop at surface of solution in beaker
-- solute combo box popup does behind concentration meter & probe
 
 SIM-SHARING
 
