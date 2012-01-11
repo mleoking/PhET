@@ -97,11 +97,6 @@ public class ConcentrationCanvas extends BLLCanvas {
             // NOTE: Nodes that have corresponding model elements handle their own offsets.
             final double xMargin = 20;
             final double yMargin = 20;
-            // upper right
-            soluteControlNode.setOffset( getStageSize().getWidth() - soluteControlNode.getFullBoundsReference().getWidth() - xMargin, yMargin );
-            // left aligned below beaker
-            evaporationControlNode.setOffset( beakerNode.getFullBoundsReference().getMinX() + 20,
-                                              beakerNode.getFullBoundsReference().getMaxY() + 20 );
             // aligned with beaker
             solutionNode.setOffset( beakerNode.getOffset() );
             // aligned with beaker
@@ -109,6 +104,11 @@ public class ConcentrationCanvas extends BLLCanvas {
             // centered towards bottom of beaker
             saturatedIndicatorNode.setOffset( beakerNode.getFullBoundsReference().getCenterX() - ( saturatedIndicatorNode.getFullBoundsReference().getWidth() / 2 ),
                                               beakerNode.getFullBoundsReference().getMaxY() - saturatedIndicatorNode.getFullBoundsReference().getHeight() - 30 );
+            // upper right
+            soluteControlNode.setOffset( getStageSize().getWidth() - soluteControlNode.getFullBoundsReference().getWidth() - xMargin, yMargin );
+            // left aligned below beaker
+            evaporationControlNode.setOffset( beakerNode.getFullBoundsReference().getMinX() + 20,
+                                              beakerNode.getFullBoundsReference().getMaxY() + 20 );
             // left of evaporation control
             removeSoluteButtonNode.setOffset( evaporationControlNode.getFullBoundsReference().getMaxX() + 10,
                                               evaporationControlNode.getFullBoundsReference().getCenterY() - ( removeSoluteButtonNode.getFullBoundsReference().getHeight() / 2 ) );
