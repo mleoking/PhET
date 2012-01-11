@@ -40,7 +40,7 @@ public class ConcentrationModel implements Resettable {
     // ranges and rates
     private static final double BEAKER_VOLUME = 1; // L
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
-    //TODO consider setting maxSoluteAmount dynamically, based on the amount required to saturate 1L of the current solute
+    //TODO consider setting max SOLUTE_AMOUNT dynamically, based on the amount required to saturate 1L of the current solute
     private static final DoubleRange SOLUTE_AMOUNT = new DoubleRange( 0, 6, 0 ); // moles
     private static final double DEFAULT_SOLUTE_AMOUNT = 0; // moles
     private static final double MAX_EVAPORATION_RATE = 0.25; // L/sec
