@@ -3,7 +3,8 @@
 package edu.colorado.phet.acidbasesolutions.module;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
 /**
  * Base class for all modules.
@@ -11,10 +12,10 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-/* package private */ abstract class ABSModule extends PiccoloModule {
+/* package private */ abstract class ABSModule extends SimSharingPiccoloModule {
 
-    public ABSModule( String name ) {
-        super( name, new ConstantDtClock( 40, 1 ), true /* startsPaused */ );
+    public ABSModule( UserComponent userComponent, String name ) {
+        super( userComponent, name, new ConstantDtClock( 40, 1 ), true /* startsPaused */ );
         setClockControlPanel( null );
         setLogoPanelVisible( false );
     }

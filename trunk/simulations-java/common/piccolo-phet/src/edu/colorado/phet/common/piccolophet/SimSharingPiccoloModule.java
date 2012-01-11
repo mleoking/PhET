@@ -18,6 +18,11 @@ public class SimSharingPiccoloModule extends PiccoloModule {
         this.tabUserComponent = tabUserComponent;
     }
 
+    public SimSharingPiccoloModule( UserComponent tabUserComponent, String name, IClock clock, boolean startsPaused ) {
+        super( name, clock, startsPaused );
+        this.tabUserComponent = tabUserComponent;
+    }
+
     //Used in Tab node code for sim sharing, to have a good ID for the tab associated with this module.
     @Override public UserComponent getTabUserComponent() {
         return tabUserComponent;
