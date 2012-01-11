@@ -35,7 +35,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler2;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing;
@@ -108,7 +108,7 @@ public class SplineNode extends PNode {
             addChild( controlPointLayer );
         }
 
-        dragHandler = new SimSharingDragSequenceEventHandler2( EnergySkateParkSimSharing.UserComponents.track ) {
+        dragHandler = new SimSharingDragHandler( EnergySkateParkSimSharing.UserComponents.track ) {
 
             @Override public ParameterSet getParametersForAllEvents() {
                 return param( trackIndex, spline.getParametricFunction2D().index );
@@ -364,7 +364,7 @@ public class SplineNode extends PNode {
             setPaint( new Color( 0, 0, 1f, 0.5f ) );
 
             final ComponentChain controlPointUserComponent = chain( trackControlPoint, index );
-            addInputEventListener( new SimSharingDragSequenceEventHandler2( controlPointUserComponent ) {
+            addInputEventListener( new SimSharingDragHandler( controlPointUserComponent ) {
                 @Override protected void startDrag( PInputEvent event ) {
                     super.startDrag( event );
                     initDragControlPoint( index );

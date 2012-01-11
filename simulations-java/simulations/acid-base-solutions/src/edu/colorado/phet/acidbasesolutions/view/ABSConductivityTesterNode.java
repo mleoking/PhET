@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -36,12 +36,12 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 
         // sim-sharing, positive probe
         {
-            getPositiveProbeDragHandler().setStartEndFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+            getPositiveProbeDragHandler().setStartEndFunction( new SimSharingDragHandlerOld.DragFunction() {
                 public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendProbeEvent( UserComponents.conductivityTesterPositiveProbe, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                 }
             } );
-            getPositiveProbeDragHandler().setDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+            getPositiveProbeDragHandler().setDragFunction( new SimSharingDragHandlerOld.DragFunction() {
                 boolean inSolution = tester.isPositiveProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
@@ -56,12 +56,12 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 
         // sim-sharing, negative probe
         {
-            getNegativeProbeDragHandler().setStartEndFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+            getNegativeProbeDragHandler().setStartEndFunction( new SimSharingDragHandlerOld.DragFunction() {
                 public void apply( UserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
                     sendProbeEvent( UserComponents.conductivityTesterNegativeProbe, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                 }
             } );
-            getNegativeProbeDragHandler().setDragFunction( new SimSharingDragSequenceEventHandler.DragFunction() {
+            getNegativeProbeDragHandler().setDragFunction( new SimSharingDragHandlerOld.DragFunction() {
                 boolean inSolution = tester.isNegativeProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.

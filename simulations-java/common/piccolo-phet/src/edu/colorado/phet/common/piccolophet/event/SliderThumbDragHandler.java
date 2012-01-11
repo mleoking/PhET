@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SliderThumbDragHandler extends SimSharingDragSequenceEventHandler {
+public class SliderThumbDragHandler extends SimSharingDragHandlerOld {
 
     public static enum Orientation {HORIZONTAL, VERTICAL}
 

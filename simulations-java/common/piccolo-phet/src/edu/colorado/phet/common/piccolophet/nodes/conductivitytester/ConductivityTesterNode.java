@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -312,12 +312,12 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     // For sim-sharing
-    public SimSharingDragSequenceEventHandler getPositiveProbeDragHandler() {
+    public SimSharingDragHandlerOld getPositiveProbeDragHandler() {
         return positiveProbeDragHandler;
     }
 
     // For sim-sharing
-    public SimSharingDragSequenceEventHandler getNegativeProbeDragHandler() {
+    public SimSharingDragHandlerOld getNegativeProbeDragHandler() {
         return negativeProbeDragHandler;
     }
 
@@ -457,7 +457,7 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     // Drag handler for probes, handles model-view transform, constrains dragging to vertical.
-    private static class ProbeDragHandler extends SimSharingDragSequenceEventHandler {
+    private static class ProbeDragHandler extends SimSharingDragHandlerOld {
 
         private final ProbeNode probeNode;
         private final ModelViewTransform transform;

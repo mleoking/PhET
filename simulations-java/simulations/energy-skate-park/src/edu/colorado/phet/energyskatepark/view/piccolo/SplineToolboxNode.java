@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragSequenceEventHandler2;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
@@ -64,7 +64,7 @@ public class SplineToolboxNode extends PNode {
             } );
         }};
         draggableIcon.addInputEventListener( new CursorHandler() );
-        draggableIcon.addInputEventListener( new SimSharingDragSequenceEventHandler2( toolboxTrack ) {
+        draggableIcon.addInputEventListener( new SimSharingDragHandler( toolboxTrack ) {
 
             //Indicate how many tracks the user has created, including this one
             @Override public ParameterSet getStartDragParameters() {
