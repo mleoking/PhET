@@ -33,8 +33,8 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighligh
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.MPSimSharing.Components;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
@@ -288,7 +288,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             this.snapInterval = snapInterval;
             setStartEndFunction( new DragFunction() {
                 public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingManager.sendUserMessage( Components.electronegativityControl, action,
+                    SimSharingManager.sendUserMessage( UserComponents.electronegativityControl, action,
                                                        new ParameterSet( xParameter ).
                                                                add( yParameter ).
                                                                param( Parameters.atom, atom.getName() ).

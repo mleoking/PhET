@@ -11,7 +11,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class MPSimSharing {
 
-    public static enum Components implements IUserComponent {
+    public static enum UserComponents implements IUserComponent {
+        twoAtomsTab, threeAtomsTab, realMoleculesTab,
         bondAngle, bondCharacterNode, electronegativityControl, moleculeAngle, rainbowMenuItem, jmolViewerNode
     }
 

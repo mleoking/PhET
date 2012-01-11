@@ -35,8 +35,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.MPColors;
-import edu.colorado.phet.moleculepolarity.MPSimSharing.Components;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Element;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
@@ -104,7 +104,7 @@ public class JmolViewerNode extends PhetPNode {
         viewerPanel.addMouseListener( new SimSharingDragListener() {{
             setStartEndFunction( new DragFunction() {
                 public void apply( IUserAction action, Parameter xParam, Parameter yParam, MouseEvent event ) {
-                    SimSharingManager.sendUserMessage( Components.jmolViewerNode, action,
+                    SimSharingManager.sendUserMessage( UserComponents.jmolViewerNode, action,
                                                        new ParameterSet().add( xParam ).add( yParam ).param( Parameters.currentMolecule, currentMolecule.get().getName() ) );
                 }
             } );

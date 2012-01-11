@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.DialogCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.realmolecules.RealMoleculesModule;
 import edu.colorado.phet.moleculepolarity.threeatoms.ThreeAtomsModule;
@@ -43,7 +44,7 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
         parentFrame.addMenu( new OptionsMenu() {{
 
             //Report on student usage for menus and menu items, see #3144
-            add( new SimSharingJCheckBoxMenuItem( MPSimSharing.Components.rainbowMenuItem, MPStrings.RAINBOW_OPTION, JmolViewerNode.RAINBOW_MEP.get() ) {{
+            add( new SimSharingJCheckBoxMenuItem( UserComponents.rainbowMenuItem, MPStrings.RAINBOW_OPTION, JmolViewerNode.RAINBOW_MEP.get() ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         JmolViewerNode.RAINBOW_MEP.set( ( (JCheckBoxMenuItem) e.getSource() ).isSelected() );
