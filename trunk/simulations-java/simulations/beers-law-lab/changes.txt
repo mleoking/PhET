@@ -1,4 +1,5 @@
-1/10/12 add shaker orientation to model, used for direction of initial particle velocity
+1/11/12 Simsharing: add UserComponent chaining for FaucetNode and its FaucetSlider
+1/11/12 add shaker orientation to model, used for direction of initial particle velocity
 1/10/12 remove shaker particles when the solute is changed
 1/10/12 make "Remove Solute" button remove any solute that is falling between the shaker and beaker
 1/10/12 first pass at particles exiting shaker (motion is not physical, particles disappear when they reach y=500)

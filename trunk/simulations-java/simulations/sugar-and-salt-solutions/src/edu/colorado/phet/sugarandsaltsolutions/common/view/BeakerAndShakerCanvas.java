@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsSimSharing.UserComponents;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.PNode;
@@ -106,7 +107,7 @@ public abstract class BeakerAndShakerCanvas extends SugarAndSaltSolutionsCanvas 
 
         //Add the faucets, the first faucet should have the water stop at the base of the beaker.  This faucet should extend very far in case the user makes the sim short and fat, so the faucet pipe will always be visible
         //Also, require the clock to be running for the faucets to be enabled so the user can't try to add water while the sim is paused (2nd tab only)
-        FaucetNode inputFaucetNode = new FaucetNode( model.inputFlowRate, model.clockRunning.and( not( model.beakerFull ) ), 10000, true ) {{
+        FaucetNode inputFaucetNode = new FaucetNode( UserComponents.inputFaucet, model.inputFlowRate, model.clockRunning.and( not( model.beakerFull ) ), 10000, true ) {{
             setOffset( 50, 10 );
         }};
         addChild( inputFaucetNode );
@@ -116,7 +117,7 @@ public abstract class BeakerAndShakerCanvas extends SugarAndSaltSolutionsCanvas 
         //Move it far enough from the beaker that the slider isn't touching it, but not so far that the flowing water would overlap the reset all button
         //Also, require the clock to be running for the faucets to be enabled so the user can't try to drain water while the sim is paused (2nd tab only)
         final double distanceFromBeaker = 12;
-        drainFaucetNode = new FaucetNode( model.outputFlowRate, model.clockRunning.and( model.lowerFaucetCanDrain ), distanceFromBeaker, true ) {{
+        drainFaucetNode = new FaucetNode( UserComponents.drainFaucet, model.outputFlowRate, model.clockRunning.and( model.lowerFaucetCanDrain ), distanceFromBeaker, true ) {{
 
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
             //x-value hand tuned so it doesn't overlap the reset button in English
