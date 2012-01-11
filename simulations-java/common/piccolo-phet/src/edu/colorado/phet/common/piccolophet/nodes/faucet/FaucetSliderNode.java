@@ -25,16 +25,17 @@ public class FaucetSliderNode extends SimSharingHSliderNode {
      *
      * @param faucetUserComponent    sim-sharing user component of the parent faucet
      * @param enabled                property to indicate if the slider is enabled
-     * @param flowRatePercentage     the percentage of max flow rate, between 0 and 1
+     * @param maxFlowRate            the maximum flow rate
+     * @param flowRate               the flow rate property that is attached to the slider
      * @param snapToZeroWhenReleased does the knob snap back to zero when the user releases it?
      */
-    public FaucetSliderNode( IUserComponent faucetUserComponent, final ObservableProperty<Boolean> enabled, final Property<Double> flowRatePercentage, final boolean snapToZeroWhenReleased ) {
-        super( ComponentChain.chain( faucetUserComponent, UserComponents.faucetSlider ), 0, 1, flowRatePercentage, enabled );
+    public FaucetSliderNode( IUserComponent faucetUserComponent, final ObservableProperty<Boolean> enabled, double maxFlowRate, final Property<Double> flowRate, final boolean snapToZeroWhenReleased ) {
+        super( ComponentChain.chain( faucetUserComponent, UserComponents.faucetSlider ), 0, maxFlowRate, flowRate, enabled );
 
         // Sets the flow to zero.
         final VoidFunction0 snapToZero = new VoidFunction0() {
             public void apply() {
-                flowRatePercentage.set( 0.0 );
+                flowRate.set( 0.0 );
             }
         };
 
