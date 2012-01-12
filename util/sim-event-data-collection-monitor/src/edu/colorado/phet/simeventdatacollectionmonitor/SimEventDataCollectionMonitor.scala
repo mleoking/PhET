@@ -14,10 +14,10 @@ import table.{DefaultTableModel, TableRowSorter}
 /**
  * @author Sam Reid
  */
-object SimEventDataCollectionMonitorScala extends App {
+object SimEventDataCollectionMonitor extends App {
   SwingUtilities.invokeLater(new Runnable {
     def run() {
-      new SimEventDataCollectionMonitorScala().start()
+      new SimEventDataCollectionMonitor().start()
     }
   })
 }
@@ -47,8 +47,9 @@ class SimEventDataTableModel extends DefaultTableModel(SimEventDataTableModel.co
   override def getColumnClass(columnIndex: Int) = SimEventDataTableModel.columns(columnIndex)._2
 }
 
-class SimEventDataCollectionMonitorScala {
-  val mongo = new Mongo("phet-server.colorado.edu")
+class SimEventDataCollectionMonitor {
+  //  val mongo = new Mongo("phet-server.colorado.edu")
+  val mongo = new Mongo()
   val tableModel = new SimEventDataTableModel
   val table = new SimpleTable(tableModel)
   val sorter = new TableRowSorter[DefaultTableModel](tableModel)
