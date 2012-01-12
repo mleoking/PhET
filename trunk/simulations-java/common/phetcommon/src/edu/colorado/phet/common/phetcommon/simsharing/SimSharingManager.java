@@ -322,7 +322,8 @@ public class SimSharingManager {
                 param( parserVersion, PARSER_VERSION ).
                 param( study, studyName ).
                 param( id, studentId ).
-                param( ParameterKeys.machineCookie, machineCookie ) );
+                param( ParameterKeys.machineCookie, machineCookie ).
+                param( ParameterKeys.sessionId, sessionId ) );
     }
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java
