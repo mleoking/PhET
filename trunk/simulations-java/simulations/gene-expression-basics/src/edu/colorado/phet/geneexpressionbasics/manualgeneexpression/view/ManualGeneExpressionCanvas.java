@@ -25,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
@@ -291,8 +292,18 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             }
         } );
 
-        // A number of the controls should not be visible unless the user has
-        // zoomed all the way in.
+        // Add the buttons for zooming in and out.
+        final PNode zoomInButton = new TextButtonNode( "Zoom In", new PhetFont( 18 ), Color.YELLOW ) {{
+            centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
+        }};
+        controlsRootNode.addChild( zoomInButton );
+        final PNode zoomOutButton = new TextButtonNode( "Zoom Out", new PhetFont( 18 ), Color.YELLOW ) {{
+            centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
+        }};
+        controlsRootNode.addChild( zoomOutButton );
+
+        // A number of the controls are only shown when we are zoomed all the
+        // way in, and some only when zoomed all the way out.
         zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
             public void apply( Double zoomFactor ) {
                 boolean zoomedAllTheWayIn = zoomFactor == MAX_ZOOM;
@@ -300,6 +311,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 proteinCollectionNode.setVisible( zoomedAllTheWayIn );
                 previousGeneButton.setVisible( zoomedAllTheWayIn );
                 nextGeneButton.setVisible( zoomedAllTheWayIn );
+                zoomOutButton.setVisible( zoomedAllTheWayIn );
+                zoomInButton.setVisible( zoomFactor.doubleValue() == MIN_ZOOM );
+
+                // Fade the DNA molecule.
+                dnaMoleculeNode.setTransparency( zoomFactor.floatValue() );
             }
         } );
 
