@@ -20,8 +20,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -97,8 +97,8 @@ public class FaucetNode extends PNode {
         addChild( sliderNode );
 
         //sim-sharing for non-interactive nodes
-        faucetNode.addInputEventListener( new NonInteractiveUserComponent( UserComponents.faucetImage ) );
-        pipeNode.addInputEventListener( new NonInteractiveUserComponent( UserComponents.faucetImage ) );
+        faucetNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.faucetImage ) );
+        pipeNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.faucetImage ) );
     }
 
     public void setSliderVisible( boolean visible ) {

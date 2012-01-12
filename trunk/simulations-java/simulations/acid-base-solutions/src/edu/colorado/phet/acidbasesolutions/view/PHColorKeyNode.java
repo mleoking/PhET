@@ -12,7 +12,7 @@ import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -66,7 +66,7 @@ public class PHColorKeyNode extends PhetPNode {
         setVisible( paper.isVisible() );
 
         // send sim-sharing event if user tries to interact
-        addInputEventListener( new NonInteractiveUserComponent( phColorKey ) );
+        addInputEventListener( new NonInteractiveEventHandler( phColorKey ) );
     }
 
     /*

@@ -199,11 +199,6 @@ public class SimSharingManager {
         getInstance().sendMessage( new ModelMessage( model, object, action, parameters ) );
     }
 
-    // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
-    public static void sendNonInteractiveUserMessage( IUserComponent object, IUserAction action ) {
-        SimSharingManager.sendUserMessage( object, action, param( interactive, false ) );
-    }
-
     // Sends an event. If sim-sharing is disabled, this is a no-op.
     // Private because clients should use the send*Message methods to indicate the message type
     private void sendMessage( SimSharingMessage message ) {

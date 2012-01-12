@@ -16,8 +16,8 @@ import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.Solution
 import edu.colorado.phet.acidbasesolutions.model.StrongAcidSolution;
 import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.ChemicalSymbolNode;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -71,7 +71,7 @@ public class ReactionEquationNode extends PComposite {
         } );
 
         // send sim-sharing event if user tries to interact
-        addInputEventListener( new NonInteractiveUserComponent( reactionEquation ) );
+        addInputEventListener( new NonInteractiveEventHandler( reactionEquation ) );
 
         setOffset( equation.getLocationReference() );
         update();
