@@ -34,9 +34,9 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     protected final IUserComponent userComponent;
     private final SimSharingDragPoints dragPoints; // canvas coordinates, accumulated during a drag sequence
-    private DragFunction startDragFunction, dragFunction, endDragFunction;
+    private DragFunction startDragFunction, dragFunction, endDragFunction; // functions called for various events
 
-    // Constructor that reports startDrag and endDrag, but not drag
+    // Sends a message on startDrag and endDrag, but not drag
     public SimSharingDragHandler( IUserComponent userComponent ) {
         this( userComponent, false );
     }
@@ -47,6 +47,7 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
         this.userComponent = userComponent;
         this.dragPoints = new SimSharingDragPoints();
 
+        // default functions
         this.startDragFunction = new DragFunction() {
             public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
                 SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
@@ -86,14 +87,17 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
         super.endDrag( event );
     }
 
+    // Call this to replace the sim-sharing function that is called on startDrag.
     public void setStartDragFunction( DragFunction f ) {
         startDragFunction = f;
     }
 
+    // Call this to replace the sim-sharing function that is called on drag.
     public void setDragFunction( DragFunction f ) {
         dragFunction = f;
     }
 
+    // Call this to replace the sim-sharing function that is called on endDrag.
     public void setEndDragFunction( DragFunction f ) {
         endDragFunction = f;
     }
@@ -110,7 +114,7 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     // Gets parameters for endDrag. Override to provide different parameters, chain with super to add parameters.
     protected ParameterSet getEndDragParameters( PInputEvent event ) {
-        return getParametersForAllEvents( event ).addAll( dragPoints.getParameters() );
+        return getParametersForAllEvents( event ).addAll( dragPoints.getParameters() ); // includes summary of drag points
     }
 
     // Return parameters that are used by default for startDrag, endDrag, and drag

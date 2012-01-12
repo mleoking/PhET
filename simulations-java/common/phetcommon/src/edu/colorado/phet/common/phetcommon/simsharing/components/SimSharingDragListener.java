@@ -32,12 +32,14 @@ public class SimSharingDragListener extends MouseAdapter {
 
     protected final IUserComponent userComponent;
     private final SimSharingDragPoints dragPoints; // mouse coordinates, accumulated during a drag sequence
-    private DragFunction startDragFunction, dragFunction, endDragFunction;
+    private DragFunction startDragFunction, dragFunction, endDragFunction; // functions called for various events
 
+    // Sends a message on startDrag and endDrag, but not drag
     public SimSharingDragListener( IUserComponent userComponent ) {
         this( userComponent, false );
     }
 
+    // Sends a message on drag if reportDrag=true
     public SimSharingDragListener( IUserComponent userComponent, final boolean sendDragMessages ) {
 
         this.userComponent = userComponent;
@@ -83,14 +85,17 @@ public class SimSharingDragListener extends MouseAdapter {
         super.mouseReleased( event );
     }
 
+    // Call this to replace the sim-sharing function that is called on startDrag.
     public void setStartDragFunction( DragFunction f ) {
         startDragFunction = f;
     }
 
+    // Call this to replace the sim-sharing function that is called on drag.
     public void setDragFunction( DragFunction f ) {
         dragFunction = f;
     }
 
+    // Call this to replace the sim-sharing function that is called on endDrag.
     public void setEndDragFunction( DragFunction f ) {
         endDragFunction = f;
     }
@@ -107,7 +112,7 @@ public class SimSharingDragListener extends MouseAdapter {
 
     // Override to supply any additional parameters to send on endDrag
     protected ParameterSet getEndDragParameters( MouseEvent event ) {
-        return getParametersForAllEvents( event ).addAll( dragPoints.getParameters() );
+        return getParametersForAllEvents( event ).addAll( dragPoints.getParameters() ); // includes summary of drag points
     }
 
     // Return parameters that are used by default for all events
