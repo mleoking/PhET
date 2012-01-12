@@ -5,9 +5,10 @@ DESIGN
 - default values in all tabs
 
 HIGH
-- create a "Molarity" sim with only the first tab (move to a new molarity project?)
+- move Molarity sim to a new project?
 - min/max color range for solutes
 - add "Show values" check box
+- delete strings for Tab 3
 
 MEDIUM
 - generalize the mechanism for managing dynamic beaker labels
