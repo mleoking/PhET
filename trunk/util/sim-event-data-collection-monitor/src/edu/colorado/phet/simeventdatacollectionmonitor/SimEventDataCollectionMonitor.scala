@@ -2,14 +2,15 @@
 package edu.colorado.phet.simeventdatacollectionmonitor
 
 import com.mongodb._
-import javax.swing._
 import java.lang.String
 import collection.mutable.ArrayBuffer
 import collection.JavaConversions.asScalaBuffer
 import collection.JavaConversions.asScalaSet
 import swing._
-import java.awt.event.{ActionListener, ActionEvent}
+import java.awt.event.{MouseEvent, MouseAdapter, ActionListener, ActionEvent}
+import javax.swing._
 import table.{DefaultTableModel, TableRowSorter}
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
 
 /**
  * @author Sam Reid
@@ -45,16 +46,59 @@ class SimEventDataTableModel extends DefaultTableModel(SimEventDataTableModel.co
   }
 
   override def getColumnClass(columnIndex: Int) = SimEventDataTableModel.columns(columnIndex)._2
+
+  def getMachineID(rowIndex: Int) = getValueAt(rowIndex, 0).toString
+
+  def getSessionID(rowIndex: Int) = getValueAt(rowIndex, 1).toString
 }
 
 class SimEventDataCollectionMonitor {
   //  val mongo = new Mongo("phet-server.colorado.edu")
-  val mongo = new Mongo()
+  val mongo = new Mongo
   val tableModel = new SimEventDataTableModel
   val table = new SimpleTable(tableModel)
+  table.peer.addMouseListener(new MouseAdapter {
+    override def mouseReleased(e: MouseEvent) {
+      if ( e.isPopupTrigger ) {
+        val menu = new JPopupMenu {
+          add(new JMenuItem("Show Log") {
+            addActionListener(new ActionListener {
+              def actionPerformed(e: ActionEvent) {
+                printSelectedRow()
+              }
+            })
+          })
+        }
+        menu.show(e.getComponent, e.getX, e.getY)
+      }
+    }
+  })
   val sorter = new TableRowSorter[DefaultTableModel](tableModel)
   table.peer.setRowSorter(sorter)
   sorter.setSortsOnUpdates(true)
+
+  def printSelectedRow() {
+    val row = table.peer.getSelectedRow
+    val machineID = tableModel.getMachineID(row)
+    val sessionID = tableModel.getSessionID(row)
+
+    val database = mongo.getDB(machineID)
+    val collection: DBCollection = database.getCollection(sessionID)
+
+    val cursor = collection.find
+    while ( cursor.hasNext ) {
+      val obj = cursor.next()
+      val time = obj.get(SimSharingManager.TIME)
+      val messageType = obj.get(SimSharingManager.MESSAGE_TYPE)
+      val component = obj.get(SimSharingManager.COMPONENT)
+      val action = obj.get(SimSharingManager.ACTION)
+      val parameters: DBObject = obj.get(SimSharingManager.PARAMETERS).asInstanceOf[DBObject]
+      val tab = SimSharingManager.DELIMITER
+      val paramString = asScalaSet(parameters.keySet).map(s => s + " = " + parameters.get(s)).mkString(tab)
+
+      println(time + tab + messageType + tab + component + tab + action + tab + paramString)
+    }
+  }
 
   val frame = new Frame {
     peer setDefaultCloseOperation JFrame.EXIT_ON_CLOSE

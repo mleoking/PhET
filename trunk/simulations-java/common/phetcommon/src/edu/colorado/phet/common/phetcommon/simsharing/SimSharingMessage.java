@@ -16,19 +16,19 @@ public class SimSharingMessage<T, U> {
 
     enum MessageType implements IMessageType {user, system, model}
 
-    private final IMessageType messageType;
-    private final T object;
-    private final U action;
-    private final ParameterSet parameters;
+    public final IMessageType messageType;
+    public final T component;
+    public final U action;
+    public final ParameterSet parameters;
 
-    public SimSharingMessage( IMessageType messageType, T object, U action, final ParameterSet parameters ) {
-        this.object = object;
+    public SimSharingMessage( IMessageType messageType, T component, U action, final ParameterSet parameters ) {
+        this.component = component;
         this.action = action;
         this.parameters = parameters;
         this.messageType = messageType;
     }
 
     public String toString() {
-        return messageType + DELIMITER + object + DELIMITER + action + DELIMITER + parameters.toString( DELIMITER );
+        return messageType + DELIMITER + component + DELIMITER + action + DELIMITER + parameters.toString( DELIMITER );
     }
 }
