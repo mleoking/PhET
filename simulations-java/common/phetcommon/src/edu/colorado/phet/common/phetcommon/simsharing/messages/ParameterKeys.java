@@ -10,7 +10,7 @@ public enum ParameterKeys implements IParameterKey {
     isPlaying,
 
     //For system:
-    time, name, version, project, flavor, locale, distributionTag, javaVersion, osName, osVersion, parserVersion, study, id, machineCookie, messageCount, messageIndex, shouldReset,
+    time, name, version, project, flavor, locale, distributionTag, javaVersion, osName, osVersion, parserVersion, study, id, machineCookie, messageCount, messageIndex, shouldReset, sessionId,
 
     errorMessage,
     //For drag events
