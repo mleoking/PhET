@@ -1,20 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing;
 
-import java.io.EOFException;
-import java.io.IOException;
 import java.math.BigInteger;
+import java.net.UnknownHostException;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.client.IActor;
-import edu.colorado.phet.common.phetcommon.simsharing.client.StringActor;
-import edu.colorado.phet.common.phetcommon.simsharing.client.ThreadedActor;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDialog;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemAction;
@@ -29,10 +25,17 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
+import com.mongodb.WriteResult;
+
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.sentEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.started;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects.simsharingManager;
 
 /**
@@ -65,6 +68,10 @@ public class SimSharingManager {
 
     // Singleton
     private static SimSharingManager INSTANCE = null;
+    private Mongo mongo;
+
+    //http://www.cs.umd.edu/class/spring2006/cmsc433/lectures/util-concurrent.pdf
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public static final SimSharingManager getInstance() {
         assert ( INSTANCE != null ); // in case we forget to call init first
@@ -85,13 +92,21 @@ public class SimSharingManager {
     private String studentId; // student id, as provided by the student
     private String sessionId; // identifies the session
     private String machineCookie; // identifies the client machine
-    private IActor actor; // actor for sending messages to the server
     private int messageCount; // number of delivered events, for cross-checking that no events were dropped
-    private static Collection<String> queue = Collections.synchronizedCollection( new ArrayList<String>() ); // queue of events that occurred before init finished
     public Property<String> log = new Property<String>( "" ); // log events locally, as a fallback plan //TODO StringBuffer would be more efficient
 
     // Singleton, private constructor
     private SimSharingManager( PhetApplicationConfig config ) {
+
+        //Disables mongo logging (and maybe all other logging as well!)
+        //TODO: how to disable just the mongo log from DBPort info messages?  They are sent repeatedly when server offline.
+        try {
+            LogManager.getLogManager().reset();
+        }
+        catch ( Exception e ) {
+            System.out.println( "error on log reset: " + e.getMessage() );
+        }
+
         enabled = config.hasCommandLineArg( COMMAND_LINE_OPTION );
         simStartedTime = System.currentTimeMillis();
         if ( enabled ) {
@@ -115,21 +130,15 @@ public class SimSharingManager {
             propertiesFile.setMachineCookie( machineCookie );
         }
 
-        new Thread( new Runnable() {
-            public void run() {
-                actor = createActor(); // Connect to the server
-                sendStartupMessage( config );
-                if ( actor != null ) {
-                    sendConnectedMessage();
-                    deliverQueue(); //Process any events that were collected while we were trying to connect to the server
-                }
-                else {
-                    LOGGER.warning( "Unable to connect. Is the sim-sharing server running?" );
-                }
-            }
-        } ).start();
-    }
+        try {
+            mongo = new Mongo();
+        }
+        catch ( UnknownHostException e ) {
+            e.printStackTrace();
+        }
 
+        sendStartupMessage( config );
+    }
 
     // Gets the number of messages that have been sent.
     public int getMessageCount() {
@@ -162,6 +171,10 @@ public class SimSharingManager {
 
     public static String sendSystemMessage( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
         return getInstance().sendMessage( new SystemMessage( system, object, action, parameters ) );
+    }
+
+    public String sendSystemMessageNS( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
+        return sendMessage( new SystemMessage( system, object, action, parameters ) );
     }
 
     //Convenience overload to provide no parameters
@@ -232,21 +245,49 @@ public class SimSharingManager {
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
     private void sendToServer( String message ) {
         assert ( enabled );
-        if ( actor != null ) {
-            try {
-                actor.tell( machineCookie + "\t" + sessionId + "\t" + message );
+
+        executor.execute( new Runnable() {
+            public void run() {
+
+                //one database per machine
+                DB database = mongo.getDB( machineCookie );
+
+                //One collection per session, lets us easily iterate and add messages per session.
+                DBCollection coll = database.getCollection( sessionId );
+
+                BasicDBObject doc = new BasicDBObject() {{
+                    put( "machineID", machineCookie );
+                    put( "sessionID", sessionId );
+                    put( "time", System.currentTimeMillis() );
+                    put( "parameters", new BasicDBObject() {{
+                        put( "study", studyName );
+                    }} );
+                    //            put( "messageType", messageType );
+                    //            put( "object", object );
+                    //            put( "action", action );
+                    //            put( "parameters", new BasicDBObject() {{
+                    //                for ( String key : params.keySet() ) {
+                    //                    put( key, params.get( key ) );
+                    //                }
+                    //            }} );
+                }};
+
+                try {
+                    WriteResult result = coll.insert( doc );
+                }
+
+                //like new MongoException.Network( "can't say something" , ioe )
+                catch ( RuntimeException e ) {
+//                    System.out.println( "My error: " + e.getMessage() );
+//
+//                    Enumeration<String> s = LogManager.getLogManager().getLoggerNames();
+//                    while ( s.hasMoreElements() ) {
+//                        String s1 = s.nextElement();
+//                        System.out.println( "s1 = " + s1 );
+//                    }
+                }
             }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            catch ( Throwable t ) {
-                t.printStackTrace();
-            }
-        }
-        else {
-            // Actor is initialized in a separate thread, queue any messages that occur before it is initialized.
-            queue.add( message );
-        }
+        } );
     }
 
     // Gets the id entered by the student. Semantics of this id vary from study to study. If the study requires no id, then returns null.
@@ -263,34 +304,10 @@ public class SimSharingManager {
         return id;
     }
 
-    // Creates the connection to the server. If the connection fails, returns null.
-    private IActor createActor() {
-        assert ( enabled );
-        IActor actor = null;
-        if ( ALLOW_SERVER_CONNECTION ) {
-            try {
-                actor = new ThreadedActor( new StringActor() );
-            }
-            catch ( ClassNotFoundException e ) {
-                e.printStackTrace();
-            }
-            catch ( EOFException e ) {
-                LOGGER.warning( "Reached the end of the DataInputStream before reading 2 bytes. Is the sim-sharing server running?" );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            catch ( Throwable t ) {
-                t.printStackTrace();
-            }
-        }
-        return actor;
-    }
-
     // Sends a message when sim-sharing has been started up.
     private void sendStartupMessage( PhetApplicationConfig config ) {
         assert ( enabled );
-        sendSystemMessage( simsharingManager, started, param( time, simStartedTime ).
+        sendSystemMessageNS( simsharingManager, started, param( time, simStartedTime ).
                 param( name, config.getName() ).
                 param( version, config.getVersion().formatForAboutDialog() ).
                 param( project, config.getProjectName() ).
@@ -304,22 +321,6 @@ public class SimSharingManager {
                 param( study, studyName ).
                 param( id, studentId ).
                 param( ParameterKeys.machineCookie, machineCookie ) );
-    }
-
-    // Sends an event when we've connected to the sim-sharing server.
-    private void sendConnectedMessage() {
-        assert ( enabled && actor != null );
-        sendSystemMessage( simsharingManager, connectedToServer );
-    }
-
-    //TODO fix synchronization issues #3188
-    // Deliver events in the queue to the server.
-    private synchronized void deliverQueue() {
-        assert ( enabled );
-        for ( String event : queue ) {
-            sendToServer( event );
-        }
-        queue.clear();
     }
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java

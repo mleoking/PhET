@@ -35,6 +35,17 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="think-tank-maths" exported="" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/mongodb/mongo-2.7.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Desktop/mongo-java-driver/src/main" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
 
