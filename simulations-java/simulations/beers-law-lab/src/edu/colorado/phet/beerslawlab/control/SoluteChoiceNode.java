@@ -93,7 +93,7 @@ public class SoluteChoiceNode extends PhetPNode {
 
             // solute label
             HTMLNode labelNode = new HTMLNode() {{
-                setHTML( solute.formula.equals( solute.name ) ? solute.formula : MessageFormat.format( "{0}: {1}", solute.formula, solute.name ) );
+                setHTML( solute.formula.equals( solute.name ) ? solute.formula : MessageFormat.format( "{0}", solute.name ) );
                 setFont( ITEM_FONT );
             }};
             addChild( labelNode );
