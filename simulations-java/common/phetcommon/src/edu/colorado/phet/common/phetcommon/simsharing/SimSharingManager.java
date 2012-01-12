@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
@@ -31,6 +32,7 @@ import com.mongodb.Mongo;
 import com.mongodb.WriteResult;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.getConfig;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.sentEvent;
@@ -71,6 +73,7 @@ public class SimSharingManager {
 
     //http://www.cs.umd.edu/class/spring2006/cmsc433/lectures/util-concurrent.pdf
     private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private SimSharingFileLogger simSharingFileLogger;
 
     public static final SimSharingManager getInstance() {
         assert ( INSTANCE != null ); // in case we forget to call init first
@@ -92,7 +95,7 @@ public class SimSharingManager {
     private String sessionId; // identifies the session
     private String machineCookie; // identifies the client machine
     private int messageCount; // number of delivered events, for cross-checking that no events were dropped
-    public Property<String> log = new Property<String>( "" ); // log events locally, as a fallback plan //TODO StringBuffer would be more efficient
+    public final Property<String> log = new Property<String>( "" ); // log events locally, as a fallback plan //TODO StringBuffer would be more efficient
 
     // Singleton, private constructor
     private SimSharingManager( PhetApplicationConfig config ) {
@@ -135,6 +138,7 @@ public class SimSharingManager {
         catch ( UnknownHostException e ) {
             e.printStackTrace();
         }
+        simSharingFileLogger = new SimSharingFileLogger( sessionId );
 
         sendStartupMessage( config );
     }
@@ -203,10 +207,18 @@ public class SimSharingManager {
     // Private because clients should use the send*Message methods to indicate the message type
     private void sendMessage( SimSharingMessage message ) {
         if ( enabled ) {
-
-            sendToConsole( message );
-            sendToLog( message );
-            sendToServer( message );
+            AugmentedMessage m = new AugmentedMessage( message );
+            sendToConsole( m );
+            sendToLog( m );
+            if ( getConfig( studyName ).isSendToLogFile() ) {
+                try {
+                    simSharingFileLogger.sendToLogFile( m );
+                }
+                catch ( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+            sendToServer( m );
 
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             messageCount++;
@@ -217,13 +229,13 @@ public class SimSharingManager {
     }
 
     // Sends an event to the console.
-    private void sendToConsole( SimSharingMessage message ) {
+    private void sendToConsole( AugmentedMessage message ) {
         assert ( enabled );
         System.out.println( message );
     }
 
     // Sends a message to the sim-sharing log.
-    private void sendToLog( SimSharingMessage message ) {
+    private void sendToLog( AugmentedMessage message ) {
         assert ( enabled );
         if ( log.get().length() != 0 ) {
             log.set( log.get() + "\n" );
@@ -232,7 +244,7 @@ public class SimSharingManager {
     }
 
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
-    private void sendToServer( SimSharingMessage message ) {
+    private void sendToServer( AugmentedMessage message ) {
         assert ( enabled );
 
         executor.execute( new Runnable() {
@@ -282,7 +294,7 @@ public class SimSharingManager {
     // Gets the id entered by the student. Semantics of this id vary from study to study. If the study requires no id, then returns null.
     private String getStudentId() {
         assert ( enabled );
-        SimSharingConfig simSharingConfig = SimSharingConfig.getConfig( studyName );
+        SimSharingConfig simSharingConfig = getConfig( studyName );
         String id = null;
         if ( simSharingConfig.requestId ) {
             SimSharingIdDialog dialog = new SimSharingIdDialog( null, simSharingConfig.idPrompt, simSharingConfig.idRequired );

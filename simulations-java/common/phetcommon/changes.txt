@@ -1,3 +1,4 @@
+1/12/12 Simsharing: Added an option to auto-save data collection log, see #3215
 1/11/12 Simsharing: revise SimSharingDragListener (Swing) to use same pattern as SimSharingDragHandler (Piccolo)
 1/11/12 Simsharing: factor out SimSharingDragPoints, for use in Swing and Piccolo drag handlers
 1/9/12 Simsharing: Converter varargs Parameter to ParameterSet, see #3209
