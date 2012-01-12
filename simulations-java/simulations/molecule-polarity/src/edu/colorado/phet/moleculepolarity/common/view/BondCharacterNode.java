@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
@@ -99,7 +99,7 @@ public class BondCharacterNode extends PComposite {
         } );
 
         //Report when the user tries to interactive with this non-interactive control
-        addInputEventListener( new NonInteractiveUserComponent( UserComponents.bondCharacterNode ) );
+        addInputEventListener( new NonInteractiveEventHandler( UserComponents.bondCharacterNode ) );
     }
 
     // Pointer looks like a horizontally aligned diatomic molecule.

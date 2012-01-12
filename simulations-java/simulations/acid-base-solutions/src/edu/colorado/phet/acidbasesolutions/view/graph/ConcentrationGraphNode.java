@@ -20,7 +20,7 @@ import edu.colorado.phet.acidbasesolutions.model.StrongBaseSolution;
 import edu.colorado.phet.acidbasesolutions.model.WeakBaseSolution;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.TimesTenNumberFormat;
-import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -82,7 +82,7 @@ public class ConcentrationGraphNode extends AbstractConcentrationGraphNode {
         updateValues();
 
         // send sim-sharing event if user tries to interact
-        addInputEventListener( new NonInteractiveUserComponent( concentrationGraph ) );
+        addInputEventListener( new NonInteractiveEventHandler( concentrationGraph ) );
     }
 
     /*

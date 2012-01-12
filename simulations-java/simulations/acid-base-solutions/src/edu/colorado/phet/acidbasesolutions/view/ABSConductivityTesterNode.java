@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.event.simsharing.NonInteractiveUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler.DragFunction;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -37,8 +37,8 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         } );
 
         // sim-sharing, light bulb and battery (not interactive)
-        getLightBulbNode().addInputEventListener( new NonInteractiveUserComponent( UserComponents.lightBulb ) );
-        getBatteryNode().addInputEventListener( new NonInteractiveUserComponent( UserComponents.battery ) );
+        getLightBulbNode().addInputEventListener( new NonInteractiveEventHandler( UserComponents.lightBulb ) );
+        getBatteryNode().addInputEventListener( new NonInteractiveEventHandler( UserComponents.battery ) );
 
         // sim-sharing, positive probe
         {
