@@ -88,7 +88,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         // Set up the node where all controls should be placed.  These will
         // stay in one place and not scroll.
-        PNode controlsRootNode = new PNode();
+        final PNode controlsRootNode = new PNode();
         addWorldChild( controlsRootNode );
 
         // Set up the root node for all model objects.  Nodes placed under
@@ -111,6 +111,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         backgroundCellLayer.addChild( new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
                                                                                DnaMolecule.Y_POS ),
                                                               2 ) );
+
+        // Add some other random background cells.
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -8000, -4000 ), 3 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -7000, 3000 ), 4 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( 8000, -3000 ), 5 ) );
+
 
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
@@ -190,7 +196,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }};
         controlsRootNode.addChild( nextGeneButton );
         // TODO: i18n
-        controlsRootNode.addChild( new HTMLImageButtonNode( "Previous Gene", flipX( GRAY_ARROW ) ) {{
+        final HTMLImageButtonNode previousGeneButton = new HTMLImageButtonNode( "Previous Gene", flipX( GRAY_ARROW ) ) {{
             setTextPosition( TextPosition.RIGHT );
             setFont( new PhetFont( 20 ) );
             setOffset( 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 90 );
@@ -205,7 +211,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                     setEnabled( !firstGeneActive );
                 }
             } );
-        }} );
+        }};
+        controlsRootNode.addChild( previousGeneButton );
 
         // Add the Reset All button.
         controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { this, model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
@@ -284,8 +291,18 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             }
         } );
 
-        // Uncomment this line to add zoom on right mouse click drag.  TODO: Probably should be removed eventually.
-//        addInputEventListener( getZoomEventHandler() );
+        // A number of the controls should not be visible unless the user has
+        // zoomed all the way in.
+        zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double zoomFactor ) {
+                boolean zoomedAllTheWayIn = zoomFactor == MAX_ZOOM;
+                biomoleculeToolBoxLayer.setVisible( zoomedAllTheWayIn );
+                proteinCollectionNode.setVisible( zoomedAllTheWayIn );
+                previousGeneButton.setVisible( zoomedAllTheWayIn );
+                nextGeneButton.setVisible( zoomedAllTheWayIn );
+            }
+        } );
+
 
         // Add a node to depict the motion bounds.  This is for debug purposes.
         if ( SHOW_MOTION_BOUNDS ) {
