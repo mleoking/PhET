@@ -1,3 +1,4 @@
+1/12/12 add Molarity sims flavor
 1/12/12 names (no formulae) for solutes in combo box
 1/12/12 capitalize solute names
 12/6/11 #3175, add sim-sharing args to usages of SliderThumbDragHandler
