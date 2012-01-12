@@ -47,7 +47,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // Stage size, based on default screen size.
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
-    public static final Color CELL_INTERIOR_COLOR = new Color( 190, 231, 251 );
+    // Constants the define the zoom range.
+    private static final double MIN_ZOOM = 0.02;
+    private static final double MAX_ZOOM = 1;
 
     // Inset for several of the controls.
     private static final double INSET = 15;
@@ -59,6 +61,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private PTransformActivity activity;
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
+    protected Property<Double> zoomFactorProperty = new Property<Double>( MIN_ZOOM ); // Start in the zoomed out state.
 
     public ManualGeneExpressionCanvas( final ManualGeneExpressionModel model ) {
 
@@ -210,11 +213,56 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
         }} );
 
+        // Monitor the active gene and move the view port to be centered on it
+        // whenever it changes.
+        model.activeGene.addObserver( new VoidFunction1<Gene>() {
+            public void apply( Gene gene ) {
+                if ( activity != null ) {
+                    activity.terminate( 0 );
+                }
+                viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
+                if ( zoomFactorProperty.get() == 1 ) {
+                    // Perform an animation that will be the selected gene in
+                    // the center of the view port.
+                    backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                    activity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                    activity.setDelegate( new PActivityDelegateAdapter() {
+                        @Override public void activityFinished( PActivity activity ) {
+                            // Update the position of the protein capture area in
+                            // the model, since a transformation of the model-to-
+                            // view relationship just occurred.
+                            PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
+                            Rectangle2D boundsAfterTransform;
+                            try {
+                                boundsAfterTransform = modelRootNode.getTransformReference( true ).createInverse().createTransformedShape( boundsInControlNode ).getBounds2D();
+                            }
+                            catch ( NoninvertibleTransformException e ) {
+                                System.out.println( getClass().getName() + " - Error: Unable to invert transform needed to update the protein capture area." );
+                                e.printStackTrace();
+                                boundsAfterTransform = new PBounds();
+                            }
+                            Rectangle2D boundsInModel = mvt.viewToModel( boundsAfterTransform ).getBounds2D();
+                            model.setProteinCaptureArea( boundsInModel );
+                            model.addOffLimitsMotionSpace( boundsInModel );
+                        }
+                    } );
+                }
+            }
+        } );
+
+        // Add the tool boxes from which the various biomolecules can be moved
+        // into the active area of the sim.
+        for ( final Gene gene : model.getDnaMolecule().getGenes() ) {
+            BiomoleculeToolBoxNode biomoleculeToolBoxNode = new BiomoleculeToolBoxNode( model, this, mvt, gene.identifier ) {{
+                setOffset( mvt.modelToViewX( gene.getCenterX() ) - STAGE_SIZE.getWidth() / 2 + INSET, INSET );
+            }};
+            biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode );
+            biomoleculeToolBoxLayer.addChild( biomoleculeToolBoxNode );
+            model.addOffLimitsMotionSpace( mvt.viewToModel( biomoleculeToolBoxNode.getFullBoundsReference() ) );
+        }
+
         // Add the zoom control slider.
-        Property<Double> zoomFactorProperty = new Property<Double>( 1.0 );
-        double minZoom = 0.01;
-        double maxZoom = 1;
-        controlsRootNode.addChild( new ZoomControlSliderNode( new PDimension( 20, 120 ), zoomFactorProperty, minZoom, maxZoom, 10 ) {{
+        controlsRootNode.addChild( new ZoomControlSliderNode( new PDimension( 20, 120 ), zoomFactorProperty, MIN_ZOOM, MAX_ZOOM, 10 ) {{
             setOffset( 20, 300 );
         }} );
         zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
@@ -235,50 +283,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 backgroundCellLayer.setOffset( compensatingOffset );
             }
         } );
-
-        // Monitor the active gene and move the view port to be centered on it
-        // whenever it changes.
-        model.activeGene.addObserver( new VoidFunction1<Gene>() {
-            public void apply( Gene gene ) {
-                if ( activity != null ) {
-                    activity.terminate( 0 );
-                }
-                viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
-                backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                activity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                activity.setDelegate( new PActivityDelegateAdapter() {
-                    @Override public void activityFinished( PActivity activity ) {
-                        // Update the position of the protein capture area in
-                        // the model, since a transformation of the model-to-
-                        // view relationship just occurred.
-                        PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
-                        Rectangle2D boundsAfterTransform;
-                        try {
-                            boundsAfterTransform = modelRootNode.getTransformReference( true ).createInverse().createTransformedShape( boundsInControlNode ).getBounds2D();
-                        }
-                        catch ( NoninvertibleTransformException e ) {
-                            System.out.println( getClass().getName() + " - Error: Unable to invert transform needed to update the protein capture area." );
-                            e.printStackTrace();
-                            boundsAfterTransform = new PBounds();
-                        }
-                        Rectangle2D boundsInModel = mvt.viewToModel( boundsAfterTransform ).getBounds2D();
-                        model.setProteinCaptureArea( boundsInModel );
-                        model.addOffLimitsMotionSpace( boundsInModel );
-                    }
-                } );
-            }
-        } );
-
-        // Add the tool boxes from which the various biomolecules can be moved
-        // into the active area of the sim.
-        for ( final Gene gene : model.getDnaMolecule().getGenes() ) {
-            BiomoleculeToolBoxNode biomoleculeToolBoxNode = new BiomoleculeToolBoxNode( model, this, mvt, gene.identifier ) {{
-                setOffset( mvt.modelToViewX( gene.getCenterX() ) - STAGE_SIZE.getWidth() / 2 + INSET, INSET );
-            }};
-            biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode );
-            biomoleculeToolBoxLayer.addChild( biomoleculeToolBoxNode );
-            model.addOffLimitsMotionSpace( mvt.viewToModel( biomoleculeToolBoxNode.getFullBoundsReference() ) );
-        }
 
         // Uncomment this line to add zoom on right mouse click drag.  TODO: Probably should be removed eventually.
 //        addInputEventListener( getZoomEventHandler() );
@@ -303,6 +307,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
         }
+        zoomFactorProperty.reset();
     }
 
     private static class PActivityDelegateAdapter implements PActivity.PActivityDelegate {

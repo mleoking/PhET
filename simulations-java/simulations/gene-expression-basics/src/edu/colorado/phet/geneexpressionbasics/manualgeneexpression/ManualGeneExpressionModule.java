@@ -9,6 +9,10 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.ManualGe
  * @author John Blanco
  */
 public class ManualGeneExpressionModule extends Module {
+
+    private final ManualGeneExpressionModel model;
+    private final ManualGeneExpressionCanvas canvas;
+
     public ManualGeneExpressionModule( String name ) {
         this( name, new ManualGeneExpressionModel() );
         setClockControlPanel( null );
@@ -17,7 +21,14 @@ public class ManualGeneExpressionModule extends Module {
     private ManualGeneExpressionModule( String name, ManualGeneExpressionModel model ) {
         // TODO: i18n
         super( name, model.getClock() );
-        setSimulationPanel( new ManualGeneExpressionCanvas( model ) );
+        this.model = model;
+        canvas = new ManualGeneExpressionCanvas( model );
+        setSimulationPanel( canvas );
         reset();
+    }
+
+    @Override public void reset() {
+        model.reset();
+        canvas.reset();
     }
 }
