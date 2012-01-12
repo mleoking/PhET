@@ -139,7 +139,7 @@ public class SimSharingManager {
         catch ( UnknownHostException e ) {
             e.printStackTrace();
         }
-        simSharingFileLogger = new SimSharingFileLogger( sessionId );
+        simSharingFileLogger = new SimSharingFileLogger( machineCookie, sessionId );
 
         sendStartupMessage( config );
     }

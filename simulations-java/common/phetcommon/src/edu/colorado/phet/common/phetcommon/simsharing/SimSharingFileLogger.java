@@ -18,14 +18,17 @@ import edu.colorado.phet.common.phetcommon.view.PhetExit;
  */
 public class SimSharingFileLogger {
     private BufferedWriter logWriter;
-    private String sessionId;
+    private final String machineCookie;
+    private final String sessionId;
 
-    public SimSharingFileLogger( String sessionId ) {
+    public SimSharingFileLogger( String machineCookie, String sessionId ) {
+        this.machineCookie = machineCookie;
         this.sessionId = sessionId;
     }
 
     private void createLogWriter() {
-        File file = new File( System.getProperty( "user.home" ), "phet-sim-event-data-collection-logs/log_" + new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_session-" + sessionId + ".txt" );
+        File file = new File( System.getProperty( "user.home" ), "phet-logs/" +
+                                                                 new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
         file.getParentFile().mkdirs();
         System.out.println( "Logging to file: " + file );
         try {
