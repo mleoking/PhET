@@ -29,8 +29,8 @@ public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
         super( config );
 
         // module(s)
-        addModule( new ManualGeneExpressionModule( "Manual Gene Expression" ) );
-        addModule( new ProteinLevelsInCellModule( "Protein Levels in a Cell" ) );
+        addModule( new ManualGeneExpressionModule( "Cell Gene Expression" ) );
+        addModule( new ProteinLevelsInCellModule( "Cell Protein Levels" ) );
         addModule( new MultipleCellsModule( "Multiple Cells", getPhetFrame() ) );
     }
 
