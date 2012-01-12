@@ -83,11 +83,11 @@ public class LoadTester {
         eventCount++;
 
         //Send a weird but identifiable message "menu iconified" for testing
-        String message = SimSharingManager.sendUserMessage( UserComponents.menu, UserActions.iconified, rand() );
+        SimSharingManager.sendUserMessage( UserComponents.menu, UserActions.iconified, rand() );
         System.out.println( "LoadTester.sendEvent, eventCount = " + eventCount );
 
         try {
-            bufferedWriter.write( message );
+            bufferedWriter.write( "hello" );
             bufferedWriter.newLine();
             bufferedWriter.flush();
         }

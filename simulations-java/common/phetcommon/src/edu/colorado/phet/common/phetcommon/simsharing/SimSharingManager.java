@@ -165,76 +165,66 @@ public class SimSharingManager {
 //    }
 
     //Convenience overload to provide no parameters
-    public static String sendSystemMessage( ISystemObject object, ISystemAction action ) {
-        return sendSystemMessage( object, action, new ParameterSet() );
+    public static void sendSystemMessage( ISystemObject object, ISystemAction action ) {
+        sendSystemMessage( object, action, new ParameterSet() );
     }
 
-    public static String sendSystemMessage( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
-        return getInstance().sendMessage( new SystemMessage( system, object, action, parameters ) );
+    public static void sendSystemMessage( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
+        getInstance().sendMessage( new SystemMessage( system, object, action, parameters ) );
     }
 
-    public String sendSystemMessageNS( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
-        return sendMessage( new SystemMessage( system, object, action, parameters ) );
+    public void sendSystemMessageNS( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
+        sendMessage( new SystemMessage( system, object, action, parameters ) );
     }
 
     //Convenience overload to provide no parameters
-    public static String sendUserMessage( IUserComponent object, IUserAction action ) {
-        return sendUserMessage( object, action, new ParameterSet() );
+    public static void sendUserMessage( IUserComponent object, IUserAction action ) {
+        sendUserMessage( object, action, new ParameterSet() );
     }
 
     // Convenience method for sending an event from something the user did
-    public static String sendUserMessage( IUserComponent object, IUserAction action, ParameterSet parameters ) {
-        return getInstance().sendMessage( new UserMessage( user, object, action, parameters ) );
+    public static void sendUserMessage( IUserComponent object, IUserAction action, ParameterSet parameters ) {
+        getInstance().sendMessage( new UserMessage( user, object, action, parameters ) );
     }
 
-    public static String sendModelMessage( ModelObject object, IModelAction action ) {
-        return getInstance().sendMessage( new ModelMessage( model, object, action, new ParameterSet() ) );
+    public static void sendModelMessage( ModelObject object, IModelAction action ) {
+        getInstance().sendMessage( new ModelMessage( model, object, action, new ParameterSet() ) );
     }
 
-    public static String sendModelMessage( ModelObject object, IModelAction action, ParameterSet parameters ) {
-        return getInstance().sendMessage( new ModelMessage( model, object, action, parameters ) );
+    public static void sendModelMessage( ModelObject object, IModelAction action, ParameterSet parameters ) {
+        getInstance().sendMessage( new ModelMessage( model, object, action, parameters ) );
     }
 
     // Convenience method for sending a standardized event, when the user tries to interactive with something that's not interactive.
-    public static String sendNonInteractiveUserMessage( IUserComponent object, IUserAction action ) {
-        return SimSharingManager.sendUserMessage( object, action, param( interactive, false ) );
+    public static void sendNonInteractiveUserMessage( IUserComponent object, IUserAction action ) {
+        SimSharingManager.sendUserMessage( object, action, param( interactive, false ) );
     }
 
     // Sends an event. If sim-sharing is disabled, this is a no-op.
     // Private because clients should use the send*Message methods to indicate the message type
-    private String sendMessage( SimSharingMessage message ) {
+    private void sendMessage( SimSharingMessage message ) {
         if ( enabled ) {
 
-            // create the event string
-            String timestamp = Long.toString( System.currentTimeMillis() - simStartedTime );
-            String messageString = timestamp + DELIMITER + message.toString( DELIMITER );
-
-            // send the event string
-            sendToConsole( messageString );
-            sendToLog( messageString );
-            sendToServer( messageString );
+            sendToConsole( message );
+            sendToLog( message );
+            sendToServer( message );
 
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             messageCount++;
             if ( messageCount % 100 == 0 && messageCount > 0 ) {
                 sendSystemMessage( simsharingManager, sentEvent, param( ParameterKeys.messageCount, messageCount ) );
             }
-
-            return messageString;
-        }
-        else {
-            return null;
         }
     }
 
     // Sends an event to the console.
-    private void sendToConsole( String message ) {
+    private void sendToConsole( SimSharingMessage message ) {
         assert ( enabled );
         System.out.println( message );
     }
 
     // Sends a message to the sim-sharing log.
-    private void sendToLog( String message ) {
+    private void sendToLog( SimSharingMessage message ) {
         assert ( enabled );
         if ( log.get().length() != 0 ) {
             log.set( log.get() + "\n" );
@@ -243,7 +233,7 @@ public class SimSharingManager {
     }
 
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
-    private void sendToServer( String message ) {
+    private void sendToServer( SimSharingMessage message ) {
         assert ( enabled );
 
         executor.execute( new Runnable() {
