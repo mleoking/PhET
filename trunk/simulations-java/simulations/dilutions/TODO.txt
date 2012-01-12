@@ -8,7 +8,6 @@ HIGH
 - move Molarity sim to a new project?
 - min/max color range for solutes
 - add "Show values" check box
-- delete strings for Tab 3
 
 MEDIUM
 - generalize the mechanism for managing dynamic beaker labels
