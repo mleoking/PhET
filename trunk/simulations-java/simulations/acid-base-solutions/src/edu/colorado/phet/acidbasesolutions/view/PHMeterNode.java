@@ -234,7 +234,7 @@ public class PHMeterNode extends PhetPNode {
         private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
         public PhMeterDragHandler( final PHMeter meter, PNode dragNode ) {
-            super( UserComponents.phPaper );
+            super( UserComponents.phMeter );
             this.meter = meter;
             this.dragNode = dragNode;
         }
