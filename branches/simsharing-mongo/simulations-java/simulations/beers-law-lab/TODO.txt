@@ -1,0 +1,28 @@
+TODO list for beers-law-lab
+
+DEADLINES
+- 3/5/12: "feature complete dev version, ready for interviews and/or classroom testing"
+
+DESIGN
+- long names in solute combo box are taking up a lot of horizontal space
+- should shaker particles be removed when the shaker is made invisible?
+
+HIGH
+- implement ShakerParticle.stepInTime and ShakerParticles.stepInTime
+- add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
+- shaker shouldn't dispense more than the max amount of solute
+
+MEDIUM
+- Beer's Law tab
+
+LOW
+- shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
+- dropper flickers/tears excessively while dragging
+- #3199, bigger slider thumb on FaucetNode
+- flat spot on top of concentration probe image
+
+SIM-SHARING
+
+MIGRATE TO COMMON
+- MomentaryButtonNode to piccolo-phet
+- ColorRange to phetcommon

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_sk.xml created Wed Aug 17 23:05:12 CEST 2011 using: resonance 1.01.00 (54775), translation-utility 2.10.00 (48775) feb 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="rýchlosť animácie"/>
+<string key="sameFrequency" value="rovnaká frekvencia f"/>
+<string key="sameSpring" value="rovnaká tuhosť pružín k"/>
+<string key="slow" value="pomaly"/>
+<string key="mixedMAndK" value="spoločný súčin m a k"/>
+<string key="numberOfResonators" value="Počet rezonátorov"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="zastav"/>
+<string key="amplitude" value="amplitúda"/>
+<string key="frequencyEqualsXHz" value="frekvencia = {0} Hz"/>
+<string key="sloMo" value="SPOMALENÉ"/>
+<string key="step" value="krok"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="BUDIČ"/>
+<string key="on" value="zapni"/>
+<string key="ruler" value="Pravítko"/>
+<string key="resonance.simTitle" value="Rezonancia"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="tuhosť pružiny"/>
+<string key="frequency" value="frekvencia"/>
+<string key="resetAll" value="Všetko späť"/>
+<string key="mass" value="hmotnosť"/>
+<string key="sameMass" value="rovnaké hmotnosti m"/>
+<string key="resonator" value="Rezonátor"/>
+<string key="translation.credits" value="Augustín Šutta, Bratislava"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Gravitácia:"/>
+<string key="play" value="spusti"/>
+<string key="paused" value="PRESTÁVKA"/>
+<string key="off" value="vypni"/>
+<string key="dampingConstant" value="konštanta tlmenia"/>
+<string key="normal" value="normálne"/>
+<string key="selectPreset" value="Výber nastavenia"/>
+</SimStrings>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2002-2011, University of Colorado -->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="edu.colorado.phet.simsharing.server.hibernate">
+    <class name="Event" table="Event">
+        <id name="id" type="long" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="name"/>
+        <property name="date" type="timestamp"/>
+    </class>
+</hibernate-mapping>

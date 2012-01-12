@@ -1,0 +1,47 @@
+PhET Weekly Progress Report
+John Blanco
+July 26th, 2011
+
+Time period covered: July 20th through July 26th.
+
+Balance and Torque - 15.0 hrs
+
+•	Implemented the fulcrum with higher center of balance.
+•	Improved the look and behavior of the fulcrum with higher center (in collaboration with Sam R).
+•	Discussed physics and general approach to model with Trish L.
+•	Improved physics so that plank will return to balanced position when masses are positioned at equal distances from the center.
+•	Fixed an issue where the masses could be slightly off from the allowed positions if added when the plank was tilted.
+•	Spent a few minutes trying to create a girl for the balance.
+
+Gene Expression Basics - 15.0 hrs
+
+•	Added infrastructure for adding and removing biomolecules using the tool box.
+•	Made RNA polymerase look more like the spec.
+•	Added tool box for first gene.
+•	Added initial cut of all biomolecules to the first tool box.
+•	Created an observable list, need to discuss with other developers if this would be useful for common code.
+•	Cleaned up, refactored, removed unused code.
+
+Environment - 3.0 hrs
+
+•	Downgraded to IntelliJ 10.5 to work around issue with presentation compiler.
+•	Migrated email account to the exchange server.
+
+Installers - 0.5 hrs
+
+•	Tested installer to verify changes requested in #2889, all looked good.
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+•	Weekly PhET status meeting.
+•	Discussion with Ariel about Mathnasium.
+•	Weekly status report.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+What’s Next
+
+•	Continue developing Gene Expression simulation.
+•	Continue developing Balance & Torque simulation.

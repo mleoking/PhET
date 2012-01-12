@@ -1,0 +1,8 @@
+<component>
+    <name>tomcat</name>
+    <description>Tomcat</description>
+    <detailedDescription>Select to include Tomcat Web Server.</detailedDescription>
+    <canBeEdited>0</canBeEdited>
+    <selected>0</selected>
+    <folderList></folderList>
+</component>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_eu.xml created Sun Dec 11 17:47:49 CET 2011 using: faradays-law 2.02.00 (52648), translation-utility 2.13.00 (59150) dic 8, 2011-->
+<SimStrings>
+<string key="twoCoils" value="Bi haril"/>
+<string key="n" value="N"/>
+<string key="noSound" value="Soinurik Ez"/>
+<string key="showFieldLines" value="Eremu lerroak ikusi"/>
+<string key="voltage" value="boltaia"/>
+<string key="simTitle" value="Faradayren Legea"/>
+<string key="flipMagnet" value="Imana alderantzikatu"/>
+<string key="oneCoil" value="Haril bat"/>
+<string key="moveMe" value="Mugi nazazu!"/>
+<string key="s" value="S"/>
+</SimStrings>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_de.xml created Mon Aug 09 15:40:45 CEST 2010 using: calculus-grapher 2.03.00 (42751), translation-utility 2.08.00 (39581) Apr 1, 2010-->
+<SimStrings>
+<string key="grid" value="Gitter"/>
+<string key="smooth" value="Glätten"/>
+<string key="sine" value="Sinus"/>
+<string key="derivative" value="Ableitung"/>
+<string key="offset" value="Verschiebung"/>
+<string key="hill" value="lokales Extremum"/>
+<string key="pedestal" value="Rechteck"/>
+<string key="zero" value="Reset"/>
+<string key="dragMe" value="Zieh mich!"/>
+<string key="parabola" value="Parabel"/>
+<string key="freeform" value="freie Form"/>
+<string key="cursor" value="Cursor"/>
+<string key="tilt" value="Drehung"/>
+<string key="line" value="Dreieck"/>
+</SimStrings>

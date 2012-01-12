@@ -1,0 +1,36 @@
+Implementation notes for molecule-polarity
+
+This sim has no model-view transform. There is a 1:1 correspondence between model and view locations.
+Having an explicit 1:1 transform might have provided a bit of future insurance. But this sim is
+never likely to be quantitative wrt spatial relationships, so using and testing such a transform
+seemed like an unnecessary expense.
+
+Most of the view nodes create their shapes in global coordinates. For example, dipole nodes are
+created in global position and orientation, rather than relative to the coordinate system of a composite
+molecule node. This simplifies the transforms in drag handlers, but feels somewhat "wrong". I (CM) feel that
+this was a poor early decision (and not the way I normally do things), but it would be too expensive
+and destabilizing to change.
+
+3D molecules are rendered using Jmol, which supports many chemical data file formats.
+Details of the file format selection process are described in Unfuddle #3018, and we settled on
+the mol2 format. Files were created by Trent Parker (a colleague of Kelly Lancaster), using Spartan '08.
+The "@<TRIPOS>ATOM" section of the mol2 files describes the atoms that appear in the
+molecule, and this section of the files was manually edited in the following ways:
+- labels (column 2) were edited to reflect the desired naming convention, since that convention was not supported by Jmol
+- xyz coordinates (columns 3,4,5) were edited to reflect the desired initial orientation
+
+One of the biggest potential maintenance issues with this sim is its use of Jmol. Interaction with Jmol
+relies heavily on its scripting language, which has evolved over time, but appears to maintain backward
+compatibility. Problems could arise if there is ever a need to upgrade to a newer version of this viewer.
+Initial development of this sim was done with Jmol 12.0, and all usage of Jmol is encapsulated in
+JmolViewerNode.  If Jmol is upgraded, you are encouraged to vigorously exercise the "Real Molecules" tab,
+and run in dev mode so that Jmol console logging is more verbose.
+
+Initial orientation of 3D molecules was tweaked using the RotateMol2 utility program (in jme-phet).
+That program takes a set of xyz coordinates (copied from the mol2 files) and allows you to specify
+the transform from original to desired xyz coordinates.
+
+The colors for the "rainbow" electrostatic potential surface were obtained by looking at the
+color gradient chart in the Jmol documentation at http://jmol.sourceforge.net/jscolors/#Gradients.
+The color chart shown therein is reproduced in doc/Jmol_color_gradients.png. Colors from this
+chart were manually sampled and entered into MPColors.ROYGB_GRADIENT.

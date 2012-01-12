@@ -1,0 +1,1 @@
+phet-credits lead-design=Emily B. Moore software-development=Jonathan Olson, John Blanco, Sam Reid design-team=Kelly Lancaster, Kathy Perkins, Christine Denison

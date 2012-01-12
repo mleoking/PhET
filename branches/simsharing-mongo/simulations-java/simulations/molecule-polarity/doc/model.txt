@@ -1,0 +1,84 @@
+Description of the models used in "Molecule Polarity"
+
+********************************** 2D Model **********************************
+
+The "Two Atoms" and "Three Atoms" tabs use a 2D model implemented by PhET.
+
+o Electronegativity (EN) ranges internally from 2 to 4, but is never displayed to the user.
+The difference in EN between 2 bonded atoms is herein referred to as "delta EN",
+and varies from 0 to 2.
+
+o Bond dipoles are parallel to the bond axis, and their length is linearly proportional
+to delta EN. Note that this is a simplification; in reality, dipole is not influenced
+solely by EN.
+
+o Molecular dipole is the vector sum of the bond dipoles. In the "Two Atoms" tab,
+the molecular dipole is not shown, as it is equivalent to the bond dipole.
+In the "Three Atoms" tab, manipulating EN results in an understanding of summing
+vector magnitudes, while manipulating bond angles results in an understanding
+of summing vector angles.
+
+o The magnitude of an atom's partial charge is linearly proportional to the absolute value
+of delta EN, and we vary the size of the delta shown accordingly. A partial charge's sign
+is determined by the sign of delta EN. If an atom has a higher EN than the atom at the other
+end of the bond, then the partial charge's sign is negative; otherwise it is positive.
+For atoms that participate in more than one bond (e.g., atom B in the "Three Atoms" tab),
+net partial charge is the sum of the partial charges contributed by each bond.
+
+o Electrostatic Potential and Electron Density are linearly proportional to delta EN.
+Larger delta EN corresponds to greater difference in potential (or electron density)
+and is reflected in the coloring of the surface. When delta EN is at its maximum, the
+surface is colored using the full range of colors shown in the color key.  When delta
+EN is zero, the entire surface is colored with the neutral color shown at the midpoint
+of the color key. These surfaces are not implemented for the triatomic molecule in
+the "Three Atoms" tab, because the manipulation of bond angles results in undefinable surfaces.
+
+o When the E-Field is turned on, the molecule rotates until its molecular dipole
+is in alignment with the E-Field. The speed of rotation is linearly proportional
+to the magnitude of the molecular dipole. Animation is disabled while the user
+is rotating the molecule or changing EN values.
+
+********************************** 3D Model **********************************
+
+The "Real Molecules" tab uses Jmol, an open-source Java viewer for chemical structures in 3D.
+Jmol provides much of the underlying model in this tab.
+More info on Jmol can be found at http://jmol.sourceforge.net.
+
+o Molecules are described in data files that were created using Spartan chemical modeling
+software. More info on Sparatan can be found at http://www.wavefun.com/products/spartan.html.
+The data files are in mol2 format, and selecting a molecule loads the corresponding mol2
+file into Jmol's 3D viewer, which has been integrated into the simulation play area.
+
+o Jmol customization was accomplished using a scripting language documented at
+http://chemapps.stolaf.edu/jmol/docs/.
+
+o We instructed Jmol to show molecules in "ball and stick" representation
+using these scripting commands:
+
+wireframe 0.1
+spacefill 25%
+color bonds [64,64,64]
+
+o Jmol automatically handles all calculations for dipoles, based on partial charges in
+the mol2 data files. Note that the is influenced by factors other than EN. This may result
+in student confusion, and is addressed in "Tips for Teachers".
+To improve visibility, we increased Jmols default dipole width using these script commands:
+
+dipole bonds on width 0.05
+dipole molecular on width 0.05
+
+o Jmol automatically handles all visualization of isosurfaces. We use MEP (molecular electrostatic potential)
+for both Electrostatic Potential and Electron Density representations, varying the color scheme
+based on the representation and whether the molecule is homogeneous diatomic. For homogeneous diatomic
+molecules, we instruct Jmol to render the isosurface using the same neutral colors used in our 2D model.
+Jmol script commands for our surface representations are as follows:
+
+representation / color key / homogeneous diatomic? / Jmol script
+Electrostatic Potential / red-white-blue / no / isosurface VDW map MEP colorscheme "RWB" translucent
+Electrostatic Potential / red-white-blue / yes / isosurface VDW color white translucent
+Electrostatic Potential / rainbow / no / isosurface VDW map MEP translucent
+Electrostatic Potential / rainbow / yes / isosurface VDW color [31,247,0] translucent
+Electron Density / black-white / no / isosurface VDW map MEP colorscheme "BW" translucent
+Electron Density / black-white / yes / isosurface VDW color [127,127,127] translucent
+
+

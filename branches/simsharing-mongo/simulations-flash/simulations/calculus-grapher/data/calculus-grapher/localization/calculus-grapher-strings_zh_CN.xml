@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_zh_CN.xml created Tue May 10 14:30:45 CST 2011 using: calculus-grapher 2.03.00 (42751), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="integral" value="积分"/>
+<string key="grid" value="网格"/>
+<string key="dragMe" value="拖动我"/>
+<string key="hill" value="波形函数"/>
+<string key="cursor" value="游标"/>
+<string key="simTitle" value="积分"/>
+<string key="offset" value="平行x轴线"/>
+<string key="freeform" value="任意曲线"/>
+<string key="pedestal" value="方波函数"/>
+<string key="line" value="线性函数"/>
+<string key="zero" value="回零"/>
+<string key="sine" value="正弦函数"/>
+<string key="smooth" value="平滑"/>
+<string key="tilt" value="一次函数"/>
+<string key="parabola" value="抛物线"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;&lt;p&gt;&lt;strong&gt;张大红&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt;天铁第二中学&lt;/strong&gt;&lt;/p&gt;&#10;&lt;/html&gt;&#10;"/>
+<string key="derivative" value="导函数"/>
+<string key="undo" value="撤销"/>
+</SimStrings>

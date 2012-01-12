@@ -1,0 +1,3 @@
+dirt.jpg jmonkeyengine Textures/Terrain/splat/
+grass.jpg jmonkeyengine Textures/Terrain/splat/
+road.jpg jmonkeyengine Textures/Terrain/splat/

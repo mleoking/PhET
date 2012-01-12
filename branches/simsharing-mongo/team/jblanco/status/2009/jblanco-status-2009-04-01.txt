@@ -1,0 +1,45 @@
+PhET Progress Report
+John Blanco
+April 1, 2009
+
+Heterogeneous Interaction Potential (HIP) – 9.0 hrs
+
+•	Improved the layout on the heterogeneous control panel.
+•	Added the graphical pin to the control panel.
+•	Made transition from adjustable to any other molecule set both to the new molecule.
+•	Did some restructuring of the model code to make it more extensible and maintainable.
+•	Fixed a number of issues found during unit testing.
+•	Published a version for preliminary review.
+•	Started working on implementation of oxygen bonding.
+
+Installer & Web Site – 7.0 hrs
+
+•	Changed name for CD ROM file (Ticket #1260).
+•	Worked on making it possible to rebuild installers for a single simulation (Ticket #1154).
+
+IOM Alpha Testing – 5.0 hrs
+
+•	Followed up on all failures logged during Alpha-3 testing.
+•	Supported Nina in running some final tests for Alpha-3.
+•	Spent some time testing update functionality.
+•	Cleaned up the data in the test log.
+
+Common Code – 1.0 hr
+
+•	Removed F8-to-clear-preferences from Java sims, since alpha testing is done (ticket #1430)
+
+Greenhouse - 2.0 hrs
+
+•	Investigated adding Celsius/Fahrenheit control to 2nd panel.
+•	Reviewed with Kathy P a version with slower photon movement to see if it would work as solution to issue #1492.
+
+Meetings, Email, etc. - 4.0 hrs
+
+•	Normal email and administrative overhead.
+•	Worked with Marj to revive the Unfuddle notifier.
+
+Time Off - 12.0 hrs
+
+•	Friday March 27 - University Holiday
+•	Monday March 30 - Partial sick day (1/2 day)
+

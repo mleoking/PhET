@@ -1,0 +1,35 @@
+###################################
+# License info for the-ramp
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+pusher-leaning-2_0001.png author=PhET 
+pusher-leaning-2_0002.png author=PhET 
+pusher-leaning-2_0003.png author=PhET 
+pusher-leaning-2_0004.png author=PhET 
+pusher-leaning-2_0005.png author=PhET 
+pusher-leaning-2_0006.png author=PhET 
+pusher-leaning-2_0007.png author=PhET 
+pusher-leaning-2_0008.png author=PhET 
+pusher-leaning-2_0009.png author=PhET 
+pusher-leaning-2_0010.png author=PhET 
+pusher-leaning-2_0011.png author=PhET 
+pusher-leaning-2_0012.png author=PhET 
+pusher-leaning-2_0013.png author=PhET 
+pusher-leaning-2_0014.png author=PhET 
+pusher-leaning-2_0015.png author=PhET 
+pusher-leaning-2_0016.png author=PhET 
+pusher-leaning-2_0017.png author=PhET 
+pusher-leaning-2_0018.png author=PhET 
+pusher-leaning-2_0019.png author=PhET 
+pusher-leaning-2_0020.png author=PhET 
+pusher-leaning-2_0021.png author=PhET 
+pusher-leaning-2_0022.png author=PhET 
+pusher-leaning-2_0023.png author=PhET 
+pusher-leaning-2_0024.png author=PhET 
+pusher-leaning-2_0025.png author=PhET 
+pusher-leaning-2_0026.png author=PhET 
+pusher-leaning-2_0027.png author=PhET 
+pusher-leaning-2_0028.png author=PhET 
+pusher-leaning-2_0029.png author=PhET 
+pusher-leaning-2_0030.png author=PhET 

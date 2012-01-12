@@ -1,0 +1,64 @@
+PhET Weekly Progress Report
+John Blanco
+August 2nd, 2011
+
+Time period covered: July 27th through August 2nd.
+
+Balance and Torque - 14.5 hrs
+
+•	Added gradient for attachment pole, made it tilt as needed.
+•	Changed the way that tick marks are handled so we can more easily make them look different.
+•	Met with design team to review status and resolve various questions.
+•	Added a segment to each end of the board so that a location that is 10 ticks from the center can be accessed.
+•	Removed "Forces from Supports" from the vector control panel, based on input from the design team.
+•	Added vector control panel.
+•	Added support for force vectors.
+
+Gene Expression Basics - 9.0 hrs
+
+•	Improved layout of the tool box.
+•	Added other tool boxes for other genes.
+•	Separated out the regulatory and transcribing regions on the genes.
+•	Added labels for the regions and for the overall genes.
+•	Met with Mike K to discuss status, resolve questions, plan next steps.
+•	Wrote up meeting notes, circulated and added to design doc.
+•	Made the ribosome back into a single unit.
+
+Sugar and Salt Solutions - 2.0 hrs
+
+•	Worked on getting crystals to precipitate out of solution (in collaboration with Sam).
+
+States of Matter - 2.0 hrs
+
+•	Discussion with Emily on plan and how it will be used.
+•	Created new flavor called "States of Matter: Basics".
+
+Common Code - 1.5 hrs
+
+•	Made the ObservableList class common (in collaboration with Sam R).
+
+Customer Support - 1.5 hrs
+
+•	Investigated and responded to a code signing issue experienced by a Linux user, see #3023.
+
+Environment - 3.0 hrs
+
+•	Upgraded the 10.6 partition to the latest 10.6 release and Java version.
+•	Contacted JR Raith about 10.7 on Mac, haven't heard back yet.
+•	Experimented with integrating other developers IntelliJ dictionaries.
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+•	Weekly PhET status meeting.
+•	Weekly status report.
+•	Logged June hours in tracking spreadsheet.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+What’s Next
+
+•	Continue developing Gene Expression simulation.
+•	Continue developing Balance & Torque simulation.
+•	Continue developing States of Matter: Basics.

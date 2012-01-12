@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<SimStrings>
+<string key="showSum" value="Výsledný vektor"/>
+<string key="grabOne" value="Vektory"/>
+<string key="clearAll" value="Zmazať"/>
+<string key="componentDisplay" value="Zobrazenie zložiek:"/>
+<string key="y" value="y"/>
+<string key="style3" value="Štýl 3"/>
+<string key="none" value="Žiadne"/>
+<string key="style2" value="Štýl 2"/>
+<string key="showGrid" value="Mriežka"/>
+<string key="x" value="x"/>
+<string key="style1" value="Štýl 1"/>
+</SimStrings>

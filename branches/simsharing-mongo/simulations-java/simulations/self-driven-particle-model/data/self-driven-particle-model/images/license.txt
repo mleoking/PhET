@@ -1,0 +1,11 @@
+###################################
+# License info for self-driven-particle-model
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+background.jpg author=PhET 
+nextbutton.jpg author=PhET 
+plot-example.png author=PhET 
+sampleplot.gif author=PhET 
+startbutton.jpg author=PhET 
+title-page3.jpg author=PhET 

@@ -1,0 +1,1 @@
+jbox2d license=zlib licensefile=license-jbox2d.txt name=JBox2D description=a close Java port of Erin Catto's excellent C++ Box2D physics engine copyright=Daniel Murphy website=http://www.jbox2d.org/

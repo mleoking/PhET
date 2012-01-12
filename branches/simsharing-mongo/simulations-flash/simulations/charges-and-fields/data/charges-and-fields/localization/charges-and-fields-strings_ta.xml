@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_ta.xml created Fri Aug 05 18:32:45 EDT 2011 using: charges-and-fields 2.04.00 (52655), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="directionOnly" value="திசை மட்டும்"/>
+<string key="grid" value="வரைதாள்"/>
+<string key="clearAll" value="எல்லாம் அழி"/>
+<string key="simTitle" value="மின்மமும் புலங்களும்"/>
+<string key="distanceUnit" value="மீ"/>
+<string key="showNumbers" value="எண்கள் காட்டு"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 மீட்டர்"/>
+<string key="showEField" value="மின்புலம் "/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="உயர் துல்லி."/>
+<string key="EFieldSensors" value="மின் புல உணர்வி"/>
+<string key="eFieldUnit" value="வோ/மீ"/>
+<string key="clear" value="அழி"/>
+<string key="plot" value="வரை"/>
+<string key="equipotential" value="மின்னழுத்த ஒருமிப்பு"/>
+<string key="angleUnit" value=" பாகை"/>
+<string key="translation.credits" value="C.R.Selvakumar"/>
+<string key="showLoRes" value="குறை துல்லி."/>
+<string key="moreSpeedLessRes" value="விரைவு கூட்டு/குறை துல்லி."/>
+<string key="tapeMeasure" value="நாடா அளவி"/>
+<string key="voltage" value="மின்னழுத்தம்"/>
+</SimStrings>

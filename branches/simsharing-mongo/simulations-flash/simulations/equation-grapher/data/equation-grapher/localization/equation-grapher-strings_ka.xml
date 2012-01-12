@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_ka.xml created Tue Aug 09 14:47:49 MSD 2011 using: equation-grapher 2.02.00 (52283), translation-utility 2.10.00 (48775) фев 9, 2011-->
+<SimStrings>
+<string key="showYEq" value="მაჩვენე y="/>
+<string key="erase" value="წაშალე"/>
+<string key="save" value="შენახვა"/>
+<string key="zero" value="განულება"/>
+<string key="simTitle" value="კვადრატული განტოლების ფუნქციის გრაფიკი"/>
+</SimStrings>

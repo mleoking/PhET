@@ -1,0 +1,38 @@
+# 00.00.07 (58838) Nov 29, 2011
+Added a legend
+Show tooltips on camera so they don't scale with zoom level
+Added tooltips for specific events
+Made yellow (system) events wider and always behind black (user) events
+Added plots for events and unique events
+Show tick label above the tick lines
+In PlotStudentActivity, instead of long timestamp, just show 0:00, then 10:00 then 20:00
+In PlotStudentActivity instead of machine ID, show "Student "+id
+# 00.00.06 (58801) Nov 28, 2011
+Fixed parser to factor out time for student to enter ID, see Parser.scala
+# 00.00.05 (58582) Nov 14, 2011
+# 00.00.04 (58580) Nov 14, 2011
+# null.null.00 (58578) Nov 14, 2011
+Added menu bar for plot frame gui
+Show when the window is active with a filled in region
+Renamed package from simeventprocessor to simsharinganalysis and removed scala package
+Show events within each sim use
+Added a timeline that starts at the first event and has tick marks and labels every 15 minutes
+Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
+Added plots for how much time is spent in each tab
+# 00.00.03 (58497) Nov 10, 2011
+# 00.00.02 (58466) Nov 9, 2011
+Plot filtered events vs time
+Added events for balancing-chemical-equations
+Added checking for desired events
+Started adding support for filtering based on relevant events
+Changes to support scala repl prototype
+Added instrumentation for monitoring server data as it is being collected
+Added build information and entry point for sim event processing for server monitoring
+Added IProguardKeepClass for potential library use
+Use tab instead of comma as parameter delimiter, see #3136
+Added multi-plots for post-processing, see #3136
+Added events to search for in Molecule Polarity Tab 1, see #3136
+Improved text output, see #3136
+Added plotting for events vs time, see #3136
+Improved post-processing, see #3136
+Added processor module, see #3136

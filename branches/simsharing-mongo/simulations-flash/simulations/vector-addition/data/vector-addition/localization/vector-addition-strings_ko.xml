@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_ko.xml created Sat Aug 07 17:07:05 KST 2010 using: vector-addition 2.01.00 (37326), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="showSum" value="합계 보기"/>
+<string key="simTitle" value="벡터 더하기"/>
+<string key="grabOne" value="1개 선택"/>
+<string key="clearAll" value="모두 지움"/>
+<string key="componentDisplay" value="요소표시"/>
+<string key="y" value="y"/>
+<string key="style3" value="스타일 3"/>
+<string key="none" value="안함"/>
+<string key="showGrid" value="그리드 표시"/>
+<string key="style2" value="스타일 2"/>
+<string key="x" value="x"/>
+<string key="style1" value="스타일 1"/>
+</SimStrings>

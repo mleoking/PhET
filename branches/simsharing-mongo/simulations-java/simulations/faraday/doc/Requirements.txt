@@ -1,0 +1,57 @@
+--
+Faraday simulation requirements, as of 12/21/2004 status meeting
+
+
+Bar Magnet module:
+- bar magnet as the magnetic field source
+- bar magnet can be moved around
+- treat bar magnet as a dipole
+- flip bar magnet polarity
+- show magnetic field using a grid of compasses (not movable)
+- show/hide compass grid
+- do NOT show field lines due to induced EMF
+- adjust strength of bar magnet, but do NOT change bar size
+- pickup coil with adjustable number of loops (1 or 2)
+- pickup loops are all circular, all same radius
+- area of loop can be adjusted
+- pickup coil can be moved around (voltmeter/lightbulb follows)
+- lightbulb can be hooked across pickup coil
+- coil shows electron flow when lightbulb is hooked up
+- voltmeter can be used as an alternative to lightbulb
+- no electron flow shown when voltmeter is used
+- movable compass can be dragged around
+- no absolute values are shown for anything (voltage, area, field strength, etc.)
+
+Electromagnet module:
+- draggable electromagnet
+- coil with 1-4 turns, dimensions about the same as bar magnet
+- coil orientation as in "Magnet & Coil" module
+- selectable current source (DC battery or AC black box)
+- variable amplitude of the current sources
+- fixed frequency of the AC source
+- amplitude & frequency controls on the object representing the sourc
+- compass grid with show/hide control
+- compass with show/hide control
+- field meter with show/hide control
+- use bar magnet field model for electromagnet
+
+Transformer module:
+- grid, pickup coil, voltmeter, lightbulb, compass as in "Bar Magnet" module
+- electromagnet as the magnet field source
+- electromagent is NOT movable
+- electromagnet has a variable number of loops (1-4)
+- show/hide field lines due to electromagnet
+- do NOT show field lines due to induced EMF
+- electromagnet power source switchable between AC and DC
+- DC source is a battery with adjustable voltage
+- AC source is a power supply with adjustable frequency and current
+- electromagnet coil shows electron flow
+- no absolute values are shown for anything (voltage, area, field strength, etc.)
+
+
+General development requirements:
+- start with all control in the Control Panel, migrate to Apparatus Panel later
+- electrons should be blue, similar to electrons in CCK
+- 
+
+--

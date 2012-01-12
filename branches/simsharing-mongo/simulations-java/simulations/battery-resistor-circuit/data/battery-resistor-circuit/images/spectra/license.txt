@@ -1,0 +1,7 @@
+###################################
+# License info for ohm-1d
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+fullSpectrum.jpg author=PhET 
+spect3.jpg author=PhET 

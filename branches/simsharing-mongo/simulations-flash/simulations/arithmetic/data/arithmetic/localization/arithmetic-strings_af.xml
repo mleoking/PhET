@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_af.xml created Wed May 26 16:01:21 GMT+02:00 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.08.00 (39581) Apr 1, 2010-->
+<SimStrings>
+<string key="level" value="vlak"/>
+<string key="typeAnswer" value="Tik antwoord,\ndruk Enter-sleutel"/>
+<string key="clickToSelect" value="Kliek om regte\nblokkie te kies"/>
+<string key="correct" value="Reg!"/>
+<string key="end" value="Einde"/>
+<string key="isWrong" value=" is verkeerd"/>
+<string key="start" value="Begin"/>
+<string key="simTitle" value="Rekenkunde"/>
+<string key="time" value="Tyd(sek)"/>
+<string key="finalTime" value="finale Tyd:"/>
+<string key="multiply" value="Maal"/>
+<string key="tryAgain" value="Probeer weer."/>
+<string key="sound" value="Klank"/>
+<string key="divide" value="Deel"/>
+<string key="factor" value="Faktor"/>
+<string key="minute" value="minuut"/>
+<string key="finalScore" value="Eindtelling:"/>
+<string key="nbrRight" value="aantal reg:"/>
+<string key="mustTypeNbr" value="Tik 'n\nsyfer in"/>
+<string key="score" value="Telling:"/>
+<string key="scorePer" value="telling"/>
+<string key="nbrWrong" value="aantal verkeerd:"/>
+<string key="reset" value="Herset"/>
+<string key="clock" value="klok"/>
+<string key="title" value="Rekenkunde-oefening"/>
+</SimStrings>

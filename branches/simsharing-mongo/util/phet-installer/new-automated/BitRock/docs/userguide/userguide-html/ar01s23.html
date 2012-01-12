@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>23. Builder</title><link rel="stylesheet" href="docbook-xsl.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.75.2" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 7" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 7" /><link rel="prev" href="ar01s22.html" title="22. Native Packages" /><link rel="next" href="ar01s24.html" title="24. Windows" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">23. Builder</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s22.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s24.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section" title="23. Builder"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_builder"></a>23. Builder</h2></div></div></div><p>InstallBuilder supports two build modes, "build" and "quickbuild", which are explained in the following sections.</p><div class="section" title="23.1. Build"><div class="titlepage"><div><div><h3 class="title"><a id="_build"></a>23.1. Build</h3></div></div></div><p>This is the slower but safer build process. For each build process, if a file already exists with the name name of the installer to build, it will be first deleted. The list of steps performed for a full build are:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+Load and validate the XML project. If the GUI builder is being used, the project has already been loaded and validated.
+</li><li class="listitem">
+Check if the destination filename is locked, for example if it is currently running
+</li><li class="listitem">
+Execute the <a class="link" href="apd.html#preBuildActionList"><code class="literal">&lt;preBuildActionList&gt;</code></a>
+</li><li class="listitem">
+Replace the current file in the output directory if any
+</li><li class="listitem">
+Modify Windows resources and icons if the target is Windows
+</li><li class="listitem">
+Add language files, licenses, readmes and images to the installer
+</li><li class="listitem">
+Pack all the files defined in the XML project
+</li><li class="listitem">
+Execute the <a class="link" href="apd.html#postBuildActionList"><code class="literal">&lt;postBuildActionList&gt;</code></a>
+</li></ul></div></div><div class="section" title="23.2. Quickbuild"><div class="titlepage"><div><div><h3 class="title"><a id="_quickbuild"></a>23.2. Quickbuild</h3></div></div></div><p>A regular build always creates a new installer and repacks all of the files. On the contrary, using Quick Build makes it possible to do incremental builds in which only new files or files that have changed will be repackaged. If you are packaging hundreds of megabytes, this should result in significantly quicker builds, but the resulting installers may increase in size with each new incremental build. It is recommended that you use quickbuild during the development process and do a full build before release.</p><pre class="literallayout">bin/builder quickbuild /path/to/project.xml</pre><p>It is possible to only update project files like logos, splash screen, readme a license files and project XML without repackaging any files at all. You can do so with the following option:</p><pre class="literallayout">bin/builder quickbuild /path/to/project.xml --onlyprojectfiles</pre><p>The build process is slightly different:</p><div class="itemizedlist"><ul class="itemizedlist" type="disc"><li class="listitem">
+Load and validate the XML project. If the GUI builder is being used, the project has already been loaded and validated.
+</li><li class="listitem">
+If the file does not exist, abort quickbuild and perform a regular full build
+</li><li class="listitem">
+Check if the destination filename is locked, for example if it is currently running
+</li><li class="listitem">
+Execute the <a class="link" href="apd.html#preBuildActionList"><code class="literal">&lt;preBuildActionList&gt;</code></a>
+</li><li class="listitem">
+Modify Windows resources and icons if the target is Windows. The <a class="link" href="apd.html#requestedExecutionLevel"><code class="literal">&lt;requestedExecutionLevel&gt;</code></a> property is ignored in quickbuilds
+</li><li class="listitem">
+Add language files, licenses, readmes and images to the installer
+</li><li class="listitem">
+Pack just new or modified files
+</li><li class="listitem">
+Execute the <a class="link" href="apd.html#postBuildActionList"><code class="literal">&lt;postBuildActionList&gt;</code></a>
+</li></ul></div></div><div class="section" title="23.3. Using the Command Line Interface"><div class="titlepage"><div><div><h3 class="title"><a id="build_command_line"></a>23.3. Using the Command Line Interface</h3></div></div></div><p>One of the most useful features of InstallBuilder is the ability to automate the build process. Installers can be built from a shell script or the command line by issuing the following command:</p><pre class="programlisting"> $&gt; bin/builder build /path/to/project.xml</pre><p>By default, it will build an installer for the current platform. However, you can pass an optional argument to the command line to indicate the target platform. For example:</p><pre class="programlisting"> $&gt; bin/builder build /path/to/project.xml windows</pre><p>On Windows, there are separate executables for the Graphical Builder Interface (builder.exe) and the Command Line Interface (builder-cli.exe). This is because Windows imposes a compilation-time switch to distinguish between command line applications and graphical applications, the latter lacking the ability to write to the console.</p><p>You can build an installer from the command line on Windows by issuing the following command:</p><pre class="literallayout">C:\Program Files\Bitrock InstallBuilder\bin/builder-cli.exe build /path/to/project.xml platform</pre><p>It is also possible to set different project settings and variables from the command line by passing the option --setvars and its arguments as in the following example:</p><pre class="programlisting">  bin/builder build /path/to/project.xml --setvars project.fullName="New Project Name"
+project.version=0.1beta some_variable_name=some_value</pre><p>where <code class="literal">some_variable_name</code> is a variable you use in the installer.</p><p>In addition, the builder application allows some options for both the console and the GUI build process:</p><pre class="screen"> --help                         Display the list of valid options
+
+ --version                      Display product information
+
+ --verbose                      Write files being packed on command line builds
+
+ --license &lt;license&gt;            Provide an alternative license to the builder
+                                Default:
+
+ --debugtrace &lt;debugtrace&gt;      Debug filename
+                                Default:
+
+ --setvars &lt;setvars&gt;            Modify project variables before the build process: --setvars installdir=/tmp project.version=1.5
+                                Default:
+
+ --onlyprojectfiles             On quickbuild mode, just update project files without considering new packed files
+
+ --project &lt;project&gt;            Open specified project for editing
+                                Default:</pre></div><div class="section" title="23.4. Creating Custom Builds"><div class="titlepage"><div><div><h3 class="title"><a id="custom_build_targets"></a>23.4. Creating Custom Builds</h3></div></div></div><p>The preceding sections introduced the basic command line build process, specifying the project to build and the target platform. It also presented the <code class="literal">--setvars</code> flag, which allows some project elements to be modified. However, the build process allows much more significant customizations.</p><p>This example assumes that you have a complete project, including documentation, some optional applications and a lightweight installer that bundles the main project files. The obvious solution would be to have two projects: one that bundles all of the components and the other with the primary project files. This can be achieved by organizing the files and logic into components and using the <a class="link" href="apg.html#include"><code class="literal">&lt;include&gt;</code></a> directive, which allows us to separate them into multiple .xml files.</p><p>This approach forces us to repeat some logic, such as the project properties. A more efficient approach would be to have a single XML project file and decide whether or not to pack the components based on the build target. For example, you could use:</p><pre class="programlisting">$&gt; builder build project.xml --setvars buildFlavor=full</pre><p>To build the complete installer and</p><pre class="programlisting">$&gt; builder build project.xml --setvars buildFlavor=minimal</pre><p>to only pack the main application.</p><p>For this approach, you simply have to create a hidden parameter to make the buildFlavor type persistent at runtime and use the <a class="link" href="ape.html#shouldPackRuleList"><code class="literal">&lt;shouldPackRuleList&gt;</code></a>:</p><p><a id="snip8094627"></a></p><pre class="programlisting">   &lt;project&gt;
+      &lt;shortName&gt;myProject&lt;/shortName&gt;
+      &lt;version&gt;1.4&lt;/version&gt;
+      ...
+      &lt;parameterList&gt;
+         ...
+         &lt;stringParameter name="buildFlavor" value="minimal" ask="0"/&gt;
+         ...
+      &lt;/parameterList&gt;
+      &lt;componentList&gt;
+          &lt;component&gt;
+             &lt;name&gt;main&lt;/name&gt;
+             ...
+          &lt;/component&gt;
+          &lt;component&gt;
+             &lt;name&gt;optionalComponent&lt;/name&gt;
+             ...
+             &lt;shouldPackRuleList&gt;
+                 &lt;compareText text="${buildFlavor}" logic="equals" value="full"/&gt;
+             &lt;/shouldPackRuleList&gt;
+          &lt;/component&gt;
+      &lt;/componentList&gt;
+   &lt;/project&gt;</pre><p>You could also combine it with the <a class="link" href="apd.html#preBuildActionList"><code class="literal">&lt;preBuildActionList&gt;</code></a> and customize the particular aspects of the project as in:
+<a id="snip6400363"></a></p><pre class="programlisting">   &lt;preBuildActionList&gt;
+      &lt;actionGroup&gt;
+         &lt;actionList&gt;
+             &lt;setInstallerVariable name="project.fullName"
+              value="Basic Product Installation"/&gt;
+             &lt;setInstallerVariable name="project.windowsExecutableIcon"
+             value="/path/to/minimal.ico"/&gt;
+             &lt;setInstallerVariable name="project.installerFilename"
+             value="minimal-installation.exe"/&gt;
+         &lt;/actionList&gt;
+         &lt;ruleList&gt;
+            &lt;compareText text="${buildFlavor}" logic="equals" value="minimal"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/actionGroup&gt;
+      &lt;actionGroup&gt;
+         &lt;actionList&gt;
+             &lt;setInstallerVariable name="project.fullName"
+              value="Full Product Installation"/&gt;
+             &lt;setInstallerVariable name="project.windowsExecutableIcon"
+             value="/path/to/full.ico"/&gt;
+             &lt;setInstallerVariable name="project.installerFilename"
+             value="full-installation.exe"/&gt;
+         &lt;/actionList&gt;
+         &lt;ruleList&gt;
+            &lt;compareText text="${buildFlavor}" logic="equals" value="full"/&gt;
+         &lt;/ruleList&gt;
+      &lt;/actionGroup&gt;
+   &lt;/preBuildActionList&gt;</pre><p>All the above functionality would work if you defined buildFlavor as a regular variable instead of creating a hidden parameter, but you would not be able to access it at runtime in that case.
+You can use that functionality, for example, to show a link to a download page at the end of installation if the user wants to download optional applications:
+<a id="snip908240"></a></p><pre class="programlisting">   &lt;finalPageActionList&gt;
+       &lt;launchBrowser url="www.downloads.com/optional" progressText="Would you
+       like to visit our website to download additional modules?"&gt;
+          &lt;ruleList&gt;
+              &lt;compareText text="${buildFlavor}" logic="equals" value="minimal"/&gt;
+          &lt;/ruleList&gt;
+       &lt;/launchBrowser&gt;
+   &lt;/finalPageActionList&gt;</pre></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s22.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s24.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">22. Native Packages </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 24. Windows</td></tr></table></div></body></html>

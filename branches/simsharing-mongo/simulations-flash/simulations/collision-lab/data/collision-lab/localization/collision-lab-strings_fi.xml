@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_fi.xml created Sat Oct 29 13:50:50 EEST 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.12.00 (57171) loka 3, 2011-->
+<SimStrings>
+<string key="PlayPauseButtons.step" value="Eteen"/>
+<string key="MomentumView.total" value="kok"/>
+<string key="ControlPanel.sound" value="Ääni"/>
+<string key="ControlPanel.showMomentumVectors" value="Liikemäärävektorit"/>
+<string key="ControlPanel.oneHundredPercent" value="100 %"/>
+<string key="DataTable.lessData" value="Vähemmän dataa"/>
+<string key="translation.credits" value="Rami Nuotio"/>
+<string key="MomentumView.momenta" value="Liikemäärä"/>
+<string key="DataTable.ball" value="pallo"/>
+<string key="TableView.kineticEnergy" value="Liike-energia = {0} J"/>
+<string key="ControlPanel.showVelocities" value="Nopeusvektorit"/>
+<string key="ControlPanel.showPaths" value="Näytä reitit"/>
+<string key="DataTable.mass" value="massa"/>
+<string key="DataTable.addBall" value="Lisää pallo"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="PlayPauseButtons.pause" value="Pysäytä"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="2 ulottuvuutta"/>
+<string key="DataTable.moreData" value="Lisää dataa"/>
+<string key="ControlPanel.reflectingBorder" value="Heijastava reunus"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.removeBall" value="Poista pallo"/>
+<string key="DataTable.x" value="x"/>
+<string key="ControlPanel.resetAll" value="Aloita alusta"/>
+<string key="ControlPanel.momentaDiagram" value="Liikemääräkaavio"/>
+<string key="ControlPanel.elasticity" value="Kimmoisuus"/>
+<string key="ControlPanel.showCenterOfMass" value="Massakeskipiste"/>
+<string key="ControlPanel.zeroPercent" value="0 %"/>
+<string key="TableView.timeRate" value="Aikakerroin"/>
+<string key="simTitle" value="Törmäyslaboratorio"/>
+<string key="PlayPauseButtons.play" value="Toista"/>
+<string key="PlayPauseButtons.back" value="Taakse"/>
+<string key="MomentumView.tipToTail" value="alkupisteestä loppupisteeseen"/>
+<string key="TableView.time" value="Aika = {0} s"/>
+<string key="PlayPauseButtons.rewind" value="Alkuun"/>
+<string key="ControlPanel.1d" value="1 ulottuvuus"/>
+</SimStrings>

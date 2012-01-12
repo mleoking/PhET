@@ -1,0 +1,3 @@
+Misc info about IntelliJ
+
+On Mac OS, codestyles live in $HOME/Library/Preferences/IntelliJIdea10/codestyles/

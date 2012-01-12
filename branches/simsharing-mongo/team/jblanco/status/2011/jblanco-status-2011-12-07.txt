@@ -1,0 +1,66 @@
+PhET Weekly Progress Report
+John Blanco
+December 7th, 2011
+
+Time period covered: November 28th through December 7th.  This is 7 work days due to changes in meeting schedule.
+
+Gene Expression - 22.0 hrs
+
+•	Implemented faster motion and longer free path for wandering biomolecules, recommended by Tom P.
+•	Implemented small capture distance and faster capture between RNA polymerase and DNA, recommended by Tom P.
+•	Changed wording of several labels (suggested during review meeting).
+•	Put in basic infrastructure and stubbed out tabs 2 and 3.
+•	Did cleanup of the MessengerRna class.
+•	Made the protein capture area flash upon capture.
+•	Redesigned and implemented the state behavior (90% complete) in order to generalize attachment behavior, reduce redundant code, and handle situations where molecules drift together.
+•	Added hints for mRNA destroyer.
+•	Put messenger RNA on separate layer on the canvas to avoid having ribosomes or mRNA destroyers appear to be beneath it.
+•	Published version for review and feedback.
+
+Balancing Act - 9.0 hrs
+
+•	Brainstormed with Ariel on the design of a new type of challenge where the user must predict the way that the balance will tip (or not, if balanced).
+•	Worked on implementation of new "Tip Prediction" challenge, roughly 80% complete.
+
+Energy Skate Park Basics - 5.0 hrs
+
+•	Implemented highlighting of the track icons.
+•	Changed the friction slider on the 2nd tab to be Piccolo in order to solve issues that were occurring with Swing-based slider.
+•	Collaborated with Sam R on resolving an issue where the skater gained thermal energy when transitioning to the ground even if track was right on the ground.
+•	Made the icons on the checkboxes on the various tabs clickable in order to set/clear the associated field.
+
+Nuclear Physics - 5.0 hrs
+
+•	Finished implementing code to keep the aspect ratio of charts constant so that the pie chart is always round, see #3071.
+•	Made nuclei disappear instead of going off the edge of the chart, since this caused scaling issues, see #3071.
+•	Made the resize arrow stop flashing if the user mouses over it while flashing is in progress.
+•	Published a version with fixes, pinged Sam M to review.
+
+Balance and Torque - 1.5 hrs
+
+•	Reviewed design in the Physics Meeting.
+
+Sim Sponsorship - 2.5 hrs
+
+•	Met the Kathy P and Chris M to discuss feature design.
+•	Discussed some possible alternatives to full-out implementation with Chris M.
+
+Installers - 1.5 hrs
+
+•	Tested and closed ticket about 64-bit Java not being detected on Windows 7, see #2884.
+•	Tested latest version, verified that "How to Run Simulations" page is gone, see #3155.
+
+Web Site - 0.5 hrs
+
+•	Peripherally involved in discussions about solving some issues with slowness of the web site.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+•	Weekly status meeting.
+•	Weekly status report.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 2.0 hrs
+
+•	Needed to take a couple hours to handle some personal biz.

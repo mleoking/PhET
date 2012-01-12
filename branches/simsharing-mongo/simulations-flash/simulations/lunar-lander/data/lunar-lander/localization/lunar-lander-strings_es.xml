@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="empty" value="V"/>
+<string key="hardLanding" value="Aterrizaje duro"/>
+<string key="score" value="puntuación:"/>
+<string key="unpause" value="Proseguir"/>
+<string key="range" value="recorrido (m)"/>
+<string key="fuel" value="combustible (kg)"/>
+<string key="altitude" value="altitud (m)"/>
+<string key="help3" value="Pausar"/>
+<string key="help2" value="Reiniciar"/>
+<string key="help1" value="Teclas de Control:"/>
+<string key="hitBoulder" value="Choque con Roca. \nPiernas dañadas.\nCombustible agotado."/>
+<string key="start" value="Comenzar"/>
+<string key="hardLandingsColon" value="aterrizajes duros:"/>
+<string key="vY" value="v_y(m/s)"/>
+<string key="vX" value="v_x(m/s)"/>
+<string key="help" value="Ayuda/Pausa"/>
+<string key="sound" value="Sonido"/>
+<string key="vectors" value="Vectores"/>
+<string key="reset" value="Reiniciar"/>
+<string key="longHelp" value="~ Aterriza en tantas zonas planas como puedas antes de agotar el fuel.\n~ Después de aterrizar, despega incrementando el empuje.\n~ Sin puntos si aterrizas en las misma zona mas de una vez.\n~ Mas puntos por aterrizar en zonas mas pequeñas o de dificil acceso:  \n   de grandes y fáciles = 5 puntos   a   estrechas y mortales = 50 puntos\n~ 10 puntos extra por aterrizaje suave ( v &lt; 2 m/s).\n~ El juego acaba si tocas una roca. (¡No puedes aterrizar en rocas!!)\n~ El juego acaba si aterrizas violentamente (v &gt; 12 m/s)."/>
+<string key="r" value="R"/>
+<string key="p" value="P"/>
+<string key="accVector" value="Vector aceleración"/>
+<string key="softLanding" value="Aterrizaje suave."/>
+<string key="thrust" value="Empuje (N)"/>
+<string key="label7" value="¿Cuantas planicies puedes tocar antes de agotar el fuel? \nPuntos extras si aterrizas suavemente (v&lt;2 m/s). \nEl juego acaba si tocas una roca o te estrellas (v&gt; 6 m/s)."/>
+<string key="label6" value="Barra espacio = Cambio a Empuje Pleno"/>
+<string key="label5" value="Giro dcho"/>
+<string key="crash2" value="Golpe brusco, tripulación muerta."/>
+<string key="label4" value="Menos empuje"/>
+<string key="crash1" value="Golpe brusco, piernas dañadas."/>
+<string key="softLandingsColon" value="aterrizajes suaves:"/>
+<string key="full" value="L"/>
+<string key="label3" value="Giro izdo"/>
+<string key="label2" value="Mas empuje"/>
+<string key="paused" value="Detenido"/>
+<string key="label1" value="Control de aterrizaje por teclado"/>
+<string key="landingSpeedEq" value="Vdad. aterrizaje="/>
+<string key="velVector" value="Vector velocidad"/>
+</SimStrings>

@@ -1,0 +1,32 @@
+PhET Progress Report
+John Blanco
+March 11, 2009
+
+Installer & Web Site – 13.0 hrs
+
+•	Added capability to insert "all-permissions" request into Java files (#1188).
+•	Automated much of the process for generating alpha and beta installers.
+•	Resolved ticket #1318 "codebase is incorrect in IOM alpha test installer"
+•	Resolved ticket #1319 "incorrect names for English files in IOM alpha installer"
+•	Created the alpha-2 installers, pre-tested them for readiness.
+
+IOM Alpha Testing – 12.0 hrs
+
+•	Helped to organize, set up, and conduct the group alpha testing for Alpha-2 release of IOM.
+•	Created the Alpha-2 web site page (central page used by testers).
+•	Supported additional testing by Marj, Nina, Archie, and Noah.
+
+Common Code – 8.0 hrs
+
+•	Developed a utility for identifying "orphan strings", i.e. English strings that exist in the localization file but that are not used in the sim.  This information will be used to clean up these files so that translators aren't doing unnecessary work.
+•	Verified and closed issues that were resolved by other developers.
+
+Interaction Potential – 2.0 hrs
+
+•	Started design for adding heterogeneous atoms.
+
+Meetings & Email - 5.0 hrs
+
+•	Meeting to discuss Flex and Scala.
+•	Normal email and administrative overhead.
+

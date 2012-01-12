@@ -1,0 +1,80 @@
+PhET Weekly Progress Report
+John Blanco
+April 6th, 2011
+
+Time period covered: March 31st through April 6th.
+
+Isotopes and Atomic Mass – 16.5 hrs
+
+•	Changed buttons on periodic table to be more general and work on Mac, Windows Classic.
+•	Improved performance when switching to Nature's mix.
+•	Fixed issue with background of radio buttons on Mac.
+•	Improved button colors for More/Less button.
+•	Scaled text on average atomic mass readout so that it will work on Mac.
+•	Fixed bug where exception occurred if the user extracts all neutrons from Neon then attempts to put them back.
+•	Fixed bug where no readout was being shown on the Average Atomic Mass indicator when a single atom was in the chamber.
+•	Reviewed with Kelly (2x),listed and prioritized needed changes.
+•	Expanded size of number box associated with the sliders.
+•	Limited pie chart labels to 1 decimal place when showing User's Mix 
+•	Made font in pie chart match that of average atomic mass indicator to make it easier for user to connect the two.
+•	Fixed some issues with label positions on the pie chart.
+•	Switched to "bulk add" when resoring state to improve performance.
+•	Fixed but with update of Average Atomic Mass readout when switching to Nature's Mix.
+•	Cleaned up code structure and comments.
+•	Discussed and started investigating and issue with significant figures.
+•	Published versions to dev for interviews.
+
+Gene Machine II: Protein Synthesis - 3.5 hrs
+
+•	Met with Kathy P to review and revise first tab.
+•	Circulated notes and updated drawing based on meeting.
+•	Researched concepts and terms.
+
+Build a Molecule - 2.5 hrs
+
+•	Met with Emily M, Kelly L, and Jonathan O to discuss design.
+
+Build an Atom - 1.5 hrs
+
+•	Performed some regression testing.
+•	Fixed an issue where extraction of atoms from the 2nd shell when in cloud view does not work properly.
+
+Nuclear Physics - 1.5 hrs
+
+•	Redeployed production version to solve problem with RTL languages.
+
+Common Code - 1.0 hrs
+
+•	Tested fix for bug with speed control slider (see #2789), reported issue on Windows, retested, discussed change to caption.
+
+Interviews - 2.5 hrs
+
+•	Prepped for interview of Ariel Paul.
+•	Participated in Ariel's presentation, conducted separate interview (with Chris M).
+•	Wrote up and sent notes on interview with Ariel.
+
+Environment - 4.0
+
+•	Set up the ability to print from the color printers that are now available in the building.
+•	Researched new computer.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+•	Weekly PhET status meeting.
+•	Entered Feb hours in spreadsheet.
+•	Weekly status report.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Nothing on the immediate horizon.
+
+What’s Next
+
+•	Continue with final steps of implementing Isotopes sim.
+•	Code review of Density/Buoyancy simulation.
+•	Continue refining design of Build a Molecule simulation.
+•	Continue implementation of Build a Molecule simulation.
+•	Follow up on Chris M's review of Molecules & Light code.
+•	Work on design of Protein Synthesis sim.

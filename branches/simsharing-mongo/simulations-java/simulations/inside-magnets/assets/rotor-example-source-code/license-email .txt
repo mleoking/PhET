@@ -1,0 +1,25 @@
+From:	Wysin, Gary [wysin@phys.ksu.edu]
+Sent:	Thursday, August 12, 2010 7:54 AM
+To:	John Peter Blanco
+Cc:	paul.beale@colorado.edu
+Subject:	RE: Gary Wysin's code 
+
+Hi John, Paul, I hope this suffices:
+
+Concerning the "rotor" simulation code that was developed while I was at 
+University of Colorado as a Big 12 Faculty Fellow of Kansas State University 
+in 2010, which depicts what happens to plane rotor magnetic dipoles inside a 
+magnet with changing temperature and applied magnetic field, I hereby grant 
+the PhET project full and free use of the "rotor" software that was developed 
+solely by me. The PhET project may use this software as is, or may derive 
+other work from it, without payment or licensing fees, provided that my 
+authorship as a Kansas State University Big 12 Faculty Fellow is acknowledged 
+in any published PhET software derived from the original rotor code.
+
+Gary Wysin
+
+
+
+
+
+

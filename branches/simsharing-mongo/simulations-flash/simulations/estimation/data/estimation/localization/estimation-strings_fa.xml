@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_fa.xml created Wed Jun 09 17:22:52 IRST 2010 using: estimation 2.01.00 (37299), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="EnterNumber" value="کنید وارد را شماره"/>
+<string key="noCreditIf" value="اگر ، ندارید اعتبار "/>
+<string key="level" value="سطح"/>
+<string key="levelOneColon" value="اشیاء همه : 3 سطح / بعدی 2 اشیاء و خطوط : 2 سطح / خطوط فقط : 1 سطح"/>
+<string key="accuracyIsSmaller" value="از است کوچکتر دقت"/>
+<string key="answerIsOutside" value="نیست محدوده این در جواب"/>
+<string key="gameOver" value="شد تمام بازی "/>
+<string key="or" value="2 یا"/>
+<string key="closeEnough" value="است صحیح جواب / ببند است کافی "/>
+<string key="nextLowerCase" value="بعدی "/>
+<string key="levelColon" value=": سطح"/>
+<string key="gameRules" value="بازی قوانین"/>
+<string key="next" value="بعدی"/>
+<string key="fullCreditIf" value="اگر نهائی اعتبار"/>
+<string key="back" value="بازگشت"/>
+<string key="exactAnswer" value="دقیق جواب "/>
+<string key="numberEstimates" value="حدس ها تعداد"/>
+<string key="estimation" value="تخمین"/>
+<string key="enter" value="Enetr"/>
+<string key="endGame" value="بازی پایان"/>
+<string key="home" value="خانه"/>
+<string key="play" value="شروع بازی "/>
+<string key="PleasePickANumber" value="کنید انتخاب 10000 تا 1 از شماره یک"/>
+<string key="averageAccuracy" value="متوسط دقت"/>
+<string key="ratioOfAreasIs" value="است مساحتها نسبت"/>
+<string key="percentUnderOver" value="بالاتر / پائینتر درصد  "/>
+</SimStrings>

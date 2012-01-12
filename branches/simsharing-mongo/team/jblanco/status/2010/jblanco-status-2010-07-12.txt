@@ -1,0 +1,60 @@
+PhET Weekly Progress Report
+John Blanco
+July 12, 2010
+
+Greenhouse - 21.0 hrs
+
+•	Added the ability to emit photons to the model and mapped to the view.
+•	Added the ability to select photon emission type (Visible or IR).
+•	Investigated using JMOL as a library for representing molecules, decided against.
+•	Added model and view representations for atoms, bonds, and molecules.
+•	Created carbon dioxide molecule.
+•	Added initial oscillation for carbon dioxide.
+•	Published a version for initial feedback, let Kelly L and Robert P know about it.
+•	Incorporated atom sizes and bond lengths provided by Kelly, have had to extend bonds to make the visible.
+•	Discussed possible ways to represent transfer of kinetic energy from CO2 to O2 and N2 with Kelly L and Noah P.
+•	Implemented photon absorption and emission by CO2.
+•	Added the ability to place molecules on the control panel.
+•	Various improvements to the layout of the play area.
+
+Neuron – 10.0 hrs
+
+•	Met with Noah P to work through exactly where membrane channels and ions should be during each stage of the action potential.
+•	Implemented changes to make channels and ions behave more correctly at each state of AP.
+•	Published a version for review and feedback.
+
+Installer Builder for Wicket-Based Web Site - 0.5 hrs
+
+•	Talked with JO about putting random sim in the "prime spot" on the home page in the installer.
+
+Common Code - 0.5 hrs
+
+•	Collaborated with Sam on an issue with turning Piccolo nodes into images.
+
+Customer Support - 1.0 hrs
+
+•	Got set up on Putnum's Mastering Physics web site, investigated problem with launching Java sims, found that they were linking to JAR file instead of JNLP.
+
+Environment - 0.5
+
+•	Set up tools for remote collaboration (TeamView).
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+•	Weekly PhET meeting
+•	Annual performance review meeting
+•	Set up better filtering for email messages.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Upcoming vacation from July 29 - August 10
+
+What’s Next
+
+•	Finish implementation of all individual molecules on the Photon Absorption tab of Greenhouse.
+•	Work out how to represent air in the Photon Absorption tab of Greenhouse.
+•	Support student interviews on Neuron.
+•	Continue port to Piccolo of existing tabs in Greenhouse.
+•	Continue work on Membrane Diffusion sim.

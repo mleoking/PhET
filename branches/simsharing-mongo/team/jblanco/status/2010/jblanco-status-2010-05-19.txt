@@ -1,0 +1,66 @@
+PhET Weekly Progress Report
+John Blanco
+May 19, 2010
+
+Neuron Sim - 13.0 hrs
+
+•	Worked with Sam on design of record-and-playback for this sim.
+•	Gathered performance data and tried out a number of optimization approaches.
+•	Reviewed record-and-playback feature that was added to the specification.
+•	Added concentration readout.
+•	Reviewed performance and possible optimization tradeoffs with Noah P.
+•	Published versions with different frame rates and with particle motion disabled for review.
+•	Published versions with new concentration readout feature.
+•	Tested performance on one of the older PhET machines, ran reasonably well.
+•	Worked on design and implementation plan for the record-and-playback feature.
+
+Installer Builder - 11.5 hrs
+
+•	Implemented BitRock project files for the PhET standard installers.
+•	Fixed several issues found during initial testing.
+•	Removed activities links from all installers, including YF and KSU.
+•	Got to where all installers are building, tested Windows version, reported some issues to JO.
+•	Currently working with JO to resolve several outstanding issues.
+
+Membrane Diffusion - 1.0 hrs
+
+•	Reviewed specification.
+
+CCK - 1.0 hrs
+
+•	Worked with Sam on ideas for handling difficult circuits.
+
+Greenhouse - 3.0 hrs
+
+•	Created photon node and added to the canvas.
+•	Removed logo from the panel.
+•	Expanded the legend.
+
+Common Code - 2.0 hrs
+
+•	Worked with Sam on porting Scala record-and-playback user interface to Java.
+•	Started review of initial implementation of the common record-and-playback feature support.
+
+Unfuddle Notifier 1.5 hrs
+
+•	Updated project XML schema, helped to diagnose and fix an issue with handling of the schema.
+
+Miscellaneous - 2.0 hrs
+
+•	Had email dialog and set up a phone conference with the Hippocampus people.
+•	Got set up for Google Groups, worked with Marj on setup of needed groups for Neuron, Lac Operon.
+•	Spent some time looking for a better backup solution.
+•	Removed workshop that has been canceled from the web site (request from Trish).
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Weekly PhET meeting.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+What’s Next
+
+•	Implement record/playback, or some variation thereof for Neuron.
+•	Continue port to Piccolo of Greenhouse.
+•	Separate the Membrane Diffusion sim into a separate project, modify to match new spec.
+•	Complete the implementation of the installer for the wicket-based site.

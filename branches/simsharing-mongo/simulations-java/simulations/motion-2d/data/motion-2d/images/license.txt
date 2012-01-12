@@ -1,0 +1,7 @@
+###################################
+# License info for motion-2d
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+ballsmall2.gif author=PhET 
+empty.gif author=PhET 

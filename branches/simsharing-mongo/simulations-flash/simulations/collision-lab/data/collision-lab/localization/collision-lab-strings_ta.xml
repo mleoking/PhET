@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_ta.xml created Sat Aug 06 20:45:23 EDT 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="PlayPauseButtons.step" value="முன்நகர்"/>
+<string key="MomentumView.total" value="மொத்தம்"/>
+<string key="ControlPanel.sound" value="ஒலி"/>
+<string key="ControlPanel.showMomentumVectors" value="உந்தம் திசையன்"/>
+<string key="ControlPanel.oneHundredPercent" value="100%"/>
+<string key="DataTable.lessData" value="தரவைக் குறை"/>
+<string key="translation.credits" value="C.R.Selvakumar"/>
+<string key="MomentumView.momenta" value="உந்தங்கள்"/>
+<string key="DataTable.ball" value="உருண்டை"/>
+<string key="TableView.kineticEnergy" value="இயக்க ஆற்றல் = {0} சூல்"/>
+<string key="ControlPanel.showVelocities" value="விரைவு திசையன்"/>
+<string key="ControlPanel.showPaths" value="பாதைகளைக் காட்டு"/>
+<string key="DataTable.mass" value="நிறை"/>
+<string key="DataTable.addBall" value="உருண்டை சேர்"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="PlayPauseButtons.pause" value="சற்று நிறுத்து"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="2 திசைகள் "/>
+<string key="DataTable.moreData" value="தரவைக் கூட்டு"/>
+<string key="ControlPanel.reflectingBorder" value="எதிரும் எல்லை"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.removeBall" value="உருண்டையை நீக்கு"/>
+<string key="DataTable.x" value="x"/>
+<string key="ControlPanel.resetAll" value="மீளமை"/>
+<string key="ControlPanel.momentaDiagram" value="உந்தம் படம்"/>
+<string key="ControlPanel.elasticity" value="மீண்மை"/>
+<string key="ControlPanel.showCenterOfMass" value="நிறை மையம்"/>
+<string key="ControlPanel.zeroPercent" value="0%"/>
+<string key="TableView.timeRate" value="கால வீதம்"/>
+<string key="simTitle" value="மோதல் செய்களம்"/>
+<string key="PlayPauseButtons.play" value="ஓட்டு "/>
+<string key="PlayPauseButtons.back" value="பின்செல்"/>
+<string key="MomentumView.tipToTail" value="உச்சி முதல் வால்வரை"/>
+<string key="TableView.time" value="நேரம் = {0} நொடி"/>
+<string key="PlayPauseButtons.rewind" value="பின்நகர்த்து"/>
+<string key="ControlPanel.1d" value="1 திசை "/>
+</SimStrings>

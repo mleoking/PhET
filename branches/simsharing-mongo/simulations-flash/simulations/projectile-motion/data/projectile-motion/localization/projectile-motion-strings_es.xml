@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--projectile-motion-strings_es.xml created Tue Oct 28 04:51:56 CET 2008 using: projectile-motion 1.00.00 (22510), translation-utility 1.05.00 (25607)-->
+<SimStrings>
+<string key="dragLabel" value="arrastrar coeficiente"/>
+<string key="userChoice" value="a elegir"/>
+<string key="altitudeLabel" value="altitud (m)"/>
+<string key="football" value="Balón de Rugby"/>
+<string key="golfball" value="Pelota de golf"/>
+<string key="collision" value="¡Colisión!"/>
+<string key="adultHuman" value="humano adulto"/>
+<string key="time" value="tiempo (s)"/>
+<string key="buick" value="Coche"/>
+<string key="diameter" value="diámetro (m)"/>
+<string key="initSpeed" value="velocidad inicial (m/s)"/>
+<string key="bowlingball" value="bola de bolos"/>
+<string key="piano" value="piano"/>
+<string key="sound" value="Sonido"/>
+<string key="range" value="alcance (m)"/>
+<string key="height" value="altura (m)"/>
+<string key="mass" value="masa (kg)"/>
+<string key="pumpkin" value="Calabaza"/>
+<string key="score" value="¡Diana!"/>
+<string key="angle" value="angulo (grados)"/>
+<string key="baseball" value="pelota beisbol"/>
+<string key="airResistance" value="Resistencia aire"/>
+<string key="fire" value="Disparar"/>
+<string key="erase" value="Borrar"/>
+<string key="tankshell" value="obus de tanque"/>
+</SimStrings>

@@ -1,0 +1,59 @@
+PhET Weekly Progress Report
+John Blanco
+March 30th, 2011
+
+Time period covered: March 17th through March 30th (two weeks, due to vacation).
+
+Isotopes and Atomic Mass – 23.5 hrs
+
+•	Changed the pie chart to always have the lightest element contained in the test chamber centered on the left side (in collaboration with Sam R).
+•	Added labels to pie chart.
+•	Fixed issue where hydrogen state was not reset on Reset All.
+•	Changed average atomic mass indicator to always show 5 digits.
+•	Published a version for interviews.  This was requested by Kelly L.
+•	Tested on Mac, duplicated issues that Chris M had pointed out, fixed one of them.
+•	Added the ability to override the atomic mass value and the isotope proportions in the test chamber so that "Nature's Mix" will precisely match accepted values.
+•	Various testing and fixing of minor user interface problems and behavioral bugs.
+
+Build a Molecule - 3.0 hrs
+
+•	Reviewed spec changes and updates.
+•	Set up initial project space (in collaboration with Jonathan O.)
+•	Put static drawings on each of the 3 tabs as a sort of "Fast Prototype" (in collaboration with Jonathan O.)
+
+States of Matter - 1.0 hrs
+
+•	Created, tested, and published a version that excludes the 3rd tab (Atomic Interactions).  This was requested by Emily M for use in interviews.
+
+Sim Sharing - 0.5
+
+•	Worked with IT folks to figure out why ports had not been opened.  Should be working now but still needs testing, see Unfuddle #2749.
+
+Environment - 3.0
+
+•	Supported Mike Dubson in his efforts to deploy updated Masses and Springs to the production server.
+•	Discussion with Sam R and Chris M about best practices for model objects that come and go.
+
+Customer Support – 2.0 hrs
+
+•	Supported David Chavez of Pearson with an issue about Flash sims displaying "KeyNotFound" in some cases.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+•	Weekly PhET status meeting.
+•	Weekly status report.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 40 hrs
+
+•	Took March 21st through March 24th as vacation.
+•	March 25th was a university holiday.
+
+What’s Next
+
+•	Continue refining design of Build a Molecule simulation.
+•	Continue implementation of Build a Molecule simulation.
+•	Finish implementing Isotopes sim, publish versions for review and possibly for interviews.
+•	Follow up on Chris M's review of Molecules & Light code.
+•	Work on design of Protein Synthesis sim.

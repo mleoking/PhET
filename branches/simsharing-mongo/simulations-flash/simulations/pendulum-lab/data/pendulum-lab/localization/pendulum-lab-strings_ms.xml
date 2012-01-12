@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_ms.xml created Fri May 27 20:59:46 SGT 2011 using: pendulum-lab 2.03.00 (52288), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="resetStopwatch" value="reset"/>
+<string key="earth" value="Bumi"/>
+<string key="showPhotoGateTimer" value="photogate timer"/>
+<string key="planetX" value="Planet X"/>
+<string key="acceleration" value="Pecutan"/>
+<string key="showEnergyOf" value="Papar Tenaga"/>
+<string key="PE" value="PE"/>
+<string key="velocity" value="Halaju"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;Nur Ismalina Haris&lt;br&gt;&#10;Politeknik Tuanku Syed Sirajuddin&#10;&lt;/html&gt;"/>
+<string key="realTime" value="Masa Sebenar"/>
+<string key="length" value="panjang"/>
+<string key="lots" value="banyak"/>
+<string key="friction" value="Geseran"/>
+<string key="showSecondPendulum" value="Papar Bandul ke-2"/>
+<string key="start" value="Mula"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Bulan"/>
+<string key="energyOf" value="Tenaga"/>
+<string key="period" value="Tempoh:"/>
+<string key="simStrings" value="Ujikaji Bandul"/>
+<string key="noneFriction" value="tiada"/>
+<string key="total" value="Jumlah"/>
+<string key="mass2" value="jisim 2:"/>
+<string key="pendulum" value="Bandul"/>
+<string key="startPauseStopwatch" value="Mula/Berhenti"/>
+<string key="show" value="Paparkan:"/>
+<string key="length2" value="panjang 2:"/>
+<string key="photoGateTimer" value="photogate timer"/>
+<string key="thermal" value="haba"/>
+<string key="pausePlay" value="Berhenti/Main"/>
+<string key="reset" value="Reset"/>
+<string key="mass" value="jisim"/>
+<string key="quarterTime" value="1/4 Masa"/>
+<string key="KE" value="KE"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="tiada"/>
+<string key="simTitle" value="Ujikaji Bandul"/>
+<string key="otherTools" value="Alat lain"/>
+<string key="angleUnit" value="darjah"/>
+<string key="paused" value="Berhenti "/>
+<string key="sixteenthTime" value="1/16 Masa"/>
+</SimStrings>

@@ -1,0 +1,16 @@
+GT_script_button_template2.html_BUTTONINFO
+<table style="text-align: center; width: 100%" border="1" cellpadding="2" cellspacing="2"><tr><td>
+
+  <script type="text/javascript">
+  	 var script = "script @APPLETNAME0@.spt";
+  	 script +=";javascript \"updateScriptButtonWidgets(@I@)\";";
+     document.write(jmolButton(script, "@LABEL@"));   
+  </script>
+  <div id="jmolCntl@I@" style="visibility:hidden; display:none;">
+  @WIDGETSTR@
+  </div>
+ 
+
+</td></tr></table>
+  GT_script_button_template2.html_MORE <br/>
+  

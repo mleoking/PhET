@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_lv.xml created Tue Jul 19 10:40:34 EEST 2011 using: friction 2.03.00 (51676), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Berzējiet dzeltenos atomus\npret zaļajiem."/>
+<string key="physics" value="Fizika"/>
+<string key="reset" value="Atiestatīt"/>
+<string key="simTitle" value="Berze"/>
+<string key="translation.credits" value="Arvis Lācis (@arvislacis)"/>
+<string key="chemistry" value="Ķīmija"/>
+</SimStrings>

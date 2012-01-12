@@ -1,0 +1,17 @@
+button_pressed.png source=PhET notes=copied from gene-network
+button_unpressed.png source=PhET notes=copied from gene-network
+handle.png source=PhET notes=drawn by NP
+handle_T.png source=PhET notes=drawn by NP
+knob.png source=PhET notes=drawn by NP
+nozzle.png source=PhET notes=created by SR based on work by NP
+panel.png source=PhET notes = created by SR
+pipe-left-back.png source=created by ON
+pipe-left-front.png source=created by ON
+pipe-middle.png source=PhET notes=created by ON
+pipe-right.png source=PhET notes=created by ON
+pressure_meter_center.png source=PhET notes=drawn by NP
+pressure_meter_left.png source=PhET notes=drawn by NP
+pressure_meter_right.png source=PhET notes=drawn by NP
+squeezer_background.png source=PhET notes=copied from gene-network
+man-standing.png source=PhET notes=copied from balance-and-torque
+potted-plant.png source=PhET notes=copied from balance-and-torque

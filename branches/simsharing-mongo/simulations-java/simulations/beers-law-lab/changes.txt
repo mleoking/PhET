@@ -1,0 +1,107 @@
+1/11/12 Simsharing: add UserComponent chaining for FaucetNode and its FaucetSlider
+1/11/12 add shaker orientation to model, used for direction of initial particle velocity
+1/10/12 remove shaker particles when the solute is changed
+1/10/12 make "Remove Solute" button remove any solute that is falling between the shaker and beaker
+1/10/12 first pass at particles exiting shaker (motion is not physical, particles disappear when they reach y=500)
+1/10/12 use ImmutableVector2D for all model locations
+1/10/12 rotate button on dropper so that lighting direction is consistent
+1/10/12 move origin of MomentaryButtonNode to center, to facilitate rotation and layout
+1/10/12 move origin of faucet node to center of output pipe, so that it's consistent with the faucet model
+1/10/12 make meter and model properties dialog use the same number of decimal places for concentration values
+1/10/12 constrain meter from being dragged behind control panel; move control panel with combo box to front, so that combo box popup is aways on top
+1/10/12 derive height of solute fluid stream
+1/10/12 use precipitate color for particles that come out of the shaker
+1/10/12 adjust location of "Saturated!" indicator, use light gray background instead of white
+1/10/12 base class for solute particles, specializations for precipitate particles and shaker particles
+1/10/12 move precipitate particle orientation into model
+1/10/12 make precipitate particles sit precisely on bottom of beaker
+1/10/12 change min colors for K2CrO4 (RGB=255,255,199) and KMnO4 (RGB=255,0,255)
+1/10/12 enable dropper when amount of solute is reduced below max
+# 0.00.05 (60092) Jan 10, 2012
+1/10/12 move dropper-specific image dependencies into DropperNode
+1/10/12 add background image for empty dropper
+1/10/12 add Dropper.empty, handle proper interaction with Shaker.enabled
+1/10/12 replace Shaker.enabled with Shaker.empty
+# 0.00.04 (60076) Jan 10, 2012
+1/10/12 dev version for discussion of whether to make dropper transparent or translucent
+1/10/12 dropper with transparent glass
+# 0.00.03 (60074) Jan 10, 2012
+1/10/12 dev version for discussion of whether to make dropper transparent or translucent
+1/10/12 new dropper image, created by Noah P.
+# 0.00.02 (60062) Jan 9, 2012
+1/9/12 early dev version for discussion of dropper issues
+1/9/12 use an unlicensed placeholder for dropper that will have proper shape and prospective
+1/9/12 experimented with 3D beaker, JC and KP decided to stick with 2D
+1/5/12 simplistic version of stock solution inside dropper glass, doesn't conform to glass shape
+1/5/12 move responsibility for visibility of shaker and dropper into the model
+1/5/12 make concentration meter read all liquids: solution in beaker, solvent faucet, drain faucet, dropper (handle intersection in view)
+1/5/12 compute color of stock solution based on stock concentration
+1/5/12 add color range for solutes (min-max), max is saturated, min is >0, interpolate based on concentration
+1/5/12 initialize with zero solute
+1/5/12 change dropper's horizontal drag bounds to be full width of beaker (like shaker)
+1/5/12 disable "Remove Solute" button when there is no solute in the beaker
+1/5/12 change drag bounds for shaker, OK if top part of shaker goes off top edge of play area
+# 0.00.01 (59868) Jan 4, 2012
+1/4/12 early dev version for discussion of design issues with JC
+1/3/12 add precipitate and particles to the model
+1/3/12 add relative location of shaker holes to model
+1/3/12 move shaker origin to center holes in shaker image
+1/3/12 add node for debugging origin of shaker and dropper
+1/3/12 make location of ticks configurable, move ticks to left edge of beaker
+1/3/12 use a different probe for concentration meter that doesn't have problem with wire showing in center
+12/27/11 constraining dragging of concentration meter and probe to the stage
+12/27/11 move SoluteForm enum into Solute model class
+12/27/11 disable evaporation slider when beaker is empty
+12/27/11 add "evaporator" to model
+12/27/11 add sim-sharing parameter "isInSolution" for dragging of meter probe
+12/27/11 dev: move model properties to a dialog, accessible via a button in play area
+12/27/11 create dev package
+12/27/11 add concentration meter (model and view)
+12/27/11 remove solute from solution when changing solute
+12/26/11 fix "Saturated!" indicator for empty beaker
+12/26/11 a little work on add/removeSolvent and add/removeSolute in model
+12/26/11 fix dropper button, doesn't disable when beaker is full
+12/26/11 move origin of dropper to hole that dispenses stock solution
+12/26/11 replace ImmutableVector2D with Point2D for non-public fields
+12/26/11 first pass at stock solution coming out of dropper (not aligned with dropper hole)
+12/26/11 reorganize time-based portion of model
+12/26/11 model of shaker dispensing solute
+12/26/11 implement evaporation
+12/26/11 add dropper dispensing solution to model
+12/26/11 disable dropper when beaker is full (add disabled button to piccolo-phet image suite)
+12/26/11 add solvent, drain solution as clock ticks
+12/26/11 add clock to model
+12/26/11 add solution in beaker
+12/26/11 add precipitate on bottom of beaker
+12/26/11 add "Saturated!" indicator
+12/26/11 add solvent and "fluid" to model, make faucet outputs show fluid
+12/26/11 add fluid coming out of faucets
+12/22/11 add sim-sharing to evaporation control
+12/22/11 add sim-sharing to faucet sliders
+12/21/11 #3193, fix "flow rate" issue in FaucetNode. Delete adapter code workaround from beers-law-lab model.
+12/21/11 add faucets model and view
+12/21/11 add beaker model and view
+12/21/11 define font sizes in constants class
+12/21/11 add debug node for model properties
+12/21/11 refine some controls
+12/20/11 grabbed evaporation control from sugar-and-salt-solutions
+12/20/11 add "Remove Solute" button
+12/20/11 icons for shaker and dropper
+12/20/11 add drag constraints for shaker and dropper
+12/20/11 add drag constraint to MovableDragHandler
+12/20/11 drag handler for shaker and dropper
+12/20/11 model elements for shaker and dropper
+12/20/11 add some sim-sharing support
+12/20/11 add additional strings for 1st tab, for new features that were added
+12/20/11 add momentary button to dropper
+12/20/11 add dropper with dynamic label (no button yet)
+12/20/11 add shaker with dynamic label
+12/20/11 workaround for #3190 (combo box popup causes control panel to resize)
+12/20/11 add "solute form" to model and control panel
+12/20/11 grab solute control from dilutions
+12/20/11 specify solutes as in design document
+12/20/11 added string resources for 1st tab
+12/20/11 added more basic infrastructure
+12/20/11 grabbed relevant model code from dilutions
+12/19/11 grabbed shaker image from sugar-and-salt-solutions
+12/7/11 created project skeleton

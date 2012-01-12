@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_cs.xml created Wed Jul 27 09:15:58 CEST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) II 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="rychlost simulace"/>
+<string key="sameFrequency" value="stejná frekvence"/>
+<string key="sameSpring" value="stejná pružina (k)"/>
+<string key="slow" value="pomalu"/>
+<string key="mixedMAndK" value="různé m a k"/>
+<string key="numberOfResonators" value="Počet rezonátorů"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="pozastavit"/>
+<string key="amplitude" value="amplituda"/>
+<string key="frequencyEqualsXHz" value="frekvence =  {0} Hz"/>
+<string key="sloMo" value="ZPOAMLENO"/>
+<string key="step" value="krok"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="MOTOR"/>
+<string key="on" value="zapnuto"/>
+<string key="ruler" value="Pravítko"/>
+<string key="resonance.simTitle" value="Resonance"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="tuhost pružiny"/>
+<string key="frequency" value="frekvence"/>
+<string key="resetAll" value="Původní hodnoty"/>
+<string key="mass" value="hmotnost"/>
+<string key="sameMass" value="stejná hmotnost (m)"/>
+<string key="resonator" value="Rezonátor"/>
+<string key="translation.credits" value="Lukas Noskievic"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Gravitace:"/>
+<string key="play" value="spustit"/>
+<string key="paused" value="POZASTAVENO"/>
+<string key="off" value="vypnuto"/>
+<string key="dampingConstant" value="tlumící konstanta"/>
+<string key="normal" value="normální"/>
+<string key="selectPreset" value="Předvolby"/>
+</SimStrings>

@@ -1,0 +1,72 @@
+PhET Weekly Progress Report
+John Blanco
+August 31st, 2011
+
+Time period covered: August 23rd through August 31st.  This includes 7 work days instead of the usual 5 due to a change in the meeting schedule.
+
+Gene Expression Basics - 29.0 hrs
+
+•	Implemented the 1D random walk for biomolecules attached to the DNA at non-specific sites.
+•	Added motion bounds for mobile biomolecules.
+•	Designed and implemented a state machine for making most aspects of biomolecule behavior common.
+•	Added the ability for the DNA to have attachment sites with specific affinities for certain molecules.
+•	Implemented the motion for RNA polymerase to do transcription.
+•	Added the ability to biomolecules to locate high-affinity attachment sites on the DNA molecule.
+•	Added the ability to biomolecules to change shape (a.k.a. conformation) when attached to an attachment site.
+•	Added the capability to synthesize mRNA to RNA polymerase.
+•	Added utilities to help create a "curvy" shape, used by messenger RNA.
+•	Changed the placement hints to be associated with genes instead of the DNA itself, got them working for all three genes.
+
+
+Balance and Torque - 10.0 hrs
+
+•	Made the plank grabbable so that the user can tilt it.
+•	Made the mystery objects wider, since the spacing of the tick marks on the plank has changed.
+•	Discussed design of upcoming versions with Ariel P.
+•	Fixed issue where force vectors didn't move when plank was tilted.
+•	Removed 2nd tab, which was stubbed.  This is so we can send out for feedback.
+•	Published version for review.
+•	Responded to comments received in emails based on review by Christine (teacher in Texas).
+
+
+Sugar and Salt Solutions - 1.5 hrs
+
+•	Collaborated with Sam R on improving the behavior of 3-element crystals.
+
+Density - 1.0 hr
+
+•	Collaborated with Sam R on adding changes for a custom version to be used in a study.
+
+Common Code - 0.5 hrs
+
+•	Created ticket for adding ability to remove upper and lower tick marks to the common ruler code.
+
+Customer Support - 1.0 hrs
+
+•	Answered some questions about JNLP files and getting updates for Pearson, discussed with Kathy P.
+
+Miscellaneous - 1.0 hrs
+
+•	Provided my Adobe Illustrator sim design templates to Ariel P and discussed using Illustrator during the design phase of a simulation.
+
+
+Meetings, Email, and Other Administrative Overhead - 9.0 hrs
+
+•	Weekly PhET meeting.
+•	Weekly status report.
+•	Entered July hours in tracking spreadsheet.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 3.0 hrs
+
+•	1 hour vacation time on Thursday, August 25th
+•	2 hours vacation time on Friday, August 26th
+•	Out this Friday, September 2nd.
+
+What’s Next
+
+•	Continue developing Gene Expression simulation.
+•	Continue developing Balance & Torque simulation.
+•	Continue developing States of Matter: Basics.
+•	Tackle a couple of installer issues.

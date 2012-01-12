@@ -1,0 +1,1 @@
+phet-credits lead-design=Michael Dubson, Sam McKagan software-development=Michael Dubson design-team=Carl Wieman interviews=Sam McKagan

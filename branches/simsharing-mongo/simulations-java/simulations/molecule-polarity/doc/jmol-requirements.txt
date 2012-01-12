@@ -1,0 +1,16 @@
+Jmol feature requirements (+1=supported, -1=not supported)
++1 atoms
++1 bonds
++1 ball-and-stick
++1 bond dipoles
++1 molecular dipole
++1 partial charges
++1 background color
+-1 transparent background color
++1 electrostatic potential
+-1 rotate to align with E-field
++1 custom surfaces (for KP's electron density view)
++1 custom colors for atoms, bonds, dipoles, surfaces
++1 customization of dipoles (arrow size, tail size, scale, position)
++1 hide watermark
++1 hide popup menu

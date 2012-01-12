@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_el.xml created Thu Nov 11 20:26:19 EET 2010 using: collision-lab 0.01.00 (45337), translation-utility 2.09.00 (44031) Σεπ 14, 2010-->
+<SimStrings>
+<string key="PlayPauseButtons.step" value="Βήμα"/>
+<string key="MomentumView.total" value="μικρό"/>
+<string key="ControlPanel.sound" value="Ήχος"/>
+<string key="ControlPanel.showMomentumVectors" value="Διανύσματα ορμής"/>
+<string key="ControlPanel.oneHundredPercent" value="100%"/>
+<string key="DataTable.lessData" value="Λιγότερα δεδομένα"/>
+<string key="MomentumView.momenta" value="Ορμή"/>
+<string key="DataTable.ball" value="μπάλα"/>
+<string key="TableView.kineticEnergy" value="Κινητική ενέργεια = {0} J"/>
+<string key="ControlPanel.showVelocities" value="Διανύσματα ταχύτητας"/>
+<string key="ControlPanel.showPaths" value="Εμφάνιση διαδρομών"/>
+<string key="DataTable.mass" value="μάζα"/>
+<string key="DataTable.addBall" value="Προσθήκη μπάλας"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="PlayPauseButtons.pause" value="Παύση"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="2 Διαστάσεις"/>
+<string key="DataTable.moreData" value="Περισσότερα δεδομένα"/>
+<string key="ControlPanel.reflectingBorder" value="Πλαίσιο αντανάκλασης"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.removeBall" value="Αφαίρεση μπάλας"/>
+<string key="DataTable.x" value="x"/>
+<string key="ControlPanel.resetAll" value="Επαναφορά όλων"/>
+<string key="ControlPanel.momentaDiagram" value="Στιγμιαίο διάγραμμα"/>
+<string key="ControlPanel.elasticity" value="Ελαστικότητα"/>
+<string key="ControlPanel.showCenterOfMass" value="Κέντρο μάζας"/>
+<string key="ControlPanel.zeroPercent" value="0%"/>
+<string key="TableView.timeRate" value="Ρυθμός"/>
+<string key="simTitle" value="Εργαστήριο συγκρούσεων"/>
+<string key="PlayPauseButtons.play" value="Έναρξη"/>
+<string key="PlayPauseButtons.back" value="Πίσω"/>
+<string key="MomentumView.tipToTail" value="τοποθέτηση στην ουρά"/>
+<string key="TableView.time" value="Χρόνος = {0} s"/>
+<string key="PlayPauseButtons.rewind" value="Εμπρός"/>
+<string key="ControlPanel.1d" value="1 Διάσταση"/>
+</SimStrings>

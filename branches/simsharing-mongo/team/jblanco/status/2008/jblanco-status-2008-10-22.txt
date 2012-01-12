@@ -1,0 +1,44 @@
+PhET Progress Report
+John Blanco
+October 22, 2008
+
+States of Matter Sim - 14 hrs
+
+•	Continued work on refactoring and cleanup to improve extensibility and maintainability.
+
+Alpha Decay Tabbed Redesign – 9 hrs
+
+•	Reviewed specification in detail and provided comments to Noah P, met with Noah to clarify and refine the spec.
+•	Designed the major changes to the existing sim and put together an informal implementation plan.
+•	Started on the implementation.
+
+Common Code - 1 hrs
+
+•	Added the translation string comparison utility to SVN.
+•	Tested the tracking feature against a couple of different firewalls.
+
+Installer & Web Site – 8.5 hrs
+
+•	Implemented solution to issue where IE warns about many PhET pages when running installed version (Unfuddle 184).  Will test and deploy tomorrow (10/22/2008) with Dano's help.
+•	Added Marj to list of recipients of email from automated installer builder, trained her to do weekly verification.
+•	Resolved and issue where a language icon for the translation page was not appearing (Czech language).  Updated an Unfuddle ticket about this so that it is quicker and easier to do in the future.
+•	Added the .htaccess files, which contain the redirects, to SVN so that we can control them better and back out problems more easily.
+
+Micellaneous  - 1.5 hrs
+
+•	Worked with the JILA IT guys to create a dual-boot Mac (OS versions 10.4 and 10.5) that will allow us to achieve better test coverage of sims.
+•	Installed the latest Windows and Java updates on the server that we use for automated SVN backups and Unfuddle email notifications.
+
+
+Meetings & Email - 6 hrs
+
+•	Regular two weekly status meetings (this week's was held early due to Stemapalooza).
+•	Attended presentation by chemistry post-doc candidate.
+•	Normal email overhead.
+
+Upcoming Work
+
+•	Continue and (hopefully) complete refactoring of SOM multi-particle model.
+•	Implement Alpha Decay Tabbed Redesign.
+•	Test and resolve IE issue with locally installed sims.
+•	Work with Dano to resolve some other issues surrounding the launching of locally installed sims.

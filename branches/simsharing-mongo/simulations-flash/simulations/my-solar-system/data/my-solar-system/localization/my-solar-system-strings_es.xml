@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SimStrings>
+<string key="slingshot" value="tirachinas"/>
+<string key="binaryStarPlanet" value="Estrella binaria, planeta"/>
+<string key="sunAndPlanet" value="Sol y Planeta"/>
+<string key="body4" value="cuerpo 4"/>
+<string key="numberOfBodies" value="número de cuerpos"/>
+<string key="body3" value="cuerpo 3"/>
+<string key="body2" value="cuerpo 2"/>
+<string key="body1" value="cuerpo 1"/>
+<string key="velocity" value="velocidad"/>
+<string key="doubleDouble" value="Doble doble"/>
+<string key="xVel" value="x"/>
+<string key="massEquals" value="masa ="/>
+<string key="yEquals" value="y ="/>
+<string key="hyperbolics" value="Hiperbólicas"/>
+<string key="xEquals" value="x ="/>
+<string key="help9" value="Copyright Project PhET y la Univerisidad de Colorado en Boulder."/>
+<string key="help8" value="A diferencia del Ruge-Kutta, el algoritmo Verlet conserva la energía en los sistemas oscilatorios, produciendo órbitas estables. Tal como cualquier otro algoritmo de pasodetiempo-fijado, el de Verlet produce resultados no físicos cuando los cuerpos se acercan demasiado y las aceleraciones resultantes son demasiado grandes. Para evitar esto, los cuerpos que están demasiado cerca son fusionados en una colisión de momento-conservante."/>
+<string key="help6" value="Esta simulación usa un algoritmo velocidad-Verlet pasodetiempo-fijo para integrar las trayectorias:"/>
+<string key="stop" value="Parar"/>
+<string key="help5" value="Cuando se marca Sistema Centrado, el centro del sistema de movimiento de masas queda eliminado."/>
+<string key="help4" value="Para establecer una nueva posición y velocidad, presione Parar y use el ratón sobre el cuerpo."/>
+<string key="help3" value="Mantén las masas inferiores a unos pocos miles o te arriesgarás a resultados extraños."/>
+<string key="help2" value="Distancias, masas y tiempos están en unidades arbitrarias, ¡invéntate las tuyas!"/>
+<string key="help1" value="Contruya su propio sistema solar arrastrando cuerpos y el símbolo V (V por velocidad) \no tecleando en la tabla de valores iniciales,"/>
+<string key="help0" value="Mi simulador orbital del Sistema Solar"/>
+<string key="doubleSlingshot" value="Doble tirachinas"/>
+<string key="vYEquals" value="v y ="/>
+<string key="systemCentered" value="Sistema centrado"/>
+<string key="vXEquals" value="v x ="/>
+<string key="start" value="Comenzar"/>
+<string key="showTraces" value="Mostrar trazos"/>
+<string key="back" value="atrás"/>
+<string key="xPos" value="x"/>
+<string key="help" value="Ayuda"/>
+<string key="tapeMeasure" value="Cinta métrica"/>
+<string key="accurate" value="precisión"/>
+<string key="showGrid" value="Mostrar cuadrícula"/>
+<string key="selectPreset" value="Elegir Preconjunto"/>
+<string key="yVel" value="y"/>
+<string key="timeEquals" value="tiempo ="/>
+<string key="ellipses" value="Elipses"/>
+<string key="trojanAsteroids" value="Asteroide troyano"/>
+<string key="fourStarBallet" value="baile de 4 estrellas"/>
+<string key="position" value="Posición"/>
+<string key="reset" value="Reiniciar"/>
+<string key="mass" value="masa"/>
+<string key="fast" value="rápido"/>
+<string key="sunPlanetMoon" value="Sol,Planeta,Luna"/>
+<string key="initialSettings" value="Valores Iniciales:"/>
+<string key="yPos" value="y"/>
+<string key="sunPlanetComet" value="Sol,Planeta,Cometa"/>
+</SimStrings>

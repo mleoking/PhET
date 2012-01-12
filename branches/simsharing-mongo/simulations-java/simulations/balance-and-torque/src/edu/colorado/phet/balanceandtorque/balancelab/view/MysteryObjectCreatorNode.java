@@ -1,0 +1,33 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.balanceandtorque.balancelab.view;
+
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
+import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.MysteryObjectFactory;
+import edu.colorado.phet.balanceandtorque.common.view.LabeledImageMassNode;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+
+/**
+ * This class represents a "mystery object" in a tool box.  When the user clicks
+ * on this node, the corresponding model element is added to the model at the
+ * user's mouse location.
+ *
+ * @author John Blanco
+ */
+public class MysteryObjectCreatorNode extends ImageMassCreatorNode {
+
+    // Model-view transform for scaling the node used in the tool box.  This
+    // may scale the node differently than what is used in the model.
+    protected static final ModelViewTransform SCALING_MVT =
+            ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 200 );
+
+    public MysteryObjectCreatorNode( int mysteryObjectID, final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+        super( model, mvt, canvas, MysteryObjectFactory.createLabeledMysteryObject( mysteryObjectID ), false );
+        setSelectionNode( new LabeledImageMassNode( SCALING_MVT, (LabeledImageMass) prototypeImageMass, canvas, new BooleanProperty( false ) ) );
+        setPositioningOffset( 0, -mvt.modelToViewDeltaY( prototypeImageMass.getHeight() / 2 ) );
+    }
+}

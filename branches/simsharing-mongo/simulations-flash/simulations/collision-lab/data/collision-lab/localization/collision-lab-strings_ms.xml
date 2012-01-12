@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_ms.xml created Tue May 24 22:19:33 SGT 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="PlayPauseButtons.step" value="Kehadapan"/>
+<string key="MomentumView.total" value="Jumlah"/>
+<string key="ControlPanel.sound" value="Suara"/>
+<string key="ControlPanel.showMomentumVectors" value="Vektor Momentum"/>
+<string key="ControlPanel.oneHundredPercent" value="100%"/>
+<string key="DataTable.lessData" value="Kurangkan Data"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;Nur Ismalina Haris&lt;br&gt;&#10;Politeknik Tuanku Syed Sirajuddin&#10;&lt;/html&gt;"/>
+<string key="MomentumView.momenta" value="Momentum"/>
+<string key="DataTable.ball" value="Bola"/>
+<string key="TableView.kineticEnergy" value="Tenaga Kinetik = {0} J"/>
+<string key="ControlPanel.showVelocities" value="Vektor Halaju"/>
+<string key="ControlPanel.showPaths" value="Tunjuk Laluan"/>
+<string key="DataTable.mass" value="Jisim"/>
+<string key="DataTable.addBall" value="Tambah Bola"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="PlayPauseButtons.pause" value="Berhenti Sebentar"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="2 Dimensi"/>
+<string key="DataTable.moreData" value="Tambah Data"/>
+<string key="ControlPanel.reflectingBorder" value="Refleksi Sempadan"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.removeBall" value="Padam Bola"/>
+<string key="DataTable.x" value="x"/>
+<string key="ControlPanel.resetAll" value="Reset Semua"/>
+<string key="ControlPanel.momentaDiagram" value="Diagram Momentum"/>
+<string key="ControlPanel.elasticity" value="Kekenyalan"/>
+<string key="ControlPanel.showCenterOfMass" value="Pusat Jisim"/>
+<string key="ControlPanel.zeroPercent" value="0%"/>
+<string key="TableView.timeRate" value="Masa Purata"/>
+<string key="simTitle" value="Makmal Pelanggaran"/>
+<string key="PlayPauseButtons.play" value="Main"/>
+<string key="PlayPauseButtons.back" value="Kembali"/>
+<string key="MomentumView.tipToTail" value="hujung-ke-ekor"/>
+<string key="TableView.time" value="Masa = {0} s"/>
+<string key="PlayPauseButtons.rewind" value="Mainkan Semula"/>
+<string key="ControlPanel.1d" value="1 Dimensi"/>
+</SimStrings>

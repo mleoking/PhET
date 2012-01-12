@@ -1,0 +1,73 @@
+PhET Weekly Progress Report
+John Blanco
+May 4th, 2011
+
+Time period covered: April 28th through May 4th
+
+Isotopes and Atomic Mass – 10.0 hrs
+
+•	Ran color blind checker, found several locations where pure red was being used that could be problematic, so they have been replaced.
+•	Tested on Mac.
+•	Changed the cells in the periodic table from being images to being drawn gradients in order to fix issues with the appearance on Macs.
+•	Made particles (neutrons on first tab, atoms on 2nd) always be on top of everything on the canvas.
+•	Reviewed with Chemistry Group
+•	Fixed an issue with the periodic tables when the selection buttons were clicked multiple times.
+•	Animated atoms on 2nd tab.
+•	Fixed an issue with the stacking algorithm that occurred on both tabs.
+•	Internal cleanup and consolidation of the code that represents buckets in the view.
+•	Internal cleanup and consolidation of the code for the periodic tables.
+•	Profiled and tested for memory leaks.
+
+Gene Machine II: Protein Synthesis - 8.5 hrs
+
+•	Created sketches for design of a tab that depicts DNA to mRNA transcription and mRNA to protein translation.
+•	Continued background research.
+•	Went through several text books for information about how this topic is currently taught.
+
+Common Code - 3.5 hrs 
+
+•	Investigated issue with sliders on Mac on Quantum Wave Interference and other sims, fixed it (in collaboration with Sam R) in common code, see #1619.
+•	Worked with Chris on making the ButtonNode interface more like JButton and also making it work in some unusual situations that exist in the current code base.
+
+Installer - 2.0
+
+•	Discussed adding activities to installer with Kathy P and Jonathan O, see #182.
+•	Researched number of requests for CD-ROM version with Oliver N in order to determine whether it is worth the effort to create an installer with activities, see #182.
+•	Checked for updated version of Java 1.5, logged issue about upgrading to 1.6 for bundling with the installer.
+
+ADA Compliance - 1.0 hrs
+
+•	Showed Oliver how to perform color blindness testing.
+
+Professional Development - 1.5 hrs
+
+•	Went to DEPR talk presented by Kelly Lancaster.
+
+Interviews - 3.0
+
+•	Attended presentation by potential post doc.
+•	Interviewed potential post doc and then met with other developers to discuss.
+
+Grant Investigation - 1.5
+
+•	Meeting with Kathy P and Mike K to discuss possible proposal for an upcoming NIH grant.
+
+Contacts - 1.0 hr
+
+•	Continued conversations with contacts about possible PhET funding through foundations.
+
+Meetings, Email, and Other Administrative Overhead - 8.0 hrs
+
+•	Weekly PhET status meeting, 2x over the last week.
+•	Weekly status report.
+•	Review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Will be out Monday, May 9th.
+
+What’s Next
+
+•	Work on design of Protein Synthesis sim, begin implementation.
+•	Set up new PC.

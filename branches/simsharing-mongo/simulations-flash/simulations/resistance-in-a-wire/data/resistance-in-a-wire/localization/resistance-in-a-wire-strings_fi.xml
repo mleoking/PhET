@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resistance-in-a-wire-strings_fi.xml created Wed Apr 20 16:49:14 EEST 2011 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.10.00 (48775) helmi 9, 2011-->
+<SimStrings>
+<string key="cm" value="cm"/>
+<string key="resistanceEq" value="Resistanssi ="/>
+<string key="ohm" value="ohmia"/>
+<string key="simTitle" value="Vaijerin resistanssi"/>
+<string key="translation.credits" value="Jari Hokkanen, Kokemaen lukio"/>
+</SimStrings>
