@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingDragPoints;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -15,48 +16,106 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Base class for drag sequence handlers that perform sim-sharing data collection.
- * To use it, specify the user component in the constructor as well as any args for computing drag information.
+ * Sends messages on startDrag, endDrag, and (optionally) on drag.
  * <p/>
- * Other implementation did not follow the same standard pattern of sim sharing subclasses in which information is required in constructor and the class sending the messages itself.
- * <p/>
- * Unlike other simsharing subclasses, this one allows client code to supply additional information via overriding the get***Parameters methods.
- * TODO: add more summary information and hooks for the sim client to send additional param info.
+ * Can be customized in 3 ways:
+ * 1. Override getParametersForAllEvents to augment or replace the standard parameters for all events.
+ * 2. Override the get*Parameters methods to augment or replace the standard parameters for specific.
+ * 3. Call set*Function methods to replace the functions invoked for specific events.
  *
  * @author Sam Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
-    protected final IUserComponent userComponent;
-    private final SimSharingDragPoints dragPoints; // canvas coordinates, accumulated during a drag sequence
-
-    public SimSharingDragHandler( IUserComponent userComponent ) {
-        this.userComponent = userComponent;
-        this.dragPoints = new SimSharingDragPoints();
+    public interface DragFunction {
+        public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, PInputEvent event );
     }
 
-    // Start the drag and send a sim-sharing message.
+    protected final IUserComponent userComponent;
+    private final SimSharingDragPoints dragPoints; // canvas coordinates, accumulated during a drag sequence
+    private DragFunction startDragFunction, dragFunction, endDragFunction;
+
+    // Constructor that reports startDrag and endDrag, but not drag
+    public SimSharingDragHandler( IUserComponent userComponent ) {
+        this( userComponent, false );
+    }
+
+    // Sends a message on drag if reportDrag=true
+    public SimSharingDragHandler( IUserComponent userComponent, final boolean sendDragMessages ) {
+
+        this.userComponent = userComponent;
+        this.dragPoints = new SimSharingDragPoints();
+
+        this.startDragFunction = new DragFunction() {
+            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+            }
+        };
+        this.dragFunction = new DragFunction() {
+            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
+                if ( sendDragMessages ) {
+                    SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+                }
+            }
+        };
+        this.endDragFunction = new DragFunction() {
+            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+            }
+        };
+    }
+
     @Override protected void startDrag( final PInputEvent event ) {
         clearDragPoints();
         addDragPoint( event );
-        SimSharingManager.sendUserMessage( userComponent, UserActions.startDrag, getStartDragParameters( event ).add( getXParameter( event ) ).add( getYParameter( event ) ) );
+        startDragFunction.apply( userComponent, UserActions.startDrag, getStartDragParameters( event ), event );
         super.startDrag( event );
     }
 
-    // Finish the drag and send a sim-sharing message.
+    @Override protected void drag( PInputEvent event ) {
+        addDragPoint( event );
+        dragFunction.apply( userComponent, UserActions.drag, getDragParameters( event ), event );
+        super.drag( event );
+    }
+
     @Override protected void endDrag( PInputEvent event ) {
         addDragPoint( event );
-        SimSharingManager.sendUserMessage( userComponent, UserActions.endDrag, getEndDragParameters( event ).
-                add( getXParameter( event ) ).
-                add( getYParameter( event ) ).
-                addAll( dragPoints.getParameters() ) );
+        endDragFunction.apply( userComponent, UserActions.endDrag, getEndDragParameters( event ), event );
         clearDragPoints();
         super.endDrag( event );
     }
 
-    // Override this is you want to send messages during drags. Be sure to call super.mouseDragged
-    @Override protected void drag( PInputEvent event ) {
-        addDragPoint( event );
-        super.drag( event );
+    public void setStartDragFunction( DragFunction f ) {
+        startDragFunction = f;
+    }
+
+    public void setDragFunction( DragFunction f ) {
+        dragFunction = f;
+    }
+
+    public void setEndDragFunction( DragFunction f ) {
+        endDragFunction = f;
+    }
+
+    // Gets parameters for startDrag. Override to provide different parameters, chain with super to add parameters.
+    protected ParameterSet getStartDragParameters( PInputEvent event ) {
+        return getParametersForAllEvents( event );
+    }
+
+    // Gets parameters for drag. Override to provide different parameters, chain with super to add parameters.
+    protected ParameterSet getDragParameters( PInputEvent event ) {
+        return getParametersForAllEvents( event );
+    }
+
+    // Gets parameters for endDrag. Override to provide different parameters, chain with super to add parameters.
+    protected ParameterSet getEndDragParameters( PInputEvent event ) {
+        return getParametersForAllEvents( event ).addAll( dragPoints.getParameters() );
+    }
+
+    // Return parameters that are used by default for startDrag, endDrag, and drag
+    protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
+        return new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) );
     }
 
     private void addDragPoint( PInputEvent event ) {
@@ -65,21 +124,6 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     private void clearDragPoints() {
         dragPoints.clear();
-    }
-
-    //Override to supply any additional parameters to send on start drag message
-    public ParameterSet getStartDragParameters( PInputEvent event ) {
-        return getParametersForAllEvents( event );
-    }
-
-    //Override to supply any additional parameters to send on end drag message
-    public ParameterSet getEndDragParameters( PInputEvent event ) {
-        return getParametersForAllEvents( event );
-    }
-
-    //Return parameters that are used by default for startDrag and endDrag
-    public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-        return new ParameterSet();
     }
 
     private static Parameter getXParameter( PInputEvent event ) {

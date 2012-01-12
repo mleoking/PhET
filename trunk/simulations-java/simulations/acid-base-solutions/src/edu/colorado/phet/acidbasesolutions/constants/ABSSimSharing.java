@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class ABSSimSharing {
 
     public static enum UserComponents implements IUserComponent {
-        battery, concentrationControl, concentrationGraph, conductivityTesterNegativeProbe,
-        conductivityTesterPositiveProbe, lightBulb, magnifyingGlass, phMeter, phPaper,
+        battery, concentrationControl, concentrationGraph,
+        lightBulb, magnifyingGlass, phMeter, phPaper,
         reactionEquation, weakStrengthControl, phMeterRadioButton, phPaperRadioButton,
         phMeterIcon, pHPaperIcon, conductivityTesterIcon, magnifyingGlassRadioButton,
         concentrationGraphRadioButton, liquidRadioButton, showSolventCheckBox, magnifyingGlassIcon,
