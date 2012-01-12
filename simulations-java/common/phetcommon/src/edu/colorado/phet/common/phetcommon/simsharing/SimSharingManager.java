@@ -6,7 +6,6 @@ import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -100,12 +99,12 @@ public class SimSharingManager {
 
         //Disables mongo logging (and maybe all other logging as well!)
         //TODO: how to disable just the mongo log from DBPort info messages?  They are sent repeatedly when server offline.
-        try {
-            LogManager.getLogManager().reset();
-        }
-        catch ( Exception e ) {
-            System.out.println( "error on log reset: " + e.getMessage() );
-        }
+//        try {
+//            LogManager.getLogManager().reset();
+//        }
+//        catch ( Exception e ) {
+//            System.out.println( "error on log reset: " + e.getMessage() );
+//        }
 
         enabled = config.hasCommandLineArg( COMMAND_LINE_OPTION );
         simStartedTime = System.currentTimeMillis();
