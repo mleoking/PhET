@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.acidbasesolutions.module;
 
-import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
@@ -19,7 +18,6 @@ import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -55,7 +53,7 @@ public class ABSCanvas extends PhetPCanvas {
         PNode reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
         final PNode pHPaperNode = new PHPaperNode( model.getPHPaper() );
         final PNode pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
-        PNode conductivityTesterNode = new ABSConductivityTesterNode( model.getConductivityTester(), ModelViewTransform.createIdentity(), Color.BLACK, Color.RED, Color.BLACK, dev );
+        PNode conductivityTesterNode = new ABSConductivityTesterNode( model.getConductivityTester(), dev );
 
         // rendering order
         addNode( pHMeterNode );

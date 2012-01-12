@@ -26,5 +26,7 @@ public enum UserComponents implements IUserComponent, ISystemObject {
 
     //chained with other features, used in Energy Skate Park but declared here for reusability elsewhere
     onRadioButton,
-    offRadioButton
+    offRadioButton,
+
+    conductivityTester, positiveProbe, negativeProbe
 }
