@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.model.Beaker;
@@ -24,7 +26,8 @@ public class SolutionNode extends PPath {
     public SolutionNode( Solution solution, Beaker beaker ) {
         setPickable( false );
         setChildrenPickable( false );
-        setStroke( null );
+        setStroke( new BasicStroke( 0.25f ) );
+        setStrokePaint( Color.BLACK );
 
         this.solution = solution;
         this.beaker = beaker;
