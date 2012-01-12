@@ -18,10 +18,11 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -31,11 +32,9 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
-import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
@@ -85,14 +84,15 @@ public class ElectronegativityControlNode extends PhetPNode {
     /**
      * Constructor
      *
-     * @param atom         the atom whose electronegativity we're controlling
-     * @param molecule     molecule that the atom belongs to, for pausing animation while this control is used
-     * @param range        range of electronegativity
-     * @param snapInterval thumb will snap to this increment when released, also determines the tick mark spacing
+     * @param userComponent
+     * @param atom          the atom whose electronegativity we're controlling
+     * @param molecule      molecule that the atom belongs to, for pausing animation while this control is used
+     * @param range         range of electronegativity
+     * @param snapInterval  thumb will snap to this increment when released, also determines the tick mark spacing
      */
-    public ElectronegativityControlNode( final Atom atom, Molecule2D molecule, DoubleRange range, double snapInterval ) {
+    public ElectronegativityControlNode( IUserComponent userComponent, final Atom atom, Molecule2D molecule, DoubleRange range, double snapInterval ) {
 
-        final PanelNode panelNode = new PanelNode( atom, molecule, range, snapInterval );
+        final PanelNode panelNode = new PanelNode( userComponent, atom, molecule, range, snapInterval );
         String title = MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.getName() );
         TitledBackgroundNode backgroundNode = new TitledBackgroundNode( title, atom.getColor(), panelNode, BACKGROUND_X_MARGIN, BACKGROUND_Y_MARGIN );
         addChild( backgroundNode );
@@ -163,7 +163,7 @@ public class ElectronegativityControlNode extends PhetPNode {
         private final ThumbNode thumbNode;
         private final DoubleRange range;
 
-        public PanelNode( final Atom atom, Molecule2D molecule, DoubleRange range, double snapInterval ) {
+        public PanelNode( IUserComponent userComponent, final Atom atom, Molecule2D molecule, DoubleRange range, double snapInterval ) {
 
             this.atom = atom;
             this.range = range;
@@ -206,7 +206,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             }
 
             // start with the thumb centered in the track
-            thumbNode = new ThumbNode( molecule, this, trackNode, range, snapInterval, atom );
+            thumbNode = new ThumbNode( userComponent, molecule, this, trackNode, range, snapInterval, atom );
             addChild( thumbNode );
             thumbNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                  trackNode.getFullBoundsReference().getCenterY() + ( thumbNode.getFullBoundsReference().getHeight() / 3 ) );
@@ -248,7 +248,7 @@ public class ElectronegativityControlNode extends PhetPNode {
      */
     private static class ThumbNode extends PPath {
 
-        public ThumbNode( Molecule2D molecule, PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Atom atom ) {
+        public ThumbNode( IUserComponent userComponent, Molecule2D molecule, PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Atom atom ) {
 
             float w = (float) THUMB_SIZE.getWidth();
             float h = (float) THUMB_SIZE.getHeight();
@@ -267,7 +267,7 @@ public class ElectronegativityControlNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( this, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new ThumbDragHandler( molecule, atom, relativeNode, trackNode, this, range, snapInterval ) );
+            addInputEventListener( new ThumbDragHandler( userComponent, molecule, atom, relativeNode, trackNode, this, range, snapInterval ) );
         }
     }
 
@@ -278,8 +278,8 @@ public class ElectronegativityControlNode extends PhetPNode {
         private final double snapInterval; // slider snaps to closet model value in this interval
 
         // see superclass for constructor params
-        public ThumbDragHandler( Molecule2D molecule, final Atom atom, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, double snapInterval ) {
-            super( Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range,
+        public ThumbDragHandler( IUserComponent userComponent, Molecule2D molecule, final Atom atom, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, double snapInterval ) {
+            super( userComponent, Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range,
                    new VoidFunction1<Double>() {
                        public void apply( Double value ) {
                            atom.electronegativity.set( value );
@@ -287,15 +287,14 @@ public class ElectronegativityControlNode extends PhetPNode {
                    } );
             this.molecule = molecule;
             this.snapInterval = snapInterval;
-            setStartEndFunction( new SimSharingDragHandlerOld.DragFunction() {
-                public void apply( IUserAction action, Parameter xParameter, Parameter yParameter, PInputEvent event ) {
-                    SimSharingManager.sendUserMessage( UserComponents.electronegativityControl, action,
-                                                       new ParameterSet( xParameter ).
-                                                               add( yParameter ).
-                                                               param( Parameters.atom, atom.getName() ).
-                                                               param( Parameters.electronegativity, atom.electronegativity.get() ) );
+            DragFunction startEndDragFunction = new DragFunction() {
+                public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, PInputEvent event ) {
+                    SimSharingManager.sendUserMessage( userComponent, action,
+                                                       parameters.param( Parameters.atom, atom.getName() ).param( Parameters.electronegativity, atom.electronegativity.get() ) );
                 }
-            } );
+            };
+            setStartDragFunction( startEndDragFunction );
+            setEndDragFunction( startEndDragFunction );
         }
 
         // snaps to the closest value
@@ -371,7 +370,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             }
         } );
 
-        ElectronegativityControlNode controlNode = new ElectronegativityControlNode( atom, molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        ElectronegativityControlNode controlNode = new ElectronegativityControlNode( new UserComponentId( "enControl" ), atom, molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         controlNode.setOffset( 100, 100 );
 
         PhetPCanvas canvas = new PhetPCanvas();

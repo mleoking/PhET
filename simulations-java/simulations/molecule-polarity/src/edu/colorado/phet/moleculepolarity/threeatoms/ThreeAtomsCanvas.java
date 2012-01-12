@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
@@ -35,9 +36,9 @@ public class ThreeAtomsCanvas extends MPCanvas {
         final TriatomicMoleculeNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
-        PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        PNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        PNode enControlA = new ElectronegativityControlNode( UserComponents.electronegativityControlA, model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        PNode enControlB = new ElectronegativityControlNode( UserComponents.electronegativityControlB, model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        PNode enControlC = new ElectronegativityControlNode( UserComponents.electronegativityControlC, model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
 
         // floating control panel
         PNode controlPanelNode = new MPControlPanelNode( parentFrame,

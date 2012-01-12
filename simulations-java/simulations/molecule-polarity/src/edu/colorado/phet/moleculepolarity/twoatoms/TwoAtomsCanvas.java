@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
@@ -41,8 +42,8 @@ public class TwoAtomsCanvas extends MPCanvas {
         final DiatomicMoleculeNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
-        PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        PNode enControlA = new ElectronegativityControlNode( UserComponents.electronegativityControlA, model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        PNode enControlB = new ElectronegativityControlNode( UserComponents.electronegativityControlB, model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         final PNode bondTypeNode = new BondCharacterNode( model.molecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();

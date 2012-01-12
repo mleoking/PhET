@@ -13,10 +13,12 @@ public class MPSimSharing {
 
     public static enum UserComponents implements IUserComponent {
         twoAtomsTab, threeAtomsTab, realMoleculesTab,
-        bondAngle, bondCharacterNode, electronegativityControl, moleculeAngle, rainbowMenuItem, jmolViewerNode
+        bondAngle, bondCharacterNode,
+        electronegativityControlA, electronegativityControlB, electronegativityControlC,
+        moleculeAngle, rainbowMenuItem, jmolViewerNode
     }
 
     public static enum Parameters implements IParameterKey {
-        angle, atom, currentMolecule, electronegativity, interactive
+        angle, atom, currentMolecule, electronegativity
     }
 }
