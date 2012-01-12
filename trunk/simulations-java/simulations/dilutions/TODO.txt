@@ -7,7 +7,6 @@ DESIGN
 HIGH
 - create a "Molarity" sim with only the first tab (move to a new molarity project?)
 - min/max color range for solutes
-- names (no formulae) for solutes in combo box
 - add "Show values" check box
 
 MEDIUM
