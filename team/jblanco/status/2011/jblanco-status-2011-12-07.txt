@@ -2,7 +2,7 @@ PhET Weekly Progress Report
 John Blanco
 December 7th, 2011
 
-Time period covered: November 28th through December 7th.  This is 7 work days due to changes in meeting schedule.
+Time period covered: November 28th through December 7th.  This is 8 work days due to changes in meeting schedule.
 
 Gene Expression - 22.0 hrs
 
