@@ -20,8 +20,6 @@ public class DilutionsResources {
 
     // Strings
     public static class Strings {
-        public static final String BEERS_LAW = RESOURCES.getLocalizedString( "beersLaw" );
-        public static final String BEERS_LAW_LAB = RESOURCES.getLocalizedString( "beersLawLab" );
         public static final String BIG = RESOURCES.getLocalizedString( "big" );
         public static final String COBALT_II_NITRATE = RESOURCES.getLocalizedString( "cobaltIINitrate" );
         public static final String COBALT_CHLORIDE = RESOURCES.getLocalizedString( "cobaltChloride" );
@@ -38,7 +36,6 @@ public class DilutionsResources {
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
-        public static final String MAKE_DILUTIONS = RESOURCES.getLocalizedString( "makeDilutions" );
         public static final String MOLARITY = RESOURCES.getLocalizedString( "molarity" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );

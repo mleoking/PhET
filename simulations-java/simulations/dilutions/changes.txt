@@ -1,3 +1,4 @@
+1/12/12 delete strings related to Beer's Law tab, since that tab became its own sim project
 1/12/12 add Molarity sims flavor
 1/12/12 names (no formulae) for solutes in combo box
 1/12/12 capitalize solute names
