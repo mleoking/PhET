@@ -9,8 +9,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.D
  * @author Sam Reid
  */
 public class AugmentedMessage {
-    private final long time;
-    private final SimSharingMessage message;
+    public final long time;
+    public final SimSharingMessage message;
 
     public AugmentedMessage( SimSharingMessage message ) {
         this( System.currentTimeMillis(), message );

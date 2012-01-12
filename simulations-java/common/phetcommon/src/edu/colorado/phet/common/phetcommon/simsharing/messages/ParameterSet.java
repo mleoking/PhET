@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -15,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  *
  * @author Sam Reid
  */
-public class ParameterSet {
+public class ParameterSet implements Iterable<Parameter> {
     private final ArrayList<Parameter> parameters;
 
 
@@ -100,5 +101,9 @@ public class ParameterSet {
 
     public ParameterSet addAll( ParameterSet param ) {
         return addAll( param.parameters.toArray( new Parameter[param.parameters.size()] ) );
+    }
+
+    public Iterator<Parameter> iterator() {
+        return parameters.iterator();
     }
 }

@@ -76,6 +76,13 @@ public class SimSharingManager {
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private SimSharingFileLogger simSharingFileLogger;
 
+    //Strings for MongoDB
+    public static final String TIME = "time";
+    public static final String MESSAGE_TYPE = "messageType";
+    public static final String COMPONENT = "component";
+    public static final String ACTION = "action";
+    public static final String PARAMETERS = "parameters";
+
     public static final SimSharingManager getInstance() {
         assert ( INSTANCE != null ); // in case we forget to call init first
         return INSTANCE;
@@ -240,7 +247,7 @@ public class SimSharingManager {
     }
 
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
-    private void sendToServer( AugmentedMessage message ) {
+    private void sendToServer( final AugmentedMessage message ) {
         assert ( enabled );
 
         executor.execute( new Runnable() {
@@ -253,20 +260,21 @@ public class SimSharingManager {
                 DBCollection coll = database.getCollection( sessionId );
 
                 BasicDBObject doc = new BasicDBObject() {{
-                    put( "machineID", machineCookie );
-                    put( "sessionID", sessionId );
-                    put( "time", System.currentTimeMillis() );
-                    put( "parameters", new BasicDBObject() {{
-                        put( "study", studyName );
+                    put( TIME, message.time + "" );
+                    put( MESSAGE_TYPE, message.message.messageType.toString() );
+                    put( COMPONENT, message.message.component.toString() );
+                    put( ACTION, message.message.action.toString() );
+                    put( PARAMETERS, new BasicDBObject() {{
+                        for ( Parameter parameter : message.message.parameters ) {
+//                            if ( parameter.name == null ) {
+//                                System.out.println( "parameter = " + parameter );
+//                            }
+//                            else if ( parameter.value == null ) {
+//                                System.out.println( "parameter.value = " + parameter.value );
+//                            }
+                            put( parameter.name.toString(), parameter.value == null ? "null" : parameter.value.toString() );
+                        }
                     }} );
-                    //            put( "messageType", messageType );
-                    //            put( "object", object );
-                    //            put( "action", action );
-                    //            put( "parameters", new BasicDBObject() {{
-                    //                for ( String key : params.keySet() ) {
-                    //                    put( key, params.get( key ) );
-                    //                }
-                    //            }} );
                 }};
 
                 try {
