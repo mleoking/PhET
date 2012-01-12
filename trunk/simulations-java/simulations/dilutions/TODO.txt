@@ -5,7 +5,10 @@ DESIGN
 - default values in all tabs
 
 HIGH
-- multi-color gradients for solutes, specifically for Kool-Aid and KMnO4 (as in design doc beaker photos)
+- create a "Molarity" sim with only the first tab (move to a new molarity project?)
+- min/max color range for solutes
+- names (no formulae) for solutes in combo box, capitalize first letter
+- add "Show values" check box
 
 MEDIUM
 - generalize the mechanism for managing dynamic beaker labels
