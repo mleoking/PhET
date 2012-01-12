@@ -1,3 +1,4 @@
+1/11/12 Simsharing: add UserComponent to conductivity tester, with id chaining for probes
 1/11/12 Simsharing: change FaucetNode so that primary implementation uses flowRate, not flowRatePercentage. Eliminates need for adapter, and provides correct value in sim-sharing messages.
 1/11/12 Simsharing: add UserComponent chaining for FaucetNode and its FaucetSlider
 1/11/12 Simsharing: remove broken drag handler accessor from FaucetNode, make FaucetSliderNode a subclass of SimSharingHSliderNode

@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -31,7 +32,7 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
     private final ModelViewTransform transform;
 
     public SugarAndSaltSolutionsConductivityTesterNode( final ConductivityTester conductivityTester, final ModelViewTransform transform, final PNode rootNode, Point2D location, ObservableProperty<Boolean> whiteBackground ) {
-        super( conductivityTester, transform, Color.lightGray, Color.lightGray, Color.lightGray, PhetColorScheme.RED_COLORBLIND, Color.green, Color.black, Color.black, false );
+        super( UserComponents.conductivityTester, conductivityTester, transform, Color.lightGray, Color.lightGray, Color.lightGray, PhetColorScheme.RED_COLORBLIND, Color.green, Color.black, Color.black, false );
         this.conductivityTester = conductivityTester;
         this.transform = transform;
 

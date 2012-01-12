@@ -17,6 +17,9 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -24,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandlerOld;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -100,14 +103,12 @@ public class ConductivityTesterNode extends PhetPNode {
     private final CubicWireNode positiveWireNode, negativeWireNode;
     private final ValueNode valueNode;
 
-    private final ProbeDragHandler positiveProbeDragHandler, negativeProbeDragHandler;
-
     // Convenience constructor, uses the same color for all wires.
-    public ConductivityTesterNode( final IConductivityTester tester, ModelViewTransform transform, Color wireColor, Color positiveProbeFillColor, Color negativeProbeFillColor, boolean dev ) {
-        this( tester, transform, wireColor, wireColor, wireColor, positiveProbeFillColor, negativeProbeFillColor, DEFAULT_NEGATIVE_PROBE_LABEL_COLOR, DEFAULT_POSITIVE_PROBE_LABEL_COLOR, dev );
+    public ConductivityTesterNode( IUserComponent userComponent, final IConductivityTester tester, ModelViewTransform transform, Color wireColor, Color positiveProbeFillColor, Color negativeProbeFillColor, boolean dev ) {
+        this( userComponent, tester, transform, wireColor, wireColor, wireColor, positiveProbeFillColor, negativeProbeFillColor, DEFAULT_NEGATIVE_PROBE_LABEL_COLOR, DEFAULT_POSITIVE_PROBE_LABEL_COLOR, dev );
     }
 
-    public ConductivityTesterNode( final IConductivityTester tester, final ModelViewTransform transform, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor,
+    public ConductivityTesterNode( IUserComponent userComponent, final IConductivityTester tester, final ModelViewTransform transform, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor,
                                    Color positiveProbeFillColor, Color negativeProbeFillColor, Color negativeProbeLabelColor, Color positiveProbeLabelColor, boolean dev ) {
         this.transform = transform;
         this.tester = tester;
@@ -132,36 +133,36 @@ public class ConductivityTesterNode extends PhetPNode {
         // positive probe
         positiveProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), positiveProbeFillColor, POSITIVE_PROBE_LABEL, positiveProbeLabelColor );
         positiveProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        positiveProbeDragHandler = new ProbeDragHandler( transform, positiveProbeNode,
-                                                         new Function0<Point2D>() {
-                                                             public Point2D apply() {
-                                                                 return tester.getPositiveProbeLocationReference();
-                                                             }
-                                                         },
-                                                         new VoidFunction1<Point2D>() {
-                                                             public void apply( Point2D point2D ) {
-                                                                 tester.setPositiveProbeLocation( point2D.getX(), point2D.getY() );
-                                                             }
-                                                         }
-        );
-        positiveProbeNode.addInputEventListener( positiveProbeDragHandler );
+        positiveProbeNode.addInputEventListener( new ProbeDragHandler( UserComponentChain.chain( userComponent, UserComponents.positiveProbe ),
+                                                                       transform, positiveProbeNode,
+                                                                       new Function0<Point2D>() {
+                                                                           public Point2D apply() {
+                                                                               return tester.getPositiveProbeLocationReference();
+                                                                           }
+                                                                       },
+                                                                       new VoidFunction1<Point2D>() {
+                                                                           public void apply( Point2D point2D ) {
+                                                                               tester.setPositiveProbeLocation( point2D.getX(), point2D.getY() );
+                                                                           }
+                                                                       }
+        ) );
 
         // negative probe
         negativeProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), negativeProbeFillColor, NEGATIVE_PROBE_LABEL, negativeProbeLabelColor );
         negativeProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        negativeProbeDragHandler = new ProbeDragHandler( transform, negativeProbeNode,
-                                                         new Function0<Point2D>() {
-                                                             public Point2D apply() {
-                                                                 return tester.getNegativeProbeLocationReference();
-                                                             }
-                                                         },
-                                                         new VoidFunction1<Point2D>() {
-                                                             public void apply( Point2D point2D ) {
-                                                                 tester.setNegativeProbeLocation( point2D.getX(), point2D.getY() );
-                                                             }
-                                                         }
-        );
-        negativeProbeNode.addInputEventListener( negativeProbeDragHandler );
+        negativeProbeNode.addInputEventListener( new ProbeDragHandler( UserComponentChain.chain( userComponent, UserComponents.negativeProbe ),
+                                                                       transform, negativeProbeNode,
+                                                                       new Function0<Point2D>() {
+                                                                           public Point2D apply() {
+                                                                               return tester.getNegativeProbeLocationReference();
+                                                                           }
+                                                                       },
+                                                                       new VoidFunction1<Point2D>() {
+                                                                           public void apply( Point2D point2D ) {
+                                                                               tester.setNegativeProbeLocation( point2D.getX(), point2D.getY() );
+                                                                           }
+                                                                       }
+        ) );
 
         // positive wire
         positiveWireNode = new CubicWireNode( positiveWireColor, POSITIVE_WIRE_CONTROL_POINT_DX, POSITIVE_WIRE_CONTROL_POINT_DY );
@@ -311,16 +312,6 @@ public class ConductivityTesterNode extends PhetPNode {
         updateBrightness();
     }
 
-    // For sim-sharing
-    public SimSharingDragHandlerOld getPositiveProbeDragHandler() {
-        return positiveProbeDragHandler;
-    }
-
-    // For sim-sharing
-    public SimSharingDragHandlerOld getNegativeProbeDragHandler() {
-        return negativeProbeDragHandler;
-    }
-
     /*
     * Light bulb, origin at bottom center.  Protected so that subclasses can listen to drag events on the light bulb, such as in Sugar and Salt Solutions.
     */
@@ -457,7 +448,7 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     // Drag handler for probes, handles model-view transform, constrains dragging to vertical.
-    private static class ProbeDragHandler extends SimSharingDragHandlerOld {
+    private static class ProbeDragHandler extends SimSharingDragHandler {
 
         private final ProbeNode probeNode;
         private final ModelViewTransform transform;
@@ -466,7 +457,8 @@ public class ConductivityTesterNode extends PhetPNode {
 
         private Point2D.Double relativeGrabPoint; // where the mouse grabbed relative to the probe, in view coordinates
 
-        ProbeDragHandler( ModelViewTransform transform, ProbeNode probeNode, Function0<Point2D> getModelLocation, VoidFunction1<Point2D> setModelLocation ) {
+        ProbeDragHandler( IUserComponent userComponent, ModelViewTransform transform, ProbeNode probeNode, Function0<Point2D> getModelLocation, VoidFunction1<Point2D> setModelLocation ) {
+            super( userComponent );
             this.transform = transform;
             this.probeNode = probeNode;
             this.getModelLocation = getModelLocation;
