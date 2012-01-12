@@ -32,6 +32,10 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
             }
         } );
 
+        // sim-sharing, light bulb and battery (not interactive)
+        getLightBulbNode().addInputEventListener( new NonInteractiveUserComponent( UserComponents.lightBulb ) );
+        getBatteryNode().addInputEventListener( new NonInteractiveUserComponent( UserComponents.battery ) );
+
         //TODO how to do this with SimSharingDragHandler?
         // sim-sharing, positive probe
 //        {
@@ -73,12 +77,6 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 //                }
 //            } );
 //        }
-
-        // sim-sharing, light bulb and battery (not interactive)
-        {
-            getLightBulbNode().addInputEventListener( new NonInteractiveUserComponent( UserComponents.lightBulb ) );
-            getBatteryNode().addInputEventListener( new NonInteractiveUserComponent( UserComponents.battery ) );
-        }
     }
 
     private static void sendProbeEvent( IUserComponent object, IUserAction action, boolean inSolution, boolean circuitCompleted ) {
