@@ -49,7 +49,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class ConcentrationMeterNode extends PhetPNode {
 
-    public static final String VALUE_PATTERN = "0.00000";
+    public static final String VALUE_PATTERN = "0.000";
 
     private final ConcentrationMeter meter;
     private final Solution solution;
@@ -138,7 +138,7 @@ public class ConcentrationMeterNode extends PhetPNode {
                 setFont( new PhetFont( Font.BOLD, 18 ) );
             }};
             final PText valueNode = new PText( createDisplayText( VALUE_PATTERN ) ) {{
-                setFont( new PhetFont( 18 ) );
+                setFont( new PhetFont( 24 ) );
             }};
 
             // scale title and value to fit in meter
