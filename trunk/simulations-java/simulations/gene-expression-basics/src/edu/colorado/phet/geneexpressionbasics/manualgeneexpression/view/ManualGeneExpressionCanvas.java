@@ -76,7 +76,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
-        setBackground( CELL_INTERIOR_COLOR );
+        setBackground( new Color( 250, 232, 189 ) );
+
+        // Add a background layer where the cell(s) that make up the background
+        // will reside.
+        final PNode backgroundCellLayer = new PNode();
+        addWorldChild( backgroundCellLayer );
 
         // Set up the node where all controls should be placed.  These will
         // stay in one place and not scroll.
@@ -98,6 +103,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         modelRootNode.addChild( messengerRnaLayer );
         final PNode topBiomoleculeLayer = new PNode();
         modelRootNode.addChild( topBiomoleculeLayer );
+
+        // Add the background cell that will enclose the DNA strand.
+        backgroundCellLayer.addChild( new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
+                                                                               DnaMolecule.Y_POS ),
+                                                              2 ) );
 
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
@@ -211,14 +221,18 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             public void apply( Double zoomFactor ) {
                 // Reset any previous transformation.
                 modelRootNode.setTransform( new AffineTransform() );
+                backgroundCellLayer.setTransform( new AffineTransform() );
 
                 // Scale the canvas to the zoom factor.
                 modelRootNode.setScale( zoomFactor );
+                backgroundCellLayer.setScale( zoomFactor );
 
                 // Set the offset so that the center of the currently selected
                 // gene stays in the same location.
-                modelRootNode.setOffset( ( 1 - zoomFactor ) * STAGE_SIZE.getWidth() / 2 + zoomFactor * viewportOffset.getX(),
-                                         ( 1 - zoomFactor ) * mvt.modelToViewY( DnaMolecule.Y_POS ) + zoomFactor * viewportOffset.getY() );
+                Point2D compensatingOffset = new Point2D.Double( ( 1 - zoomFactor ) * STAGE_SIZE.getWidth() / 2 + zoomFactor * viewportOffset.getX(),
+                                                                 ( 1 - zoomFactor ) * mvt.modelToViewY( DnaMolecule.Y_POS ) + zoomFactor * viewportOffset.getY() );
+                modelRootNode.setOffset( compensatingOffset );
+                backgroundCellLayer.setOffset( compensatingOffset );
             }
         } );
 
@@ -230,8 +244,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                     activity.terminate( 0 );
                 }
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
+                backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
                 activity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                System.out.println( "activity.getDelegate() = " + activity.getDelegate() );
                 activity.setDelegate( new PActivityDelegateAdapter() {
                     @Override public void activityFinished( PActivity activity ) {
                         // Update the position of the protein capture area in
