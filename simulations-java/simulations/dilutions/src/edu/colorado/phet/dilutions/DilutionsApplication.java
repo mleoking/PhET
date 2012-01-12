@@ -24,6 +24,6 @@ public class DilutionsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, DilutionsResources.PROJECT_NAME, DilutionsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, DilutionsResources.PROJECT_NAME, DilutionsResources.DILUTIONS_FLAVOR, DilutionsApplication.class );
     }
 }
