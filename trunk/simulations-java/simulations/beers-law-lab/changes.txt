@@ -1,3 +1,4 @@
+1/12/12 use 3 decimal places and larger value font for concentration meter
 1/12/12 capitalize first letter of solute names
 1/11/12 Simsharing: add UserComponent chaining for FaucetNode and its FaucetSlider
 1/11/12 add shaker orientation to model, used for direction of initial particle velocity
