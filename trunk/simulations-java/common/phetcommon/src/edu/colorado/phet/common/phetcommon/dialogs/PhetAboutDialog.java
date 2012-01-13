@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.SoftwareAgreementButton;
@@ -34,6 +35,9 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.aboutDialogCloseButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.aboutDialogCreditsButton;
 
 public class PhetAboutDialog extends PaintImmediateDialog {
 
@@ -193,7 +197,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
         JButton agreementButton = new SoftwareAgreementButton( this );
 
         // Credits
-        JButton creditsButton = new JButton( CREDITS_BUTTON );
+        JButton creditsButton = new SimSharingJButton( aboutDialogCreditsButton, CREDITS_BUTTON );
         creditsButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showCredits();
@@ -201,7 +205,7 @@ public class PhetAboutDialog extends PaintImmediateDialog {
         } );
 
         // Close
-        JButton closeButton = new JButton( CLOSE_BUTTON );
+        JButton closeButton = new SimSharingJButton( aboutDialogCloseButton, CLOSE_BUTTON );
         getRootPane().setDefaultButton( closeButton );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
