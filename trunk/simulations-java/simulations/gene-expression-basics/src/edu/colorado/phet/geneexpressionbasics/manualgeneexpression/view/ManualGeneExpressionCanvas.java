@@ -111,15 +111,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         modelRootNode.addChild( topBiomoleculeLayer );
 
         // Add the background cell that will enclose the DNA strand.
-        backgroundCellLayer.addChild( new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
-                                                                               DnaMolecule.Y_POS ),
-                                                              2 ) );
-
-        // Add some other random background cells.
-        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -BackgroundCellNode.DEFAULT_SIZE.getWidth() * 0.6, -BackgroundCellNode.DEFAULT_SIZE.getHeight() ), 3 ) );
-        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -BackgroundCellNode.DEFAULT_SIZE.getWidth(), BackgroundCellNode.DEFAULT_SIZE.getHeight() * 0.2 ), 4 ) );
-        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( BackgroundCellNode.DEFAULT_SIZE.getWidth(), -BackgroundCellNode.DEFAULT_SIZE.getHeight() * 0.3 ), 5 ) );
-
+//        backgroundCellLayer.addChild( new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
+//                                                                               DnaMolecule.Y_POS ),
+//                                                              2 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( 0, 0 ), 2 ) );
 
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
