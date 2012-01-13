@@ -49,7 +49,7 @@ public class PhetExit {
         System.exit( 0 );
     }
 
-    public void addExitMessageSentListener( VoidFunction0 listener ) {
+    public static void addExitMessageSentListener( VoidFunction0 listener ) {
         finalExitMessageSentListeners.add( listener );
     }
 }

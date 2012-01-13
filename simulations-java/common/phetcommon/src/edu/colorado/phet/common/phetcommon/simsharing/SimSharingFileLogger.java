@@ -35,7 +35,7 @@ public class SimSharingFileLogger {
             file.createNewFile();
             logWriter = new BufferedWriter( new FileWriter( file, true ) );
 
-            PhetExit.addExitListener( new VoidFunction0() {
+            PhetExit.addExitMessageSentListener( new VoidFunction0() {
                 public void apply() {
                     try {
                         logWriter.close();

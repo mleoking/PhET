@@ -7,6 +7,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Logger;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMongoClient;
+
 /**
  * Fairly general-purpose class for communicating with a server over sockets using an ObjectStream.
  * We send java.lang.Strings over an ObjectStream.
@@ -21,15 +23,8 @@ public abstract class ObjectStreamActor<T, U> implements IActor<T, U> {
     public final ObjectOutputStream writeToServer;
     public final ObjectInputStream readFromServer;
 
-    //Default to phet-server, but you can use this command line arg for local testing:
-    //-Dsim-event-data-collection-server-host-ip-address=localhost
-    public static String HOST_IP_ADDRESS = System.getProperty( "sim-event-data-collection-server-host-ip-address", "128.138.145.107" );
-
-    //On phet-server, port must be in a specific range of allowed ports, see Unfuddle ticket
-    public static int PORT = 44101;
-
     public ObjectStreamActor() throws ClassNotFoundException, IOException {
-        this( HOST_IP_ADDRESS, PORT );
+        this( SimSharingMongoClient.HOST_IP_ADDRESS, SimSharingMongoClient.PORT );
     }
 
     public ObjectStreamActor( String host, int port ) throws IOException, ClassNotFoundException {

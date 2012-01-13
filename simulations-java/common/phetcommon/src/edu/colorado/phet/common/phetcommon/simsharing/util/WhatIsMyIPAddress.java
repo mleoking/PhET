@@ -13,6 +13,9 @@ import java.net.URL;
  * @author Sam Reid
  */
 public class WhatIsMyIPAddress {
+
+    public static boolean enabled = Boolean.getBoolean( System.getProperty( "readIp", "true" ) );
+
     public static String whatIsMyIPAddress() {
         try {
             BufferedReader reader = new BufferedReader( new InputStreamReader( new URL( "http://automation.whatismyip.com/n09230945.asp" ).openConnection().getInputStream() ) );
