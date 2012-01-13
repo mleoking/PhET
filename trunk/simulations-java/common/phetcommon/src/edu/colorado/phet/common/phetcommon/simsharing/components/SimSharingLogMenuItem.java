@@ -2,6 +2,8 @@
 package edu.colorado.phet.common.phetcommon.simsharing.components;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,10 +16,12 @@ import java.text.MessageFormat;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
@@ -25,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -41,14 +46,15 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
  */
 public class SimSharingLogMenuItem extends SimSharingJMenuItem {
 
-    private static final String TITLE = "Data Collection Log"; // give it a less scary name
+    private static final String DATA_COLLECTION_LOG_TITLE = "Data Collection Log"; // give it a less scary name
+    private static final String STANDARD_LOGS_TITLE = "Standard Logs";
     private static final String ACTION = "Save";
     private static final String FILE_SUFFIX = ".txt";
 
     private SimSharingLogDialog dialog;
 
     public SimSharingLogMenuItem( final PhetFrame parent ) {
-        super( UserComponents.dataCollectionLogMenuItem, TITLE + "..." );
+        super( UserComponents.dataCollectionLogMenuItem, DATA_COLLECTION_LOG_TITLE + "..." );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {
@@ -65,7 +71,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
         private File currentDirectory = null;
 
         public SimSharingLogDialog( final JFrame parent ) {
-            super( parent, TITLE );
+            super( parent, DATA_COLLECTION_LOG_TITLE );
             setContentPane( new JPanel( new BorderLayout() ) {{
                 // scrolling pane that shows the log
                 add( new JScrollPane( new JTextArea( 20, 40 ) {{
@@ -86,7 +92,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
 
                                 // Choose the file
                                 JFileChooser fileChooser = new JFileChooser( currentDirectory );
-                                fileChooser.setDialogTitle( TITLE + " : " + ACTION );
+                                fileChooser.setDialogTitle( DATA_COLLECTION_LOG_TITLE + " : " + ACTION );
                                 int rval = fileChooser.showSaveDialog( parent ); // blocks
                                 File selectedFile = fileChooser.getSelectedFile();
                                 if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
@@ -125,15 +131,24 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                         } );
                     }} );
                     //Show the user all the standard locations where the log is saved, so they can get the file name.
-                    add( new SimSharingJButton( showLogs, "Log Locations..." ) {{
+                    add( new SimSharingJButton( showLogs, STANDARD_LOGS_TITLE + "..." ) {{
                         addActionListener( new ActionListener() {
                             JDialog logListDialog = null;
 
                             public void actionPerformed( ActionEvent e ) {
                                 if ( logListDialog == null ) {
-                                    logListDialog = new JDialog( parent, "Log Locations" ) {{
-                                        setContentPane( new JTextArea( new ObservableList<String>( SimSharingManager.getInstance().getLogNames() ).mkString( "\n" ) ) {{
-                                            setFont( new PhetFont( 12 ) );
+                                    logListDialog = new JDialog( parent, STANDARD_LOGS_TITLE ) {{
+                                        setContentPane( new VerticalLayoutPanel() {{
+                                            setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
+                                            setInsets( new Insets( 5, 5, 5, 5 ) );
+                                            add( new JLabel( "Data is logged to the following standard locations:" ) {{
+                                                setFont( new PhetFont( Font.BOLD, 12 ) );
+                                            }} );
+                                            add( new JTextArea( new ObservableList<String>( SimSharingManager.getInstance().getLogNames() ).mkString( "\n" ) ) {{
+                                                setEditable( false );
+                                                setOpaque( false );
+                                                setFont( new PhetFont( 12 ) );
+                                            }} );
                                         }} );
                                     }};
                                     logListDialog.pack();
