@@ -1,3 +1,5 @@
+# 1.02.04 (60274) Jan 13, 2012
+1/13/12 early test version for 1/23 study
 1/11/12 convert SimSharingDragHandlerOld to SimSharingDragHandler
 # 1.02.03 (59874) Jan 4, 2012
 1/4/12 dev version with sim-sharing for Stanford collaboration
