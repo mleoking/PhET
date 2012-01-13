@@ -9,6 +9,7 @@ public enum UserComponents implements IUserComponent, ISystemObject {
     playPauseButton, menu, tab, stepButton, stepBackButton, rewindButton, resetAllConfirmationDialog, sponsorDialog, dataCollectionLogMenuItem,
     resetAllConfirmationDialogYesButton, resetAllConfirmationDialogNoButton,
 
+    showLogs,
     simSharingLogFileDialog,
     fileChooserCancelButton, fileChooserSaveButton, replaceFileNoButton, replaceFileYesButton, saveButton,
 

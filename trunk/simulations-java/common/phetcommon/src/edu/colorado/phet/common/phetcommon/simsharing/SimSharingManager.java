@@ -3,8 +3,6 @@ package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
@@ -234,19 +232,11 @@ public class SimSharingManager {
         return new BigInteger( 130, new SecureRandom() ).toString( 32 );
     }
 
-    public static void main( String[] args ) {
-        try {
-            InetAddress addr = InetAddress.getLocalHost();
-
-            // Get IP Address
-            byte[] ipAddr = addr.getAddress();
-            System.out.println( "addr.getHostAddress() = " + addr.getHostAddress() );
-
-            // Get hostname
-            String hostname = addr.getHostName();
-            System.out.println( "SimSharingManager.main" );
+    public ArrayList<String> getLogNames() {
+        ArrayList<String> logNames = new ArrayList<String>();
+        for ( Log log : logs ) {
+            logNames.add( log.getName() );
         }
-        catch ( UnknownHostException e ) {
-        }
+        return logNames;
     }
 }
