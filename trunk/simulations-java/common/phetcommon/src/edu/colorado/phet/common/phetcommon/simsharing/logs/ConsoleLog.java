@@ -13,6 +13,6 @@ public class ConsoleLog implements Log {
     }
 
     public String getName() {
-        return "console";
+        return "Java Console";
     }
 }
