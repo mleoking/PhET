@@ -29,5 +29,8 @@ public enum UserComponents implements IUserComponent, ISystemObject {
     onRadioButton,
     offRadioButton,
 
-    conductivityTester, positiveProbe, negativeProbe
+    conductivityTester, positiveProbe, negativeProbe,
+
+    aboutDialogCloseButton, aboutDialogCreditsButton,
+    aboutDialogSoftwareAgreementButton,
 }
