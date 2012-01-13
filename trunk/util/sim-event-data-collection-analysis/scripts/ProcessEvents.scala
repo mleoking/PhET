@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 import edu.colorado.phet.simsharinganalysis._
 import phet._
 import scripts.DoProcessEvents
@@ -40,13 +42,13 @@ for ( sim <- simEventMap.keys; simLogs = selected.filter(_.simName == sim); if s
   //Find which events are important in this sim
   val simEvents = simEventMap(sim)
 
-  val filteredDataSets = simLogs.map(_.countEvents(simEvents))
+  val filteredDataSets = simLogs.map(_.countEntries(simEvents))
   xyplot("Filtered events vs time for " + sim, "Time (minutes)", "Events", filteredDataSets)
 
   //Print how many features each user used
-  val sorted = selected.sortBy(_.findMatches(simEvents).size)
+  val sorted = selected.sortBy(_.findEntries(simEvents).size)
   for ( log <- sorted ) {
-    val userEvents = log findMatches simEvents
+    val userEvents = log findEntries simEvents
     println("user " + log.user + " matched " + userEvents.size + "/" + simEvents.size)
   }
 

@@ -37,8 +37,8 @@ class StudentActivityCanvas(path: String) extends PCanvas {
     println("machines.length=" + machines.length)
 
     //Find the first event from any computer in the session, use it as t=0
-    val sessionStartTime = sessionLogs.map(_.epoch).min
-    val sessionEndTime = sessionLogs.map(_.endEpoch).max
+    val sessionStartTime = sessionLogs.map(_.startTime).min
+    val sessionEndTime = sessionLogs.map(_.endTime).max
 
     sessionLayer.addChild(new PNode {
       addChild(new PText(session.study + " session started at " + new Date(sessionStartTime)))

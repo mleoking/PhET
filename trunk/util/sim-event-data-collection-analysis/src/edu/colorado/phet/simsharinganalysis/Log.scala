@@ -14,22 +14,22 @@ import java.lang.String
  * Adds scala-convenient interface for REPL.
  * @author Sam Reid
  */
-case class Log(file: File, machine: String, session: String, epoch: Long, entries: List[Entry]) {
+case class Log(file: File, machine: String, session: String, entries: List[Entry]) {
   val startMessage = getFirstEntry("system", "simsharingManager", "started")
   val study = startMessage("study")
   val simName = startMessage("name")
   val javaVersion = startMessage("javaVersion")
   val simVersion = startMessage("version")
   val user = startMessage("id")
-  val date = new Date(epoch)
-  val day = new SimpleDateFormat("MM-dd-yyyy").format(date)
+  val startTime = startMessage("time").toLong //Time on client machine of last event
+  val endTime = entries(entries.size - 1).time //Time on client machine of last event
+  val date = new Date(startTime)
+  val day = new SimpleDateFormat("MM-dd-yyyy").format(startTime)
   val osName = startMessage("osName")
   val osVersion = startMessage("osVersion")
   val size = entries.size
-  val lastTime = entries(entries.size - 1).time.asInstanceOf[Int] //Time since the beginning of the sim to the last event
-  val endEpoch = epoch + lastTime.toLong
-  lazy val minutesUsed: Int = ( lastTime / 1000L / 60L ).toInt
-  lazy val eventCountData = phet.timeSeries(this, countEvents(_))
+  lazy val minutesUsed: Double = ( ( endTime - startTime ) / 1000.0 / 60.0 ).toDouble
+  lazy val eventCountData = phet.timeSeries(this, countEntries(_))
   lazy val firstUserEvent = entries.find(log => log.component != "system" && log.component != "window") //Millis
   lazy val userNumber = {
     try {
@@ -40,10 +40,10 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
     }
   }
 
-  //Determine if the sim was running at the specified server time
-  def running(time: Long) = time >= epoch && time <= epoch + lastTime
+  //Determine if the sim was running at the specified server time. TODO, we need to sync with server clock, all times are client log times
+  def running(time: Long) = time >= startTime && time <= endTime + endTime
 
-  override def toString = simName + " " + new Date(epoch) + " (" + epoch + "), study = " + study + ", user = " + user + ", events = " + size + ", machine = " + machine + ", session = " + session
+  override def toString = simName + " " + new Date(startTime) + " (" + startTime + "), study = " + study + ", user = " + user + ", events = " + size + ", machine = " + machine + ", session = " + session
 
   lazy val histogramByObject = {
     val map = new HashMap[String, Int]
@@ -56,17 +56,21 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
 
   def matches(criteria: Match) = entries.filter(criteria(_)).size > 0
 
-  def findMatches(matcher: Seq[Match]) = matcher.filter(matches(_)).toList
+  def findEntries(matcher: Seq[Match]) = matcher.filter(matches(_)).toList
 
-  def findEvents(criteria: Match): List[Entry] = entries.filter(criteria(_)).toList
+  def findEntries(criteria: Entry => Boolean): List[Entry] = entries.filter(criteria(_)).toList
 
-  def findEvents(actor: String): List[Entry] = entries.filter(_.component == actor)
+  lazy val userEntries = findEntries(e => e.messageType == "user")
+  lazy val systemEntries = findEntries(e => e.messageType == "system")
+  lazy val modelEntries = findEntries(e => e.messageType == "model")
 
-  def countEvents(matcher: Seq[Match]) = phet.timeSeries(this, countMatches(matcher, _))
+  def findEntries(actor: String): List[Entry] = entries.filter(_.component == actor)
+
+  def countEntries(matcher: Seq[Match]) = phet.timeSeries(this, countMatches(matcher, _))
+
+  def countEntries(time: Long, matches: Entry => Boolean = (entry: Entry) => true): Int = entries.filter(matches).count(_.time <= time)
 
   def contains(actor: String, event: String, pairs: Pair[String, String]*) = entries.find((e: Entry) => e.component == actor && e.action == event && e.hasParameters(e, pairs)).isDefined
-
-  def countEvents(time: Long, matches: Entry => Boolean = (entry: Entry) => true): Int = entries.filter(matches).count(_.time <= time)
 
   private def matchesEntry(e: Entry): Boolean = entries.find(_.matches(e.component, e.action, e.parameters)).isDefined
 
@@ -150,7 +154,7 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
   }
 
   def countMatches(matcher: Seq[Match], until: Long): Int = {
-    val earlyEvents = entries.filter(_.time < until)
-    matcher.filter(matchItem => earlyEvents.find(entry => entry.time < until && matchItem(entry)).isDefined).size
+    val earlyEntries = entries.filter(_.time < until)
+    matcher.filter(matchItem => earlyEntries.find(entry => entry.time < until && matchItem(entry)).isDefined).size
   }
 }

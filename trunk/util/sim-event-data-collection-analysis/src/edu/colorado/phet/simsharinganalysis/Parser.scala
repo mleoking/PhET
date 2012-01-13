@@ -19,23 +19,14 @@ class Parser {
   val lines = new ArrayBuffer[Entry]
 
   def parseLine(line: String) {
-    if ( line.startsWith("machineID") ) {
-      machineID = readValue(line)
+    val entry = parseMessage(line)
+    if ( entry.matches("simsharingManager", "started", Map()) ) {
+      sessionID = entry("sessionId")
+      serverTime = entry("time").toLong;
+      machineID = entry("machineCookie")
     }
-    else if ( line.startsWith("sessionID") ) {
-      sessionID = readValue(line)
-    }
-    else if ( line.startsWith("serverTime") ) {
-      serverTime = java.lang.Long.parseLong(readValue(line))
-    }
-    else {
-      lines += parseMessage(line)
-    }
+    lines += entry
   }
-
-  //Server time stamp occurs when server contact is made, which could be a long time after the sim starts if the user took a long time to enter their user ID
-  //So you have to subtract that out.
-  var originalTime: Long = _
 
   def parseMessage(line: String): Entry = {
     val tokenizer = new StringTokenizer(line, SimSharingManager.DELIMITER)
@@ -58,12 +49,8 @@ class Parser {
       map.put(p.name.toString, p.value)
     }
 
-    if ( lines.length == 0 ) {
-      originalTime = time
-    }
-
     //make map immutable
-    new Entry(time - originalTime, messageType, obj, event, map.toMap)
+    new Entry(time, messageType, obj, event, map.toMap)
   }
 
   def parse(file: File): Log = {
@@ -73,7 +60,7 @@ class Parser {
       parseLine(line)
       line = bufferedReader.readLine
     }
-    new Log(file, machineID, sessionID, serverTime, lines.toList)
+    new Log(file, machineID, sessionID, lines.toList)
   }
 
   private def readValue(line: String): String = {
