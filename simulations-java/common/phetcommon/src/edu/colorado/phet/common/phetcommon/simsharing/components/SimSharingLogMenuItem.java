@@ -78,8 +78,10 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                         }
                     } );
                 }} ), BorderLayout.CENTER );
-                // Save button that saves the log to a file
+                // Buttons for viewing the log and saving the log.
                 add( new JPanel() {{
+
+                    //Show the user all the locations the log is saved so they can get the file name
                     add( new SimSharingJButton( showLogs, "Log Locations..." ) {{
                         addActionListener( new ActionListener() {
                             JDialog logListDialog = null;
