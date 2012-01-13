@@ -234,14 +234,6 @@ public class SimSharingManager {
         return new BigInteger( 130, new SecureRandom() ).toString( 32 );
     }
 
-    //Uses a heuristic that converts a class name like AbstractSlider to abstractSlider for use as an object in a sim sharing event.
-    public static String toInstanceName( Class c ) {
-        String name = c.getName();
-        final int dotIndex = name.indexOf( '.' );
-        String trimmed = dotIndex >= 0 ? name.substring( dotIndex + 1 ) : name;
-        return Character.toLowerCase( trimmed.charAt( 0 ) ) + trimmed.substring( 1 );
-    }
-
     public static void main( String[] args ) {
         try {
             InetAddress addr = InetAddress.getLocalHost();
