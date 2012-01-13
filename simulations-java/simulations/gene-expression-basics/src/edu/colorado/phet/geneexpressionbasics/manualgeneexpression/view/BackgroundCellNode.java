@@ -40,8 +40,8 @@ public class BackgroundCellNode extends PNode {
 
         // Adjustable parameters that affect number of points used to define
         // the shape.
-        final int numPointsPerLineSegment = 10;
-        final int numPointsPerCurvedSegment = 10;
+        final int numPointsPerLineSegment = 8;
+        final int numPointsPerCurvedSegment = 8;
 
         // Adjustable parameter that affects the degree to which the shape is
         // altered to make it look somewhat irregular.  Zero means no change
