@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.concurrent.ExecutorService;
@@ -36,9 +37,9 @@ import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.getConfig;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.sentEvent;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.started;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects.simsharingManager;
+import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMyIPAddress.whatIsMyIPAddress;
 
 /**
  * Central access point for sim-sharing initialization and event sending.
@@ -149,6 +150,13 @@ public class SimSharingManager {
         simSharingFileLogger = new SimSharingFileLogger( machineCookie, sessionId );
 
         sendStartupMessage( config );
+
+        //Look up ip address and report in a separate thread so it doesn't slow down the main thread too much
+        new Thread() {
+            @Override public void run() {
+                sendSystemMessage( simsharingManager, ipAddressLookup, param( ipAddress, whatIsMyIPAddress() ) );
+            }
+        }.start();
     }
 
     // Gets the number of messages that have been sent.
@@ -343,5 +351,21 @@ public class SimSharingManager {
         final int dotIndex = name.indexOf( '.' );
         String trimmed = dotIndex >= 0 ? name.substring( dotIndex + 1 ) : name;
         return Character.toLowerCase( trimmed.charAt( 0 ) ) + trimmed.substring( 1 );
+    }
+
+    public static void main( String[] args ) {
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+
+            // Get IP Address
+            byte[] ipAddr = addr.getAddress();
+            System.out.println( "addr.getHostAddress() = " + addr.getHostAddress() );
+
+            // Get hostname
+            String hostname = addr.getHostName();
+            System.out.println( "SimSharingManager.main" );
+        }
+        catch ( UnknownHostException e ) {
+        }
     }
 }
