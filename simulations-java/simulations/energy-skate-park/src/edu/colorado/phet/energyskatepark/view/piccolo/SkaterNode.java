@@ -10,9 +10,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -95,7 +93,7 @@ public class SkaterNode extends PNode {
             public SerializablePoint2D bodyPosition;
 
             @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                return Parameter.param( skaterX, body.getX() ).param( skaterY, body.getY() );
+                return super.getParametersForAllEvents( event ).param( skaterX, body.getX() ).param( skaterY, body.getY() );
             }
 
             @Override protected void startDrag( PInputEvent event ) {
@@ -134,14 +132,6 @@ public class SkaterNode extends PNode {
 
         getBody().addListener( bodyListener );
         update();
-    }
-
-    private ParameterSet getXParameter() {
-        return new ParameterSet( new Parameter( ParameterKeys.x, getBody().getX() ) );
-    }
-
-    private ParameterSet getYParameter() {
-        return new ParameterSet( new Parameter( ParameterKeys.y, getBody().getY() ) );
     }
 
     private void snapToTrackDuringDrag() {
