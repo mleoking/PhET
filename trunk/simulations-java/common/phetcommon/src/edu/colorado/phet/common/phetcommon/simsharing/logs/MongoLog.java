@@ -1,9 +1,15 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.simsharing;
+package edu.colorado.phet.common.phetcommon.simsharing.logs;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.LogManager;
+
+import edu.colorado.phet.common.phetcommon.simsharing.AugmentedMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.Log;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -14,7 +20,7 @@ import com.mongodb.WriteResult;
 /**
  * @author Sam Reid
  */
-public class SimSharingMongoClient {
+public class MongoLog implements Log {
 
     //Flag for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
     private static final boolean ALLOW_SERVER_CONNECTION = true;
@@ -37,30 +43,43 @@ public class SimSharingMongoClient {
 
     //http://www.cs.umd.edu/class/spring2006/cmsc433/lectures/util-concurrent.pdf
     private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final String machineID;
+    private final String sessionID;
 
-    public SimSharingMongoClient() {
+    public MongoLog( String machineID, String sessionID ) {
+        this.machineID = machineID;
+        this.sessionID = sessionID;
         try {
             mongo = new Mongo( HOST_IP_ADDRESS, PORT );
         }
         catch ( UnknownHostException e ) {
             e.printStackTrace();
         }
+
+        //Disables mongo logging (and maybe all other logging as well!)
+        //TODO: how to disable just the mongo log from DBPort info messages?  They are sent repeatedly when server offline.
+        try {
+            LogManager.getLogManager().reset();
+        }
+        catch ( Exception e ) {
+            System.out.println( "error on log reset: " + e.getMessage() );
+        }
     }
 
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
-    public void sendToServer( final AugmentedMessage message, final String machineCookie, final String sessionId ) {
+    public void addMessage( final AugmentedMessage message ) throws IOException {
 
         executor.execute( new Runnable() {
             public void run() {
 
                 //one database per machine
-                DB database = mongo.getDB( machineCookie );
+                DB database = mongo.getDB( machineID );
 
                 //TODO: Authentication
                 //                database.authenticate();
 
                 //One collection per session, lets us easily iterate and add messages per session.
-                DBCollection coll = database.getCollection( sessionId );
+                DBCollection coll = database.getCollection( sessionID );
 
                 BasicDBObject doc = new BasicDBObject() {{
                     put( TIME, message.time + "" );

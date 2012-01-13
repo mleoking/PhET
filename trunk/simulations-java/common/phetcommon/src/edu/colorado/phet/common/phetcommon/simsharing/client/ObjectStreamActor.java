@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMongoClient;
+import edu.colorado.phet.common.phetcommon.simsharing.logs.MongoLog;
 
 /**
  * Fairly general-purpose class for communicating with a server over sockets using an ObjectStream.
@@ -24,7 +24,7 @@ public abstract class ObjectStreamActor<T, U> implements IActor<T, U> {
     public final ObjectInputStream readFromServer;
 
     public ObjectStreamActor() throws ClassNotFoundException, IOException {
-        this( SimSharingMongoClient.HOST_IP_ADDRESS, SimSharingMongoClient.PORT );
+        this( MongoLog.HOST_IP_ADDRESS, MongoLog.PORT );
     }
 
     public ObjectStreamActor( String host, int port ) throws IOException, ClassNotFoundException {

@@ -10,6 +10,7 @@ import swing._
 import java.awt.event.{MouseEvent, MouseAdapter, ActionListener, ActionEvent}
 import javax.swing._
 import table.{DefaultTableModel, TableRowSorter}
+import edu.colorado.phet.common.phetcommon.simsharing.logs.MongoLog
 import edu.colorado.phet.common.phetcommon.simsharing.{SimSharingMongoClient, SimSharingManager}
 
 /**
@@ -88,11 +89,11 @@ class SimEventDataCollectionMonitor {
     val cursor = collection.find
     while ( cursor.hasNext ) {
       val obj = cursor.next()
-      val time = obj.get(SimSharingMongoClient.TIME)
-      val messageType = obj.get(SimSharingMongoClient.MESSAGE_TYPE)
-      val component = obj.get(SimSharingMongoClient.COMPONENT)
-      val action = obj.get(SimSharingMongoClient.ACTION)
-      val parameters: DBObject = obj.get(SimSharingMongoClient.PARAMETERS).asInstanceOf[DBObject]
+      val time = obj.get(MongoLog.TIME)
+      val messageType = obj.get(MongoLog.MESSAGE_TYPE)
+      val component = obj.get(MongoLog.COMPONENT)
+      val action = obj.get(MongoLog.ACTION)
+      val parameters: DBObject = obj.get(MongoLog.PARAMETERS).asInstanceOf[DBObject]
       val tab = SimSharingManager.DELIMITER
       val paramString = asScalaSet(parameters.keySet).map(s => s + " = " + parameters.get(s)).mkString(tab)
 

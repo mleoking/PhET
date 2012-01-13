@@ -6,12 +6,14 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
-import java.util.logging.LogManager;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDialog;
+import edu.colorado.phet.common.phetcommon.simsharing.logs.ConsoleLog;
+import edu.colorado.phet.common.phetcommon.simsharing.logs.MongoLog;
+import edu.colorado.phet.common.phetcommon.simsharing.logs.StringLog;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemObject;
@@ -61,9 +63,6 @@ public class SimSharingManager {
     // Singleton
     private static SimSharingManager INSTANCE = null;
 
-    private SimSharingFileLogger simSharingFileLogger;
-    private SimSharingMongoClient mongoClient;
-
     public static final SimSharingManager getInstance() {
         assert ( INSTANCE != null ); // in case we forget to call init first
         return INSTANCE;
@@ -84,7 +83,9 @@ public class SimSharingManager {
     private String sessionId; // identifies the session
     private String machineCookie; // identifies the client machine
     private int messageCount; // number of delivered events, for cross-checking that no events were dropped
-    public final Property<String> log = new Property<String>( "" ); // log events locally, as a fallback plan //TODO StringBuffer would be more efficient
+
+    private final ArrayList<Log> logs = new ArrayList<Log>();
+    public final StringLog stringLog = new StringLog();
 
     // Singleton, private constructor
     private SimSharingManager( PhetApplicationConfig config ) {
@@ -94,20 +95,19 @@ public class SimSharingManager {
         if ( enabled ) {
             initIfEnabled( config );
         }
+        logs.add( new ConsoleLog() );
+        logs.add( stringLog );
+        if ( getConfig( studyName ).isSendToLogFile() ) {
+            logs.add( new SimSharingFileLogger( machineCookie, sessionId ) );
+        }
+        if ( getConfig( studyName ).isSendToServer() ) {
+            logs.add( new MongoLog( machineCookie, sessionId ) );
+        }
     }
 
     // Portion of initialization that's performed only if sim-sharing is enabled.
     private void initIfEnabled( final PhetApplicationConfig config ) {
         assert ( enabled );
-
-        //Disables mongo logging (and maybe all other logging as well!)
-        //TODO: how to disable just the mongo log from DBPort info messages?  They are sent repeatedly when server offline.
-        try {
-            LogManager.getLogManager().reset();
-        }
-        catch ( Exception e ) {
-            System.out.println( "error on log reset: " + e.getMessage() );
-        }
 
         studyName = config.getOptionArg( COMMAND_LINE_OPTION );
         studentId = getStudentId();
@@ -120,9 +120,6 @@ public class SimSharingManager {
             machineCookie = generateStrongId();
             propertiesFile.setMachineCookie( machineCookie );
         }
-
-        simSharingFileLogger = new SimSharingFileLogger( machineCookie, sessionId );
-        mongoClient = new SimSharingMongoClient();
 
         sendStartupMessage( config );
 
@@ -194,17 +191,14 @@ public class SimSharingManager {
     private void sendMessage( SimSharingMessage message ) {
         if ( enabled ) {
             AugmentedMessage m = new AugmentedMessage( message );
-            sendToConsole( m );
-            sendToLog( m );
-            if ( getConfig( studyName ).isSendToLogFile() ) {
+            for ( Log log : logs ) {
                 try {
-                    simSharingFileLogger.sendToLogFile( m );
+                    log.addMessage( m );
                 }
                 catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }
-            mongoClient.sendToServer( m, machineCookie, sessionId );
 
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             messageCount++;
@@ -212,21 +206,6 @@ public class SimSharingManager {
                 sendSystemMessage( simsharingManager, sentEvent, param( ParameterKeys.messageCount, messageCount ) );
             }
         }
-    }
-
-    // Sends an event to the console.
-    private void sendToConsole( AugmentedMessage message ) {
-        assert ( enabled );
-        System.out.println( message );
-    }
-
-    // Sends a message to the sim-sharing log.
-    private void sendToLog( AugmentedMessage message ) {
-        assert ( enabled );
-        if ( log.get().length() != 0 ) {
-            log.set( log.get() + "\n" );
-        }
-        log.set( log.get() + message );
     }
 
     // Gets the id entered by the student. Semantics of this id vary from study to study. If the study requires no id, then returns null.

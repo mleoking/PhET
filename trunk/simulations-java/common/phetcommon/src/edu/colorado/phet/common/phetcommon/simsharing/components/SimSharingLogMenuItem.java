@@ -69,7 +69,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                 add( new JScrollPane( new JTextArea( 20, 40 ) {{
                     setEditable( false );
                     //TODO the scrollpane has scrolling issues when it's created, and as it dynamically updates. Horizontal scrollbar should start full left, and stay where it's put.
-                    SimSharingManager.getInstance().log.addObserver( new VoidFunction1<String>() {
+                    SimSharingManager.getInstance().stringLog.log.addObserver( new VoidFunction1<String>() {
                         public void apply( String s ) {
                             setText( s );
                             scrollRectToVisible( new Rectangle( 0, getHeight() - 1, 1, 1 ) );
@@ -113,7 +113,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                 // Write log to file.
                                 try {
                                     BufferedWriter writer = new BufferedWriter( new FileWriter( selectedFile ) );
-                                    writer.write( SimSharingManager.getInstance().log.get() );
+                                    writer.write( SimSharingManager.getInstance().stringLog.log.get() );
                                     writer.close();
                                 }
                                 catch ( IOException ioe ) {
