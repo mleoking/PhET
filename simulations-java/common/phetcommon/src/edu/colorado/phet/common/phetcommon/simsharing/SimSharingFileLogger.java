@@ -64,6 +64,6 @@ public class SimSharingFileLogger implements Log {
     }
 
     public String getName() {
-        return file == null ? "file:null" : file.getAbsolutePath();
+        return "file: " + ( file == null ? "null" : file.getAbsolutePath() );
     }
 }

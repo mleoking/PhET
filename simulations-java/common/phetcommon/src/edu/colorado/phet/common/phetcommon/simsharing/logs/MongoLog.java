@@ -118,6 +118,6 @@ public class MongoLog implements Log {
     }
 
     public String getName() {
-        return "mongo@" + mongo.getAddress();
+        return "MongoDB Server @ " + mongo.getAddress();
     }
 }

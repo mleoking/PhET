@@ -20,6 +20,6 @@ public class StringLog implements Log {
     }
 
     public String getName() {
-        return "stringLog";
+        return "Internal buffer";
     }
 }
