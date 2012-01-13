@@ -67,7 +67,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
   }
 
   //Show events within the stripe to indicate user activity
-  val switchEntriesOnly = log.entries.filter(_.actor == "tab").filter(_.event == "pressed").toList
+  val switchEntriesOnly = log.entries.filter(_.component == "tab").filter(_.action == "pressed").toList
   val switchEntries = log.entries(0) :: switchEntriesOnly ::: log.entries.last :: Nil
 
   for ( index <- 0 until switchEntries.length - 1 ) {
@@ -83,7 +83,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
   //Make system events wider
   def getBarWidth(e: Entry) = {
     e match {
-      case x: Entry if x.actor == "system" => 0.15
+      case x: Entry if x.component == "system" => 0.15
       case _ => 0.1
     }
   }
@@ -101,7 +101,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
     val x = toX(entryTime - sessionStartTime)
 
     //Color based on user/system
-    val system = entry.actor == "system"
+    val system = entry.component == "system"
 
     //TODO: Fix formatter
     val width = if ( system ) {
@@ -113,7 +113,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
 
     val line = new PhetPPath(new Rectangle2D.Double(x, 0, width, stripeHeight), getColor(entry))
     lazy val label = {
-      val created = new PhetPText(entry.actor + " " + entry.event + "\n" + entry.parameters.map(k => k._1 + " = " + k._2).mkString("\n"), new PhetFont(16))
+      val created = new PhetPText(entry.component + " " + entry.action + "\n" + entry.parameters.map(k => k._1 + " = " + k._2).mkString("\n"), new PhetFont(16))
       val background = new PhetPPath(RectangleUtils.expandRectangle2D(created.getFullBounds, 5, 5), new Color(0, 255, 0, 200))
       val node = new PNode {
         addChild(background)
@@ -149,7 +149,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
                       "Molecule Polarity" -> List("Two Atoms", "Three Atoms", "Real Molecules"),
                       "Molecule Shapes" -> Nil)
 
-    if ( entry.actor == "tab" && entry.event == "pressed" ) {
+    if ( entry.component == "tab" && entry.action == "pressed" ) {
       val tabName = entry("text")
       val st = simTabs(log.simName)
       val index = st.indexOf(tabName)

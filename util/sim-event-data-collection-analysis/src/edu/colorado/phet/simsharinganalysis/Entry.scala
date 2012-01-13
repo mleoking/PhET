@@ -13,8 +13,8 @@ object EntryJavaUtil {
 // Copyright 2002-2011, University of Colorado
 case class Entry(time: Long, //Time since sim started in millisec
                  messageType: String,
-                 actor: String,
-                 event: String,
+                 component: String,
+                 action: String,
                  parameters: Map[String, String]) {
 
   //Checks for a match for actor, event and optional params
@@ -24,7 +24,7 @@ case class Entry(time: Long, //Time since sim started in millisec
         return false
       }
     }
-    this.actor == actor && this.event == event
+    this.component == actor && this.action == event
   }
 
   lazy val parametersToHashMap = {
@@ -42,7 +42,7 @@ case class Entry(time: Long, //Time since sim started in millisec
         return false
       }
     }
-    this.actor == actor
+    this.component == actor
   }
 
   //Get the specified parameter value, if it exists, otherwise "?"

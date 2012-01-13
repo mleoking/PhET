@@ -54,7 +54,7 @@ public class MongoDBStorage {
         //I permitted this use of Scala from Java in this case because
         //1. Scala parsing code already written
         //2. Expect to add more server dependencies on analysis code for real time result presentation.
-        Entry e = new Parser().parseKeyValueLine( m );
+        Entry e = new Parser().parseMessage( m );
         final Map<String, String> params = e.parametersToHashMap();
 
         BasicDBObject doc = new BasicDBObject() {{

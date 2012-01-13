@@ -72,8 +72,8 @@ val allEvents = selected.flatMap(_.entries)
 //println(systemEvents mkString "\n")
 
 println("Distinct window sizes")
-val sizes = logs.flatMap(_.entries).filter(entry => entry.actor == "window" && entry.event == "resized").map(event => event("width") + ", " + event("height")).distinct
+val sizes = logs.flatMap(_.entries).filter(entry => entry.component == "window" && entry.action == "resized").map(event => event("width") + ", " + event("height")).distinct
 println(sizes mkString "\n")
 
-println(logs.flatMap(_.entries).filter(_.actor == "menu").map(_("text")).distinct mkString "\n")
-println(logs.flatMap(_.entries).filter(_.actor == "menuItem").map(_("text")).distinct mkString "\n")
+println(logs.flatMap(_.entries).filter(_.component == "menu").map(_("text")).distinct mkString "\n")
+println(logs.flatMap(_.entries).filter(_.component == "menuItem").map(_("text")).distinct mkString "\n")

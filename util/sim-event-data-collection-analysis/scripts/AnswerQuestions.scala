@@ -10,8 +10,8 @@ val logs = all.filter(log =>
 println("found: " + logs.length + " logs")
 
 //Do students use the window close button or the file-> exit button?
-val closeButtonPressed = logs.flatMap(_.entries).count(entry => entry.actor == "window" && entry.event == "closeButtonPressed")
-val fileExitPressed = logs.flatMap(_.entries).count(entry => entry.actor == "menuItem" && entry.event == "selected" && entry("text") == "Exit")
+val closeButtonPressed = logs.flatMap(_.entries).count(entry => entry.component == "window" && entry.action == "closeButtonPressed")
+val fileExitPressed = logs.flatMap(_.entries).count(entry => entry.component == "menuItem" && entry.action == "selected" && entry("text") == "Exit")
 println("Number that pressed close button: " + closeButtonPressed + ", " + "Number that pressed file->exit: " + fileExitPressed)
 
 //How many different machines had JME crashes?

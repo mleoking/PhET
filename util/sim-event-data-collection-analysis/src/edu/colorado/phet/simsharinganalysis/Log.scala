@@ -15,7 +15,7 @@ import java.lang.String
  * @author Sam Reid
  */
 case class Log(file: File, machine: String, session: String, epoch: Long, entries: List[Entry]) {
-  val startMessage = getFirstEntry("system", "started")
+  val startMessage = getFirstEntry("system", "simsharingManager", "started")
   val study = startMessage("study")
   val simName = startMessage("name")
   val javaVersion = startMessage("javaVersion")
@@ -30,7 +30,7 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
   val endEpoch = epoch + lastTime.toLong
   lazy val minutesUsed: Int = ( lastTime / 1000L / 60L ).toInt
   lazy val eventCountData = phet.timeSeries(this, countEvents(_))
-  lazy val firstUserEvent = entries.find(log => log.actor != "system" && log.actor != "window") //Millis
+  lazy val firstUserEvent = entries.find(log => log.component != "system" && log.component != "window") //Millis
   lazy val userNumber = {
     try {
       user.toInt
@@ -48,8 +48,8 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
   lazy val histogramByObject = {
     val map = new HashMap[String, Int]
     for ( entry: Entry <- entries ) {
-      val currentValue = map.getOrElse(entry.actor, 0)
-      map.put(entry.actor, currentValue + 1)
+      val currentValue = map.getOrElse(entry.component, 0)
+      map.put(entry.component, currentValue + 1)
     }
     map
   }
@@ -60,19 +60,21 @@ case class Log(file: File, machine: String, session: String, epoch: Long, entrie
 
   def findEvents(criteria: Match): List[Entry] = entries.filter(criteria(_)).toList
 
-  def findEvents(actor: String): List[Entry] = entries.filter(_.actor == actor)
+  def findEvents(actor: String): List[Entry] = entries.filter(_.component == actor)
 
   def countEvents(matcher: Seq[Match]) = phet.timeSeries(this, countMatches(matcher, _))
 
-  def contains(actor: String, event: String, pairs: Pair[String, String]*) = entries.find((e: Entry) => e.actor == actor && e.event == event && e.hasParameters(e, pairs)).isDefined
+  def contains(actor: String, event: String, pairs: Pair[String, String]*) = entries.find((e: Entry) => e.component == actor && e.action == event && e.hasParameters(e, pairs)).isDefined
 
   def countEvents(time: Long, matches: Entry => Boolean = (entry: Entry) => true): Int = entries.filter(matches).count(_.time <= time)
 
-  private def matchesEntry(e: Entry): Boolean = entries.find(_.matches(e.actor, e.event, e.parameters)).isDefined
+  private def matchesEntry(e: Entry): Boolean = entries.find(_.matches(e.component, e.action, e.parameters)).isDefined
 
   def find(all: List[Entry]) = all.filter(matchesEntry(_))
 
-  private def getFirstEntry(actor: String, event: String): Entry = entries.find(entry => entry.actor == actor && entry.event == event).getOrElse(null)
+  private def getFirstEntry(messageType: String, obj: String, action: String): Entry = entries.find(entry => entry.messageType == messageType &&
+                                                                                                             entry.component == obj &&
+                                                                                                             entry.action == action).getOrElse(null)
 
   //Find the first pair of entries that matches the specified pairs
   def findFirstEntryIndices(startMatch: Match, endMatch: Match, startIndex: Int): Option[Pair[Int, Int]] = {

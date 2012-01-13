@@ -43,7 +43,7 @@ object CheckTimeToRotate extends App {
 
     //  println()
 
-    val firstRotationEvent = threeAtoms.find(entry => entry.actor == "molecule rotation drag" && entry.event == "started")
+    val firstRotationEvent = threeAtoms.find(entry => entry.component == "molecule rotation drag" && entry.action == "started")
     //println("Index "+log._2)
     if ( firstUserEvent.isDefined && firstRotationEvent.isDefined ) {
       val delta = firstRotationEvent.get.time - firstUserEvent.get.time
