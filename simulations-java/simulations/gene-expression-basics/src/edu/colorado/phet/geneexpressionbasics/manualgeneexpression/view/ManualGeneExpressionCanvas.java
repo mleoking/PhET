@@ -80,7 +80,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
-        setBackground( new Color( 250, 232, 189 ) );
+        setBackground( Color.BLACK );
 
         // Add a background layer where the cell(s) that make up the background
         // will reside.
