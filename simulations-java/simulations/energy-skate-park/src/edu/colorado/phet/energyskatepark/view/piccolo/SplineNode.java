@@ -26,6 +26,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
@@ -108,7 +109,7 @@ public class SplineNode extends PNode {
             addChild( controlPointLayer );
         }
 
-        dragHandler = new SimSharingDragHandler( EnergySkateParkSimSharing.UserComponents.track ) {
+        dragHandler = new SimSharingDragHandler( EnergySkateParkSimSharing.UserComponents.track, ComponentTypes.sprite ) {
 
             @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
                 return param( trackIndex, spline.getParametricFunction2D().index );
@@ -364,7 +365,7 @@ public class SplineNode extends PNode {
             setPaint( new Color( 0, 0, 1f, 0.5f ) );
 
             final UserComponentChain controlPointUserComponent = chain( trackControlPoint, index );
-            addInputEventListener( new SimSharingDragHandler( controlPointUserComponent ) {
+            addInputEventListener( new SimSharingDragHandler( controlPointUserComponent, ComponentTypes.sprite ) {
                 @Override protected void startDrag( PInputEvent event ) {
                     super.startDrag( event );
                     initDragControlPoint( index );

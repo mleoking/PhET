@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingDragPoints;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
@@ -33,18 +34,20 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
     }
 
     protected final IUserComponent userComponent;
+    private final IComponentType componentType;
     private final SimSharingDragPoints dragPoints; // canvas coordinates, accumulated during a drag sequence
     private DragFunction startDragFunction, dragFunction, endDragFunction; // functions called for various events
 
     // Sends a message on startDrag and endDrag, but not drag
-    public SimSharingDragHandler( IUserComponent userComponent ) {
-        this( userComponent, false );
+    public SimSharingDragHandler( IUserComponent userComponent, IComponentType componentType ) {
+        this( userComponent, componentType, false );
     }
 
     // Sends a message on drag if reportDrag=true
-    public SimSharingDragHandler( IUserComponent userComponent, final boolean sendDragMessages ) {
+    public SimSharingDragHandler( IUserComponent userComponent, final IComponentType componentType, final boolean sendDragMessages ) {
 
         this.userComponent = userComponent;
+        this.componentType = componentType;
         this.dragPoints = new SimSharingDragPoints();
 
         // default functions
@@ -119,7 +122,7 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     // Return parameters that are used by default for startDrag, endDrag, and drag
     protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
-        return new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) );
+        return Parameter.componentType( componentType ).add( getXParameter( event ) ).add( getYParameter( event ) );
     }
 
     private void addDragPoint( PInputEvent event ) {
