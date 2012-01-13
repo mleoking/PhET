@@ -16,7 +16,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="simsharing-analysis" />
+    <orderEntry type="module" module-name="sim-event-data-collection-analysis" />
     <orderEntry type="module" module-name="sim-event-data-collection-server" />
     <orderEntry type="module-library">
       <library>

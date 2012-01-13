@@ -29,7 +29,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="phetcommon" />
-    <orderEntry type="module" module-name="simsharing-analysis" />
+    <orderEntry type="module" module-name="sim-event-data-collection-analysis" />
   </component>
 </module>
 

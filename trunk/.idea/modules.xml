@@ -123,10 +123,10 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/self-driven-particle-model/self-driven-particle-model.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/self-driven-particle-model/self-driven-particle-model.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/semiconductor/semiconductor.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/semiconductor/semiconductor.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/simsharing-analysis/sim-event-data-collection-analysis.iml" filepath="$PROJECT_DIR$/util/simsharing-analysis/sim-event-data-collection-analysis.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/sim-event-data-collection-monitor/sim-event-data-collection-monitor.iml" filepath="$PROJECT_DIR$/util/sim-event-data-collection-monitor/sim-event-data-collection-monitor.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/sim-event-data-collection-server/sim-event-data-collection-server.iml" filepath="$PROJECT_DIR$/util/sim-event-data-collection-server/sim-event-data-collection-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/simsharing/simsharing.iml" filepath="$PROJECT_DIR$/util/simsharing/simsharing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/util/simsharing-analysis/simsharing-analysis.iml" filepath="$PROJECT_DIR$/util/simsharing-analysis/simsharing-analysis.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/simsharing-test-sim/simsharing-test-sim.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/simsharing-test-sim/simsharing-test-sim.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/slf4j/slf4j.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/slf4j/slf4j.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
