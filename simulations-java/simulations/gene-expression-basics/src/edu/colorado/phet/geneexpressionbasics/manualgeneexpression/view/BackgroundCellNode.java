@@ -30,7 +30,7 @@ public class BackgroundCellNode extends PNode {
     public BackgroundCellNode( Point2D centerLocation, int seed ) {
         addChild( new PhetPPath( createShape( centerLocation, DEFAULT_SIZE, seed ),
                                  CELL_INTERIOR_COLOR,
-                                 new BasicStroke( 1f ),
+                                 new BasicStroke( 100f ), // This is big because the cell is only ever shown when zoomed way out.
                                  Color.BLACK ) );
     }
 

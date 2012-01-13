@@ -117,8 +117,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         // Add some other random background cells.
         backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -BackgroundCellNode.DEFAULT_SIZE.getWidth() * 0.6, -BackgroundCellNode.DEFAULT_SIZE.getHeight() ), 3 ) );
-        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -BackgroundCellNode.DEFAULT_SIZE.getWidth(), 3000 ), 4 ) );
-        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( BackgroundCellNode.DEFAULT_SIZE.getWidth(), -3000 ), 5 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -BackgroundCellNode.DEFAULT_SIZE.getWidth(), BackgroundCellNode.DEFAULT_SIZE.getHeight() * 0.2 ), 4 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( BackgroundCellNode.DEFAULT_SIZE.getWidth(), -BackgroundCellNode.DEFAULT_SIZE.getHeight() * 0.3 ), 5 ) );
 
 
         // Add the representation of the DNA strand.
