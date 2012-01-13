@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.numberDragEvents;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 
 /**
  * Helper class for sim-sharing drag handlers.
@@ -46,19 +45,13 @@ public class SimSharingDragPoints {
                 return point2D.getY();
             }
         } );
-        double minX = min( xValues );
-        double maxX = max( xValues );
-        double averageX = average( xValues );
-        double minY = min( yValues );
-        double maxY = max( yValues );
-        double averageY = average( yValues );
         return Parameter.param( numberDragEvents, points.size() ).
-                param( ParameterKeys.minX, minX ).
-                param( ParameterKeys.maxX, maxX ).
-                param( ParameterKeys.averageX, averageX ).
-                param( ParameterKeys.minY, minY ).
-                param( ParameterKeys.maxY, maxY ).
-                param( ParameterKeys.averageY, averageY );
+                param( minX, min( xValues ) ).
+                param( maxX, max( xValues ) ).
+                param( averageX, average( xValues ) ).
+                param( minY, min( yValues ) ).
+                param( maxY, max( yValues ) ).
+                param( averageY, average( yValues ) );
     }
 
     private ArrayList<Double> extract( ArrayList<Point2D> all, Function1<Point2D, Double> extractor ) {
