@@ -138,6 +138,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                             public void actionPerformed( ActionEvent e ) {
                                 if ( logListDialog == null ) {
                                     logListDialog = new JDialog( parent, STANDARD_LOGS_TITLE ) {{
+                                        setResizable( false );
                                         setContentPane( new VerticalLayoutPanel() {{
                                             setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
                                             setInsets( new Insets( 5, 5, 5, 5 ) );
