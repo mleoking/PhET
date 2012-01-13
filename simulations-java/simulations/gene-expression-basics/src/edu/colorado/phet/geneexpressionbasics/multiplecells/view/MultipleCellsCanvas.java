@@ -65,7 +65,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                 1E8 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
-        setBackground( new Color( 250, 232, 189 ) );
+        setBackground( Color.BLACK );
 
         // Add the local world root node.
         addWorldChild( localWorldRootNode );
