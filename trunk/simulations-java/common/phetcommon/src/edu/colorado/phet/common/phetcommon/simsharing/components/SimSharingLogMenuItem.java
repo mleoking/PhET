@@ -142,7 +142,7 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                         setContentPane( new VerticalLayoutPanel() {{
                                             setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
                                             setInsets( new Insets( 5, 5, 5, 5 ) );
-                                            add( new JLabel( "Data is being logged to the following standard locations:" ) {{
+                                            add( new JLabel( "Data is being logged to these standard locations:" ) {{
                                                 setFont( new PhetFont( Font.BOLD, 12 ) );
                                             }} );
                                             add( new JTextArea( new ObservableList<String>( SimSharingManager.getInstance().getLogNames() ).mkString( "\n" ) ) {{
