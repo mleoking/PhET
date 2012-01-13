@@ -256,6 +256,9 @@ public class SimSharingManager {
                 //one database per machine
                 DB database = mongo.getDB( machineCookie );
 
+                //TODO: Authentication
+//                database.authenticate();
+
                 //One collection per session, lets us easily iterate and add messages per session.
                 DBCollection coll = database.getCollection( sessionId );
 
