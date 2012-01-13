@@ -65,7 +65,7 @@ object phet {
   implicit def wrapEntrySeq(i: Seq[Entry]) = new EntrySeqWrapper(i)
 
   //Turning this number too high can cause it to take too long.  1000 was a good granularity, but took a bit too long for large data sets
-  def timeSeries(log: Log, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.lastTime by 10000, value)
+  def timeSeries(log: Log, value: Int => Double): XYSeries = seqSeries("ID " + log.user, 0 to log.minutesUsed.toInt by 10000, value)
 
   def seqSeries(name: String, time: Seq[Int], value: Int => Double) =
     new XYSeries(name) {

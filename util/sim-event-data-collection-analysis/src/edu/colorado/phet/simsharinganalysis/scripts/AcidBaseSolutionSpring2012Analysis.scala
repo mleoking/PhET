@@ -1,37 +1,34 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharinganalysis.scripts
 
+// Copyright 2002-2011, University of Colorado
+
 import edu.colorado.phet.simsharinganalysis._
 import phet._
 
-object CheckTimeToRotate extends App {
-  val all = phet load "C:\\Users\\Sam\\Desktop\\phet-raw-data-11-13-2011"
+object AcidBaseSolutionSpring2012Analysis extends App {
+  val logs = phet.load("C:\\Users\\Sam\\Desktop\\friday-13th-logs").sortBy(_.startTime)
+  println("found: " + logs.length + " logs")
+  logs.print()
 
-  val selected = all.filter(log =>
-                              log.day == "11-10-2011" &&
-                              log.study == "colorado" &&
-                              log.user != "samreid" &&
-                              log.user != "None" &&
-                              log.user != "bbb" &&
-                              log.user != "null" &&
-                              log.user != "0" &&
-                              log.startTime <= 1320939531714L &&
-                              log.simName == "Molecule Polarity" &&
-                              !log.machine.startsWith("samreid") &&
-                              !log.machine.startsWith("chrismalley")).sortBy(_.startTime)
-  println("found: " + selected.length + " logs")
-  selected.print
-
-  val totalEvents = selected.map(_.size).sum
+  val totalEvents = logs.map(_.size).sum
   println("Total events: " + totalEvents)
 
-  val machines = selected.map(_.machine).distinct
+  val machines = logs.map(_.machine).distinct
   println("Number of unique machines: " + machines.size)
+
+  for ( log <- logs ) {
+
+    println("end time = " + log.endTime)
+    println("start time = " + log.startTime)
+    println("session: " + log.session + ", minutes of interaction=" + log.minutesUsed + ", numUserEvents=" + log.userEntries.size)
+    println("num user events per minute: " + log.userEntries.size / log.minutesUsed)
+  }
 
   /*
  Try to find how long until the user changed the angle in the 2nd tab.
   */
-  for ( log <- selected.sortBy(_.user).zipWithIndex ) {
+  for ( log <- logs.sortBy(_.user).zipWithIndex ) {
     val firstUserEvent = log._1.firstUserEvent
     val threeAtoms = log._1.selectLaterTab("Three Atoms")
     //  val threeAtoms = log._1.selectFirstTab("Two Atoms")

@@ -28,5 +28,5 @@ res15.histogramByObject
 
 phet xyplot res0.map(_.eventCountData)
 
-phet xyplot res0.filter(_.simName == "Molecule Polarity").map(_.countEvents(simEvents.moleculePolarity))
+phet xyplot res0.filter(_.simName == "Molecule Polarity").map(_.countEntries(simEvents.moleculePolarity))
 

@@ -3,15 +3,8 @@ package edu.colorado.phet.simsharinganalysis
 
 import java.util.HashMap
 
-//Convenience constructor to use from Java
-object EntryJavaUtil {
-  def EntryJavaUtil(time: Long, messageType: String, actor: String, event: String, parameters: HashMap[String, String]) = {
-    new Entry(time, messageType, actor, event, Map("hello" -> "there"))
-  }
-}
-
 // Copyright 2002-2011, University of Colorado
-case class Entry(time: Long, //Time since sim started in millisec
+case class Entry(time: Long, //Time on the client computer when message was created
                  messageType: String,
                  component: String,
                  action: String,

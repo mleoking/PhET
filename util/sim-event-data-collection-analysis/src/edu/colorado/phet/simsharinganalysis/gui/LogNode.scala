@@ -26,7 +26,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
     add(new MyMenuItem("Plot events", () => xyplot("Events vs time", "Time (minutes)", "Events", log.eventCountData :: Nil)))
     add(new MyMenuItem("Plot unique events", () => {
       //Find which events are important in this sim
-      xyplot("Filtered events vs time", "Time (minutes)", "Events", log.countEvents(DoProcessEvents.simEventMap(log.simName)) :: Nil)
+      xyplot("Filtered events vs time", "Time (minutes)", "Events", log.countEntries(DoProcessEvents.simEventMap(log.simName)) :: Nil)
     }))
   }
 
@@ -47,8 +47,8 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
     }
   })
   //Show the entire sim usage with a colored border
-  addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(log.endEpoch - log.epoch), stripeHeight), new BasicStroke(2), colorMap(log.simName)) {
-    val dt = log.epoch - sessionStartTime
+  addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(log.endTime - log.startTime), stripeHeight), new BasicStroke(2), colorMap(log.simName)) {
+    val dt = log.startTime - sessionStartTime
     setOffset(toX(dt), 0) //one second per pixel
   })
 
@@ -61,7 +61,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
 
     //Show the active sim usage with a colored border
     addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(end.time - start.time), stripeHeight), colorMap(log.simName).darker) {
-      val dt = log.epoch + start.time - sessionStartTime
+      val dt = log.startTime + start.time - sessionStartTime
       setOffset(toX(dt), 0) //one second per pixel
     })
   }
@@ -75,7 +75,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
     val newOne = switchEntries(index + 1)
 
     addChild(new PhetPPath(new Rectangle2D.Double(0, 0, toDeltaX(newOne.time - original.time), stripeHeight / 2)) {
-      val dt = log.epoch + original.time - sessionStartTime
+      val dt = log.startTime + original.time - sessionStartTime
       setOffset(toX(dt), 0)
     })
   }
@@ -97,7 +97,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
 
   //Show events within the stripe to indicate user activity
   for ( entry <- log.entries ) {
-    val entryTime = entry.time + log.epoch
+    val entryTime = entry.time + log.startTime
     val x = toX(entryTime - sessionStartTime)
 
     //Color based on user/system
