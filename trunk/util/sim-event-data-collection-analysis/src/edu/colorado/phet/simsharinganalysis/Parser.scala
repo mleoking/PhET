@@ -29,7 +29,7 @@ class Parser {
       serverTime = java.lang.Long.parseLong(readValue(line))
     }
     else {
-      lines += parseKeyValueLine(line)
+      lines += parseMessage(line)
     }
   }
 
@@ -37,13 +37,10 @@ class Parser {
   //So you have to subtract that out.
   var originalTime: Long = _
 
-  def parseKeyValueLine(line: String): Entry = {
+  def parseMessage(line: String): Entry = {
     val tokenizer = new StringTokenizer(line, SimSharingManager.DELIMITER)
-    val machineID = tokenizer.nextToken()
-    val sessionID = tokenizer.nextToken()
     val time = java.lang.Long.parseLong(tokenizer.nextToken())
     val messageType = tokenizer.nextToken()
-
     val obj = tokenizer.nextToken()
     val event = tokenizer.nextToken()
     val remainderOfLineBuf = new StringBuffer

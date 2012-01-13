@@ -3,8 +3,6 @@ package edu.colorado.phet.simsharinganalysis
 
 import _root_.scala.math._
 
-// Copyright 2002-2011, University of Colorado
-
 import collection.Seq
 import org.jfree.data.xy.{XYSeriesCollection, XYSeries}
 import java.io.File
@@ -130,20 +128,25 @@ object phet {
   }
 
   //Load all Logs within a directory recursively
-  def load(file: String): List[Log] = load(new File(file))
+  def load(dir: String): List[Log] = load(new File(dir))
 
-  def load(file: File): List[Log] = {
-    val all = new ArrayBuffer[Log]
-    for ( file <- file.listFiles ) {
-      if ( file.isFile ) {
-        val parsed = parse(file)
-        all += parsed
+  def load(dir: File): List[Log] = {
+    if ( dir.exists && dir.isDirectory ) {
+      val all = new ArrayBuffer[Log]
+      for ( file <- dir.listFiles ) {
+        if ( file.isFile ) {
+          val parsed = parse(file)
+          all += parsed
+        }
+        else {
+          all ++= load(file)
+        }
       }
-      else {
-        all ++= load(file)
-      }
+      all.toList
     }
-    all.toList
+    else {
+      Nil
+    }
   }
 
   def parse(file: File): Log = new Parser().parse(file)

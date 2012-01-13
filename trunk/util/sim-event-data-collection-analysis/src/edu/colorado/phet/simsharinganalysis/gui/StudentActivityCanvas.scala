@@ -48,7 +48,7 @@ class StudentActivityCanvas(path: String) extends PCanvas {
     //Coloring for different event types
     def getColor(e: Entry) = {
       e match {
-        case x: Entry if x.actor == "system" => Color.yellow
+        case x: Entry if x.component == "system" => Color.yellow
         case _ => Color.black
       }
     }
