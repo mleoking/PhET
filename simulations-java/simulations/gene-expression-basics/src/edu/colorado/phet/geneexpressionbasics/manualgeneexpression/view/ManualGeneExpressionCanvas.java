@@ -19,7 +19,6 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -64,7 +63,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private PTransformActivity transformAnimationActivity;
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
-    protected Property<Double> zoomFactorProperty = new Property<Double>( MAX_ZOOM ); // Start in the zoomed out state.
 
     public ManualGeneExpressionCanvas( final ManualGeneExpressionModel model ) {
 
@@ -310,27 +308,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }};
         controlsRootNode.addChild( zoomOutButton );
 
-        // A number of the controls are only shown when we are zoomed all the
-        // way in, and some only when zoomed all the way out.
-//        zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
-//            public void apply( Double zoomFactor ) {
-//                boolean zoomedAllTheWayIn = zoomFactor == MAX_ZOOM;
-//                biomoleculeToolBoxLayer.setVisible( zoomedAllTheWayIn );
-//                proteinCollectionNode.setVisible( zoomedAllTheWayIn );
-//                previousGeneButton.setVisible( zoomedAllTheWayIn );
-//                nextGeneButton.setVisible( zoomedAllTheWayIn );
-//                zoomOutButton.setVisible( zoomedAllTheWayIn );
-//                zoomInButton.setVisible( zoomFactor.doubleValue() == MIN_ZOOM );
-//
-//                // Fade the DNA molecule.
-//                dnaMoleculeNode.setTransparency( zoomFactor.floatValue() );
-//            }
-//        } );
-
         // Monitor the zoom
         modelRootNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                System.out.println( "evt.getPropertyName() = " + evt.getPropertyName() );
                 if ( evt.getPropertyName() == "transform" ) {
                     System.out.println( "Transform Occurred, scale amount = " + ( (AffineTransform) evt.getNewValue() ).getScaleX() );
                     double scaleFactor = ( (AffineTransform) evt.getNewValue() ).getScaleX();
@@ -379,7 +359,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
         }
-//        zoomFactorProperty.reset();
     }
 
     private static class PActivityDelegateAdapter implements PActivity.PActivityDelegate {
