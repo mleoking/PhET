@@ -7,5 +7,5 @@ import java.io.IOException;
  * @author Sam Reid
  */
 public interface Log {
-    public void addMessage( AugmentedMessage augmentedMessage ) throws IOException;
+    public void addMessage( SimSharingMessage message ) throws IOException;
 }

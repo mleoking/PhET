@@ -178,10 +178,9 @@ public class SimSharingManager {
     // Private because clients should use the send*Message methods to indicate the message type
     private void sendMessage( SimSharingMessage message ) {
         if ( enabled ) {
-            AugmentedMessage m = new AugmentedMessage( message );
             for ( Log log : logs ) {
                 try {
-                    log.addMessage( m );
+                    log.addMessage( message );
                 }
                 catch ( IOException e ) {
                     e.printStackTrace();

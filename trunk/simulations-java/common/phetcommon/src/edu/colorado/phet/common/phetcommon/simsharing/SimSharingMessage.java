@@ -20,6 +20,7 @@ public class SimSharingMessage<T, U> {
     public final T component;
     public final U action;
     public final ParameterSet parameters;
+    public final long time = System.currentTimeMillis();
 
     public SimSharingMessage( IMessageType messageType, T component, U action, final ParameterSet parameters ) {
         this.component = component;
@@ -29,6 +30,6 @@ public class SimSharingMessage<T, U> {
     }
 
     public String toString() {
-        return messageType + DELIMITER + component + DELIMITER + action + DELIMITER + parameters.toString( DELIMITER );
+        return time + DELIMITER + messageType + DELIMITER + component + DELIMITER + action + DELIMITER + parameters.toString( DELIMITER );
     }
 }
