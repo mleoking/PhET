@@ -26,10 +26,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -52,11 +51,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.sprite;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.*;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserActions.attached;
-import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.track;
-import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.trackControlPoint;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.controlPoint;
 
 /**
  * User: Sam Reid
@@ -109,10 +108,10 @@ public class SplineNode extends PNode {
             addChild( controlPointLayer );
         }
 
-        dragHandler = new SimSharingDragHandler( EnergySkateParkSimSharing.UserComponents.track, ComponentTypes.sprite ) {
+        dragHandler = new SimSharingDragHandler( chain( EnergySkateParkSimSharing.UserComponents.track, spline.getParametricFunction2D().index ), sprite ) {
 
             @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                return param( trackIndex, spline.getParametricFunction2D().index );
+                return super.getParametersForAllEvents( event ).param( trackIndex, spline.getParametricFunction2D().index );
             }
 
             @Override protected void drag( PInputEvent event ) {
@@ -130,14 +129,12 @@ public class SplineNode extends PNode {
                 initDragSpline();
             }
         };
-        //TODO: add track ID
-        IUserComponent userComponent = track;
 
         popupMenu = new TrackPopupMenu( splineEnvironment );
         if ( controllable ) {
             splinePath.addInputEventListener( this.dragHandler );
             splinePath.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
-            splinePath.addInputEventListener( new PopupMenuHandler( userComponent, parent, popupMenu ) );
+            splinePath.addInputEventListener( new PopupMenuHandler( chain( EnergySkateParkSimSharing.UserComponents.track, spline.getParametricFunction2D().index ), parent, popupMenu ) );
         }
 
         splineListener = new EnergySkateParkSpline.Listener() {
@@ -249,7 +246,7 @@ public class SplineNode extends PNode {
         SplineMatch startMatch = getTrunkMatch( index );
         if ( startMatch != null ) {
             EnergySkateParkSpline result = attach( index, startMatch );
-            SimSharingManager.sendUserMessage( track, attached
+            SimSharingManager.sendUserMessage( chain( EnergySkateParkSimSharing.UserComponents.track, spline.getParametricFunction2D().index ), attached
                     , param( inputTrack1, spline.getParametricFunction2D().index ).
                     param( inputTrack2, startMatch.getEnergySkateParkSpline().getParametricFunction2D().index ).
                     param( outputTrack, result.getParametricFunction2D().index ) );
@@ -364,8 +361,8 @@ public class SplineNode extends PNode {
             setStrokePaint( Color.black );
             setPaint( new Color( 0, 0, 1f, 0.5f ) );
 
-            final UserComponentChain controlPointUserComponent = chain( trackControlPoint, index );
-            addInputEventListener( new SimSharingDragHandler( controlPointUserComponent, ComponentTypes.sprite ) {
+            final UserComponentChain controlPointUserComponent = chain( EnergySkateParkSimSharing.UserComponents.track, new UserComponentId( spline.getParametricFunction2D().index ), controlPoint, new UserComponentId( index ) );
+            addInputEventListener( new SimSharingDragHandler( controlPointUserComponent, sprite ) {
                 @Override protected void startDrag( PInputEvent event ) {
                     super.startDrag( event );
                     initDragControlPoint( index );
@@ -374,7 +371,7 @@ public class SplineNode extends PNode {
                 }
 
                 @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return param( trackIndex, spline.getParametricFunction2D().index );
+                    return super.getParametersForAllEvents( event ).param( trackIndex, spline.getParametricFunction2D().index );
                 }
 
                 @Override protected void drag( PInputEvent event ) {
