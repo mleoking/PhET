@@ -74,7 +74,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // view representations can come and go as needed.
         model.visibleCellList.addElementAddedObserver( new VoidFunction1<Cell>() {
             public void apply( final Cell addedCell ) {
-                final PNode cellNode = new CellNode( addedCell, mvt );
+                final PNode cellNode = new ColorChangingCellNode( addedCell, mvt );
                 localWorldRootNode.addChild( cellNode );
                 model.visibleCellList.addElementRemovedObserver( new VoidFunction1<Cell>() {
                     public void apply( Cell removedCell ) {
