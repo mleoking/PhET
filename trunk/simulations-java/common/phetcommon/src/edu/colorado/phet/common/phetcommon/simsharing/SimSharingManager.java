@@ -88,43 +88,35 @@ public class SimSharingManager {
 
         enabled = config.hasCommandLineArg( COMMAND_LINE_OPTION );
         simStartedTime = System.currentTimeMillis();
-        if ( enabled ) {
-            initIfEnabled( config );
-        }
-        logs.add( new ConsoleLog() );
-        logs.add( stringLog );
-        if ( getConfig( studyName ).isSendToLogFile() ) {
-            logs.add( new SimSharingFileLogger( machineCookie, sessionId ) );
-        }
-        if ( getConfig( studyName ).isSendToServer() ) {
-            logs.add( new MongoLog( machineCookie, sessionId ) );
-        }
-    }
-
-    // Portion of initialization that's performed only if sim-sharing is enabled.
-    private void initIfEnabled( final PhetApplicationConfig config ) {
-        assert ( enabled );
-
-        studyName = config.getOptionArg( COMMAND_LINE_OPTION );
         studentId = getStudentId();
         sessionId = generateStrongId();
+        if ( enabled ) {
+            studyName = config.getOptionArg( COMMAND_LINE_OPTION );
 
-        // Get the machine cookie from the properties file, create one if it doesn't exist.
-        SimSharingPropertiesFile propertiesFile = new SimSharingPropertiesFile();
-        machineCookie = propertiesFile.getMachineCookie();
-        if ( machineCookie == null ) {
-            machineCookie = generateStrongId();
-            propertiesFile.setMachineCookie( machineCookie );
-        }
+            // Get the machine cookie from the properties file, create one if it doesn't exist.
+            SimSharingPropertiesFile propertiesFile = new SimSharingPropertiesFile();
+            machineCookie = propertiesFile.getMachineCookie();
 
-        sendStartupMessage( config );
-
-        //Look up ip address and report in a separate thread so it doesn't slow down the main thread too much
-        new Thread() {
-            @Override public void run() {
-                sendSystemMessage( simsharingManager, ipAddressLookup, param( ipAddress, whatIsMyIPAddress() ) );
+            logs.add( new ConsoleLog() );
+            logs.add( stringLog );
+            if ( getConfig( studyName ).isSendToLogFile() ) {
+                logs.add( new SimSharingFileLogger( machineCookie, sessionId ) );
             }
-        }.start();
+            if ( getConfig( studyName ).isSendToServer() ) {
+                logs.add( new MongoLog( machineCookie, sessionId ) );
+            }
+
+            sendStartupMessage( config );
+
+            //Look up ip address and report in a separate thread so it doesn't slow down the main thread too much
+            if ( getConfig( studyName ).collectIPAddress ) {
+                new Thread() {
+                    @Override public void run() {
+                        sendSystemMessage( simsharingManager, ipAddressLookup, param( ipAddress, whatIsMyIPAddress() ) );
+                    }
+                }.start();
+            }
+        }
     }
 
     // Gets the number of messages that have been sent.
@@ -239,7 +231,7 @@ public class SimSharingManager {
     }
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java
-    private static String generateStrongId() {
+    public static String generateStrongId() {
         return new BigInteger( 130, new SecureRandom() ).toString( 32 );
     }
 

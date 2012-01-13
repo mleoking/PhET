@@ -38,6 +38,7 @@ public abstract class SimSharingConfig {
     public final String idPrompt; // prompt used to request student's id (irrelevant if requestId is false)
     public final boolean sendToLogFile; // prompt used to request student's id (irrelevant if requestId is false)
     public final boolean sendToServer;
+    public final boolean collectIPAddress = false;
 
     protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired ) {
         this( studyName, sendToLogFile, sendToServer, requestId, idRequired, null );
