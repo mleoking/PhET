@@ -20,7 +20,12 @@ public class SimSharingPropertiesFile extends AbstractPropertiesFile {
     }
 
     public String getMachineCookie() {
-        return getProperty( KEY_MACHINE_COOKIE );
+        String machineCookie = getProperty( KEY_MACHINE_COOKIE );
+        if ( machineCookie == null ) {
+            machineCookie = SimSharingManager.generateStrongId();
+            setMachineCookie( machineCookie );
+        }
+        return machineCookie;
     }
 
     public void setMachineCookie( String machineCookie ) {
