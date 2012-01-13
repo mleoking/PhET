@@ -3,6 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
@@ -29,10 +32,16 @@ public class BackgroundCellNode extends PNode {
     private static final Color CELL_INTERIOR_COLOR = new Color( 190, 231, 251 );
 
     public BackgroundCellNode( Point2D centerLocation, int seed ) {
+        Paint cellInteriorPaint = new GradientPaint( (float) ( centerLocation.getX() - DEFAULT_SIZE.getWidth() * 0.1 ),
+                                                     (float) ( centerLocation.getY() - DEFAULT_SIZE.getHeight() * 0.5 ),
+                                                     ColorUtils.darkerColor( CELL_INTERIOR_COLOR, 0.25 ),
+                                                     (float) ( centerLocation.getX() + DEFAULT_SIZE.getWidth() * 0.1 ),
+                                                     (float) ( centerLocation.getY() + DEFAULT_SIZE.getHeight() * 0.5 ),
+                                                     ColorUtils.brighterColor( CELL_INTERIOR_COLOR, 0.25 ) );
         addChild( new PhetPPath( createShape( centerLocation, DEFAULT_SIZE, seed ),
-                                 CELL_INTERIOR_COLOR,
-                                 new BasicStroke( 100f ), // This is big because the cell is only ever shown when zoomed way out.
-                                 Color.BLACK ) );
+                                 cellInteriorPaint,
+                                 new BasicStroke( 500f ), // This is big because the cell is only ever shown when zoomed way out.
+                                 Color.WHITE ) );
     }
 
     private static Shape createShape( Point2D centerPosition, Dimension2D size, long seed ) {
