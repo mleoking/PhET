@@ -51,7 +51,7 @@ public class SimSharingFileLogger implements Log {
         }
     }
 
-    public void addMessage( AugmentedMessage message ) throws IOException {
+    public void addMessage( SimSharingMessage message ) throws IOException {
         if ( logWriter == null ) {
             createLogWriter();
         }

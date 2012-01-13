@@ -7,9 +7,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.LogManager;
 
-import edu.colorado.phet.common.phetcommon.simsharing.AugmentedMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.Log;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -67,7 +67,7 @@ public class MongoLog implements Log {
     }
 
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
-    public void addMessage( final AugmentedMessage message ) throws IOException {
+    public void addMessage( final SimSharingMessage message ) throws IOException {
 
         executor.execute( new Runnable() {
             public void run() {
@@ -83,11 +83,11 @@ public class MongoLog implements Log {
 
                 BasicDBObject doc = new BasicDBObject() {{
                     put( TIME, message.time + "" );
-                    put( MESSAGE_TYPE, message.message.messageType.toString() );
-                    put( COMPONENT, message.message.component.toString() );
-                    put( ACTION, message.message.action.toString() );
+                    put( MESSAGE_TYPE, message.messageType.toString() );
+                    put( COMPONENT, message.component.toString() );
+                    put( ACTION, message.action.toString() );
                     put( PARAMETERS, new BasicDBObject() {{
-                        for ( Parameter parameter : message.message.parameters ) {
+                        for ( Parameter parameter : message.parameters ) {
                             //                            if ( parameter.name == null ) {
                             //                                System.out.println( "parameter = " + parameter );
                             //                            }
