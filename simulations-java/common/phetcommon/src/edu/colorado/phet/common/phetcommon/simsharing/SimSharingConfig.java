@@ -37,14 +37,16 @@ public abstract class SimSharingConfig {
     public final boolean idRequired; // true=id required, false=optional
     public final String idPrompt; // prompt used to request student's id (irrelevant if requestId is false)
     public final boolean sendToLogFile; // prompt used to request student's id (irrelevant if requestId is false)
+    public final boolean sendToServer;
 
-    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean requestId, boolean idRequired ) {
-        this( studyName, sendToLogFile, requestId, idRequired, null );
+    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired ) {
+        this( studyName, sendToLogFile, sendToServer, requestId, idRequired, null );
     }
 
-    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean requestId, boolean idRequired, String idPrompt ) {
+    protected SimSharingConfig( String studyName, boolean sendToLogFile, boolean sendToServer, boolean requestId, boolean idRequired, String idPrompt ) {
         this.studyName = studyName;
         this.sendToLogFile = sendToLogFile;
+        this.sendToServer = sendToServer;
         this.requestId = requestId;
         this.idPrompt = idPrompt;
         this.idRequired = idRequired;
@@ -54,6 +56,10 @@ public abstract class SimSharingConfig {
         return sendToLogFile;
     }
 
+    public boolean isSendToServer() {
+        return sendToServer;
+    }
+
     // Default behavior, used if there is no study specified or the specified study isn't found.
     private static class DefaultConfig extends SimSharingConfig {
         public DefaultConfig() {
@@ -61,7 +67,7 @@ public abstract class SimSharingConfig {
         }
 
         protected DefaultConfig( String name ) {
-            super( name, false, false, false, "" );
+            super( name, false, true, false, false, "" );
         }
     }
 
@@ -77,7 +83,7 @@ public abstract class SimSharingConfig {
      */
     private static class ColoradoConfig extends SimSharingConfig {
         public ColoradoConfig() {
-            super( "colorado", false, true, true, "Enter your computer number:" );
+            super( "colorado", false, true, true, true, "Enter your computer number:" );
         }
     }
 
@@ -93,7 +99,7 @@ public abstract class SimSharingConfig {
      */
     private static class UtahConfig extends SimSharingConfig {
         public UtahConfig() {
-            super( "utah", false, true, false, "Enter your audio recorder number:" );
+            super( "utah", false, true, true, false, "Enter your audio recorder number:" );
         }
     }
 
@@ -106,7 +112,7 @@ public abstract class SimSharingConfig {
     */
     private static class DallasJan2012 extends SimSharingConfig {
         public DallasJan2012() {
-            super( "dallas-jan-2012", true, false, false );
+            super( "dallas-jan-2012", true, true, false, false );
         }
     }
 
@@ -116,7 +122,7 @@ public abstract class SimSharingConfig {
      */
     private static class Spring2012AcidBaseSolutionsConfig extends SimSharingConfig {
         public Spring2012AcidBaseSolutionsConfig() {
-            super( "acid-base-solutions-spring-2012", true, false, false );
+            super( "acid-base-solutions-spring-2012", true, true, false, false );
         }
     }
 }

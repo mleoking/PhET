@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetExit;
  *
  * @author Sam Reid
  */
-public class SimSharingFileLogger {
+public class SimSharingFileLogger implements Log {
     private BufferedWriter logWriter;
     private final String machineCookie;
     private final String sessionId;
@@ -51,7 +51,7 @@ public class SimSharingFileLogger {
         }
     }
 
-    public void sendToLogFile( AugmentedMessage message ) throws IOException {
+    public void addMessage( AugmentedMessage message ) throws IOException {
         if ( logWriter == null ) {
             createLogWriter();
         }
