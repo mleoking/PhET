@@ -18,4 +18,8 @@ public class StringLog implements Log {
         }
         log.set( log.get() + message );
     }
+
+    public String getName() {
+        return "stringLog";
+    }
 }

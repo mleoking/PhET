@@ -22,8 +22,10 @@ import javax.swing.JTextArea;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -78,6 +80,24 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                 }} ), BorderLayout.CENTER );
                 // Save button that saves the log to a file
                 add( new JPanel() {{
+                    add( new SimSharingJButton( showLogs, "Log Locations..." ) {{
+                        addActionListener( new ActionListener() {
+                            JDialog logListDialog = null;
+
+                            public void actionPerformed( ActionEvent e ) {
+                                if ( logListDialog == null ) {
+                                    logListDialog = new JDialog( parent ) {{
+                                        setContentPane( new JTextArea( new ObservableList<String>( SimSharingManager.getInstance().getLogNames() ).mkString( "\n" ) ) {{
+                                            setFont( new PhetFont( 16, true ) );
+                                        }} );
+                                    }};
+                                    logListDialog.pack();
+                                    SwingUtils.centerInParent( logListDialog );
+                                }
+                                logListDialog.setVisible( true );
+                            }
+                        } );
+                    }} );
                     add( new SimSharingJButton( chain( simSharingLogFileDialog, saveButton ), ACTION + "..." ) {{
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {

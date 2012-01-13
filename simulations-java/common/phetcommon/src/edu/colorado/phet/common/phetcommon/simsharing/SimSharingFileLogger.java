@@ -20,6 +20,7 @@ public class SimSharingFileLogger implements Log {
     private BufferedWriter logWriter;
     private final String machineCookie;
     private final String sessionId;
+    private File file;
 
     public SimSharingFileLogger( String machineCookie, String sessionId ) {
         this.machineCookie = machineCookie;
@@ -27,8 +28,8 @@ public class SimSharingFileLogger implements Log {
     }
 
     private void createLogWriter() {
-        File file = new File( System.getProperty( "user.home" ), "phet-logs/" +
-                                                                 new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
+        file = new File( System.getProperty( "user.home" ), "phet-logs/" +
+                                                            new SimpleDateFormat( "yyyy-MM-dd_HH-mm-ss" ).format( new Date() ) + "_" + machineCookie + "_" + sessionId + ".txt" );
         file.getParentFile().mkdirs();
         System.out.println( "Logging to file: " + file );
         try {
@@ -60,5 +61,9 @@ public class SimSharingFileLogger implements Log {
             logWriter.newLine();
             logWriter.flush();
         }
+    }
+
+    public String getName() {
+        return file == null ? "file:null" : file.getAbsolutePath();
     }
 }

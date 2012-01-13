@@ -11,4 +11,8 @@ public class ConsoleLog implements Log {
     public void addMessage( SimSharingMessage message ) {
         System.out.println( message );
     }
+
+    public String getName() {
+        return "console";
+    }
 }
