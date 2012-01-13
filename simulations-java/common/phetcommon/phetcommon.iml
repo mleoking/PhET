@@ -41,7 +41,9 @@
           <root url="jar://$MODULE_DIR$/../../contrib/mongodb/mongo-2.7.2.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../contrib/mongodb/mongo-2.7.2-sources.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>
