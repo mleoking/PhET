@@ -7,7 +7,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIdDialog;
@@ -46,9 +45,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMyIPAddr
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimSharingManager {
-
-    // logging
-    private static final Logger LOGGER = Logger.getLogger( SimSharingManager.class.getCanonicalName() );
 
     //This number should be increased when the data format changes so that a different parser must be used
     private static final int PARSER_VERSION = 2;
