@@ -11,6 +11,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,10 +61,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private static final boolean SHOW_MOTION_BOUNDS = false;
 
     private final ModelViewTransform mvt;
-    private PTransformActivity activity;
+    private PTransformActivity transformAnimationActivity;
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
-    protected Property<Double> zoomFactorProperty = new Property<Double>( MIN_ZOOM ); // Start in the zoomed out state.
+    protected Property<Double> zoomFactorProperty = new Property<Double>( MAX_ZOOM ); // Start in the zoomed out state.
 
     public ManualGeneExpressionCanvas( final ManualGeneExpressionModel model ) {
 
@@ -225,36 +227,34 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // whenever it changes.
         model.activeGene.addObserver( new VoidFunction1<Gene>() {
             public void apply( Gene gene ) {
-                if ( activity != null ) {
-                    activity.terminate( 0 );
+                if ( transformAnimationActivity != null ) {
+                    transformAnimationActivity.terminate( 0 );
                 }
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
-                if ( zoomFactorProperty.get() == 1 ) {
-                    // Perform an animation that will be the selected gene in
-                    // the center of the view port.
-                    backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                    activity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                    activity.setDelegate( new PActivityDelegateAdapter() {
-                        @Override public void activityFinished( PActivity activity ) {
-                            // Update the position of the protein capture area in
-                            // the model, since a transformation of the model-to-
-                            // view relationship just occurred.
-                            PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
-                            Rectangle2D boundsAfterTransform;
-                            try {
-                                boundsAfterTransform = modelRootNode.getTransformReference( true ).createInverse().createTransformedShape( boundsInControlNode ).getBounds2D();
-                            }
-                            catch ( NoninvertibleTransformException e ) {
-                                System.out.println( getClass().getName() + " - Error: Unable to invert transform needed to update the protein capture area." );
-                                e.printStackTrace();
-                                boundsAfterTransform = new PBounds();
-                            }
-                            Rectangle2D boundsInModel = mvt.viewToModel( boundsAfterTransform ).getBounds2D();
-                            model.setProteinCaptureArea( boundsInModel );
-                            model.addOffLimitsMotionSpace( boundsInModel );
+                // Perform an animation that will put the selected gene in
+                // the center of the view port.
+                backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                transformAnimationActivity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                transformAnimationActivity.setDelegate( new PActivityDelegateAdapter() {
+                    @Override public void activityFinished( PActivity activity ) {
+                        // Update the position of the protein capture area in
+                        // the model, since a transformation of the model-to-
+                        // view relationship just occurred.
+                        PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
+                        Rectangle2D boundsAfterTransform;
+                        try {
+                            boundsAfterTransform = modelRootNode.getTransformReference( true ).createInverse().createTransformedShape( boundsInControlNode ).getBounds2D();
                         }
-                    } );
-                }
+                        catch ( NoninvertibleTransformException e ) {
+                            System.out.println( getClass().getName() + " - Error: Unable to invert transform needed to update the protein capture area." );
+                            e.printStackTrace();
+                            boundsAfterTransform = new PBounds();
+                        }
+                        Rectangle2D boundsInModel = mvt.viewToModel( boundsAfterTransform ).getBounds2D();
+                        model.setProteinCaptureArea( boundsInModel );
+                        model.addOffLimitsMotionSpace( boundsInModel );
+                    }
+                } );
             }
         } );
 
@@ -270,52 +270,97 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
 
         // Add the zoom control slider.
-        controlsRootNode.addChild( new ZoomControlSliderNode( new PDimension( 20, 120 ), zoomFactorProperty, MIN_ZOOM, MAX_ZOOM, 10 ) {{
-            setOffset( 20, 300 );
-        }} );
-        zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double zoomFactor ) {
-                // Reset any previous transformation.
-                modelRootNode.setTransform( new AffineTransform() );
-                backgroundCellLayer.setTransform( new AffineTransform() );
-
-                // Scale the canvas to the zoom factor.
-                modelRootNode.setScale( zoomFactor );
-                backgroundCellLayer.setScale( zoomFactor );
-
-                // Set the offset so that the center of the currently selected
-                // gene stays in the same location.
-                Point2D compensatingOffset = new Point2D.Double( ( 1 - zoomFactor ) * STAGE_SIZE.getWidth() / 2 + zoomFactor * viewportOffset.getX(),
-                                                                 ( 1 - zoomFactor ) * mvt.modelToViewY( DnaMolecule.Y_POS ) + zoomFactor * viewportOffset.getY() );
-                modelRootNode.setOffset( compensatingOffset );
-                backgroundCellLayer.setOffset( compensatingOffset );
-            }
-        } );
+//        controlsRootNode.addChild( new ZoomControlSliderNode( new PDimension( 20, 120 ), zoomFactorProperty, MIN_ZOOM, MAX_ZOOM, 10 ) {{
+//            setOffset( 20, 300 );
+//        }} );
+//        zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
+//            public void apply( Double zoomFactor ) {
+//                // Reset any previous transformation.
+//                modelRootNode.setTransform( new AffineTransform() );
+//                backgroundCellLayer.setTransform( new AffineTransform() );
+//
+//                // Scale the canvas to the zoom factor.
+//                modelRootNode.setScale( zoomFactor );
+//                backgroundCellLayer.setScale( zoomFactor );
+//
+//                // Set the offset so that the center of the currently selected
+//                // gene stays in the same location.
+//                Point2D compensatingOffset = new Point2D.Double( ( 1 - zoomFactor ) * STAGE_SIZE.getWidth() / 2 + zoomFactor * viewportOffset.getX(),
+//                                                                 ( 1 - zoomFactor ) * mvt.modelToViewY( DnaMolecule.Y_POS ) + zoomFactor * viewportOffset.getY() );
+//                modelRootNode.setOffset( compensatingOffset );
+//                backgroundCellLayer.setOffset( compensatingOffset );
+//            }
+//        } );
 
         // Add the buttons for zooming in and out.
         final PNode zoomInButton = new TextButtonNode( "Zoom In", new PhetFont( 18 ), Color.YELLOW ) {{
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, 2000 );
+                    modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, 2000 );
+                }
+            } );
         }};
         controlsRootNode.addChild( zoomInButton );
         final PNode zoomOutButton = new TextButtonNode( "Zoom Out", new PhetFont( 18 ), Color.YELLOW ) {{
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+//                    backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MIN_ZOOM, 0, 1000 );
+//                    modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MIN_ZOOM, 0, 1000 );
+                    backgroundCellLayer.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
+                    modelRootNode.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
+                }
+            } );
         }};
         controlsRootNode.addChild( zoomOutButton );
 
         // A number of the controls are only shown when we are zoomed all the
         // way in, and some only when zoomed all the way out.
-        zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double zoomFactor ) {
-                boolean zoomedAllTheWayIn = zoomFactor == MAX_ZOOM;
-                biomoleculeToolBoxLayer.setVisible( zoomedAllTheWayIn );
-                proteinCollectionNode.setVisible( zoomedAllTheWayIn );
-                previousGeneButton.setVisible( zoomedAllTheWayIn );
-                nextGeneButton.setVisible( zoomedAllTheWayIn );
-                zoomOutButton.setVisible( zoomedAllTheWayIn );
-                zoomInButton.setVisible( zoomFactor.doubleValue() == MIN_ZOOM );
+//        zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
+//            public void apply( Double zoomFactor ) {
+//                boolean zoomedAllTheWayIn = zoomFactor == MAX_ZOOM;
+//                biomoleculeToolBoxLayer.setVisible( zoomedAllTheWayIn );
+//                proteinCollectionNode.setVisible( zoomedAllTheWayIn );
+//                previousGeneButton.setVisible( zoomedAllTheWayIn );
+//                nextGeneButton.setVisible( zoomedAllTheWayIn );
+//                zoomOutButton.setVisible( zoomedAllTheWayIn );
+//                zoomInButton.setVisible( zoomFactor.doubleValue() == MIN_ZOOM );
+//
+//                // Fade the DNA molecule.
+//                dnaMoleculeNode.setTransparency( zoomFactor.floatValue() );
+//            }
+//        } );
 
-                // Fade the DNA molecule.
-                dnaMoleculeNode.setTransparency( zoomFactor.floatValue() );
+        // Monitor the zoom
+        modelRootNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                System.out.println( "evt.getPropertyName() = " + evt.getPropertyName() );
+                if ( evt.getPropertyName() == "transform" ) {
+                    System.out.println( "Transform Occurred, scale amount = " + ( (AffineTransform) evt.getNewValue() ).getScaleX() );
+                    double scaleFactor = ( (AffineTransform) evt.getNewValue() ).getScaleX();
+                    // Set the visibility of the controls that aren't shown
+                    // unless we are zoomed all the way in.
+                    boolean zoomedAllTheWayIn = scaleFactor > 1 - 1E-6; // Had to do this because it doesn't make it all the way to 1.0 for some reason.
+                    biomoleculeToolBoxLayer.setVisible( zoomedAllTheWayIn );
+                    proteinCollectionNode.setVisible( zoomedAllTheWayIn );
+                    previousGeneButton.setVisible( zoomedAllTheWayIn );
+                    nextGeneButton.setVisible( zoomedAllTheWayIn );
+                    zoomOutButton.setVisible( zoomedAllTheWayIn );
+
+                    // Set the visibility of the controls that aren't shown
+                    // unless we are zoomed all the way out.
+                    zoomInButton.setVisible( scaleFactor <= MIN_ZOOM + 1E-6 );
+
+                    // Fade the DNA molecule.  A linear fade didn't look good,
+                    // so the fade is exponential with a threshold.
+                    float dnaTransparency = (float) Math.pow( scaleFactor, 2 );
+                    if ( dnaTransparency < 0.001 ) {
+                        dnaTransparency = 0;
+                    }
+                    dnaMoleculeNode.setTransparency( dnaTransparency );
+                }
             }
         } );
 
@@ -340,7 +385,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
         }
-        zoomFactorProperty.reset();
+//        zoomFactorProperty.reset();
     }
 
     private static class PActivityDelegateAdapter implements PActivity.PActivityDelegate {
