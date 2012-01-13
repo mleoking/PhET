@@ -187,7 +187,7 @@ public class ProteinLevelChartNode extends PNode {
             // protein to a color.  Width is arbitrarily chosen.
             PPath proteinLevelColorKey = new PhetPPath( new Rectangle2D.Double( 0, 0, 20, height ) );
             proteinLevelColorKey.setStroke( new BasicStroke( 1 ) );
-            proteinLevelColorKey.setPaint( new GradientPaint( 0, (float) height, CellNode.NOMINAL_FILL_COLOR, 0, 0, CellNode.FLORESCENT_FILL_COLOR ) );
+            proteinLevelColorKey.setPaint( new GradientPaint( 0, (float) height, ColorChangingCellNode.NOMINAL_FILL_COLOR, 0, 0, ColorChangingCellNode.FLORESCENT_FILL_COLOR ) );
 
             // Create the main label.
             // TODO: i18n
