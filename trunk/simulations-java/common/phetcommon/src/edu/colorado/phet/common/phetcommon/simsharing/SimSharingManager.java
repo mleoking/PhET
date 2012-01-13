@@ -6,8 +6,6 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -26,12 +24,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.Mongo;
-import com.mongodb.WriteResult;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.getConfig;
@@ -59,9 +51,6 @@ public class SimSharingManager {
     //This number should be increased when the data format changes so that a different parser must be used
     private static final int PARSER_VERSION = 2;
 
-    //Flag for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
-    private static final boolean ALLOW_SERVER_CONNECTION = true;
-
     // Delimiter between fields. We use Tab instead of comma since it is much less common in string representation of objects.
     // Must be public for usage in the processing tools (in Scala)
     public static final String DELIMITER = "\t";
@@ -71,18 +60,9 @@ public class SimSharingManager {
 
     // Singleton
     private static SimSharingManager INSTANCE = null;
-    private Mongo mongo;
 
-    //http://www.cs.umd.edu/class/spring2006/cmsc433/lectures/util-concurrent.pdf
-    private ExecutorService executor = Executors.newSingleThreadExecutor();
     private SimSharingFileLogger simSharingFileLogger;
-
-    //Strings for MongoDB
-    public static final String TIME = "time";
-    public static final String MESSAGE_TYPE = "messageType";
-    public static final String COMPONENT = "component";
-    public static final String ACTION = "action";
-    public static final String PARAMETERS = "parameters";
+    private SimSharingMongoClient mongoClient;
 
     public static final SimSharingManager getInstance() {
         assert ( INSTANCE != null ); // in case we forget to call init first
@@ -141,13 +121,8 @@ public class SimSharingManager {
             propertiesFile.setMachineCookie( machineCookie );
         }
 
-        try {
-            mongo = new Mongo();
-        }
-        catch ( UnknownHostException e ) {
-            e.printStackTrace();
-        }
         simSharingFileLogger = new SimSharingFileLogger( machineCookie, sessionId );
+        mongoClient = new SimSharingMongoClient();
 
         sendStartupMessage( config );
 
@@ -229,7 +204,7 @@ public class SimSharingManager {
                     e.printStackTrace();
                 }
             }
-            sendToServer( m );
+            mongoClient.sendToServer( m, machineCookie, sessionId );
 
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             messageCount++;
@@ -252,58 +227,6 @@ public class SimSharingManager {
             log.set( log.get() + "\n" );
         }
         log.set( log.get() + message );
-    }
-
-    // Sends a message to the server, and prefixes the message with a couple of additional fields.
-    private void sendToServer( final AugmentedMessage message ) {
-        assert ( enabled );
-
-        executor.execute( new Runnable() {
-            public void run() {
-
-                //one database per machine
-                DB database = mongo.getDB( machineCookie );
-
-                //TODO: Authentication
-//                database.authenticate();
-
-                //One collection per session, lets us easily iterate and add messages per session.
-                DBCollection coll = database.getCollection( sessionId );
-
-                BasicDBObject doc = new BasicDBObject() {{
-                    put( TIME, message.time + "" );
-                    put( MESSAGE_TYPE, message.message.messageType.toString() );
-                    put( COMPONENT, message.message.component.toString() );
-                    put( ACTION, message.message.action.toString() );
-                    put( PARAMETERS, new BasicDBObject() {{
-                        for ( Parameter parameter : message.message.parameters ) {
-//                            if ( parameter.name == null ) {
-//                                System.out.println( "parameter = " + parameter );
-//                            }
-//                            else if ( parameter.value == null ) {
-//                                System.out.println( "parameter.value = " + parameter.value );
-//                            }
-                            put( parameter.name.toString(), parameter.value == null ? "null" : parameter.value.toString() );
-                        }
-                    }} );
-                }};
-
-                try {
-                    WriteResult result = coll.insert( doc );
-                }
-
-                //like new MongoException.Network( "can't say something" , ioe )
-                catch ( RuntimeException e ) {
-//                    System.out.println( "My error: " + e.getMessage() );
-//
-//                    Enumeration<String> s = LogManager.getLogManager().getLoggerNames();
-//                    while ( s.hasMoreElements() ) {
-//                        String s1 = s.nextElement();
-//                        System.out.println( "s1 = " + s1 );
-//                    }
-                }
-            }
-        } );
     }
 
     // Gets the id entered by the student. Semantics of this id vary from study to study. If the study requires no id, then returns null.
