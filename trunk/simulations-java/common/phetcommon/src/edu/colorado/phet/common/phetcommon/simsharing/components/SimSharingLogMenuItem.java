@@ -80,26 +80,6 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                 }} ), BorderLayout.CENTER );
                 // Buttons for viewing the log and saving the log.
                 add( new JPanel() {{
-
-                    //Show the user all the locations the log is saved so they can get the file name
-                    add( new SimSharingJButton( showLogs, "Log Locations..." ) {{
-                        addActionListener( new ActionListener() {
-                            JDialog logListDialog = null;
-
-                            public void actionPerformed( ActionEvent e ) {
-                                if ( logListDialog == null ) {
-                                    logListDialog = new JDialog( parent ) {{
-                                        setContentPane( new JTextArea( new ObservableList<String>( SimSharingManager.getInstance().getLogNames() ).mkString( "\n" ) ) {{
-                                            setFont( new PhetFont( 16, true ) );
-                                        }} );
-                                    }};
-                                    logListDialog.pack();
-                                    SwingUtils.centerInParent( logListDialog );
-                                }
-                                logListDialog.setVisible( true );
-                            }
-                        } );
-                    }} );
                     add( new SimSharingJButton( chain( simSharingLogFileDialog, saveButton ), ACTION + "..." ) {{
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
@@ -141,6 +121,25 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                 catch ( IOException ioe ) {
                                     ioe.printStackTrace();
                                 }
+                            }
+                        } );
+                    }} );
+                    //Show the user all the standard locations where the log is saved, so they can get the file name.
+                    add( new SimSharingJButton( showLogs, "Log Locations..." ) {{
+                        addActionListener( new ActionListener() {
+                            JDialog logListDialog = null;
+
+                            public void actionPerformed( ActionEvent e ) {
+                                if ( logListDialog == null ) {
+                                    logListDialog = new JDialog( parent, "Log Locations" ) {{
+                                        setContentPane( new JTextArea( new ObservableList<String>( SimSharingManager.getInstance().getLogNames() ).mkString( "\n" ) ) {{
+                                            setFont( new PhetFont( 12 ) );
+                                        }} );
+                                    }};
+                                    logListDialog.pack();
+                                    SwingUtils.centerInParent( logListDialog );
+                                }
+                                logListDialog.setVisible( true );
                             }
                         } );
                     }} );
