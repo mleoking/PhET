@@ -51,7 +51,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
     // Constants the define the zoom range.
-    private static final double MIN_ZOOM = 0.02;
+    private static final double MIN_ZOOM = 0.005;
     private static final double MAX_ZOOM = 1;
 
     // Inset for several of the controls.
@@ -116,9 +116,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                                                               2 ) );
 
         // Add some other random background cells.
-        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -8000, -4000 ), 3 ) );
-        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -7000, 3000 ), 4 ) );
-        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( 8000, -3000 ), 5 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -BackgroundCellNode.DEFAULT_SIZE.getWidth() * 0.6, -BackgroundCellNode.DEFAULT_SIZE.getHeight() ), 3 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -BackgroundCellNode.DEFAULT_SIZE.getWidth(), 3000 ), 4 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( BackgroundCellNode.DEFAULT_SIZE.getWidth(), -3000 ), 5 ) );
 
 
         // Add the representation of the DNA strand.
