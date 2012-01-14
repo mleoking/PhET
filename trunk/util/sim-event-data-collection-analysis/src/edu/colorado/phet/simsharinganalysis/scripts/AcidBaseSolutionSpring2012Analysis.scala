@@ -22,6 +22,13 @@ object AcidBaseSolutionSpring2012Analysis extends App {
     println("Entries for non-interactive components:")
     nonInteractiveEvents.foreach(println)
 
+    val declaredComponents = AcidBaseSolutionsJavaImport.UserComponents.values.map(_.toString).distinct.toList
+    println("Total number of declared sim-specific user components: " + declaredComponents.length)
+    val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
+    println("Distinct user components that were used (sim-specific + common): " + usedComponents.length + ": " + usedComponents)
+    val missed = declaredComponents.filterNot(usedComponents.contains)
+    println("Which sim-specific user components were missed: " + missed.length + ": " + missed)
+
     //Print the log augmented with tab annotations
     //log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(println)
   }
