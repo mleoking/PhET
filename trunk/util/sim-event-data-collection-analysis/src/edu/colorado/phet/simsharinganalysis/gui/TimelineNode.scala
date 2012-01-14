@@ -23,10 +23,9 @@ class TimelineNode(sessionStartTime: Long, start: Long, end: Long) extends PNode
 
       val tick = new PhetPPath(new Line2D.Double(0, 0, 0, 10), new BasicStroke(1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 1, Array(10f, 10f), 0), Color.lightGray) {
         val x = PlotStudentActivity.toX(t - sessionStartTime)
-        println("x = " + x)
         setOffset(x, textLabel.getFullBounds.getHeight) //one second per pixel
       }
-      this addChild tick
+      addChild(tick)
 
       textLabel.setOffset(tick.getFullBounds.getCenterX - textLabel.getFullBounds.getWidth / 2, 0)
       addChild(textLabel)
