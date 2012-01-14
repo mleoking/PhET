@@ -97,7 +97,7 @@ class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHei
 
   //Show events within the stripe to indicate user activity
   for ( entry <- log.entries ) {
-    val entryTime = entry.time + log.startTime
+    val entryTime = entry.time
     val x = toX(entryTime - sessionStartTime)
 
     //Color based on user/system

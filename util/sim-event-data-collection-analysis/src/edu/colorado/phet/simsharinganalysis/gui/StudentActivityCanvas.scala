@@ -28,10 +28,11 @@ class StudentActivityCanvas(path: String) extends PCanvas {
 
   val colorMap = Map("Molecule Polarity" -> Color.red,
                      "Balancing Chemical Equations" -> Color.green,
-                     "Molecule Shapes" -> new Color(156, 205, 255))
+                     "Molecule Shapes" -> new Color(156, 205, 255),
+                     "Acid-Base Solutions" -> Color.magenta)
 
   //one plot section for each session
-  for ( session: Session <- studySessionsNov2011.all; sessionLogs = all.filter(session); if sessionLogs.length > 0 ) {
+  for ( session: Session <- studySessionsNov2011.all; sessionLogs = all; if sessionLogs.length > 0 ) {
 
     val machines = sessionLogs.map(_.machine).distinct.sorted
     println("machines.length=" + machines.length)
