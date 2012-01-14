@@ -50,6 +50,7 @@ public class WhatIsMountainTime {
         int end = line.lastIndexOf( "\t" );
 
         //TODO: have to add the year ourselves.  This is not good, it will have to be updated every year and rebuild sims.  Maybe we could find a server that includes the year?
+        //Maybe could switch to a server like NTP or http://developer.yahoo.com/util/timeservice/V1/getTime.html
         String substring = line.substring( start, end ) + " 2012";
         System.out.println( "substring = " + substring );
 
