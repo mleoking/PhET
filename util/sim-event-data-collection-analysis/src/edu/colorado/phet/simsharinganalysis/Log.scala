@@ -166,11 +166,6 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
     //Start one event previous in case it was a tab change event
     val entryIndex = entries.indexOf(entry)
     val matches = entries.filter(e => entries.indexOf(e) < entryIndex && e.componentType == "tab").map(_.component).toList
-    if ( matches.length == 0 ) {
-      "First Tab"
-    }
-    else {
-      matches.last
-    }
+    if ( matches.length == 0 ) "First Tab" else matches.last
   }
 }
