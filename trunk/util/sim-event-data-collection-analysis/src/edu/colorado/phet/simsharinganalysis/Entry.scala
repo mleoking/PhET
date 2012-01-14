@@ -2,6 +2,7 @@
 package edu.colorado.phet.simsharinganalysis
 
 import java.util.HashMap
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
 
 // Copyright 2002-2011, University of Colorado
 case class Entry(time: Long, //Time on the client computer when message was created
@@ -9,6 +10,10 @@ case class Entry(time: Long, //Time on the client computer when message was crea
                  component: String,
                  action: String,
                  parameters: Map[String, String]) {
+
+  lazy val parametersToString = parameters.keys.map(key => "" + key + " = " + parameters(key)).toList.mkString(SimSharingManager.DELIMITER)
+
+  override lazy val toString = ( time :: messageType :: component :: action :: parametersToString :: Nil ).mkString(SimSharingManager.DELIMITER)
 
   lazy val componentType = if ( parameters.contains("componentType") ) parameters("componentType") else null
 
