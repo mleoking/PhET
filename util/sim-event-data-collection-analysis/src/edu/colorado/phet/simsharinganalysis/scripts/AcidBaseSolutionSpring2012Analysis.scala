@@ -7,6 +7,20 @@ object AcidBaseSolutionSpring2012Analysis extends App {
   val logs = phet.load("C:\\Users\\Sam\\Desktop\\friday-13th-logs").sortBy(_.startTime)
   println("found: " + logs.length + " logs")
   for ( log <- logs ) {
+
+    //This line prints out how many minutes were used in the log, and how many "user" events were logged.
+    println("minutes of interaction=" + log.minutesUsed + ", numUserEvents=" + log.userEntries.size)
+
+    //This line prints out the number of events per minute:
+    println("num user events per minute: " + log.userEntries.size / log.minutesUsed)
+
+    //This line computes how many times the user pressed the solvent check box:
+    println("How many times pressed the showSolventCheckBox: " + log.filter(_.component == "showSolventCheckBox").length)
+
+    //This line computes which components the user interacted with:
+    val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
+    println(usedComponents)
+
     println("session: " + log.session)
     println("minutes of interaction=" + log.minutesUsed + ", numUserEvents=" + log.userEntries.size)
     println("num user events per minute: " + log.userEntries.size / log.minutesUsed)
@@ -24,7 +38,6 @@ object AcidBaseSolutionSpring2012Analysis extends App {
 
     val declaredComponents = AcidBaseSolutionsJavaImport.UserComponents.values.map(_.toString).distinct.toList
     println("Total number of declared sim-specific user components: " + declaredComponents.length)
-    val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
     println("Distinct user components that were used (sim-specific + common): " + usedComponents.length + ": " + usedComponents)
     val missed = declaredComponents.filterNot(usedComponents.contains)
     println("Which sim-specific user components were missed: " + missed.length + ": " + missed)
