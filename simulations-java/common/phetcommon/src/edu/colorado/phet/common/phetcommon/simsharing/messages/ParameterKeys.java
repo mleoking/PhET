@@ -17,5 +17,6 @@ public enum ParameterKeys implements IParameterKey {
     numberDragEvents, minValue, maxValue, averageValue,
 
     correctedValue,
-    ipAddress
+    ipAddress,
+    mountainTime
 }
