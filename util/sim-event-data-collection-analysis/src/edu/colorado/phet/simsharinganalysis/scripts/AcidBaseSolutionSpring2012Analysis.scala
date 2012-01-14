@@ -15,6 +15,6 @@ object AcidBaseSolutionSpring2012Analysis extends App {
     val tabs = List("introductionTab", "customSolutionTab")
     println("How many events in each tab: " + tabs.map(t => t + "=" + log.selectTab(tabs, t).length))
 
-    log.entries.map(entry => log.getTabComponent(entry)).foreach(println)
+    log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(println)
   }
 }

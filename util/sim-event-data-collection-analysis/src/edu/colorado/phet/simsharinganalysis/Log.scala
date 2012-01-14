@@ -161,11 +161,11 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
   }
 
   //Find out what tab the user was in when one of the entries occurred
-  def getTabComponent(entry: Entry): String = {
+  def getTabComponent(entry: Entry, nameOfFirstTabComponent: String): String = {
     //search back until finding an entry that indicates the tab.
     //Start one event previous in case it was a tab change event
     val entryIndex = entries.indexOf(entry)
     val matches = entries.filter(e => entries.indexOf(e) < entryIndex && e.componentType == "tab").map(_.component).toList
-    if ( matches.length == 0 ) "First Tab" else matches.last
+    if ( matches.length == 0 ) nameOfFirstTabComponent else matches.last
   }
 }
