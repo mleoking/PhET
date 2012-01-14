@@ -14,7 +14,12 @@ import edu.umd.cs.piccolo.{PCamera, PNode}
 import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, PhetPText}
 import edu.colorado.phet.common.phetcommon.view.util.{RectangleUtils, PhetFont}
 
-class LogNode(log: Log, toX: Long => Double, toDeltaX: Long => Double, stripeHeight: Double, sessionStartTime: Long, colorMap: String => Color,
+class LogNode(log: Log,
+              toX: Long => Double,
+              toDeltaX: Long => Double,
+              stripeHeight: Double,
+              sessionStartTime: Long,
+              colorMap: String => Color,
               getColor: Entry => Color,
               camera: PCamera) extends PNode {
 
