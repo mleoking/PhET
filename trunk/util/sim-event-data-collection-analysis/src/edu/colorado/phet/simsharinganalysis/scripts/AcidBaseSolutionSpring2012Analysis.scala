@@ -11,10 +11,10 @@ object AcidBaseSolutionSpring2012Analysis extends App {
     println("num user events per minute: " + log.userEntries.size / log.minutesUsed)
     println("How many times pressed the showSolventCheckBox: " + log.filter(_.component == "showSolventCheckBox").length)
     println("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
-    println("How many times pressed tabs: " + log.filter(_.hasParameter("componentType", "tab")).length)
+    println("How many times pressed tabs: " + log.filter(_.componentType == "tab").length)
     val tabs = List("introductionTab", "customSolutionTab")
     println("How many events in each tab: " + tabs.map(t => t + "=" + log.selectTab(tabs, t).length))
-
+    println("Number of tabs visited: " + log.entries.map(e => log.getTabComponent(e, tabs(0))).distinct.length)
     log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(println)
   }
 }
