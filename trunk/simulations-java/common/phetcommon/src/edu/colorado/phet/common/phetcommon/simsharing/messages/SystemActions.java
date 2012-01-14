@@ -8,6 +8,7 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  */
 public enum SystemActions implements ISystemAction {
     started, stopped, connectedToServer, sentEvent, exited, shown,
-    ipAddressLookup
+    ipAddressLookup,
+    mountainTimeLookup
 
 }

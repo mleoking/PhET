@@ -30,6 +30,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.M
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects.simsharingManager;
+import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime.whatIsMountainTime;
 import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMyIPAddress.whatIsMyIPAddress;
 
 /**
@@ -106,14 +107,15 @@ public class SimSharingManager {
 
             sendStartupMessage( config );
 
-            //Look up ip address and report in a separate thread so it doesn't slow down the main thread too much
-            if ( getConfig( studyName ).collectIPAddress ) {
-                new Thread() {
-                    @Override public void run() {
+            //Look up additional external info and report in a separate thread so it doesn't slow down the main thread too much
+            new Thread() {
+                @Override public void run() {
+                    sendSystemMessage( simsharingManager, mountainTimeLookup, param( mountainTime, whatIsMountainTime() ) );
+                    if ( getConfig( studyName ).collectIPAddress ) {
                         sendSystemMessage( simsharingManager, ipAddressLookup, param( ipAddress, whatIsMyIPAddress() ) );
                     }
-                }.start();
-            }
+                }
+            }.start();
         }
     }
 
