@@ -58,11 +58,11 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
 
   def findEntries(matcher: Seq[Match]) = matcher.filter(matches(_)).toList
 
-  def findEntries(criteria: Entry => Boolean): List[Entry] = entries.filter(criteria(_)).toList
+  def filter(criteria: Entry => Boolean): List[Entry] = entries.filter(criteria(_)).toList
 
-  lazy val userEntries = findEntries(e => e.messageType == "user")
-  lazy val systemEntries = findEntries(e => e.messageType == "system")
-  lazy val modelEntries = findEntries(e => e.messageType == "model")
+  lazy val userEntries = filter(e => e.messageType == "user")
+  lazy val systemEntries = filter(e => e.messageType == "system")
+  lazy val modelEntries = filter(e => e.messageType == "model")
 
   def findEntries(actor: String): List[Entry] = entries.filter(_.component == actor)
 
@@ -107,8 +107,10 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
     list.toList
   }
 
+  def selectTab(s: String): List[Entry] = selectTab(filter(_.hasParameter("componentType", "tab")).map(_.component).distinct, s)
+
   //Choose events occurring just in the specified tab (from the list of available tabs)
-  def selectTab(list: List[String], s: String) = {
+  def selectTab(list: List[String], s: String): List[Entry] = {
     if ( list.head == s ) {selectFirstTab(s)}
     else {selectLaterTab(s)}
   }
@@ -121,10 +123,10 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
       if ( recording ) {
         a += entry
       }
-      if ( entry.matches("tab", "pressed", Map("text" -> tab)) ) {
+      if ( entry.hasParameter("componentType", "tab") && entry.component == tab ) {
         recording = true
       }
-      else if ( entry.matches("tab", "pressed", Map()) ) {
+      else if ( entry.hasParameter("componentType", "tab") ) {
         recording = false
       }
     }
@@ -143,10 +145,10 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
       if ( recording ) {
         a += entry
       }
-      if ( entry.matches("tab", "pressed", Map("text" -> tab)) ) {
+      if ( entry.hasParameter("componentType", "tab") && entry.component == tab ) {
         recording = true
       }
-      else if ( entry.matches("tab", "pressed", Map()) ) {
+      else if ( entry.hasParameter("componentType", "tab") ) {
         recording = false
       }
     }
