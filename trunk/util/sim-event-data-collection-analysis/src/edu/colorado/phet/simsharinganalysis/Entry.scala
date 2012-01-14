@@ -10,14 +10,7 @@ case class Entry(time: Long, //Time on the client computer when message was crea
                  action: String,
                  parameters: Map[String, String]) {
 
-  lazy val componentType = {
-    if ( parameters.contains("componentType") ) {
-      parameters("componentType")
-    }
-    else {
-      null
-    }
-  }
+  lazy val componentType = if ( parameters.contains("componentType") ) parameters("componentType") else null
 
   //Checks for a match for actor, event and optional params
   def matches(actor: String, event: String, params: Map[String, String]): Boolean = {
