@@ -87,9 +87,11 @@ public class SimSharingManager {
 
         enabled = config.hasCommandLineArg( COMMAND_LINE_OPTION );
         simStartedTime = System.currentTimeMillis();
-        studentId = getStudentId();
         sessionId = generateStrongId();
         if ( enabled ) {
+            // JO: Fixes assert( enabled ) in getStudentID, so that trunk sims will run
+            studentId = getStudentId();
+
             studyName = config.getOptionArg( COMMAND_LINE_OPTION );
 
             // Get the machine cookie from the properties file, create one if it doesn't exist.
