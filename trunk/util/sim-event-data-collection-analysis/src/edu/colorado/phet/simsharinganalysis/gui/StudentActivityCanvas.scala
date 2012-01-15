@@ -32,7 +32,7 @@ class StudentActivityCanvas(path: String) extends PCanvas {
                      "Acid-Base Solutions" -> Color.magenta)
 
   //one plot section for each session
-  for ( session: Session <- studySessionsNov2011.all; sessionLogs = all; if sessionLogs.length > 0 ) {
+  for ( session: Session <- studySessionsNov2011.utahStudyMonday :: Nil; sessionLogs = all; if sessionLogs.length > 0 ) {
 
     val machines = sessionLogs.map(_.machine).distinct.sorted
     println("machines.length=" + machines.length)

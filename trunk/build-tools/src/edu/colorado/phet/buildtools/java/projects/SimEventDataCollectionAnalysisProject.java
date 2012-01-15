@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.IOException;
 
 //Project that builds a library jar for code that can inspect, view and provide diagnostic information on data files recorded by the sim event collection project.
-public class SimsharingAnalysisProject extends JavaSimulationProject {
-    public SimsharingAnalysisProject( File file ) throws IOException {
+public class SimEventDataCollectionAnalysisProject extends JavaSimulationProject {
+    public SimEventDataCollectionAnalysisProject( File file ) throws IOException {
         super( file );
     }
 
