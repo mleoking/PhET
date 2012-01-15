@@ -4,9 +4,10 @@ package edu.colorado.phet.simsharinganalysis.scripts
 import edu.colorado.phet.simsharinganalysis._
 
 object AcidBaseSolutionSpring2012Analysis extends App {
-  val logs = phet.load("C:\\Users\\Sam\\Desktop\\friday-13th-logs").sortBy(_.startTime)
+  val logs = phet.load("C:\\Users\\Sam\\Desktop\\kel").sortBy(_.startTime)
   println("found: " + logs.length + " logs")
   for ( log <- logs ) {
+    println("\nSession: " + log.session)
 
     //This line prints out how many minutes were used in the log, and how many "user" events were logged.
     println("minutes of interaction=" + log.minutesUsed + ", numUserEvents=" + log.userEntries.size)
@@ -29,7 +30,7 @@ object AcidBaseSolutionSpring2012Analysis extends App {
     println("How many times pressed tabs: " + log.filter(_.componentType == "tab").length)
     val tabs = List("introductionTab", "customSolutionTab")
     println("How many events in each tab: " + tabs.map(t => t + "=" + log.selectTab(tabs, t).length))
-    println("Number of tabs visited: " + log.entries.map(log.getTabComponent(_, tabs(0))).distinct.length)
+    //    println("Number of tabs visited: " + log.entries.map(log.getTabComponent(_, tabs(0))).distinct.length)
     val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
     println("Number of events on non-interactive components: " + nonInteractiveEvents.length)
     println("Number of distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct.length)
