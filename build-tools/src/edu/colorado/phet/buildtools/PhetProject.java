@@ -30,8 +30,8 @@ import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
+import edu.colorado.phet.buildtools.java.projects.SimEventDataCollectionAnalysisProject;
 import edu.colorado.phet.buildtools.java.projects.SimSharingProject;
-import edu.colorado.phet.buildtools.java.projects.SimsharingAnalysisProject;
 import edu.colorado.phet.buildtools.java.projects.TimesheetProject;
 import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
 import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
@@ -584,7 +584,7 @@ public abstract class PhetProject {
         try {
             projects.add( new TranslationUtilityProject( new File( trunk, BuildToolsPaths.TRANSLATION_UTILITY ) ) );
             projects.add( new SimSharingProject( new File( trunk, BuildToolsPaths.SIM_SHARING_EVENT_DATA_COLLECTION_SERVER ) ) );
-            projects.add( new SimsharingAnalysisProject( new File( trunk, BuildToolsPaths.SIM_SHARING_ANALYSIS ) ) );
+            projects.add( new SimEventDataCollectionAnalysisProject( new File( trunk, BuildToolsPaths.SIM_EVENT_DATA_COLLECTION_ANALYSIS ) ) );
             projects.add( new PhetUpdaterProject( new File( trunk, BuildToolsPaths.PHET_UPDATER ) ) );
             projects.add( new BuildToolsProject( new File( trunk, BuildToolsPaths.BUILD_TOOLS_DIR ) ) );
             projects.add( new TimesheetProject( new File( trunk, BuildToolsPaths.TIMESHEET ) ) );
