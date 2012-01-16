@@ -85,7 +85,6 @@ public class PlateTectonicsApplication extends PhetApplication {
                 }
             } );
         }} );
-        // TODO: developer controls, like fly-by cam, etc.
     }
 
     //----------------------------------------------------------------------------

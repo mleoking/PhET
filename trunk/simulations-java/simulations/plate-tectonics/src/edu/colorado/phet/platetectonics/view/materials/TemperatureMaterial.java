@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.platetectonics.view;
+package edu.colorado.phet.platetectonics.view.materials;
 
 import java.nio.ByteBuffer;
 
@@ -12,7 +12,7 @@ import edu.colorado.phet.platetectonics.model.CrustModel;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class TemperatureMaterial extends GLMaterial {
+public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
     private static final int width = 256;
     private static final int height = 256;
 
@@ -75,5 +75,9 @@ public class TemperatureMaterial extends GLMaterial {
     @Override public void after( GLOptions options ) {
         glShadeModel( GL_SMOOTH );
         glDisable( GL_TEXTURE_2D );
+    }
+
+    public ImmutableVector2F getTextureCoordinates( float density, float temperature, ImmutableVector2F position ) {
+        return temperatureMap( temperature );
     }
 }
