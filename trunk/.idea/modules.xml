@@ -123,7 +123,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/self-driven-particle-model/self-driven-particle-model.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/self-driven-particle-model/self-driven-particle-model.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/semiconductor/semiconductor.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/semiconductor/semiconductor.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" />
-      <module fileurl="file://$PROJECT_DIR$/util/simsharing-analysis/sim-event-data-collection-analysis.iml" filepath="$PROJECT_DIR$/util/simsharing-analysis/sim-event-data-collection-analysis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/sim-event-data-collection-analysis/sim-event-data-collection-analysis.iml" filepath="$PROJECT_DIR$/util/sim-event-data-collection-analysis/sim-event-data-collection-analysis.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/sim-event-data-collection-monitor/sim-event-data-collection-monitor.iml" filepath="$PROJECT_DIR$/util/sim-event-data-collection-monitor/sim-event-data-collection-monitor.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/sim-event-data-collection-server/sim-event-data-collection-server.iml" filepath="$PROJECT_DIR$/util/sim-event-data-collection-server/sim-event-data-collection-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/simsharing/simsharing.iml" filepath="$PROJECT_DIR$/util/simsharing/simsharing.iml" />
