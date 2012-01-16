@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
@@ -47,7 +46,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         PDimension concentrationBarSize = new PDimension( 20, cylinderSize.getHeight() + 50 );
         DilutionsSliderNode concentrationSliderNode = new DilutionsSliderNode( Strings.CONCENTRATION_M1, Strings.ZERO, Strings.HIGH,
                                                                                concentrationBarSize,
-                                                                               new GradientPaint( 0f, 0f, model.solute.solutionColor, 0f, (float) concentrationBarSize.getHeight(), DilutionsColors.WATER_COLOR ),
+                                                                               new GradientPaint( 0f, 0f, model.solute.solutionColor.getMax(), 0f, (float) concentrationBarSize.getHeight(), model.solute.solutionColor.getMin() ),
                                                                                new Color( 0, 0, 0, 0 ), /* invisible track background */
                                                                                model.solutionConcentration, model.getConcentrationRange() );
 

@@ -5,6 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.ColorRange;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
@@ -38,7 +39,7 @@ public class DilutionModel implements Resettable {
 
     public DilutionModel() {
 
-        this.solute = new Solute( Strings.SOLUTE, "?", CONCENTRATION_RANGE.getMax(), Color.RED, 5, 200 ); // hypothetical solute with unknown formula
+        this.solute = new Solute( Strings.SOLUTE, "?", CONCENTRATION_RANGE.getMax(), new ColorRange( new Color( 255, 225, 225 ), Color.RED ), 5, 200 ); // hypothetical solute with unknown formula
         this.solution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
         this.dilution = new Solution( solute, SOLUTE_AMOUNT_RANGE.getDefault(), DILUTION_VOLUME_RANGE.getDefault() );
         this.water = new Solution( solute, 0, dilution.volume.get() - solution.volume.get() );

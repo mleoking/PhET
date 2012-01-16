@@ -6,7 +6,6 @@ DESIGN
 
 HIGH
 - move Molarity sim to a new project?
-- min/max color range for solutes (see beerslawlab.model.Solute)
 - add "Show values" check box (which was deleted in [57987] and [58016])
 
 MEDIUM

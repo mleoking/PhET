@@ -9,12 +9,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.util.ColorRange;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.PNode;
@@ -98,9 +98,9 @@ public class ConcentrationDisplayNode extends PComposite {
     }
 
     // Creates a gradient for the bar and pointer, taking into account the saturation point
-    private static final GradientPaint createGradient( Color soluteColor, double barHeight, double saturatedConcentration, double maxConcentration ) {
+    private static final GradientPaint createGradient( ColorRange soluteColor, double barHeight, double saturatedConcentration, double maxConcentration ) {
         double y = barHeight - ( barHeight * ( saturatedConcentration / maxConcentration ) );
-        return new GradientPaint( 0f, (float) y, soluteColor, 0f, (float) barHeight, DilutionsColors.WATER_COLOR );
+        return new GradientPaint( 0f, (float) y, soluteColor.getMax(), 0f, (float) barHeight, soluteColor.getMin() );
     }
 
     // Vertical bar. Origin at upper left.
