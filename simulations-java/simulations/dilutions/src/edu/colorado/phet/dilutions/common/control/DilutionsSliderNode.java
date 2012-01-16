@@ -12,6 +12,9 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -19,9 +22,9 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
-import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler.Orientation;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -43,12 +46,12 @@ public class DilutionsSliderNode extends PhetPNode {
     private final ThumbNode thumbNode;
 
     // Slider with a default track fill and background color.
-    public DilutionsSliderNode( String title, String minLabel, String maxLabel, final PDimension trackSize,
+    public DilutionsSliderNode( IUserComponent userComponent, String title, String minLabel, String maxLabel, final PDimension trackSize,
                                 final Property<Double> modelValue, DoubleRange range ) {
-        this( title, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range );
+        this( userComponent, title, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range );
     }
 
-    public DilutionsSliderNode( String title, String minLabel, String maxLabel,
+    public DilutionsSliderNode( IUserComponent userComponent, String title, String minLabel, String maxLabel,
                                 final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
                                 final Property<Double> modelValue, DoubleRange range ) {
 
@@ -74,7 +77,7 @@ public class DilutionsSliderNode extends PhetPNode {
         }};
 
         // thumb that moves in the track
-        thumbNode = new ThumbNode( title, THUMB_SIZE, this, trackNode, range, modelValue );
+        thumbNode = new ThumbNode( userComponent, THUMB_SIZE, this, trackNode, range, modelValue );
 
         // min and max labels
         final PNode minNode = new PText( minLabel ) {{
@@ -132,7 +135,7 @@ public class DilutionsSliderNode extends PhetPNode {
         private static final Color THUMB_STROKE_COLOR = Color.BLACK;
         private static final Color THUMB_CENTER_LINE_COLOR = Color.WHITE;
 
-        public ThumbNode( final String name, final PDimension size, PNode relativeNode, PNode trackNode, DoubleRange range, final Property<Double> modelValue ) {
+        public ThumbNode( IUserComponent userComponent, final PDimension size, PNode relativeNode, PNode trackNode, DoubleRange range, final Property<Double> modelValue ) {
 
             PPath bodyNode = new PPath() {{
                 final double arcWidth = 0.25 * size.getWidth();
@@ -153,12 +156,27 @@ public class DilutionsSliderNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( bodyNode, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new SliderThumbDragHandler( Orientation.VERTICAL, relativeNode, trackNode, this, range,
-                                                               new VoidFunction1<Double>() {
-                                                                   public void apply( Double value ) {
-                                                                       modelValue.set( value );
-                                                                   }
-                                                               } ) );
+            addInputEventListener( new ThumbDragHandler( userComponent, relativeNode, trackNode, this, range, modelValue ) );
+        }
+    }
+
+    // Drag handler for the slider thumb, with data collection support.
+    private static class ThumbDragHandler extends SliderThumbDragHandler {
+
+        private final Property<Double> modelValue;
+
+        public ThumbDragHandler( IUserComponent userComponent, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, final Property<Double> modelValue ) {
+            super( userComponent, Orientation.VERTICAL, relativeNode, trackNode, thumbNode, range,
+                   new VoidFunction1<Double>() {
+                       public void apply( Double value ) {
+                           modelValue.set( value );
+                       }
+                   } );
+            this.modelValue = modelValue;
+        }
+
+        @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
+            return super.getParametersForAllEvents( event ).param( ParameterKeys.value, modelValue.get() );
         }
     }
 }
