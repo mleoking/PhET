@@ -16,4 +16,3 @@ LOW
 
 MIGRATE TO COMMON
 - SmartDoubleFormat (or delete if this sim remains qualitative)
-- NamedPoints
