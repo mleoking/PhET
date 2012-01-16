@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
+import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
 import edu.colorado.phet.dilutions.common.control.ShowValuesNode;
 import edu.colorado.phet.dilutions.common.control.SoluteControlNode;
@@ -47,13 +48,13 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
 
         // slider for controlling amount of solute
-        DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
+        DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( UserComponents.soluteAmountSlider, Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
                                                                               new PDimension( 5, cylinderSize.getHeight() ),
                                                                               model.solution.soluteAmount, model.getSoluteAmountRange() );
 
         // slider for controlling volume of solution, sized to match tick marks on the beaker
         final double volumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getSolutionVolumeRange().getMax() ) * cylinderSize.getHeight();
-        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
+        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.volumeSlider, Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
                                                                                 new PDimension( 5, volumeSliderHeight ),
                                                                                 model.solution.volume, model.getSolutionVolumeRange() );
 
