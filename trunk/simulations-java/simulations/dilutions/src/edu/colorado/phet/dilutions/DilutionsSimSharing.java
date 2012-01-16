@@ -4,7 +4,7 @@ package edu.colorado.phet.dilutions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
- * XXX
+ * Sim-sharing enums specific to this sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -12,6 +12,7 @@ public class DilutionsSimSharing {
 
     public enum UserComponents implements IUserComponent {
         showValuesCheckBox, soluteComboBox,
-        soluteAmountSlider, volumeSlider, solutionVolumeSlider, dilutionVolumeSlider, concentrationSlider
+        soluteAmountSlider, volumeSlider, solutionVolumeSlider, dilutionVolumeSlider, concentrationSlider,
+        concentrationBar, concentrationPointer
     }
 }

@@ -1,3 +1,4 @@
+1/16/12 add "non-interactive" messages for parts of the concentration display that the user is likely to try to interact with
 1/16/12 add values to concentration display
 1/16/12 add tick mark labels to beaker
 1/16/12 add data collection feature

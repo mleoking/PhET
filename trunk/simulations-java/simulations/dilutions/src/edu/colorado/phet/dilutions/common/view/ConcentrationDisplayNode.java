@@ -18,7 +18,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
+import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.colorado.phet.dilutions.common.util.SmartDoubleFormat;
 import edu.umd.cs.piccolo.PNode;
@@ -36,7 +38,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConcentrationDisplayNode extends PComposite {
+public class ConcentrationDisplayNode extends PNode {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 16 );
@@ -44,12 +46,8 @@ public class ConcentrationDisplayNode extends PComposite {
     private static final SmartDoubleFormat TICK_FORMAT = new SmartDoubleFormat( "0.00", true, true );
     private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
 
-    public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution, final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
-
-        // this node is not interactive
-        setPickable( false );
-        setChildrenPickable( false );
-
+    public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution,
+                                     final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
         // nodes
         final PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
@@ -98,6 +96,10 @@ public class ConcentrationDisplayNode extends PComposite {
                 saturationIndicatorNode.setVisible( solution.getSaturatedConcentration() < concentrationRange.getMax() );
             }
         } );
+
+        // sim-sharing non-interactive components that we think the user might try to interact with
+        barNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.concentrationBar ) );
+        pointerNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.concentrationPointer ) );
     }
 
     // Creates a gradient for the bar and pointer, taking into account the saturation point
