@@ -42,7 +42,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
     public DilutionCanvas( final DilutionModel model, Frame parentFrame ) {
 
         // Solution beaker, with solution inside of it
-        final BeakerNode solutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
+        final BeakerNode solutionBeakerNode = new BeakerNode( UserComponents.solutionBeaker, model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
                                                               BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.SOLUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT,
                                                               valuesVisible );
         final PDimension cylinderSize = solutionBeakerNode.getCylinderSize();
@@ -63,7 +63,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
                                                                                 model.solution.volume, model.getSolutionVolumeRange() );
 
         // Water beaker, with water inside of it
-        final BeakerNode waterBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
+        final BeakerNode waterBeakerNode = new BeakerNode( UserComponents.waterBeaker, model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
                                                            BEAKER_SCALE_X, BEAKER_SCALE_Y, Symbols.WATER, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT,
                                                            valuesVisible );
         SolutionNode waterNode = new SolutionNode( cylinderSize, waterBeakerNode.getCylinderEndHeight(), model.water, model.getDilutionVolumeRange() );
@@ -72,7 +72,7 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         PNode equalsNode = new FancyEqualsNode();
 
         // dilution beaker, with solution inside of it
-        final BeakerNode dilutionBeakerNode = new BeakerNode( model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
+        final BeakerNode dilutionBeakerNode = new BeakerNode( UserComponents.dilutionBeaker, model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
                                                               BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.DILUTION, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT,
                                                               valuesVisible );
         SolutionNode dilutionNode = new SolutionNode( cylinderSize, dilutionBeakerNode.getCylinderEndHeight(), model.dilution, model.getDilutionVolumeRange() );
