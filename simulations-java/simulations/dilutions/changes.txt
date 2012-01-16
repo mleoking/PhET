@@ -1,3 +1,4 @@
+1/16/12 delete NamedPoints, it adds complexity that's not really necessary
 1/16/12 add solvent (water) to model
 1/16/12 remove strings that are specific to DilutionsApplication from strings file, so they aren't visible to the MolarityApplication translators
 1/16/12 use lowercase "m" in "moles"

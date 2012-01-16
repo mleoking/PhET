@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.dilutions.DilutionsResources.Images;
-import edu.colorado.phet.dilutions.common.util.NamedPoints;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -21,45 +20,38 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * This class encapsulates knowledge about points in the beaker image.
  * The image was built around the shape of a cylinder, and we can programmatically fill that cylinder with solution.
- * Rather than hard code details of the cylinder (offsets and sizes), this class allows us to name points in the image,
- * and provides an interface for interrogating the image.  If the image is ever changed, the points herein will
- * need to be changed.
+ * Methods are provided to access points of interest in the image file.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BeakerImageNode extends PImage {
 
-    private static final String CYLINDER_UPPER_LEFT = "cylinderUpperLeft";
-    private static final String CYLINDER_LOWER_RIGHT = "cylinderLowerRight";
-    private static final String CYLINDER_END_BACKGROUND = "cylinderEndBackground";
-    private static final String CYLINDER_END_FOREGROUND = "cylinderEndForeground";
-
-    private final NamedPoints points;
+    // points of interest in the image file
+    private static final Point2D CYLINDER_UPPER_LEFT = new Point2D.Double( 98, 192 );
+    private static final Point2D CYLINDER_LOWER_RIGHT = new Point2D.Double( 526, 644 );
+    private static final Point2D CYLINDER_END_BACKGROUND = new Point2D.Double( 210, 166 );
+    private static final Point2D CYLINDER_END_FOREGROUND = new Point2D.Double( 210, 218 );
 
     public BeakerImageNode() {
         super( Images.BEAKER_IMAGE );
-
-        // points of interest in the untransformed image, get these via inspection in Photoshop or other image-editing program
-        points = new NamedPoints( this ) {{
-            addOffset( CYLINDER_UPPER_LEFT, new Point2D.Double( 98, 192 ) );
-            addOffset( CYLINDER_LOWER_RIGHT, new Point2D.Double( 526, 644 ) );
-            addOffset( CYLINDER_END_BACKGROUND, new Point2D.Double( 210, 166 ) );
-            addOffset( CYLINDER_END_FOREGROUND, new Point2D.Double( 210, 218 ) );
-        }};
     }
 
     public PDimension getCylinderSize() {
-        Point2D pUpperLeft = points.getOffset( CYLINDER_UPPER_LEFT );
-        Point2D pLowerRight = points.getOffset( CYLINDER_LOWER_RIGHT );
+        Point2D pUpperLeft = getTransformedPoint( CYLINDER_UPPER_LEFT );
+        Point2D pLowerRight = getTransformedPoint( CYLINDER_LOWER_RIGHT );
         return new PDimension( pLowerRight.getX() - pUpperLeft.getX(), pLowerRight.getY() - pUpperLeft.getY() );
     }
 
     public Point2D getCylinderOffset() {
-        return points.getOffset( CYLINDER_UPPER_LEFT );
+        return getTransformedPoint( CYLINDER_UPPER_LEFT );
     }
 
     public double getCylinderEndHeight() {
-        return points.getOffset( CYLINDER_END_FOREGROUND ).getY() - points.getOffset( CYLINDER_END_BACKGROUND ).getY();
+        return getTransformedPoint( CYLINDER_END_FOREGROUND ).getY() - getTransformedPoint( CYLINDER_END_BACKGROUND ).getY();
+    }
+
+    private Point2D getTransformedPoint( Point2D p ) {
+        return getTransform().transform( p, null );
     }
 
     // run this test to check alignment of cylinder with image file
