@@ -6,7 +6,7 @@ DESIGN
 
 HIGH
 - move Molarity sim to a new project?
-- add "Show values" check box (which was deleted in [57987] and [58016])
+- add "Show values" check box (which was deleted in [57987] and [58016]), to left of Reset All button
 
 MEDIUM
 - generalize the mechanism for managing dynamic beaker labels
