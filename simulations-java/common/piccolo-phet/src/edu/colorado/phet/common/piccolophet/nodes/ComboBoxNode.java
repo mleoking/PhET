@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -16,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -27,7 +25,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWindowOnScreen;
 import static java.util.Arrays.asList;
 
 /**
@@ -77,33 +74,17 @@ public class ComboBoxNode<T> extends PNode {
      * @param items the items to show in the combo box
      */
     public ComboBoxNode( List<T> items ) {
-        this( items,
-
-              //Default to use the first item as the selected item
-              items.get( 0 ), new ToString<T>( DEFAULT_FONT ), new Function1<T, String>() {
-            public String apply( T t ) {
-                return t.toString();
-            }
-        } );
-    }
-
-    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator ) {
-        this( items, initialItem, nodeGenerator, new Function1<T, String>() {
-            public String apply( T t ) {
-                return t.toString();
-            }
-        } );
+        this( items, items.get( 0 ), new ItemToPText<T>( DEFAULT_FONT ) );
     }
 
     /**
      * Create a ComboBoxNode with the specified items and specified way to convert the items to strings
      *
-     * @param items          items the items to show in the combo box
+     * @param items         items the items to show in the combo box
      * @param initialItem
-     * @param nodeGenerator  the function to use to convert the T items to PNodes to show in the drop down box or in the selection region
-     * @param simSharingItem for Sim Sharing, the way to get a string from the T for reporting it
+     * @param nodeGenerator the function to use to convert the T items to PNodes to show in the drop down box or in the selection region
      */
-    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator, final Function1<T, String> simSharingItem ) {
+    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator ) {
 
         //Make sure the initial item is in the list
         assert items.contains( initialItem );
@@ -129,10 +110,8 @@ public class ComboBoxNode<T> extends PNode {
             choices[i] = new ListItem<T>( items.get( i ), itemNodes[i], maxWidth ) {{
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-
-                        itemSelected();
-
-                        selectedItem.set( item );
+                        itemSelected( getItem() );
+                        selectedItem.set( getItem() );
                     }
                 } );
             }};
@@ -184,9 +163,8 @@ public class ComboBoxNode<T> extends PNode {
         popup.setOffset( 0, selectedItemNode.getFullBounds().getHeight() + 2 );
     }
 
-    //For simsharing
-    public void itemSelected() {
-//        SimSharingManager.sendUserEvent( simSharingObject, Actions.SELECTED, Parameter.param( Parameters.ITEM, simSharingItem.apply( item ) ) );
+    // Hook for simsharing
+    protected void itemSelected( T item ) {
     }
 
     //Hide the popup and unregister all registered listeners
@@ -275,7 +253,7 @@ public class ComboBoxNode<T> extends PNode {
 
     //PNode for items shown in the popup box, which are highlighted when moused over
     private static class ListItem<T> extends PNode {
-        public final T item;
+        private final T item;
 
         public ListItem( T item, final PNode node, double width ) {
             this.item = item;
@@ -297,13 +275,17 @@ public class ComboBoxNode<T> extends PNode {
             } );
             addInputEventListener( new CursorHandler() );
         }
+
+        public T getItem() {
+            return item;
+        }
     }
 
     //The default strategy for converting T items to PNodes is to show a PText with their toString representation
-    public static class ToString<T> implements Function1<T, PNode> {
+    private static class ItemToPText<T> implements Function1<T, PNode> {
         private final Font font;
 
-        public ToString( Font font ) {
+        public ItemToPText( Font font ) {
             this.font = font;
         }
 
@@ -314,40 +296,39 @@ public class ComboBoxNode<T> extends PNode {
         }
     }
 
-    //Test application
-    public static void main( String[] args ) {
-        new JFrame() {{
-            setContentPane( new PhetPCanvas() {{
-                setBackground( Color.blue );
-                addScreenChild( new ComboBoxNode<String>( asList( "sugar", "salt", "ethanol", "sodium nitrate" ) ) {{
-                    setOffset( 100, 100 );
-                }} );
-                addScreenChild( new TextButtonNode( "Unrelated button" ) {{
-                    setOffset( 400, 100 );
-                }} );
-
-                addScreenChild( new ComboBoxNode<Integer>( asList( 1, 2, 3, 4 ),
-
-                                                           //Demonstrate starting with a later element, see #3014
-                                                           3, new Function1<Integer, PNode>() {
-                    Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
-
-                    public PNode apply( Integer integer ) {
-                        return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
-                    }
-                }, new Function1<Integer, String>() {
-                    public String apply( Integer integer ) {
-                        return integer.toString();
-                    }
-                }
-                ) {{
-                    setOffset( 100, 300 );
-                }} );
-                setZoomEventHandler( getZoomEventHandler() );
-            }} );
-            setDefaultCloseOperation( EXIT_ON_CLOSE );
-            setSize( 800, 600 );
-            centerWindowOnScreen( this );
-        }}.setVisible( true );
-    }
+//    //Test application
+//    public static void main( String[] args ) {
+//        new JFrame() {{
+//            setContentPane( new PhetPCanvas() {{
+//                setBackground( Color.blue );
+//                addScreenChild( new ComboBoxNode<String>( asList( "sugar", "salt", "ethanol", "sodium nitrate" ) ) {{
+//                    setOffset( 100, 100 );
+//                }} );
+//                addScreenChild( new TextButtonNode( "Unrelated button" ) {{
+//                    setOffset( 400, 100 );
+//                }} );
+//
+//                addScreenChild( new ComboBoxNode<Integer>( asList( 1, 2, 3, 4 ),
+//                                                           //Demonstrate starting with a later element, see #3014
+//                                                           3, new Function1<Integer, PNode>() {
+//                    Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
+//
+//                    public PNode apply( Integer integer ) {
+//                        return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
+//                    }
+//                }, new Function1<Integer, String>() {
+//                    public String apply( Integer integer ) {
+//                        return integer.toString();
+//                    }
+//                }
+//                ) {{
+//                    setOffset( 100, 300 );
+//                }} );
+//                setZoomEventHandler( getZoomEventHandler() );
+//            }} );
+//            setDefaultCloseOperation( EXIT_ON_CLOSE );
+//            setSize( 800, 600 );
+//            centerWindowOnScreen( this );
+//        }}.setVisible( true );
+//    }
 }

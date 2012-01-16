@@ -10,9 +10,10 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingComboBoxNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
+import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
 import edu.colorado.phet.dilutions.common.model.Solute;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -62,13 +63,21 @@ public class SoluteControlNode extends PhetPNode {
     }
 
     // Combo box, with custom creation of items (nodes)
-    private static class SoluteComboBoxNode extends ComboBoxNode<Solute> {
+    private static class SoluteComboBoxNode extends SimSharingComboBoxNode<Solute> {
         public SoluteComboBoxNode( ArrayList<Solute> solute, Solute selectedSolute ) {
-            super( solute, selectedSolute, new Function1<Solute, PNode>() {
-                public PNode apply( final Solute solute ) {
-                    return new SoluteItemNode( solute );
-                }
-            } );
+            super( UserComponents.soluteComboBox,
+                   new Function1<Solute, String>() {
+                       public String apply( Solute solute ) {
+                           return solute.name;
+                       }
+                   },
+                   solute, selectedSolute,
+                   new Function1<Solute, PNode>() {
+                       public PNode apply( final Solute solute ) {
+                           return new SoluteItemNode( solute );
+                       }
+                   }
+            );
         }
     }
 

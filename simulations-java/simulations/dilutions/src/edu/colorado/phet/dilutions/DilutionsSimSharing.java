@@ -11,6 +11,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class DilutionsSimSharing {
 
     public enum UserComponents implements IUserComponent {
-        showValuesCheckBox
+        showValuesCheckBox, soluteComboBox
     }
 }

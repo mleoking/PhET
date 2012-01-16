@@ -9,8 +9,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingComboBoxNode;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.umd.cs.piccolo.PNode;
@@ -57,20 +58,25 @@ public class MoleculeControlNode extends PhetPNode {
     }
 
     // Combo box, with custom creation of items (nodes)
-    private static class MoleculeComboBoxNode extends ComboBoxNode<Molecule3D> {
+    private static class MoleculeComboBoxNode extends SimSharingComboBoxNode<Molecule3D> {
         public MoleculeComboBoxNode( ArrayList<Molecule3D> molecules, Molecule3D selectedMolecule ) {
-            super( molecules, selectedMolecule, new Function1<Molecule3D, PNode>() {
+            super( UserComponents.moleculesComboBox,
+                   // sim-sharing function for converting item to String
+                   new Function1<Molecule3D, String>() {
+                       public String apply( Molecule3D molecule3D ) {
+                           return molecule3D.getName();
+                       }
+                   },
+                   molecules, selectedMolecule,
+                   // function for converting item to PNode
+                   new Function1<Molecule3D, PNode>() {
                        public PNode apply( final Molecule3D molecule ) {
                            return new HTMLNode() {{
                                setHTML( MessageFormat.format( "{0} ({1})", molecule.getSymbol(), molecule.getName() ) );
                                setFont( new PhetFont( 14 ) );
                            }};
                        }
-                   }, new Function1<Molecule3D, String>() {
-                public String apply( Molecule3D molecule3D ) {
-                    return molecule3D.getName();
-                }
-            }
+                   }
             );
         }
     }

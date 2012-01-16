@@ -15,7 +15,8 @@ public class MPSimSharing {
         twoAtomsTab, threeAtomsTab, realMoleculesTab,
         bondAngle, bondCharacterNode,
         electronegativityControlA, electronegativityControlB, electronegativityControlC,
-        moleculeAngle, rainbowMenuItem, realMoleculeViewer
+        moleculeAngle, rainbowMenuItem, realMoleculeViewer,
+        moleculesComboBox
     }
 
     public static enum Parameters implements IParameterKey {
