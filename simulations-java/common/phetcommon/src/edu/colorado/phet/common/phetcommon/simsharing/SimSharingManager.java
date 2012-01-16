@@ -89,9 +89,8 @@ public class SimSharingManager {
         simStartedTime = System.currentTimeMillis();
         sessionId = generateStrongId();
         if ( enabled ) {
-            // JO: Fixes assert( enabled ) in getStudentID, so that trunk sims will run
-            studentId = getStudentId();
 
+            studentId = getStudentId();
             studyName = config.getOptionArg( COMMAND_LINE_OPTION );
 
             // Get the machine cookie from the properties file, create one if it doesn't exist.
@@ -139,11 +138,6 @@ public class SimSharingManager {
     public String getStudyName() {
         return studyName;
     }
-
-    // Convenience method for sending an event performed by the system (not necessarily directly by the user).
-//    public static String sendModelEvent( String object, String action, Parameter... parameters ) {
-//        return getInstance().sendEvent( new ModelMessage( object, action, parameters ) );
-//    }
 
     //Convenience overload to provide no parameters
     public static void sendSystemMessage( ISystemObject object, ISystemAction action ) {
