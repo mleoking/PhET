@@ -10,16 +10,21 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -41,10 +46,17 @@ public class BeakerNode extends PComposite {
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
 
+    // tick label properties
+    private static final String[] MAJOR_TICK_LABELS = { "\u00bd", "1" }; // 1/2L, 1L
+    private static final Font TICK_LABEL_FONT = new PhetFont( 20 );
+    private static final Color TICK_LABEL_COLOR = Color.DARK_GRAY;
+    private static final double TICK_LABEL_X_SPACING = 8;
+
     private final BeakerImageNode beakerImageNode;
     private final LabelNode labelNode;
+    private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont ) {
+    public BeakerNode( double maxVolume, String units, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, Property<Boolean> valuesVisible ) {
 
         // this node is not interactive
         setPickable( false );
@@ -71,6 +83,7 @@ public class BeakerNode extends PComposite {
         addChild( beakerImageNode );
 
         // tick marks, arcs that wrap around the edge of the beaker's cylinder
+        tickLabelNodes = new ArrayList<PText>();
         PComposite ticksNode = new PComposite();
         addChild( ticksNode );
         int numberOfTicks = (int) Math.round( maxVolume / MINOR_TICK_SPACING );
@@ -79,12 +92,26 @@ public class BeakerNode extends PComposite {
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY ) - ( cylinderEndHeight / 2 );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {
-                // major tick, no label
+                // major tick
                 PPath tickNode = new PPath( new Arc2D.Double( 0, y, cylinderSize.getWidth(), cylinderEndHeight, 195, 30, Arc2D.OPEN ) ) {{
                     setStroke( MAJOR_TICK_STROKE );
                     setStrokePaint( TICK_COLOR );
                 }};
                 ticksNode.addChild( tickNode );
+
+                // major tick label
+                int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
+                if ( labelIndex < MAJOR_TICK_LABELS.length ) {
+                    String label = MAJOR_TICK_LABELS[labelIndex] + units;
+                    PText textNode = new PText( label ) {{
+                        setFont( TICK_LABEL_FONT );
+                        setTextPaint( TICK_LABEL_COLOR );
+                    }};
+                    ticksNode.addChild( textNode );
+                    textNode.setOffset( tickNode.getFullBounds().getMaxX() + TICK_LABEL_X_SPACING,
+                                        tickNode.getFullBounds().getMaxY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
+                    tickLabelNodes.add( textNode );
+                }
             }
             else {
                 // minor tick, no label
@@ -100,6 +127,19 @@ public class BeakerNode extends PComposite {
         labelNode = new LabelNode( labelText, labelSize, labelFont );
         addChild( labelNode );
         labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.25 * cylinderSize.getHeight() ) );
+
+        valuesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setValuesVisible( visible );
+            }
+        } );
+    }
+
+    // Controls visibility of tick mark values
+    public void setValuesVisible( boolean visible ) {
+        for ( PNode node : tickLabelNodes ) {
+            node.setVisible( visible );
+        }
     }
 
     // Sets the label text on the beaker
@@ -162,8 +202,9 @@ public class BeakerNode extends PComposite {
 
     // test
     public static void main( String[] args ) {
+        Property<Boolean> valuesVisible = new Property<Boolean>( true );
         // beaker
-        final BeakerNode beakerNode = new BeakerNode( 1, 0.75, 0.75, "Rat Poison", new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) ) {{
+        final BeakerNode beakerNode = new BeakerNode( 1, "L", 0.75, 0.75, "Rat Poison", new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ), valuesVisible ) {{
             setOffset( 200, 200 );
         }};
         // red dot at beaker cylinder's origin

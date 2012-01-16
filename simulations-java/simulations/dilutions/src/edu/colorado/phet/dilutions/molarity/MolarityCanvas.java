@@ -34,11 +34,12 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
 
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
 
-
     public MolarityCanvas( final MolarityModel model, Frame parentFrame ) {
 
         // beaker, with solution and precipitate inside of it
-        final BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), 0.75, 0.75, model.solution.solute.get().formula, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) );
+        final BeakerNode beakerNode = new BeakerNode( model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS,
+                                                      0.75, 0.75, model.solution.solute.get().formula, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ),
+                                                      valuesVisible );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, beakerNode.getCylinderEndHeight(), model.solution, model.getSolutionVolumeRange() );
         PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, cylinderSize, beakerNode.getCylinderEndHeight() );
