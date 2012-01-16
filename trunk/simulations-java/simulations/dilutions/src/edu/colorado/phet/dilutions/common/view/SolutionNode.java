@@ -71,9 +71,10 @@ public class SolutionNode extends PComposite {
 
     private void updateNode() {
 
-        // update the color of the solution, accounting for saturation
+        // color
         Color color = DilutionsColors.WATER_COLOR;
         if ( solution.getConcentration() > 0 ) {
+            // compute the color based on concentration
             LinearFunction f = new LinearFunction( 0, solution.getSaturatedConcentration(), 0, 1 );
             double colorScale = f.evaluate( solution.getConcentration() );
             color = solution.solute.get().solutionColor.interpolateLinear( colorScale );
