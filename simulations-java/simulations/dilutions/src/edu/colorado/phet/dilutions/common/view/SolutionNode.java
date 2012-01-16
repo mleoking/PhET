@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -72,7 +71,7 @@ public class SolutionNode extends PComposite {
     private void updateNode() {
 
         // color
-        Color color = DilutionsColors.WATER_COLOR;
+        Color color = solution.solvent.color;
         if ( solution.getConcentration() > 0 ) {
             // compute the color based on concentration
             LinearFunction f = new LinearFunction( 0, solution.getSaturatedConcentration(), 0, 1 );

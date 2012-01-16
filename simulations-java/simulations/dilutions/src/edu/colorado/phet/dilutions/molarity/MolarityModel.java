@@ -11,6 +11,7 @@ import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.model.Solute;
 import edu.colorado.phet.dilutions.common.model.Solution;
+import edu.colorado.phet.dilutions.common.model.Solvent.Water;
 
 /**
  * Model for the "Molarity" module.
@@ -49,7 +50,7 @@ public class MolarityModel implements Resettable {
             assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) );
         }
 
-        this.solution = new Solution( solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
+        this.solution = new Solution( new Water(), solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
     }
 
     public ArrayList<Solute> getSolutes() {

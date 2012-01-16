@@ -13,14 +13,16 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Solution implements Resettable {
 
+    public final Solvent solvent;
     public final Property<Solute> solute;
     public final Property<Double> soluteAmount; // moles
     public final Property<Double> volume; // Liters
     private final Property<Double> concentration; // molarity, moles/Liter (derived property)
     private final Property<Double> precipitateAmount; // moles (derived property)
 
-    public Solution( Solute solute, double soluteAmount, double volume ) {
+    public Solution( Solvent solvent, Solute solute, double soluteAmount, double volume ) {
 
+        this.solvent = solvent;
         this.solute = new Property<Solute>( solute );
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );
