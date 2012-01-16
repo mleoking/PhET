@@ -20,14 +20,9 @@ public class DilutionsResources {
 
     // Strings
     public static class Strings {
-        public static final String BIG = RESOURCES.getLocalizedString( "big" );
         public static final String COBALT_II_NITRATE = RESOURCES.getLocalizedString( "cobaltIINitrate" );
         public static final String COBALT_CHLORIDE = RESOURCES.getLocalizedString( "cobaltChloride" );
-        public static final String CONCENTRATION_M1 = RESOURCES.getLocalizedString( "concentrationM1" );
-        public static final String CONCENTRATION_M2 = RESOURCES.getLocalizedString( "concentrationM2" );
         public static final String COPPER_SULFATE = RESOURCES.getLocalizedString( "copperSulfate" );
-        public static final String DILUTION = RESOURCES.getLocalizedString( "dilution" );
-        public static final String EMPTY = RESOURCES.getLocalizedString( "empty" );
         public static final String FULL = RESOURCES.getLocalizedString( "full" );
         public static final String GOLD_III_CHLORIDE = RESOURCES.getLocalizedString( "goldIIIChloride" );
         public static final String HIGH = RESOURCES.getLocalizedString( "high" );
@@ -42,15 +37,22 @@ public class DilutionsResources {
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );
         public static final String SATURATED = RESOURCES.getLocalizedString( "saturated" );
-        public static final String SMALL = RESOURCES.getLocalizedString( "small" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SOLUTE_AMOUNT = RESOURCES.getLocalizedString( "soluteAmount" );
-        public static final String SOLUTION = RESOURCES.getLocalizedString( "solution" );
         public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
-        public static final String VOLUME_V1 = RESOURCES.getLocalizedString( "volumeV1" );
-        public static final String VOLUME_V2 = RESOURCES.getLocalizedString( "volumeV2" );
         public static final String ZERO = RESOURCES.getLocalizedString( "zero" );
+
+        // Addition strings used by the unpublished DilutionsApplication.
+        public static final String BIG = "big";
+        public static final String CONCENTRATION_M1 = "<html><center>Concentration<br>M<sub>1</sub> (mol/L)</html>";
+        public static final String CONCENTRATION_M2 = "<html><center>Concentration<br>M<sub>2</sub> (mol/L)</html>";
+        public static final String DILUTION = "Dilution";
+        public static final String EMPTY = "empty";
+        public static final String SMALL = "small";
+        public static final String SOLUTION = "Solution";
+        public static final String VOLUME_V1 = "<html><center>Volume<br>V<sub>1</sub> (L)</html>";
+        public static final String VOLUME_V2 = "<html><center>Volume<br>V<sub>2</sub> (L)</html>";
     }
 
     // Symbols, no i18n needed
