@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.dilutions.DilutionsColors;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -73,9 +72,12 @@ public class SolutionNode extends PComposite {
     private void updateNode() {
 
         // update the color of the solution, accounting for saturation
-        LinearFunction f = new LinearFunction( 0, solution.getSaturatedConcentration(), 0, 1 );
-        double colorScale = f.evaluate( solution.getConcentration() );
-        Color color = ColorUtils.interpolateRBGA( DilutionsColors.WATER_COLOR, solution.solute.get().solutionColor, colorScale );
+        Color color = DilutionsColors.WATER_COLOR;
+        if ( solution.getConcentration() > 0 ) {
+            LinearFunction f = new LinearFunction( 0, solution.getSaturatedConcentration(), 0, 1 );
+            double colorScale = f.evaluate( solution.getConcentration() );
+            color = solution.solute.get().solutionColor.interpolateLinear( colorScale );
+        }
         cylinderNode.setPaint( color );
         surfaceNode.setPaint( color );
 
