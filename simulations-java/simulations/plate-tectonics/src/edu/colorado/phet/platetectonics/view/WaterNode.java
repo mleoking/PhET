@@ -89,7 +89,6 @@ public class WaterNode extends GLNode {
             positionBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
             normalBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
             indexBuffer = BufferUtils.createIntBuffer( maxVertexCount );
-            // TODO: update front water mesh at each timestep!
 
             for ( int i = 0; i < maxVertexCount; i++ ) {
                 normalBuffer.put( new float[] { 0, 0, 1 } );

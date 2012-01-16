@@ -9,6 +9,9 @@ import edu.colorado.phet.lwjglphet.shapes.PlanarPolygon;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.view.materials.DensityMaterial;
+import edu.colorado.phet.platetectonics.view.materials.EarthMaterial;
+import edu.colorado.phet.platetectonics.view.materials.TemperatureMaterial;
 
 /**
  * Visual display of a Region (polygonal area in the cross-section of the earth)
@@ -44,16 +47,16 @@ public class RegionNode extends PlanarPolygon {
                     ImmutableVector3F position3d = tab.getModelViewTransform().transformPosition( PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
                     vertices[i] = new ImmutableVector2F( position3d.x, position3d.y );
 
-                    // TODO: make a material superclass for this
-                    switch( tab.colorMode.get() ) {
-                        case DENSITY:
-                            textureCoordinates[i] = DensityMaterial.densityMap( region.getDensity( boundary[i] ) );
-                            break;
-                        case TEMPERATURE:
-                            textureCoordinates[i] = TemperatureMaterial.temperatureMap( region.getTemperature( boundary[i] ) );
-                            break;
+                    // if we have an earth material, modify the texture coordinates for it
+                    if ( getMaterial() instanceof EarthMaterial ) {
+                        textureCoordinates[i] = ( (EarthMaterial) getMaterial() ).getTextureCoordinates( region.getDensity( boundary[i] ),
+                                                                                                         region.getTemperature( boundary[i] ),
+                                                                                                         boundary[i] );
                     }
-
+                    else {
+                        // otherwise ignore texture coordinates for now
+                        textureCoordinates[i] = new ImmutableVector2F( 0.5, 0.5 );
+                    }
                 }
 
                 setVertices( vertices, textureCoordinates );
