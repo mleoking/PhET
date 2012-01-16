@@ -12,16 +12,17 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.kit.Kit;
 import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingComboBoxNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
@@ -99,20 +100,21 @@ public class RealMoleculesControlPanel extends PNode {
             }}, kits ) {{
                 controlHolderNode.setOffset( controlHolderNode.getXOffset(), controlHolderNode.getYOffset() + 100 );
             }} );
-        }} ) : new ComboBoxNode<RealMoleculeShape>(
+        }} ) : new SimSharingComboBoxNode<RealMoleculeShape>(
                 /*---------------------------------------------------------------------------*
                 * combo box molecule selection
                 *----------------------------------------------------------------------------*/
+                UserComponents.moleculeComboBox,
+                new Function1<RealMoleculeShape, String>() {
+                    public String apply( RealMoleculeShape realMoleculeShape ) {
+                        return realMoleculeShape.getDisplayName();
+                    }
+                },
                 Arrays.asList( comboBoxMolecules ),
                 comboBoxMolecules[0],
                 new Function1<RealMoleculeShape, PNode>() {
                     public PNode apply( RealMoleculeShape realMoleculeShape ) {
                         return new HTMLNode( ChemUtils.toSubscript( realMoleculeShape.getDisplayName() ) );
-                    }
-                },
-                new Function1<RealMoleculeShape, String>() {
-                    public String apply( RealMoleculeShape realMoleculeShape ) {
-                        return realMoleculeShape.getDisplayName();
                     }
                 }
         ) {{

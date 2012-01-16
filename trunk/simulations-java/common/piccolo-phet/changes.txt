@@ -1,3 +1,4 @@
+1/16/12 restored sim-sharing to ComboBoxNode via subclassing, see SimSharingComboBoxNode
 1/16/12 fixed sim-sharing for Reset All (ResetAllButtonNode)
 1/11/12 Simsharing: support customization of drag handlers via both subclassing and mutation
 1/11/12 Simsharing: delete the deprecated SimSharingDragHandlerOld, all uses have been replaced
