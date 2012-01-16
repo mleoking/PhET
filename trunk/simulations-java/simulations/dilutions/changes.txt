@@ -1,3 +1,5 @@
+1/16/12 restore "Show values" control in the Molarity tab (property not wired up to other components yet)
+1/16/12 add sim-sharing enums, to be used in any new development
 1/16/12 delete NamedPoints, it adds complexity that's not really necessary
 1/16/12 add solvent (water) to model
 1/16/12 remove strings that are specific to DilutionsApplication from strings file, so they aren't visible to the MolarityApplication translators
