@@ -16,11 +16,14 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
+import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -56,11 +59,8 @@ public class BeakerNode extends PComposite {
     private final LabelNode labelNode;
     private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( double maxVolume, String units, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, Property<Boolean> valuesVisible ) {
-
-        // this node is not interactive
-        setPickable( false );
-        setChildrenPickable( false );
+    public BeakerNode( IUserComponent userComponent, double maxVolume, String units, final double imageScaleX, final double imageScaleY,
+                       String labelText, PDimension labelSize, Font labelFont, Property<Boolean> valuesVisible ) {
 
         // the glass beaker
         beakerImageNode = new BeakerImageNode() {{
@@ -133,6 +133,8 @@ public class BeakerNode extends PComposite {
                 setValuesVisible( visible );
             }
         } );
+
+        addInputEventListener( new NonInteractiveEventHandler( userComponent ) );
     }
 
     // Controls visibility of tick mark values
@@ -204,7 +206,8 @@ public class BeakerNode extends PComposite {
     public static void main( String[] args ) {
         Property<Boolean> valuesVisible = new Property<Boolean>( true );
         // beaker
-        final BeakerNode beakerNode = new BeakerNode( 1, "L", 0.75, 0.75, "Rat Poison", new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ), valuesVisible ) {{
+        final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker, 1, "L", 0.75, 0.75, "Rat Poison",
+                                                      new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ), valuesVisible ) {{
             setOffset( 200, 200 );
         }};
         // red dot at beaker cylinder's origin
