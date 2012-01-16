@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -12,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
+import edu.colorado.phet.dilutions.common.control.ShowValuesNode;
 import edu.colorado.phet.dilutions.common.control.SoluteControlNode;
 import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
@@ -27,6 +29,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MolarityCanvas extends AbstractDilutionsCanvas {
+
+    private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
+
 
     public MolarityCanvas( final MolarityModel model, Frame parentFrame ) {
 
@@ -56,6 +61,9 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
                                                                                           model.solution, model.getConcentrationRange() );
 
+        // Show Values checkbox
+        ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );
+
         // Reset All button
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
             setConfirmationEnabled( false );
@@ -70,6 +78,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
             addChild( concentrationDisplayNode );
             addChild( soluteAmountSliderNode );
             addChild( solutionVolumeSliderNode );
+            addChild( showValuesNode );
             addChild( resetAllButtonNode );
             addChild( soluteControlNode ); // combo box on top
         }
@@ -100,6 +109,9 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
             // centered above concentration bar
             resetAllButtonNode.setOffset( concentrationDisplayNode.getXOffset() + ( concentrationBarSize.getWidth() / 2 ) - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                           soluteControlNode.getYOffset() );
+            // to the left of the Reset All button
+            showValuesNode.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - showValuesNode.getFullBoundsReference().getWidth() - 20,
+                                      soluteControlNode.getYOffset() );
         }
         scaleRootNodeToFitStage();
         centerRootNodeOnStage();

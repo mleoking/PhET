@@ -37,6 +37,7 @@ public class DilutionsResources {
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );
         public static final String SATURATED = RESOURCES.getLocalizedString( "saturated" );
+        public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SOLUTE_AMOUNT = RESOURCES.getLocalizedString( "soluteAmount" );
         public static final String SOLUTION_CONCENTRATION = RESOURCES.getLocalizedString( "solutionConcentration" );
