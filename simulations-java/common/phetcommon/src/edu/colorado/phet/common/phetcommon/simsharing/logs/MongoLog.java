@@ -39,7 +39,7 @@ public class MongoLog implements Log {
     public static String HOST_IP_ADDRESS = System.getProperty( "sim-event-data-collection-server-host-ip-address", "128.138.145.107" );
 
     //On phet-server, port must be in a specific range of allowed ports, see Unfuddle ticket
-    public static int PORT = Integer.parseInt( System.getProperty( "sim-event-data-collection-server-host-port", "44101" ) );
+    public static int PORT = Integer.parseInt( System.getProperty( "sim-event-data-collection-server-host-port", "44100" ) );
 
     //http://www.cs.umd.edu/class/spring2006/cmsc433/lectures/util-concurrent.pdf
     private ExecutorService executor = Executors.newSingleThreadExecutor();
