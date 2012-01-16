@@ -11,7 +11,7 @@ import java.awt.event.{MouseEvent, MouseAdapter, ActionListener, ActionEvent}
 import javax.swing._
 import table.{DefaultTableModel, TableRowSorter}
 import edu.colorado.phet.common.phetcommon.simsharing.logs.MongoLog
-import edu.colorado.phet.common.phetcommon.simsharing.{SimSharingMongoClient, SimSharingManager}
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
 
 /**
  * @author Sam Reid
@@ -54,8 +54,11 @@ class SimEventDataTableModel extends DefaultTableModel(SimEventDataTableModel.co
 }
 
 class SimEventDataCollectionMonitor {
-  //  val mongo = new Mongo("phet-server.colorado.edu")
-  val mongo = new Mongo
+  var HOST_IP_ADDRESS: String = System.getProperty("sim-event-data-collection-server-host-ip-address", "128.138.145.107")
+  var PORT: Int = Integer.parseInt(System.getProperty("sim-event-data-collection-server-host-port", "44100"))
+
+  val mongo = new Mongo(HOST_IP_ADDRESS, PORT)
+  //  val mongo = new Mongo
   val tableModel = new SimEventDataTableModel
   val table = new SimpleTable(tableModel)
   table.peer.addMouseListener(new MouseAdapter {
