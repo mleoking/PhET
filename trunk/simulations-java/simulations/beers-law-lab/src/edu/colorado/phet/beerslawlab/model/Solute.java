@@ -3,7 +3,7 @@ package edu.colorado.phet.beerslawlab.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.beerslawlab.util.ColorRange;
+import edu.colorado.phet.common.phetcommon.util.ColorRange;
 
 /**
  * Model of a solute, an immutable data structure.

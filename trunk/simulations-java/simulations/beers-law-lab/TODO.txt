@@ -25,4 +25,3 @@ SIM-SHARING
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
-- ColorRange to phetcommon
