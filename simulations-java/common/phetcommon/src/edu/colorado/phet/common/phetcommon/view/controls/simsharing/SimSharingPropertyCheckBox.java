@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.controls.simsharing;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -18,7 +17,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
 public class SimSharingPropertyCheckBox extends PropertyCheckBox {
     private final IUserComponent userComponent;
 
-    public SimSharingPropertyCheckBox( IUserComponent userComponent, String text, BooleanProperty property ) {
+    public SimSharingPropertyCheckBox( IUserComponent userComponent, String text, SettableProperty<Boolean> property ) {
         super( text, property );
         this.userComponent = userComponent;
     }
