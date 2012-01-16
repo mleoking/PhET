@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -65,7 +66,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );
 
         // Reset All button
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
+        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, 18, Color.BLACK, new Color( 235, 235, 235 ) ) {{
             setConfirmationEnabled( false );
         }};
 
@@ -135,6 +136,11 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         model.solution.addConcentrationObserver( labelUpdater );
         model.solution.volume.addObserver( labelUpdater );
         model.solution.solute.addObserver( labelUpdater );
+    }
+
+    @Override public void reset() {
+        super.reset();
+        valuesVisible.reset();
     }
 }
 
