@@ -7,16 +7,20 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ColorRange;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.common.model.Solution;
+import edu.colorado.phet.dilutions.common.util.SmartDoubleFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -36,8 +40,11 @@ public class ConcentrationDisplayNode extends PComposite {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 16 );
+    private static final PhetFont VALUE_FONT = new PhetFont( 16 );
+    private static final SmartDoubleFormat TICK_FORMAT = new SmartDoubleFormat( "0.00", true, true );
+    private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
 
-    public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution, final DoubleRange concentrationRange ) {
+    public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution, final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
 
         // this node is not interactive
         setPickable( false );
@@ -46,13 +53,9 @@ public class ConcentrationDisplayNode extends PComposite {
         // nodes
         final PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
-        final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration() );
-        final PNode maxNode = new PText( Strings.HIGH ) {{
-            setFont( MIN_MAX_FONT );
-        }};
-        final PNode minNode = new PText( Strings.ZERO ) {{
-            setFont( MIN_MAX_FONT );
-        }};
+        final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), units, valuesVisible );
+        final PNode maxNode = new RangeValueNode( TICK_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible );
+        final PNode minNode = new RangeValueNode( TICK_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -68,10 +71,10 @@ public class ConcentrationDisplayNode extends PComposite {
         // layout
         {
             // max label centered above the bar
-            maxNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( maxNode.getFullBoundsReference().getWidth() / 2 ),
+            maxNode.setOffset( barNode.getFullBoundsReference().getCenterX(),
                                barNode.getFullBoundsReference().getMinY() - maxNode.getFullBoundsReference().getHeight() - 3 );
             // min label centered below the bar
-            minNode.setOffset( barNode.getFullBoundsReference().getCenterX() - ( minNode.getFullBoundsReference().getWidth() / 2 ),
+            minNode.setOffset( barNode.getFullBoundsReference().getCenterX(),
                                barNode.getFullBoundsReference().getMaxY() + 3 );
             // title centered above max label
             titleNode.setOffset( barNode.getFullBounds().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
@@ -138,14 +141,27 @@ public class ConcentrationDisplayNode extends PComposite {
         private static final int ARROW_TAIL_WIDTH = 13;
 
         private final PDimension barSize;
+        private final String units;
         private final LinearFunction function;
         private PNode arrowNode;
+        private final PText valueNode;
 
-        public PointerNode( PDimension barSize, DoubleRange range, double value ) {
+        public PointerNode( PDimension barSize, DoubleRange range, double value, String units, Property<Boolean> valueVisible ) {
             this.barSize = barSize;
+            this.units = units;
             this.function = new LinearFunction( range.getMin(), range.getMax(), barSize.getHeight(), 0 );
             this.arrowNode = new PNode();
+            this.valueNode = new PText() {{
+                setFont( VALUE_FONT );
+            }};
+            addChild( valueNode );
             setValue( value );
+
+            valueVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    valueNode.setVisible( visible );
+                }
+            } );
         }
 
         public void setArrowPaint( Paint paint ) {
@@ -163,6 +179,41 @@ public class ConcentrationDisplayNode extends PComposite {
                                        ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH );
             arrowNode.setPaint( paint );
             addChild( arrowNode );
+
+            // update the value
+            String valueString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, VALUE_FORMAT.format( value ), units );
+            valueNode.setText( valueString );
+            valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
+                                 arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+        }
+    }
+
+    // Shows a range value, switchable between qualitative and quantitative labels.
+    private static class RangeValueNode extends PText {
+
+        public RangeValueNode( String quantitativeValue, String qualitativeValue, Property<Boolean> valueVisible ) {
+
+            final PText quantitativeNode = new PText( quantitativeValue ) {{
+                setFont( MIN_MAX_FONT );
+            }};
+            final PText qualitativeNode = new PText( qualitativeValue ) {{
+                setFont( MIN_MAX_FONT );
+            }};
+
+            // rendering order
+            addChild( quantitativeNode );
+            addChild( qualitativeNode );
+
+            // layout - horizontally centered
+            qualitativeNode.setOffset( -qualitativeNode.getFullBoundsReference().getWidth() / 2, qualitativeNode.getYOffset() );
+            quantitativeNode.setOffset( -quantitativeNode.getFullBoundsReference().getWidth() / 2, quantitativeNode.getYOffset() );
+
+            valueVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    quantitativeNode.setVisible( visible );
+                    qualitativeNode.setVisible( !visible );
+                }
+            } );
         }
     }
 }

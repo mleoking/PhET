@@ -79,7 +79,8 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
 
         // M2 display (Dilution concentration)
         ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.CONCENTRATION_M2, concentrationBarSize,
-                                                                                           model.dilution, model.getConcentrationRange() );
+                                                                                           model.dilution, model.getConcentrationRange(),
+                                                                                           Strings.UNITS_MOLARITY, valuesVisible );
 
         // V2 control (Dilution volume), sized to match tick marks on the beaker
         final double dilutionVolumeSlider = ( model.getDilutionVolumeRange().getLength() / model.getMaxBeakerVolume() ) * cylinderSize.getHeight();
