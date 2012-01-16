@@ -1,3 +1,4 @@
+1/16/12 use lowercase "m" in "moles"
 1/16/12 add min/max color range for solutes (ala beers-law-lab)
 1/12/12 delete strings related to Beer's Law tab, since that tab became its own sim project
 1/12/12 add Molarity sims flavor
