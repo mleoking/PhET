@@ -14,7 +14,7 @@ import java.net.URL;
  */
 public class WhatIsMyIPAddress {
 
-    public static boolean enabled = Boolean.getBoolean( System.getProperty( "readIp", "true" ) );
+    public static boolean enabled = Boolean.getBoolean( System.getProperty( "readIp", "false" ) );
 
     public static String whatIsMyIPAddress() {
         try {
