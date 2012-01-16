@@ -62,7 +62,8 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         // concentration display
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
-                                                                                          model.solution, model.getConcentrationRange() );
+                                                                                          model.solution, model.getConcentrationRange(),
+                                                                                          Strings.UNITS_MOLARITY, valuesVisible );
 
         // Show Values checkbox
         ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );

@@ -1,3 +1,4 @@
+1/16/12 add values to concentration display
 1/16/12 add tick mark labels to beaker
 1/16/12 add data collection feature
 1/16/12 restore "Show values" control in the Molarity tab (property not wired up to other components yet)
