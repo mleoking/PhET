@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -16,7 +17,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AbstractDilutionsCanvas extends PhetPCanvas {
+public class AbstractDilutionsCanvas extends PhetPCanvas implements Resettable {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( AbstractDilutionsCanvas.class.getCanonicalName() );
 
@@ -63,5 +64,9 @@ public class AbstractDilutionsCanvas extends PhetPCanvas {
             LOGGER.info( "rootNode won't fit in the play area, scaling rootNode by " + scale + " for " + getClass().getName() );
             rootNode.scale( scale );
         }
+    }
+
+    public void reset() {
+        // do nothing
     }
 }
