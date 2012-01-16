@@ -43,7 +43,7 @@ public class DilutionsResources {
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
         public static final String ZERO = RESOURCES.getLocalizedString( "zero" );
 
-        // Addition strings used by the unpublished DilutionsApplication.
+        // Additional strings used by the unpublished DilutionsApplication.
         public static final String BIG = "big";
         public static final String CONCENTRATION_M1 = "<html><center>Concentration<br>M<sub>1</sub> (mol/L)</html>";
         public static final String CONCENTRATION_M2 = "<html><center>Concentration<br>M<sub>2</sub> (mol/L)</html>";
