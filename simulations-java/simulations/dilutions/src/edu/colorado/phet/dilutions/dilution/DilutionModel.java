@@ -74,7 +74,7 @@ public class DilutionModel implements Resettable {
         return SOLUTION_VOLUME_RANGE;
     }
 
-    public DoubleRange getDiutionVolumeRange() {
+    public DoubleRange getDilutionVolumeRange() {
         return DILUTION_VOLUME_RANGE;
     }
 
