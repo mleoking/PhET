@@ -13,8 +13,10 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.view.ResetAllDelegate;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
 import edu.umd.cs.piccolo.PCanvas;
 
 /**
@@ -24,7 +26,7 @@ import edu.umd.cs.piccolo.PCanvas;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ResetAllButtonNode extends TextButtonNode {
+public class ResetAllButtonNode extends SimSharingTextButtonNode {
 
     private final ResetAllDelegate delegate; // delegate that implements Reset All behavior
 
@@ -57,7 +59,7 @@ public class ResetAllButtonNode extends TextButtonNode {
 
     //Convenience constructor that accepts an array of resettables and a font
     public ResetAllButtonNode( final Resettable[] resettables, final Component parent, Font font, Color textColor, Color backgroundColor ) {
-        super( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), font );
+        super( UserComponents.resetAllButton, PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), font );
         setForeground( textColor );
         setBackground( backgroundColor );
         this.delegate = new ResetAllDelegate( resettables, parent );
