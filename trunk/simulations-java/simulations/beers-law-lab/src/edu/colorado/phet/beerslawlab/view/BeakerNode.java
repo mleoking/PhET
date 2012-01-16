@@ -27,9 +27,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BeakerNode extends PComposite {
 
-    public enum TicksLocation {LEFT, RIGHT}
-
-    ; // which edge of the beaker are the ticks on?
+    public enum TicksLocation {LEFT, RIGHT} // which edge of the beaker are the ticks on?
 
     private static final double MAX_VOLUME = 1; // L
 
