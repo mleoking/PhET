@@ -187,7 +187,8 @@ public class MultipleCellsModel implements Resettable {
                 // Note that the index is used as the seed for the shape in
                 // order to make the cell appearance vary, but be deterministic.
                 newCell = new Cell( new PDimension( cellWidth, Cell.DEFAULT_CELL_SIZE.getHeight() ), new Point2D.Double( 0, 0 ), Math.PI * 2 * sizeAndRotationRandomizer.nextDouble(), cellList.size() );
-                newCell.setPosition( cellLocations.get( cellList.size() ) );
+                placeCellInOpenLocation( newCell, cellList );
+//                newCell.setPosition( cellLocations.get( cellList.size() ) );
             }
             cellList.add( newCell );
         }
@@ -231,6 +232,29 @@ public class MultipleCellsModel implements Resettable {
             // Remove cells from the visible list.  Take them off the end.
             while ( visibleCellList.size() > numCells ) {
                 visibleCellList.remove( visibleCellList.size() - 1 );
+            }
+        }
+    }
+
+    // Find a location for the given cell that doesn't overlap with any of the
+    // other cells on the list.
+    private void placeCellInOpenLocation( Cell cell, List<Cell> cellList ) {
+        Point2D openLocation = new Point2D.Double();
+        for ( int i = 0; i == (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
+            double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth();
+            for ( int j = 0; j < 100; j++ ) {
+                double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
+                cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
+                boolean overlapDetected = false;
+                for ( Cell existingCell : cellList ) {
+                    if ( existingCell.getShape().intersects( cell.getShape().getBounds2D() ) ) {
+                        overlapDetected = true;
+                    }
+                }
+                if ( overlapDetected == false ) {
+                    // Found an open spot.
+                    break;
+                }
             }
         }
     }
