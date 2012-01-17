@@ -7,6 +7,8 @@ import javax.swing.JSlider;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
+ * TODO: Not done yet, needs to be implemented.
+ *
  * @author Sam Reid
  */
 public class SimSharingJSlider extends JSlider {
