@@ -52,8 +52,8 @@ public class ConcentrationDisplayNode extends PNode {
         final PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), units, valuesVisible );
-        final PNode maxNode = new RangeValueNode( TICK_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible );
-        final PNode minNode = new RangeValueNode( TICK_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible );
+        final PNode maxNode = new DualLabelNode( TICK_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, MIN_MAX_FONT );
+        final PNode minNode = new DualLabelNode( TICK_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, MIN_MAX_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -187,35 +187,6 @@ public class ConcentrationDisplayNode extends PNode {
             valueNode.setText( valueString );
             valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
                                  arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
-        }
-    }
-
-    // Shows a range value, switchable between qualitative and quantitative labels.
-    private static class RangeValueNode extends PText {
-
-        public RangeValueNode( String quantitativeValue, String qualitativeValue, Property<Boolean> valueVisible ) {
-
-            final PText quantitativeNode = new PText( quantitativeValue ) {{
-                setFont( MIN_MAX_FONT );
-            }};
-            final PText qualitativeNode = new PText( qualitativeValue ) {{
-                setFont( MIN_MAX_FONT );
-            }};
-
-            // rendering order
-            addChild( quantitativeNode );
-            addChild( qualitativeNode );
-
-            // layout - horizontally centered
-            qualitativeNode.setOffset( -qualitativeNode.getFullBoundsReference().getWidth() / 2, qualitativeNode.getYOffset() );
-            quantitativeNode.setOffset( -quantitativeNode.getFullBoundsReference().getWidth() / 2, quantitativeNode.getYOffset() );
-
-            valueVisible.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean visible ) {
-                    quantitativeNode.setVisible( visible );
-                    qualitativeNode.setVisible( !visible );
-                }
-            } );
         }
     }
 }
