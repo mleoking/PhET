@@ -42,6 +42,10 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.f
 import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Images.GRAY_ARROW;
 
 /**
+ * Primary canvas for the tab in which the user interacts with individual
+ * biomolecules in order to transcribe DNA and then translate RNA.  This is,
+ * at the time of this writing, the first tab.
+ *
  * @author John Blanco
  */
 public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettable {
@@ -123,7 +127,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }};
         controlsRootNode.addChild( proteinCollectionNode );
 
-        // TODO: Temp for debug - show the protein capture area.
+        // TODO: Temp for debug - show the protein capture area.  Remove eventually.
 //        final PPath proteinCaptureAreaNode = new PhetPPath( new BasicStroke( 5 ), Color.RED );
 //        model.proteinCaptureAreaProperty.addObserver( new VoidFunction1<Rectangle2D>() {
 //            public void apply( Rectangle2D proteinCaptureAreaBounds ) {
@@ -261,29 +265,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             model.addOffLimitsMotionSpace( mvt.viewToModel( biomoleculeToolBoxNode.getFullBoundsReference() ) );
         }
 
-        // Add the zoom control slider.
-//        controlsRootNode.addChild( new ZoomControlSliderNode( new PDimension( 20, 120 ), zoomFactorProperty, MIN_ZOOM, MAX_ZOOM, 10 ) {{
-//            setOffset( 20, 300 );
-//        }} );
-//        zoomFactorProperty.addObserver( new VoidFunction1<Double>() {
-//            public void apply( Double zoomFactor ) {
-//                // Reset any previous transformation.
-//                modelRootNode.setTransform( new AffineTransform() );
-//                backgroundCellLayer.setTransform( new AffineTransform() );
-//
-//                // Scale the canvas to the zoom factor.
-//                modelRootNode.setScale( zoomFactor );
-//                backgroundCellLayer.setScale( zoomFactor );
-//
-//                // Set the offset so that the center of the currently selected
-//                // gene stays in the same location.
-//                Point2D compensatingOffset = new Point2D.Double( ( 1 - zoomFactor ) * STAGE_SIZE.getWidth() / 2 + zoomFactor * viewportOffset.getX(),
-//                                                                 ( 1 - zoomFactor ) * mvt.modelToViewY( DnaMolecule.Y_POS ) + zoomFactor * viewportOffset.getY() );
-//                modelRootNode.setOffset( compensatingOffset );
-//                backgroundCellLayer.setOffset( compensatingOffset );
-//            }
-//        } );
-
         // Add the buttons for zooming in and out.
         final PNode zoomInButton = new TextButtonNode( "Zoom In", new PhetFont( 18 ), Color.YELLOW ) {{
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
@@ -299,8 +280,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-//                    backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MIN_ZOOM, 0, 1000 );
-//                    modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MIN_ZOOM, 0, 1000 );
                     backgroundCellLayer.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
                     modelRootNode.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
                 }
