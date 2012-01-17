@@ -317,4 +317,85 @@ public class BioShapeUtils {
 
         return createRoundedShapeFromPoints( pointList );
     }
+
+    /**
+     * Create a shape that looks roughly like a 2D representation of E. Coli,
+     * which is essentially a rectangle with round ends.  Some randomization is
+     * added to the shape to make it look more like a natural object.
+     *
+     * @param center
+     * @param width
+     * @param height
+     * @param rotationAngle
+     * @return
+     */
+    public static Shape createEColiLikeShape( Point2D center, double width, double height, double rotationAngle, int seed ) {
+        assert width > height; // Param checking.  Can't create the needed shape if this isn't true.
+
+        // Tweakable parameters that affect number of points used to define
+        // the shape.
+        final int numPointsPerLineSegment = 8;
+        final int numPointsPerCurvedSegment = 8;
+
+        // Adjustable parameter that affects the degree to which the shape is
+        // altered to make it look somewhat irregular.  Zero means no change
+        // from the perfect geometric shape, 1 means a lot of variation.
+        final double alterationFactor = 0.025;
+
+        // The list of points that will define the shape.
+        List<Point2D> pointList = new ArrayList<Point2D>();
+
+        // Random number generator used for deviation from the perfect
+        // geometric shape.
+        Random rand = new Random( seed );
+
+        // Variables needed for the calculations.
+        double curveRadius = height / 2;
+        double lineLength = width - height;
+        double rightCurveCenterX = width / 2 - height / 2;
+        double leftCurveCenterX = -width / 2 + height / 2;
+        double centerY = 0;
+
+        // Create a shape that is like E. Coli.  Start at the left side of the
+        // line that defines the top edge and move around the shape in a
+        // clockwise direction.
+
+        // Add points for the top line.
+        for ( int i = 0; i < numPointsPerLineSegment; i++ ) {
+            Point2D.Double nextPoint = new Point2D.Double( leftCurveCenterX + i * ( lineLength / ( numPointsPerLineSegment - 1 ) ), centerY - height / 2 );
+            nextPoint.setLocation( nextPoint.getX(), nextPoint.getY() + ( rand.nextDouble() - 0.5 ) * height * alterationFactor );
+            pointList.add( nextPoint );
+        }
+        // Add points that define the right curved edge.  Skip what would be
+        // the first point, because it would overlap with the previous segment.
+        for ( int i = 1; i < numPointsPerCurvedSegment; i++ ) {
+            double angle = -Math.PI / 2 + i * ( Math.PI / ( numPointsPerCurvedSegment - 1 ) );
+            double radius = curveRadius + ( rand.nextDouble() - 0.5 ) * height * alterationFactor;
+            pointList.add( new Point2D.Double( rightCurveCenterX + radius * Math.cos( angle ), radius * Math.sin( angle ) ) );
+        }
+        // Add points that define the bottom line.  Skip what would be
+        // the first point, because it would overlap with the previous segment.
+        for ( int i = 1; i < numPointsPerLineSegment; i++ ) {
+            Point2D.Double nextPoint = new Point2D.Double( rightCurveCenterX - i * ( lineLength / ( numPointsPerLineSegment - 1 ) ), centerY + height / 2 );
+            nextPoint.setLocation( nextPoint.getX(), nextPoint.getY() + ( rand.nextDouble() - 0.5 ) * height * alterationFactor );
+            pointList.add( nextPoint );
+        }
+        // Add points that define the left curved side.  Skip what would be
+        // the first point and last points, because the would overlap with the
+        // previous and next segment (respectively).
+        for ( int i = 1; i < numPointsPerCurvedSegment - 1; i++ ) {
+            double angle = Math.PI / 2 + i * ( Math.PI / ( numPointsPerCurvedSegment - 1 ) );
+            double radius = curveRadius + ( rand.nextDouble() - 0.5 ) * height * alterationFactor;
+            pointList.add( new Point2D.Double( leftCurveCenterX + radius * Math.cos( angle ), radius * Math.sin( angle ) ) );
+        }
+
+        // Create the unrotated and untranslated shape.
+        Shape untranslatedAndUnrotatedShape = createRoundedShapeFromPoints( pointList );
+
+        // Rotate and translate.
+        Shape untranslatedShape = AffineTransform.getRotateInstance( rotationAngle ).createTransformedShape( untranslatedAndUnrotatedShape );
+        Shape finalShape = AffineTransform.getTranslateInstance( center.getX(), center.getY() ).createTransformedShape( untranslatedShape );
+
+        return finalShape;
+    }
 }
