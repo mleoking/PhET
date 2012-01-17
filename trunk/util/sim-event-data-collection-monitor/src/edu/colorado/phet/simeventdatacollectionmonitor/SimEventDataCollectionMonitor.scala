@@ -44,6 +44,10 @@ class SimEventDataTableModel extends DefaultTableModel(SimEventDataTableModel.co
     -1
   }
 
+  def setLastEventReceived(session: String, date: Date) {
+    setValueAt(date, getRow(session), 4)
+  }
+
   def setEventCount(session: String, count: java.lang.Long) {
     setValueAt(count.asInstanceOf[Object], getRow(session), 5)
   }
@@ -166,15 +170,16 @@ class SimEventDataCollectionMonitor {
 
         //Read the server time of the last message instead of relying on unsynchronized client clocks
         val endMessage = cursor.next()
-        val endMessageTime = endMessage.get("_id").asInstanceOf[ObjectId].getTime
+        val endMessageTime = new Date(endMessage.get("_id").asInstanceOf[ObjectId].getTime)
 
-        val row = Array(machineID, session, study, userID, new Date(endMessageTime), numberMessages.asInstanceOf[Object])
+        val row = Array(machineID, session, study, userID, endMessageTime, numberMessages.asInstanceOf[Object])
 
         SwingUtilities.invokeLater(new Runnable {
           def run() {
             //If the tableModel already has this session, then update the updateable fields
             if ( tableModel.containsSession(session) ) {
               tableModel.setEventCount(session, collection.getCount)
+              tableModel.setLastEventReceived(session, endMessageTime)
             }
 
             //Otherwise add it as a new row
