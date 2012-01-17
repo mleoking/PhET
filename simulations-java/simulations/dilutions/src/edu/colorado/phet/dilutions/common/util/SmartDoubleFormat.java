@@ -20,8 +20,8 @@ public class SmartDoubleFormat {
      * Constructor
      *
      * @param pattern                  the NumberFormat pattern used to format values
-     * @param formatIntegersAsIntegers if true, show 0 as "0"; otherwise format using pattern
-     * @param showZeroAsInteger        if true, format integers with no decimal places; otherwise format using pattern
+     * @param formatIntegersAsIntegers if true, format integers with no decimal places; otherwise format using pattern
+     * @param showZeroAsInteger        if true, show 0 as "0"; otherwise format using pattern
      */
     public SmartDoubleFormat( String pattern, boolean formatIntegersAsIntegers, boolean showZeroAsInteger ) {
         this.defaultFormat = new DefaultDecimalFormat( pattern );
