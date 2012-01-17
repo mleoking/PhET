@@ -47,6 +47,8 @@ public class HandleNode extends GLNode {
         this.isRightHandle = isRightHandle;
         model = tab.getPlateMotionModel();
 
+        requireEnabled( GL_BLEND );
+
         // update visibility correctly
         SimpleObserver visibilityObserver = new SimpleObserver() {
             public void update() {
@@ -77,21 +79,16 @@ public class HandleNode extends GLNode {
         updateLocations();
 
         handleMesh = new GridMesh( 2, radialColumns, handlePositions ) {
+            {
+                requireEnabled( GL_LIGHTING );
+                requireEnabled( GL_COLOR_MATERIAL );
+                requireEnabled( GL_CULL_FACE );
+            }
+
             @Override protected void preRender( GLOptions options ) {
                 super.preRender( options );
 
-                glEnable( GL_LIGHTING );
-                glEnable( GL_COLOR_MATERIAL );
                 glColorMaterial( GL_FRONT, GL_DIFFUSE );
-                glEnable( GL_CULL_FACE );
-            }
-
-            @Override protected void postRender( GLOptions options ) {
-                super.postRender( options );
-
-                glDisable( GL_COLOR_MATERIAL );
-                glDisable( GL_LIGHTING );
-                glDisable( GL_CULL_FACE );
             }
         };
         addChild( handleMesh );
@@ -420,18 +417,5 @@ public class HandleNode extends GLNode {
 
     private ImmutableVector3F getBase() {
         return convertToRadial( offset.get() );
-    }
-
-    @Override protected void preRender( GLOptions options ) {
-        super.preRender( options );
-
-        glEnable( GL_BLEND );
-    }
-
-    @Override protected void postRender( GLOptions options ) {
-        super.postRender( options );
-
-        // TODO: fix blend handling, this disable was screwing other stuff up
-//        glDisable( GL_BLEND );
     }
 }

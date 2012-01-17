@@ -33,6 +33,9 @@ public class WaterNode extends GLNode {
         this.model = model;
         this.module = module;
 
+        // allow blending of the alpha in the water
+        requireEnabled( GL_BLEND );
+
         int rows = terrain.numZSamples;
         int columns = terrain.numXSamples;
         ImmutableVector3F[] positions = new ImmutableVector3F[rows * columns];
@@ -56,23 +59,6 @@ public class WaterNode extends GLNode {
             setMaterial( new ColorMaterial( 0.1f, 0.3f, 0.7f, 0.5f ) );
             setRenderPass( RenderPass.TRANSPARENCY );
         }} );
-    }
-
-    @Override protected void preRender( GLOptions options ) {
-        super.preRender( options );
-
-        // don't write to the depth buffer
-//            glDepthMask( false );
-        glEnable( GL_BLEND );
-        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    }
-
-    @Override protected void postRender( GLOptions options ) {
-        super.postRender( options );
-
-        // write to the depth buffer again
-//            glDepthMask( true );
-        glDisable( GL_BLEND );
     }
 
     /**

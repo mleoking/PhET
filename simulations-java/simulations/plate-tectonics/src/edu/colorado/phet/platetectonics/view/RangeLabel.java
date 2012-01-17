@@ -38,7 +38,7 @@ public class RangeLabel extends GLNode {
         // label is centered between the top and bottom
         this( top, bottom, label, scale, new Property<ImmutableVector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
             SimpleObserver recenterLabelPosition = new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     set( top.get().plus( bottom.get() ).times( 0.5f ) );
                 }
             };
@@ -59,7 +59,7 @@ public class RangeLabel extends GLNode {
             scale( PIXEL_SCALE );
         }} ) {{
             SimpleObserver updateObserver = new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     transform.set( ImmutableMatrix4F.translation( labelLocation.get().x,
                                                                   labelLocation.get().y,
                                                                   labelLocation.get().z ) );
@@ -73,17 +73,9 @@ public class RangeLabel extends GLNode {
             scale.addObserver( updateObserver );
         }};
         addChild( labelNode );
-    }
 
-    @Override protected void preRender( GLOptions options ) {
-        glDisable( GL_DEPTH_TEST );
-        glEnable( GL_BLEND );
-        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-    }
-
-    @Override protected void postRender( GLOptions options ) {
-        glEnable( GL_DEPTH_TEST );
-        glDisable( GL_BLEND ); // TODO: reset back to normal value
+        requireDisabled( GL_DEPTH_TEST );
+        requireEnabled( GL_BLEND );
     }
 
     @Override public void renderSelf( GLOptions options ) {

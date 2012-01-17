@@ -165,7 +165,7 @@ public class PlateMotionModel extends PlateModel {
         }
 
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE, mantleTop, mantleBottom, new Constant<Double>( 3700.0 ),
-                                             new Constant<Double>( (double)CrustModel.ZERO_CELSIUS ) ) );
+                                             new Constant<Double>( (double) CrustModel.ZERO_CELSIUS ) ) );
     }
 
     private <T> void addDebugPropertyListener( final String name, final Property<T> property ) {
@@ -241,7 +241,7 @@ public class PlateMotionModel extends PlateModel {
         updateTerrain();
         leftCrustRegion = new SimpleConstantRegion( Type.CRUST, leftCrustTop, leftCrustBottom,
                                                     new Constant<Double>( (double) getFreshDensity( type ) ),
-                                                    new Constant<Double>( (double)CrustModel.ZERO_CELSIUS ) );
+                                                    new Constant<Double>( (double) CrustModel.ZERO_CELSIUS ) );
         addRegion( leftCrustRegion );
         modelChanged.updateListeners();
     }
@@ -258,7 +258,7 @@ public class PlateMotionModel extends PlateModel {
         updateTerrain();
         rightCrustRegion = new SimpleConstantRegion( Type.CRUST, rightCrustTop, rightCrustBottom,
                                                      new Constant<Double>( (double) getFreshDensity( type ) ),
-                                                     new Constant<Double>( (double)CrustModel.ZERO_CELSIUS ) );
+                                                     new Constant<Double>( (double) CrustModel.ZERO_CELSIUS ) );
         addRegion( rightCrustRegion );
         modelChanged.updateListeners();
     }
