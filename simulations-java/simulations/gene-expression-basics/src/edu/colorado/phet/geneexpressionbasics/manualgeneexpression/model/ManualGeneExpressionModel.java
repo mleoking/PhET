@@ -234,7 +234,6 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
             if ( offLimitsMotionSpace.equals( newOffLimitsSpace ) ) {
                 // An equivalent space already exists, so don't bother adding
                 // this one.
-                System.out.println( "Skipping addition of space." );
                 return;
             }
         }
