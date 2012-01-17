@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -62,9 +63,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // Inset for several of the controls.
     private static final double INSET = 15;
 
-    // Value used for comparing numbers that might be slightly off due to
-    // floating point resolution.
-    private static final double FLOATING_POINT_COMPARISON_FACTOR = 1E-7;
+    // Value used for comparing numbers that represent the scale factor of the
+    // PNodes.  Not entirely sure why this is needed, but it turns out that
+    // when a zoom in or zoom out is performed, the scale gets close but not
+    // exactly to the target value.  Hence the need for this constant.  Its
+    // values was empirically determined.
+    private static final double SCALE_COMPARISON_FACTOR = 1E-4;
 
     // Debug variable for turning on the visibility of the motion bounds.
     private static final boolean SHOW_MOTION_BOUNDS = false;
@@ -82,6 +86,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // functionality.
     private PNode backgroundCellLayer;
     private PNode modelRootNode;
+
+    // Background cell that the user zooms in and out of.
+    protected BackgroundCellNode backgroundCell;
 
     /**
      * Constructor.
@@ -134,9 +141,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         // Add the background cell that will enclose the DNA strand.  Clicking
         // on this cell will zoom in when we are in the zoomed out state.
-        BackgroundCellNode backgroundCell = new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
-                                                                                     DnaMolecule.Y_POS ),
-                                                                    6 );
+        backgroundCell = new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
+                                                                  DnaMolecule.Y_POS ),
+                                                 6 );
         backgroundCell.setPickable( true );
         backgroundCell.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseClicked( PInputEvent event ) {
@@ -317,21 +324,27 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         // Monitor the zoom
         modelRootNode.addPropertyChangeListener( new PropertyChangeListener() {
+
+            private final CursorHandler handCursor = new CursorHandler( CursorHandler.HAND );
+            private final CursorHandler defaultCursor = new CursorHandler( CursorHandler.DEFAULT );
+
             public void propertyChange( PropertyChangeEvent evt ) {
                 if ( evt.getPropertyName() == "transform" ) {
                     double scaleFactor = ( (AffineTransform) evt.getNewValue() ).getScaleX();
+                    boolean zoomedOut = scaleFactor < MIN_ZOOM + SCALE_COMPARISON_FACTOR;
+                    boolean zoomedIn = scaleFactor > MAX_ZOOM - SCALE_COMPARISON_FACTOR;
+
                     // Set the visibility of the controls that aren't shown
                     // unless we are zoomed all the way in.
-                    boolean zoomedAllTheWayIn = scaleFactor > 1 - FLOATING_POINT_COMPARISON_FACTOR;
-                    biomoleculeToolBoxLayer.setVisible( zoomedAllTheWayIn );
-                    proteinCollectionNode.setVisible( zoomedAllTheWayIn );
-                    previousGeneButton.setVisible( zoomedAllTheWayIn );
-                    nextGeneButton.setVisible( zoomedAllTheWayIn );
-                    zoomOutButton.setVisible( zoomedAllTheWayIn );
+                    biomoleculeToolBoxLayer.setVisible( zoomedIn );
+                    proteinCollectionNode.setVisible( zoomedIn );
+                    previousGeneButton.setVisible( zoomedIn );
+                    nextGeneButton.setVisible( zoomedIn );
+                    zoomOutButton.setVisible( zoomedIn );
 
                     // Set the visibility of the controls that aren't shown
                     // unless we are zoomed all the way out.
-                    zoomInButton.setVisible( scaleFactor <= MIN_ZOOM + FLOATING_POINT_COMPARISON_FACTOR );
+                    zoomInButton.setVisible( zoomedOut );
 
                     // Fade the DNA molecule.  A linear fade didn't look good,
                     // so the fade is exponential with a threshold.
@@ -340,10 +353,26 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                         dnaTransparency = 0;
                     }
                     dnaMoleculeNode.setTransparency( dnaTransparency );
+
+                    // Change the cursor handler on the cell when zoomed all
+                    // the way out in order to indicate that it is clickable.
+                    if ( zoomedOut ) {
+                        if ( arrayContainsItem( backgroundCell.getInputEventListeners(), defaultCursor ) ) {
+                            backgroundCell.removeInputEventListener( defaultCursor );
+                        }
+                        if ( !arrayContainsItem( backgroundCell.getInputEventListeners(), handCursor ) ) {
+                            backgroundCell.addInputEventListener( handCursor );
+                        }
+                    }
+                    else if ( arrayContainsItem( backgroundCell.getInputEventListeners(), handCursor ) ) {
+                        backgroundCell.removeInputEventListener( handCursor );
+                        if ( !arrayContainsItem( backgroundCell.getInputEventListeners(), defaultCursor ) ) {
+                            backgroundCell.addInputEventListener( defaultCursor );
+                        }
+                    }
                 }
             }
         } );
-
 
         // Add a node to depict the motion bounds.  This is for debug purposes.
         if ( SHOW_MOTION_BOUNDS ) {
@@ -377,11 +406,30 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
     }
 
+    // Convenience function for checking if an item is contained in an array.
+    private boolean arrayContainsItem( Object[] array, Object item ) {
+        boolean contained = false;
+        for ( int i = 0; i < array.length; i++ ) {
+            if ( item == array[i] ) {
+                contained = true;
+                break;
+            }
+        }
+        return contained;
+    }
+
     private boolean isZoomedOut() {
-        return backgroundCellLayer.getScale() <= MIN_ZOOM + FLOATING_POINT_COMPARISON_FACTOR &&
-               backgroundCellLayer.getScale() >= MIN_ZOOM - FLOATING_POINT_COMPARISON_FACTOR &&
-               modelRootNode.getScale() <= MIN_ZOOM + FLOATING_POINT_COMPARISON_FACTOR &&
-               modelRootNode.getScale() >= MIN_ZOOM - FLOATING_POINT_COMPARISON_FACTOR;
+        return backgroundCellLayer.getScale() <= MIN_ZOOM + SCALE_COMPARISON_FACTOR &&
+               backgroundCellLayer.getScale() >= MIN_ZOOM - SCALE_COMPARISON_FACTOR &&
+               modelRootNode.getScale() <= MIN_ZOOM + SCALE_COMPARISON_FACTOR &&
+               modelRootNode.getScale() >= MIN_ZOOM - SCALE_COMPARISON_FACTOR;
+    }
+
+    private boolean isZoomedIn() {
+        return backgroundCellLayer.getScale() <= MAX_ZOOM + SCALE_COMPARISON_FACTOR &&
+               backgroundCellLayer.getScale() >= MAX_ZOOM - SCALE_COMPARISON_FACTOR &&
+               modelRootNode.getScale() <= MAX_ZOOM + SCALE_COMPARISON_FACTOR &&
+               modelRootNode.getScale() >= MAX_ZOOM - SCALE_COMPARISON_FACTOR;
     }
 
     public ImmutableVector2D getViewportOffset() {
@@ -392,7 +440,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
         }
-        if ( isZoomedOut() ) {
+        if ( !isZoomedIn() ) {
             zoomIn();
         }
     }
