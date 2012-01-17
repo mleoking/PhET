@@ -1,3 +1,4 @@
+1/17/12 generalize the label that can be switched between quantitative and qualitative representations
 1/16/12 add "non-interactive" message to beaker
 1/16/12 add "non-interactive" messages for parts of the concentration display that the user is likely to try to interact with
 1/16/12 add values to concentration display
