@@ -30,6 +30,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
+import static edu.colorado.phet.gravityandorbits.GAOSimSharing.UserComponents.*;
 import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
 
 /**
@@ -152,6 +153,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
         add( new GravityAndOrbitsMode(
+                sunEarthRadioButton,
                 sunEarth.forceScale,
                 false,
                 sunEarth.dt,
@@ -170,6 +172,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             addBody( new Earth( getMaxPathLength(), sunEarth.earth ) );
         }} );
         add( new GravityAndOrbitsMode(
+                sunEarthMoonRadioButton,
                 sunEarthMoon.forceScale,
                 false,
                 sunEarthMoon.dt,
@@ -192,6 +195,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }} );
         int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
         add( new GravityAndOrbitsMode(
+                earthMoonRadioButton,
                 earthMoon.forceScale,
                 false,
                 GravityAndOrbitsClock.DEFAULT_DT / 3,
@@ -216,6 +220,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             }
         };
         add( new GravityAndOrbitsMode(
+                earthSpaceStationRadioButton,
                 earthSpaceStation.forceScale,
                 false,
                 GravityAndOrbitsClock.DEFAULT_DT * 9E-4,

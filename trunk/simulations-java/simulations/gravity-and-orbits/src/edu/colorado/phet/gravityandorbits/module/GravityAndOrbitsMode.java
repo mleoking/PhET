@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -55,6 +56,7 @@ public abstract class GravityAndOrbitsMode {
     private final Function1<Double, String> timeFormatter;
     private final Image iconImage;
     private final double defaultOrbitalPeriod;//Precomputed value for the orbital period under default conditions (i.e. no other changes), for purposes of determining the path length (about 2 orbits)
+    private final IUserComponent userComponent;
     private final double dt;
     private final double velocityVectorScale; //How much to scale (shrink or grow) the velocity vectors; a mapping from meters/second to stage coordinates
     public final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;//Function that creates a PNode to readout the mass for the specified bodynode (with the specified visibility flag)
@@ -75,9 +77,10 @@ public abstract class GravityAndOrbitsMode {
     public final ModeListParameterList p;
 
     //Create a new GravityAndOrbitsMode that shares ModeListParameterList values with other modes
-    public GravityAndOrbitsMode( double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage, double defaultOrbitalPeriod, double velocityVectorScale,
+    public GravityAndOrbitsMode( IUserComponent userComponent, double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage, double defaultOrbitalPeriod, double velocityVectorScale,
                                  Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory, Line2D.Double initialMeasuringTapeLocation, final double defaultZoomScale,
                                  final ImmutableVector2D zoomOffset, double gridSpacing, Point2D.Double gridCenter, final ModeListParameterList p ) {
+        this.userComponent = userComponent;
         this.dt = dt;
         this.p = p;
         this.forceScale = forceScale;
@@ -191,7 +194,7 @@ public abstract class GravityAndOrbitsMode {
     public JComponent newControl( final Property<GravityAndOrbitsMode> modeProperty ) {
         return new JPanel() {{
             setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
-            add( new GAORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
+            add( new GAORadioButton<GravityAndOrbitsMode>( userComponent, null, modeProperty, GravityAndOrbitsMode.this ) );
             add( new JLabel( new ImageIcon( iconImage ) ) {{
                 addMouseListener( new MouseAdapter() {
                     @Override
