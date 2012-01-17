@@ -14,6 +14,7 @@ import com.mongodb._
 import java.util.Date
 import table.{DefaultTableCellRenderer, DefaultTableModel, TableRowSorter}
 import java.text.SimpleDateFormat
+import org.bson.types.ObjectId
 
 /**
  * @author Sam Reid
@@ -67,7 +68,7 @@ class SimEventDataCollectionMonitor {
   val cellRenderer = new DefaultTableCellRenderer {
     override def getTableCellRendererComponent(table: JTable, value: AnyRef, isSelected: Boolean, hasFocus: Boolean, row: Int, column: Int) = {
       val v = if ( value.isInstanceOf[Date] ) {
-        new SimpleDateFormat("EEE, MMM d, yyyy HH:mm:ss z").format(value)
+        new SimpleDateFormat("EEE, MMM d, yyyy h:mm:ss a z").format(value)
       }
       else {
         value
@@ -164,8 +165,10 @@ class SimEventDataCollectionMonitor {
         val numberMessages = collection.getCount
         println("lastEventReceived: " + lastEventReceived)
         val cursor = collection.find().skip(numberMessages.toInt - 1)
+
+        //Read the server time of the last message instead of relying on unsynchronized client clocks
         val endMessage = cursor.next()
-        val endMessageTime = endMessage.get("time").toString.toLong
+        val endMessageTime = endMessage.get("_id").asInstanceOf[ObjectId].getTime
 
         val row = Array(machineID, session, study, userID, new Date(endMessageTime), numberMessages.asInstanceOf[Object])
 
