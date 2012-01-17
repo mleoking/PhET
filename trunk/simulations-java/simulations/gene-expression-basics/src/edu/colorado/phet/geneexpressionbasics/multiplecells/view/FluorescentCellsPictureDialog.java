@@ -33,7 +33,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-    private static final String IMAGE_FILE_NAME = "reactor_core.gif";
+
     private static final Font CAPTION_FONT = new PhetFont( 12 );
 
     //----------------------------------------------------------------------------
@@ -49,12 +49,12 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
 
         setResizable( false );
 
-        // picture
-        BufferedImage image = GeneExpressionBasicsResources.Images.ECOLI_IMAGE;
+        // Picture
+        BufferedImage image = GeneExpressionBasicsResources.Images.ECOLI;
         JLabel picture = new JLabel( new ImageIcon( image ) );
         picture.setSize( image.getWidth(), image.getHeight() );
 
-        // text
+        // Caption
         // TODO: i18n.
         JTextArea text = new JTextArea( "Green Fluorescent Protein being expressed in a group of E. Coli cells." );
         text.setFont( CAPTION_FONT );
@@ -70,7 +70,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
             text.setWrapStyleWord( true );
         }
 
-        // close button
+        // Close button
         JButton closeButton = new JButton( "Close" );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -78,7 +78,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
             }
         } );
 
-        // panel
+        // Panel
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 15, 15, 15, 15 ) ); // top, left, bottom, right
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
