@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.closed;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.windowCloseButtonPressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.windowClosing;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.sponsorDialog;
 
 /**
@@ -57,7 +57,7 @@ public class SponsorDialog extends JDialog {
         dialog.addWindowListener( new WindowAdapter() {
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
-                SimSharingManager.sendUserMessage( sponsorDialog, windowCloseButtonPressed );
+                SimSharingManager.sendUserMessage( sponsorDialog, windowClosing );
                 dialog.dispose();
             }
         } );
