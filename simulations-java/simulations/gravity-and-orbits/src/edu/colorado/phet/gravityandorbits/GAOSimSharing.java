@@ -1,0 +1,17 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.gravityandorbits;
+
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+
+/**
+ * @author Sam Reid
+ */
+public class GAOSimSharing {
+    public static enum UserComponents implements IUserComponent {
+        showVelocity, showMass, showPath, showGrid, showMeasuringTape, showGravityForce,
+        gravityOnRadioButton,
+        gravityOffRadioButton,
+
+        sunEarthRadioButton, sunEarthMoonRadioButton, earthMoonRadioButton, earthSpaceStationRadioButton,
+    }
+}

@@ -2,12 +2,24 @@
 
 package edu.colorado.phet.gravityandorbits.controlpanel;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.view.*;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
+import edu.colorado.phet.common.phetcommon.view.PhetLineBorder;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
@@ -16,6 +28,7 @@ import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
+import static edu.colorado.phet.gravityandorbits.GAOSimSharing.UserComponents.*;
 import static java.text.MessageFormat.format;
 
 /**
@@ -56,8 +69,8 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                     setFontsAndColors( this );
                 }} );
                 add( Box.createRigidArea( new Dimension( 20, 1 ) ) );
-                add( new GAORadioButton<Boolean>( GAOStrings.ON, module.gravityEnabledProperty, true ) );
-                add( new GAORadioButton<Boolean>( GAOStrings.OFF, module.gravityEnabledProperty, false ) );
+                add( new GAORadioButton<Boolean>( gravityOnRadioButton, GAOStrings.ON, module.gravityEnabledProperty, true ) );
+                add( new GAORadioButton<Boolean>( gravityOffRadioButton, GAOStrings.OFF, module.gravityEnabledProperty, false ) );
             }} );
         }} );
 
@@ -75,20 +88,20 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new JPanel( new GridLayout( 2, 2 ) ) {{
                 setOpaque( false );
 
-                add( new GAOCheckBox( GAOStrings.GRAVITY_FORCE, module.showGravityForceProperty ) );
+                add( new GAOCheckBox( showGravityForce, GAOStrings.GRAVITY_FORCE, module.showGravityForceProperty ) );
                 add( newArrow( PhetColorScheme.GRAVITATIONAL_FORCE ) );
-                add( new GAOCheckBox( GAOStrings.VELOCITY, module.showVelocityProperty ) );
+                add( new GAOCheckBox( showVelocity, GAOStrings.VELOCITY, module.showVelocityProperty ) );
                 add( newArrow( PhetColorScheme.VELOCITY ) );
                 setMaximumSize( getPreferredSize() );
             }} );
             if ( module.showMassCheckBox ) {//only show this on real mode
-                add( new GAOCheckBox( GAOStrings.MASS, module.showMassProperty ) );
+                add( new GAOCheckBox( showMass, GAOStrings.MASS, module.showMassProperty ) );
             }
-            add( new GAOCheckBox( GAOStrings.PATH, module.showPathProperty ) );
-            add( new GAOCheckBox( GAOStrings.GRID, module.showGridProperty ) );
+            add( new GAOCheckBox( showPath, GAOStrings.PATH, module.showPathProperty ) );
+            add( new GAOCheckBox( showGrid, GAOStrings.GRID, module.showGridProperty ) );
             //Panel with measuring tape.
             if ( module.showMeasuringTape ) {
-                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.measuringTapeVisibleProperty ) );
+                add( new GAOCheckBox( showMeasuringTape, GAOStrings.MEASURING_TAPE, module.measuringTapeVisibleProperty ) );
             }
         }} );
 
