@@ -1,3 +1,4 @@
+1/17/12 use HALF_UP (nearest neighbor) rounding in DefaultDecimalFormat
 1/12/12 Simsharing: Added IP address lookup
 1/12/11 SimSharing: #3216, support customization of Swing drag listeners via both subclassing and mutation
 1/12/12 Simsharing: Added an option to auto-save data collection log, see #3215
