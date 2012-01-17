@@ -9,7 +9,6 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.radioButton;
@@ -64,11 +63,11 @@ public class SimSharingJRadioButton extends JRadioButton {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        sendEvent( userComponent, isSelected() );
+        sendEvent( userComponent );
         super.fireActionPerformed( event );
     }
 
-    public static void sendEvent( IUserComponent userComponent, boolean isSelected ) {
-        SimSharingManager.sendUserMessage( userComponent, pressed, componentType( radioButton ).param( ParameterKeys.isSelected, isSelected ) );
+    public static void sendEvent( IUserComponent userComponent ) {
+        SimSharingManager.sendUserMessage( userComponent, pressed, componentType( radioButton ) );
     }
 }
