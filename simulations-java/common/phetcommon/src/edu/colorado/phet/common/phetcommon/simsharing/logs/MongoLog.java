@@ -18,6 +18,10 @@ import com.mongodb.Mongo;
 import com.mongodb.WriteResult;
 
 /**
+ * The destination for Mongo logging messages for sim sharing, connects directly to MongoDB server, see #3213.
+ * Note that currently there is one database per machine, and one top-level collection for each session.
+ * This may not be optimal for searches that span multiple machines (or operations that must operate on all stored logs), so may be changed in the future.
+ *
  * @author Sam Reid
  */
 public class MongoLog implements Log {
@@ -45,6 +49,7 @@ public class MongoLog implements Log {
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private final String machineID;
     private final String sessionID;
+    private final DBCollection collection;
 
     public MongoLog( String machineID, String sessionID ) {
         this.machineID = machineID;
@@ -64,6 +69,15 @@ public class MongoLog implements Log {
         catch ( Exception e ) {
             System.out.println( "error on log reset: " + e.getMessage() );
         }
+
+        //one database per machine
+        DB database = mongo.getDB( machineID );
+
+        //TODO: Authentication
+        //                database.authenticate();
+
+        //One collection per session, lets us easily iterate and add messages per session.
+        collection = database.getCollection( sessionID );
     }
 
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
@@ -71,15 +85,6 @@ public class MongoLog implements Log {
 
         executor.execute( new Runnable() {
             public void run() {
-
-                //one database per machine
-                DB database = mongo.getDB( machineID );
-
-                //TODO: Authentication
-                //                database.authenticate();
-
-                //One collection per session, lets us easily iterate and add messages per session.
-                DBCollection coll = database.getCollection( sessionID );
 
                 BasicDBObject doc = new BasicDBObject() {{
                     put( TIME, message.time + "" );
@@ -100,7 +105,7 @@ public class MongoLog implements Log {
                 }};
 
                 try {
-                    WriteResult result = coll.insert( doc );
+                    WriteResult result = collection.insert( doc );
                 }
 
                 //like new MongoException.Network( "can't say something" , ioe )
