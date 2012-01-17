@@ -254,7 +254,7 @@ public class CrustModel extends PlateModel {
                 // surface 10 C
                 // 30km ~ 300 C
                 float ratio = (float) -( ( position.y - getCenterCrustElevation() ) / thickness.get() );
-                return (float) (ZERO_CELSIUS + ratio * 700 * temperatureRatio.get());
+                return (float) ( ZERO_CELSIUS + ratio * 700 * temperatureRatio.get() );
             }
 
             @Override public boolean isStatic() {

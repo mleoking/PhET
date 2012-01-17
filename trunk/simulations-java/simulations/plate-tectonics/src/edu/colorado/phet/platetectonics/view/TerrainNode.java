@@ -37,6 +37,9 @@ public class TerrainNode extends GridMesh {
         this.terrain = terrain;
         this.module = module;
 
+        requireEnabled( GL_LIGHTING );
+        requireEnabled( GL_COLOR_MATERIAL );
+
         texture2 = BufferUtils.createFloatBuffer( terrain.numXSamples * terrain.numZSamples * 2 );
 
         colorBuffer = BufferUtils.createFloatBuffer( terrain.numXSamples * terrain.numZSamples * 4 );
@@ -127,8 +130,6 @@ public class TerrainNode extends GridMesh {
     @Override protected void preRender( GLOptions options ) {
         super.preRender( options );
 
-        glEnable( GL_LIGHTING );
-        glEnable( GL_COLOR_MATERIAL );
         glEnableClientState( GL_COLOR_ARRAY );
         glColorMaterial( GL_FRONT, GL_DIFFUSE );
         colorBuffer.rewind();
@@ -138,8 +139,6 @@ public class TerrainNode extends GridMesh {
     @Override protected void postRender( GLOptions options ) {
         super.postRender( options );
 
-        glDisable( GL_COLOR_MATERIAL );
-        glDisable( GL_LIGHTING );
         glDisableClientState( GL_COLOR_ARRAY );
     }
 

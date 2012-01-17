@@ -11,16 +11,16 @@ public class GuiNode extends GLNode {
 
     public GuiNode( LWJGLTab tab ) {
         this.tab = tab;
+
+        requireEnabled( GL_BLEND );
     }
 
     @Override protected void preRender( GLOptions options ) {
+        super.preRender( options );
+
         glMatrixMode( GL_PROJECTION );
         glLoadIdentity();
         glOrtho( 0, tab.getCanvasWidth(), tab.getCanvasHeight(), 0, 1, -1 );
-
-        // TODO: post-render disable?
-        glEnable( GL_BLEND );
-        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
         glMatrixMode( GL_MODELVIEW );
         glLoadIdentity();

@@ -165,21 +165,31 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         glPolygonMode( GL_FRONT, GL_FILL );
         glPolygonMode( GL_BACK, GL_FILL );
 
+        // basic blending function used many places. this is the default
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+
         // layers
         sceneLayer = new GLNode() {
-            @Override protected void preRender( GLOptions options ) {
-                loadCameraMatrices();
-                loadLighting();
-                glEnable( GL_DEPTH_TEST );
+            {
+                requireEnabled( GL_DEPTH_TEST );
             }
 
-            @Override protected void postRender( GLOptions options ) {
-                glDisable( GL_DEPTH_TEST );
+            @Override protected void preRender( GLOptions options ) {
+                super.preRender( options );
+
+                loadCameraMatrices();
+                loadLighting();
             }
         };
         guiLayer = new GuiNode( this );
         toolLayer = new GLNode() {
+            {
+                requireEnabled( GL_BLEND );
+            }
+
             @Override protected void preRender( GLOptions options ) {
+                super.preRender( options );
+
                 loadCameraMatrices();
             }
         };

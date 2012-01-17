@@ -141,18 +141,18 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }} );
 
         mouseEventNotifier.addUpdateListener( new UpdateListener() {
-            public void update() {
-                if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
-                    leftHighlightColor.set( regularHighlightColor );
-                    rightHighlightColor.set( regularHighlightColor );
-                }
-                else {
-                    boolean overLeft = isMouseOverLeftSide();
-                    leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
-                    rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
-                }
-            }
-        }, false );
+                                                  public void update() {
+                                                      if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
+                                                          leftHighlightColor.set( regularHighlightColor );
+                                                          rightHighlightColor.set( regularHighlightColor );
+                                                      }
+                                                      else {
+                                                          boolean overLeft = isMouseOverLeftSide();
+                                                          leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
+                                                          rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
+                                                      }
+                                                  }
+                                              }, false );
 
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
