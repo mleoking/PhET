@@ -17,7 +17,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -47,7 +49,8 @@ public class DilutionsSliderNode extends PhetPNode {
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
     private static final PhetFont VALUE_FONT = new PhetFont( 16 );
     private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
-    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.00" );
+    private static final int VALUE_DECIMAL_PLACES = 2;
+    private static final DecimalFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" ); // this should match VALUE_DECIMAL_PLACES;
 
     private final LinearFunction function; // maps model value to a track position
     private final PNode trackNode;
@@ -196,7 +199,7 @@ public class DilutionsSliderNode extends PhetPNode {
             super( userComponent, Orientation.VERTICAL, relativeNode, trackNode, thumbNode, range,
                    new VoidFunction1<Double>() {
                        public void apply( Double value ) {
-                           modelValue.set( value );
+                           modelValue.set( new PrecisionDecimal( value, VALUE_DECIMAL_PLACES ).getValue() ); // limit precision so that student calculations are correct
                        }
                    } );
             this.modelValue = modelValue;

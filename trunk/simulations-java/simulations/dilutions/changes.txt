@@ -1,3 +1,5 @@
+1/17/12 use PrecisionDecimal to limit values to 2 decimal places in sliders
+1/17/12 use HALF_UP (nearest neighbor) rounding in DefaultDecimalFormat
 1/17/12 cleanup the number formatter that displays zero as "0" (no decimal places)
 1/17/12 show min/max/current value on sliders, switch between quantitative and qualitative
 1/17/12 generalize the label that can be switched between quantitative and qualitative representations
