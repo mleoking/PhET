@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
@@ -25,7 +26,7 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighligh
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.common.util.SmartDoubleFormat;
+import edu.colorado.phet.dilutions.common.util.ZeroIntegerDoubleFormat;
 import edu.colorado.phet.dilutions.common.view.DualLabelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -45,8 +46,8 @@ public class DilutionsSliderNode extends PhetPNode {
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
     private static final PhetFont VALUE_FONT = new PhetFont( 16 );
-    private static final SmartDoubleFormat RANGE_FORMAT = new SmartDoubleFormat( "0.0", false, true );
-    private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
+    private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
+    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.00" );
 
     private final LinearFunction function; // maps model value to a track position
     private final PNode trackNode;
