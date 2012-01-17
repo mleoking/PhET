@@ -43,7 +43,7 @@ public class ConcentrationDisplayNode extends PNode {
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 16 );
     private static final PhetFont VALUE_FONT = new PhetFont( 16 );
-    private static final SmartDoubleFormat TICK_FORMAT = new SmartDoubleFormat( "0.00", true, true );
+    private static final SmartDoubleFormat RANGE_FORMAT = new SmartDoubleFormat( "0.0", false, true );
     private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
 
     public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution,
@@ -52,8 +52,8 @@ public class ConcentrationDisplayNode extends PNode {
         final PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), units, valuesVisible );
-        final PNode maxNode = new DualLabelNode( TICK_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, MIN_MAX_FONT );
-        final PNode minNode = new DualLabelNode( TICK_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, MIN_MAX_FONT );
+        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, MIN_MAX_FONT );
+        final PNode minNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, MIN_MAX_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -148,7 +148,7 @@ public class ConcentrationDisplayNode extends PNode {
         private PNode arrowNode;
         private final PText valueNode;
 
-        public PointerNode( PDimension barSize, DoubleRange range, double value, String units, Property<Boolean> valueVisible ) {
+        public PointerNode( PDimension barSize, DoubleRange range, double value, String units, Property<Boolean> valuesVisible ) {
             this.barSize = barSize;
             this.units = units;
             this.function = new LinearFunction( range.getMin(), range.getMax(), barSize.getHeight(), 0 );
@@ -159,7 +159,7 @@ public class ConcentrationDisplayNode extends PNode {
             addChild( valueNode );
             setValue( value );
 
-            valueVisible.addObserver( new VoidFunction1<Boolean>() {
+            valuesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     valueNode.setVisible( visible );
                 }

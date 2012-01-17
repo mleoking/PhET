@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -23,6 +24,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.dilutions.DilutionsResources.Strings;
+import edu.colorado.phet.dilutions.common.util.SmartDoubleFormat;
+import edu.colorado.phet.dilutions.common.view.DualLabelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -40,6 +44,9 @@ public class DilutionsSliderNode extends PhetPNode {
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
+    private static final PhetFont VALUE_FONT = new PhetFont( 16 );
+    private static final SmartDoubleFormat RANGE_FORMAT = new SmartDoubleFormat( "0.0", false, true );
+    private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
 
     private final LinearFunction function; // maps model value to a track position
     private final PNode trackNode;
@@ -47,13 +54,13 @@ public class DilutionsSliderNode extends PhetPNode {
 
     // Slider with a default track fill and background color.
     public DilutionsSliderNode( IUserComponent userComponent, String title, String minLabel, String maxLabel, final PDimension trackSize,
-                                final Property<Double> modelValue, DoubleRange range ) {
-        this( userComponent, title, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range );
+                                final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
+        this( userComponent, title, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range, units, valuesVisible );
     }
 
     public DilutionsSliderNode( IUserComponent userComponent, String title, String minLabel, String maxLabel,
                                 final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
-                                final Property<Double> modelValue, DoubleRange range ) {
+                                final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
@@ -77,15 +84,11 @@ public class DilutionsSliderNode extends PhetPNode {
         }};
 
         // thumb that moves in the track
-        thumbNode = new ThumbNode( userComponent, THUMB_SIZE, this, trackNode, range, modelValue );
+        thumbNode = new ThumbNode( userComponent, THUMB_SIZE, this, trackNode, range, modelValue, units, valuesVisible );
 
         // min and max labels
-        final PNode minNode = new PText( minLabel ) {{
-            setFont( MIN_MAX_FONT );
-        }};
-        final PNode maxNode = new PText( maxLabel ) {{
-            setFont( MIN_MAX_FONT );
-        }};
+        final PNode minNode = new DualLabelNode( RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, MIN_MAX_FONT );
+        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( range.getMax() ), minLabel, valuesVisible, MIN_MAX_FONT );
 
         // rendering order
         {
@@ -100,10 +103,10 @@ public class DilutionsSliderNode extends PhetPNode {
         // layout
         {
             // max label centered above the bar
-            maxNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( maxNode.getFullBoundsReference().getWidth() / 2 ),
+            maxNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                trackNode.getFullBoundsReference().getMinY() - ( thumbNode.getFullBoundsReference().getHeight() / 2 ) - maxNode.getFullBoundsReference().getHeight() - 1 );
             // min label centered below the bar
-            minNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( minNode.getFullBoundsReference().getWidth() / 2 ),
+            minNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                trackNode.getFullBoundsReference().getMaxY() + ( thumbNode.getFullBoundsReference().getHeight() / 2 ) + 1 );
             // title centered above max label
             titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
@@ -135,24 +138,46 @@ public class DilutionsSliderNode extends PhetPNode {
         private static final Color THUMB_STROKE_COLOR = Color.BLACK;
         private static final Color THUMB_CENTER_LINE_COLOR = Color.WHITE;
 
-        public ThumbNode( IUserComponent userComponent, final PDimension size, PNode relativeNode, PNode trackNode, DoubleRange range, final Property<Double> modelValue ) {
+        private final PText valueNode;
+
+        public ThumbNode( IUserComponent userComponent, final PDimension size, PNode relativeNode, PNode trackNode,
+                          DoubleRange range, final Property<Double> modelValue, final String units, Property<Boolean> valuesVisible ) {
 
             PPath bodyNode = new PPath() {{
                 final double arcWidth = 0.25 * size.getWidth();
-                setPathTo( new RoundRectangle2D.Double( -size.getWidth() / 2, -size.getHeight() / 2,
-                                                        size.getWidth(), size.getHeight(),
-                                                        arcWidth, arcWidth ) );
+                setPathTo( new RoundRectangle2D.Double( -size.getWidth() / 2, -size.getHeight() / 2, size.getWidth(), size.getHeight(), arcWidth, arcWidth ) );
                 setPaint( THUMB_NORMAL_COLOR );
                 setStroke( THUMB_STROKE );
                 setStrokePaint( THUMB_STROKE_COLOR );
             }};
-            addChild( bodyNode );
 
             PPath centerLineNode = new PPath() {{
                 setPathTo( new Line2D.Double( -( size.getWidth() / 2 ) + 3, 0, ( size.getWidth() / 2 ) - 3, 0 ) );
                 setStrokePaint( THUMB_CENTER_LINE_COLOR );
             }};
+
+            this.valueNode = new PText( "?" ) {{
+                setFont( VALUE_FONT );
+            }};
+            valueNode.setOffset( bodyNode.getFullBoundsReference().getMaxX() + 5,
+                                 bodyNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+
+            // rendering order
+            addChild( bodyNode );
             addChild( centerLineNode );
+            addChild( valueNode );
+
+            valuesVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    valueNode.setVisible( visible );
+                }
+            } );
+
+            modelValue.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double value ) {
+                    valueNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, VALUE_FORMAT.format( value ), units ) );
+                }
+            } );
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( bodyNode, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
@@ -165,7 +190,8 @@ public class DilutionsSliderNode extends PhetPNode {
 
         private final Property<Double> modelValue;
 
-        public ThumbDragHandler( IUserComponent userComponent, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, final Property<Double> modelValue ) {
+        public ThumbDragHandler( IUserComponent userComponent, PNode relativeNode, PNode trackNode, PNode thumbNode,
+                                 DoubleRange range, final Property<Double> modelValue ) {
             super( userComponent, Orientation.VERTICAL, relativeNode, trackNode, thumbNode, range,
                    new VoidFunction1<Double>() {
                        public void apply( Double value ) {
