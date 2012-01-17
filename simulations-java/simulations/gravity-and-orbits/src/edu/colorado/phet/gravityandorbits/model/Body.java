@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -53,13 +54,15 @@ public class Body implements IBodyColors {
     private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();//list of listeners that are notified when the user drags the object, so that we know when certain properties need to be updated
     private Property<Shape> bounds = new Property<Shape>( new Rectangle2D.Double( 0, 0, 0, 0 ) );//if the object leaves these model bounds, then it can be "returned" using a return button on the canvas
     public final boolean fixed;//true if the object doesn't move when the physics engine runs, (though still can be moved by the user's mouse)
+    private IUserComponent userComponent;
 
-    public Body( final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
+    public Body( IUserComponent userComponent, final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  double labelAngle, boolean massSettable,
                  int maxPathLength,
                  boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> playButtonPressed, Property<Boolean> stepping, Property<Boolean> rewinding,
-                 boolean fixed ) {//sun is immobile in cartoon mode
+                 boolean fixed ) {
+        this.userComponent = userComponent;//sun is immobile in cartoon mode
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
         this.massReadoutBelow = massReadoutBelow;
@@ -397,6 +400,10 @@ public class Body implements IBodyColors {
 
     public boolean isCollided() {
         return collidedProperty.get();
+    }
+
+    public IUserComponent getUserComponent() {
+        return userComponent;
     }
 
     //Listener interface for getting callbacks when the path has changed, for displaying the path with picclo

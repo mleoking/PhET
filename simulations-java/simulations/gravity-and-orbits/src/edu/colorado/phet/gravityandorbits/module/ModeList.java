@@ -244,7 +244,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     class SpaceStation extends Body {
         public SpaceStation( EarthSpaceStationModeConfig earthSpaceStation, int maxPathLength ) {
-            super( GAOStrings.SATELLITE, earthSpaceStation.spaceStation.x, earthSpaceStation.spaceStation.y,
+            super( satellite, GAOStrings.SATELLITE, earthSpaceStation.spaceStation.x, earthSpaceStation.spaceStation.y,
                    earthSpaceStation.spaceStation.radius * 2000,
                    earthSpaceStation.spaceStation.vx, earthSpaceStation.spaceStation.vy, earthSpaceStation.spaceStation.mass, Color.gray, Color.white,
                    getImageRenderer( "space-station.png" ), -Math.PI / 4, true, maxPathLength, true,
@@ -274,7 +274,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     class Moon extends Body {
         public Moon( boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyConfiguration body ) {
-            super( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
+            super( moon, GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
                    //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                    getRenderer( "moon.png", body.mass ), -3 * Math.PI / 4, massSettable, maxPathLength,
                    massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.playButtonPressed, p.stepping, p.rewinding, body.fixed );
@@ -300,7 +300,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     public class Earth extends Body {//public to facilitate debugging in GravityAndOrbitsModel
 
         public Earth( int maxPathLength, BodyConfiguration body ) {
-            super( GAOStrings.PLANET, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.gray, Color.lightGray,
+            super( planet, GAOStrings.PLANET, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.gray, Color.lightGray,
                    getRenderer( "earth_satellite.gif", body.mass ), -Math.PI / 4, true,
                    maxPathLength, true, body.mass, GAOStrings.EARTH, p.playButtonPressed, p.stepping, p.rewinding, body.fixed );
         }
@@ -310,7 +310,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         private final BodyConfiguration body;
 
         public Sun( int maxPathLength, final BodyConfiguration body ) {
-            super( GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
+            super( star, GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
                    SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, OUR_SUN, p.playButtonPressed, p.stepping, p.rewinding, body.fixed );
             this.body = body;
         }
