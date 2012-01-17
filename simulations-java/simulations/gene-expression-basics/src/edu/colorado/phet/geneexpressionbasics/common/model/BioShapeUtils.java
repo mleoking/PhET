@@ -329,7 +329,7 @@ public class BioShapeUtils {
      * @param rotationAngle
      * @return
      */
-    public static Shape createEColiLikeShape( Point2D center, double width, double height, double rotationAngle, int seed ) {
+    public static Shape createEColiLikeShape( Point2D center, double width, double height, double rotationAngle, long seed ) {
         assert width > height; // Param checking.  Can't create the needed shape if this isn't true.
 
         // Tweakable parameters that affect number of points used to define
