@@ -4,7 +4,7 @@ package edu.colorado.phet.simsharinganalysis.scripts
 import edu.colorado.phet.simsharinganalysis._
 
 object AcidBaseSolutionSpring2012Analysis extends App {
-  val logs = phet.load("C:\\Users\\Sam\\Desktop\\kel").sortBy(_.startTime)
+  val logs = phet.load("C:\\Users\\Sam\\Desktop\\kelly-data").sortBy(_.startTime)
   println("found: " + logs.length + " logs")
   for ( log <- logs ) {
     println("\nSession: " + log.session)
