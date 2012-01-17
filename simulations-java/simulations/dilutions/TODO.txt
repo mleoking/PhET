@@ -10,8 +10,5 @@ HIGH
 MEDIUM
 - generalize the mechanism for managing dynamic beaker labels
 
-LOW
-- use PrecisionDecimal in the model, 2 decimal places (if we're showing values)
-
 MIGRATE TO COMMON
 - SmartDoubleFormat (or delete if this sim remains qualitative)
