@@ -312,7 +312,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         modelRootNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 if ( evt.getPropertyName() == "transform" ) {
-                    System.out.println( "Transform Occurred, scale amount = " + ( (AffineTransform) evt.getNewValue() ).getScaleX() );
                     double scaleFactor = ( (AffineTransform) evt.getNewValue() ).getScaleX();
                     // Set the visibility of the controls that aren't shown
                     // unless we are zoomed all the way in.
