@@ -14,5 +14,6 @@ import table.DefaultTableModel
 class SimpleTable(model: DefaultTableModel) extends Component {
   override lazy val peer: JTable = new JTable(model) {
     def tableWrapper = SimpleTable.this
+
   }
 }

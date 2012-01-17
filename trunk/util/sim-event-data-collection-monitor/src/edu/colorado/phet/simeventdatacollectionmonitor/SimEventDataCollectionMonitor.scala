@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventdatacollectionmonitor
 
-import com.mongodb._
 import java.lang.String
 import collection.mutable.ArrayBuffer
 import collection.JavaConversions.asScalaBuffer
@@ -9,9 +8,12 @@ import collection.JavaConversions.asScalaSet
 import swing._
 import java.awt.event.{MouseEvent, MouseAdapter, ActionListener, ActionEvent}
 import javax.swing._
-import table.{DefaultTableModel, TableRowSorter}
 import edu.colorado.phet.common.phetcommon.simsharing.logs.MongoLog
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
+import com.mongodb._
+import java.util.Date
+import table.{DefaultTableCellRenderer, DefaultTableModel, TableRowSorter}
+import java.text.SimpleDateFormat
 
 /**
  * @author Sam Reid
@@ -25,7 +27,7 @@ object SimEventDataCollectionMonitor extends App {
 }
 
 object SimEventDataTableModel {
-  val columns = List("Machine ID" -> classOf[String], "Session ID" -> classOf[String], "study" -> classOf[String], "User ID" -> classOf[String], "last event received" -> classOf[String], "Event Count" -> classOf[java.lang.Long])
+  val columns = List("Machine ID" -> classOf[String], "Session ID" -> classOf[String], "study" -> classOf[String], "User ID" -> classOf[String], "last event received" -> classOf[java.util.Date], "Event Count" -> classOf[java.lang.Long])
   val columnNames: Array[Object] = columns.map(_._1).toArray
 }
 
@@ -61,6 +63,19 @@ class SimEventDataCollectionMonitor {
   //  val mongo = new Mongo
   val tableModel = new SimEventDataTableModel
   val table = new SimpleTable(tableModel)
+
+  val cellRenderer = new DefaultTableCellRenderer {
+    override def getTableCellRendererComponent(table: JTable, value: AnyRef, isSelected: Boolean, hasFocus: Boolean, row: Int, column: Int) = {
+      val v = if ( value.isInstanceOf[Date] ) {
+        new SimpleDateFormat("EEE, MMM d, yyyy HH:mm:ss z").format(value)
+      }
+      else {
+        value
+      }
+      super.getTableCellRendererComponent(table, v, isSelected, hasFocus, row, column)
+    }
+  }
+  table.peer.getColumnModel.getColumn(4).setCellRenderer(cellRenderer)
   table.peer.addMouseListener(new MouseAdapter {
     override def mouseReleased(e: MouseEvent) {
       if ( e.isPopupTrigger ) {
@@ -68,6 +83,8 @@ class SimEventDataCollectionMonitor {
           add(new JMenuItem("Show Log") {
             addActionListener(new ActionListener {
               def actionPerformed(e: ActionEvent) {
+
+                //TODO: Make sure sorting didn't confuse the displayed selected row with the actual selected row
                 printSelectedRow()
               }
             })
@@ -125,27 +142,34 @@ class SimEventDataCollectionMonitor {
     frame.visible = true
     new Timer(5000, new ActionListener {
       def actionPerformed(e: ActionEvent) {
-        process()
+        readDataFromMongoServer()
       }
     }) {
       setInitialDelay(0)
     }.start()
   }
 
-  private def process() {
+  private def readDataFromMongoServer() {
     val rows = new ArrayBuffer[Array[Object]]
     for ( machineID: String <- asScalaBuffer(mongo.getDatabaseNames) if machineID != "admin" ) {
       val database = mongo.getDB(machineID)
       for ( session: String <- asScalaSet(database.getCollectionNames) if session != "system.indexes" ) {
         val collection: DBCollection = database.getCollection(session)
 
-        val obj = collection.findOne()
-        val parameters: DBObject = obj.get("parameters").asInstanceOf[DBObject]
+        val startMessage = collection.findOne()
+        val parameters: DBObject = startMessage.get("parameters").asInstanceOf[DBObject]
         val study = parameters.get("study").toString
+        val userID = parameters.get("id").toString
+        val lastEventReceived = collection.findOne().get("time")
+        val numberMessages = collection.getCount
+        println("lastEventReceived: " + lastEventReceived)
+        val cursor = collection.find().skip(numberMessages.toInt - 1)
+        val endMessage = cursor.next()
+        val endMessageTime = endMessage.get("time").toString.toLong
 
-        val row = Array(machineID, session, study, "?", "?", collection.getCount.asInstanceOf[Object])
+        val row = Array(machineID, session, study, userID, new Date(endMessageTime), numberMessages.asInstanceOf[Object])
 
-        //If the tableModel already has this session, then update the updatable fields
+        //If the tableModel already has this session, then update the updateable fields
         if ( tableModel.containsSession(session) ) {
           tableModel.setEventCount(session, collection.getCount)
         }
