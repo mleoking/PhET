@@ -13,6 +13,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ColorRange;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -45,7 +46,7 @@ public class ConcentrationDisplayNode extends PNode {
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 16 );
     private static final PhetFont VALUE_FONT = new PhetFont( 16 );
     private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
-    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.00" );
+    private static final DecimalFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" );
 
     public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution,
                                      final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
