@@ -2,19 +2,27 @@
 
 package edu.colorado.phet.gravityandorbits.controlpanel;
 
-import java.awt.*;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSlider;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -67,7 +75,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
             }
         }
         //Add the slider component.
-        add( new JSlider( VIEW_MIN, VIEW_MAX ) {{
+        add( new SimSharingJSlider( UserComponentChain.chain( body.getUserComponent(), UserComponents.slider ), VIEW_MIN, VIEW_MAX ) {{
             setMajorTickSpacing( (int) ( modelToView.evaluate( labelValue ) - VIEW_MIN ) );
             setPaintLabels( true );
             setPaintTicks( true );

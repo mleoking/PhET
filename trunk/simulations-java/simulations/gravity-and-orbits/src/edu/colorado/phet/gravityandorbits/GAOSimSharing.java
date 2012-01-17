@@ -13,5 +13,7 @@ public class GAOSimSharing {
         gravityOffRadioButton,
 
         sunEarthRadioButton, sunEarthMoonRadioButton, earthMoonRadioButton, earthSpaceStationRadioButton,
+
+        satellite, moon, planet, star
     }
 }
