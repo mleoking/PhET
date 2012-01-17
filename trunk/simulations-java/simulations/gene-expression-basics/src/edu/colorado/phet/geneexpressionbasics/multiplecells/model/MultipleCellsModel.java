@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Primary model class for the Multiple Cells tab.
@@ -28,7 +29,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public class MultipleCellsModel implements Resettable {
 
     public static final int MAX_CELLS = 130;
-    private static final Random RAND = new Random();
+
+    // Seeds for the random number generators.  Values chosen empirically.
+    private static final long POSITION_RANDOMIZER_SEED = 1;
+    private static final long SIZE_AND_ORIENTATION_RANDOMIZER_SEED = 1;
 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
@@ -71,6 +75,11 @@ public class MultipleCellsModel implements Resettable {
     // perspective, it is intended for monitoring and displaying by view
     // components.
     public final Property<Double> averageProteinLevel = new Property<Double>( 0.0 );
+
+    // Random number generators, used to vary the shape and position of the
+    // cells.  Seeds are chosen based on experimentation.
+    private Random sizeAndRotationRandomizer = new Random( SIZE_AND_ORIENTATION_RANDOMIZER_SEED );
+    private Random positionRandomizer = new Random( POSITION_RANDOMIZER_SEED );
 
     /**
      * Constructor.
@@ -160,10 +169,26 @@ public class MultipleCellsModel implements Resettable {
         visibleCellList.clear();
         cellList.clear();
 
+        // Reset the random number generators.
+        sizeAndRotationRandomizer = new Random( SIZE_AND_ORIENTATION_RANDOMIZER_SEED );
+        positionRandomizer = new Random( POSITION_RANDOMIZER_SEED );
+
         // Add the max number of cells to the list of invisible cells.
         while ( cellList.size() < MAX_CELLS ) {
-            Cell newCell = new Cell( cellList.size() ); // Use index as seed so that same cell looks the same.
-            newCell.setPosition( cellLocations.get( cellList.size() ) );
+            Cell newCell;
+            if ( cellList.isEmpty() ) {
+                // The first cell is centered and level.
+                newCell = new Cell( Cell.DEFAULT_CELL_SIZE, new Point2D.Double( 0, 0 ), 0, 0 );
+            }
+            else {
+                // Do some randomization of the cell's size and rotation angle.
+                double cellWidth = Math.max( Cell.DEFAULT_CELL_SIZE.getWidth() * ( sizeAndRotationRandomizer.nextDouble() / 2 + 0.75 ),
+                                             Cell.DEFAULT_CELL_SIZE.getHeight() * 2 );
+                // Note that the index is used as the seed for the shape in
+                // order to make the cell appearance vary, but be deterministic.
+                newCell = new Cell( new PDimension( cellWidth, Cell.DEFAULT_CELL_SIZE.getHeight() ), new Point2D.Double( 0, 0 ), Math.PI * 2 * sizeAndRotationRandomizer.nextDouble(), cellList.size() );
+                newCell.setPosition( cellLocations.get( cellList.size() ) );
+            }
             cellList.add( newCell );
         }
 
@@ -309,7 +334,7 @@ public class MultipleCellsModel implements Resettable {
             int numCellsOnThisLayer = (int) Math.floor( layer * 2 * Math.PI );
             double angleIncrement = 2 * Math.PI / numCellsOnThisLayer;
             Vector2D nextLocation = new Vector2D();
-            nextLocation.setMagnitudeAndAngle( layer, RAND.nextDouble() * 2 * Math.PI );
+            nextLocation.setMagnitudeAndAngle( layer, positionRandomizer.nextDouble() * 2 * Math.PI );
             for ( int i = 0; i < numCellsOnThisLayer && placedCells < MAX_CELLS; i++ ) {
                 preTransformLocations.add( nextLocation.toPoint2D() );
                 nextLocation.rotate( angleIncrement );

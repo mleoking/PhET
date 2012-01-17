@@ -19,8 +19,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class Cell extends ShapeChangingModelElement {
 
-    // Bounding size for cells
-    public static final Dimension2D DEFAULT_CELL_SIZE = new PDimension( 2E-6, 0.5E-6 ); // In meters.
+    // Default size for a cell.
+    public static final Dimension2D DEFAULT_CELL_SIZE = new PDimension( 2E-6, 0.75E-6 ); // In meters.
 
     // Protein level at which the cell color starts to change.  This is meant
     // to make the cell act as though the protein being produced is florescent.
@@ -48,7 +48,7 @@ public class Cell extends ShapeChangingModelElement {
      *             of the cell be somewhat unique.
      */
     public Cell( long seed ) {
-        this( new Point2D.Double( 0, 0 ), 0, seed );
+        this( DEFAULT_CELL_SIZE, new Point2D.Double( 0, 0 ), 0, seed );
     }
 
     /**
@@ -58,13 +58,13 @@ public class Cell extends ShapeChangingModelElement {
      * @param seed            - Seed for the random number generator, used to give the
      *                        cell a somewhat unique shape.
      */
-    public Cell( Point2D initialPosition, double rotationAngle, long seed ) {
-        super( createShape( initialPosition, rotationAngle, seed ) );
+    public Cell( Dimension2D size, Point2D initialPosition, double rotationAngle, long seed ) {
+        super( createShape( size, initialPosition, rotationAngle, seed ) );
     }
 
     // Static function for creating the shape of the cell.
-    private static Shape createShape( Point2D initialPosition, double rotationAngle, long seed ) {
-        return BioShapeUtils.createEColiLikeShape( initialPosition, DEFAULT_CELL_SIZE.getWidth(), DEFAULT_CELL_SIZE.getHeight(), rotationAngle, seed );
+    private static Shape createShape( Dimension2D size, Point2D initialPosition, double rotationAngle, long seed ) {
+        return BioShapeUtils.createEColiLikeShape( initialPosition, size.getWidth(), size.getHeight(), rotationAngle, seed );
     }
 
     public void stepInTime( double dt ) {
