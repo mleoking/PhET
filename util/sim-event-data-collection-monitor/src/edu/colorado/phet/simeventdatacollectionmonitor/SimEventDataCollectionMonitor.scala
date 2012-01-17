@@ -92,6 +92,12 @@ class SimEventDataCollectionMonitor {
     val cursor = collection.find
     while ( cursor.hasNext ) {
       val obj = cursor.next()
+
+      //attempt to read timestamp from existing entries
+      //      //See http://stackoverflow.com/questions/3338999/get-id-of-last-inserted-document-in-a-mongodb-w-java-driver
+      //      val id = obj.get("_id").asInstanceOf[ObjectId];
+      //      println("objectID timestamp= "+id.getTime)
+
       val time = obj.get(MongoLog.TIME)
       val messageType = obj.get(MongoLog.MESSAGE_TYPE)
       val component = obj.get(MongoLog.COMPONENT)
