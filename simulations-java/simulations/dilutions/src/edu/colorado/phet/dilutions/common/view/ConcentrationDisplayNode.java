@@ -7,6 +7,7 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
@@ -22,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandle
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
 import edu.colorado.phet.dilutions.common.model.Solution;
-import edu.colorado.phet.dilutions.common.util.SmartDoubleFormat;
+import edu.colorado.phet.dilutions.common.util.ZeroIntegerDoubleFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -43,8 +44,8 @@ public class ConcentrationDisplayNode extends PNode {
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PhetFont MIN_MAX_FONT = new PhetFont( 16 );
     private static final PhetFont VALUE_FONT = new PhetFont( 16 );
-    private static final SmartDoubleFormat RANGE_FORMAT = new SmartDoubleFormat( "0.0", false, true );
-    private static final SmartDoubleFormat VALUE_FORMAT = new SmartDoubleFormat( "0.00", false, false );
+    private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
+    private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0.00" );
 
     public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution,
                                      final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
