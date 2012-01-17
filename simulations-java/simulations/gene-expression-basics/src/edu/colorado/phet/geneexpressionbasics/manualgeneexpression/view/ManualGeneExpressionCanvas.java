@@ -35,6 +35,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Messeng
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -60,14 +62,32 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // Inset for several of the controls.
     private static final double INSET = 15;
 
+    // Value used for comparing numbers that might be slightly off due to
+    // floating point resolution.
+    private static final double FLOATING_POINT_COMPARISON_FACTOR = 1E-7;
+
     // Debug variable for turning on the visibility of the motion bounds.
     private static final boolean SHOW_MOTION_BOUNDS = false;
 
     private final ModelViewTransform mvt;
-    private PTransformActivity transformAnimationActivity;
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
 
+    // Transform activity, used for moving the viewport between genes and for
+    // zooming in and out.
+    private PTransformActivity transformAnimationActivity;
+
+
+    // PNodes that are used as layers and that are involved in the zoom
+    // functionality.
+    private PNode backgroundCellLayer;
+    private PNode modelRootNode;
+
+    /**
+     * Constructor.
+     *
+     * @param model
+     */
     public ManualGeneExpressionCanvas( final ManualGeneExpressionModel model ) {
 
         // Set up the canvas-screen transform.
@@ -88,7 +108,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         // Add a background layer where the cell(s) that make up the background
         // will reside.
-        final PNode backgroundCellLayer = new PNode();
+        backgroundCellLayer = new PNode();
         addWorldChild( backgroundCellLayer );
 
         // Set up the node where all controls should be placed.  These will
@@ -98,7 +118,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         // Set up the root node for all model objects.  Nodes placed under
         // this one will scroll when the user moves along the DNA strand.
-        final PNode modelRootNode = new PNode();
+        modelRootNode = new PNode();
         addWorldChild( modelRootNode );
 
         // Add some layers for enforcing some z-order relationships needed in
@@ -112,10 +132,20 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         final PNode topBiomoleculeLayer = new PNode();
         modelRootNode.addChild( topBiomoleculeLayer );
 
-        // Add the background cell that will enclose the DNA strand.
-        backgroundCellLayer.addChild( new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
-                                                                               DnaMolecule.Y_POS ),
-                                                              6 ) );
+        // Add the background cell that will enclose the DNA strand.  Clicking
+        // on this cell will zoom in when we are in the zoomed out state.
+        BackgroundCellNode backgroundCell = new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
+                                                                                     DnaMolecule.Y_POS ),
+                                                                    6 );
+        backgroundCell.setPickable( true );
+        backgroundCell.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseClicked( PInputEvent event ) {
+                if ( isZoomedOut() ) {
+                    zoomIn();
+                }
+            }
+        } );
+        backgroundCellLayer.addChild( backgroundCell );
 
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
@@ -270,8 +300,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, 2000 );
-                    modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, 2000 );
+                    zoomIn();
                 }
             } );
         }};
@@ -280,8 +309,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    backgroundCellLayer.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
-                    modelRootNode.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
+                    zoomOut();
                 }
             } );
         }};
@@ -294,7 +322,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                     double scaleFactor = ( (AffineTransform) evt.getNewValue() ).getScaleX();
                     // Set the visibility of the controls that aren't shown
                     // unless we are zoomed all the way in.
-                    boolean zoomedAllTheWayIn = scaleFactor > 1 - 1E-6; // Had to do this because it doesn't make it all the way to 1.0 for some reason.
+                    boolean zoomedAllTheWayIn = scaleFactor > 1 - FLOATING_POINT_COMPARISON_FACTOR;
                     biomoleculeToolBoxLayer.setVisible( zoomedAllTheWayIn );
                     proteinCollectionNode.setVisible( zoomedAllTheWayIn );
                     previousGeneButton.setVisible( zoomedAllTheWayIn );
@@ -303,7 +331,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
                     // Set the visibility of the controls that aren't shown
                     // unless we are zoomed all the way out.
-                    zoomInButton.setVisible( scaleFactor <= MIN_ZOOM + 1E-6 );
+                    zoomInButton.setVisible( scaleFactor <= MIN_ZOOM + FLOATING_POINT_COMPARISON_FACTOR );
 
                     // Fade the DNA molecule.  A linear fade didn't look good,
                     // so the fade is exponential with a threshold.
@@ -329,6 +357,33 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
     }
 
+    private void zoomIn() {
+        zoomInOnNodes( backgroundCellLayer, modelRootNode );
+    }
+
+    private void zoomOut() {
+        zoomOutFromNodes( backgroundCellLayer, modelRootNode );
+    }
+
+    private void zoomInOnNodes( PNode... nodesToZoom ) {
+        for ( PNode node : nodesToZoom ) {
+            node.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, 2000 );
+        }
+    }
+
+    private void zoomOutFromNodes( PNode... nodesToZoom ) {
+        for ( PNode node : nodesToZoom ) {
+            node.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
+        }
+    }
+
+    private boolean isZoomedOut() {
+        return backgroundCellLayer.getScale() <= MIN_ZOOM + FLOATING_POINT_COMPARISON_FACTOR &&
+               backgroundCellLayer.getScale() >= MIN_ZOOM - FLOATING_POINT_COMPARISON_FACTOR &&
+               modelRootNode.getScale() <= MIN_ZOOM + FLOATING_POINT_COMPARISON_FACTOR &&
+               modelRootNode.getScale() >= MIN_ZOOM - FLOATING_POINT_COMPARISON_FACTOR;
+    }
+
     public ImmutableVector2D getViewportOffset() {
         return new ImmutableVector2D( viewportOffset );
     }
@@ -336,6 +391,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     public void reset() {
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
+        }
+        if ( isZoomedOut() ) {
+            zoomIn();
         }
     }
 
