@@ -31,6 +31,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.gravityandorbits.GAOSimSharing.UserComponents.*;
+import static edu.colorado.phet.gravityandorbits.GAOStrings.OUR_SUN;
 import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
 
 /**
@@ -310,7 +311,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         public Sun( int maxPathLength, final BodyConfiguration body ) {
             super( GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
-                   SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.playButtonPressed, p.stepping, p.rewinding, body.fixed );
+                   SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, OUR_SUN, p.playButtonPressed, p.stepping, p.rewinding, body.fixed );
             this.body = body;
         }
 

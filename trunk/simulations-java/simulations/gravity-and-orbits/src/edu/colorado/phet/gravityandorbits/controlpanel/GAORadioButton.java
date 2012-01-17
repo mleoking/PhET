@@ -6,6 +6,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyRadioButton;
 
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.FOREGROUND;
+
 /**
  * GAORadioButton provides default fonts and colors for a radio button to be used in Gravity and Orbits.
  *
@@ -14,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPr
 public class GAORadioButton<T> extends SimSharingPropertyRadioButton<T> {
     public GAORadioButton( IUserComponent userComponent, String title, final Property<T> property, final T value ) {
         super( userComponent, title, property, value );
-        setFont( GravityAndOrbitsControlPanel.CONTROL_FONT );
-        setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
+        setFont( CONTROL_FONT );
+        setForeground( FOREGROUND );
     }
 }
