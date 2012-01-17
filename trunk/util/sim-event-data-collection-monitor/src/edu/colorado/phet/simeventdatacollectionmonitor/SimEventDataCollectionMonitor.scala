@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simeventdatacollectionmonitor
 
-import java.lang.String
-import collection.mutable.ArrayBuffer
 import collection.JavaConversions.asScalaBuffer
 import collection.JavaConversions.asScalaSet
 import swing._
@@ -15,6 +13,7 @@ import java.util.Date
 import table.{DefaultTableCellRenderer, DefaultTableModel, TableRowSorter}
 import java.text.SimpleDateFormat
 import org.bson.types.ObjectId
+import java.lang.{Thread, String}
 
 /**
  * @author Sam Reid
@@ -141,17 +140,17 @@ class SimEventDataCollectionMonitor {
 
   def start() {
     frame.visible = true
-    new Timer(5000, new ActionListener {
-      def actionPerformed(e: ActionEvent) {
-        readDataFromMongoServer()
+    new Thread(new Runnable {
+      def run() {
+        while ( true ) {
+          readDataFromMongoServer()
+          Thread.sleep(5000)
+        }
       }
-    }) {
-      setInitialDelay(0)
-    }.start()
+    }).start()
   }
 
   private def readDataFromMongoServer() {
-    val rows = new ArrayBuffer[Array[Object]]
     for ( machineID: String <- asScalaBuffer(mongo.getDatabaseNames) if machineID != "admin" ) {
       val database = mongo.getDB(machineID)
       for ( session: String <- asScalaSet(database.getCollectionNames) if session != "system.indexes" ) {
@@ -163,7 +162,6 @@ class SimEventDataCollectionMonitor {
         val userID = parameters.get("id").toString
         val lastEventReceived = collection.findOne().get("time")
         val numberMessages = collection.getCount
-        println("lastEventReceived: " + lastEventReceived)
         val cursor = collection.find().skip(numberMessages.toInt - 1)
 
         //Read the server time of the last message instead of relying on unsynchronized client clocks
@@ -172,16 +170,19 @@ class SimEventDataCollectionMonitor {
 
         val row = Array(machineID, session, study, userID, new Date(endMessageTime), numberMessages.asInstanceOf[Object])
 
-        //If the tableModel already has this session, then update the updateable fields
-        if ( tableModel.containsSession(session) ) {
-          tableModel.setEventCount(session, collection.getCount)
-        }
-        else {
-          tableModel.addRow(row)
-        }
+        SwingUtilities.invokeLater(new Runnable {
+          def run() {
+            //If the tableModel already has this session, then update the updateable fields
+            if ( tableModel.containsSession(session) ) {
+              tableModel.setEventCount(session, collection.getCount)
+            }
 
-        //Otherwise add it as a new row
-        rows += row
+            //Otherwise add it as a new row
+            else {
+              tableModel.addRow(row)
+            }
+          }
+        })
       }
     }
   }
