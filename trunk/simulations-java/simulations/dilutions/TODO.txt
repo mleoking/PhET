@@ -6,8 +6,6 @@ DESIGN
 
 HIGH
 - move Molarity sim to a new project?
-- restore "Show values" feature (deleted in [57987] and [58016])
-- show min/max/current value on sliders, with editable current value
 
 MEDIUM
 - generalize the mechanism for managing dynamic beaker labels

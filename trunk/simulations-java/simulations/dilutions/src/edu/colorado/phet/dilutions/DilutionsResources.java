@@ -45,6 +45,7 @@ public class DilutionsResources {
         public static final String SOLUTION_VOLUME = RESOURCES.getLocalizedString( "solutionVolume" );
         public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
         public static final String UNITS_MOLARITY = RESOURCES.getLocalizedString( "units.molarity" );
+        public static final String UNITS_MOLES = RESOURCES.getLocalizedString( "units.moles" );
         public static final String ZERO = RESOURCES.getLocalizedString( "zero" );
 
         // Additional strings used by the unpublished DilutionsApplication.

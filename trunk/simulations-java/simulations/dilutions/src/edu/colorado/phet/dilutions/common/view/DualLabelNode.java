@@ -16,7 +16,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class DualLabelNode extends PComposite {
 
-    public DualLabelNode( String quantitativeValue, String qualitativeValue, Property<Boolean> valueVisible, final PhetFont font ) {
+    public DualLabelNode( String quantitativeValue, String qualitativeValue, Property<Boolean> valuesVisible, final PhetFont font ) {
 
         final PText quantitativeNode = new PText( quantitativeValue ) {{
             setFont( font );
@@ -33,7 +33,7 @@ public class DualLabelNode extends PComposite {
         qualitativeNode.setOffset( -qualitativeNode.getFullBoundsReference().getWidth() / 2, qualitativeNode.getYOffset() );
         quantitativeNode.setOffset( -quantitativeNode.getFullBoundsReference().getWidth() / 2, quantitativeNode.getYOffset() );
 
-        valueVisible.addObserver( new VoidFunction1<Boolean>() {
+        valuesVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 quantitativeNode.setVisible( visible );
                 qualitativeNode.setVisible( !visible );

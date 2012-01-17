@@ -51,13 +51,15 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         // slider for controlling amount of solute
         DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( UserComponents.soluteAmountSlider, Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
                                                                               new PDimension( 5, cylinderSize.getHeight() ),
-                                                                              model.solution.soluteAmount, model.getSoluteAmountRange() );
+                                                                              model.solution.soluteAmount, model.getSoluteAmountRange(),
+                                                                              Strings.UNITS_MOLES, valuesVisible );
 
         // slider for controlling volume of solution, sized to match tick marks on the beaker
         final double volumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getSolutionVolumeRange().getMax() ) * cylinderSize.getHeight();
         DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.volumeSlider, Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
                                                                                 new PDimension( 5, volumeSliderHeight ),
-                                                                                model.solution.volume, model.getSolutionVolumeRange() );
+                                                                                model.solution.volume, model.getSolutionVolumeRange(),
+                                                                                Strings.UNITS_LITERS, valuesVisible );
 
         // concentration display
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
@@ -95,7 +97,7 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
             soluteAmountSliderNode.setOffset( soluteControlNode.getXOffset() - PNodeLayoutUtils.getOriginXOffset( soluteAmountSliderNode ),
                                               soluteControlNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( beakerNode ) + 40 );
             // to the right of the Solute Amount control
-            solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 40,
+            solutionVolumeSliderNode.setOffset( soluteAmountSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( solutionVolumeSliderNode ) + 20,
                                                 soluteAmountSliderNode.getYOffset() );
             // to the right of the Solution Volume control
             beakerNode.setOffset( solutionVolumeSliderNode.getFullBoundsReference().getMaxX() - PNodeLayoutUtils.getOriginXOffset( beakerNode ) + 20,
