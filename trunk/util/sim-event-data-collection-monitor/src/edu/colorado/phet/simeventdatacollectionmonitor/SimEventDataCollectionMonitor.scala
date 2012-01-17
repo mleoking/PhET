@@ -83,8 +83,6 @@ class SimEventDataCollectionMonitor {
           add(new JMenuItem("Show Log") {
             addActionListener(new ActionListener {
               def actionPerformed(e: ActionEvent) {
-
-                //TODO: Make sure sorting didn't confuse the displayed selected row with the actual selected row
                 printSelectedRow()
               }
             })
@@ -99,7 +97,10 @@ class SimEventDataCollectionMonitor {
   sorter.setSortsOnUpdates(true)
 
   def printSelectedRow() {
-    val row = table.peer.getSelectedRow
+
+    //Convert view row to model row to account for sorting in the view: http://stackoverflow.com/questions/2075396/correctly-getting-data-from-a-sorted-jtable
+    val viewSelectedRow = table.peer.getSelectedRow
+    val row = table.peer.convertRowIndexToModel(viewSelectedRow)
     val machineID = tableModel.getMachineID(row)
     val sessionID = tableModel.getSessionID(row)
 
@@ -160,7 +161,6 @@ class SimEventDataCollectionMonitor {
         val parameters: DBObject = startMessage.get("parameters").asInstanceOf[DBObject]
         val study = parameters.get("study").toString
         val userID = parameters.get("id").toString
-        val lastEventReceived = collection.findOne().get("time")
         val numberMessages = collection.getCount
         val cursor = collection.find().skip(numberMessages.toInt - 1)
 
