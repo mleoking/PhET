@@ -294,7 +294,7 @@ public class MultipleCellsModel implements Resettable {
 
         // Transform for converting from unit-circle based locations to
         // locations that will work for the elliptical cells.
-        AffineTransform transform = AffineTransform.getScaleInstance( Cell.CELL_SIZE.getWidth(), Cell.CELL_SIZE.getHeight() );
+        AffineTransform transform = AffineTransform.getScaleInstance( Cell.DEFAULT_CELL_SIZE.getWidth(), Cell.DEFAULT_CELL_SIZE.getHeight() );
 
         // Set the first location to be at the origin.
         cellLocations.add( new Point2D.Double( 0, 0 ) );

@@ -4,7 +4,6 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
@@ -12,12 +11,16 @@ import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelEle
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Model element that represents a cell in the multiple-cells tab.  The cell
+ * has a shape, a protein level, and a number of parameters that control how
+ * it synthesized a protein.  Only one protein is synthesized.
+ *
  * @author John Blanco
  */
 public class Cell extends ShapeChangingModelElement {
 
     // Bounding size for cells
-    public static final Dimension2D CELL_SIZE = new PDimension( 2E-6, 1E-6 ); // In meters.
+    public static final Dimension2D DEFAULT_CELL_SIZE = new PDimension( 2E-6, 0.5E-6 ); // In meters.
 
     // Protein level at which the cell color starts to change.  This is meant
     // to make the cell act as though the protein being produced is florescent.
@@ -45,7 +48,7 @@ public class Cell extends ShapeChangingModelElement {
      *             of the cell be somewhat unique.
      */
     public Cell( long seed ) {
-        this( new Point2D.Double( 0, 0 ), seed );
+        this( new Point2D.Double( 0, 0 ), 0, seed );
     }
 
     /**
@@ -55,18 +58,13 @@ public class Cell extends ShapeChangingModelElement {
      * @param seed            - Seed for the random number generator, used to give the
      *                        cell a somewhat unique shape.
      */
-    public Cell( Point2D initialPosition, long seed ) {
-        super( createShape( initialPosition, seed ) );
+    public Cell( Point2D initialPosition, double rotationAngle, long seed ) {
+        super( createShape( initialPosition, rotationAngle, seed ) );
     }
 
     // Static function for creating the shape of the cell.
-    private static Shape createShape( Point2D initialPosition, long seed ) {
-        return BioShapeUtils.createCurvyEnclosedShape( new Rectangle2D.Double( initialPosition.getX() - CELL_SIZE.getWidth() / 2,
-                                                                               initialPosition.getY() - CELL_SIZE.getHeight() / 2,
-                                                                               CELL_SIZE.getWidth(),
-                                                                               CELL_SIZE.getHeight() ),
-                                                       0.4,
-                                                       seed );
+    private static Shape createShape( Point2D initialPosition, double rotationAngle, long seed ) {
+        return BioShapeUtils.createEColiLikeShape( initialPosition, DEFAULT_CELL_SIZE.getWidth(), DEFAULT_CELL_SIZE.getHeight(), rotationAngle, seed );
     }
 
     public void stepInTime( double dt ) {
