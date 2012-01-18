@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
+import edu.colorado.phet.moleculeshapes.control.MoleculeShapesTeacherMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
 import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
 import edu.colorado.phet.moleculeshapes.tabs.realmolecules.RealMoleculesTab;
@@ -34,6 +34,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
     public static final Property<Boolean> tab2Visible = new Property<Boolean>( true );
     public static final Property<Boolean> tab3Visible = new Property<Boolean>( true );
+    private static final Property<Boolean> whiteBackground = new Property<Boolean>( false );
 
     /**
      * Sole constructor.
@@ -63,26 +64,26 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
             addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
 
             tab2Visible.addObserver( new SimpleObserver() {
-                                         public void update() {
-                                             if ( tab2Visible.get() ) {
-                                                 addTab( tab2 );
-                                             }
-                                             else {
-                                                 removeTab( tab2 );
-                                             }
-                                         }
-                                     }, false );
+                public void update() {
+                    if ( tab2Visible.get() ) {
+                        addTab( tab2 );
+                    }
+                    else {
+                        removeTab( tab2 );
+                    }
+                }
+            }, false );
 
             tab3Visible.addObserver( new SimpleObserver() {
-                                         public void update() {
-                                             if ( tab3Visible.get() ) {
-                                                 addTab( tab3 );
-                                             }
-                                             else {
-                                                 removeTab( tab3 );
-                                             }
-                                         }
-                                     }, false );
+                public void update() {
+                    if ( tab3Visible.get() ) {
+                        addTab( tab3 );
+                    }
+                    else {
+                        removeTab( tab3 );
+                    }
+                }
+            }, false );
         }} );
     }
 
@@ -103,7 +104,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
         }
 
         // Teacher's menu
-        frame.addMenu( new TeachersMenu() );
+        frame.addMenu( new MoleculeShapesTeacherMenu( whiteBackground ) );
 
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();

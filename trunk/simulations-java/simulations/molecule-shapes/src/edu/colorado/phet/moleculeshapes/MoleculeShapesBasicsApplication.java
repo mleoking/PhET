@@ -9,12 +9,13 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.control.TeachersMenu;
+import edu.colorado.phet.moleculeshapes.control.MoleculeShapesTeacherMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
 import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
 import edu.colorado.phet.moleculeshapes.tabs.realmolecules.RealMoleculesTab;
@@ -23,6 +24,8 @@ import edu.colorado.phet.moleculeshapes.tabs.realmolecules.RealMoleculesTab;
  * The main application for Molecule Shapes: Basics (with a few things stripped out)
  */
 public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
+
+    private static final Property<Boolean> whiteBackground = new Property<Boolean>( false );
 
     private MoleculeShapesTab tab;
 
@@ -73,7 +76,7 @@ public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
         }
 
         // Teacher's menu
-        frame.addMenu( new TeachersMenu() );
+        frame.addMenu( new MoleculeShapesTeacherMenu( whiteBackground ) );
 
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
