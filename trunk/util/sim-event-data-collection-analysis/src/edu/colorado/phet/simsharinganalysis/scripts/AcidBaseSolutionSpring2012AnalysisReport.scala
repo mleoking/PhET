@@ -70,35 +70,12 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       writeLine("Showed solvent: " + usedShowSolventCheckBox)
 
       writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
-      writeLine("Circuit completed: " + log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).length > 0)
+      writeLine("Circuit completed: " + ( log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).length > 0 ))
 
-      //isCircuitCompleted = true
-
-
-      //      System exit 0
-      //
-      //      writeLine("Number of clicks (0-1 minute)\n" + pairs.mkString("\n"))
-      //      writeLine(timeBetweenClicks mkString "\n")
-
-
-      //
-      //      //This line prints out how many minutes were used in the log, and how many "user" events were logged.
-      //      writeLine("minutes of interaction=" + log.minutesUsed + ", numUserEvents=" + log.userEntries.size)
-      //
-      //      //This line prints out the number of events per minute:
-      //      writeLine("num user events per minute: " + log.userEntries.size / log.minutesUsed)
-      //
-      //      //This line computes how many times the user pressed the solvent check box:
-      //      writeLine("How many times pressed the showSolventCheckBox: " + log.filter(_.component == "showSolventCheckBox").length)
-      //
       //      //This line computes which components the user interacted with:
       //      val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
       //      writeLine("Used components: " + usedComponents.mkString(", "))
       //
-      //      writeLine("session: " + log.session)
-      //      writeLine("minutes of interaction=" + log.minutesUsed + ", numUserEvents=" + log.userEntries.size)
-      //      writeLine("num user events per minute: " + log.userEntries.size / log.minutesUsed)
-      //      writeLine("How many times pressed the showSolventCheckBox: " + log.filter(_.component == "showSolventCheckBox").length)
       //      writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
       //      writeLine("How many times pressed tabs: " + log.filter(_.componentType == "tab").length)
       //      val tabs = List("introductionTab", "customSolutionTab")
