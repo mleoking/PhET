@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SimSharingLinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
+import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
@@ -96,7 +96,7 @@ public class TurbinePanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.BAR_MAGNET_STRENGTH_MIN / FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
 
             // Slider
-            _strengthControl = new SimSharingLinearValueControl( qualifyUserComponent( UserComponents.strengthControl ), min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
+            _strengthControl = new SimSharingLinearValueControl( qualifyUserComponent( Components.strengthControl ), min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
             _strengthControl.setValue( min );
             _strengthControl.setMajorTickSpacing( 50 );
             _strengthControl.setMinorTickSpacing( 10 );
@@ -107,13 +107,13 @@ public class TurbinePanel extends FaradayPanel {
         }
 
         // B-field on/off
-        _bFieldCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showFieldCheckBox ), FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
+        _bFieldCheckBox = new SimSharingJCheckBox( qualifyUserComponent( Components.showFieldCheckBox ), FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
 
         // Field Meter on/off
-        _fieldMeterCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showFieldMeterCheckBox ), FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
+        _fieldMeterCheckBox = new SimSharingJCheckBox( qualifyUserComponent( Components.showFieldMeterCheckBox ), FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
 
         // Compass on/off
-        _compassCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showCompassCheckBox ), FaradayStrings.CHECK_BOX_SHOW_COMPASS );
+        _compassCheckBox = new SimSharingJCheckBox( qualifyUserComponent( Components.showCompassCheckBox ), FaradayStrings.CHECK_BOX_SHOW_COMPASS );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -147,7 +147,7 @@ public class TurbinePanel extends FaradayPanel {
 
     // From the user's perspective, this control panel is labeled as "Bar Magnet"
     private IUserComponent qualifyUserComponent( IUserComponent userComponent ) {
-        return UserComponentChain.chain( UserComponents.barMagnetControlPanel, userComponent );
+        return UserComponentChain.chain( Components.barMagnetControlPanel, userComponent );
     }
 
     //----------------------------------------------------------------------------

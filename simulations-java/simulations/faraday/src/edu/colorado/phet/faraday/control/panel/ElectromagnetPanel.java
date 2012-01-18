@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChai
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
-import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
+import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.ACPowerSupply;
 import edu.colorado.phet.faraday.model.Battery;
@@ -126,16 +126,16 @@ public class ElectromagnetPanel extends FaradayPanel {
         setBorder( titledBorder );
 
         // B-field on/off
-        _bFieldCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showFieldCheckBox ), FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
+        _bFieldCheckBox = new SimSharingJCheckBox( qualifyUserComponent( Components.showFieldCheckBox ), FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
 
         // Field Meter on/off
-        _fieldMeterCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showFieldMeterCheckBox ), FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
+        _fieldMeterCheckBox = new SimSharingJCheckBox( qualifyUserComponent( Components.showFieldMeterCheckBox ), FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
 
         // Compass on/off
-        _compassCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showCompassCheckBox ), FaradayStrings.CHECK_BOX_SHOW_COMPASS );
+        _compassCheckBox = new SimSharingJCheckBox( qualifyUserComponent( Components.showCompassCheckBox ), FaradayStrings.CHECK_BOX_SHOW_COMPASS );
 
         // Electrons on/off
-        _electronsCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showElectrons ), FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
+        _electronsCheckBox = new SimSharingJCheckBox( qualifyUserComponent( Components.showElectrons ), FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
 
         // Number of loops
         JPanel loopsPanel = new JPanel();
@@ -147,7 +147,7 @@ public class ElectromagnetPanel extends FaradayPanel {
             spinnerModel.setMaximum( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MAX ) );
             spinnerModel.setMinimum( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MIN ) );
             spinnerModel.setValue( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MIN ) );
-            _loopsSpinner = new SimSharingJSpinner( qualifyUserComponent( UserComponents.loopsSpinner ), spinnerModel );
+            _loopsSpinner = new SimSharingJSpinner( qualifyUserComponent( Components.loopsSpinner ), spinnerModel );
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
 
@@ -176,14 +176,14 @@ public class ElectromagnetPanel extends FaradayPanel {
             // Radio buttons with text & icons.
             ImageIcon batteryIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.BATTERY_ICON ) );
             ImageIcon batteryIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.BATTERY_ICON_SELECTED ) );
-            _batteryRadioButton = new SimSharingJRadioButton( qualifyUserComponent( UserComponents.dcRadioButton ), FaradayStrings.RADIO_BUTTON_DC, batteryIcon );
+            _batteryRadioButton = new SimSharingJRadioButton( qualifyUserComponent( Components.dcRadioButton ), FaradayStrings.RADIO_BUTTON_DC, batteryIcon );
             _batteryRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
             _batteryRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
             _batteryRadioButton.setSelectedIcon( batteryIconSelected );
 
             ImageIcon acIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.AC_POWER_SUPPLY_ICON ) );
             ImageIcon acIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.AC_POWER_SUPPLY_ICON_SELECTED ) );
-            _acRadioButton = new SimSharingJRadioButton( qualifyUserComponent( UserComponents.acRadioButton ), FaradayStrings.RADIO_BUTTON_AC, acIcon );
+            _acRadioButton = new SimSharingJRadioButton( qualifyUserComponent( Components.acRadioButton ), FaradayStrings.RADIO_BUTTON_AC, acIcon );
             _acRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
             _acRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
             _acRadioButton.setSelectedIcon( acIconSelected );
@@ -224,7 +224,7 @@ public class ElectromagnetPanel extends FaradayPanel {
     }
 
     private IUserComponent qualifyUserComponent( IUserComponent userComponent ) {
-        return UserComponentChain.chain( UserComponents.electromagnetControlPanel, userComponent );
+        return UserComponentChain.chain( Components.electromagnetControlPanel, userComponent );
     }
 
     /**

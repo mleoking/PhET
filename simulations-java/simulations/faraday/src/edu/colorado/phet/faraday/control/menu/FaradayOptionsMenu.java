@@ -15,8 +15,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
-import edu.colorado.phet.faraday.FaradaySimSharing.SystemObjects;
-import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
+import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.dialog.BackgroundColorHandler;
 import edu.colorado.phet.faraday.control.dialog.GridControlsDialog;
@@ -42,7 +41,7 @@ public class FaradayOptionsMenu extends OptionsMenu {
         super();
 
         // Background Color menu item, disabled when dialog is open
-        final JMenuItem backgroundColorMenuItem = new SimSharingJMenuItem( UserComponents.backgroundColorMenuItem, FaradayStrings.MENU_ITEM_BACKGROUND_COLOR );
+        final JMenuItem backgroundColorMenuItem = new SimSharingJMenuItem( Components.backgroundColorMenuItem, FaradayStrings.MENU_ITEM_BACKGROUND_COLOR );
         backgroundColorMenuItem.setMnemonic( FaradayStrings.MNEMONIC_BACKGROUND_COLOR );
         backgroundColorMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -51,12 +50,12 @@ public class FaradayOptionsMenu extends OptionsMenu {
                 backgroundColorDialog.addWindowListener( new WindowAdapter() {
 
                     @Override public void windowOpened( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( SystemObjects.backgroundColorDialog, UserActions.windowOpened );
+                        SimSharingManager.sendSystemMessage( Components.backgroundColorDialog, UserActions.windowOpened );
                     }
 
                     // called when dispose is called
                     @Override public void windowClosed( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( SystemObjects.backgroundColorDialog, UserActions.windowClosed );
+                        SimSharingManager.sendSystemMessage( Components.backgroundColorDialog, UserActions.windowClosed );
                         backgroundColorMenuItem.setEnabled( true );
                     }
 
@@ -72,7 +71,7 @@ public class FaradayOptionsMenu extends OptionsMenu {
         add( backgroundColorMenuItem );
 
         // Grid Controls dialog, disabled when dialog is open
-        final JMenuItem gridControlsMenuItem = new SimSharingJMenuItem( UserComponents.gridControlsMenuItem, FaradayStrings.MENU_ITEM_GRID_CONTROLS );
+        final JMenuItem gridControlsMenuItem = new SimSharingJMenuItem( Components.gridControlsMenuItem, FaradayStrings.MENU_ITEM_GRID_CONTROLS );
         gridControlsMenuItem.setMnemonic( FaradayStrings.MNEMONIC_GRID_CONTROLS );
         gridControlsMenuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -80,12 +79,12 @@ public class FaradayOptionsMenu extends OptionsMenu {
                 gridControlsDialog.addWindowListener( new WindowAdapter() {
 
                     @Override public void windowOpened( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( SystemObjects.gridControlsDialog, UserActions.windowOpened );
+                        SimSharingManager.sendSystemMessage( Components.gridControlsDialog, UserActions.windowOpened );
                     }
 
                     // called when dispose is called
                     @Override public void windowClosed( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( SystemObjects.gridControlsDialog, UserActions.windowClosed );
+                        SimSharingManager.sendSystemMessage( Components.gridControlsDialog, UserActions.windowClosed );
                         gridControlsMenuItem.setEnabled( true );
                     }
 

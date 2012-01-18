@@ -1,3 +1,4 @@
+1/17/12 #3124, add sim-sharing messages for color chooser buttons
 1/17/12 #3214, system messages for open/close of secondary windows
 1/17/12 #3214, add sim-sharing to menu items
 1/17/12 #3214, add sim-sharing to Turbine control panel
