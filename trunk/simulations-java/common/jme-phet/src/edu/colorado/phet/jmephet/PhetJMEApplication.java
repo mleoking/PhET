@@ -48,7 +48,7 @@ import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.AppSettings;
 import com.jme3.system.Timer;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.errorMessage;
 import static edu.colorado.phet.jmephet.JMEPhetSimsharing.Actions.erred;
 import static edu.colorado.phet.jmephet.JMEPhetSimsharing.Objects.jmePhetApplication;

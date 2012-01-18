@@ -29,9 +29,9 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.getConfig;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime.whatIsMountainTime;

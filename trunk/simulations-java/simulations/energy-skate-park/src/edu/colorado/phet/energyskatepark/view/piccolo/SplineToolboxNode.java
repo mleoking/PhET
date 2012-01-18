@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.numTracks;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.trackIndex;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.toolboxTrack;
