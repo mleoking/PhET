@@ -4,7 +4,12 @@ package edu.colorado.phet.common.phetcommon.simsharing.components;
 import javax.swing.BoundedRangeModel;
 import javax.swing.JSlider;
 
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 
 /**
  * TODO: Not done yet, needs to be implemented.
@@ -43,8 +48,10 @@ public class SimSharingJSlider extends JSlider {
         this.userComponent = userComponent;
     }
 
-    //TODO: add messages
+    //TODO: add messages for startDrag, endDrag actions
+
     @Override protected void fireStateChanged() {
+        SimSharingManager.sendUserMessage( userComponent, UserActions.drag, Parameter.componentType( ComponentTypes.slider ).param( ParameterKeys.value, getValue() ) );
         super.fireStateChanged();
     }
 }
