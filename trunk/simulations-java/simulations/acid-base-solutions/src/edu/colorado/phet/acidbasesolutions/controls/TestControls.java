@@ -99,7 +99,7 @@ public class TestControls extends PhetTitledPanel {
             }
         } );
 
-        JLabel pHPaperIcon = new SimSharingIcon( UserComponents.pHPaperIcon, ABSImages.PH_PAPER_ICON, new VoidFunction0() {
+        JLabel pHPaperIcon = new SimSharingIcon( UserComponents.phPaperIcon, ABSImages.PH_PAPER_ICON, new VoidFunction0() {
             public void apply() {
                 pHPaperRadioButton.setSelected( true );
                 updateModel();
