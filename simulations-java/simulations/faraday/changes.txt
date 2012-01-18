@@ -1,3 +1,4 @@
+1/17/12 added sim-sharing for bar magnet strength control
 # 2.07.00 (57375) Oct 7, 2011
 # 2.06.01 (57313) Oct 5, 2011
 > change "Turbine" to "Bar Magnet" in Generator panel
