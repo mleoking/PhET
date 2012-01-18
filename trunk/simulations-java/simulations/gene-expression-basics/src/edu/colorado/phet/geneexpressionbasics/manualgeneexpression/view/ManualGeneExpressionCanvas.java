@@ -154,6 +154,31 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         } );
         backgroundCellLayer.addChild( backgroundCell );
 
+        // Add a few other background cells to make it look like the cell is
+        // amongst a set of other cells.
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( 40000, -40000 ), 2 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -40000, -60000 ),
+                                                              new PDimension( BackgroundCellNode.DEFAULT_SIZE.getWidth() * 0.7,
+                                                                              BackgroundCellNode.DEFAULT_SIZE.getHeight() ),
+                                                              -Math.PI / 6,
+                                                              2 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -1000, -85000 ),
+                                                              new PDimension( BackgroundCellNode.DEFAULT_SIZE.getWidth() * 0.7,
+                                                                              BackgroundCellNode.DEFAULT_SIZE.getHeight() ),
+                                                              -Math.PI / 6,
+                                                              2 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( 90000, -60000 ),
+                                                              new PDimension( BackgroundCellNode.DEFAULT_SIZE.getWidth() * 0.8,
+                                                                              BackgroundCellNode.DEFAULT_SIZE.getHeight() ),
+                                                              Math.PI / 8,
+                                                              2 ) );
+        backgroundCellLayer.addChild( new BackgroundCellNode( new Point2D.Double( -100000, -20000 ),
+                                                              new PDimension( BackgroundCellNode.DEFAULT_SIZE.getWidth() * 0.8,
+                                                                              BackgroundCellNode.DEFAULT_SIZE.getHeight() ),
+                                                              Math.PI * 0.05,
+                                                              2 ) );
+
+
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
         dnaLayer.addChild( dnaMoleculeNode );

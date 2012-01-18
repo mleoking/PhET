@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -28,15 +29,22 @@ public class BackgroundCellNode extends PNode {
     private static final Color CELL_INTERIOR_COLOR = new Color( 190, 231, 251 );
 
     public BackgroundCellNode( Point2D centerLocation, int seed ) {
-        Paint cellInteriorPaint = new GradientPaint( (float) ( centerLocation.getX() - DEFAULT_SIZE.getWidth() * 0.1 ),
-                                                     (float) ( centerLocation.getY() - DEFAULT_SIZE.getHeight() * 0.5 ),
+        this( centerLocation, DEFAULT_SIZE, 0, seed );
+
+    }
+
+    public BackgroundCellNode( Point2D centerLocation, Dimension2D size, double rotationAngle, int seed ) {
+        PPath cellBody = new PhetPPath( BioShapeUtils.createEColiLikeShape( centerLocation, size.getWidth(), DEFAULT_SIZE.getHeight(), 0, seed ),
+                                        new BasicStroke( 500f ), // This is big because the cell is only ever shown when zoomed way out.
+                                        Color.WHITE );
+        cellBody.rotateAboutPoint( rotationAngle, centerLocation );
+        Paint cellInteriorPaint = new GradientPaint( (float) ( centerLocation.getX() - size.getWidth() * 0.1 ),
+                                                     (float) ( centerLocation.getY() - size.getHeight() * 0.5 ),
                                                      ColorUtils.darkerColor( CELL_INTERIOR_COLOR, 0.25 ),
-                                                     (float) ( centerLocation.getX() + DEFAULT_SIZE.getWidth() * 0.1 ),
-                                                     (float) ( centerLocation.getY() + DEFAULT_SIZE.getHeight() * 0.5 ),
+                                                     (float) ( centerLocation.getX() + size.getWidth() * 0.1 ),
+                                                     (float) ( centerLocation.getY() + size.getHeight() * 0.5 ),
                                                      ColorUtils.brighterColor( CELL_INTERIOR_COLOR, 0.25 ) );
-        addChild( new PhetPPath( BioShapeUtils.createEColiLikeShape( centerLocation, DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight(), 0, seed ),
-                                 cellInteriorPaint,
-                                 new BasicStroke( 500f ), // This is big because the cell is only ever shown when zoomed way out.
-                                 Color.WHITE ) );
+        cellBody.setPaint( cellInteriorPaint );
+        addChild( cellBody );
     }
 }
