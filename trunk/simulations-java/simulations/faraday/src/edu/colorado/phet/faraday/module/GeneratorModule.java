@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradaySimSharing.UserComponent;
+import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
@@ -98,7 +98,7 @@ public class GeneratorModule extends FaradayModule {
      */
     public GeneratorModule() {
 
-        super( UserComponent.generatorTab, FaradayStrings.TITLE_GENERATOR_MODULE );
+        super( UserComponents.generatorTab, FaradayStrings.TITLE_GENERATOR_MODULE );
 
         //----------------------------------------------------------------------------
         // Model
