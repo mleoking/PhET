@@ -135,7 +135,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       val timePeriod = Pair(1000, "sec")
 
       val table = ( ( 0 until 30 ).map(i => i -> timeBetweenClicks.filter(time => time >= timePeriod._1 * i && time < timePeriod._1 * ( i + 1 )).length) ).toMap
-      table.foreach(entry => println("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
+      //      table.foreach(entry => println("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
 
       phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
         for ( e <- table.keys.toList.sorted ) {
@@ -156,8 +156,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
       val states = getStates(log)
 
-      val e = log.entries.zip(getStates(log))
-      writeLine(e mkString "\n")
+      //      val e = log.entries.zip(getStates(log))
+      //      writeLine(e mkString "\n")
 
       val solutionTable = new GrowingTable
       val viewTable = new GrowingTable
@@ -218,6 +218,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
       //Print the log augmented with tab annotations
       //log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(println)
+
+      writeLine("")
     }
   }
 }
