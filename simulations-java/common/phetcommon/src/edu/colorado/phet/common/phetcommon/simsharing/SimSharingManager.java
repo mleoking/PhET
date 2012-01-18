@@ -51,7 +51,7 @@ public class SimSharingManager {
 
     // component and type used for system messages sent by this class
     private final ISystemComponent SYSTEM_COMPONENT = SystemComponents.simsharingManager;
-    private final ISystemComponentType SYSTEM_COMPONENT_TYPE = SystemComponentTypes.unknown; //TODO what should this be?
+    private final ISystemComponentType SYSTEM_COMPONENT_TYPE = SystemComponentTypes.simsharingManager;
 
     //This number should be increased when the data format changes so that a different parser must be used
     private static final int PARSER_VERSION = 2;
