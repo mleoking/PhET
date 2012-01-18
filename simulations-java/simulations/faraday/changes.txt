@@ -1,3 +1,4 @@
+1/17/12 #3124, add sim-sharing non-interactive message for B-field sprite
 1/17/12 #3124, add sim-sharing messages for all phetgraphics-based sliders
 1/17/12 #3124, add sim-sharing messages for interactive and non-interactive sprites
 1/17/12 #3124, add sim-sharing messages for contents of field controls dialog

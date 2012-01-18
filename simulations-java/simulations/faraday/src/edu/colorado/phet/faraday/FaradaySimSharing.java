@@ -65,6 +65,7 @@ public class FaradaySimSharing {
         electromagnet,
         waterWheel,
         faucet,
-        acPowerSupply
+        acPowerSupply,
+        bField
     }
 }
