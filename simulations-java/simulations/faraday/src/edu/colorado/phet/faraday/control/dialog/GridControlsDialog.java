@@ -2,11 +2,20 @@
 
 package edu.colorado.phet.faraday.control.dialog;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JSlider;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,8 +23,13 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSlider;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.panel.FaradayPanel;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
@@ -68,7 +82,7 @@ public class GridControlsDialog extends PaintImmediateDialog implements ActionLi
     private void initValues() {
         // Find the first module that has a grid and use its values.
         Module module = _app.getActiveModule();
-        if ( ! ( module instanceof ICompassGridModule ) ) {
+        if ( !( module instanceof ICompassGridModule ) ) {
             int numberOfModules = _app.numModules();
             for ( int i = 0; i < numberOfModules; i++ ) {
                 module = _app.getModule( i );
@@ -128,7 +142,7 @@ public class GridControlsDialog extends PaintImmediateDialog implements ActionLi
         JLabel spacingLabel = new JLabel( FaradayStrings.LABEL_NEEDLE_SPACING );
         {
             // Slider
-            _spacingSlider = new JSlider();
+            _spacingSlider = new SimSharingJSlider( qualifiedUserComponent( Components.needleSpacingSlider ) );
             _spacingSlider.setMinimum( FaradayConstants.GRID_SPACING_MIN );
             _spacingSlider.setMaximum( FaradayConstants.GRID_SPACING_MAX );
             _spacingSlider.setValue( _xSpacing );
@@ -137,14 +151,14 @@ public class GridControlsDialog extends PaintImmediateDialog implements ActionLi
             _spacingSlider.setMinimumSize( FaradayPanel.SLIDER_SIZE );
 
             // Value
-            _gridSpacingValue = new JLabel( String.valueOf( _xSpacing) );
+            _gridSpacingValue = new JLabel( String.valueOf( _xSpacing ) );
         }
 
         // Needle size
         JLabel needleSizeLabel = new JLabel( FaradayStrings.LABEL_NEEDLE_SIZE );
         {
             // Slider
-            _needleSizeSlider = new JSlider();
+            _needleSizeSlider = new SimSharingJSlider( qualifiedUserComponent( Components.needleSizeSlider ) );
             _needleSizeSlider.setMinimum( FaradayConstants.GRID_NEEDLE_WIDTH_MIN );
             _needleSizeSlider.setMaximum( FaradayConstants.GRID_NEEDLE_WIDTH_MAX );
             _needleSizeSlider.setValue( _needleSize.width );
@@ -188,27 +202,30 @@ public class GridControlsDialog extends PaintImmediateDialog implements ActionLi
         return inputPanel;
     }
 
+    private IUserComponent qualifiedUserComponent( IUserComponent userComponent ) {
+        return UserComponentChain.chain( Components.fieldControlsDialog, userComponent );
+    }
+
     /**
      * Creates the dialog's actions panel, consisting of OK and Cancel buttons.
      *
      * @return the actions panel
      */
-    private JPanel createActionsPanel()
-    {
-      _okButton = new JButton( FaradayStrings.BUTTON_OK );
-      _okButton.addActionListener( this );
+    private JPanel createActionsPanel() {
+        _okButton = new SimSharingJButton( qualifiedUserComponent( Components.okButton ), FaradayStrings.BUTTON_OK );
+        _okButton.addActionListener( this );
 
-      _cancelButton = new JButton( FaradayStrings.BUTTON_CANCEL );
-      _cancelButton.addActionListener( this );
+        _cancelButton = new SimSharingJButton( qualifiedUserComponent( Components.cancelButton ), FaradayStrings.BUTTON_CANCEL );
+        _cancelButton.addActionListener( this );
 
-      JPanel innerPanel = new JPanel( new GridLayout(1,2,10,0) );
-      innerPanel.add( _okButton );
-      innerPanel.add( _cancelButton );
+        JPanel innerPanel = new JPanel( new GridLayout( 1, 2, 10, 0 ) );
+        innerPanel.add( _okButton );
+        innerPanel.add( _cancelButton );
 
-      JPanel actionPanel = new JPanel( new FlowLayout() );
-      actionPanel.add( innerPanel );
+        JPanel actionPanel = new JPanel( new FlowLayout() );
+        actionPanel.add( innerPanel );
 
-      return actionPanel;
+        return actionPanel;
     }
 
     /**
@@ -227,7 +244,7 @@ public class GridControlsDialog extends PaintImmediateDialog implements ActionLi
     public void revert() {
         setAllGrids( _xSpacing, _ySpacing, _needleSize );
     }
-    
+
     /**
      * Handles changes to the sliders.  Since the parameters are closely
      * related, we simply read and update all values.
@@ -249,8 +266,8 @@ public class GridControlsDialog extends PaintImmediateDialog implements ActionLi
     /**
      * Sets grid parameters for all Modules that have a grid.
      *
-     * @param xSpacing horizontal spacing, in pixels
-     * @param ySpacing vertical spacing, in pixels
+     * @param xSpacing   horizontal spacing, in pixels
+     * @param ySpacing   vertical spacing, in pixels
      * @param needleSize needle size, in pixels
      */
     private void setAllGrids( int xSpacing, int ySpacing, Dimension needleSize ) {

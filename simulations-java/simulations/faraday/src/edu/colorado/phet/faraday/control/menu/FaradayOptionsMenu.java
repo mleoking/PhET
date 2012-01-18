@@ -79,12 +79,12 @@ public class FaradayOptionsMenu extends OptionsMenu {
                 gridControlsDialog.addWindowListener( new WindowAdapter() {
 
                     @Override public void windowOpened( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( Components.gridControlsDialog, UserActions.windowOpened );
+                        SimSharingManager.sendSystemMessage( Components.fieldControlsDialog, UserActions.windowOpened );
                     }
 
                     // called when dispose is called
                     @Override public void windowClosed( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( Components.gridControlsDialog, UserActions.windowClosed );
+                        SimSharingManager.sendSystemMessage( Components.fieldControlsDialog, UserActions.windowClosed );
                         gridControlsMenuItem.setEnabled( true );
                     }
 
