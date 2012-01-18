@@ -6,6 +6,10 @@ import java.io.IOException;
 
 //Project that builds a library jar for code that can inspect, view and provide diagnostic information on data files recorded by the sim event collection project.
 public class SimEventDataCollectionAnalysisProject extends JavaSimulationProject {
+
+    //Flag that indicates whether this jar should be built for use as a dependency
+    private boolean libraryProject = false;
+
     public SimEventDataCollectionAnalysisProject( File file ) throws IOException {
         super( file );
     }
@@ -15,8 +19,8 @@ public class SimEventDataCollectionAnalysisProject extends JavaSimulationProject
         return getProjectDir().getParentFile().getParentFile(); // ../../trunk/
     }
 
-    //Used as a library project from the command line, so do not discard any classes
+    //When you want to deploy this as a library project, do not discard any classes
     @Override public boolean isShrink() {
-        return false;
+        return !libraryProject;
     }
 }
