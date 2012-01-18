@@ -15,7 +15,7 @@ public class ABSSimSharing {
         battery, concentrationControl, concentrationGraph,
         lightBulb, magnifyingGlass, phMeter, phPaper,
         reactionEquation, weakStrengthControl, phMeterRadioButton, phPaperRadioButton,
-        phMeterIcon, pHPaperIcon, conductivityTesterIcon, magnifyingGlassRadioButton,
+        phMeterIcon, phPaperIcon, conductivityTesterIcon, magnifyingGlassRadioButton,
         concentrationGraphRadioButton, liquidRadioButton, showSolventCheckBox, magnifyingGlassIcon,
         waterIcon, concentrationGraphIcon, liquidIcon, phColorKey, acidRadioButton, baseRadioButton,
         weakRadioButton, strongRadioButton, waterRadioButton, strongAcidRadioButton, weakAcidRadioButton,
