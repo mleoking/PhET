@@ -26,7 +26,12 @@ object RealTimeAnalysis extends SimpleSwingApplication {
       println("most recent file: " + mostRecentFile)
 
       val myBuffer = new MyStringBuffer
-      AcidBaseSolutionSpring2012AnalysisReport.writeSingleLogReport(new Parser().parse(mostRecentFile), myBuffer.println)
+      try {
+        AcidBaseSolutionSpring2012AnalysisReport.writeSingleLogReport(new Parser().parse(mostRecentFile), myBuffer.println)
+      }
+      catch {
+        case e: Exception => e.printStackTrace()
+      }
       textArea.text = myBuffer.toString
     }
   }).start()
