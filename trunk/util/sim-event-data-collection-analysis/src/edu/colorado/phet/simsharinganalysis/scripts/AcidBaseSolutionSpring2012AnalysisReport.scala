@@ -6,6 +6,7 @@ package edu.colorado.phet.simsharinganalysis.scripts
 import edu.colorado.phet.simsharinganalysis._
 import java.io.File
 import org.jfree.data.category.DefaultCategoryDataset
+import collection.mutable.ArrayBuffer
 
 object RunIt extends App {
   AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\kelly-data"), println)
@@ -28,6 +29,56 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     }
   }
 
+  val tabs = List("introductionTab", "customSolutionTab")
+
+  val water = "water"
+  val acid = "acid"
+  val base = "base"
+
+  val molecules = "molecules"
+  val barGraph = "molecules"
+  val liquid = "molecules"
+
+  //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
+  case class Tab(solution: String, view: String, showSolvent: Boolean)
+
+  case class SimState(selectedTab: Int, tabs: List[Tab]) {
+    def changeSolution(sol: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(solution = sol)))
+
+    def changeView(v: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(view = v)))
+  }
+
+  def matchesAny(s: String, list: List[String]) = list.contains(s)
+
+  //Given the current state and an entry, compute the next state
+  def nextState(state: SimState, e: Entry) = {
+    e match {
+      case x: Entry if x.componentType == "tab" => state.copy(tabs.indexOf(x.component))
+      //Watch which solution the user selects
+      case Entry(_, "user", c, "pressed", _) if List("waterRadioButton", "waterIcon").contains(c) => state.changeSolution(water)
+      case Entry(_, "user", c, "pressed", _) if List("strongAcidRadioButton", "strongAcidIcon", "weakAcidRadioButton", "weakAcidIcon").contains(c) => state.changeSolution(acid)
+      case Entry(_, "user", c, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon", "weakBaseRadioButton", "weakBaseIcon").contains(c) => state.changeSolution(base)
+
+      //Watch which view the user selects
+      case Entry(_, "user", c, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => state.changeView(water)
+      case Entry(_, "user", c, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => state.changeView(barGraph)
+      case Entry(_, "user", c, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => state.changeSolution(liquid)
+      case _ => state
+    }
+  }
+
+  //Find the sequence of states of the sim
+  //The list will contain one state per event, indicating the state of the sim after the event.
+  def getStates(log: Log) = {
+    val states = new ArrayBuffer[SimState]
+    var state = SimState(0, List(Tab(water, molecules, false), Tab(water, molecules, false)))
+    for ( e <- log.entries ) {
+      state = nextState(state, e)
+      states += state
+    }
+    states.toList
+  }
+
   def report(dir: File, writeLine: String => Unit) {
 
     val logs = phet.load(dir).sortBy(_.startTime)
@@ -40,7 +91,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       //For entries that count as a "click" for ABS, make a List[Pair[Entry,Entry]]
       val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
 
-      writeLine(entries.mkString("\n"))
+      //      writeLine(entries.mkString("\n"))
 
       val a = entries.tail
       val b = entries.reverse.tail.reverse
@@ -57,7 +108,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
       phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
         for ( e <- table.keys.toList.sorted ) {
-          addValue(table(e), "selected " + timePeriod._2 + " interval", e)
+          this.addValue(table(e).asInstanceOf[Number], "selected " + timePeriod._2 + " interval", e)
         }
       })
 
@@ -72,13 +123,19 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
       writeLine("Circuit completed: " + ( log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).length > 0 ))
 
+      val states = getStates(log)
+
+      val e = log.entries.zip(getStates(log))
+      writeLine(e mkString "\n")
+      System exit 0
+
       //      //This line computes which components the user interacted with:
       //      val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
       //      writeLine("Used components: " + usedComponents.mkString(", "))
       //
       //      writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
       //      writeLine("How many times pressed tabs: " + log.filter(_.componentType == "tab").length)
-      //      val tabs = List("introductionTab", "customSolutionTab")
+
       //      writeLine("How many events in each tab: " + tabs.map(t => t + "=" + log.selectTab(tabs, t).length))
       //      //    println("Number of tabs visited: " + log.entries.map(log.getTabComponent(_, tabs(0))).distinct.length)
       //      val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
