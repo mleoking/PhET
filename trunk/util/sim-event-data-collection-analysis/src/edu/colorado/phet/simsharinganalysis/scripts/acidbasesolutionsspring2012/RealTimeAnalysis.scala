@@ -15,7 +15,6 @@ import javax.swing.{JFrame, Timer}
 object RealTimeAnalysis extends SimpleSwingApplication {
 
   val textArea = new TextArea {
-    preferredSize = new Dimension(800, 600)
     font = new PhetFont(16)
   }
 
@@ -39,6 +38,7 @@ object RealTimeAnalysis extends SimpleSwingApplication {
   lazy val top = new Frame {
     contents = new ScrollPane(textArea)
     pack()
+    size = new Dimension(800, 600)
     visible = true
     peer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
   }

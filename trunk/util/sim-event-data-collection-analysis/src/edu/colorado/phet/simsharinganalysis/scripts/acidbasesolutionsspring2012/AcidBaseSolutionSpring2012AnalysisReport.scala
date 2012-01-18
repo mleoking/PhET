@@ -163,18 +163,18 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     }
   }
 
-  def showBarChart(log: Log) {
-    //For entries that count as a "click" for ABS, make a List[Pair[Entry,Entry]]
+  def getTimeBetweenClickHistogram(log: Log, timePeriod: Pair[Int, String]) = {
     val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
 
     val timeBetweenClicks: List[Long] = if ( entries.length > 0 ) getTimesBetweenEntries(entries) else Nil
-    //      writeLine(timeBetweenClicks mkString "\n")
 
-    //        val timePeriod = Pair(60*1000,"minute")
-    //        val timePeriod = Pair(1000*10,"10 sec")
-    val timePeriod = Pair(1000, "sec")
+    ( ( 0 until 30 ).map(i => ( i + 1 ) -> timeBetweenClicks.filter(time => time >= timePeriod._1 * i && time < timePeriod._1 * ( i + 1 )).length) ).toMap
+  }
 
-    val table = ( ( 0 until 30 ).map(i => i -> timeBetweenClicks.filter(time => time >= timePeriod._1 * i && time < timePeriod._1 * ( i + 1 )).length) ).toMap
+  def showBarChart(log: Log) {
+    //For entries that count as a "click" for ABS, make a List[Pair[Entry,Entry]]
+    val timePeriod = Pair(1000 * 60, "minute")
+    val table = getTimeBetweenClickHistogram(log, timePeriod)
     //      table.foreach(entry => writeLine("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
 
     phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
@@ -189,27 +189,36 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
     val clicks: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
 
-    //Show how long the sim was open.  Format so that RealTimeAnalysis isn't too jumpy
-    writeLine("Time sim open (min)\t" + new DecimalFormat("0.00").format(log.minutesUsed)) //NOTE: this is the time from first to last event
-    writeLine("First click to last click (min)\t" + new DecimalFormat("0.00").format(( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0))
+    if ( clicks.length > 0 ) {
+      //Show how long the sim was open.  Format so that RealTimeAnalysis isn't too jumpy
+      writeLine("Time sim open (min):\t" + new DecimalFormat("0.00").format(log.minutesUsed)) //NOTE: this is the time from first to last event
+      writeLine("First click to last click (min):\t" + new DecimalFormat("0.00").format(( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0))
+    }
+    writeLine("Number of clicks:\t" + clicks.length)
 
-    writeLine("Number of clicks: " + clicks.length)
+    val timePeriod = Pair(1000 * 60, "minute")
+    val table = getTimeBetweenClickHistogram(log, timePeriod)
+    val mapped = table.keys.toList.sorted.map(e => e + " -> " + table(e)).mkString(", ")
+    writeLine("Clicks per min:\t" + mapped)
+
+    writeLine("Number of events on interactive components:\t" + log.entries.filter(_.messageType == "user").filter(_.interactive != false).length)
+    val usedComponents = log.entries.map(_.component).distinct
+    writeLine("Type used:\t" + usedComponents)
+
+    val allComponents = ABSSimSharing.UserComponents.values.map(_.toString).toList
+    writeLine("Type not used:\t" + allComponents.filter(e => !usedComponents.contains(e)))
 
     val usedStringBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
     val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
-    val baseButtons = usedStringBaseRadioButton || usedWeakBaseRadioButton
-    writeLine("Used base buttons: " + baseButtons)
-
+    val selectBase = usedStringBaseRadioButton || usedWeakBaseRadioButton
+    writeLine("Select base:  \t" + selectBase)
     val usedShowSolventCheckBox = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
-    writeLine("Showed solvent: " + usedShowSolventCheckBox)
-
-    writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
-    writeLine("Circuit completed: " + ( log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).length > 0 ))
+    writeLine("Show solvent:  \t" + usedShowSolventCheckBox)
+    writeLine("Dunk phMeter:  \t" + !log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").isEmpty)
+    writeLine("Dunk phPaper: \t" + !log.filter(_.component == "phPaper").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").isEmpty)
+    writeLine("Complete circuit:\t" + !log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).isEmpty)
 
     val states = getStates(log)
-
-    //      val e = log.entries.zip(getStates(log))
-    //      writeLine(e mkString "\n")
 
     val solutionTable = new GrowingTable
     val viewTable = new GrowingTable
@@ -223,9 +232,9 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       testTable.add(states(i).displayedTest, time)
     }
 
-    writeLine("Time spent in different solutions (ms): " + solutionTable)
-    writeLine("Time spent in different views (ms): " + viewTable)
-    writeLine("Time spent in different tests (ms): " + testTable)
+    writeLine("Time on solutions (min):\t" + solutionTable.toMinuteMap)
+    writeLine("Time on views (min):\t" + viewTable.toMinuteMap)
+    writeLine("Time on tests (min):\t" + testTable.toMinuteMap)
 
     val a = states.tail
     val b = states.reverse.tail.reverse
@@ -234,14 +243,15 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView ) 1 else 0).sum
     val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution ) 1 else 0).sum
     val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest ) 1 else 0).sum
-    writeLine("Num tab transitions: " + numTabTransitions)
-    writeLine("Num view transitions: " + numViewTransitions)
-    writeLine("Num solution transitions: " + numSolutionTransitions)
-    writeLine("Num test transitions: " + numTestTransitions)
+    writeLine("Num tab transitions:\t" + numTabTransitions)
+    writeLine("Num solution transitions:\t" + numSolutionTransitions)
+    writeLine("Num view transitions:\t" + numViewTransitions)
+    writeLine("Num test transitions:\t" + numTestTransitions)
 
     val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
-    writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
-    writeLine("Distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct)
+    writeLine("Number of events on non-interactive components:\t" + nonInteractiveEvents.length)
+    writeLine("Type used:\t" + nonInteractiveEvents.map(_.component).distinct)
+    writeLine("TODO: Type not used:\t" + Nil)
 
     //Find out how long each state was active
 
