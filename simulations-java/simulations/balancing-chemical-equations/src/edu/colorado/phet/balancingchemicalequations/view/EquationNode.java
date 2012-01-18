@@ -11,12 +11,13 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -29,7 +30,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 
 /**
@@ -243,8 +243,8 @@ public class EquationNode extends PhetPNode {
             spinner.setValue( coefficientProperty.get() );
             spinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    SimSharingManager.sendUserMessage( chain( userComponent, UserComponents.spinner ), UserActions.changed,
-                                                       componentType( ComponentTypes.spinner ).param( ParameterKeys.value, spinner.getIntValue() ) );
+                    SimSharingManager.sendUserMessage( chain( userComponent, UserComponents.spinner ), UserComponentTypes.spinner, UserActions.changed,
+                                                       Parameter.param( ParameterKeys.value, spinner.getIntValue() ) );
 
                     coefficientProperty.set( spinner.getIntValue() );
                 }

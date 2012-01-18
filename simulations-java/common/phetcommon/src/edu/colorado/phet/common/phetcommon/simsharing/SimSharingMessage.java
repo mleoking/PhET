@@ -12,24 +12,26 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.D
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Sam Reid
  */
-public class SimSharingMessage<T, U> {
+public class SimSharingMessage<T, U, V> {
 
     enum MessageType implements IMessageType {user, system, model}
 
     public final IMessageType messageType;
     public final T component;
-    public final U action;
+    public final U componentType;
+    public final V action;
     public final ParameterSet parameters;
     public final long time = System.currentTimeMillis();
 
-    public SimSharingMessage( IMessageType messageType, T component, U action, final ParameterSet parameters ) {
+    public SimSharingMessage( IMessageType messageType, T component, U componentType, V action, final ParameterSet parameters ) {
         this.component = component;
+        this.componentType = componentType;
         this.action = action;
         this.parameters = parameters;
         this.messageType = messageType;
     }
 
     public String toString() {
-        return time + DELIMITER + messageType + DELIMITER + component + DELIMITER + action + DELIMITER + parameters.toString( DELIMITER );
+        return time + DELIMITER + messageType + DELIMITER + component + DELIMITER + componentType + DELIMITER + action + DELIMITER + parameters.toString( DELIMITER );
     }
 }

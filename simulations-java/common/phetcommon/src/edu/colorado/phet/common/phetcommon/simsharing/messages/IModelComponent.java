@@ -8,5 +8,5 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  * @author Sam Reid
  */
 
-public interface ModelObject {
+public interface IModelComponent {
 }

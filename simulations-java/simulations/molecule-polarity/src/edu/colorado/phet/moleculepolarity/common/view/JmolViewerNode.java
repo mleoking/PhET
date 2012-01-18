@@ -23,8 +23,8 @@ import edu.colorado.phet.common.jmolphet.JmolUtil;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingDragListener;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
@@ -99,7 +99,7 @@ public class JmolViewerNode extends PhetPNode {
 
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
         //Record drag events for sim-sharing. Note that we cannot guarantee that these events are sent before the viewer display changes.
-        viewerPanel.addMouseListener( new SimSharingDragListener( UserComponents.realMoleculeViewer, ComponentTypes.jmolViewer ) {
+        viewerPanel.addMouseListener( new SimSharingDragListener( UserComponents.realMoleculeViewer, UserComponentTypes.jmolViewer ) {
             @Override public ParameterSet getParametersForAllEvents( MouseEvent event ) {
                 return super.getParametersForAllEvents( event ).param( Parameters.currentMolecule, currentMolecule.get().getName() );
             }

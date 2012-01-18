@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -315,7 +316,7 @@ public class PhetJMEApplication extends Application {
 
     @Override public void handleError( String errMsg, final Throwable t ) {
         super.handleError( errMsg, t );
-        SimSharingManager.sendSystemMessage( jmePhetApplication, erred, param( errorMessage, errMsg ) );
+        SimSharingManager.sendSystemMessage( jmePhetApplication, SystemComponentTypes.application, erred, param( errorMessage, errMsg ) );
         showErrorDialog( t );
     }
 

@@ -10,6 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
@@ -101,7 +102,7 @@ public class ElectromagnetGraphic extends GraphicLayerSet
 
         // Interactivity
         {
-            _mouseHandler = new FaradayMouseHandler( Components.electromagnet, _electromagnetModel, this );
+            _mouseHandler = new FaradayMouseHandler( Components.electromagnet, UserComponentTypes.sprite, _electromagnetModel, this );
             _collisionDetector = new CollisionDetector( this );
             _mouseHandler.setCollisionDetector( _collisionDetector );
 

@@ -20,6 +20,7 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -88,7 +89,7 @@ public class GameOverNode extends PhetPNode {
         super();
 
         //Report on the game over, assumes that this node is only created at the end of a game (a safe assumption because the constructor args are only available at end of game)
-        SimSharingManager.sendModelMessage( Components.game, Actions.ended,
+        SimSharingManager.sendModelMessage( Components.game, ModelComponentTypes.feature, Actions.ended,
                                             param( Parameters.level, level ).
                                                     param( Parameters.score, score ).
                                                     param( Parameters.perfectScore, perfectScore ).

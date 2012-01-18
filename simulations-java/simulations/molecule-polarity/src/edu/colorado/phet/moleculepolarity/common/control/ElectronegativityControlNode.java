@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -288,8 +289,8 @@ public class ElectronegativityControlNode extends PhetPNode {
             this.molecule = molecule;
             this.snapInterval = snapInterval;
             DragFunction startEndDragFunction = new DragFunction() {
-                public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, PInputEvent event ) {
-                    SimSharingManager.sendUserMessage( userComponent, action,
+                public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event ) {
+                    SimSharingManager.sendUserMessage( userComponent, componentType, action,
                                                        parameters.param( Parameters.atom, atom.getName() ).param( Parameters.electronegativity, atom.electronegativity.get() ) );
                 }
             };

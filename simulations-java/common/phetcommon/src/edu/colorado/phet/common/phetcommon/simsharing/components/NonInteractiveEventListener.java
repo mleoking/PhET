@@ -7,7 +7,9 @@ import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
@@ -21,13 +23,20 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterK
 public class NonInteractiveEventListener extends MouseInputAdapter {
 
     private final IUserComponent userComponent;
+    private final IUserComponentType userComponentType;
 
+    // Convenience constructor, since many (most?) such components are sprites.
     public NonInteractiveEventListener( IUserComponent userComponent ) {
+        this( userComponent, UserComponentTypes.sprite );
+    }
+
+    public NonInteractiveEventListener( IUserComponent userComponent, IUserComponentType userComponentType ) {
         this.userComponent = userComponent;
+        this.userComponentType = userComponentType;
     }
 
     @Override public void mousePressed( MouseEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, UserActions.pressed, param( interactive, false ) );
+        SimSharingManager.sendUserMessage( userComponent, userComponentType, UserActions.pressed, param( interactive, false ) );
         super.mousePressed( event );
     }
 }

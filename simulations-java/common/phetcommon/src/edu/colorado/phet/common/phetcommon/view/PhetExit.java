@@ -7,7 +7,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemMessage;
@@ -40,7 +41,7 @@ public class PhetExit {
             exitListener.apply();
         }
         // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
-        sendSystemMessage( SystemObjects.application, SystemActions.exited, Parameter.param( ParameterKeys.messageCount, SimSharingManager.getInstance().getMessageCount() ) );
+        sendSystemMessage( SystemComponents.application, SystemComponentTypes.application, SystemActions.exited, Parameter.param( ParameterKeys.messageCount, SimSharingManager.getInstance().getMessageCount() ) );
 
         //Notify after exit message sent so logs can be closed, etc.
         for ( VoidFunction0 listener : finalExitMessageSentListeners ) {

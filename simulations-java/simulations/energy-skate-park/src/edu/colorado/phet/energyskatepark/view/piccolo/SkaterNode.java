@@ -10,8 +10,8 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -87,7 +87,7 @@ public class SkaterNode extends PNode {
             addChild( centerDebugger );
         }
 
-        addInputEventListener( new SimSharingDragHandler( skater, ComponentTypes.sprite ) {
+        addInputEventListener( new SimSharingDragHandler( skater, UserComponentTypes.sprite ) {
 
             public Point2D pressPoint;
             public SerializablePoint2D bodyPosition;

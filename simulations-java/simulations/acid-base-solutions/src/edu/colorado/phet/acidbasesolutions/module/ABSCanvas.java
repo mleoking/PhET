@@ -18,6 +18,7 @@ import edu.colorado.phet.acidbasesolutions.view.ReactionEquationNode;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
@@ -78,7 +79,7 @@ public class ABSCanvas extends PhetPCanvas {
                                                        pHPaperNode.getFullBoundsReference().getMaxX() > pHColorKeyNode.getFullBoundsReference().getMinX() );
                 if ( isPaperAlignedWithColorKey != ABSCanvas.this.isPaperAlignedWithColorKey ) {
                     // send an event whenever the alignment status changes
-                    SimSharingManager.sendUserMessage( phPaper, moved, Parameter.param( ParameterKeys.isPaperAlignedWithColorKey, isPaperAlignedWithColorKey ) );
+                    SimSharingManager.sendUserMessage( phPaper, UserComponentTypes.sprite, moved, Parameter.param( ParameterKeys.isPaperAlignedWithColorKey, isPaperAlignedWithColorKey ) );
                     ABSCanvas.this.isPaperAlignedWithColorKey = isPaperAlignedWithColorKey;
                 }
             }

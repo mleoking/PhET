@@ -6,9 +6,9 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingDragPoints;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
@@ -30,21 +30,21 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     public interface DragFunction {
-        public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, PInputEvent event );
+        public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event );
     }
 
     protected final IUserComponent userComponent;
-    private final IComponentType componentType;
+    protected final IUserComponentType componentType;
     private final SimSharingDragPoints dragPoints; // canvas coordinates, accumulated during a drag sequence
     private DragFunction startDragFunction, dragFunction, endDragFunction; // functions called for various events
 
     // Sends a message on startDrag and endDrag, but not drag
-    public SimSharingDragHandler( IUserComponent userComponent, IComponentType componentType ) {
+    public SimSharingDragHandler( IUserComponent userComponent, IUserComponentType componentType ) {
         this( userComponent, componentType, false );
     }
 
     // Sends a message on drag if reportDrag=true
-    public SimSharingDragHandler( IUserComponent userComponent, final IComponentType componentType, final boolean sendDragMessages ) {
+    public SimSharingDragHandler( IUserComponent userComponent, IUserComponentType componentType, final boolean sendDragMessages ) {
 
         this.userComponent = userComponent;
         this.componentType = componentType;
@@ -52,20 +52,20 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
         // default functions
         this.startDragFunction = new DragFunction() {
-            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
-                SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
             }
         };
         this.dragFunction = new DragFunction() {
-            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
                 if ( sendDragMessages ) {
-                    SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+                    SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
                 }
             }
         };
         this.endDragFunction = new DragFunction() {
-            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
-                SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, PInputEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
             }
         };
     }
@@ -73,19 +73,19 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
     @Override protected void startDrag( final PInputEvent event ) {
         clearDragPoints();
         addDragPoint( event );
-        startDragFunction.apply( userComponent, UserActions.startDrag, getStartDragParameters( event ), event );
+        startDragFunction.apply( userComponent, componentType, UserActions.startDrag, getStartDragParameters( event ), event );
         super.startDrag( event );
     }
 
     @Override protected void drag( PInputEvent event ) {
         addDragPoint( event );
-        dragFunction.apply( userComponent, UserActions.drag, getDragParameters( event ), event );
+        dragFunction.apply( userComponent, componentType, UserActions.drag, getDragParameters( event ), event );
         super.drag( event );
     }
 
     @Override protected void endDrag( PInputEvent event ) {
         addDragPoint( event );
-        endDragFunction.apply( userComponent, UserActions.endDrag, getEndDragParameters( event ), event );
+        endDragFunction.apply( userComponent, componentType, UserActions.endDrag, getEndDragParameters( event ), event );
         clearDragPoints();
         super.endDrag( event );
     }
@@ -122,7 +122,7 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     // Return parameters that are used by default for startDrag, endDrag, and drag
     protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
-        return Parameter.componentType( componentType ).add( getXParameter( event ) ).add( getYParameter( event ) );
+        return new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) );
     }
 
     private void addDragPoint( PInputEvent event ) {

@@ -17,9 +17,9 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -470,7 +470,7 @@ public class ConductivityTesterNode extends PhetPNode {
         private Point2D.Double relativeGrabPoint; // where the mouse grabbed relative to the probe, in view coordinates
 
         ProbeDragHandler( IUserComponent userComponent, ModelViewTransform transform, ProbeNode probeNode, Function0<Point2D> getModelLocation, VoidFunction1<Point2D> setModelLocation ) {
-            super( userComponent, ComponentTypes.sprite );
+            super( userComponent, UserComponentTypes.sprite );
             this.transform = transform;
             this.probeNode = probeNode;
             this.getModelLocation = getModelLocation;

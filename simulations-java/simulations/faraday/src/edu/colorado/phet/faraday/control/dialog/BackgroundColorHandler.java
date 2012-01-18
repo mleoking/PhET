@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
@@ -77,7 +78,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#ok(java.awt.Color)
      */
     public void ok( Color color ) {
-        SimSharingManager.sendUserMessage( UserComponentChain.chain( Components.backgroundColorDialog, Components.okButton ), UserActions.pressed );
+        SimSharingManager.sendUserMessage( UserComponentChain.chain( Components.backgroundColorDialog, Components.okButton ), UserComponentTypes.button, UserActions.pressed );
         handleColorChange( color );
     }
 
@@ -85,7 +86,7 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#cancelled(java.awt.Color)
      */
     public void cancelled( Color originalColor ) {
-        SimSharingManager.sendUserMessage( UserComponentChain.chain( Components.backgroundColorDialog, Components.cancelButton ), UserActions.pressed );
+        SimSharingManager.sendUserMessage( UserComponentChain.chain( Components.backgroundColorDialog, Components.cancelButton ), UserComponentTypes.button, UserActions.pressed );
         handleColorChange( originalColor );
     }
 

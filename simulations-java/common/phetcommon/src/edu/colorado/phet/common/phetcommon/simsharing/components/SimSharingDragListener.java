@@ -7,9 +7,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
@@ -28,21 +28,21 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 public class SimSharingDragListener extends MouseAdapter {
 
     public interface DragFunction {
-        public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, MouseEvent event );
+        public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, MouseEvent event );
     }
 
     protected final IUserComponent userComponent;
-    private final IComponentType componentType;
+    private final IUserComponentType componentType;
     private final SimSharingDragPoints dragPoints; // mouse coordinates, accumulated during a drag sequence
     private DragFunction startDragFunction, dragFunction, endDragFunction; // functions called for various events
 
     // Sends a message on startDrag and endDrag, but not drag
-    public SimSharingDragListener( IUserComponent userComponent, IComponentType componentType ) {
+    public SimSharingDragListener( IUserComponent userComponent, IUserComponentType componentType ) {
         this( userComponent, componentType, false );
     }
 
     // Sends a message on drag if reportDrag=true
-    public SimSharingDragListener( IUserComponent userComponent, IComponentType componentType, final boolean sendDragMessages ) {
+    public SimSharingDragListener( IUserComponent userComponent, IUserComponentType componentType, final boolean sendDragMessages ) {
 
         this.userComponent = userComponent;
         this.componentType = componentType;
@@ -50,20 +50,20 @@ public class SimSharingDragListener extends MouseAdapter {
 
         // default functions
         this.startDragFunction = new DragFunction() {
-            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
-                SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
             }
         };
         this.dragFunction = new DragFunction() {
-            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
                 if ( sendDragMessages ) {
-                    SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+                    SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
                 }
             }
         };
         this.endDragFunction = new DragFunction() {
-            public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
-                SimSharingManager.sendUserMessage( userComponent, action, parameterSet );
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
             }
         };
     }
@@ -71,19 +71,19 @@ public class SimSharingDragListener extends MouseAdapter {
     @Override public void mousePressed( MouseEvent event ) {
         clearDragPoints();
         addDragPoint( event );
-        startDragFunction.apply( userComponent, UserActions.startDrag, getStartDragParameters( event ), event );
+        startDragFunction.apply( userComponent, componentType, UserActions.startDrag, getStartDragParameters( event ), event );
         super.mousePressed( event );
     }
 
     @Override public void mouseDragged( MouseEvent event ) {
         addDragPoint( event );
-        dragFunction.apply( userComponent, UserActions.drag, getDragParameters( event ), event );
+        dragFunction.apply( userComponent, componentType, UserActions.drag, getDragParameters( event ), event );
         super.mouseDragged( event );
     }
 
     @Override public void mouseReleased( MouseEvent event ) {
         addDragPoint( event );
-        endDragFunction.apply( userComponent, UserActions.endDrag, getEndDragParameters( event ), event );
+        endDragFunction.apply( userComponent, componentType, UserActions.endDrag, getEndDragParameters( event ), event );
         clearDragPoints();
         super.mouseReleased( event );
     }
@@ -120,7 +120,7 @@ public class SimSharingDragListener extends MouseAdapter {
 
     // Return parameters that are used by default for all events
     protected ParameterSet getParametersForAllEvents( MouseEvent event ) {
-        return Parameter.componentType( componentType ).add( getXParameter( event ) ).add( getYParameter( event ) );
+        return new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) );
     }
 
     private void addDragPoint( MouseEvent event ) {

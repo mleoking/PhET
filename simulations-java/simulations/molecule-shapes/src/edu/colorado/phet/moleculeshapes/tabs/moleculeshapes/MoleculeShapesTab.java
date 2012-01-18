@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -201,7 +202,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                             if ( pair != null && pair != getMolecule().getCentralAtom() ) {
                                 getMolecule().removeGroup( pair );
                             }
-                            SimSharingManager.sendUserMessage( mouseMiddleButton, UserActions.pressed, param( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
+                            SimSharingManager.sendUserMessage( mouseMiddleButton, UserComponentTypes.unknown, UserActions.pressed, param( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
@@ -453,7 +454,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingManager.sendUserMessage( draggingState, UserActions.changed,
+            SimSharingManager.sendUserMessage( draggingState, UserComponentTypes.unknown, UserActions.changed,
                                                param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
                                                        param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }

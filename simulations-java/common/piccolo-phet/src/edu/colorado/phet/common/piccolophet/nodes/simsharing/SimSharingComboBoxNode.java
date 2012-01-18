@@ -5,10 +5,10 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.umd.cs.piccolo.PNode;
@@ -42,7 +42,7 @@ public class SimSharingComboBoxNode<T> extends ComboBoxNode<T> {
     }
 
     @Override protected void itemSelected( T item ) {
-        SimSharingManager.sendUserMessage( userComponent, UserActions.selected,
-                                           Parameter.componentType( ComponentTypes.comboBox ).param( ParameterKeys.item, itemToString.apply( item ) ) );
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.comboBox, UserActions.selected,
+                                           Parameter.param( ParameterKeys.item, itemToString.apply( item ) ) );
     }
 }

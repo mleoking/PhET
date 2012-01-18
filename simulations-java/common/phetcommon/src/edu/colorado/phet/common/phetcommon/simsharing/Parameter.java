@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.componentType;
 
 /**
  * Parameter portion of a sim-sharing event.
@@ -60,17 +56,8 @@ public class Parameter {
         return new ParameterSet( new Parameter( name, value ) );
     }
 
-    public static ParameterSet componentType( IComponentType component ) {
-        return new ParameterSet( new Parameter( componentType, component + "" ) );
-    }
-
     public static ParameterSet param( IParameterKey name, long value ) {
         return new ParameterSet( new Parameter( name, value ) );
-    }
-
-    //Convenience method that creates a parameter set identifying the component type as sprite
-    public static ParameterSet sprite() {
-        return componentType( ComponentTypes.sprite );
     }
 
     public static ParameterSet param( IParameterKey name, String value ) {

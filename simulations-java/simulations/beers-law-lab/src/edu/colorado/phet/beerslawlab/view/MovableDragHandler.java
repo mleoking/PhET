@@ -7,9 +7,9 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.model.Movable;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -26,7 +26,7 @@ public class MovableDragHandler extends SimSharingDragHandler {
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
     public MovableDragHandler( final IUserComponent userComponent, final Movable movable, PNode dragNode ) {
-        super( userComponent, ComponentTypes.sprite );
+        super( userComponent, UserComponentTypes.sprite );
         this.movable = movable;
         this.dragNode = dragNode;
     }

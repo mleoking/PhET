@@ -2,10 +2,10 @@
 package edu.colorado.phet.moleculeshapes;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 
 /**
  * Sim-sharing enums that are specific to this sim.
@@ -31,7 +31,7 @@ public class MoleculeShapesSimSharing {
         black, white
     }
 
-    public static enum ModelObjects implements ModelObject {
+    public static enum ModelObjects implements IModelComponent {
         molecule
     }
 

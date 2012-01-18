@@ -9,12 +9,16 @@ import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.shown;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.resetAllConfirmationDialogNoButton;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.resetAllConfirmationDialogYesButton;
 
 /**
  * Delegate for "Reset All" behavior.
@@ -75,13 +79,13 @@ public class ResetAllDelegate {
     private boolean confirmReset() {
         //Show a message that reset confirmation was requested--this allows us to keep track of how many times the user pressed cancel vs ok,
         //And helps correlate the window activated/deactivated with this feature (otherwise you wouldn't be able to tell that the user wasn't going to another application)
-        SimSharingManager.sendSystemMessage( resetAllConfirmationDialog, shown );
+        SimSharingManager.sendSystemMessage( SystemComponents.resetAllConfirmationDialog, SystemComponentTypes.dialog, SystemActions.windowOpened );
 
         String message = getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
         String title = getInstance().getLocalizedString( "Common.title.confirm" );
         int option = PhetOptionPane.showYesNoDialog( parent, message, title );
         final boolean shouldReset = option == JOptionPane.YES_OPTION;
-        SimSharingManager.sendUserMessage( shouldReset ? resetAllConfirmationDialogYesButton : resetAllConfirmationDialogNoButton, UserActions.pressed );
+        SimSharingManager.sendUserMessage( shouldReset ? resetAllConfirmationDialogYesButton : resetAllConfirmationDialogNoButton, UserComponentTypes.button, UserActions.pressed );
 
         return shouldReset;
     }

@@ -7,18 +7,19 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ParameterKeys
 import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler.DragFunction;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.sprite;
 
 /**
  * Specialization of the conductivity node for Acid-Base Solutions.
@@ -44,7 +45,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         // sim-sharing, positive probe
         {
             DragFunction startEndDragFunction = new DragFunction() {
-                public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, PInputEvent event ) {
+                public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event ) {
                     sendProbeEvent( userComponent, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                 }
             };
@@ -54,7 +55,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                 boolean inSolution = tester.isPositiveProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
-                public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, PInputEvent event ) {
+                public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event ) {
                     if ( inSolution != tester.isPositiveProbeInSolution() ) {
                         sendProbeEvent( userComponent, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                     }
@@ -66,7 +67,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
         // sim-sharing, negative probe
         {
             DragFunction startEndDragFunction = new DragFunction() {
-                public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, PInputEvent event ) {
+                public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event ) {
                     sendProbeEvent( userComponent, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                 }
             };
@@ -76,7 +77,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                 boolean inSolution = tester.isNegativeProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
-                public void apply( IUserComponent userComponent, IUserAction action, ParameterSet parameters, PInputEvent event ) {
+                public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event ) {
                     if ( inSolution != tester.isNegativeProbeInSolution() ) {
                         sendProbeEvent( userComponent, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                     }
@@ -87,8 +88,8 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
     }
 
     private static void sendProbeEvent( IUserComponent object, IUserAction action, boolean inSolution, boolean circuitCompleted ) {
-        SimSharingManager.sendUserMessage( object, action,
-                                           sprite().param( ParameterKeys.isInSolution, inSolution ).
+        SimSharingManager.sendUserMessage( object, UserComponentTypes.sprite, action,
+                                           Parameter.param( ParameterKeys.isInSolution, inSolution ).
                                                    param( ParameterKeys.isCircuitCompleted, circuitCompleted ) );
     }
 }

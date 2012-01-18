@@ -8,6 +8,7 @@ import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.simsharing.components.NonInteractiveEventListener;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
@@ -177,7 +178,7 @@ public class PickupCoilGraphic extends GraphicLayerSet
 
         if ( enabled ) {
             // Interactivity
-            _mouseHandler = new FaradayMouseHandler( Components.pickupCoil, _pickupCoilModel, this );
+            _mouseHandler = new FaradayMouseHandler( Components.pickupCoil, UserComponentTypes.sprite, _pickupCoilModel, this );
             _mouseHandler.setCollisionDetector( _collisionDetector );
 
             _foreground.setCursorHand();

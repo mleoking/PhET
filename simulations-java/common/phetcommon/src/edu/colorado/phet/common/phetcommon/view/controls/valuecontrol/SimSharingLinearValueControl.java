@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
@@ -29,28 +30,28 @@ public class SimSharingLinearValueControl extends LinearValueControl {
     }
 
     @Override protected void sliderStartDrag( double modelValue ) {
-        sendUserMessage( userComponent, startDrag, param( value, modelValue ) );
+        sendUserMessage( userComponent, UserComponentTypes.slider, startDrag, param( value, modelValue ) );
         super.sliderStartDrag( modelValue );
     }
 
     @Override protected void sliderEndDrag( double modelValue ) {
-        sendUserMessage( userComponent, endDrag, param( value, modelValue ) );
+        sendUserMessage( userComponent, UserComponentTypes.slider, endDrag, param( value, modelValue ) );
         super.sliderEndDrag( modelValue );
     }
 
     @Override protected void sliderDrag( double modelValue ) {
-        sendUserMessage( userComponent, drag, param( value, modelValue ) );
+        sendUserMessage( userComponent, UserComponentTypes.slider, drag, param( value, modelValue ) );
         super.sliderDrag( modelValue );
     }
 
     @Override protected void textFieldCommitted( IParameterValue commitAction, double value ) {
-        sendUserMessage( userComponent, textFieldCommitted, param( ParameterKeys.commitAction, commitAction ).param( ParameterKeys.value, value ) );
+        sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCommitted, param( ParameterKeys.commitAction, commitAction ).param( ParameterKeys.value, value ) );
         super.textFieldCommitted( commitAction, value );
     }
 
     //TODO this should probably be a system or model message
     @Override protected void textFieldCorrected( IParameterValue errorType, String value, double correctedValue ) {
-        sendUserMessage( userComponent, textFieldCorrected, param( ParameterKeys.errorType, errorType ).param( ParameterKeys.value, value ).param( ParameterKeys.correctedValue, correctedValue ) );
+        sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCorrected, param( ParameterKeys.errorType, errorType ).param( ParameterKeys.value, value ).param( ParameterKeys.correctedValue, correctedValue ) );
         super.textFieldCorrected( errorType, value, correctedValue );
     }
 }

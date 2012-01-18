@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -35,8 +36,6 @@ import edu.colorado.phet.gravityandorbits.view.BodyNode;
 import edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.icon;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
@@ -204,7 +203,7 @@ public abstract class GravityAndOrbitsMode {
                 addMouseListener( new MouseAdapter() {
                     @Override
                     public void mouseReleased( MouseEvent e ) {
-                        SimSharingManager.sendUserMessage( chain( userComponent, "icon" ), pressed, componentType( icon ) );
+                        SimSharingManager.sendUserMessage( chain( userComponent, "icon" ), UserComponentTypes.icon, pressed );
                         modeProperty.set( GravityAndOrbitsMode.this ); //Make it so clicking on the icon also activates the mode
                     }
                 } );

@@ -20,9 +20,10 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponent
 import edu.colorado.phet.acidbasesolutions.constants.ABSStrings;
 import edu.colorado.phet.acidbasesolutions.model.PHMeter;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -36,7 +37,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ParameterKeys;
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.sprite;
 
 /**
  * pH meter, displays the pH of a solution. Origin is at the tip of the probe.
@@ -235,7 +235,7 @@ public class PHMeterNode extends PhetPNode {
         private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
         public PhMeterDragHandler( final PHMeter meter, PNode dragNode ) {
-            super( UserComponents.phMeter, ComponentTypes.sprite );
+            super( UserComponents.phMeter, UserComponentTypes.sprite );
             this.meter = meter;
             this.dragNode = dragNode;
         }
@@ -258,7 +258,7 @@ public class PHMeterNode extends PhetPNode {
 
             // send a sim-sharing event when the meter transitions between in/out of solution.
             if ( wasInSolution != meter.isInSolution() ) {
-                SimSharingManager.sendUserMessage( userComponent, UserActions.drag, sprite().param( ParameterKeys.isInSolution, meter.isInSolution() ) );
+                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag, Parameter.param( ParameterKeys.isInSolution, meter.isInSolution() ) );
             }
         }
     }

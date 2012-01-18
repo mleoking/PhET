@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
@@ -42,7 +43,7 @@ public class SimSharingHSliderNode extends HSliderNode {
     }
 
     @Override protected void dragStarted() {
-        SimSharingManager.sendUserMessage( userComponent, startDrag, param( ParameterKeys.value, value.get() ) );
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, startDrag, param( ParameterKeys.value, value.get() ) );
         dragValues.clear();
     }
 
@@ -52,7 +53,7 @@ public class SimSharingHSliderNode extends HSliderNode {
     }
 
     @Override protected void dragEnded() {
-        SimSharingManager.sendUserMessage( userComponent, endDrag,
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, endDrag,
                                            param( ParameterKeys.value, value.get() ).
                                                    param( numberDragEvents, dragValues.size() ).
                                                    param( minValue, Collections.min( dragValues ) ).
