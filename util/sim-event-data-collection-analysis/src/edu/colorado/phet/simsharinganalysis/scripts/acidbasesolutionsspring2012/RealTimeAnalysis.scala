@@ -2,13 +2,13 @@
 package edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012
 
 import java.awt.Dimension
-import javax.swing.Timer
 import java.awt.event.{ActionEvent, ActionListener}
 import java.io.File
 import edu.colorado.phet.simsharinganalysis.util.MyStringBuffer
 import edu.colorado.phet.simsharinganalysis.Parser
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import swing._
+import javax.swing.{JFrame, Timer}
 
 //Utility to show logs from a file as it is being generated.
 //This is to help in testing that parsing is working properly.
@@ -36,5 +36,6 @@ object RealTimeAnalysis extends SimpleSwingApplication {
     contents = new ScrollPane(textArea)
     pack()
     visible = true
+    peer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
   }
 }
