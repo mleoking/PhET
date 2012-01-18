@@ -1,3 +1,4 @@
+1/17/12 #3124, first dev version with data collection features
 1/17/12 #3214, create SimSharingConfig and add entry to build.properties
 1/17/12 #3214, add sim-sharing non-interactive message for B-field sprite
 1/17/12 #3214, add sim-sharing messages for all phetgraphics-based sliders
