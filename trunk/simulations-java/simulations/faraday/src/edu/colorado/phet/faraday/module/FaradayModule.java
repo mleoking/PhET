@@ -2,12 +2,16 @@
 
 package edu.colorado.phet.faraday.module;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetgraphics.application.SimSharingPhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
@@ -20,7 +24,7 @@ import edu.colorado.phet.faraday.view.DebuggerGraphic;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class FaradayModule extends PhetGraphicsModule implements ICompassGridModule {
+public abstract class FaradayModule extends SimSharingPhetGraphicsModule implements ICompassGridModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -46,8 +50,8 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
      *
      * @param title the module title
      */
-    public FaradayModule( String title ) {
-        super( title, new SwingClock( FaradayConstants.CLOCK_DELAY, FaradayConstants.CLOCK_STEP ) );
+    public FaradayModule( IUserComponent tabUserComponent, String title ) {
+        super( tabUserComponent, title, new SwingClock( FaradayConstants.CLOCK_DELAY, FaradayConstants.CLOCK_STEP ) );
         setLogoPanel( null );
     }
 

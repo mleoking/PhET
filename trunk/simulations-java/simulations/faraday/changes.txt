@@ -1,5 +1,6 @@
-1/17/12 added sim-sharing to entire bar magnet control panel
-1/17/12 added sim-sharing for bar magnet strength control, to test SimSharingLinearValueControl
+1/17/12 #3214, add sim-sharing for tab presses
+1/17/12 #3214, added sim-sharing to entire bar magnet control panel
+1/17/12 #3214, added sim-sharing for bar magnet strength control, to test SimSharingLinearValueControl
 # 2.07.00 (57375) Oct 7, 2011
 # 2.06.01 (57313) Oct 5, 2011
 > change "Turbine" to "Bar Magnet" in Generator panel

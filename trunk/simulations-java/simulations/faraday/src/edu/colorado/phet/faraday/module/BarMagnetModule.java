@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.faraday.module;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -12,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradaySimSharing.UserComponent;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
@@ -19,7 +23,13 @@ import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
 import edu.colorado.phet.faraday.model.FieldMeter;
-import edu.colorado.phet.faraday.view.*;
+import edu.colorado.phet.faraday.view.BFieldInsideGraphic;
+import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
+import edu.colorado.phet.faraday.view.BarMagnetGraphic;
+import edu.colorado.phet.faraday.view.CompassGraphic;
+import edu.colorado.phet.faraday.view.EarthGraphic;
+import edu.colorado.phet.faraday.view.FieldMeterGraphic;
+import edu.colorado.phet.faraday.view.WiggleMeGraphic;
 
 
 /**
@@ -76,7 +86,7 @@ public class BarMagnetModule extends FaradayModule {
      */
     public BarMagnetModule( boolean wiggleMeEnabled ) {
 
-        super( FaradayStrings.TITLE_BAR_MAGNET_MODULE );
+        super( UserComponent.barMagnetTab, FaradayStrings.TITLE_BAR_MAGNET_MODULE );
 
         //----------------------------------------------------------------------------
         // Model
