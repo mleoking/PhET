@@ -1,5 +1,6 @@
+package edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012
+
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharinganalysis.scripts
 
 import java.io.File
 
