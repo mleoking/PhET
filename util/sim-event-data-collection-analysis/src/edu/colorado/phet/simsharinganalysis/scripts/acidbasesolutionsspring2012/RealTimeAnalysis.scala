@@ -18,11 +18,6 @@ object RealTimeAnalysis extends SimpleSwingApplication {
     preferredSize = new Dimension(800, 600)
     font = new PhetFont(16)
   }
-  val frame = new Frame {
-    contents = new ScrollPane(textArea)
-  }
-  frame.pack()
-  frame.visible = true
 
   new Timer(1000, new ActionListener {
     def actionPerformed(e: ActionEvent) {
@@ -37,5 +32,9 @@ object RealTimeAnalysis extends SimpleSwingApplication {
   }).start()
 
 
-  def top = frame
+  lazy val top = new Frame {
+    contents = new ScrollPane(textArea)
+    pack()
+    visible = true
+  }
 }
