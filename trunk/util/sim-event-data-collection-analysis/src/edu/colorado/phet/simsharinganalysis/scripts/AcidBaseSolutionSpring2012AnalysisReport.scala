@@ -42,19 +42,28 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   val barGraph = "barGraph"
   val liquid = "liquid"
 
+  //Tests
+  val phMeter = "phMeter"
+  val phPaper = "phPaper"
+  val conductivityTester = "conductivityTester"
+
   //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
-  case class Tab(solution: String, view: String, showSolvent: Boolean)
+  case class Tab(solution: String, view: String, test: String, showSolvent: Boolean)
 
   case class SimState(selectedTab: Int, tabs: List[Tab]) {
     def changeSolution(sol: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(solution = sol)))
 
     def changeView(v: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(view = v)))
 
+    def changeTest(t: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(test = t)))
+
     //Find out what solution is on the screen in this state
     //TODO: account for showSolvent flag and note that conductivity meter is liquid view
     def displayedSolution = tabs(selectedTab).solution
 
-    def displayedView = tabs(selectedTab).view
+    def displayedView = if ( tabs(selectedTab).test == conductivityTester ) liquid else tabs(selectedTab).view
+
+    def displayedTest = tabs(selectedTab).test
   }
 
   def matchesAny(s: String, list: List[String]) = list.contains(s)
@@ -73,6 +82,11 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       case Entry(_, "user", c, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => state.changeView(barGraph)
       case Entry(_, "user", c, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => state.changeView(liquid)
 
+      //See if the user changed tests
+      case Entry(_, "user", c, "pressed", _) if List("phMeterRadioButton", "phMeterIcon").contains(c) => state.changeTest(phMeter)
+      case Entry(_, "user", c, "pressed", _) if List("phPaperRadioButton", "pHPaperIcon").contains(c) => state.changeTest(phPaper) //TODO: note upper "H" which will change
+      case Entry(_, "user", c, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => state.changeTest(conductivityTester)
+
       //Nothing happened to change the state
       case _ => state
     }
@@ -82,7 +96,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //The list will contain one state per event, indicating the state of the sim after the event.
   def getStates(log: Log) = {
     val states = new ArrayBuffer[SimState]
-    var state = SimState(0, List(Tab(water, molecules, false), Tab(water, molecules, false)))
+    var state = SimState(0, List(Tab(water, molecules, phMeter, false), Tab(water, molecules, phMeter, false)))
     for ( e <- log.entries ) {
       state = nextState(state, e)
       states += state
@@ -147,17 +161,31 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
       val solutionTable = new GrowingTable
       val viewTable = new GrowingTable
+      val testTable = new GrowingTable
       val entryIndices = 0 until log.entries.length - 1
       val timeBetweenEntries = getTimesBetweenEntries(log.entries)
       for ( i <- entryIndices ) {
         val time = timeBetweenEntries(i)
         solutionTable.add(states(i).displayedSolution, time)
         viewTable.add(states(i).displayedView, time)
+        testTable.add(states(i).displayedTest, time)
       }
 
       println("Time spent in different solutions (ms): " + solutionTable)
       println("Time spent in different views (ms): " + viewTable)
+      println("Time spent in different tests (ms): " + testTable)
 
+      val a = states.tail
+      val b = states.reverse.tail.reverse
+      val statePairs = b.zip(a)
+      val numTabTransitions = statePairs.map(pair => if ( pair._2.selectedTab != pair._1.selectedTab ) 1 else 0).sum
+      val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView ) 1 else 0).sum
+      val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution ) 1 else 0).sum
+      val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest ) 1 else 0).sum
+      println("Num tab transitions: " + numTabTransitions)
+      println("Num view transitions: " + numViewTransitions)
+      println("Num solution transitions: " + numSolutionTransitions)
+      println("Num test transitions: " + numTestTransitions)
 
       val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
       writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
