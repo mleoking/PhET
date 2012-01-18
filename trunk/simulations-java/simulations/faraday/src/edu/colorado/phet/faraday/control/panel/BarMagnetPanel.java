@@ -15,6 +15,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SimSharingLinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -33,7 +35,6 @@ import edu.colorado.phet.faraday.view.EarthGraphic;
  * BarMagnetPanel contains the controls for the bar magnet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class BarMagnetPanel extends FaradayPanel {
 
@@ -63,16 +64,6 @@ public class BarMagnetPanel extends FaradayPanel {
     // Constructors
     //----------------------------------------------------------------------------
 
-    /**
-     * Sole constructor
-     *
-     * @param barMagnetModel
-     * @param compassModel
-     * @param fieldMeterModel
-     * @param barMagnetGraphic
-     * @param bFieldOutsideGraphic
-     * @param earthGraphic
-     */
     public BarMagnetPanel(
             BarMagnet barMagnetModel,
             Compass compassModel,
@@ -119,22 +110,22 @@ public class BarMagnetPanel extends FaradayPanel {
         }
 
         //  Flip Polarity button
-        _flipPolarityButton = new JButton( FaradayStrings.BUTTON_FLIP_POLARITY );
+        _flipPolarityButton = new SimSharingJButton( UserComponent.flipPolarityButton, FaradayStrings.BUTTON_FLIP_POLARITY );
 
         // Magnet transparency on/off
-        _seeInsideCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SEE_INSIDE );
+        _seeInsideCheckBox = new SimSharingJCheckBox( UserComponent.seeInsideMagnetCheckBox, FaradayStrings.CHECK_BOX_SEE_INSIDE );
 
         // B-field on/off
-        _bFieldCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
+        _bFieldCheckBox = new SimSharingJCheckBox( UserComponent.showFieldCheckBox, FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
 
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
+        _fieldMeterCheckBox = new SimSharingJCheckBox( UserComponent.showFieldMeterCheckBox, FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
 
         // Compass on/off
-        _compassCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_COMPASS );
+        _compassCheckBox = new SimSharingJCheckBox( UserComponent.showCompassCheckBox, FaradayStrings.CHECK_BOX_SHOW_COMPASS );
 
         // Earth on/off
-        _earthCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_EARTH );
+        _earthCheckBox = new SimSharingJCheckBox( UserComponent.showEarthCheckBox, FaradayStrings.CHECK_BOX_SHOW_EARTH );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
