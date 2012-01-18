@@ -44,6 +44,10 @@ public class FaradaySimSharing {
         cancelButton,
         needleSpacingSlider,
         needleSizeSlider,
+        maxAmplitudeSlider,
+        frequencySlider,
+        faucetSlider,
+        batterySlider,
 
         // Menu items
         backgroundColorMenuItem,
@@ -60,6 +64,7 @@ public class FaradaySimSharing {
         compass,
         electromagnet,
         waterWheel,
-        faucet
+        faucet,
+        acPowerSupply
     }
 }

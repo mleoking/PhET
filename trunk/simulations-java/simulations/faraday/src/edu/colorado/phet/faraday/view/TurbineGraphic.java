@@ -114,7 +114,7 @@ public class TurbineGraphic extends GraphicLayerSet implements SimpleObserver, A
 
         // Water Flow slider
         {
-            _flowSlider = new FaradaySlider( component, 70 );
+            _flowSlider = new FaradaySlider( Components.faucetSlider, component, 70 );
             addGraphic( _flowSlider, SLIDER_LAYER );
             _flowSlider.setMinimum( 0 );
             _flowSlider.setMaximum( 100 );
