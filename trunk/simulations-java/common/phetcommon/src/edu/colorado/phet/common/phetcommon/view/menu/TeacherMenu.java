@@ -23,10 +23,10 @@ public class TeacherMenu extends SimSharingJMenu {
     /**
      * Adds a JCheckBoxMenu item that allows the user to select whether the sim should be shown for a projector.
      *
-     * @param projectorMode the Property<Boolean> with which to synchronize.
+     * @param whiteBackground the Property<Boolean> with which to synchronize.
      */
-    public void addWhiteBackgroundMenuItem( SettableProperty<Boolean> projectorMode ) {
-        add( new PropertyCheckBoxMenuItem( PhetCommonResources.getString( "Common.WhiteBackground" ), projectorMode ) {{
+    public void addWhiteBackgroundMenuItem( SettableProperty<Boolean> whiteBackground ) {
+        add( new PropertyCheckBoxMenuItem( PhetCommonResources.getString( "Common.WhiteBackground" ), whiteBackground ) {{
             setMnemonic( PhetCommonResources.getChar( "Common.WhiteBackground.mnemonic", 'W' ) );
         }} );
     }
