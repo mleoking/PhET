@@ -38,6 +38,10 @@ public class FaradaySimSharing {
         loopsSpinner,
         lightbuldRadioButton,
         voltmeterRadioButton,
-        loopAreaControl
+        loopAreaControl,
+
+        // Menu items
+        backgroundColorMenuItem,
+        gridControlsMenuItem
     }
 }
