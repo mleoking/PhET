@@ -24,11 +24,11 @@ public class SimSharingMessage<T, U, V> {
     public final long time = System.currentTimeMillis();
 
     public SimSharingMessage( IMessageType messageType, T component, U componentType, V action, final ParameterSet parameters ) {
+        this.messageType = messageType;
         this.component = component;
         this.componentType = componentType;
         this.action = action;
         this.parameters = parameters;
-        this.messageType = messageType;
     }
 
     public String toString() {
