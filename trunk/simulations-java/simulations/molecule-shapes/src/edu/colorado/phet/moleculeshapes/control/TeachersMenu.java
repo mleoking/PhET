@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenu;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 
@@ -30,7 +31,7 @@ public class TeachersMenu extends SimSharingJMenu {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
 
-                    SimSharingManager.sendUserMessage( MoleculeShapesSimSharing.UserComponents.backgroundColor, UserActions.changed, param( color, isSelected() ? white.toString() : black.toString() ) );
+                    SimSharingManager.sendUserMessage( MoleculeShapesSimSharing.UserComponents.backgroundColor, UserComponentTypes.unknown, UserActions.changed, param( color, isSelected() ? white.toString() : black.toString() ) );
 
                     if ( isSelected() ) {
                         MoleculeShapesColor.PROJECTOR.apply( MoleculeShapesColor.handler );

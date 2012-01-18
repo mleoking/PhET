@@ -9,8 +9,8 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -65,7 +65,7 @@ public class SplineToolboxNode extends PNode {
             } );
         }};
         draggableIcon.addInputEventListener( new CursorHandler() );
-        draggableIcon.addInputEventListener( new SimSharingDragHandler( toolboxTrack, ComponentTypes.sprite ) {
+        draggableIcon.addInputEventListener( new SimSharingDragHandler( toolboxTrack, UserComponentTypes.sprite ) {
 
             //Indicate how many tracks the user has created, including this one
             @Override public ParameterSet getStartDragParameters( PInputEvent event ) {

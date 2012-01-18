@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.Parameters;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
 import edu.umd.cs.piccolo.PNode;
@@ -34,14 +35,14 @@ public class MoleculeAngleHandler extends PDragSequenceEventHandler {
         super.startDrag( event );
         molecule.setDragging( true );
         previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
-        SimSharingManager.sendUserMessage( moleculeAngle, UserActions.startDrag,
+        SimSharingManager.sendUserMessage( moleculeAngle, UserComponentTypes.sprite, UserActions.startDrag,
                                            Parameter.param( Parameters.angle, molecule.angle.get() ) );
     }
 
     @Override public void endDrag( PInputEvent event ) {
         super.endDrag( event );
         molecule.setDragging( false );
-        SimSharingManager.sendUserMessage( moleculeAngle, UserActions.endDrag,
+        SimSharingManager.sendUserMessage( moleculeAngle, UserComponentTypes.sprite, UserActions.endDrag,
                                            Parameter.param( Parameters.angle, molecule.angle.get() ) );
     }
 

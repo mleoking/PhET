@@ -23,10 +23,10 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -420,11 +420,11 @@ public class GraphicSlider extends GraphicLayerSet {
         }
 
         @Override public void mousePressed( MouseEvent e ) {
-            SimSharingManager.sendUserMessage( _userComponent, UserActions.startDrag, Parameter.componentType( ComponentTypes.slider ).param( ParameterKeys.value, getValue() ) );
+            SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.slider, UserActions.startDrag, Parameter.param( ParameterKeys.value, getValue() ) );
         }
 
         @Override public void mouseReleased( MouseEvent e ) {
-            SimSharingManager.sendUserMessage( _userComponent, UserActions.endDrag, Parameter.componentType( ComponentTypes.slider ).param( ParameterKeys.value, getValue() ) );
+            SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.slider, UserActions.endDrag, Parameter.param( ParameterKeys.value, getValue() ) );
         }
 
         /**

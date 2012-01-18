@@ -12,14 +12,19 @@ import edu.colorado.phet.common.phetcommon.simsharing.logs.ConsoleLog;
 import edu.colorado.phet.common.phetcommon.simsharing.logs.MongoLog;
 import edu.colorado.phet.common.phetcommon.simsharing.logs.StringLog;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemAction;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemObject;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ISystemComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelMessage;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -29,7 +34,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.ge
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemObjects.simsharingManager;
 import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime.whatIsMountainTime;
 import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMyIPAddress.whatIsMyIPAddress;
 
@@ -44,6 +48,10 @@ import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMyIPAddr
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimSharingManager {
+
+    // component and type used for system messages sent by this class
+    private final ISystemComponent SYSTEM_COMPONENT = SystemComponents.simsharingManager;
+    private final ISystemComponentType SYSTEM_COMPONENT_TYPE = SystemComponentTypes.unknown; //TODO what should this be?
 
     //This number should be increased when the data format changes so that a different parser must be used
     private static final int PARSER_VERSION = 2;
@@ -111,9 +119,9 @@ public class SimSharingManager {
             //Look up additional external info and report in a separate thread so it doesn't slow down the main thread too much
             new Thread() {
                 @Override public void run() {
-                    sendSystemMessage( simsharingManager, mountainTimeLookup, param( mountainTime, whatIsMountainTime() ) );
+                    sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, mountainTimeLookup, param( mountainTime, whatIsMountainTime() ) );
                     if ( getConfig( studyName ).collectIPAddress ) {
-                        sendSystemMessage( simsharingManager, ipAddressLookup, param( ipAddress, whatIsMyIPAddress() ) );
+                        sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, ipAddressLookup, param( ipAddress, whatIsMyIPAddress() ) );
                     }
                 }
             }.start();
@@ -140,34 +148,34 @@ public class SimSharingManager {
     }
 
     //Convenience overload to provide no parameters
-    public static void sendSystemMessage( ISystemObject object, ISystemAction action ) {
-        sendSystemMessage( object, action, new ParameterSet() );
+    public static void sendSystemMessage( ISystemComponent component, ISystemComponentType componentType, ISystemAction action ) {
+        sendSystemMessage( component, componentType, action, new ParameterSet() );
     }
 
-    public static void sendSystemMessage( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
-        getInstance().sendMessage( new SystemMessage( system, object, action, parameters ) );
+    public static void sendSystemMessage( ISystemComponent component, ISystemComponentType componentType, ISystemAction action, ParameterSet parameters ) {
+        getInstance().sendMessage( new SystemMessage( system, component, componentType, action, parameters ) );
     }
 
-    public void sendSystemMessageNS( ISystemObject object, ISystemAction action, ParameterSet parameters ) {
-        sendMessage( new SystemMessage( system, object, action, parameters ) );
+    public void sendSystemMessageNS( ISystemComponent component, ISystemComponentType componentType, ISystemAction action, ParameterSet parameters ) {
+        sendMessage( new SystemMessage( system, component, componentType, action, parameters ) );
     }
 
     //Convenience overload to provide no parameters
-    public static void sendUserMessage( IUserComponent object, IUserAction action ) {
-        sendUserMessage( object, action, new ParameterSet() );
+    public static void sendUserMessage( IUserComponent component, IUserComponentType componentType, IUserAction action ) {
+        sendUserMessage( component, componentType, action, new ParameterSet() );
     }
 
     // Convenience method for sending an event from something the user did
-    public static void sendUserMessage( IUserComponent object, IUserAction action, ParameterSet parameters ) {
-        getInstance().sendMessage( new UserMessage( user, object, action, parameters ) );
+    public static void sendUserMessage( IUserComponent component, IUserComponentType componentType, IUserAction action, ParameterSet parameters ) {
+        getInstance().sendMessage( new UserMessage( user, component, componentType, action, parameters ) );
     }
 
-    public static void sendModelMessage( ModelObject object, IModelAction action ) {
-        getInstance().sendMessage( new ModelMessage( model, object, action, new ParameterSet() ) );
+    public static void sendModelMessage( IModelComponent component, IModelComponentType componentType, IModelAction action ) {
+        getInstance().sendMessage( new ModelMessage( model, component, componentType, action, new ParameterSet() ) );
     }
 
-    public static void sendModelMessage( ModelObject object, IModelAction action, ParameterSet parameters ) {
-        getInstance().sendMessage( new ModelMessage( model, object, action, parameters ) );
+    public static void sendModelMessage( IModelComponent component, IModelComponentType componentType, IModelAction action, ParameterSet parameters ) {
+        getInstance().sendMessage( new ModelMessage( model, component, componentType, action, parameters ) );
     }
 
     // Sends an event. If sim-sharing is disabled, this is a no-op.
@@ -186,7 +194,7 @@ public class SimSharingManager {
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             messageCount++;
             if ( messageCount % 100 == 0 && messageCount > 0 ) {
-                sendSystemMessage( simsharingManager, sentEvent, param( ParameterKeys.messageCount, messageCount ) );
+                sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, sentEvent, param( ParameterKeys.messageCount, messageCount ) );
             }
         }
     }
@@ -208,7 +216,7 @@ public class SimSharingManager {
     // Sends a message when sim-sharing has been started up.
     private void sendStartupMessage( PhetApplicationConfig config ) {
         assert ( enabled );
-        sendSystemMessageNS( simsharingManager, started, param( time, simStartedTime ).
+        sendSystemMessageNS( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, started, param( time, simStartedTime ).
                 param( name, config.getName() ).
                 param( version, config.getVersion().formatForAboutDialog() ).
                 param( project, config.getProjectName() ).

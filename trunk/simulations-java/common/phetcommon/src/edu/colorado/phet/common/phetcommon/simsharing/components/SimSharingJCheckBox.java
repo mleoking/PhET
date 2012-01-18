@@ -14,14 +14,13 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**
@@ -76,13 +75,13 @@ public class SimSharingJCheckBox extends JCheckBox {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, pressed, getParameters() );
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.checkBox, pressed, getParameters() );
         super.fireActionPerformed( event );
     }
 
     // Gets parameters. Custom parameters are added following standard parameters.
     private ParameterSet getParameters() {
-        return componentType( ComponentTypes.checkBox ).param( ParameterKeys.isSelected, isSelected() ).addAll( getCustomParameters() );
+        return new ParameterSet().param( ParameterKeys.isSelected, isSelected() ).addAll( getCustomParameters() );
     }
 
     // Override this is you want to add custom parameters via subclassing.

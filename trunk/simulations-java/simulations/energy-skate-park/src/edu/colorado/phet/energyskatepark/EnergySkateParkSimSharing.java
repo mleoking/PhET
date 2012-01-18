@@ -1,10 +1,10 @@
 package edu.colorado.phet.energyskatepark;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 
 /**
  * Constants for sim sharing.
@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelObject;
 public class EnergySkateParkSimSharing {
 
     //Anything that the model or user can interact with.  In this sim, the model can signify that the skater landed, or the user can drag the skater.
-    public static enum SharedComponents implements IUserComponent, ModelObject {
+    public static enum SharedComponents implements IUserComponent, IModelComponent {
         skater
     }
 
@@ -40,7 +40,7 @@ public class EnergySkateParkSimSharing {
         energyTimePlot
     }
 
-    public static enum ModelObjects implements ModelObject {
+    public static enum ModelObjects implements IModelComponent {
     }
 
     public static enum ModelActions implements IModelAction {

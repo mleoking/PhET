@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -437,7 +438,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
 
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
-            SimSharingManager.sendUserMessage( MoleculeShapesSimSharing.UserComponents.draggingState, UserActions.changed,
+            SimSharingManager.sendUserMessage( MoleculeShapesSimSharing.UserComponents.draggingState, UserComponentTypes.unknown, UserActions.changed,
                                                param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
                                                        param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }

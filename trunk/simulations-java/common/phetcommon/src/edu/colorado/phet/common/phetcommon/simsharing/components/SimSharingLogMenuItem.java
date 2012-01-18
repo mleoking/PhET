@@ -24,6 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -96,11 +97,11 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                 int rval = fileChooser.showSaveDialog( parent ); // blocks
                                 File selectedFile = fileChooser.getSelectedFile();
                                 if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-                                    SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, fileChooserCancelButton ), pressed );
+                                    SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, fileChooserCancelButton ), UserComponentTypes.button, pressed );
                                     return;
                                 }
                                 currentDirectory = selectedFile.getParentFile();
-                                SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, fileChooserSaveButton ), pressed );
+                                SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, fileChooserSaveButton ), UserComponentTypes.button, pressed );
 
                                 // Ensure that the file has the proper suffix.
                                 if ( !FileUtils.hasSuffix( selectedFile, FILE_SUFFIX ) ) {
@@ -112,10 +113,10 @@ public class SimSharingLogMenuItem extends SimSharingJMenuItem {
                                     String message = MessageFormat.format( "File {0} exists. OK to replace?", selectedFile.getName() );
                                     int reply = PhetOptionPane.showYesNoDialog( parent, message, "Confirm" );
                                     if ( reply != JOptionPane.YES_OPTION ) {
-                                        SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, replaceFileNoButton ), pressed );
+                                        SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, replaceFileNoButton ), UserComponentTypes.button, pressed );
                                         return;
                                     }
-                                    SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, replaceFileYesButton ), pressed );
+                                    SimSharingManager.sendUserMessage( chain( simSharingLogFileDialog, replaceFileYesButton ), UserComponentTypes.button, pressed );
                                 }
 
                                 // Write log to file.

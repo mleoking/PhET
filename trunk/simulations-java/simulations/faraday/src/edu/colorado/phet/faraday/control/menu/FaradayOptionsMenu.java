@@ -13,7 +13,8 @@ import javax.swing.JMenuItem;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
@@ -50,12 +51,12 @@ public class FaradayOptionsMenu extends OptionsMenu {
                 backgroundColorDialog.addWindowListener( new WindowAdapter() {
 
                     @Override public void windowOpened( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( Components.backgroundColorDialog, UserActions.windowOpened );
+                        SimSharingManager.sendSystemMessage( Components.backgroundColorDialog, SystemComponentTypes.dialog, SystemActions.windowOpened );
                     }
 
                     // called when dispose is called
                     @Override public void windowClosed( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( Components.backgroundColorDialog, UserActions.windowClosed );
+                        SimSharingManager.sendSystemMessage( Components.backgroundColorDialog, SystemComponentTypes.dialog, SystemActions.windowClosed );
                         backgroundColorMenuItem.setEnabled( true );
                     }
 
@@ -79,12 +80,12 @@ public class FaradayOptionsMenu extends OptionsMenu {
                 gridControlsDialog.addWindowListener( new WindowAdapter() {
 
                     @Override public void windowOpened( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( Components.fieldControlsDialog, UserActions.windowOpened );
+                        SimSharingManager.sendSystemMessage( Components.fieldControlsDialog, SystemComponentTypes.dialog, SystemActions.windowOpened );
                     }
 
                     // called when dispose is called
                     @Override public void windowClosed( WindowEvent e ) {
-                        SimSharingManager.sendSystemMessage( Components.fieldControlsDialog, UserActions.windowClosed );
+                        SimSharingManager.sendSystemMessage( Components.fieldControlsDialog, SystemComponentTypes.dialog, SystemActions.windowClosed );
                         gridControlsMenuItem.setEnabled( true );
                     }
 

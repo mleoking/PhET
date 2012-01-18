@@ -32,6 +32,9 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuBar;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.view.menu.DeveloperMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
@@ -41,7 +44,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.height;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.width;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.*;
 
@@ -76,7 +78,7 @@ public class PhetFrame extends JFrame {
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
 
-                SimSharingManager.sendSystemMessage( phetFrame, windowClosing );
+                SimSharingManager.sendSystemMessage( SystemComponents.phetFrame, SystemComponentTypes.window, SystemActions.windowClosing );
                 application.exit();
             }
         } );
@@ -85,23 +87,23 @@ public class PhetFrame extends JFrame {
             // Pause the clock if the simulation window is iconified.
             public void windowIconified( WindowEvent e ) {
 
-                SimSharingManager.sendSystemMessage( phetFrame, iconified );
+                SimSharingManager.sendSystemMessage( SystemComponents.phetFrame, SystemComponentTypes.window, SystemActions.iconified );
                 application.pause();
             }
 
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
 
-                SimSharingManager.sendSystemMessage( phetFrame, deiconified );
+                SimSharingManager.sendSystemMessage( SystemComponents.phetFrame, SystemComponentTypes.window, SystemActions.deiconified );
                 application.resume();
             }
 
             @Override public void windowActivated( WindowEvent e ) {
-                SimSharingManager.sendSystemMessage( phetFrame, activated );
+                SimSharingManager.sendSystemMessage( SystemComponents.phetFrame, SystemComponentTypes.window, SystemActions.activated );
             }
 
             @Override public void windowDeactivated( WindowEvent e ) {
-                SimSharingManager.sendSystemMessage( phetFrame, deactivated );
+                SimSharingManager.sendSystemMessage( SystemComponents.phetFrame, SystemComponentTypes.window, SystemActions.deactivated );
             }
         } );
 
@@ -110,7 +112,7 @@ public class PhetFrame extends JFrame {
         addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
                 if ( !getSize().equals( prevSize ) ) {
-                    SimSharingManager.sendSystemMessage( phetFrame, resized,
+                    SimSharingManager.sendSystemMessage( SystemComponents.phetFrame, SystemComponentTypes.window, SystemActions.resized,
                                                          param( width, getWidth() ).param( height, getHeight() ) );
                     prevSize = new Dimension( getSize() );
                 }

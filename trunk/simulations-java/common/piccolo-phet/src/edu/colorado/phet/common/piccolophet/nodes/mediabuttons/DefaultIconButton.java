@@ -8,11 +8,10 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.button;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 public class DefaultIconButton extends IconButton {
@@ -48,7 +47,7 @@ public class DefaultIconButton extends IconButton {
     }
 
     public void notifyListeners() {
-        SimSharingManager.sendUserMessage( simSharingObject, pressed, componentType( button ) );
+        SimSharingManager.sendUserMessage( simSharingObject, UserComponentTypes.button, pressed );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).buttonPressed();
         }

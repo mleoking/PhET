@@ -12,9 +12,10 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponent
 import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
@@ -23,7 +24,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import static edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ParameterKeys;
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.sprite;
 
 /**
  * pH paper, changes color based on the pH of a solution.
@@ -116,7 +116,7 @@ public class PHPaperNode extends PhetPNode {
         private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
 
         public PhPaperDragHandler( final PHPaper paper, PNode dragNode ) {
-            super( UserComponents.phPaper, ComponentTypes.sprite );
+            super( UserComponents.phPaper, UserComponentTypes.sprite );
             this.paper = paper;
             this.dragNode = dragNode;
         }
@@ -141,7 +141,7 @@ public class PHPaperNode extends PhetPNode {
 
             // send a sim-sharing event when the paper transitions between in/out of solution.
             if ( wasInSolution != paper.isInSolution() ) {
-                SimSharingManager.sendUserMessage( userComponent, UserActions.drag, sprite().param( ParameterKeys.isInSolution, paper.isInSolution() ) );
+                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag, Parameter.param( ParameterKeys.isInSolution, paper.isInSolution() ) );
             }
         }
     }

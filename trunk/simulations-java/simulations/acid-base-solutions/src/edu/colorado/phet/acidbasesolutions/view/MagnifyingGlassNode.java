@@ -15,6 +15,7 @@ import edu.colorado.phet.acidbasesolutions.model.MagnifyingGlass;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -112,7 +113,7 @@ public class MagnifyingGlassNode extends PhetPNode {
                 else {
                     partValue = ParameterKeys.lens;
                 }
-                SimSharingManager.sendUserMessage( UserComponents.magnifyingGlass, UserActions.pressed,
+                SimSharingManager.sendUserMessage( UserComponents.magnifyingGlass, UserComponentTypes.sprite, UserActions.pressed,
                                                    param( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive, false ).
                                                            param( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.part, partValue.toString() ) );
             }

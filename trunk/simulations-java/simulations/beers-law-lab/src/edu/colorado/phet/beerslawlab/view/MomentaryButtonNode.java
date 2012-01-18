@@ -7,7 +7,9 @@ import java.awt.Image;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
@@ -23,6 +25,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MomentaryButtonNode extends PNode {
+
+    private final IUserComponentType USER_COMPONENT_TYPE = UserComponentTypes.button;
 
     private final PImage imageNode;
     private final DynamicCursorHandler cursorHandler;
@@ -46,14 +50,14 @@ public class MomentaryButtonNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserMessage( userComponent, UserActions.pressed );
+                    SimSharingManager.sendUserMessage( userComponent, USER_COMPONENT_TYPE, UserActions.pressed );
                     onProperty.set( true );
                 }
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserMessage( userComponent, UserActions.released );
+                    SimSharingManager.sendUserMessage( userComponent, USER_COMPONENT_TYPE, UserActions.released );
                     onProperty.set( false );
                 }
             }

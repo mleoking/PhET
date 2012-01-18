@@ -8,10 +8,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
@@ -32,6 +31,7 @@ public class FaradayMouseHandler extends MouseInputAdapter {
     //----------------------------------------------------------------------------
 
     private IUserComponent _userComponent;
+    private IUserComponentType _userComponentType;
     private FaradayObservable _modelComponent;
     private PhetGraphic _viewComponent;
     private boolean _dragEnabled;
@@ -46,17 +46,19 @@ public class FaradayMouseHandler extends MouseInputAdapter {
     /**
      * Sole constructor.
      *
-     * @param userComponent  sim-sharing user component
-     * @param modelComponent the model to be translated
-     * @param viewComponent  the view that is the drag target and is associated with the model
+     * @param userComponent     sim-sharing user component
+     * @param userComponentType sim-sharing user component type
+     * @param modelComponent    the model to be translated
+     * @param viewComponent     the view that is the drag target and is associated with the model
      */
-    public FaradayMouseHandler( IUserComponent userComponent, FaradayObservable modelComponent, PhetGraphic viewComponent ) {
+    public FaradayMouseHandler( IUserComponent userComponent, IUserComponentType userComponentType, FaradayObservable modelComponent, PhetGraphic viewComponent ) {
         super();
 
         assert ( modelComponent != null );
         assert ( viewComponent != null );
 
         _userComponent = userComponent;
+        _userComponentType = userComponentType;
         _modelComponent = modelComponent;
         _viewComponent = viewComponent;
         _dragBounds = null;
@@ -104,7 +106,7 @@ public class FaradayMouseHandler extends MouseInputAdapter {
      * @param event
      */
     @Override public void mousePressed( MouseEvent event ) {
-        SimSharingManager.sendUserMessage( _userComponent, UserActions.startDrag, Parameter.componentType( ComponentTypes.sprite ) );
+        SimSharingManager.sendUserMessage( _userComponent, _userComponentType, UserActions.startDrag );
         _dragEnabled = true;
         _previousPoint.setLocation( event.getPoint() );
     }
@@ -160,6 +162,6 @@ public class FaradayMouseHandler extends MouseInputAdapter {
     }
 
     @Override public void mouseReleased( MouseEvent event ) {
-        SimSharingManager.sendUserMessage( _userComponent, UserActions.endDrag, Parameter.componentType( ComponentTypes.sprite ) );
+        SimSharingManager.sendUserMessage( _userComponent, _userComponentType, UserActions.endDrag );
     }
 }

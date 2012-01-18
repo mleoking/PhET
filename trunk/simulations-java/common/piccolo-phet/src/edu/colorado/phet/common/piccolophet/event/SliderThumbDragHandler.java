@@ -5,8 +5,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -48,7 +48,7 @@ public class SliderThumbDragHandler extends SimSharingDragHandler {
      * @param updateFunction called with model value while dragging
      */
     public SliderThumbDragHandler( IUserComponent userComponent, Orientation orientation, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, VoidFunction1<Double> updateFunction ) {
-        super( userComponent, ComponentTypes.slider );
+        super( userComponent, UserComponentTypes.slider );
         this.orientation = orientation;
         this.relativeNode = relativeNode;
         this.trackNode = trackNode;

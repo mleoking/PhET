@@ -7,6 +7,7 @@ import javax.swing.JPopupMenu;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -41,7 +42,7 @@ public class PopupMenuHandler extends PBasicInputEventHandler {
 
     private void handlePopup( PInputEvent event ) {
         if ( event.isPopupTrigger() ) {
-            SimSharingManager.sendUserMessage( userComponent, popupTriggered );
+            SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.popup, popupTriggered );
             popupMenu.show( parent, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
         }
     }

@@ -7,10 +7,8 @@ import java.awt.Font;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.button;
 
 /**
  * Text button node that also sends sim sharing messages.
@@ -36,7 +34,7 @@ public class SimSharingTextButtonNode extends TextButtonNode {
     }
 
     @Override protected void notifyActionPerformed() {
-        SimSharingManager.sendUserMessage( userComponent, UserActions.pressed, componentType( button ) );
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.button, UserActions.pressed );
         super.notifyActionPerformed();
     }
 }

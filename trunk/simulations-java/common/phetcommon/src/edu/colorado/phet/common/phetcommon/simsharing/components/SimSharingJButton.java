@@ -7,10 +7,9 @@ import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
@@ -48,9 +47,7 @@ public class SimSharingJButton extends JButton {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent,
-                                           pressed,
-                                           Parameter.componentType( ComponentTypes.button ) );
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.button, pressed );
         super.fireActionPerformed( event );
     }
 }

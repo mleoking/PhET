@@ -11,20 +11,21 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 /**
- * Pressing this label sets a property value.
+ * Pressing this icon sets a property value.
  * This is useful for icons that are associated with Swing controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PropertyLabel<T> extends JLabel {
+public class PropertyIcon<T> extends JLabel {
 
-    public PropertyLabel( final IUserComponent simSharingObject, Icon icon, final Property<T> property, final T value ) {
+    public PropertyIcon( final IUserComponent simSharingObject, Icon icon, final Property<T> property, final T value ) {
         super( icon );
         addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-                SimSharingManager.sendUserMessage( simSharingObject, UserActions.pressed );
+                SimSharingManager.sendUserMessage( simSharingObject, UserComponentTypes.icon, UserActions.pressed );
                 property.set( value );
             }
         } );

@@ -16,10 +16,13 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.closed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.windowClosing;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents.sponsorDialog;
 
@@ -44,7 +47,7 @@ public class SponsorDialog extends JDialog {
         addMouseListener( new MouseAdapter() {
             @Override
             public void mousePressed( MouseEvent event ) {
-                SimSharingManager.sendUserMessage( sponsorDialog, UserActions.pressed );
+                SimSharingManager.sendUserMessage( sponsorDialog, UserComponentTypes.dialog, UserActions.pressed );
                 dispose();
             }
         } );
@@ -57,7 +60,7 @@ public class SponsorDialog extends JDialog {
         dialog.addWindowListener( new WindowAdapter() {
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
-                SimSharingManager.sendUserMessage( sponsorDialog, windowClosing );
+                SimSharingManager.sendUserMessage( sponsorDialog, UserComponentTypes.dialog, windowClosing );
                 dialog.dispose();
             }
         } );
@@ -69,7 +72,7 @@ public class SponsorDialog extends JDialog {
             final Timer timer = new Timer( DISPLAY_TIME * 1000, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( dialog.isDisplayable() ) {
-                        SimSharingManager.sendSystemMessage( sponsorDialog, closed );
+                        SimSharingManager.sendSystemMessage( SystemComponents.sponsorDialog, SystemComponentTypes.dialog, SystemActions.windowClosed );
                         dialog.dispose();
                     }
                 }

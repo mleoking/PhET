@@ -37,8 +37,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -922,7 +922,7 @@ public class PhetTabbedPane extends JPanel {
 
         public void mouseReleased( PInputEvent e ) {
             if ( tab.getFullBounds().contains( e.getCanvasPosition() ) ) {
-                SimSharingManager.sendUserMessage( tab.userComponent, pressed, Parameter.componentType( ComponentTypes.tab ) );
+                SimSharingManager.sendUserMessage( tab.userComponent, UserComponentTypes.tab, pressed );
                 setSelectedTab( tab );
             }
         }
@@ -1022,7 +1022,7 @@ public class PhetTabbedPane extends JPanel {
                     @Override public void mouseReleased( PInputEvent event ) {
                         if ( getFullBounds().contains( event.getCanvasPosition() ) ) {
 
-                            SimSharingManager.sendUserMessage( UserComponents.tab, pressed, Parameter.param( text, getText() ) );
+                            SimSharingManager.sendUserMessage( UserComponents.tab, UserComponentTypes.tab, pressed, Parameter.param( text, getText() ) );
 
                             selectedTab.set( tabNodeReverseMap.get( htmlTabNode ) );
                         }

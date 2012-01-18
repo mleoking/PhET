@@ -13,6 +13,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
@@ -122,7 +123,7 @@ public class CompassGraphic extends CompositePhetGraphic
         addGraphic( anchor );
 
         // Setup interactivity.
-        _mouseHandler = new FaradayMouseHandler( Components.compass, _compassModel, this );
+        _mouseHandler = new FaradayMouseHandler( Components.compass, UserComponentTypes.sprite, _compassModel, this );
         _collisionDetector = new CollisionDetector( this );
         _mouseHandler.setCollisionDetector( _collisionDetector );
         super.setCursorHand();

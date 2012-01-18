@@ -2,9 +2,7 @@
 package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
 /**
- * Marker interface for component types.
- *
- * @author Sam Reid
+ * Enum for components manipulated by the model.
  */
-public interface IComponentType {
+public enum ModelComponents implements IModelComponent {
 }

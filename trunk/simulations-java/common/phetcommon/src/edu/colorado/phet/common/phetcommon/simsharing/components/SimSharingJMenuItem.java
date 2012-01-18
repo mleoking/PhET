@@ -10,9 +10,7 @@ import javax.swing.JMenuItem;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.componentType;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes.menuItem;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
 /**
  * MenuItem used in phetcommon for transmitting data on student usage of menus, see #3144
@@ -53,9 +51,7 @@ public class SimSharingJMenuItem extends JMenuItem {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent,
-                                           UserActions.pressed,
-                                           componentType( menuItem ) );
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.menuItem, UserActions.pressed );
         super.fireActionPerformed( event );
     }
 }

@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
  *
  * @author Sam Reid
  */
-public class ModelMessage extends SimSharingMessage<ModelObject, IModelAction> {
-    public ModelMessage( IMessageType messageType, ModelObject object, IModelAction action, ParameterSet parameters ) {
-        super( messageType, object, action, parameters );
+public class ModelMessage extends SimSharingMessage<IModelComponent, IModelComponentType, IModelAction> {
+    public ModelMessage( IMessageType messageType, IModelComponent component, IModelComponentType componentType, IModelAction action, ParameterSet parameters ) {
+        super( messageType, component, componentType, action, parameters );
     }
 }

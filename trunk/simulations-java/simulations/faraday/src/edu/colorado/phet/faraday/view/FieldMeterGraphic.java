@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -156,7 +157,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         }
 
         // Setup interactivity.
-        _mouseHandler = new FaradayMouseHandler( Components.fieldMeter, _fieldMeterModel, this );
+        _mouseHandler = new FaradayMouseHandler( Components.fieldMeter, UserComponentTypes.sprite, _fieldMeterModel, this );
         super.setCursorHand();
         super.addMouseInputListener( _mouseHandler );
 
