@@ -9,6 +9,7 @@ import org.jfree.data.category.DefaultCategoryDataset
 import collection.mutable.ArrayBuffer
 import util.GrowingTable
 
+//TODO: Handle state changes for reset all
 object RunIt extends App {
   AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\kelly-data"), println)
 }
@@ -135,7 +136,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       val timePeriod = Pair(1000, "sec")
 
       val table = ( ( 0 until 30 ).map(i => i -> timeBetweenClicks.filter(time => time >= timePeriod._1 * i && time < timePeriod._1 * ( i + 1 )).length) ).toMap
-      //      table.foreach(entry => println("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
+      //      table.foreach(entry => writeLine("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
 
       phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
         for ( e <- table.keys.toList.sorted ) {
@@ -171,9 +172,9 @@ object AcidBaseSolutionSpring2012AnalysisReport {
         testTable.add(states(i).displayedTest, time)
       }
 
-      println("Time spent in different solutions (ms): " + solutionTable)
-      println("Time spent in different views (ms): " + viewTable)
-      println("Time spent in different tests (ms): " + testTable)
+      writeLine("Time spent in different solutions (ms): " + solutionTable)
+      writeLine("Time spent in different views (ms): " + viewTable)
+      writeLine("Time spent in different tests (ms): " + testTable)
 
       val a = states.tail
       val b = states.reverse.tail.reverse
@@ -182,10 +183,10 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView ) 1 else 0).sum
       val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution ) 1 else 0).sum
       val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest ) 1 else 0).sum
-      println("Num tab transitions: " + numTabTransitions)
-      println("Num view transitions: " + numViewTransitions)
-      println("Num solution transitions: " + numSolutionTransitions)
-      println("Num test transitions: " + numTestTransitions)
+      writeLine("Num tab transitions: " + numTabTransitions)
+      writeLine("Num view transitions: " + numViewTransitions)
+      writeLine("Num solution transitions: " + numSolutionTransitions)
+      writeLine("Num test transitions: " + numTestTransitions)
 
       val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
       writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
@@ -203,7 +204,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       //      writeLine("How many times pressed tabs: " + log.filter(_.componentType == "tab").length)
 
       //      writeLine("How many events in each tab: " + tabs.map(t => t + "=" + log.selectTab(tabs, t).length))
-      //      //    println("Number of tabs visited: " + log.entries.map(log.getTabComponent(_, tabs(0))).distinct.length)
+      //      //    writeLine("Number of tabs visited: " + log.entries.map(log.getTabComponent(_, tabs(0))).distinct.length)
       //      val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
       //      writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
       //      writeLine("Number of distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct.length)
@@ -217,7 +218,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       //      writeLine("Which sim-specific user components were missed: " + missed.length + ": " + missed)
 
       //Print the log augmented with tab annotations
-      //log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(println)
+      //log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(writeLine)
 
       writeLine("")
     }
