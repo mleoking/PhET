@@ -7,6 +7,7 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  * @author Sam Reid
  */
 public enum UserActions implements IUserAction, ISystemAction {
-    activated, changed, closed, deactivated, deiconified, drag, endDrag, iconified, moved, pressed, released, resized, startDrag, windowClosing, popupTriggered,
+    activated, changed, closed, deactivated, deiconified, drag, endDrag, iconified, moved, pressed, released, resized, startDrag,
+    windowOpened, windowClosed, windowClosing, popupTriggered,
     focusLost, selected, textFieldCommitted, textFieldCorrected
 }
