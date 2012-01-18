@@ -8,11 +8,11 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 
 /**
  * Standard event listener to use when a Swing component is non-interactive,
@@ -36,7 +36,7 @@ public class NonInteractiveEventListener extends MouseInputAdapter {
     }
 
     @Override public void mousePressed( MouseEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, userComponentType, UserActions.pressed, param( interactive, false ) );
+        SimSharingManager.sendUserMessage( userComponent, userComponentType, pressed, parameterSet( interactive, false ) );
         super.mousePressed( event );
     }
 }

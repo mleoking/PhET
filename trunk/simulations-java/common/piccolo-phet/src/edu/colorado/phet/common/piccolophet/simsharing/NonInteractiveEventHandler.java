@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 
 /**
  * Standard event handler to use when a piccolo component is non-interactive,
@@ -34,7 +34,7 @@ public class NonInteractiveEventHandler extends PBasicInputEventHandler {
     }
 
     @Override public void mousePressed( PInputEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.pressed, param( interactive, false ) );
+        SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.pressed, parameterSet( interactive, false ) );
         super.mousePressed( event );
     }
 }

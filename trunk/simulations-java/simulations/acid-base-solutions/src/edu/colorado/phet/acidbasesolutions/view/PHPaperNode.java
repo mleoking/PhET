@@ -13,7 +13,7 @@ import edu.colorado.phet.acidbasesolutions.model.PHPaper;
 import edu.colorado.phet.acidbasesolutions.model.PHPaper.PHPaperChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -141,7 +141,7 @@ public class PHPaperNode extends PhetPNode {
 
             // send a sim-sharing event when the paper transitions between in/out of solution.
             if ( wasInSolution != paper.isInSolution() ) {
-                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag, Parameter.param( ParameterKeys.isInSolution, paper.isInSolution() ) );
+                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.isInSolution, paper.isInSolution() ) );
             }
         }
     }

@@ -14,7 +14,6 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
@@ -81,14 +80,14 @@ public class SimSharingJCheckBox extends JCheckBox {
 
     // Gets parameters. Custom parameters are added following standard parameters.
     private ParameterSet getParameters() {
-        return new ParameterSet().param( ParameterKeys.isSelected, isSelected() ).addAll( getCustomParameters() );
+        return new ParameterSet().add( ParameterKeys.isSelected, isSelected() ).add( getCustomParameters() );
     }
 
     // Override this is you want to add custom parameters via subclassing.
     protected ParameterSet getCustomParameters() {
         ParameterSet parameterSet = new ParameterSet();
         for ( Function0<ParameterSet> function : customParameterFunctions ) {
-            parameterSet.addAll( function.apply() );
+            parameterSet.add( function.apply() );
         }
         return parameterSet;
     }
@@ -107,7 +106,7 @@ public class SimSharingJCheckBox extends JCheckBox {
         // check box that uses subclassing to provide custom parameters
         final JCheckBox checkBox1 = new SimSharingJCheckBox( new UserComponentId( "checkBox1" ), "subclassing" ) {
             @Override protected ParameterSet getCustomParameters() {
-                return Parameter.param( ParameterKeys.text, "I use subclassing." );
+                return ParameterSet.parameterSet( ParameterKeys.text, "I use subclassing." );
             }
         };
 
@@ -115,7 +114,7 @@ public class SimSharingJCheckBox extends JCheckBox {
         final JCheckBox checkBox2 = new SimSharingJCheckBox( new UserComponentId( "checkBox2" ), "mutation" ) {{
             addCustomParametersFunction( new Function0<ParameterSet>() {
                 public ParameterSet apply() {
-                    return Parameter.param( ParameterKeys.text, "I use mutation." );
+                    return ParameterSet.parameterSet( ParameterKeys.text, "I use mutation." );
                 }
             } );
         }};

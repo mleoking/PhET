@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.endDrag;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.startDrag;
 
@@ -43,7 +43,7 @@ public class SimSharingHSliderNode extends HSliderNode {
     }
 
     @Override protected void dragStarted() {
-        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, startDrag, param( ParameterKeys.value, value.get() ) );
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, startDrag, parameterSet( ParameterKeys.value, value.get() ) );
         dragValues.clear();
     }
 
@@ -54,11 +54,11 @@ public class SimSharingHSliderNode extends HSliderNode {
 
     @Override protected void dragEnded() {
         SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, endDrag,
-                                           param( ParameterKeys.value, value.get() ).
-                                                   param( numberDragEvents, dragValues.size() ).
-                                                   param( minValue, Collections.min( dragValues ) ).
-                                                   param( maxValue, Collections.max( dragValues ) ).
-                                                   param( averageValue, average( dragValues ) ) );
+                                           parameterSet( ParameterKeys.value, value.get() ).
+                                                   add( numberDragEvents, dragValues.size() ).
+                                                   add( minValue, Collections.min( dragValues ) ).
+                                                   add( maxValue, Collections.max( dragValues ) ).
+                                                   add( averageValue, average( dragValues ) ) );
         dragValues.clear();
     }
 

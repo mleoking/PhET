@@ -68,7 +68,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.JmeCanvasContext;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.*;
 
@@ -202,7 +202,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                             if ( pair != null && pair != getMolecule().getCentralAtom() ) {
                                 getMolecule().removeGroup( pair );
                             }
-                            SimSharingManager.sendUserMessage( mouseMiddleButton, UserComponentTypes.unknown, UserActions.pressed, param( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
+                            SimSharingManager.sendUserMessage( mouseMiddleButton, UserComponentTypes.unknown, UserActions.pressed, parameterSet( MoleculeShapesSimSharing.ParamKeys.removedPair, pair != null ) );
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
@@ -455,8 +455,8 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
             SimSharingManager.sendUserMessage( draggingState, UserComponentTypes.unknown, UserActions.changed,
-                                               param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
-                                                       param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
+                                               parameterSet( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
+                                                       add( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

@@ -115,7 +115,7 @@ public class SimSharingDragListener extends MouseAdapter {
 
     // Override to supply any additional parameters to send on endDrag
     protected ParameterSet getEndDragParameters( MouseEvent event ) {
-        return getParametersForAllEvents( event ).addAll( dragPoints.getParameters() ); // includes summary of drag points
+        return getParametersForAllEvents( event ).add( dragPoints.getParameters() ); // includes summary of drag points
     }
 
     // Return parameters that are used by default for all events

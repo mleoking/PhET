@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolox.nodes.PClip;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 
 /**
  * Visual representation of a magnifying glass.
@@ -114,8 +114,8 @@ public class MagnifyingGlassNode extends PhetPNode {
                     partValue = ParameterKeys.lens;
                 }
                 SimSharingManager.sendUserMessage( UserComponents.magnifyingGlass, UserComponentTypes.sprite, UserActions.pressed,
-                                                   param( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive, false ).
-                                                           param( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.part, partValue.toString() ) );
+                                                   parameterSet( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive, false ).
+                                                           add( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.part, partValue.toString() ) );
             }
         } );
     }

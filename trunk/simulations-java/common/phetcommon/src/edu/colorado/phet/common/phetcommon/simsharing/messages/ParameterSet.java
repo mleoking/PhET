@@ -38,21 +38,25 @@ public class ParameterSet implements Iterable<Parameter> {
         this( new ArrayList<Parameter>( Arrays.asList( parameters ) ) );
     }
 
-    public ParameterSet add( final Parameter parameter ) {
-        if ( containsKey( parameter.name ) ) {
-            if ( !getValue( parameter.name ).equals( parameter.value ) ) {
-                throw new RuntimeException( "Parameter name already contained with different value: " + get( parameter.name ) + ", newValue = " + parameter.value );
-            }
-            else {
-                //Nothing to do, key and value already stored.  Do not re-add key to list or it will alter the original ordering.
-                return this;
-            }
-        }
-        else {
-            return new ParameterSet( new ArrayList<Parameter>( parameters ) {{
-                add( parameter );
-            }} );
-        }
+    // Factory methods for ParameterSet
+    public static ParameterSet parameterSet( IParameterKey name, double value ) {
+        return new ParameterSet( new Parameter( name, value ) );
+    }
+
+    public static ParameterSet parameterSet( IParameterKey name, IParameterValue value ) {
+        return new ParameterSet( new Parameter( name, value.toString() ) );
+    }
+
+    public static ParameterSet parameterSet( IParameterKey name, boolean value ) {
+        return new ParameterSet( new Parameter( name, value ) );
+    }
+
+    public static ParameterSet parameterSet( IParameterKey name, long value ) {
+        return new ParameterSet( new Parameter( name, value ) );
+    }
+
+    public static ParameterSet parameterSet( IParameterKey name, String value ) {
+        return new ParameterSet( new Parameter( name, value ) );
     }
 
     private String getValue( IParameterKey name ) {
@@ -74,23 +78,42 @@ public class ParameterSet implements Iterable<Parameter> {
         return new ObservableList<Parameter>( parameters ).mkString( delimiter );
     }
 
-    public ParameterSet param( IParameterKey name, boolean value ) {
+    // Various methods for adding parameters to a parameter set
+
+    public ParameterSet add( final Parameter parameter ) {
+        if ( containsKey( parameter.name ) ) {
+            if ( !getValue( parameter.name ).equals( parameter.value ) ) {
+                throw new RuntimeException( "Parameter name already contained with different value: " + get( parameter.name ) + ", newValue = " + parameter.value );
+            }
+            else {
+                //Nothing to do, key and value already stored.  Do not re-add key to list or it will alter the original ordering.
+                return this;
+            }
+        }
+        else {
+            return new ParameterSet( new ArrayList<Parameter>( parameters ) {{
+                add( parameter );
+            }} );
+        }
+    }
+
+    public ParameterSet add( IParameterKey name, boolean value ) {
         return add( new Parameter( name, value ) );
     }
 
-    public ParameterSet param( IParameterKey name, double value ) {
+    public ParameterSet add( IParameterKey name, double value ) {
         return add( new Parameter( name, value ) );
     }
 
-    public ParameterSet param( IParameterKey name, String value ) {
+    public ParameterSet add( IParameterKey name, String value ) {
         return add( new Parameter( name, value ) );
     }
 
-    public ParameterSet param( IParameterKey name, int value ) {
+    public ParameterSet add( IParameterKey name, int value ) {
         return add( new Parameter( name, value ) );
     }
 
-    public ParameterSet addAll( Parameter[] parameters ) {
+    public ParameterSet add( Parameter[] parameters ) {
         ParameterSet p = this;
         for ( Parameter parameter : parameters ) {
             p = p.add( parameter );
@@ -98,8 +121,8 @@ public class ParameterSet implements Iterable<Parameter> {
         return p;
     }
 
-    public ParameterSet addAll( ParameterSet param ) {
-        return addAll( param.parameters.toArray( new Parameter[param.parameters.size()] ) );
+    public ParameterSet add( ParameterSet param ) {
+        return add( param.parameters.toArray( new Parameter[param.parameters.size()] ) );
     }
 
     public Iterator<Parameter> iterator() {

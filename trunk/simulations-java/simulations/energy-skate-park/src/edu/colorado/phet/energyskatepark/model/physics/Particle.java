@@ -11,12 +11,12 @@ import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.model.LinearFloorSpline2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ModelActions.bounced;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ModelActions.landed;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.isFloor;
@@ -545,7 +545,7 @@ public class Particle implements Serializable {
             boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
             if ( bounce || !velocityTowardTrack ) {
 
-                SimSharingManager.sendModelMessage( skater, ModelComponentTypes.modelElement, bounced, param( trackIndex, cubicSpline.index ).param( isFloor, cubicSpline instanceof LinearFloorSpline2D ) );
+                SimSharingManager.sendModelMessage( skater, ModelComponentTypes.modelElement, bounced, ParameterSet.parameterSet( trackIndex, cubicSpline.index ).add( isFloor, cubicSpline instanceof LinearFloorSpline2D ) );
                 double energyBeforeBounce = getTotalEnergy();
                 setVelocity( newVelocity );
 
@@ -563,7 +563,7 @@ public class Particle implements Serializable {
             else {
                 //grab the track
                 double dE0 = getTotalEnergy() - origEnergy;
-                SimSharingManager.sendModelMessage( skater, ModelComponentTypes.modelElement, landed, param( trackIndex, cubicSpline.index ).param( isFloor, cubicSpline instanceof LinearFloorSpline2D ) );
+                SimSharingManager.sendModelMessage( skater, ModelComponentTypes.modelElement, landed, ParameterSet.parameterSet( trackIndex, cubicSpline.index ).add( isFloor, cubicSpline instanceof LinearFloorSpline2D ) );
                 switchToTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
                 double dE2 = getTotalEnergy() - origEnergy;
                 if ( Math.abs( dE2 ) > 1E-6 ) {

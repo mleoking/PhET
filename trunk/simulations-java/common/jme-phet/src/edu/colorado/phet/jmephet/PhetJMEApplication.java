@@ -48,8 +48,8 @@ import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.AppSettings;
 import com.jme3.system.Timer;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.errorMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.jmephet.JMEPhetSimsharing.Actions.erred;
 import static edu.colorado.phet.jmephet.JMEPhetSimsharing.Objects.jmePhetApplication;
 
@@ -316,7 +316,7 @@ public class PhetJMEApplication extends Application {
 
     @Override public void handleError( String errMsg, final Throwable t ) {
         super.handleError( errMsg, t );
-        SimSharingManager.sendSystemMessage( jmePhetApplication, SystemComponentTypes.application, erred, param( errorMessage, errMsg ) );
+        SimSharingManager.sendSystemMessage( jmePhetApplication, SystemComponentTypes.application, erred, parameterSet( errorMessage, errMsg ) );
         showErrorDialog( t );
     }
 

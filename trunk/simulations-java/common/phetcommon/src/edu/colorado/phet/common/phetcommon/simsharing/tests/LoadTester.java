@@ -102,7 +102,7 @@ public class LoadTester {
         ParameterSet p = new ParameterSet();
         for ( int i = 0; i < numParams; i++ ) {
             if ( i == 0 ) {
-                p = p.param( ParameterKeys.messageIndex, messageIndex );
+                p = p.add( ParameterKeys.messageIndex, messageIndex );
                 messageIndex++;
             }
             else {

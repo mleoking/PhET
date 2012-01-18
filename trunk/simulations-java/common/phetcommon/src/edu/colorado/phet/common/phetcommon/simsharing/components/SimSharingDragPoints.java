@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
@@ -45,13 +44,13 @@ public class SimSharingDragPoints {
                 return point2D.getY();
             }
         } );
-        return Parameter.param( numberDragEvents, points.size() ).
-                param( minX, min( xValues ) ).
-                param( maxX, max( xValues ) ).
-                param( averageX, average( xValues ) ).
-                param( minY, min( yValues ) ).
-                param( maxY, max( yValues ) ).
-                param( averageY, average( yValues ) );
+        return ParameterSet.parameterSet( numberDragEvents, points.size() ).
+                add( minX, min( xValues ) ).
+                add( maxX, max( xValues ) ).
+                add( averageX, average( xValues ) ).
+                add( minY, min( yValues ) ).
+                add( maxY, max( yValues ) ).
+                add( averageY, average( yValues ) );
     }
 
     private ArrayList<Double> extract( ArrayList<Point2D> all, Function1<Point2D, Double> extractor ) {

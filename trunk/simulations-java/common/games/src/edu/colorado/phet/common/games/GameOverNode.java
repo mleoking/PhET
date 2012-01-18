@@ -21,6 +21,7 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -30,7 +31,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.games.SimSharing.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 
 /**
  * Upon completion of a Game, this node is used to display a summary of the user's game results.
@@ -90,13 +90,13 @@ public class GameOverNode extends PhetPNode {
 
         //Report on the game over, assumes that this node is only created at the end of a game (a safe assumption because the constructor args are only available at end of game)
         SimSharingManager.sendModelMessage( Components.game, ModelComponentTypes.feature, Actions.ended,
-                                            param( Parameters.level, level ).
-                                                    param( Parameters.score, score ).
-                                                    param( Parameters.perfectScore, perfectScore ).
-                                                    param( Parameters.time, time ).
-                                                    param( Parameters.bestTime, bestTime ).
-                                                    param( Parameters.isNewBestTime, isNewBestTime ).
-                                                    param( Parameters.timerVisible, timerVisible ) );
+                                            ParameterSet.parameterSet( Parameters.level, level ).
+                                                    add( Parameters.score, score ).
+                                                    add( Parameters.perfectScore, perfectScore ).
+                                                    add( Parameters.time, time ).
+                                                    add( Parameters.bestTime, bestTime ).
+                                                    add( Parameters.isNewBestTime, isNewBestTime ).
+                                                    add( Parameters.timerVisible, timerVisible ) );
 
         this.scoreFormat = scoreFormat;
         this.listeners = new EventListenerList();

@@ -1,3 +1,4 @@
+1/18/12 Simsharing: refinements to builder pattern for parameter sets
 1/18/12 Simsharing: add UserComponentType to UserMessages, delete IComponentType
 1/17/12 added NonInteractiveEventListener for sending non-interactive sim-sharing messages on Swing components and phetgraphics sprites
 1/17/12 added SimSharingLinearValueControl (implementation identical to SimSharingLogarithmicValueControl! bad!)

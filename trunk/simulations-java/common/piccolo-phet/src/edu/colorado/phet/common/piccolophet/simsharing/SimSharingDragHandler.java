@@ -117,7 +117,7 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
 
     // Gets parameters for endDrag. Override to provide different parameters, chain with super to add parameters.
     protected ParameterSet getEndDragParameters( PInputEvent event ) {
-        return getParametersForAllEvents( event ).addAll( dragPoints.getParameters() ); // includes summary of drag points
+        return getParametersForAllEvents( event ).add( dragPoints.getParameters() ); // includes summary of drag points
     }
 
     // Return parameters that are used by default for startDrag, endDrag, and drag
