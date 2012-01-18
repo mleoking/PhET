@@ -158,6 +158,11 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       println("Time spent in different solutions (ms): " + solutionTable)
       println("Time spent in different views (ms): " + viewTable)
 
+
+      val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
+      writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
+      writeLine("Distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct)
+
       //Find out how long each state was active
 
       //      System exit 0
