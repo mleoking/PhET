@@ -32,6 +32,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuBar;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJMenuItem;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
@@ -41,7 +42,6 @@ import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.height;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.width;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
@@ -113,7 +113,7 @@ public class PhetFrame extends JFrame {
             @Override public void componentResized( ComponentEvent e ) {
                 if ( !getSize().equals( prevSize ) ) {
                     SimSharingManager.sendSystemMessage( SystemComponents.phetFrame, SystemComponentTypes.window, SystemActions.resized,
-                                                         param( width, getWidth() ).param( height, getHeight() ) );
+                                                         ParameterSet.parameterSet( width, getWidth() ).add( height, getHeight() ) );
                     prevSize = new Dimension( getSize() );
                 }
             }

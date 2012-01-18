@@ -206,7 +206,7 @@ public class DilutionsSliderNode extends PhetPNode {
         }
 
         @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
-            return super.getParametersForAllEvents( event ).param( ParameterKeys.value, modelValue.get() );
+            return super.getParametersForAllEvents( event ).add( ParameterKeys.value, modelValue.get() );
         }
     }
 }

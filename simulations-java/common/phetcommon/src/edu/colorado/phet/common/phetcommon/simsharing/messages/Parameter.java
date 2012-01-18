@@ -2,7 +2,6 @@
 package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -38,35 +37,6 @@ public class Parameter {
 
     @Override public String toString() {
         return name + " = " + value;
-    }
-
-    public static ParameterSet param( IParameterKey name, double value ) {
-        return new ParameterSet( new Parameter( name, value ) );
-    }
-
-    public static ParameterSet param( IParameterKey name, IParameterValue value ) {
-        return new ParameterSet( new Parameter( name, value.toString() ) );
-    }
-
-    public static ParameterSet param( IParameterKey name, boolean value ) {
-        return new ParameterSet( new Parameter( name, value ) );
-    }
-
-    public static ParameterSet param( IParameterKey name, long value ) {
-        return new ParameterSet( new Parameter( name, value ) );
-    }
-
-    public static ParameterSet param( IParameterKey name, String value ) {
-        return new ParameterSet( new Parameter( name, value ) );
-    }
-
-    // Appends additional parameters to an array of parameters.
-    public static Parameter[] appendParameters( Parameter[] parameters, Parameter... additionalParameters ) {
-        ArrayList<Parameter> parameterList = new ArrayList<Parameter>( Arrays.asList( parameters ) );
-        for ( Parameter parameter : additionalParameters ) {
-            parameterList.add( parameter );
-        }
-        return parameterList.toArray( new Parameter[parameterList.size()] );
     }
 
     //Parses a String into a list of parameters, used by the post-processor

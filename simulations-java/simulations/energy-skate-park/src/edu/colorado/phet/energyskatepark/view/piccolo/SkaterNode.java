@@ -93,7 +93,7 @@ public class SkaterNode extends PNode {
             public SerializablePoint2D bodyPosition;
 
             @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                return super.getParametersForAllEvents( event ).param( skaterX, body.getX() ).param( skaterY, body.getY() );
+                return super.getParametersForAllEvents( event ).add( skaterX, body.getX() ).add( skaterY, body.getY() );
             }
 
             @Override protected void startDrag( PInputEvent event ) {

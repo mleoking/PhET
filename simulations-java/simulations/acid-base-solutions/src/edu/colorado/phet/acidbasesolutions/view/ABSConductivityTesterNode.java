@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -89,7 +88,7 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 
     private static void sendProbeEvent( IUserComponent object, IUserAction action, boolean inSolution, boolean circuitCompleted ) {
         SimSharingManager.sendUserMessage( object, UserComponentTypes.sprite, action,
-                                           Parameter.param( ParameterKeys.isInSolution, inSolution ).
-                                                   param( ParameterKeys.isCircuitCompleted, circuitCompleted ) );
+                                           ParameterSet.parameterSet( ParameterKeys.isInSolution, inSolution ).
+                                                   add( ParameterKeys.isCircuitCompleted, circuitCompleted ) );
     }
 }

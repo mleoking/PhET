@@ -75,7 +75,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.JmeCanvasContext;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.realMoleculesTab;
 
@@ -439,8 +439,8 @@ public class RealMoleculesTab extends MoleculeViewTab {
         //Hide spurious "dragging = false" messages when clicking on piccolo swing buttons
         if ( lastDragging != dragging ) {
             SimSharingManager.sendUserMessage( MoleculeShapesSimSharing.UserComponents.draggingState, UserComponentTypes.unknown, UserActions.changed,
-                                               param( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
-                                                       param( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
+                                               parameterSet( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
+                                                       add( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

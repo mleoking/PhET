@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMECursorHandler;
@@ -32,7 +32,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 
 /**
  * Displays a graphic showing a bonding type (single/double/triple/lone pair) where dragging the graphic
@@ -73,7 +72,7 @@ public class BondTypeControlNode extends PNode {
                         // if it exists, remove it
                         if ( candidate != null ) {
                             module.getMolecule().removeGroup( candidate );
-                            sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, UserComponentTypes.sprite, Actions.removed, param( ParamKeys.bondOrder, bondOrder ) );
+                            sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, UserComponentTypes.sprite, Actions.removed, ParameterSet.parameterSet( ParamKeys.bondOrder, bondOrder ) );
 
                             //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                             systemResponseForGeometries( module.getMolecule() );
@@ -107,7 +106,7 @@ public class BondTypeControlNode extends PNode {
             public void run() {
                 module.startNewInstanceDrag( bondOrder );
 
-                sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, UserComponentTypes.sprite, Actions.created, param( ParamKeys.bondOrder, bondOrder ) );
+                sendUserMessage( MoleculeShapesSimSharing.UserComponents.bond, UserComponentTypes.sprite, Actions.created, ParameterSet.parameterSet( ParamKeys.bondOrder, bondOrder ) );
 
                 //System response for electron and molecule geometry names, copied from code in GeometryNameNode
                 systemResponseForGeometries( module.getMolecule() );
@@ -138,7 +137,7 @@ public class BondTypeControlNode extends PNode {
 
         final String moleculeGeometry = molecule.getCentralVseprConfiguration().name;
         String moleculeGeometryName = moleculeGeometry == null ? MoleculeShapesResources.Strings.SHAPE__EMPTY : moleculeGeometry;
-        SimSharingManager.sendModelMessage( ModelObjects.molecule, ModelComponentTypes.modelElement, ModelActions.bondsChanged, Parameter.param( ParamKeys.electronGeometry, electronGeometryName ).param( ParamKeys.moleculeGeometry, moleculeGeometryName ) );
+        SimSharingManager.sendModelMessage( ModelObjects.molecule, ModelComponentTypes.modelElement, ModelActions.bondsChanged, ParameterSet.parameterSet( ParamKeys.electronGeometry, electronGeometryName ).add( ParamKeys.moleculeGeometry, moleculeGeometryName ) );
     }
 
     private boolean hasMatchingGroup() {

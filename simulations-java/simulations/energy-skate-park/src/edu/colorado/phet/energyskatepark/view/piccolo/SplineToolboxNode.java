@@ -27,7 +27,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.numTracks;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.trackIndex;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.toolboxTrack;
@@ -71,11 +70,11 @@ public class SplineToolboxNode extends PNode {
             @Override public ParameterSet getStartDragParameters( PInputEvent event ) {
 
                 //Use the class count to get the new track ID, assumes nothing else will happen between now and then to change that index
-                return super.getStartDragParameters( event ).param( numTracks, energySkateParkSimulationPanel.getEnergySkateParkModel().getNumSplines() + 1 ).param( trackIndex, ParametricFunction2D.count );
+                return super.getStartDragParameters( event ).add( numTracks, energySkateParkSimulationPanel.getEnergySkateParkModel().getNumSplines() + 1 ).add( trackIndex, ParametricFunction2D.count );
             }
 
             @Override public ParameterSet getEndDragParameters( PInputEvent event ) {
-                return super.getEndDragParameters( event ).addAll( param( trackIndex, createdSurface.getParametricFunction2D().index ) );
+                return super.getEndDragParameters( event ).add( ParameterSet.parameterSet( trackIndex, createdSurface.getParametricFunction2D().index ) );
             }
 
             @Override protected void startDrag( PInputEvent event ) {

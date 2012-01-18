@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -45,7 +45,7 @@ public class TrackButton extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
 
             @Override public void mousePressed( PInputEvent event ) {
-                SimSharingManager.sendUserMessage( chain( trackButton, trackName ), UserComponentTypes.button, pressed, Parameter.param( EnergySkateParkSimSharing.ParameterKeys.trackName, trackName ) );
+                SimSharingManager.sendUserMessage( chain( trackButton, trackName ), UserComponentTypes.button, pressed, ParameterSet.parameterSet( EnergySkateParkSimSharing.ParameterKeys.trackName, trackName ) );
                 module.loadTrack( trackName, offset );
             }
         } );

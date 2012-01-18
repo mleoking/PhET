@@ -51,7 +51,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.*;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserActions.attached;
@@ -111,7 +110,7 @@ public class SplineNode extends PNode {
         dragHandler = new SimSharingDragHandler( chain( EnergySkateParkSimSharing.UserComponents.track, spline.getParametricFunction2D().index ), UserComponentTypes.sprite ) {
 
             @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                return super.getParametersForAllEvents( event ).param( trackIndex, spline.getParametricFunction2D().index );
+                return super.getParametersForAllEvents( event ).add( trackIndex, spline.getParametricFunction2D().index );
             }
 
             @Override protected void drag( PInputEvent event ) {
@@ -247,9 +246,9 @@ public class SplineNode extends PNode {
         if ( startMatch != null ) {
             EnergySkateParkSpline result = attach( index, startMatch );
             SimSharingManager.sendUserMessage( chain( EnergySkateParkSimSharing.UserComponents.track, spline.getParametricFunction2D().index ), UserComponentTypes.sprite, attached
-                    , param( inputTrack1, spline.getParametricFunction2D().index ).
-                    param( inputTrack2, startMatch.getEnergySkateParkSpline().getParametricFunction2D().index ).
-                    param( outputTrack, result.getParametricFunction2D().index ) );
+                    , ParameterSet.parameterSet( inputTrack1, spline.getParametricFunction2D().index ).
+                    add( inputTrack2, startMatch.getEnergySkateParkSpline().getParametricFunction2D().index ).
+                    add( outputTrack, result.getParametricFunction2D().index ) );
             return true;
         }
         return false;
@@ -371,7 +370,7 @@ public class SplineNode extends PNode {
                 }
 
                 @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return super.getParametersForAllEvents( event ).param( trackIndex, spline.getParametricFunction2D().index );
+                    return super.getParametersForAllEvents( event ).add( trackIndex, spline.getParametricFunction2D().index );
                 }
 
                 @Override protected void drag( PInputEvent event ) {

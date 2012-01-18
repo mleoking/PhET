@@ -31,8 +31,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.getConfig;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime.whatIsMountainTime;
 import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMyIPAddress.whatIsMyIPAddress;
@@ -119,9 +119,9 @@ public class SimSharingManager {
             //Look up additional external info and report in a separate thread so it doesn't slow down the main thread too much
             new Thread() {
                 @Override public void run() {
-                    sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, mountainTimeLookup, param( mountainTime, whatIsMountainTime() ) );
+                    sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, mountainTimeLookup, parameterSet( mountainTime, whatIsMountainTime() ) );
                     if ( getConfig( studyName ).collectIPAddress ) {
-                        sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, ipAddressLookup, param( ipAddress, whatIsMyIPAddress() ) );
+                        sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, ipAddressLookup, parameterSet( ipAddress, whatIsMyIPAddress() ) );
                     }
                 }
             }.start();
@@ -194,7 +194,7 @@ public class SimSharingManager {
             //Every 100 events, send an event that says how many events have been sent. This way we can check to see that no events were dropped.
             messageCount++;
             if ( messageCount % 100 == 0 && messageCount > 0 ) {
-                sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, sentEvent, param( ParameterKeys.messageCount, messageCount ) );
+                sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, sentEvent, parameterSet( ParameterKeys.messageCount, messageCount ) );
             }
         }
     }
@@ -216,21 +216,21 @@ public class SimSharingManager {
     // Sends a message when sim-sharing has been started up.
     private void sendStartupMessage( PhetApplicationConfig config ) {
         assert ( enabled );
-        sendSystemMessageNS( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, started, param( time, simStartedTime ).
-                param( name, config.getName() ).
-                param( version, config.getVersion().formatForAboutDialog() ).
-                param( project, config.getProjectName() ).
-                param( flavor, config.getFlavor() ).
-                param( locale, config.getLocale().toString() ).
-                param( distributionTag, config.getDistributionTag() ).
-                param( javaVersion, System.getProperty( "java.version" ) ).
-                param( osName, System.getProperty( "os.name" ) ).
-                param( osVersion, System.getProperty( "os.version" ) ).
-                param( parserVersion, PARSER_VERSION ).
-                param( study, studyName ).
-                param( id, studentId ).
-                param( ParameterKeys.machineCookie, machineCookie ).
-                param( ParameterKeys.sessionId, sessionId ) );
+        sendSystemMessageNS( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, started, parameterSet( time, simStartedTime ).
+                add( name, config.getName() ).
+                add( version, config.getVersion().formatForAboutDialog() ).
+                add( project, config.getProjectName() ).
+                add( flavor, config.getFlavor() ).
+                add( locale, config.getLocale().toString() ).
+                add( distributionTag, config.getDistributionTag() ).
+                add( javaVersion, System.getProperty( "java.version" ) ).
+                add( osName, System.getProperty( "os.name" ) ).
+                add( osVersion, System.getProperty( "os.version" ) ).
+                add( parserVersion, PARSER_VERSION ).
+                add( study, studyName ).
+                add( id, studentId ).
+                add( ParameterKeys.machineCookie, machineCookie ).
+                add( ParameterKeys.sessionId, sessionId ) );
     }
 
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java

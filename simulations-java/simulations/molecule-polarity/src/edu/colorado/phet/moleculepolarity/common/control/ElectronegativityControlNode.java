@@ -291,7 +291,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             DragFunction startEndDragFunction = new DragFunction() {
                 public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event ) {
                     SimSharingManager.sendUserMessage( userComponent, componentType, action,
-                                                       parameters.param( Parameters.atom, atom.getName() ).param( Parameters.electronegativity, atom.electronegativity.get() ) );
+                                                       parameters.add( Parameters.atom, atom.getName() ).add( Parameters.electronegativity, atom.electronegativity.get() ) );
                 }
             };
             setStartDragFunction( startEndDragFunction );
