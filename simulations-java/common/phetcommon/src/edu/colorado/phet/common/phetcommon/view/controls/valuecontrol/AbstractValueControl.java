@@ -11,6 +11,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -29,6 +31,8 @@ import javax.swing.event.EventListenerList;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterValues;
 import edu.colorado.phet.common.phetcommon.view.controls.HTMLLabel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -142,6 +146,7 @@ public abstract class AbstractValueControl extends JPanel {
         // Listeners
         _sliderListener = new SliderListener();
         _slider.addChangeListener( _sliderListener );
+        _slider.addMouseListener( _sliderListener );
         _textFieldListener = new TextFieldListener();
         _textField.addActionListener( _textFieldListener );
         _textField.addFocusListener( _textFieldListener );
@@ -248,7 +253,7 @@ public abstract class AbstractValueControl extends JPanel {
             else if ( value > getMaximum() ) {
                 _value = getMaximum();
             }
-            valueCorrected();
+            textFieldCorrected( ParameterValues.rangeError, String.valueOf( value ), _value );
             beep();
             updateView(); // revert
         }
@@ -742,7 +747,7 @@ public abstract class AbstractValueControl extends JPanel {
     /*
      * Handles events related to the slider.
      */
-    private class SliderListener implements ChangeListener {
+    private class SliderListener extends MouseAdapter implements ChangeListener {
         /*
          * Slider was changed.
          */
@@ -751,41 +756,19 @@ public abstract class AbstractValueControl extends JPanel {
                 _isAdjusting = _slider.getValueIsAdjusting();
                 boolean notify = ( _notifyWhileAdjusting || !_isAdjusting );
                 double modelValue = _slider.getModelValue();
-                sliderDragged( modelValue );
+                sliderDrag( modelValue );
                 setValue( modelValue, notify );
             }
         }
-    }
 
-    //For sim sharing
-    //TODO: override these with SimSharing*ValueControl classes to send messages at the right times
-    protected void valueCorrected() {
-    }
-    //    SimSharingManager.sendUserEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( CORRECTED_VALUE, _value ) );
+        @Override public void mousePressed( MouseEvent event ) {
+            sliderStartDrag( _slider.getModelValue() );
+        }
 
-    protected void sliderDragged( double modelValue ) {
+        @Override public void mouseReleased( MouseEvent event ) {
+            sliderEndDrag( _slider.getModelValue() );
+        }
     }
-//    SimSharingManager.sendUserEvent( simSharingObject, SLIDER_MOVED, new Parameter( Parameters.VALUE, modelValue ) );
-
-    protected void focusLostInvalidInput() {
-    }
-    //    SimSharingManager.sendUserEvent( simSharingObject, Actions.INVALID_INPUT, new Parameter( Parameters.VALUE, getValue() ) );
-
-    protected void userFocusLost( double value ) {
-    }
-    //    SimSharingManager.sendUserEvent( simSharingObject, Actions.FOCUS_LOST, new Parameter( Parameters.VALUE, value ) );
-
-    protected void userPressedEnter( double value ) {
-    }
-    //SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.ENTER ), new Parameter( Parameters.VALUE, value ) );
-
-    public void downPressed( double value ) {
-    }
-    //    SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.DOWN_ARROW ), new Parameter( Parameters.VALUE, value ) );
-
-    protected void upPressed( double value ) {
-    }
-    //    SimSharingManager.sendUserEvent( simSharingObject, Actions.KEY_PRESSED, new Parameter( Parameters.KEY, ParameterValues.UP_ARROW ), new Parameter( Parameters.VALUE, value ) );
 
     /*
     * Handles events related to the textfield.
@@ -800,14 +783,14 @@ public abstract class AbstractValueControl extends JPanel {
                 if ( e.getKeyCode() == KeyEvent.VK_UP ) {
                     final double value = getValue() + _upDownArrowDelta;
                     if ( value <= getMaximum() ) {
-                        upPressed( value );
+                        textFieldCommitted( ParameterValues.upKey, value );
                         setValue( value );
                     }
                 }
                 else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
                     final double value = getValue() - _upDownArrowDelta;
                     if ( value >= getMinimum() ) {
-                        downPressed( value );
+                        textFieldCommitted( ParameterValues.downKey, value );
                         setValue( value );
                     }
                 }
@@ -820,7 +803,7 @@ public abstract class AbstractValueControl extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _textField ) {
                 double value = getTextFieldValue();
-                userPressedEnter( value );
+                textFieldCommitted( ParameterValues.enterKey, value );
                 setValue( value );
             }
         }
@@ -842,11 +825,11 @@ public abstract class AbstractValueControl extends JPanel {
                 try {
                     _textField.commitEdit();
                     double value = getTextFieldValue();
-                    userFocusLost( value );
+                    textFieldCommitted( ParameterValues.focusLost, value );
                     setValue( value );
                 }
                 catch ( ParseException pe ) {
-                    focusLostInvalidInput();
+                    textFieldCorrected( ParameterValues.parseError, _textField.getText(), getValue() );
                     beep();
                     updateView(); // revert
                 }
@@ -903,5 +886,29 @@ public abstract class AbstractValueControl extends JPanel {
         if ( _signifyOutOfBounds ) {
             Toolkit.getDefaultToolkit().beep();
         }
+    }
+
+    //----------------------------------------------------------------------------
+    // Sim-sharing hooks, override these in subclasses.
+    //----------------------------------------------------------------------------
+
+    // User starts slider drag sequence.
+    protected void sliderStartDrag( double modelValue ) {
+    }
+
+    // User ends slider drag sequence.
+    protected void sliderEndDrag( double modelValue ) {
+    }
+
+    // User is dragging the slider.
+    protected void sliderDrag( double modelValue ) {
+    }
+
+    // User does something to commit the text field.
+    protected void textFieldCommitted( IParameterValue commitAction, double value ) {
+    }
+
+    // Invalid input is encountered and corrected in the text field.
+    protected void textFieldCorrected( IParameterValue errorType, String text, double correctedValue ) {
     }
 }

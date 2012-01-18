@@ -1,17 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterValues.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.value;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
 
 /**
- * Logarithmic value control that also sends simsharing event messages.
+ * Logarithmic value control that sends sim-sharing messages.
  *
  * @author Sam Reid
  */
@@ -28,40 +28,29 @@ public class SimSharingLogarithmicValueControl extends LogarithmicValueControl {
         this.userComponent = userComponent;
     }
 
-    //For sim sharing
-    //override with SimSharing*ValueControl classes to send messages at the right times
-    protected void valueCorrected() {
-        sendUserMessage( userComponent, invalidInput, param( correctedValue, getValue() ) );
-        super.valueCorrected();
+    @Override protected void sliderStartDrag( double modelValue ) {
+        sendUserMessage( userComponent, startDrag, param( value, modelValue ) );
+        super.sliderStartDrag( modelValue );
     }
 
-    protected void sliderDragged( double modelValue ) {
+    @Override protected void sliderEndDrag( double modelValue ) {
+        sendUserMessage( userComponent, endDrag, param( value, modelValue ) );
+        super.sliderEndDrag( modelValue );
+    }
+
+    @Override protected void sliderDrag( double modelValue ) {
         sendUserMessage( userComponent, drag, param( value, modelValue ) );
-        super.sliderDragged( modelValue );
+        super.sliderDrag( modelValue );
     }
 
-    protected void focusLostInvalidInput() {
-        sendUserMessage( userComponent, focusLostInvalidInput, param( correctedValue, getValue() ) );
-        super.focusLostInvalidInput();
+    @Override protected void textFieldCommitted( IParameterValue commitAction, double value ) {
+        sendUserMessage( userComponent, textFieldCommitted, param( ParameterKeys.commitAction, commitAction ).param( ParameterKeys.value, value ) );
+        super.textFieldCommitted( commitAction, value );
     }
 
-    protected void userFocusLost( double value ) {
-        sendUserMessage( userComponent, focusLost, param( ParameterKeys.value, value ) );
-        super.userFocusLost( value );
-    }
-
-    protected void userPressedEnter( double value ) {
-        sendUserMessage( userComponent, pressedKey, param( key, enter ).param( ParameterKeys.value, value ) );
-        super.userPressedEnter( value );
-    }
-
-    public void downPressed( double value ) {
-        sendUserMessage( userComponent, pressedKey, param( key, down ).param( ParameterKeys.value, value ) );
-        super.downPressed( value );
-    }
-
-    protected void upPressed( double value ) {
-        sendUserMessage( userComponent, pressedKey, param( key, up ).param( ParameterKeys.value, value ) );
-        super.upPressed( value );
+    //TODO this should probably be a system or model message
+    @Override protected void textFieldCorrected( IParameterValue errorType, String value, double correctedValue ) {
+        sendUserMessage( userComponent, textFieldCorrected, param( ParameterKeys.errorType, errorType ).param( ParameterKeys.value, value ).param( ParameterKeys.correctedValue, correctedValue ) );
+        super.textFieldCorrected( errorType, value, correctedValue );
     }
 }
