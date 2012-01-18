@@ -16,8 +16,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SimSharingLinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradaySimSharing.UserComponent;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.BarMagnet;
 import edu.colorado.phet.faraday.model.Compass;
@@ -28,7 +30,7 @@ import edu.colorado.phet.faraday.view.EarthGraphic;
 
 
 /**
- * BarMagnetPanel contains the controls for the bar magnet. 
+ * BarMagnetPanel contains the controls for the bar magnet.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -38,7 +40,7 @@ public class BarMagnetPanel extends FaradayPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     // Model & view components to be controlled.
     private BarMagnet _barMagnetModel;
     private Compass _compassModel;
@@ -56,14 +58,14 @@ public class BarMagnetPanel extends FaradayPanel {
     private JCheckBox _compassCheckBox;
     private JCheckBox _earthCheckBox;
     private EventListener _listener;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor
-     * 
+     *
      * @param barMagnetModel
      * @param compassModel
      * @param fieldMeterModel
@@ -71,16 +73,15 @@ public class BarMagnetPanel extends FaradayPanel {
      * @param bFieldOutsideGraphic
      * @param earthGraphic
      */
-    public BarMagnetPanel( 
-            BarMagnet barMagnetModel, 
+    public BarMagnetPanel(
+            BarMagnet barMagnetModel,
             Compass compassModel,
             FieldMeter fieldMeterModel,
             BFieldInsideGraphic bFieldInsideGraphic,
             BFieldOutsideGraphic bFieldOutsideGraphic,
-            EarthGraphic earthGraphic )
-    {
+            EarthGraphic earthGraphic ) {
         super();
-        
+
         assert ( barMagnetModel != null );
         assert ( compassModel != null );
         assert ( fieldMeterModel != null );
@@ -93,13 +94,13 @@ public class BarMagnetPanel extends FaradayPanel {
         _bFieldInsideGraphic = bFieldInsideGraphic;
         _bFieldOutsideGraphic = bFieldOutsideGraphic;
         _earthGraphic = earthGraphic;
-        
+
         // Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, FaradayStrings.TITLE_BAR_MAGNET_PANEL );
         titleBorder.setTitleFont( getTitleFont() );
         setBorder( titleBorder );
-        
+
         // Magnet strength
         {
             // Values are a percentage of the maximum.
@@ -107,7 +108,7 @@ public class BarMagnetPanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.BAR_MAGNET_STRENGTH_MIN / FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
 
             // Slider
-            _strengthControl = new LinearValueControl( min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
+            _strengthControl = new SimSharingLinearValueControl( UserComponent.barMagnetStrengthSlider, min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
             _strengthControl.setValue( min );
             _strengthControl.setMajorTickSpacing( 50 );
             _strengthControl.setMinorTickSpacing( 10 );
@@ -125,13 +126,13 @@ public class BarMagnetPanel extends FaradayPanel {
 
         // B-field on/off
         _bFieldCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
-        
+
         // Field Meter on/off
         _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
 
         // Compass on/off
         _compassCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_COMPASS );
-        
+
         // Earth on/off
         _earthCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_EARTH );
 
@@ -148,7 +149,7 @@ public class BarMagnetPanel extends FaradayPanel {
         if ( earthGraphic != null ) {
             layout.addComponent( _earthCheckBox, row++, 0 );
         }
-        
+
         // Wire up event handling.
         _listener = new EventListener();
         _flipPolarityButton.addActionListener( _listener );
@@ -162,7 +163,7 @@ public class BarMagnetPanel extends FaradayPanel {
         // Set the state of the controls.
         update();
     }
-   
+
     /**
      * Updates the control panel to match the state of the things that it's controlling.
      */
@@ -178,57 +179,57 @@ public class BarMagnetPanel extends FaradayPanel {
             _earthCheckBox.setSelected( _earthGraphic.isVisible() );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Feature controls
     //----------------------------------------------------------------------------
-    
+
     /**
      * Access to the "Flip Polarity" control.
-     * 
+     *
      * @param visible true of false
      */
     public void setFlipPolarityControlVisible( boolean visible ) {
         _flipPolarityButton.setVisible( visible );
     }
-    
+
     /**
      * Access to the "See Inside" control.
-     * 
+     *
      * @param visible true of false
      */
     public void setSeeInsideControlVisible( boolean visible ) {
         _seeInsideCheckBox.setVisible( visible );
     }
-    
+
     /**
      * Access to the "Show Field Meter" control.
-     * 
+     *
      * @param visible true or false
      */
     public void setFieldMeterControlVisible( boolean visible ) {
         _fieldMeterCheckBox.setVisible( visible );
     }
-    
+
     /**
      * Access to the "Show Earth" control.
-     * 
+     *
      * @param visible true or false
      */
     public void setShowEarthControlVisible( boolean visible ) {
         _earthCheckBox.setVisible( visible );
     }
-    
+
     /**
      * Access to the "Show B-Field" control.
-     * 
+     *
      * @param visible true or false
      * @return
      */
     public void setBFieldControlVisible( boolean visible ) {
         _bFieldCheckBox.setVisible( visible );
     }
-    
+
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
@@ -242,8 +243,11 @@ public class BarMagnetPanel extends FaradayPanel {
      */
     private class EventListener implements ActionListener, ChangeListener {
 
-        /** Sole constructor */
-        public EventListener() {}
+        /**
+         * Sole constructor
+         */
+        public EventListener() {
+        }
 
         //----------------------------------------------------------------------------
         // ActionListener implementation
@@ -251,7 +255,7 @@ public class BarMagnetPanel extends FaradayPanel {
 
         /**
          * ActionEvent handler.
-         * 
+         *
          * @param e the event
          * @throws IllegalArgumentException if the event is unexpected
          */
@@ -279,10 +283,10 @@ public class BarMagnetPanel extends FaradayPanel {
             else if ( e.getSource() == _earthCheckBox ) {
                 _earthGraphic.setVisible( _earthCheckBox.isSelected() );
                 if ( _earthCheckBox.isSelected() ) {
-                    _barMagnetModel.setDirection( _barMagnetModel.getDirection() + Math.PI/2 );
+                    _barMagnetModel.setDirection( _barMagnetModel.getDirection() + Math.PI / 2 );
                 }
                 else {
-                    _barMagnetModel.setDirection( _barMagnetModel.getDirection() - Math.PI/2 );
+                    _barMagnetModel.setDirection( _barMagnetModel.getDirection() - Math.PI / 2 );
                 }
             }
             else {
@@ -296,7 +300,7 @@ public class BarMagnetPanel extends FaradayPanel {
 
         /**
          * ChangeEvent handler.
-         * 
+         *
          * @param e the event
          * @throws IllegalArgumentException if the event is unexpected
          */
