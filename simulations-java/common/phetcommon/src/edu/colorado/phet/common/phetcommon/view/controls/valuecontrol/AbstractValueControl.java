@@ -803,8 +803,10 @@ public abstract class AbstractValueControl extends JPanel {
         public void actionPerformed( ActionEvent e ) {
             if ( e.getSource() == _textField ) {
                 double value = getTextFieldValue();
-                textFieldCommitted( ParameterValues.enterKey, value );
-                setValue( value );
+                if ( value != getValue() ) {
+                    textFieldCommitted( ParameterValues.enterKey, value );
+                    setValue( value );
+                }
             }
         }
 
@@ -825,8 +827,10 @@ public abstract class AbstractValueControl extends JPanel {
                 try {
                     _textField.commitEdit();
                     double value = getTextFieldValue();
-                    textFieldCommitted( ParameterValues.focusLost, value );
-                    setValue( value );
+                    if ( value != getValue() ) {
+                        textFieldCommitted( ParameterValues.focusLost, value );
+                        setValue( value );
+                    }
                 }
                 catch ( ParseException pe ) {
                     textFieldCorrected( ParameterValues.parseError, _textField.getText(), getValue() );
