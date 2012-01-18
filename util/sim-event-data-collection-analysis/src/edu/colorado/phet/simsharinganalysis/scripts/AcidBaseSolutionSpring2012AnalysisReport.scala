@@ -36,8 +36,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   val base = "base"
 
   val molecules = "molecules"
-  val barGraph = "molecules"
-  val liquid = "molecules"
+  val barGraph = "barGraph"
+  val liquid = "liquid"
 
   //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
   case class Tab(solution: String, view: String, showSolvent: Boolean)
@@ -46,6 +46,11 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     def changeSolution(sol: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(solution = sol)))
 
     def changeView(v: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(view = v)))
+
+    //Find out what solution is on the screen in this state
+    def displayedSolution = tabs(selectedTab).solution
+
+    def displayedView = tabs(selectedTab).view
   }
 
   def matchesAny(s: String, list: List[String]) = list.contains(s)
@@ -78,6 +83,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     }
     states.toList
   }
+
+  def compare(s: String, o: Object) = s == o.toString
 
   def report(dir: File, writeLine: String => Unit) {
 
@@ -120,14 +127,17 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       val usedShowSolventCheckBox = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
       writeLine("Showed solvent: " + usedShowSolventCheckBox)
 
-      writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
+      writeLine("How many times dunked the phMeter: " + log.filter(_.component == AcidBaseSolotinosSimSharing.UserComponents.phMeter.toString).filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
       writeLine("Circuit completed: " + ( log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).length > 0 ))
 
       val states = getStates(log)
 
       val e = log.entries.zip(getStates(log))
       writeLine(e mkString "\n")
-      System exit 0
+
+      //Find out how long each state was active
+
+      //      System exit 0
 
       //      //This line computes which components the user interacted with:
       //      val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
