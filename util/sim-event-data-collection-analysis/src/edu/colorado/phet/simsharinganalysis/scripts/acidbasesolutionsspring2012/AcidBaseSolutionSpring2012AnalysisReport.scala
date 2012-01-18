@@ -187,11 +187,13 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   def writeSingleLogReport(log: Log, writeLine: String => Unit) {
     writeLine("Session: " + log.session)
 
-    //Show how long the sim was open.  Format so that RealTimeAnalysis isn't too jumpy
-    writeLine("Time between first and last entries (minutes)\t" + new DecimalFormat("0.00").format(log.minutesUsed))
+    val clicks: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
 
-    val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
-    writeLine("Number of clicks: " + entries.length)
+    //Show how long the sim was open.  Format so that RealTimeAnalysis isn't too jumpy
+    writeLine("Time sim open (min)\t" + new DecimalFormat("0.00").format(log.minutesUsed)) //NOTE: this is the time from first to last event
+    writeLine("First click to last click (min)\t" + new DecimalFormat("0.00").format(( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0))
+
+    writeLine("Number of clicks: " + clicks.length)
 
     val usedStringBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
     val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
