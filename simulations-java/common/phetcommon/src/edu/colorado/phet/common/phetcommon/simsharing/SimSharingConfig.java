@@ -20,8 +20,9 @@ public abstract class SimSharingConfig {
     static {
         addConfig( new ColoradoConfig() );
         addConfig( new UtahConfig() );
-        addConfig( new Spring2012AcidBaseSolutionsConfig() );
+        addConfig( new AcidBaseSolutionsSpring2012() );
         addConfig( new DallasJan2012() );
+        addConfig( new FaradaySpring2012() );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
@@ -118,12 +119,24 @@ public abstract class SimSharingConfig {
     }
 
     /*
-     * Acid-Base Solutions study to be done in Spring 2012.
+     * Acid-Base Solutions study to be done in Spring 2012. See #3170.
+     * PhET researchers: Kelly Lancaster
      * TODO document details
      */
-    private static class Spring2012AcidBaseSolutionsConfig extends SimSharingConfig {
-        public Spring2012AcidBaseSolutionsConfig() {
+    private static class AcidBaseSolutionsSpring2012 extends SimSharingConfig {
+        public AcidBaseSolutionsSpring2012() {
             super( "acid-base-solutions-spring-2012", true, true, false, false );
+        }
+    }
+
+    /*
+     *  Faraday's Electromagnetic Lab study to be done in Spring 2012. See #3214.
+     *  PhET researchers: Ariel Paul
+     *  TODO document details
+     */
+    private static class FaradaySpring2012 extends SimSharingConfig {
+        public FaradaySpring2012() {
+            super( "faraday-spring-2012", false, true, false, false );
         }
     }
 }
