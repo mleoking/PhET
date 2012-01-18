@@ -31,7 +31,6 @@ object RealTimeAnalysis extends SimpleSwingApplication {
     }
   }).start()
 
-
   lazy val top = new Frame {
     contents = new ScrollPane(textArea)
     pack()
