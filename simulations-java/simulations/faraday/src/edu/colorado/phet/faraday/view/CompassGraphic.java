@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGrap
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.collision.ICollidable;
 import edu.colorado.phet.faraday.model.Compass;
@@ -121,7 +122,7 @@ public class CompassGraphic extends CompositePhetGraphic
         addGraphic( anchor );
 
         // Setup interactivity.
-        _mouseHandler = new FaradayMouseHandler( _compassModel, this );
+        _mouseHandler = new FaradayMouseHandler( Components.compass, _compassModel, this );
         _collisionDetector = new CollisionDetector( this );
         _mouseHandler.setCollisionDetector( _collisionDetector );
         super.setCursorHand();

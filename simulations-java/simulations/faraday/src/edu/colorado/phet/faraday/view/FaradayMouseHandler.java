@@ -8,6 +8,11 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.collision.CollisionDetector;
 import edu.colorado.phet.faraday.model.FaradayObservable;
@@ -25,55 +30,58 @@ public class FaradayMouseHandler extends MouseInputAdapter {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
+    private IUserComponent _userComponent;
     private FaradayObservable _modelComponent;
     private PhetGraphic _viewComponent;
     private boolean _dragEnabled;
     private Point _previousPoint;
     private Rectangle _dragBounds;
     private CollisionDetector _collisionDetector;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
+     * @param userComponent  sim-sharing user component
      * @param modelComponent the model to be translated
-     * @param viewComponent the view that is the drag target and is associated with the model
+     * @param viewComponent  the view that is the drag target and is associated with the model
      */
-    public FaradayMouseHandler( FaradayObservable modelComponent, PhetGraphic viewComponent ) {
+    public FaradayMouseHandler( IUserComponent userComponent, FaradayObservable modelComponent, PhetGraphic viewComponent ) {
         super();
-        
-        assert( modelComponent != null );
-        assert( viewComponent != null );
-        
+
+        assert ( modelComponent != null );
+        assert ( viewComponent != null );
+
+        _userComponent = userComponent;
         _modelComponent = modelComponent;
         _viewComponent = viewComponent;
         _dragBounds = null;
         _collisionDetector = null;
-        
+
         _dragEnabled = true;
         _previousPoint = new Point();
     }
-  
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the collision detector, which enables collision detection.
-     * 
+     *
      * @param collisionDetector the collision detector
      */
     public void setCollisionDetector( CollisionDetector collisionDetector ) {
         _collisionDetector = collisionDetector;
     }
-    
+
     /**
-     * Set the drag bounds. 
-     * 
+     * Set the drag bounds.
+     *
      * @param x
      * @param y
      * @param width
@@ -89,38 +97,39 @@ public class FaradayMouseHandler extends MouseInputAdapter {
     //----------------------------------------------------------------------------
     // MouseInputAdapter overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * Handles mouse pressed events.
-     * 
+     *
      * @param event
      */
-    public void mousePressed( MouseEvent event ) {
+    @Override public void mousePressed( MouseEvent event ) {
+        SimSharingManager.sendUserMessage( _userComponent, UserActions.startDrag, Parameter.componentType( ComponentTypes.sprite ) );
         _dragEnabled = true;
         _previousPoint.setLocation( event.getPoint() );
     }
-    
+
     /**
      * Handles mouse dragged events.
-     * Collision detection and drag boundary checking are enabled if a 
+     * Collision detection and drag boundary checking are enabled if a
      * collision detector and drag boundaries have been provided.
      * If the object is outside the drag boundaries, or in a collision
      * situation, then the drag is vetoed.  Otherwise the model's location
      * is updated.
      */
-    public void mouseDragged( MouseEvent event ) {
+    @Override public void mouseDragged( MouseEvent event ) {
 
         if ( !_dragEnabled && _viewComponent.contains( event.getX(), event.getY() ) ) {
             // Re-enable dragging when the mouse cursor is inside the object.
             _dragEnabled = true;
             _previousPoint.setLocation( event.getPoint() );
         }
-        
+
         if ( _dragEnabled ) {
 
             int dx = event.getX() - _previousPoint.x;
             int dy = event.getY() - _previousPoint.y;
-            
+
             boolean outOfBounds = false;
             if ( _dragBounds != null ) {
                 // Is the mouse cursor outside the drag bounds?
@@ -148,5 +157,9 @@ public class FaradayMouseHandler extends MouseInputAdapter {
                 _previousPoint.setLocation( event.getPoint() );
             }
         }
+    }
+
+    @Override public void mouseReleased( MouseEvent event ) {
+        SimSharingManager.sendUserMessage( _userComponent, UserActions.endDrag, Parameter.componentType( ComponentTypes.sprite ) );
     }
 }
