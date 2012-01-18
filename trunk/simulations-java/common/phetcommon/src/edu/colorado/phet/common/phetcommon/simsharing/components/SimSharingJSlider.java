@@ -48,7 +48,7 @@ public class SimSharingJSlider extends JSlider {
         this.userComponent = userComponent;
     }
 
-    //TODO: add messages for startDrag, endDrag actions
+    //TODO: add messages for startDrag, endDrag actions (via a MouseListener?)
 
     @Override protected void fireStateChanged() {
         SimSharingManager.sendUserMessage( userComponent, UserActions.drag, Parameter.componentType( ComponentTypes.slider ).param( ParameterKeys.value, getValue() ) );
