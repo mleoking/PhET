@@ -8,6 +8,8 @@ import util.GrowingTable
 import java.lang.Thread
 import java.io.File
 
+//TODO: mouse releases shouldn't count as "clicks"
+
 //Prints the report on all logs within a directory to the console
 object RunIt extends App {
   AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\kelly-data"), println)
