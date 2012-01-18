@@ -96,9 +96,30 @@ public class MultipleCellsModel implements Resettable {
             }
         } );
 
-        // Set the initial state.  This must be done before hooking up the
-        // properties.
-        reset();
+        // Add and position the cells.
+        long entryTime = System.nanoTime();
+        System.out.println( "Sytem time before adding and positioning cells: " + entryTime );
+        // Add the max number of cells to the list of invisible cells.
+        while ( cellList.size() < MAX_CELLS ) {
+            Cell newCell;
+            if ( cellList.isEmpty() ) {
+                // The first cell is centered and level.
+                newCell = new Cell( Cell.DEFAULT_CELL_SIZE, new Point2D.Double( 0, 0 ), 0, 0 );
+            }
+            else {
+                // Do some randomization of the cell's size and rotation angle.
+                double cellWidth = Math.max( Cell.DEFAULT_CELL_SIZE.getWidth() * ( sizeAndRotationRandomizer.nextDouble() / 2 + 0.75 ),
+                                             Cell.DEFAULT_CELL_SIZE.getHeight() * 2 );
+                // Note that the index is used as the seed for the shape in
+                // order to make the cell appearance vary, but be deterministic.
+                newCell = new Cell( new PDimension( cellWidth, Cell.DEFAULT_CELL_SIZE.getHeight() ), new Point2D.Double( 0, 0 ), Math.PI * 2 * sizeAndRotationRandomizer.nextDouble(), cellList.size() );
+                placeCellInOpenLocation( newCell, cellList );
+//                newCell.setPosition( cellLocations.get( cellList.size() ) );
+            }
+            cellList.add( newCell );
+        }
+        System.out.println( "Duration of creation and placing: " + ( ( System.nanoTime() - entryTime ) / 1E9 ) );
+
 
         // Hook up the property that controls the number of visible cells.
         numberOfVisibleCells.addObserver( new VoidFunction1<Integer>() {
@@ -166,34 +187,6 @@ public class MultipleCellsModel implements Resettable {
      * during initialization of the module.
      */
     public void reset() {
-
-        // Clear out all existing cells.
-        visibleCellList.clear();
-        cellList.clear();
-
-        // Reset the random number generators.
-        sizeAndRotationRandomizer = new Random( SIZE_AND_ORIENTATION_RANDOMIZER_SEED );
-        positionRandomizer = new Random( POSITION_RANDOMIZER_SEED );
-
-        // Add the max number of cells to the list of invisible cells.
-        while ( cellList.size() < MAX_CELLS ) {
-            Cell newCell;
-            if ( cellList.isEmpty() ) {
-                // The first cell is centered and level.
-                newCell = new Cell( Cell.DEFAULT_CELL_SIZE, new Point2D.Double( 0, 0 ), 0, 0 );
-            }
-            else {
-                // Do some randomization of the cell's size and rotation angle.
-                double cellWidth = Math.max( Cell.DEFAULT_CELL_SIZE.getWidth() * ( sizeAndRotationRandomizer.nextDouble() / 2 + 0.75 ),
-                                             Cell.DEFAULT_CELL_SIZE.getHeight() * 2 );
-                // Note that the index is used as the seed for the shape in
-                // order to make the cell appearance vary, but be deterministic.
-                newCell = new Cell( new PDimension( cellWidth, Cell.DEFAULT_CELL_SIZE.getHeight() ), new Point2D.Double( 0, 0 ), Math.PI * 2 * sizeAndRotationRandomizer.nextDouble(), cellList.size() );
-                placeCellInOpenLocation( newCell, cellList );
-//                newCell.setPosition( cellLocations.get( cellList.size() ) );
-            }
-            cellList.add( newCell );
-        }
 
         // Reset all the cell control parameters.
         numberOfVisibleCells.reset();
