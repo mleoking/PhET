@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Point;
@@ -20,11 +21,13 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -37,6 +40,10 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
     // Stage size, based on default screen size.
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
+
+    // For debug - shows bounding box for cells.
+    private static final boolean SHOW_CELL_BOUNDING_BOX = true;
+    private final PPath cellBoundingBox = new PhetPPath( new BasicStroke( 5f ), Color.red );
 
     private final ModelViewTransform mvt;
     final MultipleCellsModel model;
@@ -155,6 +162,9 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         }} );
         */
 
+        cellBoundingBox.setPathTo( new Rectangle2D.Double( 0, 0, 50, 50 ) );
+        localWorldRootNode.addChild( cellBoundingBox );
+
         // Add a handler that controls the zoom level.  This automatically
         // zooms in and out to allow all of the cells to be seen.
         model.visibleCellList.addElementAddedObserver( new VoidFunction1<Cell>() {
@@ -176,9 +186,13 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // Set the scale so that the visible cells fit on the "stage".
         Rectangle2D visibleCellCollectionBounds = model.getVisibleCellCollectionBounds();
         if ( visibleCellCollectionBounds.getWidth() > 0 && visibleCellCollectionBounds.getHeight() > 0 ) {
-            double scale = Math.min( ( STAGE_SIZE.getWidth() * 0.75 ) / mvt.modelToViewDeltaX( visibleCellCollectionBounds.getWidth() ), 1 );
-            localWorldRootNode.scaleAboutPoint( scale, mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
+            double xScale = Math.min( ( STAGE_SIZE.getWidth() * 0.75 ) / mvt.modelToViewDeltaX( visibleCellCollectionBounds.getWidth() ), 1 );
+            double yScale = Math.min( ( STAGE_SIZE.getHeight() * 0.6 ) / Math.abs( mvt.modelToViewDeltaY( visibleCellCollectionBounds.getHeight() ) ), 1 );
+            localWorldRootNode.scaleAboutPoint( Math.min( xScale, yScale ), mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         }
+
+        // Set the bounding box size for the cells.
+        cellBoundingBox.setPathTo( mvt.modelToView( model.getVisibleCellCollectionBounds() ) );
     }
 
     public void reset() {

@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -239,16 +241,16 @@ public class MultipleCellsModel implements Resettable {
     // Find a location for the given cell that doesn't overlap with any of the
     // other cells on the list.
     private void placeCellInOpenLocation( Cell cell, List<Cell> cellList ) {
-        Point2D openLocation = new Point2D.Double();
-        for ( int i = 0; i == (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
+        for ( int i = 0; i < (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
             double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth();
             for ( int j = 0; j < 100; j++ ) {
                 double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
                 cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
                 boolean overlapDetected = false;
                 for ( Cell existingCell : cellList ) {
-                    if ( existingCell.getShape().intersects( cell.getShape().getBounds2D() ) ) {
+                    if ( shapesOverlap( cell.getShape(), existingCell.getShape() ) ) {
                         overlapDetected = true;
+                        break;
                     }
                 }
                 if ( overlapDetected == false ) {
@@ -257,6 +259,13 @@ public class MultipleCellsModel implements Resettable {
                 }
             }
         }
+    }
+
+    private static boolean shapesOverlap( Shape shape1, Shape shape2 ) {
+        Area area1 = new Area( shape1 );
+        Area area2 = new Area( shape2 );
+        area1.intersect( area2 );
+        return !area1.getBounds2D().isEmpty();
     }
 
     /**
