@@ -1,3 +1,4 @@
+1/17/12 added sim-sharing to entire bar magnet control panel
 1/17/12 added sim-sharing for bar magnet strength control, to test SimSharingLinearValueControl
 # 2.07.00 (57375) Oct 7, 2011
 # 2.06.01 (57313) Oct 5, 2011
