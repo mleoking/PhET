@@ -51,12 +51,17 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
   case class Tab(solution: String, view: String, test: String, showSolvent: Boolean)
 
+  val initialTabStates = List(Tab(water, molecules, phMeter, false), Tab(water, molecules, phMeter, false))
+
   case class SimState(selectedTab: Int, tabs: List[Tab]) {
     def changeSolution(sol: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(solution = sol)))
 
     def changeView(v: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(view = v)))
 
     def changeTest(t: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(test = t)))
+
+    //When the user confirms reset all, go back to the initial state for that tab
+    def resetAllPressed = copy(tabs = tabs.updated(selectedTab, initialTabStates(selectedTab)))
 
     //Find out what solution is on the screen in this state
     //TODO: account for showSolvent flag and note that conductivity meter is liquid view
@@ -88,6 +93,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       case Entry(_, "user", c, "pressed", _) if List("phPaperRadioButton", "pHPaperIcon").contains(c) => state.changeTest(phPaper) //TODO: note upper "H" which will change
       case Entry(_, "user", c, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => state.changeTest(conductivityTester)
 
+      case Entry(_, "user", "resetAllConfirmationDialogYesButton", "pressed", _) => state.resetAllPressed
+
       //Nothing happened to change the state
       case _ => state
     }
@@ -97,7 +104,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //The list will contain one state per event, indicating the state of the sim after the event.
   def getStates(log: Log) = {
     val states = new ArrayBuffer[SimState]
-    var state = SimState(0, List(Tab(water, molecules, phMeter, false), Tab(water, molecules, phMeter, false)))
+    var state = SimState(0, initialTabStates)
     for ( e <- log.entries ) {
       state = nextState(state, e)
       states += state
