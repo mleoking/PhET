@@ -2,7 +2,13 @@
 
 package edu.colorado.phet.faraday.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
@@ -15,13 +21,19 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * GraphicSlider is a PhetGraphic UI component that is similar to a JSlider.
- * <p>
+ * <p/>
  * The default orientation is horizontal.
  * Unlike JSlider, there is no setOrientation method.
  * Use the rotate method to set an arbitrary orientation.
@@ -33,18 +45,20 @@ public class GraphicSlider extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Graphics layers
     private static final double BACKGROUND_LAYER = 0;
     private static final double TICK_LAYER = 1;
     private static final double TRACK_LAYER = 2;
     private static final double KNOB_LAYER = 3;
     private static final double KNOB_HIGHLIGHT_LAYER = 4;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
+    // Sim-sharing user component
+    private final IUserComponent _userComponent;
     // The graphic used for the slider's components.
     private PhetGraphic _knob, _knobHighlight, _track, _background;
     // Bounary for dragging the knob, in relative coordinates.
@@ -67,13 +81,14 @@ public class GraphicSlider extends GraphicLayerSet {
     /**
      * Creates a slider with no user interface.
      * Use setKnob, setTrack and setBackground to build its user interface.
-     * 
+     *
      * @param component the parent Component
      */
-    public GraphicSlider( Component component ) {
+    public GraphicSlider( IUserComponent userComponent, Component component ) {
         super( component );
-        
+
         // Initialize instance data.
+        _userComponent = userComponent;
         _knob = _knobHighlight = _track = _background = null;
         _knobHighlight = null;
         _dragBounds = new Rectangle();
@@ -83,7 +98,7 @@ public class GraphicSlider extends GraphicLayerSet {
         _tickSize = new Dimension( 1, 12 );
         _listenerList = new EventListenerList();
         _knobListener = new KnobListener();
-        
+
         // Enable anti-aliasing.
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         setRenderingHints( hints );
@@ -95,7 +110,7 @@ public class GraphicSlider extends GraphicLayerSet {
 
     /**
      * Sets the graphic used for the knob.
-     * 
+     *
      * @param knob the knob graphic
      */
     public void setKnob( PhetGraphic knob ) {
@@ -112,19 +127,19 @@ public class GraphicSlider extends GraphicLayerSet {
         }
         update();
     }
-    
+
     /**
      * Gets the graphic used for the knob.
-     * 
+     *
      * @return the knob graphic
      */
     public PhetGraphic getKnob() {
         return _knob;
     }
-    
+
     /**
      * Sets the graphic used to highlight the knob.
-     * 
+     *
      * @param knobHighlight the knob highlight graphic
      */
     public void setKnobHighlight( PhetGraphic knobHighlight ) {
@@ -140,19 +155,19 @@ public class GraphicSlider extends GraphicLayerSet {
         }
         update();
     }
-    
+
     /**
      * Gets the graphic used to highlight the knob.
-     * 
+     *
      * @return the knob highlight graphic
      */
     public PhetGraphic getKnobHighlight() {
         return _knobHighlight;
     }
-    
+
     /**
      * Sets the graphic used for the track.
-     * 
+     *
      * @param track the track graphic
      */
     public void setTrack( PhetGraphic track ) {
@@ -176,19 +191,19 @@ public class GraphicSlider extends GraphicLayerSet {
         }
         setKnob( _knob );
     }
-    
+
     /**
      * Gets the graphic used for the track.
-     * 
+     *
      * @return the track graphic
      */
     public PhetGraphic getTrack() {
         return _track;
     }
-    
+
     /**
      * Sets the graphic used for the background.
-     * 
+     *
      * @param background the background graphic
      */
     public void setBackground( PhetGraphic background ) {
@@ -203,16 +218,16 @@ public class GraphicSlider extends GraphicLayerSet {
         }
         setTrack( _track );
     }
-    
+
     /**
      * Gets the graphic used for the background.
-     * 
+     *
      * @return the background graphic
      */
     public PhetGraphic getBackground() {
         return _background;
     }
-    
+
     /**
      * Sets the slider value.
      *
@@ -220,7 +235,7 @@ public class GraphicSlider extends GraphicLayerSet {
      */
     public void setValue( int value ) {
         if ( value != _value ) {
-            
+
             // Silently clamp the value to the allowed range.
             _value = MathUtil.clamp( _minimum, value, _maximum );
 
@@ -234,7 +249,7 @@ public class GraphicSlider extends GraphicLayerSet {
 
     /**
      * Gets the slider value.
-     * 
+     *
      * @return the value
      */
     public int getValue() {
@@ -243,7 +258,7 @@ public class GraphicSlider extends GraphicLayerSet {
 
     /**
      * Sets the minimum value of the slider's range.
-     * 
+     *
      * @param minimum the minimum
      */
     public void setMinimum( int minimum ) {
@@ -253,7 +268,7 @@ public class GraphicSlider extends GraphicLayerSet {
 
     /**
      * Gets the minimum value of the slider's range.
-     * 
+     *
      * @return the minimum
      */
     public int getMinimum() {
@@ -262,7 +277,7 @@ public class GraphicSlider extends GraphicLayerSet {
 
     /**
      * Sets the maximum value of the slider's range.
-     * 
+     *
      * @param maximum the maximum
      */
     public void setMaximum( int maximum ) {
@@ -270,19 +285,19 @@ public class GraphicSlider extends GraphicLayerSet {
         update();
     }
 
-    /** 
+    /**
      * Gets the maximum value of the slider's range.
-     * 
+     *
      * @return the maximum
      */
     public int getMaximum() {
         return _maximum;
     }
-    
+
     /**
      * Sets the size used for subsequent tick marks added using setTick.
      * Previous tick marks are not modified.
-     * 
+     *
      * @param tickSize the tick size
      */
     public void setTickSize( Dimension tickSize ) {
@@ -290,62 +305,62 @@ public class GraphicSlider extends GraphicLayerSet {
             _tickSize.setSize( tickSize );
         }
     }
-    
+
     /**
      * Gets the tick size.
-     * 
+     *
      * @return the tick size.
      */
     public Dimension getTickSize() {
         return new Dimension( _tickSize );
     }
-    
+
     /**
      * Adds a tick mark at the specified value.
-     * This call is ignored if the slider has no track, or if the value is outside 
+     * This call is ignored if the slider has no track, or if the value is outside
      * the min/max range.
-     * 
+     *
      * @param tickValue the tick value
      */
     public void addTick( int tickValue ) {
         if ( _track != null && tickValue >= _minimum && tickValue <= _maximum ) {
-            
+
             Shape shape = new Line2D.Double( 0, 0, 0, _tickSize.height );
             PhetShapeGraphic tick = new PhetShapeGraphic( getComponent() );
             tick.setShape( shape );
             tick.setBorderColor( Color.BLACK );
             tick.setStroke( new BasicStroke( (float) _tickSize.width ) );
-            
+
             double percent = ( tickValue - _minimum ) / (double) ( _maximum - _minimum );
             int x = _dragBounds.x + (int) ( percent * _dragBounds.width );
             int y = _dragBounds.y;
             tick.setLocation( x, y );
-            
+
             addGraphic( tick, TICK_LAYER );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // UI update
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Updates the user interface.
-     */
+    * Updates the user interface.
+    */
     private void update() {
         // Set the knob's location based on the value.
         double percent = ( _value - _minimum ) / (double) ( _maximum - _minimum );
         int x = _dragBounds.x + (int) ( percent * _dragBounds.width );
         int y = _dragBounds.y;
-        
+
         if ( _knob != null ) {
             _knob.setLocation( x, y );
         }
-        
+
         if ( _knobHighlight != null ) {
             _knobHighlight.setLocation( x, y );
         }
-        
+
         repaint();
     }
 
@@ -355,7 +370,7 @@ public class GraphicSlider extends GraphicLayerSet {
 
     /**
      * Adds a ChangeListener, ala JSlider.
-     * 
+     *
      * @param listener the listener to add
      */
     public void addChangeListener( ChangeListener listener ) {
@@ -364,7 +379,7 @@ public class GraphicSlider extends GraphicLayerSet {
 
     /**
      * Removes a ChangeListener, ala JSlider.
-     * 
+     *
      * @param listener the listener to remove
      */
     public void removeChangeListener( ChangeListener listener ) {
@@ -374,13 +389,13 @@ public class GraphicSlider extends GraphicLayerSet {
     /**
      * Fires a ChangeEvent, ala JSlider.
      * This occurs each time the slider is moved.
-     * 
+     *
      * @param event the event
      */
     private void fireChangeEvent( ChangeEvent event ) {
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ChangeListener.class ) {
                 ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
             }
         }
@@ -395,23 +410,33 @@ public class GraphicSlider extends GraphicLayerSet {
     private class KnobListener extends MouseInputAdapter {
 
         private Point2D _somePoint; // reusable point
-        
-        /** Sole constructor. */
+
+        /**
+         * Sole constructor.
+         */
         public KnobListener() {
             super();
             _somePoint = new Point2D.Double();
         }
-        
+
+        @Override public void mousePressed( MouseEvent e ) {
+            SimSharingManager.sendUserMessage( _userComponent, UserActions.startDrag, Parameter.componentType( ComponentTypes.slider ).param( ParameterKeys.value, getValue() ) );
+        }
+
+        @Override public void mouseReleased( MouseEvent e ) {
+            SimSharingManager.sendUserMessage( _userComponent, UserActions.endDrag, Parameter.componentType( ComponentTypes.slider ).param( ParameterKeys.value, getValue() ) );
+        }
+
         /**
          * Handles mouse drag events, related to moving the knob.
          * The knob's motion is constrained so that it behaves like a JSlider.
          * All calculations are performed relative to a slider in its default
          * (horizontal) orientation.
-         * 
+         *
          * @param event the MouseEvent
          */
-        public void mouseDragged( MouseEvent event ) {
-            
+        @Override public void mouseDragged( MouseEvent event ) {
+
             // Inverse transform the mouse coordinates to match a slider in its default (horizontal) orientation.
             int mouseX = 0;
             try {
@@ -422,7 +447,7 @@ public class GraphicSlider extends GraphicLayerSet {
             catch ( NoninvertibleTransformException e ) {
                 e.printStackTrace();
             }
-            
+
             // Constrain the knob position to the drag boundaries.
             int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, mouseX ) );
 
@@ -433,24 +458,24 @@ public class GraphicSlider extends GraphicLayerSet {
             // Set the new value.
             setValue( value );
         }
-        
+
         /**
          * Turns on the knob highlight when the mouse enters the knob.
-         * 
+         *
          * @param event the MouseEvent
          */
-        public void mouseEntered( MouseEvent event ) {
+        @Override public void mouseEntered( MouseEvent event ) {
             if ( _knob != null && _knobHighlight != null && _knob.getBounds().contains( event.getPoint() ) ) {
                 _knobHighlight.setVisible( true );
             }
         }
-        
+
         /**
          * Turns off the knob highlight when the mouse exits the knob.
-         * 
+         *
          * @param event the MouseEvent
          */
-        public void mouseExited( MouseEvent event ) {
+        @Override public void mouseExited( MouseEvent event ) {
             if ( _knob != null && _knobHighlight != null && !_knobHighlight.getBounds().contains( event.getPoint() ) ) {
                 _knobHighlight.setVisible( false );
             }
