@@ -4,14 +4,34 @@ package edu.colorado.phet.simsharinganalysis.scripts
 // Copyright 2002-2011, University of Colorado
 
 import edu.colorado.phet.simsharinganalysis._
-import java.io.File
 import org.jfree.data.category.DefaultCategoryDataset
 import collection.mutable.ArrayBuffer
 import util.GrowingTable
+import java.lang.Thread
+import java.io.File
 
 //TODO: Handle state changes for reset all
 object RunIt extends App {
   AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\kelly-data"), println)
+}
+
+//Utility to show logs from a file as it is being generated.
+//This is to help in testing that parsing is working properly.
+object RealTimeAnalysis extends App {
+  new Thread {
+    override def run() {
+      while ( true ) {
+        val dir = new File(System.getProperty("user.home"), "phet-logs")
+        val mostRecentFile = dir.listFiles().toList.sortBy(_.lastModified).last
+
+        println("most recent file: " + mostRecentFile)
+        //        val reader = new BufferedReader(new FileReader(new File(args(0))))
+        val log = new Parser().parse(mostRecentFile)
+        AcidBaseSolutionSpring2012AnalysisReport.writeSingleLogReport(log, println)
+        Thread.sleep(1000)
+      }
+    }
+  }.start()
 }
 
 object AcidBaseSolutionSpring2012AnalysisReport {
@@ -19,14 +39,14 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //TODO: Rewrite to use startDrag/endDrag once we get data files with those entries for concentrationControl and other sliders
   def isAcidBaseClick(log: Log, e: Entry) = {
     e match {
-      case Entry(_, "user", _, "drag", _) => {
+      case Entry(_, "user", _, _, "drag", _) => {
 
         //see if the most previous user event was also a drag.  If so, don't count this one.
         val index = log.indexOf(e)
         val previousUserEvent = log.entries.slice(0, index).filter(_.messageType == "user").last
         previousUserEvent.action != "drag"
       }
-      case Entry(_, "user", _, _, _) => true
+      case Entry(_, "user", _, _, _, _) => true
       case _ => false
     }
   }
@@ -79,22 +99,22 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     e match {
       case x: Entry if x.componentType == "tab" => state.copy(tabs.indexOf(x.component))
       //Watch which solution the user selects
-      case Entry(_, "user", c, "pressed", _) if List("waterRadioButton", "waterIcon").contains(c) => state.changeSolution(water)
-      case Entry(_, "user", c, "pressed", _) if List("strongAcidRadioButton", "strongAcidIcon", "weakAcidRadioButton", "weakAcidIcon").contains(c) => state.changeSolution(acid)
-      case Entry(_, "user", c, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon", "weakBaseRadioButton", "weakBaseIcon").contains(c) => state.changeSolution(base)
+      case Entry(_, "user", c, _, "pressed", _) if List("waterRadioButton", "waterIcon").contains(c) => state.changeSolution(water)
+      case Entry(_, "user", c, _, "pressed", _) if List("strongAcidRadioButton", "strongAcidIcon", "weakAcidRadioButton", "weakAcidIcon").contains(c) => state.changeSolution(acid)
+      case Entry(_, "user", c, _, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon", "weakBaseRadioButton", "weakBaseIcon").contains(c) => state.changeSolution(base)
 
       //Watch which view the user selects
-      case Entry(_, "user", c, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => state.changeView(molecules)
-      case Entry(_, "user", c, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => state.changeView(barGraph)
-      case Entry(_, "user", c, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => state.changeView(liquid)
+      case Entry(_, "user", c, _, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => state.changeView(molecules)
+      case Entry(_, "user", c, _, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => state.changeView(barGraph)
+      case Entry(_, "user", c, _, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => state.changeView(liquid)
 
       //See if the user changed tests
-      case Entry(_, "user", c, "pressed", _) if List("phMeterRadioButton", "phMeterIcon").contains(c) => state.changeTest(phMeter)
-      case Entry(_, "user", c, "pressed", _) if List("phPaperRadioButton", "pHPaperIcon").contains(c) => state.changeTest(phPaper) //TODO: note upper "H" which will change
-      case Entry(_, "user", c, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => state.changeTest(conductivityTester)
+      case Entry(_, "user", c, _, "pressed", _) if List("phMeterRadioButton", "phMeterIcon").contains(c) => state.changeTest(phMeter)
+      case Entry(_, "user", c, _, "pressed", _) if List("phPaperRadioButton", "pHPaperIcon").contains(c) => state.changeTest(phPaper) //TODO: note upper "H" which will change
+      case Entry(_, "user", c, _, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => state.changeTest(conductivityTester)
 
       //Handle reset all presses
-      case Entry(_, "user", "resetAllConfirmationDialogYesButton", "pressed", _) => state.resetAllPressed
+      case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => state.resetAllPressed
 
       //Nothing happened to change the state
       case _ => state
@@ -127,108 +147,112 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val logs = phet.load(dir).sortBy(_.startTime)
     writeLine("found: " + logs.length + " logs")
     for ( log <- logs ) {
-
-      writeLine("Session: " + log.session)
-      writeLine("Time sim is open (minutes)\t" + log.minutesUsed)
-
-      //For entries that count as a "click" for ABS, make a List[Pair[Entry,Entry]]
-      val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
-
-      //      writeLine(entries.mkString("\n"))
-
-      val timeBetweenClicks: List[Long] = getTimesBetweenEntries(entries)
-      //      writeLine(timeBetweenClicks mkString "\n")
-
-      //        val timePeriod = Pair(60*1000,"minute")
-      //        val timePeriod = Pair(1000*10,"10 sec")
-      val timePeriod = Pair(1000, "sec")
-
-      val table = ( ( 0 until 30 ).map(i => i -> timeBetweenClicks.filter(time => time >= timePeriod._1 * i && time < timePeriod._1 * ( i + 1 )).length) ).toMap
-      //      table.foreach(entry => writeLine("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
-
-      phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
-        for ( e <- table.keys.toList.sorted ) {
-          this.addValue(table(e).asInstanceOf[Number], "selected " + timePeriod._2 + " interval", e)
-        }
-      })
-
-      val usedStringBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
-      val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
-      val baseButtons = usedStringBaseRadioButton || usedWeakBaseRadioButton
-      writeLine("Used base buttons: " + baseButtons)
-
-      val usedShowSolventCheckBox = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
-      writeLine("Showed solvent: " + usedShowSolventCheckBox)
-
-      writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
-      writeLine("Circuit completed: " + ( log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).length > 0 ))
-
-      val states = getStates(log)
-
-      //      val e = log.entries.zip(getStates(log))
-      //      writeLine(e mkString "\n")
-
-      val solutionTable = new GrowingTable
-      val viewTable = new GrowingTable
-      val testTable = new GrowingTable
-      val entryIndices = 0 until log.entries.length - 1
-      val timeBetweenEntries = getTimesBetweenEntries(log.entries)
-      for ( i <- entryIndices ) {
-        val time = timeBetweenEntries(i)
-        solutionTable.add(states(i).displayedSolution, time)
-        viewTable.add(states(i).displayedView, time)
-        testTable.add(states(i).displayedTest, time)
-      }
-
-      writeLine("Time spent in different solutions (ms): " + solutionTable)
-      writeLine("Time spent in different views (ms): " + viewTable)
-      writeLine("Time spent in different tests (ms): " + testTable)
-
-      val a = states.tail
-      val b = states.reverse.tail.reverse
-      val statePairs = b.zip(a)
-      val numTabTransitions = statePairs.map(pair => if ( pair._2.selectedTab != pair._1.selectedTab ) 1 else 0).sum
-      val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView ) 1 else 0).sum
-      val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution ) 1 else 0).sum
-      val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest ) 1 else 0).sum
-      writeLine("Num tab transitions: " + numTabTransitions)
-      writeLine("Num view transitions: " + numViewTransitions)
-      writeLine("Num solution transitions: " + numSolutionTransitions)
-      writeLine("Num test transitions: " + numTestTransitions)
-
-      val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
-      writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
-      writeLine("Distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct)
-
-      //Find out how long each state was active
-
-      //      System exit 0
-
-      //      //This line computes which components the user interacted with:
-      //      val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
-      //      writeLine("Used components: " + usedComponents.mkString(", "))
-      //
-      //      writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
-      //      writeLine("How many times pressed tabs: " + log.filter(_.componentType == "tab").length)
-
-      //      writeLine("How many events in each tab: " + tabs.map(t => t + "=" + log.selectTab(tabs, t).length))
-      //      //    writeLine("Number of tabs visited: " + log.entries.map(log.getTabComponent(_, tabs(0))).distinct.length)
-      //      val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
-      //      writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
-      //      writeLine("Number of distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct.length)
-      //      writeLine("Entries for non-interactive components:")
-      //      writeLine(nonInteractiveEvents.mkString("\n"))
-      //
-      //      val declaredComponents = AcidBaseSolutionsJavaImport.UserComponents.values.map(_.toString).distinct.toList
-      //      writeLine("Total number of declared sim-specific user components: " + declaredComponents.length)
-      //      writeLine("Distinct user components that were used (sim-specific + common): " + usedComponents.length + ": " + usedComponents)
-      //      val missed = declaredComponents.filterNot(usedComponents.contains)
-      //      writeLine("Which sim-specific user components were missed: " + missed.length + ": " + missed)
-
-      //Print the log augmented with tab annotations
-      //log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(writeLine)
-
-      writeLine("")
+      writeSingleLogReport(log, writeLine)
+      showBarChart(log)
     }
+  }
+
+  def showBarChart(log: Log) {
+    //For entries that count as a "click" for ABS, make a List[Pair[Entry,Entry]]
+    val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
+
+    val timeBetweenClicks: List[Long] = if ( entries.length > 0 ) getTimesBetweenEntries(entries) else Nil
+    //      writeLine(timeBetweenClicks mkString "\n")
+
+    //        val timePeriod = Pair(60*1000,"minute")
+    //        val timePeriod = Pair(1000*10,"10 sec")
+    val timePeriod = Pair(1000, "sec")
+
+    val table = ( ( 0 until 30 ).map(i => i -> timeBetweenClicks.filter(time => time >= timePeriod._1 * i && time < timePeriod._1 * ( i + 1 )).length) ).toMap
+    //      table.foreach(entry => writeLine("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
+
+    phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
+      for ( e <- table.keys.toList.sorted ) {
+        addValue(table(e).asInstanceOf[Number], "selected " + timePeriod._2 + " interval", e)
+      }
+    })
+  }
+
+  def writeSingleLogReport(log: Log, writeLine: String => Unit) {
+    writeLine("Session: " + log.session)
+    writeLine("Time sim is open (minutes)\t" + log.minutesUsed)
+
+    val usedStringBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
+    val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
+    val baseButtons = usedStringBaseRadioButton || usedWeakBaseRadioButton
+    writeLine("Used base buttons: " + baseButtons)
+
+    val usedShowSolventCheckBox = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
+    writeLine("Showed solvent: " + usedShowSolventCheckBox)
+
+    writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
+    writeLine("Circuit completed: " + ( log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).length > 0 ))
+
+    val states = getStates(log)
+
+    //      val e = log.entries.zip(getStates(log))
+    //      writeLine(e mkString "\n")
+
+    val solutionTable = new GrowingTable
+    val viewTable = new GrowingTable
+    val testTable = new GrowingTable
+    val entryIndices = 0 until log.entries.length - 1
+    val timeBetweenEntries = getTimesBetweenEntries(log.entries)
+    for ( i <- entryIndices ) {
+      val time = timeBetweenEntries(i)
+      solutionTable.add(states(i).displayedSolution, time)
+      viewTable.add(states(i).displayedView, time)
+      testTable.add(states(i).displayedTest, time)
+    }
+
+    writeLine("Time spent in different solutions (ms): " + solutionTable)
+    writeLine("Time spent in different views (ms): " + viewTable)
+    writeLine("Time spent in different tests (ms): " + testTable)
+
+    val a = states.tail
+    val b = states.reverse.tail.reverse
+    val statePairs = b.zip(a)
+    val numTabTransitions = statePairs.map(pair => if ( pair._2.selectedTab != pair._1.selectedTab ) 1 else 0).sum
+    val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView ) 1 else 0).sum
+    val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution ) 1 else 0).sum
+    val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest ) 1 else 0).sum
+    writeLine("Num tab transitions: " + numTabTransitions)
+    writeLine("Num view transitions: " + numViewTransitions)
+    writeLine("Num solution transitions: " + numSolutionTransitions)
+    writeLine("Num test transitions: " + numTestTransitions)
+
+    val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
+    writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
+    writeLine("Distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct)
+
+    //Find out how long each state was active
+
+    //      System exit 0
+
+    //      //This line computes which components the user interacted with:
+    //      val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
+    //      writeLine("Used components: " + usedComponents.mkString(", "))
+    //
+    //      writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
+    //      writeLine("How many times pressed tabs: " + log.filter(_.componentType == "tab").length)
+
+    //      writeLine("How many events in each tab: " + tabs.map(t => t + "=" + log.selectTab(tabs, t).length))
+    //      //    writeLine("Number of tabs visited: " + log.entries.map(log.getTabComponent(_, tabs(0))).distinct.length)
+    //      val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
+    //      writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
+    //      writeLine("Number of distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct.length)
+    //      writeLine("Entries for non-interactive components:")
+    //      writeLine(nonInteractiveEvents.mkString("\n"))
+    //
+    //      val declaredComponents = AcidBaseSolutionsJavaImport.UserComponents.values.map(_.toString).distinct.toList
+    //      writeLine("Total number of declared sim-specific user components: " + declaredComponents.length)
+    //      writeLine("Distinct user components that were used (sim-specific + common): " + usedComponents.length + ": " + usedComponents)
+    //      val missed = declaredComponents.filterNot(usedComponents.contains)
+    //      writeLine("Which sim-specific user components were missed: " + missed.length + ": " + missed)
+
+    //Print the log augmented with tab annotations
+    //log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(writeLine)
+
+    writeLine("")
   }
 }
