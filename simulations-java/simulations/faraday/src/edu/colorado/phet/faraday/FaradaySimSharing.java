@@ -19,7 +19,11 @@ public class FaradaySimSharing {
         transformerTab,
         generatorTab,
 
-        // Bar Magnet control panel
+        // Panels
+        barMagnetControlPanel,
+        electromagnetControlPanel,
+
+        // Controls
         barMagnetStrengthSlider,
         flipPolarityButton,
         seeInsideMagnetCheckBox,

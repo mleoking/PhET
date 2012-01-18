@@ -17,6 +17,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SimSharingLinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -99,7 +101,7 @@ public class BarMagnetPanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.BAR_MAGNET_STRENGTH_MIN / FaradayConstants.BAR_MAGNET_STRENGTH_MAX );
 
             // Slider
-            _strengthControl = new SimSharingLinearValueControl( UserComponent.barMagnetStrengthSlider, min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
+            _strengthControl = new SimSharingLinearValueControl( qualifyUserComponent( UserComponent.barMagnetStrengthSlider ), min, max, FaradayStrings.LABEL_STRENGTH, "0", "%" );
             _strengthControl.setValue( min );
             _strengthControl.setMajorTickSpacing( 50 );
             _strengthControl.setMinorTickSpacing( 10 );
@@ -110,22 +112,22 @@ public class BarMagnetPanel extends FaradayPanel {
         }
 
         //  Flip Polarity button
-        _flipPolarityButton = new SimSharingJButton( UserComponent.flipPolarityButton, FaradayStrings.BUTTON_FLIP_POLARITY );
+        _flipPolarityButton = new SimSharingJButton( qualifyUserComponent( UserComponent.flipPolarityButton ), FaradayStrings.BUTTON_FLIP_POLARITY );
 
         // Magnet transparency on/off
-        _seeInsideCheckBox = new SimSharingJCheckBox( UserComponent.seeInsideMagnetCheckBox, FaradayStrings.CHECK_BOX_SEE_INSIDE );
+        _seeInsideCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponent.seeInsideMagnetCheckBox ), FaradayStrings.CHECK_BOX_SEE_INSIDE );
 
         // B-field on/off
-        _bFieldCheckBox = new SimSharingJCheckBox( UserComponent.showFieldCheckBox, FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
+        _bFieldCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponent.showFieldCheckBox ), FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
 
         // Field Meter on/off
-        _fieldMeterCheckBox = new SimSharingJCheckBox( UserComponent.showFieldMeterCheckBox, FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
+        _fieldMeterCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponent.showFieldMeterCheckBox ), FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
 
         // Compass on/off
-        _compassCheckBox = new SimSharingJCheckBox( UserComponent.showCompassCheckBox, FaradayStrings.CHECK_BOX_SHOW_COMPASS );
+        _compassCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponent.showCompassCheckBox ), FaradayStrings.CHECK_BOX_SHOW_COMPASS );
 
         // Earth on/off
-        _earthCheckBox = new SimSharingJCheckBox( UserComponent.showEarthCheckBox, FaradayStrings.CHECK_BOX_SHOW_EARTH );
+        _earthCheckBox = new SimSharingJCheckBox( UserComponentChain.chain( UserComponent.showEarthCheckBox ), FaradayStrings.CHECK_BOX_SHOW_EARTH );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -153,6 +155,10 @@ public class BarMagnetPanel extends FaradayPanel {
 
         // Set the state of the controls.
         update();
+    }
+
+    private IUserComponent qualifyUserComponent( IUserComponent userComponent ) {
+        return UserComponentChain.chain( UserComponent.barMagnetControlPanel, userComponent );
     }
 
     /**
