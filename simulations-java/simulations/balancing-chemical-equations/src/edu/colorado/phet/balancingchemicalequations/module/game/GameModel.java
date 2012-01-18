@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import static edu.colorado.phet.balancingchemicalequations.BCESimSharing.Actions.guessChecked;
 import static edu.colorado.phet.balancingchemicalequations.BCESimSharing.Parameters;
 import static edu.colorado.phet.common.games.SimSharing.Components.game;
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 
 /**
  * Model for the "Game" module.

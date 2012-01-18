@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
 
 /**

@@ -75,7 +75,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
 import com.jme3.system.JmeCanvasContext;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.realMoleculesTab;
 

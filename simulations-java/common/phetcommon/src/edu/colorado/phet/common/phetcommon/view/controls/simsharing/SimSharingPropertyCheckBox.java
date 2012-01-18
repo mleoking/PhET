@@ -2,9 +2,9 @@
 package edu.colorado.phet.common.phetcommon.view.controls.simsharing;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;

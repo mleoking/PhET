@@ -7,11 +7,11 @@ import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.ParameterKeys
 import edu.colorado.phet.acidbasesolutions.constants.ABSSimSharing.UserComponents;
 import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

@@ -16,7 +16,7 @@ import edu.colorado.phet.energyskatepark.model.LinearFloorSpline2D;
 import edu.colorado.phet.energyskatepark.model.TraversalState;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ModelActions.bounced;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ModelActions.landed;
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.ParameterKeys.isFloor;

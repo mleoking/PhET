@@ -16,7 +16,7 @@ import edu.colorado.phet.moleculepolarity.common.view.BondAngleArrowsNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 
 /**
  * Drag handler for manipulating a bond angle.

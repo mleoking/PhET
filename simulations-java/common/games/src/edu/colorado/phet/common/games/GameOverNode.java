@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.games.SimSharing.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.Parameter.param;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter.param;
 
 /**
  * Upon completion of a Game, this node is used to display a summary of the user's game results.

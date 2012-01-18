@@ -1,13 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.simsharing;
+package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
-
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 
 /**
  * Parameter portion of a sim-sharing event.

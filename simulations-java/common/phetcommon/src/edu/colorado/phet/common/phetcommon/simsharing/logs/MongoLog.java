@@ -8,8 +8,8 @@ import java.util.concurrent.Executors;
 import java.util.logging.LogManager;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Log;
-import edu.colorado.phet.common.phetcommon.simsharing.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
