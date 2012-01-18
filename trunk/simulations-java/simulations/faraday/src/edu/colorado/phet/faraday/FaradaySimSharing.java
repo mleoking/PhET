@@ -42,6 +42,8 @@ public class FaradaySimSharing {
         loopAreaControl,
         okButton,
         cancelButton,
+        needleSpacingSlider,
+        needleSizeSlider,
 
         // Menu items
         backgroundColorMenuItem,
@@ -49,6 +51,6 @@ public class FaradaySimSharing {
 
         // Secondary windows
         backgroundColorDialog,
-        gridControlsDialog
+        fieldControlsDialog
     }
 }
