@@ -31,6 +31,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
   val tabs = List("introductionTab", "customSolutionTab")
 
+  //TODO: Instead of hardcoding these strings, could make a new project that depends on ABS and use toString on those enums.
+  //Right now we are keeping this project integrated with the sim-event-data-collection-analysis-project for expedience, so haven't done that yet.
   val water = "water"
   val acid = "acid"
   val base = "base"
@@ -68,6 +70,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       case Entry(_, "user", c, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => state.changeView(water)
       case Entry(_, "user", c, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => state.changeView(barGraph)
       case Entry(_, "user", c, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => state.changeSolution(liquid)
+
+      //Nothing happened to change the state
       case _ => state
     }
   }
@@ -127,7 +131,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       val usedShowSolventCheckBox = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
       writeLine("Showed solvent: " + usedShowSolventCheckBox)
 
-      writeLine("How many times dunked the phMeter: " + log.filter(_.component == AcidBaseSolotinosSimSharing.UserComponents.phMeter.toString).filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
+      writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
       writeLine("Circuit completed: " + ( log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).length > 0 ))
 
       val states = getStates(log)
