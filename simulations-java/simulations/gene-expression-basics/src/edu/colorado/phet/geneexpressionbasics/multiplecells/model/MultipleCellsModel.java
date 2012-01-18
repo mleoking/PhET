@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
-import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
@@ -233,32 +232,36 @@ public class MultipleCellsModel implements Resettable {
     // Find a location for the given cell that doesn't overlap with any of the
     // other cells on the list.
     private void placeCellInOpenLocation( Cell cell, List<Cell> cellList ) {
+        // Create a set of areas for the existing cells.  This is done all at
+        // once rather than each time they are needed for the sake of efficiency.
+        List<Area> existingCellAreas = new ArrayList<Area>( cellList.size() );
+        for ( Cell existingCell : cellList ) {
+            existingCellAreas.add( new Area( existingCell.getShape() ) );
+        }
+        // Loop, randomly generating positions of increasing distance from the
+        // center, until the cell is positioned in a place that does not
+        // overlap with the existing cells.
         for ( int i = 0; i < (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
             double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth() * ( positionRandomizer.nextDouble() / 2 + .75 );
             for ( int j = 0; j < radius * Math.PI / ( Cell.DEFAULT_CELL_SIZE.getHeight() * 2 ); j++ ) {
                 double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
                 cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
                 boolean overlapDetected = false;
-                for ( Cell existingCell : cellList ) {
-                    if ( shapesOverlap( cell.getShape(), existingCell.getShape() ) ) {
+                for ( Area existingCellArea : existingCellAreas ) {
+                    Area cellArea = new Area( cell.getShape() );
+                    cellArea.intersect( existingCellArea );
+                    if ( !cellArea.getBounds2D().isEmpty() ) {
                         overlapDetected = true;
                         break;
                     }
                 }
-                if ( overlapDetected == false ) {
+                if ( !overlapDetected ) {
                     // Found an open spot.
                     return;
                 }
             }
         }
         System.out.println( "Warning: Exiting placement loop without having found open location." );
-    }
-
-    private static boolean shapesOverlap( Shape shape1, Shape shape2 ) {
-        Area area1 = new Area( shape1 );
-        Area area2 = new Area( shape2 );
-        area1.intersect( area2 );
-        return !area1.getBounds2D().isEmpty();
     }
 
     /**
