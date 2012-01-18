@@ -7,6 +7,7 @@ import edu.colorado.phet.simsharinganalysis._
 import java.io.File
 import org.jfree.data.category.DefaultCategoryDataset
 import collection.mutable.ArrayBuffer
+import util.GrowingTable
 
 object RunIt extends App {
   AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\kelly-data"), println)
@@ -50,6 +51,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     def changeView(v: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(view = v)))
 
     //Find out what solution is on the screen in this state
+    //TODO: account for showSolvent flag and note that conductivity meter is liquid view
     def displayedSolution = tabs(selectedTab).solution
 
     def displayedView = tabs(selectedTab).view
@@ -67,9 +69,9 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       case Entry(_, "user", c, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon", "weakBaseRadioButton", "weakBaseIcon").contains(c) => state.changeSolution(base)
 
       //Watch which view the user selects
-      case Entry(_, "user", c, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => state.changeView(water)
+      case Entry(_, "user", c, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => state.changeView(molecules)
       case Entry(_, "user", c, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => state.changeView(barGraph)
-      case Entry(_, "user", c, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => state.changeSolution(liquid)
+      case Entry(_, "user", c, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => state.changeView(liquid)
 
       //Nothing happened to change the state
       case _ => state
@@ -90,6 +92,13 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
   def compare(s: String, o: Object) = s == o.toString
 
+  def getTimesBetweenEntries(entries: scala.List[Entry]): List[Long] = {
+    val a = entries.tail
+    val b = entries.reverse.tail.reverse
+    val pairs = b.zip(a)
+    pairs.map(p => p._2.time - p._1.time)
+  }
+
   def report(dir: File, writeLine: String => Unit) {
 
     val logs = phet.load(dir).sortBy(_.startTime)
@@ -104,10 +113,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
       //      writeLine(entries.mkString("\n"))
 
-      val a = entries.tail
-      val b = entries.reverse.tail.reverse
-      val pairs = b.zip(a)
-      val timeBetweenClicks = pairs.map(p => p._2.time - p._1.time)
+      val timeBetweenClicks: List[Long] = getTimesBetweenEntries(entries)
       //      writeLine(timeBetweenClicks mkString "\n")
 
       //        val timePeriod = Pair(60*1000,"minute")
@@ -138,6 +144,19 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
       val e = log.entries.zip(getStates(log))
       writeLine(e mkString "\n")
+
+      val solutionTable = new GrowingTable
+      val viewTable = new GrowingTable
+      val entryIndices = 0 until log.entries.length - 1
+      val timeBetweenEntries = getTimesBetweenEntries(log.entries)
+      for ( i <- entryIndices ) {
+        val time = timeBetweenEntries(i)
+        solutionTable.add(states(i).displayedSolution, time)
+        viewTable.add(states(i).displayedView, time)
+      }
+
+      println("Time spent in different solutions (ms): " + solutionTable)
+      println("Time spent in different views (ms): " + viewTable)
 
       //Find out how long each state was active
 
