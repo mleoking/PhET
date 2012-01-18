@@ -42,7 +42,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
     // For debug - shows bounding box for cells.
-    private static final boolean SHOW_CELL_BOUNDING_BOX = true;
+    private static final boolean SHOW_CELL_BOUNDING_BOX = false;
     private final PPath cellBoundingBox = new PhetPPath( new BasicStroke( 5f ), Color.red );
 
     private final ModelViewTransform mvt;
@@ -162,8 +162,9 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         }} );
         */
 
-        cellBoundingBox.setPathTo( new Rectangle2D.Double( 0, 0, 50, 50 ) );
-        localWorldRootNode.addChild( cellBoundingBox );
+        if ( SHOW_CELL_BOUNDING_BOX ) {
+            localWorldRootNode.addChild( cellBoundingBox );
+        }
 
         // Add a handler that controls the zoom level.  This automatically
         // zooms in and out to allow all of the cells to be seen.

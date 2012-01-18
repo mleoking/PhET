@@ -25,11 +25,11 @@ public class ColorChangingCellNode extends PNode {
 
     public static final Color NOMINAL_FILL_COLOR = new Color( 50, 50, 70 ); // Gray
     public static final Color FLORESCENT_FILL_COLOR = new Color( 173, 255, 47 );
-    private static final Stroke FILL_STROKE = new BasicStroke( 1 );
-    private static final Color STROKE_COLOR = Color.BLACK;
+    private static final Stroke STROKE = new BasicStroke( 2 );
+    private static final Color STROKE_COLOR = Color.WHITE;
 
     public ColorChangingCellNode( Cell cell, ModelViewTransform mvt ) {
-        final PhetPPath cellBody = new PhetPPath( mvt.modelToView( cell.getShape() ), NOMINAL_FILL_COLOR, FILL_STROKE, STROKE_COLOR );
+        final PhetPPath cellBody = new PhetPPath( mvt.modelToView( cell.getShape() ), NOMINAL_FILL_COLOR, STROKE, STROKE_COLOR );
         cell.proteinCount.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer proteinCount ) {
                 double florescenceAmount = MathUtil.clamp( 0.0, ( (double) proteinCount - Cell.PROTEIN_LEVEL_WHERE_COLOR_CHANGE_STARTS ) /
