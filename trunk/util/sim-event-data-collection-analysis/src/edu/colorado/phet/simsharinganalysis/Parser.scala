@@ -6,7 +6,8 @@ package edu.colorado.phet.simsharinganalysis
 import java.util.StringTokenizer
 import java.io.{File, FileReader, BufferedReader}
 import collection.mutable.{HashMap, ArrayBuffer}
-import edu.colorado.phet.common.phetcommon.simsharing.{SimSharingManager, Parameter}
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
 
 /**
  * @author Sam Reid
