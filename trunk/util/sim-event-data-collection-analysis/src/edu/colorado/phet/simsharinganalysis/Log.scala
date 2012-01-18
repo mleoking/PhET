@@ -164,8 +164,19 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
   def getTabComponent(entry: Entry, nameOfFirstTabComponent: String): String = {
     //search back until finding an entry that indicates the tab.
     //Start one event previous in case it was a tab change event
-    val entryIndex = entries.indexOf(entry)
+    val entryIndex = indexOf(entry)
     val matches = entries.filter(e => entries.indexOf(e) < entryIndex && e.componentType == "tab").map(_.component).toList
     if ( matches.length == 0 ) nameOfFirstTabComponent else matches.last
+  }
+
+  def indexOf(e: Entry) = {
+    val first = entries.indexOf(e)
+    val last = entries.lastIndexOf(e)
+    if ( first == last ) {
+      first
+    }
+    else {
+      throw new RuntimeException("duplicate entries")
+    }
   }
 }

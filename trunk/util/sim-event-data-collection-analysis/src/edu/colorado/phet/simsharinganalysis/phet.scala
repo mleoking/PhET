@@ -11,10 +11,10 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
 import org.jfree.data.category.CategoryDataset
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset
 import org.jfree.chart.plot.{CategoryPlot, XYPlot, PlotOrientation}
-import org.jfree.chart.renderer.category.StatisticalBarRenderer
 import org.jfree.chart.{JFreeChart, ChartFrame, ChartFactory}
 
 import org.jfree.chart.axis.{CategoryLabelPositions, NumberAxis, CategoryAxis}
+import org.jfree.chart.renderer.category.BarRenderer3D
 
 /**
  * Functions and implicits to make the REPL easier to use
@@ -120,7 +120,8 @@ object phet {
       setCategoryMargin(0.4)
       setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(java.lang.Math.PI / 2.0));
     }
-    val plot = new CategoryPlot(dataSet, categoryAxis, new NumberAxis(range), new StatisticalBarRenderer)
+    //    val plot = new CategoryPlot(dataSet, categoryAxis, new NumberAxis(range), new StatisticalBarRenderer)
+    val plot = new CategoryPlot(dataSet, categoryAxis, new NumberAxis(range), new BarRenderer3D())
     new ChartFrame(title, new JFreeChart(title, plot)) {
       setSize(900, 600)
       SwingUtils.centerWindowOnScreen(this)
