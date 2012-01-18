@@ -25,7 +25,7 @@ public class FaradaySimSharing {
         electromagnetControlPanel,
 
         // Controls
-        barMagnetStrengthSlider,
+        strengthControl,
         flipPolarityButton,
         seeInsideMagnetCheckBox,
         showFieldCheckBox,
