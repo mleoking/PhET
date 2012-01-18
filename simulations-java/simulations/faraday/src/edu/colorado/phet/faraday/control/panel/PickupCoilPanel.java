@@ -7,16 +7,33 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSpinner;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SimSharingLinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradaySimSharing;
+import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
@@ -55,31 +72,31 @@ public class PickupCoilPanel extends FaradayPanel {
 
     /**
      * Sole constructor.
-     * 
+     *
      * @param pickupCoilModel
      * @param pickupCoilGraphic
      * @param lightbulbModel
      * @param voltmeterModel
      */
-    public PickupCoilPanel( 
+    public PickupCoilPanel(
             PickupCoil pickupCoilModel,
             PickupCoilGraphic pickupCoilGraphic,
             Lightbulb lightbulbModel,
             Voltmeter voltmeterModel ) {
 
         super();
-        
-        assert( pickupCoilModel != null );
-        assert( pickupCoilGraphic != null );
-        assert( lightbulbModel != null );
-        assert( voltmeterModel != null );
-        
+
+        assert ( pickupCoilModel != null );
+        assert ( pickupCoilGraphic != null );
+        assert ( lightbulbModel != null );
+        assert ( voltmeterModel != null );
+
         // Things we'll be controlling.
         _pickupCoilModel = pickupCoilModel;
         _coilGraphic = pickupCoilGraphic.getCoilGraphic();
         _lightbulbModel = lightbulbModel;
         _voltmeterModel = voltmeterModel;
-        
+
         //  Title
         Border lineBorder = BorderFactory.createLineBorder( Color.BLACK, 2 );
         TitledBorder titleBorder = BorderFactory.createTitledBorder( lineBorder, FaradayStrings.TITLE_PICKUP_COIL_PANEL );
@@ -99,12 +116,12 @@ public class PickupCoilPanel extends FaradayPanel {
             // Radio buttons with icons.
             ImageIcon lightbulbIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.LIGHTBULB_ICON ) );
             ImageIcon lightbulbIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.LIGHTBULB_ICON_SELECTED ) );
-            _lightbulbRadioButton = new JRadioButton( lightbulbIcon );
+            _lightbulbRadioButton = new SimSharingJRadioButton( qualifyUserComponent( UserComponents.lightbuldRadioButton ), lightbulbIcon );
             _lightbulbRadioButton.setSelectedIcon( lightbulbIconSelected );
 
             ImageIcon voltmeterIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.VOLTMETER_ICON ) );
             ImageIcon voltmeterIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.VOLTMETER_ICON_SELECTED ) );
-            _voltmeterRadioButton = new JRadioButton( voltmeterIcon );
+            _voltmeterRadioButton = new SimSharingJRadioButton( qualifyUserComponent( UserComponents.voltmeterRadioButton ), voltmeterIcon );
             _voltmeterRadioButton.setSelectedIcon( voltmeterIconSelected );
 
             // Horizontal layout.
@@ -114,9 +131,9 @@ public class PickupCoilPanel extends FaradayPanel {
             // Button group
             ButtonGroup group = new ButtonGroup();
             group.add( _lightbulbRadioButton );
-            group.add( _voltmeterRadioButton );   
+            group.add( _voltmeterRadioButton );
         }
-        
+
         // Number of loops
         JPanel loopsPanel = new JPanel();
         {
@@ -127,7 +144,7 @@ public class PickupCoilPanel extends FaradayPanel {
             spinnerModel.setMaximum( new Integer( FaradayConstants.MAX_PICKUP_LOOPS ) );
             spinnerModel.setMinimum( new Integer( FaradayConstants.MIN_PICKUP_LOOPS ) );
             spinnerModel.setValue( new Integer( FaradayConstants.MIN_PICKUP_LOOPS ) );
-            _loopsSpinner = new JSpinner( spinnerModel );
+            _loopsSpinner = new SimSharingJSpinner( qualifyUserComponent( UserComponents.loopsSpinner ), spinnerModel );
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
 
@@ -150,7 +167,7 @@ public class PickupCoilPanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.MIN_PICKUP_LOOP_AREA / FaradayConstants.MAX_PICKUP_LOOP_AREA );
 
             // Slider
-            _areaControl = new LinearValueControl( min, max, FaradayStrings.LABEL_LOOP_AREA, "0", "%" );
+            _areaControl = new SimSharingLinearValueControl( qualifyUserComponent( FaradaySimSharing.UserComponents.loopAreaControl ), min, max, FaradayStrings.LABEL_LOOP_AREA, "0", "%" );
             _areaControl.setValue( min );
             _areaControl.setMinorTickSpacing( 10 );
             _areaControl.setTextFieldEditable( true );
@@ -158,10 +175,10 @@ public class PickupCoilPanel extends FaradayPanel {
             _areaControl.setUpDownArrowDelta( 1 );
             _areaControl.setBorder( BorderFactory.createEtchedBorder() );
         }
-        
+
         // Electrons on/off
-        _electronsCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
-        
+        _electronsCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showElectrons ), FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
+
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -193,21 +210,25 @@ public class PickupCoilPanel extends FaradayPanel {
         _voltmeterRadioButton.setSelected( _voltmeterModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
     }
-    
+
+    private IUserComponent qualifyUserComponent( IUserComponent userComponent ) {
+        return UserComponentChain.chain( UserComponents.pickupCoilControlPanel, userComponent );
+    }
+
     //----------------------------------------------------------------------------
     // Feature controls
     //----------------------------------------------------------------------------
-    
+
     /**
      * Access to the "Show Electrons" control.
-     * 
+     *
      * @param visible true or false
      * @return
      */
     public void setElectronsControlVisible( boolean visible ) {
         _electronsCheckBox.setVisible( visible );
     }
-    
+
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
@@ -221,12 +242,15 @@ public class PickupCoilPanel extends FaradayPanel {
      */
     private class EventListener implements ActionListener, ChangeListener {
 
-        /** Sole constructor */
-        public EventListener() {}
+        /**
+         * Sole constructor
+         */
+        public EventListener() {
+        }
 
         /**
          * ActionEvent handler.
-         * 
+         *
          * @param e the event
          * @throws IllegalArgumentException if the event is unexpected
          */
@@ -252,14 +276,14 @@ public class PickupCoilPanel extends FaradayPanel {
 
         /**
          * ChangeEvent handler.
-         * 
+         *
          * @param e the event
          * @throws IllegalArgumentException if the event is unexpected
          */
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() == _areaControl ) {
                 // Read the value.
-                int percent = (int)_areaControl.getValue();
+                int percent = (int) _areaControl.getValue();
                 // Update the model.
                 double area = ( percent / 100.0 ) * FaradayConstants.MAX_PICKUP_LOOP_AREA;
                 _pickupCoilModel.setLoopArea( area );

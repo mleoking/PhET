@@ -1,3 +1,4 @@
+1/17/12 #3214, add sim-sharing to Pickup Coil control panel
 1/17/12 #3214, add sim-sharing to Electromagnet control panel
 1/17/12 #3214, qualify control names by chaining panel name, since some controls appear in more than one panel
 1/17/12 #3214, add sim-sharing for tab presses

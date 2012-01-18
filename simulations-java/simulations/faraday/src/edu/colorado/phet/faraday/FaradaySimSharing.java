@@ -21,6 +21,7 @@ public class FaradaySimSharing {
 
         // Panels
         barMagnetControlPanel,
+        pickupCoilControlPanel,
         electromagnetControlPanel,
 
         // Controls
@@ -34,6 +35,9 @@ public class FaradaySimSharing {
         showElectrons,
         dcRadioButton,
         acRadioButton,
-        loopsSpinner
+        loopsSpinner,
+        lightbuldRadioButton,
+        voltmeterRadioButton,
+        loopAreaControl
     }
 }
