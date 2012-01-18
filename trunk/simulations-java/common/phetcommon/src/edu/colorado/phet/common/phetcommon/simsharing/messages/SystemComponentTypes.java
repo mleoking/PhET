@@ -9,5 +9,6 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
 public enum SystemComponentTypes implements ISystemComponentType {
     unknown, // TODO look for these occurrences and replace with something sensible
     window, dialog,
-    application
+    application,
+    simsharingManager
 }
