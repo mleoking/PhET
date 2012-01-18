@@ -4,8 +4,8 @@ package edu.colorado.phet.simsharinganalysis.gui
 import javax.swing.{JTextArea, JScrollPane, JPanel}
 import java.io.File
 import java.awt.{Dimension, BorderLayout}
-import edu.colorado.phet.simsharinganalysis.scripts.AcidBaseSolutionSpring2012AnalysisReport
 import edu.colorado.phet.simsharinganalysis.util.MyStringBuffer
+import edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012.AcidBaseSolutionSpring2012AnalysisReport
 
 
 /**
