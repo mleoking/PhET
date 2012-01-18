@@ -33,6 +33,7 @@ class Parser {
     val time = java.lang.Long.parseLong(tokenizer.nextToken())
     val messageType = tokenizer.nextToken()
     val obj = tokenizer.nextToken()
+    val componentType = tokenizer.nextToken()
     val event = tokenizer.nextToken()
     val remainderOfLineBuf = new StringBuffer
     while ( tokenizer.hasMoreTokens ) {
@@ -50,7 +51,7 @@ class Parser {
     }
 
     //make map immutable
-    new Entry(time, messageType, obj, event, map.toMap)
+    new Entry(time, messageType, obj, componentType, event, map.toMap)
   }
 
   def parse(file: File): Log = {

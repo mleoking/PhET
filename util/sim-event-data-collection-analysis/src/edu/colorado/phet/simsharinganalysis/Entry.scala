@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
 case class Entry(time: Long, //Time on the client computer when message was created
                  messageType: String,
                  component: String,
+                 componentType: String,
                  action: String,
                  parameters: Map[String, String]) {
 
@@ -15,7 +16,6 @@ case class Entry(time: Long, //Time on the client computer when message was crea
 
   override lazy val toString = ( time :: messageType :: component :: action :: parametersToString :: Nil ).mkString(SimSharingManager.DELIMITER)
 
-  lazy val componentType = if ( parameters.contains("componentType") ) parameters("componentType") else null
   lazy val interactive = if ( parameters.contains("interactive") ) parameters("interactive") else null
 
   //Checks for a match for actor, event and optional params
