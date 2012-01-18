@@ -42,13 +42,13 @@ object PlotStudentActivity extends App {
               val result = chooser.showOpenDialog(f)
               result match {
                 case JFileChooser.APPROVE_OPTION => {
-                  val canvas = new StudentActivityCanvas(chooser.getSelectedFile.getAbsolutePath)
-                  setContentPane(canvas)
+                  val panel = new StudentActivityPanel(new File(chooser.getSelectedFile.getAbsolutePath))
+                  setContentPane(panel)
                   SwingUtilities.invokeLater(new Runnable {
                     def run() {
 
                       f.repaint()
-                      canvas.paintImmediately(0, 0, canvas.getWidth, canvas.getHeight)
+                      panel.paintImmediately(0, 0, panel.getWidth, panel.getHeight)
                       f.setBounds(f.getX, f.getY, f.getWidth - 1, f.getHeight)
                       f.setBounds(f.getX, f.getY, f.getWidth + 1, f.getHeight)
                     }
@@ -81,7 +81,7 @@ object PlotStudentActivity extends App {
         }
         if ( properties.containsKey("file") ) {
           val file = properties.get("file").toString
-          setContentPane(new StudentActivityCanvas(file))
+          setContentPane(new StudentActivityPanel(new File(file)))
         }
 
         setSize(1024, 768)
