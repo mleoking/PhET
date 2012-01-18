@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharinganalysis.scripts
 
-// Copyright 2002-2011, University of Colorado
-
 import edu.colorado.phet.simsharinganalysis._
 import org.jfree.data.category.DefaultCategoryDataset
 import collection.mutable.ArrayBuffer
@@ -10,7 +8,6 @@ import util.GrowingTable
 import java.lang.Thread
 import java.io.File
 
-//TODO: Handle state changes for reset all
 object RunIt extends App {
   AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\kelly-data"), println)
 }
@@ -84,9 +81,9 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     def resetAllPressed = copy(tabs = tabs.updated(selectedTab, initialTabStates(selectedTab)))
 
     //Find out what solution is on the screen in this state
-    //TODO: account for showSolvent flag and note that conductivity meter is liquid view
     def displayedSolution = tabs(selectedTab).solution
 
+    //Account for showSolvent flag and note that conductivity meter is liquid view
     def displayedView = if ( tabs(selectedTab).test == conductivityTester ) liquid else tabs(selectedTab).view
 
     def displayedTest = tabs(selectedTab).test
@@ -110,7 +107,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
       //See if the user changed tests
       case Entry(_, "user", c, _, "pressed", _) if List("phMeterRadioButton", "phMeterIcon").contains(c) => state.changeTest(phMeter)
-      case Entry(_, "user", c, _, "pressed", _) if List("phPaperRadioButton", "pHPaperIcon").contains(c) => state.changeTest(phPaper) //TODO: note upper "H" which will change
+      case Entry(_, "user", c, _, "pressed", _) if List("phPaperRadioButton", "phPaperIcon").contains(c) => state.changeTest(phPaper)
       case Entry(_, "user", c, _, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => state.changeTest(conductivityTester)
 
       //Handle reset all presses
