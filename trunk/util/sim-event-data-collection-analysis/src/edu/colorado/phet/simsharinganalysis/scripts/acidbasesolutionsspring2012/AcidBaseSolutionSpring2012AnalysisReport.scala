@@ -6,47 +6,14 @@ import edu.colorado.phet.simsharinganalysis._
 import org.jfree.data.category.DefaultCategoryDataset
 import collection.mutable.ArrayBuffer
 import java.io.File
-import java.awt.Dimension
-import swing.{TextArea, ScrollPane, Frame}
-import javax.swing.{Timer, SwingUtilities}
-import java.awt.event.{ActionEvent, ActionListener}
-import util.{MyStringBuffer, GrowingTable}
+import util.GrowingTable
+import java.text.DecimalFormat
 
 //TODO: mouse releases shouldn't count as "clicks"
 
 //Prints the report on all logs within a directory to the console
 object RunIt extends App {
   AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\kelly-data"), println)
-}
-
-//Utility to show logs from a file as it is being generated.
-//This is to help in testing that parsing is working properly.
-object RealTimeAnalysis extends App {
-
-  SwingUtilities.invokeLater(new Runnable {
-    def run() {
-      val textArea = new TextArea {
-        preferredSize = new Dimension(800, 600)
-      }
-      val frame = new Frame {
-        contents = new ScrollPane(textArea)
-      }
-      frame.pack()
-      frame.visible = true
-
-      new Timer(1000, new ActionListener {
-        def actionPerformed(e: ActionEvent) {
-          val logDir = new File(System.getProperty("user.home"), "phet-logs")
-          val mostRecentFile = logDir.listFiles().toList.sortBy(_.lastModified).last
-          println("most recent file: " + mostRecentFile)
-
-          val myBuffer = new MyStringBuffer
-          AcidBaseSolutionSpring2012AnalysisReport.writeSingleLogReport(new Parser().parse(mostRecentFile), myBuffer.println)
-          textArea.text = myBuffer.toString
-        }
-      }).start()
-    }
-  })
 }
 
 object AcidBaseSolutionSpring2012AnalysisReport {
@@ -57,38 +24,39 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     case x if x == 0 => 0
   }
 
-  //TODO: Rewrite to use startDrag/endDrag once we get data files with those entries for concentrationControl and other sliders
+  //KL: Each time students start dragging should count as one click. But if they change direction during a single drag, I want that to count as more than one click - one for each direction.
+  def sliderChangedDirection(log: Log, e: Entry) = {
+
+
+    val index = log.indexOf(e)
+    val previousEvent1 = log.entries.slice(0, index).filter(_.messageType == "user").last
+    val previousEvent2 = log.entries.slice(0, index - 1).filter(_.messageType == "user").last
+    if ( previousEvent1.action == "drag" && previousEvent2.action == "drag" ) {
+
+      //For debugging
+      //          println("IsAcidBaseClick!")
+      //          println(e)
+      //          println(previousEvent1)
+      //          println(previousEvent2)
+      val delta1 = previousEvent2("value").toDouble - previousEvent1("value").toDouble
+      val delta2 = previousEvent1("value").toDouble - e("value").toDouble
+
+      val turnDown = getSign(delta1) == 1 && getSign(delta2) == -1
+      val turnUp = getSign(delta1) == -1 && getSign(delta2) == 1
+      if ( turnDown || turnUp ) true else false
+    }
+    else {
+      false
+    }
+  }
+
   def isAcidBaseClick(log: Log, e: Entry) = {
     e match {
 
       //Starting a slider drag counts as a click
+      case Entry(_, "user", _, _, "endDrag", _) => false
       case Entry(_, "user", _, "slider", "startDrag", _) => true
-
-      //KL: Each time students start dragging should count as one click. But if they change direction during a single drag, I want that to count as more than one click - one for each direction.
-      case Entry(_, "user", _, "slider", "drag", _) => {
-
-        //see if the most previous user event was also a drag.  If so, don't count this one.
-        val index = log.indexOf(e)
-        val previousEvent1 = log.entries.slice(0, index).filter(_.messageType == "user").last
-        val previousEvent2 = log.entries.slice(0, index - 1).filter(_.messageType == "user").last
-        if ( previousEvent1.action == "drag" && previousEvent2.action == "drag" ) {
-
-          //For debugging
-          //          println("IsAcidBaseClick!")
-          //          println(e)
-          //          println(previousEvent1)
-          //          println(previousEvent2)
-          val delta1 = previousEvent2("value").toDouble - previousEvent1("value").toDouble
-          val delta2 = previousEvent1("value").toDouble - e("value").toDouble
-
-          val turnDown = getSign(delta1) == 1 && getSign(delta2) == -1
-          val turnUp = getSign(delta1) == -1 && getSign(delta2) == 1
-          if ( turnDown || turnUp ) true else false
-        }
-        else {
-          false
-        }
-      }
+      case Entry(_, "user", _, "slider", "drag", _) => sliderChangedDirection(log, e)
       case Entry(_, "user", _, _, _, _) => true
       case _ => false
     }
@@ -218,7 +186,9 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
   def writeSingleLogReport(log: Log, writeLine: String => Unit) {
     writeLine("Session: " + log.session)
-    writeLine("Time sim is open (minutes)\t" + log.minutesUsed)
+
+    //Show how long the sim was open.  Format so that RealTimeAnalysis isn't too jumpy
+    writeLine("Time between first and last entries (minutes)\t" + new DecimalFormat("0.00").format(log.minutesUsed))
 
     val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
     writeLine("Number of clicks: " + entries.length)
