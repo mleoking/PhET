@@ -30,10 +30,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MultipleCellsModel implements Resettable {
 
-    public static final int MAX_CELLS = 130;
+    public static final int MAX_CELLS = 90;
 
     // Seeds for the random number generators.  Values chosen empirically.
-    private static final long POSITION_RANDOMIZER_SEED = 1;
+    private static final long POSITION_RANDOMIZER_SEED = 9;
     private static final long SIZE_AND_ORIENTATION_RANDOMIZER_SEED = 1;
 
     // Clock that drives all time-dependent behavior in this model.
@@ -114,7 +114,6 @@ public class MultipleCellsModel implements Resettable {
                 // order to make the cell appearance vary, but be deterministic.
                 newCell = new Cell( new PDimension( cellWidth, Cell.DEFAULT_CELL_SIZE.getHeight() ), new Point2D.Double( 0, 0 ), Math.PI * 2 * sizeAndRotationRandomizer.nextDouble(), cellList.size() );
                 placeCellInOpenLocation( newCell, cellList );
-//                newCell.setPosition( cellLocations.get( cellList.size() ) );
             }
             cellList.add( newCell );
         }
@@ -235,8 +234,8 @@ public class MultipleCellsModel implements Resettable {
     // other cells on the list.
     private void placeCellInOpenLocation( Cell cell, List<Cell> cellList ) {
         for ( int i = 0; i < (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
-            double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth();
-            for ( int j = 0; j < 100; j++ ) {
+            double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth() * ( positionRandomizer.nextDouble() / 2 + .75 );
+            for ( int j = 0; j < radius * Math.PI / ( Cell.DEFAULT_CELL_SIZE.getHeight() * 2 ); j++ ) {
                 double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
                 cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
                 boolean overlapDetected = false;
@@ -248,10 +247,11 @@ public class MultipleCellsModel implements Resettable {
                 }
                 if ( overlapDetected == false ) {
                     // Found an open spot.
-                    break;
+                    return;
                 }
             }
         }
+        System.out.println( "Warning: Exiting placement loop without having found open location." );
     }
 
     private static boolean shapesOverlap( Shape shape1, Shape shape2 ) {
