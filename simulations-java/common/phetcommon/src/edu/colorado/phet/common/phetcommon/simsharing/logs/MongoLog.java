@@ -35,6 +35,7 @@ public class MongoLog implements Log {
     public static final String TIME = "time";
     public static final String MESSAGE_TYPE = "messageType";
     public static final String COMPONENT = "component";
+    public static final String COMPONENT_TYPE = "componentType";
     public static final String ACTION = "action";
     public static final String PARAMETERS = "parameters";
 
@@ -90,6 +91,7 @@ public class MongoLog implements Log {
                     put( TIME, message.time + "" );
                     put( MESSAGE_TYPE, message.messageType.toString() );
                     put( COMPONENT, message.component.toString() );
+                    put( COMPONENT_TYPE, message.componentType.toString() );
                     put( ACTION, message.action.toString() );
                     put( PARAMETERS, new BasicDBObject() {{
                         for ( Parameter parameter : message.parameters ) {
