@@ -1,3 +1,4 @@
+1/17/12 added NonInteractiveEventListener for sending non-interactive sim-sharing messages on Swing components and phetgraphics sprites
 1/17/12 added SimSharingLinearValueControl (implementation identical to SimSharingLogarithmicValueControl! bad!)
 1/17/12 add start/EndDrag messages to SimSharingLogarithmicValueControl, cleanup and simplify the sim-sharing hooks in AbstractValueControl
 1/17/12 use HALF_UP (nearest neighbor) rounding in DefaultDecimalFormat
