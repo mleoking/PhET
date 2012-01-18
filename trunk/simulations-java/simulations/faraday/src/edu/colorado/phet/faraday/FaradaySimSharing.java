@@ -51,6 +51,15 @@ public class FaradaySimSharing {
 
         // Secondary windows
         backgroundColorDialog,
-        fieldControlsDialog
+        fieldControlsDialog,
+
+        // Sprites
+        barMagnet,
+        pickupCoil,
+        fieldMeter,
+        compass,
+        electromagnet,
+        waterWheel,
+        faucet
     }
 }
