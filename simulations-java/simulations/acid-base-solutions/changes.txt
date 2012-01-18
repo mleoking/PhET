@@ -1,3 +1,4 @@
+# 1.02.06 (60435) Jan 18, 2012
 # 1.02.05 (60381) Jan 17, 2012
 1/17/12 Simsharing: Improved messages sent from the sliders and radio buttons
 # 1.02.04 (60274) Jan 13, 2012
