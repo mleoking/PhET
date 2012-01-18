@@ -93,6 +93,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       case Entry(_, "user", c, "pressed", _) if List("phPaperRadioButton", "pHPaperIcon").contains(c) => state.changeTest(phPaper) //TODO: note upper "H" which will change
       case Entry(_, "user", c, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => state.changeTest(conductivityTester)
 
+      //Handle reset all presses
       case Entry(_, "user", "resetAllConfirmationDialogYesButton", "pressed", _) => state.resetAllPressed
 
       //Nothing happened to change the state
