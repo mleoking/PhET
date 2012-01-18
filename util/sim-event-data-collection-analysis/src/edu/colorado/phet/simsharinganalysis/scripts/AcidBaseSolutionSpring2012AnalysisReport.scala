@@ -4,9 +4,12 @@ package edu.colorado.phet.simsharinganalysis.scripts
 import edu.colorado.phet.simsharinganalysis._
 import org.jfree.data.category.DefaultCategoryDataset
 import collection.mutable.ArrayBuffer
-import util.GrowingTable
-import java.lang.Thread
 import java.io.File
+import java.awt.Dimension
+import swing.{TextArea, ScrollPane, Frame}
+import javax.swing.{Timer, SwingUtilities}
+import java.awt.event.{ActionEvent, ActionListener}
+import util.{MyStringBuffer, GrowingTable}
 
 //TODO: mouse releases shouldn't count as "clicks"
 
@@ -18,17 +21,31 @@ object RunIt extends App {
 //Utility to show logs from a file as it is being generated.
 //This is to help in testing that parsing is working properly.
 object RealTimeAnalysis extends App {
-  new Thread {
-    override def run() {
-      while ( true ) {
-        val logDir = new File(System.getProperty("user.home"), "phet-logs")
-        val mostRecentFile = logDir.listFiles().toList.sortBy(_.lastModified).last
-        println("most recent file: " + mostRecentFile)
-        AcidBaseSolutionSpring2012AnalysisReport.writeSingleLogReport(new Parser().parse(mostRecentFile), println)
-        Thread.sleep(1000)
+
+  SwingUtilities.invokeLater(new Runnable {
+    def run() {
+      val textArea = new TextArea {
+        preferredSize = new Dimension(800, 600)
       }
+      val frame = new Frame {
+        contents = new ScrollPane(textArea)
+      }
+      frame.pack()
+      frame.visible = true
+
+      new Timer(1000, new ActionListener {
+        def actionPerformed(e: ActionEvent) {
+          val logDir = new File(System.getProperty("user.home"), "phet-logs")
+          val mostRecentFile = logDir.listFiles().toList.sortBy(_.lastModified).last
+          println("most recent file: " + mostRecentFile)
+
+          val myBuffer = new MyStringBuffer
+          AcidBaseSolutionSpring2012AnalysisReport.writeSingleLogReport(new Parser().parse(mostRecentFile), myBuffer.println)
+          textArea.text = myBuffer.toString
+        }
+      }).start()
     }
-  }.start()
+  })
 }
 
 object AcidBaseSolutionSpring2012AnalysisReport {
