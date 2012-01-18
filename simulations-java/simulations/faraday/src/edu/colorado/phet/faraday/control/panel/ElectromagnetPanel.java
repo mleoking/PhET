@@ -7,17 +7,38 @@ import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSpinner;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
+import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
 import edu.colorado.phet.faraday.FaradayStrings;
-import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.model.ACPowerSupply;
+import edu.colorado.phet.faraday.model.Battery;
+import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.Electromagnet;
+import edu.colorado.phet.faraday.model.FieldMeter;
+import edu.colorado.phet.faraday.model.SourceCoil;
 import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
 import edu.colorado.phet.faraday.view.CoilGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
@@ -49,17 +70,17 @@ public class ElectromagnetPanel extends FaradayPanel {
     private JRadioButton _acRadioButton;
     private JCheckBox _bFieldCheckBox;
     private JCheckBox _fieldMeterCheckBox;
-    private JCheckBox _compassCheckBox; 
+    private JCheckBox _compassCheckBox;
     private JSpinner _loopsSpinner;
     private JCheckBox _electronsCheckBox;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param electromagnetModel
      * @param sourceCoilModel
      * @param batteryModel
@@ -78,7 +99,7 @@ public class ElectromagnetPanel extends FaradayPanel {
             FieldMeter fieldMeterModel,
             ElectromagnetGraphic electromagnetGraphic,
             BFieldOutsideGraphic bFieldOutsideGraphic ) {
-        
+
         assert ( electromagnetModel != null );
         assert ( sourceCoilModel != null );
         assert ( batteryModel != null );
@@ -97,25 +118,25 @@ public class ElectromagnetPanel extends FaradayPanel {
         _fieldMeterModel = fieldMeterModel;
         _coilGraphic = electromagnetGraphic.getCoilGraphic();
         _bFieldOutsideGraphic = bFieldOutsideGraphic;
-        
+
         // Title
         Border border = BorderFactory.createLineBorder( Color.BLACK, 2 );
         TitledBorder titledBorder = BorderFactory.createTitledBorder( border, FaradayStrings.TITLE_ELECTROMAGNET_PANEL );
         titledBorder.setTitleFont( getTitleFont() );
         setBorder( titledBorder );
-        
+
         // B-field on/off
-        _bFieldCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
-        
+        _bFieldCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showFieldCheckBox ), FaradayStrings.CHECK_BOX_SHOW_B_FIELD );
+
         // Field Meter on/off
-        _fieldMeterCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
+        _fieldMeterCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showFieldMeterCheckBox ), FaradayStrings.CHECK_BOX_SHOW_FIELD_METER );
 
         // Compass on/off
-        _compassCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_COMPASS );
+        _compassCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showCompassCheckBox ), FaradayStrings.CHECK_BOX_SHOW_COMPASS );
 
         // Electrons on/off
-        _electronsCheckBox = new JCheckBox( FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
-        
+        _electronsCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showElectrons ), FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
+
         // Number of loops
         JPanel loopsPanel = new JPanel();
         {
@@ -126,7 +147,7 @@ public class ElectromagnetPanel extends FaradayPanel {
             spinnerModel.setMaximum( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MAX ) );
             spinnerModel.setMinimum( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MIN ) );
             spinnerModel.setValue( new Integer( FaradayConstants.ELECTROMAGNET_LOOPS_MIN ) );
-            _loopsSpinner = new JSpinner( spinnerModel );
+            _loopsSpinner = new SimSharingJSpinner( qualifyUserComponent( UserComponents.loopsSpinner ), spinnerModel );
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
 
@@ -141,7 +162,7 @@ public class ElectromagnetPanel extends FaradayPanel {
             layout.addAnchoredComponent( loopsLabel, 0, 0, GridBagConstraints.WEST );
             layout.addAnchoredComponent( _loopsSpinner, 0, 1, GridBagConstraints.WEST );
         }
-        
+
         JPanel sourcePanel = new JPanel();
         {
             // Title
@@ -155,14 +176,14 @@ public class ElectromagnetPanel extends FaradayPanel {
             // Radio buttons with text & icons.
             ImageIcon batteryIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.BATTERY_ICON ) );
             ImageIcon batteryIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.BATTERY_ICON_SELECTED ) );
-            _batteryRadioButton = new JRadioButton( FaradayStrings.RADIO_BUTTON_DC, batteryIcon );
+            _batteryRadioButton = new SimSharingJRadioButton( qualifyUserComponent( UserComponents.dcRadioButton ), FaradayStrings.RADIO_BUTTON_DC, batteryIcon );
             _batteryRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
             _batteryRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
             _batteryRadioButton.setSelectedIcon( batteryIconSelected );
 
             ImageIcon acIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.AC_POWER_SUPPLY_ICON ) );
             ImageIcon acIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.AC_POWER_SUPPLY_ICON_SELECTED ) );
-            _acRadioButton = new JRadioButton( FaradayStrings.RADIO_BUTTON_AC, acIcon );
+            _acRadioButton = new SimSharingJRadioButton( qualifyUserComponent( UserComponents.acRadioButton ), FaradayStrings.RADIO_BUTTON_AC, acIcon );
             _acRadioButton.setVerticalTextPosition( SwingConstants.BOTTOM );
             _acRadioButton.setHorizontalTextPosition( SwingConstants.CENTER );
             _acRadioButton.setSelectedIcon( acIconSelected );
@@ -176,7 +197,7 @@ public class ElectromagnetPanel extends FaradayPanel {
             group.add( _batteryRadioButton );
             group.add( _acRadioButton );
         }
-            
+
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -201,7 +222,11 @@ public class ElectromagnetPanel extends FaradayPanel {
         // Set the state of the controls.
         update();
     }
-    
+
+    private IUserComponent qualifyUserComponent( IUserComponent userComponent ) {
+        return UserComponentChain.chain( UserComponents.electromagnetControlPanel, userComponent );
+    }
+
     /**
      * Updates the control panel to match the state of the things that it's controlling.
      */
@@ -212,42 +237,42 @@ public class ElectromagnetPanel extends FaradayPanel {
         _fieldMeterCheckBox.setSelected( _fieldMeterModel.isEnabled() );
         _compassCheckBox.setSelected( _compassModel.isEnabled() );
         _electronsCheckBox.setSelected( _coilGraphic.isElectronAnimationEnabled() );
-        _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) ); 
+        _loopsSpinner.setValue( new Integer( _sourceCoilModel.getNumberOfLoops() ) );
     }
-    
+
     //----------------------------------------------------------------------------
     // Feature controls
     //----------------------------------------------------------------------------
-    
+
     /**
      * Access to the "Show Field Meter" control.
-     * 
+     *
      * @param visible true or false
      */
     public void setFieldMeterControlVisible( boolean visible ) {
         _fieldMeterCheckBox.setVisible( visible );
-    } 
-    
+    }
+
     /**
      * Access to the "Show B-Field" control.
-     * 
+     *
      * @param visible true or false
      * @return
      */
     public void setBFieldControlVisible( boolean visible ) {
         _bFieldCheckBox.setVisible( visible );
     }
-    
+
     /**
      * Access to the "Show Electrons" control.
-     * 
+     *
      * @param visible true or false
      * @return
      */
     public void setElectronsControlVisible( boolean visible ) {
         _electronsCheckBox.setVisible( visible );
     }
-    
+
     //----------------------------------------------------------------------------
     // Event Handling
     //----------------------------------------------------------------------------
@@ -260,13 +285,16 @@ public class ElectromagnetPanel extends FaradayPanel {
      * @version $Revision$
      */
     private class EventListener implements ActionListener, ChangeListener {
-        
-        /** Sole constructor */
-        public EventListener() {}
-        
+
+        /**
+         * Sole constructor
+         */
+        public EventListener() {
+        }
+
         /**
          * ActionEvent handler.
-         * 
+         *
          * @param e the event
          * @throws IllegalArgumentException if the event is unexpected
          */
@@ -303,10 +331,10 @@ public class ElectromagnetPanel extends FaradayPanel {
                 throw new IllegalArgumentException( "unexpected event: " + e );
             }
         }
-        
+
         /**
          * ChangeEvent handler.
-         * 
+         *
          * @param e the event
          * @throws IllegalArgumentException if the event is unexpected
          */

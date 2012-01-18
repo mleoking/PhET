@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class FaradaySimSharing {
 
-    public static enum UserComponent implements IUserComponent {
+    public static enum UserComponents implements IUserComponent {
 
         // Tabs
         barMagnetTab,
@@ -30,6 +30,10 @@ public class FaradaySimSharing {
         showFieldCheckBox,
         showCompassCheckBox,
         showFieldMeterCheckBox,
-        showEarthCheckBox
+        showEarthCheckBox,
+        showElectrons,
+        dcRadioButton,
+        acRadioButton,
+        loopsSpinner
     }
 }

@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradaySimSharing.UserComponent;
+import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
@@ -86,7 +86,7 @@ public class BarMagnetModule extends FaradayModule {
      */
     public BarMagnetModule( boolean wiggleMeEnabled ) {
 
-        super( UserComponent.barMagnetTab, FaradayStrings.TITLE_BAR_MAGNET_MODULE );
+        super( UserComponents.barMagnetTab, FaradayStrings.TITLE_BAR_MAGNET_MODULE );
 
         //----------------------------------------------------------------------------
         // Model
