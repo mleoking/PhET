@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharinganalysis.scripts;
+package edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
