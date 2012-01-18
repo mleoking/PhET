@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
+import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
@@ -89,7 +89,7 @@ public class ElectromagnetModule extends FaradayModule {
      */
     public ElectromagnetModule() {
 
-        super( UserComponents.electromagnetTab, FaradayStrings.TITLE_ELECTROMAGNET_MODULE );
+        super( Components.electromagnetTab, FaradayStrings.TITLE_ELECTROMAGNET_MODULE );
 
         //----------------------------------------------------------------------------
         // Model

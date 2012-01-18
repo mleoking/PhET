@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.faraday.FaradayConstants;
-import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
+import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
@@ -99,7 +99,7 @@ public class PickupCoilModule extends FaradayModule {
      */
     public PickupCoilModule() {
 
-        super( UserComponents.pickupCoilTab, FaradayStrings.TITLE_PICKUP_COIL_MODULE );
+        super( Components.pickupCoilTab, FaradayStrings.TITLE_PICKUP_COIL_MODULE );
 
         //----------------------------------------------------------------------------
         // Model

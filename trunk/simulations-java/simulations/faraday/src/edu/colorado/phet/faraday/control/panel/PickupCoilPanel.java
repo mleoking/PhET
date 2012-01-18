@@ -32,8 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SimSharing
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayResources;
-import edu.colorado.phet.faraday.FaradaySimSharing;
-import edu.colorado.phet.faraday.FaradaySimSharing.UserComponents;
+import edu.colorado.phet.faraday.FaradaySimSharing.Components;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.model.Lightbulb;
 import edu.colorado.phet.faraday.model.PickupCoil;
@@ -116,12 +115,12 @@ public class PickupCoilPanel extends FaradayPanel {
             // Radio buttons with icons.
             ImageIcon lightbulbIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.LIGHTBULB_ICON ) );
             ImageIcon lightbulbIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.LIGHTBULB_ICON_SELECTED ) );
-            _lightbulbRadioButton = new SimSharingJRadioButton( qualifyUserComponent( UserComponents.lightbuldRadioButton ), lightbulbIcon );
+            _lightbulbRadioButton = new SimSharingJRadioButton( qualifyUserComponent( Components.lightbuldRadioButton ), lightbulbIcon );
             _lightbulbRadioButton.setSelectedIcon( lightbulbIconSelected );
 
             ImageIcon voltmeterIcon = new ImageIcon( FaradayResources.getImage( FaradayConstants.VOLTMETER_ICON ) );
             ImageIcon voltmeterIconSelected = new ImageIcon( FaradayResources.getImage( FaradayConstants.VOLTMETER_ICON_SELECTED ) );
-            _voltmeterRadioButton = new SimSharingJRadioButton( qualifyUserComponent( UserComponents.voltmeterRadioButton ), voltmeterIcon );
+            _voltmeterRadioButton = new SimSharingJRadioButton( qualifyUserComponent( Components.voltmeterRadioButton ), voltmeterIcon );
             _voltmeterRadioButton.setSelectedIcon( voltmeterIconSelected );
 
             // Horizontal layout.
@@ -144,7 +143,7 @@ public class PickupCoilPanel extends FaradayPanel {
             spinnerModel.setMaximum( new Integer( FaradayConstants.MAX_PICKUP_LOOPS ) );
             spinnerModel.setMinimum( new Integer( FaradayConstants.MIN_PICKUP_LOOPS ) );
             spinnerModel.setValue( new Integer( FaradayConstants.MIN_PICKUP_LOOPS ) );
-            _loopsSpinner = new SimSharingJSpinner( qualifyUserComponent( UserComponents.loopsSpinner ), spinnerModel );
+            _loopsSpinner = new SimSharingJSpinner( qualifyUserComponent( Components.loopsSpinner ), spinnerModel );
             JFormattedTextField tf = ( (JSpinner.DefaultEditor) _loopsSpinner.getEditor() ).getTextField();
             tf.setEditable( false );
 
@@ -167,7 +166,7 @@ public class PickupCoilPanel extends FaradayPanel {
             int min = (int) ( 100.0 * FaradayConstants.MIN_PICKUP_LOOP_AREA / FaradayConstants.MAX_PICKUP_LOOP_AREA );
 
             // Slider
-            _areaControl = new SimSharingLinearValueControl( qualifyUserComponent( FaradaySimSharing.UserComponents.loopAreaControl ), min, max, FaradayStrings.LABEL_LOOP_AREA, "0", "%" );
+            _areaControl = new SimSharingLinearValueControl( qualifyUserComponent( Components.loopAreaControl ), min, max, FaradayStrings.LABEL_LOOP_AREA, "0", "%" );
             _areaControl.setValue( min );
             _areaControl.setMinorTickSpacing( 10 );
             _areaControl.setTextFieldEditable( true );
@@ -177,7 +176,7 @@ public class PickupCoilPanel extends FaradayPanel {
         }
 
         // Electrons on/off
-        _electronsCheckBox = new SimSharingJCheckBox( qualifyUserComponent( UserComponents.showElectrons ), FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
+        _electronsCheckBox = new SimSharingJCheckBox( qualifyUserComponent( Components.showElectrons ), FaradayStrings.CHECK_BOX_SHOW_ELECTRONS );
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -212,7 +211,7 @@ public class PickupCoilPanel extends FaradayPanel {
     }
 
     private IUserComponent qualifyUserComponent( IUserComponent userComponent ) {
-        return UserComponentChain.chain( UserComponents.pickupCoilControlPanel, userComponent );
+        return UserComponentChain.chain( Components.pickupCoilControlPanel, userComponent );
     }
 
     //----------------------------------------------------------------------------

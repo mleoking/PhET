@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class FaradaySimSharing {
 
-    public static enum UserComponents implements IUserComponent {
+    public static enum Components implements IUserComponent, ISystemObject {
 
         // Tabs
         barMagnetTab,
@@ -40,13 +40,12 @@ public class FaradaySimSharing {
         lightbuldRadioButton,
         voltmeterRadioButton,
         loopAreaControl,
+        okButton,
+        cancelButton,
 
         // Menu items
         backgroundColorMenuItem,
-        gridControlsMenuItem
-    }
-
-    public static enum SystemObjects implements ISystemObject {
+        gridControlsMenuItem,
 
         // Secondary windows
         backgroundColorDialog,
