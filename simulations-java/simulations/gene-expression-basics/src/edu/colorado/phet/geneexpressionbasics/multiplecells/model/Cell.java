@@ -2,8 +2,11 @@
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
@@ -19,6 +22,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class Cell extends ShapeChangingModelElement {
 
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
     // Default size for a cell.
     public static final Dimension2D DEFAULT_CELL_SIZE = new PDimension( 2E-6, 0.75E-6 ); // In meters.
 
@@ -30,6 +37,10 @@ public class Cell extends ShapeChangingModelElement {
     // is complete.
     public static final double PROTEIN_LEVEL_WHERE_COLOR_CHANGE_COMPLETES = 200;
 
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
     // This is a separate object in which the protein synthesis is simulated.
     // The reason that this is broken out into a separate class is that it was
     // supplied by someone outside of the PhET project, and this keeps it
@@ -40,6 +51,14 @@ public class Cell extends ShapeChangingModelElement {
     // Property that indicates the current protein count in the cell.  This
     // should not be set by external users, only monitored.
     public Property<Integer> proteinCount = new Property<Integer>( 0 );
+
+    // List of the vertices that define the enclosing rectangular shape of
+    // this cell.  This is generally used for overlap testing.
+    private List<Point2D> enclosingRectVertices = new ArrayList<Point2D>( 4 );
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -60,6 +79,25 @@ public class Cell extends ShapeChangingModelElement {
      */
     public Cell( Dimension2D size, Point2D initialPosition, double rotationAngle, long seed ) {
         super( createShape( size, initialPosition, rotationAngle, seed ) );
+
+        // Populate the list of vertices for the enclosing shape.
+        AffineTransform rotateTransform = AffineTransform.getRotateInstance( rotationAngle );
+        AffineTransform translateTransform = AffineTransform.getTranslateInstance( initialPosition.getX(), initialPosition.getY() );
+
+        enclosingRectVertices.add( translateTransform.transform( rotateTransform.transform( new Point2D.Double( size.getWidth() / 2, size.getHeight() / 2 ), null ), null ) );
+        enclosingRectVertices.add( translateTransform.transform( rotateTransform.transform( new Point2D.Double( size.getWidth() / 2, -size.getHeight() / 2 ), null ), null ) );
+        enclosingRectVertices.add( translateTransform.transform( rotateTransform.transform( new Point2D.Double( -size.getWidth() / 2, -size.getHeight() / 2 ), null ), null ) );
+        enclosingRectVertices.add( translateTransform.transform( rotateTransform.transform( new Point2D.Double( -size.getWidth() / 2, size.getHeight() / 2 ), null ), null ) );
+    }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
+
+    public void stepInTime( double dt ) {
+        // TODO: Multiplying time step, because the example used a large number.  Need to talk to George E to figure out units.
+        proteinSynthesisSimulator.stepInTime( dt * 1000 );
+        proteinCount.set( proteinSynthesisSimulator.getProteinCount() );
     }
 
     // Static function for creating the shape of the cell.
@@ -67,10 +105,8 @@ public class Cell extends ShapeChangingModelElement {
         return BioShapeUtils.createEColiLikeShape( initialPosition, size.getWidth(), size.getHeight(), rotationAngle, seed );
     }
 
-    public void stepInTime( double dt ) {
-        // TODO: Multiplying time step, because the example used a large number.  Need to talk to George E to figure out units.
-        proteinSynthesisSimulator.stepInTime( dt * 1000 );
-        proteinCount.set( proteinSynthesisSimulator.getProteinCount() );
+    public List<Point2D> getEnclosingRectVertices() {
+        return enclosingRectVertices;
     }
 
     //-------------------------------------------------------------------------
