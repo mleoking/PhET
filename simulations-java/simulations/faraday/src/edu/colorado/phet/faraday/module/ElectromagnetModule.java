@@ -10,11 +10,18 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradaySimSharing.UserComponent;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.control.panel.ElectromagnetPanel;
-import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.model.ACPowerSupply;
+import edu.colorado.phet.faraday.model.AbstractCurrentSource;
+import edu.colorado.phet.faraday.model.Battery;
+import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.Electromagnet;
+import edu.colorado.phet.faraday.model.FieldMeter;
+import edu.colorado.phet.faraday.model.SourceCoil;
 import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
 import edu.colorado.phet.faraday.view.CompassGraphic;
 import edu.colorado.phet.faraday.view.ElectromagnetGraphic;
@@ -46,23 +53,23 @@ public class ElectromagnetModule extends FaradayModule {
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
-    
+
     // Battery
     private static final double BATTERY_AMPLITUDE = 1.0;
-    
+
     // AC Power Supply
     private static final double AC_MAX_AMPLITUDE = 0.5;
     private static final double AC_FREQUENCY = 0.5;
-    
+
     // Source Coil
     private static final int ELECTROMAGNET_NUMBER_OF_LOOPS = FaradayConstants.ELECTROMAGNET_LOOPS_MAX;
     private static final double ELECTROMAGNET_LOOP_RADIUS = 50.0;  // Fixed loop radius
     private static final double ELECTROMAGNET_DIRECTION = 0.0; // radians
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Battery _batteryModel;
     private ACPowerSupply _acPowerSupplyModel;
     private SourceCoil _sourceCoilModel;
@@ -72,32 +79,32 @@ public class ElectromagnetModule extends FaradayModule {
     private ElectromagnetGraphic _electromagnetGraphic;
     private BFieldOutsideGraphic _bFieldOutsideGraphic;
     private ElectromagnetPanel _electromagnetPanel;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
      */
     public ElectromagnetModule() {
 
-        super( FaradayStrings.TITLE_ELECTROMAGNET_MODULE );
+        super( UserComponent.electromagnetTab, FaradayStrings.TITLE_ELECTROMAGNET_MODULE );
 
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-        
+
         // Module model
         BaseModel model = new BaseModel();
         this.setModel( model );
-     
+
         // Battery
         _batteryModel = new Battery();
-        _batteryModel.setMaxVoltage( FaradayConstants.BATTERY_VOLTAGE_MAX  );
+        _batteryModel.setMaxVoltage( FaradayConstants.BATTERY_VOLTAGE_MAX );
         _batteryModel.setAmplitude( BATTERY_AMPLITUDE );
         _batteryModel.setEnabled( true );
-        
+
         // AC Power Supply
         _acPowerSupplyModel = new ACPowerSupply();
         _acPowerSupplyModel.setMaxVoltage( FaradayConstants.AC_VOLTAGE_MAX );
@@ -105,13 +112,13 @@ public class ElectromagnetModule extends FaradayModule {
         _acPowerSupplyModel.setFrequency( AC_FREQUENCY );
         _acPowerSupplyModel.setEnabled( false );
         model.addModelElement( _acPowerSupplyModel );
-        
+
         // Source Coil
         _sourceCoilModel = new SourceCoil();
         _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
         _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
         _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
-        
+
         // Electromagnet
         AbstractCurrentSource currentSource = null;
         if ( _batteryModel.isEnabled() ) {
@@ -127,18 +134,18 @@ public class ElectromagnetModule extends FaradayModule {
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil model.
         _electromagnetModel.update();
-        
+
         // Compass model
         _compassModel = new Compass( _electromagnetModel, getClock() );
         _compassModel.setBehavior( Compass.INCREMENTAL_BEHAVIOR );
         _compassModel.setLocation( COMPASS_LOCATION );
         model.addModelElement( _compassModel );
-        
+
         // Field Meter
         _fieldMeterModel = new FieldMeter( _electromagnetModel );
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
         _fieldMeterModel.setEnabled( false );
-        
+
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -148,14 +155,14 @@ public class ElectromagnetModule extends FaradayModule {
         ApparatusPanel2 apparatusPanel = new ApparatusPanel3( getClock(), 783, 630 );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
-        
+
         // Electromagnet
-        _electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model, 
-                _electromagnetModel, _sourceCoilModel, _batteryModel, _acPowerSupplyModel );
+        _electromagnetGraphic = new ElectromagnetGraphic( apparatusPanel, model,
+                                                          _electromagnetModel, _sourceCoilModel, _batteryModel, _acPowerSupplyModel );
         apparatusPanel.addChangeListener( _electromagnetGraphic );
         apparatusPanel.addGraphic( _electromagnetGraphic.getForeground(), ELECTROMAGNET_FRONT_LAYER );
         apparatusPanel.addGraphic( _electromagnetGraphic.getBackground(), ELECTROMAGNET_BACK_LAYER );
-        
+
         // B-field outside the magnet
         _bFieldOutsideGraphic = new BFieldOutsideGraphic( apparatusPanel, _electromagnetModel, FaradayConstants.GRID_SPACING, FaradayConstants.GRID_SPACING );
         _bFieldOutsideGraphic.setNeedleSize( FaradayConstants.GRID_NEEDLE_SIZE );
@@ -163,13 +170,13 @@ public class ElectromagnetModule extends FaradayModule {
         apparatusPanel.addChangeListener( _bFieldOutsideGraphic );
         apparatusPanel.addGraphic( _bFieldOutsideGraphic, B_FIELD_LAYER );
         super.setBFieldOutsideGraphic( _bFieldOutsideGraphic );
-        
+
         // Compass
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
         apparatusPanel.addChangeListener( compassGraphic );
         apparatusPanel.addGraphic( compassGraphic, COMPASS_LAYER );
-        
+
         // Field Meter
         FieldMeterGraphic fieldMeterGraphic = new FieldMeterGraphic( apparatusPanel, _fieldMeterModel );
         fieldMeterGraphic.setLocation( FIELD_METER_LOCATION );
@@ -179,7 +186,7 @@ public class ElectromagnetModule extends FaradayModule {
         // Collision detection
         _electromagnetGraphic.getCollisionDetector().add( compassGraphic );
         compassGraphic.getCollisionDetector().add( _electromagnetGraphic );
-        
+
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
@@ -188,51 +195,51 @@ public class ElectromagnetModule extends FaradayModule {
         {
             FaradayControlPanel controlPanel = new FaradayControlPanel();
             setControlPanel( controlPanel );
-            
+
             // Electromagnet controls
             _electromagnetPanel = new ElectromagnetPanel( _electromagnetModel,
-                    _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
-                    _electromagnetGraphic, _bFieldOutsideGraphic );
+                                                          _sourceCoilModel, _batteryModel, _acPowerSupplyModel, _compassModel, _fieldMeterModel,
+                                                          _electromagnetGraphic, _bFieldOutsideGraphic );
             controlPanel.addControlFullWidth( _electromagnetPanel );
-            
+
             // Developer controls
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-                controlPanel.addDefaultVerticalSpace( );
-                
+                controlPanel.addDefaultVerticalSpace();
+
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( null, null, _electromagnetGraphic, null, null, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
-            
+
             // Reset button
             controlPanel.addResetAllButton( this );
         }
-        
+
         reset();
     }
-    
+
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * Resets everything to the initial state.
      */
     public void reset() {
-        
+
         // Battery model
         _batteryModel.setAmplitude( BATTERY_AMPLITUDE );
         _batteryModel.setEnabled( true );
-        
+
         // AC Power Supply model
         _acPowerSupplyModel.setMaxAmplitude( AC_MAX_AMPLITUDE );
         _acPowerSupplyModel.setFrequency( AC_FREQUENCY );
         _acPowerSupplyModel.setEnabled( false );
-        
+
         // Source Coil model
         _sourceCoilModel.setNumberOfLoops( ELECTROMAGNET_NUMBER_OF_LOOPS );
         _sourceCoilModel.setRadius( ELECTROMAGNET_LOOP_RADIUS );
         _sourceCoilModel.setDirection( ELECTROMAGNET_DIRECTION );
-        
+
         // Electromagnet model
         _electromagnetModel.setLocation( ELECTROMAGNET_LOCATION );
         _electromagnetModel.setDirection( ELECTROMAGNET_DIRECTION );
@@ -245,11 +252,11 @@ public class ElectromagnetModule extends FaradayModule {
         // Do NOT set the strength! -- strength will be set based on the source coil model.
         // Do NOT set the size! -- size will be based on the source coil appearance.
         _electromagnetModel.update();
-        
+
         // Compass model
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setEnabled( true );
-        
+
         // Electromagnet view
         if ( FaradayConstants.HIDE_ELECTRONS_FEATURE ) {
             _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
@@ -258,7 +265,7 @@ public class ElectromagnetModule extends FaradayModule {
         else {
             _electromagnetGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
         }
-        
+
         // B-field view outside the magnet
         if ( FaradayConstants.HIDE_BFIELD_FEATURE ) {
             _bFieldOutsideGraphic.setVisible( false );
@@ -267,11 +274,11 @@ public class ElectromagnetModule extends FaradayModule {
         else {
             _bFieldOutsideGraphic.setVisible( true );
         }
-        
+
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
         _fieldMeterModel.setEnabled( false );
-        
+
         // Control panel
         _electromagnetPanel.update();
     }

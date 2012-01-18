@@ -2,21 +2,33 @@
 
 package edu.colorado.phet.faraday.module;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.faraday.FaradayConstants;
+import edu.colorado.phet.faraday.FaradaySimSharing.UserComponent;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
 import edu.colorado.phet.faraday.control.panel.BarMagnetPanel;
 import edu.colorado.phet.faraday.control.panel.DeveloperControlsPanel;
 import edu.colorado.phet.faraday.control.panel.PickupCoilPanel;
-import edu.colorado.phet.faraday.model.*;
+import edu.colorado.phet.faraday.model.BarMagnet;
+import edu.colorado.phet.faraday.model.Compass;
+import edu.colorado.phet.faraday.model.FieldMeter;
+import edu.colorado.phet.faraday.model.Lightbulb;
+import edu.colorado.phet.faraday.model.PickupCoil;
 import edu.colorado.phet.faraday.model.PickupCoil.VariableNumberOfSamplePointsStrategy;
-import edu.colorado.phet.faraday.view.*;
+import edu.colorado.phet.faraday.model.Voltmeter;
+import edu.colorado.phet.faraday.view.BFieldOutsideGraphic;
+import edu.colorado.phet.faraday.view.BarMagnetGraphic;
+import edu.colorado.phet.faraday.view.CompassGraphic;
+import edu.colorado.phet.faraday.view.FieldMeterGraphic;
+import edu.colorado.phet.faraday.view.PickupCoilGraphic;
 
 
 /**
@@ -87,7 +99,7 @@ public class PickupCoilModule extends FaradayModule {
      */
     public PickupCoilModule() {
 
-        super( FaradayStrings.TITLE_PICKUP_COIL_MODULE );
+        super( UserComponent.pickupCoilTab, FaradayStrings.TITLE_PICKUP_COIL_MODULE );
 
         //----------------------------------------------------------------------------
         // Model
