@@ -1,3 +1,5 @@
+Paths disabled while dragging a ball
+CM off by default for 2nd tab
 # 1.00.16 (58553) Nov 12, 2011
 > Disabled "back" button control also when going backwards would go less than time == 0.
 # 1.00.15 (58409) Nov 7, 2011

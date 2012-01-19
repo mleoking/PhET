@@ -337,6 +337,7 @@ public class BallImage extends Sprite {
             clickOffset = new Point( evt.localX, evt.localY );
             dragging = true;
             checkHighlight();
+            thisBallImage.myTableView.myTrajectories.dragging = true;
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
@@ -346,6 +347,7 @@ public class BallImage extends Sprite {
             }
             dragging = false;
             checkHighlight();
+            thisBallImage.myTableView.myTrajectories.dragging = false;
         }
 
         function dragTarget( evt: MouseEvent ): void {

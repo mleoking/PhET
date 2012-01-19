@@ -17,6 +17,7 @@ public class Trajectories extends Sprite {
     var lightColor: uint;
     var currentColor: uint;
     var currentAlpha: Number;
+    var dragging: Boolean = false;
 
     public function Trajectories( myModel: Model, myTableView: TableView ) {
         this.myModel = myModel;
@@ -95,6 +96,9 @@ public class Trajectories extends Sprite {
 
     //called from TableView.update();
     public function drawStep(): void {
+        if( dragging ) {
+            return;
+        }
         //trace("Trajectories.drawStep() called.");
         this.currentColor = this.darkColor;
         //this.currentAlpha == 1
