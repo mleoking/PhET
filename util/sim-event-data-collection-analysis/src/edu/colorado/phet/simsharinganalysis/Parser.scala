@@ -31,6 +31,9 @@ class Parser {
 
   def parseMessage(line: String): Entry = {
     val tokenizer = new StringTokenizer(line, SimSharingManager.DELIMITER)
+    if ( tokenizer.countTokens() < 5 ) {
+      println("I predict parse error in your near future, line = " + line)
+    }
     val time = java.lang.Long.parseLong(tokenizer.nextToken())
     val messageType = tokenizer.nextToken()
     val obj = tokenizer.nextToken()

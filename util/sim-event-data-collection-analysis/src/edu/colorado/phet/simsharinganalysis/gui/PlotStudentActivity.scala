@@ -15,11 +15,12 @@ import java.io.{File, FileInputStream, FileOutputStream}
 object PlotStudentActivity extends App {
 
   var lastUsedFile = ""
+  val autoLoadLastFile = false
 
   //TODO: is duplicate with below
   val properties = new Properties {
     val file = new File(new PhetPersistenceDir(), "simsharing-analysis.properties")
-    if ( file.exists() ) {
+    if ( file.exists() && autoLoadLastFile ) {
       load(new FileInputStream(file))
     }
   }

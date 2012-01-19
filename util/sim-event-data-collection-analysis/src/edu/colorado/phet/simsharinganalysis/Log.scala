@@ -169,14 +169,22 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
     if ( matches.length == 0 ) nameOfFirstTabComponent else matches.last
   }
 
-  def indexOf(e: Entry) = {
+  def indexOf(e: Entry): Int = {
     val first = entries.indexOf(e)
     val last = entries.lastIndexOf(e)
     if ( first == last ) {
       first
     }
     else {
-      throw new RuntimeException("duplicate entries")
+      val error = "duplicate entries, first = " + first + ", last = " + last + ", entry = " + e
+      println(error)
+      val zipWithIndex = entries.zipWithIndex
+      val found = zipWithIndex.find(p => p._1.eq(e)).toList
+      found match {
+        case x: List[(Entry, Int)] if x.length == 1 => x(0)._2
+        case x: List[(Entry, Int)] if x.length == 0 => throw new RuntimeException("Still failed!")
+        case x: List[(Entry, Int)] if x.length > 1 => throw new RuntimeException("Still failed for many reasons!")
+      }
     }
   }
 }
