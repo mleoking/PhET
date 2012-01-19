@@ -253,34 +253,6 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     writeLine("Type used:\t" + nonInteractiveEvents.map(_.component).distinct)
     writeLine("TODO: Type not used:\t" + Nil)
 
-    //Find out how long each state was active
-
-    //      System exit 0
-
-    //      //This line computes which components the user interacted with:
-    //      val usedComponents = log.entries.filter(_.messageType == "user").map(_.component).distinct
-    //      writeLine("Used components: " + usedComponents.mkString(", "))
-    //
-    //      writeLine("How many times dunked the phMeter: " + log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").length)
-    //      writeLine("How many times pressed tabs: " + log.filter(_.componentType == "tab").length)
-
-    //      writeLine("How many events in each tab: " + tabs.map(t => t + "=" + log.selectTab(tabs, t).length))
-    //      //    writeLine("Number of tabs visited: " + log.entries.map(log.getTabComponent(_, tabs(0))).distinct.length)
-    //      val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
-    //      writeLine("Number of events on non-interactive components: " + nonInteractiveEvents.length)
-    //      writeLine("Number of distinct non-interacive components that the user tried to interact with: " + nonInteractiveEvents.map(_.component).distinct.length)
-    //      writeLine("Entries for non-interactive components:")
-    //      writeLine(nonInteractiveEvents.mkString("\n"))
-    //
-    //      val declaredComponents = AcidBaseSolutionsJavaImport.UserComponents.values.map(_.toString).distinct.toList
-    //      writeLine("Total number of declared sim-specific user components: " + declaredComponents.length)
-    //      writeLine("Distinct user components that were used (sim-specific + common): " + usedComponents.length + ": " + usedComponents)
-    //      val missed = declaredComponents.filterNot(usedComponents.contains)
-    //      writeLine("Which sim-specific user components were missed: " + missed.length + ": " + missed)
-
-    //Print the log augmented with tab annotations
-    //log.entries.map(entry => log.getTabComponent(entry, "introductionTab") + " \t " + entry).foreach(writeLine)
-
     writeLine("")
   }
 }
