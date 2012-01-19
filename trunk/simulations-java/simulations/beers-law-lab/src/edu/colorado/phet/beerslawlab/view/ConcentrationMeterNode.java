@@ -186,9 +186,6 @@ public class ConcentrationMeterNode extends PhetPNode {
                     }
                 }
             } );
-
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( UserComponents.concentrationMeterBody, meter.body, this ) );
         }
 
         private static String createDisplayText( String value ) {
