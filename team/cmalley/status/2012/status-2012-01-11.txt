@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Jan 5-11, 2011
+
+Beer's Law Lab
+- lots more development on tab 1
+- implemented change requests from JC
+- mocked up 3D beaker, discussed with JC, decided against this
+
+Data Collection
+- developer meeting to discuss changes
+- work on various Piccolo components (Faucet, Conductivity Tester, drag handlers)
+
+Tablet Investigation
+- learning iOS and Objective-C
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Beer's Law Lab: design & implementation
+- Acid-Base Solutions: add data collection feature
+- Reactants, Products and Leftovers: add data collection feature
+- Data Collection: ?
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- Feb 24-26 (not working)
+
+--
