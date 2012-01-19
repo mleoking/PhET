@@ -3,15 +3,15 @@ package edu.colorado.phet.common.phetcommon.view;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.getInstance;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendSystemMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.messageCount;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.exited;
 
 /**
  * PhetExit encapsulates the various ways of exiting a sim.  It also sends out notifications before System.exit(0) is
@@ -41,7 +41,7 @@ public class PhetExit {
             exitListener.apply();
         }
         // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
-        sendSystemMessage( SystemComponents.application, SystemComponentTypes.application, SystemActions.exited, ParameterSet.parameterSet( ParameterKeys.messageCount, SimSharingManager.getInstance().getMessageCount() ) );
+        sendSystemMessage( SystemComponents.application, SystemComponentTypes.application, exited, parameterSet( messageCount, getInstance().getMessageCount() ) );
 
         //Notify after exit message sent so logs can be closed, etc.
         for ( VoidFunction0 listener : finalExitMessageSentListeners ) {
