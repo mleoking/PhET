@@ -13,12 +13,15 @@ public class AdvancedModule extends CollisionLabModule {
     }
 
     override public function resetAll(): void {
-
+        myMainView.controlPanel.showCM( false );
+        myMainView.controlPanel.sub_showCM_cb.selected = false;
     }
 
     override public function attach( parent: DisplayObjectContainer ): void {
         parent.addChild( myMainView );
         myMainView.initialize();
+        myMainView.controlPanel.showCM( false );
+        myMainView.controlPanel.sub_showCM_cb.selected = false;
     }
 
     override public function createModel(): Model {

@@ -25,13 +25,15 @@ public class AdvancedControlPanel extends ControlPanel {
 
         this.sub_twoD_rb.selected = true;
         this.sub_reflectingBorder_cb.selected = true;
-        this.sub_showCM_cb.selected = true;
+        this.sub_showCM_cb.selected = false;
         this.sub_showPaths_cb.selected = false;
         this.sub_showValues_cb.selected = false;
     }
 
     override public function initializeComponents(): void {
         super.initializeComponents();
+
+        this.sub_showCM_cb.selected = false;
 
         this.sub_oneD_rb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_twoD_rb.textField.autoSize = TextFieldAutoSize.LEFT;

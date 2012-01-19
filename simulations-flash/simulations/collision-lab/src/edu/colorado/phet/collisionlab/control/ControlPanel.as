@@ -58,7 +58,7 @@ public class ControlPanel extends Sprite {
 
     public function initialize(): void {
         this.resetButton = new NiceButton( this.sub_resetButton_sp, 80, resetAll );
-        this.showCMOn = true;
+        this.showCMOn = false;
         Util.makePanelDraggableWithBorder( this, this.sub_background.border );
     }
 
