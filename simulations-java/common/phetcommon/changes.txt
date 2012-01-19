@@ -1,3 +1,4 @@
+1/19/12 Simsharing: Cleanly shutdown and finish sending messages to mongo server before the application exits
 1/18/12 Simsharing: refinements to builder pattern for parameter sets
 1/18/12 Simsharing: add UserComponentType to UserMessages, delete IComponentType
 1/17/12 added NonInteractiveEventListener for sending non-interactive sim-sharing messages on Swing components and phetgraphics sprites

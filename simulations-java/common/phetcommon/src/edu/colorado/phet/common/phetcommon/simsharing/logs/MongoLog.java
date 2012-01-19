@@ -17,6 +17,8 @@ import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
 import com.mongodb.WriteResult;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 /**
  * The destination for Mongo logging messages for sim sharing, connects directly to MongoDB server, see #3213.
  * Note that currently there is one database per machine, and one top-level collection for each session.
@@ -126,5 +128,20 @@ public class MongoLog implements Log {
 
     public String getName() {
         return "MongoDB Server @ " + mongo.getAddress();
+    }
+
+    //Refuse further messages (assumes all messages have been scheduled, and waits for them to be delivered
+    public void shutdown() {
+        executor.shutdown();
+
+        //Wait up to 1 second for the messages to be delivered to the server after sim exits,
+        //If they didn't get sent within 1 sec, just exit anyways.
+        try {
+            boolean success = executor.awaitTermination( 1, SECONDS );
+            System.out.println( "MongoLog.executor awaitTermination, success = " + success );
+        }
+        catch ( InterruptedException e ) {
+            e.printStackTrace();
+        }
     }
 }

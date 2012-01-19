@@ -22,4 +22,7 @@ public class StringLog implements Log {
     public String getName() {
         return "Internal buffer";
     }
+
+    public void shutdown() {
+    }
 }

@@ -245,4 +245,10 @@ public class SimSharingManager {
         }
         return logNames;
     }
+
+    public void shutdown() {
+        for ( Log log : logs ) {
+            log.shutdown();
+        }
+    }
 }
