@@ -14,9 +14,7 @@ HIGH
 - put units under concentration meter title
 - make concentration meter expand to fit title
 - remove excessive negative space from concentration meter (in number display area and border)
-- move shaker and dropper in front of control panel
 - separate strings from Concentration tab and meter title
-- make meter body non-draggable
 
 MEDIUM
 - Beer's Law tab
