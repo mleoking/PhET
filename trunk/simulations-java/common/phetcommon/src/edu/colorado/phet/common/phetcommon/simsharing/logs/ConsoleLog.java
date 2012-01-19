@@ -15,4 +15,7 @@ public class ConsoleLog implements Log {
     public String getName() {
         return "Java Console";
     }
+
+    public void shutdown() {
+    }
 }

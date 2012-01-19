@@ -21,7 +21,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActi
  */
 public class PhetExit {
     private static ArrayList<VoidFunction0> exitListeners = new ArrayList<VoidFunction0>();//Listeners that are notified just before the PhetApplication exits
-    private static ArrayList<VoidFunction0> finalExitMessageSentListeners = new ArrayList<VoidFunction0>();//Listeners that are notified just before the PhetApplication exits
 
     /**
      * Add a listener that will be notified just before the PhetApplication exits.
@@ -40,17 +39,15 @@ public class PhetExit {
         for ( VoidFunction0 exitListener : exitListeners ) {
             exitListener.apply();
         }
+
         // Send a message for sim exit, work for both frame closing and File - > Exit( but not application kill )
+        // Normally database log messages are sent asynchronously which means that sometimes the app exits before this message gets sent
         sendSystemMessage( SystemComponents.application, SystemComponentTypes.application, exited, parameterSet( messageCount, getInstance().getMessageCount() ) );
 
-        //Notify after exit message sent so logs can be closed, etc.
-        for ( VoidFunction0 listener : finalExitMessageSentListeners ) {
-            listener.apply();
-        }
-        System.exit( 0 );
-    }
+        //Close logs, send final messages for simsharing, etc before System.exit
+        getInstance().shutdown();
 
-    public static void addExitMessageSentListener( VoidFunction0 listener ) {
-        finalExitMessageSentListeners.add( listener );
+        //Close the sim
+        System.exit( 0 );
     }
 }

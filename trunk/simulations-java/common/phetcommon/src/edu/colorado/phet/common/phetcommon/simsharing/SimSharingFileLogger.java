@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.view.PhetExit;
-
 /**
  * Sends messages to a log file, see #3215
  *
@@ -35,17 +32,6 @@ public class SimSharingFileLogger implements Log {
         try {
             file.createNewFile();
             logWriter = new BufferedWriter( new FileWriter( file, true ) );
-
-            PhetExit.addExitMessageSentListener( new VoidFunction0() {
-                public void apply() {
-                    try {
-                        logWriter.close();
-                    }
-                    catch ( IOException e ) {
-                        e.printStackTrace();
-                    }
-                }
-            } );
         }
         catch ( IOException e ) {
             e.printStackTrace();
@@ -65,5 +51,14 @@ public class SimSharingFileLogger implements Log {
 
     public String getName() {
         return "file: " + ( file == null ? "null" : file.getAbsolutePath() );
+    }
+
+    public void shutdown() {
+        try {
+            logWriter.close();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }
