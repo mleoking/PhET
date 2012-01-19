@@ -31,7 +31,11 @@ object RealTimeAnalysis extends SimpleSwingApplication {
       catch {
         case e: Exception => e.printStackTrace()
       }
-      textArea.text = myBuffer.toString
+
+      //Only set the new text on the text area if different, because it scrolls the scroll pane back to default
+      if ( textArea.text != myBuffer.toString ) {
+        textArea.text = myBuffer.toString
+      }
     }
   }).start()
 
