@@ -29,7 +29,7 @@ public class ABSSimSharing {
     }
 
     //Identify the non-interactive components by text search through the sim
-    public static List<UserComponents> nonInteractive = Arrays.asList( UserComponents.concentrationGraph, UserComponents.lightBulb, UserComponents.battery, UserComponents.phColorKey, UserComponents.reactionEquation );
+    public static List<UserComponents> nonInteractive = Arrays.asList( UserComponents.concentrationGraph, UserComponents.lightBulb, UserComponents.battery, UserComponents.phColorKey, UserComponents.reactionEquation, UserComponents.magnifyingGlass );
 
     public static List<UserComponents> interactive = new ArrayList<UserComponents>() {{
         addAll( Arrays.asList( UserComponents.values() ) );

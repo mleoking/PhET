@@ -201,12 +201,13 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val mapped = table.keys.toList.sorted.map(e => e + " -> " + table(e)).mkString(", ")
     writeLine("Clicks per min:\t" + mapped)
 
+    import scala.collection.JavaConversions._
     writeLine("Number of events on interactive components:\t" + log.entries.filter(_.messageType == "user").filter(_.interactive != false).length)
-    val usedComponents = log.entries.map(_.component).distinct
+    val usedComponents = log.entries.map(_.component).distinct.filter(ABSSimSharing.interactive.map(_.toString).toList.contains(_)).sorted
     writeLine("Type used:\t" + usedComponents)
 
-    val allComponents = ABSSimSharing.UserComponents.values.map(_.toString).toList
-    writeLine("Type not used:\t" + allComponents.filter(e => !usedComponents.contains(e)))
+    val allComponents = ABSSimSharing.interactive.toList.map(_.toString).toList
+    writeLine("Type not used:\t" + allComponents.filter(e => !usedComponents.contains(e)).sorted)
 
     val usedStringBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
     val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
@@ -249,9 +250,10 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     writeLine("Num test transitions:\t" + numTestTransitions)
 
     val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
+    val typeUsed = nonInteractiveEvents.map(_.component).distinct
     writeLine("Number of events on non-interactive components:\t" + nonInteractiveEvents.length)
-    writeLine("Type used:\t" + nonInteractiveEvents.map(_.component).distinct)
-    writeLine("TODO: Type not used:\t" + Nil)
+    writeLine("Type used:\t" + typeUsed.sorted)
+    writeLine("Type not used:\t" + ABSSimSharing.nonInteractive.toList.map(_.toString).filterNot(typeUsed.contains(_)).sorted)
 
     writeLine("")
   }
