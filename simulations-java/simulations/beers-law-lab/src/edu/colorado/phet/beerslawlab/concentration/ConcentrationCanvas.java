@@ -73,6 +73,7 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // rendering order
         {
+            addChild( soluteControlNode );
             addChild( solventFluidNode );
             addChild( solventFaucetNode );
             addChild( drainFluidNode );
@@ -91,8 +92,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( modelButton );
             }
-            addChild( concentrationMeterNode ); // on top, so it doesn't get lost behind anything
-            addChild( soluteControlNode ); // on top, because it has a combo box popup
+            addChild( concentrationMeterNode );
         }
 
         // layout
