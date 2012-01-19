@@ -136,8 +136,13 @@ object phet {
       val all = new ArrayBuffer[Log]
       for ( file <- dir.listFiles ) {
         if ( file.isFile ) {
-          val parsed = parse(file)
-          all += parsed
+          try {
+            val parsed = parse(file)
+            all += parsed
+          }
+          catch {
+            case x: Exception => println("failed to parse: " + file.getAbsolutePath + ", exception = " + x.getMessage)
+          }
         }
         else {
           all ++= load(file)

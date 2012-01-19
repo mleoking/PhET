@@ -123,12 +123,13 @@ class SimEventDataCollectionMonitor {
       val time = obj.get(MongoLog.TIME)
       val messageType = obj.get(MongoLog.MESSAGE_TYPE)
       val component = obj.get(MongoLog.COMPONENT)
+      val componentType = obj.get(MongoLog.COMPONENT_TYPE)
       val action = obj.get(MongoLog.ACTION)
       val parameters: DBObject = obj.get(MongoLog.PARAMETERS).asInstanceOf[DBObject]
       val tab = SimSharingManager.DELIMITER
       val paramString = asScalaSet(parameters.keySet).map(s => s + " = " + parameters.get(s)).mkString(tab)
 
-      println(time + tab + messageType + tab + component + tab + action + tab + paramString)
+      println(time + tab + messageType + tab + component + tab + componentType + tab + action + tab + paramString)
     }
   }
 
