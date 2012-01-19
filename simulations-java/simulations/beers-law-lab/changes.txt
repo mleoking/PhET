@@ -1,3 +1,4 @@
+1/19/12 make body of concentration meter non-draggable
 # 0.00.06 (60455) Jan 18, 2012
 1/16/12 migrate ColorRange to phetcommon, for use in dilutions
 1/12/12 add a thin black line around solution
