@@ -27,11 +27,12 @@ public class BLLResources {
         public static final String KOOL_AID = RESOURCES.getLocalizedString( "koolAid" );
         public static final String LITERS = RESOURCES.getLocalizedString( "liters" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
-        public static final String MOLAR = RESOURCES.getLocalizedString( "molar" );
+        public static final String MOLES_PER_LITER = RESOURCES.getLocalizedString( "molesPerLiter" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
         public static final String PATTERN_0VALUE_1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
+        public static final String PATTERN_PARENTHESIS_0TEXT = RESOURCES.getLocalizedString( "pattern.parenthesis.0text" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );

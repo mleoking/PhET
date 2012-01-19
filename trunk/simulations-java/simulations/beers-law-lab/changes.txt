@@ -1,3 +1,5 @@
+1/19/12 remove excessive negative space from concentration meter
+1/19/12 put units under concentration meter title
 1/19/11 move shaker and dropper in front of solute control panel
 1/19/12 make body of concentration meter non-draggable
 # 0.00.06 (60455) Jan 18, 2012
