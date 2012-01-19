@@ -125,8 +125,8 @@ public class ConcentrationMeterNode extends PhetPNode {
         private static final String NO_VALUE = "-";
 
         // image-specific locations and dimensions
-        private static final double TITLE_Y_OFFSET = 10;
-        private static final PBounds VALUE_BOUNDS = new PBounds( 24, 45, 114, 50 );
+        private static final double TITLE_Y_OFFSET = 12;
+        private static final PBounds VALUE_BOUNDS = new PBounds( 24, 55, 114, 50 );
         private static final double BEVEL_WIDTH = 12;
 
         public BodyNode( final ConcentrationMeter meter ) {
@@ -137,7 +137,7 @@ public class ConcentrationMeterNode extends PhetPNode {
                 setTextPaint( Color.WHITE );
                 setFont( new PhetFont( Font.BOLD, 18 ) );
             }};
-            final PText valueNode = new PText( createDisplayText( VALUE_PATTERN ) ) {{
+            final PText valueNode = new PText( VALUE_PATTERN ) {{
                 setFont( new PhetFont( 24 ) );
             }};
 
@@ -151,13 +151,22 @@ public class ConcentrationMeterNode extends PhetPNode {
                 valueNode.setScale( valueScale );
             }
 
+            // units
+            PText unitsNode = new PText( MessageFormat.format( Strings.PATTERN_PARENTHESIS_0TEXT, Strings.MOLES_PER_LITER ) ) {{
+                setTextPaint( Color.WHITE );
+                setFont( new PhetFont( Font.BOLD, 16 ) );
+            }};
+
             // rendering order
             addChild( imageNode );
             addChild( titleNode );
+            addChild( unitsNode );
             addChild( valueNode );
 
             // layout
             titleNode.setOffset( ( imageNode.getFullBoundsReference().getWidth() - titleNode.getFullBoundsReference().getWidth() ) / 2, TITLE_Y_OFFSET );
+            unitsNode.setOffset( ( imageNode.getFullBoundsReference().getWidth() - unitsNode.getFullBoundsReference().getWidth() ) / 2,
+                                 titleNode.getFullBoundsReference().getMaxY() + 3 );
             //NOTE: value layout will be done when value is set, to maintain right justification
 
             // body location
@@ -179,17 +188,13 @@ public class ConcentrationMeterNode extends PhetPNode {
                     }
                     else {
                         // eg, "0.23400 M"
-                        valueNode.setText( createDisplayText( VALUE_FORMAT.format( value ) ) );
+                        valueNode.setText( VALUE_FORMAT.format( value ) );
                         // right justified
                         valueNode.setOffset( VALUE_BOUNDS.getMaxX() - valueNode.getFullBoundsReference().getWidth() - 2,
                                              VALUE_BOUNDS.getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
                     }
                 }
             } );
-        }
-
-        private static String createDisplayText( String value ) {
-            return MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, value, Strings.MOLAR );
         }
     }
 
