@@ -17,9 +17,11 @@ import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -34,6 +36,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Strings.*;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
 /**
@@ -183,10 +187,10 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
             addChild( new PText( BalanceAndTorqueResources.Strings.SHOW ) {{
                 setFont( new PhetFont( 18 ) );
             }} );
-            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.MASS_LABELS, massLabelVisibilityProperty ) );
-            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.RULERS, distancesVisibleProperty ) );
-            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.FORCES_FROM_OBJECTS, forceVectorsFromObjectsVisibleProperty ) );
-            addChild( new PropertyCheckBoxNode( BalanceAndTorqueResources.Strings.LEVEL, levelIndicatorVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( massLabelsCheckBox, MASS_LABELS, massLabelVisibilityProperty ) );
+            addChild( new PropertyCheckBoxNode( rulersCheckBox, RULERS, distancesVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( forceFromObjectsCheckBox, FORCES_FROM_OBJECTS, forceVectorsFromObjectsVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( levelCheckBox, LEVEL, levelIndicatorVisibleProperty ) );
         }} );
         controlPanel.setOffset( DEFAULT_STAGE_SIZE.getWidth() - controlPanel.getFullBoundsReference().width - 20, 100 );
         nonMassLayer.addChild( controlPanel );
@@ -210,8 +214,8 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
 
     // Convenience class for check boxes, prevents code duplication.
     private static class PropertyCheckBoxNode extends PNode {
-        private PropertyCheckBoxNode( String text, BooleanProperty property ) {
-            PropertyCheckBox checkBox = new PropertyCheckBox( text, property );
+        private PropertyCheckBoxNode( IUserComponent userComponent, String text, BooleanProperty property ) {
+            PropertyCheckBox checkBox = new SimSharingPropertyCheckBox( userComponent, text, property );
             checkBox.setFont( new PhetFont( 14 ) );
             addChild( new PSwing( checkBox ) );
         }
