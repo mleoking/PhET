@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -74,19 +75,23 @@ public abstract class Mass implements UserMovableModelElement {
     // that certain visual indications should be hidden from the user.
     private final boolean isMystery;
 
+    // User component for this mass, used in sim sharing.
+    public final IUserComponent userComponent;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public Mass( double mass ) {
-        this( mass, DEFAULT_INITIAL_LOCATION, false );
+    public Mass( IUserComponent userComponent, double mass ) {
+        this( userComponent, mass, DEFAULT_INITIAL_LOCATION, false );
     }
 
-    public Mass( double mass, boolean isMystery ) {
-        this( mass, DEFAULT_INITIAL_LOCATION, isMystery );
+    public Mass( IUserComponent userComponent, double mass, boolean isMystery ) {
+        this( userComponent, mass, DEFAULT_INITIAL_LOCATION, isMystery );
     }
 
-    public Mass( double mass, Point2D initialPosition, boolean isMystery ) {
+    public Mass( IUserComponent userComponent, double mass, Point2D initialPosition, boolean isMystery ) {
+        this.userComponent = userComponent;
         this.mass = mass;
         this.positionProperty = new Property<Point2D>( new Point2D.Double( initialPosition.getX(), initialPosition.getY() ) );
         this.isMystery = isMystery;
@@ -237,4 +242,5 @@ public abstract class Mass implements UserMovableModelElement {
      * @return
      */
     public abstract Mass createCopy();
+
 }

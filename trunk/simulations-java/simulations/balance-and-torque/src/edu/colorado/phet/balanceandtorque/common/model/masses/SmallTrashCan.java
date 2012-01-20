@@ -4,6 +4,9 @@ package edu.colorado.phet.balanceandtorque.common.model.masses;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.smallTrashCan;
 
 
 /**
@@ -20,7 +23,11 @@ public class SmallTrashCan extends ImageMass {
         this( DEFAULT_INITIAL_LOCATION, isMystery );
     }
 
+    // For sim sharing - tracks the number of instances created, used in the
+    // component ID for each instance.
+    private static int instanceCount = 0;
+
     public SmallTrashCan( Point2D initialPosition, boolean isMystery ) {
-        super( MASS, Images.TRASH_CAN, HEIGHT, initialPosition, isMystery );
+        super( UserComponentChain.chain( smallTrashCan, instanceCount++ ), MASS, Images.TRASH_CAN, HEIGHT, initialPosition, isMystery );
     }
 }

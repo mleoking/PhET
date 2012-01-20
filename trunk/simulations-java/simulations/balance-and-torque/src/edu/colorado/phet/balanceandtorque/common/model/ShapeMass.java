@@ -8,6 +8,7 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
  * This class defines a mass in the model whose appearance is defined by its
@@ -19,8 +20,8 @@ public abstract class ShapeMass extends Mass {
     public final Property<Shape> shapeProperty;
     public final Shape shape;
 
-    public ShapeMass( double mass, Shape shape ) {
-        super( mass );
+    public ShapeMass( IUserComponent userComponent, double mass, Shape shape ) {
+        super( userComponent, mass );
         shapeProperty = new Property<Shape>( shape );
         this.shape = shape;
     }

@@ -4,6 +4,9 @@ package edu.colorado.phet.balanceandtorque.common.model.masses;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.mediumBucket;
 
 
 /**
@@ -16,7 +19,11 @@ public class MediumBucket extends ImageMass {
     private static final double MASS = 20; // in kg
     private static final double HEIGHT = 0.4; // In meters.
 
+    // For sim sharing - tracks the number of instances created, used in the
+    // component ID for each instance.
+    private static int instanceCount = 0;
+
     public MediumBucket( boolean isMystery ) {
-        super( MASS, Images.YELLOW_BUCKET, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
+        super( UserComponentChain.chain( mediumBucket, instanceCount++ ), MASS, Images.YELLOW_BUCKET, HEIGHT, new Point2D.Double( 0, 0 ), isMystery );
     }
 }
