@@ -110,6 +110,9 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //Given the current state and an entry, compute the next state
   def nextState(state: SimState, e: Entry) = {
     e match {
+
+      //If clicking on something disabled, then do not change the state, see #3218
+      case x: Entry if x.enabled == false => state
       case x: Entry if x.componentType == "tab" => state.copy(tabs.indexOf(x.component))
       //Watch which solution the user selects
       case Entry(_, "user", c, _, "pressed", _) if List("waterRadioButton", "waterIcon").contains(c) => state.changeSolution(water)

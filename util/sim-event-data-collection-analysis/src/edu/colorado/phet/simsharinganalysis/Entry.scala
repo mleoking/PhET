@@ -12,6 +12,9 @@ case class Entry(time: Long, //Time on the client computer when message was crea
                  action: String,
                  parameters: Map[String, String]) {
 
+  //By default things are enabled, unless there is a flag that says otherwise, see #3218
+  lazy val enabled = if ( parameters.contains("enabled") ) parameters("enabled").toBoolean else true
+
   lazy val parametersToString = parameters.keys.map(key => "" + key + " = " + parameters(key)).toList.mkString(SimSharingManager.DELIMITER)
 
   override lazy val toString = ( time :: messageType :: component :: action :: parametersToString :: Nil ).mkString(SimSharingManager.DELIMITER)
