@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing.components;
 
+import java.awt.AWTEvent;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.Action;
@@ -17,10 +19,13 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.enabled;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.checkBox;
 
 /**
  * Swing check box that sends sim-sharing events.
@@ -36,45 +41,67 @@ public class SimSharingJCheckBox extends JCheckBox {
 
     public SimSharingJCheckBox( IUserComponent userComponent ) {
         this.userComponent = userComponent;
+        enableMouseEvents();
     }
 
     public SimSharingJCheckBox( IUserComponent userComponent, Icon icon ) {
         super( icon );
         this.userComponent = userComponent;
+        enableMouseEvents();
     }
 
     public SimSharingJCheckBox( IUserComponent userComponent, Icon icon, boolean selected ) {
         super( icon, selected );
         this.userComponent = userComponent;
+        enableMouseEvents();
     }
 
     public SimSharingJCheckBox( IUserComponent userComponent, String text ) {
         super( text );
         this.userComponent = userComponent;
+        enableMouseEvents();
     }
 
     public SimSharingJCheckBox( IUserComponent userComponent, Action a ) {
         super( a );
         this.userComponent = userComponent;
+        enableMouseEvents();
     }
 
     public SimSharingJCheckBox( IUserComponent userComponent, String text, boolean selected ) {
         super( text, selected );
         this.userComponent = userComponent;
+        enableMouseEvents();
     }
 
     public SimSharingJCheckBox( IUserComponent userComponent, String text, Icon icon ) {
         super( text, icon );
         this.userComponent = userComponent;
+        enableMouseEvents();
     }
 
     public SimSharingJCheckBox( IUserComponent userComponent, String text, Icon icon, boolean selected ) {
         super( text, icon, selected );
         this.userComponent = userComponent;
+        enableMouseEvents();
+    }
+
+    //Make sure processMouseEvent gets called even if no listeners registered.  See http://www.dickbaldwin.com/java/Java102.htm#essential_ingredients_for_extending_exis
+    private void enableMouseEvents() {
+        enableEvents( AWTEvent.MOUSE_EVENT_MASK );
+    }
+
+    //When mouse is pressed, send a simsharing event if the component is disabled.  Safer to override than add listener, since the listener could be removed with removeAllListeners().
+    //Only works if enableEvents has been called.  See #3218
+    @Override protected void processMouseEvent( MouseEvent e ) {
+        if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
+            SimSharingManager.sendUserMessage( userComponent, button, pressed, getParameters().add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+        }
+        super.processMouseEvent( e );
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.checkBox, pressed, getParameters() );
+        SimSharingManager.sendUserMessage( userComponent, checkBox, pressed, getParameters() );
         super.fireActionPerformed( event );
     }
 
