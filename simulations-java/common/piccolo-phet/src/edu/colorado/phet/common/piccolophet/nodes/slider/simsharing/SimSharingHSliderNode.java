@@ -45,6 +45,7 @@ public class SimSharingHSliderNode extends HSliderNode {
     @Override protected void dragStarted() {
         SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, startDrag, parameterSet( ParameterKeys.value, value.get() ) );
         dragValues.clear();
+        dragValues.add( value.get() );
     }
 
     @Override protected void dragged() {
@@ -53,6 +54,7 @@ public class SimSharingHSliderNode extends HSliderNode {
     }
 
     @Override protected void dragEnded() {
+        dragValues.add( value.get() );
         SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, endDrag,
                                            parameterSet( ParameterKeys.value, value.get() ).
                                                    add( numberDragEvents, dragValues.size() ).
