@@ -1,3 +1,5 @@
+# 0.00.12 (60483) Jan 20, 2012
+1/20/12 Publishing to dev for potential use in classroom setting.
 Temporarily removed the Protein Levels tab so that a version with only working tabs can be published.
 Renamed tabs.
 Changed the background color on all tabs to be black when outside of a cell.
