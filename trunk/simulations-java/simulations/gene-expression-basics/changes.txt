@@ -1,3 +1,12 @@
+Temporarily removed the Protein Levels tab so that a version with only working tabs can be published.
+Renamed tabs.
+Changed the background color on all tabs to be black when outside of a cell.
+Changed cell placement algorithm on 3rd tab to look more random and therefore realistic.
+Added a dialog that shows real E. Coli cells in the 3rd tab.
+Change cell shapes to look roughly like E. Coli.
+Added zoom in/out feature on 1st tab.
+Completed integration of numerical model on 3rd tab.
+Got mRNA destroyer working.
 # 0.00.11 (59967) Jan 6, 2012
 1/6/12 Snapshot of version reviewed with biology expert.
 Implemented first cut of third tab, which allows the user to tweak cell parameters for one or several cells and see how protein levels change.
