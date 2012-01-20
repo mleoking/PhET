@@ -27,17 +27,11 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //KL: Each time students start dragging should count as one click. But if they change direction during a single drag, I want that to count as more than one click - one for each direction.
   def sliderChangedDirection(log: Log, e: Entry) = {
 
-
     val index = log.indexOf(e)
     val previousEvent1 = log.entries.slice(0, index).filter(_.messageType == "user").last
     val previousEvent2 = log.entries.slice(0, index - 1).filter(_.messageType == "user").last
     if ( previousEvent1.action == "drag" && previousEvent2.action == "drag" ) {
 
-      //For debugging
-      //          println("IsAcidBaseClick!")
-      //          println(e)
-      //          println(previousEvent1)
-      //          println(previousEvent2)
       val delta1 = previousEvent2("value").toDouble - previousEvent1("value").toDouble
       val delta2 = previousEvent1("value").toDouble - e("value").toDouble
 
@@ -62,178 +56,6 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     }
   }
 
-  val tabs = List("introductionTab", "customSolutionTab")
-
-  //TODO: Instead of hardcoding these strings, could make a new project that depends on ABS and use toString on those enums.
-  //Right now we are keeping this project integrated with the sim-event-data-collection-analysis-project for expedience, so haven't done that yet.
-  val water = "water"
-  val weakAcid = "weakAcid"
-  val strongAcid = "strongAcid"
-  val weakBase = "weakBase"
-  val strongBase = "strongBase"
-
-  val molecules = "molecules"
-  val barGraph = "barGraph"
-  val liquid = "liquid"
-
-  //Tests
-  val phMeter = "phMeter"
-  val phPaper = "phPaper"
-  val conductivityTester = "conductivityTester"
-
-  abstract class Tabby {
-    def solution: String
-
-    def view: String
-
-    def test: String
-  }
-
-  //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
-  case class Tab0(solution: String, viewAndTestState: ViewAndTestState) extends Tabby {
-
-    def next(e: Entry): Tab0 = {
-
-      e match {
-
-        //If clicking on something disabled, then do not change the state, see #3218
-        case x: Entry if x.enabled == false => this
-
-        //Watch which solution the user selects
-        case Entry(_, "user", c, _, "pressed", _) if List("waterRadioButton", "waterIcon").contains(c) => copy(solution = water)
-        case Entry(_, "user", c, _, "pressed", _) if List("strongAcidRadioButton", "strongAcidIcon").contains(c) => copy(solution = strongAcid)
-        case Entry(_, "user", c, _, "pressed", _) if List("weakAcidRadioButton", "weakAcidIcon").contains(c) => copy(solution = weakAcid)
-        case Entry(_, "user", c, _, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon").contains(c) => copy(solution = strongBase)
-        case Entry(_, "user", c, _, "pressed", _) if List("weakBaseRadioButton", "weakBaseIcon").contains(c) => copy(solution = weakBase)
-
-        //Watch which view the user selects
-        case Entry(_, "user", c, _, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => copy(view = molecules)
-        case Entry(_, "user", c, _, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => copy(view = barGraph)
-        case Entry(_, "user", c, _, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => copy(view = liquid)
-
-        //See if the user changed tests
-        case Entry(_, "user", c, _, "pressed", _) if List("phMeterRadioButton", "phMeterIcon").contains(c) => copy(test = phMeter)
-        case Entry(_, "user", c, _, "pressed", _) if List("phPaperRadioButton", "phPaperIcon").contains(c) => copy(test = phPaper)
-        case Entry(_, "user", c, _, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => copy(test = conductivityTester)
-
-        //Handle reset all presses
-        case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab0
-
-        //Nothing happened to change the state
-        case _ => this
-
-      }
-    }
-
-    def view = viewAndTestState.view
-
-    def test = viewAndTestState.test
-  }
-
-  case class ViewAndTestState(view: String, test: String) {
-    def next(e: Entry) = {
-
-      e match {
-
-        //If clicking on something disabled, then do not change the state, see #3218
-        case x: Entry if x.enabled == false => this
-
-        //Watch which view the user selects
-        case Entry(_, "user", c, _, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => copy(view = molecules)
-        case Entry(_, "user", c, _, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => copy(view = barGraph)
-        case Entry(_, "user", c, _, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => copy(view = liquid)
-
-        //See if the user changed tests
-        case Entry(_, "user", c, _, "pressed", _) if List("phMeterRadioButton", "phMeterIcon").contains(c) => copy(test = phMeter)
-        case Entry(_, "user", c, _, "pressed", _) if List("phPaperRadioButton", "phPaperIcon").contains(c) => copy(test = phPaper)
-        case Entry(_, "user", c, _, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => copy(test = conductivityTester)
-
-        //Nothing happened to change the state
-        case _ => this
-      }
-    }
-  }
-
-  case class Tab1(viewAndTestState: ViewAndTestState, acid: Boolean, weak: Boolean) extends Tabby {
-
-    def next(e: Entry): Tab1 = {
-
-      copy(viewAndTestState = viewAndTestState.next(e))
-
-      e match {
-
-        //If clicking on something disabled, then do not change the state, see #3218
-        case x: Entry if x.enabled == false => this
-
-        //Watch which solution the user selects
-        case Entry(_, "user", "acidRadioButton", _, "pressed", _) => copy(acid = true)
-        case Entry(_, "user", "baseRadioButton", _, "pressed", _) => copy(acid = false)
-        case Entry(_, "user", "weakRadioButton", _, "pressed", _) => copy(weak = true)
-        case Entry(_, "user", "strongRadioButton", _, "pressed", _) => copy(weak = false)
-
-        //Watch which view the user selects
-        case Entry(_, "user", c, _, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => copy(view = molecules)
-        case Entry(_, "user", c, _, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => copy(view = barGraph)
-        case Entry(_, "user", c, _, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => copy(view = liquid)
-
-        //See if the user changed tests
-        case Entry(_, "user", c, _, "pressed", _) if List("phMeterRadioButton", "phMeterIcon").contains(c) => copy(test = phMeter)
-        case Entry(_, "user", c, _, "pressed", _) if List("phPaperRadioButton", "phPaperIcon").contains(c) => copy(test = phPaper)
-        case Entry(_, "user", c, _, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => copy(test = conductivityTester)
-
-        //Handle reset all presses
-        case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab1
-
-        //Nothing happened to change the state
-        case _ => this
-
-      }
-
-    }
-
-    def solution = {
-      if ( weak && acid ) weakAcid
-      else if ( weak && !acid ) weakBase
-      else if ( !weak && acid ) strongAcid
-      else strongBase
-    }
-
-    def view = viewAndTestState.view
-
-    def test = viewAndTestState.test
-  }
-
-  val initialTab0 = Tab0(water, molecules, phMeter, false)
-  val initialTab1 = Tab1(molecules, phMeter, false, true, true)
-
-  case class SimState(selectedTab: Int, tab0: Tab0, tab1: Tab1) {
-
-    def getSelectedTab = if ( selectedTab == 0 ) tab0 else tab1
-
-    def displayedSolution: String = getSelectedTab.solution
-
-    def displayedView: String = getSelectedTab.view
-
-    def displayedTest: String = getSelectedTab.test
-
-    //    def changeSolution(sol: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(solution = sol)))
-    //
-    //    def changeView(v: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(view = v)))
-    //
-    //    def changeTest(t: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(test = t)))
-    //
-    //    //When the user confirms reset all, go back to the initial state for that tab
-    //    def resetAllPressed = copy(tabs = tabs.updated(selectedTab, initialTabStates(selectedTab)))
-    //
-    //    //Find out what solution is on the screen in this state
-    //    def displayedSolution = tabs(selectedTab).solution
-    //
-    //    //Account for showSolvent flag and note that conductivity meter is liquid view
-    //    def displayedView = if ( tabs(selectedTab).test == conductivityTester ) liquid else tabs(selectedTab).view
-    //
-    //    def displayedTest = tabs(selectedTab).test
-  }
-
   def matchesAny(s: String, list: List[String]) = list.contains(s)
 
   //Given the current state and an entry, compute the next state
@@ -242,7 +64,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       state
     }
     else if ( e.componentType == "tab" ) {
-      state.copy(tabs.indexOf(e.component))
+      state.copy(Globals.tabs.indexOf(e.component))
     }
     else if ( state.selectedTab == 0 ) {
       state.copy(tab0 = state.tab0.next(e))
@@ -256,7 +78,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //The list will contain one state per event, indicating the state of the sim after the event.
   def getStates(log: Log) = {
     val states = new ArrayBuffer[SimState]
-    var state = SimState(0, initialTab0, initialTab1)
+    var state = SimState()
     for ( e <- log.entries ) {
       state = nextState(state, e)
       states += state
