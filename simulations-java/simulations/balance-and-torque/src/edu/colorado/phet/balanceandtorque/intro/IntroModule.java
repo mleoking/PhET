@@ -4,14 +4,16 @@ package edu.colorado.phet.balanceandtorque.intro;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.intro.model.IntroModel;
 import edu.colorado.phet.balanceandtorque.intro.view.IntroCanvas;
-import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.introTab;
 
 /**
  * The "Intro" module.
  *
  * @author John Blanco
  */
-public class IntroModule extends Module {
+public class IntroModule extends SimSharingPiccoloModule {
 
     private IntroModel model;
 
@@ -20,7 +22,7 @@ public class IntroModule extends Module {
     }
 
     private IntroModule( IntroModel model ) {
-        super( BalanceAndTorqueResources.Strings.INTRO, model.getClock() );
+        super( introTab, BalanceAndTorqueResources.Strings.INTRO, model.getClock() );
         this.model = model;
         setClockControlPanel( null );
         setSimulationPanel( new IntroCanvas( model ) );
