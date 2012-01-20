@@ -77,10 +77,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
 
-    // Transform activity, used for moving the viewport between genes and for
-    // zooming in and out.
-    private PTransformActivity transformAnimationActivity;
-
+    // List of currently active transform activities.  This is maintained in
+    // order to manage the interactions between the different animation
+    // transforms that are used.
+    private List<PTransformActivity> transformActivities = new ArrayList<PTransformActivity>();
 
     // PNodes that are used as layers and that are involved in the zoom
     // functionality.
@@ -276,7 +276,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         controlsRootNode.addChild( previousGeneButton );
 
         // Add the Reset All button.
-        controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { this, model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
         }} );
@@ -285,15 +285,15 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // whenever it changes.
         model.activeGene.addObserver( new VoidFunction1<Gene>() {
             public void apply( Gene gene ) {
-                if ( transformAnimationActivity != null ) {
-                    transformAnimationActivity.terminate( 0 );
+                if ( !transformActivities.isEmpty() ) {
+                    terminateAnyRunningActivities();
                 }
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
                 // Perform an animation that will put the selected gene in
                 // the center of the view port.
                 backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                transformAnimationActivity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                transformAnimationActivity.setDelegate( new PActivityDelegateAdapter() {
+                PTransformActivity animateToActiveGene = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                animateToActiveGene.setDelegate( new PActivityDelegateAdapter() {
                     @Override public void activityFinished( PActivity activity ) {
                         // Update the position of the protein capture area in
                         // the model, since a transformation of the model-to-
@@ -313,6 +313,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                         model.addOffLimitsMotionSpace( boundsInModel );
                     }
                 } );
+                transformActivities.add( animateToActiveGene );
             }
         } );
 
@@ -420,15 +421,24 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     }
 
     private void zoomInOnNodes( PNode... nodesToZoom ) {
+        terminateAnyRunningActivities();
         for ( PNode node : nodesToZoom ) {
             node.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, 2000 );
         }
     }
 
     private void zoomOutFromNodes( PNode... nodesToZoom ) {
+        terminateAnyRunningActivities();
         for ( PNode node : nodesToZoom ) {
             node.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
         }
+    }
+
+    private void terminateAnyRunningActivities() {
+        for ( PTransformActivity transformActivity : transformActivities ) {
+            transformActivity.terminate( PActivity.TERMINATE_AND_FINISH );
+        }
+        transformActivities.clear();
     }
 
     // Convenience function for checking if an item is contained in an array.
