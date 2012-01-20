@@ -3,12 +3,18 @@ package edu.colorado.phet.balanceandtorque.common.view;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.Image;
+import java.awt.Insets;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.LevelSupportColumn;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.controls.StandardIconButton.CloseButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -16,6 +22,8 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.redXRemoveSupportsButton;
 
 /**
  * Node that represents a support column with a flat top in the view.
@@ -45,7 +53,7 @@ public class LevelSupportColumnNode extends ModelObjectNode {
         if ( showCloseButton ) {
             // Add the button that can be used to deactivate the column, which
             // means that it will essentially go away.
-            PNode closeButton = new PSwing( new CloseButton() ) {{
+            PNode closeButton = new PSwing( new SimSharingCloseButton() ) {{
                 // Tweak the button's size.  The factor is empirically determined.
                 setScale( 0.8 );
                 // Position at center bottom of column.
@@ -62,6 +70,19 @@ public class LevelSupportColumnNode extends ModelObjectNode {
                 } );
             }};
             addChild( closeButton );
+        }
+    }
+
+    // Class that defines that close button that is shown on the supports and
+    // that looks like a standard close button, i.e. a red x.
+    private static class SimSharingCloseButton extends SimSharingJButton {
+        private SimSharingCloseButton() {
+            super( redXRemoveSupportsButton );
+            Image image = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );
+            Icon icon = new ImageIcon( image );
+            setIcon( icon );
+            setOpaque( false );
+            setMargin( new Insets( 0, 0, 0, 0 ) );
         }
     }
 }
