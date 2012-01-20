@@ -23,6 +23,7 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
   val user = startMessage("id")
   val startTime = entries(0).time //Time on client machine of last event
   val endTime = entries(entries.size - 1).time //Time on client machine of last event
+  val elapsedTime = endTime - startTime
   val date = new Date(startTime)
   val day = new SimpleDateFormat("MM-dd-yyyy").format(startTime)
   val osName = startMessage("osName")

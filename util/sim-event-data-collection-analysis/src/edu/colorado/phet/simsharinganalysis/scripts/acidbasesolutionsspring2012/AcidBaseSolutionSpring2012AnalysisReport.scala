@@ -170,18 +170,18 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     }
   }
 
-  def getTimeBetweenClickHistogram(log: Log, timePeriod: Pair[Int, String]) = {
+  def countEntriesWithinTime(entries: List[Entry], min: Long, max: Long): Int = entries.filter(e => e.time >= min && e.time < max).length
+
+  def getClickTimeHistogram(log: Log, timePeriod: Pair[Int, String]) = {
     val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
-
-    val timeBetweenClicks: List[Long] = if ( entries.length > 0 ) getTimesBetweenEntries(entries) else Nil
-
-    ( ( 0 until 30 ).map(i => ( i + 1 ) -> timeBetweenClicks.filter(time => time >= timePeriod._1 * i && time < timePeriod._1 * ( i + 1 )).length) ).toMap
+    val millisPerMinute = 60L * 1000L
+    ( ( log.startTime until log.endTime by millisPerMinute ).map(time => ( time - log.startTime ) / millisPerMinute -> countEntriesWithinTime(entries, time, time * millisPerMinute)) ).toMap
   }
 
   def showBarChart(log: Log) {
     //For entries that count as a "click" for ABS, make a List[Pair[Entry,Entry]]
     val timePeriod = Pair(1000 * 60, "minute")
-    val table = getTimeBetweenClickHistogram(log, timePeriod)
+    val table = getClickTimeHistogram(log, timePeriod)
     //      table.foreach(entry => writeLine("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
 
     phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
@@ -204,7 +204,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     writeLine("Number of clicks:\t" + clicks.length)
 
     val timePeriod = Pair(1000 * 60, "minute")
-    val table = getTimeBetweenClickHistogram(log, timePeriod)
+    val table = getClickTimeHistogram(log, timePeriod)
     val mapped = table.keys.toList.sorted.map(e => e + " -> " + table(e)).mkString(", ")
     writeLine("Clicks per min:\t" + mapped)
 
