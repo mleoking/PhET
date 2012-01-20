@@ -24,6 +24,9 @@ public class BalanceAndTorqueSimSharing {
         mediumTrashCan, mediumBucket, tire, television, sodaBottle, smallRock,
         smallTrashCan, pottedPlant, tinyRock, flowerPot, cinderBlock,
         mediumRock, largeTrashCan, mysteryObject, barrel, fireExtinguisher,
-        bigRock, largeBucket, fireHydrant, man, woman, boy, girl, smallBucket
+        bigRock, largeBucket, fireHydrant, man, woman, boy, girl, smallBucket,
+
+        // Various controls
+        redXRemoveSupportsButton
     }
 }
