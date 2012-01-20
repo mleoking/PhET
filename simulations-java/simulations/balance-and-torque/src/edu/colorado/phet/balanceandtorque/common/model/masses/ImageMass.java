@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -53,15 +54,15 @@ public class ImageMass extends Mass {
     /**
      * Constructor.
      */
-    public ImageMass( double mass, BufferedImage image, double height, Point2D initialPosition ) {
-        this( mass, image, height, initialPosition, false );
+    public ImageMass( IUserComponent userComponent, double mass, BufferedImage image, double height, Point2D initialPosition ) {
+        this( userComponent, mass, image, height, initialPosition, false );
     }
 
     /**
      * Constructor.
      */
-    public ImageMass( double mass, BufferedImage image, double height, Point2D initialPosition, boolean isMystery ) {
-        super( mass, initialPosition, isMystery );
+    public ImageMass( IUserComponent userComponent, double mass, BufferedImage image, double height, Point2D initialPosition, boolean isMystery ) {
+        super( userComponent, mass, initialPosition, isMystery );
         heightProperty.set( height );
         this.imageProperty = new Property<BufferedImage>( image );
     }
@@ -122,7 +123,7 @@ public class ImageMass extends Mass {
     }
 
     @Override public Mass createCopy() {
-        ImageMass copy = new ImageMass( this.getMass(), this.imageProperty.get(), this.getHeight(), this.getPosition(), this.isMystery() );
+        ImageMass copy = new ImageMass( userComponent, this.getMass(), this.imageProperty.get(), this.getHeight(), this.getPosition(), this.isMystery() );
         copy.setCenterOfMassXOffset( getCenterOfMassXOffset() );
         return copy;
     }

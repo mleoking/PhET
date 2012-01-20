@@ -1,3 +1,4 @@
+Added initial round of sim-sharing instrumentation: Check boxes and movement of sprites.
 Fixed an issue where floating point inaccuracies could cause a tip-prediction challenge that was balanced to be incorrectly evaluated.
 Made the "easy" level of the tilt prediction balance challenges have a fixed proportion of balanced versus unbalanced challenges.
 Made the tilt-selection panel used in some game challenges highlight correct answers using a different color.

@@ -5,10 +5,11 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -20,13 +21,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class MassDragHandler extends PDragEventHandler {
+public class MassDragHandler extends SimSharingDragHandler {
     private final Mass mass;
     private final PNode node;
     private final ModelViewTransform mvt;
     private final PhetPCanvas canvas;
 
     public MassDragHandler( Mass mass, PNode node, PhetPCanvas canvas, ModelViewTransform mvt ) {
+        super( mass.userComponent, UserComponentTypes.sprite, false );
         this.mass = mass;
         this.node = node;
         this.canvas = canvas;
@@ -44,6 +46,7 @@ public class MassDragHandler extends PDragEventHandler {
 
     @Override
     public void mouseDragged( PInputEvent event ) {
+        super.mouseDragged( event );
         PDimension viewDelta = event.getDeltaRelativeTo( node.getParent() );
         ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
         mass.translate( modelDelta );
@@ -54,6 +57,7 @@ public class MassDragHandler extends PDragEventHandler {
         // The user is no longer moving this, so they have relinquished control.
         mass.userControlled.set( false );
     }
+
 
     /**
      * Convert the canvas position to the corresponding location in the model.

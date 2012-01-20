@@ -4,6 +4,7 @@ package edu.colorado.phet.balanceandtorque.common.model.masses;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**
@@ -33,9 +34,9 @@ public class HumanMass extends ImageMass {
      * @param sittingCenterOfMassXOffset
      * @param isMystery
      */
-    public HumanMass( double mass, BufferedImage standingImage, double standingHeight, BufferedImage sittingImage,
+    public HumanMass( IUserComponent userComponent, double mass, BufferedImage standingImage, double standingHeight, BufferedImage sittingImage,
                       double sittingHeight, Point2D initialPosition, double sittingCenterOfMassXOffset, boolean isMystery ) {
-        super( mass, standingImage, standingHeight, initialPosition, isMystery );
+        super( userComponent, mass, standingImage, standingHeight, initialPosition, isMystery );
         this.standingImage = standingImage;
         this.standingHeight = standingHeight;
         this.sittingImage = sittingImage;
@@ -61,10 +62,5 @@ public class HumanMass extends ImageMass {
             imageProperty.set( standingImage );
             setCenterOfMassXOffset( 0 );
         }
-    }
-
-    @Override public Mass createCopy() {
-        return new HumanMass( this.getMass(), this.standingImage, this.standingHeight, this.sittingImage,
-                              this.sittingHeight, this.getPosition(), this.sittingCenterOfMassXOffset, this.isMystery() );
     }
 }

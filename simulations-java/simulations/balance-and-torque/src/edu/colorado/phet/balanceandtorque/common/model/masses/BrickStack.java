@@ -5,7 +5,9 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -39,7 +41,7 @@ public class BrickStack extends ShapeMass {
     }
 
     public BrickStack( int numBricks, Point2D initialCenterBottom ) {
-        super( numBricks * BRICK_MASS, generateShape( numBricks, 1 ) );
+        super( getUserComponent( numBricks ), numBricks * BRICK_MASS, generateShape( numBricks, 1 ) );
         setPosition( initialCenterBottom );
         this.numBricks = numBricks;
     }
@@ -66,6 +68,29 @@ public class BrickStack extends ShapeMass {
             brickOrigin.setLocation( brickOrigin.getX(), brickOrigin.getY() + BRICK_HEIGHT );
         }
         return AffineTransform.getScaleInstance( scale, scale ).createTransformedShape( brickPath.getGeneralPath() );
+    }
+
+    /**
+     * Get the appropriate sim-sharing user component based on the number of
+     * bricks in the stack.
+     *
+     * @param numBricks
+     * @return
+     */
+    private static IUserComponent getUserComponent( int numBricks ) {
+        switch( numBricks ) {
+            case 1:
+                return BalanceAndTorqueSimSharing.UserComponents.singleBrick;
+            case 2:
+                return BalanceAndTorqueSimSharing.UserComponents.stackOfTwoBricks;
+            case 3:
+                return BalanceAndTorqueSimSharing.UserComponents.stackOfThreeBricks;
+            case 4:
+                return BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks;
+            default:
+                assert false; // If this line is reached then additional user components need to be added.
+                return BalanceAndTorqueSimSharing.UserComponents.singleBrick;
+        }
     }
 
     @Override public void initiateAnimation() {

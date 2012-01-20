@@ -11,7 +11,19 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class BalanceAndTorqueSimSharing {
     public static enum UserComponents implements IUserComponent {
+
+        // Tabs
+        introTab, balanceLabTab, gameTab,
+
+        // Check box controls
         massLabelsCheckBox, rulersCheckBox, forceFromObjectsCheckBox,
-        levelCheckBox, introTab, balanceLabTab, gameTab
+        levelCheckBox,
+
+        // Movable masses
+        singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
+        mediumTrashCan, mediumBucket, tire, television, sodaBottle, smallRock,
+        smallTrashCan, pottedPlant, tinyRock, flowerPot, cinderBlock,
+        mediumRock, largeTrashCan, mysteryObject, barrel, fireExtinguisher,
+        bigRock, largeBucket, fireHydrant, man, woman, boy, girl, smallBucket
     }
 }
