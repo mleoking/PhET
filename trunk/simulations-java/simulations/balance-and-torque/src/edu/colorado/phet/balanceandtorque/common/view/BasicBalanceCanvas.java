@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.balancelab.view.AttachmentBarNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.MysteryVectorNode;
 import edu.colorado.phet.balanceandtorque.balancelab.view.PositionedVectorNode;
@@ -28,8 +29,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
+import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -155,31 +156,38 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
             }
         } );
 
-        // Add the button that will control whether or not the support columns
+        // Add the buttons that will control whether or not the support columns
         // are in place.
-        final TextButtonNode columnControlButton = new TextButtonNode( "", new PhetFont( 14 ) ) {{
+        final SimSharingTextButtonNode addSupportsButton = new SimSharingTextButtonNode( BalanceAndTorqueSimSharing.UserComponents.addSupportsButton, BalanceAndTorqueResources.Strings.ADD_SUPPORTS, new PhetFont( 14 ) ) {{
             setBackground( Color.YELLOW );
             addInputEventListener( new ButtonEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
-                    model.columnState.set( model.columnState.get() == ColumnState.NONE ? ColumnState.DOUBLE_COLUMNS : ColumnState.NONE );
+                    model.columnState.set( ColumnState.DOUBLE_COLUMNS );
                 }
             } );
-            // Change the button back and forth from one that removes the
-            // supports to one that restores the supports.
             final Point2D columnControlButtonLocation = new Point2D.Double( mvt.modelToViewX( 2.55 ), mvt.modelToViewY( -0.3 ) );
-            model.columnState.addObserver( new VoidFunction1<ColumnState>() {
-                public void apply( ColumnState columnState ) {
-                    if ( columnState == ColumnState.DOUBLE_COLUMNS ) {
-                        setText( BalanceAndTorqueResources.Strings.REMOVE_SUPPORTS );
-                    }
-                    else {
-                        setText( BalanceAndTorqueResources.Strings.ADD_SUPPORTS );
-                    }
-                    centerFullBoundsOnPoint( columnControlButtonLocation.getX(), columnControlButtonLocation.getY() );
+            centerFullBoundsOnPoint( columnControlButtonLocation.getX(), columnControlButtonLocation.getY() );
+        }};
+        nonMassLayer.addChild( addSupportsButton );
+
+        final SimSharingTextButtonNode removeSupportsButton = new SimSharingTextButtonNode( BalanceAndTorqueSimSharing.UserComponents.removeSupportsButton, BalanceAndTorqueResources.Strings.REMOVE_SUPPORTS, new PhetFont( 14 ) ) {{
+            setBackground( Color.YELLOW );
+            addInputEventListener( new ButtonEventHandler() {
+                @Override public void mouseReleased( PInputEvent event ) {
+                    model.columnState.set( ColumnState.NONE );
                 }
             } );
+            centerFullBoundsOnPoint( addSupportsButton.getFullBoundsReference().getCenterX(), addSupportsButton.getFullBoundsReference().getCenterY() );
         }};
-        nonMassLayer.addChild( columnControlButton );
+        nonMassLayer.addChild( removeSupportsButton );
+
+        // Control the support button visibility based on the model state.
+        model.columnState.addObserver( new VoidFunction1<ColumnState>() {
+            public void apply( ColumnState columnState ) {
+                addSupportsButton.setVisible( columnState == ColumnState.NONE );
+                removeSupportsButton.setVisible( columnState == ColumnState.DOUBLE_COLUMNS );
+            }
+        } );
 
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
@@ -198,8 +206,8 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         // Add the Reset All button.
         Resettable[] resettables = new Resettable[] { this, model };
         nonMassLayer.addChild( new ResetAllButtonNode( resettables, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
-            centerFullBoundsOnPoint( columnControlButton.getFullBoundsReference().getCenterX(),
-                                     columnControlButton.getFullBoundsReference().getMaxY() + 30 );
+            centerFullBoundsOnPoint( addSupportsButton.getFullBoundsReference().getCenterX(),
+                                     addSupportsButton.getFullBoundsReference().getMaxY() + 30 );
             setConfirmationEnabled( false );
         }} );
     }
