@@ -67,8 +67,10 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //TODO: Instead of hardcoding these strings, could make a new project that depends on ABS and use toString on those enums.
   //Right now we are keeping this project integrated with the sim-event-data-collection-analysis-project for expedience, so haven't done that yet.
   val water = "water"
-  val acid = "acid"
-  val base = "base"
+  val weakAcid = "weakAcid"
+  val strongAcid = "strongAcid"
+  val weakBase = "weakBase"
+  val strongBase = "strongBase"
 
   val molecules = "molecules"
   val barGraph = "barGraph"
@@ -82,7 +84,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
   case class Tab(solution: String, view: String, test: String, showSolvent: Boolean)
 
-  val initialTabStates = List(Tab(water, molecules, phMeter, false), Tab(water, molecules, phMeter, false))
+  val initialTabStates = List(Tab(water, molecules, phMeter, false), Tab(weakAcid, molecules, phMeter, false))
 
   case class SimState(selectedTab: Int, tabs: List[Tab]) {
     def changeSolution(sol: String) = copy(tabs = tabs.updated(selectedTab, tabs(selectedTab).copy(solution = sol)))
@@ -111,8 +113,10 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       case x: Entry if x.componentType == "tab" => state.copy(tabs.indexOf(x.component))
       //Watch which solution the user selects
       case Entry(_, "user", c, _, "pressed", _) if List("waterRadioButton", "waterIcon").contains(c) => state.changeSolution(water)
-      case Entry(_, "user", c, _, "pressed", _) if List("strongAcidRadioButton", "strongAcidIcon", "weakAcidRadioButton", "weakAcidIcon").contains(c) => state.changeSolution(acid)
-      case Entry(_, "user", c, _, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon", "weakBaseRadioButton", "weakBaseIcon").contains(c) => state.changeSolution(base)
+      case Entry(_, "user", c, _, "pressed", _) if List("strongAcidRadioButton", "strongAcidIcon").contains(c) => state.changeSolution(strongAcid)
+      case Entry(_, "user", c, _, "pressed", _) if List("weakAcidRadioButton", "weakAcidIcon").contains(c) => state.changeSolution(weakAcid)
+      case Entry(_, "user", c, _, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon").contains(c) => state.changeSolution(strongBase)
+      case Entry(_, "user", c, _, "pressed", _) if List("weakBaseRadioButton", "weakBaseIcon").contains(c) => state.changeSolution(weakBase)
 
       //Watch which view the user selects
       case Entry(_, "user", c, _, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => state.changeView(molecules)
