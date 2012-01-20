@@ -17,7 +17,7 @@ import java.util.Date;
  */
 public class WhatIsMountainTime {
 
-    public static boolean enabled = Boolean.getBoolean( System.getProperty( "readTime", "true" ) );
+    public static boolean enabled = Boolean.getBoolean( System.getProperty( "readTime", "false" ) );
 
     public static String whatIsMountainTime() {
         try {
