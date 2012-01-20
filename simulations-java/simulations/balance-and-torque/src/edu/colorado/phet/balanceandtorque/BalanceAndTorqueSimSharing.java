@@ -19,14 +19,15 @@ public class BalanceAndTorqueSimSharing {
         massLabelsCheckBox, rulersCheckBox, forceFromObjectsCheckBox,
         levelCheckBox,
 
+        // Buttons
+        redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
+
         // Movable masses
         singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
         mediumTrashCan, mediumBucket, tire, television, sodaBottle, smallRock,
         smallTrashCan, pottedPlant, tinyRock, flowerPot, cinderBlock,
         mediumRock, largeTrashCan, mysteryObject, barrel, fireExtinguisher,
-        bigRock, largeBucket, fireHydrant, man, woman, boy, girl, smallBucket,
+        bigRock, largeBucket, fireHydrant, man, woman, boy, girl, smallBucket
 
-        // Various controls
-        redXRemoveSupportsButton
     }
 }
