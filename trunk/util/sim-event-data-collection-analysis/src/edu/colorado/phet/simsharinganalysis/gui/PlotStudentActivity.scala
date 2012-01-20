@@ -76,7 +76,7 @@ object PlotStudentActivity extends App {
 
         val properties = new Properties {
           val file = new File(new PhetPersistenceDir(), "simsharing-analysis.properties")
-          if ( file.exists() ) {
+          if ( file.exists() && autoLoadLastFile ) {
             load(new FileInputStream(file))
           }
         }
