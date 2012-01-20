@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Paint;
 import java.awt.geom.Line2D;
 
@@ -69,6 +70,10 @@ public class GridNode extends PhetPNode {
         }
         setPickable( false );
         setChildrenPickable( false );
+
+        final int level = 128;
+        setLinePaint( new Color( level, level, level ) );
+        setFontPaint( Color.black );
     }
 
     public void setGridPaint( Paint paint ) {
