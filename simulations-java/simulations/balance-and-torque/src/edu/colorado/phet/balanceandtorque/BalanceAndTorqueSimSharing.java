@@ -21,6 +21,7 @@ public class BalanceAndTorqueSimSharing {
 
         // Buttons
         redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
+        nextKitButton, previousKitButton,
 
         // Movable masses
         singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
