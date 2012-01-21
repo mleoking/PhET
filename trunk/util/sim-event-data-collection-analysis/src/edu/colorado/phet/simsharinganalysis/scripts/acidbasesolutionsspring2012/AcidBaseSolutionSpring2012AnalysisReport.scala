@@ -183,9 +183,11 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val b = states.reverse.tail.reverse
     val statePairs = b.zip(a)
     val numTabTransitions = statePairs.map(pair => if ( pair._2.selectedTab != pair._1.selectedTab ) 1 else 0).sum
-    val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView ) 1 else 0).sum
-    val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution ) 1 else 0).sum
-    val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest ) 1 else 0).sum
+
+    def sameTab(a: SimState, b: SimState) = a.selectedTab == b.selectedTab
+    val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView && sameTab(pair._1, pair._2) ) 1 else 0).sum
+    val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution && sameTab(pair._1, pair._2) ) 1 else 0).sum
+    val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest && sameTab(pair._1, pair._2) ) 1 else 0).sum
     writeLine("Num tab transitions:\t" + numTabTransitions)
     writeLine("Num solution transitions:\t" + numSolutionTransitions)
     writeLine("Num view transitions:\t" + numViewTransitions)
