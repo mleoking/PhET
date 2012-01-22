@@ -5,25 +5,31 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Shows crust pieces that can be dragged out into the
+ * Shows crust pieces that can be dragged out into the play area and dropped onto either the left or right side
  */
 public class CrustChooserPanel extends PNode {
+    // size and padding for the icons
     public static final int CRUST_AREA_MAX_WIDTH = 140;
     public static final int CRUST_AREA_MAX_HEIGHT = 100;
     public static final int CRUST_AREA_PADDING = 20;
+
+    // how much horizontal room we need for labeling
     private final int verticalOffset;
+
+    // spacers to enforce the layout
     private final Spacer continentalSpacer;
     private final Spacer youngOceanicSpacer;
     private final Spacer oldOceanicSpacer;
 
     public CrustChooserPanel() {
-        PNode continentalLabel = new PText( "Continental Crust" );
-        PNode youngOceanicLabel = new PText( "Young Oceanic Crust" );
-        PNode oldOceanicLabel = new PText( "Old Oceanic Crust" );
+        PNode continentalLabel = new PText( Strings.CONTINENTAL_CRUST );
+        PNode youngOceanicLabel = new PText( Strings.YOUNG_OCEANIC_CRUST );
+        PNode oldOceanicLabel = new PText( Strings.OLD_OCEANIC_CRUST );
 
         addChild( continentalLabel );
         addChild( youngOceanicLabel );

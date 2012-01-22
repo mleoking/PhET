@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStr
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.TectonicsClock;
 
 public class TectonicsTimeControl extends PiccoloClockControlPanel {
@@ -24,7 +25,7 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
 
         setRewindButtonVisible( false );
         setTimeDisplayVisible( true );
-        setUnits( "Million Years" );
+        setUnits( Strings.MILLION_YEARS );
         setTimeFormat( new DecimalFormat( "0" ) );
         setTimeColumns( 4 );
 
@@ -47,8 +48,8 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
 
             // Tick labels
             Hashtable labelTable = new Hashtable();
-            labelTable.put( new Double( min ), new JLabel( "slow" ) );
-            labelTable.put( new Double( max ), new JLabel( "fast" ) );
+            labelTable.put( new Double( min ), new JLabel( Strings.TIME_SLOW ) );
+            labelTable.put( new Double( max ), new JLabel( Strings.TIME_FAST ) );
             frameRateControl.setTickLabels( labelTable );
 
             // Change font on tick labels

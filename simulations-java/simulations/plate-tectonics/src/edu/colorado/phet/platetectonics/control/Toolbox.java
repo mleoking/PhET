@@ -8,6 +8,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.control.RulerNode3D.RulerNode2D;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
@@ -98,7 +99,7 @@ public class Toolbox extends OrthoPiccoloNode {
 
             addChild( densitySensor );
 
-            addChild( new PText( "Toolbox" ) {{
+            addChild( new PText( Strings.TOOLBOX ) {{
                 setFont( new PhetFont( 16, true ) );
                 setOffset( rulerNode2D.getFullBounds().getWidth() + 10, 0 ); // TODO: change positioning once we have added other toolbox elements
             }} );
