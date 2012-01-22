@@ -37,8 +37,8 @@ public class StartupUtils {
             final File tempDir = new File( System.getProperty( "java.io.tmpdir" ), "phet-lwjgl-libs" );
             tempDir.mkdirs();
             final String path = tempDir.getAbsolutePath();
-            System.out.println( "Extracting native JME3 libraries to: " + path ); // TODO use common logging?
-//            tempDir.deleteOnExit(); // TODO: delete after debugging finished
+
+            logger.log( Level.INFO, "Extracting native JME3 libraries to: " + path );
 
             extractNativeLibs( tempDir, getPlatform(), false, false );
         }

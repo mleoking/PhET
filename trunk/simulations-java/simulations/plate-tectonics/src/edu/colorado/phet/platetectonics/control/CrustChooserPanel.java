@@ -21,7 +21,6 @@ public class CrustChooserPanel extends PNode {
     private final Spacer oldOceanicSpacer;
 
     public CrustChooserPanel() {
-        // TODO: styles, etc.
         PNode continentalLabel = new PText( "Continental Crust" );
         PNode youngOceanicLabel = new PText( "Young Oceanic Crust" );
         PNode oldOceanicLabel = new PText( "Old Oceanic Crust" );

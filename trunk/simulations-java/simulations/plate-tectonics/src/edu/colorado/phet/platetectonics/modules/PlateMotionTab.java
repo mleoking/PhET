@@ -157,7 +157,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
          *----------------------------------------------------------------------------*/
-        final OrthoPiccoloNode modeSwitchPanel = new OrthoPiccoloNode( new ControlPanelNode( new PlayModePanel( isAutoMode, getPlateMotionModel().animationStarted ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D( 10, 10 ) ), mouseEventNotifier ) {{
+        final OrthoPiccoloNode modeSwitchPanel = new OrthoPiccoloNode( new ControlPanelNode( new PlayModePanel( isAutoMode ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D( 10, 10 ) ), mouseEventNotifier ) {{
             updateOnEvent( beforeFrameRender );
         }};
         addGuiNode( modeSwitchPanel );
