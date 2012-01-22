@@ -262,7 +262,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                     } );
                 }
             } );
-            setText( Math.floor( getClock().getSimulationTime() ) + " Million Years" ); // TODO: remove duplication
+            setText( Math.floor( getClock().getSimulationTime() ) + " Million Years" ); // TODO: remove duplication, i18n issue
         }} ), this, getCanvasTransform(),
                                                                        new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth() - 30,

@@ -14,6 +14,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
@@ -71,7 +72,7 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
          */
         public RulerNode2D( float kmToViewUnit, final PlateTectonicsTab tab ) {
             super( 100 * RulerNode3D.RULER_PIXEL_SCALE, 10 * RulerNode3D.RULER_PIXEL_SCALE, getLabels( tab ),
-                   "km", 1, 9 );
+                   Strings.RULER_UNITS, 1, 9 );
 
             // make it vertical
             rotate( -Math.PI / 2 );

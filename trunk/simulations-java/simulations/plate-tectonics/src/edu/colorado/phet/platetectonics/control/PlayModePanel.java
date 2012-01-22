@@ -10,6 +10,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -18,8 +19,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class PlayModePanel extends PNode {
     public PlayModePanel( final Property<Boolean> isAutoMode ) {
-        PSwing autoRadioButton = new ModeRadioButton( "Automatic Mode", true, isAutoMode );
-        PSwing manualRadioButton = new ModeRadioButton( "Manual Mode", false, isAutoMode );
+        PSwing autoRadioButton = new ModeRadioButton( Strings.AUTOMATIC_MODE, true, isAutoMode );
+        PSwing manualRadioButton = new ModeRadioButton( Strings.MANUAL_MODE, false, isAutoMode );
 
         addChild( autoRadioButton );
         addChild( manualRadioButton );

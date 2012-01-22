@@ -99,8 +99,8 @@ public class CrustTab extends PlateTectonicsTab {
                                                          set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
                                                      }
                                                  }, true );
-        }}, "Crust", scaleProperty
-        ) ); // TODO: i18n
+        }}, Strings.CRUST, scaleProperty
+        ) );
 
         final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
@@ -146,7 +146,7 @@ public class CrustTab extends PlateTectonicsTab {
         layerLabels.addChild( new RangeLabel(
                 upperMantleTop,
                 upperMantleBottom,
-                "Mantle", scaleProperty,   // TODO: i18n
+                Strings.MANTLE, scaleProperty,
                 labelPositionFunction.apply( upperMantleTop, upperMantleBottom )
         ) );
 
@@ -155,7 +155,7 @@ public class CrustTab extends PlateTectonicsTab {
         layerLabels.addChild( new RangeLabel(
                 lowerMantleTop,
                 lowerMantleBottom,
-                "Lower Mantle", scaleProperty,   // TODO: i18n
+                Strings.LOWER_MANTLE, scaleProperty,
                 labelPositionFunction.apply( lowerMantleTop, lowerMantleBottom )
         ) );
 
@@ -164,7 +164,7 @@ public class CrustTab extends PlateTectonicsTab {
         layerLabels.addChild( new RangeLabel(
                 outerCoreTop,
                 outerCoreBottom,
-                "Outer Core", scaleProperty,   // TODO: i18n
+                Strings.OUTER_CORE, scaleProperty,
                 labelPositionFunction.apply( outerCoreTop, outerCoreBottom )
         ) );
 
@@ -173,7 +173,7 @@ public class CrustTab extends PlateTectonicsTab {
         layerLabels.addChild( new RangeLabel(
                 innerCoreTop,
                 innerCoreBottom,
-                "Inner Core", scaleProperty,   // TODO: i18n
+                Strings.INNER_CORE, scaleProperty,
                 labelPositionFunction.apply( innerCoreTop, innerCoreBottom )
         ) );
 

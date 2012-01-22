@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab.ColorMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -33,14 +35,14 @@ public class OptionsPanel extends PNode {
                          final Property<Boolean> showWaterEnabled,
                          final Runnable resetAll,
                          final Property<ColorMode> colorMode ) {
-        final PNode title = new PText( "Options" );
+        final PNode title = new PText( PlateTectonicsResources.Strings.OPTIONS );
         addChild( title );
 
         final Property<Double> maxWidth = new Property<Double>( title.getFullBounds().getWidth() );
         final Property<Double> y = new Property<Double>( title.getFullBounds().getMaxY() );
 
         if ( !containsWaterOption ) {
-            final PSwing densityMode = new PSwing( new JRadioButton( "Density View" ) {{
+            final PSwing densityMode = new PSwing( new JRadioButton( Strings.DENSITY_VIEW ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         setSelected( true );
@@ -67,7 +69,7 @@ public class OptionsPanel extends PNode {
                 maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
             }};
             addChild( densityMode );
-            final PSwing temperatureMode = new PSwing( new JRadioButton( "Temperature View" ) {{
+            final PSwing temperatureMode = new PSwing( new JRadioButton( Strings.TEMPERATURE_VIEW ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         setSelected( true );
@@ -96,7 +98,7 @@ public class OptionsPanel extends PNode {
             addChild( temperatureMode );
         }
 
-        final PSwing showLabelCheckBox = new PSwing( new JCheckBox( "Show Labels" ) {{
+        final PSwing showLabelCheckBox = new PSwing( new JCheckBox( Strings.SHOW_LABELS ) {{
             setSelected( showLabels.get() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent actionEvent ) {
@@ -127,7 +129,7 @@ public class OptionsPanel extends PNode {
 
         PSwing showWaterCheckBox = null;
         if ( containsWaterOption ) {
-            showWaterCheckBox = new PSwing( new JCheckBox( "Show Seawater" ) {{
+            showWaterCheckBox = new PSwing( new JCheckBox( Strings.SHOW_SEAWATER ) {{
                 setSelected( showWater.get() );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent actionEvent ) {
@@ -169,7 +171,7 @@ public class OptionsPanel extends PNode {
 
         // TODO: remove. hiding the reset all button on the 1st tab not ideal
         if ( containsWaterOption ) {
-            PNode resetAllNode = new TextButtonNode( "Reset All", new PhetFont( 14 ), Color.ORANGE ) {{
+            PNode resetAllNode = new TextButtonNode( Strings.RESET_ALL, new PhetFont( 14 ), Color.ORANGE ) {{
                 setOffset( 0, y.get() + 15 );
                 y.set( getFullBounds().getMaxY() );
                 maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );

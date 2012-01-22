@@ -34,7 +34,7 @@ public class PlateView extends GLNode {
             if ( terrain.hasWater() ) {
                 final WaterNode waterNode = new WaterNode( terrain, model, module );
                 showWater.addObserver( new SimpleObserver() {
-                    @Override public void update() {
+                    public void update() {
                         if ( showWater.get() ) {
                             addChild( waterNode );
                         }
@@ -55,14 +55,14 @@ public class PlateView extends GLNode {
 
         // handle regions when they are added
         model.regionAdded.addListener( new VoidFunction1<Region>() {
-            @Override public void apply( Region region ) {
+            public void apply( Region region ) {
                 addChild( new RegionNode( region, model, module ) );
             }
         } );
 
         // TODO: handle region removals in a better way
         model.regionRemoved.addListener( new VoidFunction1<Region>() {
-            @Override public void apply( Region region ) {
+            public void apply( Region region ) {
                 for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
                     if ( node instanceof RegionNode && ( (RegionNode) node ).getRegion() == region ) {
                         removeChild( node );
