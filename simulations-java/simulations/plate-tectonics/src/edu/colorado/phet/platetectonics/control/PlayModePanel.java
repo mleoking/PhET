@@ -17,64 +17,40 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Allows the user to select between automatic and manual mode
  */
 public class PlayModePanel extends PNode {
-    public PlayModePanel( final Property<Boolean> isAutoMode, final Property<Boolean> hasAnimationStarted ) {
-        // TODO: refactor for better radio button handling (this is really fairly ugly)
-        PSwing autoRadioButton = new PSwing( new JRadioButton( "Automatic Mode" ) {{
-            isAutoMode.addObserver( new SimpleObserver() {
-                public void update() {
-                    final boolean is = isAutoMode.get();
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            setSelected( is );
-                        }
-                    } );
-                }
-            } );
-//            hasAnimationStarted.addObserver( new SimpleObserver() {
-//                 public void update() {
-//                    setEnabled( !hasAnimationStarted.get() );
-//                }
-//            } );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent actionEvent ) {
-                    final boolean is = isSelected();
-                    LWJGLUtils.invoke( new Runnable() {
-                        public void run() {
-                            isAutoMode.set( is );
-                        }
-                    } );
-                }
-            } );
-        }} );
-        PSwing manualRadioButton = new PSwing( new JRadioButton( "Manual Mode" ) {{
-            isAutoMode.addObserver( new SimpleObserver() {
-                public void update() {
-                    final boolean is = !isAutoMode.get();
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            setSelected( is );
-                        }
-                    } );
-                }
-            } );
-//            hasAnimationStarted.addObserver( new SimpleObserver() {
-//                 public void update() {
-//                    setEnabled( !hasAnimationStarted.get() );
-//                }
-//            } );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent actionEvent ) {
-                    final boolean is = !isSelected();
-                    LWJGLUtils.invoke( new Runnable() {
-                        public void run() {
-                            isAutoMode.set( is );
-                        }
-                    } );
-                }
-            } );
-        }} );
+    public PlayModePanel( final Property<Boolean> isAutoMode ) {
+        PSwing autoRadioButton = new ModeRadioButton( "Automatic Mode", true, isAutoMode );
+        PSwing manualRadioButton = new ModeRadioButton( "Manual Mode", false, isAutoMode );
+
         addChild( autoRadioButton );
         addChild( manualRadioButton );
+
         manualRadioButton.setOffset( autoRadioButton.getFullBounds().getMaxX() + 10, 0 );
+    }
+
+    private static class ModeRadioButton extends PSwing {
+        public ModeRadioButton( String title, final boolean isAuto, final Property<Boolean> isAutoMode ) {
+            super( new JRadioButton( title ) {{
+                isAutoMode.addObserver( new SimpleObserver() {
+                    public void update() {
+                        final boolean is = isAuto ? isAutoMode.get() : !isAutoMode.get();
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                setSelected( is );
+                            }
+                        } );
+                    }
+                } );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent actionEvent ) {
+                        final boolean is = isAuto ? isSelected() : !isSelected();
+                        LWJGLUtils.invoke( new Runnable() {
+                            public void run() {
+                                isAutoMode.set( is );
+                            }
+                        } );
+                    }
+                } );
+            }} );
+        }
     }
 }

@@ -20,7 +20,6 @@ public class ToolDragHandler {
     }
 
     public void mouseDownOnTool( DraggableTool2D tool, ImmutableVector2F viewPosition ) {
-        // TODO: improve the x/y on this? not sure what coordinate system it will be using!!!
         if ( tool.allowsDrag( viewPosition ) ) {
             startDragging( tool, viewPosition );
         }

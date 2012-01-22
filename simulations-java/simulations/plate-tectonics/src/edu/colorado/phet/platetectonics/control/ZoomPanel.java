@@ -14,7 +14,6 @@ public class ZoomPanel extends PNode {
     public ZoomPanel( final Property<Double> zoomRatio ) {
         final PText zoomText = new PText( "Zoom" );
 
-        // TODO: proper threading on zoomRatio
         VSliderNode slider = new VSliderNode( 0, 1, new SwingForwardingProperty<Double>( zoomRatio ), new Property<Boolean>( true ), 100 ) {{
             setOffset( ( zoomText.getFullBounds().getWidth() - getFullBounds().getWidth() ) / 2,
                        zoomText.getFullBounds().getMaxY() + 10

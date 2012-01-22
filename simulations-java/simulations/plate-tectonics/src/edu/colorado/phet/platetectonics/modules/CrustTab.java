@@ -69,7 +69,6 @@ public class CrustTab extends PlateTectonicsTab {
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
-        // TODO: improve the plate view
         sceneLayer.addChild( new PlateView( getModel(), this ) );
 
         final Function1<ImmutableVector3F, ImmutableVector3F> flatModelToView = new Function1<ImmutableVector3F, ImmutableVector3F>() {
@@ -103,7 +102,6 @@ public class CrustTab extends PlateTectonicsTab {
         }}, "Crust", scaleProperty
         ) ); // TODO: i18n
 
-        // TODO: refactor so label heights are from the model. AYE!
         final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                                                      public void update() {
@@ -111,7 +109,7 @@ public class CrustTab extends PlateTectonicsTab {
                                                      }
                                                  }, true );
         }};
-        final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, -750000, 0 ) ) );
+        final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
 
         // TODO: refactor and cleanup
         Function2<Property<ImmutableVector3F>, Property<ImmutableVector3F>, Property<ImmutableVector3F>> labelPositionFunction
@@ -152,8 +150,8 @@ public class CrustTab extends PlateTectonicsTab {
                 labelPositionFunction.apply( upperMantleTop, upperMantleBottom )
         ) );
 
-        Property<ImmutableVector3F> lowerMantleTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, -750000, 0 ) ) );
-        Property<ImmutableVector3F> lowerMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, -2921000, 0 ) ) );
+        Property<ImmutableVector3F> lowerMantleTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
+        Property<ImmutableVector3F> lowerMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
         layerLabels.addChild( new RangeLabel(
                 lowerMantleTop,
                 lowerMantleBottom,
@@ -161,8 +159,8 @@ public class CrustTab extends PlateTectonicsTab {
                 labelPositionFunction.apply( lowerMantleTop, lowerMantleBottom )
         ) );
 
-        Property<ImmutableVector3F> outerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, -2921000, 0 ) ) );
-        Property<ImmutableVector3F> outerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, -5180000, 0 ) ) );
+        Property<ImmutableVector3F> outerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
+        Property<ImmutableVector3F> outerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
         layerLabels.addChild( new RangeLabel(
                 outerCoreTop,
                 outerCoreBottom,
@@ -170,7 +168,7 @@ public class CrustTab extends PlateTectonicsTab {
                 labelPositionFunction.apply( outerCoreTop, outerCoreBottom )
         ) );
 
-        Property<ImmutableVector3F> innerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -5180000, 0 ) ) );
+        Property<ImmutableVector3F> innerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
         Property<ImmutableVector3F> innerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -PlateModel.EARTH_RADIUS, 0 ) ) );
         layerLabels.addChild( new RangeLabel(
                 innerCoreTop,

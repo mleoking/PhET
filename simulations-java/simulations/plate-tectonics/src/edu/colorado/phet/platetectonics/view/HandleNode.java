@@ -93,16 +93,10 @@ public class HandleNode extends GLNode {
         };
         addChild( handleMesh );
 
-        // TODO: create ball mesh
-
         final ColorMaterial arrowConvergentFill = new ColorMaterial( PlateTectonicsConstants.ARROW_CONVERGENT_FILL );
         final ColorMaterial arrowDivergentFill = new ColorMaterial( PlateTectonicsConstants.ARROW_DIVERGENT_FILL );
         final ColorMaterial arrowTransformFill = new ColorMaterial( PlateTectonicsConstants.ARROW_TRANSFORM_FILL );
         final ColorMaterial arrowStroke = new ColorMaterial( 0, 0, 0, 1 );
-
-        // TODO: wrapping better?
-
-        // TODO: refactor to motion types
 
         float arrowOffset = 5;
         float arrowExtent = 50;
