@@ -7,8 +7,12 @@ import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserActions.createdMass;
 
 /**
  * A node that can be used to add an image-based mass element to the model by
@@ -30,6 +34,7 @@ public abstract class ImageMassCreatorNode extends MassCreatorNode {
         imageMassModelElement.setAnimationDestination( position );
         imageMassModelElement.userControlled.set( true );
         model.addMass( imageMassModelElement );
+        SimSharingManager.sendUserMessage( imageMassModelElement.userComponent, UserComponentTypes.sprite, createdMass );
         return imageMassModelElement;
     }
 
