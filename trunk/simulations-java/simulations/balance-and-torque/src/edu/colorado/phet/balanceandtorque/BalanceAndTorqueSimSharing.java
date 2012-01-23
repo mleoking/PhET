@@ -4,6 +4,7 @@ package edu.colorado.phet.balanceandtorque;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
@@ -42,6 +43,10 @@ public class BalanceAndTorqueSimSharing {
 
         // Other
         plank
+    }
+
+    public static enum UserActions implements IUserAction {
+        createdMass
     }
 
     public static enum ModelActions implements IModelAction {
