@@ -150,4 +150,14 @@ public class PhetUtilities {
     public static String getJavaPath() {
         return System.getProperty( "java.home" ) + System.getProperty( "file.separator" ) + "bin" + System.getProperty( "file.separator" ) + "java";
     }
+
+    // Gets the basename of an object's class.
+    public static String getClassBasename( Object object ) {
+        return getBasename( object.getClass() );
+    }
+
+    // Gets the basename of a class.
+    public static String getBasename( Class theClass ) {
+        return theClass.getName().replaceAll( ".*\\.", "" );
+    }
 }
