@@ -110,7 +110,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
   def getClickTimeHistogram(log: Log, timePeriod: Pair[Int, String]) = {
     val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
     val millisPerMinute = 60L * 1000L
-    ( ( log.startTime until log.endTime by millisPerMinute ).map(time => ( time - log.startTime ) / millisPerMinute -> countEntriesWithinTime(entries, time, time * millisPerMinute)) ).toMap
+    ( ( log.startTime until log.endTime by millisPerMinute ).map(time => ( time - log.startTime ) / millisPerMinute -> countEntriesWithinTime(entries, time, time + millisPerMinute)) ).toMap
   }
 
   def showBarChart(log: Log) {
