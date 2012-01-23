@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -196,7 +196,7 @@ public class EquationNode extends PhetPNode {
         public TermNode( IntegerRange coefficientRange, final EquationTerm term, boolean editable ) {
 
             // coefficient
-            coefficientNode = new CoefficientNode( new UserComponentId( term.getMolecule().getSymbol() ), coefficientRange, term.getUserCoefficientProperty(), editable );
+            coefficientNode = new CoefficientNode( new UserComponent( term.getMolecule().getSymbol() ), coefficientRange, term.getUserCoefficientProperty(), editable );
             addChild( coefficientNode );
 
             // molecule symbol
