@@ -535,7 +535,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public ImmutableMatrix4F getSceneProjectionMatrix() {
         AffineTransform affineCanvasTransform = canvasTransform.transform.get();
 
-        // TODO: scale is still off. examine history here
         ImmutableMatrix4F scalingMatrix = ImmutableMatrix4F.scaling(
                 (float) affineCanvasTransform.getScaleX(),
                 (float) affineCanvasTransform.getScaleY(),

@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
+import java.awt.Graphics;
 import java.text.DecimalFormat;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -8,9 +9,12 @@ import java.util.Hashtable;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -20,7 +24,7 @@ import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.TectonicsClock;
 
 public class TectonicsTimeControl extends PiccoloClockControlPanel {
-    public TectonicsTimeControl( final TectonicsClock clock ) {
+    public TectonicsTimeControl( final TectonicsClock clock, final Property<Boolean> isAutoMode ) {
         super( clock );
 
         setRewindButtonVisible( false );
@@ -42,7 +46,13 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
                 public void doLayout( AbstractValueControl valueControl ) {
                     valueControl.add( valueControl.getSlider() );
                 }
-            } );
+            } ) {
+                @Override public void paint( Graphics g ) {
+                    if ( isAutoMode.get() ) {
+                        super.paint( g );
+                    }
+                }
+            };
             frameRateControl.setValue( clock.getTimeMultiplier() ); // TODO: improve here
             frameRateControl.setMinorTicksVisible( false );
 
@@ -69,9 +79,28 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
                     clock.setTimeMultiplier( frameRateControl.getValue() );
                 }
             } );
+
+            frameRateControl.setPreferredSize( frameRateControl.getPreferredSize() );
         }
         addBetweenTimeDisplayAndButtons( frameRateControl );
         //addBetweenTimeDisplayAndButtons( new JLabel( "Speed control" ) );
+
+        isAutoMode.addObserver( new SimpleObserver() {
+            public void update() {
+                final boolean isAuto = isAutoMode.get();
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        getPlayPauseButton().setTransparency( isAuto ? 1 : 0 );
+                        getPlayPauseButton().setPickable( isAuto );
+                        getStepButton().setTransparency( isAuto ? 1 : 0 );
+                        getStepButton().setPickable( isAuto );
+                        frameRateControl.setEnabled( isAuto );
+//                        frameRateControl.setVisible( isAuto );
+                        repaint();
+                    }
+                } );
+            }
+        } );
     }
 
 }

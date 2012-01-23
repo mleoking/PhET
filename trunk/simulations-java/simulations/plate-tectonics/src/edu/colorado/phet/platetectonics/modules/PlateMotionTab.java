@@ -6,13 +6,9 @@ import java.awt.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
-
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -42,7 +38,6 @@ import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Displays two main plates that the user can direct to move towards, away from, or along each other.
@@ -229,56 +224,27 @@ public class PlateMotionTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
          * time control
          *----------------------------------------------------------------------------*/
-        final OrthoComponentNode timeControlPanelNode = new OrthoComponentNode( new TectonicsTimeControl( getClock() ),
+        final OrthoComponentNode timeControlPanelNode = new OrthoComponentNode( new TectonicsTimeControl( getClock(), isAutoMode ),
                                                                                 this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
                                                                                 mouseEventNotifier ) {{
-            position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
-                                                 0 ) );
+            onResize.addUpdateListener( new UpdateListener() {
+                                            public void update() {
+                                                position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
+                                                                                     0 ) );
+                                            }
+                                        }, true );
+
             updateOnEvent( beforeFrameRender );
 
             // enable this time control when we can run AND we are in auto mode
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
-                    setVisible( getPlateMotionModel().hasBothPlates.get() && isAutoMode.get() );
+                    setVisible( getPlateMotionModel().hasBothPlates.get() );
                 }
             };
             getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
-            isAutoMode.addObserver( visibilityObserver );
         }};
         addGuiNode( timeControlPanelNode );
-
-        /*---------------------------------------------------------------------------*
-        * time readout
-        *----------------------------------------------------------------------------*/
-        final OrthoPiccoloNode timeReadoutNode = new OrthoPiccoloNode( new ControlPanelNode( new PText() {{
-            getClock().addClockListener( new ClockAdapter() {
-                @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    final double time = getClock().getSimulationTime();
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            setText( ( (int) time ) + " Million Years" );
-                            repaint();
-                        }
-                    } );
-                }
-            } );
-            setText( Math.floor( getClock().getSimulationTime() ) + " Million Years" ); // TODO: remove duplication, i18n issue
-        }} ), this, getCanvasTransform(),
-                                                                       new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
-            position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth() - 30,
-                                                 10 ) );
-            updateOnEvent( beforeFrameRender );
-
-            // enable this time control when we can run AND we are in manual mode
-            SimpleObserver visibilityObserver = new SimpleObserver() {
-                public void update() {
-                    setVisible( getPlateMotionModel().hasBothPlates.get() && !isAutoMode.get() );
-                }
-            };
-            getPlateMotionModel().hasBothPlates.addObserver( visibilityObserver );
-            isAutoMode.addObserver( visibilityObserver );
-        }};
-        addGuiNode( timeReadoutNode );
 
         /*---------------------------------------------------------------------------*
         * motion direction chooser
