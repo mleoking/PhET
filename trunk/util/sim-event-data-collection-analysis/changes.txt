@@ -1,3 +1,4 @@
+Added Font + and Font - buttons to real time analysis
 Renamed plot-student-activity => post-analysis
 # 00.00.21 (60505) Jan 23, 2012
 Rewrote state change detection code for tab 2 based on different radio buttons
