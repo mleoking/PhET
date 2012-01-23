@@ -185,11 +185,25 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val numTabTransitions = statePairs.map(pair => if ( pair._2.selectedTab != pair._1.selectedTab ) 1 else 0).sum
 
     //If the conductivity test is selected, the analysis tool should not count it as a view transition
-    def sameTab(a: SimState, b: SimState) = a.selectedTab == b.selectedTab
-    def sameTest(a: SimState, b: SimState) = a.displayedTest == b.displayedTest
-    val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView && sameTab(pair._1, pair._2) && sameTest(pair._1, pair._2) ) 1 else 0).sum
-    val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution && sameTab(pair._1, pair._2) ) 1 else 0).sum
-    val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest && sameTab(pair._1, pair._2) ) 1 else 0).sum
+    def sameTab(p: Pair[SimState, SimState]) = p._1.selectedTab == p._2.selectedTab
+    def sameTest(p: Pair[SimState, SimState]) = p._1.displayedTest == p._2.displayedTest
+
+    //KL: Pressing reset all should not count as a solution transition, but it can affect the time on solutions.  I presume this pattern should hold true for "test" and "view" as well as "solution"
+    def wasReset(p: Pair[SimState, SimState]) = {
+
+      //Use reference equality to lookup index
+      val indexA = states.indexWhere(p._1 eq _)
+      val indexB = states.indexWhere(p._2 eq _)
+      val intermediateEntry = log.entries(indexB)
+
+      println("indexA= " + indexA + ", indexB = " + indexB + ", a = " + p._1 + ", b = " + p._2 + ", intermediateEntry = " + intermediateEntry)
+
+      intermediateEntry.component == "resetAllConfirmationDialogYesButton"
+    }
+
+    val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView && sameTab(pair) && sameTest(pair) && !wasReset(pair) ) 1 else 0).sum
+    val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution && sameTab(pair) && !wasReset(pair) ) 1 else 0).sum
+    val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest && sameTab(pair) && !wasReset(pair) ) 1 else 0).sum
     writeLine("Num tab transitions:\t" + numTabTransitions)
     writeLine("Num solution transitions:\t" + numSolutionTransitions)
     writeLine("Num view transitions:\t" + numViewTransitions)
