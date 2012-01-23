@@ -1,3 +1,4 @@
+Only count transitions within same tab, not when switching tabs
 Fixed histogram to read clicks within each minute, not click frequency
 # 00.00.20 (60477) Jan 20, 2012
 # 00.00.19 (60471) Jan 19, 2012
