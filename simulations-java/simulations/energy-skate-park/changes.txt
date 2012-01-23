@@ -1,3 +1,4 @@
+Moved the grid behind the control panel
 # 2.08.18 (60491) Jan 20, 2012
 Made the grid gray instead of black
 # 2.08.17 (60486) Jan 20, 2012
