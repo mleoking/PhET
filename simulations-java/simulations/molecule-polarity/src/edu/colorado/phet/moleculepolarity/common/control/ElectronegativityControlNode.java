@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -371,7 +371,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             }
         } );
 
-        ElectronegativityControlNode controlNode = new ElectronegativityControlNode( new UserComponentId( "enControl" ), atom, molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        ElectronegativityControlNode controlNode = new ElectronegativityControlNode( new UserComponent( "enControl" ), atom, molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         controlNode.setOffset( 100, 100 );
 
         PhetPCanvas canvas = new PhetPCanvas();

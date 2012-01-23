@@ -14,8 +14,8 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
@@ -144,7 +144,7 @@ public class FaucetNode extends PNode {
                 }
             } );
         }};
-        final FaucetNode faucetNode = new FaucetNode( new UserComponentId( "faucet" ), maxFlowRate, flowRate, new Property<Boolean>( true ), 50, true ) {{
+        final FaucetNode faucetNode = new FaucetNode( new UserComponent( "faucet" ), maxFlowRate, flowRate, new Property<Boolean>( true ), 50, true ) {{
             setOffset( 100, 100 );
         }};
         final PhetPCanvas canvas = new PhetPCanvas() {{

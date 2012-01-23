@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentId;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.enabled;
@@ -131,14 +131,14 @@ public class SimSharingJCheckBox extends JCheckBox {
         SimSharingManager.init( new PhetApplicationConfig( myArgs, "myProject" ) );
 
         // check box that uses subclassing to provide custom parameters
-        final JCheckBox checkBox1 = new SimSharingJCheckBox( new UserComponentId( "checkBox1" ), "subclassing" ) {
+        final JCheckBox checkBox1 = new SimSharingJCheckBox( new UserComponent( "checkBox1" ), "subclassing" ) {
             @Override protected ParameterSet getCustomParameters() {
                 return ParameterSet.parameterSet( ParameterKeys.text, "I use subclassing." );
             }
         };
 
         // check box that uses mutation to provide custom parameters
-        final JCheckBox checkBox2 = new SimSharingJCheckBox( new UserComponentId( "checkBox2" ), "mutation" ) {{
+        final JCheckBox checkBox2 = new SimSharingJCheckBox( new UserComponent( "checkBox2" ), "mutation" ) {{
             addCustomParametersFunction( new Function0<ParameterSet>() {
                 public ParameterSet apply() {
                     return ParameterSet.parameterSet( ParameterKeys.text, "I use mutation." );

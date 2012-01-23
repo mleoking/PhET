@@ -4,29 +4,30 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
- * ID for named user interface components to be chained with ComponentChain
+ * Class for creating custom IUserComponents without using enum.
  *
  * @author Sam Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class UserComponentId implements IUserComponent {
+public class UserComponent implements IUserComponent {
 
     private final String id;
 
-    public UserComponentId( String id ) {
+    public UserComponent( String id ) {
         this.id = id;
     }
 
-    public UserComponentId( int id ) {
+    public UserComponent( int id ) {
         this( String.valueOf( id ) );
     }
 
     // Converts a Class name to an IUserComponent by getting the Class' basename and converting first char to lowercase.
-    public UserComponentId( Class theClass ) {
+    public UserComponent( Class theClass ) {
         this( toId( theClass ) );
     }
 
     // Converts an Object to a UserComponent by using is class name, ala UserComponentId(Class)
-    public UserComponentId( Object object ) {
+    public UserComponent( Object object ) {
         this( object.getClass() );
     }
 
