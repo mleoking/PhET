@@ -165,8 +165,11 @@ class SimEventDataCollectionMonitor {
 
         val startMessage = collection.findOne()
         val parameters: DBObject = startMessage.get("parameters").asInstanceOf[DBObject]
-        val study = parameters.get("study").toString
-        val userID = parameters.get("id").toString
+        val getStudy = parameters.get("study")
+        val study = if ( getStudy == null ) "null" else getStudy.toString
+
+        val getUserID = parameters.get("id")
+        val userID = if ( getUserID == null ) "null" else getUserID.toString
         val numberMessages = collection.getCount
         val cursor = collection.find().skip(numberMessages.toInt - 1)
 

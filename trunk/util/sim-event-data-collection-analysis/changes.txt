@@ -1,3 +1,4 @@
+Fixed: Null pointer checks on server database monitor
 Fixed: Pressing reset all should not count as a solution transition
 Fixed: The total number of clicks and the sum of the clicks per min should be equal in the histogram
 Fixed: If the conductivity test is selected, the analysis tool should not count it as a view transition
