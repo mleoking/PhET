@@ -259,6 +259,14 @@ public class PiccoloTimeControlPanel extends JPanel {
         return playPauseButton;
     }
 
+    public StepButton getStepButton() {
+        return stepButton;
+    }
+
+    public JPanel getUserPanel() {
+        return userPanel;
+    }
+
     /**
      * Sets the visibility of the Rewind button.
      * This button is invisible by default for backward compatibility with existing sims.
