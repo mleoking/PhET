@@ -22,6 +22,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -161,6 +162,7 @@ public class GameSettingsPanel extends GridPanel {
 
             //Add the button and make sure the canvas is big enough to hold the depressed button
             addScreenChild( new HTMLImageButtonNode( BUTTON_START ) {{
+                setUserComponent( UserComponents.startGameButton );
                 setBackground( startButtonColor );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

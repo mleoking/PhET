@@ -21,6 +21,7 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -105,7 +106,9 @@ public class GameScoreboardNode extends PhetPNode {
         setTime( 0 ); // start with this, so we have a reasonable size for layout
 
         // New Game button
-        newGameButton = new HTMLImageButtonNode( BUTTON_NEW_GAME, BUTTON_FONT, BUTTON_COLOR );
+        newGameButton = new HTMLImageButtonNode( BUTTON_NEW_GAME, BUTTON_FONT, BUTTON_COLOR ) {{
+            setUserComponent( UserComponents.newGameButton );
+        }};
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleNewGame();
