@@ -1,5 +1,6 @@
+package edu.colorado.phet.simsharinganalysis.monitor
+
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simeventdatacollectionmonitor
 
 import collection.JavaConversions.asScalaBuffer
 import collection.JavaConversions.asScalaSet

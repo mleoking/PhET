@@ -1,6 +1,6 @@
-// Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simeventdatacollectionmonitor
+package edu.colorado.phet.simsharinganalysis.monitor
 
+// Copyright 2002-2011, University of Colorado
 // Copyright 2002-2011, University of Colorado
 
 import javax.swing._
