@@ -91,9 +91,8 @@ public class ParameterSet implements Iterable<Parameter> {
             }
         }
         else {
-            return new ParameterSet( new ArrayList<Parameter>( parameters ) {{
-                add( parameter );
-            }} );
+            parameters.add( parameter );
+            return this;
         }
     }
 
@@ -127,5 +126,17 @@ public class ParameterSet implements Iterable<Parameter> {
 
     public Iterator<Parameter> iterator() {
         return parameters.iterator();
+    }
+
+    public static void main( String[] args ) {
+        ParameterSet set1 = ParameterSet.parameterSet( ParameterKeys.value, 1 ).add( ParameterKeys.x, 2 ).add( ParameterKeys.y, 2 );
+        ParameterSet set2 = new ParameterSet() {{
+            add( ParameterKeys.value, 1 );
+            add( ParameterKeys.x, 2 );
+            add( ParameterKeys.y, 2 );
+        }};
+        final String delimiter = " ";
+        assert ( set1.toString( delimiter ).equals( set2.toString( delimiter ) ) );
+        System.out.print( "test passed, happy days!" );
     }
 }
