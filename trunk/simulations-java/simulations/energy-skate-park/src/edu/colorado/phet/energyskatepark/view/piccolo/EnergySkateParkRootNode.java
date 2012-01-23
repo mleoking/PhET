@@ -126,6 +126,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addWorldChild( houseNode );
         addWorldChild( mountainNode );
         addWorldChild( floorNode );
+        addWorldChild( gridNode );
         addChild( controlLayer );
         addWorldChild( splineLayer );
         addWorldChild( skaterNodeLayer );
@@ -137,8 +138,6 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         addScreenChild( legend );
         addScreenChild( zeroPointPotentialNode );
         addScreenChild( returnSkaterButtonNode );
-
-        addWorldChild( gridNode );
 
         resetDefaults();
         simulationPanel.addComponentListener( new ComponentAdapter() {
