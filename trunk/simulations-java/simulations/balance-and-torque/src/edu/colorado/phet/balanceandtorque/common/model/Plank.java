@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.PositionedVector;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -20,9 +21,16 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.massAddedToPlank;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelComponents.plank;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
 
 /**
  * This is the plank upon which masses can be placed.
@@ -194,8 +202,8 @@ public class Plank extends ShapeModelElement {
         if ( isPointAbovePlank( mass.getMiddlePoint() ) && closestOpenLocation != null ) {
             mass.setPosition( closestOpenLocation );
             mass.setOnPlank( true );
-            double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) *
-                                        ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
+            final double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) *
+                                              ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
             mapMassToDistFromCenter.put( mass, distanceFromCenter );
 
             // Add the force vector for this mass.
@@ -217,6 +225,16 @@ public class Plank extends ShapeModelElement {
             updateMassPositions();
             updateNetTorque();
             massAdded = true;
+
+            // Send the sim sharing event indicating that this mass was added
+            // to the plank.
+            SimSharingManager.sendModelMessage( plank,
+                                                modelElement,
+                                                massAddedToPlank,
+                                                new ParameterSet() {{
+                                                    add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.mass, mass.getMass() ) );
+                                                    add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.distanceFromPlankCenter, distanceFromCenter ) );
+                                                }} );
         }
 
         return massAdded;
