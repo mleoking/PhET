@@ -80,16 +80,16 @@ public class BrickStack extends ShapeMass {
     private static IUserComponent getUserComponent( int numBricks ) {
         switch( numBricks ) {
             case 1:
-                return BalanceAndTorqueSimSharing.UserComponents.singleBrick;
+                return BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick;
             case 2:
-                return BalanceAndTorqueSimSharing.UserComponents.stackOfTwoBricks;
+                return BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfTwoBricks;
             case 3:
-                return BalanceAndTorqueSimSharing.UserComponents.stackOfThreeBricks;
+                return BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfThreeBricks;
             case 4:
-                return BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks;
+                return BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfFourBricks;
             default:
                 assert false; // If this line is reached then additional user components need to be added.
-                return BalanceAndTorqueSimSharing.UserComponents.singleBrick;
+                return BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick;
         }
     }
 

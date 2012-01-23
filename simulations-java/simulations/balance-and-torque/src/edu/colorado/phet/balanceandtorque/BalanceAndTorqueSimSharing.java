@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  * @author John Blanco
  */
 public class BalanceAndTorqueSimSharing {
+
+    // Sim sharing components that exist only in the view.
     public static enum UserComponents implements IUserComponent {
 
         // Tabs
@@ -26,16 +28,19 @@ public class BalanceAndTorqueSimSharing {
         redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
         nextKitButton, previousKitButton,
 
+    }
+
+    // Sim sharing components that exist in both the model and the view.
+    public static enum UserAndModelComponents implements IUserComponent, IModelComponent {
+
         // Movable masses
         singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
         mediumTrashCan, mediumBucket, tire, television, sodaBottle, smallRock,
         smallTrashCan, pottedPlant, tinyRock, flowerPot, cinderBlock,
         mediumRock, largeTrashCan, mysteryObject, barrel, fireExtinguisher,
-        bigRock, largeBucket, fireHydrant, man, woman, boy, girl, smallBucket
+        bigRock, largeBucket, fireHydrant, man, woman, boy, girl, smallBucket,
 
-    }
-
-    public static enum ModelComponents implements IModelComponent {
+        // Other
         plank
     }
 

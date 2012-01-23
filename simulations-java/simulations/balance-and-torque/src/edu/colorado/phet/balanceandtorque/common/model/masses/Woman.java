@@ -26,7 +26,7 @@ public class Woman extends HumanMass {
     private static int instanceCount = 0;
 
     public Woman() {
-        super( UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.woman, instanceCount++ ), MASS, Images.WOMAN_STANDING, STANDING_HEIGHT, Images.WOMAN_SITTING, SITTING_HEIGHT, new Point2D.Double( 0, 0 ), SITTING_CENTER_OF_MASS_X_OFFSET, false );
+        super( UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.woman, instanceCount++ ), MASS, Images.WOMAN_STANDING, STANDING_HEIGHT, Images.WOMAN_SITTING, SITTING_HEIGHT, new Point2D.Double( 0, 0 ), SITTING_CENTER_OF_MASS_X_OFFSET, false );
     }
 
     @Override public Mass createCopy() {

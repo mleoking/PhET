@@ -85,7 +85,7 @@ public class MysteryObjectFactory {
 
     // TODO: This needs work in order to put the label into a parameter and to track the instance count.
     private static IUserComponent createMysteryObjectUserComponent() {
-        return BalanceAndTorqueSimSharing.UserComponents.mysteryObject;
+        return BalanceAndTorqueSimSharing.UserAndModelComponents.mysteryObject;
     }
 
     // Collection of information needed to define a particular configuration
