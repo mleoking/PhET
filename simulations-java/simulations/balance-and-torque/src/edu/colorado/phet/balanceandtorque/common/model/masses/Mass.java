@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -76,7 +78,7 @@ public abstract class Mass implements UserMovableModelElement {
     private final boolean isMystery;
 
     // User component for this mass, used in sim sharing.
-    public final IUserComponent userComponent;
+    protected final IUserComponent userComponent;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -155,6 +157,15 @@ public abstract class Mass implements UserMovableModelElement {
 
     public boolean isMystery() {
         return isMystery;
+    }
+
+    public IUserComponent getUserComponent() {
+        return userComponent;
+    }
+
+    public IUserComponentType getUserComponentType() {
+        // Add masses are considered sprites.
+        return UserComponentTypes.sprite;
     }
 
     /**

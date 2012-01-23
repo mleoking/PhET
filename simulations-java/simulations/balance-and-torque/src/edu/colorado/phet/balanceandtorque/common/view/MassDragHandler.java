@@ -28,7 +28,7 @@ public class MassDragHandler extends SimSharingDragHandler {
     private final PhetPCanvas canvas;
 
     public MassDragHandler( Mass mass, PNode node, PhetPCanvas canvas, ModelViewTransform mvt ) {
-        super( mass.userComponent, UserComponentTypes.sprite, false );
+        super( mass.getUserComponent(), UserComponentTypes.sprite, false );
         this.mass = mass;
         this.node = node;
         this.canvas = canvas;
