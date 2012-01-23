@@ -21,4 +21,6 @@ public class PlateTectonicsConstants {
     public static final Color ARROW_CONVERGENT_FILL = new Color( 0, 0.8f, 0, 0.8f );
     public static final Color ARROW_DIVERGENT_FILL = new Color( 0.8f, 0, 0, 0.8f );
     public static final Color ARROW_TRANSFORM_FILL = new Color( 0, 0, 1, 0.8f );
+
+    public static final Color EARTH_GREEN = new Color( 0x526F35 );
 }
