@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.massAddedToPlank;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelComponents.plank;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
 
@@ -106,6 +106,10 @@ public class Plank extends ShapeModelElement {
     // Property that indicates whether the plank is being manually moved by
     // the user.
     public final BooleanProperty userControlled = new BooleanProperty( false );
+
+    // Boolean that tracks whether the plank is still (i.e. perfectly balanced
+    // or prevented from tipping by supports or the ground).
+    private boolean isStill = true;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -469,6 +473,22 @@ public class Plank extends ShapeModelElement {
                 // Below a certain threshold just force the tilt angle to be
                 // zero so that it appears perfectly level.
                 tiltAngle = 0;
+            }
+
+            // If the plank just started or stopped tipping, send a message.
+            if ( angularVelocity != 0 && isStill ) {
+                SimSharingManager.sendModelMessage( plank,
+                                                    modelElement,
+                                                    startedTilting,
+                                                    new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.plankTiltAngle, previousTiltAngle ) ) );
+                isStill = false;
+            }
+            else if ( angularVelocity == 0 && !isStill ) {
+                SimSharingManager.sendModelMessage( plank,
+                                                    modelElement,
+                                                    stoppedTilting,
+                                                    new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.plankTiltAngle, previousTiltAngle ) ) );
+                isStill = true;
             }
 
             // Update the shape of the plank and the positions of the masses on
