@@ -6,9 +6,10 @@ import java.awt.event.{ActionEvent, ActionListener}
 import java.io.File
 import edu.colorado.phet.simsharinganalysis.util.MyStringBuffer
 import edu.colorado.phet.simsharinganalysis.Parser
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import swing._
-import javax.swing.{JFrame, Timer}
+import javax.swing.Timer
+import javax.swing.JFrame.EXIT_ON_CLOSE
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 
 //Utility to show logs from a file as it is being generated.
 //This is to help in testing that parsing is working properly.
@@ -40,10 +41,16 @@ object RealTimeAnalysis extends SimpleSwingApplication {
   }).start()
 
   lazy val top = new Frame {
-    contents = new ScrollPane(textArea)
+    contents = new BorderPanel {
+      add(new ScrollPane(textArea), BorderPanel.Position.Center)
+      add(new FlowPanel {
+        contents += Button("Font +") {textArea.font = new PhetFont(textArea.font.getSize + 1)}
+        contents += Button("Font -") {textArea.font = new PhetFont(textArea.font.getSize - 1)}
+      }, BorderPanel.Position.South)
+    }
     pack()
     size = new Dimension(800, 600)
     visible = true
-    peer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)
+    peer setDefaultCloseOperation EXIT_ON_CLOSE
   }
 }
