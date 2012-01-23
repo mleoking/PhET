@@ -1,3 +1,4 @@
+1/23/12 Simsharing: add convenience constructors for creating IUserComponent from Object and Class
 1/19/12 Simsharing: Send "enabled" flag from SimSharingIcon.  Send events from mouse presses on disabled swing components. See #3218
 1/19/12 Simsharing: Cleanly shutdown and finish sending messages to mongo server before the application exits
 1/18/12 Simsharing: refinements to builder pattern for parameter sets
