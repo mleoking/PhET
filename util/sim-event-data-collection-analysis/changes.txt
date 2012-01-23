@@ -1,3 +1,4 @@
+Rewrote state change detection code for tab 2 based on different radio buttons
 Only count transitions within same tab, not when switching tabs
 Fixed histogram to read clicks within each minute, not click frequency
 # 00.00.20 (60477) Jan 20, 2012
