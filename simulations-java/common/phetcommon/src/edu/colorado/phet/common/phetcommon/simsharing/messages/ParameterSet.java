@@ -10,8 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 /**
  * Set of parameters used in sim sharing.  Key ordering is maintained.  Duplicate keys are not allowed,
  * but setting the same key/value pair is allowed to permit flexibility in tricky sims.
- * <p/>
- * A ParameterSet is immutable, this makes it easier to use a more concise "builder"-like pattern in client code.
  *
  * @author Sam Reid
  */
