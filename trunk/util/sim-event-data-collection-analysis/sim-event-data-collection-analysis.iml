@@ -19,6 +19,17 @@
     <orderEntry type="module" module-name="jfreechart" />
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../sim-event-data-collection-server/contrib/mongodb/mongo-2.7.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/Desktop/mongo-java-driver/src/main" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="scala-library-2.9.0.1" level="application" />
   </component>
 </module>
