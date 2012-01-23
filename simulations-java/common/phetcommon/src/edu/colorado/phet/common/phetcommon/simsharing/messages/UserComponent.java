@@ -35,8 +35,14 @@ public class UserComponent implements IUserComponent {
         return id;
     }
 
+    // Converts a class to a user component id. For example, "edu.phet.RulerNode" becomes "rulerNode".
     private static String toId( Class theClass ) {
         String basename = PhetUtilities.getBasename( theClass );
-        return Character.toLowerCase( basename.indexOf( 0 ) ) + basename.substring( 1 );
+        if ( basename.length() == 1 ) {
+            return basename.toLowerCase();
+        }
+        else {
+            return Character.toLowerCase( basename.charAt( 0 ) ) + basename.substring( 1 );
+        }
     }
 }
