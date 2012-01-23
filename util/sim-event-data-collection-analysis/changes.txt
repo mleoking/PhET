@@ -1,3 +1,4 @@
+Fixed: If the conductivity test is selected, the analysis tool should count the view as liquid for "time on views"
 Added Font + and Font - buttons to real time analysis
 Renamed plot-student-activity => post-analysis
 # 00.00.21 (60505) Jan 23, 2012
