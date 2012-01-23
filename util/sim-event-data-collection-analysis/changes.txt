@@ -1,3 +1,4 @@
+# 00.00.22 (60529) Jan 23, 2012
 Fixed: Null pointer checks on server database monitor
 Fixed: Pressing reset all should not count as a solution transition
 Fixed: The total number of clicks and the sum of the clicks per min should be equal in the histogram
