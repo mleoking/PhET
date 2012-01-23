@@ -6,12 +6,15 @@ object Globals {
 
   //TODO: Instead of hardcoding these strings, could make a new project that depends on ABS and use toString on those enums.
   //Right now we are keeping this project integrated with the sim-event-data-collection-analysis-project for expedience, so haven't done that yet.
+
+  //Solutions
   val water = "water"
   val weakAcid = "weakAcid"
   val strongAcid = "strongAcid"
   val weakBase = "weakBase"
   val strongBase = "strongBase"
 
+  //Views
   val molecules = "molecules"
   val barGraph = "barGraph"
   val liquid = "liquid"

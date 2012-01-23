@@ -24,7 +24,8 @@ trait AcidBaseSolutionsTab {
 
   def solution: String
 
-  def view = viewAndTestState.view
+  //KL: If the conductivity test is selected, the analysis tool should count the view as liquid for "time on views"
+  def view = if ( test == conductivityTester ) liquid else viewAndTestState.view
 
   def test = viewAndTestState.test
 }
