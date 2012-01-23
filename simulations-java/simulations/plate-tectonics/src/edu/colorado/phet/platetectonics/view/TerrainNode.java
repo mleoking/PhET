@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.shapes.GridMesh;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
@@ -104,8 +105,29 @@ public class TerrainNode extends GridMesh {
                 ImmutableVector3F viewVector = module.getModelViewTransform().transformPosition( cartesianModelVector );
                 positions1[zIndex * terrain.numXSamples + xIndex] = viewVector;
 
-                float value = (float) MathUtil.clamp( 0, ( elevation + 10000 ) / 20000, 1 );
-                colorBuffer.put( new float[] { value, value, value, 1 } );
+                if ( elevation < 0 ) {
+                    float value = (float) MathUtil.clamp( 0, ( elevation + 10000 ) / 20000, 1 );
+                    colorBuffer.put( new float[] { value, value, value, 1 } );
+                }
+                else {
+                    float grassRed = (float) ( PlateTectonicsConstants.EARTH_GREEN.getRed() ) / 255f;
+                    float grassGreen = (float) ( PlateTectonicsConstants.EARTH_GREEN.getGreen() ) / 255f;
+                    float grassBlue = (float) ( PlateTectonicsConstants.EARTH_GREEN.getBlue() ) / 255f;
+                    if ( elevation < 3000 ) {
+                        colorBuffer.put( new float[] { grassRed, grassGreen, grassBlue, 1 } );
+                    }
+                    else {
+                        float ratioToSnow = ( elevation - 3000 ) / 7000;
+                        if ( ratioToSnow > 1 ) {
+                            ratioToSnow = 1;
+                        }
+                        colorBuffer.put( new float[] {
+                                grassRed + ( 0.8f - grassRed ) * ratioToSnow,
+                                grassGreen + ( 0.8f - grassGreen ) * ratioToSnow,
+                                grassBlue + ( 0.8f - grassBlue ) * ratioToSnow,
+                                1 } );
+                    }
+                }
             }
         }
         updateGeometry( positions1 );
