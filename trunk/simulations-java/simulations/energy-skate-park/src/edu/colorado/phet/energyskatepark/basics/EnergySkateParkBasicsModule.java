@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -163,7 +162,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public void addResetAllButton( final PNode parent ) {
 
         //Add the "Restart skater" button
-        final SimSharingTextButtonNode restartSkaterButton = new SimSharingTextButtonNode( returnSkaterButton, EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
+        final TextButtonNode restartSkaterButton = new TextButtonNode( EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
+            setUserComponent( returnSkaterButton );
             setFont( CONTROL_FONT );
             setBackground( Color.ORANGE );
 
@@ -175,7 +175,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         }};
 
         //Add the "Reset all" button
-        final TextButtonNode resetAllButton = new SimSharingTextButtonNode( UserComponents.resetAllButton, PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) ) {{
+        final TextButtonNode resetAllButton = new TextButtonNode( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) ) {{
+            setUserComponent( UserComponents.resetAllButton );
             setFont( CONTROL_FONT );
             setBackground( Color.YELLOW );
 

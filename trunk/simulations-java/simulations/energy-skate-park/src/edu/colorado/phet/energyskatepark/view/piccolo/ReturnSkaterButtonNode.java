@@ -9,7 +9,7 @@ import java.awt.event.ComponentEvent;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
@@ -35,8 +35,8 @@ public class ReturnSkaterButtonNode extends PhetPNode {
         this.canvas = canvas;
         this.skaterNode = skaterNode;
         this.module = module;
-        ButtonNode returnSkaterButton = new SimSharingTextButtonNode( playAreaReturnSkaterButton, EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
-
+        ButtonNode returnSkaterButton = new TextButtonNode( EnergySkateParkResources.getString( "controls.reset-character" ) ) {{
+            setUserComponent( playAreaReturnSkaterButton );
             //Changed "Return Skater" button to be orange instead of yellow to distinguish from "Reset all" Button
             setBackground( Color.ORANGE );
         }};

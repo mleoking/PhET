@@ -29,8 +29,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
-import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -158,7 +158,8 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
 
         // Add the buttons that will control whether or not the support columns
         // are in place.
-        final SimSharingTextButtonNode addSupportsButton = new SimSharingTextButtonNode( BalanceAndTorqueSimSharing.UserComponents.addSupportsButton, BalanceAndTorqueResources.Strings.ADD_SUPPORTS, new PhetFont( 14 ) ) {{
+        final TextButtonNode addSupportsButton = new TextButtonNode( BalanceAndTorqueResources.Strings.ADD_SUPPORTS, new PhetFont( 14 ) ) {{
+            setUserComponent( BalanceAndTorqueSimSharing.UserComponents.addSupportsButton );
             setBackground( Color.YELLOW );
             addInputEventListener( new ButtonEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
@@ -170,7 +171,8 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
         }};
         nonMassLayer.addChild( addSupportsButton );
 
-        final SimSharingTextButtonNode removeSupportsButton = new SimSharingTextButtonNode( BalanceAndTorqueSimSharing.UserComponents.removeSupportsButton, BalanceAndTorqueResources.Strings.REMOVE_SUPPORTS, new PhetFont( 14 ) ) {{
+        final TextButtonNode removeSupportsButton = new TextButtonNode( BalanceAndTorqueResources.Strings.REMOVE_SUPPORTS, new PhetFont( 14 ) ) {{
+            setUserComponent( BalanceAndTorqueSimSharing.UserComponents.removeSupportsButton );
             setBackground( Color.YELLOW );
             addInputEventListener( new ButtonEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {

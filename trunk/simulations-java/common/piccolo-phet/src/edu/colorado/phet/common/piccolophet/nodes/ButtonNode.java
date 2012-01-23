@@ -11,7 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
@@ -21,6 +28,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
+ * Base class for Piccolo buttons. This type of button has a rectangular background.
+ *
  * @author Sam Reid
  */
 public class ButtonNode extends PhetPNode {
@@ -57,6 +66,14 @@ public class ButtonNode extends PhetPNode {
 
     //The action command String that is sent out to ActionListeners when the button is pressed, typically this is the text of a button (if it has a text label)
     private final String actionCommand;
+
+    // sim-sharing component and parameters
+    private IUserComponent userComponent = new UserComponent( ButtonNode.class ); // default to "buttonNode"
+    private Function0<ParameterSet> parameters = new Function0<ParameterSet>() {
+        public ParameterSet apply() {
+            return new ParameterSet(); // empty parameter set
+        }
+    };
 
     public ButtonNode( String actionCommand, PNode contentNode, PNode disabledContentNode ) {
         this.contentNode = contentNode;
@@ -371,9 +388,8 @@ public class ButtonNode extends PhetPNode {
 
     protected void notifyActionPerformed() {
 
-        //TODO: override for simsharing
-        //Notify about the event first so that listener callbacks were clearly caused by this action
-        //SimSharingManager.sendUserEvent( SimSharingConstants.ComponentType.button, pressed, Parameter.param( PARAM_ACTION_COMMAND, actionCommand ) );
+        // Send message before notifying listeners.
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.button, UserActions.pressed, parameters.apply() );
 
         ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, actionCommand ); // use Swing convention from AbstractButton.fireActionPerformed
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
@@ -453,5 +469,20 @@ public class ButtonNode extends PhetPNode {
     public void setDisabledContentNode( PNode disabledContentNode ) {
         this.disabledContentNode = disabledContentNode;
         update();
+    }
+
+    //------------------------------------------------------------------------
+    // Sim-sharing
+    //------------------------------------------------------------------------
+
+    //TODO replace this setter with a constructor arg that is propagated up the class hierarchy.
+    // Sets the sim-sharing component
+    public void setUserComponent( IUserComponent userComponent ) {
+        this.userComponent = userComponent;
+    }
+
+    // Sets a function used to compute custom sim-sharing parameters
+    public void setParameters( Function0<ParameterSet> parameters ) {
+        this.parameters = parameters;
     }
 }
