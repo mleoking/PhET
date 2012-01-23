@@ -52,7 +52,7 @@ public class WhatIsMountainTime {
         //TODO: have to add the year ourselves.  This is not good, it will have to be updated every year and rebuild sims.  Maybe we could find a server that includes the year?
         //Maybe could switch to a server like NTP or http://developer.yahoo.com/util/timeservice/V1/getTime.html
         String substring = line.substring( start, end ) + " 2012";
-        System.out.println( "substring = " + substring );
+//        System.out.println( "substring = " + substring );
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "MMM. dd, hh:mm:ss a z yyyy" );
 //        System.out.println( "simpleDateFormat.format( new Date(  ) ) = " + simpleDateFormat.format( new Date() ) );
