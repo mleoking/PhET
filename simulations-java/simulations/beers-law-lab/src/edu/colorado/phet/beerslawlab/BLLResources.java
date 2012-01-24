@@ -32,7 +32,7 @@ public class BLLResources {
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
         public static final String PATTERN_0VALUE_1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
-        public static final String PATTERN_PARENTHESIS_0TEXT = RESOURCES.getLocalizedString( "pattern.parenthesis.0text" );
+        public static final String PATTERN_PARENTHESES_0TEXT = RESOURCES.getLocalizedString( "pattern.parentheses.0text" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );
