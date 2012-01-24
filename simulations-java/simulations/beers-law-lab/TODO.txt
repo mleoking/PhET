@@ -8,6 +8,8 @@ DESIGN
 - should shaker particles be removed when the shaker is made invisible?
 
 HIGH
+- add faint outline to fluid coming out of faucets (ala solution in beaker) - stock solution, too?
+- make meter cable more curvy (ala Bending Light)
 - implement ShakerParticle.stepInTime and ShakerParticles.stepInTime
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute

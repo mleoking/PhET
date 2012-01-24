@@ -1,14 +1,12 @@
 TODO list for dilutions
 
-DESIGN
-- Tab 3 (Making Dilutions)
-- default values in all tabs
-
 HIGH
-- move Molarity sim to a new project?
+- “Saturated” label does not appear when the solute amount is slowly raised above saturation with fixed volume.  (Works when Solution volume is lowered past saturation, and works when solute amount is increased fast.)
+- add concentration value to beaker label when "Show values" is selected
+- in slider labels, use smaller plain font for units
+- "Show values" check box has a dashed black line around it when it has focus (Win only)
+- move Molarity sim to a new project? rename "dilutions" project to "molarity"?
 
 MEDIUM
-- generalize the mechanism for managing dynamic beaker labels
 
 MIGRATE TO COMMON
-- SmartDoubleFormat (or delete if this sim remains qualitative)
