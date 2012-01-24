@@ -19,6 +19,7 @@ import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
+import edu.colorado.phet.platetectonics.control.LegendPanel;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
@@ -26,6 +27,7 @@ import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
+import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -41,6 +43,7 @@ public class CrustTab extends PlateTectonicsTab {
 
     private Property<Float> scaleProperty = new Property<Float>( 1f );
     private final Property<Boolean> showLabels = new Property<Boolean>( false );
+    private OrthoPiccoloNode optionsPiccoloNode;
 
     public CrustTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.CRUST_TAB, 2 ); // 0.5 km => 1 distance in view
@@ -221,7 +224,7 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
          * options panel
          *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoPiccoloNode(
+        optionsPiccoloNode = new OrthoPiccoloNode(
                 new ControlPanelNode( new OptionsPanel( showLabels, new Runnable() {
                     public void run() {
                         resetAll();
@@ -236,7 +239,15 @@ public class CrustTab extends PlateTectonicsTab {
                 }
             } );
             updateOnEvent( beforeFrameRender );
-        }} );
+        }};
+        addGuiNode( optionsPiccoloNode );
+
+        /*---------------------------------------------------------------------------*
+        * legend
+        *----------------------------------------------------------------------------*/
+
+        addGuiNode( new LegendPiccoloNode( ColorMode.DENSITY, (float) optionsPiccoloNode.position.get().getX() ) );
+        addGuiNode( new LegendPiccoloNode( ColorMode.TEMPERATURE, (float) optionsPiccoloNode.position.get().getX() ) );
 
         /*---------------------------------------------------------------------------*
         * labels
@@ -287,5 +298,24 @@ public class CrustTab extends PlateTectonicsTab {
 
     public IUserComponent getUserComponent() {
         return PlateTectonicsSimSharing.UserComponents.crustTab;
+    }
+
+    private class LegendPiccoloNode extends OrthoPiccoloNode {
+        public LegendPiccoloNode( final ColorMode myColorMode, final float optionsRightX ) {
+            super( new ControlPanelNode( new LegendPanel( myColorMode ) ), CrustTab.this, CrustTab.this.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), CrustTab.this.mouseEventNotifier );
+
+            // NOTE: no updating is required on this node, since it doesn't change
+            canvasSize.addObserver( new SimpleObserver() {
+                public void update() {
+                    position.set( new ImmutableVector2D( optionsRightX - getComponentWidth() - 20,
+                                                         getStageSize().height - getComponentHeight() - 10 ) );
+                }
+            } );
+            colorMode.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( colorMode.get() == myColorMode );
+                }
+            } );
+        }
     }
 }

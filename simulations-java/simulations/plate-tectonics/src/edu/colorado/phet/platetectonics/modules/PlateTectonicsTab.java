@@ -59,6 +59,7 @@ import edu.colorado.phet.platetectonics.control.Toolbox;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.TectonicsClock;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
+import edu.colorado.phet.platetectonics.view.ColorMode;
 
 import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.X_UNIT;
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
@@ -84,11 +85,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public static final float fieldOfViewDegrees = 40;
     public static final float nearPlane = 1;
     public static final float farPlane = 21000;
-
-    public static enum ColorMode {
-        DENSITY,
-        TEMPERATURE
-    }
 
     public final Property<ColorMode> colorMode = new Property<ColorMode>( ColorMode.DENSITY );
 

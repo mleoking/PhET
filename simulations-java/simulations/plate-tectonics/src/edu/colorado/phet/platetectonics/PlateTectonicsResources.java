@@ -21,10 +21,13 @@ public class PlateTectonicsResources {
         public static final String CRUST_TAB = RESOURCES.getLocalizedString( "crustTab" );
         public static final String DENSITY_VIEW = RESOURCES.getLocalizedString( "densityView" );
         public static final String INNER_CORE = RESOURCES.getLocalizedString( "innerCore" );
+        public static final String LEGEND = RESOURCES.getLocalizedString( "legend" );
+        public static final String LESS_DENSE = RESOURCES.getLocalizedString( "lessDense" );
         public static final String LOWER_MANTLE = RESOURCES.getLocalizedString( "lowerMantle" );
         public static final String MANTLE = RESOURCES.getLocalizedString( "mantle" );
         public static final String MANUAL_MODE = RESOURCES.getLocalizedString( "manualMode" );
         public static final String MILLION_YEARS = RESOURCES.getLocalizedString( "millionYears" );
+        public static final String MORE_DENSE = RESOURCES.getLocalizedString( "moreDense" );
         public static final String MORE_IRON = RESOURCES.getLocalizedString( "moreIron" );
         public static final String MORE_SILICA = RESOURCES.getLocalizedString( "moreSilica" );
         public static final String MY_CRUST = RESOURCES.getLocalizedString( "myCrust" );

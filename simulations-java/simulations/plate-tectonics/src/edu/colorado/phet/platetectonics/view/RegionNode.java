@@ -73,6 +73,8 @@ public class RegionNode extends PlanarPolygon {
                     case TEMPERATURE:
                         setMaterial( new TemperatureMaterial() );
                         break;
+                    default:
+                        break;
                 }
                 listener.update();
             }

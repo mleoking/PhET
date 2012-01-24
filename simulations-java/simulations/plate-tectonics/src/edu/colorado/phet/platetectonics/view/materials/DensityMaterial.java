@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view.materials;
 
+import java.awt.Color;
 import java.nio.ByteBuffer;
 
 import org.lwjgl.BufferUtils;
@@ -19,14 +20,17 @@ public class DensityMaterial extends GLMaterial implements EarthMaterial {
 
     private static final ByteBuffer buffer = BufferUtils.createByteBuffer( 4 * width * height );
 
+    private static final Color min = new Color( 0, 0, 0 );
+    private static final Color max = new Color( 255, 255, 255 );
+
     static {
         buffer.rewind();
         for ( int row = 0; row < height; row++ ) {
             for ( int col = 0; col < width; col++ ) {
+                // NOTE: yes we are technically overflowing here, but in binary (though the JNI) our signed byte is taken as an unsigned byte
                 byte densityIndex = (byte) col;
-                buffer.put( new byte[] { densityIndex, densityIndex, densityIndex, (byte) 255 } );
-//                    buffer.put( new byte[] { (byte)row, (byte)col, 0, (byte) 255 } );
-//                buffer.put( new byte[] { (byte) 255, (byte) 255, (byte) 255, (byte) 255 } );
+                final byte[] bytes = { densityIndex, densityIndex, densityIndex, (byte) 255 };
+                buffer.put( bytes );
             }
         }
     }
@@ -76,5 +80,13 @@ public class DensityMaterial extends GLMaterial implements EarthMaterial {
 
     public ImmutableVector2F getTextureCoordinates( float density, float temperature, ImmutableVector2F position ) {
         return densityMap( density );
+    }
+
+    public Color getMinColor() {
+        return min;
+    }
+
+    public Color getMaxColor() {
+        return max;
     }
 }
