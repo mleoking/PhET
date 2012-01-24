@@ -126,7 +126,7 @@ public class BeakerNode extends PComposite {
         // label on the beaker
         labelNode = new LabelNode( labelText, labelSize, labelFont );
         addChild( labelNode );
-        labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.25 * cylinderSize.getHeight() ) );
+        labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.15 * cylinderSize.getHeight() ) );
 
         valuesVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
@@ -160,7 +160,7 @@ public class BeakerNode extends PComposite {
     /*
      * Label that appears on the beaker in a frosty, translucent frame.
      * Since we're very tight on horizontal space in the play area, and the label size is static, text is scaled to fit.
-     * Origin at geometric center.
+     * Origin at top center.
      */
     private static class LabelNode extends PComposite {
 
@@ -176,7 +176,7 @@ public class BeakerNode extends PComposite {
             backgroundNode = new PPath() {{
                 setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
                 setStrokePaint( Color.LIGHT_GRAY );
-                setPathTo( new RoundRectangle2D.Double( -labelSize.getWidth() / 2, -labelSize.getHeight() / 2, labelSize.getWidth(), labelSize.getHeight(), 10, 10 ) );
+                setPathTo( new RoundRectangle2D.Double( -labelSize.getWidth() / 2, 0, labelSize.getWidth(), labelSize.getHeight(), 10, 10 ) );
             }};
 
             // rendering order
@@ -198,7 +198,8 @@ public class BeakerNode extends PComposite {
                 htmlNode.setScale( scale );
             }
             // center in the background
-            htmlNode.setOffset( -htmlNode.getFullBoundsReference().getWidth() / 2, -htmlNode.getFullBoundsReference().getHeight() / 2 );
+            htmlNode.setOffset( backgroundNode.getFullBoundsReference().getCenterX() - ( htmlNode.getFullBoundsReference().getWidth() / 2 ),
+                                backgroundNode.getFullBoundsReference().getCenterY() - ( htmlNode.getFullBoundsReference().getHeight() / 2 ) );
         }
     }
 
