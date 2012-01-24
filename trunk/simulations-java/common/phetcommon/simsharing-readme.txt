@@ -11,9 +11,9 @@ This study is easy to test with since it does not show a dialog on startup, but 
 2. Work through the features in the sim and see if they are being outputted for each user activity and important model activity (important is defined by the sim or research team)
 3. When you find something missing a message, convert it to the corresponding SimSharing subclass, such as converting ButtonNode to SimSharingButtonNode.  For the SimSharing* classes, the UserComponent will be the first field.
 4. Use static imports (alt-enter) to make the code read like:
-		SimSharingManager.sendUserEvent( userComponent, pressed, componentType( checkBox ), param( isSelected, isSelected() ) );
+		SimSharingManager.sendUserEvent( userComponent, checkBox, pressed, parameterSet( isSelected, isSelected() ) );
 instead of like:
-		SimSharingManager.sendUserEvent( userComponent, UserActions.pressed, Parameter.componentType( ComponentTypes.checkBox ), Parameter.param( ParameterKeys.isSelected, isSelected() ) );
+		SimSharingManager.sendUserEvent( userComponent, ComponentTypes.checkBox, UserActions.pressed, Parameter.parameterSet( ParameterKeys.isSelected, isSelected() ) );
 
 5. Running in a debugger and recompiling code in the same JVM can be an efficient way to iterate on adding these features.
 6. If you need to use a SimSharing* class that does not exist, please create it in a package simsharing that is a sibling of the original object.  For instance, for edu.colorado.phet.common.piccolophet.nodes.TextButtonNode create edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingTextButtonNode.  Make sure the message is sent before any other listeners are notified so that events don't appear out of order.
