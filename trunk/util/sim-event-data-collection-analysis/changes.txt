@@ -1,3 +1,4 @@
+# 00.00.23 (60550) Jan 23, 2012
 Added group comparison tool which produces comparative bar charts for multiple conditions
 # 00.00.22 (60529) Jan 23, 2012
 Fixed: Null pointer checks on server database monitor
