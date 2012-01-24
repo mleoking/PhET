@@ -21,7 +21,9 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -107,7 +109,7 @@ public class GameScoreboardNode extends PhetPNode {
 
         // New Game button
         newGameButton = new HTMLImageButtonNode( BUTTON_NEW_GAME, BUTTON_FONT, BUTTON_COLOR ) {{
-            setUserComponent( UserComponents.newGameButton );
+            setUserComponent( GameSimSharing.UserComponents.newGameButton );
         }};
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -237,7 +239,11 @@ public class GameScoreboardNode extends PhetPNode {
             Component parent = PhetApplication.getInstance().getPhetFrame();
             int option = PhetOptionPane.showYesNoDialog( parent, MESSAGE_CONFIRM_NEW_GAME, CONFIRM_TITLE );
             if ( option == JOptionPane.YES_OPTION ) {
+                SimSharingManager.sendUserMessage( GameSimSharing.UserComponents.newGameYesButton, UserComponentTypes.button, UserActions.pressed );
                 fireNewGamePressed();
+            }
+            else {
+                SimSharingManager.sendUserMessage( GameSimSharing.UserComponents.newGameNoButton, UserComponentTypes.button, UserActions.pressed );
             }
         }
         else {

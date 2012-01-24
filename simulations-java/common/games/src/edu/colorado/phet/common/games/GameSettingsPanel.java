@@ -22,7 +22,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -53,7 +52,6 @@ public class GameSettingsPanel extends GridPanel {
     // "look" properties
     private static final Border BORDER = new LineBorder( Color.BLACK, 1 );
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
-    private static final Color START_BUTTON_COLOR = new Color( 235, 235, 235 );
 
     // layout properties
     private static final int X_MARGIN = 5;
@@ -162,7 +160,7 @@ public class GameSettingsPanel extends GridPanel {
 
             //Add the button and make sure the canvas is big enough to hold the depressed button
             addScreenChild( new HTMLImageButtonNode( BUTTON_START ) {{
-                setUserComponent( UserComponents.startGameButton );
+                setUserComponent( GameSimSharing.UserComponents.startGameButton );
                 setBackground( startButtonColor );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
