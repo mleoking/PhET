@@ -2,7 +2,6 @@
 package edu.colorado.phet.dilutions.common.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
@@ -17,10 +16,10 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
+import edu.colorado.phet.dilutions.DilutionsConstants;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
 import edu.colorado.phet.dilutions.common.model.Solution;
@@ -42,20 +41,17 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ConcentrationDisplayNode extends PNode {
 
-    private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-    private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
-    private static final PhetFont VALUE_FONT = new PhetFont( 16 );
     private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
     private static final DecimalFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" );
 
     public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution,
                                      final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
         // nodes
-        final PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
+        final PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_LABEL_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), units, valuesVisible );
-        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, MIN_MAX_FONT );
-        final PNode minNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, MIN_MAX_FONT );
+        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
+        final PNode minNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -156,7 +152,7 @@ public class ConcentrationDisplayNode extends PNode {
             this.function = new LinearFunction( range.getMin(), range.getMax(), barSize.getHeight(), 0 );
             this.arrowNode = new PNode();
             this.valueNode = new PText() {{
-                setFont( VALUE_FONT );
+                setFont( DilutionsConstants.SLIDER_VALUE_FONT );
             }};
             addChild( valueNode );
             setValue( value );

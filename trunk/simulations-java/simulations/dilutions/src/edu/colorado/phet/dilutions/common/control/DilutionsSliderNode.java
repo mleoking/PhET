@@ -3,7 +3,6 @@ package edu.colorado.phet.dilutions.common.control;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
@@ -21,12 +20,12 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.dilutions.DilutionsConstants;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.common.util.ZeroIntegerDoubleFormat;
 import edu.colorado.phet.dilutions.common.view.DualLabelNode;
@@ -44,10 +43,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class DilutionsSliderNode extends PhetPNode {
 
-    private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
-    private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
-    private static final PhetFont VALUE_FONT = new PhetFont( 16 );
     private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
     private static final int VALUE_DECIMAL_PLACES = 2;
     private static final DecimalFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" ); // this should match VALUE_DECIMAL_PLACES;
@@ -69,7 +65,7 @@ public class DilutionsSliderNode extends PhetPNode {
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // title
-        PNode titleNode = new HTMLNode( title, Color.BLACK, TITLE_FONT );
+        PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_LABEL_FONT );
 
         // track that the thumb moves in, origin at upper left
         trackNode = new PPath() {{
@@ -91,8 +87,8 @@ public class DilutionsSliderNode extends PhetPNode {
         thumbNode = new ThumbNode( userComponent, THUMB_SIZE, this, trackNode, range, modelValue, units, valuesVisible );
 
         // min and max labels
-        final PNode minNode = new DualLabelNode( RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, MIN_MAX_FONT );
-        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( range.getMax() ), maxLabel, valuesVisible, MIN_MAX_FONT );
+        final PNode minNode = new DualLabelNode( RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
+        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( range.getMax() ), maxLabel, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
 
         // rendering order
         {
@@ -161,7 +157,7 @@ public class DilutionsSliderNode extends PhetPNode {
             }};
 
             this.valueNode = new PText( "?" ) {{
-                setFont( VALUE_FONT );
+                setFont( DilutionsConstants.SLIDER_VALUE_FONT );
             }};
             valueNode.setOffset( bodyNode.getFullBoundsReference().getMaxX() + 5,
                                  bodyNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
