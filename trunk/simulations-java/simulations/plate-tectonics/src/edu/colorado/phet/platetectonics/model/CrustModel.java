@@ -461,22 +461,39 @@ public class CrustModel extends PlateModel {
 
     @Override public double getDensity( double x, double y ) {
         if ( x < LEFT_BOUNDARY ) {
-            if ( y > LEFT_OCEANIC_ELEVATION - LEFT_OCEANIC_THICKNESS ) {
+            if ( y > 0 ) {
+                return getAirDensity( y );
+            }
+            else if ( y > LEFT_OCEANIC_ELEVATION ) {
+                return getWaterDensity( y );
+            }
+            else if ( y > LEFT_OCEANIC_ELEVATION - LEFT_OCEANIC_THICKNESS ) {
                 return LEFT_OCEANIC_DENSITY;
             }
             else {
                 return MANTLE_DENSITY;
             }
         }
-        if ( x > RIGHT_BOUNDARY ) {
-            if ( y > RIGHT_CONTINENTAL_ELEVATION - RIGHT_CONTINENTAL_THICKNESS ) {
+        else if ( x > RIGHT_BOUNDARY ) {
+            if ( y > RIGHT_CONTINENTAL_ELEVATION ) {
+                return getAirDensity( y );
+            }
+            else if ( y > RIGHT_CONTINENTAL_ELEVATION - RIGHT_CONTINENTAL_THICKNESS ) {
                 return RIGHT_CONTINENTAL_DENSITY;
             }
             else {
                 return MANTLE_DENSITY;
             }
         }
-        if ( y > getCenterCrustBottomY() ) {
+        else if ( y > getCenterCrustElevation() ) {
+            if ( y > 0 ) {
+                return getAirDensity( y );
+            }
+            else {
+                return getWaterDensity( y );
+            }
+        }
+        else if ( y > getCenterCrustBottomY() ) {
             return getCenterCrustDensity();
         }
         else {
