@@ -85,6 +85,27 @@ public abstract class PlateModel {
         return ZERO_CELSIUS + 15 - 15 * y / 2500; // approximately zero celsius at 2500m (8000ft)
     }
 
+    public static double getAirDensity( double y ) {
+        // calculated from https://en.wikipedia.org/wiki/Density_of_air
+        final double p0 = 101.325;
+        final double T0 = 288.15;
+        final double L = 0.0065;
+        final double R = 8.31447;
+        final double M = 0.0289644;
+        final double g = 9.8;
+        final double pressure = p0 * Math.pow( 1 - ( L * y / T0 ), g * M / ( R * L ) );
+        return pressure * M / ( R * getAirTemperature( y ) );
+    }
+
+    public static double getWaterDensity( double y ) {
+        if ( y > -1000 ) {
+            return 1025 + 3 * ( y / -1000 );
+        }
+        else {
+            return 1028;
+        }
+    }
+
     public static final double DEEP_OCEAN_TEMPERATURE = ZERO_CELSIUS + 4;
     // simplified model! see http://www.windows2universe.org/earth/Water/temp.html
     public static LinearFunction water200to1000 = new LinearFunction( -1000, -200, DEEP_OCEAN_TEMPERATURE, getAirTemperature( 0 ) );
