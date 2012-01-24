@@ -29,7 +29,8 @@ public class BalanceAndTorqueSimSharing {
         // Buttons
         redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
         nextKitButton, previousKitButton, checkAnswer, tryAgain, displayAnswer,
-        nextChallenge
+        nextChallenge, tiltLeftButton, stayBalancedButton, tiltRightButton
+
     }
 
     // Sim sharing components that exist in both the model and the view.
@@ -48,7 +49,7 @@ public class BalanceAndTorqueSimSharing {
     }
 
     public static enum UserActions implements IUserAction {
-        createdMass, removedMass
+        createdMass, removedMass, selectedTiltLeft, selectedRemainBalanced, selectedTiltRight
     }
 
     public static enum ModelComponentTypes implements IModelComponentType {
