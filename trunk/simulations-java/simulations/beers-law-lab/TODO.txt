@@ -21,7 +21,6 @@ LOW
 - shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
 - dropper flickers/tears excessively while dragging
 - #3199, bigger slider thumb on FaucetNode
-- flat spot on top of concentration probe image
 
 SIM-SHARING
 
