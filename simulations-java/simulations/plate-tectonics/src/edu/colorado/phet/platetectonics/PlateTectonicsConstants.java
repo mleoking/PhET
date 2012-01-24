@@ -23,4 +23,7 @@ public class PlateTectonicsConstants {
     public static final Color ARROW_TRANSFORM_FILL = new Color( 0, 0, 1, 0.8f );
 
     public static final Color EARTH_GREEN = new Color( 0x526F35 );
+
+    public static final Color DARK_LABEL = Color.BLACK;
+    public static final Color LIGHT_LABEL = new Color( 0.9f, 0.9f, 0.9f, 1 );
 }

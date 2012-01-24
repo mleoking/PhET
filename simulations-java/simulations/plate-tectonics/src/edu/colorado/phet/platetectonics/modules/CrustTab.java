@@ -97,7 +97,7 @@ public class CrustTab extends PlateTectonicsTab {
                                                          set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
                                                      }
                                                  }, true );
-        }}, Strings.CRUST, scaleProperty
+        }}, Strings.CRUST, scaleProperty, colorMode, true
         ) );
 
         final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
@@ -145,6 +145,7 @@ public class CrustTab extends PlateTectonicsTab {
                 upperMantleTop,
                 upperMantleBottom,
                 Strings.MANTLE, scaleProperty,
+                colorMode, true,
                 labelPositionFunction.apply( upperMantleTop, upperMantleBottom )
         ) );
 
@@ -154,6 +155,7 @@ public class CrustTab extends PlateTectonicsTab {
                 lowerMantleTop,
                 lowerMantleBottom,
                 Strings.LOWER_MANTLE, scaleProperty,
+                colorMode, true,
                 labelPositionFunction.apply( lowerMantleTop, lowerMantleBottom )
         ) );
 
@@ -163,6 +165,7 @@ public class CrustTab extends PlateTectonicsTab {
                 outerCoreTop,
                 outerCoreBottom,
                 Strings.OUTER_CORE, scaleProperty,
+                colorMode, false,
                 labelPositionFunction.apply( outerCoreTop, outerCoreBottom )
         ) );
 
@@ -172,6 +175,7 @@ public class CrustTab extends PlateTectonicsTab {
                 innerCoreTop,
                 innerCoreBottom,
                 Strings.INNER_CORE, scaleProperty,
+                colorMode, false,
                 labelPositionFunction.apply( innerCoreTop, innerCoreBottom )
         ) );
 
