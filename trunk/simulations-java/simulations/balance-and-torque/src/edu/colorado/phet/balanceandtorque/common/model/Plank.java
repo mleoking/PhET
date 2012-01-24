@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys.*;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserAndModelComponents.plank;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
 
@@ -236,9 +237,9 @@ public class Plank extends ShapeModelElement {
                                                 modelElement,
                                                 massAddedToPlank,
                                                 new ParameterSet() {{
-                                                    add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.massUserComponent, mass.getUserComponent().toString() ) );
-                                                    add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.massValue, mass.getMass() ) );
-                                                    add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.distanceFromPlankCenter, distanceFromCenter ) );
+                                                    add( new Parameter( massUserComponent, mass.getUserComponent().toString() ) );
+                                                    add( new Parameter( massValue, mass.getMass() ) );
+                                                    add( new Parameter( distanceFromPlankCenter, distanceFromCenter ) );
                                                 }} );
         }
 
@@ -267,7 +268,7 @@ public class Plank extends ShapeModelElement {
         addMassToSurface( mass );
     }
 
-    private void removeMassFromSurface( Mass mass ) {
+    private void removeMassFromSurface( final Mass mass ) {
         mapMassToDistFromCenter.remove( mass );
         massesOnSurface.remove( mass );
         mass.setRotationAngle( 0 );
@@ -279,6 +280,16 @@ public class Plank extends ShapeModelElement {
             }
         }
         updateNetTorque();
+
+        // Send the sim sharing event indicating that this mass was added to
+        // the plank.
+        SimSharingManager.sendModelMessage( plank,
+                                            modelElement,
+                                            massRemovedFromPlank,
+                                            new ParameterSet() {{
+                                                add( new Parameter( massUserComponent, mass.getUserComponent().toString() ) );
+                                            }} );
+
     }
 
     public void removeAllMasses() {
