@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserAndModelComponents.smallTrashCan;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.smallTrashCan;
 
 
 /**

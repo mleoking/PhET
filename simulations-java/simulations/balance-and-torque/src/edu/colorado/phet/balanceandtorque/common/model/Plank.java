@@ -29,8 +29,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelComponents.plank;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ParameterKeys.*;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserAndModelComponents.plank;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.modelElement;
 
 /**

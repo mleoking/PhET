@@ -166,7 +166,7 @@ public class PlankNode extends ModelObjectNode {
         public void mouseDragged( PInputEvent event ) {
             plank.setTiltAngle( getMouseToPlankCenterAngle( event.getCanvasPosition() ) + dragAngleDelta );
             // Send user message indicating that the user dragged the plank.
-            SimSharingManager.sendUserMessage( BalanceAndTorqueSimSharing.UserAndModelComponents.plank,
+            SimSharingManager.sendUserMessage( BalanceAndTorqueSimSharing.ModelComponents.plank,
                                                UserComponentTypes.sprite,
                                                UserActions.drag,
                                                new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.plankTiltAngle, plank.getTiltAngle() ) ) );
