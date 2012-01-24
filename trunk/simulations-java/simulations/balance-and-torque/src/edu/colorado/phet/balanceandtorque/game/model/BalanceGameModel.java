@@ -21,11 +21,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.challengePresented;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.*;
 
 /**
  * Main model class for the balance game.
@@ -277,6 +278,16 @@ public class BalanceGameModel {
     }
 
     /**
+     * Send a sim sharing message indicating whether or not the user got the
+     * correct answer.
+     *
+     * @param isCorrect
+     */
+    private void sendAnswerCheckResult( IModelComponentType modelComponentType, boolean isCorrect ) {
+        SimSharingManager.sendModelMessage( SimSharing.Components.game, modelComponentType, isCorrect ? correctAnswerSubmitted : incorrectAnswerSubmitted );
+    }
+
+    /**
      * Get the current challenge.
      *
      * @return The current challenge, null if there isn't one.
@@ -316,6 +327,9 @@ public class BalanceGameModel {
                 gameStateProperty.set( GameState.SHOWING_INCORRECT_ANSWER_FEEDBACK_MOVE_ON );
             }
         }
+
+        // Send up a sim sharing message about the result.
+        sendAnswerCheckResult( challengeList.get( challengeCount ).getModelComponentType(), answerIsCorrect );
     }
 
     public void nextChallenge() {
