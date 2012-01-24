@@ -7,6 +7,7 @@ import javax.swing._
 import edu.colorado.phet.common.phetcommon.application.PhetPersistenceDir
 import java.util.Properties
 import java.io.{File, FileInputStream, FileOutputStream}
+import edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012.GroupComparisonTool
 
 /**
  * Show a 2d plot of student activity as a function of time.  Row = student machine, x-axis is time and color coding is activity
@@ -69,6 +70,7 @@ object PlotStudentActivity extends App {
               }
 
             }))
+            add(new MyMenuItem("Compare Groups", () => GroupComparisonTool.main(Array())))
             addSeparator()
             add(new MyMenuItem("Exit", () => System exit 0))
           })
