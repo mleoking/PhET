@@ -15,6 +15,8 @@ import table.{DefaultTableCellRenderer, DefaultTableModel, TableRowSorter}
 import java.text.SimpleDateFormat
 import org.bson.types.ObjectId
 import java.lang.{Thread, String}
+import edu.colorado.phet.simsharinganalysis.util.SimpleTextFrame
+import collection.mutable.ArrayBuffer
 
 /**
  * @author Sam Reid
@@ -64,7 +66,10 @@ class SimEventDataCollectionMonitor {
   var HOST_IP_ADDRESS: String = System.getProperty("sim-event-data-collection-server-host-ip-address", "128.138.145.107")
   var PORT: Int = Integer.parseInt(System.getProperty("sim-event-data-collection-server-host-port", "44100"))
 
+  //Connect to the remote database
   val mongo = new Mongo(HOST_IP_ADDRESS, PORT)
+
+  //Connect to the local database
   //  val mongo = new Mongo
   val tableModel = new SimEventDataTableModel
   val table = new SimpleTable(tableModel)
@@ -88,7 +93,10 @@ class SimEventDataCollectionMonitor {
           add(new JMenuItem("Show Log") {
             addActionListener(new ActionListener {
               def actionPerformed(e: ActionEvent) {
-                printSelectedRow()
+                println(selectedRowToText)
+                new SimpleTextFrame {
+                  text = selectedRowToText
+                }.visible = true
               }
             })
           })
@@ -101,7 +109,7 @@ class SimEventDataCollectionMonitor {
   table.peer.setRowSorter(sorter)
   sorter.setSortsOnUpdates(true)
 
-  def printSelectedRow() {
+  def selectedRowToText = {
 
     //Convert view row to model row to account for sorting in the view: http://stackoverflow.com/questions/2075396/correctly-getting-data-from-a-sorted-jtable
     val viewSelectedRow = table.peer.getSelectedRow
@@ -113,6 +121,7 @@ class SimEventDataCollectionMonitor {
     val collection: DBCollection = database.getCollection(sessionID)
 
     val cursor = collection.find
+    val arrayBuffer = new ArrayBuffer[String]()
     while ( cursor.hasNext ) {
       val obj = cursor.next()
 
@@ -130,8 +139,9 @@ class SimEventDataCollectionMonitor {
       val tab = SimSharingManager.DELIMITER
       val paramString = asScalaSet(parameters.keySet).map(s => s + " = " + parameters.get(s)).mkString(tab)
 
-      println(time + tab + messageType + tab + component + tab + componentType + tab + action + tab + paramString)
+      arrayBuffer += ( time + tab + messageType + tab + component + tab + componentType + tab + action + tab + paramString )
     }
+    arrayBuffer.mkString("\n")
   }
 
   val frame = new Frame {
