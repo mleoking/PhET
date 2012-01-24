@@ -53,19 +53,20 @@ public class DilutionsSliderNode extends PhetPNode {
     private final ThumbNode thumbNode;
 
     // Slider with a default track fill and background color.
-    public DilutionsSliderNode( IUserComponent userComponent, String title, String minLabel, String maxLabel, final PDimension trackSize,
+    public DilutionsSliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel, final PDimension trackSize,
                                 final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
-        this( userComponent, title, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range, units, valuesVisible );
+        this( userComponent, title, subtitle, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range, units, valuesVisible );
     }
 
-    public DilutionsSliderNode( IUserComponent userComponent, String title, String minLabel, String maxLabel,
+    public DilutionsSliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel,
                                 final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
                                 final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
-        // title
-        PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_LABEL_FONT );
+        // title & subtitle
+        PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_TITLE_FONT );
+        PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, DilutionsConstants.SLIDER_SUBTITLE_FONT );
 
         // track that the thumb moves in, origin at upper left
         trackNode = new PPath() {{
@@ -93,6 +94,7 @@ public class DilutionsSliderNode extends PhetPNode {
         // rendering order
         {
             addChild( titleNode );
+            addChild( subtitleNode );
             addChild( maxNode );
             addChild( minNode );
             addChild( backgroundNode );
@@ -108,9 +110,12 @@ public class DilutionsSliderNode extends PhetPNode {
             // min label centered below the bar
             minNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                trackNode.getFullBoundsReference().getMaxY() + ( thumbNode.getFullBoundsReference().getHeight() / 2 ) + 1 );
-            // title centered above max label
+            // subtitle centered above max label
+            subtitleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( subtitleNode.getFullBoundsReference().getWidth() / 2 ),
+                                    maxNode.getFullBoundsReference().getMinY() - subtitleNode.getFullBoundsReference().getHeight() - 8 );
+            // title centered above subtitle
             titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 8 );
+                                 subtitleNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 2 );
             // thumb centered in track
             thumbNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
                                  trackNode.getFullBoundsReference().getCenterY() );

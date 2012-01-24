@@ -2,7 +2,6 @@ TODO list for dilutions
 
 HIGH
 - add concentration value to beaker label when "Show values" is selected
-- in slider labels, use smaller plain font for units
 - "Show values" check box has a dashed black line around it when it has focus (Win only)
 - move Molarity sim to a new project? rename "dilutions" project to "molarity"?
 

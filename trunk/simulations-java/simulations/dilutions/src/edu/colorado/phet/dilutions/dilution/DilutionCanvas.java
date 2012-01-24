@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GradientPaint;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -50,7 +51,10 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
 
         // M1 control (Solution concentration)
         PDimension concentrationBarSize = new PDimension( 20, cylinderSize.getHeight() + 50 );
-        DilutionsSliderNode concentrationSliderNode = new DilutionsSliderNode( UserComponents.concentrationSlider, Strings.M1_CONCENTRATION, Strings.ZERO, Strings.HIGH,
+        DilutionsSliderNode concentrationSliderNode = new DilutionsSliderNode( UserComponents.concentrationSlider,
+                                                                               Strings.M1_CONCENTRATION,
+                                                                               MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.UNITS_MOLES_PER_LITER ),
+                                                                               Strings.ZERO, Strings.HIGH,
                                                                                concentrationBarSize,
                                                                                new GradientPaint( 0f, 0f, model.solute.solutionColor.getMax(), 0f, (float) concentrationBarSize.getHeight(), model.solute.solutionColor.getMin() ),
                                                                                new Color( 0, 0, 0, 0 ), /* invisible track background */
@@ -59,7 +63,10 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
 
         // V1 control (Solution volume), sized to match tick marks on the beaker
         final double solutionVolumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getMaxBeakerVolume() ) * cylinderSize.getHeight();
-        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.solutionVolumeSlider, Strings.V1_VOLUME, Strings.EMPTY, Strings.SMALL,
+        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.solutionVolumeSlider,
+                                                                                Strings.V1_VOLUME,
+                                                                                MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.UNITS_LITERS ),
+                                                                                Strings.EMPTY, Strings.SMALL,
                                                                                 new PDimension( 5, solutionVolumeSliderHeight ),
                                                                                 model.solution.volume, model.getSolutionVolumeRange(),
                                                                                 Strings.UNITS_LITERS, valuesVisible );
@@ -80,13 +87,18 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         SolutionNode dilutionNode = new SolutionNode( cylinderSize, dilutionBeakerNode.getCylinderEndHeight(), model.dilution, model.getDilutionVolumeRange() );
 
         // M2 display (Dilution concentration)
-        ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.M2_CONCENTRATION, concentrationBarSize,
+        ConcentrationDisplayNode dilutionConcentrationNode = new ConcentrationDisplayNode( Strings.M2_CONCENTRATION,
+                                                                                           MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.UNITS_MOLARITY ),
+                                                                                           concentrationBarSize,
                                                                                            model.dilution, model.getConcentrationRange(),
                                                                                            Strings.UNITS_MOLARITY, valuesVisible );
 
         // V2 control (Dilution volume), sized to match tick marks on the beaker
         final double dilutionVolumeSlider = ( model.getDilutionVolumeRange().getLength() / model.getMaxBeakerVolume() ) * cylinderSize.getHeight();
-        DilutionsSliderNode dilutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.dilutionVolumeSlider, Strings.V2_VOLUME, Strings.SMALL, Strings.BIG,
+        DilutionsSliderNode dilutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.dilutionVolumeSlider,
+                                                                                Strings.V2_VOLUME,
+                                                                                MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.UNITS_LITERS ),
+                                                                                Strings.SMALL, Strings.BIG,
                                                                                 new PDimension( 5, dilutionVolumeSlider ),
                                                                                 model.dilution.volume, model.getDilutionVolumeRange(),
                                                                                 Strings.UNITS_LITERS, valuesVisible );

@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class DilutionsConstants {
 
-    public static final PhetFont SLIDER_LABEL_FONT = new PhetFont( Font.BOLD, 16 );
-    public static final PhetFont SLIDER_UNITS_FONT = new PhetFont( Font.PLAIN, 14 );
+    public static final PhetFont SLIDER_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
+    public static final PhetFont SLIDER_SUBTITLE_FONT = new PhetFont( Font.PLAIN, 14 );
     public static final PhetFont SLIDER_RANGE_FONT = new PhetFont( Font.PLAIN, 14 );
     public static final PhetFont SLIDER_VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
 }
