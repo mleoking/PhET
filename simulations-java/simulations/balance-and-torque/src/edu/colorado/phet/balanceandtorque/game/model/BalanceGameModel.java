@@ -15,13 +15,17 @@ import edu.colorado.phet.balanceandtorque.common.model.Plank;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.TiltSupportColumn;
 import edu.colorado.phet.common.games.GameSettings;
+import edu.colorado.phet.common.games.SimSharing;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelActions.challengePresented;
 
 /**
  * Main model class for the balance game.
@@ -218,10 +222,10 @@ public class BalanceGameModel {
         // Set up the challenges.
         challengeList = BalanceGameChallengeFactory.generateChallengeSet( getLevel() );
 
-        //Set up the model for the next challenge
+        // Set up the model for the next challenge
         setChallenge( getCurrentChallenge(), getCurrentChallenge().initialColumnState );
 
-        //Switch to the new state, will create graphics for the challenge
+        // Switch to the new state, will create graphics for the challenge
         gameStateProperty.set( GameState.PRESENTING_INTERACTIVE_CHALLENGE );
     }
 
@@ -382,6 +386,10 @@ public class BalanceGameModel {
 
         // Set the column state.
         supportColumnState.set( columnState );
+
+        // Send up a sim sharing message that indicates the type of challenge
+        // that is now being presented to the user.
+        SimSharingManager.sendModelMessage( SimSharing.Components.game, balanceChallenge.getModelComponentType(), challengePresented );
     }
 
     /**

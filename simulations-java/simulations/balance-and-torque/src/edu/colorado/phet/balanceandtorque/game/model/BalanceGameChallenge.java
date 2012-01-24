@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 
 /**
  * Base class for a single "challenge" (a.k.a. problem) that is presented to
@@ -65,12 +66,19 @@ public abstract class BalanceGameChallenge {
      * return false.
      *
      * @param that
-     * @return
+     * @return true if same mass values are used in the given challenge.
      */
     public boolean usesSameMasses( BalanceGameChallenge that ) {
         return usesSameFixedMasses( that ) && usesSameMovableMasses( that );
     }
 
+    /**
+     * Returns true if the specified challenge uses the same fixed masses.
+     * This is used for various equivalence comparisons.
+     *
+     * @param that
+     * @return true if same fixed mass values are used in the given challenge.
+     */
     public boolean usesSameFixedMasses( BalanceGameChallenge that ) {
         if ( this == that ) {
             return true;
@@ -225,4 +233,11 @@ public abstract class BalanceGameChallenge {
         }
         return totalMass;
     }
+
+    /**
+     * Get the model component for this challenge.  Subclasses must override.
+     *
+     * @return model component ID for this challenge.
+     */
+    abstract public IModelComponentType getModelComponentType();
 }

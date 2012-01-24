@@ -4,8 +4,10 @@ package edu.colorado.phet.balanceandtorque.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 
 /**
  * A challenge, used in the balance game, in which the user must predict which
@@ -33,6 +35,10 @@ public class TiltPredictionChallenge extends BalanceGameChallenge {
 
     @Override public ChallengeViewConfig getChallengeViewConfig() {
         return VIEW_CONFIG;
+    }
+
+    @Override public IModelComponentType getModelComponentType() {
+        return BalanceAndTorqueSimSharing.ModelComponentTypes.tiltPredictionChallenge;
     }
 
     /**
