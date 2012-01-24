@@ -1,3 +1,4 @@
+# 2.08.20 (60573) Jan 24, 2012
 Fixed: Parabola shifts to the left when switching tracks and switching back
 # 2.08.19 (60504) Jan 23, 2012
 Moved the grid behind the control panel
