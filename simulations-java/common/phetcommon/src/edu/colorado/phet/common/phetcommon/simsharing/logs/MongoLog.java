@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.LogManager;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Log;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
@@ -27,9 +26,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * @author Sam Reid
  */
 public class MongoLog implements Log {
-
-    //Flag for debugging, if this is set to false, then it won't send messages to the server, but will still print them to the console
-    private static final boolean ALLOW_SERVER_CONNECTION = true;
 
     private Mongo mongo;
 
@@ -64,15 +60,6 @@ public class MongoLog implements Log {
             e.printStackTrace();
         }
 
-        //Disables mongo logging (and maybe all other logging as well!)
-        //TODO: how to disable just the mongo log from DBPort info messages?  They are sent repeatedly when server offline.
-        try {
-            LogManager.getLogManager().reset();
-        }
-        catch ( Exception e ) {
-            System.out.println( "error on log reset: " + e.getMessage() );
-        }
-
         //one database per machine
         DB database = mongo.getDB( machineID );
 
@@ -82,6 +69,9 @@ public class MongoLog implements Log {
         //One collection per session, lets us easily iterate and add messages per session.
         collection = database.getCollection( sessionID );
     }
+
+    //Keep track of the number of messages that failed to send in case we use it to skip message sending
+    private static int failureCount = 0;
 
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
     public void addMessage( final SimSharingMessage message ) throws IOException {
@@ -97,12 +87,6 @@ public class MongoLog implements Log {
                     put( ACTION, message.action.toString() );
                     put( PARAMETERS, new BasicDBObject() {{
                         for ( Parameter parameter : message.parameters ) {
-                            //                            if ( parameter.name == null ) {
-                            //                                System.out.println( "parameter = " + parameter );
-                            //                            }
-                            //                            else if ( parameter.value == null ) {
-                            //                                System.out.println( "parameter.value = " + parameter.value );
-                            //                            }
                             put( parameter.name.toString(), parameter.value == null ? "null" : parameter.value.toString() );
                         }
                     }} );
@@ -112,15 +96,11 @@ public class MongoLog implements Log {
                     WriteResult result = collection.insert( doc );
                 }
 
-                //like new MongoException.Network( "can't say something" , ioe )
+                //If a connection could not be made, we may receive something like new MongoException.Network( "can't say something" , ioe )
                 catch ( RuntimeException e ) {
-                    //                    System.out.println( "My error: " + e.getMessage() );
-                    //
-                    //                    Enumeration<String> s = LogManager.getLogManager().getLoggerNames();
-                    //                    while ( s.hasMoreElements() ) {
-                    //                        String s1 = s.nextElement();
-                    //                        System.out.println( "s1 = " + s1 );
-                    //                    }
+                    failureCount++;
+                    System.out.println( "RuntimeException message: " + e.getMessage() );
+                    System.out.println( "failureCount = " + failureCount );
                 }
             }
         } );
