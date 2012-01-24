@@ -19,6 +19,7 @@ public class ShowValuesNode extends PNode {
     public ShowValuesNode( Property<Boolean> valuesVisible ) {
         addChild( new PSwing( new SimSharingPropertyCheckBox( UserComponents.showValuesCheckBox, Strings.SHOW_VALUES, valuesVisible ) {{
             setFont( new PhetFont( 18 ) );
+            setOpaque( false );
         }} ) );
     }
 }
