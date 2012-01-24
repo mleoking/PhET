@@ -50,14 +50,14 @@ public class DilutionsResources {
 
         // Additional strings used by the unpublished DilutionsApplication.
         public static final String BIG = "big";
-        public static final String CONCENTRATION_M1 = "<html><center>Concentration<br>M<sub>1</sub> (mol/L)</html>";
-        public static final String CONCENTRATION_M2 = "<html><center>Concentration<br>M<sub>2</sub> (mol/L)</html>";
+        public static final String CONCENTRATION_M1 = "<html><center>M<sub>1</sub><br>Concentration<br>(mol/L)</html>";
+        public static final String CONCENTRATION_M2 = "<html><center>M<sub>2</sub><br>Concentration<br>(mol/L)</html>";
         public static final String DILUTION = "Dilution";
         public static final String EMPTY = "empty";
         public static final String SMALL = "small";
         public static final String SOLUTION = "Solution";
-        public static final String VOLUME_V1 = "<html><center>Volume<br>V<sub>1</sub> (L)</html>";
-        public static final String VOLUME_V2 = "<html><center>Volume<br>V<sub>2</sub> (L)</html>";
+        public static final String VOLUME_V1 = "<html><center>V<sub>1</sub><br>Volume<br>(L)</html>";
+        public static final String VOLUME_V2 = "<html><center>V<sub>2</sub><br>Volume<br>(L)</html>";
     }
 
     // Symbols, no i18n needed

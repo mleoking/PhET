@@ -43,7 +43,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class ConcentrationDisplayNode extends PNode {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-    private static final PhetFont MIN_MAX_FONT = new PhetFont( 16 );
+    private static final PhetFont MIN_MAX_FONT = new PhetFont( 14 );
     private static final PhetFont VALUE_FONT = new PhetFont( 16 );
     private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
     private static final DecimalFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" );
