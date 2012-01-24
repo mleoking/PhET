@@ -1,3 +1,4 @@
+1/23/12 #3221, restore broken data collection (sim-sharing)
 10/28/11 Added event reporting when game starts or settings change, see #3136
 10/28/11 Added event reporting for end of game, see #3136
 10/20/11 make game "Start" button color configurable, so that sims can use a consistent "attention" color throughout game

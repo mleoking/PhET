@@ -18,8 +18,10 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.games.GameSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -123,7 +125,7 @@ public class GameOverNode extends PhetPNode {
         addChild( timeNode );
 
         // buttons
-        JButton newGameButton = new JButton( BUTTON_NEW_GAME );
+        JButton newGameButton = new SimSharingJButton( UserComponents.newGameButton, BUTTON_NEW_GAME );
         newGameButton.setOpaque( false );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
