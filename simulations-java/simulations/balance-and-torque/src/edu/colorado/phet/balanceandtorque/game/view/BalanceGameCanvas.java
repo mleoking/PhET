@@ -50,6 +50,7 @@ import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNo
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
 import static edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel.GameState.*;
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -111,10 +112,18 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }};
 
     // Buttons.
-    private TextButtonNode checkAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.CHECK_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR );
-    private TextButtonNode tryAgainButton = new TextButtonNode( BalanceAndTorqueResources.Strings.TRY_AGAIN, BUTTON_FONT, ACTIVE_BUTTON_COLOR );
-    private TextButtonNode nextChallengeButton = new TextButtonNode( BalanceAndTorqueResources.Strings.NEXT, BUTTON_FONT, ACTIVE_BUTTON_COLOR );
-    private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.DISPLAY_CORRECT_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR );
+    private TextButtonNode checkAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.CHECK_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
+        setUserComponent( checkAnswer );
+    }};
+    private TextButtonNode tryAgainButton = new TextButtonNode( BalanceAndTorqueResources.Strings.TRY_AGAIN, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
+        setUserComponent( tryAgain );
+    }};
+    private TextButtonNode nextChallengeButton = new TextButtonNode( BalanceAndTorqueResources.Strings.NEXT, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
+        setUserComponent( nextChallenge );
+    }};
+    private TextButtonNode displayCorrectAnswerButton = new TextButtonNode( BalanceAndTorqueResources.Strings.DISPLAY_CORRECT_ANSWER, BUTTON_FONT, ACTIVE_BUTTON_COLOR ) {{
+        setUserComponent( displayAnswer );
+    }};
 
     // Challenge title, may change for different challenge types.
     private OutlinePText challengeTitleNode;
