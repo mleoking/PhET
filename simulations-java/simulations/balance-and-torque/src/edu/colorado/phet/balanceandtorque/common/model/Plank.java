@@ -236,7 +236,8 @@ public class Plank extends ShapeModelElement {
                                                 modelElement,
                                                 massAddedToPlank,
                                                 new ParameterSet() {{
-                                                    add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.mass, mass.getMass() ) );
+                                                    add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.massUserComponent, mass.getUserComponent().toString() ) );
+                                                    add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.massValue, mass.getMass() ) );
                                                     add( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.distanceFromPlankCenter, distanceFromCenter ) );
                                                 }} );
         }

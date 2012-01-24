@@ -4,12 +4,15 @@ package edu.colorado.phet.balanceandtorque.common.model.masses;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 
 /**
  * This class creates mystery objects.  A mystery object is a mass that the
@@ -53,7 +56,7 @@ public class MysteryObjectFactory {
     public static LabeledImageMass createLabeledMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
         assert ( mysteryObjectID < MYSTERY_OBJECT_CONFIGURATIONS.size() );
         MysteryObjectConfig config = MYSTERY_OBJECT_CONFIGURATIONS.get( mysteryObjectID );
-        return new LabeledImageMass( createMysteryObjectUserComponent(), config.mass, config.image, config.height, initialLocation, config.labelText, true );
+        return new LabeledImageMass( createMysteryObjectUserComponent( config.labelText ), config.mass, config.image, config.height, initialLocation, config.labelText, true );
     }
 
     /**
@@ -76,16 +79,24 @@ public class MysteryObjectFactory {
     public static ImageMass createUnlabeledMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
         assert ( mysteryObjectID < MYSTERY_OBJECT_CONFIGURATIONS.size() );
         MysteryObjectConfig config = MYSTERY_OBJECT_CONFIGURATIONS.get( mysteryObjectID );
-        return new ImageMass( createMysteryObjectUserComponent(), config.mass, config.image, config.height, initialLocation, true );
+        return new ImageMass( createMysteryObjectUserComponent( config.labelText ), config.mass, config.image, config.height, initialLocation, true );
     }
 
     public static int getNumAvailableMysteryObjects() {
         return MYSTERY_OBJECT_CONFIGURATIONS.size();
     }
 
-    // TODO: This needs work in order to put the label into a parameter and to track the instance count.
-    private static IUserComponent createMysteryObjectUserComponent() {
-        return BalanceAndTorqueSimSharing.UserAndModelComponents.mysteryObject;
+    // For tracking instance counts for mystery objects with a given label.
+    private static Map<String, Integer> labelToInstanceCountMap = new HashMap<String, Integer>();
+
+    private static IUserComponent createMysteryObjectUserComponent( String labelText ) {
+        if ( !labelToInstanceCountMap.containsKey( labelText ) ) {
+            // Add initial entry for this label.
+            labelToInstanceCountMap.put( labelText, 0 );
+        }
+        int instanceCount = labelToInstanceCountMap.get( labelText );
+        labelToInstanceCountMap.put( labelText, instanceCount + 1 );
+        return UserComponentChain.chain( UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.mysteryObject, labelText ), instanceCount );
     }
 
     // Collection of information needed to define a particular configuration
