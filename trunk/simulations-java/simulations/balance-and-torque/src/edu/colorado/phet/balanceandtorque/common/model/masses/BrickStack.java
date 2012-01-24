@@ -92,24 +92,24 @@ public class BrickStack extends ShapeMass {
         IUserComponent userComponent;
         switch( numBricks ) {
             case 1:
-                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick, instanceCountMap.get( numBricks ) );
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.singleBrick, instanceCountMap.get( numBricks ) );
                 break;
             case 2:
-                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfTwoBricks, instanceCountMap.get( numBricks ) );
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfTwoBricks, instanceCountMap.get( numBricks ) );
                 break;
             case 3:
-                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfThreeBricks, instanceCountMap.get( numBricks ) );
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfThreeBricks, instanceCountMap.get( numBricks ) );
                 break;
             case 4:
-                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
                 break;
             case 8:
-                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
                 break;
             default:
                 System.out.println( "Error: No user component ID for stack of requested size, numBricks = " + numBricks );
                 assert false; // If this line is reached then additional user components need to be added.
-                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick, instanceCountMap.get( numBricks ) );
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.singleBrick, instanceCountMap.get( numBricks ) );
                 break;
         }
 

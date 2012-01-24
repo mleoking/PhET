@@ -26,16 +26,6 @@ public class BalanceAndTorqueSimSharing {
         massLabelsCheckBox, rulersCheckBox, forceFromObjectsCheckBox,
         levelCheckBox,
 
-        // Buttons
-        redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
-        nextKitButton, previousKitButton, checkAnswer, tryAgain, displayAnswer,
-        nextChallenge, tiltLeftButton, stayBalancedButton, tiltRightButton
-
-    }
-
-    // Sim sharing components that exist in both the model and the view.
-    public static enum UserAndModelComponents implements IUserComponent, IModelComponent {
-
         // Movable masses
         singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
         statckOfEightBricks, mediumTrashCan, mediumBucket, tire, television,
@@ -44,12 +34,18 @@ public class BalanceAndTorqueSimSharing {
         fireExtinguisher, bigRock, largeBucket, fireHydrant, man, woman, boy,
         girl, smallBucket,
 
-        // Other
+        // Buttons
+        redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
+        nextKitButton, previousKitButton, checkAnswer, tryAgain, displayAnswer,
+        nextChallenge, tiltLeftButton, stayBalancedButton, tiltRightButton
+    }
+
+    public static enum ModelComponents implements IUserComponent, IModelComponent {
         plank
     }
 
     public static enum UserActions implements IUserAction {
-        createdMass, removedMass, selectedTiltLeft, selectedRemainBalanced, selectedTiltRight
+        createdMass, removedMass
     }
 
     public static enum ModelComponentTypes implements IModelComponentType {

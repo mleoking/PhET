@@ -96,7 +96,7 @@ public class MysteryObjectFactory {
         }
         int instanceCount = labelToInstanceCountMap.get( labelText );
         labelToInstanceCountMap.put( labelText, instanceCount + 1 );
-        return UserComponentChain.chain( UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.mysteryObject, labelText ), instanceCount );
+        return UserComponentChain.chain( UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.mysteryObject, labelText ), instanceCount );
     }
 
     // Collection of information needed to define a particular configuration

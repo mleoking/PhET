@@ -31,6 +31,6 @@ public class LabeledImageMass extends ImageMass {
 
     @Override public Mass createCopy() {
         // TODO: Needs work on how to identify the mystery object.  Current approach is ambiguous - need label and instance.
-        return new LabeledImageMass( BalanceAndTorqueSimSharing.UserAndModelComponents.mysteryObject, getMass(), imageProperty.get(), heightProperty.get(), positionProperty.get(), labelText, isMystery() );
+        return new LabeledImageMass( BalanceAndTorqueSimSharing.UserComponents.mysteryObject, getMass(), imageProperty.get(), heightProperty.get(), positionProperty.get(), labelText, isMystery() );
     }
 }
