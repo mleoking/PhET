@@ -1,3 +1,4 @@
+Full hemisphere of earth shown on Crust tab when zoomed out
 Hid FPS readout by default, added developer option to enable it
 Consolidated the time control readout, so now the inner visibility is toggled
 # 0.00.10 (59979) Jan 6, 2012
