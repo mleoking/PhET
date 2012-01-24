@@ -92,7 +92,7 @@ public class DilutionsSliderNode extends PhetPNode {
 
         // min and max labels
         final PNode minNode = new DualLabelNode( RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, MIN_MAX_FONT );
-        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( range.getMax() ), minLabel, valuesVisible, MIN_MAX_FONT );
+        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( range.getMax() ), maxLabel, valuesVisible, MIN_MAX_FONT );
 
         // rendering order
         {
