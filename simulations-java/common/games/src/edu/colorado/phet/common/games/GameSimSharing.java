@@ -12,6 +12,7 @@ public class GameSimSharing {
 
     public static enum UserComponents implements IUserComponent {
         startGameButton, newGameButton,
-        newGameYesButton, newGameNoButton
+        newGameYesButton, newGameNoButton,
+        levelRadioButton, timerOnRadioButton, timerOffRadioButton, soundOnRadioButton, soundOffRadioButton
     }
 }
