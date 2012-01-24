@@ -64,7 +64,9 @@ object GroupComparisonTool extends SimpleSwingApplication {
 
 object CompareGroups extends App {
 
-  process(List(new File("C:\\Users\\Sam\\Desktop\\kl-one-recitation"), new File("C:\\Users\\Sam\\Desktop\\kl-two-recitation")))
+  process(List(new File("C:\\Users\\Sam\\Desktop\\kl-one-recitation"),
+               new File("C:\\Users\\Sam\\Desktop\\kl-two-recitation"),
+               new File("C:\\Users\\Sam\\Desktop\\kl-three-recitation")))
 
   def process(folders: List[File]) {
 

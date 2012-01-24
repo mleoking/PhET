@@ -18,6 +18,8 @@ object JoinSeparateRuns extends App {
     val map = logs.map(_.machine).distinct.map(machine => machine -> logs.filter(_.machine == machine)).toMap
     for ( machine <- map.keys ) {
       println("Machine: " + machine + ", logs = " + map(machine).length)
+      val sessions = map(machine).toList.sortBy(_.startTime)
+      //      val log = new Log()
     }
   }
 }
