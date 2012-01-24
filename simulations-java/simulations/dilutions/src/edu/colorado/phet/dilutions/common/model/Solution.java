@@ -57,7 +57,7 @@ public class Solution implements Resettable {
     }
 
     public boolean isSaturated() {
-        return ( getSoluteAmount() / getVolume() ) > getSaturatedConcentration();
+        return precipitateAmount.get() != 0;
     }
 
     public double getConcentration() {

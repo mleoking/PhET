@@ -1,7 +1,6 @@
 TODO list for dilutions
 
 HIGH
-- “Saturated” label does not appear when the solute amount is slowly raised above saturation with fixed volume.  (Works when Solution volume is lowered past saturation, and works when solute amount is increased fast.)
 - add concentration value to beaker label when "Show values" is selected
 - in slider labels, use smaller plain font for units
 - "Show values" check box has a dashed black line around it when it has focus (Win only)
