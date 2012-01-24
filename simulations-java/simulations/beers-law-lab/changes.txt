@@ -1,3 +1,4 @@
+1/24/12 fix max range label on sliders
 1/23/12 fix flat spot on top of concentration probe image
 1/19/12 remove excessive negative space from concentration meter
 1/19/12 put units under concentration meter title
