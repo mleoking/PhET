@@ -7,6 +7,9 @@ import java.util.List;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.ModelComponentTypes.massDeductionChallenge;
 
 /**
  * A challenge, used in the balance game, in which the user attempts to
@@ -38,6 +41,11 @@ public class MassDeductionChallenge extends BalanceGameChallenge {
     @Override public ChallengeViewConfig getChallengeViewConfig() {
         return VIEW_CONFIG;
     }
+
+    @Override public IModelComponentType getModelComponentType() {
+        return massDeductionChallenge;
+    }
+
 
     /**
      * Convenience function for create a mass deduction challenge.

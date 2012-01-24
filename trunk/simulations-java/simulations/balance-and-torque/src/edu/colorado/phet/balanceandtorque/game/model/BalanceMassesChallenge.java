@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 
 /**
  * A challenge, used in the balance game, in which the user must attempt to
@@ -43,6 +45,10 @@ public class BalanceMassesChallenge extends BalanceGameChallenge {
 
     @Override public ChallengeViewConfig getChallengeViewConfig() {
         return VIEW_CONFIG;
+    }
+
+    @Override public IModelComponentType getModelComponentType() {
+        return BalanceAndTorqueSimSharing.ModelComponentTypes.balanceMassesChallenge;
     }
 
     /**

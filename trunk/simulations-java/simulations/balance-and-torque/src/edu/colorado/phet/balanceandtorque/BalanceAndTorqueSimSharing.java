@@ -3,6 +3,7 @@ package edu.colorado.phet.balanceandtorque;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -36,10 +37,11 @@ public class BalanceAndTorqueSimSharing {
 
         // Movable masses
         singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
-        mediumTrashCan, mediumBucket, tire, television, sodaBottle, smallRock,
-        smallTrashCan, pottedPlant, tinyRock, flowerPot, cinderBlock,
-        mediumRock, largeTrashCan, mysteryObject, barrel, fireExtinguisher,
-        bigRock, largeBucket, fireHydrant, man, woman, boy, girl, smallBucket,
+        statckOfEightBricks, mediumTrashCan, mediumBucket, tire, television,
+        sodaBottle, smallRock, smallTrashCan, pottedPlant, tinyRock, flowerPot,
+        cinderBlock, mediumRock, largeTrashCan, mysteryObject, barrel,
+        fireExtinguisher, bigRock, largeBucket, fireHydrant, man, woman, boy,
+        girl, smallBucket,
 
         // Other
         plank
@@ -49,8 +51,14 @@ public class BalanceAndTorqueSimSharing {
         createdMass, removedMass
     }
 
+    public static enum ModelComponentTypes implements IModelComponentType {
+        // Game challenge types.
+        balanceMassesChallenge, massDeductionChallenge, tiltPredictionChallenge
+    }
+
     public static enum ModelActions implements IModelAction {
-        massAddedToPlank, massRemovedFromPlank, startedTilting, stoppedTilting
+        massAddedToPlank, massRemovedFromPlank, startedTilting, stoppedTilting,
+        challengePresented
     }
 
     public static enum ParameterKeys implements IParameterKey {
