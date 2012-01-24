@@ -4,6 +4,7 @@ package edu.colorado.phet.dilutions.molarity;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Frame;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -49,21 +50,29 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
 
         // slider for controlling amount of solute
-        DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( UserComponents.soluteAmountSlider, Strings.SOLUTE_AMOUNT, Strings.NONE, Strings.LOTS,
+        DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( UserComponents.soluteAmountSlider,
+                                                                              Strings.SOLUTE_AMOUNT,
+                                                                              MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLES ),
+                                                                              Strings.NONE, Strings.LOTS,
                                                                               new PDimension( 5, cylinderSize.getHeight() ),
                                                                               model.solution.soluteAmount, model.getSoluteAmountRange(),
                                                                               Strings.UNITS_MOLES, valuesVisible );
 
         // slider for controlling volume of solution, sized to match tick marks on the beaker
         final double volumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getSolutionVolumeRange().getMax() ) * cylinderSize.getHeight();
-        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.volumeSlider, Strings.SOLUTION_VOLUME, Strings.LOW, Strings.FULL,
+        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.volumeSlider,
+                                                                                Strings.SOLUTION_VOLUME,
+                                                                                MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.LITERS ),
+                                                                                Strings.LOW, Strings.FULL,
                                                                                 new PDimension( 5, volumeSliderHeight ),
                                                                                 model.solution.volume, model.getSolutionVolumeRange(),
                                                                                 Strings.UNITS_LITERS, valuesVisible );
 
         // concentration display
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
-        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION, concentrationBarSize,
+        ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION,
+                                                                                          MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLARITY ),
+                                                                                          concentrationBarSize,
                                                                                           model.solution, model.getConcentrationRange(),
                                                                                           Strings.UNITS_MOLARITY, valuesVisible );
 

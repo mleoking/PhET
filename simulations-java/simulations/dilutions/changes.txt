@@ -1,3 +1,4 @@
+1/24/12 split slider and concentration display labels into title and subtitle, so that subtitle can be in a lesser font
 1/24/12 factor out constants for various font sizes and styles (labels, units, ranges, values)
 1/24/12 fix "Saturated" indicator, observe the amount of precipitate, not the concentration
 1/24/12 setOpaque(false) for "Show values" check box

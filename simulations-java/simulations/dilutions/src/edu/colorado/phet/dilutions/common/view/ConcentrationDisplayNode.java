@@ -44,10 +44,11 @@ public class ConcentrationDisplayNode extends PNode {
     private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
     private static final DecimalFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" );
 
-    public ConcentrationDisplayNode( String title, final PDimension barSize, final Solution solution,
+    public ConcentrationDisplayNode( String title, String subtitle, final PDimension barSize, final Solution solution,
                                      final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
         // nodes
-        final PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_LABEL_FONT );
+        final PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_TITLE_FONT );
+        final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, DilutionsConstants.SLIDER_SUBTITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), units, valuesVisible );
         final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
@@ -57,6 +58,7 @@ public class ConcentrationDisplayNode extends PNode {
         // rendering order
         {
             addChild( titleNode );
+            addChild( subtitleNode );
             addChild( barNode );
             addChild( maxNode );
             addChild( minNode );
@@ -72,9 +74,12 @@ public class ConcentrationDisplayNode extends PNode {
             // min label centered below the bar
             minNode.setOffset( barNode.getFullBoundsReference().getCenterX(),
                                barNode.getFullBoundsReference().getMaxY() + 3 );
-            // title centered above max label
+            // subtitle centered above max label
+            subtitleNode.setOffset( barNode.getFullBounds().getCenterX() - ( subtitleNode.getFullBoundsReference().getWidth() / 2 ),
+                                    maxNode.getFullBoundsReference().getMinY() - subtitleNode.getFullBoundsReference().getHeight() - 8 );
+            // title centered above subtitle
             titleNode.setOffset( barNode.getFullBounds().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                                 maxNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 8 );
+                                 subtitleNode.getFullBoundsReference().getMinY() - titleNode.getFullBoundsReference().getHeight() - 2 );
         }
 
         // Pointer position and value corresponds to the solution's concentration.

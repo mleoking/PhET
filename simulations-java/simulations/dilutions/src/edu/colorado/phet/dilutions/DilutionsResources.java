@@ -27,10 +27,12 @@ public class DilutionsResources {
         public static final String GOLD_III_CHLORIDE = RESOURCES.getLocalizedString( "goldIIIChloride" );
         public static final String HIGH = RESOURCES.getLocalizedString( "high" );
         public static final String KOOL_AID = RESOURCES.getLocalizedString( "koolAid" );
+        public static final String LITERS = RESOURCES.getLocalizedString( "liters" );
         public static final String LOW = RESOURCES.getLocalizedString( "low" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
+        public static final String MOLES = RESOURCES.getLocalizedString( "moles" );
         public static final String MOLARITY = RESOURCES.getLocalizedString( "molarity" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
         public static final String PATTERN_0VALUE_1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
@@ -51,14 +53,15 @@ public class DilutionsResources {
 
         // Additional strings used by the unpublished DilutionsApplication.
         public static final String BIG = "big";
-        public static final String M1_CONCENTRATION = "<html><center>M<sub>1</sub><br>Concentration<br>(mol/L)</html>";
-        public static final String M2_CONCENTRATION = "<html><center>M<sub>2</sub><br>Concentration<br>(mol/L)</html>";
+        public static final String M1_CONCENTRATION = "<html><center>M<sub>1</sub><br>Concentration</html>";
+        public static final String M2_CONCENTRATION = "<html><center>M<sub>2</sub><br>Concentration</html>";
         public static final String DILUTION = "Dilution";
         public static final String EMPTY = "empty";
         public static final String SMALL = "small";
         public static final String SOLUTION = "Solution";
-        public static final String V1_VOLUME = "<html><center>V<sub>1</sub><br>Volume<br>(L)</html>";
-        public static final String V2_VOLUME = "<html><center>V<sub>2</sub><br>Volume<br>(L)</html>";
+        public static final String UNITS_MOLES_PER_LITER = "mol/L";
+        public static final String V1_VOLUME = "<html><center>V<sub>1</sub><br>Volume</html>";
+        public static final String V2_VOLUME = "<html><center>V<sub>2</sub><br>Volume</html>";
     }
 
     // Symbols, no i18n needed
