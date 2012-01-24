@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.lwjglphet.GLMaterial;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
@@ -51,6 +52,7 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
 //        x = (float) MathUtil.clamp( 0.0, x / 255.0, 1.0 ); // clamp it in the normal range
         float x = ( temperature - minTemp ) / ( maxMaxTemp - minTemp );
         x = (float) Math.pow( x, 0.4f );
+        x = (float) MathUtil.clamp( 0.05, x, 1 );
         return new ImmutableVector2F( x, 0.5f );
 
 //        float minDensityToShow = 2500;
