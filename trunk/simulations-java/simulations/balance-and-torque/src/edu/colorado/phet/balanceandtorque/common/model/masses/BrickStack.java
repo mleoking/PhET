@@ -4,10 +4,13 @@ package edu.colorado.phet.balanceandtorque.common.model.masses;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -26,6 +29,9 @@ public class BrickStack extends ShapeMass {
     public static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
     public static final double BRICK_MASS = 5; // In kg.
 
+    // Instance counts for various brick stacks.
+    private static final Map<Integer, Integer> instanceCountMap = new HashMap<Integer, Integer>();
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -41,7 +47,7 @@ public class BrickStack extends ShapeMass {
     }
 
     public BrickStack( int numBricks, Point2D initialCenterBottom ) {
-        super( getUserComponent( numBricks ), numBricks * BRICK_MASS, generateShape( numBricks, 1 ) );
+        super( createUserComponent( numBricks ), numBricks * BRICK_MASS, generateShape( numBricks, 1 ) );
         setPosition( initialCenterBottom );
         this.numBricks = numBricks;
     }
@@ -72,25 +78,41 @@ public class BrickStack extends ShapeMass {
 
     /**
      * Get the appropriate sim-sharing user component based on the number of
-     * bricks in the stack.
+     * bricks in the stack.  This should ONLY be called during the construction
+     * of brick stacks, since each call will increment the instance count for
+     * the corresponding stack size.
      *
      * @param numBricks
      * @return
      */
-    private static IUserComponent getUserComponent( int numBricks ) {
+    private static IUserComponent createUserComponent( int numBricks ) {
+        if ( !instanceCountMap.containsKey( numBricks ) ) {
+            instanceCountMap.put( numBricks, 0 );
+        }
+        IUserComponent userComponent;
         switch( numBricks ) {
             case 1:
-                return BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick;
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick, instanceCountMap.get( numBricks ) );
+                break;
             case 2:
-                return BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfTwoBricks;
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfTwoBricks, instanceCountMap.get( numBricks ) );
+                break;
             case 3:
-                return BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfThreeBricks;
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfThreeBricks, instanceCountMap.get( numBricks ) );
+                break;
             case 4:
-                return BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfFourBricks;
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
+                break;
             default:
                 assert false; // If this line is reached then additional user components need to be added.
-                return BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick;
+                userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick, instanceCountMap.get( numBricks ) );
+                break;
         }
+
+        // Increment the instance count for stacks of this size.
+        instanceCountMap.put( numBricks, instanceCountMap.get( numBricks ) + 1 );
+
+        return userComponent;
     }
 
     @Override public void initiateAnimation() {
