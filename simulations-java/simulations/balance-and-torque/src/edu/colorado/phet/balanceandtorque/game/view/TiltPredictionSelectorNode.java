@@ -12,9 +12,12 @@ import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.game.model.BalanceGameModel;
 import edu.colorado.phet.balanceandtorque.game.model.TiltPrediction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -29,6 +32,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.radioButton;
+
 /**
  * Class that defines a user interface element that allows the user to select
  * one of three possible ways in which the balance might behave - tilt left,
@@ -42,9 +48,21 @@ public class TiltPredictionSelectorNode extends PNode {
     public Property<TiltPrediction> tiltPredictionProperty = new Property<TiltPrediction>( TiltPrediction.NONE );
 
     public TiltPredictionSelectorNode( Property<BalanceGameModel.GameState> gameStateProperty ) {
-        PNode panelContents = new HBox( new TiltPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_LEFT, TiltPrediction.TILT_DOWN_ON_LEFT_SIDE, tiltPredictionProperty, gameStateProperty ),
-                                        new TiltPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_BALANCED, TiltPrediction.STAY_BALANCED, tiltPredictionProperty, gameStateProperty ),
-                                        new TiltPredictionSelectionPanel( BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT, TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE, tiltPredictionProperty, gameStateProperty ) );
+        PNode panelContents = new HBox( new TiltPredictionSelectionPanel( BalanceAndTorqueSimSharing.UserComponents.tiltLeftButton,
+                                                                          BalanceAndTorqueResources.Images.PLANK_TIPPED_LEFT,
+                                                                          TiltPrediction.TILT_DOWN_ON_LEFT_SIDE,
+                                                                          tiltPredictionProperty,
+                                                                          gameStateProperty ),
+                                        new TiltPredictionSelectionPanel( BalanceAndTorqueSimSharing.UserComponents.stayBalancedButton,
+                                                                          BalanceAndTorqueResources.Images.PLANK_BALANCED,
+                                                                          TiltPrediction.STAY_BALANCED,
+                                                                          tiltPredictionProperty,
+                                                                          gameStateProperty ),
+                                        new TiltPredictionSelectionPanel( BalanceAndTorqueSimSharing.UserComponents.stayBalancedButton,
+                                                                          BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT,
+                                                                          TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE,
+                                                                          tiltPredictionProperty,
+                                                                          gameStateProperty ) );
         addChild( new ControlPanelNode( panelContents ) );
     }
 
@@ -61,7 +79,7 @@ public class TiltPredictionSelectorNode extends PNode {
         private static final Stroke CORRECT_ANSWER_HIGHLIGHT_STROKE = new BasicStroke( 6 );
         protected PPath outline;
 
-        private TiltPredictionSelectionPanel( Image image, final TiltPrediction correspondingPrediction, final Property<TiltPrediction> tiltPredictionProperty,
+        private TiltPredictionSelectionPanel( final IUserComponent userComponent, Image image, final TiltPrediction correspondingPrediction, final Property<TiltPrediction> tiltPredictionProperty,
                                               final Property<BalanceGameModel.GameState> gameStateProperty ) {
 
             // Create and add the panel that represents this tilt prediction choice.
@@ -74,6 +92,10 @@ public class TiltPredictionSelectorNode extends PNode {
             panel.addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
                     tiltPredictionProperty.set( correspondingPrediction );
+                    // Send up a sim-sharing message indicating that this panel
+                    // was selected.  Portray it as a radio button, since that
+                    // is essentially how it functions.
+                    SimSharingManager.sendUserMessage( userComponent, radioButton, pressed );
                 }
             } );
 
