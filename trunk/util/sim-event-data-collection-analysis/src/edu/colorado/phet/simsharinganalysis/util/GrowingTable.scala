@@ -21,6 +21,6 @@ class GrowingTable {
 
   def toMinuteMap = {
     val format = new DecimalFormat("0.00")
-    t.map(elm => elm._1 -> format.format(elm._2 / 1000.0 / 60.0))
+    t.map(elm => elm._1 -> format.format(elm._2 / 1000.0 / 60.0)).toMap
   }
 }

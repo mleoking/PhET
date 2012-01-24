@@ -170,22 +170,28 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
     if ( matches.length == 0 ) nameOfFirstTabComponent else matches.last
   }
 
+  //Find the index by reference
   def indexOf(e: Entry): Int = {
-    val first = entries.indexOf(e)
-    val last = entries.lastIndexOf(e)
-    if ( first == last ) {
-      first
-    }
-    else {
-      val error = "duplicate entries, first = " + first + ", last = " + last + ", entry = " + e
-      println(error)
-      val zipWithIndex = entries.zipWithIndex
-      val found = zipWithIndex.find(p => p._1.eq(e)).toList
-      found match {
-        case x: List[(Entry, Int)] if x.length == 1 => x(0)._2
-        case x: List[(Entry, Int)] if x.length == 0 => throw new RuntimeException("Still failed!")
-        case x: List[(Entry, Int)] if x.length > 1 => throw new RuntimeException("Still failed for many reasons!")
-      }
-    }
+    entries.indexWhere(e eq _)
+
+    //    val first = entries.indexOf(e)
+    //    val last = entries.lastIndexOf(e)
+    //    if ( first == last ) {
+    //      first
+    //    }
+    //    else {
+    //      val error = "duplicate entries, first = " + first + ", last = " + last + ", entry = " + e
+    //      val showErrors = false //TODO: Anything else to do about this?
+    //      if ( showErrors ) {
+    //        println(error)
+    //      }
+    //      val zipWithIndex = entries.zipWithIndex
+    //      val found = zipWithIndex.find(p => p._1.eq(e)).toList
+    //      found match {
+    //        case x: List[(Entry, Int)] if x.length == 1 => x(0)._2
+    //        case x: List[(Entry, Int)] if x.length == 0 => throw new RuntimeException("Still failed!")
+    //        case x: List[(Entry, Int)] if x.length > 1 => throw new RuntimeException("Still failed for many reasons!")
+    //      }
+    //    }
   }
 }

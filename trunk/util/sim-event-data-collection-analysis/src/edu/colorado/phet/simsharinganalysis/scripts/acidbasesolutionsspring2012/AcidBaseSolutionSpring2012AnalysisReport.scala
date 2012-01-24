@@ -196,7 +196,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       val indexB = states.indexWhere(p._2 eq _)
       val intermediateEntry = log.entries(indexB)
 
-      println("indexA= " + indexA + ", indexB = " + indexB + ", a = " + p._1 + ", b = " + p._2 + ", intermediateEntry = " + intermediateEntry)
+      //      println("indexA= " + indexA + ", indexB = " + indexB + ", a = " + p._1 + ", b = " + p._2 + ", intermediateEntry = " + intermediateEntry)
 
       intermediateEntry.component == "resetAllConfirmationDialogYesButton"
     }
@@ -217,5 +217,108 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
     writeLine("State: " + states.last)
     writeLine("")
+  }
+
+  def toReport(log: Log) = {
+
+    val session = log.session
+    val clicks: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
+
+    //Show how long the sim was open.  Format so that RealTimeAnalysis isn't too jumpy
+    val timeSimOpenMin = log.minutesUsed
+    val firstClickToLastClick = ( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0
+    val numberOfClicks = clicks.length
+
+    val timePeriod = Pair(1000 * 60, "minute")
+    val clicksPerMinute = getClickTimeHistogram(log, timePeriod)
+    val mapped = clicksPerMinute.keys.toList.sorted.map(e => e + " -> " + clicksPerMinute(e)).mkString(", ")
+
+    import scala.collection.JavaConversions._
+    val numberOfEventsOnInteractiveComponents = log.entries.filter(_.messageType == "user").filter(_.interactive != false).length
+    val interactiveComponentsUsed = log.entries.map(_.component).distinct.filter(ABSSimSharing.interactive.map(_.toString).toList.contains(_)).sorted
+    val allComponents = ABSSimSharing.interactive.toList.map(_.toString).toList
+    val interactiveComponentsNotUsed = allComponents.filter(e => !interactiveComponentsUsed.contains(e)).sorted
+
+    val usedStringBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
+    val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
+    val selectedBase = usedStringBaseRadioButton || usedWeakBaseRadioButton
+    val showedSolvent = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
+    val dunkedPHMeter = !log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").isEmpty
+    val dunkedPHPaper = !log.filter(_.component == "phPaper").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").isEmpty
+    val completedCircuit = !log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).isEmpty
+
+    val states = getStates(log)
+
+    val solutionTable = new GrowingTable
+    val viewTable = new GrowingTable
+    val testTable = new GrowingTable
+    val entryIndices = 0 until log.entries.length - 1
+    val timeBetweenEntries = getTimesBetweenEntries(log.entries)
+    for ( i <- entryIndices ) {
+      val time = timeBetweenEntries(i)
+      solutionTable.add(states(i).displayedSolution, time)
+      viewTable.add(states(i).displayedView, time)
+      testTable.add(states(i).displayedTest, time)
+    }
+
+    val a = states.tail
+    val b = states.reverse.tail.reverse
+    val statePairs = b.zip(a)
+    val numTabTransitions = statePairs.map(pair => if ( pair._2.selectedTab != pair._1.selectedTab ) 1 else 0).sum
+
+    //If the conductivity test is selected, the analysis tool should not count it as a view transition
+    def sameTab(p: Pair[SimState, SimState]) = p._1.selectedTab == p._2.selectedTab
+    def sameTest(p: Pair[SimState, SimState]) = p._1.displayedTest == p._2.displayedTest
+
+    //KL: Pressing reset all should not count as a solution transition, but it can affect the time on solutions.  I presume this pattern should hold true for "test" and "view" as well as "solution"
+    def wasReset(p: Pair[SimState, SimState]) = {
+
+      //Use reference equality to lookup index
+      val indexA = states.indexWhere(p._1 eq _)
+      val indexB = states.indexWhere(p._2 eq _)
+      val intermediateEntry = log.entries(indexB)
+
+      //      println("indexA= " + indexA + ", indexB = " + indexB + ", a = " + p._1 + ", b = " + p._2 + ", intermediateEntry = " + intermediateEntry)
+
+      intermediateEntry.component == "resetAllConfirmationDialogYesButton"
+    }
+
+    val numViewTransitions = statePairs.map(pair => if ( pair._2.displayedView != pair._1.displayedView && sameTab(pair) && sameTest(pair) && !wasReset(pair) ) 1 else 0).sum
+    val numSolutionTransitions = statePairs.map(pair => if ( pair._2.displayedSolution != pair._1.displayedSolution && sameTab(pair) && !wasReset(pair) ) 1 else 0).sum
+    val numTestTransitions = statePairs.map(pair => if ( pair._2.displayedTest != pair._1.displayedTest && sameTab(pair) && !wasReset(pair) ) 1 else 0).sum
+
+    val nonInteractiveEvents = log.entries.filter(entry => entry.messageType == "user" && entry.interactive == "false")
+    val typeUsed = nonInteractiveEvents.map(_.component).distinct
+    val numEventsOnNonInteractiveComponents = nonInteractiveEvents.length
+    val nonInteractiveComponentsUsed = typeUsed.sorted
+    val nonInteractiveComponentsNotUsed = ABSSimSharing.nonInteractive.toList.map(_.toString).filterNot(typeUsed.contains(_)).sorted
+
+    val timeOnSolutionsMin = solutionTable.toMinuteMap
+    val timeOnViewsMin = viewTable.toMinuteMap
+    val timeOnTestsMin = testTable.toMinuteMap
+
+    SessionResult(session,
+                  timeSimOpenMin,
+                  firstClickToLastClick,
+                  numberOfClicks,
+                  clicksPerMinute,
+                  InteractionResult(numberOfEventsOnInteractiveComponents,
+                                    interactiveComponentsUsed,
+                                    interactiveComponentsNotUsed),
+                  selectedBase,
+                  showedSolvent,
+                  dunkedPHMeter,
+                  dunkedPHPaper,
+                  completedCircuit,
+                  timeOnSolutionsMin,
+                  timeOnViewsMin,
+                  timeOnTestsMin,
+                  numTabTransitions,
+                  numSolutionTransitions,
+                  numViewTransitions,
+                  numTestTransitions,
+                  InteractionResult(numEventsOnNonInteractiveComponents,
+                                    nonInteractiveComponentsUsed,
+                                    nonInteractiveComponentsNotUsed))
   }
 }
