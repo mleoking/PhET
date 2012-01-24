@@ -126,6 +126,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     })
   }
 
+  //TODO: Merge this with toReport below
   def writeSingleLogReport(log: Log, writeLine: String => Unit) {
     writeLine("Session: " + log.session)
 
