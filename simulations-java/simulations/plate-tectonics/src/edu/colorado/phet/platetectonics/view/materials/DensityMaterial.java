@@ -20,8 +20,8 @@ public class DensityMaterial extends GLMaterial implements EarthMaterial {
 
     private static final ByteBuffer buffer = BufferUtils.createByteBuffer( 4 * width * height );
 
-    private static final Color min = new Color( 0, 0, 0 );
-    private static final Color max = new Color( 255, 255, 255 );
+    private static final Color min = new Color( 255, 255, 255 );
+    private static final Color max = new Color( 0, 0, 0 );
 
     static {
         buffer.rewind();
