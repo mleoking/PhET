@@ -21,12 +21,15 @@ import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import edu.colorado.phet.common.games.GameSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -98,7 +101,7 @@ public class GameSettingsPanel extends GridPanel {
         final ArrayList<PropertyRadioButton<Integer>> levelRadioButtons = new ArrayList<PropertyRadioButton<Integer>>();
         levelPanel.setOpaque( false );
         for ( int level = gameSettings.level.getMin(); level <= gameSettings.level.getMax(); level++ ) {
-            PropertyRadioButton<Integer> button = new PropertyRadioButton<Integer>( String.valueOf( level ), gameSettings.level, level );
+            PropertyRadioButton<Integer> button = new SimSharingPropertyRadioButton<Integer>( UserComponentChain.chain( UserComponents.levelRadioButton, level ), String.valueOf( level ), gameSettings.level, level );
             button.setFont( controlFont );
             button.setOpaque( false );
             levelRadioButtons.add( button );
@@ -108,10 +111,10 @@ public class GameSettingsPanel extends GridPanel {
         // Timer control
         JLabel timerLabel = new JLabel( new ImageIcon( GameConstants.STOPWATCH_ICON ) );
         timerLabel.setFont( labelFont );
-        final PropertyRadioButton<Boolean> timerOnRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_ON, gameSettings.timerEnabled, true );
+        final PropertyRadioButton<Boolean> timerOnRadioButton = new SimSharingPropertyRadioButton<Boolean>( UserComponents.timerOnRadioButton, GameConstants.RADIO_BUTTON_ON, gameSettings.timerEnabled, true );
         timerOnRadioButton.setFont( controlFont );
         timerOnRadioButton.setOpaque( false );
-        final PropertyRadioButton<Boolean> timerOffRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_OFF, gameSettings.timerEnabled, false );
+        final PropertyRadioButton<Boolean> timerOffRadioButton = new SimSharingPropertyRadioButton<Boolean>( UserComponents.timerOffRadioButton, GameConstants.RADIO_BUTTON_OFF, gameSettings.timerEnabled, false );
         timerOffRadioButton.setFont( controlFont );
         timerOffRadioButton.setOpaque( false );
         ButtonGroup timerButtonGroup = new ButtonGroup();
@@ -125,10 +128,10 @@ public class GameSettingsPanel extends GridPanel {
         // Sound control
         JLabel soundLabel = new JLabel( new ImageIcon( GameConstants.SOUND_ICON ) );
         soundLabel.setFont( labelFont );
-        final PropertyRadioButton<Boolean> soundOnRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_ON, gameSettings.soundEnabled, true );
+        final PropertyRadioButton<Boolean> soundOnRadioButton = new SimSharingPropertyRadioButton<Boolean>( UserComponents.soundOnRadioButton, GameConstants.RADIO_BUTTON_ON, gameSettings.soundEnabled, true );
         soundOnRadioButton.setFont( controlFont );
         soundOnRadioButton.setOpaque( false );
-        final PropertyRadioButton<Boolean> soundOffRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_OFF, gameSettings.soundEnabled, false );
+        final PropertyRadioButton<Boolean> soundOffRadioButton = new SimSharingPropertyRadioButton<Boolean>( UserComponents.soundOffRadioButton, GameConstants.RADIO_BUTTON_OFF, gameSettings.soundEnabled, false );
         soundOffRadioButton.setFont( controlFont );
         soundOffRadioButton.setOpaque( false );
         ButtonGroup soundButtonGroup = new ButtonGroup();
