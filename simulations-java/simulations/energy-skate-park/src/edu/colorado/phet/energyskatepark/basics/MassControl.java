@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.simsharing.SimSharingHSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
 import edu.umd.cs.piccolo.PNode;
@@ -26,7 +26,7 @@ public class MassControl extends PNode {
         final int MIN_MASS = 60;
         final int MAX_MASS = 100;
         addChild( new VBox( 10, new PhetPText( EnergySkateParkResources.getString( "skater.mass" ), EnergySkateParkBasicsModule.TITLE_FONT ),
-                            new SimSharingHSliderNode( skaterMassSlider, MIN_MASS, MAX_MASS, 90, 5, module.mass, new Property<Boolean>( true ) ) {
+                            new HSliderNode( skaterMassSlider, MIN_MASS, MAX_MASS, 90, 5, module.mass, new Property<Boolean>( true ) ) {
 
                                 @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
                                     // Override the gradient and fill with white.  The gradient

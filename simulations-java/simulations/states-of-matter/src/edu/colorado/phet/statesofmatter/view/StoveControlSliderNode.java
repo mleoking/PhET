@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
+import edu.colorado.phet.statesofmatter.StatesOfMatterSimSharing.UserComponents;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -35,7 +36,7 @@ public class StoveControlSliderNode extends VSliderNode {
     private static final Font LABEL_FONT = new PhetFont( 20, true );
 
     public StoveControlSliderNode( final SettableProperty<Double> value ) {
-        super( -1, 1, value, new BooleanProperty( true ), 75 );
+        super( UserComponents.stoveSlider, -1, 1, value, new BooleanProperty( true ), 75 );
 
         // Show labels for add, zero, and remove.
         addLabel( +1, new PhetPText( StatesOfMatterStrings.STOVE_CONTROL_PANEL_HEAT_LABEL, LABEL_FONT ) );

@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleP
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsSimSharing.UserComponents;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -27,7 +28,7 @@ public class EvaporationSlider extends WhiteControlPanelNode {
                 new PText( EVAPORATION ) {{setFont( CONTROL_FONT );}},
 
                 //Add the slider
-                new HSliderNode( 0, 100, evaporationRate, waterVolume.greaterThan( 0.0 ).and( clockRunning ) ) {{
+                new HSliderNode( UserComponents.evaporationSlider, 0, 100, evaporationRate, waterVolume.greaterThan( 0.0 ).and( clockRunning ) ) {{
                     this.addInputEventListener( new PBasicInputEventHandler() {
                         @Override public void mouseReleased( PInputEvent event ) {
                             evaporationRate.set( 0.0 );

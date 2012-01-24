@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.slider.simsharing.SimSharingHSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Sam Reid
  */
-public class FaucetSliderNode extends SimSharingHSliderNode {
+public class FaucetSliderNode extends HSliderNode {
 
     /**
      * Creates a slider control to be shown on the faucet to control the flow.

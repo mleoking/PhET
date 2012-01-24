@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -35,12 +36,13 @@ public class CellParameterController extends PNode {
     /**
      * Constructor for a parameter controller that controls an double property.
      *
+     * @param userComponent
      * @param labelHtml
      * @param doubleParameter
      * @param range
      * @param backgroundColor
      */
-    public CellParameterController( String labelHtml, Property<Double> doubleParameter, DoubleRange range, Color backgroundColor ) {
+    public CellParameterController( IUserComponent userComponent, String labelHtml, Property<Double> doubleParameter, DoubleRange range, Color backgroundColor ) {
         // Parameter checking.
         assert doubleParameter.get() >= range.getMin() && doubleParameter.get() <= range.getMax();
 
@@ -50,7 +52,7 @@ public class CellParameterController extends PNode {
                 new HTMLNode( labelHtml ) {{
                     setFont( TITLE_LABEL_FONT );
                 }},
-                new DoubleParameterSliderNode( range.getMin(), range.getMax(), doubleParameter )
+                new DoubleParameterSliderNode( userComponent, range.getMin(), range.getMax(), doubleParameter )
         );
 
         // Add the content to a control panel.
@@ -60,12 +62,13 @@ public class CellParameterController extends PNode {
     /**
      * Constructor for a parameter controller that controls an integer property.
      *
+     * @param userComponent
      * @param labelHtml
      * @param parameter
      * @param range
      * @param backgroundColor
      */
-    public CellParameterController( String labelHtml, Property<Integer> parameter, IntegerRange range, Color backgroundColor ) {
+    public CellParameterController( IUserComponent userComponent, String labelHtml, Property<Integer> parameter, IntegerRange range, Color backgroundColor ) {
         // Parameter checking.
         assert parameter.get() >= range.getMin() && parameter.get() <= range.getMax();
 
@@ -75,7 +78,7 @@ public class CellParameterController extends PNode {
                 new HTMLNode( labelHtml ) {{
                     setFont( TITLE_LABEL_FONT );
                 }},
-                new IntegerParameterSliderNode( range.getMin(), range.getMax(), parameter )
+                new IntegerParameterSliderNode( userComponent, range.getMin(), range.getMax(), parameter )
         );
 
         // Add the content to a control panel.
@@ -85,10 +88,10 @@ public class CellParameterController extends PNode {
     // Class that defines the slider and its labels.
     private static class DoubleParameterSliderNode extends PNode {
 
-        private DoubleParameterSliderNode( double min, double max, final SettableProperty<Double> settableProperty ) {
+        private DoubleParameterSliderNode( IUserComponent userComponent, double min, double max, final SettableProperty<Double> settableProperty ) {
 
             // Create the slider node.
-            HSliderNode sliderNode = new HSliderNode( min, max, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, settableProperty, new BooleanProperty( true ) ) {
+            HSliderNode sliderNode = new HSliderNode( userComponent, min, max, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, settableProperty, new BooleanProperty( true ) ) {
                 @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
                     return Color.BLACK;
                 }
@@ -109,7 +112,7 @@ public class CellParameterController extends PNode {
     // Wrapper version of slider that allows integer properties to be controlled.
     private static class IntegerParameterSliderNode extends PNode {
 
-        private IntegerParameterSliderNode( int min, int max, final SettableProperty<Integer> settableProperty ) {
+        private IntegerParameterSliderNode( IUserComponent userComponent, int min, int max, final SettableProperty<Integer> settableProperty ) {
 
             // Create a property of type double and hook it to the integer
             // property.
@@ -121,7 +124,7 @@ public class CellParameterController extends PNode {
             } );
 
             // Create the slider node.
-            addChild( new DoubleParameterSliderNode( min, max, doubleProperty ) );
+            addChild( new DoubleParameterSliderNode( userComponent, min, max, doubleProperty ) );
         }
     }
 }

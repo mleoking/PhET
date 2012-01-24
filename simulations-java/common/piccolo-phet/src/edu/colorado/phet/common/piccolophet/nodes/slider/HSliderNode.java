@@ -17,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -47,17 +49,17 @@ public class HSliderNode extends SliderNode {
     // children in subclasses if you want to keep the origin at (0, 0).
     protected PNode rootNode = new PNode();
 
-    public HSliderNode( final double min, final double max, final SettableProperty<Double> value ) {
-        this( min, max, value, new Property<Boolean>( true ) );
+    public HSliderNode( IUserComponent userComponent, double min, double max, SettableProperty<Double> value ) {
+        this( userComponent, min, max, value, new Property<Boolean>( true ) );
     }
 
-    public HSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
-        this( min, max, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT, value, enabled );
+    public HSliderNode( IUserComponent userComponent, double min, double max, SettableProperty<Double> value, ObservableProperty<Boolean> enabled ) {
+        this( userComponent, min, max, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT, value, enabled );
     }
 
-    public HSliderNode( final double min, final double max, double trackWidth, double trackHeight,
+    public HSliderNode( IUserComponent userComponent, final double min, final double max, double trackWidth, double trackHeight,
                         final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
-        super( min, max, value );
+        super( userComponent, min, max, value );
         addChild( rootNode );
 
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, trackHeight );
@@ -136,15 +138,6 @@ public class HSliderNode extends SliderNode {
         adjustOrigin();
     }
 
-    protected void dragEnded() {
-    }
-
-    protected void dragged() {
-    }
-
-    protected void dragStarted() {
-    }
-
     private Rectangle2D getKnobRect( double value ) {
         Rectangle2D leftKnobRect = knobNode.getFullBounds();
         final double x = getViewX( value ) - knobNode.getFullBounds().getWidth() / 2;
@@ -209,7 +202,7 @@ public class HSliderNode extends SliderNode {
                         } );
                     }};
 
-                    final HSliderNode sliderNode = new HSliderNode( 0, 100, sliderValue ) {{
+                    final HSliderNode sliderNode = new HSliderNode( new UserComponent( "mySlider" ), 0, 100, sliderValue ) {{
                         addLabel( 0.0, new PhetPText( "None" ) );
                         addLabel( 100.0, new PhetPText( "Lots" ) );
                         setOffset( 150, 250 );
