@@ -67,8 +67,6 @@ public class CrustTab extends PlateTectonicsTab {
         // create the model and terrain
         setModel( new CrustModel( grid ) );
 
-        guiLayer.addChild( createFPSReadout( Color.BLACK ) );
-
         sceneLayer.addChild( new PlateView( getModel(), this ) );
 
         final Function1<ImmutableVector3F, ImmutableVector3F> flatModelToView = new Function1<ImmutableVector3F, ImmutableVector3F>() {
@@ -269,6 +267,8 @@ public class CrustTab extends PlateTectonicsTab {
                 }
             } );
         }} );
+
+        guiLayer.addChild( createFPSReadout( Color.BLACK ) );
     }
 
     @Override public void resetAll() {
