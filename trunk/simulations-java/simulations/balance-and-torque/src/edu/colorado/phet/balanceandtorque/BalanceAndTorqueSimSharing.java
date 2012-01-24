@@ -54,6 +54,6 @@ public class BalanceAndTorqueSimSharing {
     }
 
     public static enum ParameterKeys implements IParameterKey {
-        mass, distanceFromPlankCenter, plankTiltAngle
+        massValue, distanceFromPlankCenter, plankTiltAngle, massUserComponent
     }
 }
