@@ -1,3 +1,4 @@
+Changed the temperature false-color to range from gray to red
 Better color handling (light/dark) for labels in the Crust tab
 Full hemisphere of earth shown on Crust tab when zoomed out
 Hid FPS readout by default, added developer option to enable it
