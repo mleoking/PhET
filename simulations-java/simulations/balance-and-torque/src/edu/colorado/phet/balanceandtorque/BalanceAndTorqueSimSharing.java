@@ -46,7 +46,7 @@ public class BalanceAndTorqueSimSharing {
     }
 
     public static enum UserActions implements IUserAction {
-        createdMass
+        createdMass, removedMass
     }
 
     public static enum ModelActions implements IModelAction {

@@ -18,6 +18,7 @@ import edu.colorado.phet.balanceandtorque.common.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -38,6 +39,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Strings.*;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserActions.removedMass;
 import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -103,6 +105,9 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
                 model.massList.addElementRemovedObserver( mass, new VoidFunction0() {
                     public void apply() {
                         massesLayer.removeChild( finalMassNode );
+                        // Send a sim sharing message that indicates that this
+                        // interactive element was removed.
+                        SimSharingManager.sendUserMessage( mass.getUserComponent(), mass.getUserComponentType(), removedMass );
                     }
                 } );
             }
