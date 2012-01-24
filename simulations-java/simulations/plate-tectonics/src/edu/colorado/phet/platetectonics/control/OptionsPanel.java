@@ -21,6 +21,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TITLE_FONT;
+
 /**
  * Gives the user a list of options
  */
@@ -35,7 +37,9 @@ public class OptionsPanel extends PNode {
                          final Property<Boolean> showWaterEnabled,
                          final Runnable resetAll,
                          final Property<ColorMode> colorMode ) {
-        final PNode title = new PText( PlateTectonicsResources.Strings.OPTIONS );
+        final PNode title = new PText( PlateTectonicsResources.Strings.OPTIONS ) {{
+            setFont( PANEL_TITLE_FONT );
+        }};
         addChild( title );
 
         final Property<Double> maxWidth = new Property<Double>( title.getFullBounds().getWidth() );

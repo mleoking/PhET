@@ -12,12 +12,16 @@ import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TITLE_FONT;
+
 /**
  * Displays a legend for a particular coloring method of the earth, with labels
  */
 public class LegendPanel extends PNode {
     public LegendPanel( ColorMode colorMode ) {
-        final PNode title = new PText( PlateTectonicsResources.Strings.LEGEND );
+        final PNode title = new PText( PlateTectonicsResources.Strings.LEGEND ) {{
+            setFont( PANEL_TITLE_FONT );
+        }};
         addChild( title );
 
         Color minColor = colorMode.getMaterial().getMinColor();

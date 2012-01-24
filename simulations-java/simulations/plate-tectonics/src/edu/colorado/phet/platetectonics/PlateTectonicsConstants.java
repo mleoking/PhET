@@ -5,6 +5,7 @@ package edu.colorado.phet.platetectonics;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Contains global constants and some dynamic global variables (like colors)
@@ -26,4 +27,6 @@ public class PlateTectonicsConstants {
 
     public static final Color DARK_LABEL = Color.BLACK;
     public static final Color LIGHT_LABEL = new Color( 0.9f, 0.9f, 0.9f, 1 );
+
+    public static final PhetFont PANEL_TITLE_FONT = new PhetFont( 13, true );
 }
