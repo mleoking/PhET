@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -10,9 +12,13 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab.ColorMode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.DARK_LABEL;
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.LIGHT_LABEL;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
@@ -30,13 +36,15 @@ public class RangeLabel extends GLNode {
     private final Property<ImmutableVector3F> top;
     private final Property<ImmutableVector3F> bottom;
     private final String label;
+    private final Property<ColorMode> colorMode;
+    private final boolean dark;
     private Property<ImmutableVector3F> labelLocation;
     private PlanarComponentNode labelNode;
     private Property<Float> scale;
 
-    public RangeLabel( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, Property<Float> scale ) {
+    public RangeLabel( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
         // label is centered between the top and bottom
-        this( top, bottom, label, scale, new Property<ImmutableVector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
+        this( top, bottom, label, scale, colorMode, isDark, new Property<ImmutableVector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
             SimpleObserver recenterLabelPosition = new SimpleObserver() {
                 public void update() {
                     set( top.get().plus( bottom.get() ).times( 0.5f ) );
@@ -47,16 +55,38 @@ public class RangeLabel extends GLNode {
         }} );
     }
 
-    public RangeLabel( Property<ImmutableVector3F> top, Property<ImmutableVector3F> bottom, String label, final Property<Float> scale, final Property<ImmutableVector3F> labelLocation ) {
+    /**
+     * @param top           Top of the range (3d point)
+     * @param bottom        Bottom of the range (3d point)
+     * @param label         The label to show at labelLocation
+     * @param scale         General scale parameter, so we can scale it properly
+     * @param colorMode     What is the current color mode
+     * @param isDark        Whether we are dark for the Density color mode, or the opposite
+     * @param labelLocation The position of the label (3d point)
+     */
+    public RangeLabel( Property<ImmutableVector3F> top, Property<ImmutableVector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<ImmutableVector3F> labelLocation ) {
         this.top = top;
         this.bottom = bottom;
         this.label = label;
+        this.colorMode = colorMode;
+        dark = isDark;
         this.labelLocation = labelLocation;
         this.scale = scale;
 
         labelNode = new PlanarPiccoloNode( new PText( label ) {{
             setFont( new PhetFont( 14 ) );
             scale( PIXEL_SCALE );
+            colorMode.addObserver( new SimpleObserver() {
+                public void update() {
+                    final boolean black = hasDarkColor();
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            setTextPaint( black ? DARK_LABEL : LIGHT_LABEL );
+                            repaint();
+                        }
+                    } );
+                }
+            } );
         }} ) {{
             SimpleObserver updateObserver = new SimpleObserver() {
                 public void update() {
@@ -71,11 +101,23 @@ public class RangeLabel extends GLNode {
             };
             labelLocation.addObserver( updateObserver );
             scale.addObserver( updateObserver );
+
+            // update only after color changes
+            final PlanarPiccoloNode me = this;
+            colorMode.addObserver( new SimpleObserver() {
+                public void update() {
+                    me.update();
+                }
+            } );
         }};
         addChild( labelNode );
 
         requireDisabled( GL_DEPTH_TEST );
         requireEnabled( GL_BLEND );
+    }
+
+    private boolean hasDarkColor() {
+        return dark == ( RangeLabel.this.colorMode.get() == ColorMode.DENSITY );
     }
 
     @Override public void renderSelf( GLOptions options ) {
@@ -96,8 +138,8 @@ public class RangeLabel extends GLNode {
             return;
         }
 
-        glColor4f( 0, 0, 0, 1 );
         glBegin( GL_LINES );
+        LWJGLUtils.color4f( hasDarkColor() ? DARK_LABEL : LIGHT_LABEL );
         vertex3f( top.get().plus( perpendicular ) );
         vertex3f( top.get().minus( perpendicular ) );
 
