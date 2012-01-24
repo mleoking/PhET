@@ -55,6 +55,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     public final Property<Double> frictionAmount = new Property<Double>( 0.0 );
+    private final double DEFAULT_PARABOLA_OFFSET = -0.5;
 
     public EnergySkateParkBasicsModule( IUserComponent userComponent, String name, final PhetFrame phetFrame, boolean splinesMovable ) {
         super( userComponent, name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false,
@@ -147,7 +148,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
 
         //Move the pre-set parabola to the left so it doesn't encroach on the control panel
         //Interacts with grid location epsilon in EnergySkateParkRootNode
-        loadTrack( PARABOLA_TRACK, -0.5 );
+        loadTrack( PARABOLA_TRACK, DEFAULT_PARABOLA_OFFSET );
     }
 
     //Move splines so they sit on the ground with y=0 and move by the specified x amount
@@ -201,7 +202,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     //Show buttons that allows the user to choose different tracks
     public void addTrackSelectionControlPanel() {
         final ControlPanelNode trackSelectionNode = new ControlPanelNode( new VBox(
-                new TrackButton( this, PARABOLA_TRACK, -1.0 ),
+                new TrackButton( this, PARABOLA_TRACK, DEFAULT_PARABOLA_OFFSET ),
                 new TrackButton( this, "rampToFloor", 0.0 ),
 
                 //Move the double-well to the right so it will have its lowest peak directly on a discrete meter mark for the grid, but also make sure it doesn't overlap the control panel
