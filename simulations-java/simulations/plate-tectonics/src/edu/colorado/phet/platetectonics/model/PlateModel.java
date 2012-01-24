@@ -120,6 +120,7 @@ public abstract class PlateModel {
 
     public static final float EARTH_RADIUS = 6371000;
     public static final float CENTER_OF_EARTH_Y = -PlateModel.EARTH_RADIUS;
+    public static final float MAX_FLAT_X = (float) ( Math.abs( CENTER_OF_EARTH_Y ) * Math.PI );
     public static final ImmutableVector3F EARTH_CENTER = new ImmutableVector3F( 0, -EARTH_RADIUS, 0 );
     public static final ImmutableVector3F RADIAL_Z_0 = new ImmutableVector3F( 1, 1, 0 );
 

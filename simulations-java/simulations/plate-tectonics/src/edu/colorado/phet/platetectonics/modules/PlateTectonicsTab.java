@@ -83,7 +83,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     // frustum properties
     public static final float fieldOfViewDegrees = 40;
     public static final float nearPlane = 1;
-    public static final float farPlane = 20000;
+    public static final float farPlane = 21000;
 
     public static enum ColorMode {
         DENSITY,
