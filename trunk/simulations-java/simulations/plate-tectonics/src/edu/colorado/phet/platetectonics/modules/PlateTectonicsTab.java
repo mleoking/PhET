@@ -546,17 +546,30 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     protected float getSceneDistanceZoomFactor() {
         float minDistance = 1;
         float maxDistance = 35;
-        return minDistance + ( 1 - zoomRatio.get().floatValue() ) * ( maxDistance - minDistance );
+        return minDistance + ( getZoomRatio() ) * ( maxDistance - minDistance );
     }
 
+    // compute the camera position, essentially
     public ImmutableMatrix4F getSceneModelViewMatrix() {
+        // min == close up
+        // max == far away
+
         float minAngle = 13;
-        float maxAngle = 29;
-        float distance = getSceneDistanceZoomFactor();
-        float angle = minAngle + ( 1 - zoomRatio.get().floatValue() ) * ( maxAngle - minAngle );
+        float maxAngle = 0;
+        float minY = -80;
+        float maxY = modelViewTransform.transformDeltaY( -PlateModel.CENTER_OF_EARTH_Y / 2 );
+        float minZ = -400;
+        float maxZ = -400 * 45;
+        float ratio = getZoomRatio();
+        float angle = minAngle + ratio * ( maxAngle - minAngle );
         return debugCameraTransform.getMatrix()
                 .times( ImmutableMatrix4F.rotation( X_UNIT, angle / 180f * (float) Math.PI ) )
-                .times( ImmutableMatrix4F.translation( 0, -80 * distance, -400 * distance ) );
+                .times( ImmutableMatrix4F.translation( 0, minY + ratio * ratio * ( maxY - minY ), minZ + ratio * ( maxZ - minZ ) ) );
+    }
+
+    private float getZoomRatio() {
+        final float r = 1 - zoomRatio.get().floatValue();
+        return r * r;
     }
 
     public static ImmutableMatrix4F getGluPerspective( float fovy, float aspect, float zNear, float zFar ) {
