@@ -1,3 +1,7 @@
+1/24/12 fix "Saturated" indicator, observe the amount of precipitate, not the concentration
+1/24/12 setOpaque(false) for "Show values" check box
+1/24/12 change min color for KMnO4 to RGB=[225,28,174]
+1/24/12 fix max range label on sliders
 # 0.00.14 (60447) Jan 18, 2012
 1/18/12 first dev version of "Molarity" sim, for team discussion
 1/17/12 use PrecisionDecimal to limit values to 2 decimal places in sliders
