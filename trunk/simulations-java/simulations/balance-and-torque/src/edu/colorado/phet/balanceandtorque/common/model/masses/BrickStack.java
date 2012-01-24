@@ -104,6 +104,7 @@ public class BrickStack extends ShapeMass {
                 userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.stackOfFourBricks, instanceCountMap.get( numBricks ) );
                 break;
             default:
+                System.out.println( "Error: No user component ID for stack of requested size, numBricks = " + numBricks );
                 assert false; // If this line is reached then additional user components need to be added.
                 userComponent = UserComponentChain.chain( BalanceAndTorqueSimSharing.UserAndModelComponents.singleBrick, instanceCountMap.get( numBricks ) );
                 break;

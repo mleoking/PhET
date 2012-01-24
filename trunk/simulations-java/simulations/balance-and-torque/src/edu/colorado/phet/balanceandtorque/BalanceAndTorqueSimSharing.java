@@ -27,8 +27,8 @@ public class BalanceAndTorqueSimSharing {
 
         // Buttons
         redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
-        nextKitButton, previousKitButton,
-
+        nextKitButton, previousKitButton, checkAnswer, tryAgain, displayAnswer,
+        nextChallenge
     }
 
     // Sim sharing components that exist in both the model and the view.
