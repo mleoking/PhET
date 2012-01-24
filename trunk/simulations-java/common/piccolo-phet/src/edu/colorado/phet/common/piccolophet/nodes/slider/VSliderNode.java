@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -27,8 +29,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.PFrame;
 
 /**
- * A vertical slider that is implemented purely in Piccolo, i.e. Java Swing is
- * not used.
+ * A vertical slider that is implemented purely in Piccolo, i.e. Java Swing is not used.
  *
  * @author Sam Reid
  * @author John Blanco
@@ -43,12 +44,12 @@ public class VSliderNode extends SliderNode {
     // children in subclasses if you want to keep the origin at (0, 0).
     protected PNode rootNode = new PNode();
 
-    public VSliderNode( final double min, final double max, final SettableProperty<Double> value ) {
-        this( min, max, value, new Property<Boolean>( true ), 200 );
+    public VSliderNode( IUserComponent userComponent, double min, double max, SettableProperty<Double> value ) {
+        this( userComponent, min, max, value, new Property<Boolean>( true ), 200 );
     }
 
-    public VSliderNode( final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled, int trackHeight ) {
-        super( min, max, value );
+    public VSliderNode( IUserComponent userComponent, final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled, int trackHeight ) {
+        super( userComponent, min, max, value );
         addChild( rootNode );
 
         trackWidth = 6;
@@ -78,12 +79,14 @@ public class VSliderNode extends SliderNode {
 
                 @Override public void startDrag( PInputEvent event ) {
                     super.startDrag( event );
+                    dragStarted();
                     startPoint = event.getPositionRelativeTo( VSliderNode.this );
                     startValue = value.get();
                 }
 
                 @Override public void drag( PInputEvent event ) {
                     super.drag( event );
+                    dragged();
                     Point2D point = event.getPositionRelativeTo( VSliderNode.this );
                     final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
 
@@ -94,6 +97,11 @@ public class VSliderNode extends SliderNode {
 
                     double modelDelta = ( min - max ) / trackNode.getFullBounds().getHeight() * viewDelta;
                     value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
+                }
+
+                @Override protected void endDrag( PInputEvent event ) {
+                    super.endDrag( event );
+                    dragEnded();
                 }
             } );
         }};
@@ -142,7 +150,7 @@ public class VSliderNode extends SliderNode {
                 } );
             }};
 
-            VSliderNode sliderNode = new VSliderNode( -1, +1, sliderValue ) {{
+            VSliderNode sliderNode = new VSliderNode( new UserComponent( "mySlider" ), -1, +1, sliderValue ) {{
                 setOffset( 200, 200 );
             }};
             sliderNode.addLabel( +1, new PhetPText( "Positive", new PhetFont( 16 ) ) );

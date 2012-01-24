@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
@@ -212,7 +213,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             PNode title = new HTMLNode( "<center>Number of<br>Cells</center>", Color.black, new PhetFont( 16, true ) );
 
             // Create the slider.
-            IntegerHSliderNode sliderNode = new IntegerHSliderNode( 1, MultipleCellsModel.MAX_CELLS, 100, 4, model.numberOfVisibleCells );
+            IntegerHSliderNode sliderNode = new IntegerHSliderNode( UserComponents.numberOfCellsSlider, 1, MultipleCellsModel.MAX_CELLS, 100, 4, model.numberOfVisibleCells );
             sliderNode.addLabel( 1, new PLabel( "One", 14 ) );
             sliderNode.addLabel( (double) MultipleCellsModel.MAX_CELLS, new PLabel( "Many", 14 ) );
             addChild( sliderNode );

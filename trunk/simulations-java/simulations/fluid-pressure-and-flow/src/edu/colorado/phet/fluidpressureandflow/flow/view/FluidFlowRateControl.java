@@ -3,7 +3,9 @@ package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.ScaledDoubleProperty;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.SliderControl;
@@ -24,10 +26,10 @@ public class FluidFlowRateControl extends PNode {
 
         //Create one slider for each set of user-selectable units, and only show one at a time
         class UnitBasedSliderControl extends SliderControl {
-            public UnitBasedSliderControl( String title, final UnitSet units ) {
+            public UnitBasedSliderControl( IUserComponent userComponent, String title, final UnitSet units ) {
 
                 //If the max flow rate is too high, can create negative pressure situations, which should not occur
-                super( title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1 ), units.flowRate.siToUnit( 10 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>() );
+                super( userComponent, title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1 ), units.flowRate.siToUnit( 10 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>() );
                 module.model.units.addObserver( new VoidFunction1<UnitSet>() {
                     public void apply( UnitSet unitSet ) {
                         setVisible( unitSet == units );
@@ -37,7 +39,7 @@ public class FluidFlowRateControl extends PNode {
         }
 
         //Create and add the slider controls
-        addChild( new UnitBasedSliderControl( FLOW_RATE, ENGLISH ) );
-        addChild( new UnitBasedSliderControl( FLOW_RATE, METRIC ) );
+        addChild( new UnitBasedSliderControl( UserComponents.flowRateEnglishSlider, FLOW_RATE, ENGLISH ) );
+        addChild( new UnitBasedSliderControl( UserComponents.flowRateMetricSlider, FLOW_RATE, METRIC ) );
     }
 }

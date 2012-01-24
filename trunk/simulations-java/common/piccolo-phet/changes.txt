@@ -1,3 +1,4 @@
+1/23/12 #3226, add data collection to SliderNode hierarchy
 1/18/12 Simsharing: add UserComponentType to UserMessages, delete IComponentType
 1/16/12 restored sim-sharing to ComboBoxNode via subclassing, see SimSharingComboBoxNode
 1/16/12 fixed sim-sharing for Reset All (ResetAllButtonNode)

@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.PNode;
 
@@ -13,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 class IntegerParameterSliderNode extends PNode {
 
-    IntegerParameterSliderNode( int min, int max, final SettableProperty<Integer> settableProperty, String htmlLabelText ) {
+    IntegerParameterSliderNode( IUserComponent userComponent, int min, int max, final SettableProperty<Integer> settableProperty, String htmlLabelText ) {
 
         // Create a property of type double and hook it to the integer
         // property.  This makes it so that when the double property
@@ -36,6 +37,6 @@ class IntegerParameterSliderNode extends PNode {
         } );
 
         // Create the slider node.
-        addChild( new DoubleParameterSliderNode( min, max, doubleProperty, htmlLabelText ) );
+        addChild( new DoubleParameterSliderNode( userComponent, min, max, doubleProperty, htmlLabelText ) );
     }
 }

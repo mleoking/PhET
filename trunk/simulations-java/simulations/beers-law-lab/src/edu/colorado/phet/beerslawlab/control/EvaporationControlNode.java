@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.simsharing.SimSharingHSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -31,7 +31,7 @@ public class EvaporationControlNode extends ControlPanelNode {
                 }},
 
                 // Slider
-                new SimSharingHSliderNode( UserComponents.evaporationSlider, 0, evaporator.maxEvaporationRate, evaporator.evaporationRate, evaporator.enabled ) {{
+                new HSliderNode( UserComponents.evaporationSlider, 0, evaporator.maxEvaporationRate, evaporator.evaporationRate, evaporator.enabled ) {{
 
                     // Tick labels
                     PhetFont tickFont = new PhetFont( BLLConstants.TICK_LABEL_FONT_SIZE );

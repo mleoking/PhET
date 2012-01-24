@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
-import edu.colorado.phet.common.piccolophet.nodes.slider.simsharing.SimSharingHSliderNode;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -40,7 +39,7 @@ public class TrackFrictionSlider extends PNode {
         } );
 
         // Create and add the slider node.
-        final HSliderNode sliderNode = new SimSharingHSliderNode( trackFrictionSlider, 0, FRICTION_MAX, 90, 5, frictionAmount, module.frictionEnabled ) {
+        final HSliderNode sliderNode = new HSliderNode( trackFrictionSlider, 0, FRICTION_MAX, 90, 5, frictionAmount, module.frictionEnabled ) {
             @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
                 // Override the gradient and fill with white.  The gradient
                 // just looked weird.

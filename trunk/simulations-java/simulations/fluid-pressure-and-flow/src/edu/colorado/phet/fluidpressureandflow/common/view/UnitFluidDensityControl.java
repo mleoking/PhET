@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.ScaledDoubleProperty;
@@ -39,7 +40,7 @@ public class UnitFluidDensityControl<T extends FluidPressureAndFlowModel> extend
         final double waterDensity = density.siToUnit( WATER_DENSITY );
 
         //Create the slider
-        final SliderControl fluidDensityControl = new SliderControl( FLUID_DENSITY, density.getAbbreviation(), gasDensity, honeyDensity,
+        final SliderControl fluidDensityControl = new SliderControl( UserComponents.fluidDensitySlider, FLUID_DENSITY, density.getAbbreviation(), gasDensity, honeyDensity,
                                                                      new ScaledDoubleProperty( module.model.liquidDensity, density.siToUnit( 1.0 ) ), new HashMap<Double, String>() {{
             put( gasDensity, GASOLINE );
             put( waterDensity, WATER );

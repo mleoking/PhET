@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -25,7 +26,7 @@ class DoubleParameterSliderNode extends PNode {
     private static final double SLIDER_TRACK_HEIGHT = 4;
     private static final Font LABEL_FONT = new PhetFont( 12 );
 
-    DoubleParameterSliderNode( double min, double max, final SettableProperty<Double> settableProperty, String htmlLabelText ) {
+    DoubleParameterSliderNode( IUserComponent userComponent, double min, double max, final SettableProperty<Double> settableProperty, String htmlLabelText ) {
 
         // Create the label.
         PNode labelNode = new HTMLNode( htmlLabelText ) {{
@@ -33,7 +34,7 @@ class DoubleParameterSliderNode extends PNode {
         }};
 
         // Create the slider node.
-        HSliderNode sliderNode = new HSliderNode( min, max, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, settableProperty, new BooleanProperty( true ) ) {
+        HSliderNode sliderNode = new HSliderNode( userComponent, min, max, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, settableProperty, new BooleanProperty( true ) ) {
             @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
                 return Color.BLACK;
             }

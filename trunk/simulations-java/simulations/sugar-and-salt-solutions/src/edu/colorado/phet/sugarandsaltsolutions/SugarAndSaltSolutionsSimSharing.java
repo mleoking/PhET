@@ -11,6 +11,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class SugarAndSaltSolutionsSimSharing {
 
     public enum UserComponents implements IUserComponent {
-        inputFaucet, drainFaucet
+        inputFaucet, drainFaucet, evaporationSlider
     }
 }

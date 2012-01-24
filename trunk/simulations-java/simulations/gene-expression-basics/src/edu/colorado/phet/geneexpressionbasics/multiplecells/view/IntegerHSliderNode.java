@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.PNode;
@@ -29,13 +30,14 @@ class IntegerHSliderNode extends PNode {
     /**
      * Constructor.
      *
+     * @param userComponent
      * @param min
      * @param max
      * @param trackWidth
      * @param trackHeight
      * @param settableProperty
      */
-    IntegerHSliderNode( int min, int max, double trackWidth, double trackHeight, final SettableProperty<Integer> settableProperty ) {
+    IntegerHSliderNode( IUserComponent userComponent, int min, int max, double trackWidth, double trackHeight, final SettableProperty<Integer> settableProperty ) {
 
         // Create a property of type double and hook it to the integer
         // property.  This makes it so that when the double property
@@ -58,7 +60,7 @@ class IntegerHSliderNode extends PNode {
         } );
 
         // Create the slider node.
-        hSliderNode = new HSliderNode( min, max, trackWidth, trackHeight, doubleProperty, new BooleanProperty( true ) ) {
+        hSliderNode = new HSliderNode( userComponent, min, max, trackWidth, trackHeight, doubleProperty, new BooleanProperty( true ) ) {
             @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
                 return Color.BLACK;
             }

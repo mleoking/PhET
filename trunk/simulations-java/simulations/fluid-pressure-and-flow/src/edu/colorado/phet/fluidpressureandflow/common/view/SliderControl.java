@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -21,8 +22,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SliderControl extends PNode {
 
-    public SliderControl( String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels ) {
-        HSliderNode slider = new HSliderNode( min, max, property );
+    public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels ) {
+        HSliderNode slider = new HSliderNode( userComponent, min, max, property );
         for ( Double key : tickLabels.keySet() ) {
             slider.addLabel( key, new PText( tickLabels.get( key ) ) );
         }

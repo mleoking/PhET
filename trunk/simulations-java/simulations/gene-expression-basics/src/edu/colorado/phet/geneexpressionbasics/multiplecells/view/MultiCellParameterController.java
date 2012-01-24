@@ -7,6 +7,7 @@ import java.awt.Font;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.CellProteinSynthesisSimulator;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 import edu.umd.cs.piccolo.PNode;
@@ -29,19 +30,23 @@ public class MultiCellParameterController extends PNode {
         PNode content = new VBox(
                 20,
                 new PText( "Cell Parameters" ) {{setFont( TITLE_LABEL_FONT );}},
-                new IntegerParameterSliderNode( CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin(),
+                new IntegerParameterSliderNode( UserComponents.transcriptionFactorLevelSlider,
+                                                CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin(),
                                                 CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMax(),
                                                 model.transcriptionFactorLevel,
                                                 "<center>Transcription Factor<br>Level</center>" ),
-                new DoubleParameterSliderNode( CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMin(),
+                new DoubleParameterSliderNode( UserComponents.transcriptionFactorAffinitySlider,
+                                               CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMin(),
                                                CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMax(),
                                                model.transcriptionFactorAssociationProbability,
                                                "<center>Transcription Factor<br>Affinity</center>" ),
-                new DoubleParameterSliderNode( CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMin(),
+                new DoubleParameterSliderNode( UserComponents.polymeraseAffinitySlider,
+                                               CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMin(),
                                                CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMax(),
                                                model.polymeraseAssociationProbability,
                                                "<center>Polymerase<br>Affinity</center>" ),
-                new DoubleParameterSliderNode( CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMin(),
+                new DoubleParameterSliderNode( UserComponents.proteinDegradationRateSlider,
+                                               CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMin(),
                                                CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMax(),
                                                model.proteinDegradationRate,
                                                "<center>Protein<br>Degradation Rate</center>" )
