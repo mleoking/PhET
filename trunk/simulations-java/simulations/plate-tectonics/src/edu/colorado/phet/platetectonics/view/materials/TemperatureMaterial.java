@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view.materials;
 
+import java.awt.Color;
 import java.nio.ByteBuffer;
 
 import org.lwjgl.BufferUtils;
@@ -17,6 +18,9 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
     private static final int width = 256;
     private static final int height = 256;
 
+    private static final Color min = new Color( 64, 64, 64 );
+    private static final Color max = new Color( 255, 64, 64 );
+
     // TODO: check byte orders?
     private static final ByteBuffer buffer = BufferUtils.createByteBuffer( 4 * width * height );
 
@@ -24,10 +28,11 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
         buffer.rewind();
         for ( int row = 0; row < height; row++ ) {
             for ( int col = 0; col < width; col++ ) {
-                byte tempIndex = (byte) col;
-                buffer.put( new byte[] { (byte) ( col * ( 256 - 64 ) / 256 + 64 ), (byte) 64, (byte) 64, (byte) 255 } );
-//                    buffer.put( new byte[] { (byte)row, (byte)col, 0, (byte) 255 } );
-//                buffer.put( new byte[] { (byte) 255, (byte) 255, (byte) 255, (byte) 255 } );
+                final int red = col * ( 256 - 64 ) / 256 + 64;
+                final byte green = (byte) 64;
+                final byte blue = (byte) 64;
+                final byte[] bytes = { (byte) red, green, blue, (byte) 255 };
+                buffer.put( bytes );
             }
         }
     }
@@ -81,5 +86,13 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
 
     public ImmutableVector2F getTextureCoordinates( float density, float temperature, ImmutableVector2F position ) {
         return temperatureMap( temperature );
+    }
+
+    public Color getMinColor() {
+        return min;
+    }
+
+    public Color getMaxColor() {
+        return max;
     }
 }

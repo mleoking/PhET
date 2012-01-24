@@ -13,7 +13,6 @@ import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
-import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab.ColorMode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
