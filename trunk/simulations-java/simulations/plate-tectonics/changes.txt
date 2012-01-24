@@ -1,3 +1,4 @@
+More consistent title fonts
 Added in Legend with tentative positioning and styling
 Changed the temperature false-color to range from gray to red
 Better color handling (light/dark) for labels in the Crust tab

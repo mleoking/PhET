@@ -3,7 +3,6 @@ package edu.colorado.phet.platetectonics.control;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
@@ -16,6 +15,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
+
+import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TITLE_FONT;
 
 /**
  * Displays a toolbox that contains meters (ruler, thermometer, density meter, composition meter), and display options
@@ -100,7 +101,7 @@ public class Toolbox extends OrthoPiccoloNode {
             addChild( densitySensor );
 
             addChild( new PText( Strings.TOOLBOX ) {{
-                setFont( new PhetFont( 16, true ) );
+                setFont( PANEL_TITLE_FONT );
                 setOffset( rulerNode2D.getFullBounds().getWidth() + 10, 0 ); // TODO: change positioning once we have added other toolbox elements
             }} );
         }} ), tab, tab.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), tab.mouseEventNotifier );
