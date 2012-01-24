@@ -22,17 +22,21 @@ import org.jfree.chart.renderer.category.BarRenderer3D
  */
 object phet {
 
-  def average(list: Seq[Long]) = list.sum / list.length
+  def averageInt(list: Seq[Int]) = average(list.map(_.toDouble))
+
+  def average(list: Seq[Double]) = list.sum / list.length
+
+  def averageLong(list: Seq[Long]) = average(list.map(_.toDouble))
 
   //See http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
   //This is the unbiased estimate of a population variance from a finite sample
-  def variance(x: Seq[Long]) = {
+  def variance(x: Seq[Double]) = {
     val a = x.map(pow(_, 2)).sum
     val b = pow(x.sum, 2) / x.length
     ( a - b ) / ( x.length - 1 )
   }
 
-  def standardDeviation(a: Seq[Long]) = sqrt(variance(a))
+  def standardDeviation(a: Seq[Double]) = sqrt(variance(a))
 
   def toMap(seq: Pair[String, String]*): Map[String, String] = {
     val map = new HashMap[String, String]
@@ -106,9 +110,9 @@ object phet {
   def barChart(title: String, range: String, dataSet: Map[(String, String), List[Long]]) {
     val d = new DefaultStatisticalCategoryDataset {
       for ( entry <- dataSet ) {
-        val values = entry._2
-        val average = phet.average(values)
-        val standardDeviation = phet.standardDeviation(values)
+        val values: Seq[Long] = entry._2
+        val average = phet.averageLong(values)
+        val standardDeviation = phet.standardDeviation(values.map(_.toDouble))
         add(average, standardDeviation, entry._1._1, entry._1._2)
       }
     }
@@ -178,7 +182,7 @@ class EntrySeqWrapper(entries: Seq[Entry]) {
 }
 
 object Tester extends App {
-  val x = phet.standardDeviation(1L :: 2L :: 3L :: 2L :: 7L :: 2L :: Nil)
+  val x = phet.standardDeviation(( 1L :: 2L :: 3L :: 2L :: 7L :: 2L :: Nil ).map(_.toDouble))
   println("x = " + x)
 
   //should be
