@@ -24,7 +24,7 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
         for ( int row = 0; row < height; row++ ) {
             for ( int col = 0; col < width; col++ ) {
                 byte tempIndex = (byte) col;
-                buffer.put( new byte[] { tempIndex, tempIndex, tempIndex, (byte) 255 } );
+                buffer.put( new byte[] { (byte) ( col * ( 256 - 64 ) / 256 + 64 ), (byte) 64, (byte) 64, (byte) 255 } );
 //                    buffer.put( new byte[] { (byte)row, (byte)col, 0, (byte) 255 } );
 //                buffer.put( new byte[] { (byte) 255, (byte) 255, (byte) 255, (byte) 255 } );
             }
