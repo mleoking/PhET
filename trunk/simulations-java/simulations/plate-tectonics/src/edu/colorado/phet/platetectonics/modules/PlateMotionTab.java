@@ -86,8 +86,6 @@ public class PlateMotionTab extends PlateTectonicsTab {
 //        model = new AnimatedPlateModel( grid );
         setModel( new PlateMotionModel( grid.getBounds() ) );
 
-        guiLayer.addChild( createFPSReadout( Color.BLACK ) );
-
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
         leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 0, -125 / 2 ) ), this, false ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
@@ -319,6 +317,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
                         }
                     }
                 }, false );
+
+        guiLayer.addChild( createFPSReadout( Color.BLACK ) );
     }
 
     private float mapDragMagnitude( float mag ) {

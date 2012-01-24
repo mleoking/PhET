@@ -48,6 +48,7 @@ import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
 import edu.colorado.phet.platetectonics.control.CrustPieceNode;
 import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
 import edu.colorado.phet.platetectonics.control.DraggableTool2D;
@@ -652,6 +653,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                        new Property<ImmutableVector2D>(
                                                new ImmutableVector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth() - 200,
                                                                       10 ) ), mouseEventNotifier ) {{
+            PlateTectonicsApplication.showFPSMeter.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( PlateTectonicsApplication.showFPSMeter.get() );
+                }
+            } );
             updateOnEvent( beforeFrameRender );
         }};
     }
