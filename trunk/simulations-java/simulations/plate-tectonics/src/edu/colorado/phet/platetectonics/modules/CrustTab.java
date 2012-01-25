@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -30,10 +31,12 @@ import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
+import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.CONTINENTAL_CRUST;
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.OCEANIC_CRUST;
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Represents the 1st tab, which has a modifiable section of crust surrounded by oceanic and continental crusts, all
@@ -284,6 +287,26 @@ public class CrustTab extends PlateTectonicsTab {
         }} );
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
+
+        sceneLayer.addChild( new GLNode() {
+            @Override public void renderSelf( GLOptions options ) {
+                super.renderSelf( options );
+
+                EarthTexture.begin();
+                glColor4f( 1, 1, 1, 1 );
+                glBegin( GL_QUADS );
+                glTexCoord2d( 0, 0 );
+                glVertex2d( 0, 0 );
+                glTexCoord2d( 1, 0 );
+                glVertex2d( 10, 0 );
+                glTexCoord2d( 1, 1 );
+                glVertex2d( 10, 10 );
+                glTexCoord2d( 0, 1 );
+                glVertex2d( 0, 10 );
+                glEnd();
+                EarthTexture.end();
+            }
+        } );
     }
 
     @Override public void resetAll() {
