@@ -6,7 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
 
 /**
- * A solvent.
+ * Model of a solvent, an immutable data structure.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

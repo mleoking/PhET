@@ -27,6 +27,7 @@ public class DilutionModel implements Resettable {
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / DILUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / DILUTION_VOLUME_RANGE.getMin() ); // M
 
+    // verify assumptions
     static {
         assert ( SOLUTION_VOLUME_RANGE.getMax() <= MAX_BEAKER_VOLUME );
         assert ( SOLUTION_VOLUME_RANGE.getMax() <= DILUTION_VOLUME_RANGE.getMin() );
