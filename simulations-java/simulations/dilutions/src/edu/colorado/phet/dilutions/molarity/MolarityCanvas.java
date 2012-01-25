@@ -2,12 +2,14 @@
 package edu.colorado.phet.dilutions.molarity;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Frame;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
@@ -31,6 +33,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MolarityCanvas extends AbstractDilutionsCanvas {
 
+    private static final PDimension BEAKER_LABEL_SIZE = new PDimension( 180, 80 );
+    private static final PhetFont BEAKER_FORMULA_FONT = new PhetFont( Font.BOLD, 28 );
+    private static final PhetFont BEAKER_CONCENTRATION_FONT = new PhetFont( 16 );
+
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
 
     public MolarityCanvas( final MolarityModel model, Frame parentFrame ) {
@@ -38,9 +44,10 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         // beaker, with solution and precipitate inside of it
         final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker,
                                                       model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS,
-                                                      model.solution.getConcentration(), Strings.UNITS_MOLARITY,
+                                                      model.solution.solute.get().formula, BEAKER_FORMULA_FONT,
+                                                      model.solution.getConcentration(), Strings.UNITS_MOLARITY, BEAKER_CONCENTRATION_FONT,
+                                                      BEAKER_LABEL_SIZE,
                                                       0.75, 0.75,
-                                                      model.solution.solute.get().formula,
                                                       valuesVisible );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, beakerNode.getCylinderEndHeight(), model.solution, model.getSolutionVolumeRange() );
