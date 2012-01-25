@@ -20,6 +20,12 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class LWJGLUtils {
 
+    private static int nextDisplayList = 1;
+
+    public static synchronized int getDisplayListName() {
+        return nextDisplayList++;
+    }
+
     public static int toPowerOf2( int n ) {
         int result = 1;
         while ( result < n ) {

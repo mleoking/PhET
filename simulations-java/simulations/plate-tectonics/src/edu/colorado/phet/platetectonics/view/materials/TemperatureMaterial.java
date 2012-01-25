@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.lwjglphet.GLMaterial;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.utils.GLDisplayList;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -21,20 +22,33 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
     private static final Color min = new Color( 64, 64, 64 );
     private static final Color max = new Color( 255, 64, 64 );
 
-    // TODO: check byte orders?
-    private static final ByteBuffer buffer = BufferUtils.createByteBuffer( 4 * width * height );
+    private static final GLDisplayList textureAction;
 
     static {
-        buffer.rewind();
-        for ( int row = 0; row < height; row++ ) {
-            for ( int col = 0; col < width; col++ ) {
-                final int red = col * ( 256 - 64 ) / 256 + 64;
-                final byte green = (byte) 64;
-                final byte blue = (byte) 64;
-                final byte[] bytes = { (byte) red, green, blue, (byte) 255 };
-                buffer.put( bytes );
+        textureAction = new GLDisplayList( new Runnable() {
+            public void run() {
+                // TODO: check byte orders?
+                final ByteBuffer buffer = BufferUtils.createByteBuffer( 4 * width * height );
+
+                for ( int row = 0; row < height; row++ ) {
+                    for ( int col = 0; col < width; col++ ) {
+                        final int red = col * ( 256 - 64 ) / 256 + 64;
+                        final byte green = (byte) 64;
+                        final byte blue = (byte) 64;
+                        final byte[] bytes = { (byte) red, green, blue, (byte) 255 };
+                        buffer.put( bytes );
+                    }
+                }
+
+                buffer.rewind();
+                glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
             }
-        }
+        } );
+
     }
 
     public static ImmutableVector2F temperatureMap( float temperature ) {
@@ -71,12 +85,7 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
         glColor4f( 1, 1, 1, 1 );
         glEnable( GL_TEXTURE_2D );
         glShadeModel( GL_FLAT );
-        buffer.rewind();
-        glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+        textureAction.run();
     }
 
     @Override public void after( GLOptions options ) {
