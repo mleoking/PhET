@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTy
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.getConfig;
@@ -119,7 +120,9 @@ public class SimSharingManager {
             //Look up additional external info and report in a separate thread so it doesn't slow down the main thread too much
             new Thread() {
                 @Override public void run() {
-                    sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, mountainTimeLookup, parameterSet( mountainTime, whatIsMountainTime() ) );
+                    if ( WhatIsMountainTime.enabled ) {
+                        sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, mountainTimeLookup, parameterSet( mountainTime, whatIsMountainTime() ) );
+                    }
                     if ( getConfig( studyName ).collectIPAddress ) {
                         sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, ipAddressLookup, parameterSet( ipAddress, whatIsMyIPAddress() ) );
                     }
