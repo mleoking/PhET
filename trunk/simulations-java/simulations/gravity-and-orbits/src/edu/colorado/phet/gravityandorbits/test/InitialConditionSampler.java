@@ -33,7 +33,7 @@ public class InitialConditionSampler {
 
     private static void runSim( final double alpha, final double delta ) {
         JFrame frame = new JFrame() {{
-            final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, new Property<Boolean>( false ), CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
+            final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, null, new Property<Boolean>( false ), CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
                     return new CartoonModeList( p.playButtonPressed, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
                 }
