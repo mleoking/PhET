@@ -20,8 +20,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.nextKitButton;
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.previousKitButton;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
 
@@ -42,7 +41,8 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
     }
 
     public MassKitSelectionNode( final Property<Integer> selectedKit, final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( selectedKit,
+        super( massKitSelector,
+               selectedKit,
                new Kit<PNode>( new TitleNode( BalanceAndTorqueResources.Strings.BRICKS ),
                                new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
                                    addChild( new BrickStackCreatorNode( 1, model, mvt, canvas ) );

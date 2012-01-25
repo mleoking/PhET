@@ -37,7 +37,10 @@ public class BalanceAndTorqueSimSharing {
         // Buttons
         redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
         nextKitButton, previousKitButton, checkAnswer, tryAgain, displayAnswer,
-        nextChallenge, tiltLeftButton, stayBalancedButton, tiltRightButton
+        nextChallenge, tiltLeftButton, stayBalancedButton, tiltRightButton,
+
+        // Kits
+        massKitSelector
     }
 
     public static enum ModelComponents implements IUserComponent, IModelComponent {

@@ -58,7 +58,7 @@ public class TiltPredictionSelectorNode extends PNode {
                                                                           TiltPrediction.STAY_BALANCED,
                                                                           tiltPredictionProperty,
                                                                           gameStateProperty ),
-                                        new TiltPredictionSelectionPanel( BalanceAndTorqueSimSharing.UserComponents.stayBalancedButton,
+                                        new TiltPredictionSelectionPanel( BalanceAndTorqueSimSharing.UserComponents.tiltRightButton,
                                                                           BalanceAndTorqueResources.Images.PLANK_TIPPED_RIGHT,
                                                                           TiltPrediction.TILT_DOWN_ON_RIGHT_SIDE,
                                                                           tiltPredictionProperty,

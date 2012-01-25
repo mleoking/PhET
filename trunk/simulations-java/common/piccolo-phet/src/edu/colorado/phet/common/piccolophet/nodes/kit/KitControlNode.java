@@ -6,6 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.PNode;
@@ -16,30 +22,34 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class KitControlNode extends PNode {
+class KitControlNode extends PNode {
 
     //Convenience constructor that uses orange for the buttons
-    public KitControlNode( final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset ) {
-        this( numKits, selectedKit, titleNode, inset, Color.orange );
+    public KitControlNode( IUserComponent parentKitUserComponent, final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset ) {
+        this( parentKitUserComponent, numKits, selectedKit, titleNode, inset, Color.orange );
     }
 
     /**
      * Creates a node that contains back and forward buttons for use in a KitSelectionNode.
      *
-     * @param numKits     the number of kits that are available, for purposes of hiding/showing the "next" button
-     * @param selectedKit model for which kit is selected, this control sets and observes the value
-     * @param titleNode   optional title to be displayed between the buttons
-     * @param inset       space between the arrows and the title (or 2x inset = distance between arrows if no title)
-     * @param buttonColor main color to use for creating button color scheme
+     * @param parentKitUserComponent
+     * @param numKits                the number of kits that are available, for purposes of hiding/showing the "next" button
+     * @param selectedKit            model for which kit is selected, this control sets and observes the value
+     * @param titleNode              optional title to be displayed between the buttons
+     * @param inset                  space between the arrows and the title (or 2x inset = distance between arrows if no title)
+     * @param buttonColor            main color to use for creating button color scheme
      */
-    public KitControlNode( final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset, Color buttonColor ) {
-
+    public KitControlNode( final IUserComponent parentKitUserComponent, final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset, Color buttonColor ) {
         //Buttons for scrolling previous/next
         //Place the kit "previous" and "next" buttons above the kit to save horizontal space.  In Sugar and Salt Solution, they are moved up next to the title
         final PNode nextButton = new ForwardButton( buttonColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     selectedKit.set( selectedKit.get() + 1 );
+                    SimSharingManager.sendUserMessage( UserComponentChain.chain( parentKitUserComponent, UserComponents.nextButton ),
+                                                       UserComponentTypes.button,
+                                                       UserActions.pressed );
+
                 }
             } );
             selectedKit.addObserver( new VoidFunction1<Integer>() {
@@ -59,6 +69,9 @@ public class KitControlNode extends PNode {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     selectedKit.set( selectedKit.get() - 1 );
+                    SimSharingManager.sendUserMessage( UserComponentChain.chain( parentKitUserComponent, UserComponents.previousButton ),
+                                                       UserComponentTypes.button,
+                                                       UserActions.pressed );
                 }
             } );
             selectedKit.addObserver( new VoidFunction1<Integer>() {
