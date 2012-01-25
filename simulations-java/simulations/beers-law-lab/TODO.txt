@@ -8,15 +8,14 @@ DESIGN
 - should shaker particles be removed when the shaker is made invisible?
 
 HIGH
-- make meter cable more curvy (ala Bending Light)
 - implement ShakerParticle.stepInTime and ShakerParticles.stepInTime
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute
 - make concentration meter expand to fit title
-- separate strings from Concentration tab and meter title
 
 MEDIUM
 - Beer's Law tab
+- make meter cable more curvy (ala Bending Light)
 
 LOW
 - shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
