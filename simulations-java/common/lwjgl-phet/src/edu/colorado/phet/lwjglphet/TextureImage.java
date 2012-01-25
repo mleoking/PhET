@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
+import edu.colorado.phet.lwjglphet.utils.GLDisplayList;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -16,6 +17,8 @@ public abstract class TextureImage {
     private final AffineTransform imageTransform;
     private final int width;
     private final int height;
+
+    private GLDisplayList renderList;
 
     public TextureImage( int width, int height, boolean hasAlpha ) {
         this( width, height, hasAlpha, new AffineTransform() );
@@ -57,6 +60,14 @@ public abstract class TextureImage {
                     buffer.clear();
                     buffer.put( data, 0, data.length );
                     buffer.rewind();
+                    if ( renderList != null ) {
+                        renderList.delete();
+                    }
+                    renderList = new GLDisplayList( new Runnable() {
+                        public void run() {
+                            glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+                        }
+                    } );
                 }
             }
         } );
@@ -65,7 +76,9 @@ public abstract class TextureImage {
     public void useTexture() {
         // lock the instance to prevent concurrent buffer modification
         synchronized ( this ) {
-            glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+            if ( renderList != null ) {
+                renderList.run();
+            }
         }
     }
 
