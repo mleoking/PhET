@@ -3,12 +3,16 @@ package edu.colorado.phet.common.phetcommon.simsharing.logs;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.Enumeration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Log;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -26,6 +30,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
  * @author Sam Reid
  */
 public class MongoLog implements Log {
+
+    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( MongoLog.class.getCanonicalName() );
 
     private Mongo mongo;
 
@@ -49,6 +55,7 @@ public class MongoLog implements Log {
     private final DBCollection collection;
 
     public MongoLog( String machineID, String sessionID ) {
+
         try {
             mongo = new Mongo( HOST_IP_ADDRESS, PORT );
         }
@@ -64,6 +71,16 @@ public class MongoLog implements Log {
 
         //One collection per session, lets us easily iterate and add messages per session.
         collection = database.getCollection( sessionID );
+
+        // Turn off mongo logging. Do this at the end of constructor, so that Mongo loggers have been instantiated.
+        Enumeration<String> names = LogManager.getLogManager().getLoggerNames();
+        while ( names.hasMoreElements() ) {
+            String name = names.nextElement();
+            if ( name.contains( "mongo" ) ) {
+                LOGGER.info( "turning off Mongo logger, name=" + name );
+                LogManager.getLogManager().getLogger( name ).setLevel( Level.OFF );
+            }
+        }
     }
 
     //Keep track of the number of messages that failed to send in case we use it to skip message sending
@@ -90,13 +107,12 @@ public class MongoLog implements Log {
 
                 try {
                     WriteResult result = collection.insert( doc );
+                    //TODO why isn't the result checked?
                 }
-
-                //If a connection could not be made, we may receive something like new MongoException.Network( "can't say something" , ioe )
                 catch ( RuntimeException e ) {
+                    //If a connection could not be made, we may receive something like new MongoException.Network( "can't say something" , ioe )
                     failureCount++;
-                    System.out.println( "RuntimeException message: " + e.getMessage() );
-                    System.out.println( "failureCount = " + failureCount );
+                    LOGGER.warning( failureCount + "failures sending to Mongo server, error=" + e.getMessage() );
                 }
             }
         } );
@@ -114,7 +130,7 @@ public class MongoLog implements Log {
         //If they didn't get sent within 1 sec, just exit anyways.
         try {
             boolean success = executor.awaitTermination( 1, SECONDS );
-            System.out.println( "MongoLog.executor awaitTermination, success = " + success );
+            LOGGER.info( "MongoLog.executor awaitTermination, success = " + success );
         }
         catch ( InterruptedException e ) {
             e.printStackTrace();
