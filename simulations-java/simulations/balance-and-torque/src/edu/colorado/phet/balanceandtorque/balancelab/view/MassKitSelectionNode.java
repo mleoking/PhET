@@ -6,9 +6,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources;
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -20,9 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
-import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing.UserComponents.massKitSelector;
 
 /**
  * A node which allows the user to scroll through the various mass kits and
@@ -80,16 +76,6 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                                )
                )
         );
-        selectedKit.addObserver( new ChangeObserver<Integer>() {
-            public void update( Integer newValue, Integer oldValue ) {
-                if ( newValue > oldValue ) {
-                    SimSharingManager.sendUserMessage( nextKitButton, button, pressed );
-                }
-                else {
-                    SimSharingManager.sendUserMessage( previousKitButton, button, pressed );
-                }
-            }
-        } );
     }
 
     public void reset() {
