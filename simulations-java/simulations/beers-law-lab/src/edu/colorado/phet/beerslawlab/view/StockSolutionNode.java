@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
@@ -30,7 +32,7 @@ public class StockSolutionNode extends PPath {
     public StockSolutionNode( Solvent solvent, Property<Solute> solute, Dropper dropper, Beaker beaker ) {
         setPickable( false );
         setChildrenPickable( false );
-        setStroke( null );
+        setStroke( new BasicStroke( 0.25f ) );
 
         this.solvent = solvent;
         this.solute = solute;
@@ -58,7 +60,9 @@ public class StockSolutionNode extends PPath {
         }
         else {
             // color
-            setPaint( Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration ) );
+            Color color = Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
+            setPaint( color );
+            setStrokePaint( color.darker().darker() );
 
             // solution outside the dropper
             Rectangle2D solutionOutsideDropper = null;

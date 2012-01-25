@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.view;
 
+import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.model.Faucet;
@@ -20,7 +21,8 @@ public class OutputFluidNode extends PPath {
         setPickable( false );
         setChildrenPickable( false );
 
-        setStroke( null );
+        setStroke( new BasicStroke( 0.25f ) );
+        setStrokePaint( fluid.getFluidColor().darker().darker() );
 
         setOffset( faucet.getLocation().toPoint2D() );
 
