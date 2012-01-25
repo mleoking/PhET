@@ -23,7 +23,7 @@ public abstract class SimSharingConfig {
         addConfig( new AcidBaseSolutionsSpring2012() );
         addConfig( new DallasJan2012() );
         addConfig( new FaradaySpring2012() );
-        addConfig( new BalanceAndTorqueSpring2012() );
+        addConfig( new BalancingActSpring2012() );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
@@ -142,9 +142,9 @@ public abstract class SimSharingConfig {
     }
 
 
-    private static class BalanceAndTorqueSpring2012 extends SimSharingConfig {
-        public BalanceAndTorqueSpring2012() {
-            super( "balance-and-torque-spring-2012", true, true, false, false );
+    private static class BalancingActSpring2012 extends SimSharingConfig {
+        public BalancingActSpring2012() {
+            super( "balancing-act-spring-2012", true, true, false, false );
         }
     }
 }
