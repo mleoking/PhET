@@ -9,6 +9,7 @@ public enum ParameterKeys implements IParameterKey {
     enabled,
     minX, maxX, averageX, minY, maxY, averageY,
     isPlaying,
+    selectedKit,
 
     //For system:
     time, name, version, project, flavor, locale, distributionTag, javaVersion, osName, osVersion, parserVersion, study, id, machineCookie, messageCount, messageIndex, sessionId,

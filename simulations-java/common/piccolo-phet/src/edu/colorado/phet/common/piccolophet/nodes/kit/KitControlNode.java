@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -48,7 +51,8 @@ class KitControlNode extends PNode {
                     selectedKit.set( selectedKit.get() + 1 );
                     SimSharingManager.sendUserMessage( UserComponentChain.chain( parentKitUserComponent, UserComponents.nextButton ),
                                                        UserComponentTypes.button,
-                                                       UserActions.pressed );
+                                                       UserActions.pressed,
+                                                       new ParameterSet( new Parameter( ParameterKeys.selectedKit, selectedKit.get() ) ) );
 
                 }
             } );
@@ -71,7 +75,8 @@ class KitControlNode extends PNode {
                     selectedKit.set( selectedKit.get() - 1 );
                     SimSharingManager.sendUserMessage( UserComponentChain.chain( parentKitUserComponent, UserComponents.previousButton ),
                                                        UserComponentTypes.button,
-                                                       UserActions.pressed );
+                                                       UserActions.pressed,
+                                                       new ParameterSet( new Parameter( ParameterKeys.selectedKit, selectedKit.get() ) ) );
                 }
             } );
             selectedKit.addObserver( new VoidFunction1<Integer>() {
