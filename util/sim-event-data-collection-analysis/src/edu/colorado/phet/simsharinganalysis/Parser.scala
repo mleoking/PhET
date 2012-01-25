@@ -3,11 +3,11 @@ package edu.colorado.phet.simsharinganalysis
 
 // Copyright 2002-2011, University of Colorado
 
-import java.util.StringTokenizer
 import java.io.{File, FileReader, BufferedReader}
 import collection.mutable.{HashMap, ArrayBuffer}
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
+import java.util.{ArrayList, StringTokenizer}
+import edu.colorado.phet.common.phetcommon.simsharing.messages.{IParameterKey, Parameter}
 
 /**
  * @author Sam Reid
@@ -45,7 +45,7 @@ class Parser {
       remainderOfLineBuf.append(SimSharingManager.DELIMITER)
     }
     val remainderOfLine = remainderOfLineBuf.toString.trim
-    val parameters = Parameter.parseParameters(remainderOfLine, SimSharingManager.DELIMITER)
+    val parameters = parseParameters(remainderOfLine, SimSharingManager.DELIMITER)
     val map = new HashMap[String, String]()
     for ( p <- parameters ) {
       if ( map.contains(p.name.toString) ) {
@@ -74,4 +74,28 @@ class Parser {
     stringTokenizer.nextToken
     stringTokenizer.nextToken
   }
+
+  def parseParameters(line: String, delimiter: String): Array[Parameter] = {
+    val st = new StringTokenizer(line, delimiter)
+    val parameters = new ArrayList[Parameter]
+    while ( st.hasMoreTokens ) {
+      parameters.add(parseParameter(st.nextToken))
+    }
+    parameters.toArray(new Array[Parameter](parameters.size))
+  }
+
+  private def parseParameter(s: String): Parameter = {
+    val index = s.indexOf('=')
+    val parsed = s.substring(0, index).trim
+    new Parameter(new ParsedParameter(parsed), s.substring(index + 1).trim)
+  }
+
+  /**
+   * This class allows us to represent a parsed parameter key.  This is required since IParameterKey is a marker interface
+   * that makes it easy to identify the source of different parameters.  This parameter is one that was parsed during postprocessing/analysis.
+   */
+  private class ParsedParameter(parsed: String) extends IParameterKey {
+    override def toString: String = parsed
+  }
+
 }
