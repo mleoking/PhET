@@ -1,7 +1,6 @@
 TODO list for dilutions
 
 HIGH
-- "Show values" check box has a dashed black line around it when it has focus (Win only)
 - move Molarity sim to a new project? rename "dilutions" project to "molarity"?
 
 MEDIUM
