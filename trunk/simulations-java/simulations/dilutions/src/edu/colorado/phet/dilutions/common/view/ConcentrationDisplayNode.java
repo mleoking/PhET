@@ -6,13 +6,11 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ColorRange;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -23,7 +21,6 @@ import edu.colorado.phet.dilutions.DilutionsConstants;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
 import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
 import edu.colorado.phet.dilutions.common.model.Solution;
-import edu.colorado.phet.dilutions.common.util.ZeroIntegerDoubleFormat;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -41,9 +38,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ConcentrationDisplayNode extends PNode {
 
-    private static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
-    private static final DecimalFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" );
-
     public ConcentrationDisplayNode( String title, String subtitle, final PDimension barSize, final Solution solution,
                                      final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
         // nodes
@@ -51,8 +45,8 @@ public class ConcentrationDisplayNode extends PNode {
         final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, DilutionsConstants.SLIDER_SUBTITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), units, valuesVisible );
-        final PNode maxNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
-        final PNode minNode = new DualLabelNode( RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
+        final PNode maxNode = new DualLabelNode( DilutionsConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
+        final PNode minNode = new DualLabelNode( DilutionsConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -186,7 +180,7 @@ public class ConcentrationDisplayNode extends PNode {
             addChild( arrowNode );
 
             // update the value
-            String valueString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, VALUE_FORMAT.format( value ), units );
+            String valueString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, DilutionsConstants.VALUE_FORMAT.format( value ), units );
             valueNode.setText( valueString );
             valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
                                  arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
