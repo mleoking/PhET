@@ -64,7 +64,12 @@ class StudentActivityCanvas(path: String) extends PCanvas {
     val machineNode = new PNode {
       //show the text and anchor at x=0
       //        addChild(new PText(machine + ": " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
-      addChild(new PText("Student " + " " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
+      //      addChild(new PText("Student " + " " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
+      //      addChild(new PText("Student " + " " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
+
+      def trim(s: String) = s.substring(0, s.indexOf("2012") - 1)
+
+      addChild(new PText("Source: " + sessionLogs.filter(_.machine == machine).map(log => trim(log.file.getName)).mkString(", ")))
 
       var y = 0
       val stripeHeight = 20
