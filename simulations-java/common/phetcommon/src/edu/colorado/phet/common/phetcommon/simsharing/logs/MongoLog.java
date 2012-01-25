@@ -72,7 +72,11 @@ public class MongoLog implements Log {
         //One collection per session, lets us easily iterate and add messages per session.
         collection = database.getCollection( sessionID );
 
-        // Turn off mongo logging. Do this at the end of constructor, so that Mongo loggers have been instantiated.
+        /*
+         * Mongo logs entire stack traces when failure occur, which is incredibly annoying.
+         * Turn off Mongo logging here by interrogating the LogManager.
+         * Do this at the end of the constructor, so that Mongo loggers have been instantiated.
+         */
         Enumeration<String> names = LogManager.getLogManager().getLoggerNames();
         while ( names.hasMoreElements() ) {
             String name = names.nextElement();
@@ -107,7 +111,7 @@ public class MongoLog implements Log {
 
                 try {
                     WriteResult result = collection.insert( doc );
-                    //TODO why isn't the result checked?
+                    //TODO result should be checked, especially since we've turned off Mongo loggers
                 }
                 catch ( RuntimeException e ) {
                     //If a connection could not be made, we may receive something like new MongoException.Network( "can't say something" , ioe )
