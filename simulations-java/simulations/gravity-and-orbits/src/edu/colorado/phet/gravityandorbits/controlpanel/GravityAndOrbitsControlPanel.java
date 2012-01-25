@@ -88,20 +88,20 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new JPanel( new GridLayout( 2, 2 ) ) {{
                 setOpaque( false );
 
-                add( new GAOCheckBox( showGravityForce, GAOStrings.GRAVITY_FORCE, module.showGravityForceProperty ) );
+                add( new GAOCheckBox( showGravityForceCheckBox, GAOStrings.GRAVITY_FORCE, module.showGravityForceProperty ) );
                 add( newArrow( PhetColorScheme.GRAVITATIONAL_FORCE ) );
-                add( new GAOCheckBox( showVelocity, GAOStrings.VELOCITY, module.showVelocityProperty ) );
+                add( new GAOCheckBox( showVelocityCheckBox, GAOStrings.VELOCITY, module.showVelocityProperty ) );
                 add( newArrow( PhetColorScheme.VELOCITY ) );
                 setMaximumSize( getPreferredSize() );
             }} );
             if ( module.showMassCheckBox ) {//only show this on real mode
-                add( new GAOCheckBox( showMass, GAOStrings.MASS, module.showMassProperty ) );
+                add( new GAOCheckBox( showMassCheckBox, GAOStrings.MASS, module.showMassProperty ) );
             }
-            add( new GAOCheckBox( showPath, GAOStrings.PATH, module.showPathProperty ) );
-            add( new GAOCheckBox( showGrid, GAOStrings.GRID, module.showGridProperty ) );
+            add( new GAOCheckBox( showPathCheckBox, GAOStrings.PATH, module.showPathProperty ) );
+            add( new GAOCheckBox( showGridCheckBox, GAOStrings.GRID, module.showGridProperty ) );
             //Panel with measuring tape.
             if ( module.showMeasuringTape ) {
-                add( new GAOCheckBox( showMeasuringTape, GAOStrings.MEASURING_TAPE, module.measuringTapeVisibleProperty ) );
+                add( new GAOCheckBox( showMeasuringTapeCheckbox, GAOStrings.MEASURING_TAPE, module.measuringTapeVisibleProperty ) );
             }
         }} );
 

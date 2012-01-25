@@ -8,12 +8,17 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class GAOSimSharing {
     public static enum UserComponents implements IUserComponent {
-        showVelocity, showMass, showPath, showGrid, showMeasuringTape, showGravityForce,
+        showVelocityCheckBox, showMassCheckBox, showPathCheckBox, showGridCheckBox, showMeasuringTapeCheckbox, showGravityForceCheckBox,
         gravityOnRadioButton,
         gravityOffRadioButton,
 
         sunEarthRadioButton, sunEarthMoonRadioButton, earthMoonRadioButton, earthSpaceStationRadioButton,
 
-        satellite, moon, planet, star
+        satellite, moon, planet, star,
+
+        cartoonTab, toScaleTab,
+
+        resetButton,
+        zoomInButton, zoomOutButton
     }
 }

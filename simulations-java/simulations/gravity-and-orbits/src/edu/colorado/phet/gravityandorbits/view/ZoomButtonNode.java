@@ -1,13 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -59,7 +65,7 @@ public class ZoomButtonNode extends PhetPNode {
     private Color _textColor;
     private boolean _enabled;
 
-    public ZoomButtonNode( PText htmlLabelNode, Color textColor, Color backgroundColor, double buttonWidth, double buttonHeight ) {
+    public ZoomButtonNode( final IUserComponent userComponent, PText htmlLabelNode, Color textColor, Color backgroundColor, double buttonWidth, double buttonHeight ) {
         this._htmlNode = htmlLabelNode;
         _htmlNode.setOffset( buttonWidth / 2 - _htmlNode.getFullBounds().getWidth() / 2, buttonHeight / 2 - _htmlNode.getFullBounds().getHeight() / 2 );
 
@@ -121,6 +127,7 @@ public class ZoomButtonNode extends PhetPNode {
             }
 
             public void fire() {
+                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.button, UserActions.pressed );
                 ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
                 for ( ActionListener listener : _listeners.getListeners( ActionListener.class ) ) {
                     listener.actionPerformed( event );

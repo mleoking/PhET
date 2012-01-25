@@ -22,6 +22,8 @@ import edu.colorado.phet.gravityandorbits.module.ModeListParameterList;
 import edu.colorado.phet.gravityandorbits.module.RealModeList;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 
+import static edu.colorado.phet.gravityandorbits.GAOSimSharing.UserComponents.cartoonTab;
+import static edu.colorado.phet.gravityandorbits.GAOSimSharing.UserComponents.toScaleTab;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
 
@@ -96,7 +98,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication implemen
 
     public static class IntroModule extends GravityAndOrbitsModule {
         public IntroModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
-            super( phetFrame, whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
+            super( cartoonTab, phetFrame, whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
                     return new CartoonModeList( p.playButtonPressed, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
                 }
@@ -106,7 +108,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication implemen
 
     public static class CartoonModule extends GravityAndOrbitsModule {
         public CartoonModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
-            super( phetFrame, whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
+            super( toScaleTab, phetFrame, whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
                     return new RealModeList( p.playButtonPressed, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
                 }

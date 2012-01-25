@@ -9,10 +9,11 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
 /**
  * The GravityAndOrbitsModule has a set of "modes", one mode for each configuration of bodies (eg, Sun + Planet).
@@ -26,7 +27,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  * @author John Blanco
  * @see edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel
  */
-public class GravityAndOrbitsModule extends PiccoloModule {
+public class GravityAndOrbitsModule extends SimSharingPiccoloModule {
     public static final double G = 6.67428E-11;
 
     //Properties that are common to all "modes" should live here.
@@ -48,8 +49,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final ArrayList<GravityAndOrbitsMode> modes;
     public final boolean showMassCheckBox;
 
-    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>> createModes, int initialModeIndex, boolean showMassCheckBox ) {
-        super( name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
+    public GravityAndOrbitsModule( IUserComponent tabUserComponent, final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>> createModes, int initialModeIndex, boolean showMassCheckBox ) {
+        super( tabUserComponent, name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
         this.showMassCheckBox = showMassCheckBox;
         modes = createModes.apply( new ModeListParameterList( playButtonPressed, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ) );
         modeProperty = new Property<GravityAndOrbitsMode>( modes.get( initialModeIndex ) );

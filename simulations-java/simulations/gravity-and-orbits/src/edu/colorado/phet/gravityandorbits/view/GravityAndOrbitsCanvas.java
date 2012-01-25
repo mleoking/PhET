@@ -48,6 +48,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.gravityandorbits.GAOSimSharing.UserComponents;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.*;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.BACKGROUND;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
@@ -168,6 +169,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         //Reset mode button
         final Color buttonForegroundColor = BLACK;
         final ButtonNode resetModeButton = new TextButtonNode( RESET, CONTROL_FONT ) {{
+            setUserComponent( UserComponents.resetButton );
             setForeground( buttonForegroundColor );
             setBackground( buttonBackgroundColor );
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
@@ -267,7 +269,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             PDimension size = new PDimension( Math.max( inText.getFullBounds().getWidth(), outText.getFullBounds().getWidth() ),
                                               Math.max( inText.getFullBounds().getHeight(), outText.getFullBounds().getHeight() ) );
             double dim = Math.max( size.getWidth(), size.getHeight() ) - 7;//bring in the insets a bit so there isn't so much padding
-            PNode zoomInButton = new ZoomButtonNode( inText, Color.black, buttonBackgroundColor, dim, dim ) {{
+            PNode zoomInButton = new ZoomButtonNode( UserComponents.zoomInButton, inText, Color.black, buttonBackgroundColor, dim, dim ) {{
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -280,7 +282,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                     }
                 } );
             }};
-            PNode zoomOutButton = new ZoomButtonNode( outText, Color.black, buttonBackgroundColor, dim, dim ) {{
+            PNode zoomOutButton = new ZoomButtonNode( UserComponents.zoomOutButton, outText, Color.black, buttonBackgroundColor, dim, dim ) {{
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
