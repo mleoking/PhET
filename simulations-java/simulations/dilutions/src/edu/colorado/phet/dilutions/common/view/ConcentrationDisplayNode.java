@@ -38,13 +38,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ConcentrationDisplayNode extends PNode {
 
-    public ConcentrationDisplayNode( String title, String subtitle, final PDimension barSize, final Solution solution,
-                                     final DoubleRange concentrationRange, String units, Property<Boolean> valuesVisible ) {
+    public ConcentrationDisplayNode( String title, String subtitle,
+                                     final PDimension barSize,
+                                     final Solution solution,
+                                     final DoubleRange concentrationRange, String concentrationUnits,
+                                     Property<Boolean> valuesVisible ) {
         // nodes
         final PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_TITLE_FONT );
         final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, DilutionsConstants.SLIDER_SUBTITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
-        final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), units, valuesVisible );
+        final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), concentrationUnits, valuesVisible );
         final PNode maxNode = new DualLabelNode( DilutionsConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
         final PNode minNode = new DualLabelNode( DilutionsConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );

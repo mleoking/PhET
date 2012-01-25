@@ -80,5 +80,6 @@ public class Solution implements Resettable {
         solute.reset();
         soluteAmount.reset();
         volume.reset();
+        // concentration and precipitateAmount are derived
     }
 }

@@ -36,16 +36,19 @@ public class BeakerImageNode extends PImage {
         super( Images.BEAKER_IMAGE );
     }
 
+    // Gets the cylinder dimensions.
     public PDimension getCylinderSize() {
         Point2D pUpperLeft = getTransformedPoint( CYLINDER_UPPER_LEFT );
         Point2D pLowerRight = getTransformedPoint( CYLINDER_LOWER_RIGHT );
         return new PDimension( pLowerRight.getX() - pUpperLeft.getX(), pLowerRight.getY() - pUpperLeft.getY() );
     }
 
+    // Gets the offset of the cylinder from the upper-left corner of the image.
     public Point2D getCylinderOffset() {
         return getTransformedPoint( CYLINDER_UPPER_LEFT );
     }
 
+    // Gets the 2D height of the cylinder's end cap.
     public double getCylinderEndHeight() {
         return getTransformedPoint( CYLINDER_END_FOREGROUND ).getY() - getTransformedPoint( CYLINDER_END_BACKGROUND ).getY();
     }
