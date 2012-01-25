@@ -112,7 +112,7 @@ public class MongoLog implements Log {
                 catch ( RuntimeException e ) {
                     //If a connection could not be made, we may receive something like new MongoException.Network( "can't say something" , ioe )
                     failureCount++;
-                    LOGGER.warning( failureCount + "failures sending to Mongo server, error=" + e.getMessage() );
+                    LOGGER.warning( failureCount + " failures sending to Mongo server, error=" + e.getMessage() );
                 }
             }
         } );
