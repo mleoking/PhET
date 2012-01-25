@@ -124,7 +124,7 @@ public class BeakerNode extends PComposite {
 
                 int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
                 if ( labelIndex < MAJOR_TICK_LABELS.length && MAJOR_TICK_LABELS[labelIndex] != null ) {
-                    String label = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, MAJOR_TICK_LABELS[labelIndex], Strings.LITERS );
+                    String label = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, MAJOR_TICK_LABELS[labelIndex], Strings.UNITS_LITERS );
                     PText textNode = new PText( label );
                     textNode.setFont( TICK_LABEL_FONT );
                     textNode.setTextPaint( TICK_COLOR );
