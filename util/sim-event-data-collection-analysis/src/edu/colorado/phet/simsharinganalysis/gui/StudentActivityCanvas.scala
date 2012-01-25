@@ -32,57 +32,62 @@ class StudentActivityCanvas(path: String) extends PCanvas {
                      "Acid-Base Solutions" -> Color.magenta)
 
   //one plot section for each session
-  for ( session: Session <- studySessionsNov2011.utahStudyMonday :: Nil; sessionLogs = all; if sessionLogs.length > 0 ) {
+  //  for ( session: Session <- studySessionsNov2011.utahStudyMonday :: Nil; sessionLogs = all; if sessionLogs.length > 0 )
+  //  {
+  val sessionLogs = all
 
-    val machines = sessionLogs.map(_.machine).distinct.sorted
-    println("machines.length=" + machines.length)
+  val machines = sessionLogs.map(_.machine).distinct.sorted
+  println("machines.length=" + machines.length)
 
-    //Find the first event from any computer in the session, use it as t=0
-    val sessionStartTime = sessionLogs.map(_.startTime).min
-    val sessionEndTime = sessionLogs.map(_.endTime).max
+  //Find the first event from any computer in the session, use it as t=0
+  val sessionStartTime = sessionLogs.map(_.startTime).min
+  val sessionEndTime = sessionLogs.map(_.endTime).max
 
-    sessionLayer.addChild(new PNode {
-      addChild(new PText(session.study + " session started at " + new Date(sessionStartTime)))
-      addChild(new PhetPPath(new Line2D.Double(getFullBounds.getWidth + 10, getFullBounds.getHeight / 2, 10000, getFullBounds.getHeight / 2)))
-    })
+  sessionLayer.addChild(new PNode {
+    addChild(new PText("Session started at " + new Date(sessionStartTime)))
+    addChild(new PhetPPath(new Line2D.Double(getFullBounds.getWidth + 10, getFullBounds.getHeight / 2, 10000, getFullBounds.getHeight / 2)))
+  })
 
-    //Coloring for different event types
-    def getColor(e: Entry) = {
-      e match {
-        case x: Entry if x.component == "system" => Color.yellow
-        case _ => Color.black
-      }
-    }
-
-    sessionLayer.addChild(new TimelineNode(sessionStartTime, sessionStartTime, sessionEndTime))
-
-    //One row per computer
-    for ( machine <- machines ) {
-
-      val machineNode = new PNode {
-        //show the text and anchor at x=0
-        //        addChild(new PText(machine + ": " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
-        addChild(new PText("Student " + " " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
-
-        var y = 0
-        val stripeHeight = 20
-
-        //Stripe for the entire session
-        for ( log <- sessionLogs.filter(_.machine == machine) ) {
-          val logNode = new LogNode(log, PlotStudentActivity.toX, PlotStudentActivity.toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor, getCamera) {
-            setOffset(0, y)
-          }
-          addChild(logNode)
-
-          y = y + stripeHeight + 1
-        }
-      }
-      sessionLayer.addChild(machineNode)
+  //Coloring for different event types
+  def getColor(e: Entry) = {
+    e match {
+      case x: Entry if x.component == "system" => Color.yellow
+      case _ => Color.black
     }
   }
 
+  sessionLayer.addChild(new TimelineNode(sessionStartTime, sessionStartTime, sessionEndTime))
+
+  //One row per computer
+  for ( machine <- machines ) {
+
+    val machineNode = new PNode {
+      //show the text and anchor at x=0
+      //        addChild(new PText(machine + ": " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
+      addChild(new PText("Student " + " " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
+
+      var y = 0
+      val stripeHeight = 20
+
+      //Stripe for the entire session
+      for ( log <- sessionLogs.filter(_.machine == machine) ) {
+        val logNode = new LogNode(log, PlotStudentActivity.toX, PlotStudentActivity.toDeltaX, stripeHeight, sessionStartTime, colorMap, getColor, getCamera) {
+          setOffset(0, y)
+        }
+        addChild(logNode)
+
+        y = y + stripeHeight + 1
+      }
+    }
+    sessionLayer.addChild(machineNode)
+  }
+  //    ""
+  //  }
+
   val legend = new Legend(colorMap)
-  getCamera addChild legend
+
+  //Hid legend for acid base studies
+  //  getCamera addChild legend
 
   def updateLegendLocation() {
     legend.setOffset(getWidth - legend.getFullBounds.getWidth - 5, 5)
