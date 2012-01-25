@@ -59,8 +59,11 @@ public class BeakerNode extends PComposite {
     private final LabelNode labelNode;
     private final ArrayList<PText> tickLabelNodes;
 
-    public BeakerNode( IUserComponent userComponent, double maxVolume, String units, final double imageScaleX, final double imageScaleY,
-                       String labelText, PDimension labelSize, Font labelFont, Property<Boolean> valuesVisible ) {
+    public BeakerNode( IUserComponent userComponent,
+                       double maxVolume, String volumeUnits,
+                       final double imageScaleX, final double imageScaleY,
+                       String labelText, PDimension labelSize, Font labelFont,
+                       Property<Boolean> valuesVisible ) {
 
         // the glass beaker
         beakerImageNode = new BeakerImageNode() {{
@@ -102,7 +105,7 @@ public class BeakerNode extends PComposite {
                 // major tick label
                 int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
                 if ( labelIndex < MAJOR_TICK_LABELS.length ) {
-                    String label = MAJOR_TICK_LABELS[labelIndex] + units;
+                    String label = MAJOR_TICK_LABELS[labelIndex] + volumeUnits;
                     PText textNode = new PText( label ) {{
                         setFont( TICK_LABEL_FONT );
                         setTextPaint( TICK_LABEL_COLOR );
