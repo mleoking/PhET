@@ -8,6 +8,7 @@ public enum UserComponents implements IUserComponent {
     playPauseButton, tab, stepButton, stepBackButton, rewindButton,
     sponsorDialog, dataCollectionLogMenuItem,
     resetAllConfirmationDialogYesButton, resetAllConfirmationDialogNoButton,
+    nextButton, previousButton,
 
     showLogs,
     simSharingLogFileDialog,

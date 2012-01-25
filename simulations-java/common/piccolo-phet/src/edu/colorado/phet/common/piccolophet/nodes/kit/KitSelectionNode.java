@@ -11,6 +11,8 @@ import java.util.Arrays;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -36,6 +38,8 @@ import static java.lang.Math.max;
  */
 public class KitSelectionNode<T extends PNode> extends PNode {
 
+    private static final IUserComponent DEFAULT_USER_COMPONENT = new UserComponent( KitSelectionNode.class );
+
     //The currently selected kit, public because it can be set and observed by other classes
     public final Property<Integer> selectedKit;
 
@@ -55,34 +59,37 @@ public class KitSelectionNode<T extends PNode> extends PNode {
     protected ZeroOffsetNode controlHolderNode;
 
     /**
-     * Creates a KitSelectionNode with no title
+     * Creates a KitSelectionNode with no title.
      *
-     * @param selectedKit model for which kit has been selected by the user
-     * @param kits        the list of kits to show
+     * @param userComponent
+     * @param selectedKit   model for which kit has been selected by the user
+     * @param kits          the list of kits to show
      */
-    public KitSelectionNode( final Property<Integer> selectedKit, Kit<T>... kits ) {
-        this( selectedKit, new None<PNode>(), kits );
+    public KitSelectionNode( IUserComponent userComponent, final Property<Integer> selectedKit, Kit<T>... kits ) {
+        this( userComponent, selectedKit, new None<PNode>(), kits );
     }
 
     /**
      * Creates a KitSelectionNode with the specified title node
      *
-     * @param selectedKit model for which kit has been selected by the user
-     * @param titleNode   node to display for the title
-     * @param kits        the list of kits to show
+     * @param userComponent
+     * @param selectedKit   model for which kit has been selected by the user
+     * @param titleNode     node to display for the title
+     * @param kits          the list of kits to show
      */
-    public KitSelectionNode( final Property<Integer> selectedKit, PNode titleNode, Kit<T>... kits ) {
-        this( selectedKit, new Some<PNode>( titleNode ), kits );
+    public KitSelectionNode( IUserComponent userComponent, final Property<Integer> selectedKit, PNode titleNode, Kit<T>... kits ) {
+        this( userComponent, selectedKit, new Some<PNode>( titleNode ), kits );
     }
 
     /**
      * Create a KitSelectionNode that uses the specified kits
      *
-     * @param selectedKit model for which kit has been selected by the user
-     * @param titleNode   optional node to display for the title
-     * @param kits        the list of kits to show
+     * @param userComponent
+     * @param selectedKit   model for which kit has been selected by the user
+     * @param titleNode     optional node to display for the title
+     * @param kits          the list of kits to show
      */
-    public KitSelectionNode( final Property<Integer> selectedKit, Option<PNode> titleNode, Kit<T>... kits ) {
+    public KitSelectionNode( IUserComponent userComponent, final Property<Integer> selectedKit, Option<PNode> titleNode, Kit<T>... kits ) {
         this.kits = new ArrayList<Kit<T>>( Arrays.asList( kits ) );
         this.selectedKit = selectedKit;
 
@@ -109,7 +116,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         //REVIEW: does this need to be addressed? what might be wrong with the layout?
         //TODO: This value is hard coded, could have a better layout
         //Larger inset is necessary when using HTMLButtonImageNode since with a small inset the button will be touching the title
-        double controlWidth = new KitControlNode( getKitCount(), selectedKit, titleNode, 13 ).getFullBounds().getWidth();
+        double controlWidth = new KitControlNode( userComponent, getKitCount(), selectedKit, titleNode, 13 ).getFullBounds().getWidth();
 
         //Construct and add the background.  Make it big enough to hold the largest kit, and set it to look like ControlPanelNode by default
         RoundRectangle2D.Double kitBounds = new RoundRectangle2D.Double( 0, 0, max( max( contentBounds.getWidth(), titleBounds.getWidth() ), controlWidth ), contentBounds.getHeight() + titleBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC );
@@ -165,10 +172,33 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         double extraInsetSpace = extraSpace / 2;
 
         //Larger inset is necessary when using HTMLButtonImageNode since with a small inset the button will be touching the title
-        controlHolderNode = new ZeroOffsetNode( new KitControlNode( getKitCount(), selectedKit, titleNode, extraInsetSpace + 10 ) ) {{
+        controlHolderNode = new ZeroOffsetNode( new KitControlNode( userComponent, getKitCount(), selectedKit, titleNode, extraInsetSpace + 10 ) ) {{
             setOffset( background.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, background.getFullBounds().getMinY() - getFullBounds().getHeight() );
         }};
         addChild( controlHolderNode );
+    }
+
+    // TODO: Get rid of these deprecated versions when sim sharing integration is complete.
+
+    /**
+     * @deprecated Use the sim sharing version.
+     */
+    public KitSelectionNode( final Property<Integer> selectedKit, Kit<T>... kits ) {
+        this( DEFAULT_USER_COMPONENT, selectedKit, kits );
+    }
+
+    /**
+     * @deprecated Use the sim sharing version.
+     */
+    public KitSelectionNode( final Property<Integer> selectedKit, PNode titleNode, Kit<T>... kits ) {
+        this( DEFAULT_USER_COMPONENT, selectedKit, titleNode, kits );
+    }
+
+    /**
+     * @deprecated Use the sim sharing version.
+     */
+    public KitSelectionNode( final Property<Integer> selectedKit, Option<PNode> titleNode, Kit<T>... kits ) {
+        this( DEFAULT_USER_COMPONENT, selectedKit, titleNode, kits );
     }
 
     private Rectangle2D getBoundingRectangle( ArrayList<PNode> nodes ) {
@@ -212,7 +242,9 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                 new PFrame() {{
                     getCanvas().getLayer().addChild( new KitSelectionNode<PNode>(
                             new Property<Integer>( 0 ),
-                            new Some<PNode>( new PText( "Choose a kit:" ) {{setFont( new PhetFont( 16, true ) );}} ),
+                            new Some<PNode>( new PText( "Choose a kit:" ) {{
+                                setFont( new PhetFont( 16, true ) );
+                            }} ),
                             new Kit<PNode>( new PText( "Title 1" ), new VBox( new PText( "Hello" ), new PText( "This is kit 1" ) ) ),
                             new Kit<PNode>( new PText( "there" ) ),
                             new Kit<PNode>( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.blue ) ),
