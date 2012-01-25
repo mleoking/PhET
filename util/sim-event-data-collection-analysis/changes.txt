@@ -1,3 +1,4 @@
+Instead of "student null", use the first part of the log file name
 Removed "utah" in "utah session started at..."
 Removed the legend with the sim names
 Added pop-up window for server monitor text output
