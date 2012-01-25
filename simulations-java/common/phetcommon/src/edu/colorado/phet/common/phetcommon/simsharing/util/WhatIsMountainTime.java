@@ -10,8 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Look up ip address
- * See http://www.whatismyip.com/faq/automation.asp
+ * In order to synchronize the clocks of different computers, look up the current time on a public server.
+ * We are considering switching to Yahoo to provide an easier to parse time stamp.
  *
  * @author Sam Reid
  */
