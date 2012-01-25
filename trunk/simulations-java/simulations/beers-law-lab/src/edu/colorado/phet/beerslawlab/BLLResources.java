@@ -18,6 +18,8 @@ public class BLLResources {
 
     // Localized strings
     public static class Strings {
+        public static final String ABSORBANCE = RESOURCES.getLocalizedString( "absorbance" );
+        public static final String BEAM = RESOURCES.getLocalizedString( "beam" );
         public static final String BEERS_LAW = RESOURCES.getLocalizedString( "beersLaw" );
         public static final String COBALT_II_NITRATE = RESOURCES.getLocalizedString( "cobaltIINitrate" );
         public static final String COBALT_CHLORIDE = RESOURCES.getLocalizedString( "cobaltChloride" );
@@ -25,14 +27,14 @@ public class BLLResources {
         public static final String COPPER_SULFATE = RESOURCES.getLocalizedString( "copperSulfate" );
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
         public static final String KOOL_AID = RESOURCES.getLocalizedString( "koolAid" );
-        public static final String LITERS = RESOURCES.getLocalizedString( "liters" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
-        public static final String MOLES_PER_LITER = RESOURCES.getLocalizedString( "molesPerLiter" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
         public static final String PATTERN_0VALUE_1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
         public static final String PATTERN_PARENTHESES_0TEXT = RESOURCES.getLocalizedString( "pattern.parentheses.0text" );
+        public static final String PERCENT_TRANSMITTANCE = RESOURCES.getLocalizedString( "percentTransmittance" );
+        public static final String PHOTONS = RESOURCES.getLocalizedString( "photons" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );
@@ -41,7 +43,11 @@ public class BLLResources {
         public static final String SOLID = RESOURCES.getLocalizedString( "solid" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SOLUTION = RESOURCES.getLocalizedString( "solution" );
+        public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
+        public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
+        public static final String UNITS_NANOMETERS = RESOURCES.getLocalizedString( "units.nanometers" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
+        public static final String WAVELENGTH = RESOURCES.getLocalizedString( "wavelength" );
     }
 
     // Symbols, no i18n needed

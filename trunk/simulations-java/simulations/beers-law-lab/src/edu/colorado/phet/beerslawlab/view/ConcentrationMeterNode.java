@@ -152,7 +152,7 @@ public class ConcentrationMeterNode extends PhetPNode {
             }
 
             // units
-            PText unitsNode = new PText( MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLES_PER_LITER ) ) {{
+            PText unitsNode = new PText( MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.UNITS_MOLES_PER_LITER ) ) {{
                 setTextPaint( Color.WHITE );
                 setFont( new PhetFont( Font.BOLD, 16 ) );
             }};
