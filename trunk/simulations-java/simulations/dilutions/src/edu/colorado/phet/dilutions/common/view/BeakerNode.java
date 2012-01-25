@@ -47,9 +47,6 @@ public class BeakerNode extends PComposite {
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( BeakerNode.class.getCanonicalName() );
 
     // label properties
-    private static final PDimension LABEL_SIZE = new PDimension( 180, 80 );
-    private static final PhetFont FORMULA_FONT = new PhetFont( Font.BOLD, 28 );
-    private static final PhetFont CONCENTRATION_FONT = new PhetFont( 16 );
     private static final DecimalFormat CONCENTRATION_FORMAT = new DefaultDecimalFormat( "0.00" );
 
     // tick mark properties
@@ -71,9 +68,10 @@ public class BeakerNode extends PComposite {
 
     public BeakerNode( IUserComponent userComponent,
                        double maxVolume, String volumeUnits,
-                       double concentration, String concentrationUnits,
+                       String formula, Font formulaFont,
+                       double concentration, String concentrationUnits, Font concentrationFont,
+                       PDimension labelSize,
                        final double imageScaleX, final double imageScaleY,
-                       String formula,
                        Property<Boolean> valuesVisible ) {
 
         // the glass beaker
@@ -138,7 +136,7 @@ public class BeakerNode extends PComposite {
         }
 
         // label on the beaker
-        labelNode = new LabelNode( formula, concentration, concentrationUnits, valuesVisible );
+        labelNode = new LabelNode( labelSize, formula, formulaFont, concentration, concentrationUnits, concentrationFont, valuesVisible );
         addChild( labelNode );
         labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.15 * cylinderSize.getHeight() ) );
 
@@ -187,22 +185,25 @@ public class BeakerNode extends PComposite {
         private final PNode textParentNode;
         private final PPath backgroundNode;
 
-        public LabelNode( String formula, double concentration, String concentrationUnits, Property<Boolean> valuesVisible ) {
+        public LabelNode( final PDimension labelSize,
+                          String formula, final Font formulaFont,
+                          double concentration, String concentrationUnits, final Font concentrationFont,
+                          Property<Boolean> valuesVisible ) {
 
             this.concentrationUnits = concentrationUnits;
 
             // nodes
             formulaNode = new HTMLNode( "?" ) {{
-                setFont( FORMULA_FONT );
+                setFont( formulaFont );
             }};
             concentrationNode = new PText( "?" ) {{
-                setFont( CONCENTRATION_FONT );
+                setFont( concentrationFont );
             }};
             textParentNode = new PNode();
             backgroundNode = new PPath() {{
                 setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
                 setStrokePaint( Color.LIGHT_GRAY );
-                setPathTo( new RoundRectangle2D.Double( -LABEL_SIZE.getWidth() / 2, 0, LABEL_SIZE.getWidth(), LABEL_SIZE.getHeight(), 10, 10 ) );
+                setPathTo( new RoundRectangle2D.Double( -labelSize.getWidth() / 2, 0, labelSize.getWidth(), labelSize.getHeight(), 10, 10 ) );
             }};
 
             // rendering order
@@ -264,9 +265,10 @@ public class BeakerNode extends PComposite {
         // beaker
         final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker,
                                                       1, "L",
-                                                      0.5, "M",
+                                                      "Rat Poison", new PhetFont( Font.BOLD, 28 ),
+                                                      0.5, "M", new PhetFont( 16 ),
+                                                      new PDimension( 180, 80 ),
                                                       0.75, 0.75,
-                                                      "Rat Poison",
                                                       valuesVisible ) {{
             setOffset( 200, 200 );
         }};

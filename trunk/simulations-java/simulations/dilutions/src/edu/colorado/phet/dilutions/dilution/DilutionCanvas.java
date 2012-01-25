@@ -35,7 +35,8 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
     // properties common to all 3 beakers
     private static final double BEAKER_SCALE_X = 0.33;
     private static final double BEAKER_SCALE_Y = 0.50;
-    private static final PhetFont BEAKER_LABEL_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final PhetFont BEAKER_FORMULA_FONT = new PhetFont( Font.BOLD, 16 );
+    private static final PhetFont BEAKER_CONCENTRATION_FONT = new PhetFont( 14 );
     private static final PDimension BEAKER_LABEL_SIZE = new PDimension( 100, 50 );
 
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
@@ -45,8 +46,10 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         // Solution beaker, with solution inside of it
         final BeakerNode solutionBeakerNode = new BeakerNode( UserComponents.solutionBeaker,
                                                               model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
-                                                              model.solution.getConcentration(), Strings.UNITS_MOLARITY,
-                                                              BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.SOLUTION,
+                                                              Strings.SOLUTION, BEAKER_FORMULA_FONT,
+                                                              model.solution.getConcentration(), Strings.UNITS_MOLARITY, BEAKER_CONCENTRATION_FONT,
+                                                              BEAKER_LABEL_SIZE,
+                                                              BEAKER_SCALE_X, BEAKER_SCALE_Y,
                                                               valuesVisible );
         final PDimension cylinderSize = solutionBeakerNode.getCylinderSize();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, solutionBeakerNode.getCylinderEndHeight(), model.solution, model.getDilutionVolumeRange() );
@@ -76,8 +79,10 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         // Water beaker, with water inside of it
         final BeakerNode waterBeakerNode = new BeakerNode( UserComponents.waterBeaker,
                                                            model.water.getConcentration(), Strings.UNITS_MOLARITY,
-                                                           model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
-                                                           BEAKER_SCALE_X, BEAKER_SCALE_Y, Symbols.WATER,
+                                                           Symbols.WATER, BEAKER_FORMULA_FONT,
+                                                           model.getMaxBeakerVolume(), Strings.UNITS_LITERS, BEAKER_CONCENTRATION_FONT,
+                                                           BEAKER_LABEL_SIZE,
+                                                           BEAKER_SCALE_X, BEAKER_SCALE_Y,
                                                            valuesVisible );
         SolutionNode waterNode = new SolutionNode( cylinderSize, waterBeakerNode.getCylinderEndHeight(), model.water, model.getDilutionVolumeRange() );
 
@@ -87,8 +92,10 @@ public class DilutionCanvas extends AbstractDilutionsCanvas {
         // dilution beaker, with solution inside of it
         final BeakerNode dilutionBeakerNode = new BeakerNode( UserComponents.dilutionBeaker,
                                                               model.getMaxBeakerVolume(), Strings.UNITS_LITERS,
-                                                              model.dilution.getConcentration(), Strings.UNITS_MOLARITY,
-                                                              BEAKER_SCALE_X, BEAKER_SCALE_Y, Strings.DILUTION,
+                                                              Strings.DILUTION, BEAKER_FORMULA_FONT,
+                                                              model.dilution.getConcentration(), Strings.UNITS_MOLARITY, BEAKER_CONCENTRATION_FONT,
+                                                              BEAKER_LABEL_SIZE,
+                                                              BEAKER_SCALE_X, BEAKER_SCALE_Y,
                                                               valuesVisible );
         SolutionNode dilutionNode = new SolutionNode( cylinderSize, dilutionBeakerNode.getCylinderEndHeight(), model.dilution, model.getDilutionVolumeRange() );
 
