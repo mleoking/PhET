@@ -15,7 +15,7 @@ import edu.colorado.phet.beerslawlab.view.BLLModule;
 public class ConcentrationModule extends BLLModule {
 
     public ConcentrationModule( Frame parentFrame ) {
-        super( UserComponents.concentrationTab, Strings.CONCENTRATION );
+        super( UserComponents.concentrationTab, Strings.TAB_CONCENTRATION );
         setSimulationPanel( new ConcentrationCanvas( new ConcentrationModel( getClock() ), parentFrame ) );
     }
 }

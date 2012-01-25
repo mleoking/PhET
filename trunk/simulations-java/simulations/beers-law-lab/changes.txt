@@ -1,3 +1,4 @@
+1/25/12 separate strings for Concentration tab and meter title
 1/25/12 add strings for "Beer's Law" tab
 1/25/12 add faint stroke to all fluids (solution, faucets, stock)
 1/23/12 fix flat spot on top of concentration probe image

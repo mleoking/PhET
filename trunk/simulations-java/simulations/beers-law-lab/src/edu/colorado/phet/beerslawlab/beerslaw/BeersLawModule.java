@@ -15,7 +15,7 @@ import edu.colorado.phet.beerslawlab.view.BLLModule;
 public class BeersLawModule extends BLLModule {
 
     public BeersLawModule( Frame parentFrame ) {
-        super( UserComponents.beersLawTab, Strings.BEERS_LAW );
+        super( UserComponents.beersLawTab, Strings.TAB_BEERS_LAW );
         setSimulationPanel( new BeersLawCanvas( new BeersLawModel(), parentFrame ) );
     }
 }
