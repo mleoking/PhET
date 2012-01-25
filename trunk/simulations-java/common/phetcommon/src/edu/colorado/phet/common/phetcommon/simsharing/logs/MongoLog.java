@@ -46,13 +46,9 @@ public class MongoLog implements Log {
 
     //http://www.cs.umd.edu/class/spring2006/cmsc433/lectures/util-concurrent.pdf
     private ExecutorService executor = Executors.newSingleThreadExecutor();
-    private final String machineID;
-    private final String sessionID;
     private final DBCollection collection;
 
     public MongoLog( String machineID, String sessionID ) {
-        this.machineID = machineID;
-        this.sessionID = sessionID;
         try {
             mongo = new Mongo( HOST_IP_ADDRESS, PORT );
         }
