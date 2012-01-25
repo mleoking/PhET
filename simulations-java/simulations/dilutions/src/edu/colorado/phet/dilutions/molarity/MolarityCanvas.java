@@ -2,14 +2,12 @@
 package edu.colorado.phet.dilutions.molarity;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Frame;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.DilutionsResources.Strings;
@@ -38,8 +36,11 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
     public MolarityCanvas( final MolarityModel model, Frame parentFrame ) {
 
         // beaker, with solution and precipitate inside of it
-        final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker, model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS,
-                                                      0.75, 0.75, model.solution.solute.get().formula, new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ),
+        final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker,
+                                                      model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS,
+                                                      model.solution.getConcentration(), Strings.UNITS_MOLARITY,
+                                                      0.75, 0.75,
+                                                      model.solution.solute.get().formula,
                                                       valuesVisible );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
         SolutionNode solutionNode = new SolutionNode( cylinderSize, beakerNode.getCylinderEndHeight(), model.solution, model.getSolutionVolumeRange() );
@@ -150,6 +151,13 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         model.solution.addConcentrationObserver( labelUpdater );
         model.solution.volume.addObserver( labelUpdater );
         model.solution.solute.addObserver( labelUpdater );
+
+        // concentration of beaker label
+        model.solution.addConcentrationObserver( new SimpleObserver() {
+            public void update() {
+                beakerNode.setConcentration( model.solution.getConcentration() );
+            }
+        } );
     }
 
     @Override public void reset() {
