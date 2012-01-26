@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 public class ProteinA extends Protein {
 
     private static final Color BASE_COLOR = Color.YELLOW;
-    private static final double FULL_GROWN_WIDTH = 300;
+    private static final double FULL_GROWN_WIDTH = 450;
 
     public ProteinA() {
         this( new StubGeneExpressionModel(), new Ribosome( new StubGeneExpressionModel() ) );
