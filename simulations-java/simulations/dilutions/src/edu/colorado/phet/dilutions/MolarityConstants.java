@@ -13,7 +13,7 @@ import edu.colorado.phet.dilutions.common.util.ZeroIntegerDoubleFormat;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DilutionsConstants {
+public class MolarityConstants {
 
     public static final PhetFont SLIDER_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     public static final PhetFont SLIDER_SUBTITLE_FONT = new PhetFont( Font.PLAIN, 14 );

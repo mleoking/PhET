@@ -12,13 +12,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
-import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
-import edu.colorado.phet.dilutions.common.control.DilutionsSliderNode;
+import edu.colorado.phet.dilutions.MolarityResources.Strings;
+import edu.colorado.phet.dilutions.MolarityResources.Symbols;
+import edu.colorado.phet.dilutions.MolaritySimSharing.UserComponents;
+import edu.colorado.phet.dilutions.common.control.MolaritySliderNode;
 import edu.colorado.phet.dilutions.common.control.ShowValuesNode;
 import edu.colorado.phet.dilutions.common.control.SoluteControlNode;
-import edu.colorado.phet.dilutions.common.view.AbstractDilutionsCanvas;
+import edu.colorado.phet.dilutions.common.view.AbstractMolarityCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
 import edu.colorado.phet.dilutions.common.view.ConcentrationDisplayNode;
 import edu.colorado.phet.dilutions.common.view.PrecipitateNode;
@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MolarityCanvas extends AbstractDilutionsCanvas {
+public class MolarityCanvas extends AbstractMolarityCanvas {
 
     private static final PDimension BEAKER_LABEL_SIZE = new PDimension( 180, 80 );
     private static final PhetFont BEAKER_FORMULA_FONT = new PhetFont( Font.BOLD, 28 );
@@ -58,23 +58,23 @@ public class MolarityCanvas extends AbstractDilutionsCanvas {
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
 
         // slider for controlling amount of solute
-        DilutionsSliderNode soluteAmountSliderNode = new DilutionsSliderNode( UserComponents.soluteAmountSlider,
-                                                                              Strings.SOLUTE_AMOUNT,
-                                                                              MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLES ),
-                                                                              Strings.NONE, Strings.LOTS,
-                                                                              new PDimension( 5, cylinderSize.getHeight() ),
-                                                                              model.solution.soluteAmount, model.getSoluteAmountRange(),
-                                                                              Strings.UNITS_MOLES, valuesVisible );
+        MolaritySliderNode soluteAmountSliderNode = new MolaritySliderNode( UserComponents.soluteAmountSlider,
+                                                                            Strings.SOLUTE_AMOUNT,
+                                                                            MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLES ),
+                                                                            Strings.NONE, Strings.LOTS,
+                                                                            new PDimension( 5, cylinderSize.getHeight() ),
+                                                                            model.solution.soluteAmount, model.getSoluteAmountRange(),
+                                                                            Strings.UNITS_MOLES, valuesVisible );
 
         // slider for controlling volume of solution, sized to match tick marks on the beaker
         final double volumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getSolutionVolumeRange().getMax() ) * cylinderSize.getHeight();
-        DilutionsSliderNode solutionVolumeSliderNode = new DilutionsSliderNode( UserComponents.volumeSlider,
-                                                                                Strings.SOLUTION_VOLUME,
-                                                                                MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.LITERS ),
-                                                                                Strings.LOW, Strings.FULL,
-                                                                                new PDimension( 5, volumeSliderHeight ),
-                                                                                model.solution.volume, model.getSolutionVolumeRange(),
-                                                                                Strings.UNITS_LITERS, valuesVisible );
+        MolaritySliderNode solutionVolumeSliderNode = new MolaritySliderNode( UserComponents.volumeSlider,
+                                                                              Strings.SOLUTION_VOLUME,
+                                                                              MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.LITERS ),
+                                                                              Strings.LOW, Strings.FULL,
+                                                                              new PDimension( 5, volumeSliderHeight ),
+                                                                              model.solution.volume, model.getSolutionVolumeRange(),
+                                                                              Strings.UNITS_LITERS, valuesVisible );
 
         // concentration display
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
