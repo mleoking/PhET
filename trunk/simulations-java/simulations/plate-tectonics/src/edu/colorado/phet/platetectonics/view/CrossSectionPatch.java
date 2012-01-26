@@ -21,17 +21,19 @@ public class CrossSectionPatch extends GLNode {
     private final SamplePoint a;
     private final SamplePoint b;
     private final SamplePoint c;
+    private final SamplePoint d;
 
     private final SamplePoint[] points;
 
     // remember CCW order
-    public CrossSectionPatch( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, SamplePoint a, SamplePoint b, SamplePoint c ) {
+    public CrossSectionPatch( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, SamplePoint a, SamplePoint b, SamplePoint c, SamplePoint d ) {
         this.modelViewTransform = modelViewTransform;
         this.colorMode = colorMode;
         this.a = a;
         this.b = b;
         this.c = c;
-        points = new SamplePoint[] { a, b, c };
+        this.d = d;
+        points = new SamplePoint[] { a, b, c, d };
     }
 
     @Override public void renderSelf( GLOptions options ) {
@@ -41,7 +43,7 @@ public class CrossSectionPatch extends GLNode {
 
         EarthTexture.begin();
 
-        glBegin( GL_TRIANGLES );
+        glBegin( GL_QUADS );
         for ( SamplePoint point : points ) {
             color4f( material.getColor( point.getDensity(), point.getTemperature(), new ImmutableVector2F(
                     point.getPosition().x,

@@ -25,11 +25,9 @@ import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.SamplePoint;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
-import edu.colorado.phet.platetectonics.view.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -287,20 +285,24 @@ public class CrustTab extends PlateTectonicsTab {
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
-        sceneLayer.addChild( new CrossSectionPatch(
-                getModelViewTransform(), colorMode,
-                new SamplePoint(
-                        new ImmutableVector3F( 0, 0, 0 ),
-                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
-                ),
-                new SamplePoint(
-                        new ImmutableVector3F( 10000, 0, 0 ),
-                        CrustModel.ZERO_CELSIUS + 1000, 3300, new ImmutableVector2F( 1, 0 )
-                ),
-                new SamplePoint(
-                        new ImmutableVector3F( 10000, 10000, 0 ),
-                        CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 1, 1 )
-                ) ) );
+//        sceneLayer.addChild( new CrossSectionPatch(
+//                getModelViewTransform(), colorMode,
+//                new SamplePoint(
+//                        new ImmutableVector3F( 0, 0, 0 ),
+//                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
+//                ),
+//                new SamplePoint(
+//                        new ImmutableVector3F( 10000, 0, 0 ),
+//                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 1, 0 )
+//                ),
+//                new SamplePoint(
+//                        new ImmutableVector3F( 10000, 10000, 0 ),
+//                        CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 1, 1 )
+//                ),
+//                new SamplePoint(
+//                        new ImmutableVector3F( 0, 10000, 0 ),
+//                        CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0, 1 )
+//                )) );
     }
 
     @Override public void resetAll() {
