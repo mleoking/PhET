@@ -44,7 +44,7 @@ public class MolarityModel implements Resettable {
             add( new Solute( Strings.POTASSIUM_CHROMATE, Symbols.POTASSIUM_CHROMATE, 3.35, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), 5, 200 ) );
             add( new Solute( Strings.NICKEL_II_CHLORIDE, Symbols.NICKEL_II_CHLORIDE, 5.0, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), 5, 200 ) );
             add( new Solute( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), 5, 200 ) );
-            add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 0.50, new ColorRange( new Color( 225, 28, 174 ), new Color( 0x8B008B ) ), Color.BLACK, 5, 200 ) );
+            add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 0.50, new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) ), Color.BLACK, 5, 200 ) );
         }};
         for ( Solute solute : solutes ) {
             assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) );
