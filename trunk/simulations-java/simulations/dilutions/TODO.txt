@@ -1,6 +1,7 @@
 TODO list for dilutions
 
 HIGH
+- what should be visible when "Show values" is selected?
 - move Molarity sim to a new project? rename "dilutions" project to "molarity"?
 
 MEDIUM
