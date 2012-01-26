@@ -75,11 +75,11 @@ public class MongoLog implements Log {
          * Turn off Mongo logging here by interrogating the LogManager.
          * Do this at the end of the constructor, so that Mongo loggers have been instantiated.
          */
+        LOGGER.info( "turning off MongoDB loggers" );
         Enumeration<String> names = LogManager.getLogManager().getLoggerNames();
         while ( names.hasMoreElements() ) {
             String name = names.nextElement();
             if ( name.contains( "mongo" ) ) {
-                LOGGER.info( "turning off Mongo logger, name=" + name );
                 LogManager.getLogManager().getLogger( name ).setLevel( Level.OFF );
             }
         }
