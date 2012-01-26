@@ -44,6 +44,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BeakerNode extends PComposite {
 
+    private static final boolean CONCENTRATION_FEATURE_ENABLED = false;
+
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( BeakerNode.class.getCanonicalName() );
 
     // label properties
@@ -217,7 +219,7 @@ public class BeakerNode extends PComposite {
 
             valuesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
-                    concentrationNode.setVisible( visible );
+                    concentrationNode.setVisible( visible && CONCENTRATION_FEATURE_ENABLED );
                     updateLayout();
                 }
             } );
@@ -236,7 +238,7 @@ public class BeakerNode extends PComposite {
         }
 
         private void updateLayout() {
-            if ( concentrationNode.getVisible() ) {
+            if ( concentrationNode.getVisible() && CONCENTRATION_FEATURE_ENABLED ) {
                 // center concentration under formula
                 concentrationNode.setOffset( formulaNode.getFullBoundsReference().getCenterX() - ( concentrationNode.getFullBoundsReference().getWidth() / 2 ),
                                              formulaNode.getFullBoundsReference().getMaxY() + 2 );
