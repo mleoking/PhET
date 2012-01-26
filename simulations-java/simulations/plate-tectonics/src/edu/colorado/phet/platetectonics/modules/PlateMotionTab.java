@@ -134,18 +134,18 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }} );
 
         mouseEventNotifier.addUpdateListener( new UpdateListener() {
-                                                  public void update() {
-                                                      if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
-                                                          leftHighlightColor.set( regularHighlightColor );
-                                                          rightHighlightColor.set( regularHighlightColor );
-                                                      }
-                                                      else {
-                                                          boolean overLeft = isMouseOverLeftSide();
-                                                          leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
-                                                          rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
-                                                      }
-                                                  }
-                                              }, false );
+            public void update() {
+                if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
+                    leftHighlightColor.set( regularHighlightColor );
+                    rightHighlightColor.set( regularHighlightColor );
+                }
+                else {
+                    boolean overLeft = isMouseOverLeftSide();
+                    leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
+                    rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
+                }
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
@@ -226,11 +226,11 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                                                                 this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
                                                                                 mouseEventNotifier ) {{
             onResize.addUpdateListener( new UpdateListener() {
-                                            public void update() {
-                                                position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
-                                                                                     0 ) );
-                                            }
-                                        }, true );
+                public void update() {
+                    position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
+                                                         0 ) );
+                }
+            }, true );
 
             updateOnEvent( beforeFrameRender );
 

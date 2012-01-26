@@ -64,7 +64,7 @@ public class ImmutableVector3F {
     }
 
     public float magnitudeSquared() {
-        return x * x + y * y + z * z ;
+        return x * x + y * y + z * z;
     }
 
     public ImmutableVector3F normalized() {

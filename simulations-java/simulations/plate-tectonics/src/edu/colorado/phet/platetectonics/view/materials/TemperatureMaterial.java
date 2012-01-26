@@ -2,54 +2,17 @@
 package edu.colorado.phet.platetectonics.view.materials;
 
 import java.awt.Color;
-import java.nio.ByteBuffer;
-
-import org.lwjgl.BufferUtils;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.lwjglphet.GLMaterial;
-import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.utils.GLDisplayList;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 
-import static org.lwjgl.opengl.GL11.*;
-
-public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
+public class TemperatureMaterial implements EarthMaterial {
     private static final int width = 256;
     private static final int height = 256;
 
     private static final Color min = new Color( 64, 64, 64 );
     private static final Color max = new Color( 255, 64, 64 );
-
-    private static final GLDisplayList textureAction;
-
-    static {
-        textureAction = new GLDisplayList( new Runnable() {
-            public void run() {
-                // TODO: check byte orders?
-                final ByteBuffer buffer = BufferUtils.createByteBuffer( 4 * width * height );
-
-                for ( int row = 0; row < height; row++ ) {
-                    for ( int col = 0; col < width; col++ ) {
-                        final int red = col * ( 256 - 64 ) / 256 + 64;
-                        final byte green = (byte) 64;
-                        final byte blue = (byte) 64;
-                        final byte[] bytes = { (byte) red, green, blue, (byte) 255 };
-                        buffer.put( bytes );
-                    }
-                }
-
-                buffer.rewind();
-                glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-            }
-        } );
-
-    }
 
     public static ImmutableVector2F temperatureMap( float temperature ) {
         float minTemp = CrustModel.ZERO_CELSIUS;
@@ -80,27 +43,9 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
 //        return new ImmutableVector2F( v, 0.5f );
     }
 
-    @Override public void before( GLOptions options ) {
-        // TODO: somehow we need the "white" color, since it's probably blending with our texture. investigate
-        glColor4f( 1, 1, 1, 1 );
-        glEnable( GL_TEXTURE_2D );
-        glShadeModel( GL_FLAT );
-        textureAction.run();
-    }
-
-    @Override public void after( GLOptions options ) {
-        glShadeModel( GL_SMOOTH );
-        glDisable( GL_TEXTURE_2D );
-    }
-
-    // TODO: refactor out?
     @Override public Color getColor( float density, float temperature, ImmutableVector2F position ) {
-        float value = getTextureCoordinates( density, temperature, position ).x;
+        float value = temperatureMap( temperature ).x;
         return new Color( 0.25f + 0.75f * value, 0.25f, 0.25f, 1f );
-    }
-
-    public ImmutableVector2F getTextureCoordinates( float density, float temperature, ImmutableVector2F position ) {
-        return temperatureMap( temperature );
     }
 
     public Color getMinColor() {

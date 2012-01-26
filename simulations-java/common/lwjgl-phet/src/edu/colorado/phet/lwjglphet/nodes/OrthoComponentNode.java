@@ -47,8 +47,6 @@ public class OrthoComponentNode extends GLNode {
 
     private int offsetX;
     private int offsetY;
-    private int magnificationFilter = GL_NEAREST;
-    private int minificationFilter = GL_NEAREST;
 
     public OrthoComponentNode( final JComponent component, final LWJGLTab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position, final VoidNotifier mouseEventNotifier ) {
         this.component = component;
@@ -165,10 +163,6 @@ public class OrthoComponentNode extends GLNode {
         glShadeModel( GL_FLAT );
 
         componentImage.useTexture();
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magnificationFilter );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minificationFilter );
 
         glColor4f( 1, 1, 1, 1 );
 
@@ -241,7 +235,7 @@ public class OrthoComponentNode extends GLNode {
 //        }
 
         // create the new image within the EDT
-        final ComponentImage newComponentImage = new ComponentImage( hudWidth, hudHeight, true, new AffineTransform() {{
+        final ComponentImage newComponentImage = new ComponentImage( hudWidth, hudHeight, true, GL_NEAREST, GL_NEAREST, new AffineTransform() {{
             translate( imageOffsetX, imageOffsetY );
             scale( scaleX, scaleY );
         }}, component );
@@ -273,17 +267,5 @@ public class OrthoComponentNode extends GLNode {
 
     public JComponent getComponent() {
         return component;
-    }
-
-    public void setAntialiased( boolean antialiased ) {
-        if ( antialiased ) {
-            // can't guarantee any mipmapping, so just set to linear
-            magnificationFilter = GL_LINEAR;
-            minificationFilter = GL_LINEAR;
-        }
-        else {
-            magnificationFilter = GL_NEAREST;
-            minificationFilter = GL_NEAREST;
-        }
     }
 }

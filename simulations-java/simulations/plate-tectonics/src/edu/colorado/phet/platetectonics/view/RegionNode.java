@@ -1,23 +1,31 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import java.awt.Color;
+import java.nio.FloatBuffer;
+
+import org.lwjgl.BufferUtils;
+
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.shapes.PlanarPolygon;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-import edu.colorado.phet.platetectonics.view.materials.DensityMaterial;
 import edu.colorado.phet.platetectonics.view.materials.EarthMaterial;
-import edu.colorado.phet.platetectonics.view.materials.TemperatureMaterial;
+
+import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Visual display of a Region (polygonal area in the cross-section of the earth)
  */
 public class RegionNode extends PlanarPolygon {
     private final Region region;
+
+    private FloatBuffer colorBuffer;
 
     public RegionNode( final Region region, final PlateModel model, final PlateTectonicsTab tab ) {
         super( region.getBoundary().length );
@@ -41,41 +49,43 @@ public class RegionNode extends PlanarPolygon {
 
                 float z = 0; // assume z == 0
 
+                colorBuffer.clear();
+
                 for ( int i = 0; i < numVertices; i++ ) {
                     float x = boundary[i].x;
                     float y = boundary[i].y;
                     ImmutableVector3F position3d = tab.getModelViewTransform().transformPosition( PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
                     vertices[i] = new ImmutableVector2F( position3d.x, position3d.y );
 
+                    // TODO: cleanup here
                     // if we have an earth material, modify the texture coordinates for it
                     if ( getMaterial() instanceof EarthMaterial ) {
-                        textureCoordinates[i] = ( (EarthMaterial) getMaterial() ).getTextureCoordinates( region.getDensity( boundary[i] ),
-                                                                                                         region.getTemperature( boundary[i] ),
-                                                                                                         boundary[i] );
+                        // TODO: texture coordinates based on samples
+                        textureCoordinates[i] = ImmutableVector2F.ZERO;
+//                        textureCoordinates[i] = ( (EarthMaterial) getMaterial() ).getTextureCoordinates( region.getDensity( boundary[i] ),
+//                                                                                                         region.getTemperature( boundary[i] ),
+//                                                                                                         boundary[i] );
                     }
                     else {
                         // otherwise ignore texture coordinates for now
                         textureCoordinates[i] = new ImmutableVector2F( 0.5, 0.5 );
                     }
+
+                    Color color = tab.colorMode.get().getMaterial().getColor( region.getDensity( boundary[i] ),
+                                                                              region.getTemperature( boundary[i] ),
+                                                                              boundary[i] );
+                    colorBuffer.put( color.getComponents( new float[4] ) );
                 }
+                colorBuffer.rewind();
 
                 setVertices( vertices, textureCoordinates );
+
             }
         };
         model.modelChanged.addUpdateListener( listener, true );
 
         tab.colorMode.addObserver( new SimpleObserver() {
             public void update() {
-                switch( tab.colorMode.get() ) {
-                    case DENSITY:
-                        setMaterial( new DensityMaterial() );
-                        break;
-                    case TEMPERATURE:
-                        setMaterial( new TemperatureMaterial() );
-                        break;
-                    default:
-                        break;
-                }
                 listener.update();
             }
         } );
@@ -83,5 +93,26 @@ public class RegionNode extends PlanarPolygon {
 
     public Region getRegion() {
         return region;
+    }
+
+    @Override protected void updateMaxVertexCount( int maxVertexCount ) {
+        super.updateMaxVertexCount( maxVertexCount );
+
+        colorBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 4 );
+    }
+
+    @Override protected void preRender( GLOptions options ) {
+        super.preRender( options );
+
+//        glColorMaterial( GL_FRONT, GL_DIFFUSE );
+        glEnableClientState( GL_COLOR_ARRAY );
+        colorBuffer.rewind();
+        glColorPointer( 4, 0, colorBuffer );
+    }
+
+    @Override protected void postRender( GLOptions options ) {
+        super.postRender( options );
+
+        glDisableClientState( GL_COLOR_ARRAY );
     }
 }

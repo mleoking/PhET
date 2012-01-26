@@ -165,10 +165,10 @@ public class WaterNode extends GLNode {
             setPositions.run();
 
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                                                      public void update() {
-                                                          setPositions.run();
-                                                      }
-                                                  }, false );
+                public void update() {
+                    setPositions.run();
+                }
+            }, false );
         }
 
         @Override public void renderSelf( GLOptions options ) {

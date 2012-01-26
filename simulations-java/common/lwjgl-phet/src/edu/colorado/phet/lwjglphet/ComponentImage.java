@@ -34,14 +34,14 @@ public class ComponentImage extends TextureImage {
 
     public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
-    public ComponentImage( int width, int height, boolean hasAlpha, JComponent component ) {
-        super( width, height, hasAlpha );
+    public ComponentImage( int width, int height, boolean hasAlpha, int magFilter, int minFilter, JComponent component ) {
+        super( width, height, hasAlpha, magFilter, minFilter );
         this.component = component;
         init();
     }
 
-    public ComponentImage( int width, int height, boolean hasAlpha, AffineTransform imageTransform, JComponent component ) {
-        super( width, height, hasAlpha, imageTransform );
+    public ComponentImage( int width, int height, boolean hasAlpha, int magFilter, int minFilter, AffineTransform imageTransform, JComponent component ) {
+        super( width, height, hasAlpha, magFilter, minFilter, imageTransform );
         this.component = component;
         init();
     }

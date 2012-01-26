@@ -111,10 +111,6 @@ public class PlanarComponentNode extends GLNode {
         glShadeModel( GL_FLAT );
 
         componentImage.useTexture();
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 
         // texture coordinates reversed compared to OrthoComponentNode
         glBegin( GL_QUADS );
@@ -152,7 +148,7 @@ public class PlanarComponentNode extends GLNode {
         final int hudHeight = LWJGLUtils.toPowerOf2( size.height );
 
         // create the new image within the EDT
-        final ComponentImage newComponentImage = new ComponentImage( hudWidth, hudHeight, true, new AffineTransform(), component );
+        final ComponentImage newComponentImage = new ComponentImage( hudWidth, hudHeight, true, GL_LINEAR, GL_LINEAR, new AffineTransform(), component );
 
         // do the rest of the work in the LWJGL thread
         LWJGLCanvas.addTask( new Runnable() {
