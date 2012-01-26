@@ -301,6 +301,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     SessionResult(session,
                   timeSimOpenMin,
                   firstClickToLastClick,
+                  solutionTable.toMap,
                   numberOfClicks,
                   clicksPerMinute,
                   InteractionResult(numberOfEventsOnInteractiveComponents,

@@ -59,6 +59,9 @@ object GroupComparisonTool extends App {
       for ( group <- groups ) {
         addToPlot(group, _.timeSimOpenMin, "time open")
         addToPlot(group, _.firstClickToLastClick, "first to last click")
+        addToPlot(group, s => s.solutionTable.getOrElse(Globals.weakAcid, 0L) / 60.0 / 1000.0 + s.solutionTable.getOrElse(Globals.strongAcid, 0L) / 60.0 / 1000.0, "time on acid")
+        addToPlot(group, s => s.solutionTable.getOrElse(Globals.weakBase, 0L) / 60.0 / 1000.0 + s.solutionTable.getOrElse(Globals.strongBase, 0L) / 60.0 / 1000.0, "time on base")
+        addToPlot(group, s => s.solutionTable.getOrElse(Globals.water, 0L) / 60.0 / 1000.0, "time on water")
       }
     })
 
@@ -129,6 +132,7 @@ case class GroupResult(sessionResults: List[SessionResult], name: String) {
 case class SessionResult(session: String,
                          timeSimOpenMin: Double,
                          firstClickToLastClick: Double,
+                         solutionTable: Map[String, Long],
                          numberOfClicks: Int,
                          clicksPerMinute: Map[Long, Int],
                          interactiveComponentsResult: InteractionResult,
