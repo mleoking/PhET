@@ -79,7 +79,7 @@ public class MongoLog implements Log {
         Enumeration<String> names = LogManager.getLogManager().getLoggerNames();
         while ( names.hasMoreElements() ) {
             String name = names.nextElement();
-            if ( name.contains( "mongo" ) ) {
+            if ( name.startsWith( "com.mongodb" ) ) {
                 LogManager.getLogManager().getLogger( name ).setLevel( Level.OFF );
             }
         }
