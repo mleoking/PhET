@@ -6,8 +6,6 @@ import java.awt.Image;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-//TODO this implementation is not quite correct yet. There may be cases where seams are visible, and the final center tile might extend past the right tile.
-
 /**
  * A background image that is created for a specific width by tiling a set of images.
  * The left and right images can be thought of as "book ends", with the center image tiled to fill the space in the middle.
@@ -17,7 +15,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class TiledBackgroundNode extends PImage {
 
-    public TiledBackgroundNode( double width, Image leftImage, Image centerImage, Image rightImage ) {
+    private static final double X_OVERLAP = 1; // overlap between tiles, to hide seams
+
+    public TiledBackgroundNode( double totalWidth, Image leftImage, Image centerImage, Image rightImage ) {
 
         PImage leftNode = new PImage( leftImage );
         PImage centerNode = new PImage( centerImage );
@@ -26,28 +26,32 @@ public class TiledBackgroundNode extends PImage {
 
         // compute the number of tiles required to fill the center
         double leftWidth = leftNode.getFullBoundsReference().getWidth();
-        double centerWidth = leftNode.getFullBoundsReference().getWidth();
-        double rightWidth = leftNode.getFullBoundsReference().getWidth();
-        double tiledWidth = width - leftWidth - rightWidth + 2; // +2 for overlap
-        int numberOfTiles = (int) ( tiledWidth + 1 ) / (int) ( centerWidth + 1 );
+        double centerWidth = centerNode.getFullBoundsReference().getWidth();
+        double rightWidth = rightNode.getFullBoundsReference().getWidth();
+        double tiledWidth = totalWidth - leftWidth - rightWidth;
 
         PNode parentNode = new PNode();
 
         // left
         parentNode.addChild( leftNode );
 
-        // tiled center
-        PNode previousNode = leftNode;
-        for ( int i = 0; i < numberOfTiles; i++ ) {
-            PImage tileNode = new PImage( centerImage );
-            parentNode.addChild( tileNode );
-            tileNode.setOffset( previousNode.getFullBoundsReference().getMaxX() - 1, previousNode.getYOffset() );
-            previousNode = tileNode;
-        }
-
         // right
         parentNode.addChild( rightNode );
-        rightNode.setOffset( previousNode.getFullBoundsReference().getMaxX() - 1, previousNode.getYOffset() );
+        rightNode.setOffset( totalWidth - rightWidth, 0 );
+
+        // tile the center, with overlap between tiles to hide seams
+        PNode previousNode = leftNode;
+        while ( tiledWidth > 0 ) {
+            PImage tileNode = new PImage( centerImage );
+            parentNode.addChild( tileNode );
+            tileNode.setOffset( previousNode.getFullBoundsReference().getMaxX() - X_OVERLAP, 0 );
+            // If tile extends too far into right side, shift the tile to the left.
+            if ( tileNode.getFullBoundsReference().getMaxX() > rightNode.getFullBoundsReference().getMinX() + X_OVERLAP ) {
+                tileNode.setOffset( rightNode.getFullBoundsReference().getMinX() + X_OVERLAP - tileNode.getFullBoundsReference().getWidth(), 0 );
+            }
+            tiledWidth = tiledWidth - centerWidth + X_OVERLAP;
+            previousNode = tileNode;
+        }
 
         // convert to image
         setImage( parentNode.toImage() );
