@@ -13,9 +13,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 public class MolarityResources {
 
-    public static final String PROJECT_NAME = "dilutions";
-    public static final String MOLARITY_FLAVOR = "molarity";
-    public static final String DILUTIONS_FLAVOR = "dilutions";
+    public static final String PROJECT_NAME = "molarity";
     public static final PhetResources RESOURCES = new PhetResources( PROJECT_NAME );
 
     // Strings
