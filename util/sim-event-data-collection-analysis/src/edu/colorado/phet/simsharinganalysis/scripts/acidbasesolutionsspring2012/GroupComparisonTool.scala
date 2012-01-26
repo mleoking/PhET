@@ -85,16 +85,21 @@ object GroupComparisonTool extends App {
       }
     })
 
-    //    Plot the histogram of clicks for each condition? So for
-    //    instance, the first bin (0-1 min) would include the average number of
-    //    clicks for a1, a2, and a3. And so forth.
-    def maxMinute(g: GroupResult): Int = g.sessionResults.map(_.clicksPerMinute.keys.max).max.toInt
+    plotHistogram("Clicks vs Time", groups, _.clicksPerMinute)
+    plotHistogram("Clicks vs Time (based on first click)", groups, _.clicksPerMinuteBasedOnFirstClick)
+  }
+
+  //    Plot the histogram of clicks for each condition? So for
+  //    instance, the first bin (0-1 min) would include the average number of
+  //    clicks for a1, a2, and a3. And so forth.
+  def plotHistogram(title: String, groups: List[GroupResult], histogram: SessionResult => Map[Long, Int]) {
+    def maxMinute(g: GroupResult): Int = g.sessionResults.map(histogram(_).keys.max).max.toInt
     val maxTime = groups.map(maxMinute(_)).max
     println("max time = " + maxTime)
-    plot("Clicks vs Time", "number of clicks", groups, new MyStatisticalDataSet {
+    plot(title, "number of clicks", groups, new MyStatisticalDataSet {
       for ( group <- groups ) {
         for ( i <- 0 until maxTime.toInt ) {
-          addToPlot(group, _.clicksPerMinute.getOrElse(i.toLong, 0).toDouble, "clicks in minute " + i)
+          addToPlot(group, histogram(_).getOrElse(i.toLong, 0).toDouble, "clicks in minute " + i)
         }
       }
     })
@@ -162,15 +167,13 @@ case class SessionResult(session: String,
                          testTable: Map[String, Long],
                          numberOfClicks: Int,
                          clicksPerMinute: Map[Long, Int],
+                         clicksPerMinuteBasedOnFirstClick: Map[Long, Int],
                          interactiveComponentsResult: InteractionResult,
                          selectedBase: Boolean,
                          showedSolvent: Boolean,
                          dunkedPHMeter: Boolean,
                          dunkedPHPaper: Boolean,
                          completedCircuit: Boolean,
-                         timeOnSolutionsMin: Map[String, String],
-                         timeOnViewsMin: Map[String, String],
-                         timeOnTestsMin: Map[String, String],
                          numTabTransitions: Int,
                          numSolutionTransitions: Int,
                          numViewTransitions: Int,

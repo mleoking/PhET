@@ -107,10 +107,10 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
   def countEntriesWithinTime(entries: List[Entry], min: Long, max: Long): Int = entries.filter(e => e.time >= min && e.time < max).length
 
-  def getClickTimeHistogram(log: Log) = {
+  def getClickTimeHistogram(log: Log, startTime: Log => Long = _.startTime) = {
     val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
     val millisPerMinute = 60L * 1000L
-    ( ( log.startTime until log.endTime by millisPerMinute ).map(time => ( time - log.startTime ) / millisPerMinute -> countEntriesWithinTime(entries, time, time + millisPerMinute)) ).toMap
+    ( ( startTime(log) until log.endTime by millisPerMinute ).map(time => ( time - startTime(log) ) / millisPerMinute -> countEntriesWithinTime(entries, time, time + millisPerMinute)) ).toMap
   }
 
   def showBarChart(log: Log) {
@@ -228,8 +228,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val firstClickToLastClick = if ( clicks.length == 0 ) 0 else ( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0
     val numberOfClicks = clicks.length
 
-    val timePeriod = Pair(1000 * 60, "minute")
     val clicksPerMinute = getClickTimeHistogram(log)
+    val clicksPerMinuteBasedOnFirstClick = getClickTimeHistogram(log, element => if ( clicks.isEmpty ) log.startTime else clicks.head.time)
     val mapped = clicksPerMinute.keys.toList.sorted.map(e => e + " -> " + clicksPerMinute(e)).mkString(", ")
 
     import scala.collection.JavaConversions._
@@ -304,6 +304,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
                   testTable.toMap,
                   numberOfClicks,
                   clicksPerMinute,
+                  clicksPerMinuteBasedOnFirstClick,
                   InteractionResult(numberOfEventsOnInteractiveComponents,
                                     interactiveComponentsUsed,
                                     interactiveComponentsNotUsed),
@@ -312,9 +313,6 @@ object AcidBaseSolutionSpring2012AnalysisReport {
                   dunkedPHMeter,
                   dunkedPHPaper,
                   completedCircuit,
-                  timeOnSolutionsMin,
-                  timeOnViewsMin,
-                  timeOnTestsMin,
                   numTabTransitions,
                   numSolutionTransitions,
                   numViewTransitions,
