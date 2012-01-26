@@ -93,6 +93,12 @@ public class TemperatureMaterial extends GLMaterial implements EarthMaterial {
         glDisable( GL_TEXTURE_2D );
     }
 
+    // TODO: refactor out?
+    @Override public Color getColor( float density, float temperature, ImmutableVector2F position ) {
+        float value = getTextureCoordinates( density, temperature, position ).x;
+        return new Color( 0.25f + 0.75f * value, 0.25f, 0.25f, 1f );
+    }
+
     public ImmutableVector2F getTextureCoordinates( float density, float temperature, ImmutableVector2F position ) {
         return temperatureMap( temperature );
     }

@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -26,17 +25,17 @@ import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.SamplePoint;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
+import edu.colorado.phet.platetectonics.view.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
-import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.CONTINENTAL_CRUST;
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.OCEANIC_CRUST;
-import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Represents the 1st tab, which has a modifiable section of crust surrounded by oceanic and continental crusts, all
@@ -93,25 +92,25 @@ public class CrustTab extends PlateTectonicsTab {
         // crust label
         layerLabels.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
+                }
+            }, true );
         }}, new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                }
+            }, true );
         }}, Strings.CRUST, scaleProperty, colorMode, true
         ) );
 
         final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                }
+            }, true );
         }};
         final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
 
@@ -139,10 +138,10 @@ public class CrustTab extends PlateTectonicsTab {
                     // TODO: debug listener ordering issue that is causing jittering when zooming in/out
                     scaleProperty.addObserver( observer );
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                             public void update() {
-                                                                 observer.update();
-                                                             }
-                                                         }, false );
+                        public void update() {
+                            observer.update();
+                        }
+                    }, false );
                 }};
             }
         };
@@ -287,6 +286,21 @@ public class CrustTab extends PlateTectonicsTab {
         }} );
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
+
+        sceneLayer.addChild( new CrossSectionPatch(
+                getModelViewTransform(), colorMode,
+                new SamplePoint(
+                        new ImmutableVector3F( 0, 0, 0 ),
+                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
+                ),
+                new SamplePoint(
+                        new ImmutableVector3F( 10000, 0, 0 ),
+                        CrustModel.ZERO_CELSIUS + 1000, 3300, new ImmutableVector2F( 1, 0 )
+                ),
+                new SamplePoint(
+                        new ImmutableVector3F( 10000, 10000, 0 ),
+                        CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 1, 1 )
+                ) ) );
 
 //        sceneLayer.addChild( new GLNode() {
 //            @Override public void renderSelf( GLOptions options ) {
