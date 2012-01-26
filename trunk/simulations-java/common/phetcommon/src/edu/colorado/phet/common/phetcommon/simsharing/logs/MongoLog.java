@@ -58,14 +58,8 @@ public class MongoLog implements Log {
     private static final int MAX_FAILURES = 3;
     private int failureCount = 0;
 
-    public MongoLog( String machineID, String sessionID ) {
-
-        try {
-            mongo = new Mongo( HOST_IP_ADDRESS, PORT );
-        }
-        catch ( UnknownHostException e ) {
-            e.printStackTrace();
-        }
+    public MongoLog( String machineID, String sessionID ) throws UnknownHostException {
+        mongo = new Mongo( HOST_IP_ADDRESS, PORT );
 
         //one database per machine
         DB database = mongo.getDB( machineID );

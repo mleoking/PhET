@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.simsharing;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 
@@ -111,8 +112,15 @@ public class SimSharingManager {
             if ( getConfig( studyName ).isSendToLogFile() ) {
                 logs.add( new SimSharingFileLogger( machineCookie, sessionId ) );
             }
+
+            //If Mongo delivery is enabled, add that log (but if trying to connect to unknown host, print an exception and skip it)
             if ( getConfig( studyName ).isSendToServer() ) {
-                logs.add( new MongoLog( machineCookie, sessionId ) );
+                try {
+                    logs.add( new MongoLog( machineCookie, sessionId ) );
+                }
+                catch ( UnknownHostException unknownHostException ) {
+                    unknownHostException.printStackTrace();
+                }
             }
 
             sendStartupMessage( config );
