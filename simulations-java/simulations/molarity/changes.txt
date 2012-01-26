@@ -1,3 +1,5 @@
+# 0.00.16 (60693) Jan 26, 2012
+1/26/12 change requests; rename project to molarity
 1/26/12 wrote implementation-notes.txt
 1/26/12 rename "dilutions" project to "molarity"
 1/26/12 write model description (model.txt)
