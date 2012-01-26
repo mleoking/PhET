@@ -34,11 +34,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Vertical sliders in the Dilutions simulation.
+ * Vertical sliders in the Molarity simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MolaritySliderNode extends PhetPNode {
+public class VerticalSliderNode extends PhetPNode {
 
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
 
@@ -47,12 +47,12 @@ public class MolaritySliderNode extends PhetPNode {
     private final ThumbNode thumbNode;
 
     // Slider with a default track fill and background color.
-    public MolaritySliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel, final PDimension trackSize,
+    public VerticalSliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel, final PDimension trackSize,
                                final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
         this( userComponent, title, subtitle, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range, units, valuesVisible );
     }
 
-    public MolaritySliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel,
+    public VerticalSliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel,
                                final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
                                final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
 

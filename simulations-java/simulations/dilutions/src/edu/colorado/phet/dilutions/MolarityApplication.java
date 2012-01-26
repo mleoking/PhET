@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.dilutions.molarity.MolarityModule;
 
 /**
- * Main class for the "Molarity" application.
+ * Main class for the "Molarity" simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
