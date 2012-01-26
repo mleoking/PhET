@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.molarity;
+package edu.colorado.phet.molarity.molarity;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.ColorRange;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.dilutions.MolarityResources.Strings;
-import edu.colorado.phet.dilutions.MolarityResources.Symbols;
-import edu.colorado.phet.dilutions.common.model.Solute;
-import edu.colorado.phet.dilutions.common.model.Solution;
-import edu.colorado.phet.dilutions.common.model.Solvent.Water;
+import edu.colorado.phet.molarity.MolarityResources.Strings;
+import edu.colorado.phet.molarity.MolarityResources.Symbols;
+import edu.colorado.phet.molarity.common.model.Solute;
+import edu.colorado.phet.molarity.common.model.Solution;
+import edu.colorado.phet.molarity.common.model.Solvent.Water;
 
 /**
  * Model for the "Molarity" module.

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.common.control;
+package edu.colorado.phet.molarity.common.control;
 
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingComboBoxNode;
-import edu.colorado.phet.dilutions.MolarityResources.Strings;
-import edu.colorado.phet.dilutions.MolaritySimSharing.UserComponents;
-import edu.colorado.phet.dilutions.common.model.Solute;
+import edu.colorado.phet.molarity.MolarityResources.Strings;
+import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
+import edu.colorado.phet.molarity.common.model.Solute;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

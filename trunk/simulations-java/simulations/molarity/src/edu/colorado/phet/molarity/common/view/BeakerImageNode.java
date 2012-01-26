@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.common.view;
+package edu.colorado.phet.molarity.common.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.dilutions.MolarityResources.Images;
+import edu.colorado.phet.molarity.MolarityResources.Images;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
