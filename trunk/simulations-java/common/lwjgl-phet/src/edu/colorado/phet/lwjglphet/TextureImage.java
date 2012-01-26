@@ -6,7 +6,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
-import edu.colorado.phet.lwjglphet.utils.GLDisplayList;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -18,14 +17,19 @@ public abstract class TextureImage {
     private final int width;
     private final int height;
 
-    private GLDisplayList renderList;
+    private int textureId;
+    private boolean textureInitialized = false;
+    private int magFilter;
+    private int minFilter;
 
-    public TextureImage( int width, int height, boolean hasAlpha ) {
-        this( width, height, hasAlpha, new AffineTransform() );
+    public TextureImage( int width, int height, boolean hasAlpha, int magFilter, int minFilter ) {
+        this( width, height, hasAlpha, magFilter, minFilter, new AffineTransform() );
     }
 
-    public TextureImage( int width, int height, boolean hasAlpha, AffineTransform imageTransform ) {
+    public TextureImage( int width, int height, boolean hasAlpha, int magFilter, int minFilter, AffineTransform imageTransform ) {
         super();
+        this.magFilter = magFilter;
+        this.minFilter = minFilter;
         assert LWJGLUtils.isPowerOf2( width );
         assert LWJGLUtils.isPowerOf2( height );
         this.width = width;
@@ -60,14 +64,17 @@ public abstract class TextureImage {
                     buffer.clear();
                     buffer.put( data, 0, data.length );
                     buffer.rewind();
-                    if ( renderList != null ) {
-                        renderList.delete();
+                    if ( !textureInitialized ) {
+                        textureId = glGenTextures();
+                        textureInitialized = true;
                     }
-                    renderList = new GLDisplayList( new Runnable() {
-                        public void run() {
-                            glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
-                        }
-                    } );
+                    glBindTexture( GL_TEXTURE_2D, textureId );
+                    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+                    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
+                    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+                    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter );
+                    glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter );
+                    glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
                 }
             }
         } );
@@ -76,8 +83,9 @@ public abstract class TextureImage {
     public void useTexture() {
         // lock the instance to prevent concurrent buffer modification
         synchronized ( this ) {
-            if ( renderList != null ) {
-                renderList.run();
+            if ( textureInitialized ) {
+                glBindTexture( GL_TEXTURE_2D, textureId );
+                glColor4f( 1, 1, 1, 1 );
             }
         }
     }
@@ -95,5 +103,12 @@ public abstract class TextureImage {
 
     public AffineTransform getImageTransform() {
         return imageTransform;
+    }
+
+    public void dispose() {
+        if ( textureInitialized ) {
+            textureInitialized = false;
+            glDeleteTextures( textureId );
+        }
     }
 }

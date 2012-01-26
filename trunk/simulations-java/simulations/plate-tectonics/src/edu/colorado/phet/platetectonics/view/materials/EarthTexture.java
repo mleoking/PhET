@@ -11,8 +11,6 @@ import javax.imageio.ImageIO;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.util.glu.GLU;
 
-import edu.colorado.phet.lwjglphet.utils.GLDisplayList;
-
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.RESOURCES;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -22,47 +20,51 @@ public class EarthTexture {
 
     private static final Random random = new Random( 250134503L );
 
-    private static final GLDisplayList textureAction;
+    private static int textureId;
+    private static boolean textureInitialized = false;
+
+    private static ByteBuffer buffer;
 
     static {
-        textureAction = new GLDisplayList( new Runnable() {
-            public void run() {
-                ByteBuffer buffer = BufferUtils.createByteBuffer( WIDTH * HEIGHT * 4 );
-                try {
-                    BufferedImage image = ImageIO.read( RESOURCES.getResourceAsStream( "images/textures/noise.png" ) );
-                    byte data[] = (byte[]) image.getRaster().getDataElements( 0, 0, image.getWidth(), image.getHeight(), null );
-                    for ( int i = 0; i < data.length; i += 4 ) {
-                        data[i] = (byte) ( data[i] & 0x3F | 0xC0 );
-                        data[i + 1] = (byte) ( data[i + 1] & 0x3F | 0xC0 );
-                        data[i + 2] = (byte) ( data[i + 2] & 0x3F | 0xC0 );
-                        data[i + 3] = (byte) ( 0xFF );
-                    }
-                    buffer.clear();
-                    buffer.put( data, 0, data.length );
-                }
-                catch ( IOException e ) {
-                    throw new RuntimeException( "failure to read noise file", e );
-                }
-                buffer.rewind();
-
-                glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                                 GL_LINEAR_MIPMAP_NEAREST );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-
-                // repeat
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-                glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-
-                GLU.gluBuild2DMipmaps( GL_TEXTURE_2D, 4, WIDTH, HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+        buffer = BufferUtils.createByteBuffer( WIDTH * HEIGHT * 4 );
+        try {
+            BufferedImage image = ImageIO.read( RESOURCES.getResourceAsStream( "images/textures/noise.png" ) );
+            byte data[] = (byte[]) image.getRaster().getDataElements( 0, 0, image.getWidth(), image.getHeight(), null );
+            for ( int i = 0; i < data.length; i += 4 ) {
+                data[i] = (byte) ( data[i] & 0x3F | 0xC0 );
+                data[i + 1] = (byte) ( data[i + 1] & 0x3F | 0xC0 );
+                data[i + 2] = (byte) ( data[i + 2] & 0x3F | 0xC0 );
+                data[i + 3] = (byte) ( 0xFF );
             }
-        } );
-
+            buffer.clear();
+            buffer.put( data, 0, data.length );
+        }
+        catch ( IOException e ) {
+            throw new RuntimeException( "failure to read noise file", e );
+        }
+        buffer.rewind();
     }
 
     public static void begin() {
         glEnable( GL_TEXTURE_2D );
-        textureAction.run();
+        if ( !textureInitialized ) {
+            textureInitialized = true;
+            textureId = glGenTextures();
+            glBindTexture( GL_TEXTURE_2D, textureId );
+
+            glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                             GL_LINEAR_MIPMAP_NEAREST );
+            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+
+            // repeat
+            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+            glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
+
+            GLU.gluBuild2DMipmaps( GL_TEXTURE_2D, 4, WIDTH, HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
+        }
+
+        glBindTexture( GL_TEXTURE_2D, textureId );
     }
 
     public static void end() {

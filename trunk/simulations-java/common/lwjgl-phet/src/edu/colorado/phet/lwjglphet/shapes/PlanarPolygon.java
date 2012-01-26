@@ -58,7 +58,7 @@ public class PlanarPolygon extends GLNode {
     }
 
     // ensure that we can handle at least maxVertexCount vertices
-    private void updateMaxVertexCount( int maxVertexCount ) {
+    protected void updateMaxVertexCount( int maxVertexCount ) {
         positionBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
         normalBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
         textureBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 2 );
