@@ -22,14 +22,21 @@ public class TiledBackgroundNode extends PImage {
         PImage leftNode = new PImage( leftImage );
         PImage centerNode = new PImage( centerImage );
         PImage rightNode = new PImage( rightImage );
-        assert ( leftNode.getHeight() == centerNode.getHeight() && centerNode.getHeight() == rightNode.getHeight() ); // all images have the same height
+
+        if ( leftNode.getHeight() != centerNode.getHeight() || centerNode.getHeight() != rightNode.getHeight() ) {
+            throw new IllegalArgumentException( "all images must have the same height" );
+        }
 
         // compute the number of tiles required to fill the center
         double leftWidth = leftNode.getFullBoundsReference().getWidth();
         double centerWidth = centerNode.getFullBoundsReference().getWidth();
         double rightWidth = rightNode.getFullBoundsReference().getWidth();
+        if ( centerNode.getWidth() > ( leftWidth + rightWidth + ( 2 * X_OVERLAP ) ) ) {
+            throw new IllegalArgumentException( "center image is too wide, it will overlap other images" );
+        }
         double tiledWidth = totalWidth - leftWidth - rightWidth;
 
+        // parent all node to this node, which will later be converted to an image
         PNode parentNode = new PNode();
 
         // left
