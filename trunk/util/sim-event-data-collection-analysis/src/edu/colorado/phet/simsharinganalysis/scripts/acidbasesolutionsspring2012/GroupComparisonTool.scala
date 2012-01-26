@@ -22,6 +22,10 @@ object GroupComparisonTool extends App {
     val group2 = filesAt(folder).filter(_.getName.indexOf("_a2_") >= 0) -> "a2"
     val group3 = filesAt(folder).filter(_.getName.indexOf("_a3_") >= 0) -> "a3"
 
+    //    val group1 = filesAt(folder).filter(_.getName.indexOf("_a1_") >= 0).slice(0, 3) -> "a1"
+    //    val group2 = filesAt(folder).filter(_.getName.indexOf("_a2_") >= 0).slice(0, 3) -> "a2"
+    //    val group3 = filesAt(folder).filter(_.getName.indexOf("_a3_") >= 0).slice(0, 3) -> "a3"
+
     println("group 1\n" + group1._1.mkString("\n"))
     println("group 2\n" + group2._1.mkString("\n"))
     println("group 3\n" + group3._1.mkString("\n"))
@@ -73,13 +77,27 @@ object GroupComparisonTool extends App {
         addToPlot(group, _.numTestTransitions, "test")
       }
     })
+
+    //    Plot the histogram of clicks for each condition? So for
+    //    instance, the first bin (0-1 min) would include the average number of
+    //    clicks for a1, a2, and a3. And so forth.
+    def maxMinute(g: GroupResult): Int = g.sessionResults.map(_.clicksPerMinute.keys.max).max.toInt
+    val maxTime = groups.map(maxMinute(_)).max
+    println("max time = " + maxTime)
+    plot("Clicks vs Time", "number of clicks", groups, new MyStatisticalDataSet {
+      for ( group <- groups ) {
+        for ( i <- 0 until maxTime.toInt ) {
+          addToPlot(group, _.clicksPerMinute.getOrElse(i.toLong, 0).toDouble, "clicks in minute " + i)
+        }
+      }
+    })
   }
 
   def plot(title: String, range: String, groups: List[GroupResult], dataSet: MyStatisticalDataSet) {
 
     //Create a statistical bar chart of the provided data
     val categoryAxis = new CategoryAxis("Type") {
-      setCategoryMargin(0.4)
+      //      setCategoryMargin(0.4)
       setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(java.lang.Math.PI / 2.0));
     }
     val plot = new CategoryPlot(dataSet, categoryAxis, new NumberAxis(range), new StatisticalBarRenderer)
@@ -133,6 +151,8 @@ case class SessionResult(session: String,
                          timeSimOpenMin: Double,
                          firstClickToLastClick: Double,
                          solutionTable: Map[String, Long],
+                         viewTable: Map[String, Long],
+                         testTable: Map[String, Long],
                          numberOfClicks: Int,
                          clicksPerMinute: Map[Long, Int],
                          interactiveComponentsResult: InteractionResult,

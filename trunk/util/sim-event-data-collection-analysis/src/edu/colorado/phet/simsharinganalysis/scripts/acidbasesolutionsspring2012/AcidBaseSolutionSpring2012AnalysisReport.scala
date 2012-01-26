@@ -107,7 +107,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
   def countEntriesWithinTime(entries: List[Entry], min: Long, max: Long): Int = entries.filter(e => e.time >= min && e.time < max).length
 
-  def getClickTimeHistogram(log: Log, timePeriod: Pair[Int, String]) = {
+  def getClickTimeHistogram(log: Log) = {
     val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
     val millisPerMinute = 60L * 1000L
     ( ( log.startTime until log.endTime by millisPerMinute ).map(time => ( time - log.startTime ) / millisPerMinute -> countEntriesWithinTime(entries, time, time + millisPerMinute)) ).toMap
@@ -115,13 +115,11 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
   def showBarChart(log: Log) {
     //For entries that count as a "click" for ABS, make a List[Pair[Entry,Entry]]
-    val timePeriod = Pair(1000 * 60, "minute")
-    val table = getClickTimeHistogram(log, timePeriod)
-    //      table.foreach(entry => writeLine("clicks within " + timePeriod._2 + " " + entry._1 + " => " + entry._2))
+    val table = getClickTimeHistogram(log)
 
     phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
       for ( e <- table.keys.toList.sorted ) {
-        addValue(table(e).asInstanceOf[Number], "selected " + timePeriod._2 + " interval", e)
+        addValue(table(e).asInstanceOf[Number], "selected minute", e)
       }
     })
   }
@@ -140,7 +138,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     writeLine("Number of clicks:\t" + clicks.length)
 
     val timePeriod = Pair(1000 * 60, "minute")
-    val table = getClickTimeHistogram(log, timePeriod)
+    val table = getClickTimeHistogram(log)
     val mapped = table.keys.toList.sorted.map(e => e + " -> " + table(e)).mkString(", ")
     writeLine("Clicks per min:\t" + mapped)
 
@@ -231,7 +229,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val numberOfClicks = clicks.length
 
     val timePeriod = Pair(1000 * 60, "minute")
-    val clicksPerMinute = getClickTimeHistogram(log, timePeriod)
+    val clicksPerMinute = getClickTimeHistogram(log)
     val mapped = clicksPerMinute.keys.toList.sorted.map(e => e + " -> " + clicksPerMinute(e)).mkString(", ")
 
     import scala.collection.JavaConversions._
@@ -302,6 +300,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
                   timeSimOpenMin,
                   firstClickToLastClick,
                   solutionTable.toMap,
+                  viewTable.toMap,
+                  testTable.toMap,
                   numberOfClicks,
                   clicksPerMinute,
                   InteractionResult(numberOfEventsOnInteractiveComponents,
