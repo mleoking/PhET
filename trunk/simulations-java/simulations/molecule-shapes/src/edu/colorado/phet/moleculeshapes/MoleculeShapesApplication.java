@@ -60,30 +60,30 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
         addModule( new MoleculeShapesModule( parentFrame ) {{
             addTab( tab1 = new MoleculeShapesTab( Strings.MOLECULE__SHAPES__TITLE, false ) );
-            addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false, false ) );
-            addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
-
-            tab2Visible.addObserver( new SimpleObserver() {
-                public void update() {
-                    if ( tab2Visible.get() ) {
-                        addTab( tab2 );
-                    }
-                    else {
-                        removeTab( tab2 );
-                    }
-                }
-            }, false );
-
-            tab3Visible.addObserver( new SimpleObserver() {
-                public void update() {
-                    if ( tab3Visible.get() ) {
-                        addTab( tab3 );
-                    }
-                    else {
-                        removeTab( tab3 );
-                    }
-                }
-            }, false );
+//            addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false, false ) );
+//            addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
+//
+//            tab2Visible.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    if ( tab2Visible.get() ) {
+//                        addTab( tab2 );
+//                    }
+//                    else {
+//                        removeTab( tab2 );
+//                    }
+//                }
+//            }, false );
+//
+//            tab3Visible.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    if ( tab3Visible.get() ) {
+//                        addTab( tab3 );
+//                    }
+//                    else {
+//                        removeTab( tab3 );
+//                    }
+//                }
+//            }, false );
         }} );
     }
 
