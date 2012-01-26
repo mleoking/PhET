@@ -23,4 +23,4 @@ The number of precipitate particles shown in the beaker is:
 
 where particlesPerMole is specified for each solute.
 
-For addition details, consult these model class files: Solution, Solute, Solvent
+For additional details, consult these model class files: Solution, Solute, Solvent
