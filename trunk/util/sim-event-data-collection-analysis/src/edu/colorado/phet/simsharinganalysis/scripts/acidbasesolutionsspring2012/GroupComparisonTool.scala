@@ -1,78 +1,33 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012
 
-import javax.swing.JFrame.EXIT_ON_CLOSE
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils
-import swing._
-import edu.colorado.phet.simsharinganalysis.phet
 import org.jfree.data.statistics.DefaultStatisticalCategoryDataset
 import org.jfree.chart.plot.CategoryPlot
 import org.jfree.chart.axis.{NumberAxis, CategoryLabelPositions, CategoryAxis}
 import org.jfree.chart.{JFreeChart, ChartFrame}
 import org.jfree.chart.renderer.category.StatisticalBarRenderer
 import java.io.File
-import javax.swing.JFileChooser
-import collection.mutable.ArrayBuffer
+import edu.colorado.phet.simsharinganalysis.phet
 
-/**
- * Utility for showing different groups and plotting data
- * @author Sam Reid
- */
-object GroupComparisonTool extends SimpleSwingApplication {
-  private val list = new ArrayBuffer[File]
-  private var lastDir: File = null
-  lazy val top = new Frame {
-    title = "Group comparison"
-    val f = this
-    peer setDefaultCloseOperation EXIT_ON_CLOSE
-    contents = new BorderPanel {
-      val panel = this
-      val boxPanel = new BoxPanel(Orientation.Vertical) {
-        minimumSize = new Dimension(800, 600)
-        preferredSize = new Dimension(800, 600)
-      }
-      add(boxPanel, BorderPanel.Position.Center)
-      add(new FlowPanel {
-        contents += Button("Add Data Collection") {
-                                                    val chooser = new JFileChooser(lastDir) {
-                                                      setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
-                                                    }
-                                                    val result = chooser.showOpenDialog(f.peer)
-                                                    result match {
-                                                      case JFileChooser.APPROVE_OPTION => {
-                                                        boxPanel.contents += new Label(chooser.getSelectedFile.getAbsolutePath)
-                                                        list += chooser.getSelectedFile
-                                                        lastDir = chooser.getSelectedFile.getParentFile
-                                                        f.repaint()
-                                                        panel.peer.paintImmediately(0, 0, panel.peer.getWidth, panel.peer.getHeight)
-                                                        f.bounds = new Rectangle(f.peer.getX, f.peer.getY, f.peer.getWidth - 1, f.peer.getHeight)
-                                                        f.bounds = new Rectangle(f.peer.getX, f.peer.getY, f.peer.getWidth + 1, f.peer.getHeight)
-                                                      }
-                                                      case _ => {}
-                                                    }
-                                                  }
+object GroupComparisonTool extends App {
 
-        contents += Button("Analyze All") {
-                                            CompareGroups.process(list.toList)
-                                          }
-      }, BorderPanel.Position.South)
-      pack()
-    }
-    SwingUtils centerWindowOnScreen peer
-  }
-}
+  //Recursively list all files under a directory, see http://stackoverflow.com/questions/4629984/scala-cleanest-way-to-recursively-parse-files-checking-for-multiple-strings
+  def filesAt(f: File): List[File] = if ( f.isDirectory ) f.listFiles.flatMap(filesAt).toList else f :: Nil
 
-object CompareGroups extends App {
+  process(new File("C:\\Users\\Sam\\Desktop\\abs-study-data"))
 
-  process(List(new File("C:\\Users\\Sam\\Desktop\\kl-one-recitation"),
-               new File("C:\\Users\\Sam\\Desktop\\kl-two-recitation"),
-               new File("C:\\Users\\Sam\\Desktop\\kl-three-recitation")))
+  def process(folder: File) {
+    val group1 = filesAt(folder).filter(_.getName.indexOf("_a1_") >= 0) -> "a1"
+    val group2 = filesAt(folder).filter(_.getName.indexOf("_a2_") >= 0) -> "a2"
+    val group3 = filesAt(folder).filter(_.getName.indexOf("_a3_") >= 0) -> "a3"
 
-  def process(folders: List[File]) {
+    println("group 1\n" + group1._1.mkString("\n"))
+    println("group 2\n" + group2._1.mkString("\n"))
+    println("group 3\n" + group3._1.mkString("\n"))
 
-    val groups = for ( g <- folders ) yield {
-      val logs = phet.load(g).sortBy(_.startTime)
-      GroupResult(logs.map(AcidBaseSolutionSpring2012AnalysisReport.toReport(_)).toList)
+    val groups = for ( g <- group1 :: group2 :: group3 :: Nil; logs = phet.load(g._1) ) yield {
+      GroupResult(logs.map(AcidBaseSolutionSpring2012AnalysisReport.toReport(_)).toList, g._2)
     }
     for ( group <- groups ) {
       println("Processing group: " + group)
@@ -92,26 +47,26 @@ object CompareGroups extends App {
 
     plot("count", groups, new MyStatisticalDataSet {
       for ( group <- groups ) {
-        addBooleanToPlot(groups, group, _.selectedBase, "selected base")
-        addBooleanToPlot(groups, group, _.showedSolvent, "showed solvent")
-        addBooleanToPlot(groups, group, _.dunkedPHMeter, "dunked pH meter")
-        addBooleanToPlot(groups, group, _.dunkedPHPaper, "dunked pH paper")
-        addBooleanToPlot(groups, group, _.completedCircuit, "completed circuit")
+        addBooleanToPlot(group, _.selectedBase, "selected base")
+        addBooleanToPlot(group, _.showedSolvent, "showed solvent")
+        addBooleanToPlot(group, _.dunkedPHMeter, "dunked pH meter")
+        addBooleanToPlot(group, _.dunkedPHPaper, "dunked pH paper")
+        addBooleanToPlot(group, _.completedCircuit, "completed circuit")
       }
     })
 
     plot("time", groups, new MyStatisticalDataSet {
       for ( group <- groups ) {
-        addToPlot(groups, group, _.timeSimOpenMin, "time open (min)")
+        addToPlot(group, _.timeSimOpenMin, "time open (min)")
       }
     })
 
     plot("number transitions", groups, new MyStatisticalDataSet {
       for ( group <- groups ) {
-        addToPlot(groups, group, _.numTabTransitions, "tab")
-        addToPlot(groups, group, _.numSolutionTransitions, "solution")
-        addToPlot(groups, group, _.numViewTransitions, "view")
-        addToPlot(groups, group, _.numTestTransitions, "test")
+        addToPlot(group, _.numTabTransitions, "tab")
+        addToPlot(group, _.numSolutionTransitions, "solution")
+        addToPlot(group, _.numViewTransitions, "view")
+        addToPlot(group, _.numTestTransitions, "test")
       }
     })
   }
@@ -133,18 +88,18 @@ object CompareGroups extends App {
 }
 
 class MyStatisticalDataSet extends DefaultStatisticalCategoryDataset {
-  def addBooleanToPlot(groups: List[GroupResult], group: GroupResult, f: SessionResult => Boolean, label: String) {
+  def addBooleanToPlot(group: GroupResult, f: SessionResult => Boolean, label: String) {
     val values: Seq[Double] = group.sessionResults.map(f).map(x => if ( x ) 1.0 else 0.0)
-    add(phet average values, phet standardDeviation values, "group " + groups.indexWhere(_ eq group), label)
+    add(phet average values, phet standardDeviation values, group.name, label)
   }
 
-  def addToPlot(groups: List[GroupResult], group: GroupResult, f: SessionResult => Double, label: String) {
+  def addToPlot(group: GroupResult, f: SessionResult => Double, label: String) {
     val values: Seq[Double] = group.sessionResults.map(f)
-    add(phet average values, phet standardDeviation values, "group " + groups.indexWhere(_ eq group), label)
+    add(phet average values, phet standardDeviation values, group.name, label)
   }
 }
 
-case class GroupResult(sessionResults: List[SessionResult]) {
+case class GroupResult(sessionResults: List[SessionResult], name: String) {
   def indicator(b: Boolean) = if ( b ) 1 else 0
 
   def averageTimeOpen = phet average sessionResults.map(_.timeSimOpenMin)
