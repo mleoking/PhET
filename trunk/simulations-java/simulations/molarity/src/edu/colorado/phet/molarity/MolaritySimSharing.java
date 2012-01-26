@@ -13,6 +13,7 @@ public class MolaritySimSharing {
     public enum UserComponents implements IUserComponent {
         showValuesCheckBox, soluteComboBox,
         soluteAmountSlider, volumeSlider,
-        concentrationBar, concentrationPointer, solutionBeaker
+        concentrationBar, concentrationPointer,
+        solutionBeaker
     }
 }
