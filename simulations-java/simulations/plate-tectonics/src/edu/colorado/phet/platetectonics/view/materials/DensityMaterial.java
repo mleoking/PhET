@@ -87,6 +87,11 @@ public class DensityMaterial extends GLMaterial implements EarthMaterial {
         glDisable( GL_TEXTURE_2D );
     }
 
+    @Override public Color getColor( float density, float temperature, ImmutableVector2F position ) {
+        float value = getTextureCoordinates( density, temperature, position ).x;
+        return new Color( value, value, value, 1f );
+    }
+
     public ImmutableVector2F getTextureCoordinates( float density, float temperature, ImmutableVector2F position ) {
         return densityMap( density );
     }
