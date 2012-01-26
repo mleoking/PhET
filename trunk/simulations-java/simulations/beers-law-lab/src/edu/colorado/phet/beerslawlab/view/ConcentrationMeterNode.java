@@ -125,7 +125,8 @@ public class ConcentrationMeterNode extends PhetPNode {
 
         // image-specific locations and dimensions
         private static final double TITLE_Y_OFFSET = 12;
-        private static final double X_MARGIN = 30;  // specific to image files
+        private static final double TEXT_X_MARGIN = 20;  // specific to image files
+        private static final double VALUE_X_MARGIN = 30; // specific to image files
         private static final double VALUE_Y_OFFSET = 67; // specific to image files
 
         public BodyNode( final ConcentrationMeter meter ) {
@@ -145,7 +146,7 @@ public class ConcentrationMeterNode extends PhetPNode {
 
             // create a background that fits the text
             final double maxTextWidth = Math.max( titleNode.getFullBoundsReference().getWidth(), Math.max( unitsNode.getFullBoundsReference().getWidth(), valueNode.getFullBoundsReference().getWidth() ) );
-            final double bodyWidth = ( 2 * X_MARGIN ) + maxTextWidth;
+            final double bodyWidth = ( 2 * TEXT_X_MARGIN ) + maxTextWidth;
             final PImage imageNode = new TiledBackgroundNode( bodyWidth, Images.CONCENTRATION_METER_BODY_LEFT, Images.CONCENTRATION_METER_BODY_CENTER, Images.CONCENTRATION_METER_BODY_RIGHT );
 
             // rendering order
@@ -181,7 +182,7 @@ public class ConcentrationMeterNode extends PhetPNode {
                         // eg, "0.23400 M"
                         valueNode.setText( VALUE_FORMAT.format( value ) );
                         // right justified
-                        valueNode.setOffset( imageNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth() - X_MARGIN,
+                        valueNode.setOffset( imageNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth() - VALUE_X_MARGIN,
                                              valueNode.getYOffset() );
                     }
                 }
