@@ -1,3 +1,4 @@
+Plot the histogram of average number of clicks for each condition
 For the time chart, added time spent on each solution
 For the time chart, plot both time sim open and first click to last click
 Improved loading multiple groups
