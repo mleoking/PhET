@@ -143,7 +143,6 @@ public class ConcentrationMeterNode extends PhetPNode {
                 setFont( new PhetFont( 24 ) );
             }};
 
-
             // create a background that fits the text
             final double maxTextWidth = Math.max( titleNode.getFullBoundsReference().getWidth(), Math.max( unitsNode.getFullBoundsReference().getWidth(), valueNode.getFullBoundsReference().getWidth() ) );
             final double bodyWidth = ( 2 * X_MARGIN ) + maxTextWidth;
