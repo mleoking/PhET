@@ -3,7 +3,7 @@ TODO list for dilutions
 HIGH
 - what should be visible when "Show values" is selected?
 - rename "dilutions" project to "molarity"?
-- delete code that is specific to "Dilution" tab?
+- delete code that is specific to "Dilution" tab? (DilutionCanvas, DilutionModel, DilutionModule, FancyEqualsNode)
 
 MEDIUM
 
