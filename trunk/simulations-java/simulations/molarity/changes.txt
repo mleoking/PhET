@@ -1,3 +1,4 @@
+1/26/12 wrote implementation-notes.txt
 1/26/12 rename "dilutions" project to "molarity"
 1/26/12 write model description (model.txt)
 1/26/12 rename various Dilutions* classes to Molarity*

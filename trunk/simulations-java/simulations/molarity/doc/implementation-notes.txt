@@ -1,3 +1,8 @@
 Implementation notes for Molarity sim
 
+This sim uses Property<T> throughout the model and view for storage of properties and notification of changes.
+
 This sim has no model-view transform; the model uses the view coordinate frame.
+Positive x is to the right, positive y is down.
+
+For the purposes of view layout, the origin of view components is generally described in each component's javadoc.
