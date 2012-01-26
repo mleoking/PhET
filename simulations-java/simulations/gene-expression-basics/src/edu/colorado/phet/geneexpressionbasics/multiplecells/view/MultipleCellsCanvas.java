@@ -138,30 +138,6 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                 }
             } );
         }} );
-        /*
-        // Add the sliders that control the various model parameters.
-        // TODO: i18n
-        addWorldChild( new CellParameterController( "<center>Transcription Factor<br>Level</center>",
-                                                    model.transcriptionFactorLevel,
-                                                    CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE,
-                                                    Color.orange ) {{
-            setOffset( 10, 10 );
-        }} );
-        // TODO: i18n
-        addWorldChild( new CellParameterController( "<center>Transcription Factor<br>Affinity</center>",
-                                                    model.transcriptionFactorAssociationProbability,
-                                                    CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE,
-                                                    new Color( 224, 255, 255 ) ) {{
-            setOffset( 10, 300 );
-        }} );
-        // TODO: i18n
-        addWorldChild( new CellParameterController( "<center>Polymerase<br>Affinity</center>",
-                                                    model.polymeraseAssociationProbability,
-                                                    CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE,
-                                                    new Color( 216, 191, 216 ) ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 10, 100 );
-        }} );
-        */
 
         if ( SHOW_CELL_BOUNDING_BOX ) {
             localWorldRootNode.addChild( cellBoundingBox );
