@@ -14,6 +14,7 @@ import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -156,12 +157,27 @@ public class TerrainNode extends GridMesh {
         glColorMaterial( GL_FRONT, GL_DIFFUSE );
         colorBuffer.rewind();
         glColorPointer( 4, 0, colorBuffer );
+
+        // TODO: better texture handling for terrain
+
+        glMatrixMode( GL_TEXTURE );
+        glPushMatrix();
+        glScalef( 25, 25, 1 );
+        glMatrixMode( GL_MODELVIEW );
+
+        EarthTexture.begin();
     }
 
     @Override protected void postRender( GLOptions options ) {
         super.postRender( options );
 
+        EarthTexture.end();
+
         glDisableClientState( GL_COLOR_ARRAY );
+
+        glMatrixMode( GL_TEXTURE );
+        glPopMatrix();
+        glMatrixMode( GL_MODELVIEW );
     }
 
     // put our elevation information into the x coordinate of the TexCoord2 mesh buffer
