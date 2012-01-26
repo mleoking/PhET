@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
@@ -63,23 +64,13 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.insets.top = 10;
             constraints.insets.left = 0;
             // TODO: i18n
-            addChild( new RowLabel( "+ Transcription Factor" ), constraints );
+            addChild( new RowLabel( "<center>Positive Transcription<br>Factor</center>" ), constraints );
 
             constraints.gridx++;
             constraints.insets.left = 20;
             addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, geneID, true ) ) ), constraints );
 
             constraints.gridx = 0;
-            constraints.gridy++;
-            constraints.insets.left = 0;
-            // TODO: i18n
-            addChild( new RowLabel( "- Transcription Factor" ), constraints );
-
-            constraints.gridx++;
-            constraints.insets.left = 20;
-            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, geneID, false ) ) ), constraints );
-            constraints.gridx = 0;
-
             constraints.gridy++;
             constraints.insets.left = 0;
             // TODO: i18n
@@ -117,6 +108,17 @@ public class BiomoleculeToolBoxNode extends PNode {
                                 addCreatorNode( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ),
                                 addCreatorNode( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
                       constraints );
+
+            constraints.gridx = 0;
+            constraints.gridy++;
+            constraints.insets.left = 0;
+            // TODO: i18n
+//            addChild( new RowLabel( "<center>Negative<br>Transcription Factor</center>" ), constraints );
+            addChild( new RowLabel( "<center>Negative Transcription<br>Factor</center>" ), constraints );
+
+            constraints.gridx++;
+            constraints.insets.left = 20;
+            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, geneID, false ) ) ), constraints );
         }};
 
         // Place the content into a control panel node.
@@ -139,7 +141,7 @@ public class BiomoleculeToolBoxNode extends PNode {
     /**
      * Convenience class for creating row labels.
      */
-    private static class RowLabel extends PText {
+    private static class RowLabel extends HTMLNode {
         private RowLabel( String text ) {
             super( text );
             setFont( new PhetFont( 16 ) );
