@@ -1,8 +1,11 @@
 TODO list for dilutions
 
 HIGH
-- rename "dilutions" project to "molarity"?
+- rename "dilutions" project to "molarity"
 
 MEDIUM
+- screenshot
+- model.txt
+- implementation-notes.txt
 
 MIGRATE TO COMMON
