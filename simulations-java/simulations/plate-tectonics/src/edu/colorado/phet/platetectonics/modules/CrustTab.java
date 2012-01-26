@@ -293,16 +293,20 @@ public class CrustTab extends PlateTectonicsTab {
                 super.renderSelf( options );
 
                 EarthTexture.begin();
-                glColor4f( 1, 1, 1, 1 );
+
                 glBegin( GL_QUADS );
+                glColor4f( 0.25f, 0.25f, 0.25f, 1 );
                 glTexCoord2d( 0, 0 );
                 glVertex2d( 0, 0 );
+                glColor4f( 0.5f, 0.25f, 0.25f, 1 );
                 glTexCoord2d( 1, 0 );
-                glVertex2d( 10, 0 );
+                glVertex2d( 100, 0 );
+                glColor4f( 0.75f, 0.25f, 0.25f, 1 );
                 glTexCoord2d( 1, 1 );
-                glVertex2d( 10, 10 );
+                glVertex2d( 100, 100 );
+                glColor4f( 1, 0.25f, 0.25f, 1 );
                 glTexCoord2d( 0, 1 );
-                glVertex2d( 0, 10 );
+                glVertex2d( 0, 100 );
                 glEnd();
                 EarthTexture.end();
             }
