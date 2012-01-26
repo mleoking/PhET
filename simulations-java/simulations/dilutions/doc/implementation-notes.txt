@@ -1,0 +1,3 @@
+Implementation notes for Molarity sim
+
+This sim has no model-view transform; the model uses the view coordinate frame.
