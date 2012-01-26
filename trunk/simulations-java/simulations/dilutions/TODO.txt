@@ -5,7 +5,6 @@ HIGH
 
 MEDIUM
 - screenshot
-- model.txt
 - implementation-notes.txt
 
 MIGRATE TO COMMON

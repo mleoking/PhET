@@ -1,0 +1,26 @@
+Model description of Molarity simulation
+
+The basic equation for Molarity is:
+
+  M = mol/L
+
+A chemical solution is a solute dissolved in a solvent.
+The solvent in this sim is pure water.
+The solutes are shown in the combo box, and each has an associated saturated concentration.
+Adding solute beyond the saturated concentration results in formation of a precipitate.
+
+Concentration of a solution is:
+
+   M = min( (saturatedConcentration (M), ( (amountOfSolute (moles)) / (volumeOfSolution (L)) )
+
+When a solution is saturated, the amount of precipiate is:
+
+   precipitate (moles) = ( (amountOfSolute (moles)) / (volumeOfSolution(L)) ) - (saturatedConcentration (M))
+
+The number of precipitate particles shown in the beaker is:
+
+   numberOfParticles = (precipitate (moles)) * particlesPerMole
+
+where particlesPerMole is specified for each solute.
+
+For addition details, consult these model class files: Solution, Solute, Solvent
