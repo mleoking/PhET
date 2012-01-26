@@ -30,6 +30,7 @@ import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 public class PlateTectonicsApplication extends PhetApplication {
 
     public static final Property<Boolean> showFPSMeter = new Property<Boolean>( false );
+    public static final Property<Boolean> showDebuggingItems = new Property<Boolean>( false );
 
     /**
      * Sole constructor.
@@ -88,6 +89,19 @@ public class PlateTectonicsApplication extends PhetApplication {
                     LWJGLUtils.invoke( new Runnable() {
                         public void run() {
                             showFPSMeter.set( show );
+                        }
+                    } );
+                }
+            } );
+        }} );
+
+        developerMenu.add( new JCheckBoxMenuItem( "Show Debugging Items" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    final boolean show = isSelected();
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            showDebuggingItems.set( show );
                         }
                     } );
                 }
