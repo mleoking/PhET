@@ -1,3 +1,5 @@
+1/26/12 Simsharing: Added study for dallas that requires user id
+1/26/12 Simsharing: Fixed: study name not detected correctly
 1/25/12 Simsharing: resolves #3228, handle unknown host exception
 1/24/12 Simsharing: #3224, turn off specific MongoDB loggers
 1/24/12 Simsharing: removed logManager reset call, resolves #3224

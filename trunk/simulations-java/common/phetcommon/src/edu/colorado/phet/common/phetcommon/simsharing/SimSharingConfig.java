@@ -22,6 +22,7 @@ public abstract class SimSharingConfig {
         addConfig( new UtahConfig() );
         addConfig( new AcidBaseSolutionsSpring2012() );
         addConfig( new DallasJan2012() );
+        addConfig( new DallasJan2012ID() );
         addConfig( new FaradaySpring2012() );
         addConfig( new BalancingActSpring2012() );
     }
@@ -116,6 +117,21 @@ public abstract class SimSharingConfig {
     private static class DallasJan2012 extends SimSharingConfig {
         public DallasJan2012() {
             super( "dallas-jan-2012", true, true, false, false );
+        }
+    }
+
+    /*
+    * Location: Dallas, TX
+    * Dates: Week of Jan 23 2012
+    * Sims: Energy Skate Park
+    * PhET researchers: Emily B. Moore
+    * Contacts: DMcLeod@uplifteducation.org
+    *
+    * Same as above, but requires student id
+    */
+    private static class DallasJan2012ID extends SimSharingConfig {
+        public DallasJan2012ID() {
+            super( "dallas-jan-2012-id", true, true, true, true );
         }
     }
 

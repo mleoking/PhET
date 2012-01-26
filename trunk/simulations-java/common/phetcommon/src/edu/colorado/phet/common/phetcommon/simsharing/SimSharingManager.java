@@ -100,8 +100,8 @@ public class SimSharingManager {
         sessionId = generateStrongId();
         if ( enabled ) {
 
-            studentId = getStudentId();
             studyName = config.getOptionArg( COMMAND_LINE_OPTION );
+            studentId = getStudentId();
 
             // Get the machine cookie from the properties file, create one if it doesn't exist.
             SimSharingPropertiesFile propertiesFile = new SimSharingPropertiesFile();
