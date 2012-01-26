@@ -50,18 +50,6 @@ public class DilutionsResources {
         public static final String UNITS_MOLARITY = RESOURCES.getLocalizedString( "units.molarity" );
         public static final String UNITS_MOLES = RESOURCES.getLocalizedString( "units.moles" );
         public static final String ZERO = RESOURCES.getLocalizedString( "zero" );
-
-        // Additional strings used by the unpublished DilutionsApplication.
-        public static final String BIG = "big";
-        public static final String M1_CONCENTRATION = "<html><center>M<sub>1</sub><br>Concentration</html>";
-        public static final String M2_CONCENTRATION = "<html><center>M<sub>2</sub><br>Concentration</html>";
-        public static final String DILUTION = "Dilution";
-        public static final String EMPTY = "empty";
-        public static final String SMALL = "small";
-        public static final String SOLUTION = "Solution";
-        public static final String UNITS_MOLES_PER_LITER = "mol/L";
-        public static final String V1_VOLUME = "<html><center>V<sub>1</sub><br>Volume</html>";
-        public static final String V2_VOLUME = "<html><center>V<sub>2</sub><br>Volume</html>";
     }
 
     // Symbols, no i18n needed

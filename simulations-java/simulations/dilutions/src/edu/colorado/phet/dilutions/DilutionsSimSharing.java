@@ -12,7 +12,7 @@ public class DilutionsSimSharing {
 
     public enum UserComponents implements IUserComponent {
         showValuesCheckBox, soluteComboBox,
-        soluteAmountSlider, volumeSlider, solutionVolumeSlider, dilutionVolumeSlider, concentrationSlider,
-        concentrationBar, concentrationPointer, solutionBeaker, dilutionBeaker, waterBeaker
+        soluteAmountSlider, volumeSlider,
+        concentrationBar, concentrationPointer, solutionBeaker
     }
 }

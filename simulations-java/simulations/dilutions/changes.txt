@@ -1,3 +1,4 @@
+1/26/12 delete code that is specific to "Dilutions" tab
 1/26/12 disable the concentration feature on the beaker label
 1/25/12 revert min color of KMnO4 to RGB=[255,0,255]
 1/25/12 factor out constants for range and value formats
