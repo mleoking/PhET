@@ -11,7 +11,6 @@ HIGH
 - implement ShakerParticle.stepInTime and ShakerParticles.stepInTime
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute
-- make concentration meter expand to fit title
 
 MEDIUM
 - Beer's Law tab
@@ -21,8 +20,10 @@ LOW
 - shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
 - dropper flickers/tears excessively while dragging
 - #3199, bigger slider thumb on FaucetNode
+- fix potential issues in TiledBackgroundNode
 
 SIM-SHARING
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
+- TiledBackgroundNode to piccolo-phet

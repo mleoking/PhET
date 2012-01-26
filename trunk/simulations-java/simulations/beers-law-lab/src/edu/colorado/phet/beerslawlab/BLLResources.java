@@ -66,7 +66,9 @@ public class BLLResources {
 
     // Images
     public static class Images {
-        public static final Image CONCENTRATION_METER_BODY = RESOURCES.getImage( "concentration-meter-body.png" );
+        public static final Image CONCENTRATION_METER_BODY_LEFT = RESOURCES.getImage( "concentration-meter-body-left.png" );
+        public static final Image CONCENTRATION_METER_BODY_CENTER = RESOURCES.getImage( "concentration-meter-body-center.png" );
+        public static final Image CONCENTRATION_METER_BODY_RIGHT = RESOURCES.getImage( "concentration-meter-body-right.png" );
         public static final Image CONCENTRATION_METER_PROBE = RESOURCES.getImage( "concentration-meter-probe.png" );
         public static final Image DROPPER_FOREGROUND = RESOURCES.getImage( "dropper_foreground.png" );
         public static final Image DROPPER_BACKGROUND = RESOURCES.getImage( "dropper_background.png" );

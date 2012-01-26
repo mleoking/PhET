@@ -29,7 +29,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Concentration meter, with probe.
@@ -126,36 +125,29 @@ public class ConcentrationMeterNode extends PhetPNode {
 
         // image-specific locations and dimensions
         private static final double TITLE_Y_OFFSET = 12;
-        private static final PBounds VALUE_BOUNDS = new PBounds( 24, 55, 114, 50 );
-        private static final double BEVEL_WIDTH = 12;
+        private static final double X_MARGIN = 30;  // specific to image files
+        private static final double VALUE_Y_OFFSET = 67; // specific to image files
 
         public BodyNode( final ConcentrationMeter meter ) {
 
-            // nodes
-            PImage imageNode = new PImage( Images.CONCENTRATION_METER_BODY );
+            // text nodes
             PText titleNode = new PText( Strings.CONCENTRATION ) {{
                 setTextPaint( Color.WHITE );
                 setFont( new PhetFont( Font.BOLD, 18 ) );
+            }};
+            PText unitsNode = new PText( MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.UNITS_MOLES_PER_LITER ) ) {{
+                setTextPaint( Color.WHITE );
+                setFont( new PhetFont( Font.BOLD, 16 ) );
             }};
             final PText valueNode = new PText( VALUE_PATTERN ) {{
                 setFont( new PhetFont( 24 ) );
             }};
 
-            // scale title and value to fit in meter
-            final double titleScale = ( imageNode.getFullBoundsReference().getWidth() - 2 * BEVEL_WIDTH ) / titleNode.getFullBoundsReference().getWidth();
-            if ( titleScale < 1 ) {
-                titleNode.setScale( titleScale );
-            }
-            final double valueScale = VALUE_BOUNDS.getWidth() / valueNode.getFullBoundsReference().getWidth();
-            if ( valueScale < 1 ) {
-                valueNode.setScale( valueScale );
-            }
 
-            // units
-            PText unitsNode = new PText( MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.UNITS_MOLES_PER_LITER ) ) {{
-                setTextPaint( Color.WHITE );
-                setFont( new PhetFont( Font.BOLD, 16 ) );
-            }};
+            // create a background that fits the text
+            final double maxTextWidth = Math.max( titleNode.getFullBoundsReference().getWidth(), Math.max( unitsNode.getFullBoundsReference().getWidth(), valueNode.getFullBoundsReference().getWidth() ) );
+            final double bodyWidth = ( 2 * X_MARGIN ) + maxTextWidth;
+            final PImage imageNode = new TiledBackgroundNode( bodyWidth, Images.CONCENTRATION_METER_BODY_LEFT, Images.CONCENTRATION_METER_BODY_CENTER, Images.CONCENTRATION_METER_BODY_RIGHT );
 
             // rendering order
             addChild( imageNode );
@@ -167,7 +159,7 @@ public class ConcentrationMeterNode extends PhetPNode {
             titleNode.setOffset( ( imageNode.getFullBoundsReference().getWidth() - titleNode.getFullBoundsReference().getWidth() ) / 2, TITLE_Y_OFFSET );
             unitsNode.setOffset( ( imageNode.getFullBoundsReference().getWidth() - unitsNode.getFullBoundsReference().getWidth() ) / 2,
                                  titleNode.getFullBoundsReference().getMaxY() + 3 );
-            //NOTE: value layout will be done when value is set, to maintain right justification
+            valueNode.setOffset( 0, VALUE_Y_OFFSET ); //NOTE: value x offset will be adjusted when value is set, to maintain right justification
 
             // body location
             meter.body.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -183,15 +175,15 @@ public class ConcentrationMeterNode extends PhetPNode {
                     if ( value == null ) {
                         valueNode.setText( NO_VALUE );
                         // centered
-                        valueNode.setOffset( VALUE_BOUNDS.getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
-                                             VALUE_BOUNDS.getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+                        valueNode.setOffset( imageNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
+                                             valueNode.getYOffset() );
                     }
                     else {
                         // eg, "0.23400 M"
                         valueNode.setText( VALUE_FORMAT.format( value ) );
                         // right justified
-                        valueNode.setOffset( VALUE_BOUNDS.getMaxX() - valueNode.getFullBoundsReference().getWidth() - 2,
-                                             VALUE_BOUNDS.getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+                        valueNode.setOffset( imageNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth() - X_MARGIN,
+                                             valueNode.getYOffset() );
                     }
                 }
             } );
