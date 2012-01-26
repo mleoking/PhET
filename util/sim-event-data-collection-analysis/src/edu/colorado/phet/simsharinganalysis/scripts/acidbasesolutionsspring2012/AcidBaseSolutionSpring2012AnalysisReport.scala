@@ -227,7 +227,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
     //Show how long the sim was open.  Format so that RealTimeAnalysis isn't too jumpy
     val timeSimOpenMin = log.minutesUsed
-    val firstClickToLastClick = ( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0
+    val firstClickToLastClick = if ( clicks.length == 0 ) 0 else ( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0
     val numberOfClicks = clicks.length
 
     val timePeriod = Pair(1000 * 60, "minute")

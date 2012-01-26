@@ -132,6 +132,8 @@ object phet {
     }.setVisible(true)
   }
 
+  def load(files: Seq[File]): List[Log] = files.map(parse(_)).toList
+
   //Load all Logs within a directory recursively
   def load(dir: String): List[Log] = load(new File(dir))
 
