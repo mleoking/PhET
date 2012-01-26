@@ -158,7 +158,7 @@ public class ConcentrationMeterNode extends PhetPNode {
             titleNode.setOffset( ( imageNode.getFullBoundsReference().getWidth() - titleNode.getFullBoundsReference().getWidth() ) / 2, TITLE_Y_OFFSET );
             unitsNode.setOffset( ( imageNode.getFullBoundsReference().getWidth() - unitsNode.getFullBoundsReference().getWidth() ) / 2,
                                  titleNode.getFullBoundsReference().getMaxY() + 3 );
-            valueNode.setOffset( 0, VALUE_Y_OFFSET ); //NOTE: value x offset will be adjusted when value is set, to maintain right justification
+            valueNode.setOffset( 0, VALUE_Y_OFFSET ); //NOTE: x offset will be adjusted when value is set, to maintain right justification
 
             // body location
             meter.body.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
