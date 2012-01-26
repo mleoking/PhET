@@ -41,7 +41,7 @@ public class ProteinCollectionNode extends PNode {
 
     // Attributes of various aspects of the box.
     private static final Font TITLE_FONT = new PhetFont( 20, true );
-    private static final Font READOUT_FONT = new PhetFont( 16 );
+    private static final Font READOUT_FONT = new PhetFont( 18 );
     private static final Color BACKGROUND_COLOR = new Color( 255, 250, 205 );
 
     public ProteinCollectionNode( ManualGeneExpressionModel model, ModelViewTransform mvt ) {
@@ -105,7 +105,7 @@ public class ProteinCollectionNode extends PNode {
                     5,
                     // TODO: i18n.
                     new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numProteinsCollected ) ),
-                    new ReadoutPText( "of 3 proteins." ) {{
+                    new ReadoutPText( "of 3 protein types." ) {{
                         setFont( READOUT_FONT );
                     }}
             );
@@ -155,7 +155,7 @@ public class ProteinCollectionNode extends PNode {
             AffineTransform transform = AffineTransform.getScaleInstance( scale, scale );
 
             addChild( new HBox(
-                    5,
+                    0,
                     new ProteinCaptureNode( transform.createTransformedShape( new ProteinA().getFullyGrownShape() ), Color.BLACK, new ProteinA().colorProperty.get(), model.proteinACollected ),
                     new ProteinCaptureNode( transform.createTransformedShape( new ProteinB().getFullyGrownShape() ), Color.BLACK, new ProteinB().colorProperty.get(), model.proteinBCollected ),
                     new ProteinCaptureNode( transform.createTransformedShape( new ProteinC().getFullyGrownShape() ), Color.BLACK, new ProteinC().colorProperty.get(), model.proteinCCollected )
