@@ -45,7 +45,7 @@ object GroupComparisonTool extends App {
       group
     }
 
-    plot("count", groups, new MyStatisticalDataSet {
+    plot("Number of events", "count", groups, new MyStatisticalDataSet {
       for ( group <- groups ) {
         addBooleanToPlot(group, _.selectedBase, "selected base")
         addBooleanToPlot(group, _.showedSolvent, "showed solvent")
@@ -55,13 +55,14 @@ object GroupComparisonTool extends App {
       }
     })
 
-    plot("time", groups, new MyStatisticalDataSet {
+    plot("Time", "time (minutes)", groups, new MyStatisticalDataSet {
       for ( group <- groups ) {
-        addToPlot(group, _.timeSimOpenMin, "time open (min)")
+        addToPlot(group, _.timeSimOpenMin, "time open")
+        addToPlot(group, _.firstClickToLastClick, "first to last click")
       }
     })
 
-    plot("number transitions", groups, new MyStatisticalDataSet {
+    plot("Number of transitions", "number transitions", groups, new MyStatisticalDataSet {
       for ( group <- groups ) {
         addToPlot(group, _.numTabTransitions, "tab")
         addToPlot(group, _.numSolutionTransitions, "solution")
@@ -71,7 +72,7 @@ object GroupComparisonTool extends App {
     })
   }
 
-  def plot(range: String, groups: List[GroupResult], dataSet: MyStatisticalDataSet) {
+  def plot(title: String, range: String, groups: List[GroupResult], dataSet: MyStatisticalDataSet) {
 
     //Create a statistical bar chart of the provided data
     val categoryAxis = new CategoryAxis("Type") {
@@ -79,7 +80,6 @@ object GroupComparisonTool extends App {
       setCategoryLabelPositions(CategoryLabelPositions.createUpRotationLabelPositions(java.lang.Math.PI / 2.0));
     }
     val plot = new CategoryPlot(dataSet, categoryAxis, new NumberAxis(range), new StatisticalBarRenderer)
-    val title = "Title"
     new ChartFrame(title, new JFreeChart(title, plot)) {
       setSize(900, 600)
       SwingUtils.centerWindowOnScreen(this)

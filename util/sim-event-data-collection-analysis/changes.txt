@@ -1,3 +1,4 @@
+For the time chart, plot both time sim open and first click to last click
 Improved loading multiple groups
 Instead of "student null", use the first part of the log file name
 Removed "utah" in "utah session started at..."
