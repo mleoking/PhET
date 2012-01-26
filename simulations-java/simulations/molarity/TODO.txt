@@ -1,8 +1,4 @@
-TODO list for dilutions
+TODO list for molarity
 
-HIGH
-
-MEDIUM
 - screenshot
-
-MIGRATE TO COMMON
+- publish 1.00
