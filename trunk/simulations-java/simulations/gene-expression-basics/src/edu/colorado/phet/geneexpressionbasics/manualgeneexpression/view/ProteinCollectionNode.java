@@ -37,7 +37,7 @@ public class ProteinCollectionNode extends PNode {
 
     // Upper limit on the width of the PNodes contained in this control panel.
     // This prevents translations from making this box too large.
-    private static final double MAX_CONTENT_WIDTH = 200;
+    private static final double MAX_CONTENT_WIDTH = 300;
 
     // Attributes of various aspects of the box.
     private static final Font TITLE_FONT = new PhetFont( 20, true );
@@ -155,6 +155,7 @@ public class ProteinCollectionNode extends PNode {
             AffineTransform transform = AffineTransform.getScaleInstance( scale, scale );
 
             addChild( new HBox(
+                    5,
                     new ProteinCaptureNode( transform.createTransformedShape( new ProteinA().getFullyGrownShape() ), Color.BLACK, new ProteinA().colorProperty.get(), model.proteinACollected ),
                     new ProteinCaptureNode( transform.createTransformedShape( new ProteinB().getFullyGrownShape() ), Color.BLACK, new ProteinB().colorProperty.get(), model.proteinBCollected ),
                     new ProteinCaptureNode( transform.createTransformedShape( new ProteinC().getFullyGrownShape() ), Color.BLACK, new ProteinC().colorProperty.get(), model.proteinCCollected )
