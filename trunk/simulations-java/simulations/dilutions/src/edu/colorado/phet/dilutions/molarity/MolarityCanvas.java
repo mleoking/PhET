@@ -15,9 +15,9 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.dilutions.MolarityResources.Strings;
 import edu.colorado.phet.dilutions.MolarityResources.Symbols;
 import edu.colorado.phet.dilutions.MolaritySimSharing.UserComponents;
-import edu.colorado.phet.dilutions.common.control.MolaritySliderNode;
 import edu.colorado.phet.dilutions.common.control.ShowValuesNode;
 import edu.colorado.phet.dilutions.common.control.SoluteControlNode;
+import edu.colorado.phet.dilutions.common.control.VerticalSliderNode;
 import edu.colorado.phet.dilutions.common.view.AbstractMolarityCanvas;
 import edu.colorado.phet.dilutions.common.view.BeakerNode;
 import edu.colorado.phet.dilutions.common.view.ConcentrationDisplayNode;
@@ -58,7 +58,7 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
         SoluteControlNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solution.solute );
 
         // slider for controlling amount of solute
-        MolaritySliderNode soluteAmountSliderNode = new MolaritySliderNode( UserComponents.soluteAmountSlider,
+        VerticalSliderNode soluteAmountSliderNode = new VerticalSliderNode( UserComponents.soluteAmountSlider,
                                                                             Strings.SOLUTE_AMOUNT,
                                                                             MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLES ),
                                                                             Strings.NONE, Strings.LOTS,
@@ -68,7 +68,7 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
 
         // slider for controlling volume of solution, sized to match tick marks on the beaker
         final double volumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getSolutionVolumeRange().getMax() ) * cylinderSize.getHeight();
-        MolaritySliderNode solutionVolumeSliderNode = new MolaritySliderNode( UserComponents.volumeSlider,
+        VerticalSliderNode solutionVolumeSliderNode = new VerticalSliderNode( UserComponents.volumeSlider,
                                                                               Strings.SOLUTION_VOLUME,
                                                                               MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.LITERS ),
                                                                               Strings.LOW, Strings.FULL,
