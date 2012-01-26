@@ -1,3 +1,4 @@
+1/25/12 revert min color of KMnO4 to RGB=[255,0,255]
 1/25/12 factor out constants for range and value formats
 # 0.00.15 (60626) Jan 25, 2012
 1/25/12 add concentration value to beaker label when "Show values" is selected
