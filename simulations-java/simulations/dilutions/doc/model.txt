@@ -13,7 +13,7 @@ Concentration of a solution is:
 
    M = min( (saturatedConcentration (M), ( (amountOfSolute (moles)) / (volumeOfSolution (L)) )
 
-When a solution is saturated, the amount of precipiate is:
+When a solution is saturated, the amount of precipitate is:
 
    precipitate (moles) = ( (amountOfSolute (moles)) / (volumeOfSolution(L)) ) - (saturatedConcentration (M))
 
