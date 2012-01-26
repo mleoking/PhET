@@ -54,6 +54,10 @@ public class MongoLog implements Log {
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private final DBCollection collection;
 
+    //Keep track of the number of messages that failed to send and stop trying after it equals or exceeds MAX_FAILURES
+    private static final int MAX_FAILURES = 3;
+    private int failureCount = 0;
+
     public MongoLog( String machineID, String sessionID ) {
 
         try {
@@ -87,9 +91,6 @@ public class MongoLog implements Log {
         }
     }
 
-    //Keep track of the number of messages that failed to send in case we use it to skip message sending
-    private static int failureCount = 0;
-
     // Sends a message to the server, and prefixes the message with a couple of additional fields.
     public void addMessage( final SimSharingMessage message ) throws IOException {
 
@@ -110,7 +111,9 @@ public class MongoLog implements Log {
                 }};
 
                 try {
-                    WriteResult result = collection.insert( doc );
+                    if ( failureCount < MAX_FAILURES ) {
+                        WriteResult result = collection.insert( doc );
+                    }
                     //TODO result should be checked, especially since we've turned off Mongo loggers
                 }
                 catch ( RuntimeException e ) {
