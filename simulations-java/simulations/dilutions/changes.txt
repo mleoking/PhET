@@ -1,3 +1,4 @@
+1/26/12 write model description (model.txt)
 1/26/12 rename various Dilutions* classes to Molarity*
 1/26/12 delete code that is specific to "Dilutions" tab [60666]
 1/26/12 disable the concentration feature on the beaker label
