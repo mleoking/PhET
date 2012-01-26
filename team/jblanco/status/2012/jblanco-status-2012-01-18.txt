@@ -1,0 +1,47 @@
+PhET Weekly Progress Report
+John Blanco
+January 18th, 2012
+
+Time period covered: January 12th through January 18th.
+
+Gene Expression - 21.5 hrs
+
+•	Renamed tabs based on input received during review meeting.
+•	Changed the first tab to start in the zoomed-in state and to use buttons to zoom in and out.
+•	Made it possible to click the main cell in order to zoom into it.
+•	Tested and worked out issues with interaction between the zoom and pan functionality.
+•	Met with Mike K to review latest and to discuss some suggestions from the PhET team.
+•	Spots in the cells instead of single color.
+•	Organelles in the cells.
+•	Changed background to black on tabs 1 and 3 (suggested by MK).
+•	Modified cell shapes to be like E. Coli (suggested by MK).
+•	Put a gradient on the cells on the first tab to make them look more 3D (suggested by MK).
+•	Put a different image on the 3rd tab.
+•	Made Reset All reset zoom level on 1st tab.
+•	Changed the algorithm for placing multiple cells on the 3rd tab to accommodate the new cell shape and to look more natural.
+•	Changed color scheme on 3rd tab to make fluorescence more distinct.
+
+Sim Sharing and Data Collection - 1.0 hrs
+
+•	Monitored progress, discussed deadlines.
+
+Customer Support - 2.0 hrs
+
+•	Further investigation of an issue with installers on Gentoo and Arch Linux, see #3210..
+
+Environment - 1.5 hrs
+
+•	Restarted the Unfuddle Notifier when it seemed to have stopped working, investigated root cause.
+•	Changed the Unfuddle Notifier to always log output and to create a backup of past logs whenever restarted.  This will help debug any issues that occur.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+•	Weekly status meeting.
+•	Filled out and submitted DEPA form.
+•	Weekly status report.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 8.0 hrs
+
+•	MLK day was Monday, January 16th.
