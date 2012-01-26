@@ -1,3 +1,4 @@
+# 1.01.17 (60662) Jan 26, 2012
 Removed 2nd tab versions for a testable/publishable version
 1/18/12 replace duplicate Teacher menu with MoleculeShapesTeacherMenu, a specialization of the phetcommon menu (so we don't have to address sim-sharing twice)
 Real/Model radio buttons horizontal on the dropdown tab
