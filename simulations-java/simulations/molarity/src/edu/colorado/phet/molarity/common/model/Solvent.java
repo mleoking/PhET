@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.common.model;
+package edu.colorado.phet.molarity.common.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.dilutions.MolarityResources.Symbols;
+import edu.colorado.phet.molarity.MolarityResources.Symbols;
 
 /**
  * Model of a solvent, an immutable data structure.

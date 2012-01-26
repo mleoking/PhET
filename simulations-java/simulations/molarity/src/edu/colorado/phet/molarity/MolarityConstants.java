@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions;
+package edu.colorado.phet.molarity;
 
 import java.awt.Font;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.dilutions.common.util.ZeroIntegerDoubleFormat;
+import edu.colorado.phet.molarity.common.util.ZeroIntegerDoubleFormat;
 
 /**
  * Constants used throughout this sim.

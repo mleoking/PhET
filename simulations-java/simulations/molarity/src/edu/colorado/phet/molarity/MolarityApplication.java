@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions;
+package edu.colorado.phet.molarity;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.dilutions.molarity.MolarityModule;
+import edu.colorado.phet.molarity.molarity.MolarityModule;
 
 /**
  * Main class for the "Molarity" simulation.

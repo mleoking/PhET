@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions;
+package edu.colorado.phet.molarity;
 
 import java.awt.Image;
 

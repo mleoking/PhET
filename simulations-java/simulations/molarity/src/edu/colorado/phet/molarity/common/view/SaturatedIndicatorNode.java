@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.common.view;
+package edu.colorado.phet.molarity.common.view;
 
 import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
@@ -7,8 +7,8 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.dilutions.MolarityResources.Strings;
-import edu.colorado.phet.dilutions.common.model.Solution;
+import edu.colorado.phet.molarity.MolarityResources.Strings;
+import edu.colorado.phet.molarity.common.model.Solution;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;

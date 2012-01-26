@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.dilutions.molarity;
+package edu.colorado.phet.molarity.molarity;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,18 +12,18 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.dilutions.MolarityResources.Strings;
-import edu.colorado.phet.dilutions.MolarityResources.Symbols;
-import edu.colorado.phet.dilutions.MolaritySimSharing.UserComponents;
-import edu.colorado.phet.dilutions.common.control.ShowValuesNode;
-import edu.colorado.phet.dilutions.common.control.SoluteControlNode;
-import edu.colorado.phet.dilutions.common.control.VerticalSliderNode;
-import edu.colorado.phet.dilutions.common.view.AbstractMolarityCanvas;
-import edu.colorado.phet.dilutions.common.view.BeakerNode;
-import edu.colorado.phet.dilutions.common.view.ConcentrationDisplayNode;
-import edu.colorado.phet.dilutions.common.view.PrecipitateNode;
-import edu.colorado.phet.dilutions.common.view.SaturatedIndicatorNode;
-import edu.colorado.phet.dilutions.common.view.SolutionNode;
+import edu.colorado.phet.molarity.MolarityResources.Strings;
+import edu.colorado.phet.molarity.MolarityResources.Symbols;
+import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
+import edu.colorado.phet.molarity.common.control.ShowValuesNode;
+import edu.colorado.phet.molarity.common.control.SoluteControlNode;
+import edu.colorado.phet.molarity.common.control.VerticalSliderNode;
+import edu.colorado.phet.molarity.common.view.AbstractMolarityCanvas;
+import edu.colorado.phet.molarity.common.view.BeakerNode;
+import edu.colorado.phet.molarity.common.view.ConcentrationDisplayNode;
+import edu.colorado.phet.molarity.common.view.PrecipitateNode;
+import edu.colorado.phet.molarity.common.view.SaturatedIndicatorNode;
+import edu.colorado.phet.molarity.common.view.SolutionNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
