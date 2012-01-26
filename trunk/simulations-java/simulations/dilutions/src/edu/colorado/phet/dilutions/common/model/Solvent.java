@@ -3,7 +3,7 @@ package edu.colorado.phet.dilutions.common.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.dilutions.DilutionsResources.Symbols;
+import edu.colorado.phet.dilutions.MolarityResources.Symbols;
 
 /**
  * Model of a solvent, an immutable data structure.

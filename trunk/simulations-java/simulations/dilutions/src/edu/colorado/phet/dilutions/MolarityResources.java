@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DilutionsResources {
+public class MolarityResources {
 
     public static final String PROJECT_NAME = "dilutions";
     public static final String MOLARITY_FLAVOR = "molarity";

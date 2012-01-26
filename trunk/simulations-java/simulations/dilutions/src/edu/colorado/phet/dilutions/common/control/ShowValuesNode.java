@@ -4,8 +4,8 @@ package edu.colorado.phet.dilutions.common.control;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
+import edu.colorado.phet.dilutions.MolarityResources.Strings;
+import edu.colorado.phet.dilutions.MolaritySimSharing.UserComponents;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

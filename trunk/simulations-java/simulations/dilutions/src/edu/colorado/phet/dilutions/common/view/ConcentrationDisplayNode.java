@@ -17,9 +17,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
-import edu.colorado.phet.dilutions.DilutionsConstants;
-import edu.colorado.phet.dilutions.DilutionsResources.Strings;
-import edu.colorado.phet.dilutions.DilutionsSimSharing.UserComponents;
+import edu.colorado.phet.dilutions.MolarityConstants;
+import edu.colorado.phet.dilutions.MolarityResources.Strings;
+import edu.colorado.phet.dilutions.MolaritySimSharing.UserComponents;
 import edu.colorado.phet.dilutions.common.model.Solution;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -44,12 +44,12 @@ public class ConcentrationDisplayNode extends PNode {
                                      final DoubleRange concentrationRange, String concentrationUnits,
                                      Property<Boolean> valuesVisible ) {
         // nodes
-        final PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_TITLE_FONT );
-        final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, DilutionsConstants.SLIDER_SUBTITLE_FONT );
+        final PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.SLIDER_TITLE_FONT );
+        final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SLIDER_SUBTITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), concentrationUnits, valuesVisible );
-        final PNode maxNode = new DualLabelNode( DilutionsConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
-        final PNode minNode = new DualLabelNode( DilutionsConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
+        final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
+        final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -154,7 +154,7 @@ public class ConcentrationDisplayNode extends PNode {
             this.function = new LinearFunction( range.getMin(), range.getMax(), barSize.getHeight(), 0 );
             this.arrowNode = new PNode();
             this.valueNode = new PText() {{
-                setFont( DilutionsConstants.SLIDER_VALUE_FONT );
+                setFont( MolarityConstants.SLIDER_VALUE_FONT );
             }};
             addChild( valueNode );
             setValue( value );
@@ -183,7 +183,7 @@ public class ConcentrationDisplayNode extends PNode {
             addChild( arrowNode );
 
             // update the value
-            String valueString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, DilutionsConstants.VALUE_FORMAT.format( value ), units );
+            String valueString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, MolarityConstants.VALUE_FORMAT.format( value ), units );
             valueNode.setText( valueString );
             valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
                                  arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );

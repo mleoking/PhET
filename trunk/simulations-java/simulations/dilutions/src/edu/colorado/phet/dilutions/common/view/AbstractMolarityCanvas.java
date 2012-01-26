@@ -17,9 +17,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AbstractDilutionsCanvas extends PhetPCanvas implements Resettable {
+public class AbstractMolarityCanvas extends PhetPCanvas implements Resettable {
 
-    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( AbstractDilutionsCanvas.class.getCanonicalName() );
+    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( AbstractMolarityCanvas.class.getCanonicalName() );
 
     private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private static final Color CANVAS_COLOR = Color.WHITE;
@@ -27,7 +27,7 @@ public class AbstractDilutionsCanvas extends PhetPCanvas implements Resettable {
 
     private final PNode rootNode;
 
-    protected AbstractDilutionsCanvas() {
+    protected AbstractMolarityCanvas() {
 
         setBackground( CANVAS_COLOR );
 

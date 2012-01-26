@@ -23,8 +23,8 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.dilutions.DilutionsConstants;
-import edu.colorado.phet.dilutions.DilutionsResources.Strings;
+import edu.colorado.phet.dilutions.MolarityConstants;
+import edu.colorado.phet.dilutions.MolarityResources.Strings;
 import edu.colorado.phet.dilutions.common.view.DualLabelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -38,7 +38,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DilutionsSliderNode extends PhetPNode {
+public class MolaritySliderNode extends PhetPNode {
 
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
 
@@ -47,20 +47,20 @@ public class DilutionsSliderNode extends PhetPNode {
     private final ThumbNode thumbNode;
 
     // Slider with a default track fill and background color.
-    public DilutionsSliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel, final PDimension trackSize,
-                                final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
+    public MolaritySliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel, final PDimension trackSize,
+                               final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
         this( userComponent, title, subtitle, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range, units, valuesVisible );
     }
 
-    public DilutionsSliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel,
-                                final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
-                                final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
+    public MolaritySliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel,
+                               final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
+                               final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
 
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // title & subtitle
-        PNode titleNode = new HTMLNode( title, Color.BLACK, DilutionsConstants.SLIDER_TITLE_FONT );
-        PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, DilutionsConstants.SLIDER_SUBTITLE_FONT );
+        PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.SLIDER_TITLE_FONT );
+        PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SLIDER_SUBTITLE_FONT );
 
         // track that the thumb moves in, origin at upper left
         trackNode = new PPath() {{
@@ -82,8 +82,8 @@ public class DilutionsSliderNode extends PhetPNode {
         thumbNode = new ThumbNode( userComponent, THUMB_SIZE, this, trackNode, range, modelValue, units, valuesVisible );
 
         // min and max labels
-        final PNode minNode = new DualLabelNode( DilutionsConstants.RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
-        final PNode maxNode = new DualLabelNode( DilutionsConstants.RANGE_FORMAT.format( range.getMax() ), maxLabel, valuesVisible, DilutionsConstants.SLIDER_RANGE_FONT );
+        final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
+        final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( range.getMax() ), maxLabel, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
 
         // rendering order
         {
@@ -156,7 +156,7 @@ public class DilutionsSliderNode extends PhetPNode {
             }};
 
             this.valueNode = new PText( "?" ) {{
-                setFont( DilutionsConstants.SLIDER_VALUE_FONT );
+                setFont( MolarityConstants.SLIDER_VALUE_FONT );
             }};
             valueNode.setOffset( bodyNode.getFullBoundsReference().getMaxX() + 5,
                                  bodyNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
@@ -174,7 +174,7 @@ public class DilutionsSliderNode extends PhetPNode {
 
             modelValue.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double value ) {
-                    valueNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, DilutionsConstants.VALUE_FORMAT.format( value ), units ) );
+                    valueNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, MolarityConstants.VALUE_FORMAT.format( value ), units ) );
                 }
             } );
 
@@ -194,7 +194,7 @@ public class DilutionsSliderNode extends PhetPNode {
             super( userComponent, Orientation.VERTICAL, relativeNode, trackNode, thumbNode, range,
                    new VoidFunction1<Double>() {
                        public void apply( Double value ) {
-                           modelValue.set( new PrecisionDecimal( value, DilutionsConstants.VALUE_DECIMAL_PLACES ).getValue() ); // limit precision so that student calculations are correct
+                           modelValue.set( new PrecisionDecimal( value, MolarityConstants.VALUE_DECIMAL_PLACES ).getValue() ); // limit precision so that student calculations are correct
                        }
                    } );
             this.modelValue = modelValue;

@@ -22,6 +22,6 @@ public class MolarityApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, DilutionsResources.PROJECT_NAME, DilutionsResources.MOLARITY_FLAVOR, MolarityApplication.class );
+        new PhetApplicationLauncher().launchSim( args, MolarityResources.PROJECT_NAME, MolarityResources.MOLARITY_FLAVOR, MolarityApplication.class );
     }
 }
