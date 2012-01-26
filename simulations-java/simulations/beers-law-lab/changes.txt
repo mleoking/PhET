@@ -1,3 +1,5 @@
+1/26/12 make concentration meter expand to fit title
+1/26/12 create TiledBackgroundNode, takes 3 images and tiles them to fit a specified width
 1/25/12 separate strings for Concentration tab and meter title
 1/25/12 add strings for "Beer's Law" tab
 1/25/12 add faint stroke to all fluids (solution, faucets, stock)
