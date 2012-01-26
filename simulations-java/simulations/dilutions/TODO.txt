@@ -2,7 +2,6 @@ TODO list for dilutions
 
 HIGH
 - rename "dilutions" project to "molarity"?
-- delete code that is specific to "Dilution" tab? (DilutionCanvas, DilutionModel, DilutionModule, FancyEqualsNode)
 
 MEDIUM
 
