@@ -1,0 +1,51 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Jan 19-25, 2011
+
+Molarity
+- preparing this sim for interviews
+- implemented all change requests
+- published 0.00.15
+- open issue: what to show when "Show values" is selected?
+- open issue: rename "dilutions" project to "molarity"
+
+Beer's Law Lab
+- made a couple of minor change requests
+
+Balancing Act
+- collaborated with JB on adding data collection feature
+
+Faraday's Electromagnetic Lab
+- discussed data analysis with Ariel
+
+Data Collection
+- #3222, added feature to ButtonNode (Piccolo button) class hierarchy
+- #3223, identified problem with how data collection is added to Swing components
+- #3224, turned off MongoDB loggers, so that PhET loggers will function
+- #3225, collaborated with JB on ParameterSet.add issue
+- #3226, added feature to SliderNode (Piccolo slider) class hierarchy
+- #3220, consulted with JB on adding feature to Kits
+- #3228, reported hard failure when using MongoDB with invalid IP address
+- #3229, bugs related to "mountain time" and "my ip address"
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Beer's Law Lab: design & implementation
+- Molarity: publish 1.00
+- Reactants, Products and Leftovers: add data collection feature
+- Data Collection: feedback and help with changes
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- Feb 24-26 (not working)
+
+--
