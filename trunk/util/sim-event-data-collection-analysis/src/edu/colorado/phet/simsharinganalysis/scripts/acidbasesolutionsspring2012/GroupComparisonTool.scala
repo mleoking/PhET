@@ -63,9 +63,16 @@ object GroupComparisonTool extends App {
       for ( group <- groups ) {
         addToPlot(group, _.timeSimOpenMin, "time open")
         addToPlot(group, _.firstClickToLastClick, "first to last click")
-        addToPlot(group, s => s.solutionTable.getOrElse(Globals.weakAcid, 0L) / 60.0 / 1000.0 + s.solutionTable.getOrElse(Globals.strongAcid, 0L) / 60.0 / 1000.0, "time on acid")
-        addToPlot(group, s => s.solutionTable.getOrElse(Globals.weakBase, 0L) / 60.0 / 1000.0 + s.solutionTable.getOrElse(Globals.strongBase, 0L) / 60.0 / 1000.0, "time on base")
-        addToPlot(group, s => s.solutionTable.getOrElse(Globals.water, 0L) / 60.0 / 1000.0, "time on water")
+
+        //Time on solutions
+        addToPlot(group, s => s.solutionTable.getOrElse(Globals.weakAcid, 0L) / 60.0 / 1000.0 + s.solutionTable.getOrElse(Globals.strongAcid, 0L) / 60.0 / 1000.0, "solution: acid")
+        addToPlot(group, s => s.solutionTable.getOrElse(Globals.weakBase, 0L) / 60.0 / 1000.0 + s.solutionTable.getOrElse(Globals.strongBase, 0L) / 60.0 / 1000.0, "solution: base")
+        addToPlot(group, s => s.solutionTable.getOrElse(Globals.water, 0L) / 60.0 / 1000.0, "solution: water")
+
+        //Time on views
+        addToPlot(group, _.viewTable.getOrElse(Globals.molecules, 0L) / 60.0 / 1000.0, "view: molecules")
+        addToPlot(group, _.viewTable.getOrElse(Globals.barGraph, 0L) / 60.0 / 1000.0, "view: bar graph")
+        addToPlot(group, _.viewTable.getOrElse(Globals.liquid, 0L) / 60.0 / 1000.0, "view: liquid")
       }
     })
 
