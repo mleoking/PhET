@@ -1,7 +1,6 @@
 TODO list for dilutions
 
 HIGH
-- rename "dilutions" project to "molarity"
 
 MEDIUM
 - screenshot
