@@ -29,8 +29,8 @@ public class MultipleCellsModel implements Resettable {
     public static final int MAX_CELLS = 90;
 
     // Seeds for the random number generators.  Values chosen empirically.
-    private static final long POSITION_RANDOMIZER_SEED = 9;
-    private static final long SIZE_AND_ORIENTATION_RANDOMIZER_SEED = 1;
+    private static final long POSITION_RANDOMIZER_SEED = 20000;
+    private static final long SIZE_AND_ORIENTATION_RANDOMIZER_SEED = 5;
 
     // Threshold used to prevent floating point errors from not correctly
     // identifying overlap.
