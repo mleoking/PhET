@@ -8,12 +8,12 @@ DESIGN
 - should shaker particles be removed when the shaker is made invisible?
 
 HIGH
-- implement ShakerParticle.stepInTime and ShakerParticles.stepInTime
+- implement ShakerParticle.stepInTime and ShakerParticles.stepInTime (see SR notes below)
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute
 
 MEDIUM
-- Beer's Law tab
+- Beer's Law tab (see JC notes below)
 - make meter cable more curvy (ala Bending Light)
 
 LOW
