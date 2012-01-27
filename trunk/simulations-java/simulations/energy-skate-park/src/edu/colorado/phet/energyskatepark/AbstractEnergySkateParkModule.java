@@ -164,6 +164,7 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
     private void setDefaults() {
         barChartVisible.reset();
         normalSpeed.reset();
+        speedVisible.reset();
         setEnergyTimePlotVisible( DEFAULT_PLOT_VISIBLE );
         setEnergyPositionPlotVisible( DEFAULT_ENERGY_POSITION_PLOT_VISIBLE );
     }
@@ -182,6 +183,7 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
 
     @Override public void reset() {
         super.reset();
+        speedVisible.reset();
         energyModel.reset();
         energySkateParkSimulationPanel.reset();
         timeSeriesModel.reset();
