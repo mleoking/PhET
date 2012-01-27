@@ -1,3 +1,4 @@
+# 00.00.25 (60704) Jan 26, 2012
 Changed group analysis tool file chooser to select one folder only
 Make another histogram that uses the first click as time-zero instead of when the sim is open
 For the time chart, add time on views: molecules & bar graph
