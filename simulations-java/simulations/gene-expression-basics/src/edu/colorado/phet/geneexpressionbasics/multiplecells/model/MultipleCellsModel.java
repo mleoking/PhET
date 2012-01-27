@@ -337,4 +337,39 @@ public class MultipleCellsModel implements Resettable {
             cell.setRNARibosomeAssociationRate( newRate );
         }
     }
+
+    /**
+     * Determine whether or not two rectangles that are positioned at arbitrary
+     * rotations overlap.  The built-in facilities in Swing and Piccolo are
+     * insufficient for this since they do not handle rotation.
+     * <p/>
+     * This method implements an algorithm called a "separating axis test".
+     * Search the internet on this if you need to know more.
+     *
+     * @param r1 - Set of vertices for rectangle 1
+     * @param r2 - Set of vertices for rectangle 2
+     * @return true if the rectangles overlap, false if not.
+     */
+    private static boolean rectanglesOverlap( List<Point2D> r1, List<Point2D> r2 ) {
+        assert r1.size() == 4 && r2.size() == 4; // Parameter checking.
+
+
+        return false;
+    }
+
+    public static void main( String[] arges ) {
+        List<Point2D> r1 = new ArrayList<Point2D>() {{
+            add( new Point2D.Double( 1, 1 ) );
+            add( new Point2D.Double( 4, 1 ) );
+            add( new Point2D.Double( 4, 3 ) );
+            add( new Point2D.Double( 1, 4 ) );
+        }};
+        List<Point2D> r2 = new ArrayList<Point2D>() {{
+            add( new Point2D.Double( 1, 1 ) );
+            add( new Point2D.Double( 4, 1 ) );
+            add( new Point2D.Double( 4, 3 ) );
+            add( new Point2D.Double( 1, 4 ) );
+        }};
+        System.out.println( "Overlap = " + rectanglesOverlap( r1, r2 ) );
+    }
 }
