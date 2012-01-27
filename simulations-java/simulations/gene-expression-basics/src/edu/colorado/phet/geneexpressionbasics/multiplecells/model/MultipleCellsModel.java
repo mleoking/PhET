@@ -1,17 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -86,8 +83,6 @@ public class MultipleCellsModel implements Resettable {
      * Constructor.
      */
     public MultipleCellsModel() {
-        initializeCellLocations();
-
         // Hook up the clock.
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
@@ -116,8 +111,8 @@ public class MultipleCellsModel implements Resettable {
             }
             cellList.add( newCell );
         }
-        System.out.println( "Duration of creation and placing: " + ( ( System.nanoTime() - entryTime ) / 1E9 ) );
 
+        System.out.println( "Duration of creation and placing: " + ( ( System.nanoTime() - entryTime ) / 1E9 ) );
 
         // Hook up the property that controls the number of visible cells.
         numberOfVisibleCells.addObserver( new VoidFunction1<Integer>() {
@@ -340,43 +335,6 @@ public class MultipleCellsModel implements Resettable {
     public void setRNARibosomeAssociationRate( double newRate ) {
         for ( Cell cell : visibleCellList ) {
             cell.setRNARibosomeAssociationRate( newRate );
-        }
-    }
-
-    private void initializeCellLocations() {
-        assert cellLocations.size() == 0; // Should only be called once.
-
-        // Transform for converting from unit-circle based locations to
-        // locations that will work for the elliptical cells.
-        AffineTransform transform = AffineTransform.getScaleInstance( Cell.DEFAULT_CELL_SIZE.getWidth(), Cell.DEFAULT_CELL_SIZE.getHeight() );
-
-        // Set the first location to be at the origin.
-        cellLocations.add( new Point2D.Double( 0, 0 ) );
-
-        // Create the list of potential locations for cells.  This algorithm
-        // is based on a unit circle, and the resulting positions are
-        // transformed based on the dimensions of the cells.
-        int layer = 1;
-        int placedCells = 1;
-        while ( placedCells < MAX_CELLS ) {
-            List<Point2D> preTransformLocations = new ArrayList<Point2D>();
-            int numCellsOnThisLayer = (int) Math.floor( layer * 2 * Math.PI );
-            double angleIncrement = 2 * Math.PI / numCellsOnThisLayer;
-            Vector2D nextLocation = new Vector2D();
-            nextLocation.setMagnitudeAndAngle( layer, positionRandomizer.nextDouble() * 2 * Math.PI );
-            for ( int i = 0; i < numCellsOnThisLayer && placedCells < MAX_CELLS; i++ ) {
-                preTransformLocations.add( nextLocation.toPoint2D() );
-                nextLocation.rotate( angleIncrement );
-                placedCells++;
-            }
-            // Shuffle the locations.
-            Collections.shuffle( preTransformLocations );
-            // Transform the locations and add them to the final list.
-            for ( Point2D preTransformLocation : preTransformLocations ) {
-                cellLocations.add( transform.transform( preTransformLocation, null ) );
-            }
-            // Next layer.
-            layer++;
         }
     }
 }
