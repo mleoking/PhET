@@ -1,3 +1,4 @@
+Fixed: Speed readout doesn't reset on "reset all"
 # 2.08.23 (60707) Jan 27, 2012
 Fixed: Track button screen shots have track overlapping the control panel
 # 2.08.22 (60675) Jan 26, 2012
