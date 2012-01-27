@@ -61,8 +61,8 @@ public class MongoLog implements Log {
     public MongoLog( String machineID, String sessionID ) throws UnknownHostException {
         mongo = new Mongo( HOST_IP_ADDRESS, PORT );
 
-        //one database per machine
-        DB database = mongo.getDB( machineID );
+        //one database to store all the sessions, otherwise disk space fills up too fast
+        DB database = mongo.getDB( "sessions" );
 
         //TODO: Authentication
         //                database.authenticate();
