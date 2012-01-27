@@ -60,7 +60,12 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
   //Given the current state and an entry, compute the next state
   def nextState(state: SimState, e: Entry) = {
-    if ( e.enabled == false ) {
+
+    //When the sim gets reset, go back to the first state
+    if ( e.messageType == "system" && e.component == "application" && e.action == "exited" ) {
+      SimState()
+    }
+    else if ( e.enabled == false ) {
       state
     }
     else if ( e.componentType == "tab" ) {
