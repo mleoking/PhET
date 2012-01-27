@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelElement;
@@ -107,6 +108,13 @@ public class Cell extends ShapeChangingModelElement {
 
     public List<Point2D> getEnclosingRectVertices() {
         return enclosingRectVertices;
+    }
+
+    @Override public void translate( ImmutableVector2D translationVector ) {
+        super.translate( translationVector );
+        for ( Point2D enclosingRectVertex : enclosingRectVertices ) {
+            enclosingRectVertex.setLocation( enclosingRectVertex.getX() + translationVector.getX(), enclosingRectVertex.getY() + translationVector.getY() );
+        }
     }
 
     //-------------------------------------------------------------------------

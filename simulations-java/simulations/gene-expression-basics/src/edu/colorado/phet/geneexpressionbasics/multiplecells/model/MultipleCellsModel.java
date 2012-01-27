@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
-import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -32,6 +32,10 @@ public class MultipleCellsModel implements Resettable {
     private static final long POSITION_RANDOMIZER_SEED = 9;
     private static final long SIZE_AND_ORIENTATION_RANDOMIZER_SEED = 1;
 
+    // Threshold used to prevent floating point errors from not correctly
+    // identifying overlap.
+    private static double FLOATING_POINT_THRESHOLD = 1E-10;
+
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
@@ -46,10 +50,6 @@ public class MultipleCellsModel implements Resettable {
     // are being used in the average protein level calculation.  It is
     // observable so that the view can track them coming and going.
     public final ObservableList<Cell> visibleCellList = new ObservableList<Cell>();
-
-    // Locations where cells are placed.  This is initialized at construction
-    // so that placements are consistent as cells come and go.
-    public final List<Point2D> cellLocations = new ArrayList<Point2D>();
 
     // Property that controls the number of cells that are visible and that are
     // being included in the calculation of the average protein level.  This is
@@ -92,7 +92,7 @@ public class MultipleCellsModel implements Resettable {
 
         // Add and position the cells.
         long entryTime = System.nanoTime();
-        System.out.println( "Sytem time before adding and positioning cells: " + entryTime );
+        System.out.println( "System time before adding and positioning cells: " + entryTime );
         // Add the max number of cells to the list of invisible cells.
         while ( cellList.size() < MAX_CELLS ) {
             Cell newCell;
@@ -227,25 +227,17 @@ public class MultipleCellsModel implements Resettable {
     // Find a location for the given cell that doesn't overlap with any of the
     // other cells on the list.
     private void placeCellInOpenLocation( Cell cell, List<Cell> cellList ) {
-        // Create a set of areas for the existing cells.  This is done all at
-        // once rather than each time they are needed for the sake of efficiency.
-        List<Area> existingCellAreas = new ArrayList<Area>( cellList.size() );
-        for ( Cell existingCell : cellList ) {
-            existingCellAreas.add( new Area( existingCell.getShape() ) );
-        }
         // Loop, randomly generating positions of increasing distance from the
         // center, until the cell is positioned in a place that does not
         // overlap with the existing cells.
         for ( int i = 0; i < (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
-            double radius = ( i + 1 ) * ( Cell.DEFAULT_CELL_SIZE.getWidth() * 1.5 ) * ( positionRandomizer.nextDouble() / 2 + .75 );
+            double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth() * ( positionRandomizer.nextDouble() / 2 + .75 );
             for ( int j = 0; j < radius * Math.PI / ( Cell.DEFAULT_CELL_SIZE.getHeight() * 2 ); j++ ) {
                 double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
                 cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
                 boolean overlapDetected = false;
-                for ( Area existingCellArea : existingCellAreas ) {
-                    Area cellArea = new Area( cell.getShape() );
-                    cellArea.intersect( existingCellArea );
-                    if ( !cellArea.getBounds2D().isEmpty() ) {
+                for ( Cell existingCell : cellList ) {
+                    if ( rectanglesOverlap( cell.getEnclosingRectVertices(), existingCell.getEnclosingRectVertices() ) ) {
                         overlapDetected = true;
                         break;
                     }
@@ -351,25 +343,108 @@ public class MultipleCellsModel implements Resettable {
      * @return true if the rectangles overlap, false if not.
      */
     private static boolean rectanglesOverlap( List<Point2D> r1, List<Point2D> r2 ) {
-        assert r1.size() == 4 && r2.size() == 4; // Parameter checking.
 
+        // Parameter checking.
+        if ( r1.size() != 4 || r2.size() != 4 ) {
+            throw new IllegalArgumentException( "Rectangles must have exactly four vertices." );
+        }
 
-        return false;
+        boolean separatingEdgeFound = false;
+
+        for ( int i = 0; i < 4; i++ ) {
+            Vector2D edge = new Vector2D( r1.get( i ).getX() - r1.get( ( i + 1 ) % 4 ).getX(),
+                                          r1.get( i ).getY() - r1.get( ( i + 1 ) % 4 ).getY() );
+            // Rotate the vector by 90 degrees.
+            edge.setComponents( -edge.getY(), edge.getX() );
+
+            double r2AccumulatedSideSigns = 0;
+            for ( int j = 0; j < 4; j++ ) {
+                r2AccumulatedSideSigns += sideSign( edge, r1.get( i ), r2.get( j ) );
+            }
+
+            if ( Math.abs( r2AccumulatedSideSigns ) == 4 ) {
+                // All points of r2 are on one side of this edge.  Are all
+                // points of r1 on the other side?
+                double r1AccumulatedSideSigns = 0;
+                for ( int j = 0; j < 4; j++ ) {
+                    r1AccumulatedSideSigns += sideSign( edge, r1.get( i ), r1.get( j ) );
+                }
+
+                // This should always come out to have an absolute value of
+                // two.  I think.
+                assert Math.abs( r1AccumulatedSideSigns ) == 2;
+                if ( Math.signum( r2AccumulatedSideSigns ) == -Math.signum( r1AccumulatedSideSigns ) ) {
+                    // All points of r1 are on the opposite side of the edge.
+                    // A separating edge has been found.
+                    separatingEdgeFound = true;
+                    break;
+                }
+            }
+        }
+
+        return !separatingEdgeFound;
     }
 
-    public static void main( String[] arges ) {
-        List<Point2D> r1 = new ArrayList<Point2D>() {{
+    private static double sideSign( Vector2D edge, Point2D pointOnEdge, Point2D testPoint ) {
+        double value = edge.getX() * ( testPoint.getX() - pointOnEdge.getX() ) + edge.getY() * ( testPoint.getY() - pointOnEdge.getY() );
+        if ( value < FLOATING_POINT_THRESHOLD ) {
+            value = 0;
+        }
+        return Math.signum( edge.getX() * ( testPoint.getX() - pointOnEdge.getX() ) + edge.getY() * ( testPoint.getY() - pointOnEdge.getY() ) );
+    }
+
+    public static void main( String[] args ) {
+        List<Point2D> referenceRect = new ArrayList<Point2D>() {{
             add( new Point2D.Double( 1, 1 ) );
             add( new Point2D.Double( 4, 1 ) );
             add( new Point2D.Double( 4, 3 ) );
-            add( new Point2D.Double( 1, 4 ) );
+            add( new Point2D.Double( 1, 3 ) );
         }};
-        List<Point2D> r2 = new ArrayList<Point2D>() {{
-            add( new Point2D.Double( 1, 1 ) );
-            add( new Point2D.Double( 4, 1 ) );
-            add( new Point2D.Double( 4, 3 ) );
+
+        // Same rect.
+        List<Point2D> identicalRect = new ArrayList<Point2D>( referenceRect );
+
+        // Non overlapping rect.
+        List<Point2D> nonOverlapNonRotatedRect = new ArrayList<Point2D>() {{
             add( new Point2D.Double( 1, 4 ) );
+            add( new Point2D.Double( 4, 4 ) );
+            add( new Point2D.Double( 4, 7 ) );
+            add( new Point2D.Double( 1, 7 ) );
         }};
-        System.out.println( "Overlap = " + rectanglesOverlap( r1, r2 ) );
+
+        List<Point2D> slightlyOverlappingRect = new ArrayList<Point2D>() {{
+            add( new Point2D.Double( 3, 2 ) );
+            add( new Point2D.Double( 7, 2 ) );
+            add( new Point2D.Double( 7, 9 ) );
+            add( new Point2D.Double( 3, 9 ) );
+        }};
+
+        List<Point2D> nonOverlappingNonRotatedNegativeXRect = new ArrayList<Point2D>() {{
+            add( new Point2D.Double( -4, 1 ) );
+            add( new Point2D.Double( -1, 1 ) );
+            add( new Point2D.Double( -1, 3 ) );
+            add( new Point2D.Double( -4, 3 ) );
+        }};
+
+        List<Point2D> nonOverlappingRotatedRect = new ArrayList<Point2D>() {{
+            add( new Point2D.Double( 2, -3 ) );
+            add( new Point2D.Double( 3, -4 ) );
+            add( new Point2D.Double( 5, -2 ) );
+            add( new Point2D.Double( 4, -1 ) );
+        }};
+
+        List<Point2D> overlappingRotatedRect = new ArrayList<Point2D>() {{
+            add( new Point2D.Double( 1, 0 ) );
+            add( new Point2D.Double( 2, -1 ) );
+            add( new Point2D.Double( 6, 3 ) );
+            add( new Point2D.Double( 5, 4 ) );
+        }};
+
+        System.out.println( "identicalRect overlap = " + rectanglesOverlap( referenceRect, identicalRect ) );
+        System.out.println( "nonOverlapNonRotatedRect overlap = " + rectanglesOverlap( referenceRect, nonOverlapNonRotatedRect ) );
+        System.out.println( "slightlyOverlappingRect overlap = " + rectanglesOverlap( referenceRect, slightlyOverlappingRect ) );
+        System.out.println( "nonOverlappingNonRotatedNegativeXRect overlap = " + rectanglesOverlap( referenceRect, nonOverlappingNonRotatedNegativeXRect ) );
+        System.out.println( "nonOverlappingRotatedRect overlap = " + rectanglesOverlap( referenceRect, nonOverlappingRotatedRect ) );
+        System.out.println( "overlappingRotatedRect overlap = " + rectanglesOverlap( referenceRect, overlappingRotatedRect ) );
     }
 }
