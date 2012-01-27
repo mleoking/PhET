@@ -70,7 +70,16 @@ object PlotStudentActivity extends App {
               }
 
             }))
-            add(new MyMenuItem("Compare Groups", () => GroupComparisonTool.main(Array())))
+            add(new MyMenuItem("Compare Groups", () => {
+              val chooser = new JFileChooser(lastUsedFile) {
+                setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+              }
+              val result = chooser.showOpenDialog(f)
+              result match {
+                case JFileChooser.APPROVE_OPTION => GroupComparisonTool.process(chooser.getSelectedFile)
+                case _ => {}
+              }
+            }))
             addSeparator()
             add(new MyMenuItem("Exit", () => System exit 0))
           })
