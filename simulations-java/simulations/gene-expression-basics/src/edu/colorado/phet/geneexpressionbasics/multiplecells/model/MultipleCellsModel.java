@@ -237,7 +237,7 @@ public class MultipleCellsModel implements Resettable {
         // center, until the cell is positioned in a place that does not
         // overlap with the existing cells.
         for ( int i = 0; i < (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
-            double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth() * ( positionRandomizer.nextDouble() / 2 + .75 );
+            double radius = ( i + 1 ) * ( Cell.DEFAULT_CELL_SIZE.getWidth() * 1.5 ) * ( positionRandomizer.nextDouble() / 2 + .75 );
             for ( int j = 0; j < radius * Math.PI / ( Cell.DEFAULT_CELL_SIZE.getHeight() * 2 ); j++ ) {
                 double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
                 cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
