@@ -7,9 +7,8 @@ import edu.colorado.phet.simsharinganalysis.phet
 /**
  * @author Sam Reid
  */
-
 object GenerateStateLog extends App {
-  val file = new File("C:\\Users\\Sam\\Desktop\\jc\\2012-01-19_20-21-13_icnq7vebsba23vvhlqetj16pjj_ielmnvgpu1gj103qgmfno54fc4.txt")
+  val file = new File("C:\\Users\\Sam\\Desktop\\phet\\abs-study-data\\kl-two-recitation\\s112_m1p_a2_c21_2012-01-23_13-03-21_a4so7c671m58qdoessfsvorbhc_nvg4m50m8oamregntjdcgmos5p.txt")
   val log = phet parse file
   val states = AcidBaseSolutionSpring2012AnalysisReport.getStates(log)
 

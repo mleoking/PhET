@@ -1,3 +1,4 @@
+Join the log files split across an exit + start
 # 00.00.25 (60704) Jan 26, 2012
 Changed group analysis tool file chooser to select one folder only
 Make another histogram that uses the first click as time-zero instead of when the sim is open
