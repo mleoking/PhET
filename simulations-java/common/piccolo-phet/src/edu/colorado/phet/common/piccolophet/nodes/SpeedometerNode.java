@@ -23,7 +23,7 @@ public class SpeedometerNode extends PNode {
     private final double anglePerTick = Math.PI * 2 / 4 / 8;
     private final int numTicks = ( 8 + 2 ) * 2;
 
-    public SpeedometerNode( String title, String zero, String fast, final double width, final ObservableProperty<Double> speed, final double maxSpeed ) {
+    public SpeedometerNode( String title, final double width, final ObservableProperty<Double> speed, final double maxSpeed ) {
         this.maxSpeed = maxSpeed;
         addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, width, width ), Color.white, new BasicStroke( 2 ), Color.gray ) );
         addChild( new PhetPText( title ) {{
