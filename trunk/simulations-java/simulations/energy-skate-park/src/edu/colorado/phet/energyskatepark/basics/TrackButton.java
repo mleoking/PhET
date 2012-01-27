@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -34,8 +35,8 @@ public class TrackButton extends PNode {
 
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
 
-    public TrackButton( final EnergySkateParkBasicsModule module, final String trackName, final double offset ) {
-        PImage image = new PImage( createIcon( module, trackName ) );
+    public TrackButton( final EnergySkateParkBasicsModule module, final String trackName, final ImmutableVector2D offset ) {
+        PImage image = new PImage( createIcon( module, trackName, offset ) );
         addChild( image );
         final PPath selectedIndicator = new PhetPPath( image.getFullBoundsReference().getBounds2D(), new BasicStroke( 3 ), INVISIBLE_COLOR );
         addChild( selectedIndicator );
@@ -59,10 +60,10 @@ public class TrackButton extends PNode {
     }
 
     //Creates an icon that displays the track.
-    private BufferedImage createIcon( EnergySkateParkBasicsModule module, String location ) {
+    private BufferedImage createIcon( EnergySkateParkBasicsModule module, String location, ImmutableVector2D offset ) {
 
         //To create the icon, load the module and render it to an image
-        module.loadTrack( location, 0.0 );
+        module.loadTrack( location, offset );
         BufferedImage icon = new BufferedImage( 1024, 768, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = icon.createGraphics();
         module.getEnergySkateParkSimulationPanel().setSize( 1024, 768 );
