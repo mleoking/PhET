@@ -1,3 +1,4 @@
+Don't show histograms for each user
 Join the log files split across an exit + start
 # 00.00.25 (60704) Jan 26, 2012
 Changed group analysis tool file chooser to select one folder only

@@ -3,7 +3,6 @@ package edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012
 // Copyright 2002-2011, University of Colorado
 
 import edu.colorado.phet.simsharinganalysis._
-import org.jfree.data.category.DefaultCategoryDataset
 import collection.mutable.ArrayBuffer
 import java.io.File
 import util.GrowingTable
@@ -106,7 +105,6 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     writeLine("found: " + logs.length + " logs")
     for ( log <- logs ) {
       writeSingleLogReport(log, writeLine)
-      showBarChart(log)
     }
   }
 
@@ -116,17 +114,6 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val entries: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
     val millisPerMinute = 60L * 1000L
     ( ( startTime(log) until log.endTime by millisPerMinute ).map(time => ( time - startTime(log) ) / millisPerMinute -> countEntriesWithinTime(entries, time, time + millisPerMinute)) ).toMap
-  }
-
-  def showBarChart(log: Log) {
-    //For entries that count as a "click" for ABS, make a List[Pair[Entry,Entry]]
-    val table = getClickTimeHistogram(log)
-
-    phet.barChart("Histogram of clicks", "number of clicks", new DefaultCategoryDataset {
-      for ( e <- table.keys.toList.sorted ) {
-        addValue(table(e).asInstanceOf[Number], "selected minute", e)
-      }
-    })
   }
 
   //TODO: Merge this with toReport below
