@@ -27,3 +27,23 @@ SIM-SHARING
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
 - TiledBackgroundNode to piccolo-phet
+
+
+From SR's 1/2/12 email about behavior of salt particles in SASS:
+class edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt extends MacroCrystal. That is a single crystal of salt that gets shaken out.
+MacroSaltShaker creates the salt and adds it to the container.
+Propagation and absorption in MacroModel.updateCrystals.
+Bouncing off of walls is in MacroCrystal.stepInTime (called by MacroModel.updateCrystals).
+I am not sure whether "abstraction + reuse" or "rewrite based on this example" will serve you better.
+
+From JC's 1/24/12 email:
+Tab 2 (see discussion in google doc for more details)
+- We had a big discussion about the concentration slider number read out, and decided that each solution will have it's range shown using prefixes
+  like milli and micro (symbols "m" and the greek letter mu, lowercase).  I will mock this up for future discussion.
+- For now, light absorption/transmittance meter will not be allowed in the container.
+- For now, do not include an absorbance curve for each solution, it gives away the answer.
+- Decided to hide the wavelength slider with a checkbox option (I will mock up).
+- We are considering adding a 3rd tab for custom solutions where students can change "a", but we haven't decided what exactly this tab would have.
+  Discussions thus far look like it would resemble the Beer's Law Lab tab, but have different parameters and fewer solutions (maybe only 1 solution
+  whose properties could be changed with controls.) But, before figuring out what that tab would do, we'd like to see what students do with the
+  Beer's Law Lab tab, and what they learn from it.
