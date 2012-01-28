@@ -68,6 +68,9 @@ public class SimSharingManager {
     // Singleton
     private static SimSharingManager INSTANCE = null;
 
+    //Part of the mongoDB password, see #3231
+    public static final String MONGO_PASSWORD = "8zkamme";
+
     public static final SimSharingManager getInstance() {
         assert ( INSTANCE != null ); // in case we forget to call init first
         return INSTANCE;
@@ -116,7 +119,7 @@ public class SimSharingManager {
             //If Mongo delivery is enabled, add that log (but if trying to connect to unknown host, print an exception and skip it)
             if ( getConfig( studyName ).isSendToServer() ) {
                 try {
-                    logs.add( new MongoLog( machineCookie, sessionId ) );
+                    logs.add( new MongoLog( sessionId ) );
                 }
                 catch ( UnknownHostException unknownHostException ) {
                     unknownHostException.printStackTrace();
