@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelElement;
 
@@ -143,26 +144,24 @@ public class DnaMolecule {
         boolean inFront = initialInFront;
         boolean curveUp = true;
         DnaStrand dnaStrand = new DnaStrand();
+        // Loop, creating the individual segments that collectively comprise
+        // the strand.
         while ( xOffset + LENGTH_PER_TWIST < length ) {
-            // Create the next segment.
-            DoubleGeneralPath segmentPath = new DoubleGeneralPath();
-            segmentPath.moveTo( xOffset, Y_POS );
-            if ( curveUp ) {
-                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, STRAND_DIAMETER / 2 * 2.0,
-                                    xOffset + LENGTH_PER_TWIST / 2, 0 );
+            List<Point2D> segmentPoints = new ArrayList<Point2D>();
+            for ( int i = 0; i < BASE_PAIRS_PER_TWIST; i++ ) {
+                segmentPoints.add( new Point2D.Double( xOffset + ( i * DISTANCE_BETWEEN_BASE_PAIRS ), getDnaStrandYPos( xOffset ) ) );
             }
-            else {
-                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, -STRAND_DIAMETER / 2 * 2.0,
-                                    xOffset + LENGTH_PER_TWIST / 2, 0 );
-            }
-
             // Add the strand segment to the end of the strand.
-            dnaStrand.add( new DnaStrandSegment( segmentPath.getGeneralPath(), inFront ) );
+            dnaStrand.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( segmentPoints ), inFront ) );
             curveUp = !curveUp;
             inFront = !inFront;
             xOffset += LENGTH_PER_TWIST / 2;
         }
         return dnaStrand;
+    }
+
+    private double getDnaStrandYPos( double distanceFromLeftEdge ) {
+        return Math.sin( distanceFromLeftEdge / LENGTH_PER_TWIST * Math.PI * 2 ) * STRAND_DIAMETER / 2;
     }
 
     // Generate a single DNA strand, i.e. one side of the double helix.
@@ -179,7 +178,7 @@ public class DnaMolecule {
                 segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, STRAND_DIAMETER / 2 * 2.0,
                                     xOffset + LENGTH_PER_TWIST / 2, 0 );
             }
-            else {
+            else { // curve down
                 segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, -STRAND_DIAMETER / 2 * 2.0,
                                     xOffset + LENGTH_PER_TWIST / 2, 0 );
             }
