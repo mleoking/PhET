@@ -2,7 +2,6 @@ package edu.colorado.phet.simsharinganalysis.monitor
 
 // Copyright 2002-2011, University of Colorado
 
-import collection.JavaConversions.asScalaBuffer
 import collection.JavaConversions.asScalaSet
 import swing._
 import java.awt.event.{MouseEvent, MouseAdapter, ActionListener, ActionEvent}
@@ -17,8 +16,10 @@ import org.bson.types.ObjectId
 import java.lang.{Thread, String}
 import edu.colorado.phet.simsharinganalysis.util.SimpleTextFrame
 import collection.mutable.ArrayBuffer
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys
 
 /**
+ * Shows a spreadsheet with data on the live mongodb server.
  * @author Sam Reid
  */
 object SimEventDataCollectionMonitor extends App {
@@ -114,10 +115,10 @@ class SimEventDataCollectionMonitor {
     //Convert view row to model row to account for sorting in the view: http://stackoverflow.com/questions/2075396/correctly-getting-data-from-a-sorted-jtable
     val viewSelectedRow = table.peer.getSelectedRow
     val row = table.peer.convertRowIndexToModel(viewSelectedRow)
-    val machineID = tableModel.getMachineID(row)
     val sessionID = tableModel.getSessionID(row)
 
-    val database = mongo.getDB(machineID)
+    //Assumes authentication already occurred
+    val database = mongo.getDB("sessions")
     val collection: DBCollection = database.getCollection(sessionID)
 
     val cursor = collection.find
@@ -168,42 +169,46 @@ class SimEventDataCollectionMonitor {
   }
 
   private def readDataFromMongoServer() {
-    for ( machineID: String <- asScalaBuffer(mongo.getDatabaseNames) if machineID != "admin" ) {
-      val database = mongo.getDB(machineID)
-      for ( session: String <- asScalaSet(database.getCollectionNames) if session != "system.indexes" ) {
-        val collection: DBCollection = database.getCollection(session)
+    val database = mongo.getDB("sessions")
 
-        val startMessage = collection.findOne()
-        val parameters: DBObject = startMessage.get("parameters").asInstanceOf[DBObject]
-        val getStudy = parameters.get("study")
-        val study = if ( getStudy == null ) "null" else getStudy.toString
+    //Connect in a read-only connection
+    val auth = database.authenticate("monitor", "phetservermonitor778734".toCharArray)
+    println("authenticated: " + auth)
+    for ( session: String <- asScalaSet(database.getCollectionNames) if session != "system.indexes" if session != "system.users" ) {
+      println("Looking at session: " + session)
+      val collection: DBCollection = database.getCollection(session)
 
-        val getUserID = parameters.get("id")
-        val userID = if ( getUserID == null ) "null" else getUserID.toString
-        val numberMessages = collection.getCount
-        val cursor = collection.find().skip(numberMessages.toInt - 1)
+      val startMessage = collection.findOne()
+      val parameters: DBObject = startMessage.get("parameters").asInstanceOf[DBObject]
+      val getStudy = parameters.get("study")
+      val getMachineID = parameters.get(ParameterKeys.machineCookie.toString)
+      val study = if ( getStudy == null ) "null" else getStudy.toString
 
-        //Read the server time of the last message instead of relying on unsynchronized client clocks
-        val endMessage = cursor.next()
-        val endMessageTime = new Date(endMessage.get("_id").asInstanceOf[ObjectId].getTime)
+      val getUserID = parameters.get("id")
+      val userID = if ( getUserID == null ) "null" else getUserID.toString
+      val numberMessages = collection.getCount
+      val cursor = collection.find().skip(numberMessages.toInt - 1)
 
-        val row = Array(machineID, session, study, userID, endMessageTime, numberMessages.asInstanceOf[Object])
+      //Read the server time of the last message instead of relying on unsynchronized client clocks
+      val endMessage = cursor.next()
+      val endMessageTime = new Date(endMessage.get("_id").asInstanceOf[ObjectId].getTime)
 
-        SwingUtilities.invokeLater(new Runnable {
-          def run() {
-            //If the tableModel already has this session, then update the updateable fields
-            if ( tableModel.containsSession(session) ) {
-              tableModel.setEventCount(session, collection.getCount)
-              tableModel.setLastEventReceived(session, endMessageTime)
-            }
+      val row = Array(getMachineID, session, study, userID, endMessageTime, numberMessages.asInstanceOf[Object])
 
-            //Otherwise add it as a new row
-            else {
-              tableModel.addRow(row)
-            }
+      SwingUtilities.invokeLater(new Runnable {
+        def run() {
+          //If the tableModel already has this session, then update the updateable fields
+          if ( tableModel.containsSession(session) ) {
+            tableModel.setEventCount(session, collection.getCount)
+            tableModel.setLastEventReceived(session, endMessageTime)
           }
-        })
-      }
+
+          //Otherwise add it as a new row
+          else {
+            tableModel.addRow(row)
+          }
+        }
+      })
     }
   }
 
