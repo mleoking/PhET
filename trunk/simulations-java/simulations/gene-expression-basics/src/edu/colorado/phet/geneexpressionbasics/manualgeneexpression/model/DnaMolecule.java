@@ -23,14 +23,16 @@ import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelEle
  * an important and central object in the model for this simulation.
  * <p/>
  * A big simplifying assumption that this class makes is that molecules that
- * attach to the DNA do so to individual base pairs.  In reality, it is sets of
- * base pairs (called "codons") that dictate where biomolecules attach. This was
- * unnecessarily complicated for the needs of this sim.
+ * attach to the DNA do so to individual base pairs.  In reality, biomolecules
+ * attach to SETS OF THREE base pairs (called "codons") that dictate where
+ * biomolecules attach. This was unnecessarily complicated for the needs of
+ * this sim.
  *
  * @author John Blanco
  */
 public class DnaMolecule {
 
+    // Constants the define the size and related attributes of the strand.
     public static final double STRAND_DIAMETER = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
     private static final int BASE_PAIRS_PER_TWIST = 10; // In picometers.
@@ -137,6 +139,34 @@ public class DnaMolecule {
 
     // Generate a single DNA strand, i.e. one side of the double helix.
     private DnaStrand generateDnaStrand( double initialOffset, double length, boolean initialInFront ) {
+        double xOffset = initialOffset;
+        boolean inFront = initialInFront;
+        boolean curveUp = true;
+        DnaStrand dnaStrand = new DnaStrand();
+        while ( xOffset + LENGTH_PER_TWIST < length ) {
+            // Create the next segment.
+            DoubleGeneralPath segmentPath = new DoubleGeneralPath();
+            segmentPath.moveTo( xOffset, Y_POS );
+            if ( curveUp ) {
+                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, STRAND_DIAMETER / 2 * 2.0,
+                                    xOffset + LENGTH_PER_TWIST / 2, 0 );
+            }
+            else {
+                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, -STRAND_DIAMETER / 2 * 2.0,
+                                    xOffset + LENGTH_PER_TWIST / 2, 0 );
+            }
+
+            // Add the strand segment to the end of the strand.
+            dnaStrand.add( new DnaStrandSegment( segmentPath.getGeneralPath(), inFront ) );
+            curveUp = !curveUp;
+            inFront = !inFront;
+            xOffset += LENGTH_PER_TWIST / 2;
+        }
+        return dnaStrand;
+    }
+
+    // Generate a single DNA strand, i.e. one side of the double helix.
+    private DnaStrand generateDnaStrandOld( double initialOffset, double length, boolean initialInFront ) {
         double xOffset = initialOffset;
         boolean inFront = initialInFront;
         boolean curveUp = true;
