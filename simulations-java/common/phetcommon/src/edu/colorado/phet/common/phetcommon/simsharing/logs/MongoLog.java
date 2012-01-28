@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 
 import edu.colorado.phet.common.phetcommon.simsharing.Log;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
@@ -58,14 +59,20 @@ public class MongoLog implements Log {
     private static final int MAX_FAILURES = 3;
     private int failureCount = 0;
 
-    public MongoLog( String machineID, String sessionID ) throws UnknownHostException {
+    //Part of the mongoDB password, see #3231
+    public static final String MER = "meR".toLowerCase();
+
+    public MongoLog( String sessionID ) throws UnknownHostException {
         mongo = new Mongo( HOST_IP_ADDRESS, PORT );
 
         //one database to store all the sessions, otherwise disk space fills up too fast
         DB database = mongo.getDB( "sessions" );
 
         //TODO: Authentication
-        //                database.authenticate();
+        boolean auth = database.authenticate( "phetsimclient", ( MER + SimSharingManager.MONGO_PASSWORD + "" + ( 2 * 2 * 2 ) + "ss0O88723otbubaoue" ).toCharArray() );
+        if ( !auth ) {
+            new RuntimeException( "Authentication failed" ).printStackTrace();
+        }
 
         //One collection per session, lets us easily iterate and add messages per session.
         collection = database.getCollection( sessionID );
