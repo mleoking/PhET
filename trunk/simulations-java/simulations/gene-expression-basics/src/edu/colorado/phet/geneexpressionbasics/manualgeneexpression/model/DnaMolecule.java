@@ -11,7 +11,6 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -47,7 +46,7 @@ public class DnaMolecule {
     private static final int NUMBER_OF_BASE_PAIRS = BASE_PAIRS_PER_TWIST * NUMBER_OF_TWISTS;
     public static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
     private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers.
-    private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;
+    private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;  // Make the strand start out of view to the left.
     public static final double Y_POS = 0;
 
     // Distance within which transcription factors may attach.
@@ -60,9 +59,18 @@ public class DnaMolecule {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private DnaStrand strand1;
-    private DnaStrand strand2;
+    // Points that, when connected, define the shape of the DNA strands.
+    private List<Point2D> strand1Points = new ArrayList<Point2D>();
+    private List<Point2D> strand2Points = new ArrayList<Point2D>();
+
+    // The strands that are portrayed in the view, which consist of lists of shapes.
+    private List<DnaStrandSegment> strand1Segments;
+    private List<DnaStrandSegment> strand2Segments;
+
+    // Base pairs within the DNA strand.
     private ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
+
+    // Genes on this strand of DNA.
     private ArrayList<Gene> genes = new ArrayList<Gene>();
 
     //-------------------------------------------------------------------------
@@ -73,16 +81,25 @@ public class DnaMolecule {
      * Constructor.
      */
     public DnaMolecule() {
+
+        // Add the initial set of shape-defining points for each of the two
+        // strands.  Points are spaced the same as the base pairs.
+        for ( int i = 0; i < MOLECULE_LENGTH / DISTANCE_BETWEEN_BASE_PAIRS; i++ ) {
+            double xPos = LEFT_EDGE_X_POS + i * DISTANCE_BETWEEN_BASE_PAIRS;
+            strand1Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, 0 ) ) );
+            strand2Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, INTER_STRAND_OFFSET ) ) );
+        }
+
         // Create the two strands that comprise the DNA "backbone".
-        strand1 = generateDnaStrand( LEFT_EDGE_X_POS, LENGTH_PER_TWIST * NUMBER_OF_TWISTS, true );
-        strand2 = generateDnaStrand( LEFT_EDGE_X_POS + INTER_STRAND_OFFSET, LENGTH_PER_TWIST * NUMBER_OF_TWISTS, false );
+        strand1Segments = generateDnaStrand( strand1Points, true );
+        strand2Segments = generateDnaStrand( strand2Points, false );
 
         // Add in the base pairs between the strands.  This calculates the
         // distance between the two strands and puts a line between them in
         // order to look like the base pair.  This counts on the strands being
         // close to sine waves.
         double basePairXPos = LEFT_EDGE_X_POS + INTER_STRAND_OFFSET;
-        while ( basePairXPos < strand2.get( strand2.size() - 1 ).getShape().getBounds2D().getMaxX() ) {
+        while ( basePairXPos < strand2Segments.get( strand2Segments.size() - 1 ).getShape().getBounds2D().getMaxX() ) {
             double height = Math.abs( ( Math.sin( ( basePairXPos - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) -
                                         Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) ) * STRAND_DIAMETER / 2;
             double basePairYPos = ( Math.sin( ( basePairXPos - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) +
@@ -94,9 +111,9 @@ public class DnaMolecule {
         // Add the genes.  The initial parameters can be tweaked in order to
         // adjust the sizes of the genes on the screen.
         int regRegionSize = 16;                   // Base pairs in the regulatory region for all genes.
-        int gene1TranscribedRegionSize = 100;     // Base pairs in transcribed region.
-        int gene2TranscribedRegionSize = 150;     // Base pairs in transcribed region.
-        int gene3TranscribedRegionSize = 200;     // Base pairs in transcribed region.
+        int gene1TranscribedRegionSize = 100;     // Base pairs in transcribed region for this gene.
+        int gene2TranscribedRegionSize = 150;     // Base pairs in transcribed region for this gene.
+        int gene3TranscribedRegionSize = 200;     // Base pairs in transcribed region for this gene.
 
         // The first gene is set up to be centered at or near (0,0) in model
         // space to avoid having to scroll the DNA at startup.
@@ -167,31 +184,64 @@ public class DnaMolecule {
      * @param initialInFront
      * @return
      */
-    private DnaStrand generateDnaStrand( double leftEdgeXPosition, double length, boolean initialInFront ) {
-        double xOffset = leftEdgeXPosition;
-        boolean inFront = initialInFront;
-        boolean curveUp = true;
-        DnaStrand dnaStrand = new DnaStrand();
-        // Loop, creating the individual segments that collectively comprise
-        // the strand.
-        while ( xOffset + LENGTH_PER_TWIST < length ) {
-            List<Point2D> segmentPoints = new ArrayList<Point2D>();
-            for ( int i = 0; i < BASE_PAIRS_PER_TWIST; i++ ) {
-                double xPos = xOffset + ( i * DISTANCE_BETWEEN_BASE_PAIRS );
-                segmentPoints.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos ) ) );
-            }
-            // Add the strand segment to the end of the strand.
-            dnaStrand.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( segmentPoints ), inFront ) );
-            curveUp = !curveUp;
-            inFront = !inFront;
-            xOffset += LENGTH_PER_TWIST / 2;
-        }
-        return dnaStrand;
+//    private List<DnaStrandSegment> generateDnaStrand( double leftEdgeXPosition, double length, boolean initialInFront ) {
+//        double xOffset = leftEdgeXPosition;
+//        boolean inFront = initialInFront;
+//        boolean curveUp = true;
+//        DnaStrand dnaStrand = new DnaStrand();
+//        // Loop, creating the individual segments that collectively comprise
+//        // the strand.
+//        while ( xOffset + LENGTH_PER_TWIST < length ) {
+//            List<Point2D> segmentPoints = new ArrayList<Point2D>();
+//            for ( int i = 0; i < BASE_PAIRS_PER_TWIST; i++ ) {
+//                double xPos = xOffset + ( i * DISTANCE_BETWEEN_BASE_PAIRS );
+//                segmentPoints.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos ) ) );
+//            }
+//            // Add the strand segment to the end of the strand.
+//            dnaStrand.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( segmentPoints ), inFront ) );
+//            curveUp = !curveUp;
+//            inFront = !inFront;
+//            xOffset += LENGTH_PER_TWIST / 2;
+//        }
+//        return dnaStrand;
+//    }
+
+    /**
+     * Generate a strand of the DNA molecule.  This is used during construction
+     * and, since there are two strands, it is expected that it be called
+     * twice.  The input to this method is the set of shape-defining points.
+     * The output is a set of segments, each representing segments, each
+     * representing half a twist of the DNA strand in length.  The segments
+     * alternate front to back so that when drawn, the twisting nature of the
+     * DNA should be visible.
+     */
+    private static List<DnaStrandSegment> generateDnaStrand( List<Point2D> points, boolean initialInFront ) {
+        assert points.size() > 0; // Parameter checking.
+        List<DnaStrandSegment> strandSegments = new ArrayList<DnaStrandSegment>();
+        strandSegments.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( points ), initialInFront ) );
+        // TODO: Add the twisting.
+//        double accumulatedLength;
+//        double xOrigin = points.get( 0 ).getX();
+//        for ( Point2D point : points ) {
+//
+//        }
+        return strandSegments;
+
     }
 
-    // Get the Y position of strand 1 at the given distance from its left edge.
-    private double getDnaStrandYPosition( double distanceFromLeftEdge ) {
-        return Math.sin( distanceFromLeftEdge / LENGTH_PER_TWIST * Math.PI * 2 ) * STRAND_DIAMETER / 2;
+
+    /**
+     * Get the Y position in model space for a DNA strand for the given X
+     * position and offset.  The offset acts like a "phase difference", thus
+     * allowing this method to be used to get location information for both
+     * DNA strands.
+     *
+     * @param xPos
+     * @param offset
+     * @return
+     */
+    private double getDnaStrandYPosition( double xPos, double offset ) {
+        return Math.sin( ( xPos + offset ) / LENGTH_PER_TWIST * Math.PI * 2 ) * STRAND_DIAMETER / 2;
     }
 
     // Update the strand shapes, taking into account any distortions caused by
@@ -200,40 +250,12 @@ public class DnaMolecule {
         System.out.println( "Method not implemented." );
     }
 
-    // Generate a single DNA strand, i.e. one side of the double helix.
-    private DnaStrand generateDnaStrandOld( double initialOffset, double length, boolean initialInFront ) {
-        double xOffset = initialOffset;
-        boolean inFront = initialInFront;
-        boolean curveUp = true;
-        DnaStrand dnaStrand = new DnaStrand();
-        while ( xOffset + LENGTH_PER_TWIST < length ) {
-            // Create the next segment.
-            DoubleGeneralPath segmentPath = new DoubleGeneralPath();
-            segmentPath.moveTo( xOffset, Y_POS );
-            if ( curveUp ) {
-                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, STRAND_DIAMETER / 2 * 2.0,
-                                    xOffset + LENGTH_PER_TWIST / 2, 0 );
-            }
-            else { // curve down
-                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, -STRAND_DIAMETER / 2 * 2.0,
-                                    xOffset + LENGTH_PER_TWIST / 2, 0 );
-            }
-
-            // Add the strand segment to the end of the strand.
-            dnaStrand.add( new DnaStrandSegment( segmentPath.getGeneralPath(), inFront ) );
-            curveUp = !curveUp;
-            inFront = !inFront;
-            xOffset += LENGTH_PER_TWIST / 2;
-        }
-        return dnaStrand;
+    public List<DnaStrandSegment> getStrand1Segments() {
+        return strand1Segments;
     }
 
-    public DnaStrand getStrand1() {
-        return strand1;
-    }
-
-    public DnaStrand getStrand2() {
-        return strand2;
+    public List<DnaStrandSegment> getStrand2Segments() {
+        return strand2Segments;
     }
 
     public ArrayList<Gene> getGenes() {
@@ -540,16 +562,13 @@ public class DnaMolecule {
      * strands, we need to track which segments are in front and which are in
      * back.
      */
-    public class DnaStrandSegment extends ShapeChangingModelElement {
+    public static class DnaStrandSegment extends ShapeChangingModelElement {
         public final boolean inFront;
 
         public DnaStrandSegment( Shape shape, boolean inFront ) {
             super( shape );
             this.inFront = inFront;
         }
-    }
-
-    public class DnaStrand extends ArrayList<DnaStrandSegment> {
     }
 
     // Comparator class to use when comparing two attachment sites.

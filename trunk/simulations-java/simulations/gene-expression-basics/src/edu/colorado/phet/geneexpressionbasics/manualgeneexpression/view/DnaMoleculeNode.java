@@ -57,11 +57,11 @@ public class DnaMoleculeNode extends PNode {
             geneBackgroundLayer.addChild( new GeneNode( mvt, gene, dnaMolecule ) );
         }
         // Add the first strand.
-        for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand1() ) {
+        for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand1Segments() ) {
             addStrand( mvt, dnaStrandSegment, STRAND_1_COLOR );
         }
         // Add the other strand.
-        for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2() ) {
+        for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2Segments() ) {
             addStrand( mvt, dnaStrandSegment, STRAND_2_COLOR );
         }
         // Add the base pairs.
