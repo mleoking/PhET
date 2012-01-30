@@ -1,3 +1,5 @@
+# 2.03.02 (60731) Jan 30, 2012
+1/30/12 Added time rate control and initial height readout.
 # 2.03.01 (60564) Jan 24, 2012
 1/24/12 Added velocity vector graphics
 # 2.03.00 (52266) May 20, 2011
