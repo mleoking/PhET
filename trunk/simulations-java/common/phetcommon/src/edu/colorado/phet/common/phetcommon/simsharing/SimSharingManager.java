@@ -28,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTy
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.tests.MongoLoadTesterSimLauncher;
 import edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -96,7 +97,7 @@ public class SimSharingManager {
     public final StringLog stringLog = new StringLog();
 
     // Singleton, private constructor
-    private SimSharingManager( PhetApplicationConfig config ) {
+    private SimSharingManager( final PhetApplicationConfig config ) {
 
         enabled = config.hasCommandLineArg( COMMAND_LINE_OPTION );
         simStartedTime = System.currentTimeMillis();
@@ -136,6 +137,10 @@ public class SimSharingManager {
                     }
                     if ( getConfig( studyName ).collectIPAddress ) {
                         sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, ipAddressLookup, parameterSet( ipAddress, whatIsMyIPAddress() ) );
+                    }
+
+                    if ( MongoLoadTesterSimLauncher.PERFORM_LOAD_TESTING ) {
+                        MongoLoadTesterSimLauncher.performLoadTesting();
                     }
                 }
             }.start();

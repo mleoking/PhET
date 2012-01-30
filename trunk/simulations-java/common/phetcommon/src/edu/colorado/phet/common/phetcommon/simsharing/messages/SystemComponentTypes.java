@@ -9,5 +9,6 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
 public enum SystemComponentTypes implements ISystemComponentType {
     window, dialog,
     application,
-    simsharingManager
+    simsharingManager,
+    loadTester
 }
