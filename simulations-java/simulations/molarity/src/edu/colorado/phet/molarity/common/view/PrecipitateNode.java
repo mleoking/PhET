@@ -32,7 +32,7 @@ public class PrecipitateNode extends PComposite {
      * Constructor
      *
      * @param solution          solution whose precipitate this node represents
-     * @param cylinderSize      width and height of the beaker cyclinder
+     * @param cylinderSize      width and height of the beaker cylinder
      * @param cylinderEndHeight height of the 2D projection of the 3D beaker cylinder's end cap
      */
     public PrecipitateNode( Solution solution, PDimension cylinderSize, double cylinderEndHeight ) {
