@@ -29,6 +29,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Vertical bar that displays the concentration of a solution.
+ * The display can be switched between quantitative and qualitative.
  * The bar is colored using a gradient that corresponds to the solute's color.
  * A pointer to the right of the bar indicates the concentration on the scale.
  * The pointer is color corresponds to its location on the bar.
@@ -38,18 +39,32 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ConcentrationDisplayNode extends PNode {
 
+    /**
+     * Constructor
+     *
+     * @param title              main title that appears above the bar
+     * @param subtitle           subtitle that appears below the main title
+     * @param barSize            size of the bar
+     * @param solution           the solution whose concentration is displayed
+     * @param concentrationRange range of the display
+     * @param concentrationUnits units for concentration
+     * @param minLabel           qualitative label for min
+     * @param maxLabel           qualitative label for max
+     * @param valuesVisible      quantitative when true, qualitative when false
+     */
     public ConcentrationDisplayNode( String title, String subtitle,
                                      final PDimension barSize,
                                      final Solution solution,
                                      final DoubleRange concentrationRange, String concentrationUnits,
+                                     String minLabel, String maxLabel,
                                      Property<Boolean> valuesVisible ) {
         // nodes
         final PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.SLIDER_TITLE_FONT );
         final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SLIDER_SUBTITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), concentrationUnits, valuesVisible );
-        final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), Strings.HIGH, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
-        final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), Strings.ZERO, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
+        final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), maxLabel, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
+        final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), minLabel, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -137,6 +152,7 @@ public class ConcentrationDisplayNode extends PNode {
     // Arrow with a value next to it, drawn in the coordinate frame of the bar to simplifying filling with a gradient paint.
     private static class PointerNode extends PComposite {
 
+        // arrow properties, because ArrowNode constructor is so brain damaged
         private static final int ARROW_LENGTH = 35;
         private static final int ARROW_HEAD_HEIGHT = 25;
         private static final int ARROW_HEAD_WIDTH = 25;

@@ -19,7 +19,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * This class encapsulates knowledge about points in the beaker image.
- * The image was built around the shape of a cylinder, and we can programmatically fill that cylinder with solution.
+ * The image was built around the 2D projection of a 3D cylinder,
+ * and we can programmatically fill that cylinder with solution.
  * Methods are provided to access points of interest in the image file.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

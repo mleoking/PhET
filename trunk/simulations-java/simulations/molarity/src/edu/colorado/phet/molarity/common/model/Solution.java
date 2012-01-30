@@ -30,6 +30,7 @@ public class Solution implements Resettable {
         this.concentration = new Property<Double>( 0d );
         this.precipitateAmount = new Property<Double>( 0d );
 
+        // adjust the concentration and amount of precipitate
         RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
                 if ( getVolume() > 0 ) {

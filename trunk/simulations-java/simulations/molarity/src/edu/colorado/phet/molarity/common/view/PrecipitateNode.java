@@ -104,7 +104,7 @@ public class PrecipitateNode extends PComposite {
 
     // Gets the number of particles used to represent the solution's saturation.
     private int getNumberOfParticles() {
-        int numberOfParticles = (int) ( solution.solute.get().precipitateParticlesPerMole * solution.getPrecipitateAmount() );
+        int numberOfParticles = (int) ( solution.solute.get().particlesPerMole * solution.getPrecipitateAmount() );
         if ( numberOfParticles == 0 && solution.getPrecipitateAmount() > 0 ) {
             numberOfParticles = 1;
         }

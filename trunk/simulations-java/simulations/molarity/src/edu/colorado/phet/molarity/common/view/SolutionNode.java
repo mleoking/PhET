@@ -87,6 +87,7 @@ public class SolutionNode extends PComposite {
         surfaceNode.setPathTo( createSurfaceShape( height ) );
     }
 
+    // Creates a cylinder that represents the portion of the beaker filled with solution.
     private Shape createCylinderShape( double height ) {
         Shape shape;
         if ( height == 0 ) {
@@ -101,6 +102,7 @@ public class SolutionNode extends PComposite {
         return shape;
     }
 
+    // Creates the shape of the solutions surface (top of the cylinder), so that the surface can be stroked separately.
     private Shape createSurfaceShape( double height ) {
         Shape shape;
         if ( height == 0 ) {

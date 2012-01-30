@@ -16,22 +16,22 @@ public class Solute {
     public final String formula;
     public final double saturatedConcentration; // M
     public final ColorRange solutionColor; // color range for a solution with non-zero concentration
-    public final Color precipitateColor; // the solute's color as a precipitate
-    public final double precipitateSize; // size of the precipitate particles in view coordinates
-    public final int precipitateParticlesPerMole; // number of precipitate particles to show per mol of saturation
+    public final Color particleColor; // the solute's color as a particle
+    public final double particleSize; // particles are square, this is the length of one side
+    public final int particlesPerMole; // number of particles to show per mol of saturation
 
-    // For most solutes, the color of the precipitate is the same as the color in solution.
-    public Solute( String name, String formula, double maxConcentration, ColorRange solutionColor, double precipitateSize, int precipitateParticlesPerMole ) {
-        this( name, formula, maxConcentration, solutionColor, solutionColor.getMax(), precipitateSize, precipitateParticlesPerMole );
+    // For most solutes, particles are the same as the saturated solution.
+    public Solute( String name, String formula, double maxConcentration, ColorRange solutionColor, double particleSize, int particlesPerMole ) {
+        this( name, formula, maxConcentration, solutionColor, solutionColor.getMax(), particleSize, particlesPerMole );
     }
 
-    public Solute( String name, String formula, double saturatedConcentration, ColorRange solutionColor, Color precipitateColor, double precipitateSize, int precipitateParticlesPerMole ) {
+    public Solute( String name, String formula, double saturatedConcentration, ColorRange solutionColor, Color particleColor, double particleSize, int particlesPerMole ) {
         this.name = name;
         this.formula = formula;
         this.saturatedConcentration = saturatedConcentration;
         this.solutionColor = solutionColor;
-        this.precipitateColor = precipitateColor;
-        this.precipitateSize = precipitateSize;
-        this.precipitateParticlesPerMole = precipitateParticlesPerMole;
+        this.particleColor = particleColor;
+        this.particleSize = particleSize;
+        this.particlesPerMole = particlesPerMole;
     }
 }

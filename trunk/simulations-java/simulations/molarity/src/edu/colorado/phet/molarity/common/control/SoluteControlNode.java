@@ -32,6 +32,12 @@ public class SoluteControlNode extends PhetPNode {
 
     private final SoluteComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
+    /**
+     * Constructor
+     *
+     * @param solutes       the items in the combo box
+     * @param currentSolute the item that is selected
+     */
     public SoluteControlNode( ArrayList<Solute> solutes, final Property<Solute> currentSolute ) {
 
         PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.SOLUTE ) ) {{
@@ -66,12 +72,14 @@ public class SoluteControlNode extends PhetPNode {
     private static class SoluteComboBoxNode extends SimSharingComboBoxNode<Solute> {
         public SoluteComboBoxNode( ArrayList<Solute> solute, Solute selectedSolute ) {
             super( UserComponents.soluteComboBox,
+                   // converts a Solute to a string that appear in a sim-sharing message
                    new Function1<Solute, String>() {
                        public String apply( Solute solute ) {
                            return solute.name;
                        }
                    },
                    solute, selectedSolute,
+                   // converts a Solute to an item (node) in the combo box
                    new Function1<Solute, PNode>() {
                        public PNode apply( final Solute solute ) {
                            return new SoluteItemNode( solute );

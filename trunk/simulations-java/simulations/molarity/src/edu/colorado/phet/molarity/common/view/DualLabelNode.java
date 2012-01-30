@@ -33,6 +33,7 @@ public class DualLabelNode extends PComposite {
         qualitativeNode.setOffset( -qualitativeNode.getFullBoundsReference().getWidth() / 2, qualitativeNode.getYOffset() );
         quantitativeNode.setOffset( -quantitativeNode.getFullBoundsReference().getWidth() / 2, quantitativeNode.getYOffset() );
 
+        // switch between qualitative and quantitative
         valuesVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 quantitativeNode.setVisible( visible );
