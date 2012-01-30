@@ -28,6 +28,7 @@ public class MolarityModel implements Resettable {
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / SOLUTION_VOLUME_RANGE.getMin() );
 
     // validate assumptions
+    // REVIEW: Why validating this assumption and not others like SOLUTE_AMOUNT_RANGE.getMin()?  Is it important?
     static {
         assert ( SOLUTION_VOLUME_RANGE.getMin() > 0 );
     }
@@ -36,6 +37,11 @@ public class MolarityModel implements Resettable {
     public final Solution solution;
 
     public MolarityModel() {
+
+        //REVIEW: Consider making this more readable by factoring out duplicate parameters and factoring out the color range constructor.  Each line could read like this:
+//        add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, new Color( 255, 225, 225 ), Color.RED  );
+        //instead of like this:
+//        add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
 
         // solutes, in rainbow (ROYGBIV) order
         this.solutes = new ArrayList<Solute>() {{
@@ -60,6 +66,7 @@ public class MolarityModel implements Resettable {
         return new ArrayList<Solute>( solutes );
     }
 
+    //REVIEW: Why instance methods to get static fields--seems confusing.
     public DoubleRange getSoluteAmountRange() {
         return SOLUTE_AMOUNT_RANGE;
     }
