@@ -36,6 +36,7 @@ public class FluidPressureAndFlowResources {
         public static final String FT = RESOURCES.getLocalizedString( "ft" );
         public static final String FT_PER_S = RESOURCES.getLocalizedString( "ftPerS" );
         public static final String GASOLINE = RESOURCES.getLocalizedString( "gasoline" );
+        public static final String GRID = RESOURCES.getLocalizedString( "grid" );
         public static final String HONEY = RESOURCES.getLocalizedString( "honey" );
         public static final String HOSE = RESOURCES.getLocalizedString( "hose" );
         public static final String M = RESOURCES.getLocalizedString( "m" );

@@ -29,6 +29,9 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
         //Checkbox to show/hide ruler
         add( new FPAFCheckBox( RULER, module.rulerVisible ) );
 
+        //Checkbox that shows/hides the grid
+        add( new FPAFCheckBox( GRID, module.gridVisible ) );
+
         //Units control panel that allows choice between atmospheres, english and metric
         final Property<UnitSet> units = module.model.units;
         add( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
