@@ -16,8 +16,8 @@ import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserCo
  *
  * @author Sam Reid
  */
-public class TrackControlContentPane extends VBox {
-    public TrackControlContentPane( final EnergySkateParkBasicsModule module ) {
+public class TrackControlPanel extends VBox {
+    public TrackControlPanel( final EnergySkateParkBasicsModule module ) {
         super( 10,
 
                //Control box for track friction
