@@ -26,11 +26,11 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class SolutionNode extends PComposite {
 
-    private final PDimension cylinderSize;
-    private final double cylinderEndHeight;
-    private final Solution solution;
-    private final LinearFunction volumeFunction;
-    private final PPath cylinderNode, surfaceNode;
+    private final PDimension cylinderSize; // size of the cylinder that represents the beaker
+    private final double cylinderEndHeight; // height of the 2D projection of the beakers cylinders end caps
+    private final Solution solution; // the solution that this node represents
+    private final LinearFunction volumeFunction; // maps volume to a cylinder height
+    private final PPath cylinderNode, topNode;
 
     public SolutionNode( PDimension cylinderSize, double cylinderEndHeight, Solution solution, DoubleRange volumeRange ) {
 
@@ -48,14 +48,14 @@ public class SolutionNode extends PComposite {
         cylinderNode = new PPath() {{
             setStroke( null );
         }};
-        surfaceNode = new PPath() {{
+        topNode = new PPath() {{
             setStroke( new BasicStroke( 0.5f ) );
             setStrokePaint( new Color( 0, 0, 0, 85 ) );
         }};
 
         // rendering order
         addChild( cylinderNode );
-        addChild( surfaceNode );
+        addChild( topNode );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
@@ -79,12 +79,12 @@ public class SolutionNode extends PComposite {
             color = solution.solute.get().solutionColor.interpolateLinear( colorScale );
         }
         cylinderNode.setPaint( color );
-        surfaceNode.setPaint( color );
+        topNode.setPaint( color );
 
         // update amount of stuff in the beaker, based on solution volume
         double height = volumeFunction.evaluate( solution.volume.get() );
         cylinderNode.setPathTo( createCylinderShape( height ) );
-        surfaceNode.setPathTo( createSurfaceShape( height ) );
+        topNode.setPathTo( createTopShape( height ) );
     }
 
     // Creates a cylinder that represents the portion of the beaker filled with solution.
@@ -102,8 +102,8 @@ public class SolutionNode extends PComposite {
         return shape;
     }
 
-    // Creates the shape of the solutions surface (top of the cylinder), so that the surface can be stroked separately.
-    private Shape createSurfaceShape( double height ) {
+    // Creates the shape of the cylinder's top, so that the top can be stroked separately.
+    private Shape createTopShape( double height ) {
         Shape shape;
         if ( height == 0 ) {
             shape = new GeneralPath();

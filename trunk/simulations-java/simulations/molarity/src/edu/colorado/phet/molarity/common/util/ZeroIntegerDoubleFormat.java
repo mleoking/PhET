@@ -4,7 +4,7 @@ package edu.colorado.phet.molarity.common.util;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
- * A double formatter that provides special treatment of zero, formatting it as "0".
+ * A double formatter that provides special treatment of zero, formatting it as "0" (no decimal places).
  * Implemented via composition because NumberFormat.format is final.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
