@@ -2,6 +2,7 @@
 package edu.colorado.phet.beerslawlab.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -13,6 +14,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ShakerParticles {
+
+    // Units for speed and acceleration are not meaningful here, adjust these so that it looks good.
+    private static final double INITIAL_SPEED = 100;
+    private static final double GRAVITATIONAL_ACCELERATION_MAGNITUDE = 150;
+
+    // These offsets determine where a salt particle originates, relative to the shaker's location.
+    private static final int MAX_X_OFFSET = 20;
+    private static final int MAX_Y_OFFSET = 5;
 
     public interface ParticlesChangeListener {
 
@@ -27,6 +36,7 @@ public class ShakerParticles {
     private final Solution solution;
     private final ArrayList<ParticlesChangeListener> listeners;
     private final ArrayList<ShakerParticle> particles;
+    private final Random randomLocation = new Random();
 
     public ShakerParticles( Shaker shaker, Solution solution ) {
 
@@ -63,19 +73,29 @@ public class ShakerParticles {
             int numberOfParticles = 1; //TODO number of particles created is a function of shaker.getDispensingRate
             //TODO shouldn't dispense more than the max amount of solute
             for ( int i = 0; i < numberOfParticles; i++ ) {
-                addParticle( new ShakerParticle( solution.solute.get(), shaker.location.get(), getRandomOrientation(), getInitialVelocity() ) );
+                addParticle( new ShakerParticle( solution.solute.get(), getRandomLocation(), getRandomOrientation(), getInitialVelocity(), getGravitationalAcceleration() ) );
             }
         }
     }
 
     // Computes an initial velocity for the particle.
     protected ImmutableVector2D getInitialVelocity() {
-        //TODO create a constant for magnitude, or compute based on particle mass?
-        return ImmutableVector2D.createPolar( 5, shaker.getOrientation() ); // in the direction the shaker is pointing
+        return ImmutableVector2D.createPolar( INITIAL_SPEED, shaker.getOrientation() ); // in the direction the shaker is pointing
+    }
+
+    // Gravitational acceleration is in the downward direction.
+    private ImmutableVector2D getGravitationalAcceleration() {
+        return new ImmutableVector2D( 0, GRAVITATIONAL_ACCELERATION_MAGNITUDE );
     }
 
     private double getRandomOrientation() {
         return Math.random() * Math.PI;
+    }
+
+    private ImmutableVector2D getRandomLocation() {
+        double xOffset = randomLocation.nextInt( MAX_X_OFFSET + MAX_X_OFFSET ) - MAX_X_OFFSET; // positive or negative
+        double yOffset = randomLocation.nextInt( MAX_Y_OFFSET ); // positive only
+        return new ImmutableVector2D( shaker.getX() + xOffset, shaker.getY() + yOffset );
     }
 
     public void addParticlesChangeListener( ParticlesChangeListener listener ) {

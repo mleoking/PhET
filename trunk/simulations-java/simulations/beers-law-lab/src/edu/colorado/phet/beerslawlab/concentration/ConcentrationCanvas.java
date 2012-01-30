@@ -83,8 +83,8 @@ public class ConcentrationCanvas extends BLLCanvas {
             addChild( beakerNode );
             addChild( precipitateNode );
             addChild( saturatedIndicatorNode );
-            addChild( shakerNode );
             addChild( shakerParticlesNode );
+            addChild( shakerNode );
             addChild( dropperNode );
             addChild( evaporationControlNode );
             addChild( removeSoluteButtonNode );
