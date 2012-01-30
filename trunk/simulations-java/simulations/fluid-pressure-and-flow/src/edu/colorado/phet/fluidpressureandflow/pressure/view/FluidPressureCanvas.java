@@ -15,6 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCa
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
+import edu.colorado.phet.fluidpressureandflow.flow.view.GridNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
@@ -97,6 +98,8 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Show the pool itself
         addChild( new PoolNode( transform, pool, model.liquidDensity ) );
+
+        addChild( new GridNode( module.gridVisible, transform, model.units ) );
 
         //Create and show the fluid density controls
         addFluidDensityControl( module );

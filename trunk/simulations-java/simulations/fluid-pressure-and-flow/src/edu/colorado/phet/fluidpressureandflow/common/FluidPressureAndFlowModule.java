@@ -21,6 +21,7 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     public final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> rulerVisible = new Property<Boolean>( false );
+    public final Property<Boolean> gridVisible = new Property<Boolean>( false );
     public final ObservableProperty<Boolean> meterStickVisible;
     public final ObservableProperty<Boolean> yardStickVisible;
 
@@ -39,6 +40,7 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
 
     public void reset() {
         rulerVisible.reset();
+        gridVisible.reset();
         fluidDensityControlVisible.reset();
         gravityControlVisible.reset();
         model.reset();

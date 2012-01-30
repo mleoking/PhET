@@ -42,7 +42,7 @@ public class Units {
     public static final Unit FEET_PER_SECOND = new LinearUnit( FT_PER_S, FEET_PER_METER, new DecimalFormat( "0.0" ) );
 
     //Convenience method for converting feet to meters
-    public double feetToMeters( double feet ) {
+    public static double feetToMeters( double feet ) {
         return feet / FEET_PER_METER;
     }
 }
