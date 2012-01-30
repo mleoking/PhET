@@ -170,6 +170,7 @@ public class VerticalSliderNode extends PhetPNode {
             this.valueNode = new PText( "?" ) {{
                 setFont( MolarityConstants.VALUE_FONT );
             }};
+            // value placed to the right of the thumb, vertically centered
             valueNode.setOffset( bodyNode.getFullBoundsReference().getMaxX() + 5,
                                  bodyNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
 

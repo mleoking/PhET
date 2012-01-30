@@ -20,7 +20,7 @@ public class Solute {
     public final double particleSize; // particles are square, this is the length of one side
     public final int particlesPerMole; // number of particles to show per mol of saturation
 
-    // For most solutes, particles are the same as the saturated solution.
+    // For most solutes, particles have the same color as the saturated solution.
     public Solute( String name, String formula, double maxConcentration, ColorRange solutionColor, double particleSize, int particlesPerMole ) {
         this( name, formula, maxConcentration, solutionColor, solutionColor.getMax(), particleSize, particlesPerMole );
     }
