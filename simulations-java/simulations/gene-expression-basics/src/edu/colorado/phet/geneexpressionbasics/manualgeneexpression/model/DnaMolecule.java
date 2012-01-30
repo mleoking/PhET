@@ -4,6 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -60,18 +61,27 @@ public class DnaMolecule {
     //-------------------------------------------------------------------------
 
     // Points that, when connected, define the shape of the DNA strands.
-    private List<Point2D> strand1Points = new ArrayList<Point2D>();
-    private List<Point2D> strand2Points = new ArrayList<Point2D>();
+    private final List<Point2D> strand1Points = new ArrayList<Point2D>();
+    private final List<Point2D> strand2Points = new ArrayList<Point2D>();
+    private final List<DnaStrandPoint> strandPoints = new ArrayList<DnaStrandPoint>();
+
+    // Shadow of the points that define the strand shapes, used for rapid
+    // evaluation of any changes.
+    private final List<DnaStrandPoint> strandPointsShadow;
+
 
     // The strands that are portrayed in the view, which consist of lists of shapes.
-    private List<DnaStrandSegment> strand1Segments;
-    private List<DnaStrandSegment> strand2Segments;
+    private final List<DnaStrandSegment> strand1Segments = new ArrayList<DnaStrandSegment>();
+    private final List<DnaStrandSegment> strand2Segments = new ArrayList<DnaStrandSegment>();
 
     // Base pairs within the DNA strand.
     private ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
 
     // Genes on this strand of DNA.
     private ArrayList<Gene> genes = new ArrayList<Gene>();
+
+    // List of forced separations between the two strands.
+    private List<DnaSeparation> separations = new ArrayList<DnaSeparation>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -88,11 +98,15 @@ public class DnaMolecule {
             double xPos = LEFT_EDGE_X_POS + i * DISTANCE_BETWEEN_BASE_PAIRS;
             strand1Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, 0 ) ) );
             strand2Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, INTER_STRAND_OFFSET ) ) );
+            strandPoints.add( new DnaStrandPoint( xPos, getDnaStrandYPosition( xPos, 0 ), getDnaStrandYPosition( xPos, INTER_STRAND_OFFSET ) ) );
         }
 
+        strandPointsShadow = new ArrayList<DnaStrandPoint>( strandPoints );
+
         // Create the sets of segments that will be observed by the view.
-        strand1Segments = generateDnaStrand( strand1Points, true );
-        strand2Segments = generateDnaStrand( strand2Points, false );
+//        strand1Segments = generateDnaStrand( strand1Points, true );
+//        strand2Segments = generateDnaStrand( strand2Points, false );
+        initializeStrandSegments();
 
         // Add in the base pairs between the strands.  This calculates the
         // distance between the two strands and puts a line between them in
@@ -143,6 +157,10 @@ public class DnaMolecule {
     // Methods
     //-------------------------------------------------------------------------
 
+    public void stepInTime( double dt ) {
+        updateStrandSegmentsNex();
+    }
+
     /**
      * Get the X position of the specified base pair.  The first base pair at
      * the left side of the DNA molecule is base pair 0, and it goes up from
@@ -172,7 +190,7 @@ public class DnaMolecule {
 
     /**
      * Generate a strand of the DNA molecule.  This is used during construction
-     * and, since there are two strands, it is expected that it be called
+     * only and, since there are two strands, it is expected that it be called
      * twice.  The input to this method is the set of shape-defining points.
      * The output is a set of segments, each representing segments, each
      * representing half a twist of the DNA strand in length.  The segments
@@ -182,8 +200,6 @@ public class DnaMolecule {
     private static List<DnaStrandSegment> generateDnaStrand( List<Point2D> points, boolean initialInFront ) {
         assert points.size() > 0; // Parameter checking.
         List<DnaStrandSegment> strandSegments = new ArrayList<DnaStrandSegment>();
-
-//        strandSegments.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( points ), initialInFront ) );
 
         List<Point2D> segmentPoints = new ArrayList<Point2D>();
         double segmentStartX = points.get( 0 ).getX();
@@ -202,6 +218,34 @@ public class DnaMolecule {
         return strandSegments;
     }
 
+    // Initialize the DNA stand segment lists.
+    private void initializeStrandSegments() {
+        assert strandPoints.size() > 0; // Parameter checking.
+
+        List<Point2D> strand1SegmentPoints = new ArrayList<Point2D>();
+        List<Point2D> strand2SegmentPoints = new ArrayList<Point2D>();
+        double segmentStartX = strandPoints.get( 0 ).xPos;
+        boolean strand1InFront = true;
+        for ( DnaStrandPoint dnaStrandPoint : strandPoints ) {
+            double xPos = dnaStrandPoint.xPos;
+            strand1SegmentPoints.add( new Point2D.Double( xPos, dnaStrandPoint.strand1YPos ) );
+            strand2SegmentPoints.add( new Point2D.Double( xPos, dnaStrandPoint.strand2YPos ) );
+            if ( xPos - segmentStartX >= ( LENGTH_PER_TWIST / 2 ) ) {
+                // Time to add these segments and start a new ones.
+                strand1Segments.add( new DnaStrandSegment( BioShapeUtils.createCurvyLineFromPoints( strand1SegmentPoints ), strand1InFront ) );
+                strand2Segments.add( new DnaStrandSegment( BioShapeUtils.createCurvyLineFromPoints( strand2SegmentPoints ), !strand1InFront ) );
+                Point2D firstPointOfNextSegment = strand1SegmentPoints.get( strand1SegmentPoints.size() - 1 );
+                strand1SegmentPoints.clear();
+                strand1SegmentPoints.add( firstPointOfNextSegment ); // This point must be on this segment too in order to prevent gaps.
+                firstPointOfNextSegment = strand2SegmentPoints.get( strand2SegmentPoints.size() - 1 );
+                strand2SegmentPoints.clear();
+                strand2SegmentPoints.add( firstPointOfNextSegment ); // This point must be on this segment too in order to prevent gaps.
+                segmentStartX = firstPointOfNextSegment.getX();
+                strand1InFront = !strand1InFront;
+            }
+        }
+    }
+
     /**
      * Get the Y position in model space for a DNA strand for the given X
      * position and offset.  The offset acts like a "phase difference", thus
@@ -218,8 +262,101 @@ public class DnaMolecule {
 
     // Update the strand shapes, taking into account any distortions caused by
     // attached biomolecules.
-    private void updateStrandShapes() {
-        System.out.println( "Method not implemented." );
+    private void updateStrandSegments() {
+        // Update the shape-defining points.
+        for ( int i = 0; i < strand1Points.size(); i++ ) {
+            double strand1XPos = strand1Points.get( i ).getX();
+            strand1Points.get( i ).setLocation( strand1XPos, getDnaStrandYPosition( strand1XPos, 0 ) );
+            double strand2XPos = strand2Points.get( i ).getX();
+            strand2Points.get( i ).setLocation( strand2XPos, getDnaStrandYPosition( strand2XPos, INTER_STRAND_OFFSET ) );
+        }
+
+        List<Point2D> strand1SegmentPoints = new ArrayList<Point2D>();
+        List<Point2D> strand2SegmentPoints = new ArrayList<Point2D>();
+        double segmentStartX = strandPoints.get( 0 ).xPos;
+        int segmentIndex = 0;
+        for ( DnaStrandPoint dnaStrandPoint : strandPoints ) {
+            double xPos = dnaStrandPoint.xPos;
+            strand1SegmentPoints.add( new Point2D.Double( xPos, dnaStrandPoint.strand1YPos ) );
+            strand2SegmentPoints.add( new Point2D.Double( xPos, dnaStrandPoint.strand2YPos ) );
+            if ( xPos - segmentStartX >= ( LENGTH_PER_TWIST / 2 ) ) {
+                // Reached the end of this segment.  Compare it to the existing
+                // segment and, if they differ, make an update.
+                Shape strand1NewShape = BioShapeUtils.createCurvyLineFromPoints( strand1SegmentPoints );
+                DnaStrandSegment dnaStrandSegment = strand1Segments.get( segmentIndex );
+                // NOTE: The shape is compared by the full bounds, since the
+                // 'equals' method is not implemented for the Shape class.
+                // This seems to suffice, but is not perfect.
+                if ( !dnaStrandSegment.getShape().getBounds2D().equals( strand1NewShape.getBounds2D() ) ) {
+                    // This segment needs to be updated.
+                    dnaStrandSegment.setShape( strand1NewShape );
+
+                }
+                Shape strand2NewShape = BioShapeUtils.createCurvyLineFromPoints( strand2SegmentPoints );
+                dnaStrandSegment = strand2Segments.get( segmentIndex );
+                // Again, note the comparison based on full bounds.
+                if ( !dnaStrandSegment.getShape().getBounds2D().equals( strand2NewShape.getBounds2D() ) ) {
+                    // This segment needs to be updated.
+                    dnaStrandSegment.setShape( strand2NewShape );
+                }
+                segmentIndex++;
+            }
+        }
+
+
+        // Update the shape of any segments that have changed.
+//        List<Point2D> segmentPoints = new ArrayList<Point2D>();
+//        double segmentStartX = points.get( 0 ).getX();
+//        boolean inFront = initialInFront;
+//        for ( Point2D point : points ) {
+//            segmentPoints.add( point );
+//            if ( point.getX() - segmentStartX >= ( LENGTH_PER_TWIST / 2 ) ) {
+//                // Time to add this segment and start a new one.
+//                strandSegments.add( new DnaStrandSegment( BioShapeUtils.createCurvyLineFromPoints( segmentPoints ), inFront ) );
+//                segmentPoints.clear();
+//                segmentPoints.add( point ); // This point must be on this segment too in order to prevent gaps.
+//                segmentStartX = point.getX();
+//                inFront = !inFront;
+//            }
+//        }
+//        return strandSegments;
+    }
+
+    private void updateStrandSegmentsNex() {
+        // Update the points that define the strand shapes.
+        for ( DnaStrandPoint dnaStrandPoint : strandPointsShadow ) {
+            dnaStrandPoint.strand1YPos = getDnaStrandYPosition( dnaStrandPoint.xPos, 0 );
+            dnaStrandPoint.strand2YPos = getDnaStrandYPosition( dnaStrandPoint.xPos, INTER_STRAND_OFFSET );
+        }
+
+        int numSegments = strand1Segments.size();
+        assert numSegments == strand2Segments.size(); // Should be the same, won't work if not.
+        for ( int i = 0; i < numSegments; i++ ) {
+            // TODO: Only does one of the two segments, need to figure out good way to do both.
+            boolean changed = false;
+            DnaStrandSegment segment = strand1Segments.get( i );
+            Rectangle2D bounds = segment.getShape().getBounds2D();
+            IntegerRange pointIndexRange = new IntegerRange( (int) Math.floor( ( bounds.getMinX() - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ),
+                                                             (int) Math.floor( ( bounds.getMaxX() - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ) );
+            for ( int j = pointIndexRange.getMin(); j <= pointIndexRange.getMax(); j++ ) {
+                if ( !strandPoints.get( j ).equals( strandPointsShadow.get( j ) ) ) {
+                    // The point has changed.  Update it, mark the change.
+                    strandPoints.get( j ).set( strandPointsShadow.get( j ) );
+                    changed = true;
+                    System.out.println( "Segment changed, index = " + i );
+                    break;
+                }
+            }
+
+            if ( changed ) {
+                // Update the shape of this segment.
+                List<Point2D> shapePoints = new ArrayList<Point2D>();
+                for ( int j = pointIndexRange.getMin(); j <= pointIndexRange.getMax(); j++ ) {
+                    shapePoints.add( new Point2D.Double( strandPoints.get( j ).xPos, strandPoints.get( j ).strand1YPos ) );
+                }
+                segment.setShape( BioShapeUtils.createCurvyLineFromPoints( shapePoints ) );
+            }
+        }
     }
 
     public List<DnaStrandSegment> getStrand1Segments() {
@@ -540,6 +677,65 @@ public class DnaMolecule {
         public DnaStrandSegment( Shape shape, boolean inFront ) {
             super( shape );
             this.inFront = inFront;
+        }
+
+        public void setShape( Shape newShape ) {
+            shapeProperty.set( newShape );
+        }
+    }
+
+    /**
+     * Class with one x position and two y positions, used for defining the
+     * two strands that comprise the backbone of one DNA molecule.
+     */
+    protected class DnaStrandPoint {
+        public double xPos = 0;
+        public double strand1YPos = 0;
+        public double strand2YPos = 0;
+
+        public DnaStrandPoint( double xPos, double strand1YPos, double strand2YPos ) {
+            this.xPos = xPos;
+            this.strand1YPos = strand1YPos;
+            this.strand2YPos = strand2YPos;
+        }
+
+        public void set( DnaStrandPoint dnaStrandPoint ) {
+            this.xPos = dnaStrandPoint.xPos;
+            this.strand1YPos = dnaStrandPoint.strand1YPos;
+            this.strand2YPos = dnaStrandPoint.strand2YPos;
+        }
+
+        @Override
+        public boolean equals( Object o ) {
+            if ( this == o ) { return true; }
+            if ( o == null || getClass() != o.getClass() ) { return false; }
+
+            DnaStrandPoint that = (DnaStrandPoint) o;
+
+            if ( Double.compare( that.strand1YPos, strand1YPos ) != 0 ) {
+                return false;
+            }
+            if ( Double.compare( that.strand2YPos, strand2YPos ) != 0 ) {
+                return false;
+            }
+            if ( Double.compare( that.xPos, xPos ) != 0 ) { return false; }
+
+            return true;
+        }
+    }
+
+    /**
+     * Class the defines a separation of the DNA strand.  This is used when
+     * forcing the DNA strand to separate in certain locations, which happens
+     * for instance when RNA polymerase is attached.
+     */
+    public static class DnaSeparation {
+        public double xPos; // X Position in model space.
+        public double amount; // Amount of separation.
+
+        public DnaSeparation( double xPos, double amount ) {
+            this.xPos = xPos;
+            this.amount = amount;
         }
     }
 
