@@ -26,6 +26,10 @@ public class Pool {
         return HEIGHT;
     }
 
+    public double getWidth() {
+        return WIDTH;
+    }
+
     public Shape getShape() {
         return new Rectangle2D.Double( -WIDTH / 2, -HEIGHT, WIDTH, HEIGHT );
     }

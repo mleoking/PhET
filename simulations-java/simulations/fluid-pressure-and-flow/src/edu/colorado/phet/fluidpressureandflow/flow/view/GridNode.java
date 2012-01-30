@@ -39,8 +39,9 @@ public class GridNode extends PropertyVisibleNode {
                 addChild( new LineNode( new DecimalFormat( "0" ).format( i ) + " feet", Units.feetToMeters( i ), transform ) );
             }
         }} );
+        setPickable( false );
+        setChildrenPickable( false );
     }
-
 
     public static class LineNode extends PNode {
         public LineNode( String label, final double meters, final ModelViewTransform transform ) {

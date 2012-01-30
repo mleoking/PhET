@@ -1,4 +1,4 @@
-Started on grid node
+Added a grid node
 Simsharing: add UserComponent chaining for FaucetNode and its FaucetSlider
 Changes to FPAFFaucetNode, required by cleanup of FaucetNode base class, see #3199
 # 0.00.46 (58668) Nov 16, 2011
