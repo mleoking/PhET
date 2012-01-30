@@ -36,7 +36,7 @@ public class MolarityModel implements Resettable {
 
     public MolarityModel() {
 
-        // solutes, in rainbow (ROYBIV) order
+        // solutes, in rainbow (ROYGBIV) order
         this.solutes = new ArrayList<Solute>() {{
             add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), 5, PARTICLES_PER_MOLE ) );
             add( new Solute( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), 5, PARTICLES_PER_MOLE ) );
