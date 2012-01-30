@@ -173,41 +173,6 @@ public class DnaMolecule {
     /**
      * Generate a strand of the DNA molecule.  This is used during construction
      * and, since there are two strands, it is expected that it be called
-     * twice.  The strand is composed of a set of segments, each representing
-     * a twist of the DNA.  The segments alternate front to back so that when
-     * drawn, the twisting nature of the DNA should be visible.
-     *
-     * @param leftEdgeXPosition - Position of the left edge in model space. The
-     *                          Y position is assumed to be a constant.
-     * @param length            - Length of the strand.
-     * @param initialInFront
-     * @return
-     */
-//    private List<DnaStrandSegment> generateDnaStrand( double leftEdgeXPosition, double length, boolean initialInFront ) {
-//        double xOffset = leftEdgeXPosition;
-//        boolean inFront = initialInFront;
-//        boolean curveUp = true;
-//        DnaStrand dnaStrand = new DnaStrand();
-//        // Loop, creating the individual segments that collectively comprise
-//        // the strand.
-//        while ( xOffset + LENGTH_PER_TWIST < length ) {
-//            List<Point2D> segmentPoints = new ArrayList<Point2D>();
-//            for ( int i = 0; i < BASE_PAIRS_PER_TWIST; i++ ) {
-//                double xPos = xOffset + ( i * DISTANCE_BETWEEN_BASE_PAIRS );
-//                segmentPoints.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos ) ) );
-//            }
-//            // Add the strand segment to the end of the strand.
-//            dnaStrand.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( segmentPoints ), inFront ) );
-//            curveUp = !curveUp;
-//            inFront = !inFront;
-//            xOffset += LENGTH_PER_TWIST / 2;
-//        }
-//        return dnaStrand;
-//    }
-
-    /**
-     * Generate a strand of the DNA molecule.  This is used during construction
-     * and, since there are two strands, it is expected that it be called
      * twice.  The input to this method is the set of shape-defining points.
      * The output is a set of segments, each representing segments, each
      * representing half a twist of the DNA strand in length.  The segments
