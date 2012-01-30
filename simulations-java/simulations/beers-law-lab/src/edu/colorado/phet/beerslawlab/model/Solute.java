@@ -55,8 +55,8 @@ public class Solute {
         }
     }
 
-    public static class ColbaltIINitrate extends Solute {
-        public ColbaltIINitrate() {
+    public static class CobaltIINitrate extends Solute {
+        public CobaltIINitrate() {
             super( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 182.942, 5.64, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), 5, PARTICLES_PER_MOLE );
         }
     }
