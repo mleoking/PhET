@@ -137,6 +137,9 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         getEnergySkateParkModel().getBody( 0 ).setVelocity( 0, 0 );
         getEnergySkateParkModel().getBody( 0 ).setFrictionCoefficient( getCoefficientOfFriction() );
 
+        //Make the "Return Skater" button return the skater to the original location, if the skater hasn't been moved yet
+        getEnergySkateParkModel().getBody( 0 ).setRestorePoint( getEnergySkateParkModel().getBody( 0 ) );
+
         //Use this code to sample alpha positions from a spline to come up with good initial conditions
         if ( false ) {
             getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
