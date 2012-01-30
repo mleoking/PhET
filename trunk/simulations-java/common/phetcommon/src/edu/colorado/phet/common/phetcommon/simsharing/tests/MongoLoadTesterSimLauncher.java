@@ -10,7 +10,7 @@ import java.io.IOException;
  */
 public class MongoLoadTesterSimLauncher {
 
-    private static final int NUM_CLIENTS = 30;
+    private static final int NUM_CLIENTS = 10;
 
     public static void main( String[] args ) {
         for ( int i = 0; i < NUM_CLIENTS; i++ ) {

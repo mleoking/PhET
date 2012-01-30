@@ -72,6 +72,12 @@ class SimEventDataCollectionMonitor {
 
   //Connect to the local database
   //  val mongo = new Mongo
+
+  //Connect to database in a read-only connection
+  val database = mongo.getDB("sessions")
+  val auth = database.authenticate("monitor", "phetservermonitor778734".toCharArray)
+  println("authenticated: " + auth)
+
   val tableModel = new SimEventDataTableModel
   val table = new SimpleTable(tableModel)
 
@@ -117,8 +123,6 @@ class SimEventDataCollectionMonitor {
     val row = table.peer.convertRowIndexToModel(viewSelectedRow)
     val sessionID = tableModel.getSessionID(row)
 
-    //Assumes authentication already occurred
-    val database = mongo.getDB("sessions")
     val collection: DBCollection = database.getCollection(sessionID)
 
     val cursor = collection.find
@@ -169,13 +173,7 @@ class SimEventDataCollectionMonitor {
   }
 
   private def readDataFromMongoServer() {
-    val database = mongo.getDB("sessions")
-
-    //Connect in a read-only connection
-    val auth = database.authenticate("monitor", "phetservermonitor778734".toCharArray)
-    println("authenticated: " + auth)
     for ( session: String <- asScalaSet(database.getCollectionNames) if session != "system.indexes" if session != "system.users" ) {
-      println("Looking at session: " + session)
       val collection: DBCollection = database.getCollection(session)
 
       val startMessage = collection.findOne()
