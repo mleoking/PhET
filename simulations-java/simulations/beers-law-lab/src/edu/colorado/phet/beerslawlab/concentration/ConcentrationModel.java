@@ -80,7 +80,7 @@ public class ConcentrationModel implements Resettable {
             }
         } );
 
-        // Solutes, in rainbow (ROYBIV) order. Values are specified in the design document.
+        // Solutes, in rainbow (ROYGBIV) order. Values are specified in the design document.
         this.solutes = new ArrayList<Solute>() {{
             add( new KoolAid() );
             add( new CobaltIINitrate() );
