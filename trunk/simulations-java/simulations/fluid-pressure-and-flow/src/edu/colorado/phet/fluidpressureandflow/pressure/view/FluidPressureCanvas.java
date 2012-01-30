@@ -99,7 +99,9 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Show the pool itself
         addChild( new PoolNode( transform, pool, model.liquidDensity ) );
 
-        addChild( new GridNode( module.gridVisible, transform, model.units ) );
+        addChild( new GridNode( module.gridVisible, transform, model.units ) {{
+            translate( -transform.modelToViewDeltaX( pool.getWidth() / 2 ), 0 );
+        }} );
 
         //Create and show the fluid density controls
         addFluidDensityControl( module );
