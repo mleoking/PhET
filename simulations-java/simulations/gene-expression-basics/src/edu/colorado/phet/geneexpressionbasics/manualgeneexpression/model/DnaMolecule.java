@@ -182,17 +182,25 @@ public class DnaMolecule {
     private static List<DnaStrandSegment> generateDnaStrand( List<Point2D> points, boolean initialInFront ) {
         assert points.size() > 0; // Parameter checking.
         List<DnaStrandSegment> strandSegments = new ArrayList<DnaStrandSegment>();
-        strandSegments.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( points ), initialInFront ) );
-        // TODO: Add the twisting.
-//        double accumulatedLength;
-//        double xOrigin = points.get( 0 ).getX();
-//        for ( Point2D point : points ) {
-//
-//        }
+
+//        strandSegments.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( points ), initialInFront ) );
+
+        List<Point2D> segmentPoints = new ArrayList<Point2D>();
+        double segmentStartX = points.get( 0 ).getX();
+        boolean inFront = initialInFront;
+        for ( Point2D point : points ) {
+            segmentPoints.add( point );
+            if ( point.getX() - segmentStartX >= ( LENGTH_PER_TWIST / 2 ) ) {
+                // Time to add this segment and start a new one.
+                strandSegments.add( new DnaStrandSegment( BioShapeUtils.createCurvyLineFromPoints( segmentPoints ), inFront ) );
+                segmentPoints.clear();
+                segmentPoints.add( point ); // This point must be on this segment too in order to prevent gaps.
+                segmentStartX = point.getX();
+                inFront = !inFront;
+            }
+        }
         return strandSegments;
-
     }
-
 
     /**
      * Get the Y position in model space for a DNA strand for the given X
