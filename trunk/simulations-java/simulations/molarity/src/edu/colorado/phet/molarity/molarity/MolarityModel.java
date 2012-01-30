@@ -20,6 +20,7 @@ import edu.colorado.phet.molarity.common.model.Solvent.Water;
  */
 public class MolarityModel implements Resettable {
 
+    private static final int PARTICLES_PER_MOLE = 200; // number of particles to show for each mole of precipitate
     private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / SOLUTION_VOLUME_RANGE.getMax(),
@@ -37,16 +38,15 @@ public class MolarityModel implements Resettable {
 
         // solutes, in rainbow (ROYBIV) order
         this.solutes = new ArrayList<Solute>() {{
-            final int particlesPerMole = 200;
-            add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), 5, particlesPerMole ) );
-            add( new Solute( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), 5, particlesPerMole ) );
-            add( new Solute( Strings.COBALT_CHLORIDE, Symbols.COBALT_CHLORIDE, 4.35, new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) ), 5, particlesPerMole ) );
-            add( new Solute( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 0.50, new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) ), 5, particlesPerMole ) );
-            add( new Solute( Strings.GOLD_III_CHLORIDE, Symbols.GOLD_III_CHLORIDE, 2.25, new ColorRange( new Color( 255, 255, 199 ), new Color( 0xFFD700 ) ), 5, particlesPerMole ) );
-            add( new Solute( Strings.POTASSIUM_CHROMATE, Symbols.POTASSIUM_CHROMATE, 3.35, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), 5, particlesPerMole ) );
-            add( new Solute( Strings.NICKEL_II_CHLORIDE, Symbols.NICKEL_II_CHLORIDE, 5.0, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), 5, particlesPerMole ) );
-            add( new Solute( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), 5, particlesPerMole ) );
-            add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 0.50, new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) ), Color.BLACK, 5, particlesPerMole ) );
+            add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), 5, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), 5, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.COBALT_CHLORIDE, Symbols.COBALT_CHLORIDE, 4.35, new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) ), 5, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 0.50, new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) ), 5, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.GOLD_III_CHLORIDE, Symbols.GOLD_III_CHLORIDE, 2.25, new ColorRange( new Color( 255, 255, 199 ), new Color( 0xFFD700 ) ), 5, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.POTASSIUM_CHROMATE, Symbols.POTASSIUM_CHROMATE, 3.35, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), 5, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.NICKEL_II_CHLORIDE, Symbols.NICKEL_II_CHLORIDE, 5.0, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), 5, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), 5, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 0.50, new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) ), Color.BLACK, 5, PARTICLES_PER_MOLE ) );
         }};
         for ( Solute solute : solutes ) {
             assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) );
