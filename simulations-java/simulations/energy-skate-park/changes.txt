@@ -1,4 +1,5 @@
-Internationalized speedometer
+Energy Skate Park Basics: Hide the bar chart when the user switches tabs
+Energy Skate Park Basics: Internationalized speedometer
 # 2.08.24 (60714) Jan 27, 2012
 Fixed: Pie chart disappears with friction on in left well of double-well on tab 2
 Fixed: Speed readout doesn't reset on "reset all"
