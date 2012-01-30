@@ -90,20 +90,19 @@ public class DnaMolecule {
             strand2Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, INTER_STRAND_OFFSET ) ) );
         }
 
-        // Create the two strands that comprise the DNA "backbone".
+        // Create the sets of segments that will be observed by the view.
         strand1Segments = generateDnaStrand( strand1Points, true );
         strand2Segments = generateDnaStrand( strand2Points, false );
 
         // Add in the base pairs between the strands.  This calculates the
         // distance between the two strands and puts a line between them in
-        // order to look like the base pair.  This counts on the strands being
-        // close to sine waves.
-        double basePairXPos = LEFT_EDGE_X_POS + INTER_STRAND_OFFSET;
-        while ( basePairXPos < strand2Segments.get( strand2Segments.size() - 1 ).getShape().getBounds2D().getMaxX() ) {
-            double height = Math.abs( ( Math.sin( ( basePairXPos - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) -
-                                        Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) ) * STRAND_DIAMETER / 2;
-            double basePairYPos = ( Math.sin( ( basePairXPos - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) +
-                                    Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) / 2 * STRAND_DIAMETER / 2;
+        // order to look like the base pair.
+        double basePairXPos = LEFT_EDGE_X_POS;
+        while ( basePairXPos <= strand1Points.get( strand1Points.size() - 1 ).getX() ) {
+            double strand1YPos = getDnaStrandYPosition( basePairXPos, 0 );
+            double strand2YPos = getDnaStrandYPosition( basePairXPos, INTER_STRAND_OFFSET );
+            double height = Math.abs( strand1YPos - strand2YPos );
+            double basePairYPos = ( strand1YPos + strand2YPos ) / 2;
             basePairs.add( new BasePair( new Point2D.Double( basePairXPos, basePairYPos ), height ) );
             basePairXPos += DISTANCE_BETWEEN_BASE_PAIRS;
         }
