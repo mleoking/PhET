@@ -33,6 +33,10 @@ import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelEle
  */
 public class DnaMolecule {
 
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
     // Constants the define the size and related attributes of the strand.
     public static final double STRAND_DIAMETER = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
@@ -52,10 +56,18 @@ public class DnaMolecule {
     // Distance within which RNA polymerase may attach.
     private static final double RNA_POLYMERASE_ATTACHMENT_DISTANCE = 400;
 
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
     private DnaStrand strand1;
     private DnaStrand strand2;
     private ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
     private ArrayList<Gene> genes = new ArrayList<Gene>();
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -111,6 +123,10 @@ public class DnaMolecule {
                              3 ) );
     }
 
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
+
     /**
      * Get the X position of the specified base pair.  The first base pair at
      * the left side of the DNA molecule is base pair 0, and it goes up from
@@ -138,9 +154,21 @@ public class DnaMolecule {
         return getBasePairXOffsetByIndex( getBasePairIndexFromXOffset( xPos ) );
     }
 
-    // Generate a single DNA strand, i.e. one side of the double helix.
-    private DnaStrand generateDnaStrand( double initialOffset, double length, boolean initialInFront ) {
-        double xOffset = initialOffset;
+    /**
+     * Generate a strand of the DNA molecule.  This is used during construction
+     * and, since there are two strands, it is expected that it be called
+     * twice.  The strand is composed of a set of segments, each representing
+     * a twist of the DNA.  The segments alternate front to back so that when
+     * drawn, the twisting nature of the DNA should be visible.
+     *
+     * @param leftEdgeXPosition - Position of the left edge in model space. The
+     *                          Y position is assumed to be a constant.
+     * @param length            - Length of the strand.
+     * @param initialInFront
+     * @return
+     */
+    private DnaStrand generateDnaStrand( double leftEdgeXPosition, double length, boolean initialInFront ) {
+        double xOffset = leftEdgeXPosition;
         boolean inFront = initialInFront;
         boolean curveUp = true;
         DnaStrand dnaStrand = new DnaStrand();
@@ -150,7 +178,7 @@ public class DnaMolecule {
             List<Point2D> segmentPoints = new ArrayList<Point2D>();
             for ( int i = 0; i < BASE_PAIRS_PER_TWIST; i++ ) {
                 double xPos = xOffset + ( i * DISTANCE_BETWEEN_BASE_PAIRS );
-                segmentPoints.add( new Point2D.Double( xPos, getDnaStrandYPos( xPos ) ) );
+                segmentPoints.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos ) ) );
             }
             // Add the strand segment to the end of the strand.
             dnaStrand.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( segmentPoints ), inFront ) );
@@ -161,11 +189,15 @@ public class DnaMolecule {
         return dnaStrand;
     }
 
-    private double getDnaStrandYPos( double distanceFromLeftEdge ) {
-        System.out.println( "distanceFromLeftEdge = " + distanceFromLeftEdge );
-        System.out.println( "Result1 = " + ( distanceFromLeftEdge / LENGTH_PER_TWIST * 2 ) );
-        System.out.println( "Result2 = " + Math.sin( distanceFromLeftEdge / LENGTH_PER_TWIST * Math.PI * 2 ) );
+    // Get the Y position of strand 1 at the given distance from its left edge.
+    private double getDnaStrandYPosition( double distanceFromLeftEdge ) {
         return Math.sin( distanceFromLeftEdge / LENGTH_PER_TWIST * Math.PI * 2 ) * STRAND_DIAMETER / 2;
+    }
+
+    // Update the strand shapes, taking into account any distortions caused by
+    // attached biomolecules.
+    private void updateStrandShapes() {
+        System.out.println( "Method not implemented." );
     }
 
     // Generate a single DNA strand, i.e. one side of the double helix.
@@ -496,6 +528,10 @@ public class DnaMolecule {
             gene.clearAttachmentSites();
         }
     }
+
+    //-------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //-------------------------------------------------------------------------
 
     /**
      * This class defines a segment of the DNA strand.  It is needed because the
