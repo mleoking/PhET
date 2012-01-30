@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
+//REVIEW: Why implement Resettable here?  That is never used.
 public class Solution implements Resettable {
 
     public final Solvent solvent;
