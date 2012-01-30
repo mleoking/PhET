@@ -13,6 +13,7 @@ import edu.colorado.phet.molarity.MolarityResources.Symbols;
 public class Solvent {
 
     // pure water
+    //REVIEW: Why is water a class and not a field?
     public static class Water extends Solvent {
         public Water() {
             super( Symbols.WATER, new Color( 0xE0FFFF ) );
