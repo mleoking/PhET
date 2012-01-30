@@ -12,6 +12,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class PrecipitateParticle extends SoluteParticle {
     public PrecipitateParticle( Solute solute, ImmutableVector2D location, double orientation ) {
-        super( solute.precipitateColor, solute.particleSize, location, orientation );
+        super( solute.particleColor, solute.particleSize, location, orientation );
     }
 }
