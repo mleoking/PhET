@@ -1,3 +1,4 @@
+1/30/12 make solute particles accelerate properly
 1/30/12 adjust Solute fields related to particles
 1/30/12 create shaker particles with random orientations
 1/26/12 make concentration meter expand to fit title

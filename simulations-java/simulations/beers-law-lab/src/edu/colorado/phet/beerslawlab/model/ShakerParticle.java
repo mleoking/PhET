@@ -13,16 +13,13 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class ShakerParticle extends SoluteParticle {
 
-    private static final double MASS = 1E-6; //kg
-    // Force due to gravity near the surface of the earth
-    private static final ImmutableVector2D GRAVITY = new ImmutableVector2D( 0, 9.8 ); // m/s^2
-
     private ImmutableVector2D velocity;
     private ImmutableVector2D acceleration;
 
-    public ShakerParticle( Solute solute, ImmutableVector2D location, double orientation, ImmutableVector2D initialVelocity ) {
+    public ShakerParticle( Solute solute, ImmutableVector2D location, double orientation, ImmutableVector2D initialVelocity, ImmutableVector2D acceleration ) {
         super( solute.particleColor, solute.particleSize, location, orientation );
         this.velocity = initialVelocity;
+        this.acceleration = acceleration;
     }
 
     public void stepInTime( double deltaSeconds ) {
@@ -30,13 +27,8 @@ public class ShakerParticle extends SoluteParticle {
         ImmutableVector2D originalLocation = getLocation();
 
         // Propagate to new location
-//        ImmutableVector2D appliedForce = GRAVITY.times( MASS );
-//        acceleration = appliedForce.times( 1.0 / MASS );
-//        velocity = velocity.plus( acceleration.times( deltaSeconds ) );
-//        setLocation( getLocation().plus( velocity.times( deltaSeconds ) ) );
-
-        //XXX straight down
-        setLocation( new ImmutableVector2D( originalLocation.getX(), originalLocation.getY() + 3 ) );
+        velocity = velocity.plus( acceleration.times( deltaSeconds ) );
+        setLocation( getLocation().plus( velocity.times( deltaSeconds ) ) );
 
         //TODO Did the particle hit the beaker walls? If so, change direction.
 
