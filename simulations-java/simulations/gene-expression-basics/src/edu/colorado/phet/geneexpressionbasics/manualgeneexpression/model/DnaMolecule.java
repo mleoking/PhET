@@ -149,7 +149,8 @@ public class DnaMolecule {
         while ( xOffset + LENGTH_PER_TWIST < length ) {
             List<Point2D> segmentPoints = new ArrayList<Point2D>();
             for ( int i = 0; i < BASE_PAIRS_PER_TWIST; i++ ) {
-                segmentPoints.add( new Point2D.Double( xOffset + ( i * DISTANCE_BETWEEN_BASE_PAIRS ), getDnaStrandYPos( xOffset ) ) );
+                double xPos = xOffset + ( i * DISTANCE_BETWEEN_BASE_PAIRS );
+                segmentPoints.add( new Point2D.Double( xPos, getDnaStrandYPos( xPos ) ) );
             }
             // Add the strand segment to the end of the strand.
             dnaStrand.add( new DnaStrandSegment( BioShapeUtils.createSegmentedLineFromPoints( segmentPoints ), inFront ) );
@@ -161,6 +162,9 @@ public class DnaMolecule {
     }
 
     private double getDnaStrandYPos( double distanceFromLeftEdge ) {
+        System.out.println( "distanceFromLeftEdge = " + distanceFromLeftEdge );
+        System.out.println( "Result1 = " + ( distanceFromLeftEdge / LENGTH_PER_TWIST * 2 ) );
+        System.out.println( "Result2 = " + Math.sin( distanceFromLeftEdge / LENGTH_PER_TWIST * Math.PI * 2 ) );
         return Math.sin( distanceFromLeftEdge / LENGTH_PER_TWIST * Math.PI * 2 ) * STRAND_DIAMETER / 2;
     }
 
