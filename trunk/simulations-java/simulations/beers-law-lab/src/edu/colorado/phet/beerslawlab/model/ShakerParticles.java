@@ -61,8 +61,9 @@ public class ShakerParticles {
         // create new particles
         if ( shaker.getDispensingRate() > 0 ) {
             int numberOfParticles = 1; //TODO number of particles created is a function of shaker.getDispensingRate
+            //TODO shouldn't dispense more than the max amount of solute
             for ( int i = 0; i < numberOfParticles; i++ ) {
-                addParticle( new ShakerParticle( solution.solute.get(), shaker.location.get(), 0, getInitialVelocity() ) );
+                addParticle( new ShakerParticle( solution.solute.get(), shaker.location.get(), getRandomOrientation(), getInitialVelocity() ) );
             }
         }
     }
@@ -71,6 +72,10 @@ public class ShakerParticles {
     protected ImmutableVector2D getInitialVelocity() {
         //TODO create a constant for magnitude, or compute based on particle mass?
         return ImmutableVector2D.createPolar( 5, shaker.getOrientation() ); // in the direction the shaker is pointing
+    }
+
+    private double getRandomOrientation() {
+        return Math.random() * Math.PI;
     }
 
     public void addParticlesChangeListener( ParticlesChangeListener listener ) {

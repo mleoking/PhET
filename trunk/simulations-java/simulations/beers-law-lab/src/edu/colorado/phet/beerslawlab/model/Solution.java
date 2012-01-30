@@ -107,7 +107,7 @@ public class Solution implements IFluid, Resettable {
     }
 
     public int getNumberOfPrecipitateParticles() {
-        int numberOfParticles = (int) ( solute.get().precipitateParticlesPerMole * getPrecipitateAmount() );
+        int numberOfParticles = (int) ( solute.get().particlesPerMole * getPrecipitateAmount() );
         if ( numberOfParticles == 0 && getPrecipitateAmount() > 0 ) {
             numberOfParticles = 1;
         }

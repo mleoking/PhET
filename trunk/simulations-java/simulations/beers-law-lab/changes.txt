@@ -1,3 +1,5 @@
+1/30/12 adjust Solute fields related to particles
+1/30/12 create shaker particles with random orientations
 1/26/12 make concentration meter expand to fit title
 1/26/12 create TiledBackgroundNode, takes 3 images and tiles them to fit a specified width
 1/25/12 separate strings for Concentration tab and meter title
