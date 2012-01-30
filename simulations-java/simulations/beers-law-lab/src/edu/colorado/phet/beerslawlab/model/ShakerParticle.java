@@ -15,7 +15,7 @@ public class ShakerParticle extends SoluteParticle {
 
     private static final double MASS = 1E-6; //kg
     // Force due to gravity near the surface of the earth
-    private static final ImmutableVector2D GRAVITY = new ImmutableVector2D( 0, -9.8 ); // m/s^2
+    private static final ImmutableVector2D GRAVITY = new ImmutableVector2D( 0, 9.8 ); // m/s^2
 
     private ImmutableVector2D velocity;
     private ImmutableVector2D acceleration;
