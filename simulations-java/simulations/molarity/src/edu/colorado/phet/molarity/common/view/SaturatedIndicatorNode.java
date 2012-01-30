@@ -32,8 +32,8 @@ public class SaturatedIndicatorNode extends PComposite {
         PText textNode = new PText( Strings.SATURATED ) {{
             setFont( new PhetFont( 20 ) );
         }};
-        double width = 1.2 * textNode.getFullBoundsReference().getWidth();
-        double height = 1.2 * textNode.getFullBoundsReference().getHeight();
+        final double width = 1.2 * textNode.getFullBoundsReference().getWidth();
+        final double height = 1.2 * textNode.getFullBoundsReference().getHeight();
         PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, 8, 8 ) ) {{
             setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
             setStroke( null );
