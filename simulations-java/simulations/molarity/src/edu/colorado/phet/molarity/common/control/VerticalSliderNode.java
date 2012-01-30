@@ -76,8 +76,8 @@ public class VerticalSliderNode extends PhetPNode {
         this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // title & subtitle
-        PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.SLIDER_TITLE_FONT );
-        PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SLIDER_SUBTITLE_FONT );
+        PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.TITLE_FONT );
+        PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SUBTITLE_FONT );
 
         // track that the thumb moves in, origin at upper left
         trackNode = new PPath() {{
@@ -99,8 +99,8 @@ public class VerticalSliderNode extends PhetPNode {
         thumbNode = new ThumbNode( userComponent, THUMB_SIZE, this, trackNode, range, modelValue, units, valuesVisible );
 
         // min and max labels
-        final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
-        final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( range.getMax() ), maxLabel, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
+        final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, MolarityConstants.RANGE_FONT );
+        final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( range.getMax() ), maxLabel, valuesVisible, MolarityConstants.RANGE_FONT );
 
         // rendering order
         {
@@ -168,7 +168,7 @@ public class VerticalSliderNode extends PhetPNode {
             }};
 
             this.valueNode = new PText( "?" ) {{
-                setFont( MolarityConstants.SLIDER_VALUE_FONT );
+                setFont( MolarityConstants.VALUE_FONT );
             }};
             valueNode.setOffset( bodyNode.getFullBoundsReference().getMaxX() + 5,
                                  bodyNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
