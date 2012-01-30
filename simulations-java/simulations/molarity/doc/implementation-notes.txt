@@ -12,3 +12,17 @@ The model uses the view coordinate frame, where positive x is to the right, and 
 
 For the purposes of view layout, the origin of view components is generally described in each component's javadoc.
 If the origin isn't documented, you can assume the Piccolo default (upper-left).
+
+I find that I frequently need to change the rendering order and layout of nodes and canvases.
+To make this easier, node and canvas constructors typically have this structure:
+
+    public MyNode(...) {
+
+        // instantiate nodes
+
+        // set rendering order (addChild)
+
+        // do layout (setOffset)
+
+        // register property observers
+    }
