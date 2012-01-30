@@ -10,7 +10,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.molarity.common.model.Solution;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -26,13 +25,21 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class SolutionNode extends PComposite {
 
-    private final PDimension cylinderSize; // size of the cylinder that represents the beaker
-    private final double cylinderEndHeight; // height of the 2D projection of the beakers cylinders end caps
-    private final Solution solution; // the solution that this node represents
+    private final PDimension cylinderSize;
+    private final double cylinderEndHeight;
+    private final Solution solution;
     private final LinearFunction volumeFunction; // maps volume to a cylinder height
     private final PPath cylinderNode, topNode;
 
-    public SolutionNode( PDimension cylinderSize, double cylinderEndHeight, Solution solution, DoubleRange volumeRange ) {
+    /**
+     * Constructor
+     *
+     * @param cylinderSize      size of the cylinder that represents the beaker
+     * @param cylinderEndHeight height of the 2D projection of the 2D beakers cylinder's end cap
+     * @param solution          the solution that this node represents
+     * @param maxVolume         volume of the beaker's cylinder
+     */
+    public SolutionNode( PDimension cylinderSize, double cylinderEndHeight, Solution solution, double maxVolume ) {
 
         // this node is not interactive
         setPickable( false );
@@ -41,8 +48,7 @@ public class SolutionNode extends PComposite {
         this.cylinderSize = cylinderSize;
         this.cylinderEndHeight = cylinderEndHeight;
         this.solution = solution;
-        this.volumeFunction = new LinearFunction( volumeRange.getMin(), volumeRange.getMax(),
-                                                  ( volumeRange.getMin() / volumeRange.getMax() ) * cylinderSize.getHeight(), cylinderSize.getHeight() );
+        this.volumeFunction = new LinearFunction( 0, maxVolume, 0, cylinderSize.getHeight() );
 
         // nodes
         cylinderNode = new PPath() {{

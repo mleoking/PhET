@@ -1,3 +1,4 @@
+1/30/12 tweak SolutionNode constructor, we only need to know the max volume of the beaker
 1/30/12 added DefaultDecimalFormat.createFormat(int numberOfDecimalPlaces)
 1/30/12 created screenshot based on JC's requirements (potassium dichromate, no precipitate)
 1/30/12 last pass at doc, in preparation for code review
