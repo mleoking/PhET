@@ -118,12 +118,14 @@ public class ConcentrationDisplayNode extends PNode {
     }
 
     // Creates a gradient for the bar and pointer, taking into account the saturation point
+    //REVIEW: Why is static method final?
     private static final GradientPaint createGradient( ColorRange soluteColor, double barHeight, double saturatedConcentration, double maxConcentration ) {
         double y = barHeight - ( barHeight * ( saturatedConcentration / maxConcentration ) );
         return new GradientPaint( 0f, (float) y, soluteColor.getMax(), 0f, (float) barHeight, soluteColor.getMin() );
     }
 
     // Vertical bar. Origin at upper left.
+    //REVIEW: Why a separate class for this?
     private static class BarNode extends PPath {
         public BarNode( final PDimension size ) {
             setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
@@ -150,6 +152,7 @@ public class ConcentrationDisplayNode extends PNode {
     }
 
     // Arrow with a value next to it, drawn in the coordinate frame of the bar to simplifying filling with a gradient paint.
+    //REVIEW: Also consider making this a top level class.
     private static class PointerNode extends PComposite {
 
         // arrow properties, because ArrowNode constructor is so brain damaged
