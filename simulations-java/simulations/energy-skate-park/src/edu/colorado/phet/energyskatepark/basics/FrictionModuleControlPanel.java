@@ -13,6 +13,6 @@ import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 public class FrictionModuleControlPanel extends ControlPanelNode {
     public FrictionModuleControlPanel( EnergySkateParkBasicsModule module ) {
         super( new VBox( new ViewControlPanel.ContentPane( module ),
-                         new TrackControlPanel.TrackControlContentPane( module ) ), EnergySkateParkLookAndFeel.backgroundColor );
+                         new TrackControlContentPane( module ) ), EnergySkateParkLookAndFeel.backgroundColor );
     }
 }
