@@ -43,7 +43,7 @@ public class SaturatedIndicatorNode extends PComposite {
         addChild( backgroundNode );
         addChild( textNode );
 
-        // layout
+        // layout, text centered in the background
         textNode.setOffset( backgroundNode.getFullBoundsReference().getCenterX() - ( textNode.getFullBoundsReference().getWidth() / 2 ),
                             backgroundNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
 
