@@ -248,6 +248,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         for ( MessengerRna messengerRna : messengerRnaList ) {
             messengerRna.stepInTime( dt );
         }
+        dnaMolecule.stepInTime( dt );
     }
 
     /**
