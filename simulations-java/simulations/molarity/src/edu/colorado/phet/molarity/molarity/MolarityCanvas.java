@@ -82,7 +82,8 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
                                                                                           MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLARITY ),
                                                                                           concentrationBarSize,
                                                                                           model.solution, model.getConcentrationRange(),
-                                                                                          Strings.UNITS_MOLARITY, valuesVisible );
+                                                                                          Strings.UNITS_MOLARITY, Strings.ZERO, Strings.HIGH,
+                                                                                          valuesVisible );
 
         // Show Values checkbox
         ShowValuesNode showValuesNode = new ShowValuesNode( valuesVisible );

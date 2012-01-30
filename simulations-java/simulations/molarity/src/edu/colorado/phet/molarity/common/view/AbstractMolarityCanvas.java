@@ -45,10 +45,6 @@ public class AbstractMolarityCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( node );
     }
 
-    protected Dimension2D getStageSize() {
-        return STAGE_SIZE;
-    }
-
     // Centers the root node on the stage.
     protected void centerRootNodeOnStage() {
         rootNode.setOffset( ( ( STAGE_SIZE.getWidth() - rootNode.getFullBoundsReference().getWidth() ) / 2 ) - PNodeLayoutUtils.getOriginXOffset( rootNode ),

@@ -35,6 +35,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Vertical sliders in the Molarity simulation.
+ * Can be switched between qualitative and quantitative display of range and value.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -52,6 +53,22 @@ public class VerticalSliderNode extends PhetPNode {
         this( userComponent, title, subtitle, minLabel, maxLabel, trackSize, Color.BLACK, new Color( 200, 200, 200, 140 ), modelValue, range, units, valuesVisible );
     }
 
+    /**
+     * Constructor
+     *
+     * @param userComponent        component identifier that will appear in data collection messages
+     * @param title                main title that appears above the title
+     * @param subtitle             subtitle that appear below the main title, in a less font
+     * @param minLabel             qualitative label for min
+     * @param maxLabel             qualitative label for max
+     * @param trackSize            size of the slider track
+     * @param trackPaint           color used to fill the track
+     * @param trackBackgroundPaint color used for the background that appears around the track
+     * @param modelValue           model value that the slider is attached to
+     * @param range                range of the slider
+     * @param units                units for the value
+     * @param valuesVisible        quantitative when true, qualitative when false
+     */
     public VerticalSliderNode( IUserComponent userComponent, String title, String subtitle, String minLabel, String maxLabel,
                                final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
                                final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
@@ -115,20 +132,15 @@ public class VerticalSliderNode extends PhetPNode {
                                  trackNode.getFullBoundsReference().getCenterY() );
         }
 
-        // adjust the slider to reflect the model value
+        // move the slider thumb to reflect the model value
         modelValue.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                updateNode( value );
+                thumbNode.setOffset( thumbNode.getXOffset(), function.evaluate( value ) );
             }
         } );
     }
 
-    private void updateNode( double value ) {
-        // knob location
-        thumbNode.setOffset( thumbNode.getXOffset(), function.evaluate( value ) );
-    }
-
-    // The slider thumb, rounded rectangle with a horizontal line through the center. Origin is at the thumb's geometric center.
+    // The slider thumb, a rounded rectangle with a horizontal line through its center. Origin is at the thumb's geometric center.
     private static class ThumbNode extends PComposite {
 
         private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
@@ -137,7 +149,7 @@ public class VerticalSliderNode extends PhetPNode {
         private static final Color THUMB_STROKE_COLOR = Color.BLACK;
         private static final Color THUMB_CENTER_LINE_COLOR = Color.WHITE;
 
-        private final PText valueNode;
+        private final PText valueNode; // value displayed to the right of the thumb
 
         public ThumbNode( IUserComponent userComponent, final PDimension size, PNode relativeNode, PNode trackNode,
                           DoubleRange range, final Property<Double> modelValue, final String units, Property<Boolean> valuesVisible ) {
@@ -166,12 +178,14 @@ public class VerticalSliderNode extends PhetPNode {
             addChild( centerLineNode );
             addChild( valueNode );
 
+            // switch between quantitative and qualitative display
             valuesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     valueNode.setVisible( visible );
                 }
             } );
 
+            // update the value to match the model
             modelValue.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double value ) {
                     valueNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, MolarityConstants.VALUE_FORMAT.format( value ), units ) );
@@ -194,7 +208,8 @@ public class VerticalSliderNode extends PhetPNode {
             super( userComponent, Orientation.VERTICAL, relativeNode, trackNode, thumbNode, range,
                    new VoidFunction1<Double>() {
                        public void apply( Double value ) {
-                           modelValue.set( new PrecisionDecimal( value, MolarityConstants.VALUE_DECIMAL_PLACES ).getValue() ); // limit precision so that student calculations are correct
+                           // limit precision so that student calculations are correct
+                           modelValue.set( new PrecisionDecimal( value, MolarityConstants.VALUE_DECIMAL_PLACES ).getValue() );
                        }
                    } );
             this.modelValue = modelValue;

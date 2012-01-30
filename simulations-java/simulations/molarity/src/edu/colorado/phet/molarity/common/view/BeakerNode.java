@@ -44,6 +44,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BeakerNode extends PComposite {
 
+    // Shows the solution concentration on the beaker label.
     private static final boolean CONCENTRATION_FEATURE_ENABLED = false;
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( BeakerNode.class.getCanonicalName() );
