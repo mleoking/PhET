@@ -1,3 +1,4 @@
+Energy Skate Park Basics: Make the "Return Skater" button return the skater to the original location, if the skater hasn't been moved yet
 Energy Skate Park Basics: Hide the bar chart when the user switches tabs
 Energy Skate Park Basics: Internationalized speedometer
 # 2.08.24 (60714) Jan 27, 2012
