@@ -1,5 +1,4 @@
 TODO list for molarity
 
 - permission to use Kool-Aid trademark
-- screenshot (default state, qualitative, "warm" solute color)
 - publish 1.00
