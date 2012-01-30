@@ -179,6 +179,7 @@ public class BeakerNode extends PComposite {
     /*
      * Label that appears on the beaker in a frosty, translucent frame.
      * Origin at top center.
+     * REVIEW: I recommend moving this class to top-level instead of nested.  It is big enough and different enough.
      */
     private static class LabelNode extends PComposite {
 

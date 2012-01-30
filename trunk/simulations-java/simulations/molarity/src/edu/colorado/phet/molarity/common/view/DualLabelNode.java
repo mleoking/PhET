@@ -18,6 +18,7 @@ public class DualLabelNode extends PComposite {
 
     public DualLabelNode( String quantitativeValue, String qualitativeValue, Property<Boolean> valuesVisible, final PhetFont font ) {
 
+        //REVIEW: Please use PhetPText for cases like this.
         final PText quantitativeNode = new PText( quantitativeValue ) {{
             setFont( font );
         }};

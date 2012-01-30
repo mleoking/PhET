@@ -18,6 +18,8 @@ public class Solution implements Resettable {
     public final Property<Solute> solute;
     public final Property<Double> soluteAmount; // moles
     public final Property<Double> volume; // Liters
+
+    //REVIEW: Why is this private instead of public ObservableProperty<Double>?  It makes other code look asymmetric like bottom of SolutionNode constructor and prevents using tools like RichSimpleObserver
     private final Property<Double> concentration; // molarity, moles/Liter (derived property)
     private final Property<Double> precipitateAmount; // moles (derived property)
 
