@@ -47,7 +47,7 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
                                                       0.75, 0.75,
                                                       valuesVisible );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
-        SolutionNode solutionNode = new SolutionNode( cylinderSize, beakerNode.getCylinderEndHeight(), model.solution, model.getSolutionVolumeRange() );
+        SolutionNode solutionNode = new SolutionNode( cylinderSize, beakerNode.getCylinderEndHeight(), model.solution, model.getSolutionVolumeRange().getMax() );
         PrecipitateNode precipitateNode = new PrecipitateNode( model.solution, cylinderSize, beakerNode.getCylinderEndHeight() );
         SaturatedIndicatorNode saturatedIndicatorNode = new SaturatedIndicatorNode( model.solution );
 
