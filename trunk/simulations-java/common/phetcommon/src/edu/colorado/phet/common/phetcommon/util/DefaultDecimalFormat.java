@@ -50,6 +50,15 @@ public class DefaultDecimalFormat extends DecimalFormat {
         return result;
     }
 
+    // Creates a format with at least one integer place and a specified number of decimal places.
+    public static DefaultDecimalFormat createFormat( int numberOfDecimalPlaces ) {
+        String pattern = "0.";
+        for ( int i = 0; i < numberOfDecimalPlaces; i++ ) {
+            pattern += "0";
+        }
+        return new DefaultDecimalFormat( pattern );
+    }
+
     // tests
     public static void main( String[] args ) {
 

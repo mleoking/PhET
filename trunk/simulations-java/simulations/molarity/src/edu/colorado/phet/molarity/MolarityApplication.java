@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.molarity;
 
-import java.awt.Frame;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -17,8 +15,7 @@ public class MolarityApplication extends PiccoloPhetApplication {
 
     public MolarityApplication( PhetApplicationConfig config ) {
         super( config );
-        Frame frame = getPhetFrame();
-        addModule( new MolarityModule( frame ) );
+        addModule( new MolarityModule( getPhetFrame() ) );
     }
 
     public static void main( final String[] args ) {

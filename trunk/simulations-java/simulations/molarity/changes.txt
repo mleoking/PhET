@@ -1,3 +1,4 @@
+1/30/12 added DefaultDecimalFormat.createFormat(int numberOfDecimalPlaces)
 1/30/12 created screenshot based on JC's requirements (potassium dichromate, no precipitate)
 1/30/12 last pass at doc, in preparation for code review
 # 0.00.16 (60693) Jan 26, 2012

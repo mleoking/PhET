@@ -59,12 +59,12 @@ public class ConcentrationDisplayNode extends PNode {
                                      String minLabel, String maxLabel,
                                      Property<Boolean> valuesVisible ) {
         // nodes
-        final PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.SLIDER_TITLE_FONT );
-        final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SLIDER_SUBTITLE_FONT );
+        final PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.TITLE_FONT );
+        final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SUBTITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
         final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), concentrationUnits, valuesVisible );
-        final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), maxLabel, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
-        final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), minLabel, valuesVisible, MolarityConstants.SLIDER_RANGE_FONT );
+        final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), maxLabel, valuesVisible, MolarityConstants.RANGE_FONT );
+        final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), minLabel, valuesVisible, MolarityConstants.RANGE_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
 
         // rendering order
@@ -170,7 +170,7 @@ public class ConcentrationDisplayNode extends PNode {
             this.function = new LinearFunction( range.getMin(), range.getMax(), barSize.getHeight(), 0 );
             this.arrowNode = new PNode();
             this.valueNode = new PText() {{
-                setFont( MolarityConstants.SLIDER_VALUE_FONT );
+                setFont( MolarityConstants.VALUE_FONT );
             }};
             addChild( valueNode );
             setValue( value );

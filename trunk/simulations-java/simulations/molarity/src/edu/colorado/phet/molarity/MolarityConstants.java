@@ -15,12 +15,12 @@ import edu.colorado.phet.molarity.common.util.ZeroIntegerDoubleFormat;
  */
 public class MolarityConstants {
 
-    public static final PhetFont SLIDER_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
-    public static final PhetFont SLIDER_SUBTITLE_FONT = new PhetFont( Font.PLAIN, 14 );
-    public static final PhetFont SLIDER_RANGE_FONT = new PhetFont( Font.PLAIN, 14 );
-    public static final PhetFont SLIDER_VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
-
+    // properties shared by sliders and concentration display
+    public static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
+    public static final PhetFont SUBTITLE_FONT = new PhetFont( Font.PLAIN, 14 );
+    public static final PhetFont RANGE_FONT = new PhetFont( Font.PLAIN, 14 );
+    public static final PhetFont VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
     public static final int VALUE_DECIMAL_PLACES = 2;
-    public static final DecimalFormat VALUE_FORMAT = new DefaultDecimalFormat( "0.00" ); // this should match VALUE_DECIMAL_PLACES;
+    public static final DecimalFormat VALUE_FORMAT = DefaultDecimalFormat.createFormat( VALUE_DECIMAL_PLACES );
     public static final ZeroIntegerDoubleFormat RANGE_FORMAT = new ZeroIntegerDoubleFormat( "0.0" );
 }
