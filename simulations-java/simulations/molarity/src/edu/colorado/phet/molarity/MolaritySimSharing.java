@@ -11,9 +11,12 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class MolaritySimSharing {
 
     public enum UserComponents implements IUserComponent {
-        showValuesCheckBox, soluteComboBox,
-        soluteAmountSlider, volumeSlider,
-        concentrationBar, concentrationPointer,
+        showValuesCheckBox,
+        soluteComboBox,
+        soluteAmountSlider,
+        volumeSlider,
+        concentrationBar,
+        concentrationPointer,
         solutionBeaker
     }
 }
