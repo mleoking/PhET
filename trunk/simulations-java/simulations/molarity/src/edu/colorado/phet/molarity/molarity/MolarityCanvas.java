@@ -33,10 +33,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MolarityCanvas extends AbstractMolarityCanvas {
 
-    private static final PDimension BEAKER_LABEL_SIZE = new PDimension( 180, 80 );
-    private static final PhetFont BEAKER_FORMULA_FONT = new PhetFont( Font.BOLD, 28 );
-    private static final PhetFont BEAKER_CONCENTRATION_FONT = new PhetFont( 16 );
-
+    // switches between quantitative (true) and qualitative (false) views
     private final Property<Boolean> valuesVisible = new Property<Boolean>( false );
 
     public MolarityCanvas( final MolarityModel model, Frame parentFrame ) {
@@ -44,9 +41,9 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
         // beaker, with solution and precipitate inside of it
         final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker,
                                                       model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS,
-                                                      model.solution.solute.get().formula, BEAKER_FORMULA_FONT,
-                                                      model.solution.getConcentration(), Strings.UNITS_MOLARITY, BEAKER_CONCENTRATION_FONT,
-                                                      BEAKER_LABEL_SIZE,
+                                                      model.solution.solute.get().formula, new PhetFont( Font.BOLD, 28 ),
+                                                      model.solution.getConcentration(), Strings.UNITS_MOLARITY, new PhetFont( 16 ),
+                                                      new PDimension( 180, 80 ),
                                                       0.75, 0.75,
                                                       valuesVisible );
         final PDimension cylinderSize = beakerNode.getCylinderSize();
