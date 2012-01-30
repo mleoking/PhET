@@ -3,6 +3,13 @@ package edu.colorado.phet.common.phetcommon.simsharing.tests;
 
 import java.io.IOException;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
+
 /**
  * Launch a sim several times to make sure the server can accommodate lots of sessions.
  *
@@ -11,6 +18,9 @@ import java.io.IOException;
 public class MongoLoadTesterSimLauncher {
 
     private static final int NUM_CLIENTS = 10;
+
+    //To be used in conjunction with MongoLoadTesterSimLauncher for load testing the server.  Needs to be manually enabled when a load testing jar is built.
+    public static final boolean PERFORM_LOAD_TESTING = false;
 
     public static void main( String[] args ) {
         for ( int i = 0; i < NUM_CLIENTS; i++ ) {
@@ -25,6 +35,23 @@ public class MongoLoadTesterSimLauncher {
                     }
                 }
             } ).start();
+        }
+    }
+
+    //Note this is called from another JAR compiled manually and launched via Runtime.exec() in main()
+    public static void performLoadTesting() {
+
+        if ( PERFORM_LOAD_TESTING ) {
+            //For testing only, send 10 big messages every second for load testing.
+            while ( true ) {
+                SimSharingManager.sendSystemMessage( SystemComponents.loadTester, SystemComponentTypes.application, SystemActions.sentEvent, ParameterSet.parameterSet( ParameterKeys.averageValue, Math.random() ) );
+                try {
+                    Thread.sleep( 100 );
+                }
+                catch ( InterruptedException e ) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }
