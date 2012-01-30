@@ -80,6 +80,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/microwaves/microwaves.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/microwaves/microwaves.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/modes-example/modes-example.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/modes-example/modes-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molarity/molarity.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molarity/molarity.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/dilutions/molarity.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/dilutions/molarity.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molecule-polarity/molecule-polarity.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molecule-polarity/molecule-polarity.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" />
