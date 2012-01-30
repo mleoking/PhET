@@ -27,7 +27,7 @@ public class Solute {
     public final double particleSize; // solid particles are square, this is the length of one side
     public final int particlesPerMole; // number of particles to show per mol of solute
 
-    // For most solutes, the color of the precipitate is the same as the color of the saturated solution.
+    // For most solutes, particles are the same as the color as the saturated solution.
     public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration, ColorRange solutionColor, double particleSize, int particlesPerMole ) {
         this( name, formula, molarMass, saturatedConcentration, stockSolutionConcentration, solutionColor, solutionColor.getMax(), particleSize, particlesPerMole );
     }
