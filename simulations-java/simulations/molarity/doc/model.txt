@@ -11,7 +11,7 @@ Adding solute to solution beyond its saturated concentration results in formatio
 
 Concentration of a solution is:
 
-   M = min( (saturatedConcentration (M), ( (amountOfSolute (moles)) / (volumeOfSolution (L)) )
+   M = min( (saturatedConcentration (M), ( (amountOfSolute (moles)) / (volumeOfSolution (L)) ))
 
 When a solution is saturated, the amount of precipitate is:
 
