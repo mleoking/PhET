@@ -42,7 +42,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeakerNode extends PComposite {
+class BeakerNode extends PComposite {
 
     // Shows the solution concentration on the beaker label.
     private static final boolean CONCENTRATION_FEATURE_ENABLED = false;

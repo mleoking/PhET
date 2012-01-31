@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeakerImageNode extends PImage {
+class BeakerImageNode extends PImage {
 
     // points of interest in the image file
     private static final Point2D CYLINDER_UPPER_LEFT = new Point2D.Double( 98, 192 );

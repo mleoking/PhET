@@ -37,7 +37,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConcentrationDisplayNode extends PNode {
+class ConcentrationDisplayNode extends PNode {
 
     /**
      * Constructor

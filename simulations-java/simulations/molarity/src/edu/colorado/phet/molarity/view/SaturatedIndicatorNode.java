@@ -20,7 +20,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SaturatedIndicatorNode extends PComposite {
+class SaturatedIndicatorNode extends PComposite {
 
     public SaturatedIndicatorNode( final Solution solution ) {
 
