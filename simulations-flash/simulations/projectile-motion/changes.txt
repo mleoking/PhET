@@ -1,3 +1,5 @@
+# 2.03.04 (60826) Jan 31, 2012
+1/31/12 Minor bug fix.
 # 2.03.03 (60817) Jan 31, 2012
 1/31/12 Version ready for Testing by Dan Schwartz.
 # 2.03.02 (60731) Jan 30, 2012
