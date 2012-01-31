@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaSeparation;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 
@@ -46,6 +47,10 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
     // to the place where the mRNA should appear.
     private final ImmutableVector2D messengerRnaEmergenceOffset;
 
+    // DNA separation - controls how the DNA strands separate when the
+    // biomolecule is performing the transcription.
+    private final DnaSeparation dnaStrandSeparation;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -55,14 +60,20 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         this.attachmentSite = attachmentSite;
         this.messengerRnaEmergenceOffset = messengerRnaEmergenceOffset;
         transcribedRegionLength = geneBeingTranscribed.getTranscribedRegionLength();
+        dnaStrandSeparation = new DnaSeparation( biomolecule.getPosition().getX(), biomolecule.getShape().getBounds2D().getHeight() * 0.8 );
+        // TODO: Max out the separation for now.
+        dnaStrandSeparation.setAmount( 1 );
+
         // Create the mRNA molecule that will be grown during the transcription
         // process.
-
         messengerRna = new MessengerRna( biomolecule.getModel(),
                                          geneBeingTranscribed.getProteinPrototype(),
                                          new Point2D.Double( biomolecule.getPosition().getX() + messengerRnaEmergenceOffset.getX(),
                                                              biomolecule.getPosition().getY() + messengerRnaEmergenceOffset.getY() ) );
         biomolecule.spawnMessengerRna( messengerRna );
+
+        // Add the strand separator to the DNA molecule.
+        biomolecule.getModel().getDnaMolecule().addSeparation( dnaStrandSeparation );
     }
 
     //-------------------------------------------------------------------------
@@ -84,6 +95,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
             messengerRna.addLength( dt * VELOCITY );
             messengerRna.setLowerRightPosition( new Point2D.Double( biomolecule.getPosition().getX() + messengerRnaEmergenceOffset.getX(),
                                                                     biomolecule.getPosition().getY() + messengerRnaEmergenceOffset.getY() ) );
+            dnaStrandSeparation.setXPos( biomolecule.getPosition().getX() );
         }
         else if ( degreeOfConformationalChange > 0 ) {
             // The molecule is changing back to the non-transcribing conformation.
@@ -108,6 +120,8 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
         // Make sure it is back to the nominal conformation.
         biomolecule.changeConformation( 0 );
+        // Remove the DNA strand separator.
+        biomolecule.getModel().getDnaMolecule().removeSeparation( dnaStrandSeparation );
     }
 
     @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites ) {

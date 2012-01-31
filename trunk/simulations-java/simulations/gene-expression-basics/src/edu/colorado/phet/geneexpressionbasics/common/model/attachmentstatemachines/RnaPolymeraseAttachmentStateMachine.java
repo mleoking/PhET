@@ -14,6 +14,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaSeparation;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
@@ -37,6 +38,15 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // RNA polymerase that is being controlled by this state machine.
     private final RnaPolymerase rnaPolymerase;
 
+    // Separator used to deform the DNA strand when the RNA polymerase is
+    // transcribing it.
+    private final DnaSeparation dnaStrandSeparation;
+
+    /**
+     * Constructor.
+     *
+     * @param rnaPolymerase
+     */
     public RnaPolymeraseAttachmentStateMachine( RnaPolymerase rnaPolymerase ) {
         super( rnaPolymerase );
         this.rnaPolymerase = rnaPolymerase;
@@ -44,6 +54,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         // Set up a new "attached" state, since the behavior is different from
         // the default.
         attachedState = attachedAndWanderingState;
+
+        // Create the DNA strand separator.
+        dnaStrandSeparation = new DnaSeparation( rnaPolymerase.getPosition().getX(), rnaPolymerase.getShape().getBounds2D().getHeight() * 1.0 );
     }
 
     // Subclass of the "attached" state for polymerase when it is attached to
@@ -108,6 +121,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
         @Override public void entered( AttachmentStateMachine asm ) {
             attachCountdownTime = DEFAULT_ATTACH_TIME;
+
+            // Insert the separator.
+            rnaPolymerase.getModel().getDnaMolecule().addSeparation( dnaStrandSeparation );
         }
     }
 
@@ -152,6 +168,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             messengerRna.addLength( TRANSCRIPTION_VELOCITY * dt );
             messengerRna.setLowerRightPosition( rnaPolymerase.getPosition().getX() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getX(),
                                                 rnaPolymerase.getPosition().getY() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getY() );
+
+            // Move the DNA strand separator.
+            dnaStrandSeparation.setXPos( rnaPolymerase.getPosition().getX() );
+            dnaStrandSeparation.setProportionOfTargetAmount( 1 );
 
             // If we've reached the end of the gene, detach.
             if ( biomolecule.getPosition().equals( endOfGene ) ) {
@@ -200,6 +220,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 // Conformational change complete, time to detach.
                 asm.detach();
                 asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
+                rnaPolymerase.getModel().getDnaMolecule().removeSeparation( dnaStrandSeparation );
 
                 // Make sure that we enter the correct initial state upon the
                 // next attachment.
