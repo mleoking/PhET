@@ -94,7 +94,6 @@ public class SoluteControlNode extends PhetPNode {
     private static class SoluteItemNode extends PComposite {
         public SoluteItemNode( final Solute solute ) {
 
-            //REVIEW: Please try using PhetPPath.  This would read like new PhetPPath(new Rectangle2D.Double( 0, 0, 20, 20 ),solute.solutionColor.getMax() )
             // solute color chip
             PPath colorNode = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) ) {{
                 setPaint( solute.solutionColor.getMax() );
@@ -104,7 +103,6 @@ public class SoluteControlNode extends PhetPNode {
 
             // solute label
             HTMLNode labelNode = new HTMLNode() {{
-
                 //REVIEW: Please explain this next line
                 setHTML( solute.formula.equals( solute.name ) ? solute.formula : MessageFormat.format( "{0}", solute.name ) );
                 setFont( ITEM_FONT );

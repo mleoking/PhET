@@ -29,14 +29,12 @@ public class SaturatedIndicatorNode extends PComposite {
         setChildrenPickable( false );
 
         // nodes
-        //REVIEW: Use PhetPText here
         PText textNode = new PText( Strings.SATURATED ) {{
             setFont( new PhetFont( 20 ) );
         }};
         final double width = 1.2 * textNode.getFullBoundsReference().getWidth();
         final double height = 1.2 * textNode.getFullBoundsReference().getHeight();
 
-        //REVIEW: PhetPPath here
         PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, 8, 8 ) ) {{
             setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
             setStroke( null );
