@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.ColorRange;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
-import edu.colorado.phet.molarity.MolarityResources.Symbols;
+import edu.colorado.phet.molarity.MolaritySymbols;
 import edu.colorado.phet.molarity.model.Solvent.Water;
 
 /**
@@ -43,15 +43,15 @@ public class MolarityModel implements Resettable {
 
         // solutes, in rainbow (ROYGBIV) order
         this.solutes = new ArrayList<Solute>() {{
-            add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
-            add( new Solute( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
-            add( new Solute( Strings.COBALT_CHLORIDE, Symbols.COBALT_CHLORIDE, 4.35, new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
-            add( new Solute( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 0.50, new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
-            add( new Solute( Strings.GOLD_III_CHLORIDE, Symbols.GOLD_III_CHLORIDE, 2.25, new ColorRange( new Color( 255, 255, 199 ), new Color( 0xFFD700 ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
-            add( new Solute( Strings.POTASSIUM_CHROMATE, Symbols.POTASSIUM_CHROMATE, 3.35, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
-            add( new Solute( Strings.NICKEL_II_CHLORIDE, Symbols.NICKEL_II_CHLORIDE, 5.0, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
-            add( new Solute( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 1.40, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
-            add( new Solute( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 0.50, new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) ), Color.BLACK, PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.KOOL_AID, MolaritySymbols.KOOL_AID, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.COBALT_II_NITRATE, MolaritySymbols.COBALT_II_NITRATE, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.COBALT_CHLORIDE, MolaritySymbols.COBALT_CHLORIDE, 4.35, new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.POTASSIUM_DICHROMATE, MolaritySymbols.POTASSIUM_DICHROMATE, 0.50, new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.GOLD_III_CHLORIDE, MolaritySymbols.GOLD_III_CHLORIDE, 2.25, new ColorRange( new Color( 255, 255, 199 ), new Color( 0xFFD700 ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.POTASSIUM_CHROMATE, MolaritySymbols.POTASSIUM_CHROMATE, 3.35, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.NICKEL_II_CHLORIDE, MolaritySymbols.NICKEL_II_CHLORIDE, 5.0, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.COPPER_SULFATE, MolaritySymbols.COPPER_SULFATE, 1.40, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.POTASSIUM_PERMANGANATE, MolaritySymbols.POTASSIUM_PERMANGANATE, 0.50, new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) ), Color.BLACK, PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
         }};
         for ( Solute solute : solutes ) {
             assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) );

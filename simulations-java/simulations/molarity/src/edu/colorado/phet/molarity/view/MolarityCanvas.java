@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
-import edu.colorado.phet.molarity.MolarityResources.Symbols;
 import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
+import edu.colorado.phet.molarity.MolaritySymbols;
 import edu.colorado.phet.molarity.control.ShowValuesNode;
 import edu.colorado.phet.molarity.control.SoluteControlNode;
 import edu.colorado.phet.molarity.control.VerticalSliderNode;
@@ -140,7 +140,7 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
                     labelText = "";
                 }
                 else if ( model.solution.getConcentration() == 0 ) {
-                    labelText = Symbols.WATER;
+                    labelText = MolaritySymbols.WATER;
                 }
                 else {
                     labelText = model.solution.solute.get().formula;

@@ -3,7 +3,6 @@ package edu.colorado.phet.molarity;
 
 import java.awt.Image;
 
-import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
@@ -48,20 +47,6 @@ public class MolarityResources {
         public static final String UNITS_MOLARITY = RESOURCES.getLocalizedString( "units.molarity" );
         public static final String UNITS_MOLES = RESOURCES.getLocalizedString( "units.moles" );
         public static final String ZERO = RESOURCES.getLocalizedString( "zero" );
-    }
-
-    // Symbols, no i18n needed
-    public static class Symbols {
-        public static final String COBALT_II_NITRATE = ChemUtils.toSubscript( "Co(NO3)2" );
-        public static final String COBALT_CHLORIDE = ChemUtils.toSubscript( "CoCl2" );
-        public static final String COPPER_SULFATE = ChemUtils.toSubscript( "CuSO4" );
-        public static final String GOLD_III_CHLORIDE = ChemUtils.toSubscript( "AuCl3" );
-        public static final String KOOL_AID = Strings.KOOL_AID;
-        public static final String NICKEL_II_CHLORIDE = ChemUtils.toSubscript( "NiCl2" );
-        public static final String POTASSIUM_CHROMATE = ChemUtils.toSubscript( "K2CrO4" );
-        public static final String POTASSIUM_DICHROMATE = ChemUtils.toSubscript( "K2Cr2O7" );
-        public static final String POTASSIUM_PERMANGANATE = ChemUtils.toSubscript( "KMnO4" );
-        public static final String WATER = ChemUtils.toSubscript( "H2O" );
     }
 
     // Images
