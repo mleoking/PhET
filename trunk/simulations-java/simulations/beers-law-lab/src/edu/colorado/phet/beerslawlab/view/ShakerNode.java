@@ -4,7 +4,6 @@ package edu.colorado.phet.beerslawlab.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
@@ -19,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -84,7 +82,7 @@ public class ShakerNode extends PhetPNode {
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new ShakerDragHandler( shaker, this, shaker.getDragBounds() ) );
+        addInputEventListener( new MovableDragHandler( UserComponents.shaker, shaker, this ) );
     }
 
     private void addHoleNodes( ImmutableVector2D[] holeLocations ) {
@@ -105,27 +103,6 @@ public class ShakerNode extends PhetPNode {
             setPathTo( new Ellipse2D.Double( -( DIAMETER / 2 ), -( DIAMETER ) / 2, DIAMETER, DIAMETER ) );
             setStroke( null );
             setPaint( Color.GREEN );
-        }
-    }
-
-    // Drag handler, specialized for the shaker.
-    private static class ShakerDragHandler extends MovableDragHandler {
-
-        private final Shaker shaker;
-
-        public ShakerDragHandler( final Shaker shaker, PNode dragNode, Rectangle2D dragBounds ) {
-            super( UserComponents.shaker, shaker, dragNode );
-            this.shaker = shaker;
-        }
-
-        @Override protected void startDrag( PInputEvent event ) {
-            super.startDrag( event );
-            shaker.setDispensingRate( shaker.getMaxDispensingRate() ); //TODO set rate based on direction of shake, and vigorousness of shake
-        }
-
-        @Override protected void endDrag( PInputEvent event ) {
-            super.endDrag( event );
-            shaker.setDispensingRate( 0 );
         }
     }
 }

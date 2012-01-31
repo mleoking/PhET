@@ -51,7 +51,7 @@ public class ConcentrationModel implements Resettable {
     private static final double MAX_INPUT_FLOW_RATE = 0.25; // L/sec
     private static final double MAX_OUTPUT_FLOW_RATE = MAX_INPUT_FLOW_RATE; // L/sec
     private static final double DROPPER_FLOW_RATE = 0.05; // L/sec
-    private static final double SHAKER_MAX_DISPENSING_RATE = 0.1; // mol/sec
+    private static final double SHAKER_MAX_DISPENSING_RATE = 0.2; // mol/sec
 
     // validate constants
     static {
@@ -167,6 +167,7 @@ public class ConcentrationModel implements Resettable {
         addStockSolutionFromDropper( deltaSeconds );
         evaporateSolvent( deltaSeconds );
         propagateShakerParticles( deltaSeconds );
+        createShakerParticles();
     }
 
     // Add solvent from the input faucet
@@ -187,6 +188,11 @@ public class ConcentrationModel implements Resettable {
     // Propagate solid solute that came out of the shaker
     private void propagateShakerParticles( double deltaSeconds ) {
         shakerParticles.stepInTime( deltaSeconds );
+    }
+
+    // Create new solute particles when the shaker is shaken.
+    private void createShakerParticles() {
+        shaker.stepInTime();
     }
 
     // Add stock solution from dropper
