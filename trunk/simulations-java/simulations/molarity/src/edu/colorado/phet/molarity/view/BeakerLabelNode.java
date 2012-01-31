@@ -70,7 +70,9 @@ class BeakerLabelNode extends PComposite {
         // rendering order
         addChild( backgroundNode );
         textParentNode.addChild( formulaNode );
-        textParentNode.addChild( concentrationNode );
+        if ( CONCENTRATION_FEATURE_ENABLED ) {
+            textParentNode.addChild( concentrationNode );
+        }
         addChild( textParentNode );
 
         // update formula on label
