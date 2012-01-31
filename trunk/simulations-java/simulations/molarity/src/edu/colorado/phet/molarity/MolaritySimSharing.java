@@ -17,6 +17,8 @@ public class MolaritySimSharing {
         volumeSlider,
         concentrationBar,
         concentrationPointer,
-        solutionBeaker
+        solutionBeaker,
+        track,
+        thumb
     }
 }
