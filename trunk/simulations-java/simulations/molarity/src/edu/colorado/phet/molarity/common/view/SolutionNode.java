@@ -110,13 +110,11 @@ public class SolutionNode extends PComposite {
 
     // Creates the shape of the cylinder's top, so that the top can be stroked separately.
     private Shape createTopShape( double height ) {
-        Shape shape;
         if ( height == 0 ) {
-            shape = new GeneralPath();
+            return new GeneralPath();
         }
         else {
-            shape = new Ellipse2D.Double( 0, cylinderSize.getHeight() - height - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight );
+            return new Ellipse2D.Double( 0, cylinderSize.getHeight() - height - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight );
         }
-        return shape;
     }
 }
