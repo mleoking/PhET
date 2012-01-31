@@ -234,8 +234,8 @@ class BeakerNode extends PComposite {
 
         public void setConcentration( double concentration ) {
             String concentrationString = CONCENTRATION_FORMAT.format( concentration );
-            String valueUnitsString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, concentrationString, concentrationUnits );
-            concentrationNode.setText( MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, valueUnitsString ) );
+            String valueUnitsString = MessageFormat.format( Strings.PATTERN__0VALUE__1UNITS, concentrationString, concentrationUnits );
+            concentrationNode.setText( MessageFormat.format( Strings.PATTERN__PARENTHESES__0TEXT, valueUnitsString ) );
             updateLayout();
         }
 

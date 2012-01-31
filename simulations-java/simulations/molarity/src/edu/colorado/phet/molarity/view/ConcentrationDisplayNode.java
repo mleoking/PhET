@@ -199,7 +199,7 @@ class ConcentrationDisplayNode extends PNode {
             addChild( arrowNode );
 
             // update the value
-            String valueString = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, MolarityConstants.VALUE_FORMAT.format( value ), units );
+            String valueString = MessageFormat.format( Strings.PATTERN__0VALUE__1UNITS, MolarityConstants.VALUE_FORMAT.format( value ), units );
             valueNode.setText( valueString );
             valueNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 3,
                                  arrowNode.getFullBoundsReference().getCenterY() - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
