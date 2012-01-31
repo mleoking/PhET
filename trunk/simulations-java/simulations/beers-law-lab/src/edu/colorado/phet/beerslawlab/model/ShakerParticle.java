@@ -25,7 +25,7 @@ public class ShakerParticle extends SoluteParticle {
     }
 
     // Propagates the particle to a new location
-    public void stepInTime( double deltaSeconds, double beakerMinX ) {
+    public void stepInTime( double deltaSeconds, Beaker beaker ) {
 
         velocity = velocity.plus( acceleration.times( deltaSeconds ) );
         ImmutableVector2D newLocation = getLocation().plus( velocity.times( deltaSeconds ) );
@@ -35,8 +35,9 @@ public class ShakerParticle extends SoluteParticle {
          * Note that this is a very simplified model, and only deals with the left wall of the beaker,
          * which is the only wall that the particles can hit in practice.
          */
-        if ( newLocation.getX() - solute.particleSize  <= beakerMinX ) {
-            newLocation = new ImmutableVector2D( beakerMinX + solute.particleSize, newLocation.getY() );
+        final double minX = beaker.getMinX() + solute.particleSize;
+        if ( newLocation.getX() <= minX ) {
+            newLocation = new ImmutableVector2D( minX, newLocation.getY() );
             velocity = new ImmutableVector2D( Math.abs( velocity.getX() ), velocity.getY() );
         }
 
