@@ -48,7 +48,7 @@ class PrecipitateNode extends PComposite {
         }
 
         // when the saturation changes, update the number of precipitate particles
-        solution.addPrecipitateAmountObserver( new SimpleObserver() {
+        solution.precipitateAmount.addObserver( new SimpleObserver() {
             public void update() {
                 updateParticles();
                 updateValue();
@@ -104,15 +104,15 @@ class PrecipitateNode extends PComposite {
 
     // Updates the debug output to show how we're mapping saturation to number of particles.
     private void updateValue() {
-        double precipitateAmount = solution.getPrecipitateAmount();
+        double precipitateAmount = solution.precipitateAmount.get();
         int numberOfParticles = getNumberOfParticles();
         valueNode.setText( "precipitate: " + new DecimalFormat( "0.00000" ).format( precipitateAmount ) + " mol = " + numberOfParticles + " particles" );
     }
 
     // Gets the number of particles used to represent the solution's saturation.
     private int getNumberOfParticles() {
-        int numberOfParticles = (int) ( solution.solute.get().particlesPerMole * solution.getPrecipitateAmount() );
-        if ( numberOfParticles == 0 && solution.getPrecipitateAmount() > 0 ) {
+        int numberOfParticles = (int) ( solution.solute.get().particlesPerMole * solution.precipitateAmount.get() );
+        if ( numberOfParticles == 0 && solution.precipitateAmount.get() > 0 ) {
             numberOfParticles = 1;
         }
         return numberOfParticles;

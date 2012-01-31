@@ -62,7 +62,7 @@ class ConcentrationDisplayNode extends PNode {
         final PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.TITLE_FONT );
         final PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SUBTITLE_FONT );
         final BarNode barNode = new BarNode( barSize );
-        final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.getConcentration(), concentrationUnits, valuesVisible );
+        final PointerNode pointerNode = new PointerNode( barSize, concentrationRange, solution.concentration.get(), concentrationUnits, valuesVisible );
         final PNode maxNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMax() ), maxLabel, valuesVisible, MolarityConstants.RANGE_FONT );
         final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( concentrationRange.getMin() ), minLabel, valuesVisible, MolarityConstants.RANGE_FONT );
         final SaturationIndicatorNode saturationIndicatorNode = new SaturationIndicatorNode( barSize, solution.getSaturatedConcentration(), concentrationRange.getMax() );
@@ -95,9 +95,9 @@ class ConcentrationDisplayNode extends PNode {
         }
 
         // Pointer position and value corresponds to the solution's concentration.
-        solution.addConcentrationObserver( new SimpleObserver() {
-            public void update() {
-                pointerNode.setValue( solution.getConcentration() );
+        solution.concentration.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double concentration ) {
+                pointerNode.setValue( concentration );
             }
         } );
 

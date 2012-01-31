@@ -10,7 +10,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.molarity.model.Solution;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -63,31 +63,28 @@ class SolutionNode extends PComposite {
         addChild( cylinderNode );
         addChild( topNode );
 
-        SimpleObserver observer = new SimpleObserver() {
+        RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
                 updateNode();
             }
         };
-        solution.addConcentrationObserver( observer );
-        solution.addPrecipitateAmountObserver( observer );
-        solution.solute.addObserver( observer );
-        solution.volume.addObserver( observer );
+        observer.observe( solution.concentration, solution.solute, solution.volume );
     }
 
     private void updateNode() {
 
         // color
         Color color = solution.solvent.color;
-        if ( solution.getConcentration() > 0 ) {
+        if ( solution.concentration.get() > 0 ) {
             // compute the color based on concentration
             LinearFunction f = new LinearFunction( 0, solution.getSaturatedConcentration(), 0, 1 );
-            double colorScale = f.evaluate( solution.getConcentration() );
+            double colorScale = f.evaluate( solution.concentration.get() );
             color = solution.solute.get().solutionColor.interpolateLinear( colorScale );
         }
         cylinderNode.setPaint( color );
         topNode.setPaint( color );
 
-        // update amount of stuff in the beaker, based on solution volume
+        // shape
         double height = volumeFunction.evaluate( solution.volume.get() );
         cylinderNode.setPathTo( createCylinderShape( height ) );
         topNode.setPathTo( createTopShape( height ) );

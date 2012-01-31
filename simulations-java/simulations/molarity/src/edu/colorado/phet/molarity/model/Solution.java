@@ -2,9 +2,9 @@
 package edu.colorado.phet.molarity.model;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * Simple model of a solution
@@ -17,10 +17,8 @@ public class Solution implements Resettable {
     public final Property<Solute> solute;
     public final Property<Double> soluteAmount; // moles
     public final Property<Double> volume; // Liters
-
-    //REVIEW: Why is this private instead of public ObservableProperty<Double>?  It makes other code look asymmetric like bottom of SolutionNode constructor and prevents using tools like RichSimpleObserver
-    private final Property<Double> concentration; // molarity, moles/Liter (derived property)
-    private final Property<Double> precipitateAmount; // moles (derived property)
+    public final CompositeProperty<Double> concentration; // molarity, moles/Liter (derived property)
+    public final CompositeProperty<Double> precipitateAmount; // moles (derived property)
 
     public Solution( Solvent solvent, Solute solute, double soluteAmount, double volume ) {
 
@@ -29,54 +27,35 @@ public class Solution implements Resettable {
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );
 
-        this.concentration = new Property<Double>( 0d );
-        this.precipitateAmount = new Property<Double>( 0d );
-
-        // adjust the concentration and amount of precipitate
-        RichSimpleObserver observer = new RichSimpleObserver() {
-            public void update() {
-                if ( getVolume() > 0 ) {
-                    concentration.set( Math.min( getSaturatedConcentration(), getSoluteAmount() / getVolume() ) ); // M = mol/L
+        // derive concentration
+        this.concentration = new CompositeProperty<Double>( new Function0<Double>() {
+            public Double apply() {
+                final double volume = Solution.this.volume.get();
+                if ( volume > 0 ) {
+                    return Math.min( getSaturatedConcentration(), Solution.this.soluteAmount.get() / volume ); // M = mol/L
                 }
                 else {
-                    concentration.set( 0d );
+                    return 0d;
                 }
-                precipitateAmount.set( Math.max( 0, getVolume() * ( ( getSoluteAmount() / getVolume() ) - getSaturatedConcentration() ) ) );
             }
-        };
-        observer.observe( this.solute, this.soluteAmount, this.volume );
+        }, this.solute, this.soluteAmount, this.volume );
+
+        // derive amount of precipitate
+        this.precipitateAmount = new CompositeProperty<Double>( new Function0<Double>() {
+            public Double apply() {
+                final double volume = Solution.this.volume.get();
+                return Math.max( 0, volume * ( ( Solution.this.soluteAmount.get() / volume ) - getSaturatedConcentration() ) );
+            }
+        }, this.solute, this.soluteAmount, this.volume );
     }
 
-    private double getSoluteAmount() {
-        return soluteAmount.get();
-    }
-
-    private double getVolume() {
-        return volume.get();
-    }
-
+    // Convenience method
     public double getSaturatedConcentration() {
         return solute.get().saturatedConcentration;
     }
 
     public boolean isSaturated() {
         return precipitateAmount.get() != 0;
-    }
-
-    public double getConcentration() {
-        return concentration.get();
-    }
-
-    public void addConcentrationObserver( SimpleObserver observer ) {
-        concentration.addObserver( observer );
-    }
-
-    public double getPrecipitateAmount() {
-        return precipitateAmount.get();
-    }
-
-    public void addPrecipitateAmountObserver( SimpleObserver observer ) {
-        precipitateAmount.addObserver( observer );
     }
 
     public void reset() {
