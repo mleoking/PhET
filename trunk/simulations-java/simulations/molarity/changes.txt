@@ -1,3 +1,5 @@
+1/30/12 #3233, move Symbols out of MolarityResources
+1/30/12 #3233, repackage
 1/30/12 #3233, click on slider track to change value
 1/30/12 #3233, addressed various code review comments
 1/30/12 Molarity: Code Review #3233: Added review comments to MolarityModel.java

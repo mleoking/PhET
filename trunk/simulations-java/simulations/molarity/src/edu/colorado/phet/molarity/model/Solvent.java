@@ -3,7 +3,7 @@ package edu.colorado.phet.molarity.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.molarity.MolarityResources.Symbols;
+import edu.colorado.phet.molarity.MolaritySymbols;
 
 /**
  * Model of a solvent, an immutable data structure.
@@ -19,7 +19,7 @@ public class Solvent {
      */
     public static class Water extends Solvent {
         public Water() {
-            super( Symbols.WATER, new Color( 0xE0FFFF ) );
+            super( MolaritySymbols.WATER, new Color( 0xE0FFFF ) );
         }
     }
 
