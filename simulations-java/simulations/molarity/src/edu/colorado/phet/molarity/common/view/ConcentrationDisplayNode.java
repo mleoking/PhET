@@ -118,8 +118,7 @@ public class ConcentrationDisplayNode extends PNode {
     }
 
     // Creates a gradient for the bar and pointer, taking into account the saturation point
-    //REVIEW: Why is static method final?
-    private static final GradientPaint createGradient( ColorRange soluteColor, double barHeight, double saturatedConcentration, double maxConcentration ) {
+    private static GradientPaint createGradient( ColorRange soluteColor, double barHeight, double saturatedConcentration, double maxConcentration ) {
         double y = barHeight - ( barHeight * ( saturatedConcentration / maxConcentration ) );
         return new GradientPaint( 0f, (float) y, soluteColor.getMax(), 0f, (float) barHeight, soluteColor.getMin() );
     }
