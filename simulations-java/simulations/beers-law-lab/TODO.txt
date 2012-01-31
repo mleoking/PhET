@@ -8,14 +8,14 @@ DESIGN
 - should shaker particles be removed when the shaker is made invisible?
 
 HIGH
+- Beer's Law tab (see JC notes below)
+
+MEDIUM
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute
 
-MEDIUM
-- Beer's Law tab (see JC notes below)
-- make meter cable more curvy (ala Bending Light)
-
 LOW
+- make meter cable more curvy (ala Bending Light)
 - shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
 - dropper flickers/tears excessively while dragging
 - #3199, bigger slider thumb on FaucetNode
