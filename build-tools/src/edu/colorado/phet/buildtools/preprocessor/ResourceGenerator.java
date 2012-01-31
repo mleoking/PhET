@@ -233,12 +233,10 @@ public class ResourceGenerator {
 
     //Run the resource generator on the specified simulation, populate the template and output it in the simulation source directory as a .java file for use at compilation time.
     public static void main( String[] args ) throws IOException {
-        if ( args.length != 2 ) {
-            System.out.println( "Usage:\n" +
-                                "args[0] = trunk\n" +
-                                "args[1] = relative path to simulation directory from trunk" );
+        if ( args.length != 1 ) {
+            System.out.println( "Usage:\n" + "args[0] = project_name" );
             return;
         }
-        new ResourceGenerator( new File( args[0] ) ).generateResources( args[1] );
+        new ResourceGenerator( new File( System.getProperty( "user.dir" ) ) ).generateResources( "/simulations-java/simulations/" + args[0] );
     }
 }
