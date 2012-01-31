@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.molarity.molarity;
+package edu.colorado.phet.molarity.model;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -9,8 +9,6 @@ import edu.colorado.phet.common.phetcommon.util.ColorRange;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.MolarityResources.Symbols;
-import edu.colorado.phet.molarity.model.Solute;
-import edu.colorado.phet.molarity.model.Solution;
 import edu.colorado.phet.molarity.model.Solvent.Water;
 
 /**

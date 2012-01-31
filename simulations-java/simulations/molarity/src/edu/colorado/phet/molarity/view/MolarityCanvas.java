@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.molarity.molarity;
+package edu.colorado.phet.molarity.view;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -18,12 +18,7 @@ import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
 import edu.colorado.phet.molarity.control.ShowValuesNode;
 import edu.colorado.phet.molarity.control.SoluteControlNode;
 import edu.colorado.phet.molarity.control.VerticalSliderNode;
-import edu.colorado.phet.molarity.view.AbstractMolarityCanvas;
-import edu.colorado.phet.molarity.view.BeakerNode;
-import edu.colorado.phet.molarity.view.ConcentrationDisplayNode;
-import edu.colorado.phet.molarity.view.PrecipitateNode;
-import edu.colorado.phet.molarity.view.SaturatedIndicatorNode;
-import edu.colorado.phet.molarity.view.SolutionNode;
+import edu.colorado.phet.molarity.model.MolarityModel;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
