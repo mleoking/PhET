@@ -33,16 +33,9 @@ public class Beaker {
         return location.getY();
     }
 
+    // Gets the x coordinate of the left wall.
     public double getMinX() {
         return getX() - ( getWidth() / 2 );
-    }
-
-    public double getMaxX() {
-        return getX() + ( getWidth() / 2 );
-    }
-
-    public PDimension getSize() {
-        return new PDimension( size );
     }
 
     public double getWidth() {
