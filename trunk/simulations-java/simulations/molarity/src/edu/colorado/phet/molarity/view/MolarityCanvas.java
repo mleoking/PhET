@@ -8,14 +8,11 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
-import edu.colorado.phet.molarity.MolaritySymbols;
 import edu.colorado.phet.molarity.control.ShowValuesNode;
 import edu.colorado.phet.molarity.control.SoluteControlNode;
 import edu.colorado.phet.molarity.control.VerticalSliderNode;
@@ -134,31 +131,6 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
         }
         scaleRootNodeToFitStage();
         centerRootNodeOnStage();
-
-        // manage dynamic beaker label
-        RichSimpleObserver labelUpdater = new RichSimpleObserver() {
-            public void update() {
-                String labelText;
-                if ( model.solution.volume.get() == 0 ) {
-                    labelText = "";
-                }
-                else if ( model.solution.concentration.get() == 0 ) {
-                    labelText = MolaritySymbols.WATER;
-                }
-                else {
-                    labelText = model.solution.solute.get().formula;
-                }
-                beakerNode.setLabelText( labelText );
-            }
-        };
-        labelUpdater.observe( model.solution.concentration, model.solution.volume, model.solution.solute );
-
-        // concentration of beaker label
-        model.solution.concentration.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double concentration ) {
-                beakerNode.setConcentration( concentration );
-            }
-        } );
     }
 
     @Override public void reset() {
