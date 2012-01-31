@@ -17,6 +17,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.skaterMassSlider;
 
+//REVIEW - doc
+
 /**
  * @author Sam Reid
  */
