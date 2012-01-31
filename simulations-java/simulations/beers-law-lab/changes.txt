@@ -1,3 +1,4 @@
+# 0.00.07 (60842) Jan 31, 2012
 1/31/12 implement reset for Shaker, so it doesn't dispense solute when Reset All resets its location
 1/31/12 dispense solute particles when shaker is moving
 1/31/12 delete shaker particles when they reach the surface of the solution, add corresponding amount of solute to the solution
