@@ -212,7 +212,7 @@ public class VerticalSliderNode extends PhetPNode {
             // update the value to match the model
             modelValue.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double value ) {
-                    valueNode.setText( MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, MolarityConstants.VALUE_FORMAT.format( value ), units ) );
+                    valueNode.setText( MessageFormat.format( Strings.PATTERN__0VALUE__1UNITS, MolarityConstants.VALUE_FORMAT.format( value ), units ) );
                 }
             } );
 

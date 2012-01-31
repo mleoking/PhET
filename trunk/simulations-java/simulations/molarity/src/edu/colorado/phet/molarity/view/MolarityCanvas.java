@@ -36,9 +36,9 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
 
         // beaker, with solution and precipitate inside of it
         final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker,
-                                                      model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS,
+                                                      model.getSolutionVolumeRange().getMax(), Strings.UNITS__LITERS,
                                                       model.solution.solute.get().formula, new PhetFont( Font.BOLD, 28 ),
-                                                      model.solution.concentration.get(), Strings.UNITS_MOLARITY, new PhetFont( 16 ),
+                                                      model.solution.concentration.get(), Strings.UNITS__MOLARITY, new PhetFont( 16 ),
                                                       new PDimension( 180, 80 ),
                                                       0.75, 0.75,
                                                       valuesVisible );
@@ -53,29 +53,29 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
         // slider for controlling amount of solute
         VerticalSliderNode soluteAmountSliderNode = new VerticalSliderNode( UserComponents.soluteAmountSlider,
                                                                             Strings.SOLUTE_AMOUNT,
-                                                                            MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLES ),
+                                                                            MessageFormat.format( Strings.PATTERN__PARENTHESES__0TEXT, Strings.MOLES ),
                                                                             Strings.NONE, Strings.LOTS,
                                                                             new PDimension( 5, cylinderSize.getHeight() ),
                                                                             model.solution.soluteAmount, model.getSoluteAmountRange(),
-                                                                            Strings.UNITS_MOLES, valuesVisible );
+                                                                            Strings.UNITS__MOLES, valuesVisible );
 
         // slider for controlling volume of solution, sized to match tick marks on the beaker
         final double volumeSliderHeight = ( model.getSolutionVolumeRange().getLength() / model.getSolutionVolumeRange().getMax() ) * cylinderSize.getHeight();
         VerticalSliderNode solutionVolumeSliderNode = new VerticalSliderNode( UserComponents.volumeSlider,
                                                                               Strings.SOLUTION_VOLUME,
-                                                                              MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.LITERS ),
+                                                                              MessageFormat.format( Strings.PATTERN__PARENTHESES__0TEXT, Strings.LITERS ),
                                                                               Strings.LOW, Strings.FULL,
                                                                               new PDimension( 5, volumeSliderHeight ),
                                                                               model.solution.volume, model.getSolutionVolumeRange(),
-                                                                              Strings.UNITS_LITERS, valuesVisible );
+                                                                              Strings.UNITS__LITERS, valuesVisible );
 
         // concentration display
         PDimension concentrationBarSize = new PDimension( 40, cylinderSize.getHeight() + 50 );
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION,
-                                                                                          MessageFormat.format( Strings.PATTERN_PARENTHESES_0TEXT, Strings.MOLARITY ),
+                                                                                          MessageFormat.format( Strings.PATTERN__PARENTHESES__0TEXT, Strings.MOLARITY ),
                                                                                           concentrationBarSize,
                                                                                           model.solution, model.getConcentrationRange(),
-                                                                                          Strings.UNITS_MOLARITY, Strings.ZERO, Strings.HIGH,
+                                                                                          Strings.UNITS__MOLARITY, Strings.ZERO, Strings.HIGH,
                                                                                           valuesVisible );
 
         // Show Values checkbox

@@ -38,7 +38,7 @@ public class SoluteControlNode extends PhetPNode {
      */
     public SoluteControlNode( ArrayList<Solute> solutes, final Property<Solute> currentSolute ) {
 
-        PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.SOLUTE ) ) {{
+        PText labelNode = new PText( MessageFormat.format( Strings.PATTERN__0LABEL, Strings.SOLUTE ) ) {{
             setFont( LABEL_FONT );
         }};
         addChild( labelNode );
