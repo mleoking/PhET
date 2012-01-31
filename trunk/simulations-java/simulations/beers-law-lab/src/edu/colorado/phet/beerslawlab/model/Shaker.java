@@ -91,4 +91,10 @@ public class Shaker extends Movable {
             }
         }
     }
+
+    public void reset() {
+        super.reset();
+        dispensingRate.reset();
+        previousLocation = new ImmutableVector2D( getX(), getY() ); // to prevent shaker from dispensing solute when its location is reset
+    }
 }
