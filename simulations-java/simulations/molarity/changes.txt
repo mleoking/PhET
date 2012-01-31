@@ -1,3 +1,4 @@
+1/30/12 #3233, make BeakerNode an observer of solute and concentration (more extensive changes)
 1/30/12 #3233, use ResourceGenerator to create MolarityResources
 1/30/12 #3233, use CompositeProperty for solution concentration and precipitate amount (extensive changes!)
 1/30/12 #3233, move Symbols out of MolarityResources

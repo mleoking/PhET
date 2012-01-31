@@ -36,9 +36,11 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
 
         // beaker, with solution and precipitate inside of it
         final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker,
-                                                      model.getSolutionVolumeRange().getMax(), Strings.UNITS__LITERS,
-                                                      model.solution.solute.get().formula, new PhetFont( Font.BOLD, 28 ),
-                                                      model.solution.concentration.get(), Strings.UNITS__MOLARITY, new PhetFont( 16 ),
+                                                      model.solution,
+                                                      model.getSolutionVolumeRange().getMax(),
+                                                      Strings.UNITS__LITERS,
+                                                      Strings.UNITS__MOLARITY, new PhetFont( Font.BOLD, 28 ),
+                                                      new PhetFont( 16 ),
                                                       new PDimension( 180, 80 ),
                                                       0.75, 0.75,
                                                       valuesVisible );
