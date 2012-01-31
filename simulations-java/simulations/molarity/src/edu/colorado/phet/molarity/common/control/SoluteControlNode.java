@@ -103,8 +103,7 @@ public class SoluteControlNode extends PhetPNode {
 
             // solute label
             HTMLNode labelNode = new HTMLNode() {{
-                //REVIEW: Please explain this next line
-                setHTML( solute.formula.equals( solute.name ) ? solute.formula : MessageFormat.format( "{0}", solute.name ) );
+                setHTML( solute.name );
                 setFont( ITEM_FONT );
             }};
             addChild( labelNode );
