@@ -21,25 +21,19 @@ public class MolarityModel implements Resettable {
     private static final int PARTICLES_PER_MOLE = 200; // number of particles to show for each mole of precipitate
     private static final int PARTICLE_SIZE = 5; // particles are square, this is the length of one side
     private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
-    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
+    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, 1, 0.5 ); // liters
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / SOLUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / SOLUTION_VOLUME_RANGE.getMin() );
 
     // validate assumptions
-    // REVIEW: Why validating this assumption and not others like SOLUTE_AMOUNT_RANGE.getMin()?  Is it important?
     static {
-        assert ( SOLUTION_VOLUME_RANGE.getMin() > 0 );
+        assert ( SOLUTION_VOLUME_RANGE.getMin() > 0 ); // sim doesn't work for zero volume
     }
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Solution solution;
 
     public MolarityModel() {
-
-        //REVIEW: Consider making this more readable by factoring out duplicate parameters and factoring out the color range constructor.  Each line could read like this:
-//        add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, new Color( 255, 225, 225 ), Color.RED  );
-        //instead of like this:
-//        add( new Solute( Strings.KOOL_AID, Symbols.KOOL_AID, 5.0, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
 
         // solutes, in rainbow (ROYGBIV) order
         this.solutes = new ArrayList<Solute>() {{
@@ -64,7 +58,6 @@ public class MolarityModel implements Resettable {
         return new ArrayList<Solute>( solutes );
     }
 
-    //REVIEW: Why instance methods to get static fields--seems confusing.
     public DoubleRange getSoluteAmountRange() {
         return SOLUTE_AMOUNT_RANGE;
     }
