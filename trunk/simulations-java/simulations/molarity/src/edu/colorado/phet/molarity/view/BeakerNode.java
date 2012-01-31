@@ -181,7 +181,7 @@ class BeakerNode extends PComposite {
         private final String concentrationUnits;
         private final HTMLNode formulaNode;
         private final PText concentrationNode;
-        private final PNode textParentNode;
+        private final PNode textParentNode; // parent of formula and concentration value
         private final PPath backgroundNode;
 
         public LabelNode( final Solution solution, final PDimension labelSize,
