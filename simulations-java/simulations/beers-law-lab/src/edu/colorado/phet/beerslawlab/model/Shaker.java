@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -31,6 +32,7 @@ public class Shaker extends Movable {
     public final Property<Boolean> empty;
     private final double maxDispensingRate;
     private final Property<Double> dispensingRate; // mol/sec
+    private ImmutableVector2D previousLocation;
 
     public Shaker( ImmutableVector2D location, double orientation, PBounds dragBounds, Property<Solute> solute, double maxDispensingRate ) {
         super( location, dragBounds );
@@ -42,30 +44,28 @@ public class Shaker extends Movable {
         this.empty = new Property<Boolean>( false );
         this.maxDispensingRate = maxDispensingRate;
         this.dispensingRate = new Property<Double>( 0d );
+        this.previousLocation = location;
 
-        // set the dispensing rate to zero when the shaker becomes empty
-        this.empty.addObserver( new SimpleObserver() {
+        // set the dispensing rate to zero when the shaker becomes empty or invisible
+        RichSimpleObserver rateObserver = new RichSimpleObserver() {
             public void update() {
-                if ( !Shaker.this.empty.get() ) {
+                if ( Shaker.this.empty.get() || !Shaker.this.visible.get() ) {
                     dispensingRate.set( 0d );
                 }
             }
-        } );
+        };
+        rateObserver.observe( empty, visible );
     }
 
     public double getOrientation() {
         return orientation;
     }
 
-    public double getMaxDispensingRate() {
-        return maxDispensingRate;
-    }
-
     public double getDispensingRate() {
         return dispensingRate.get();
     }
 
-    public void setDispensingRate( double dispensingRate ) {
+    private void setDispensingRate( double dispensingRate ) {
         if ( !empty.get() ) {
             this.dispensingRate.set( dispensingRate );
         }
@@ -77,5 +77,18 @@ public class Shaker extends Movable {
 
     public ImmutableVector2D[] getRelativeHoleLocations() {
         return RELATIVE_HOLE_LOCATIONS;
+    }
+
+    // Set the dispensing rate if the shaker is moving.
+    public void stepInTime() {
+        if ( visible.get() && !empty.get() ) {
+            if ( previousLocation.equals( location.get() ) ) {
+                setDispensingRate( 0 ); // shaker is not moving, don't dispense anything
+            }
+            else {
+                setDispensingRate( maxDispensingRate ); // this seems to work fine
+                previousLocation = new ImmutableVector2D( getX(), getY() );
+            }
+        }
     }
 }

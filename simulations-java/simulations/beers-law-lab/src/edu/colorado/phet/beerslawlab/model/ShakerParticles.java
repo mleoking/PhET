@@ -74,8 +74,7 @@ public class ShakerParticles {
 
         // create new particles
         if ( shaker.getDispensingRate() > 0 ) {
-            int numberOfParticles = 1; //TODO number of particles created is a function of shaker.getDispensingRate
-            //TODO shouldn't dispense more than the max amount of solute
+            int numberOfParticles = (int) Math.max( 1, shaker.getDispensingRate() * solution.solute.get().particlesPerMole * deltaSeconds );
             for ( int i = 0; i < numberOfParticles; i++ ) {
                 addParticle( new ShakerParticle( solution.solute.get(), getRandomLocation(), getRandomOrientation(), getInitialVelocity(), getGravitationalAcceleration() ) );
             }

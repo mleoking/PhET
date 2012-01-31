@@ -8,7 +8,6 @@ DESIGN
 - should shaker particles be removed when the shaker is made invisible?
 
 HIGH
-- implement ShakerParticle.stepInTime and ShakerParticles.stepInTime (see SR notes below)
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute
 
@@ -27,14 +26,6 @@ SIM-SHARING
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
 - TiledBackgroundNode to piccolo-phet
-
-
-From SR's 1/2/12 email about behavior of salt particles in SASS:
-class edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt extends MacroCrystal. That is a single crystal of salt that gets shaken out.
-MacroSaltShaker creates the salt and adds it to the container.
-Propagation and absorption in MacroModel.updateCrystals.
-Bouncing off of walls is in MacroCrystal.stepInTime (called by MacroModel.updateCrystals).
-I am not sure whether "abstraction + reuse" or "rewrite based on this example" will serve you better.
 
 From JC's 1/24/12 email:
 Tab 2 (see discussion in google doc for more details)

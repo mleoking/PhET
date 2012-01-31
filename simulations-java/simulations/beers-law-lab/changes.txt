@@ -1,3 +1,4 @@
+1/31/12 dispense solute particles when shaker is moving
 1/31/12 delete shaker particles when they reach the surface of the solution, add corresponding amount of solute to the solution
 1/31/12 handle collisions between solute particles and beaker wall
 1/30/12 make solute particles accelerate properly
