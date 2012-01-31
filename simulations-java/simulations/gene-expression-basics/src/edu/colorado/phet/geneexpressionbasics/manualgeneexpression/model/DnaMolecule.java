@@ -156,9 +156,6 @@ public class DnaMolecule {
                              new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene3TranscribedRegionSize ),
                              new Color( 205, 255, 112, 150 ),
                              3 ) );
-
-        // TODO: Temp - add a separation - this is for testing.
-        separations.add( new DnaSeparation( 0, 400 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -298,7 +295,7 @@ public class DnaMolecule {
         for ( DnaSeparation separation : separations ) {
             IntegerRange separationWindowXIndexRange = new IntegerRange( (int) Math.floor( ( separation.getXPos() - ( separation.getAmount() / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ),
                                                                          (int) Math.floor( ( separation.getXPos() + ( separation.getAmount() / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ) );
-            for ( int i = separationWindowXIndexRange.getMin(); i <= separationWindowXIndexRange.getMax(); i++ ) {
+            for ( int i = separationWindowXIndexRange.getMin(); i < separationWindowXIndexRange.getMax(); i++ ) {
                 double windowCenterX = ( separationWindowXIndexRange.getMin() + separationWindowXIndexRange.getMax() ) / 2;
                 if ( i >= 0 && i < strandPointsShadow.size() ) {
 
