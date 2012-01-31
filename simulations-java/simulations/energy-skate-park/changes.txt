@@ -1,3 +1,4 @@
+For purposes of limiting created tracks, count the number of created tracks, not the total number of joined tracks (which changes as more tracks are joined)
 Updated credits
 > Added new sim "Energy Skate Park: Basics"
 # 2.08.26 (60834) Jan 31, 2012

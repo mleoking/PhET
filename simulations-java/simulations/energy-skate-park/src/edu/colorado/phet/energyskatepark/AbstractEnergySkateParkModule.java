@@ -5,6 +5,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -83,6 +85,7 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
 
     public final Property<Double> mass;
     public final Property<Integer> numberOfSplines = new Property<Integer>( 0 );
+    private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     public AbstractEnergySkateParkModule( IUserComponent tabComponent, String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX ) {
         super( tabComponent, name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
@@ -197,6 +200,9 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
         pieChartVisible.reset();
         updatePrimarySkaterSpeed();
         mass.reset();
+        for ( VoidFunction0 resetListener : resetListeners ) {
+            resetListener.apply();
+        }
     }
 
     public void returnOrResetSkater() {
@@ -375,5 +381,9 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
 
     public ObservableProperty<Double> getPrimarySkaterSpeed() {
         return primarySkaterSpeed;
+    }
+
+    public void addResetListener( VoidFunction0 resetListener ) {
+        resetListeners.add( resetListener );
     }
 }
