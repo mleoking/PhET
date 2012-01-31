@@ -123,6 +123,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             attachCountdownTime = DEFAULT_ATTACH_TIME;
 
             // Insert the separator.
+            dnaStrandSeparation.setXPos( rnaPolymerase.getPosition().getX() );
             rnaPolymerase.getModel().getDnaMolecule().addSeparation( dnaStrandSeparation );
         }
     }
