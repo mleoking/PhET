@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandle
 import edu.colorado.phet.molarity.MolarityConstants;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
-import edu.colorado.phet.molarity.common.model.Solution;
+import edu.colorado.phet.molarity.model.Solution;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

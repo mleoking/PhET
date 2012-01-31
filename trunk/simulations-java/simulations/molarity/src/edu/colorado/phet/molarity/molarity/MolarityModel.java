@@ -9,9 +9,9 @@ import edu.colorado.phet.common.phetcommon.util.ColorRange;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.MolarityResources.Symbols;
-import edu.colorado.phet.molarity.common.model.Solute;
-import edu.colorado.phet.molarity.common.model.Solution;
-import edu.colorado.phet.molarity.common.model.Solvent.Water;
+import edu.colorado.phet.molarity.model.Solute;
+import edu.colorado.phet.molarity.model.Solution;
+import edu.colorado.phet.molarity.model.Solvent.Water;
 
 /**
  * Model for the "Molarity" module.
