@@ -168,6 +168,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         }
     }
 
+    //REVIEW - Suggest name change, since this adds more than just the reset all button.
     //Show the reset all button below the bottom control panel
     public void addResetAllButton( final PNode parent ) {
 
@@ -208,7 +209,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         energySkateParkSimulationPanel.getRootNode().addChild( resetAllButton );
     }
 
-    //Show buttons that allows the user to choose different tracks
+    //Show selection panel that allows the user to choose different tracks
     public void addTrackSelectionControlPanel() {
         final ControlPanelNode trackSelectionNode = new ControlPanelNode( new VBox(
                 new TrackButton( this, PARABOLA_TRACK, PARABOLA_OFFSET ),
