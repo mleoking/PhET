@@ -140,6 +140,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             conformationalChangeAmount = Math.min( conformationalChangeAmount + CONFORMATIONAL_CHANGE_RATE * dt, 1 );
             biomolecule.changeConformation( conformationalChangeAmount );
+            dnaStrandSeparation.setProportionOfTargetAmount( conformationalChangeAmount );
             if ( conformationalChangeAmount == 1 ) {
                 // Conformational change complete, time to start actual
                 // transcription.
@@ -172,7 +173,6 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Move the DNA strand separator.
             dnaStrandSeparation.setXPos( rnaPolymerase.getPosition().getX() );
-            dnaStrandSeparation.setProportionOfTargetAmount( 1 );
 
             // If we've reached the end of the gene, detach.
             if ( biomolecule.getPosition().equals( endOfGene ) ) {
@@ -217,6 +217,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             conformationalChangeAmount = Math.max( conformationalChangeAmount - CONFORMATIONAL_CHANGE_RATE * dt, 0 );
             biomolecule.changeConformation( conformationalChangeAmount );
+            dnaStrandSeparation.setProportionOfTargetAmount( conformationalChangeAmount );
             if ( conformationalChangeAmount == 0 ) {
                 // Conformational change complete, time to detach.
                 asm.detach();
