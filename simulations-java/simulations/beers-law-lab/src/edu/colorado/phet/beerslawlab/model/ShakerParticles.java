@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Manages the creation and deletion of shaker particles in the model,
- * and their contribution to the amount of solute in solution.
+ * Manages the lifetime of shaker particles, from creation when they exit the shaker,
+ * to deletion when they are delivered to the solution.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -55,18 +55,20 @@ public class ShakerParticles {
         } );
     }
 
+    // Particle animation and delivery to the solution, called when the simulation clock ticks.
     public void stepInTime( double deltaSeconds ) {
 
         // propagate existing particles
         for ( ShakerParticle particle : new ArrayList<ShakerParticle>( particles ) ) {
 
-            particle.stepInTime( deltaSeconds, beaker.getLocation().getX() - ( beaker.getWidth() / 2 ) );
+            particle.stepInTime( deltaSeconds, beaker );
 
-            //TODO this entire block is bogus, just to get something working
-            // remove?
-            if ( particle.getLocation().getY() > 500 ) {
+            // If the particle hits the solution surface or bottom of the beaker, delete it, and add a corresponding amount of solute to the solution.
+            double percentFull = solution.volume.get() / beaker.getVolume();
+            double solutionSurfaceY = beaker.getY() - ( percentFull * beaker.getHeight() ) - solution.solute.get().particleSize;
+            if ( particle.getLocation().getY() > solutionSurfaceY ) {
                 removeParticle( particle );
-                solution.soluteAmount.set( solution.soluteAmount.get() + .01 );
+                solution.soluteAmount.set( solution.soluteAmount.get() + ( 1d / solution.solute.get().particlesPerMole ) );
             }
         }
 
