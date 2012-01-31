@@ -1,3 +1,4 @@
+Updated credits
 > Added new sim "Energy Skate Park: Basics"
 # 2.08.26 (60834) Jan 31, 2012
 Removed easter eggs that allow the user to add and remove skaters with "a" and "r" keys
