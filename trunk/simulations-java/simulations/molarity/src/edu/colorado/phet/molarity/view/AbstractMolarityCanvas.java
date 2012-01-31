@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AbstractMolarityCanvas extends PhetPCanvas implements Resettable {
+class AbstractMolarityCanvas extends PhetPCanvas implements Resettable {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( AbstractMolarityCanvas.class.getCanonicalName() );
 

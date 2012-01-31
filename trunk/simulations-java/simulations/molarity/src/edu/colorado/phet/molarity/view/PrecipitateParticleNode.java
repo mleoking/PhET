@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PrecipitateParticleNode extends PPath {
+class PrecipitateParticleNode extends PPath {
 
     public PrecipitateParticleNode( Solute solute ) {
         setPaint( solute.particleColor );

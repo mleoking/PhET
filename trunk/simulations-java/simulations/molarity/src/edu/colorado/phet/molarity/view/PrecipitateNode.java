@@ -20,7 +20,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PrecipitateNode extends PComposite {
+class PrecipitateNode extends PComposite {
 
     private final Solution solution;
     private final PDimension cylinderSize;
