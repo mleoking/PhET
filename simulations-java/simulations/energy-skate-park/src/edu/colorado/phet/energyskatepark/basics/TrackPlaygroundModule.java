@@ -16,7 +16,7 @@ public class TrackPlaygroundModule extends EnergySkateParkBasicsModule {
     public TrackPlaygroundModule( PhetFrame phetFrame ) {
         super( trackPlaygroundTab, EnergySkateParkResources.getString( "tab.trackPlayground" ), phetFrame, true );
 
-        addResetAllButton( controlPanel );
+        addResetAndRestartButtons( controlPanel );
 
         loadDefaultTrack();
     }

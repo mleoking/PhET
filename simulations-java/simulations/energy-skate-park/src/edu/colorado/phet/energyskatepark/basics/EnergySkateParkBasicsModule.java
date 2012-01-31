@@ -62,6 +62,9 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public static final ImmutableVector2D DOUBLE_WELL_OFFSET = new ImmutableVector2D( 6.0 - 5.88033509545687 - 1.0, 0.02 );
     public static final ImmutableVector2D RAMP_TO_FLOOR_OFFSET = ImmutableVector2D.ZERO;
 
+    //Developer flag to help create good initial conditions for the skater.
+    private static final boolean SAMPLE_POSITIONS_FOR_INITIAL_CONDITIONS = false;
+
     public EnergySkateParkBasicsModule( IUserComponent userComponent, String name, final PhetFrame phetFrame, boolean splinesMovable ) {
         super( userComponent, name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false,
 
@@ -140,9 +143,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         //Make the "Return Skater" button return the skater to the original location, if the skater hasn't been moved yet
         getEnergySkateParkModel().getBody( 0 ).setRestorePoint( getEnergySkateParkModel().getBody( 0 ) );
 
-        //REVIEW Why the permanent false?  Can this be removed, and if not, please document.
         //Use this code to sample alpha positions from a spline to come up with good initial conditions
-        if ( false ) {
+        if ( SAMPLE_POSITIONS_FOR_INITIAL_CONDITIONS ) {
             getEnergySkateParkModel().addEnergyModelListener( new EnergySkateParkModel.EnergyModelListenerAdapter() {
                 @Override public void preStep() {
                     System.out.println( getEnergySkateParkModel().getBody( 0 ).getSpline() + ", " + getEnergySkateParkModel().getBody( 0 ).getParticle().getParticle1D().getAlpha() );
@@ -168,9 +170,8 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         }
     }
 
-    //REVIEW - Suggest name change, since this adds more than just the reset all button.
-    //Show the reset all button below the bottom control panel
-    public void addResetAllButton( final PNode parent ) {
+    //Show the "restart skater" and "reset all" button below the bottom control panel
+    public void addResetAndRestartButtons( final PNode parent ) {
 
         //Add the "Restart skater" button
         final TextButtonNode restartSkaterButton = new TextButtonNode( EnergySkateParkResources.getString( "controls.reset-character" ) ) {{

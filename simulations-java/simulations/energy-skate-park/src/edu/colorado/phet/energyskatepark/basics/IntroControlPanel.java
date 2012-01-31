@@ -5,9 +5,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkLookAndFeel;
 
-//REVIEW - doc
-
 /**
+ * Control panel for the intro tab, which just shows the view controls and the mass control.
+ *
  * @author Sam Reid
  */
 public class IntroControlPanel extends ControlPanelNode {

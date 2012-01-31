@@ -20,7 +20,7 @@ public class FrictionModule extends EnergySkateParkBasicsModule {
         //Don't allow the user to drag their own tracks in this module
         getEnergySkateParkSimulationPanel().getRootNode().removeSplineToolbox();
 
-        addResetAllButton( controlPanel );
+        addResetAndRestartButtons( controlPanel );
 
         //Only add the track selection control panel after adding all other controls or they won't be shown in the thumbnails
         addTrackSelectionControlPanel();

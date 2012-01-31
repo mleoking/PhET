@@ -17,14 +17,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents.skaterMassSlider;
 
-//REVIEW - doc
-
 /**
+ * Control PNode for setting and viewing the skater's mass.
+ *
  * @author Sam Reid
  */
 public class MassControl extends PNode {
     public MassControl( final EnergySkateParkBasicsModule module ) {
-        //Control box for track friction
         final int MIN_MASS = 60;
         final int MAX_MASS = 100;
         addChild( new VBox( 10, new PhetPText( EnergySkateParkResources.getString( "skater.mass" ), EnergySkateParkBasicsModule.TITLE_FONT ),
