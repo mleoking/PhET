@@ -158,7 +158,7 @@ public class FileUtils {
             outStream.flush();
         }
         finally {
-            inStream.close();
+            inStream.close();  //TODO #3236 never rely on finally to clean up resources!
         }
 
         return new String( outStream.toByteArray(), encoding );
@@ -183,7 +183,7 @@ public class FileUtils {
             outputStream.write( bytes );
         }
         finally {
-            outputStream.close();
+            outputStream.close(); //TODO #3236 never rely on finally to clean up resources!
         }
     }
 
