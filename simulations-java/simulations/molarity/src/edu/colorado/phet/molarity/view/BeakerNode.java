@@ -7,22 +7,13 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.RoundRectangle2D;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
-import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.model.Solution;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -39,14 +30,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class BeakerNode extends PComposite {
 
-    // Shows the solution concentration on the beaker label.
-    private static final boolean CONCENTRATION_FEATURE_ENABLED = false;
-
-    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( BeakerNode.class.getCanonicalName() );
-
-    // label properties
-    private static final DecimalFormat CONCENTRATION_FORMAT = new DefaultDecimalFormat( "0.00" );
-
     // tick mark properties
     private static final Color TICK_COLOR = Color.GRAY;
     private static final double MINOR_TICK_SPACING = 0.1; // L
@@ -61,7 +44,7 @@ class BeakerNode extends PComposite {
     private static final double TICK_LABEL_X_SPACING = 8;
 
     private final BeakerImageNode beakerImageNode;
-    private final LabelNode labelNode;
+    private final BeakerLabelNode labelNode;
     private final ArrayList<PText> tickLabelNodes;
 
     public BeakerNode( IUserComponent userComponent,
@@ -134,7 +117,7 @@ class BeakerNode extends PComposite {
         }
 
         // label on the beaker
-        labelNode = new LabelNode( solution, labelSize, formulaFont, concentrationFont, concentrationUnits, valuesVisible );
+        labelNode = new BeakerLabelNode( solution, labelSize, formulaFont, concentrationFont, concentrationUnits, valuesVisible );
         addChild( labelNode );
         labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.15 * cylinderSize.getHeight() ) );
 
@@ -154,120 +137,11 @@ class BeakerNode extends PComposite {
         }
     }
 
-    // Sets the label text on the beaker
-    public void setLabelText( String text ) {
-        labelNode.setText( text );
-    }
-
     public PDimension getCylinderSize() {
         return beakerImageNode.getCylinderSize();
     }
 
     public double getCylinderEndHeight() {
         return beakerImageNode.getCylinderEndHeight();
-    }
-
-    public void setConcentration( double concentration ) {
-        labelNode.setConcentration( concentration );
-    }
-
-    /*
-     * Label that appears on the beaker in a frosty, translucent frame.
-     * Origin at top center.
-     * REVIEW: I recommend moving this class to top-level instead of nested.  It is big enough and different enough.
-     */
-    private static class LabelNode extends PComposite {
-
-        private final String concentrationUnits;
-        private final HTMLNode formulaNode;
-        private final PText concentrationNode;
-        private final PNode textParentNode; // parent of formula and concentration value
-        private final PPath backgroundNode;
-
-        public LabelNode( final Solution solution, final PDimension labelSize,
-                          final Font formulaFont, final Font concentrationFont, String concentrationUnits,
-                          Property<Boolean> valuesVisible ) {
-
-            this.concentrationUnits = concentrationUnits;
-
-            // nodes
-            formulaNode = new HTMLNode( "?" ) {{
-                setFont( formulaFont );
-            }};
-            concentrationNode = new PText( "?" ) {{
-                setFont( concentrationFont );
-            }};
-            textParentNode = new PNode();
-            backgroundNode = new PPath() {{
-                setPaint( ColorUtils.createColor( Color.WHITE, 150 ) );
-                setStrokePaint( Color.LIGHT_GRAY );
-                setPathTo( new RoundRectangle2D.Double( -labelSize.getWidth() / 2, 0, labelSize.getWidth(), labelSize.getHeight(), 10, 10 ) );
-            }};
-
-            // rendering order
-            addChild( backgroundNode );
-            textParentNode.addChild( formulaNode );
-            textParentNode.addChild( concentrationNode );
-            addChild( textParentNode );
-
-            // update formula on label
-            solution.solute.addObserver( new SimpleObserver() {
-                public void update() {
-                    setText( solution.solute.get().formula );
-                }
-            } );
-
-            // update concentration on label
-            solution.concentration.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double concentration ) {
-                    setConcentration( concentration );
-                }
-            });
-
-            valuesVisible.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean visible ) {
-                    concentrationNode.setVisible( visible && CONCENTRATION_FEATURE_ENABLED );
-                    updateLayout();
-                }
-            } );
-        }
-
-        private void setText( String text ) {
-            formulaNode.setHTML( text );
-            updateLayout();
-        }
-
-        private void setConcentration( double concentration ) {
-            String concentrationString = CONCENTRATION_FORMAT.format( concentration );
-            String valueUnitsString = MessageFormat.format( Strings.PATTERN__0VALUE__1UNITS, concentrationString, concentrationUnits );
-            concentrationNode.setText( MessageFormat.format( Strings.PATTERN__PARENTHESES__0TEXT, valueUnitsString ) );
-            updateLayout();
-        }
-
-        private void updateLayout() {
-
-            if ( concentrationNode.getVisible() && CONCENTRATION_FEATURE_ENABLED ) {
-                // center concentration under formula
-                concentrationNode.setOffset( formulaNode.getFullBoundsReference().getCenterX() - ( concentrationNode.getFullBoundsReference().getWidth() / 2 ),
-                                             formulaNode.getFullBoundsReference().getMaxY() + 2 );
-            }
-            else {
-                concentrationNode.setOffset( formulaNode.getOffset() );
-            }
-
-            // scale to fit the background with some margin
-            final double margin = 2;
-            final double scaleX = ( backgroundNode.getFullBoundsReference().getWidth() - ( 2 * margin ) ) / textParentNode.getFullBoundsReference().getWidth();
-            final double scaleY = ( backgroundNode.getFullBoundsReference().getHeight() - ( 2 * margin ) ) / textParentNode.getFullBoundsReference().getHeight();
-            if ( scaleX < 1 || scaleY < 1 ) {
-                double scale = Math.min( scaleX, scaleY );
-                LOGGER.info( "scaling beaker label by " + scale );
-                textParentNode.setScale( scale );
-            }
-
-            // center in the background
-            textParentNode.setOffset( backgroundNode.getFullBoundsReference().getCenterX() - ( textParentNode.getFullBoundsReference().getWidth() / 2 ),
-                                      backgroundNode.getFullBoundsReference().getCenterY() - ( textParentNode.getFullBoundsReference().getHeight() / 2 ) );
-        }
     }
 }
