@@ -166,8 +166,7 @@ public class DnaMolecule {
     //-------------------------------------------------------------------------
 
     public void stepInTime( double dt ) {
-        updateStrandSegmentsNex();
-        separations.get( 0 ).xPos = separations.get( 0 ).xPos + 10;
+        updateStrandSegments();
     }
 
     /**
@@ -177,6 +176,19 @@ public class DnaMolecule {
      */
     public double getBasePairXOffsetByIndex( int basePairNumber ) {
         return LEFT_EDGE_X_POS + INTER_STRAND_OFFSET + (double) basePairNumber * DISTANCE_BETWEEN_BASE_PAIRS;
+    }
+
+    public void addSeparation( DnaSeparation separation ) {
+        separations.add( separation );
+    }
+
+    public void removeSeparation( DnaSeparation separation ) {
+        if ( !separations.contains( separation ) ) {
+            System.out.println( getClass().getName() + " - Warning: Ignoring attempt to remove separation that can't be found." );
+        }
+        else {
+            separations.remove( separation );
+        }
     }
 
     /**
@@ -269,81 +281,23 @@ public class DnaMolecule {
         return Math.sin( ( xPos + offset ) / LENGTH_PER_TWIST * Math.PI * 2 ) * STRAND_DIAMETER / 2;
     }
 
-    // Update the strand shapes, taking into account any distortions caused by
-    // attached biomolecules.
+    /**
+     * Update the strand segment shapes based on things that might have
+     * changed, such as biomolecules attaching and separating the strands or
+     * otherwise deforming the nominal double-helix shape.
+     */
     private void updateStrandSegments() {
-        // Update the shape-defining points.
-        for ( int i = 0; i < strand1Points.size(); i++ ) {
-            double strand1XPos = strand1Points.get( i ).getX();
-            strand1Points.get( i ).setLocation( strand1XPos, getDnaStrandYPosition( strand1XPos, 0 ) );
-            double strand2XPos = strand2Points.get( i ).getX();
-            strand2Points.get( i ).setLocation( strand2XPos, getDnaStrandYPosition( strand2XPos, INTER_STRAND_OFFSET ) );
-        }
 
-        List<Point2D> strand1SegmentPoints = new ArrayList<Point2D>();
-        List<Point2D> strand2SegmentPoints = new ArrayList<Point2D>();
-        double segmentStartX = strandPoints.get( 0 ).xPos;
-        int segmentIndex = 0;
-        for ( DnaStrandPoint dnaStrandPoint : strandPoints ) {
-            double xPos = dnaStrandPoint.xPos;
-            strand1SegmentPoints.add( new Point2D.Double( xPos, dnaStrandPoint.strand1YPos ) );
-            strand2SegmentPoints.add( new Point2D.Double( xPos, dnaStrandPoint.strand2YPos ) );
-            if ( xPos - segmentStartX >= ( LENGTH_PER_TWIST / 2 ) ) {
-                // Reached the end of this segment.  Compare it to the existing
-                // segment and, if they differ, make an update.
-                Shape strand1NewShape = BioShapeUtils.createCurvyLineFromPoints( strand1SegmentPoints );
-                DnaStrandSegment dnaStrandSegment = strand1Segments.get( segmentIndex );
-                // NOTE: The shape is compared by the full bounds, since the
-                // 'equals' method is not implemented for the Shape class.
-                // This seems to suffice, but is not perfect.
-                if ( !dnaStrandSegment.getShape().getBounds2D().equals( strand1NewShape.getBounds2D() ) ) {
-                    // This segment needs to be updated.
-                    dnaStrandSegment.setShape( strand1NewShape );
-
-                }
-                Shape strand2NewShape = BioShapeUtils.createCurvyLineFromPoints( strand2SegmentPoints );
-                dnaStrandSegment = strand2Segments.get( segmentIndex );
-                // Again, note the comparison based on full bounds.
-                if ( !dnaStrandSegment.getShape().getBounds2D().equals( strand2NewShape.getBounds2D() ) ) {
-                    // This segment needs to be updated.
-                    dnaStrandSegment.setShape( strand2NewShape );
-                }
-                segmentIndex++;
-            }
-        }
-
-
-        // Update the shape of any segments that have changed.
-//        List<Point2D> segmentPoints = new ArrayList<Point2D>();
-//        double segmentStartX = points.get( 0 ).getX();
-//        boolean inFront = initialInFront;
-//        for ( Point2D point : points ) {
-//            segmentPoints.add( point );
-//            if ( point.getX() - segmentStartX >= ( LENGTH_PER_TWIST / 2 ) ) {
-//                // Time to add this segment and start a new one.
-//                strandSegments.add( new DnaStrandSegment( BioShapeUtils.createCurvyLineFromPoints( segmentPoints ), inFront ) );
-//                segmentPoints.clear();
-//                segmentPoints.add( point ); // This point must be on this segment too in order to prevent gaps.
-//                segmentStartX = point.getX();
-//                inFront = !inFront;
-//            }
-//        }
-//        return strandSegments;
-    }
-
-    private void updateStrandSegmentsNex() {
-        // Update the points that define the strand shapes.
+        // Set the shadow points to the nominal, non-deformed positions.
         for ( DnaStrandPoint dnaStrandPoint : strandPointsShadow ) {
-            // Set the nominal positions
             dnaStrandPoint.strand1YPos = getDnaStrandYPosition( dnaStrandPoint.xPos, 0 );
             dnaStrandPoint.strand2YPos = getDnaStrandYPosition( dnaStrandPoint.xPos, INTER_STRAND_OFFSET );
-
         }
 
-        // Move the points to account for any separations.
+        // Move the shadow points to account for any separations.
         for ( DnaSeparation separation : separations ) {
-            IntegerRange separationWindowXIndexRange = new IntegerRange( (int) Math.floor( ( separation.xPos - ( separation.amount / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ),
-                                                                         (int) Math.floor( ( separation.xPos + ( separation.amount / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ) );
+            IntegerRange separationWindowXIndexRange = new IntegerRange( (int) Math.floor( ( separation.getXPos() - ( separation.getAmount() / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ),
+                                                                         (int) Math.floor( ( separation.getXPos() + ( separation.getAmount() / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ) );
             for ( int i = separationWindowXIndexRange.getMin(); i <= separationWindowXIndexRange.getMax(); i++ ) {
                 double windowCenterX = ( separationWindowXIndexRange.getMin() + separationWindowXIndexRange.getMax() ) / 2;
                 if ( i >= 0 && i < strandPointsShadow.size() ) {
@@ -353,9 +307,9 @@ public class DnaMolecule {
                     // graduations in between.  By 
                     double separationWeight = 1 - Math.abs( 2 * ( i - windowCenterX ) / separationWindowXIndexRange.getLength() );
                     strandPointsShadow.get( i ).strand1YPos = ( 1 - separationWeight ) * strandPointsShadow.get( i ).strand1YPos +
-                                                              separationWeight * separation.amount / 2;
+                                                              separationWeight * separation.getAmount() / 2;
                     strandPointsShadow.get( i ).strand2YPos = ( 1 - separationWeight ) * strandPointsShadow.get( i ).strand2YPos -
-                                                              separationWeight * separation.amount / 2;
+                                                              separationWeight * separation.getAmount() / 2;
                 }
             }
         }
@@ -770,21 +724,6 @@ public class DnaMolecule {
             if ( Double.compare( that.xPos, xPos ) != 0 ) { return false; }
 
             return true;
-        }
-    }
-
-    /**
-     * Class the defines a separation of the DNA strand.  This is used when
-     * forcing the DNA strand to separate in certain locations, which happens
-     * for instance when RNA polymerase is attached.
-     */
-    public static class DnaSeparation {
-        public double xPos; // X Position in model space.
-        public double amount; // Amount of separation.
-
-        public DnaSeparation( double xPos, double amount ) {
-            this.xPos = xPos;
-            this.amount = amount;
         }
     }
 
