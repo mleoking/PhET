@@ -371,8 +371,6 @@ public class DnaMolecule {
                     // The point has changed.  Update it, mark the change.
                     strandPoints.get( j ).set( strandPointsShadow.get( j ) );
                     changed = true;
-                    System.out.println( "Segment changed, index = " + i );
-                    break;
                 }
             }
 
