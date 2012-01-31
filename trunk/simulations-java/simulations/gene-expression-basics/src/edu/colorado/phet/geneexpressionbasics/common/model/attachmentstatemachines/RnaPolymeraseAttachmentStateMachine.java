@@ -56,7 +56,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         attachedState = attachedAndWanderingState;
 
         // Create the DNA strand separator.
-        dnaStrandSeparation = new DnaSeparation( rnaPolymerase.getPosition().getX(), rnaPolymerase.getShape().getBounds2D().getHeight() * 1.0 );
+        dnaStrandSeparation = new DnaSeparation( rnaPolymerase.getPosition().getX(), rnaPolymerase.getShape().getBounds2D().getHeight() * 0.9 );
     }
 
     // Subclass of the "attached" state for polymerase when it is attached to
