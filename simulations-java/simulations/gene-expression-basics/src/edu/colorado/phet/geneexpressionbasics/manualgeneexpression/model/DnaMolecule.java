@@ -167,6 +167,7 @@ public class DnaMolecule {
 
     public void stepInTime( double dt ) {
         updateStrandSegmentsNex();
+        separations.get( 0 ).xPos = separations.get( 0 ).xPos + 10;
     }
 
     /**
@@ -344,9 +345,17 @@ public class DnaMolecule {
             IntegerRange separationWindowXIndexRange = new IntegerRange( (int) Math.floor( ( separation.xPos - ( separation.amount / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ),
                                                                          (int) Math.floor( ( separation.xPos + ( separation.amount / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ) );
             for ( int i = separationWindowXIndexRange.getMin(); i <= separationWindowXIndexRange.getMax(); i++ ) {
+                double windowCenterX = ( separationWindowXIndexRange.getMin() + separationWindowXIndexRange.getMax() ) / 2;
                 if ( i >= 0 && i < strandPointsShadow.size() ) {
-                    // Separate the DNA within this window.
-                    strandPointsShadow.get( i ).strand1YPos = Y_POS + separation.amount / 2;
+
+                    // Perform a windowing algorithm that weights the separation
+                    // at 1 in the center, 0 at the edges, and linear
+                    // graduations in between.  By 
+                    double separationWeight = 1 - Math.abs( 2 * ( i - windowCenterX ) / separationWindowXIndexRange.getLength() );
+                    strandPointsShadow.get( i ).strand1YPos = ( 1 - separationWeight ) * strandPointsShadow.get( i ).strand1YPos +
+                                                              separationWeight * separation.amount / 2;
+                    strandPointsShadow.get( i ).strand2YPos = ( 1 - separationWeight ) * strandPointsShadow.get( i ).strand2YPos -
+                                                              separationWeight * separation.amount / 2;
                 }
             }
         }
@@ -356,31 +365,39 @@ public class DnaMolecule {
         int numSegments = strand1Segments.size();
         assert numSegments == strand2Segments.size(); // Should be the same, won't work if not.
         for ( int i = 0; i < numSegments; i++ ) {
-            // TODO: Only does one of the two segments, need to figure out good way to do both.
-            boolean changed = false;
-            DnaStrandSegment segment = strand1Segments.get( i );
-            Rectangle2D bounds = segment.getShape().getBounds2D();
+            boolean segmentChanged = false;
+            DnaStrandSegment strand1Segment = strand1Segments.get( i );
+            DnaStrandSegment strand2Segment = strand2Segments.get( i );
+
+            // Determine the bounds of the current segment.  Assumes that the
+            // bounds for the strand1 and strand2 segments are the same, which
+            // should be a safe assumption.
+            Rectangle2D bounds = strand1Segment.getShape().getBounds2D();
             IntegerRange pointIndexRange = new IntegerRange( (int) Math.floor( ( bounds.getMinX() - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ),
                                                              (int) Math.floor( ( bounds.getMaxX() - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ) );
-            if ( pointIndexRange.getMin() < 0 ) {
-                System.out.println( "this ain't looking good" );
-            }
+
+            // Check to see if any of the points within the identified range
+            // have changed and, if so, update the corresponding segment shape
+            // in the strands.  If the points for either strand has changed,
+            // both are updated.
             for ( int j = pointIndexRange.getMin(); j <= pointIndexRange.getMax(); j++ ) {
-                System.out.println( "j = " + j );
                 if ( !strandPoints.get( j ).equals( strandPointsShadow.get( j ) ) ) {
                     // The point has changed.  Update it, mark the change.
                     strandPoints.get( j ).set( strandPointsShadow.get( j ) );
-                    changed = true;
+                    segmentChanged = true;
                 }
             }
 
-            if ( changed ) {
+            if ( segmentChanged ) {
                 // Update the shape of this segment.
-                List<Point2D> shapePoints = new ArrayList<Point2D>();
+                List<Point2D> strand1ShapePoints = new ArrayList<Point2D>();
+                List<Point2D> strand2ShapePoints = new ArrayList<Point2D>();
                 for ( int j = pointIndexRange.getMin(); j <= pointIndexRange.getMax(); j++ ) {
-                    shapePoints.add( new Point2D.Double( strandPoints.get( j ).xPos, strandPoints.get( j ).strand1YPos ) );
+                    strand1ShapePoints.add( new Point2D.Double( strandPoints.get( j ).xPos, strandPoints.get( j ).strand1YPos ) );
+                    strand2ShapePoints.add( new Point2D.Double( strandPoints.get( j ).xPos, strandPoints.get( j ).strand2YPos ) );
                 }
-                segment.setShape( BioShapeUtils.createCurvyLineFromPoints( shapePoints ) );
+                strand1Segment.setShape( BioShapeUtils.createCurvyLineFromPoints( strand1ShapePoints ) );
+                strand2Segment.setShape( BioShapeUtils.createCurvyLineFromPoints( strand2ShapePoints ) );
             }
         }
     }
