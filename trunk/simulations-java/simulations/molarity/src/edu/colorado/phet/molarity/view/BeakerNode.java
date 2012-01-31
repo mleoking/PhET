@@ -245,6 +245,7 @@ class BeakerNode extends PComposite {
         }
 
         private void updateLayout() {
+
             if ( concentrationNode.getVisible() && CONCENTRATION_FEATURE_ENABLED ) {
                 // center concentration under formula
                 concentrationNode.setOffset( formulaNode.getFullBoundsReference().getCenterX() - ( concentrationNode.getFullBoundsReference().getWidth() / 2 ),
@@ -253,6 +254,7 @@ class BeakerNode extends PComposite {
             else {
                 concentrationNode.setOffset( formulaNode.getOffset() );
             }
+
             // scale to fit the background with some margin
             final double margin = 2;
             final double scaleX = ( backgroundNode.getFullBoundsReference().getWidth() - ( 2 * margin ) ) / textParentNode.getFullBoundsReference().getWidth();
@@ -262,6 +264,7 @@ class BeakerNode extends PComposite {
                 LOGGER.info( "scaling beaker label by " + scale );
                 textParentNode.setScale( scale );
             }
+
             // center in the background
             textParentNode.setOffset( backgroundNode.getFullBoundsReference().getCenterX() - ( textParentNode.getFullBoundsReference().getWidth() / 2 ),
                                       backgroundNode.getFullBoundsReference().getCenterY() - ( textParentNode.getFullBoundsReference().getHeight() / 2 ) );
