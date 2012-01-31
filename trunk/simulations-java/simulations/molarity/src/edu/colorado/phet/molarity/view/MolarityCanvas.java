@@ -8,7 +8,8 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -37,7 +38,7 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
         final BeakerNode beakerNode = new BeakerNode( UserComponents.solutionBeaker,
                                                       model.getSolutionVolumeRange().getMax(), Strings.UNITS_LITERS,
                                                       model.solution.solute.get().formula, new PhetFont( Font.BOLD, 28 ),
-                                                      model.solution.getConcentration(), Strings.UNITS_MOLARITY, new PhetFont( 16 ),
+                                                      model.solution.concentration.get(), Strings.UNITS_MOLARITY, new PhetFont( 16 ),
                                                       new PDimension( 180, 80 ),
                                                       0.75, 0.75,
                                                       valuesVisible );
@@ -133,13 +134,13 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
         centerRootNodeOnStage();
 
         // manage dynamic beaker label
-        SimpleObserver labelUpdater = new SimpleObserver() {
+        RichSimpleObserver labelUpdater = new RichSimpleObserver() {
             public void update() {
                 String labelText;
                 if ( model.solution.volume.get() == 0 ) {
                     labelText = "";
                 }
-                else if ( model.solution.getConcentration() == 0 ) {
+                else if ( model.solution.concentration.get() == 0 ) {
                     labelText = MolaritySymbols.WATER;
                 }
                 else {
@@ -148,14 +149,12 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
                 beakerNode.setLabelText( labelText );
             }
         };
-        model.solution.addConcentrationObserver( labelUpdater );
-        model.solution.volume.addObserver( labelUpdater );
-        model.solution.solute.addObserver( labelUpdater );
+        labelUpdater.observe( model.solution.concentration, model.solution.volume, model.solution.solute );
 
         // concentration of beaker label
-        model.solution.addConcentrationObserver( new SimpleObserver() {
-            public void update() {
-                beakerNode.setConcentration( model.solution.getConcentration() );
+        model.solution.concentration.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double concentration ) {
+                beakerNode.setConcentration( concentration );
             }
         } );
     }
