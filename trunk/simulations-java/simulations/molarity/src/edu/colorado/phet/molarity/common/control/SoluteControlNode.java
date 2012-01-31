@@ -30,9 +30,6 @@ public class SoluteControlNode extends PhetPNode {
     private static final PhetFont LABEL_FONT = new PhetFont( 18 );
     private static final PhetFont ITEM_FONT = new PhetFont( 18 );
 
-    //REVIEW: I'm not seeing why this reference is necessary.  The comment seems bogus or I am just missing something.  Move to local if possible.
-    private final SoluteComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
-
     /**
      * Constructor
      *
@@ -46,7 +43,7 @@ public class SoluteControlNode extends PhetPNode {
         }};
         addChild( labelNode );
 
-        comboBoxNode = new SoluteComboBoxNode( solutes, currentSolute.get() );
+        final SoluteComboBoxNode comboBoxNode = new SoluteComboBoxNode( solutes, currentSolute.get() );
         addChild( comboBoxNode );
 
         // layout
