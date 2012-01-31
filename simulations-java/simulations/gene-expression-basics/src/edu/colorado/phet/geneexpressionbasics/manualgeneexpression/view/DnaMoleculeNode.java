@@ -3,8 +3,10 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.Stroke;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
@@ -13,6 +15,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMole
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Class that represents the DNA molecule in the view.
@@ -77,12 +80,25 @@ public class DnaMoleculeNode extends PNode {
     }
 
     private void addStrand( ModelViewTransform mvt, DnaStrandSegment dnaStrandSegment, Color color ) {
-        PNode segmentNode = new PhetPPath( mvt.modelToView( dnaStrandSegment.getShape() ), STRAND_STROKE, color );
+//        PNode segmentNode = new PhetPPath( mvt.modelToView( dnaStrandSegment.getShape()), STRAND_STROKE, color );
+        PNode segmentNode = new DnaStrandSegmentNode( dnaStrandSegment, mvt, color );
         if ( dnaStrandSegment.inFront ) {
             dnaStrandFrontLayer.addChild( segmentNode );
         }
         else {
             dnaStrandBackLayer.addChild( segmentNode );
+        }
+    }
+
+    private class DnaStrandSegmentNode extends PNode {
+        private DnaStrandSegmentNode( final DnaStrandSegment dnaStrandSegment, final ModelViewTransform mvt, Color color ) {
+            final PPath pathNode = new PhetPPath( STRAND_STROKE, color );
+            addChild( pathNode );
+            dnaStrandSegment.addShapeChangeObserver( new VoidFunction1<Shape>() {
+                public void apply( Shape shape ) {
+                    pathNode.setPathTo( mvt.modelToView( shape ) );
+                }
+            } );
         }
     }
 }
