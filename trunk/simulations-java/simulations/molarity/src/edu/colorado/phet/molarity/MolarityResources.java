@@ -51,6 +51,6 @@ public class MolarityResources {
 
     // Images
     public static class Images {
-        public static final Image BEAKER_IMAGE = RESOURCES.getImage( "beaker.png" );
+        public static final Image BEAKER = RESOURCES.getImage( "beaker.png" );
     }
 }

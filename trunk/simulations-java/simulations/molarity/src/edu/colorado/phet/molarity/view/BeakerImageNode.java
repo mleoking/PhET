@@ -34,7 +34,7 @@ class BeakerImageNode extends PImage {
     private static final Point2D CYLINDER_END_FOREGROUND = new Point2D.Double( 210, 218 );
 
     public BeakerImageNode() {
-        super( Images.BEAKER_IMAGE );
+        super( Images.BEAKER );
     }
 
     // Gets the cylinder dimensions.
