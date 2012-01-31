@@ -31,7 +31,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.molarity.MolarityConstants;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
-import edu.colorado.phet.molarity.common.view.DualLabelNode;
+import edu.colorado.phet.molarity.view.DualLabelNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
