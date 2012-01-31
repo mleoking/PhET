@@ -653,6 +653,7 @@ public class DnaMolecule {
         for ( Gene gene : genes ) {
             gene.clearAttachmentSites();
         }
+        separations.clear();
     }
 
     //-------------------------------------------------------------------------
