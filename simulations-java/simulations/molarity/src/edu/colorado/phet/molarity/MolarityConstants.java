@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.molarity.common.util.ZeroIntegerDoubleFormat;
+import edu.colorado.phet.molarity.util.ZeroIntegerDoubleFormat;
 
 /**
  * Constants used throughout this sim.
