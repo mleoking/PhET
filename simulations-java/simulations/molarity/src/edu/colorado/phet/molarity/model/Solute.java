@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.molarity.common.model;
+package edu.colorado.phet.molarity.model;
 
 import java.awt.Color;
 

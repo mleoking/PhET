@@ -3,7 +3,7 @@ package edu.colorado.phet.molarity.common.view;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.molarity.common.model.Solute;
+import edu.colorado.phet.molarity.model.Solute;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
