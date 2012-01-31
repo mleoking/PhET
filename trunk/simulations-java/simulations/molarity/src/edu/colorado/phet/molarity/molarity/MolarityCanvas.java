@@ -15,15 +15,15 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.MolarityResources.Symbols;
 import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
-import edu.colorado.phet.molarity.common.control.ShowValuesNode;
-import edu.colorado.phet.molarity.common.control.SoluteControlNode;
-import edu.colorado.phet.molarity.common.control.VerticalSliderNode;
 import edu.colorado.phet.molarity.common.view.AbstractMolarityCanvas;
 import edu.colorado.phet.molarity.common.view.BeakerNode;
 import edu.colorado.phet.molarity.common.view.ConcentrationDisplayNode;
 import edu.colorado.phet.molarity.common.view.PrecipitateNode;
 import edu.colorado.phet.molarity.common.view.SaturatedIndicatorNode;
 import edu.colorado.phet.molarity.common.view.SolutionNode;
+import edu.colorado.phet.molarity.control.ShowValuesNode;
+import edu.colorado.phet.molarity.control.SoluteControlNode;
+import edu.colorado.phet.molarity.control.VerticalSliderNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
