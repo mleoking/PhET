@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.molarity.common.control;
+package edu.colorado.phet.molarity.control;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
