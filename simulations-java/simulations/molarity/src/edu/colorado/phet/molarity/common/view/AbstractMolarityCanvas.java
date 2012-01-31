@@ -51,8 +51,10 @@ public class AbstractMolarityCanvas extends PhetPCanvas implements Resettable {
                             ( ( STAGE_SIZE.getHeight() - rootNode.getFullBoundsReference().getHeight() ) / 2 ) - PNodeLayoutUtils.getOriginYOffset( rootNode ) );
     }
 
-    // Scales the root node to fit in the bounds of the stage.
-    //REVIEW: Can you explain why this additional level of scaling is used?  I haven't seen this before.
+    /*
+     * Scales the root node to fit in the bounds of the stage.
+     * This is primarily useful for i18n, to guarantee that everything is visible on the stage.
+     */
     protected void scaleRootNodeToFitStage() {
         double xScale = STAGE_SIZE.getWidth() / rootNode.getFullBoundsReference().getWidth();
         double yScale = STAGE_SIZE.getHeight() / rootNode.getFullBoundsReference().getHeight();
