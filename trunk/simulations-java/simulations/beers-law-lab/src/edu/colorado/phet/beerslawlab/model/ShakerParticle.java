@@ -13,25 +13,33 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class ShakerParticle extends SoluteParticle {
 
+    private Solute solute;
     private ImmutableVector2D velocity;
     private ImmutableVector2D acceleration;
 
     public ShakerParticle( Solute solute, ImmutableVector2D location, double orientation, ImmutableVector2D initialVelocity, ImmutableVector2D acceleration ) {
         super( solute.particleColor, solute.particleSize, location, orientation );
+        this.solute = solute;
         this.velocity = initialVelocity;
         this.acceleration = acceleration;
     }
 
-    public void stepInTime( double deltaSeconds ) {
+    // Propagates the particle to a new location
+    public void stepInTime( double deltaSeconds, double beakerMinX ) {
 
-        ImmutableVector2D originalLocation = getLocation();
-
-        // Propagate to new location
         velocity = velocity.plus( acceleration.times( deltaSeconds ) );
-        setLocation( getLocation().plus( velocity.times( deltaSeconds ) ) );
+        ImmutableVector2D newLocation = getLocation().plus( velocity.times( deltaSeconds ) );
 
-        //TODO Did the particle hit the beaker walls? If so, change direction.
+        /*
+         * Did the particle hit the left wall of the beaker? If so, change direction.
+         * Note that this is a very simplified model, and only deals with the left wall of the beaker,
+         * which is the only wall that the particles can hit in practice.
+         */
+        if ( newLocation.getX() - solute.particleSize  <= beakerMinX ) {
+            newLocation = new ImmutableVector2D( beakerMinX + solute.particleSize, newLocation.getY() );
+            velocity = new ImmutableVector2D( Math.abs( velocity.getX() ), velocity.getY() );
+        }
 
-        //TODO Did the particle hit the surface of the solution or bottom of the beaker? If so, delete the particle and add an appropriate amount of solute to the solution.
+        setLocation( newLocation );
     }
 }

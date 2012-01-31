@@ -34,14 +34,16 @@ public class ShakerParticles {
 
     private final Shaker shaker;
     private final Solution solution;
+    private final Beaker beaker;
     private final ArrayList<ParticlesChangeListener> listeners;
     private final ArrayList<ShakerParticle> particles;
     private final Random randomLocation = new Random();
 
-    public ShakerParticles( Shaker shaker, Solution solution ) {
+    public ShakerParticles( Shaker shaker, Solution solution, Beaker beaker ) {
 
         this.shaker = shaker;
         this.solution = solution;
+        this.beaker = beaker;
         this.listeners = new ArrayList<ParticlesChangeListener>();
         this.particles = new ArrayList<ShakerParticle>();
 
@@ -58,7 +60,7 @@ public class ShakerParticles {
         // propagate existing particles
         for ( ShakerParticle particle : new ArrayList<ShakerParticle>( particles ) ) {
 
-            particle.stepInTime( deltaSeconds );
+            particle.stepInTime( deltaSeconds, beaker.getLocation().getX() - ( beaker.getWidth() / 2 ) );
 
             //TODO this entire block is bogus, just to get something working
             // remove?
