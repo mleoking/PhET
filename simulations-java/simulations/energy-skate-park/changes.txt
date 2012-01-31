@@ -1,3 +1,4 @@
+Removed easter eggs that allow the user to add and remove skaters with "a" and "r" keys
 Changed Energy Skate Park main (non-basics) application "friction" text back to "track friction" since it does not apply to the ground
 Renamed "Track friction" to "Friction"
 Handled code review requests, see #3232

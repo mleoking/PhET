@@ -333,12 +333,14 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     private void keyPressed( KeyEvent e ) {
         multiKeyHandler.keyPressed( e );
         if ( hasFocus() ) {
-            if ( e.getKeyCode() == KeyEvent.VK_A ) {
-                addSkater();
-            }
-            else if ( e.getKeyCode() == KeyEvent.VK_R ) {
-                removeSkater();
-            }
+
+            //For debugging with multiple skaters
+//            if ( e.getKeyCode() == KeyEvent.VK_A ) {
+//                addSkater();
+//            }
+//            else if ( e.getKeyCode() == KeyEvent.VK_R ) {
+//                removeSkater();
+//            }
         }
     }
 
