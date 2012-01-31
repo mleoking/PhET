@@ -124,7 +124,6 @@ public class ConcentrationDisplayNode extends PNode {
     }
 
     // Vertical bar. Origin at upper left.
-    //REVIEW: Why a separate class for this?
     private static class BarNode extends PPath {
         public BarNode( final PDimension size ) {
             setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
@@ -151,7 +150,6 @@ public class ConcentrationDisplayNode extends PNode {
     }
 
     // Arrow with a value next to it, drawn in the coordinate frame of the bar to simplifying filling with a gradient paint.
-    //REVIEW: Also consider making this a top level class.
     private static class PointerNode extends PComposite {
 
         // arrow properties, because ArrowNode constructor is so brain damaged
