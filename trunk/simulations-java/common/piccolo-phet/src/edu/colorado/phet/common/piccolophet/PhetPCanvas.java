@@ -672,7 +672,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             //use the smaller
             double scale = sx < sy ? sx : sy;
             if ( scale == 0 ) {
-//                LOGGER.warning( "ignoring zero canvas size" );
+                // Ignore this case. The canvas size (and therefore the scale) will be zero on startup, before the canvas is realized.
                 return new AffineTransform();
             }
             else if ( scale < 0 ) {
