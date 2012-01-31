@@ -101,7 +101,12 @@ public class DnaMolecule {
             strandPoints.add( new DnaStrandPoint( xPos, getDnaStrandYPosition( xPos, 0 ), getDnaStrandYPosition( xPos, INTER_STRAND_OFFSET ) ) );
         }
 
-        strandPointsShadow = new ArrayList<DnaStrandPoint>( strandPoints );
+        // Create a shadow of the shape-defining points.  This will be used for
+        // detecting shape changes.
+        strandPointsShadow = new ArrayList<DnaStrandPoint>( strandPoints.size() );
+        for ( DnaStrandPoint strandPoint : strandPoints ) {
+            strandPointsShadow.add( new DnaStrandPoint( strandPoint ) );
+        }
 
         // Create the sets of segments that will be observed by the view.
 //        strand1Segments = generateDnaStrand( strand1Points, true );
@@ -151,6 +156,9 @@ public class DnaMolecule {
                              new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene3TranscribedRegionSize ),
                              new Color( 205, 255, 112, 150 ),
                              3 ) );
+
+        // TODO: Temp - add a separation - this is for testing.
+        separations.add( new DnaSeparation( 0, 400 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -325,10 +333,26 @@ public class DnaMolecule {
     private void updateStrandSegmentsNex() {
         // Update the points that define the strand shapes.
         for ( DnaStrandPoint dnaStrandPoint : strandPointsShadow ) {
+            // Set the nominal positions
             dnaStrandPoint.strand1YPos = getDnaStrandYPosition( dnaStrandPoint.xPos, 0 );
             dnaStrandPoint.strand2YPos = getDnaStrandYPosition( dnaStrandPoint.xPos, INTER_STRAND_OFFSET );
+
         }
 
+        // Move the points to account for any separations.
+        for ( DnaSeparation separation : separations ) {
+            IntegerRange separationWindowXIndexRange = new IntegerRange( (int) Math.floor( ( separation.xPos - ( separation.amount / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ),
+                                                                         (int) Math.floor( ( separation.xPos + ( separation.amount / 2 ) - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ) );
+            for ( int i = separationWindowXIndexRange.getMin(); i <= separationWindowXIndexRange.getMax(); i++ ) {
+                if ( i >= 0 && i < strandPointsShadow.size() ) {
+                    // Separate the DNA within this window.
+                    strandPointsShadow.get( i ).strand1YPos = Y_POS + separation.amount / 2;
+                }
+            }
+        }
+
+        // See if any of the points have moved and, if so, update the
+        // corresponding shape segment.
         int numSegments = strand1Segments.size();
         assert numSegments == strand2Segments.size(); // Should be the same, won't work if not.
         for ( int i = 0; i < numSegments; i++ ) {
@@ -338,7 +362,11 @@ public class DnaMolecule {
             Rectangle2D bounds = segment.getShape().getBounds2D();
             IntegerRange pointIndexRange = new IntegerRange( (int) Math.floor( ( bounds.getMinX() - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ),
                                                              (int) Math.floor( ( bounds.getMaxX() - LEFT_EDGE_X_POS ) / DISTANCE_BETWEEN_BASE_PAIRS ) );
+            if ( pointIndexRange.getMin() < 0 ) {
+                System.out.println( "this ain't looking good" );
+            }
             for ( int j = pointIndexRange.getMin(); j <= pointIndexRange.getMax(); j++ ) {
+                System.out.println( "j = " + j );
                 if ( !strandPoints.get( j ).equals( strandPointsShadow.get( j ) ) ) {
                     // The point has changed.  Update it, mark the change.
                     strandPoints.get( j ).set( strandPointsShadow.get( j ) );
@@ -697,6 +725,12 @@ public class DnaMolecule {
             this.xPos = xPos;
             this.strand1YPos = strand1YPos;
             this.strand2YPos = strand2YPos;
+        }
+
+        public DnaStrandPoint( DnaStrandPoint strandPoint ) {
+            xPos = strandPoint.xPos;
+            strand1YPos = strandPoint.strand1YPos;
+            strand2YPos = strandPoint.strand2YPos;
         }
 
         public void set( DnaStrandPoint dnaStrandPoint ) {
