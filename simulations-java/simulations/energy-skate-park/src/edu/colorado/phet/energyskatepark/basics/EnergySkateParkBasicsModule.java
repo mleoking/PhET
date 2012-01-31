@@ -239,7 +239,6 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
         frictionEnabled.reset();
         stickToTrack.reset();
 
-
         for ( VoidFunction0 resetListener : resetListeners ) {
             resetListener.apply();
         }
