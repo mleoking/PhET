@@ -22,7 +22,7 @@ public class TrackControlPanel extends VBox {
 
                //Control box for track friction
                new VBox( 10,
-                         new PhetPText( EnergySkateParkResources.getString( "controls.show-friction" ), EnergySkateParkBasicsModule.TITLE_FONT ),
+                         new PhetPText( EnergySkateParkResources.getString( "controls.friction.title" ), EnergySkateParkBasicsModule.TITLE_FONT ),
                          new OnOffPanel( friction, module.frictionEnabled ),
                          new TrackFrictionSlider( module ) ),
 
