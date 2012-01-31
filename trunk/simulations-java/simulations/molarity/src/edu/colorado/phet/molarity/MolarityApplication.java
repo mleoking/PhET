@@ -4,7 +4,6 @@ package edu.colorado.phet.molarity;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.molarity.molarity.MolarityModule;
 
 /**
  * Main class for the "Molarity" simulation.
