@@ -10,11 +10,16 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -25,8 +30,10 @@ import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.molarity.MolarityConstants;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
+import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
 import edu.colorado.phet.molarity.common.view.DualLabelNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -43,7 +50,7 @@ public class VerticalSliderNode extends PhetPNode {
 
     private static final PDimension THUMB_SIZE = new PDimension( 45, 15 );
 
-    private final LinearFunction function; // maps model value to a track position
+    private final Function modelToView; // maps a model value to a track position
     private final PNode trackNode;
     private final ThumbNode thumbNode;
 
@@ -73,17 +80,14 @@ public class VerticalSliderNode extends PhetPNode {
                                final PDimension trackSize, final Paint trackPaint, final Paint trackBackgroundPaint,
                                final Property<Double> modelValue, DoubleRange range, String units, Property<Boolean> valuesVisible ) {
 
-        this.function = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
+        this.modelToView = new LinearFunction( range.getMin(), range.getMax(), trackSize.getHeight(), 0 );
 
         // title & subtitle
         PNode titleNode = new HTMLNode( title, Color.BLACK, MolarityConstants.TITLE_FONT );
         PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SUBTITLE_FONT );
 
-        // track that the thumb moves in, origin at upper left
-        trackNode = new PPath() {{
-            setPathTo( new Rectangle2D.Double( 0, 0, trackSize.getWidth(), trackSize.getHeight() ) );
-            setPaint( trackPaint );
-        }};
+        // track that the thumb moves in
+        trackNode = new TrackNode( UserComponentChain.chain( userComponent, UserComponents.track ), trackSize, trackPaint, modelValue, modelToView.createInverse() );
 
         // background that surrounds the track
         PNode backgroundNode = new PPath() {{
@@ -96,7 +100,7 @@ public class VerticalSliderNode extends PhetPNode {
         }};
 
         // thumb that moves in the track
-        thumbNode = new ThumbNode( userComponent, THUMB_SIZE, this, trackNode, range, modelValue, units, valuesVisible );
+        thumbNode = new ThumbNode( UserComponentChain.chain( userComponent, UserComponents.thumb ), THUMB_SIZE, this, trackNode, range, modelValue, units, valuesVisible );
 
         // min and max labels
         final PNode minNode = new DualLabelNode( MolarityConstants.RANGE_FORMAT.format( range.getMin() ), minLabel, valuesVisible, MolarityConstants.RANGE_FONT );
@@ -135,9 +139,28 @@ public class VerticalSliderNode extends PhetPNode {
         // move the slider thumb to reflect the model value
         modelValue.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                thumbNode.setOffset( thumbNode.getXOffset(), function.evaluate( value ) );
+                thumbNode.setOffset( thumbNode.getXOffset(), modelToView.evaluate( value ) );
             }
         } );
+    }
+
+    // Track that the thumb moves in, origin at upper left. Clicking in the track changes the value.
+    private static class TrackNode extends PPath {
+
+        public TrackNode( final IUserComponent userComponent, PDimension trackSize, Paint trackPaint, final Property<Double> modelValue, final Function viewToModel ) {
+            setPathTo( new Rectangle2D.Double( 0, 0, trackSize.getWidth(), trackSize.getHeight() ) );
+            setPaint( trackPaint );
+
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                // Clicking in the track changes the model to the corresponding value.
+                @Override public void mousePressed( PInputEvent event ) {
+                    SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, UserActions.pressed, ParameterSet.parameterSet( ParameterKeys.value, modelValue.get() ) );
+                    double trackPosition = event.getPositionRelativeTo( TrackNode.this ).getY();
+                    modelValue.set( viewToModel.evaluate( trackPosition ) );
+                }
+            } );
+        }
     }
 
     // The slider thumb, a rounded rectangle with a horizontal line through its center. Origin is at the thumb's geometric center.

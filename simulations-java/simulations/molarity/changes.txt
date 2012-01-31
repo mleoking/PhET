@@ -1,3 +1,5 @@
+1/30/12 #3233, click on slider track to change value
+1/30/12 #3233, addressed various code review comments
 1/30/12 Molarity: Code Review #3233: Added review comments to MolarityModel.java
 1/30/12 Molarity: Code Review #3233: Fixed mismatched parens and quotation marks in model.txt and implementation-notes.txt
 1/30/12 tweak SolutionNode constructor, we only need to know the max volume of the beaker
