@@ -5,9 +5,10 @@ DEADLINES
 
 DESIGN
 - should shaker particles be removed when the shaker is made invisible?
+- change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
-- increase the sensitive area of the probe (to what? and what to do when it touches 2 fluids?)
+- use a minimum view height for non-zero solution volumes, so that probe can read small volumes
 - switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
 - Beer's Law tab (see JC notes below)
 
