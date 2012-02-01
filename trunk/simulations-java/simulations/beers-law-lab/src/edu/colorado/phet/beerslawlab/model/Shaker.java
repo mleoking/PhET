@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Model of the dropper, contains solute in solid form.
+ * Model of the shaker, contains solute in solid form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
