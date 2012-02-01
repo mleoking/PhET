@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -112,6 +113,7 @@ public class DropperNode extends PhetPNode {
             }
         } );
 
+        addInputEventListener( new CursorHandler() );
         addInputEventListener( new MovableDragHandler( UserComponents.dropper, dropper, this ) );
     }
 }
