@@ -11,6 +11,7 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
@@ -42,7 +43,8 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
         } );
         add( showPieChartCheckBox );
 
-        showThermal = new JCheckBox( EnergySkateParkResources.getString( "piechart.show-thermal" ), !module.getEnergySkateParkSimulationPanel().getRootNode().getIgnoreThermal() );
+        final boolean defaultShowThermal = !module.getEnergySkateParkSimulationPanel().getRootNode().getIgnoreThermal();
+        showThermal = new JCheckBox( EnergySkateParkResources.getString( "piechart.show-thermal" ), defaultShowThermal );
         showThermal.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.getEnergySkateParkSimulationPanel().setIgnoreThermal( !showThermal.isSelected() );
@@ -75,6 +77,13 @@ public class PieChartControlPanel extends HorizontalLayoutPanel {
         showPieChartCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateShowThermalEnabled();
+            }
+        } );
+
+        module.addResetListener( new VoidFunction0() {
+            public void apply() {
+                showPieChartCheckBox.setSelected( false );
+                showThermal.setSelected( defaultShowThermal );
             }
         } );
     }

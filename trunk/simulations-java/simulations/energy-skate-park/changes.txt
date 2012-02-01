@@ -1,3 +1,4 @@
+Energy Skate Park: Fixed: Pie chart button doesn't reset on "Reset All"
 # 2.08.29 (60879) Jan 31, 2012
 Energy Skate Park Basics: Fixed: When a user deletes a track, it goes back into the toolbox
 Common: Fixed: Deleting a track by deleting its control points causes an exception
