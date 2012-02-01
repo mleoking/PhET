@@ -7,6 +7,10 @@ DESIGN
 - should shaker particles be removed when the shaker is made invisible?
 
 HIGH
+- constrain concentration probe to play area bounds
+- switching from dropper to shaker causes 1 particle of solute to be created
+- make combo box popup appear on top of everything in the scenegraph
+- increase the sensitive area of the probe (to what? and what to do when it touches 2 fluids?)
 - Beer's Law tab (see JC notes below)
 
 MEDIUM
