@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 
@@ -33,13 +34,18 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         addPressureSensor( new PressureSensor( this, -4, 2 ) );
     }
 
+    @Override public void addPressureChangeObserver( SimpleObserver updatePressure ) {
+        super.addPressureChangeObserver( updatePressure );
+        atmosphere.addObserver( updatePressure );
+    }
+
     //Gets the pressure at the specified location.
     @Override public double getPressure( double x, double y ) {
         if ( y < 0 ) {
-            return getStandardAirPressure() + liquidDensity.get() * gravity.get() * abs( -y );
+            return ( atmosphere.get() ? getStandardAirPressure() : 0.0 ) + liquidDensity.get() * gravity.get() * abs( -y );
         }
         else {
-            return super.getPressure( x, y );
+            return atmosphere.get() ? super.getPressure( x, y ) : 0.0;
         }
     }
 }

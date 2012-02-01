@@ -244,8 +244,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     }
 
     //Listen for change in the fluid pressure
-    @Override public void addFluidChangeObserver( SimpleObserver updatePressure ) {
-        super.addFluidChangeObserver( updatePressure );
+    @Override public void addPressureChangeObserver( SimpleObserver updatePressure ) {
+        super.addPressureChangeObserver( updatePressure );
         waterTower.fluidVolume.addObserver( updatePressure );
         waterTower.tankBottomCenter.addObserver( updatePressure );
     }

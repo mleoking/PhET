@@ -20,13 +20,13 @@ public class PressureSensor extends Sensor<Double> {
             }
         };
         location.addObserver( updatePressure );
-        context.addFluidChangeObserver( updatePressure );
+        context.addPressureChangeObserver( updatePressure );
     }
 
     //Context for pressure sensor, so when the environment changes, the value readout will update
     public static interface Context {
         double getPressure( double x, double y );
 
-        void addFluidChangeObserver( SimpleObserver updatePressure );
+        void addPressureChangeObserver( SimpleObserver updatePressure );
     }
 }

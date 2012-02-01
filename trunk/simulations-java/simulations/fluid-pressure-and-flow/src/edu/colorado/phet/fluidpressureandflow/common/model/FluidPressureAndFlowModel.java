@@ -41,7 +41,9 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     //Set of user-selectable units for the sim (distance, velocity, pressure, etc).
     public final Property<UnitSet> units;
 
+    //Air pressure
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.get(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
 
@@ -96,7 +98,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     /*
      * Add a listener to identify when the fluid has changed, for purposes of updating pressure sensors.
      */
-    public void addFluidChangeObserver( SimpleObserver updatePressure ) {
+    public void addPressureChangeObserver( SimpleObserver updatePressure ) {
         gravity.addObserver( updatePressure );
         standardAirPressure.addObserver( updatePressure );
         liquidDensity.addObserver( updatePressure );
