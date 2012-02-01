@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * The thing that is used to evaporate solvent from the solution in the beaker.
+ * Model element that determines the rate at which solvent is evaporated from the solution in the beaker.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
