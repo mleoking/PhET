@@ -19,7 +19,9 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Protein;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinB;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinC;
@@ -156,9 +158,9 @@ public class ProteinCollectionNode extends PNode {
 
             addChild( new HBox(
                     0,
-                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinA().getFullyGrownShape() ), Color.BLACK, new ProteinA().colorProperty.get(), model.proteinACollected ),
-                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinB().getFullyGrownShape() ), Color.BLACK, new ProteinB().colorProperty.get(), model.proteinBCollected ),
-                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinC().getFullyGrownShape() ), Color.BLACK, new ProteinC().colorProperty.get(), model.proteinCCollected )
+                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinA().getFullyGrownShape() ), Color.BLACK, new ProteinA().colorProperty.get(), model, ProteinA.class ),
+                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinB().getFullyGrownShape() ), Color.BLACK, new ProteinB().colorProperty.get(), model, ProteinB.class ),
+                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinC().getFullyGrownShape() ), Color.BLACK, new ProteinC().colorProperty.get(), model, ProteinC.class )
             ) );
         }
     }
@@ -169,7 +171,17 @@ public class ProteinCollectionNode extends PNode {
         private static final Color FLASH_COLOR = new Color( 173, 255, 47 );
         private static final double SCALE_FOR_FLASH_NODE = 1.5;
 
-        private ProteinCaptureNode( Shape proteinShape, final Color emptyColor, final Color fullBaseColor, Property<Integer> captureCountProperty ) {
+        private ProteinCaptureNode( Shape proteinShape, final Color emptyColor, final Color fullBaseColor,
+                                    ManualGeneExpressionModel model, final Class<? extends Protein> proteinClass ) {
+
+            model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
+                public void apply( MobileBiomolecule biomolecule ) {
+                    if ( biomolecule.getClass() == proteinClass ) {
+                        System.out.println( "Protein of appropriate type had been added." );
+
+                    }
+                }
+            } );
 
             // Add the node that will flash when a capture occurs to make it
             // clear that something changed.
@@ -184,9 +196,12 @@ public class ProteinCollectionNode extends PNode {
             addChild( captureAreaNode );
             final Paint gradientPaint = MobileBiomoleculeNode.createGradientPaint( proteinShape, fullBaseColor );
 
+            // Get the capture count property for this protein.
+            Property<Integer> captureCount = model.getCounterForProteinType( proteinClass );
+
             // Observe the capture indicator and set the state of the nodes
             // appropriately.
-            captureCountProperty.addObserver( new VoidFunction1<Integer>() {
+            captureCount.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer captureCount ) {
                     if ( captureCount > 0 ) {
                         captureAreaNode.setPaint( gradientPaint );
