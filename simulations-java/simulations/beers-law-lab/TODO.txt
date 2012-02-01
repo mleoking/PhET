@@ -1,7 +1,7 @@
 TODO list for beers-law-lab
 
 DEADLINES
-- 3/5/12: "feature complete dev version, ready for interviews and/or classroom testing"
+- 5/14/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
 - should shaker particles be removed when the shaker is made invisible?
