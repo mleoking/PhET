@@ -1,3 +1,4 @@
+2/1/12 set up framework for 2nd tab canvas and model
 2/1/12 repackage in preparation for starting second tab
 2/1/12 added sim-sharing message for attempt to interact with unmovable meter body
 1/31/12 move symobls to their own file, so that ResourceGenerator can be used for strings and images
