@@ -57,6 +57,11 @@ public class SplineToolboxNode extends PNode {
                 numberOfDraggedTracks.reset();
             }
         } );
+        energySkateParkSimulationPanel.addSplineDeletedByUserListener( new VoidFunction0() {
+            public void apply() {
+                numberOfDraggedTracks.set( Math.max( numberOfDraggedTracks.get() - 1, 0 ) );
+            }
+        } );
         this.draggableIcon = new PNodeFacade( createSplineGraphic() ) {{
 
             //Limit the number of user-created splines to be 4 (keep in mind the floor is another spline in the count)

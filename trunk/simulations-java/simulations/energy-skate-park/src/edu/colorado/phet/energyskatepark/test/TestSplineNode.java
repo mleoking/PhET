@@ -55,6 +55,9 @@ public class TestSplineNode {
             public double getMaxDragX() {
                 return 0;
             }
+
+            public void notifySplineDeletedByUser() {
+            }
         }, true );
         phetPCanvas.addWorldChild( splineNode );
 

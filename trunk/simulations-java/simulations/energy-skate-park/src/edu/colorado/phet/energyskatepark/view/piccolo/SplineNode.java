@@ -429,8 +429,12 @@ public class SplineNode extends PNode {
             JMenuItem delete = new JMenuItem( EnergySkateParkResources.getString( "controls.delete-point" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if ( spline.numControlPoints() == 1 ) {
+
+                    //If there are 2 or less control points and the user removes one, it should just remove the entire track
+                    //System.out.println( "spline.numControlPoints() = " + spline.numControlPoints() );
+                    if ( spline.numControlPoints() <= 2 ) {
                         splineEnvironment.removeSpline( SplineNode.this );
+                        splineEnvironment.notifySplineDeletedByUser();
                     }
                     else {
                         spline.removeControlPoint( index );
@@ -549,6 +553,7 @@ public class SplineNode extends PNode {
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     splineEnvironment.removeSpline( SplineNode.this );
+                    splineEnvironment.notifySplineDeletedByUser();
                 }
             } );
 

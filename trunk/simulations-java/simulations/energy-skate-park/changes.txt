@@ -1,3 +1,5 @@
+Energy Skate Park Basics: Fixed: When a user deletes a track, it goes back into the toolbox
+Common: Fixed: Deleting a track by deleting its control points causes an exception
 # 2.08.28 (60873) Jan 31, 2012
 Energy Skate Park: Switched back to sim speed slider instead of radio buttons for this sim
 Energy Skate Park: Removed limitation on number of tracks
