@@ -63,7 +63,10 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     private static final boolean SAMPLE_POSITIONS_FOR_INITIAL_CONDITIONS = false;
 
     public EnergySkateParkBasicsModule( IUserComponent userComponent, String name, final PhetFrame phetFrame, boolean splinesMovable ) {
-        super( userComponent, name, phetFrame, new EnergySkateParkOptions(), splinesMovable, false,
+        super( userComponent, name, phetFrame, new EnergySkateParkOptions(), splinesMovable,
+
+               //Only bump up the splines if the user can move them
+               splinesMovable,
 
                //Use the skater friction only in *Basics
                0.0,
