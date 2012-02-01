@@ -18,6 +18,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class SolutionNode extends PPath {
 
+    private static final double MIN_NONZERO_HEIGHT = 5; // minimum height for a solution with non-zero volume, set by visual inspection
+
     private final Solution solution;
     private final Beaker beaker;
     private final LinearFunction volumeToHeightFunction;
@@ -47,7 +49,12 @@ public class SolutionNode extends PPath {
         setStrokePaint( solution.getFluidColor().darker().darker() );
 
         // update amount of stuff in the beaker, based on solution volume
-        double height = volumeToHeightFunction.evaluate( solution.volume.get() );
+        final double volume = solution.volume.get();
+        double height = volumeToHeightFunction.evaluate( volume );
+        if ( volume > 0 && height < MIN_NONZERO_HEIGHT ) {
+            // constrain non-zero volume to minimum height, so that the solution is visible to the user and detectable by the concentration probe
+            height = MIN_NONZERO_HEIGHT;
+        }
         setPathTo( new Rectangle2D.Double( -beaker.getWidth() / 2, -height, beaker.getWidth(), height ) );
     }
 }
