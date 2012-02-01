@@ -72,7 +72,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
                false,
 
                //Move the x-origin to the right so it doesn't overlap the thumbnails
-               3.0 );
+               3.0, true );
 
         //Don't allow users to apply rocket force with the keyboard
         energySkateParkSimulationPanel.setThrustEnabled( false );
