@@ -6,6 +6,8 @@ import java.awt.Frame;
 import edu.colorado.phet.beerslawlab.BLLModule;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
+import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
 
 /**
  * The "Beer's Law" module.
