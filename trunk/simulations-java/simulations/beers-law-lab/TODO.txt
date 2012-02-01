@@ -7,12 +7,12 @@ DESIGN
 - should shaker particles be removed when the shaker is made invisible?
 
 HIGH
-- switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
-- #3242, make combo box popup appear on top of everything in the scenegraph
 - increase the sensitive area of the probe (to what? and what to do when it touches 2 fluids?)
+- switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
 - Beer's Law tab (see JC notes below)
 
 MEDIUM
+- #3242, make combo box popup appear on top of everything in the scenegraph
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute
 
