@@ -129,7 +129,6 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     }
 
     private void activateGene( int i ) {
-        final ArrayList<Gene> genes = dnaMolecule.getGenes();
         activeGene.set( dnaMolecule.getGenes().get( i ) );
     }
 
