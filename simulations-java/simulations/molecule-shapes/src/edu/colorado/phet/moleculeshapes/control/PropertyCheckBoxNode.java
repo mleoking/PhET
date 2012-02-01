@@ -5,6 +5,8 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.jmephet.JMEPropertyCheckBox;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
@@ -16,12 +18,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * convenience methods
  */
 public class PropertyCheckBoxNode extends PSwing {
-    public PropertyCheckBoxNode( String text, Property<Boolean> property ) {
-        this( text, property, MoleculeShapesColor.CONTROL_PANEL_TEXT );
+
+    public PropertyCheckBoxNode( IUserComponent userComponent, String text, Property<Boolean> property ) {
+        this( userComponent, text, property, MoleculeShapesColor.CONTROL_PANEL_TEXT );
     }
 
-    public PropertyCheckBoxNode( String text, Property<Boolean> property, MoleculeShapesColor msColor ) {
-        super( new MoleculeShapesPropertyCheckBox( text, property, msColor ) );
+    public PropertyCheckBoxNode( IUserComponent userComponent, String text, Property<Boolean> property, MoleculeShapesColor msColor ) {
+        super( new MoleculeShapesPropertyCheckBox( userComponent, text, property, msColor ) );
     }
 
     public void setEnabled( boolean enabled ) {
@@ -39,8 +42,8 @@ public class PropertyCheckBoxNode extends PSwing {
      * Check box with extra styling
      */
     public static class MoleculeShapesPropertyCheckBox extends JMEPropertyCheckBox {
-        public MoleculeShapesPropertyCheckBox( String text, final SettableProperty<Boolean> property, MoleculeShapesColor msColor ) {
-            super( text, property );
+        public MoleculeShapesPropertyCheckBox( IUserComponent userComponent, String text, final SettableProperty<Boolean> property, MoleculeShapesColor msColor ) {
+            super( userComponent, text, property );
 
             // default styling
             setFont( MoleculeShapesConstants.CHECKBOX_FONT );

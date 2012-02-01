@@ -8,6 +8,8 @@ import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +29,7 @@ public class OptionsNode extends PNode {
         /*---------------------------------------------------------------------------*
         * show lone pairs
         *----------------------------------------------------------------------------*/
-        final PNode showLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_LONE_PAIRS, module.showLonePairs ) {{
+        final PNode showLonePairsNode = new PropertyCheckBoxNode( UserComponents.showLonePairsCheckBox, Strings.CONTROL__SHOW_LONE_PAIRS, module.showLonePairs ) {{
             // enabled when there are lone pairs on the molecule
             final Runnable updateEnabled = new Runnable() {
                 public void run() {
@@ -59,7 +61,7 @@ public class OptionsNode extends PNode {
         /*---------------------------------------------------------------------------*
         * show all lone pairs
         *----------------------------------------------------------------------------*/
-        final PNode showAllLonePairsNode = new PropertyCheckBoxNode( Strings.CONTROL__SHOW_ALL_LONE_PAIRS, module.showAllLonePairs ) {{
+        final PNode showAllLonePairsNode = new PropertyCheckBoxNode( UserComponents.showAllLonePairsCheckBox, Strings.CONTROL__SHOW_ALL_LONE_PAIRS, module.showAllLonePairs ) {{
             // enabled when there are terminal lone pairs on the molecule
             final Runnable updateEnabled = new Runnable() {
                 public void run() {
@@ -94,7 +96,7 @@ public class OptionsNode extends PNode {
         /*---------------------------------------------------------------------------*
         * show bond angles
         *----------------------------------------------------------------------------*/
-        checkboxContainer.addChild( new PropertyCheckBoxNode( Strings.CONTROL__SHOW_BOND_ANGLES, module.showBondAngles ) {{
+        checkboxContainer.addChild( new PropertyCheckBoxNode( UserComponents.showBondAnglesCheckBox, Strings.CONTROL__SHOW_BOND_ANGLES, module.showBondAngles ) {{
             // enabled when there are 2 or more bonds (or always)
             Runnable updateEnabled = new Runnable() {
                 public void run() {

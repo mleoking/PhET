@@ -16,7 +16,9 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class MoleculeShapesSimSharing {
 
     public static enum UserComponents implements IUserComponent {
-        backgroundColor, bond, draggingState, mouseMiddleButton, moleculeShapesTab, realMoleculesTab, moleculeComboBox
+        backgroundColor, bond, draggingState, mouseMiddleButton, moleculeShapesTab, realMoleculesTab, moleculeComboBox,
+        showLonePairsCheckBox, showAllLonePairsCheckBox, showBondAnglesCheckBox,
+        moleculeGeometryCheckBox, electronGeometryCheckBox
     }
 
     public static enum Actions implements IUserAction {

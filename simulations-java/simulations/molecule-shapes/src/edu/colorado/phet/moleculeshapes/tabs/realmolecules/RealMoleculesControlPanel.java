@@ -9,6 +9,7 @@ import java.util.Arrays;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -207,7 +208,7 @@ public class RealMoleculesControlPanel extends PNode {
             maxWidth = Math.max( maxWidth, width );
         }
         for ( String checkboxString : CHECKBOX_STRINGS ) {
-            maxWidth = Math.max( maxWidth, new PropertyCheckBoxNode( checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
+            maxWidth = Math.max( maxWidth, new PropertyCheckBoxNode( new UserComponent( "dummy" ), checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
         }
         return maxWidth;
     }

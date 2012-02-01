@@ -8,14 +8,17 @@ import javax.swing.JCheckBox;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
-public class JMEPropertyCheckBox extends JCheckBox {
+public class JMEPropertyCheckBox extends SimSharingJCheckBox {
     private final SettableProperty<Boolean> property;
     private final SimpleObserver propertyObserver;
 
-    public JMEPropertyCheckBox( final String text, final SettableProperty<Boolean> property ) {
-        super( text );
+    public JMEPropertyCheckBox( IUserComponent userComponent, String text, final SettableProperty<Boolean> property ) {
+        super( userComponent, text );
 
         this.property = property;
 
