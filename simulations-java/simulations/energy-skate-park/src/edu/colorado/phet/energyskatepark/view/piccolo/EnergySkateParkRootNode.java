@@ -225,10 +225,10 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
 //        }};
 //        addWorldChild( timePanelNode );
 
-        addScreenChild( new EnergySkateParkTimeControlPanel( module, module.getTimeSeriesModel().getTimeModelClock() ) {{
+        addScreenChild( new SelectedTimeControlPanel( module, module.getTimeSeriesModel().getTimeModelClock() ) {{
             final ComponentAdapter listener = new ComponentAdapter() {
                 @Override public void componentResized( ComponentEvent e ) {
-                    setOffset( simulationPanel.getWidth() / 2 - getFullWidth() / 2, simulationPanel.getHeight() - getFullHeight() - 10 );
+                    setOffset( simulationPanel.getWidth() / 2 - getFullWidth() / 2, simulationPanel.getHeight() - getFullHeight() - 2 );
                 }
             };
             simulationPanel.addComponentListener( listener );
