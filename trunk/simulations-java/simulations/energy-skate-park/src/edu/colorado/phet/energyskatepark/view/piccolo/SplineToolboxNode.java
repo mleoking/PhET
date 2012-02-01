@@ -57,9 +57,11 @@ public class SplineToolboxNode extends PNode {
                 numberOfDraggedTracks.reset();
             }
         } );
+
+        //When the user deletes a spline, fill up the toolbox node so they can have up to 4 total.
         energySkateParkSimulationPanel.addSplineDeletedByUserListener( new VoidFunction0() {
             public void apply() {
-                numberOfDraggedTracks.set( Math.max( numberOfDraggedTracks.get() - 1, 0 ) );
+                numberOfDraggedTracks.set( energySkateParkSimulationPanel.getEnergySkateParkModule().getEnergySkateParkModel().getNumSplines() );
             }
         } );
         this.draggableIcon = new PNodeFacade( createSplineGraphic() ) {{
