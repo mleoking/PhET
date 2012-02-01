@@ -6,6 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLSymbols;
+import edu.colorado.phet.beerslawlab.concentration.model.IFluid;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

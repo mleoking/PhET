@@ -3,9 +3,11 @@ package edu.colorado.phet.beerslawlab.concentration;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.beerslawlab.BLLModule;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.view.BLLModule;
+import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationModel;
+import edu.colorado.phet.beerslawlab.concentration.view.ConcentrationCanvas;
 
 /**
  * The "Concentration" module.

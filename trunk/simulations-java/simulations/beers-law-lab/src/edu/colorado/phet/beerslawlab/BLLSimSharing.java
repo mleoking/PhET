@@ -19,6 +19,6 @@ public class BLLSimSharing {
     }
 
     public static enum Parameters implements IParameterKey {
-        evaporationRate, flowRate, isInSolution, locationX, locationY
+        isInSolution, locationX, locationY
     }
 }
