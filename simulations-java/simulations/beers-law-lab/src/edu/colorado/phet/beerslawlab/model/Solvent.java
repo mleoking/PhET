@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.model;
 
 import java.awt.Color;
 
+import edu.colorado.phet.beerslawlab.concentration.model.IFluid;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
