@@ -1,3 +1,4 @@
+Made sky black when atmosphere is off
 Added an Atmosphere control to the control panel
 Added a grid node
 Simsharing: add UserComponent chaining for FaucetNode and its FaucetSlider
