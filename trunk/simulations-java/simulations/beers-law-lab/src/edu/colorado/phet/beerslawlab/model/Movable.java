@@ -2,6 +2,7 @@
 package edu.colorado.phet.beerslawlab.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -10,7 +11,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Movable {
+public class Movable implements Resettable {
 
     public final Property<ImmutableVector2D> location;
     private final PBounds dragBounds;
