@@ -4,7 +4,7 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 import java.awt.Frame;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
-import edu.colorado.phet.beerslawlab.view.BLLCanvas;
+import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 
 /**
  * Canvas for the "Beer's Law" module.

@@ -4,8 +4,8 @@ package edu.colorado.phet.beerslawlab.concentration.view;
 import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.beerslawlab.model.Beaker;
-import edu.colorado.phet.beerslawlab.model.Solution;
+import edu.colorado.phet.beerslawlab.common.model.Beaker;
+import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PPath;

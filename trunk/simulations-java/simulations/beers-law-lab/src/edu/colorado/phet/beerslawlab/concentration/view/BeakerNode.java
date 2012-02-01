@@ -11,8 +11,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.model.Beaker;
+import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.common.model.Beaker;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

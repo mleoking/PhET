@@ -4,10 +4,10 @@ package edu.colorado.phet.beerslawlab.concentration.view;
 import java.awt.Color;
 import java.awt.Frame;
 
-import edu.colorado.phet.beerslawlab.BLLConstants;
-import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
+import edu.colorado.phet.beerslawlab.common.BLLConstants;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
+import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationModel;
-import edu.colorado.phet.beerslawlab.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.concentration.view.BeakerNode.TicksLocation;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;

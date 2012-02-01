@@ -5,11 +5,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.beerslawlab.BLLResources.Images;
-import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
+import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
+import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
+import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.concentration.model.Shaker;
-import edu.colorado.phet.beerslawlab.view.DebugOriginNode;
-import edu.colorado.phet.beerslawlab.view.MovableDragHandler;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;

@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.model;
 
-import edu.colorado.phet.beerslawlab.model.Movable;
+import edu.colorado.phet.beerslawlab.common.model.Movable;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.beerslawlab;
+package edu.colorado.phet.beerslawlab.common;
 
-import edu.colorado.phet.beerslawlab.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 
 /**

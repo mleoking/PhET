@@ -1,10 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.beerslawlab.model;
+package edu.colorado.phet.beerslawlab.common.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.BLLSymbols;
+import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.common.BLLSymbols;
 import edu.colorado.phet.common.phetcommon.util.ColorRange;
 
 /**

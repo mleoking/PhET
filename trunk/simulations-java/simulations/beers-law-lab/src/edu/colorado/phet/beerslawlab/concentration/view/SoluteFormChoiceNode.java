@@ -7,11 +7,11 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.beerslawlab.BLLConstants;
-import edu.colorado.phet.beerslawlab.BLLResources.Images;
-import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.model.Solute.SoluteForm;
+import edu.colorado.phet.beerslawlab.common.BLLConstants;
+import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
+import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
+import edu.colorado.phet.beerslawlab.common.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyIcon;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;

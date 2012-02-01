@@ -4,8 +4,8 @@ package edu.colorado.phet.beerslawlab.concentration.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.beerslawlab.model.Beaker;
-import edu.colorado.phet.beerslawlab.model.Solution;
+import edu.colorado.phet.beerslawlab.common.model.Beaker;
+import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
