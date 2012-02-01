@@ -5,7 +5,9 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -82,6 +84,14 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     public final Property<Integer> proteinBCollected = new Property<Integer>( 0 );
     public final Property<Integer> proteinCCollected = new Property<Integer>( 0 );
 
+    // Map of the protein collection count properties to the protein types,
+    // used to obtain the count property based on the type of protein.
+    private final Map<Class<? extends Protein>, Property<Integer>> mapProteinClassToCollectedCount = new HashMap<Class<? extends Protein>, Property<Integer>>() {{
+        put( ProteinA.class, proteinACollected );
+        put( ProteinB.class, proteinBCollected );
+        put( ProteinC.class, proteinCCollected );
+    }};
+
     // Rectangle that describes the "protein capture area".  When a protein is
     // dropped by the user over this area, it is considered to be captured.
     private final Rectangle2D proteinCaptureArea = new Rectangle2D.Double();
@@ -120,6 +130,11 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     public void setProteinCaptureArea( Rectangle2D newCaptureAreaBounds ) {
         proteinCaptureArea.setFrame( newCaptureAreaBounds );
+    }
+
+    public Property<Integer> getCounterForProteinType( Class<? extends Protein> proteinType ) {
+        assert mapProteinClassToCollectedCount.containsKey( proteinType );
+        return mapProteinClassToCollectedCount.get( proteinType );
     }
 
     private void switchToGeneRelative( int i ) {
@@ -176,7 +191,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     }
 
     // Capture the specified protein, which means that it is actually removed
-    // from the model and the associated capture property is set.
+    // from the model and the associated capture count property is incremented.
     private void captureProtein( Protein protein ) {
         if ( protein instanceof ProteinA ) {
             proteinACollected.set( proteinACollected.get() + 1 );
