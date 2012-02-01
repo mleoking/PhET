@@ -48,4 +48,8 @@ public class CrossSectionPatchNode extends GLNode {
 
         EarthTexture.end();
     }
+
+    public CrossSectionPatch getPatch() {
+        return patch;
+    }
 }
