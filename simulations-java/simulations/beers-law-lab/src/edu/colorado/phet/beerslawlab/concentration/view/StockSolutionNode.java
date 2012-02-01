@@ -6,11 +6,11 @@ import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.beerslawlab.common.model.Beaker;
+import edu.colorado.phet.beerslawlab.common.model.Solute;
+import edu.colorado.phet.beerslawlab.common.model.Solution;
+import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
-import edu.colorado.phet.beerslawlab.model.Beaker;
-import edu.colorado.phet.beerslawlab.model.Solute;
-import edu.colorado.phet.beerslawlab.model.Solution;
-import edu.colorado.phet.beerslawlab.model.Solvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;

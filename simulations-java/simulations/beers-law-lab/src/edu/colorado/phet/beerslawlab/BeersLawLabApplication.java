@@ -4,6 +4,7 @@ package edu.colorado.phet.beerslawlab;
 import java.awt.Frame;
 
 import edu.colorado.phet.beerslawlab.beerslaw.BeersLawModule;
+import edu.colorado.phet.beerslawlab.common.BLLResources;
 import edu.colorado.phet.beerslawlab.concentration.ConcentrationModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
