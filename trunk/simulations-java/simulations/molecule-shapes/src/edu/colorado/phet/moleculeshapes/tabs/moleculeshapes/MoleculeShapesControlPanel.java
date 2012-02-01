@@ -4,6 +4,7 @@ package edu.colorado.phet.moleculeshapes.tabs.moleculeshapes;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -182,7 +183,7 @@ public class MoleculeShapesControlPanel extends PNode {
             maxWidth = Math.max( maxWidth, width );
         }
         for ( String checkboxString : CHECKBOX_STRINGS ) {
-            maxWidth = Math.max( maxWidth, new PropertyCheckBoxNode( checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
+            maxWidth = Math.max( maxWidth, new PropertyCheckBoxNode( new UserComponent( "dummy" ), checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
         }
         return maxWidth;
     }
