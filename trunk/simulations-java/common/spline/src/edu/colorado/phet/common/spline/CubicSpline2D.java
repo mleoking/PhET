@@ -4,6 +4,7 @@ package edu.colorado.phet.common.spline;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
 /**
  * User: Sam Reid
@@ -88,7 +89,7 @@ public class CubicSpline2D extends ControlPointParametricFunction2D {
     }
 
     public String toString() {
-        return toStringSerialization();
+        return new ObservableList<SerializablePoint2D>( getControlPoints() ).mkString( ", " );
     }
 
     public String toStringSerialization() {

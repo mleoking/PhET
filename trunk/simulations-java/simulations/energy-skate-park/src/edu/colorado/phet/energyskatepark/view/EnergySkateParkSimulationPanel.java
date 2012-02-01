@@ -214,14 +214,14 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             PNode startNode = target.getControlPointGraphic( 0 );
             double dist = distance( toMatch, startNode );
 
-            if ( dist < matchThresholdWorldCoordinates && ( splineNode != target ) ) {
+            if ( dist < matchThresholdWorldCoordinates && ( splineNode.getSpline() != target.getSpline() ) ) {
                 SplineMatch match = new SplineMatch( target, 0 );
                 matches.add( match );
             }
 
             PNode endNode = target.getControlPointGraphic( target.numControlPointGraphics() - 1 );
             double distEnd = distance( toMatch, endNode );
-            if ( distEnd < matchThresholdWorldCoordinates && splineNode != target ) {
+            if ( distEnd < matchThresholdWorldCoordinates && ( splineNode.getSpline() != target.getSpline() ) ) {
                 SplineMatch match = new SplineMatch( target, target.numControlPointGraphics() - 1 );
                 matches.add( match );
             }
