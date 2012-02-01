@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -36,7 +37,21 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / MODEL_HEIGHT ) );
 
         //Show the sky
-        addChild( new OutsideBackgroundNode( transform, 3, 1 ) );
+        addChild( new OutsideBackgroundNode( transform, 3, 1 ) {{
+            module.model.atmosphere.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean atmosphere ) {
+                    setVisible( atmosphere );
+                }
+            } );
+        }} );
+
+        addChild( new OutsideBackgroundNode( transform, 3, 1, OutsideBackgroundNode.DEFAULT_MODEL_BOUNDS.toRectangle2D(), Color.black, Color.black ) {{
+            module.model.atmosphere.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean atmosphere ) {
+                    setVisible( !atmosphere );
+                }
+            } );
+        }} );
 
         //Variables for convenient access
         final FluidPressureModel model = module.model;
