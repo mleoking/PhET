@@ -9,6 +9,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -158,9 +159,9 @@ public class ProteinCollectionNode extends PNode {
 
             addChild( new HBox(
                     0,
-                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinA().getFullyGrownShape() ), Color.BLACK, new ProteinA().colorProperty.get(), model, ProteinA.class ),
-                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinB().getFullyGrownShape() ), Color.BLACK, new ProteinB().colorProperty.get(), model, ProteinB.class ),
-                    new ProteinCaptureNode( transform.createTransformedShape( new ProteinC().getFullyGrownShape() ), Color.BLACK, new ProteinC().colorProperty.get(), model, ProteinC.class )
+                    new ProteinCaptureNode( model, ProteinA.class, transform ),
+                    new ProteinCaptureNode( model, ProteinB.class, transform ),
+                    new ProteinCaptureNode( model, ProteinC.class, transform )
             ) );
         }
     }
@@ -171,23 +172,27 @@ public class ProteinCollectionNode extends PNode {
         private static final Color FLASH_COLOR = new Color( 173, 255, 47 );
         private static final double SCALE_FOR_FLASH_NODE = 1.5;
 
-        private ProteinCaptureNode( Shape proteinShape, final Color emptyColor, final Color fullBaseColor,
-                                    ManualGeneExpressionModel model, final Class<? extends Protein> proteinClass ) {
+        private ProteinCaptureNode( ManualGeneExpressionModel model, final Class<? extends Protein> proteinClass, AffineTransform transform ) {
 
-            model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
-                public void apply( MobileBiomolecule biomolecule ) {
-                    if ( biomolecule.getClass() == proteinClass ) {
-                        System.out.println( "Protein of appropriate type had been added." );
-
-                    }
-                }
-            } );
+            Shape proteinShape = new Rectangle2D.Double( -10, -10, 20, 20 ); // Arbitrary initial shape.
+            Color fullBaseColor = Color.PINK; // Arbitrary initial color.
+            try {
+                Protein protein = proteinClass.newInstance();
+                proteinShape = transform.createTransformedShape( protein.getFullyGrownShape() );
+                fullBaseColor = protein.colorProperty.get();
+            }
+            catch ( InstantiationException e ) {
+                e.printStackTrace();
+            }
+            catch ( IllegalAccessException e ) {
+                e.printStackTrace();
+            }
 
             // Add the node that will flash when a capture occurs to make it
             // clear that something changed.
-            Shape flashingNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
-            final FlashingShapeNode captureIndicatorNode = new FlashingShapeNode( flashingNodeShape, FLASH_COLOR, 250, 250, 3 );
-            addChild( captureIndicatorNode );
+            Shape flashAfterCaptureNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
+            final FlashingShapeNode flashAfterCaptureNode = new FlashingShapeNode( flashAfterCaptureNodeShape, FLASH_COLOR, 250, 250, 3 );
+            addChild( flashAfterCaptureNode );
 
             // Add the node that will represent the spot where the protein can
             // be captured, which is a black shape (signifying emptiness)
@@ -195,6 +200,31 @@ public class ProteinCollectionNode extends PNode {
             final PPath captureAreaNode = new PPath( proteinShape );
             addChild( captureAreaNode );
             final Paint gradientPaint = MobileBiomoleculeNode.createGradientPaint( proteinShape, fullBaseColor );
+
+            // Add a node that will flash when a protein of the appropriate
+            // type becomes available in the model to signal that it should be
+            // placed here.
+            final FlashingShapeNode flashWhenProteinFormedNode = new FlashingShapeNode( proteinShape, Color.orange, 250, 250, 3 );
+            addChild( flashWhenProteinFormedNode );
+
+
+            // Watch for a protein node of the appropriate type to become
+            // fully grown and, when it does, flash a node in order to signal
+            // the user that the node should be placed here.
+            model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
+                public void apply( MobileBiomolecule biomolecule ) {
+                    if ( biomolecule.getClass() == proteinClass ) {
+                        Protein protein = (Protein) biomolecule;
+                        protein.fullGrown.addObserver( new ChangeObserver<Boolean>() {
+                            public void update( Boolean isFullyFormed, Boolean wasFullyFormed ) {
+                                if ( isFullyFormed && !wasFullyFormed ) {
+                                    flashWhenProteinFormedNode.flash();
+                                }
+                            }
+                        } );
+                    }
+                }
+            } );
 
             // Get the capture count property for this protein.
             Property<Integer> captureCount = model.getCounterForProteinType( proteinClass );
@@ -205,10 +235,10 @@ public class ProteinCollectionNode extends PNode {
                 public void apply( Integer captureCount ) {
                     if ( captureCount > 0 ) {
                         captureAreaNode.setPaint( gradientPaint );
-                        captureIndicatorNode.flash();
+                        flashAfterCaptureNode.flash();
                     }
                     else {
-                        captureAreaNode.setPaint( emptyColor );
+                        captureAreaNode.setPaint( Color.BLACK );
                     }
                 }
             } );
