@@ -138,7 +138,7 @@ public abstract class SimSharingConfig {
     /*
      * Acid-Base Solutions study to be done in Spring 2012. See #3170.
      * PhET researchers: Kelly Lancaster
-     * TODO document details
+     * Location: CU Boulder
      */
     private static class AcidBaseSolutionsSpring2012 extends SimSharingConfig {
         public AcidBaseSolutionsSpring2012() {
@@ -158,9 +158,23 @@ public abstract class SimSharingConfig {
     }
 
 
+    /*
+     * TODO: document
+     */
     private static class BalancingActSpring2012 extends SimSharingConfig {
         public BalancingActSpring2012() {
             super( "balancing-act-spring-2012", true, true, false, false );
+        }
+    }
+
+    /*
+     *  Molecule Shapes study to be done in Feb 2012. See #3238.
+     *  Principal researcher: Kelly Lancaster
+     *  Location: CU Boulder
+     */
+    private static class MoleculeShapesFeb2012 extends SimSharingConfig {
+        public MoleculeShapesFeb2012() {
+            super( "molecule-shapes-feb-2012", true, true, false, false );
         }
     }
 }
