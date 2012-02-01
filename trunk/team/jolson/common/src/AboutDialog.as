@@ -39,7 +39,7 @@ class AboutDialog {
 		// construct the string of text to show
 		var str : String = "";
 		str += "<b>" + _level0.comStrings.get("PhET", "PhET") + "</b>\n";
-		str += _level0.comStrings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2008"]) + "\n";
+		str += _level0.comStrings.get("CopyrightColorado", "Copyright {0} University of Colorado.", ["\u00A9 2004-2012"]) + "\n";
 		str += _level0.comStrings.get("SomeRightsReserved", "Some rights reserved.") + "\n";
 		str += _level0.comStrings.get("Visit", "Visit {0}.", ["<a href='http://phet.colorado.edu'>http://phet.colorado.edu</a>"]) + "\n\n";
 		
