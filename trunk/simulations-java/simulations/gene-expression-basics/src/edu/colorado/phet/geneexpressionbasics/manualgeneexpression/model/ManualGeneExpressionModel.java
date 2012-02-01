@@ -86,9 +86,6 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // dropped by the user over this area, it is considered to be captured.
     private final Rectangle2D proteinCaptureArea = new Rectangle2D.Double();
 
-    // TODO: Temp for debugging.
-    public final Property<Rectangle2D> proteinCaptureAreaProperty = new Property<Rectangle2D>( new Rectangle2D.Double( 0, 0, 1, 1 ) );
-
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -123,7 +120,6 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     public void setProteinCaptureArea( Rectangle2D newCaptureAreaBounds ) {
         proteinCaptureArea.setFrame( newCaptureAreaBounds );
-        proteinCaptureAreaProperty.set( new Rectangle2D.Double( proteinCaptureArea.getX(), proteinCaptureArea.getY(), proteinCaptureArea.getWidth(), proteinCaptureArea.getHeight() ) );
     }
 
     private void switchToGeneRelative( int i ) {
