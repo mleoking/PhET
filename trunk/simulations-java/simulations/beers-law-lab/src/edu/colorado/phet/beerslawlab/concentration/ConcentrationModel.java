@@ -104,7 +104,7 @@ public class ConcentrationModel implements Resettable {
         this.drainFaucet = new Faucet( new ImmutableVector2D( 825, 618 ), 20, MAX_OUTPUT_FLOW_RATE );
         //  meter drag bounds chosen so that meter and probe can't go behind control panel */
         this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 785, 270 ), new PBounds( 10, 150, 825, 530 ),
-                                                          new ImmutableVector2D( 580, 330 ), new PBounds( 30, 150, 935, 605 ) );
+                                                          new ImmutableVector2D( 580, 330 ), new PBounds( 30, 150, 935, 530 ) );
 
         // Things to do when the solute is changed.
         solute.addObserver( new SimpleObserver() {
