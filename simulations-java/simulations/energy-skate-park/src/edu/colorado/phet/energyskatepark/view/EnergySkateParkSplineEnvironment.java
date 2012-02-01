@@ -24,4 +24,6 @@ public interface EnergySkateParkSplineEnvironment {
     double getMinDragX();
 
     double getMaxDragX();
+
+    void notifySplineDeletedByUser();
 }

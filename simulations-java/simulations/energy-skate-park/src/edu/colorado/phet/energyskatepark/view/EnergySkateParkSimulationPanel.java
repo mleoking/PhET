@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.event.PanZoomWorldKeyHandler;
@@ -61,6 +62,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     //Flag that indicates whether the keyboard can activate rocket thrusters
     private boolean thrustEnabled = true;
     public static final double VIEW_WIDTH = 15;
+
+    private final ArrayList<VoidFunction0> splineDeletedByUserListeners = new ArrayList<VoidFunction0>();
 
     public final Property<ImmutableRectangle2D> viewRect = new Property<ImmutableRectangle2D>( new ImmutableRectangle2D( 0, 0 ) ) {{
         addComponentListener( new ComponentAdapter() {
@@ -317,6 +320,16 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
 
     public double getMaxDragX() {
         return modelRect.get().getMaxX();
+    }
+
+    public void notifySplineDeletedByUser() {
+        for ( VoidFunction0 splineDeletedByUserListener : splineDeletedByUserListeners ) {
+            splineDeletedByUserListener.apply();
+        }
+    }
+
+    public void addSplineDeletedByUserListener( VoidFunction0 listener ) {
+        splineDeletedByUserListeners.add( listener );
     }
 
     private boolean getRollerCoaster( EnergySkateParkSpline s1, EnergySkateParkSpline s2 ) {
