@@ -1,3 +1,4 @@
+Energy Skate Park: Switched back to sim speed slider instead of radio buttons for this sim
 Energy Skate Park: Removed limitation on number of tracks
 # 2.08.27 (60857) Jan 31, 2012
 Fixed buggy behavior for connecting tracks

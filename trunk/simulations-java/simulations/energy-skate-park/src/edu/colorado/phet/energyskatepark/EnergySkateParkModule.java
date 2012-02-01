@@ -20,8 +20,8 @@ import edu.umd.cs.piccolo.PNode;
 public class EnergySkateParkModule extends AbstractEnergySkateParkModule {
     private final EnergySkateParkControlPanel energySkateParkControlPanel;
 
-    public EnergySkateParkModule( IUserComponent userComponent, String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean limitNumberOfTracks ) {
-        super( userComponent, name, phetFrame, options, true, true, Floor.DEFAULT_FRICTION, true /* hasZoomControls */, 1.0, limitNumberOfTracks );
+    public EnergySkateParkModule( IUserComponent userComponent, String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean limitNumberOfTracks, boolean useTimeSlider ) {
+        super( userComponent, name, phetFrame, options, true, true, Floor.DEFAULT_FRICTION, true /* hasZoomControls */, 1.0, limitNumberOfTracks, useTimeSlider );
 
         energySkateParkControlPanel = new EnergySkateParkControlPanel( this );
         setControlPanel( energySkateParkControlPanel );
