@@ -48,12 +48,12 @@ class KitControlNode extends PNode {
         final PNode nextButton = new ForwardButton( buttonColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    selectedKit.set( selectedKit.get() + 1 );
+                    final int nextKit = selectedKit.get() + 1;
                     SimSharingManager.sendUserMessage( UserComponentChain.chain( parentKitUserComponent, UserComponents.nextButton ),
                                                        UserComponentTypes.button,
                                                        UserActions.pressed,
-                                                       new ParameterSet( new Parameter( ParameterKeys.selectedKit, selectedKit.get() ) ) );
-
+                                                       new ParameterSet( new Parameter( ParameterKeys.selectedKit, nextKit ) ) );
+                    selectedKit.set( nextKit );
                 }
             } );
             selectedKit.addObserver( new VoidFunction1<Integer>() {
@@ -72,11 +72,12 @@ class KitControlNode extends PNode {
             }
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    selectedKit.set( selectedKit.get() - 1 );
+                    final int previousKit = selectedKit.get() - 1;
                     SimSharingManager.sendUserMessage( UserComponentChain.chain( parentKitUserComponent, UserComponents.previousButton ),
                                                        UserComponentTypes.button,
                                                        UserActions.pressed,
-                                                       new ParameterSet( new Parameter( ParameterKeys.selectedKit, selectedKit.get() ) ) );
+                                                       new ParameterSet( new Parameter( ParameterKeys.selectedKit, previousKit ) ) );
+                    selectedKit.set( previousKit );
                 }
             } );
             selectedKit.addObserver( new VoidFunction1<Integer>() {
