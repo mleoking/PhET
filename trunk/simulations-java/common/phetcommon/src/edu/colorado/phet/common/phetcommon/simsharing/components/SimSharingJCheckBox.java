@@ -95,7 +95,7 @@ public class SimSharingJCheckBox extends JCheckBox {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            SimSharingManager.sendUserMessage( userComponent, button, pressed, getParameters().add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            SimSharingManager.sendUserMessage( userComponent, checkBox, pressed, getParameters().add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
