@@ -159,9 +159,10 @@ public abstract class SimSharingConfig {
         }
     }
 
-
     /*
-     * TODO: document
+     *  Balancing Act study that will be done in conjunction with researchers
+     *  at Stanford.  Time frame is February 2012.  See #3207.
+     *  TODO document details
      */
     private static class BalancingActSpring2012 extends SimSharingConfig {
         public BalancingActSpring2012() {
