@@ -6,12 +6,12 @@ import java.awt.Color;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowButtonNode;
 
 /**
- * Button for moving forward through the kits
+ * Button for moving to the next kit.
  *
  * @author Sam Reid
  */
-public class ForwardButton extends ArrowButtonNode {
-    public ForwardButton( Color buttonColor ) {
+public class NextKitButton extends ArrowButtonNode {
+    public NextKitButton( Color buttonColor ) {
         super( Orientation.RIGHT, new ColorScheme( buttonColor ) );
     }
 }

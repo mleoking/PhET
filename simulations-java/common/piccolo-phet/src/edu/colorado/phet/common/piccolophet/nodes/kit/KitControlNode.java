@@ -45,7 +45,7 @@ class KitControlNode extends PNode {
     public KitControlNode( final IUserComponent parentKitUserComponent, final int numKits, final Property<Integer> selectedKit, Option<PNode> titleNode, double inset, Color buttonColor ) {
         //Buttons for scrolling previous/next
         //Place the kit "previous" and "next" buttons above the kit to save horizontal space.  In Sugar and Salt Solution, they are moved up next to the title
-        final PNode nextButton = new ForwardButton( buttonColor ) {{
+        final PNode nextButton = new NextKitButton( buttonColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     final int nextKit = selectedKit.get() + 1;
@@ -64,7 +64,7 @@ class KitControlNode extends PNode {
         }};
         addChild( nextButton );
 
-        BackButton backButton = new BackButton( buttonColor ) {{
+        PreviousKitButton previousButton = new PreviousKitButton( buttonColor ) {{
 
             //Make sure the previous and next buttons don't overlap, useful to handle long i18n strings
             if ( getFullBounds().getMaxX() > nextButton.getFullBounds().getMinX() ) {
@@ -86,22 +86,22 @@ class KitControlNode extends PNode {
                 }
             } );
         }};
-        addChild( backButton );
+        addChild( previousButton );
         if ( titleNode.isSome() ) {
             PNode title = titleNode.get();
             addChild( title );
-            title.setOffset( backButton.getFullBounds().getMaxX() + inset, backButton.getFullBounds().getCenterY() - title.getFullBounds().getHeight() / 2 );
+            title.setOffset( previousButton.getFullBounds().getMaxX() + inset, previousButton.getFullBounds().getCenterY() - title.getFullBounds().getHeight() / 2 );
             nextButton.setOffset( title.getFullBounds().getMaxX() + inset, 0 );
         }
         else {
-            nextButton.setOffset( backButton.getFullBounds().getMaxX() + inset * 2, 0 );
+            nextButton.setOffset( previousButton.getFullBounds().getMaxX() + inset * 2, 0 );
         }
 
         //If there is only one kit, show the title but not the radio buttons.  Leave them in the scene graph for keeping layout consistent.
         if ( numKits == 1 ) {
-            backButton.setVisible( false );
-            backButton.setPickable( false );
-            backButton.setChildrenPickable( false );
+            previousButton.setVisible( false );
+            previousButton.setPickable( false );
+            previousButton.setChildrenPickable( false );
 
             nextButton.setVisible( false );
             nextButton.setPickable( false );
