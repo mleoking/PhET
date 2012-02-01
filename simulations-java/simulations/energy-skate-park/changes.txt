@@ -1,3 +1,4 @@
+# 2.08.29 (60879) Jan 31, 2012
 Energy Skate Park Basics: Fixed: When a user deletes a track, it goes back into the toolbox
 Common: Fixed: Deleting a track by deleting its control points causes an exception
 # 2.08.28 (60873) Jan 31, 2012
