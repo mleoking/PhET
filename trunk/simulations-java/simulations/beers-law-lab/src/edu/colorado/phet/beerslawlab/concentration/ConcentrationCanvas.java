@@ -73,7 +73,6 @@ public class ConcentrationCanvas extends BLLCanvas {
 
         // rendering order
         {
-            addChild( soluteControlNode );
             addChild( solventFluidNode );
             addChild( solventFaucetNode );
             addChild( drainFluidNode );
@@ -93,6 +92,7 @@ public class ConcentrationCanvas extends BLLCanvas {
                 addChild( modelButton );
             }
             addChild( concentrationMeterNode );
+            addChild( soluteControlNode );
         }
 
         // layout
