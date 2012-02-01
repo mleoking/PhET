@@ -4,7 +4,7 @@ package edu.colorado.phet.beerslawlab.model;
 import java.awt.Color;
 
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.BLLResources.Symbols;
+import edu.colorado.phet.beerslawlab.BLLSymbols;
 import edu.colorado.phet.common.phetcommon.util.ColorRange;
 
 /**
@@ -53,7 +53,7 @@ public class Solute {
 
     public static class KoolAid extends Solute {
         public KoolAid() {
-            super( Strings.KOOL_AID, Symbols.KOOL_AID, 342.296, 5.96, 5.50,
+            super( Strings.KOOL_AID, BLLSymbols.KOOL_AID, 342.296, 5.96, 5.50,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ),
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
@@ -61,7 +61,7 @@ public class Solute {
 
     public static class CobaltIINitrate extends Solute {
         public CobaltIINitrate() {
-            super( Strings.COBALT_II_NITRATE, Symbols.COBALT_II_NITRATE, 182.942, 5.64, 5.0,
+            super( Strings.COBALT_II_NITRATE, BLLSymbols.COBALT_II_NITRATE, 182.942, 5.64, 5.0,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ),
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
@@ -69,7 +69,7 @@ public class Solute {
 
     public static class CobaltChloride extends Solute {
         public CobaltChloride() {
-            super( Strings.COBALT_CHLORIDE, Symbols.COBALT_CHLORIDE, 129.839, 4.33, 4.0,
+            super( Strings.COBALT_CHLORIDE, BLLSymbols.COBALT_CHLORIDE, 129.839, 4.33, 4.0,
                    new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) /* rose pink */ ),
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
@@ -77,7 +77,7 @@ public class Solute {
 
     public static class PotassiumDichromate extends Solute {
         public PotassiumDichromate() {
-            super( Strings.POTASSIUM_DICHROMATE, Symbols.POTASSIUM_DICHROMATE, 294.185, 0.51, 0.50,
+            super( Strings.POTASSIUM_DICHROMATE, BLLSymbols.POTASSIUM_DICHROMATE, 294.185, 0.51, 0.50,
                    new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) /* orange */ ),
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
@@ -85,7 +85,7 @@ public class Solute {
 
     public static class PotassiumChromate extends Solute {
         public PotassiumChromate() {
-            super( Strings.POTASSIUM_CHROMATE, Symbols.POTASSIUM_CHROMATE, 194.191, 3.35, 3.0,
+            super( Strings.POTASSIUM_CHROMATE, BLLSymbols.POTASSIUM_CHROMATE, 194.191, 3.35, 3.0,
                    new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ),
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
@@ -93,7 +93,7 @@ public class Solute {
 
     public static class NickelIIChloride extends Solute {
         public NickelIIChloride() {
-            super( Strings.NICKEL_II_CHLORIDE, Symbols.NICKEL_II_CHLORIDE, 129.599, 5.21, 5.0,
+            super( Strings.NICKEL_II_CHLORIDE, BLLSymbols.NICKEL_II_CHLORIDE, 129.599, 5.21, 5.0,
                    new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) /* green */ ),
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
@@ -101,7 +101,7 @@ public class Solute {
 
     public static class CopperSulfate extends Solute {
         public CopperSulfate() {
-            super( Strings.COPPER_SULFATE, Symbols.COPPER_SULFATE, 159.609, 1.38, 1.0,
+            super( Strings.COPPER_SULFATE, BLLSymbols.COPPER_SULFATE, 159.609, 1.38, 1.0,
                    new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) /* blue */ ),
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
@@ -110,7 +110,7 @@ public class Solute {
     // Potassium permanganate has different colors for solution and particles.
     public static class PotassiumPermanganate extends Solute {
         public PotassiumPermanganate() {
-            super( Strings.POTASSIUM_PERMANGANATE, Symbols.POTASSIUM_PERMANGANATE, 158.034, 0.48, 0.4,
+            super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE, 158.034, 0.48, 0.4,
                    new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) /* purple */ ), Color.BLACK,
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
