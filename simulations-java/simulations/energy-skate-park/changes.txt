@@ -1,3 +1,4 @@
+Fixed buggy behavior for connecting tracks
 For purposes of limiting created tracks, count the number of created tracks, not the total number of joined tracks (which changes as more tracks are joined)
 Updated credits
 > Added new sim "Energy Skate Park: Basics"

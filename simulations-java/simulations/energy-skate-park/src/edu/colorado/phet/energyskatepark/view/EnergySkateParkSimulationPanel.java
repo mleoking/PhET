@@ -247,15 +247,15 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     public EnergySkateParkSpline attach( SplineNode splineNode, int index, SplineMatch match ) {
+//        System.out.println( "attaching a = " + splineNode.getParametricFunction2D() );
+//        System.out.println( "attaching b = " + match.getSplineGraphic().getParametricFunction2D() );
+//        System.out.println( "index = " + index );
         TraversalState origState = getEnergySkateParkModel().getBody( 0 ).getTraversalState();
         boolean change = false;
         boolean rollerCoaster = getRollerCoaster( splineNode.getSpline(), match.getEnergySkateParkSpline() );
         if ( getEnergySkateParkModel().getBody( 0 ).getSpline() == splineNode.getParametricFunction2D() || getEnergySkateParkModel().getBody( 0 ).getSpline() == match.getSplineGraphic().getParametricFunction2D() ) {
             change = true;
         }
-        //delete both of those, add one new parent.
-        removeSpline( splineNode );
-        removeSpline( match.getSplineGraphic() );
 
         PreFabSplines.CubicSpline spline = new PreFabSplines.CubicSpline();
         ControlPointParametricFunction2D a = splineNode.getSpline().getParametricFunction2D();
@@ -281,13 +281,24 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
             }
         }
         EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( spline.getControlPoints() );
+//        System.out.println( "energySkateParkSpline @ creation= " + energySkateParkSpline );
         energySkateParkSpline.setRollerCoasterMode( rollerCoaster );
-        energySkateParkModel.addSplineSurface( energySkateParkSpline );
-        EnergySkateParkLogging.println( "change = " + change );
+
+//        EnergySkateParkLogging.println( "change = " + change );
         if ( change ) {
             TraversalState traversalState = energySkateParkModel.getBody( 0 ).getBestTraversalState( origState );
             energySkateParkModel.getBody( 0 ).setSpline( energySkateParkModel.getEnergySkateParkSpline( traversalState.getParametricFunction2D() ), traversalState.isTop(), traversalState.getAlpha() );
         }
+//        System.out.println( "energySkateParkSpline @ end= " + energySkateParkSpline );
+
+        //I recently moved these lines below the addition and logic code above because when these lines of code were above it was causing buggy attachment behavior.
+        //I suspect that some of the above code is looking up control points by index in the model rather than using the argument references
+        // delete both of those, add one new parent.
+        removeSpline( splineNode );
+        removeSpline( match.getSplineGraphic() );
+
+        //Also this has to be added afterwards?  Why?  It makes no sense.
+        energySkateParkModel.addSplineSurface( energySkateParkSpline );
         return energySkateParkSpline;
     }
 
