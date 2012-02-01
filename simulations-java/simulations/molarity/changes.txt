@@ -1,3 +1,4 @@
+2/1/12 check in a snapshot of design doc
 # 0.00.17 (60823) Jan 31, 2012
 1/31/12 dev version after code review changes
 1/30/12 #3233, promote beaker label to top-level class
