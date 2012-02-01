@@ -1,3 +1,4 @@
+1/31/12 move symobls to their own file, so that ResourceGenerator can be used for strings and images
 1/31/12 add hand cursor to dropper, to indicate that it's movable
 1/31/12 until combo box popup can be properly addressed (see #3242), move solute control panel (which includes combo box) to the front
 1/31/12 prevent concentration probe from being dragged off the bottom of the stage

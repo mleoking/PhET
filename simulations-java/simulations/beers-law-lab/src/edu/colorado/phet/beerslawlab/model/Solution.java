@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.beerslawlab.BLLConstants;
 import edu.colorado.phet.beerslawlab.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.BLLResources.Symbols;
+import edu.colorado.phet.beerslawlab.BLLSymbols;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -29,7 +29,7 @@ public class Solution implements IFluid, Resettable {
 
     public Solution( Property<Solute> solute, double soluteAmount, double volume ) {
 
-        this.solvent = new Solvent( Strings.WATER, Symbols.WATER, BLLConstants.WATER_COLOR );
+        this.solvent = new Solvent( Strings.WATER, BLLSymbols.WATER, BLLConstants.WATER_COLOR );
         this.solute = solute;
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );

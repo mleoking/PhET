@@ -51,19 +51,6 @@ public class BLLResources {
         public static final String WAVELENGTH = RESOURCES.getLocalizedString( "wavelength" );
     }
 
-    // Symbols, no i18n needed
-    public static class Symbols {
-        public static final String COBALT_II_NITRATE = ChemUtils.toSubscript( "Co(NO3)2" );
-        public static final String COBALT_CHLORIDE = ChemUtils.toSubscript( "CoCl2" );
-        public static final String COPPER_SULFATE = ChemUtils.toSubscript( "CuSO4" );
-        public static final String KOOL_AID = Strings.KOOL_AID;
-        public static final String NICKEL_II_CHLORIDE = ChemUtils.toSubscript( "NiCl2" );
-        public static final String POTASSIUM_CHROMATE = ChemUtils.toSubscript( "K2CrO4" );
-        public static final String POTASSIUM_DICHROMATE = ChemUtils.toSubscript( "K2Cr2O7" );
-        public static final String POTASSIUM_PERMANGANATE = ChemUtils.toSubscript( "KMnO4" );
-        public static final String WATER = ChemUtils.toSubscript( "H2O" );
-    }
-
     // Images
     public static class Images {
         public static final Image CONCENTRATION_METER_BODY_LEFT = RESOURCES.getImage( "concentration-meter-body-left.png" );
