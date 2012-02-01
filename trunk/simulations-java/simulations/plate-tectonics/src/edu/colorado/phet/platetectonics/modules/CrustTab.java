@@ -17,7 +17,6 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
-import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.control.LegendPanel;
@@ -31,7 +30,6 @@ import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
-import edu.colorado.phet.platetectonics.view.CrossSectionPatchNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -94,25 +92,25 @@ public class CrustTab extends PlateTectonicsTab {
         // crust label
         layerLabels.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
-                }
-            }, true );
+                                                     public void update() {
+                                                         set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
+                                                     }
+                                                 }, true );
         }}, new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
-                }
-            }, true );
+                                                     public void update() {
+                                                         set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                                                     }
+                                                 }, true );
         }}, Strings.CRUST, scaleProperty, colorMode, true
         ) );
 
         final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                public void update() {
-                    set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
-                }
-            }, true );
+                                                     public void update() {
+                                                         set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                                                     }
+                                                 }, true );
         }};
         final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
 
@@ -140,10 +138,10 @@ public class CrustTab extends PlateTectonicsTab {
                     // TODO: debug listener ordering issue that is causing jittering when zooming in/out
                     scaleProperty.addObserver( observer );
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
-                        public void update() {
-                            observer.update();
-                        }
-                    }, false );
+                                                             public void update() {
+                                                                 observer.update();
+                                                             }
+                                                         }, false );
                 }};
             }
         };
@@ -289,27 +287,41 @@ public class CrustTab extends PlateTectonicsTab {
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
-        sceneLayer.addChild( new CrossSectionPatchNode(
-                getModelViewTransform(), colorMode,
-                new CrossSectionPatch(
-                        new SamplePoint(
-                                new ImmutableVector3F( -80000, 50000, 0 ),
-                                CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
-                        ),
-                        new SamplePoint(
-                                new ImmutableVector3F( -40000, 50000, 0 ),
-                                CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0.5, 0 )
-                        ),
-                        new SamplePoint(
-                                new ImmutableVector3F( -40000, 10000, 0 ),
-                                CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0.5, 0.5 )
-                        ) ) ) {{
-            PlateTectonicsApplication.showDebuggingItems.addObserver( new SimpleObserver() {
-                @Override public void update() {
-                    setVisible( PlateTectonicsApplication.showDebuggingItems.get() );
-                }
-            } );
-        }} );
+        getCrustModel().addPatch( new CrossSectionPatch(
+                new SamplePoint(
+                        new ImmutableVector3F( -80000, 50000, 0 ),
+                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
+                ),
+                new SamplePoint(
+                        new ImmutableVector3F( -40000, 50000, 0 ),
+                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0.5, 0 )
+                ),
+                new SamplePoint(
+                        new ImmutableVector3F( -40000, 10000, 0 ),
+                        CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0.5, 0.5 )
+                ) ) );
+
+//        sceneLayer.addChild( new CrossSectionPatchNode(
+//                getModelViewTransform(), colorMode,
+//                new CrossSectionPatch(
+//                        new SamplePoint(
+//                                new ImmutableVector3F( -80000, 50000, 0 ),
+//                                CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
+//                        ),
+//                        new SamplePoint(
+//                                new ImmutableVector3F( -40000, 50000, 0 ),
+//                                CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0.5, 0 )
+//                        ),
+//                        new SamplePoint(
+//                                new ImmutableVector3F( -40000, 10000, 0 ),
+//                                CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0.5, 0.5 )
+//                        ) ) ) {{
+//            PlateTectonicsApplication.showDebuggingItems.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    setVisible( PlateTectonicsApplication.showDebuggingItems.get() );
+//                }
+//            } );
+//        }} );
     }
 
     @Override public void resetAll() {

@@ -77,6 +77,20 @@ public abstract class PlateModel {
         return regions;
     }
 
+    public void addPatch( CrossSectionPatch patch ) {
+        patches.add( patch );
+        patchAdded.updateListeners( patch );
+    }
+
+    public void removePatch( CrossSectionPatch patch ) {
+        patches.remove( patch );
+        patchRemoved.updateListeners( patch );
+    }
+
+    public List<CrossSectionPatch> getPatches() {
+        return patches;
+    }
+
     /*---------------------------------------------------------------------------*
     * common temperature models
     *----------------------------------------------------------------------------*/
