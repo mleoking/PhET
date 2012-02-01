@@ -29,6 +29,7 @@ import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.colorado.phet.energyskatepark.basics.ESPSpeedometerNode;
 import edu.colorado.phet.energyskatepark.model.Body;
 import edu.colorado.phet.energyskatepark.model.EnergySkateParkModel;
+import edu.colorado.phet.energyskatepark.model.EnergySkateParkSpline;
 import edu.colorado.phet.energyskatepark.model.Floor;
 import edu.colorado.phet.energyskatepark.view.EnergySkateParkSimulationPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -399,15 +400,15 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         pieChartLayer.addChild( energySkateParkPieChartNode );
     }
 
+    //Re-create all the spline graphics to sync up with the model
     private void updateSplines() {
-        while ( numSplineGraphics() < getModel().getNumSplines() ) {
-            addSplineNode( new SplineNode( simulationPanel, getModel().getSpline( 0 ), simulationPanel, splinesMovable ) );
-        }
-        while ( numSplineGraphics() > getModel().getNumSplines() ) {
-            removeSplineNode( splineGraphicAt( numSplineGraphics() - 1 ) );
+        while ( numSplineGraphics() > 0 ) {
+            removeSplineNode( splineGraphicAt( 0 ) );
         }
         for ( int i = 0; i < getModel().getNumSplines(); i++ ) {
-            splineGraphicAt( i ).setSpline( getModel().getSpline( i ) );
+            final EnergySkateParkSpline spline = getModel().getSpline( i );
+//            System.out.println( "i = " + i + ": spline = " + spline );
+            addSplineNode( new SplineNode( simulationPanel, spline, simulationPanel, splinesMovable ) );
         }
     }
 

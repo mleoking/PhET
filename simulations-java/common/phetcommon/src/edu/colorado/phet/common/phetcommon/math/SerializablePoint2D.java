@@ -6,6 +6,7 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
+import java.text.DecimalFormat;
 
 /**
  * This class fills the need for a serializable Point2D object which can be used for serialization-based copying
@@ -28,8 +29,11 @@ public class SerializablePoint2D extends Point2D.Double implements Externalizabl
         this( pt.getX(), pt.getY() );
     }
 
+    public static final DecimalFormat format = new DecimalFormat( "0.00" );
+
+    //Provide a useful debugging string for our units
     public String toString() {
-        return getClass().getName() + " [" + getX() + ", " + getY() + "]";
+        return "(" + format.format( getX() ) + ", " + format.format( getY() ) + ")";
     }
 
     public void readExternal( ObjectInput in ) throws IOException, ClassNotFoundException {
