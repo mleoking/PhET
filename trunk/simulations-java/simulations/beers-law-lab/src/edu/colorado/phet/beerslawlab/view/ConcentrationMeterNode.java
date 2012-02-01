@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -187,6 +188,8 @@ public class ConcentrationMeterNode extends PhetPNode {
                     }
                 }
             } );
+
+            addInputEventListener( new NonInteractiveEventHandler( UserComponents.concentrationMeterBody ) );
         }
     }
 
