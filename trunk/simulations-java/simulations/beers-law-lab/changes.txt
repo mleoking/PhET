@@ -1,4 +1,4 @@
-1/31/12 until combo box popup can be properly addressed, move solute control panel (which includes combo box) to the front
+1/31/12 until combo box popup can be properly addressed (see #3242), move solute control panel (which includes combo box) to the front
 1/31/12 prevent concentration probe from being dragged off the bottom of the stage
 # 0.00.07 (60842) Jan 31, 2012
 1/31/12 implement reset for Shaker, so it doesn't dispense solute when Reset All resets its location
