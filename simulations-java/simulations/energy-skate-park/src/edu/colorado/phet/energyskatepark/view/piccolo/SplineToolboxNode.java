@@ -49,7 +49,7 @@ public class SplineToolboxNode extends PNode {
     private EnergySkateParkSpline createdSurface;
     private Property<Integer> numberOfDraggedTracks = new Property<Integer>( 0 );
 
-    public SplineToolboxNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, boolean splinesMovable ) {
+    public SplineToolboxNode( final EnergySkateParkSimulationPanel energySkateParkSimulationPanel, boolean splinesMovable, final boolean limitNumberOfTracks ) {
         this.energySkateParkSimulationPanel = energySkateParkSimulationPanel;
         this.splinesMovable = splinesMovable;
         energySkateParkSimulationPanel.getEnergySkateParkModule().addResetListener( new VoidFunction0() {
@@ -62,12 +62,12 @@ public class SplineToolboxNode extends PNode {
             //Limit the number of user-created splines to be 4 (keep in mind the floor is another spline in the count)
             numberOfDraggedTracks.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer numSplines ) {
-
-                    //Really not sure why this number should be 3.  I determined it experimentally and it seemed to have the right behavior as described above
-                    final boolean visible = numSplines <= 3;
-                    setVisible( visible );
-                    setPickable( visible );
-                    setChildrenPickable( visible );
+                    if ( limitNumberOfTracks ) {
+                        final boolean visible = numSplines <= 3;
+                        setVisible( visible );
+                        setPickable( visible );
+                        setChildrenPickable( visible );
+                    }
                 }
             } );
         }};

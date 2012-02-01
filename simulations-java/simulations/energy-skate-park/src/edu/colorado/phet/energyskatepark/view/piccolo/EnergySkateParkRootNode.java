@@ -79,7 +79,7 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         Floor floor = energySkateParkModel.getFloor();
 
         simulationPanel.setBackground( SKY_COLOR );
-        splineToolbox = new SplineToolboxNode( simulationPanel, splinesMovable ) {{
+        splineToolbox = new SplineToolboxNode( simulationPanel, splinesMovable, module.limitNumberOfTracks ) {{
             setOffset( 10, 10 );
         }};
 

@@ -86,11 +86,13 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
     public final Property<Double> mass;
     public final Property<Integer> numberOfSplines = new Property<Integer>( 0 );
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
+    public final boolean limitNumberOfTracks;
 
-    public AbstractEnergySkateParkModule( IUserComponent tabComponent, String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX ) {
+    public AbstractEnergySkateParkModule( IUserComponent tabComponent, String name, PhetFrame phetFrame, EnergySkateParkOptions options, boolean splinesMovable, boolean bumpUpSplines, double floorFriction, boolean hasZoomControls, double gridHighlightX, boolean limitNumberOfTracks ) {
         super( tabComponent, name, new ConstantDtClock( 30, EnergySkateParkApplication.SIMULATION_TIME_DT ) );
         this.splinesMovable = splinesMovable;
         this.bumpUpSplines = bumpUpSplines;
+        this.limitNumberOfTracks = limitNumberOfTracks;
         ConstantDtClock clock = (ConstantDtClock) getClock();
         this.options = options;
         this.phetFrame = phetFrame;
