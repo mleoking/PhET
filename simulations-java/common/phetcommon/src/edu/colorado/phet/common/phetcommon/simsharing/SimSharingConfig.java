@@ -25,6 +25,7 @@ public abstract class SimSharingConfig {
         addConfig( new DallasJan2012ID() );
         addConfig( new FaradaySpring2012() );
         addConfig( new BalancingActSpring2012() );
+        addConfig( new MoleculeShapesFeb2012() );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
