@@ -110,9 +110,6 @@ public class BiomoleculeCreatorNode extends PComposite {
             biomolecule.userControlled.removeObserver( observer );
             biomolecule = null;
         }
-        if ( appearanceNode.getVisible() == false ) {
-            System.out.println( "Setting back to visible." );
-        }
         appearanceNode.setVisible( true );
     }
 
