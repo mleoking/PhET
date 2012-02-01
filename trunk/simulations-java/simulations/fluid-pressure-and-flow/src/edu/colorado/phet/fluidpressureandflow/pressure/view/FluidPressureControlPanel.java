@@ -3,8 +3,12 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
 
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
@@ -31,6 +35,14 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
 
         //Checkbox that shows/hides the grid
         add( new FPAFCheckBox( GRID, module.gridVisible ) );
+
+        //Add Atmosphere on/off control panel.  So it's nice to be able to turn it off and just focus on the water.
+        add( new PhetTitledPanel( "Atmosphere" ) {{
+            add( new JPanel() {{
+                add( new PropertyRadioButton<Boolean>( "On", module.model.atmosphere, true ) );
+                add( new PropertyRadioButton<Boolean>( "Off", module.model.atmosphere, false ) );
+            }} );
+        }} );
 
         //Units control panel that allows choice between atmospheres, english and metric
         final Property<UnitSet> units = module.model.units;

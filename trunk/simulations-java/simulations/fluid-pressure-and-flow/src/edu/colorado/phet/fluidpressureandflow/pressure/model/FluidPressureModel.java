@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 
@@ -16,6 +18,10 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     //Pool within which the user can measure the pressure
     public final Pool pool = new Pool();
+
+    //Flag indicating whether the atmosphere is enabled or not.  it's nice to be able to turn it off and just focus on the water.
+    //It also emphasizes that the reason that p is not zero at the top of the water IS the atmosphere.
+    public SettableProperty<Boolean> atmosphere = new BooleanProperty( true );
 
     public FluidPressureModel() {
         super( ATMOSPHERES );
