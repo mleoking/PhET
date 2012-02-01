@@ -49,7 +49,7 @@ public class Shaker extends Movable {
         // set the dispensing rate to zero when the shaker becomes empty or invisible
         RichSimpleObserver rateObserver = new RichSimpleObserver() {
             public void update() {
-                if ( Shaker.this.empty.get() || !Shaker.this.visible.get() ) {
+                if ( empty.get() || !visible.get() ) {
                     dispensingRate.set( 0d );
                 }
             }
