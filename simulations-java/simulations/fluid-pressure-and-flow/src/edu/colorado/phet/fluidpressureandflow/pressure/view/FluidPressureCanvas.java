@@ -75,7 +75,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + INSET * 2 );
         }} );
 
-
         //Add an image for a sense of scale
         addChild( new PImage( POTTED_PLANT ) {{
             double height = Math.abs( transform.modelToViewDeltaY( 3 / Units.FEET_PER_METER ) );
@@ -83,14 +82,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             scale( height / currentHeight );
             setOffset( 115.50960118168459, 249.0989660265875 );//determined with a draghandler
         }} );
-
-        //Add an image for a sense of scale
-//        addChild( new PImage( MAN_STANDING ) {{
-//            double height = Math.abs( transform.modelToViewDeltaY( 6 / Units.FEET_PER_METER ) );
-//            double currentHeight = getFullBounds().getHeight();
-//            scale( height / currentHeight );
-//            setOffset( 744.2836041358973, 161.7134416543571 );//determined with a draghandler
-//        }} );
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
         for ( PressureSensor pressureSensor : model.getPressureSensors() ) {
