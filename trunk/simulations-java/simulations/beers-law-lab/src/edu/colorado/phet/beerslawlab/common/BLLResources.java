@@ -26,7 +26,9 @@ public class BLLResources {
         public static final String COPPER_SULFATE = RESOURCES.getLocalizedString( "copperSulfate" );
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
         public static final String KOOL_AID = RESOURCES.getLocalizedString( "koolAid" );
+        public static final String LAMBDA_MAX = RESOURCES.getLocalizedString( "lambdaMax" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
+        public static final String MANUAL = RESOURCES.getLocalizedString( "manual" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
