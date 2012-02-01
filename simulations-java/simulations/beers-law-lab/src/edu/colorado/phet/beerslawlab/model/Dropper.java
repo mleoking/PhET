@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Model of the dropper, contains solute in solution form.
+ * Model of the dropper, contains solute in solution form (stock solution).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
