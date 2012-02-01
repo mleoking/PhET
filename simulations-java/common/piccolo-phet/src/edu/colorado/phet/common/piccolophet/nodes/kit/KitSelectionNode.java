@@ -46,11 +46,9 @@ public class KitSelectionNode<T extends PNode> extends PNode {
     //Animation activity that scrolls between kits
     private PTransformActivity activity;
 
-    //REVIEW this is not a layer; it's a node that delineates a branch of the scenegraph
     //Layer that contains all the kits side by side horizontally
     protected final PNode kitLayer;
 
-    //REVIEW this is not a layer; it's a node that delineates a branch of the scenegraph
     //Border and background, used for layout
     protected final PhetPPath background;
 
