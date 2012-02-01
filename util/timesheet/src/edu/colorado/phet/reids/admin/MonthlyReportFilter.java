@@ -38,6 +38,9 @@ public class MonthlyReportFilter {
         allList.add( "fractions-intro" );
         allList.add( "ipad" );
 
+        allList.add( "acid-base-solutions-study" );
+        allList.add( "energy-skate-park-basics-study" );
+
         allList.add( "leave:sick:family" );
         allList.add( "leave:sick:personal" );
         allList.add( "leave:sick" );
