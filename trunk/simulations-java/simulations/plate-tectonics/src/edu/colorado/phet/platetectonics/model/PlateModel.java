@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
@@ -20,6 +21,8 @@ public abstract class PlateModel {
     public final Notifier<Terrain> terrainAdded = new Notifier<Terrain>();
     public final Notifier<Region> regionAdded = new Notifier<Region>();
     public final Notifier<Region> regionRemoved = new Notifier<Region>();
+    public final Notifier<CrossSectionPatch> patchAdded = new Notifier<CrossSectionPatch>();
+    public final Notifier<CrossSectionPatch> patchRemoved = new Notifier<CrossSectionPatch>();
 
     // full bounds of the simulated model
     public final Bounds3D bounds;
@@ -29,6 +32,9 @@ public abstract class PlateModel {
 
     // regions model the interior of the earth in the z=0 plane
     private final List<Region> regions = new ArrayList<Region>();
+
+    // replacement for regions with improved texturing
+    private final List<CrossSectionPatch> patches = new ArrayList<CrossSectionPatch>();
 
     protected PlateModel( final Bounds3D bounds ) {
         this.bounds = bounds;

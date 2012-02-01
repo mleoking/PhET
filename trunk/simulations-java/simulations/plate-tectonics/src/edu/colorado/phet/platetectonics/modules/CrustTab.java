@@ -27,10 +27,11 @@ import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.SamplePoint;
+import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
-import edu.colorado.phet.platetectonics.view.CrossSectionPatch;
+import edu.colorado.phet.platetectonics.view.CrossSectionPatchNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -288,24 +289,21 @@ public class CrustTab extends PlateTectonicsTab {
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
-        sceneLayer.addChild( new CrossSectionPatch(
+        sceneLayer.addChild( new CrossSectionPatchNode(
                 getModelViewTransform(), colorMode,
-                new SamplePoint(
-                        new ImmutableVector3F( -80000, 50000, 0 ),
-                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
-                ),
-                new SamplePoint(
-                        new ImmutableVector3F( -40000, 50000, 0 ),
-                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0.5, 0 )
-                ),
-                new SamplePoint(
-                        new ImmutableVector3F( -40000, 10000, 0 ),
-                        CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0.5, 0.5 )
-                ),
-                new SamplePoint(
-                        new ImmutableVector3F( -80000, 10000, 0 ),
-                        CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0, 0.5 )
-                ) ) {{
+                new CrossSectionPatch(
+                        new SamplePoint(
+                                new ImmutableVector3F( -80000, 50000, 0 ),
+                                CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
+                        ),
+                        new SamplePoint(
+                                new ImmutableVector3F( -40000, 50000, 0 ),
+                                CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0.5, 0 )
+                        ),
+                        new SamplePoint(
+                                new ImmutableVector3F( -40000, 10000, 0 ),
+                                CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0.5, 0.5 )
+                        ) ) ) {{
             PlateTectonicsApplication.showDebuggingItems.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     setVisible( PlateTectonicsApplication.showDebuggingItems.get() );

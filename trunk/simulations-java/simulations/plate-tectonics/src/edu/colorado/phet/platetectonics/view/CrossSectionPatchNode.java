@@ -8,6 +8,7 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.SamplePoint;
+import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.view.materials.EarthMaterial;
 import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 
@@ -15,25 +16,16 @@ import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.color4f;
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
 import static org.lwjgl.opengl.GL11.*;
 
-public class CrossSectionPatch extends GLNode {
+public class CrossSectionPatchNode extends GLNode {
     private LWJGLTransform modelViewTransform;
     private Property<ColorMode> colorMode;
-    private final SamplePoint a;
-    private final SamplePoint b;
-    private final SamplePoint c;
-    private final SamplePoint d;
-
-    private final SamplePoint[] points;
+    private final CrossSectionPatch patch;
 
     // remember CCW order
-    public CrossSectionPatch( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, SamplePoint a, SamplePoint b, SamplePoint c, SamplePoint d ) {
+    public CrossSectionPatchNode( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, CrossSectionPatch patch ) {
         this.modelViewTransform = modelViewTransform;
         this.colorMode = colorMode;
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
-        points = new SamplePoint[] { a, b, c, d };
+        this.patch = patch;
     }
 
     @Override public void renderSelf( GLOptions options ) {
@@ -43,8 +35,8 @@ public class CrossSectionPatch extends GLNode {
 
         EarthTexture.begin();
 
-        glBegin( GL_QUADS );
-        for ( SamplePoint point : points ) {
+        glBegin( GL_TRIANGLES );
+        for ( SamplePoint point : new SamplePoint[] { patch.a, patch.b, patch.c } ) {
             color4f( material.getColor( point.getDensity(), point.getTemperature(), new ImmutableVector2F(
                     point.getPosition().x,
                     point.getPosition().y
