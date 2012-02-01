@@ -137,8 +137,9 @@ public abstract class SimSharingConfig {
 
     /*
      * Acid-Base Solutions study to be done in Spring 2012. See #3170.
-     * PhET researchers: Kelly Lancaster
+     * Principal researcher: Kelly Lancaster
      * Location: CU Boulder
+     * Dates: Jan 23-27, 2012
      */
     private static class AcidBaseSolutionsSpring2012 extends SimSharingConfig {
         public AcidBaseSolutionsSpring2012() {
@@ -148,7 +149,7 @@ public abstract class SimSharingConfig {
 
     /*
      *  Faraday's Electromagnetic Lab study to be done in Spring 2012. See #3214.
-     *  PhET researchers: Ariel Paul
+     *  Principal researcher: Ariel Paul
      *  TODO document details
      */
     private static class FaradaySpring2012 extends SimSharingConfig {
@@ -171,6 +172,7 @@ public abstract class SimSharingConfig {
      *  Molecule Shapes study to be done in Feb 2012. See #3238.
      *  Principal researcher: Kelly Lancaster
      *  Location: CU Boulder
+     *  Dates: TODO
      */
     private static class MoleculeShapesFeb2012 extends SimSharingConfig {
         public MoleculeShapesFeb2012() {
