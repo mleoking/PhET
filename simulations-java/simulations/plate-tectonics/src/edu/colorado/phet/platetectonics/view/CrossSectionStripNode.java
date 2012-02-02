@@ -1,0 +1,125 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.platetectonics.view;
+
+import java.awt.Color;
+import java.nio.FloatBuffer;
+import java.util.Iterator;
+
+import org.lwjgl.BufferUtils;
+
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+import edu.colorado.phet.lwjglphet.nodes.GLNode;
+import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.SamplePoint;
+import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
+import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
+
+import static org.lwjgl.opengl.GL11.*;
+
+public class CrossSectionStripNode extends GLNode {
+    private LWJGLTransform modelViewTransform;
+    private Property<ColorMode> colorMode;
+    public final CrossSectionStrip strip;
+
+    private int capacity = 0;
+
+    private FloatBuffer positionBuffer;
+    private FloatBuffer textureBuffer;
+    private FloatBuffer colorBuffer;
+
+    // remember CCW order
+    public CrossSectionStripNode( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, CrossSectionStrip strip ) {
+        this.modelViewTransform = modelViewTransform;
+        this.colorMode = colorMode;
+        this.strip = strip;
+
+        strip.changed.addUpdateListener( new UpdateListener() {
+                                             public void update() {
+                                                 updatePosition();
+                                             }
+                                         }, true );
+
+        colorMode.addObserver( new SimpleObserver() {
+            public void update() {
+                updatePosition();
+            }
+        } );
+    }
+
+    private void checkSize() {
+        final int neededCount = Math.max( 10, strip.getNumberOfVertices() );
+        if ( capacity < neededCount ) {
+            capacity = neededCount;
+            positionBuffer = BufferUtils.createFloatBuffer( neededCount * 3 );
+            textureBuffer = BufferUtils.createFloatBuffer( neededCount * 2 );
+            colorBuffer = BufferUtils.createFloatBuffer( neededCount * 4 );
+        }
+    }
+
+    public void updatePosition() {
+        checkSize();
+        positionBuffer.clear();
+        textureBuffer.clear();
+        colorBuffer.clear();
+
+        // alternate top to bottom, and use iterators so we don't make this O(n^2)
+        Iterator<SamplePoint> topIter = strip.topPoints.listIterator();
+        Iterator<SamplePoint> bottomIter = strip.bottomPoints.listIterator();
+
+        System.out.println( "----" );
+        while ( topIter.hasNext() ) {
+            addSamplePoint( topIter.next() );
+            addSamplePoint( bottomIter.next() );
+        }
+    }
+
+    private void addSamplePoint( SamplePoint point ) {
+        // calculate point properties
+        final Color color = colorMode.get().getMaterial().getColor( point.getDensity(), point.getTemperature(),
+                                                                    new ImmutableVector2F( point.getPosition().x, point.getPosition().y ) );
+        final ImmutableVector3F position = modelViewTransform.transformPosition( PlateModel.convertToRadial( point.getPosition() ) );
+
+        // fill the three necessary buffers
+        colorBuffer.put( color.getComponents( new float[4] ) );
+        textureBuffer.put( new float[] { point.getTextureCoordinates().x, point.getTextureCoordinates().y } );
+        positionBuffer.put( new float[] { position.x, position.y, position.z } );
+    }
+
+    @Override public void renderSelf( GLOptions options ) {
+        super.renderSelf( options );
+
+        // texture coordinates
+        if ( options.shouldSendTexture() ) {
+            glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+            textureBuffer.rewind();
+            glTexCoordPointer( 2, 0, textureBuffer );
+        }
+
+        // per-vertex color
+        glEnableClientState( GL_COLOR_ARRAY );
+        colorBuffer.rewind();
+        glColorPointer( 4, 0, colorBuffer );
+
+        // vertex positions
+        glEnableClientState( GL_VERTEX_ARRAY );
+        positionBuffer.rewind();
+        glVertexPointer( 3, 0, positionBuffer );
+
+        EarthTexture.begin();
+        glDrawArrays( GL_TRIANGLE_STRIP, 0, strip.getNumberOfVertices() );
+        EarthTexture.end();
+
+        glDisableClientState( GL_VERTEX_ARRAY );
+        if ( options.shouldSendTexture() ) {
+            glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+        }
+        glDisableClientState( GL_COLOR_ARRAY );
+        glDisableClientState( GL_VERTEX_ARRAY );
+    }
+}

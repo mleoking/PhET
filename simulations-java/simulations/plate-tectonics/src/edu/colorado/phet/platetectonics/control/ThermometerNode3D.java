@@ -49,10 +49,10 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
-            public void update() {
-                updateLiquidHeight();
-            }
-        }, true );
+                                                  public void update() {
+                                                      updateLiquidHeight();
+                                                  }
+                                              }, true );
 
         updateOnEvent( tab.beforeFrameRender );
     }
