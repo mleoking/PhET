@@ -109,6 +109,8 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             translate( -transform.modelToViewDeltaX( pool.getWidth() / 2 ), 0 );
         }} );
 
+        addGravityControl( module );
+
         //Create and show the fluid density controls
         addFluidDensityControl( module );
     }

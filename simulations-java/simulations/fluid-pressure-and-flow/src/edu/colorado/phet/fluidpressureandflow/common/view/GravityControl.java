@@ -13,8 +13,8 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.
  *
  * @author Sam Reid
  */
-public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends UnitSwitchingControl<T> {
-    public FluidDensityControl( final FluidPressureAndFlowModule<T> module ) {
-        super( module, new UnitFluidDensityControl<T>( module, METRIC.density ), new UnitFluidDensityControl<T>( module, ENGLISH.density ) );
+public class GravityControl<T extends FluidPressureAndFlowModel> extends UnitSwitchingControl<T> {
+    public GravityControl( final FluidPressureAndFlowModule<T> module ) {
+        super( module, new UnitGravityControl<T>( module, METRIC.density ), new UnitGravityControl<T>( module, ENGLISH.density ) );
     }
 }
