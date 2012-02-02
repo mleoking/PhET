@@ -11,9 +11,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
  * @author Sam Reid
  */
 public class UnitFluidDensityControl<T extends FluidPressureAndFlowModel> extends MinimizableControl {
-
     public UnitFluidDensityControl( final FluidPressureAndFlowModule<T> module, Unit density ) {
         super( module.fluidDensityControlVisible, new FluidDensitySlider<T>( module, density, module.fluidDensityControlVisible ) );
     }
-
 }
