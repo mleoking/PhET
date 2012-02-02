@@ -1,3 +1,4 @@
+2/2/12 wrapper for WavelengthControl to use Property<Double>
 # 0.00.08 (60959) Feb 2, 2012
 2/2/12 add interviews flavor (with data collection enabled) to build.properties
 2/2/12 add wavelength control (from piccolo-phet)

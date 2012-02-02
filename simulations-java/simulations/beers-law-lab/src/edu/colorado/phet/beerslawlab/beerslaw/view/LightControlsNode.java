@@ -54,7 +54,7 @@ public class LightControlsNode extends PNode {
         variableRadioButton.setFont( FONT );
 
         // Wavelength control
-        final WavelengthControl wavelengthControl = new WavelengthControl( WAVELENGTH_CONTROL_TRACK_SIZE.width, WAVELENGTH_CONTROL_TRACK_SIZE.height );
+        final BLLWavelengthControl wavelengthControl = new BLLWavelengthControl( WAVELENGTH_CONTROL_TRACK_SIZE, light.wavelength );
 
         // Panel
         final int xSpacing = 4;
