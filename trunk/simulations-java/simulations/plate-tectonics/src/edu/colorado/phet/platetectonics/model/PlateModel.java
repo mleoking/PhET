@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
+import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
@@ -35,6 +36,8 @@ public abstract class PlateModel {
 
     // replacement for regions with improved texturing
     private final List<CrossSectionPatch> patches = new ArrayList<CrossSectionPatch>();
+
+    private final List<CrossSectionStrip> strips = new ArrayList<CrossSectionStrip>();
 
     protected PlateModel( final Bounds3D bounds ) {
         this.bounds = bounds;
@@ -89,6 +92,18 @@ public abstract class PlateModel {
 
     public List<CrossSectionPatch> getPatches() {
         return patches;
+    }
+
+    public void addStrip( CrossSectionStrip patch ) {
+        strips.add( patch );
+    }
+
+    public void removeStrip( CrossSectionStrip patch ) {
+        strips.remove( patch );
+    }
+
+    public List<CrossSectionStrip> getStrips() {
+        return strips;
     }
 
     /*---------------------------------------------------------------------------*

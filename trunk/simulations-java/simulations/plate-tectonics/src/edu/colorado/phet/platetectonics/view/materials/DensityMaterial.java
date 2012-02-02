@@ -27,7 +27,7 @@ public class DensityMaterial implements EarthMaterial {
             float ratio = ( density - 3300 ) / ( maxMaxDensityToShow - 3300 );
             x = start + ( end - start ) * ratio;
         }
-        x = (float) MathUtil.clamp( 0.0, x / 255.0, 1.0 ); // clamp it in the normal range
+        x = (float) MathUtil.clamp( 0.0, x / 220, 1.0 ); // clamp it in the normal range
         return new ImmutableVector2F( x, 0.5f );
 
 //        float minDensityToShow = 2500;
@@ -36,7 +36,7 @@ public class DensityMaterial implements EarthMaterial {
 //        return new ImmutableVector2F( v, 0.5f );
     }
 
-    @Override public Color getColor( float density, float temperature, ImmutableVector2F position ) {
+    public Color getColor( float density, float temperature, ImmutableVector2F position ) {
         float value = densityMap( density ).x;
         return new Color( value, value, value, 1f );
     }
