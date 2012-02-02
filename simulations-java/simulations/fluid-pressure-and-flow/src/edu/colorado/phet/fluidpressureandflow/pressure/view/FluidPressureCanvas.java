@@ -111,13 +111,12 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             translate( -transform.modelToViewDeltaX( pool.getWidth() / 2 ), 0 );
         }} );
 
+        //Create and show the fluid density and gravity controls
+        //TODO: Layout for i18n long strings
+
         final GravityControl<FluidPressureModel> gravityControl = new GravityControl<FluidPressureModel>( module );
         final FluidPressureAndFlowControlPanelNode gravityControlPanelNode = new FluidPressureAndFlowControlPanelNode( gravityControl );
 
-        //Create and show the fluid density controls
-//        addFluidDensityControl( module );
-
-        //TODO: Layout for i18n long strings
         final FluidDensityControl<FluidPressureModel> fluidDensityControl = new FluidDensityControl<FluidPressureModel>( module );
         final FluidPressureAndFlowControlPanelNode fluidDensityControlNode = new FluidPressureAndFlowControlPanelNode( fluidDensityControl );
 
