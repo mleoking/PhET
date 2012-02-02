@@ -1,0 +1,44 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Jan 26 - Feb 1, 2011
+
+Molarity
+- misc change requests
+- screenshot
+- model.txt, implementation-notes.txt
+- made changes suggested by code review, #3233
+
+Beer's Law Lab
+- completed first tab (Concentration)
+- change requests based on feedback
+- discussion about code reuse in first tab
+- started on second tab (Beer's Law)
+
+Molecule Shapes
+- discussed requirements for upcoming study
+- collaborated with JO on adding data collection, #3238
+
+Build Process
+- work on ResourceGenerator, #3235
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Beer's Law Lab: design & implementation
+- Molarity: publish 1.00
+- Reactants, Products and Leftovers: add data collection feature
+- Data Collection: feedback and help with changes
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- Feb 24-26 (not working)
+
+--
