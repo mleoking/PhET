@@ -14,7 +14,6 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region.Type;
 import edu.colorado.phet.platetectonics.model.regions.SimpleConstantRegion;
-import edu.colorado.phet.platetectonics.model.regions.SimpleLinearRegion;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
@@ -175,12 +174,12 @@ public class CrustModel extends PlateModel {
         };
 
         ImmutableVector2F[] oceanTop = oceanicTerrain.getFrontVertices();
-        ImmutableVector2F[] oceanCrustBottom = map( oceanTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
-                                                        public ImmutableVector2F apply( ImmutableVector2F vector ) {
-                                                            return new ImmutableVector2F( vector.x, (float) ( vector.y - LEFT_OCEANIC_THICKNESS ) );
-                                                        }
-                                                    }, new ImmutableVector2F[oceanTop.length] );
-        ImmutableVector2F[] oceanSideMinY = map( oceanTop, lowerBoundaryFunct, new ImmutableVector2F[oceanTop.length] );
+        final ImmutableVector2F[] oceanCrustBottom = map( oceanTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
+                                                              public ImmutableVector2F apply( ImmutableVector2F vector ) {
+                                                                  return new ImmutableVector2F( vector.x, (float) ( vector.y - LEFT_OCEANIC_THICKNESS ) );
+                                                              }
+                                                          }, new ImmutableVector2F[oceanTop.length] );
+        final ImmutableVector2F[] oceanSideMinY = map( oceanTop, lowerBoundaryFunct, new ImmutableVector2F[oceanTop.length] );
 
         ImmutableVector2F[] continentTop = continentalTerrain.getFrontVertices();
         ImmutableVector2F[] continentCrustBottom = map( continentTop, new Function1<ImmutableVector2F, ImmutableVector2F>() {
@@ -276,7 +275,11 @@ public class CrustModel extends PlateModel {
                                                                   return new ImmutableVector2F( vector2f.x, INNER_OUTER_CORE_BOUNDARY_Y ); // to 5180km depth
                                                               }
                                                           }, new ImmutableVector2F[mantleTop.length] );
-        ImmutableVector2F[] centerOfTheEarth = new ImmutableVector2F[] { new ImmutableVector2F( 0, CENTER_OF_EARTH_Y ) };
+        ImmutableVector2F[] centerOfTheEarth = map( innerOuterCoreBoundary, new Function1<ImmutableVector2F, ImmutableVector2F>() {
+                                                        public ImmutableVector2F apply( ImmutableVector2F immutableVector2F ) {
+                                                            return new ImmutableVector2F( 0, CENTER_OF_EARTH_Y );
+                                                        }
+                                                    }, new ImmutableVector2F[innerOuterCoreBoundary.length] );
 
         /*---------------------------------------------------------------------------*
         * right oceanic crust
@@ -345,59 +348,51 @@ public class CrustModel extends PlateModel {
         }
         addStrip( middleCrustStrip );
 
-        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                             oceanCrustBottom,
-                                             oceanSideMinY,
-                                             constantFunction( (double) MANTLE_DENSITY ),
-                                             constantFunction( (double) ( ZERO_CELSIUS + 700 ) ) ) );
+        addRectangularConstantStrip( oceanCrustBottom, oceanSideMinY,
+                                     MANTLE_DENSITY, MANTLE_DENSITY,
+                                     ZERO_CELSIUS + 700, ZERO_CELSIUS + 700 );
         addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
                                              middleCrustBottom,
                                              middleSideMinY,
                                              constantFunction( (double) MANTLE_DENSITY ),
                                              constantFunction( (double) ( ZERO_CELSIUS + 700 ) ) ) );
-        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                             continentCrustBottom,
-                                             continentSideMinY,
-                                             constantFunction( (double) MANTLE_DENSITY ),
-                                             constantFunction( (double) ( ZERO_CELSIUS + 700 ) ) ) );
+        addRectangularConstantStrip( continentCrustBottom, continentSideMinY,
+                                     MANTLE_DENSITY, MANTLE_DENSITY,
+                                     ZERO_CELSIUS + 700, ZERO_CELSIUS + 700 );
 
-        addRegion( new SimpleLinearRegion( Type.UPPER_MANTLE,
-                                           mantleTop,
-                                           mantleMiddle,
-                                           lowerBoundary,
-                                           UPPER_LOWER_MANTLE_BOUNDARY_Y,
-                                           getMantleDensity( lowerBoundary ),
-                                           getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
-                                           ZERO_CELSIUS + 700, ZERO_CELSIUS + 1100 ) );
+        // rest of upper mantle
+        addRectangularConstantStrip( mantleTop, mantleMiddle,
+                                     getMantleDensity( lowerBoundary ), getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
+                                     ZERO_CELSIUS + 700, ZERO_CELSIUS + 1100 );
 
-        addRegion( new SimpleLinearRegion( Type.LOWER_MANTLE,
-                                           mantleMiddle,
-                                           mantleBottom,
-                                           UPPER_LOWER_MANTLE_BOUNDARY_Y,
-                                           MANTLE_CORE_BOUNDARY_Y,
-                                           getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
-                                           getMantleDensity( MANTLE_CORE_BOUNDARY_Y ),
-                                           ZERO_CELSIUS + 1100, ZERO_CELSIUS + 4000 ) );
+        // lower mantle
+        addRectangularConstantStrip( mantleMiddle, mantleBottom,
+                                     getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ), getMantleDensity( MANTLE_CORE_BOUNDARY_Y ),
+                                     ZERO_CELSIUS + 1100, ZERO_CELSIUS + 4000 );
 
-        addRegion( new SimpleLinearRegion( Type.OUTER_CORE,
-                                           mantleBottom,
-                                           innerOuterCoreBoundary,
-                                           MANTLE_CORE_BOUNDARY_Y,
-                                           INNER_OUTER_CORE_BOUNDARY_Y,
-                                           CORE_BOUNDARY_DENSITY,
-                                           INNER_OUTER_CORE_BOUNDARY_DENSITY,
-                                           ZERO_CELSIUS + 4400f, ZERO_CELSIUS + 6100 ) );
+        // outer core
+        addRectangularConstantStrip( mantleBottom, innerOuterCoreBoundary,
+                                     CORE_BOUNDARY_DENSITY, INNER_OUTER_CORE_BOUNDARY_DENSITY,
+                                     ZERO_CELSIUS + 4400f, ZERO_CELSIUS + 6100 );
 
-        addRegion( new SimpleLinearRegion( Type.INNER_CORE,
-                                           innerOuterCoreBoundary,
-                                           centerOfTheEarth,
-                                           INNER_OUTER_CORE_BOUNDARY_Y,
-                                           CENTER_OF_EARTH_Y,
-                                           INNER_OUTER_CORE_BOUNDARY_DENSITY,
-                                           CENTER_DENSITY,
-                                           5778, 5778 ) );
+        // inner core
+        addRectangularConstantStrip( innerOuterCoreBoundary, centerOfTheEarth,
+                                     INNER_OUTER_CORE_BOUNDARY_DENSITY, CENTER_DENSITY,
+                                     5778, 5778 );
 
         updateView();
+    }
+
+    private void addRectangularConstantStrip( final ImmutableVector2F[] top, final ImmutableVector2F[] bottom,
+                                              final float topDensity, final float bottomDensity,
+                                              final float topTemperature, final float bottomTemperature ) {
+        addStrip( new CrossSectionStrip() {{
+            for ( int i = 0; i < top.length; i++ ) {
+                addRightPatch(
+                        new SamplePoint( new ImmutableVector3F( top[i].x, top[i].y, 0 ), topTemperature, topDensity, textureMap( top[i] ) ),
+                        new SamplePoint( new ImmutableVector3F( bottom[i].x, bottom[i].y, 0 ), bottomTemperature, bottomDensity, textureMap( bottom[i] ) ) );
+            }
+        }} );
     }
 
     private ImmutableVector2F textureMap( ImmutableVector2F position ) {
