@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.view;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -29,7 +30,7 @@ public class FluidFlowRateControl extends PNode {
             public UnitBasedSliderControl( IUserComponent userComponent, String title, final UnitSet units ) {
 
                 //If the max flow rate is too high, can create negative pressure situations, which should not occur
-                super( userComponent, title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1 ), units.flowRate.siToUnit( 10 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>() );
+                super( userComponent, title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1 ), units.flowRate.siToUnit( 10 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>(), new DecimalFormat( "0" ) );
                 module.model.units.addObserver( new VoidFunction1<UnitSet>() {
                     public void apply( UnitSet unitSet ) {
                         setVisible( unitSet == units );

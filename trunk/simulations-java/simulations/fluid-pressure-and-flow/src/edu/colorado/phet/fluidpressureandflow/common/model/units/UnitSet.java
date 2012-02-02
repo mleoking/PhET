@@ -30,13 +30,17 @@ public class UnitSet {
     private static final Unit RATE_METRIC = new LinearUnit( RATE_UNITS_METRIC, 1E3, new DecimalFormat( "0.00" ) );
     private static final Unit RATE_ENGLISH = new LinearUnit( RATE_UNITS_ENGLISH, FEET_PER_METER * FEET_PER_METER * FEET_PER_METER, new DecimalFormat( "0.00" ) );
 
+    //Common units for gravity
+    private static final Unit GRAVITY_METRIC = new LinearUnit( "m/s/s", 1, new DecimalFormat( "0.00" ) );
+    private static final Unit GRAVITY_ENGLISH = new LinearUnit( "ft/s/s", 32.16 / 9.80665, new DecimalFormat( "0.00" ) ); //http://evaosd.fartoomuch.info/library/units.htm
+
     //To convert ft3 / ft2 / s into m3 / m2 / s
     //Same as ft/s -> m/s, same as converting feet to meters
 
     //Common unit sets which the user can select
-    public static final UnitSet ATMOSPHERES = new UnitSet( ATMOSPHERE, METERS_PER_SECOND, FEET, FLUID_DENSITY_METRIC, FLUX_METRIC, AREA_METRIC, RATE_METRIC );//Metric units but with atmospheres for pressure instead of psi
-    public static final UnitSet ENGLISH = new UnitSet( PSI, FEET_PER_SECOND, FEET, FLUID_DENSITY_ENGLISH, FLUX_ENGLISH, AREA_ENGLISH, RATE_ENGLISH );
-    public static final UnitSet METRIC = new UnitSet( PASCAL, METERS_PER_SECOND, METERS, FLUID_DENSITY_METRIC, FLUX_METRIC, AREA_METRIC, RATE_METRIC );
+    public static final UnitSet ATMOSPHERES = new UnitSet( ATMOSPHERE, METERS_PER_SECOND, FEET, FLUID_DENSITY_METRIC, FLUX_METRIC, AREA_METRIC, RATE_METRIC, GRAVITY_METRIC );//Metric units but with atmospheres for pressure instead of psi
+    public static final UnitSet ENGLISH = new UnitSet( PSI, FEET_PER_SECOND, FEET, FLUID_DENSITY_ENGLISH, FLUX_ENGLISH, AREA_ENGLISH, RATE_ENGLISH, GRAVITY_ENGLISH );
+    public static final UnitSet METRIC = new UnitSet( PASCAL, METERS_PER_SECOND, METERS, FLUID_DENSITY_METRIC, FLUX_METRIC, AREA_METRIC, RATE_METRIC, GRAVITY_METRIC );
 
     public final Unit pressure;
     public final Unit velocity;
@@ -45,8 +49,9 @@ public class UnitSet {
     public final Unit flux;
     public final Unit area;
     public final Unit flowRate;
+    public final Unit gravity;
 
-    public UnitSet( Unit pressure, Unit velocity, Unit distance, Unit density, Unit flux, Unit area, Unit flowRate ) {
+    public UnitSet( Unit pressure, Unit velocity, Unit distance, Unit density, Unit flux, Unit area, Unit flowRate, Unit gravity ) {
         this.pressure = pressure;
         this.velocity = velocity;
         this.distance = distance;
@@ -54,5 +59,6 @@ public class UnitSet {
         this.flux = flux;
         this.area = area;
         this.flowRate = flowRate;
+        this.gravity = gravity;
     }
 }

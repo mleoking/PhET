@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -34,7 +35,7 @@ public class FluidDensitySlider<T extends FluidPressureAndFlowModel> extends PNo
             put( gasDensity, GASOLINE );
             put( waterDensity, WATER );
             put( honeyDensity, HONEY );
-        }} ) {{
+        }}, new DecimalFormat( "0" ) ) {{
             module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( maximized.get() );

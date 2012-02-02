@@ -203,11 +203,11 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }} );
     }
 
-    //Adds the fluid density control in the bottom right of the play area
+    //Adds the gravity control in the bottom right of the play area
     protected void addGravityControl( FluidPressureAndFlowModule<T> module ) {
-        final M_GravityControl<T> fluidDensityControl = new M_GravityControl<T>( module );
-        addChild( new FluidPressureAndFlowControlPanelNode( fluidDensityControl ) {{
-            setOffset( STAGE_SIZE.getWidth() - fluidDensityControl.getMaximumSize().getWidth() - INSET, STAGE_SIZE.getHeight() - fluidDensityControl.getMaximumSize().getHeight() * 2 - INSET );
+        final M_GravityControl<T> gravityControl = new M_GravityControl<T>( module );
+        addChild( new FluidPressureAndFlowControlPanelNode( gravityControl ) {{
+            setOffset( INSET, STAGE_SIZE.getHeight() - gravityControl.getMaximumSize().getHeight() * 2 - INSET );
         }} );
     }
 
