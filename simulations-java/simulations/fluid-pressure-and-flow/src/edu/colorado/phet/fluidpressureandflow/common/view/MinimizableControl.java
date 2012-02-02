@@ -13,7 +13,6 @@ import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode.BUTTON_LEFT;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FLUID_DENSITY;
 import static java.awt.Color.black;
 
 /**
@@ -24,11 +23,11 @@ import static java.awt.Color.black;
 public class MinimizableControl extends PNode {
     protected final Property<Boolean> maximized;
 
-    public MinimizableControl( final Property<Boolean> maximized, final PNode content ) {
+    public MinimizableControl( final Property<Boolean> maximized, final PNode content, final String text ) {
         this.maximized = maximized;
 
         //Button for showing/hiding the slider
-        MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( FLUID_DENSITY, BUTTON_LEFT, FluidPressureCanvas.CONTROL_FONT, black, 10 ) {{
+        MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( text, BUTTON_LEFT, FluidPressureCanvas.CONTROL_FONT, black, 10 ) {{
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     maximized.set( isMaximized() );

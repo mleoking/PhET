@@ -7,6 +7,7 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
@@ -22,7 +23,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class SliderControl extends PNode {
 
-    public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels ) {
+    public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels, final DecimalFormat format ) {
         HSliderNode slider = new HSliderNode( userComponent, min, max, property );
         for ( Double key : tickLabels.keySet() ) {
             slider.addLabel( key, new PText( tickLabels.get( key ) ) );
@@ -32,16 +33,16 @@ public class SliderControl extends PNode {
         }};
 
         //Create the top component which has: title text field units
-        final HBox topComponent = new HBox( new PText( title ) {{setFont( FluidPressureCanvas.CONTROL_FONT );}},
-                                            new PSwing( new DoubleTextField( new DecimalFormat( "0" ), property, min, max ) {{
-                                                setColumns( 6 );
-                                                setFont( FluidPressureCanvas.CONTROL_FONT );
-                                            }} ),
+        final PSwing textField = new PSwing( new DoubleTextField( format, property, min, max ) {{
+            setColumns( 6 );
+            setFont( FluidPressureCanvas.CONTROL_FONT );
+        }} );
+        final HBox topComponent = new HBox( new PhetPText( title, FluidPressureCanvas.CONTROL_FONT ),
+                                            textField,
                                             unitsNode );
 
         //Top component goes over the slider
-        addChild( new VBox( topComponent,
-                            slider ) );
+        addChild( new VBox( topComponent, slider ) );
 
         //Move the HTML node up a bit since the <sup> superscript makes it off centered
         //This must be done after constructing the HBox because the HBox factors out its local offset in the layout.

@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -11,9 +12,6 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.ScaledDoubleProperty;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.umd.cs.piccolo.PNode;
-
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
-import static edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel.*;
 
 /**
  * The slider in the minimizable fluid density control.
@@ -39,18 +37,18 @@ public class M_GravitySlider<T extends FluidPressureAndFlowModel> extends PNode 
 //        addChild( sliderControl );
 
         //Compute the tick marks in the specified units
-        final double gasDensity = density.siToUnit( GASOLINE_DENSITY );
-        final double honeyDensity = density.siToUnit( HONEY_DENSITY );
-        final double waterDensity = density.siToUnit( WATER_DENSITY );
+        final double lowGravity = density.siToUnit( 1 );
+        final double earthGravity = density.siToUnit( 9.8 );
+        final double highGravity = density.siToUnit( 20 );
 
         //Create the slider
-        final SliderControl sliderControl = new SliderControl( FPAFSimSharing.UserComponents.fluidDensitySlider, FLUID_DENSITY, density.getAbbreviation(), gasDensity, honeyDensity,
-                                                               new ScaledDoubleProperty( module.model.liquidDensity, density.siToUnit( 1.0 ) ), new HashMap<Double, String>() {{
-            put( gasDensity, GASOLINE );
-            put( waterDensity, WATER );
-            put( honeyDensity, HONEY );
-        }} ) {{
-            module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
+        final SliderControl sliderControl = new SliderControl( FPAFSimSharing.UserComponents.fluidDensitySlider, "Gravity", density.getAbbreviation(), lowGravity, highGravity,
+                                                               new ScaledDoubleProperty( module.model.gravity, density.siToUnit( 1.0 ) ), new HashMap<Double, String>() {{
+            put( lowGravity, "low" );
+            put( earthGravity, "Earth" );
+            put( highGravity, "high" );
+        }}, new DecimalFormat( "0.0" ) ) {{
+            maximized.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( maximized.get() );
                 }
