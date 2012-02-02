@@ -26,23 +26,21 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
         final Or metricUnits = module.model.units.valueEquals( METRIC ).or( module.model.units.valueEquals( ATMOSPHERES ) );
 
         //Create and add the metric control, but only show it if the units are in metric
-        metricControl = new UnitFluidDensityControl<T>( module, METRIC.density ) {{
-            metricUnits.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean metricUnits ) {
-                    setVisible( metricUnits );
-                }
-            } );
-        }};
+        metricControl = new UnitFluidDensityControl<T>( module, METRIC.density );
+        metricUnits.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean metricUnits ) {
+                metricControl.setVisible( metricUnits );
+            }
+        } );
         addChild( metricControl );
 
         //Create and add the English unit control, but only show it if the units are in English
-        englishControl = new UnitFluidDensityControl<T>( module, ENGLISH.density ) {{
-            metricUnits.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean metricUnits ) {
-                    setVisible( !metricUnits );
-                }
-            } );
-        }};
+        englishControl = new UnitFluidDensityControl<T>( module, ENGLISH.density );
+        metricUnits.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean metricUnits ) {
+                englishControl.setVisible( !metricUnits );
+            }
+        } );
         addChild( englishControl );
     }
 
