@@ -199,8 +199,8 @@ public class CrustModel extends PlateModel {
 
         final Function1<Float, Float> middleCrustTemperatureFunction = new Function1<Float, Float>() {
             public Float apply( Float y ) {
-                float ratio = (float) -( ( y - LEFT_OCEANIC_ELEVATION ) / LEFT_OCEANIC_THICKNESS );
-                return ZERO_CELSIUS + ratio * 450;
+                float ratio = (float) -( ( y - getCenterCrustElevation() ) / thickness.get() );
+                return (float) ( ZERO_CELSIUS + ratio * 700 * temperatureRatio.get() );
             }
         };
 
@@ -330,18 +330,12 @@ public class CrustModel extends PlateModel {
 
         middleCrustStrip = new CrossSectionStrip();
         {
-            Function1<Float, Float> temperatureFunction = new Function1<Float, Float>() {
-                public Float apply( Float y ) {
-                    float ratio = (float) -( ( y - getCenterCrustElevation() ) / thickness.get() );
-                    return (float) ( ZERO_CELSIUS + ratio * 700 * temperatureRatio.get() );
-                }
-            };
             for ( int i = 0; i < middleTop.length; i++ ) {
                 middleTopSamples[i] = new SamplePoint( new ImmutableVector3F( middleTop[i].x, middleTop[i].y, 0 ),
-                                                       temperatureFunction.apply( middleTop[i].y ), (float) getCenterCrustDensity(),
+                                                       middleCrustTemperatureFunction.apply( middleTop[i].y ), (float) getCenterCrustDensity(),
                                                        textureMap( middleTop[i] ) );
                 middleCrustBottomSamples[i] = new SamplePoint( new ImmutableVector3F( middleCrustBottom[i].x, middleCrustBottom[i].y, 0 ),
-                                                               temperatureFunction.apply( middleCrustBottom[i].y ), (float) getCenterCrustDensity(),
+                                                               middleCrustTemperatureFunction.apply( middleCrustBottom[i].y ), (float) getCenterCrustDensity(),
                                                                textureMap( middleCrustBottom[i] ) );
             }
 
