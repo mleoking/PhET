@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
-import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
-import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.common.view.SoluteChoiceNode;
@@ -34,6 +32,7 @@ public class BeersLawCanvas extends BLLCanvas {
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
+        PNode rulerNode = new BLLRulerNode( 250 );
 
         // Rendering order
         {
@@ -41,6 +40,7 @@ public class BeersLawCanvas extends BLLCanvas {
             addChild( lightControlsNode );
             addChild( soluteChoiceNode );
             addChild( resetAllButtonNode );
+            addChild( rulerNode );
         }
 
         // layout
@@ -59,6 +59,9 @@ public class BeersLawCanvas extends BLLCanvas {
              // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
+            // bottom center
+            rulerNode.setOffset( ( getStageSize().getWidth() - rulerNode.getFullBoundsReference().getWidth() ) / 2,
+                                 ( getStageSize().getHeight() - rulerNode.getFullBoundsReference().getHeight() - yMargin ));
         }
     }
 }
