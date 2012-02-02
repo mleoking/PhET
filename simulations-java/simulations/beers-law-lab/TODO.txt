@@ -9,9 +9,18 @@ DESIGN
 
 HIGH
 - wrapper for WavelengthControl to use Property<Double>
+- Cuvette (vessel), variable width 0.5-2.0cm, resizable by dragging right edge, left edge location stays fixed
+- Ruler, long enough to measure cuvette width
+- Meter doesn't read anything in cuvette
+- Concentration slider: different units to match the ranges for each solute (see design doc table, "Conc Range" column, which JC needs to verify)
+- combine Solute combo box and Concentration slider in SolutionControls
+- add "none (pure Water)" to the list of solutes
+- put solute formula above cuvette, not on it because it can get very narrow
+- start with no Toolbox, add it later after exploring meter usability issues
 - Beer's Law tab (see JC notes below)
 
 MEDIUM
+- change color of meter in Tab1 so that it's not the same color as the meter in Tab2 (they do different things)
 - fix resizing issue with LightControlNode, control panel width changes when dragging wavelength slider
 - #3242, make combo box popup appear on top of everything in the scenegraph
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
@@ -35,10 +44,3 @@ From JC's 1/24/12 email:
 Tab 2 (see discussion in google doc for more details)
 - We had a big discussion about the concentration slider number read out, and decided that each solution will have it's range shown using prefixes
   like milli and micro (symbols "m" and the greek letter mu, lowercase).  I will mock this up for future discussion.
-- For now, light absorption/transmittance meter will not be allowed in the container.
-- For now, do not include an absorbance curve for each solution, it gives away the answer.
-- Decided to hide the wavelength slider with a checkbox option (I will mock up).
-- We are considering adding a 3rd tab for custom solutions where students can change "a", but we haven't decided what exactly this tab would have.
-  Discussions thus far look like it would resemble the Beer's Law Lab tab, but have different parameters and fewer solutions (maybe only 1 solution
-  whose properties could be changed with controls.) But, before figuring out what that tab would do, we'd like to see what students do with the
-  Beer's Law Lab tab, and what they learn from it.
