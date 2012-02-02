@@ -1,3 +1,4 @@
+Fixed: Pressure gauges change number of digits when atmosphere turns on/off
 Updated model to handle atmosphere on/off
 Made sky black when atmosphere is off
 Added an Atmosphere control to the control panel

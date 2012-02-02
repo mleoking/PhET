@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -22,6 +23,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.*;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.QUESTION_MARK;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
+import static java.text.MessageFormat.format;
 
 /**
  * User-draggable node that displays the pressure at its location
@@ -82,6 +86,17 @@ public class PressureSensorNode extends SensorNode {
                 return visibleModelRect.apply().getClosestPoint( pt );
             }
         } ) );
+    }
+
+    //Use higher precision in the air since the pressure changes much more slowly there
+    @Override public String getDisplayString( Unit unit, double v ) {
+        String pattern = VALUE_WITH_UNITS_PATTERN;
+        String value = QUESTION_MARK;
+        if ( !Double.isNaN( v ) ) {
+            final DecimalFormat format = sensor.location.get().getY() > 0 ? new DecimalFormat( "0.0000" ) : new DecimalFormat( "0.00" );
+            value = format.format( unit.siToUnit( v ) );
+        }
+        return format( pattern, value, unit.getAbbreviation() );
     }
 
     //Gets a property corresponding to the Pressure unit in a UnitSet, consider creating a class UnitSetProperty and moving this method there
