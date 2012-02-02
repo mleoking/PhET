@@ -8,7 +8,6 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
-- wrapper for WavelengthControl to use Property<Double>
 - Cuvette (vessel), variable width 0.5-2.0cm, resizable by dragging right edge, left edge location stays fixed
 - Ruler, long enough to measure cuvette width
 - Meter doesn't read anything in cuvette
