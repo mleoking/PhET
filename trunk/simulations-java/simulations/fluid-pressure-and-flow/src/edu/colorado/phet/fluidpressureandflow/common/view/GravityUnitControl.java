@@ -10,8 +10,8 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
  *
  * @author Sam Reid
  */
-public class M_UnitGravityControl<T extends FluidPressureAndFlowModel> extends MinimizableControl {
-    public M_UnitGravityControl( final FluidPressureAndFlowModule<T> module, Unit gravityUnits ) {
-        super( module.gravityControlVisible, new M_GravitySlider<T>( module, gravityUnits, module.gravityControlVisible ), "Gravity" );
+public class GravityUnitControl<T extends FluidPressureAndFlowModel> extends MinimizableControl {
+    public GravityUnitControl( final FluidPressureAndFlowModule<T> module, Unit gravityUnits ) {
+        super( module.gravityControlVisible, new GravitySlider<T>( module, gravityUnits, module.gravityControlVisible ), "Gravity" );
     }
 }
