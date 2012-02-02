@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fluidpressureandflow.common.model.Sensor;
@@ -23,26 +22,17 @@ public abstract class SensorNode extends PNode {
 
     //The value to display on the readout
     protected final Property<String> text;
+    public final Sensor<Double> sensor;
 
     public SensorNode( final ModelViewTransform transform, final Sensor<Double> sensor, final Property<Unit> units ) {
+        this.sensor = sensor;
 
-        //Function that transforms the value to the display readout
-        final Function0<String> getString = new Function0<String>() {
-            public String apply() {
-                String pattern = VALUE_WITH_UNITS_PATTERN;
-                String value = QUESTION_MARK;
-                if ( !Double.isNaN( sensor.getValue() ) ) {
-                    value = units.get().getDecimalFormat().format( units.get().siToUnit( sensor.getValue() ) );
-                }
-                return format( pattern, value, units.get().getAbbreviation() );
-            }
-        };
-        text = new Property<String>( getString.apply() );
+        text = new Property<String>( getDisplayString( units.get(), sensor.getValue() ) );
 
         //Observe the sensor or units for changes
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
-                text.set( getString.apply() );
+                text.set( getDisplayString( units.get(), sensor.getValue() ) );
             }
         };
         sensor.addValueObserver( observer );
@@ -55,5 +45,15 @@ public abstract class SensorNode extends PNode {
                 setOffset( transform.modelToView( sensor.location.get().toPoint2D() ) );
             }
         } );
+    }
+
+    //Function that transforms the value to the display readout
+    public String getDisplayString( Unit unit, double v ) {
+        String pattern = VALUE_WITH_UNITS_PATTERN;
+        String value = QUESTION_MARK;
+        if ( !Double.isNaN( v ) ) {
+            value = unit.getDecimalFormat().format( unit.siToUnit( v ) );
+        }
+        return format( pattern, value, unit.getAbbreviation() );
     }
 }

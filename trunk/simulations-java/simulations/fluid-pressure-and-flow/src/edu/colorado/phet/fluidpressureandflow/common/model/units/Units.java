@@ -18,9 +18,11 @@ public class Units {
     public static final Unit ATMOSPHERE = new LinearUnit( ATM, 9.8692E-6, new DecimalFormat( "0.0000" ) {
         @Override
         public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
+
+            //Show 0.9999 atm when lifted into the atmosphere so students don't think pressure doesn't decrease vs altitude
             final StringBuffer answer = super.format( number, result, fieldPosition );
             if ( answer.toString().equals( "1.0000" ) || number >= 1 ) {
-                return new StringBuffer( new DecimalFormat( "0.00" ).format( number ) );//Show 0.9999 atm when lifted into the atmosphere so students don't think pressure doesn't decrease vs altitude
+                return new StringBuffer( new DecimalFormat( "0.00" ).format( number ) );
             }
             else {
                 return answer;
