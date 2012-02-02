@@ -1,3 +1,4 @@
+# 0.00.14 (60935) Feb 1, 2012
 Added texturing to cross sections
 # 0.00.13 (60651) Jan 26, 2012
 Changed the angle and position of the camera in the Crust tab when handling zoom
