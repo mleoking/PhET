@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
 public class BeersLawCanvas extends BLLCanvas {
 
     public enum LightRepresentation {BEAM, PHOTONS}
-    public enum WavelengthControlType {LAMBDA_MAX, MANUAL}
+    public enum WavelengthControlType {LAMBDA_MAX, VARIABLE}
 
     private final Property<LightRepresentation> lightRepresentation = new Property<LightRepresentation>( LightRepresentation.BEAM );
     private final Property<WavelengthControlType> wavelengthControlType = new Property<WavelengthControlType>( WavelengthControlType.LAMBDA_MAX  );
