@@ -144,15 +144,6 @@ public class ItemList<T> extends ObservableList<T> {
         return new ArrayList<T>( this );
     }
 
-    //Map each element to a new element
-    public <U> ItemList<U> map( final Function1<T, U> map ) {
-        return new ItemList<U>() {{
-            for ( T t : ItemList.this ) {
-                add( map.apply( t ) );
-            }
-        }};
-    }
-
     public static void main( String[] args ) {
         ItemList<Double> list = new ItemList<Double>( new Double[] { 1.0, 2.0, 3.0, 5.0 } );
         System.out.println( "sum " + list.foldLeft( 0.0, new Function2<Double, Double, Double>() {
