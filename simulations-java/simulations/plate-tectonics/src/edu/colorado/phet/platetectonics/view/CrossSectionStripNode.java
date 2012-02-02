@@ -72,7 +72,6 @@ public class CrossSectionStripNode extends GLNode {
         Iterator<SamplePoint> topIter = strip.topPoints.listIterator();
         Iterator<SamplePoint> bottomIter = strip.bottomPoints.listIterator();
 
-        System.out.println( "----" );
         while ( topIter.hasNext() ) {
             addSamplePoint( topIter.next() );
             addSamplePoint( bottomIter.next() );
