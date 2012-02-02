@@ -32,7 +32,7 @@ public class BeersLawCanvas extends BLLCanvas {
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
-        PNode rulerNode = new BLLRulerNode( 250 );
+        PNode rulerNode = new BLLRulerNode( 250, getStageSize() );
 
         // Rendering order
         {
