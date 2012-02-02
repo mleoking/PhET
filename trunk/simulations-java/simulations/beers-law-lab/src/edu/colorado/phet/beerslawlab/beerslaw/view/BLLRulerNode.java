@@ -25,9 +25,9 @@ public class BLLRulerNode extends RulerNode {
         addInputEventListener( new SimSharingDragHandler( UserComponents.ruler, UserComponentTypes.sprite ) {
             @Override protected void drag( PInputEvent event ) {
                 super.drag( event );
-                //TODO constrain to play area
-                double xOffset = getXOffset() + event.getDelta().getWidth();
-                double yOffset = getYOffset() + event.getDelta().getHeight();
+                // entire ruler must be in the stage bounds
+                double xOffset = Math.min( Math.max( 0, getXOffset() + event.getDelta().getWidth() ), stageSize.getWidth() - getFullBoundsReference().getWidth() );
+                double yOffset = Math.min( Math.max( 0, getYOffset() + event.getDelta().getHeight() ), stageSize.getHeight() - getFullBoundsReference().getHeight() );
                 setOffset( xOffset, yOffset );
             }
         } );
