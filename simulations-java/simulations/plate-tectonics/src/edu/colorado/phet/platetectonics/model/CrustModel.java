@@ -12,8 +12,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.platetectonics.model.regions.Region.Type;
-import edu.colorado.phet.platetectonics.model.regions.SimpleConstantRegion;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
@@ -63,7 +61,6 @@ public class CrustModel extends PlateModel {
     private static final int CENTER_X_SAMPLES = 20;
     private static final int SIDE_X_SAMPLES = 50;
     private static final int TERRAIN_Z_SAMPLES = 20;
-    private Runnable updateMiddleRegions;
 
     private double crustElevation = computeIdealCrustElevation();
     private double crustVelocity = 0;
@@ -108,6 +105,8 @@ public class CrustModel extends PlateModel {
             2891, 5566
     };
     private CrossSectionStrip middleCrustStrip;
+    private SimpleObserver middleUpdateObserver;
+    private CrossSectionStrip middleMantleStrip;
 
     public CrustModel( final Grid3D grid ) {
         super( grid.getBounds() );
@@ -195,6 +194,8 @@ public class CrustModel extends PlateModel {
 
         final SamplePoint[] middleTopSamples = new SamplePoint[middleTop.length];
         final SamplePoint[] middleCrustBottomSamples = new SamplePoint[middleCrustBottom.length];
+        final SamplePoint[] middleMantleTopSamples = new SamplePoint[middleCrustBottom.length];
+        final SamplePoint[] middleSideMinYSamples = new SamplePoint[middleSideMinY.length];
 
         final Function1<Float, Float> middleCrustTemperatureFunction = new Function1<Float, Float>() {
             public Float apply( Float y ) {
@@ -211,49 +212,40 @@ public class CrustModel extends PlateModel {
             middleCrustBottomSamples[i] = new SamplePoint( new ImmutableVector3F(),
                                                            0, (float) getCenterCrustDensity(),
                                                            new ImmutableVector2F() );
+            middleMantleTopSamples[i] = new SamplePoint( new ImmutableVector3F(),
+                                                         ZERO_CELSIUS + 700, MANTLE_DENSITY,
+                                                         new ImmutableVector2F() );
+            middleSideMinYSamples[i] = new SamplePoint( new ImmutableVector3F( middleSideMinY[i].x, middleSideMinY[i].y, 0 ),
+                                                        ZERO_CELSIUS + 700, MANTLE_DENSITY, textureMap( middleSideMinY[i] ) );
         }
 
-        // TODO: rich observer
-        final SimpleObserver middleTemperatureObserver = new SimpleObserver() {
+        middleUpdateObserver = new SimpleObserver() {
             public void update() {
-                for ( int i = 0; i < middleTop.length; i++ ) {
-                    middleTopSamples[i].setTemperature( middleCrustTemperatureFunction.apply( middleTop[i].y ) );
-                    middleCrustBottomSamples[i].setTemperature( middleCrustTemperatureFunction.apply( middleCrustBottom[i].y ) );
-                }
-            }
-        };
-
-        temperatureRatio.addObserver( middleTemperatureObserver, false );
-
-        updateMiddleRegions = new Runnable() {
-            public void run() {
                 System.arraycopy( middleTerrain.getFrontVertices(), 0, middleTop, 0, middleTop.length );
+                final float centerCrustDensity = (float) getCenterCrustDensity();
                 for ( int i = 0; i < middleTop.length; i++ ) {
                     middleCrustBottom[i] = new ImmutableVector2F( middleTop[i].getX(), (float) ( middleTop[i].getY() - thickness.get() ) );
                 }
                 for ( int i = 0; i < middleTop.length; i++ ) {
-                    middleTopSamples[i].setPosition( new ImmutableVector3F( middleTop[i].x, middleTop[i].y, 0 ) );
-                    middleCrustBottomSamples[i].setPosition( new ImmutableVector3F( middleCrustBottom[i].x, middleCrustBottom[i].y, 0 ) );
+                    final ImmutableVector3F crustTopPosition = new ImmutableVector3F( middleTop[i].x, middleTop[i].y, 0 );
+                    final ImmutableVector3F crustBottomPosition = new ImmutableVector3F( middleCrustBottom[i].x, middleCrustBottom[i].y, 0 );
+                    middleTopSamples[i].setPosition( crustTopPosition );
+                    middleCrustBottomSamples[i].setPosition( crustBottomPosition );
                     middleTopSamples[i].setTextureCoordinates( textureMap( new ImmutableVector2F( middleTop[i].x, 0 ) ) );
                     middleCrustBottomSamples[i].setTextureCoordinates( textureMap( new ImmutableVector2F( middleTop[i].x, -thickness.get() ) ) );
-                }
-                middleTemperatureObserver.update();
-            }
-        };
-        updateMiddleRegions.run();
-
-        // TODO: switch to RichSimpleObserver
-        SimpleObserver middleDensityObserver = new SimpleObserver() {
-            public void update() {
-                final float centerCrustDensity = (float) getCenterCrustDensity();
-                for ( int i = 0; i < middleTop.length; i++ ) {
+                    middleMantleTopSamples[i].setPosition( crustBottomPosition );
+                    middleMantleTopSamples[i].setTextureCoordinates( textureMap( middleCrustBottom[i] ) );
+                    middleTopSamples[i].setTemperature( middleCrustTemperatureFunction.apply( middleTop[i].y ) );
+                    middleCrustBottomSamples[i].setTemperature( middleCrustTemperatureFunction.apply( middleCrustBottom[i].y ) );
                     middleTopSamples[i].setDensity( centerCrustDensity );
                     middleCrustBottomSamples[i].setDensity( centerCrustDensity );
                 }
             }
         };
-        compositionRatio.addObserver( middleDensityObserver, false );
-        temperatureRatio.addObserver( middleDensityObserver, true );
+
+        temperatureRatio.addObserver( middleUpdateObserver, false );
+        compositionRatio.addObserver( middleUpdateObserver, false );
+        middleUpdateObserver.update();
 
 
         ImmutableVector2F[] mantleTop = new ImmutableVector2F[oceanSideMinY.length + middleSideMinY.length + continentSideMinY.length - 2];
@@ -331,68 +323,60 @@ public class CrustModel extends PlateModel {
             addStrip( strip );
         }
 
-        middleCrustStrip = new CrossSectionStrip();
-        {
+        middleCrustStrip = new CrossSectionStrip() {{
             for ( int i = 0; i < middleTop.length; i++ ) {
-                middleTopSamples[i] = new SamplePoint( new ImmutableVector3F( middleTop[i].x, middleTop[i].y, 0 ),
-                                                       middleCrustTemperatureFunction.apply( middleTop[i].y ), (float) getCenterCrustDensity(),
-                                                       textureMap( middleTop[i] ) );
-                middleCrustBottomSamples[i] = new SamplePoint( new ImmutableVector3F( middleCrustBottom[i].x, middleCrustBottom[i].y, 0 ),
-                                                               middleCrustTemperatureFunction.apply( middleCrustBottom[i].y ), (float) getCenterCrustDensity(),
-                                                               textureMap( middleCrustBottom[i] ) );
+                addRightPatch( middleTopSamples[i], middleCrustBottomSamples[i] );
             }
-
-            for ( int i = 0; i < middleTop.length; i++ ) {
-                middleCrustStrip.addRightPatch( middleTopSamples[i], middleCrustBottomSamples[i] );
-            }
-        }
+        }};
         addStrip( middleCrustStrip );
+        middleMantleStrip = new CrossSectionStrip() {{
+            for ( int i = 0; i < middleMantleTopSamples.length; i++ ) {
+                addRightPatch( middleMantleTopSamples[i], middleSideMinYSamples[i] );
+            }
+        }};
+        addStrip( middleMantleStrip );
 
-        addRectangularConstantStrip( oceanCrustBottom, oceanSideMinY,
-                                     MANTLE_DENSITY, MANTLE_DENSITY,
-                                     ZERO_CELSIUS + 700, ZERO_CELSIUS + 700 );
-        addRegion( new SimpleConstantRegion( Type.UPPER_MANTLE,
-                                             middleCrustBottom,
-                                             middleSideMinY,
-                                             constantFunction( (double) MANTLE_DENSITY ),
-                                             constantFunction( (double) ( ZERO_CELSIUS + 700 ) ) ) );
-        addRectangularConstantStrip( continentCrustBottom, continentSideMinY,
-                                     MANTLE_DENSITY, MANTLE_DENSITY,
-                                     ZERO_CELSIUS + 700, ZERO_CELSIUS + 700 );
+        // other parts of upper mantles (not the middle part)
+        addStrip( rectangularConstantStrip( oceanCrustBottom, oceanSideMinY,
+                                            MANTLE_DENSITY, MANTLE_DENSITY,
+                                            ZERO_CELSIUS + 700, ZERO_CELSIUS + 700 ) );
+        addStrip( rectangularConstantStrip( continentCrustBottom, continentSideMinY,
+                                            MANTLE_DENSITY, MANTLE_DENSITY,
+                                            ZERO_CELSIUS + 700, ZERO_CELSIUS + 700 ) );
 
         // rest of upper mantle
-        addRectangularConstantStrip( mantleTop, mantleMiddle,
-                                     getMantleDensity( lowerBoundary ), getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
-                                     ZERO_CELSIUS + 700, ZERO_CELSIUS + 1100 );
+        addStrip( rectangularConstantStrip( mantleTop, mantleMiddle,
+                                            getMantleDensity( lowerBoundary ), getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ),
+                                            ZERO_CELSIUS + 700, ZERO_CELSIUS + 1100 ) );
 
         // lower mantle
-        addRectangularConstantStrip( mantleMiddle, mantleBottom,
-                                     getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ), getMantleDensity( MANTLE_CORE_BOUNDARY_Y ),
-                                     ZERO_CELSIUS + 1100, ZERO_CELSIUS + 4000 );
+        addStrip( rectangularConstantStrip( mantleMiddle, mantleBottom,
+                                            getMantleDensity( UPPER_LOWER_MANTLE_BOUNDARY_Y ), getMantleDensity( MANTLE_CORE_BOUNDARY_Y ),
+                                            ZERO_CELSIUS + 1100, ZERO_CELSIUS + 4000 ) );
 
         // outer core
-        addRectangularConstantStrip( mantleBottom, innerOuterCoreBoundary,
-                                     CORE_BOUNDARY_DENSITY, INNER_OUTER_CORE_BOUNDARY_DENSITY,
-                                     ZERO_CELSIUS + 4400f, ZERO_CELSIUS + 6100 );
+        addStrip( rectangularConstantStrip( mantleBottom, innerOuterCoreBoundary,
+                                            CORE_BOUNDARY_DENSITY, INNER_OUTER_CORE_BOUNDARY_DENSITY,
+                                            ZERO_CELSIUS + 4400f, ZERO_CELSIUS + 6100 ) );
 
         // inner core
-        addRectangularConstantStrip( innerOuterCoreBoundary, centerOfTheEarth,
-                                     INNER_OUTER_CORE_BOUNDARY_DENSITY, CENTER_DENSITY,
-                                     5778, 5778 );
+        addStrip( rectangularConstantStrip( innerOuterCoreBoundary, centerOfTheEarth,
+                                            INNER_OUTER_CORE_BOUNDARY_DENSITY, CENTER_DENSITY,
+                                            5778, 5778 ) );
 
         updateView();
     }
 
-    private void addRectangularConstantStrip( final ImmutableVector2F[] top, final ImmutableVector2F[] bottom,
-                                              final float topDensity, final float bottomDensity,
-                                              final float topTemperature, final float bottomTemperature ) {
-        addStrip( new CrossSectionStrip() {{
+    private CrossSectionStrip rectangularConstantStrip( final ImmutableVector2F[] top, final ImmutableVector2F[] bottom,
+                                                        final float topDensity, final float bottomDensity,
+                                                        final float topTemperature, final float bottomTemperature ) {
+        return new CrossSectionStrip() {{
             for ( int i = 0; i < top.length; i++ ) {
                 addRightPatch(
                         new SamplePoint( new ImmutableVector3F( top[i].x, top[i].y, 0 ), topTemperature, topDensity, textureMap( top[i] ) ),
                         new SamplePoint( new ImmutableVector3F( bottom[i].x, bottom[i].y, 0 ), bottomTemperature, bottomDensity, textureMap( bottom[i] ) ) );
             }
-        }} );
+        }};
     }
 
     private ImmutableVector2F textureMap( ImmutableVector2F position ) {
@@ -481,9 +465,11 @@ public class CrustModel extends PlateModel {
             connector.update();
         }
 
-        updateMiddleRegions.run();
+        middleUpdateObserver.update();
 
+        // update the views for our strips that change
         middleCrustStrip.update();
+        middleMantleStrip.update();
 
         // send out notifications
         modelChanged.updateListeners();
