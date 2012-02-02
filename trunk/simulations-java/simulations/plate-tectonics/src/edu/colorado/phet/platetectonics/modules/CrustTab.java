@@ -25,13 +25,9 @@ import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.SamplePoint;
-import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
-import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
-import edu.colorado.phet.platetectonics.view.CrossSectionStripNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.RangeLabel;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -288,74 +284,6 @@ public class CrustTab extends PlateTectonicsTab {
         }} );
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
-
-        getCrustModel().addPatch( new CrossSectionPatch(
-                new SamplePoint(
-                        new ImmutableVector3F( -80000, 50000, 0 ),
-                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
-                ),
-                new SamplePoint(
-                        new ImmutableVector3F( -40000, 50000, 0 ),
-                        CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0.5, 0 )
-                ),
-                new SamplePoint(
-                        new ImmutableVector3F( -40000, 10000, 0 ),
-                        CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0.5, 0.5 )
-                ) ) );
-
-        sceneLayer.addChild( new CrossSectionStripNode( getModelViewTransform(), colorMode, new CrossSectionStrip() {{
-            addRightPatch(
-                    new SamplePoint(
-                            new ImmutableVector3F( -40000, 50000, 0 ),
-                            CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0.5 )
-                    ),
-                    new SamplePoint(
-                            new ImmutableVector3F( -40000, 10000, 0 ),
-                            CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0, 0 )
-                    ) );
-            addRightPatch(
-                    new SamplePoint(
-                            new ImmutableVector3F( 0, 50000, 0 ),
-                            CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0.5, 0.5 )
-                    ),
-                    new SamplePoint(
-                            new ImmutableVector3F( 0, 10000, 0 ),
-                            CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0.5, 0 )
-                    ) );
-            addRightPatch(
-                    new SamplePoint(
-                            new ImmutableVector3F( 40000, 50000, 0 ),
-                            CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 1, 0.5 )
-                    ),
-                    new SamplePoint(
-                            new ImmutableVector3F( 40000, 10000, 0 ),
-                            CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 1, 0 )
-                    ) );
-        }} ) {{
-            updatePosition();
-        }} );
-
-//        sceneLayer.addChild( new CrossSectionPatchNode(
-//                getModelViewTransform(), colorMode,
-//                new CrossSectionPatch(
-//                        new SamplePoint(
-//                                new ImmutableVector3F( -80000, 50000, 0 ),
-//                                CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0, 0 )
-//                        ),
-//                        new SamplePoint(
-//                                new ImmutableVector3F( -40000, 50000, 0 ),
-//                                CrustModel.ZERO_CELSIUS, 2700, new ImmutableVector2F( 0.5, 0 )
-//                        ),
-//                        new SamplePoint(
-//                                new ImmutableVector3F( -40000, 10000, 0 ),
-//                                CrustModel.ZERO_CELSIUS + 5000, 10000, new ImmutableVector2F( 0.5, 0.5 )
-//                        ) ) ) {{
-//            PlateTectonicsApplication.showDebuggingItems.addObserver( new SimpleObserver() {
-//                public void update() {
-//                    setVisible( PlateTectonicsApplication.showDebuggingItems.get() );
-//                }
-//            } );
-//        }} );
     }
 
     @Override public void resetAll() {

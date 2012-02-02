@@ -34,7 +34,7 @@ public class TemperatureMaterial implements EarthMaterial {
 //        x = (float) MathUtil.clamp( 0.0, x / 255.0, 1.0 ); // clamp it in the normal range
         float x = ( temperature - minTemp ) / ( maxMaxTemp - minTemp );
         x = (float) Math.pow( x, 0.4f );
-        x = (float) MathUtil.clamp( 0.05, x, 1 );
+        x = (float) MathUtil.clamp( 0.08, x, 0.95 );
         return new ImmutableVector2F( x, 0.5f );
 
 //        float minDensityToShow = 2500;
@@ -43,7 +43,7 @@ public class TemperatureMaterial implements EarthMaterial {
 //        return new ImmutableVector2F( v, 0.5f );
     }
 
-    @Override public Color getColor( float density, float temperature, ImmutableVector2F position ) {
+    public Color getColor( float density, float temperature, ImmutableVector2F position ) {
         float value = temperatureMap( temperature ).x;
         return new Color( 0.25f + 0.75f * value, 0.25f, 0.25f, 1f );
     }
