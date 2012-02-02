@@ -1,3 +1,4 @@
+# 0.00.18 (60958) Feb 2, 2012
 2/2/12 add interviews flavor (with data collection enabled) to build.properties
 2/1/12 change request: use a minimum view height for a solution with non-zero volume, so that it's visible to the user and detectable by the concentration probe
 2/1/12 check in a snapshot of design doc
