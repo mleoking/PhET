@@ -8,16 +8,17 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
-- use a minimum view height for non-zero solution volumes, so that probe can read small volumes
-- switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
+- wrapper for WavelengthControl to use Property<Double>
 - Beer's Law tab (see JC notes below)
 
 MEDIUM
+- fix resizing issue with LightControlNode, control panel width changes when dragging wavelength slider
 - #3242, make combo box popup appear on top of everything in the scenegraph
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute
 
 LOW
+- switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
 - make meter cable more curvy (ala Bending Light)
 - shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
 - dropper flickers/tears excessively while dragging

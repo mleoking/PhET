@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
+import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import javax.swing.JLabel;
@@ -13,13 +15,17 @@ import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.WavelengthCont
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Control panel for the light.
@@ -28,6 +34,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class LightControlsNode extends PNode {
 
+    private static final Dimension WAVELENGTH_CONTROL_TRACK_SIZE = new Dimension( 150, 30 );
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
     public LightControlsNode( Light light, Property<WavelengthControlType> wavelengthControlType ) {
@@ -46,6 +53,9 @@ public class LightControlsNode extends PNode {
         PropertyRadioButton<WavelengthControlType> variableRadioButton = new PropertyRadioButton<WavelengthControlType>( Strings.VARIABLE, wavelengthControlType, WavelengthControlType.VARIABLE );
         variableRadioButton.setFont( FONT );
 
+        // Wavelength control
+        final WavelengthControl wavelengthControl = new WavelengthControl( WAVELENGTH_CONTROL_TRACK_SIZE.width, WAVELENGTH_CONTROL_TRACK_SIZE.height );
+
         // Panel
         final int xSpacing = 4;
         final int ySpacing = 4;
@@ -62,8 +72,30 @@ public class LightControlsNode extends PNode {
         panel.add( wavelengthLabel, row++, 0, 2, 1 );
         panel.add( lambdaMaxRadioButton, row, 0 );
         panel.add( variableRadioButton, row++, 1 );
+        PSwing pswingPanel = new PSwing( panel );
+
+        // Workaround: Spacer to prevent Piccolo control panel from changing as wavelength slider is adjusted.
+        final double maxWidth =  Math.max( pswingPanel.getFullBoundsReference().getWidth(), wavelengthControl.getFullBoundsReference().getWidth() );
+        PPath spacer = new PPath() {{
+            setPathTo( new Rectangle2D.Double( 0, 0, maxWidth + 20, 1 ) );
+            setStroke( null );
+        }};
 
         // Put it in a Piccolo control panel
-        addChild( new ControlPanelNode( panel ) );
+        PNode parentNode = new PNode();
+        parentNode.addChild( pswingPanel );
+        parentNode.addChild( wavelengthControl );
+        parentNode.addChild( spacer );
+        wavelengthControl.setOffset( pswingPanel.getFullBoundsReference().getCenterX() - ( WAVELENGTH_CONTROL_TRACK_SIZE.width / 2 ),
+                                     pswingPanel.getFullBoundsReference().getMaxY() + 30 );
+        spacer.setOffset( pswingPanel.getXOffset(), wavelengthControl.getFullBoundsReference().getMaxY() + 1 );
+        addChild( new ControlPanelNode( parentNode ) );
+
+        // Make the wavelength control visible if the user choose variable control
+        wavelengthControlType.addObserver( new VoidFunction1<WavelengthControlType>() {
+            public void apply( WavelengthControlType wavelengthControlType ) {
+                wavelengthControl.setVisible( wavelengthControlType == WavelengthControlType.VARIABLE );
+            }
+        });
     }
 }
