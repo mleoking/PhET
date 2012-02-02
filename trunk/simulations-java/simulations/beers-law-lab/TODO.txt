@@ -39,6 +39,7 @@ SIM-SHARING
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
 - TiledBackgroundNode to piccolo-phet
+- BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>)
 
 From JC's 1/24/12 email:
 Tab 2 (see discussion in google doc for more details)
