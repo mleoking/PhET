@@ -12,8 +12,10 @@ import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNo
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
+import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
+import edu.colorado.phet.fluidpressureandflow.common.view.GravityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.flow.view.GridNode;
@@ -109,9 +111,22 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             translate( -transform.modelToViewDeltaX( pool.getWidth() / 2 ), 0 );
         }} );
 
-        addGravityControl( module );
+        final GravityControl<FluidPressureModel> gravityControl = new GravityControl<FluidPressureModel>( module );
+        final FluidPressureAndFlowControlPanelNode gravityControlPanelNode = new FluidPressureAndFlowControlPanelNode( gravityControl );
 
         //Create and show the fluid density controls
-        addFluidDensityControl( module );
+//        addFluidDensityControl( module );
+
+        //TODO: Layout for i18n long strings
+        final FluidDensityControl<FluidPressureModel> fluidDensityControl = new FluidDensityControl<FluidPressureModel>( module );
+        final FluidPressureAndFlowControlPanelNode fluidDensityControlNode = new FluidPressureAndFlowControlPanelNode( fluidDensityControl );
+
+        double maxControlWidth = Math.max( gravityControl.getMaximumSize().getWidth(), fluidDensityControl.getMaximumSize().getWidth() );
+
+        gravityControlPanelNode.setOffset( STAGE_SIZE.getWidth() - maxControlWidth - INSET, STAGE_SIZE.getHeight() - gravityControl.getMaximumSize().getHeight() - INSET );
+        fluidDensityControlNode.setOffset( STAGE_SIZE.getWidth() - maxControlWidth - INSET, gravityControlPanelNode.getFullBounds().getY() - fluidDensityControl.getMaximumSize().getHeight() - INSET );
+
+        addChild( gravityControlPanelNode );
+        addChild( fluidDensityControlNode );
     }
 }

@@ -203,14 +203,6 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }} );
     }
 
-    //Adds the gravity control in the bottom right of the play area
-    protected void addGravityControl( FluidPressureAndFlowModule<T> module ) {
-        final GravityControl<T> gravityControl = new GravityControl<T>( module );
-        addChild( new FluidPressureAndFlowControlPanelNode( gravityControl ) {{
-            setOffset( INSET, STAGE_SIZE.getHeight() - gravityControl.getMaximumSize().getHeight() * 2 - INSET );
-        }} );
-    }
-
     //Create and add a toolbox that contains the sensors.
     //This is done by creating dummy nodes based on actual model sensors to get the dimensions for the toolbox panel right.
     //This is necessary since we want the pressure sensor to have the right readout within the control panel.
