@@ -46,6 +46,7 @@ public class BLLResources {
         public static final String SOLUTION = RESOURCES.getLocalizedString( "solution" );
         public static final String TAB_BEERS_LAW = RESOURCES.getLocalizedString( "tab.beersLaw" );
         public static final String TAB_CONCENTRATION = RESOURCES.getLocalizedString( "tab.concentration" );
+        public static final String UNITS_CENTIMETERS = RESOURCES.getLocalizedString( "units.centimeters" );
         public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
         public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
         public static final String UNITS_NANOMETERS = RESOURCES.getLocalizedString( "units.nanometers" );
