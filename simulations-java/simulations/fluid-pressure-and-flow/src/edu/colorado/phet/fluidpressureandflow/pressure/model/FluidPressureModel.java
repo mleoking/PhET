@@ -41,6 +41,8 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     //Gets the pressure at the specified location.
     @Override public double getPressure( double x, double y ) {
+
+        //TODO: Account for gravity on air pressure
         if ( y < 0 ) {
             return ( atmosphere.get() ? getStandardAirPressure() : 0.0 ) + liquidDensity.get() * gravity.get() * abs( -y );
         }
