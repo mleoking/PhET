@@ -205,7 +205,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     //Adds the gravity control in the bottom right of the play area
     protected void addGravityControl( FluidPressureAndFlowModule<T> module ) {
-        final M_GravityControl<T> gravityControl = new M_GravityControl<T>( module );
+        final GravityControl<T> gravityControl = new GravityControl<T>( module );
         addChild( new FluidPressureAndFlowControlPanelNode( gravityControl ) {{
             setOffset( INSET, STAGE_SIZE.getHeight() - gravityControl.getMaximumSize().getHeight() * 2 - INSET );
         }} );

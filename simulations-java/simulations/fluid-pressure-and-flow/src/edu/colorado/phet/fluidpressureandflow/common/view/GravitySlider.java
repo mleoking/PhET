@@ -18,23 +18,8 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class M_GravitySlider<T extends FluidPressureAndFlowModel> extends PNode {
-    public M_GravitySlider( final FluidPressureAndFlowModule<T> module, final Unit density, final Property<Boolean> maximized ) {
-
-//        //Create the slider
-//        final SliderControl sliderControl = new SliderControl( FPAFSimSharing.UserComponents.gravitySlider, "gravity", "m/s/s", 0, 1E6,
-//                                                               new ScaledDoubleProperty( module.model.gravity, density.siToUnit( 1.0 ) ), new HashMap<Double, String>() {{
-//            put( density.siToUnit( 1.0 ), "low" );
-//            put( density.siToUnit( 9.8 ), "earth" );
-//            put( density.siToUnit( 20 ), "high" );
-//        }} ) {{
-//            module.gravityControlVisible.addObserver( new SimpleObserver() {
-//                public void update() {
-//                    setVisible( maximized.get() );
-//                }
-//            } );
-//        }};
-//        addChild( sliderControl );
+public class GravitySlider<T extends FluidPressureAndFlowModel> extends PNode {
+    public GravitySlider( final FluidPressureAndFlowModule<T> module, final Unit density, final Property<Boolean> maximized ) {
 
         //Compute the tick marks in the specified units
         final double lowGravity = density.siToUnit( 1 );
