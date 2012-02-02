@@ -22,6 +22,11 @@ public class BeersLawLabApplication extends PiccoloPhetApplication {
         Frame parentFrame = getPhetFrame();
         addModule( new ConcentrationModule( parentFrame ) );
         addModule( new BeersLawModule( parentFrame ) );
+
+        //TODO delete this block when development is complete.
+        if ( isDeveloperControlsEnabled() ) {
+            setStartModule( getModule( 1 ) );
+        }
     }
 
     public static void main( final String[] args ) {
