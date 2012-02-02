@@ -11,6 +11,7 @@
 2/1/12 repackage in preparation for starting second tab
 2/1/12 ===== begin implementation of "Beer's Law" tab =============================================================
 2/1/12 added sim-sharing message for attempt to interact with unmovable meter body
+2/1/12 change request: use a minimum view height for a solution with non-zero volume, so that it's visible to the user and detectable by the concentration probe
 1/31/12 move symobls to their own file, so that ResourceGenerator can be used for strings and images
 1/31/12 add hand cursor to dropper, to indicate that it's movable
 1/31/12 until combo box popup can be properly addressed (see #3242), move solute control panel (which includes combo box) to the front
