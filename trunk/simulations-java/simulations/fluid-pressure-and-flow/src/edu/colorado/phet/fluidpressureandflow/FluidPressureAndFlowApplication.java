@@ -23,6 +23,6 @@ public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, FluidPressureAndFlowResources.NAME, FluidPressureAndFlowApplication.class );
+        new PhetApplicationLauncher().launchSim( args, FluidPressureAndFlowResources.PROJECT_NAME, FluidPressureAndFlowApplication.class );
     }
 }
