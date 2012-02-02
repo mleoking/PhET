@@ -7,7 +7,8 @@ import java.text.MessageFormat;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 
-import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.LightRepresentation;
+import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
+import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
 import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.WavelengthControlType;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
@@ -29,14 +30,14 @@ public class LightControlsNode extends PNode {
 
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
-    public LightControlsNode( Property<LightRepresentation> lightRepresentation, Property<WavelengthControlType> wavelengthControlType ) {
+    public LightControlsNode( Light light, Property<WavelengthControlType> wavelengthControlType ) {
 
         // Swing components
         JLabel lightViewLabel = new JLabel( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.LIGHT_VIEW ) );
         lightViewLabel.setFont( FONT );
-        PropertyRadioButton<LightRepresentation> beamRadioButton = new PropertyRadioButton<LightRepresentation>( Strings.BEAM, lightRepresentation, LightRepresentation.BEAM );
+        PropertyRadioButton<LightRepresentation> beamRadioButton = new PropertyRadioButton<LightRepresentation>( Strings.BEAM, light.representation, Light.LightRepresentation.BEAM );
         beamRadioButton.setFont( FONT );
-        PropertyRadioButton<LightRepresentation> photonsRadioButton = new PropertyRadioButton<LightRepresentation>( Strings.PHOTONS, lightRepresentation, LightRepresentation.PHOTONS );
+        PropertyRadioButton<LightRepresentation> photonsRadioButton = new PropertyRadioButton<LightRepresentation>( Strings.PHOTONS, light.representation, Light.LightRepresentation.PHOTONS );
         photonsRadioButton.setFont( FONT );
         JLabel wavelengthLabel = new JLabel( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.WAVELENGTH ) );
         wavelengthLabel.setFont( FONT );

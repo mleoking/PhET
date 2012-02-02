@@ -5,5 +5,6 @@ concentration-meter-probe.png author=PhET notes=copied and hacked intensity_mete
 dropper_background.png author=PhET notes=created by Noah P.
 dropper_foreground.png author=PhET notes=created by Noah P.
 dropper-icon.png author=PhET notes=scaled version of dropper_foreground.png
+light.png author=PhET notes=copied laser.png from bending-light
 shaker-icon.png author=PhET
 shaker.png author=PhET notes=copied salt_micro.png from sugar-and-salt-solutions

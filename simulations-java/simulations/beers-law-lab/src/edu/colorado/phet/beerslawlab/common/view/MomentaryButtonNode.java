@@ -31,6 +31,11 @@ public class MomentaryButtonNode extends PNode {
     private final PImage imageNode;
     private final DynamicCursorHandler cursorHandler;
 
+    // Button that will always be enabled.
+    public MomentaryButtonNode( IUserComponent userComponent, Property<Boolean> onProperty ) {
+        this( userComponent, onProperty, new Property<Boolean>( true ) );
+    }
+
     // Constructor that uses default images (round red buttons with 3D look)
     public MomentaryButtonNode( IUserComponent userComponent, Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
         this( userComponent, onProperty, enabledProperty,
