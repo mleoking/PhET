@@ -79,6 +79,11 @@ public class PlateView extends GLNode {
                 addChild( new CrossSectionPatchNode( tab.getModelViewTransform(), tab.colorMode, patch ) );
             }
         } );
+        model.stripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
+            public void apply( CrossSectionStrip strip ) {
+                addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
+            }
+        } );
 
         // TODO: handle region removals in a better way
         model.regionRemoved.addListener( new VoidFunction1<Region>() {
@@ -94,6 +99,15 @@ public class PlateView extends GLNode {
             public void apply( CrossSectionPatch patch ) {
                 for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
                     if ( node instanceof CrossSectionPatchNode && ( (CrossSectionPatchNode) node ).getPatch() == patch ) {
+                        removeChild( node );
+                    }
+                }
+            }
+        } );
+        model.stripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
+            public void apply( CrossSectionStrip strip ) {
+                for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
+                    if ( node instanceof CrossSectionStripNode && ( (CrossSectionStripNode) node ).getStrip() == strip ) {
                         removeChild( node );
                     }
                 }
