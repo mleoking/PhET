@@ -8,12 +8,13 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
+- add formula to solute combo box in Beer's tab
 - Cuvette (vessel), variable width 0.5-2.0cm, resizable by dragging right edge, left edge location stays fixed
 - Ruler, long enough to measure cuvette width
 - Meter doesn't read anything in cuvette
 - Concentration slider: different units to match the ranges for each solute (see design doc table, "Conc Range" column, which JC needs to verify)
-- combine Solute combo box and Concentration slider in SolutionControls
-- add "none (pure Water)" to the list of solutes
+- combine Solute combo box (labeled Solution) and Concentration slider in SolutionControls
+- add "Pure water" to bottom of the Solutions combo box
 - put solute formula above cuvette, not on it because it can get very narrow
 - start with no Toolbox, add it later after exploring meter usability issues
 - Beer's Law tab (see JC notes below)
