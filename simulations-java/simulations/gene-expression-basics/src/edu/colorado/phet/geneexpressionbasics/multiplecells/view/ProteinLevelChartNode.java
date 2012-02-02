@@ -46,7 +46,7 @@ public class ProteinLevelChartNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 400, 200 );  // In screen coordinates, which is close to pixels.
     private static final double TIME_SPAN = 30; // In seconds.
-    private static final IntegerRange PROTEIN_LEVEL_RANGE = new IntegerRange( 0, 200 );
+    private static final IntegerRange PROTEIN_LEVEL_RANGE = new IntegerRange( 0, 150 );
 
     private final XYSeries dataSeries = new XYSeries( "0" );
     private double timeOffset = 0;

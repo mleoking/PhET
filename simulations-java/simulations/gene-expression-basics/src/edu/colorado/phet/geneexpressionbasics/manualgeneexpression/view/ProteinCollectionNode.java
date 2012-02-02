@@ -166,13 +166,21 @@ public class ProteinCollectionNode extends PNode {
         }
     }
 
-    // Class that represents a node for collecting a single protein.
+    // Class that represents a node for collecting a single protein and a
+    // counter of the number of the protein type collected.
     private static class ProteinCaptureNode extends PNode {
 
         private static final Color FLASH_COLOR = new Color( 173, 255, 47 );
         private static final double SCALE_FOR_FLASH_NODE = 1.5;
 
+        // Tweak warning: This is used to make sure that the counters on
+        // the various protein nodes end up horizontally aligned.  This will
+        // need to be adjust if the protein shapes change a lot.
+        private static final double VERTICAL_DISTANCE_TO_COUNT_NODE = 35;
+
+        // Constructor.
         private ProteinCaptureNode( ManualGeneExpressionModel model, final Class<? extends Protein> proteinClass, AffineTransform transform ) {
+
 
             Shape proteinShape = new Rectangle2D.Double( -10, -10, 20, 20 ); // Arbitrary initial shape.
             Color fullBaseColor = Color.PINK; // Arbitrary initial color.
@@ -188,8 +196,8 @@ public class ProteinCollectionNode extends PNode {
                 e.printStackTrace();
             }
 
-            // Add the node that will flash when a capture occurs to make it
-            // clear that something changed.
+            // Add the node that will flash when a capture occurs.  This is
+            // intended to make it clear that something changed.
             Shape flashAfterCaptureNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
             final FlashingShapeNode flashAfterCaptureNode = new FlashingShapeNode( flashAfterCaptureNodeShape, FLASH_COLOR, 250, 250, 3 );
             addChild( flashAfterCaptureNode );
@@ -206,6 +214,20 @@ public class ProteinCollectionNode extends PNode {
             // placed here.
             final FlashingShapeNode flashWhenProteinFormedNode = new FlashingShapeNode( proteinShape, Color.orange, 250, 250, 3 );
             addChild( flashWhenProteinFormedNode );
+
+            // Add the count node.
+            // Add the node that represents a count of the collected type.
+            final PText countNode = new PText() {{
+                setFont( new PhetFont( 18 ) );
+            }};
+            addChild( countNode );
+            model.getCounterForProteinType( proteinClass ).addObserver( new VoidFunction1<Integer>() {
+                public void apply( Integer proteinCaptureCount ) {
+                    countNode.setText( Integer.toString( proteinCaptureCount ) );
+                    countNode.setOffset( captureAreaNode.getFullBoundsReference().getCenterX() - countNode.getFullBoundsReference().width / 2,
+                                         captureAreaNode.getFullBoundsReference().getCenterY() + VERTICAL_DISTANCE_TO_COUNT_NODE );
+                }
+            } );
 
 
             // Watch for a protein node of the appropriate type to become

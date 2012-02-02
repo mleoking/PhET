@@ -1,3 +1,11 @@
+Added counter to protein collection area for number of instances of a given protein.
+Added better hint for indicating that user needs to move protein into collection area - area flashes when protein produced.
+Made the DNA shape change when being transcribed.
+Changed wording in protein capture are to make it clearer that it is protein TYPES that complete the collection.
+Changed labels on transcription factors to use words rather than "+" and "-" symbols.
+Tweaked model params on last tab to make it more responsive to changes.
+Increased protein size to make them, and the capture area, more eye catching.
+Optimized cell placement algorithm.
 # 0.00.12 (60483) Jan 20, 2012
 1/20/12 Publishing to dev for potential use in classroom setting.
 Temporarily removed the Protein Levels tab so that a version with only working tabs can be published.
