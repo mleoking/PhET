@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.spline.ControlPointParametricFunction2D;
@@ -195,20 +197,45 @@ public class EnergySkateParkSpline implements Serializable {
         return x;
     }
 
-    public double getMinY() {
-        double minY = Double.POSITIVE_INFINITY;
+    public ObservableList<SerializablePoint2D> sample100() {
+        ArrayList<SerializablePoint2D> list = new ArrayList<SerializablePoint2D>();
         for ( int i = 0; i < 100; i++ ) {
             SerializablePoint2D pt = parametricFunction2D.evaluate( ( (double) i ) / 100.0 );
-            if ( pt.getY() < minY ) {
-                minY = pt.getY();
-            }
+            list.add( pt );
         }
-        for ( int i = 0; i < numControlPoints(); i++ ) {
-            if ( getControlPoint( i ).getY() < minY ) {
-                minY = getControlPoint( i ).getY();
+        return new ObservableList<SerializablePoint2D>( list );
+    }
+
+    public double getMinY() {
+        return sample100().map( new Function1<SerializablePoint2D, Double>() {
+            public Double apply( SerializablePoint2D pt ) {
+                return pt.getY();
             }
-        }
-        return minY;
+        } ).min();
+    }
+
+    public double getMaxY() {
+        return sample100().map( new Function1<SerializablePoint2D, Double>() {
+            public Double apply( SerializablePoint2D pt ) {
+                return pt.getY();
+            }
+        } ).max();
+    }
+
+    public double getMinX() {
+        return sample100().map( new Function1<SerializablePoint2D, Double>() {
+            public Double apply( SerializablePoint2D pt ) {
+                return pt.getX();
+            }
+        } ).min();
+    }
+
+    public double getMaxX() {
+        return sample100().map( new Function1<SerializablePoint2D, Double>() {
+            public Double apply( SerializablePoint2D pt ) {
+                return pt.getX();
+            }
+        } ).max();
     }
 
     public static interface Listener {

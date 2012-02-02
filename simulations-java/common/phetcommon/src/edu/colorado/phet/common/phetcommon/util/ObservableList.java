@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -302,5 +303,24 @@ public class ObservableList<T> implements List<T> {
 
     public static void main( String[] args ) {
         System.out.println( "new ObservableList<String>( new String[] { \"Hello\", \"There\", \"World\" } ).mkString( \" !! \" ) = " + new ObservableList<String>( new String[] { "Hello", "There", "World" } ).mkString( " !! " ) );
+    }
+
+    //Map each element to a new element
+    public <U> ObservableList<U> map( final Function1<T, U> map ) {
+        return new ObservableList<U>() {{
+            for ( T t : ObservableList.this ) {
+                add( map.apply( t ) );
+            }
+        }};
+    }
+
+    //Returns the minimum value in the list, causes runtime fail if not comparable
+    public T min() {
+        return (T) Collections.min( new ArrayList<Comparable>( (Collection<? extends Comparable>) this ) );
+    }
+
+    //Returns the maximum value in the list, causes runtime fail if not comparable
+    public T max() {
+        return (T) Collections.max( new ArrayList<Comparable>( (Collection<? extends Comparable>) this ) );
     }
 }
