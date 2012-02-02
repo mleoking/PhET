@@ -4,6 +4,7 @@
 2/1/12 intermediate pass at light controls
 2/1/12 set up framework for 2nd tab canvas and model
 2/1/12 repackage in preparation for starting second tab
+2/1/12 ===== begin implementation of "Beer's Law" tab =============================================================
 2/1/12 added sim-sharing message for attempt to interact with unmovable meter body
 1/31/12 move symobls to their own file, so that ResourceGenerator can be used for strings and images
 1/31/12 add hand cursor to dropper, to indicate that it's movable
@@ -139,4 +140,5 @@
 12/20/11 added more basic infrastructure
 12/20/11 grabbed relevant model code from dilutions
 12/19/11 grabbed shaker image from sugar-and-salt-solutions
+12/19/11 ===== begin implementation of "Concentration" tab =============================================================
 12/7/11 created project skeleton
