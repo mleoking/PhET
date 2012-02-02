@@ -1,3 +1,5 @@
+# 2.03.07 (60965) Feb 2, 2012
+2/2/12 Fixed score feature.
 # 2.03.06 (60964) Feb 2, 2012
 2/2/12 Fixed score feature.
 # 2.03.05 (60944) Feb 2, 2012
