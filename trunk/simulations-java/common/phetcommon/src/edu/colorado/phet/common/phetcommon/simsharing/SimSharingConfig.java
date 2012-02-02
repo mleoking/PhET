@@ -18,6 +18,7 @@ public abstract class SimSharingConfig {
     }
 
     static {
+        addConfig( new InterviewConfig() );
         addConfig( new ColoradoConfig() );
         addConfig( new UtahConfig() );
         addConfig( new AcidBaseSolutionsSpring2012() );
@@ -73,6 +74,16 @@ public abstract class SimSharingConfig {
 
         protected DefaultConfig( String name ) {
             super( name, false, true, false, false, "" );
+        }
+    }
+
+    /*
+     * This is a general-purpose configuration, to be used for routine interviews.
+     * It logs data to a local file.
+     */
+    private static class InterviewConfig extends SimSharingConfig {
+        public InterviewConfig() {
+             super( "interview", true, false, false, false );
         }
     }
 
