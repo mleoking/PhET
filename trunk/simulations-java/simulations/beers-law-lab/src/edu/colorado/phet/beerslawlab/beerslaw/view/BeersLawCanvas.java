@@ -1,14 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
+import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
+import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.common.view.SoluteChoiceNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -28,12 +31,16 @@ public class BeersLawCanvas extends BLLCanvas {
         PNode lightNode = new LightNode( model.light );
         PNode lightControlsNode = new LightControlsNode( model.light, wavelengthControlType );
         PNode soluteChoiceNode = new SoluteChoiceNode( model.getSolutes(), model.solute );
+        PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
+            setConfirmationEnabled( false );
+        }};
 
         // Rendering order
         {
             addChild( lightNode );
             addChild( lightControlsNode );
             addChild( soluteChoiceNode );
+            addChild( resetAllButtonNode );
         }
 
         // layout
@@ -49,6 +56,9 @@ public class BeersLawCanvas extends BLLCanvas {
             // solution combo box at top center
             soluteChoiceNode.setOffset( ( getStageSize().getWidth() - soluteChoiceNode.getFullBoundsReference().getWidth() ) / 2,
                                         yMargin );
+             // lower right
+            resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
+                                          getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
         }
     }
 }
