@@ -1,3 +1,4 @@
+2/2/12 add wavelength control (from piccolo-phet)
 2/2/12 add basic light model and view
 2/2/12 more work on light controls
 2/1/12 intermediate pass at light controls
