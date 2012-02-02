@@ -27,8 +27,8 @@ public class BLLResources {
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
         public static final String KOOL_AID = RESOURCES.getLocalizedString( "koolAid" );
         public static final String LAMBDA_MAX = RESOURCES.getLocalizedString( "lambdaMax" );
+        public static final String LIGHT_VIEW = RESOURCES.getLocalizedString( "lightView" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
-        public static final String MANUAL = RESOURCES.getLocalizedString( "manual" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
@@ -49,6 +49,7 @@ public class BLLResources {
         public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
         public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
         public static final String UNITS_NANOMETERS = RESOURCES.getLocalizedString( "units.nanometers" );
+        public static final String VARIABLE = RESOURCES.getLocalizedString( "variable" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
         public static final String WAVELENGTH = RESOURCES.getLocalizedString( "wavelength" );
     }
