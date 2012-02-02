@@ -45,62 +45,60 @@ public class OptionsPanel extends PNode {
         final Property<Double> maxWidth = new Property<Double>( title.getFullBounds().getWidth() );
         final Property<Double> y = new Property<Double>( title.getFullBounds().getMaxY() );
 
-        if ( !containsWaterOption ) {
-            final PSwing densityMode = new PSwing( new JRadioButton( Strings.DENSITY_VIEW ) {{
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        setSelected( true );
-                        LWJGLUtils.invoke( new Runnable() {
-                            public void run() {
-                                colorMode.set( ColorMode.DENSITY );
-                            }
-                        } );
-                    }
-                } );
-                colorMode.addObserver( new SimpleObserver() {
-                    public void update() {
-                        final boolean set = colorMode.get() == ColorMode.DENSITY;
-                        SwingUtilities.invokeLater( new Runnable() {
-                            public void run() {
-                                setSelected( set );
-                            }
-                        } );
-                    }
-                } );
-            }} ) {{
-                setOffset( 0, y.get() + 5 );
-                y.set( getFullBounds().getMaxY() );
-                maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
-            }};
-            addChild( densityMode );
-            final PSwing temperatureMode = new PSwing( new JRadioButton( Strings.TEMPERATURE_VIEW ) {{
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        setSelected( true );
-                        LWJGLUtils.invoke( new Runnable() {
-                            public void run() {
-                                colorMode.set( ColorMode.TEMPERATURE );
-                            }
-                        } );
-                    }
-                } );
-                colorMode.addObserver( new SimpleObserver() {
-                    public void update() {
-                        final boolean set = colorMode.get() == ColorMode.TEMPERATURE;
-                        SwingUtilities.invokeLater( new Runnable() {
-                            public void run() {
-                                setSelected( set );
-                            }
-                        } );
-                    }
-                } );
-            }} ) {{
-                setOffset( 0, y.get() );
-                y.set( getFullBounds().getMaxY() );
-                maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
-            }};
-            addChild( temperatureMode );
-        }
+        final PSwing densityMode = new PSwing( new JRadioButton( Strings.DENSITY_VIEW ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setSelected( true );
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            colorMode.set( ColorMode.DENSITY );
+                        }
+                    } );
+                }
+            } );
+            colorMode.addObserver( new SimpleObserver() {
+                public void update() {
+                    final boolean set = colorMode.get() == ColorMode.DENSITY;
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            setSelected( set );
+                        }
+                    } );
+                }
+            } );
+        }} ) {{
+            setOffset( 0, y.get() + 5 );
+            y.set( getFullBounds().getMaxY() );
+            maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
+        }};
+        addChild( densityMode );
+        final PSwing temperatureMode = new PSwing( new JRadioButton( Strings.TEMPERATURE_VIEW ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setSelected( true );
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            colorMode.set( ColorMode.TEMPERATURE );
+                        }
+                    } );
+                }
+            } );
+            colorMode.addObserver( new SimpleObserver() {
+                public void update() {
+                    final boolean set = colorMode.get() == ColorMode.TEMPERATURE;
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            setSelected( set );
+                        }
+                    } );
+                }
+            } );
+        }} ) {{
+            setOffset( 0, y.get() );
+            y.set( getFullBounds().getMaxY() );
+            maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
+        }};
+        addChild( temperatureMode );
 
         final PSwing showLabelCheckBox = new PSwing( new JCheckBox( Strings.SHOW_LABELS ) {{
             setSelected( showLabels.get() );

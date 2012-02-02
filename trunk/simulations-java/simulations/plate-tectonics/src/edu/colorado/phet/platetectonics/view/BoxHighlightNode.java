@@ -27,6 +27,8 @@ public class BoxHighlightNode extends GLNode {
         this.bounds = bounds;
         this.modelViewTransform = modelViewTransform;
         this.color = color;
+
+        requireEnabled( GL_BLEND );
     }
 
     private ImmutableVector3F transformPoint( float x, float y, float z ) {

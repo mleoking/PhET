@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.model.regions;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.platetectonics.model.SamplePoint;
@@ -12,6 +13,18 @@ public class CrossSectionStrip {
     public final List<SamplePoint> bottomPoints = new LinkedList<SamplePoint>();
 
     public final ValueNotifier<CrossSectionStrip> changed = new ValueNotifier<CrossSectionStrip>( this );
+
+    public CrossSectionStrip() {
+    }
+
+    public CrossSectionStrip( List<SamplePoint> topPoints, List<SamplePoint> bottomPoints ) {
+        ListIterator<SamplePoint> topIter = topPoints.listIterator();
+        ListIterator<SamplePoint> bottomIter = bottomPoints.listIterator();
+
+        while ( topIter.hasNext() ) {
+            addRightPatch( topIter.next(), bottomIter.next() );
+        }
+    }
 
     public int getLength() {
         return topPoints.size();

@@ -121,4 +121,8 @@ public class CrossSectionStripNode extends GLNode {
         glDisableClientState( GL_COLOR_ARRAY );
         glDisableClientState( GL_VERTEX_ARRAY );
     }
+
+    public CrossSectionStrip getStrip() {
+        return strip;
+    }
 }
