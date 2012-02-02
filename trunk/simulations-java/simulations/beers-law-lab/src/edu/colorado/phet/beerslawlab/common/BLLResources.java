@@ -63,6 +63,7 @@ public class BLLResources {
         public static final Image DROPPER_FOREGROUND = RESOURCES.getImage( "dropper_foreground.png" );
         public static final Image DROPPER_BACKGROUND = RESOURCES.getImage( "dropper_background.png" );
         public static final Image DROPPER_ICON = RESOURCES.getImage( "dropper-icon.png" );
+        public static final Image LIGHT = RESOURCES.getImage( "light.png" );
         public static final Image SHAKER = RESOURCES.getImage( "shaker.png" );
         public static final Image SHAKER_ICON = RESOURCES.getImage( "shaker-icon.png" );
     }

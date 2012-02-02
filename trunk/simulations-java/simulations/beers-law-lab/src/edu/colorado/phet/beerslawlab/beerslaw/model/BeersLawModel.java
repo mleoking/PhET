@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.beerslaw.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltChloride;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltIINitrate;
@@ -31,6 +32,7 @@ public class BeersLawModel implements Resettable {
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Property<Solute> solute; // the selected solute
     public final Solution solution;
+    public final Light light;
 
     public BeersLawModel() {
         //TODO same set of solutes as ConcentrationModel, move to base class?
@@ -47,6 +49,8 @@ public class BeersLawModel implements Resettable {
         }};
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new Solution( solute, DEFAULT_SOLUTE_AMOUNT, SOLUTION_VOLUME_RANGE.getDefault() );
+        double defaultWavelength = 500; //TODO get lambdaMax from solute
+        this.light = new Light( false, LightRepresentation.BEAM, defaultWavelength );
     }
 
     public void reset() {

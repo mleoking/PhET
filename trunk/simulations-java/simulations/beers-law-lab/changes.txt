@@ -1,4 +1,5 @@
-2/1/12 more work on light controls
+2/2/12 add basic light model and view
+2/2/12 more work on light controls
 2/1/12 intermediate pass at light controls
 2/1/12 set up framework for 2nd tab canvas and model
 2/1/12 repackage in preparation for starting second tab
