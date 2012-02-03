@@ -13,6 +13,7 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 public class RPALSimSharing {
 
     public static enum UserComponents implements IUserComponent {
+        sandwichShopTab, realReactionTab, gameTab,
         equationSpinner, reactantSpinner, productSpinner, leftoverSpinner,
         realReactionRadioButton,
     }
