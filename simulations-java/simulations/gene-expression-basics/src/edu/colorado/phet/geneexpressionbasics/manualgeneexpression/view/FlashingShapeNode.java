@@ -13,8 +13,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * PNode that spends most of its time being invisible, but can be made to
- * flash upon command.
+ * PNode that has a shape and that can be set up to flash in a number of
+ * different ways.
  *
  * @author John Blanco
  */
@@ -23,15 +23,27 @@ public class FlashingShapeNode extends PNode {
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
 
     private final FlashController flashController;
+    private final boolean visibleAtStart;
+    private final boolean visibleAtEnd;
 
-    public FlashingShapeNode( Shape shape, Color flashColor, int onTime, int offTime, int numFlashes ) {
-        PPath flashingNode = new PhetPPath( shape, INVISIBLE_COLOR );
+    public FlashingShapeNode( Shape shape, Color flashColor, int onTime, int offTime, int numFlashes, boolean visibleAtStart, boolean visibleAtEnd ) {
+        this.visibleAtStart = visibleAtStart;
+        this.visibleAtEnd = visibleAtEnd;
+        PPath flashingNode = new PhetPPath( shape, visibleAtStart ? flashColor : INVISIBLE_COLOR );
         addChild( flashingNode );
-        flashController = new FlashController( flashingNode, INVISIBLE_COLOR, flashColor, onTime, offTime, numFlashes );
+        flashController = new FlashController( flashingNode, INVISIBLE_COLOR, flashColor, onTime, offTime, numFlashes, visibleAtStart, visibleAtEnd );
     }
 
-    public void flash() {
+    public void startFlashing() {
         flashController.restart();
+    }
+
+    public void stopFlashing() {
+        flashController.stop();
+    }
+
+    public void forceFlashOff() {
+        flashController.forceFlashOff();
     }
 
     /**
@@ -40,9 +52,14 @@ public class FlashingShapeNode extends PNode {
     private static class FlashController {
 
         // Variables used to implement the flashing behavior.
-        private boolean flashOn = false;
-        private int flashCount = 0;
+        private int transitionCountdown = 0;
         private Timer flashTimer;
+        private final PPath flashingNode;
+        private final Color normalColor;
+        private final Color flashColor;
+        private final boolean flashOnAtStart;
+        private final boolean flashOnAtEnd;
+        private final int numFlashes;
 
         /**
          * Constructor.
@@ -54,29 +71,38 @@ public class FlashingShapeNode extends PNode {
          * @param offTime      - in milliseconds
          */
         private FlashController( final PPath flashingNode, final Color normalColor, final Color flashColor,
-                                 final int onTime, final int offTime, final int numFlashes ) {
+                                 final int onTime, final int offTime, final int numFlashes, boolean flashOnAtStart, boolean flashOnAtEnd ) {
+
+            this.flashingNode = flashingNode;
+            this.flashColor = flashColor;
+            this.normalColor = normalColor;
+            this.flashOnAtStart = flashOnAtStart;
+            this.flashOnAtEnd = flashOnAtEnd;
+            this.numFlashes = numFlashes;
+
             // Set up the timer.
             flashTimer = new Timer( Integer.MAX_VALUE, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if ( flashOn ) {
-                        // Turn flash off.
-                        flashOn = false;
+                    int time;
+                    if ( flashingNode.getPaint() == flashColor ) {
+                        // Flash is on, so turn flash off.
                         flashingNode.setPaint( normalColor );
-                        flashCount++;
-                        if ( flashCount < numFlashes ) {
-                            flashTimer.setInitialDelay( offTime );
-                            flashTimer.restart();
-                        }
-                        else {
-                            flashTimer.stop();
-                        }
+                        time = offTime;
                     }
                     else {
-                        // Turn flash on.
-                        flashOn = true;
+                        // Flash is off, so turn flash on.
                         flashingNode.setPaint( flashColor );
-                        flashTimer.setInitialDelay( onTime );
+                        time = onTime;
+                    }
+                    transitionCountdown--;
+                    if ( transitionCountdown > 0 ) {
+                        // Set timer for next transition.
+                        flashTimer.setInitialDelay( time );
                         flashTimer.restart();
+                    }
+                    else {
+                        // Done flashing.
+                        flashTimer.stop();
                     }
                 }
             } );
@@ -85,8 +111,11 @@ public class FlashingShapeNode extends PNode {
 
         public void restart() {
             flashTimer.stop();
-            flashOn = false;
-            flashCount = 0;
+            setFlashOn( flashOnAtStart );
+            transitionCountdown = numFlashes * 2;
+            if ( flashOnAtStart != flashOnAtEnd ) {
+                transitionCountdown -= 1;
+            }
             flashTimer.setInitialDelay( 0 );
             flashTimer.restart();
         }
@@ -97,6 +126,17 @@ public class FlashingShapeNode extends PNode {
 
         public void stop() {
             flashTimer.stop();
+        }
+
+        public void forceFlashOff() {
+            if ( isFlashing() ) {
+                stop();
+            }
+            setFlashOn( false );
+        }
+
+        private void setFlashOn( boolean flashOn ) {
+            flashingNode.setPaint( flashOn ? flashColor : normalColor );
         }
     }
 }
