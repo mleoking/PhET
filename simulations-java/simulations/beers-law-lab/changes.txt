@@ -1,3 +1,5 @@
+2/2/12 add images for absorbance meter
+2/2/12 change color of concentration meter/probe/wire, so it's different from absorbance meter
 2/2/12 encapsulate algorithm used to create the stroke color from a solution color
 2/2/12 add Water solvent
 2/2/12 add sim-sharing for non-interactive objects in the play area

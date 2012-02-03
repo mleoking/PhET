@@ -1,3 +1,7 @@
+absorbance-meter-body-center.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
+absorbance-meter-body-left.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
+absorbance-meter-body-right.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
+absorbance-meter-probe.png author=PhET notes=copied intensity_meter_probe.png from bending-light
 concentration-meter-body-center.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
 concentration-meter-body-left.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
 concentration-meter-body-right.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
