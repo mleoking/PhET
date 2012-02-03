@@ -10,6 +10,7 @@ import javax.swing.JSlider;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.enabled;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
@@ -70,7 +71,7 @@ public class SimSharingJSlider extends JSlider {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            SimSharingManager.sendUserMessage( userComponent, slider, pressed, parameterSet( ParameterKeys.value, getValue() ).add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( parameterSet( ParameterKeys.value, getValue() ).add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
@@ -78,7 +79,11 @@ public class SimSharingJSlider extends JSlider {
     //TODO: add messages for startDrag, endDrag actions (via a MouseListener?)
 
     @Override protected void fireStateChanged() {
-        SimSharingManager.sendUserMessage( userComponent, slider, drag, parameterSet( ParameterKeys.value, getValue() ) );
+        sendUserMessage( parameterSet( ParameterKeys.value, getValue() ) );
         super.fireStateChanged();
+    }
+
+    private void sendUserMessage( ParameterSet parameterSet ) {
+        SimSharingManager.sendUserMessage( userComponent, slider, drag, parameterSet );
     }
 }

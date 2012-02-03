@@ -95,13 +95,13 @@ public class SimSharingJCheckBox extends JCheckBox {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            SimSharingManager.sendUserMessage( userComponent, checkBox, pressed, getParameters().add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( getParameters().add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, checkBox, pressed, getParameters() );
+        sendUserMessage( getParameters() );
         super.fireActionPerformed( event );
     }
 
@@ -122,6 +122,10 @@ public class SimSharingJCheckBox extends JCheckBox {
     // Use this if you want to add custom parameters, but can't use subclassing.
     public void addCustomParametersFunction( Function0<ParameterSet> function ) {
         customParameterFunctions.add( function );
+    }
+
+    private void sendUserMessage( ParameterSet parameterSet ) {
+        SimSharingManager.sendUserMessage( userComponent, checkBox, pressed, parameterSet );
     }
 
     // demonstrate usage
