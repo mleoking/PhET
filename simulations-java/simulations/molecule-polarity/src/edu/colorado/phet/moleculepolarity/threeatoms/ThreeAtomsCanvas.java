@@ -45,9 +45,9 @@ public class ThreeAtomsCanvas extends MPCanvas {
                                                          new Resettable[] { model, viewProperties },
                                                          // View
                                                          new MPVerticalPanel( MPStrings.VIEW ) {{
-                                                             add( new MPCheckBoxWithIcon( MPStrings.BOND_DIPOLES, DipoleNode.createIcon( MPColors.BOND_DIPOLE ), viewProperties.bondDipolesVisible ) );
-                                                             add( new MPCheckBoxWithIcon( MPStrings.MOLECULAR_DIPOLE, DipoleNode.createIcon( MPColors.MOLECULAR_DIPOLE ), viewProperties.molecularDipoleVisible ) );
-                                                             add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
+                                                             add( new MPCheckBoxWithIcon( UserComponents.bondDipolesCheckBox, MPStrings.BOND_DIPOLES, DipoleNode.createIcon( MPColors.BOND_DIPOLE ), viewProperties.bondDipolesVisible ) );
+                                                             add( new MPCheckBoxWithIcon( UserComponents.molecularDipoleCheckBox, MPStrings.MOLECULAR_DIPOLE, DipoleNode.createIcon( MPColors.MOLECULAR_DIPOLE ), viewProperties.molecularDipoleVisible ) );
+                                                             add( new MPCheckBox( UserComponents.partialChargesCheckBox, MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
                                                          }},
                                                          // Electric Field
                                                          new EFieldControlPanel( model.eField.enabled ) );

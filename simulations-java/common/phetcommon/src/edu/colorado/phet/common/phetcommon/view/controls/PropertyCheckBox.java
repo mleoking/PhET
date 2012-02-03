@@ -5,30 +5,38 @@ package edu.colorado.phet.common.phetcommon.view.controls;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JCheckBox;
-
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * JCheckBox that is wired to a Property<Boolean>.
+ * JCheckBox that is wired to a Property<Boolean>, includes data collection feature.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PropertyCheckBox extends JCheckBox {
+public class PropertyCheckBox extends SimSharingJCheckBox {
 
     private final SettableProperty<Boolean> property;
     private final SimpleObserver propertyObserver;
 
+    /**
+     * @deprecated use sim-sharing constructor
+     */
     public PropertyCheckBox( final String text, final SettableProperty<Boolean> property ) {
-        super( text );
+        this( new UserComponent( PropertyCheckBox.class ), text, property );
+    }
+
+    public PropertyCheckBox( IUserComponent userComponent, final String text, final SettableProperty<Boolean> property ) {
+        super( userComponent, text );
 
         this.property = property;
 
         // update the model when the check box is toggled.  Use ActionListener instead of ChangeListener to suppress multiple events.
         this.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                doActionPerformed( property );
+                property.set( isSelected() );
             }
         } );
 
@@ -41,19 +49,7 @@ public class PropertyCheckBox extends JCheckBox {
         property.addObserver( propertyObserver );
     }
 
-    //Override for simsharing
-    protected void doActionPerformed( SettableProperty<Boolean> property ) {
-        property.set( isSelected() );
-    }
-
     public void cleanup() {
         property.removeObserver( propertyObserver );
     }
-
-    //Send a message to the sim sharing event collector that the user toggled the check box
-//    public static void notifyActionPerformed( JCheckBox checkBox, SettableProperty<Boolean> property ) {
-//        SimSharingManager.sendUserEvent( Components.CHECK_BOX, Actions.PRESSED,
-//                                         param( Parameters.TEXT, checkBox.getText() ),
-//                                         param( Parameters.IS_SELECTED, checkBox.isSelected() ) );
-//    }
 }

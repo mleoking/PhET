@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
-import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -230,7 +229,7 @@ public abstract class BasicBalanceCanvas extends PhetPCanvas implements Resettab
     // Convenience class for check boxes, prevents code duplication.
     private static class PropertyCheckBoxNode extends PNode {
         private PropertyCheckBoxNode( IUserComponent userComponent, String text, BooleanProperty property ) {
-            PropertyCheckBox checkBox = new SimSharingPropertyCheckBox( userComponent, text, property );
+            PropertyCheckBox checkBox = new PropertyCheckBox( userComponent, text, property );
             checkBox.setFont( new PhetFont( 14 ) );
             addChild( new PSwing( checkBox ) );
         }

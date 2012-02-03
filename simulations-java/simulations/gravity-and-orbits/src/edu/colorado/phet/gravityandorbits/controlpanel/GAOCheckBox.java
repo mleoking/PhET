@@ -4,14 +4,14 @@ package edu.colorado.phet.gravityandorbits.controlpanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 
 /**
  * GAOCheckBox provides default fonts and colors for a checkbox to be used in Gravity and Orbits.
  *
  * @author Sam Reid
  */
-public class GAOCheckBox extends SimSharingPropertyCheckBox {
+public class GAOCheckBox extends PropertyCheckBox {
     public GAOCheckBox( IUserComponent userComponent, String title, final Property<Boolean> property ) {
         super( userComponent, title, property );
         setOpaque( false );

@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.Icon;
@@ -15,6 +13,11 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIcon;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -103,25 +106,23 @@ public class MPControlPanelNode extends PNode {
 
     // Encapsulates the look of check boxes
     public static class MPCheckBox extends PropertyCheckBox {
-        public MPCheckBox( String text, Property<Boolean> property ) {
-            super( text, property );
+        public MPCheckBox( IUserComponent userComponent, String text, Property<Boolean> property ) {
+            super( userComponent, text, property );
             setFont( MPConstants.CONTROL_FONT );
         }
     }
 
     // Encapsulates the look of a check box with icon
     public static class MPCheckBoxWithIcon extends JPanel {
-        public MPCheckBoxWithIcon( String text, Icon icon, Property<Boolean> property ) {
+        public MPCheckBoxWithIcon( IUserComponent userComponent, String text, Icon icon, Property<Boolean> property ) {
             super( new FlowLayout( FlowLayout.LEFT, 0, 0 ) ); // ensures proper alignment with other controls
-            final MPCheckBox checkBox = new MPCheckBox( text, property );
-            JLabel iconLabel = new JLabel( icon ) {{
-                // clicking the icon changes the check box
-                addMouseListener( new MouseAdapter() {
-                    @Override public void mousePressed( MouseEvent e ) {
-                        checkBox.setSelected( !checkBox.isSelected() );
-                    }
-                } );
-            }};
+            final MPCheckBox checkBox = new MPCheckBox( userComponent, text, property );
+            JLabel iconLabel = new SimSharingIcon( UserComponentChain.chain( userComponent, UserComponents.icon ), icon,
+                                                   new VoidFunction0() {
+                                                       public void apply() {
+                                                           checkBox.setSelected( !checkBox.isSelected() );
+                                                       }
+                                                   } );
             add( checkBox );
             add( iconLabel );
         }
@@ -129,8 +130,8 @@ public class MPControlPanelNode extends PNode {
 
     // Encapsulates the look of radio buttons
     public static class MPRadioButton<T> extends PropertyRadioButton<T> {
-        public MPRadioButton( String text, Property<T> property, T value ) {
-            super( text, property, value );
+        public MPRadioButton( IUserComponent userComponent, String text, Property<T> property, T value ) {
+            super( userComponent, text, property, value );
             super.setFont( MPConstants.CONTROL_FONT );
         }
     }

@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.energyskatepark.EnergySkateParkResources;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -22,8 +22,8 @@ import static edu.colorado.phet.energyskatepark.basics.EnergySkateParkBasicsModu
 public class OnOffPanel extends PSwing {
     public OnOffPanel( final IUserComponent userComponent, final SettableProperty<Boolean> property ) {
         super( new JPanel() {{
-            add( new SimSharingPropertyRadioButton<Boolean>( chain( userComponent, offRadioButton ), EnergySkateParkResources.getString( "off" ), property, false ) {{setFont( CONTROL_FONT );}} );
-            add( new SimSharingPropertyRadioButton<Boolean>( chain( userComponent, onRadioButton ), EnergySkateParkResources.getString( "on" ), property, true ) {{setFont( CONTROL_FONT );}} );
+            add( new PropertyRadioButton<Boolean>( chain( userComponent, offRadioButton ), EnergySkateParkResources.getString( "off" ), property, false ) {{setFont( CONTROL_FONT );}} );
+            add( new PropertyRadioButton<Boolean>( chain( userComponent, onRadioButton ), EnergySkateParkResources.getString( "on" ), property, true ) {{setFont( CONTROL_FONT );}} );
         }} );
     }
 }

@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.MPSimSharing;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
@@ -53,9 +54,9 @@ public class TwoAtomsCanvas extends MPCanvas {
                                                          new Resettable[] { model, viewProperties },
                                                          // View
                                                          new MPVerticalPanel( MPStrings.VIEW ) {{
-                                                             add( new MPCheckBoxWithIcon( MPStrings.BOND_DIPOLE, DipoleNode.createIcon( MPColors.BOND_DIPOLE ), viewProperties.bondDipolesVisible ) );
-                                                             add( new MPCheckBox( MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
-                                                             add( new MPCheckBox( MPStrings.BOND_CHARACTER, viewProperties.bondCharacterVisible ) );
+                                                             add( new MPCheckBoxWithIcon( UserComponents.bondDipolesCheckBox, MPStrings.BOND_DIPOLE, DipoleNode.createIcon( MPColors.BOND_DIPOLE ), viewProperties.bondDipolesVisible ) );
+                                                             add( new MPCheckBox( UserComponents.partialChargesCheckBox, MPStrings.PARTIAL_CHARGES, viewProperties.partialChargesVisible ) );
+                                                             add( new MPCheckBox( UserComponents.bondCharacterCheckBox, MPStrings.BOND_CHARACTER, viewProperties.bondCharacterVisible ) );
                                                          }},
                                                          // Surface
                                                          new SurfaceControlPanel( viewProperties.surfaceType ),

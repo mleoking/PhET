@@ -2,7 +2,7 @@
 package edu.colorado.phet.molarity.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class ShowValuesNode extends PNode {
 
     public ShowValuesNode( Property<Boolean> valuesVisible ) {
-        addChild( new PSwing( new SimSharingPropertyCheckBox( UserComponents.showValuesCheckBox, Strings.SHOW_VALUES, valuesVisible ) {{
+        addChild( new PSwing( new PropertyCheckBox( UserComponents.showValuesCheckBox, Strings.SHOW_VALUES, valuesVisible ) {{
             setFont( new PhetFont( 18 ) );
             setOpaque( false );
         }} ) );
