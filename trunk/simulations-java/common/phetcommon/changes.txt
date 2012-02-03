@@ -1,3 +1,4 @@
+2/2/12 #3223, make Property* Swing components subclass SimSharingJ*, replace and delete SimSharingProperty* classes
 2/2/12 i18n of WavelengthControl
 1/27/12 Simsharing: Added basic authentication, see #3231
 1/26/12 Simsharing: Added study for dallas that requires user id

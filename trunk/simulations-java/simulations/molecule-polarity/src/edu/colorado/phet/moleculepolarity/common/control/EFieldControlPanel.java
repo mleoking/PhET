@@ -3,6 +3,8 @@ package edu.colorado.phet.moleculepolarity.common.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.moleculepolarity.MPSimSharing;
+import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPRadioButton;
 import edu.colorado.phet.moleculepolarity.common.control.MPControlPanelNode.MPVerticalPanel;
@@ -19,8 +21,8 @@ public class EFieldControlPanel extends MPVerticalPanel {
         add( new GridPanel() {{
             setGridY( 0 ); // horizontal
             setAnchor( Anchor.WEST ); // left justified
-            add( new MPRadioButton<Boolean>( MPStrings.ON, eFieldEnabled, true ) );
-            add( new MPRadioButton<Boolean>( MPStrings.OFF, eFieldEnabled, false ) );
+            add( new MPRadioButton<Boolean>( UserComponents.eFieldOnRadioButton, MPStrings.ON, eFieldEnabled, true ) );
+            add( new MPRadioButton<Boolean>( UserComponents.eFieldOffRadioButton, MPStrings.OFF, eFieldEnabled, false ) );
         }} );
     }
 }

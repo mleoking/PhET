@@ -4,7 +4,7 @@ package edu.colorado.phet.gravityandorbits.controlpanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.view.controls.simsharing.SimSharingPropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.FOREGROUND;
@@ -14,7 +14,7 @@ import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsCo
  *
  * @author Sam Reid
  */
-public class GAORadioButton<T> extends SimSharingPropertyRadioButton<T> {
+public class GAORadioButton<T> extends PropertyRadioButton<T> {
     public GAORadioButton( IUserComponent userComponent, String title, final Property<T> property, final T value ) {
         super( userComponent, title, property, value );
         setFont( CONTROL_FONT );

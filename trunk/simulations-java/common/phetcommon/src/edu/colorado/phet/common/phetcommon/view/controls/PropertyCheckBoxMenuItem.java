@@ -7,20 +7,30 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBoxMenuItem;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * JCheckBoxMenuItem that is wired to a Property<Boolean>.
+ * JCheckBoxMenuItem that is wired to a Property<Boolean>, includes data-collection feature.
  *
  * @author Sam Reid
  */
-public class PropertyCheckBoxMenuItem extends JCheckBoxMenuItem {
+public class PropertyCheckBoxMenuItem extends SimSharingJCheckBoxMenuItem {
 
     private final SettableProperty<Boolean> property;
     private final SimpleObserver propertyObserver;
 
+    /**
+     * @deprecated use sim-sharing version
+     */
     public PropertyCheckBoxMenuItem( String text, final SettableProperty<Boolean> property ) {
-        super( text );
+        this( new UserComponent( PropertyCheckBoxMenuItem.class ), text, property );
+    }
+
+    public PropertyCheckBoxMenuItem( IUserComponent userComponent, String text, final SettableProperty<Boolean> property ) {
+        super( userComponent, text );
 
         this.property = property;
 
