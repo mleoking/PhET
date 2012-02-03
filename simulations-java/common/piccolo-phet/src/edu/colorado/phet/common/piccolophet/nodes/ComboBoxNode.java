@@ -11,6 +11,12 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -62,29 +68,32 @@ public class ComboBoxNode<T> extends PNode {
     /**
      * Create a CombBoxNode with the specified items, using the toString function to create strings for each item
      *
+     * @param userComponent
      * @param items the items to show in the combo box
      */
-    public ComboBoxNode( T... items ) {
-        this( asList( items ) );
+    public ComboBoxNode( IUserComponent userComponent, final Function1<T, String> itemToString, T... items ) {
+        this( userComponent, itemToString, asList( items ) );
     }
 
     /**
      * Create a CombBoxNode with the specified items, using the toString method to create strings for each item using the default font.
      *
+     * @param userComponent
      * @param items the items to show in the combo box
      */
-    public ComboBoxNode( List<T> items ) {
-        this( items, items.get( 0 ), new ItemToPText<T>( DEFAULT_FONT ) );
+    public ComboBoxNode( IUserComponent userComponent, final Function1<T, String> itemToString, List<T> items ) {
+        this( userComponent, itemToString, items, items.get( 0 ), new ItemToPText<T>( DEFAULT_FONT ) );
     }
 
     /**
      * Create a ComboBoxNode with the specified items and specified way to convert the items to strings
      *
+     * @param userComponent
      * @param items         items the items to show in the combo box
      * @param initialItem
      * @param nodeGenerator the function to use to convert the T items to PNodes to show in the drop down box or in the selection region
      */
-    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator ) {
+    public ComboBoxNode( final IUserComponent userComponent, final Function1<T, String> itemToString, final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator ) {
 
         //Make sure the initial item is in the list
         assert items.contains( initialItem );
@@ -110,8 +119,10 @@ public class ComboBoxNode<T> extends PNode {
             choices[i] = new ListItem<T>( items.get( i ), itemNodes[i], maxWidth ) {{
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        itemSelected( getItem() );
-                        selectedItem.set( getItem() );
+                        T item = getItem();
+                        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.comboBox, UserActions.selected,
+                                                           ParameterSet.parameterSet( ParameterKeys.item, itemToString.apply( item ) ) );
+                        selectedItem.set( item );
                     }
                 } );
             }};
@@ -161,10 +172,6 @@ public class ComboBoxNode<T> extends PNode {
 
         //Show the popup beneath the selected item displayer
         popup.setOffset( 0, selectedItemNode.getFullBounds().getHeight() + 2 );
-    }
-
-    // Hook for simsharing
-    protected void itemSelected( T item ) {
     }
 
     //Hide the popup and unregister all registered listeners

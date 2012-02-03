@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingComboBoxNode;
 import edu.colorado.phet.moleculepolarity.MPSimSharing.UserComponents;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
@@ -58,7 +58,7 @@ public class MoleculeControlNode extends PhetPNode {
     }
 
     // Combo box, with custom creation of items (nodes)
-    private static class MoleculeComboBoxNode extends SimSharingComboBoxNode<Molecule3D> {
+    private static class MoleculeComboBoxNode extends ComboBoxNode<Molecule3D> {
         public MoleculeComboBoxNode( ArrayList<Molecule3D> molecules, Molecule3D selectedMolecule ) {
             super( UserComponents.moleculesComboBox,
                    // sim-sharing function for converting item to String

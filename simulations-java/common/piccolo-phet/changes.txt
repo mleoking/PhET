@@ -1,3 +1,4 @@
+2/2/12 #3223, collapse SimSharingComboBoxNode into ComboBoxNode, since all instances were of type SimSharingComboBoxNode
 2/2/12 i18n of WavelengthControl
 1/23/12 #3226, add data collection to SliderNode hierarchy
 1/18/12 Simsharing: add UserComponentType to UserMessages, delete IComponentType

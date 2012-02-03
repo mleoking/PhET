@@ -13,13 +13,13 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.kit.Kit;
 import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.nodes.simsharing.SimSharingComboBoxNode;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -101,7 +101,7 @@ public class RealMoleculesControlPanel extends PNode {
             }}, kits ) {{
                 controlHolderNode.setOffset( controlHolderNode.getXOffset(), controlHolderNode.getYOffset() + 100 );
             }} );
-        }} ) : new SimSharingComboBoxNode<RealMoleculeShape>(
+        }} ) : new ComboBoxNode<RealMoleculeShape>(
                 /*---------------------------------------------------------------------------*
                 * combo box molecule selection
                 *----------------------------------------------------------------------------*/
