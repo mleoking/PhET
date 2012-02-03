@@ -11,7 +11,7 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.enabled;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
@@ -76,7 +76,7 @@ public class SimSharingJRadioButton extends JRadioButton {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        sendEvent( userComponent );
+        sendUserMessage( new ParameterSet() );
         super.fireActionPerformed( event );
     }
 
@@ -89,12 +89,12 @@ public class SimSharingJRadioButton extends JRadioButton {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            SimSharingManager.sendUserMessage( userComponent, radioButton, pressed, parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
 
-    public static void sendEvent( IUserComponent userComponent ) {
-        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.radioButton, pressed );
+    private void sendUserMessage( ParameterSet parameterSet ) {
+        SimSharingManager.sendUserMessage( userComponent, radioButton, pressed, parameterSet );
     }
 }

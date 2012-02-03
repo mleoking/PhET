@@ -11,6 +11,7 @@ import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
@@ -72,13 +73,17 @@ public class SimSharingJMenuItem extends JMenuItem {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            SimSharingManager.sendUserMessage( userComponent, menuItem, pressed, parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.menuItem, UserActions.pressed );
+        sendUserMessage( new ParameterSet() );
         super.fireActionPerformed( event );
+    }
+
+    private void sendUserMessage( ParameterSet parameterSet ) {
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.menuItem, UserActions.pressed, parameterSet );
     }
 }

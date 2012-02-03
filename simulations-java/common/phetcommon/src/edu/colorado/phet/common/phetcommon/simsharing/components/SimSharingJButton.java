@@ -11,6 +11,7 @@ import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.enabled;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
@@ -65,14 +66,18 @@ public class SimSharingJButton extends JButton {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            SimSharingManager.sendUserMessage( userComponent, button, pressed, parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
 
     //If the user clicks the button and it is enabled, send a pressed message
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        SimSharingManager.sendUserMessage( userComponent, button, pressed );
+        sendUserMessage( new ParameterSet() );
         super.fireActionPerformed( event );
+    }
+
+    private void sendUserMessage( ParameterSet parameterSet ) {
+        SimSharingManager.sendUserMessage( userComponent, button, pressed, parameterSet );
     }
 }

@@ -9,6 +9,7 @@ import javax.swing.SpinnerModel;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
@@ -46,13 +47,17 @@ public class SimSharingJSpinner extends JSpinner {
     //TODO: this might not work right since spinner is composite
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            SimSharingManager.sendUserMessage( userComponent, spinner, pressed, parameterSet( value, getValue().toString() ).add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( parameterSet( value, getValue().toString() ).add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
 
     @Override protected void fireStateChanged() {
-        SimSharingManager.sendUserMessage( userComponent, spinner, changed, parameterSet( value, getValue().toString() ) );
+        sendUserMessage( parameterSet( value, getValue().toString() ) );
         super.fireStateChanged();
+    }
+
+    private void sendUserMessage( ParameterSet parameterSet ) {
+        SimSharingManager.sendUserMessage( userComponent, spinner, changed, parameterSet );
     }
 }
