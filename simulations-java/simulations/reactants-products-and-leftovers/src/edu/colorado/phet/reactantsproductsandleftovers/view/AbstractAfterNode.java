@@ -12,10 +12,14 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.LeftoversValueNode;
@@ -86,7 +90,8 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             productImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
 
             // one quantity display for each product
-            QuantityValueNode quantityNode = new QuantityValueNode( new RPALSimSharing.ProductSpinner( product ), product, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.productSpinner, new UserComponent( product.getName() ) );
+            QuantityValueNode quantityNode = new QuantityValueNode( userComponent, product, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( quantityNode );
             productValueNodes.add( quantityNode );
         }
@@ -99,7 +104,8 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             leftoverImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
 
             // one quantity display for each leftover
-            LeftoversValueNode leftoverNode = new LeftoversValueNode( new RPALSimSharing.ReactantSpinner( reactant ), reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.leftoverSpinner, new UserComponent( reactant.getName() ) );
+            LeftoversValueNode leftoverNode = new LeftoversValueNode( userComponent, reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( leftoverNode );
             leftoverValueNodes.add( leftoverNode );
         }

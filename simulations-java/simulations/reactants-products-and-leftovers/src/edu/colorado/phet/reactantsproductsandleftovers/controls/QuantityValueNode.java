@@ -23,8 +23,8 @@ public class QuantityValueNode extends ValueNode implements IDynamicNode {
     private Substance substance;
     private final SubstanceChangeListener substanceChangeListener;
 
-    public QuantityValueNode( IUserComponent simSharingObject, Substance substance, IntegerRange range, double imageScale, boolean showName ) {
-        super( simSharingObject, range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), showName, false /* editable */ );
+    public QuantityValueNode( IUserComponent userComponent, Substance substance, IntegerRange range, double imageScale, boolean showName ) {
+        super( userComponent, range, substance.getQuantity(), substance.getImage(), imageScale, substance.getName(), showName, false /* editable */ );
 
         this.substance = substance;
 
