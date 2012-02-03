@@ -15,6 +15,6 @@ public class RPALSimSharing {
     public static enum UserComponents implements IUserComponent {
         sandwichShopTab, realReactionTab, gameTab,
         equationSpinner, reactantSpinner, productSpinner, leftoverSpinner,
-        realReactionRadioButton,
+        sandwichRadioButton, realReactionRadioButton,
     }
 }

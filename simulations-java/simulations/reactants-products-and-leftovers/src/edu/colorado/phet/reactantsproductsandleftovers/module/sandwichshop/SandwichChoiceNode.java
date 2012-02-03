@@ -12,8 +12,13 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop.SandwichShopModel.SandwichReaction;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -44,7 +49,8 @@ public class SandwichChoiceNode extends PhetPNode {
             final SandwichReaction reaction = reactions[i];
             
             // radio button
-            JRadioButton radioButton = new JRadioButton( reaction.getName() );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.sandwichRadioButton, new UserComponent( reaction.getName() ) );
+            JRadioButton radioButton = new SimSharingJRadioButton( userComponent, reaction.getName() );
             radioButton.setOpaque( false );
             radioButtons.add( radioButton );
             group.add( radioButton );
