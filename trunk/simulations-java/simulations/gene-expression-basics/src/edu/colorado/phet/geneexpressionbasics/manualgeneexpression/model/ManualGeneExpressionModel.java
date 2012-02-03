@@ -132,7 +132,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         proteinCaptureArea.setFrame( newCaptureAreaBounds );
     }
 
-    public Property<Integer> getCounterForProteinType( Class<? extends Protein> proteinType ) {
+    public Property<Integer> getCollectedCounterForProteinType( Class<? extends Protein> proteinType ) {
         assert mapProteinClassToCollectedCount.containsKey( proteinType );
         return mapProteinClassToCollectedCount.get( proteinType );
     }
@@ -203,6 +203,16 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
             proteinCCollected.set( proteinCCollected.get() + 1 );
         }
         mobileBiomoleculeList.remove( protein );
+    }
+
+    public int getProteinCount( Class<? extends Protein> proteinClass ) {
+        int count = 0;
+        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
+            if ( mobileBiomolecule.getClass() == proteinClass ) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {

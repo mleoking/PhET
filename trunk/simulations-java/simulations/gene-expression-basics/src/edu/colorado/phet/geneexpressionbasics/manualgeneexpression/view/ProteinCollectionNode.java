@@ -179,8 +179,7 @@ public class ProteinCollectionNode extends PNode {
         private static final double VERTICAL_DISTANCE_TO_COUNT_NODE = 35;
 
         // Constructor.
-        private ProteinCaptureNode( ManualGeneExpressionModel model, final Class<? extends Protein> proteinClass, AffineTransform transform ) {
-
+        private ProteinCaptureNode( final ManualGeneExpressionModel model, final Class<? extends Protein> proteinClass, AffineTransform transform ) {
 
             Shape proteinShape = new Rectangle2D.Double( -10, -10, 20, 20 ); // Arbitrary initial shape.
             Color fullBaseColor = Color.PINK; // Arbitrary initial color.
@@ -196,11 +195,11 @@ public class ProteinCollectionNode extends PNode {
                 e.printStackTrace();
             }
 
-            // Add the node that will flash when a capture occurs.  This is
-            // intended to make it clear that something changed.
-            Shape flashAfterCaptureNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
-            final FlashingShapeNode flashAfterCaptureNode = new FlashingShapeNode( flashAfterCaptureNodeShape, FLASH_COLOR, 250, 250, 3 );
-            addChild( flashAfterCaptureNode );
+            // Add the node that will flash when a protein is created, stay lit
+            // until the protein is captured, and turn off once it is captured.
+            Shape flashingCaptureNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
+            final FlashingShapeNode flashingCaptureNode = new FlashingShapeNode( flashingCaptureNodeShape, FLASH_COLOR, 250, 250, 3, false, true );
+            addChild( flashingCaptureNode );
 
             // Add the node that will represent the spot where the protein can
             // be captured, which is a black shape (signifying emptiness)
@@ -209,19 +208,12 @@ public class ProteinCollectionNode extends PNode {
             addChild( captureAreaNode );
             final Paint gradientPaint = MobileBiomoleculeNode.createGradientPaint( proteinShape, fullBaseColor );
 
-            // Add a node that will flash when a protein of the appropriate
-            // type becomes available in the model to signal that it should be
-            // placed here.
-            final FlashingShapeNode flashWhenProteinFormedNode = new FlashingShapeNode( proteinShape, Color.orange, 250, 250, 3 );
-            addChild( flashWhenProteinFormedNode );
-
-            // Add the count node.
             // Add the node that represents a count of the collected type.
             final PText countNode = new PText() {{
                 setFont( new PhetFont( 18 ) );
             }};
             addChild( countNode );
-            model.getCounterForProteinType( proteinClass ).addObserver( new VoidFunction1<Integer>() {
+            model.getCollectedCounterForProteinType( proteinClass ).addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer proteinCaptureCount ) {
                     countNode.setText( Integer.toString( proteinCaptureCount ) );
                     countNode.setOffset( captureAreaNode.getFullBoundsReference().getCenterX() - countNode.getFullBoundsReference().width / 2,
@@ -229,10 +221,9 @@ public class ProteinCollectionNode extends PNode {
                 }
             } );
 
-
             // Watch for a protein node of the appropriate type to become
             // fully grown and, when it does, flash a node in order to signal
-            // the user that the node should be placed here.
+            // the user that the protein should be placed here.
             model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
                 public void apply( MobileBiomolecule biomolecule ) {
                     if ( biomolecule.getClass() == proteinClass ) {
@@ -240,7 +231,7 @@ public class ProteinCollectionNode extends PNode {
                         protein.fullGrown.addObserver( new ChangeObserver<Boolean>() {
                             public void update( Boolean isFullyFormed, Boolean wasFullyFormed ) {
                                 if ( isFullyFormed && !wasFullyFormed ) {
-                                    flashWhenProteinFormedNode.flash();
+                                    flashingCaptureNode.startFlashing();
                                 }
                             }
                         } );
@@ -249,7 +240,7 @@ public class ProteinCollectionNode extends PNode {
             } );
 
             // Get the capture count property for this protein.
-            Property<Integer> captureCount = model.getCounterForProteinType( proteinClass );
+            Property<Integer> captureCount = model.getCollectedCounterForProteinType( proteinClass );
 
             // Observe the capture indicator and set the state of the nodes
             // appropriately.
@@ -257,10 +248,31 @@ public class ProteinCollectionNode extends PNode {
                 public void apply( Integer captureCount ) {
                     if ( captureCount > 0 ) {
                         captureAreaNode.setPaint( gradientPaint );
-                        flashAfterCaptureNode.flash();
+                        if ( model.getCollectedCounterForProteinType( proteinClass ).get() == 0 ) {
+                            // All proteins of this type have been captured, so
+                            // turn off the capture hint.
+                            flashingCaptureNode.forceFlashOff();
+                        }
+                        else {
+                            // Not all proteins of this type have been captured,
+                            // so flash again.
+                            flashingCaptureNode.startFlashing();
+                        }
                     }
                     else {
+                        // No proteins capture, so set to black to appear empty.
                         captureAreaNode.setPaint( Color.BLACK );
+                    }
+                }
+            } );
+
+            // Observe the biomolecules and make sure that if none of the
+            // protein that this collects is in the model, the highlight is off.
+            model.mobileBiomoleculeList.addElementRemovedObserver( new VoidFunction1<MobileBiomolecule>() {
+                public void apply( MobileBiomolecule biomolecule ) {
+                    if ( biomolecule.getClass() == proteinClass && model.getProteinCount( proteinClass ) == 0 ) {
+                        // Make sure highlight is off.
+                        flashingCaptureNode.forceFlashOff();
                     }
                 }
             } );
