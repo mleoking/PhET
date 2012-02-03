@@ -12,8 +12,13 @@ import javax.swing.JRadioButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -45,7 +50,8 @@ public class ReactionChoiceNode extends PhetPNode {
             final ChemicalReaction reaction = reactions[i];
             
             // radio button
-            JRadioButton radioButton = new JRadioButton( reaction.getName() );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.realReactionRadioButton, reaction.getName() );
+            JRadioButton radioButton = new SimSharingJRadioButton( userComponent, reaction.getName() );
             radioButton.setOpaque( false );
             radioButtons.add( radioButton );
             group.add( radioButton );
