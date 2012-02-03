@@ -2,8 +2,10 @@
 package edu.colorado.phet.beerslawlab.concentration.view;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.model.Beaker;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
@@ -27,7 +29,7 @@ class SolutionNode extends PPath {
     public SolutionNode( Solution solution, Beaker beaker ) {
         setPickable( false );
         setChildrenPickable( false );
-        setStroke( new BasicStroke( 0.25f ) );
+        setStroke( BLLConstants.FLUID_STROKE );
 
         this.solution = solution;
         this.beaker = beaker;
@@ -45,8 +47,9 @@ class SolutionNode extends PPath {
     private void updateNode() {
 
         // update the color of the solution, accounting for saturation
-        setPaint( solution.getFluidColor() );
-        setStrokePaint( solution.getFluidColor().darker().darker() );
+        Color solutionColor = solution.getFluidColor();
+        setPaint( solutionColor );
+        setStrokePaint( BLLConstants.createFluidStrokeColor( solutionColor ) );
 
         // update amount of stuff in the beaker, based on solution volume
         final double volume = solution.volume.get();

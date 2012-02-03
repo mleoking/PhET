@@ -4,6 +4,7 @@ package edu.colorado.phet.beerslawlab.concentration.view;
 import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.concentration.model.Faucet;
 import edu.colorado.phet.beerslawlab.concentration.model.IFluid;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -21,8 +22,8 @@ class OutputFluidNode extends PPath {
         setPickable( false );
         setChildrenPickable( false );
 
-        setStroke( new BasicStroke( 0.25f ) );
-        setStrokePaint( fluid.getFluidColor().darker().darker() );
+        setStroke( BLLConstants.FLUID_STROKE );
+        setStrokePaint( BLLConstants.createFluidStrokeColor( fluid.getFluidColor() ) );
 
         setOffset( faucet.getLocation().toPoint2D() );
 

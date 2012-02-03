@@ -3,9 +3,7 @@ package edu.colorado.phet.beerslawlab.common.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.beerslawlab.common.BLLConstants;
-import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.common.BLLSymbols;
+import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
 import edu.colorado.phet.beerslawlab.concentration.model.IFluid;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -30,7 +28,7 @@ public class Solution implements IFluid, Resettable {
 
     public Solution( Property<Solute> solute, double soluteAmount, double volume ) {
 
-        this.solvent = new Solvent( Strings.WATER, BLLSymbols.WATER, BLLConstants.WATER_COLOR );
+        this.solvent = new Water();
         this.solute = solute;
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );
