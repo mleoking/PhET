@@ -6,13 +6,13 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
 /**
  * Base class for Swing drag listeners that perform sim-sharing data collection.
@@ -27,16 +27,14 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
  */
 public class SimSharingDragListener extends MouseAdapter {
 
-    // Function to extend standard ParameterSet
-    public interface ParameterSetFunction {
-        public ParameterSet apply( ParameterSet standardParameters, MouseEvent event );
-    };
+    public interface DragFunction {
+        public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, MouseEvent event );
+    }
 
     protected final IUserComponent userComponent;
     private final IUserComponentType componentType;
-    private final boolean sendDragMessages;
     private final SimSharingDragPoints dragPoints; // mouse coordinates, accumulated during a drag sequence
-    private ParameterSetFunction startDragParameterSetFunction, dragParameterSetFunction, endDragParameterSetFunction; // functions to get parameters for various messages
+    private DragFunction startDragFunction, dragFunction, endDragFunction; // functions called for various events
 
     // Sends a message on startDrag and endDrag, but not drag
     public SimSharingDragListener( IUserComponent userComponent, IUserComponentType componentType ) {
@@ -48,73 +46,79 @@ public class SimSharingDragListener extends MouseAdapter {
 
         this.userComponent = userComponent;
         this.componentType = componentType;
-        this.sendDragMessages = sendDragMessages;
         this.dragPoints = new SimSharingDragPoints();
 
         // default functions
-        ParameterSetFunction defaultFunction = new ParameterSetFunction() {
-            public ParameterSet apply( ParameterSet parameterSet, MouseEvent event ) {
-                return parameterSet;
+        this.startDragFunction = new DragFunction() {
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
             }
         };
-        this.startDragParameterSetFunction = defaultFunction;
-        this.dragParameterSetFunction = defaultFunction;
-        this.endDragParameterSetFunction = defaultFunction;
+        this.dragFunction = new DragFunction() {
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
+                if ( sendDragMessages ) {
+                    SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
+                }
+            }
+        };
+        this.endDragFunction = new DragFunction() {
+            public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameterSet, MouseEvent event ) {
+                SimSharingManager.sendUserMessage( userComponent, componentType, action, parameterSet );
+            }
+        };
     }
 
     @Override public void mousePressed( MouseEvent event ) {
         clearDragPoints();
         addDragPoint( event );
-        SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.startDrag, startDragParameterSetFunction.apply( getStartDragParameters( event ), event ) );
+        startDragFunction.apply( userComponent, componentType, UserActions.startDrag, getStartDragParameters( event ), event );
         super.mousePressed( event );
     }
 
     @Override public void mouseDragged( MouseEvent event ) {
         addDragPoint( event );
-        if ( sendDragMessages ) {
-            SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.drag, dragParameterSetFunction.apply( getDragParameters( event ), event ) );
-        }
+        dragFunction.apply( userComponent, componentType, UserActions.drag, getDragParameters( event ), event );
         super.mouseDragged( event );
     }
 
     @Override public void mouseReleased( MouseEvent event ) {
         addDragPoint( event );
-        SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.endDrag, endDragParameterSetFunction.apply( getEndDragParameters( event ), event ) );
+        endDragFunction.apply( userComponent, componentType, UserActions.endDrag, getEndDragParameters( event ), event );
         clearDragPoints();
         super.mouseReleased( event );
     }
 
-    // Call this to set the function that provides parameters for the startDrag message.
-    public void setStartDragParameterSetFunction( ParameterSetFunction f ) {
-        startDragParameterSetFunction = f;
+    // Call this to replace the sim-sharing function that is called on startDrag.
+    public void setStartDragFunction( DragFunction f ) {
+        startDragFunction = f;
     }
 
-    // Call this to set the function that provides parameters for the drag message.
-    public void setDragParameterSetFunction( ParameterSetFunction f ) {
-        dragParameterSetFunction = f;
+    // Call this to replace the sim-sharing function that is called on drag.
+    public void setDragFunction( DragFunction f ) {
+        dragFunction = f;
     }
 
-    // Call this to set the function that provides parameters for the endDrag message.
-    public void setEndDragParameterSetFunction( ParameterSetFunction f ) {
-        endDragParameterSetFunction = f;
+    // Call this to replace the sim-sharing function that is called on endDrag.
+    public void setEndDragFunction( DragFunction f ) {
+        endDragFunction = f;
     }
 
-    // Override to specify parameters that are provided to startDragFunction, chain with super to add parameters.
+    // Override to supply any additional parameters to send on startDrag
     protected ParameterSet getStartDragParameters( MouseEvent event ) {
         return getParametersForAllEvents( event );
     }
 
-    // Override to specify parameters that are provided to dragFunction, chain with super to add parameters.
+    // Override to supply any additional parameters to send on drag
     protected ParameterSet getDragParameters( MouseEvent event ) {
         return getParametersForAllEvents( event );
     }
 
-    // Override to specify parameters that are provided to endDragFunction, chain with super to add parameters.
+    // Override to supply any additional parameters to send on endDrag
     protected ParameterSet getEndDragParameters( MouseEvent event ) {
         return getParametersForAllEvents( event ).add( dragPoints.getParameters() ); // includes summary of drag points
     }
 
-    // Override to specify parameters that are included in all messages.
+    // Return parameters that are used by default for all events
     protected ParameterSet getParametersForAllEvents( MouseEvent event ) {
         return new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) );
     }
