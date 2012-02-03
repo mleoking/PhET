@@ -5,6 +5,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.awt.Frame;
 
 import edu.colorado.phet.reactantsproductsandleftovers.RPALModule;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 
@@ -20,7 +21,7 @@ public class GameModule extends RPALModule {
     private boolean rewardWasRunning = false; // was the game reward animation running when this module was deactivated?
 
     public GameModule( Frame parentFrame ) {
-        super( RPALStrings.TITLE_GAME, new RPALClock(), true /* startsPaused */ );
+        super( UserComponents.gameTab, RPALStrings.TITLE_GAME, new RPALClock(), true /* startsPaused */ );
 
         // Model
         model = new GameModel( getClock() );

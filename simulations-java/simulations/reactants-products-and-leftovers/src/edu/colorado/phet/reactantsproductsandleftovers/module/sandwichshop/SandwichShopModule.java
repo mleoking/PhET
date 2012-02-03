@@ -5,6 +5,8 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.sandwichshop;
 import java.awt.Frame;
 
 import edu.colorado.phet.reactantsproductsandleftovers.RPALModule;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALClock;
 
@@ -18,7 +20,7 @@ public class SandwichShopModule extends RPALModule {
     private final SandwichShopModel model;
 
     public SandwichShopModule( Frame parentFrame ) {
-        super( RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock(), true /* startsPaused */ );
+        super( UserComponents.sandwichShopTab, RPALStrings.TITLE_SANDWICH_SHOP, new RPALClock(), true /* startsPaused */ );
 
         // Model
         model = new SandwichShopModel();
