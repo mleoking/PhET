@@ -5,9 +5,12 @@ import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Cuvette;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -52,5 +55,7 @@ class CuvetteNode extends PNode {
         });
 
         setOffset( mvt.modelToView( cuvette.location.toPoint2D() ) );
+
+        addInputEventListener( new NonInteractiveEventHandler( UserComponents.cuvette ) );
     }
 }

@@ -1,3 +1,4 @@
+2/2/12 add sim-sharing for non-interactive objects in the play area
 2/2/12 add cuvette model and view
 2/2/12 add model-view transform, specify the ruler length as a function of the max cuvette width
 2/2/12 add ruler to view
