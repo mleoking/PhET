@@ -35,6 +35,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.LinearSpectrumImageFactory;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -72,14 +73,14 @@ public class WavelengthControl extends PhetPNode {
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0" );
     private static final double VALUE_Y_OFFSET = 2;
 
-    private static final String UNITS_LABEL = "nm";
+    private static final String UNITS_LABEL = PhetCommonResources.getString( "Common.wavelengthControl.nm" );
 
     private static final double CURSOR_WIDTH = 3;
     private static final Stroke CURSOR_STROKE = new BasicStroke( 1f );
     private static final Color CURSOR_COLOR = Color.BLACK;
 
-    private static final String UV_STRING = "UV";
-    private static final String IR_STRING = "IR";
+    private static final String UV_STRING = PhetCommonResources.getString( "Common.wavelengthControl.UV" );
+    private static final String IR_STRING = PhetCommonResources.getString( "Common.wavelengthControl.IR" );
     private static final Color UV_TRACK_COLOR = Color.LIGHT_GRAY;
     private static final Color UV_LABEL_COLOR = Color.BLACK;
     private static final Color IR_TRACK_COLOR = UV_TRACK_COLOR;
