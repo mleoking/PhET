@@ -198,7 +198,7 @@ public class ProteinCollectionNode extends PNode {
             // Add the node that will flash when a protein is created, stay lit
             // until the protein is captured, and turn off once it is captured.
             Shape flashingCaptureNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
-            final FlashingShapeNode flashingCaptureNode = new FlashingShapeNode( flashingCaptureNodeShape, FLASH_COLOR, 250, 250, 3, false, true );
+            final FlashingShapeNode flashingCaptureNode = new FlashingShapeNode( flashingCaptureNodeShape, FLASH_COLOR, 350, 350, 4, false, true );
             addChild( flashingCaptureNode );
 
             // Add the node that will represent the spot where the protein can
@@ -248,16 +248,6 @@ public class ProteinCollectionNode extends PNode {
                 public void apply( Integer captureCount ) {
                     if ( captureCount > 0 ) {
                         captureAreaNode.setPaint( gradientPaint );
-                        if ( model.getCollectedCounterForProteinType( proteinClass ).get() == 0 ) {
-                            // All proteins of this type have been captured, so
-                            // turn off the capture hint.
-                            flashingCaptureNode.forceFlashOff();
-                        }
-                        else {
-                            // Not all proteins of this type have been captured,
-                            // so flash again.
-                            flashingCaptureNode.startFlashing();
-                        }
                     }
                     else {
                         // No proteins capture, so set to black to appear empty.
