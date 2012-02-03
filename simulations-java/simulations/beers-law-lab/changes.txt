@@ -1,3 +1,4 @@
+2/2/12 add model-view transform, specify the ruler length as a function of the max cuvette width
 2/2/12 add ruler to view
 2/2/12 add Reset All button to 2nd tab, in same location as 1st tab
 2/2/12 wrapper for WavelengthControl to use Property<Double>
