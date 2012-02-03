@@ -3,7 +3,6 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
-import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.MomentaryButtonNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
@@ -25,7 +24,7 @@ class LightNode extends PNode {
         addChild( lightHousingNode );
 
         // button, scaled to fit image
-        MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.lightOnOffButton, light.on );
+        MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.lightButton, light.on );
         addChild( buttonNode );
         buttonNode.scale( 0.75 * lightHousingNode.getFullBoundsReference().getHeight() / buttonNode.getFullBoundsReference().getHeight() );
         buttonNode.setOffset( lightHousingNode.getFullBoundsReference().getMaxX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ) - 40,

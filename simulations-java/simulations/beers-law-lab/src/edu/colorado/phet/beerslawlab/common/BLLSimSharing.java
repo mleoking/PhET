@@ -13,11 +13,15 @@ public class BLLSimSharing {
 
     public static enum UserComponents implements IUserComponent {
         concentrationTab, beersLawTab,
-        concentrationMeterBody, concentrationMeterProbe, dropper, dropperButton,
-        dropperIcon, evaporationSlider, solventFaucet, drainFaucet,
-        shaker, shakerIcon, soluteComboBox,
-        lightOnOffButton,
-        ruler, cuvette, lightHousing
+        shaker, shakerIcon,
+        dropper, dropperButton, dropperIcon,
+        solventFaucet, drainFaucet,
+        concentrationMeterBody, concentrationMeterProbe,
+        soluteComboBox,
+        evaporationSlider,
+        cuvette,
+        lightHousing, lightButton,
+        ruler
     }
 
     public static enum Parameters implements IParameterKey {
