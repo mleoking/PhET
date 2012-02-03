@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
-import edu.colorado.phet.reactantsproductsandleftovers.SimSharing;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
@@ -77,7 +77,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             imageNodeLists.add( new ArrayList<SubstanceImageNode>() );
 
             // one quantity control for each reactant
-            QuantityValueNode quantityNode = new QuantityValueNode( new SimSharing.ReactantSpinner( reactant ), reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
+            QuantityValueNode quantityNode = new QuantityValueNode( new RPALSimSharing.ReactantSpinner( reactant ), reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             quantityNode.setEditable( true );
             addChild( quantityNode );
             reactantValueNodes.add( quantityNode );

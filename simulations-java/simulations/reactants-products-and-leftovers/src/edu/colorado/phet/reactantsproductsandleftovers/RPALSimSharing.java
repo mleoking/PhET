@@ -5,10 +5,11 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
+//TODO this all looks very suspicious, and very misplaced. Should be replaced with proper chaining.
 /**
  * @author Sam Reid
  */
-public class SimSharing {
+public class RPALSimSharing {
     public static class ReactantEquationSpinner implements IUserComponent {
         private final Reactant reactant;
 
