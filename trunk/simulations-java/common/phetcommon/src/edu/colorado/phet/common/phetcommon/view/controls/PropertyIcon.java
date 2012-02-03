@@ -9,9 +9,11 @@ import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIcon;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
  * Pressing this icon sets a property value.
@@ -19,15 +21,14 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PropertyIcon<T> extends JLabel {
+public class PropertyIcon<T> extends SimSharingIcon {
 
-    public PropertyIcon( final IUserComponent simSharingObject, Icon icon, final Property<T> property, final T value ) {
-        super( icon );
-        addMouseListener( new MouseAdapter() {
-            @Override public void mousePressed( MouseEvent e ) {
-                SimSharingManager.sendUserMessage( simSharingObject, UserComponentTypes.icon, UserActions.pressed );
-                property.set( value );
-            }
-        } );
+    public PropertyIcon( final IUserComponent userComponent, Icon icon, final Property<T> property, final T value ) {
+        super( userComponent, icon,
+               new VoidFunction0() {
+                   public void apply() {
+                       property.set( value );
+                   }
+               } );
     }
 }
