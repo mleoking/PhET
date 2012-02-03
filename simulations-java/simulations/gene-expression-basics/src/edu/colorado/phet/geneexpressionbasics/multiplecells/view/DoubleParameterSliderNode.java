@@ -17,8 +17,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * Class that depicts a slider that controls a parameter of type Double.
+ *
  * @author John Blanco
- */ // Class that defines the slider and its labels.
+ */
 class DoubleParameterSliderNode extends PNode {
 
     private static final Font TITLE_FONT = new PhetFont( 14 );
