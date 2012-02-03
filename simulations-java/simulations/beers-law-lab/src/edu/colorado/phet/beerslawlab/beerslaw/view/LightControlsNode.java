@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LightControlsNode extends PNode {
+class LightControlsNode extends PNode {
 
     private static final Dimension WAVELENGTH_CONTROL_TRACK_SIZE = new Dimension( 150, 30 );
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );

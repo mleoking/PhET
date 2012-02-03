@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BLLRulerNode extends PNode {
+class BLLRulerNode extends PNode {
 
     /**
      * Constructor.

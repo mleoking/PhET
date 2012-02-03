@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LightNode extends PNode {
+class LightNode extends PNode {
 
     public LightNode( Light light ) {
 

@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BLLWavelengthControl extends WavelengthControl {
+class BLLWavelengthControl extends WavelengthControl {
 
     public BLLWavelengthControl( Dimension trackSize, final Property<Double> wavelength ) {
         super( trackSize.width, trackSize.height );
