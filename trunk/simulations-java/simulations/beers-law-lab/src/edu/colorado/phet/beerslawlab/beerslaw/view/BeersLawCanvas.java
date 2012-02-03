@@ -33,18 +33,21 @@ public class BeersLawCanvas extends BLLCanvas {
             setConfirmationEnabled( false );
         }};
         PNode rulerNode = new BLLRulerNode( (int)model.getCuvetteWidthRange().getMax(), getStageSize(), model.mvt );
+        PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt );
 
         // Rendering order
         {
             addChild( lightNode );
             addChild( lightControlsNode );
-            addChild( soluteChoiceNode );
             addChild( resetAllButtonNode );
+            addChild( cuvetteNode );
             addChild( rulerNode );
+            addChild( soluteChoiceNode );
         }
 
         // layout
         {
+            // NOTE: Nodes that have corresponding model elements handle their own offsets.
             final double xMargin = 20;
             final double yMargin = 20;
             // left center

@@ -16,6 +16,7 @@ import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumChromate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumDichromate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumPermanganate;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -31,13 +32,15 @@ public class BeersLawModel implements Resettable {
     private static final double BEAKER_VOLUME = 1; // L
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
     private static final double DEFAULT_SOLUTE_AMOUNT = 0; // moles
-    private static final DoubleRange CUVETTE_WIDTH_RANGE = new DoubleRange( 0.5, 2.0 );
+    private static final DoubleRange CUVETTE_WIDTH_RANGE = new DoubleRange( 0.5, 2.0, 1.0 ); // cm
+    private static final double CUVETTE_HEIGHT = 3; // cm
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Property<Solute> solute; // the selected solute
     public final Solution solution;
     public final Light light;
     public final ModelViewTransform mvt;
+    public final Cuvette cuvette;
 
     public BeersLawModel() {
 
@@ -57,18 +60,20 @@ public class BeersLawModel implements Resettable {
             add( new PotassiumPermanganate() );
         }};
         this.solute = new Property<Solute>( solutes.get( 0 ) );
+
         this.solution = new Solution( solute, DEFAULT_SOLUTE_AMOUNT, SOLUTION_VOLUME_RANGE.getDefault() );
+        solution.soluteAmount.set( 0.1 ); //TODO we need to set concentration directly in this model
+
         double defaultWavelength = 500; //TODO get lambdaMax from solute
         this.light = new Light( false, LightRepresentation.BEAM, defaultWavelength );
+
+        this.cuvette = new Cuvette( new ImmutableVector2D( 3, 1 ), CUVETTE_WIDTH_RANGE.getDefault(), CUVETTE_HEIGHT );
     }
 
     public void reset() {
         solute.reset();
         solution.reset();
-    }
-
-    public ModelViewTransform getMvt() {
-        return mvt;
+        cuvette.reset();
     }
 
     public ArrayList<Solute> getSolutes() {
