@@ -18,10 +18,7 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -276,6 +273,7 @@ public class ElectronegativityControlNode extends PhetPNode {
     private static class ThumbDragHandler extends SliderThumbDragHandler {
 
         private final Molecule2D molecule;
+        private final Atom atom;
         private final double snapInterval; // slider snaps to closet model value in this interval
 
         // see superclass for constructor params
@@ -287,15 +285,13 @@ public class ElectronegativityControlNode extends PhetPNode {
                        }
                    } );
             this.molecule = molecule;
+            this.atom = atom;
             this.snapInterval = snapInterval;
-            DragFunction startEndDragFunction = new DragFunction() {
-                public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event ) {
-                    SimSharingManager.sendUserMessage( userComponent, componentType, action,
-                                                       parameters.add( Parameters.atom, atom.getName() ).add( Parameters.electronegativity, atom.electronegativity.get() ) );
-                }
-            };
-            setStartDragFunction( startEndDragFunction );
-            setEndDragFunction( startEndDragFunction );
+        }
+
+        // Add some custom parameters
+        @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
+            return super.getParametersForAllEvents( event ).add( Parameters.atom, atom.getName() ).add( Parameters.electronegativity, atom.electronegativity.get() );
         }
 
         // snaps to the closest value

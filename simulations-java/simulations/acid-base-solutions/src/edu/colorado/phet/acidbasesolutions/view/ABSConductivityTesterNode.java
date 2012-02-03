@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.Conductivit
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler.DragFunction;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler.ParameterSetFunction;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -43,14 +44,17 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
 
         // sim-sharing, positive probe
         {
-            DragFunction startEndDragFunction = new DragFunction() {
-                public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, PInputEvent event ) {
-                    sendProbeEvent( userComponent, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
+            SimSharingDragHandler positiveProbeDragHandler = getPositiveProbeDragHandler();
+            positiveProbeDragHandler.setSendDragMessages( true );
+            ParameterSetFunction startEndDragParametersFunction = new ParameterSetFunction() {
+                public ParameterSet apply( ParameterSet standardParameters, PInputEvent event ) {
+                    return standardParameters.add( ParameterKeys.isInSolution, tester.isPositiveProbeInSolution() ).
+                                              add( ParameterKeys.isCircuitCompleted, tester.isCircuitCompleted() );
                 }
             };
-            getPositiveProbeDragHandler().setStartDragFunction( startEndDragFunction );
-            getPositiveProbeDragHandler().setEndDragFunction( startEndDragFunction );
-            getPositiveProbeDragHandler().setDragFunction( new SimSharingDragHandler.DragFunction() {
+            positiveProbeDragHandler.setStartDragParameterSetFunction( startEndDragParametersFunction );
+            positiveProbeDragHandler.setEndDragParameterSetFunction( startEndDragParametersFunction );
+            positiveProbeDragHandler.setDragParameterSetFunction( new ParameterSetFunction() {
                 boolean inSolution = tester.isPositiveProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
@@ -59,6 +63,10 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                         sendProbeEvent( userComponent, action, tester.isPositiveProbeInSolution(), tester.isCircuitCompleted() );
                     }
                     inSolution = tester.isPositiveProbeInSolution();
+                }
+
+                public ParameterSet apply( ParameterSet standardParameters, PInputEvent event ) {
+                    return null;  //To change body of implemented methods use File | Settings | File Templates.
                 }
             } );
         }
@@ -70,9 +78,9 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
                     sendProbeEvent( userComponent, action, tester.isNegativeProbeInSolution(), tester.isCircuitCompleted() );
                 }
             };
-            getNegativeProbeDragHandler().setStartDragFunction( startEndDragFunction );
-            getNegativeProbeDragHandler().setEndDragFunction( startEndDragFunction );
-            getNegativeProbeDragHandler().setDragFunction( new SimSharingDragHandler.DragFunction() {
+            getNegativeProbeDragHandler().setStartDragParameterSetFunction( startEndDragFunction );
+            getNegativeProbeDragHandler().setEndDragParameterSetFunction( startEndDragFunction );
+            getNegativeProbeDragHandler().setDragParameterSetFunction( new SimSharingDragHandler.DragFunction() {
                 boolean inSolution = tester.isNegativeProbeInSolution();
 
                 // Send event when probe transitions between in/out of solution.
