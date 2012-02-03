@@ -2,9 +2,11 @@
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Cuvette;
+import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,10 +29,9 @@ class CuvetteNode extends PNode {
 
         final PPath cuvetteNode = new PPath() {{
             setStroke( new BasicStroke( 2f ) );
-            setPaint( null );
         }};
         final PPath solutionNode = new PPath() {{
-            setStroke( new BasicStroke( 0.25f ) );
+            setStroke( BLLConstants.FLUID_STROKE );
         }};
 
         addChild( solutionNode );
@@ -49,8 +50,9 @@ class CuvetteNode extends PNode {
 
         solution.addFluidColorObserver( new SimpleObserver() {
             public void update() {
-                solutionNode.setPaint( solution.getFluidColor() );
-                solutionNode.setStrokePaint( solution.getFluidColor().darker().darker() );
+                Color solutonColor = solution.getFluidColor();
+                solutionNode.setPaint( solutonColor );
+                solutionNode.setStrokePaint( BLLConstants.createFluidStrokeColor( solutonColor ) );
             }
         });
 

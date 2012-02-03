@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.model.Beaker;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
@@ -32,7 +33,7 @@ class StockSolutionNode extends PPath {
     public StockSolutionNode( Solvent solvent, Property<Solute> solute, Dropper dropper, Beaker beaker ) {
         setPickable( false );
         setChildrenPickable( false );
-        setStroke( new BasicStroke( 0.25f ) );
+        setStroke( BLLConstants.FLUID_STROKE );
 
         this.solvent = solvent;
         this.solute = solute;
@@ -62,7 +63,7 @@ class StockSolutionNode extends PPath {
             // color
             Color color = Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
             setPaint( color );
-            setStrokePaint( color.darker().darker() );
+            setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
 
             // solution outside the dropper
             Rectangle2D solutionOutsideDropper = null;
