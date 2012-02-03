@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.model;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
@@ -17,6 +19,7 @@ import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 /**
  * Model for the "Beer's Law" module.
@@ -28,13 +31,19 @@ public class BeersLawModel implements Resettable {
     private static final double BEAKER_VOLUME = 1; // L
     private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
     private static final double DEFAULT_SOLUTE_AMOUNT = 0; // moles
+    private static final DoubleRange CUVETTE_WIDTH_RANGE = new DoubleRange( 0.5, 2.0 );
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Property<Solute> solute; // the selected solute
     public final Solution solution;
     public final Light light;
+    public final ModelViewTransform mvt;
 
     public BeersLawModel() {
+
+        // No offset, scale 125x when going from model to view
+        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double(0,0), 125 );
+
         //TODO same set of solutes as ConcentrationModel, move to base class?
         // Solutes, in rainbow (ROYGBIV) order.
         this.solutes = new ArrayList<Solute>() {{
@@ -58,7 +67,15 @@ public class BeersLawModel implements Resettable {
         solution.reset();
     }
 
+    public ModelViewTransform getMvt() {
+        return mvt;
+    }
+
     public ArrayList<Solute> getSolutes() {
         return new ArrayList<Solute>( solutes );
+    }
+
+    public DoubleRange getCuvetteWidthRange() {
+        return CUVETTE_WIDTH_RANGE;
     }
 }

@@ -7,21 +7,37 @@ import edu.colorado.phet.beerslawlab.common.BLLResources;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * A 2cm ruler, constrained to drag within the bounds of the stage.
+ * A ruler, constrained to drag within the bounds of the stage.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BLLRulerNode extends RulerNode {
+public class BLLRulerNode extends PNode {
 
-    public BLLRulerNode( double length, final Dimension2D stageSize ) {
-        super( length, 40, new String[] { "0", "1", "2" }, Strings.UNITS_CENTIMETERS, 9, 12 );
+    /**
+     * Constructor.
+     * @param length distance between first and last tick, in cm
+     * @param stageSize since of the canvas stage, for constraining drags
+     * @param mvt transform between model and view coordinate frames, for sizing the ruler
+     */
+    public BLLRulerNode( int length, final Dimension2D stageSize, ModelViewTransform mvt ) {
+
+        // Compute tick labels, 1 major tick for every 1 unit of length
+        String[] majorTicks = new String[length+1];
+        for ( int i = 0; i < majorTicks.length; i++ ) {
+            majorTicks[i] = String.valueOf( i );
+        }
+
+        addChild( new RulerNode( mvt.modelToViewDeltaX( length ), 40, majorTicks, Strings.UNITS_CENTIMETERS, 9, 12 ) );
         addInputEventListener( new CursorHandler() );
+
         addInputEventListener( new SimSharingDragHandler( UserComponents.ruler, UserComponentTypes.sprite ) {
             @Override protected void drag( PInputEvent event ) {
                 super.drag( event );
