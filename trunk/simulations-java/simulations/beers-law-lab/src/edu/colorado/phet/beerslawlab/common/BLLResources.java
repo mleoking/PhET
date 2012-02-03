@@ -49,7 +49,6 @@ public class BLLResources {
         public static final String UNITS_CENTIMETERS = RESOURCES.getLocalizedString( "units.centimeters" );
         public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
         public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
-        public static final String UNITS_NANOMETERS = RESOURCES.getLocalizedString( "units.nanometers" );
         public static final String VARIABLE = RESOURCES.getLocalizedString( "variable" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
         public static final String WAVELENGTH = RESOURCES.getLocalizedString( "wavelength" );
@@ -60,6 +59,7 @@ public class BLLResources {
         public static final Image ABSORBANCE_METER_BODY_LEFT = RESOURCES.getImage( "absorbance-meter-body-left.png" );
         public static final Image ABSORBANCE_METER_BODY_CENTER = RESOURCES.getImage( "absorbance-meter-body-center.png" );
         public static final Image ABSORBANCE_METER_BODY_RIGHT = RESOURCES.getImage( "absorbance-meter-body-right.png" );
+        public static final Image ABSORBANCE_METER_PROBE = RESOURCES.getImage( "absorbance-meter-probe.png" );
         public static final Image CONCENTRATION_METER_BODY_LEFT = RESOURCES.getImage( "concentration-meter-body-left.png" );
         public static final Image CONCENTRATION_METER_BODY_CENTER = RESOURCES.getImage( "concentration-meter-body-center.png" );
         public static final Image CONCENTRATION_METER_BODY_RIGHT = RESOURCES.getImage( "concentration-meter-body-right.png" );
