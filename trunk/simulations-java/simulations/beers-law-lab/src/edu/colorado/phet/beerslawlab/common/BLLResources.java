@@ -57,6 +57,9 @@ public class BLLResources {
 
     // Images
     public static class Images {
+        public static final Image ABSORBANCE_METER_BODY_LEFT = RESOURCES.getImage( "absorbance-meter-body-left.png" );
+        public static final Image ABSORBANCE_METER_BODY_CENTER = RESOURCES.getImage( "absorbance-meter-body-center.png" );
+        public static final Image ABSORBANCE_METER_BODY_RIGHT = RESOURCES.getImage( "absorbance-meter-body-right.png" );
         public static final Image CONCENTRATION_METER_BODY_LEFT = RESOURCES.getImage( "concentration-meter-body-left.png" );
         public static final Image CONCENTRATION_METER_BODY_CENTER = RESOURCES.getImage( "concentration-meter-body-center.png" );
         public static final Image CONCENTRATION_METER_BODY_RIGHT = RESOURCES.getImage( "concentration-meter-body-right.png" );

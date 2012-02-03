@@ -10,7 +10,6 @@ DESIGN
 HIGH
 - add formula to solute combo box in Beer's tab
 - Cuvette (vessel), variable width 0.5-2.0cm, resizable by dragging right edge, left edge location stays fixed
-- Ruler, long enough to measure cuvette width
 - Meter doesn't read anything in cuvette
 - Concentration slider: different units to match the ranges for each solute (see design doc table, "Conc Range" column, which JC needs to verify)
 - combine Solute combo box (labeled Solution) and Concentration slider in SolutionControls
@@ -20,7 +19,7 @@ HIGH
 - Beer's Law tab (see JC notes below)
 
 MEDIUM
-- change color of meter in Tab1 so that it's not the same color as the meter in Tab2 (they do different things)
+- i18n of "nm" (and other strings?) in WavelengthControl
 - fix resizing issue with LightControlNode, control panel width changes when dragging wavelength slider
 - #3242, make combo box popup appear on top of everything in the scenegraph
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
