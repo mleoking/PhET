@@ -12,7 +12,7 @@ public class BumpUpSplines {
     private final ImmutableRectangle2D bounds;
 
     //Treat the ground specially to make sure no track goes below y=0, since that causes problems for showing PE in pie chart.
-    public static final double MIN_SPLINE_Y = 0.1;
+    public static final double MIN_SPLINE_Y = 0.0;
 
     public BumpUpSplines( EnergySkateParkModel model, ImmutableRectangle2D bounds ) {
         this.model = model;
@@ -23,7 +23,7 @@ public class BumpUpSplines {
         for ( int i = 0; i < model.getNumSplines(); i++ ) {
             EnergySkateParkSpline spline = model.getSpline( i );
             if ( spline.getMinY() < MIN_SPLINE_Y ) {
-                spline.translate( 0, Math.abs( spline.getMinY() ) + MIN_SPLINE_Y );
+                spline.translate( 0, Math.abs( spline.getMinY() ) + MIN_SPLINE_Y + 1E-6 );//not actually sure if the 1E-6 does anything important, but once I saw double bump-up and thought this might help
             }
             else if ( spline.getMaxY() > bounds.getMaxY() ) {
                 spline.translate( 0, -spline.getMaxY() + bounds.getMaxY() );
