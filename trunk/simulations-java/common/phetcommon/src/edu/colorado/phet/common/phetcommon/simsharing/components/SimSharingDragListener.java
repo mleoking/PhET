@@ -12,23 +12,28 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
 /**
  * Base class for Swing drag listeners that perform sim-sharing data collection.
  * Sends messages on startDrag, endDrag, and (optionally) on drag.
  * <p/>
- * Can be customized in 2 ways:
- * 1. Override getParametersForAllEvents to augment or replace the standard parameters for all messages.
- * 2. Override the get*Parameters methods to augment or replace the standard parameters for specific messages.
+ * Can be customized in 3 ways:
+ * 1. Override getParametersForAllEvents to augment or replace the standard parameters for all events.
+ * 2. Override the get*Parameters methods to augment or replace the standard parameters for specific.
+ * 3. Call set*Function methods to replace the functions invoked for specific events.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SimSharingDragListener extends MouseAdapter {
 
+    public interface ParameterSetFunction extends Function2<ParameterSet, MouseEvent, ParameterSet> {};
+
     protected final IUserComponent userComponent;
     private final IUserComponentType componentType;
     private final boolean sendDragMessages;
     private final SimSharingDragPoints dragPoints; // mouse coordinates, accumulated during a drag sequence
+    private ParameterSetFunction startDragParameterSetFunction, dragParameterSetFunction, endDragParameterSetFunction; // functions to get parameters for various messages
 
     // Sends a message on startDrag and endDrag, but not drag
     public SimSharingDragListener( IUserComponent userComponent, IUserComponentType componentType ) {
@@ -37,50 +42,76 @@ public class SimSharingDragListener extends MouseAdapter {
 
     // Sends a message on drag if reportDrag=true
     public SimSharingDragListener( IUserComponent userComponent, IUserComponentType componentType, final boolean sendDragMessages ) {
+
         this.userComponent = userComponent;
         this.componentType = componentType;
         this.sendDragMessages = sendDragMessages;
         this.dragPoints = new SimSharingDragPoints();
+
+        // default functions
+        ParameterSetFunction defaultFunction = new ParameterSetFunction() {
+            public ParameterSet apply( ParameterSet parameterSet, MouseEvent event ) {
+                return parameterSet;
+            }
+        };
+        this.startDragParameterSetFunction = defaultFunction;
+        this.dragParameterSetFunction = defaultFunction;
+        this.endDragParameterSetFunction = defaultFunction;
     }
 
     @Override public void mousePressed( MouseEvent event ) {
         clearDragPoints();
         addDragPoint( event );
-        SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.startDrag, getStartDragParameters( event ) );
+        SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.startDrag, startDragParameterSetFunction.apply( getStartDragParameters( event ), event ) );
         super.mousePressed( event );
     }
 
     @Override public void mouseDragged( MouseEvent event ) {
         addDragPoint( event );
         if ( sendDragMessages ) {
-            SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.startDrag, getDragParameters( event ) );
+            SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.drag, dragParameterSetFunction.apply( getDragParameters( event ), event ) );
         }
         super.mouseDragged( event );
     }
 
     @Override public void mouseReleased( MouseEvent event ) {
         addDragPoint( event );
-        SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.startDrag, getEndDragParameters( event ) );
+        SimSharingManager.sendUserMessage( userComponent, componentType, UserActions.endDrag, endDragParameterSetFunction.apply( getEndDragParameters( event ), event ) );
         clearDragPoints();
         super.mouseReleased( event );
     }
 
-    // Override to specify startDrag parameters, chain with super to add parameters.
+    // Call this to set the function that provides parameters for the startDrag message.
+    public void setStartDragParameterSetFunction( ParameterSetFunction f ) {
+        startDragParameterSetFunction = f;
+    }
+
+    // Call this to set the function that provides parameters for the drag message.
+    public void setDragParameterSetFunction( ParameterSetFunction f ) {
+        dragParameterSetFunction = f;
+    }
+
+    // Call this to set the function that provides parameters for the endDrag message.
+    public void setEndDragParameterSetFunction( ParameterSetFunction f ) {
+        endDragParameterSetFunction = f;
+    }
+
+    // Override to specify parameters that are provided to startDragFunction, chain with super to add parameters.
     protected ParameterSet getStartDragParameters( MouseEvent event ) {
         return getParametersForAllEvents( event );
     }
 
-    // Override to specify drag parameters, chain with super to add parameters.
+    // Override to specify parameters that are provided to dragFunction, chain with super to add parameters.
     protected ParameterSet getDragParameters( MouseEvent event ) {
         return getParametersForAllEvents( event );
     }
 
-    // Override to specify endDrag parameters, chain with super to add parameters.
+    // Override to specify parameters that are provided to endDragFunction, chain with super to add parameters.
     protected ParameterSet getEndDragParameters( MouseEvent event ) {
         return getParametersForAllEvents( event ).add( dragPoints.getParameters() ); // includes summary of drag points
     }
 
-    // Return parameters that are used by default for all events, chain with super to add parameters.
+    // Override to specify parameters that are included in all messages.
     protected ParameterSet getParametersForAllEvents( MouseEvent event ) {
         return new ParameterSet().add( getXParameter( event ) ).add( getYParameter( event ) );
     }
