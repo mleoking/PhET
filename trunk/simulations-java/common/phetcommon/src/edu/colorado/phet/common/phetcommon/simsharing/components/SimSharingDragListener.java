@@ -27,7 +27,10 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
  */
 public class SimSharingDragListener extends MouseAdapter {
 
-    public interface ParameterSetFunction extends Function2<ParameterSet, MouseEvent, ParameterSet> {};
+    // Function to extend standard ParameterSet
+    public interface ParameterSetFunction {
+        public ParameterSet apply( ParameterSet standardParameters, MouseEvent event );
+    };
 
     protected final IUserComponent userComponent;
     private final IUserComponentType componentType;
