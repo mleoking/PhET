@@ -17,7 +17,7 @@ public class BLLSimSharing {
         dropperIcon, evaporationSlider, solventFaucet, drainFaucet,
         shaker, shakerIcon, soluteComboBox,
         lightOnOffButton,
-        ruler
+        ruler, cuvette, lightHousing
     }
 
     public static enum Parameters implements IParameterKey {

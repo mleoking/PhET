@@ -3,8 +3,10 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.MomentaryButtonNode;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -17,17 +19,16 @@ class LightNode extends PNode {
 
     public LightNode( Light light ) {
 
-        PImage imageNode = new PImage( Images.LIGHT );
+        // light housing
+        PImage lightHousingNode = new PImage( Images.LIGHT );
+        lightHousingNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.lightHousing ) );
+        addChild( lightHousingNode );
+
+        // button, scaled to fit image
         MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.lightOnOffButton, light.on );
-
-        // scale button to fit image
-        buttonNode.scale( 0.75 * imageNode.getFullBoundsReference().getHeight() / buttonNode.getFullBoundsReference().getHeight() );
-
-        addChild( imageNode );
         addChild( buttonNode );
-
-        // layout
-        buttonNode.setOffset( imageNode.getFullBoundsReference().getMaxX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ) - 40,
-                              imageNode.getFullBoundsReference().getCenterY() );
+        buttonNode.scale( 0.75 * lightHousingNode.getFullBoundsReference().getHeight() / buttonNode.getFullBoundsReference().getHeight() );
+        buttonNode.setOffset( lightHousingNode.getFullBoundsReference().getMaxX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ) - 40,
+                              lightHousingNode.getFullBoundsReference().getCenterY() );
     }
 }
