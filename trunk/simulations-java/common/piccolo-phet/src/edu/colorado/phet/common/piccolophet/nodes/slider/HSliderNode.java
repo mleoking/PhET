@@ -11,12 +11,14 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -29,6 +31,8 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.PFrame;
 
 /**
@@ -42,7 +46,7 @@ public class HSliderNode extends SliderNode {
     private static final double DEFAULT_TRACK_HEIGHT = 5;
 
     private PhetPPath trackNode;
-    private KnobNode knobNode;
+    private PNode knobNode;
 
     // Root node to which all other nodes should be added.  This is done to
     // allow the offset of this node to be at (0, 0).  Use this when adding
@@ -69,7 +73,9 @@ public class HSliderNode extends SliderNode {
         rootNode.addChild( trackNode );
 
         double knobSize = KnobNode.DEFAULT_SIZE < trackWidth / 5 ? KnobNode.DEFAULT_SIZE : trackWidth / 5;
-        knobNode = new KnobNode( knobSize, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
+
+        //Create the knob node here then wrap in zero offset node to account for offset, see #3245
+        KnobNode _knobNode = new KnobNode( knobSize, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean enabled ) {
                     setEnabled( enabled );
@@ -112,6 +118,7 @@ public class HSliderNode extends SliderNode {
                 }
             } );
         }};
+        knobNode = new ZeroOffsetNode( _knobNode );
 
         SimpleObserver updateKnobPosition = new SimpleObserver() {
             public void update() {
@@ -168,7 +175,7 @@ public class HSliderNode extends SliderNode {
 
         //At discussion on 10/6/2011 we decided every label should have a tick mark that extends to the track but is also visible when the knob is over it
         float tickStroke = 1.5f;
-        final PhetPPath tickMark = new PhetPPath( new Line2D.Double( getViewX( value ) - tickStroke / 2, 0, getViewX( value ) - tickStroke / 2, knobNode.getFullBounds().getHeight() / 2 + 3 ), new BasicStroke( tickStroke ), Color.darkGray );
+        final PhetPPath tickMark = new PhetPPath( new Line2D.Double( getViewX( value ), 0, getViewX( value ), knobNode.getFullBounds().getHeight() / 2 + 6 ), new BasicStroke( tickStroke ), Color.darkGray );
         rootNode.addChild( tickMark );
 
         rootNode.addChild( label );
@@ -190,9 +197,20 @@ public class HSliderNode extends SliderNode {
     }
 
     public static void main( String[] args ) {
+
+        //Init sim sharing manager so it doesn't exception when trying to record messages
+        String[] myArgs = { "-study" };
+        SimSharingManager.init( new PhetApplicationConfig( myArgs, "myProject" ) );
+        PDebug.debugBounds = true;
+
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PFrame( "test", false, new PCanvas() {{
+
+                    //Emulate sim environment as closely as possible for debugging.
+                    setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+                    setDefaultRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+                    setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 
                     Property<Double> sliderValue = new Property<Double>( 0.0 ) {{
                         addObserver( new VoidFunction1<Double>() {
@@ -202,7 +220,7 @@ public class HSliderNode extends SliderNode {
                         } );
                     }};
 
-                    final HSliderNode sliderNode = new HSliderNode( new UserComponent( "mySlider" ), 0, 100, sliderValue ) {{
+                    final HSliderNode sliderNode = new HSliderNode( new UserComponent( "mySlider" ), 0, 100, 90, 10, sliderValue, new Property<Boolean>( true ) ) {{
                         addLabel( 0.0, new PhetPText( "None" ) );
                         addLabel( 100.0, new PhetPText( "Lots" ) );
                         setOffset( 150, 250 );
