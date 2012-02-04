@@ -1,3 +1,4 @@
+> Nudge up tracks by 1E-2 meters so that the potential energy won't go negative at the bottom of a user-created well
 # 2.09.04 (61015) Feb 3, 2012
 # 2.09.03 (61014) Feb 3, 2012
 > Fixed: Tracks will not connect when dragged directly out of the toolbox
