@@ -122,12 +122,12 @@ public class EnergySkateParkRootNode extends PhetRootPNode {
         } );
 
         addScreenChild( backgroundScreenNode );
-        addScreenChild( splineToolbox );
 
         addWorldChild( houseNode );
         addWorldChild( mountainNode );
         addWorldChild( floorNode );
         addWorldChild( gridNode );
+        addScreenChild( splineToolbox );
         addChild( controlLayer );
         addWorldChild( splineLayer );
         addWorldChild( skaterNodeLayer );
