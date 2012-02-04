@@ -12,7 +12,8 @@ public class BumpUpSplines {
     private final ImmutableRectangle2D bounds;
 
     //Treat the ground specially to make sure no track goes below y=0, since that causes problems for showing PE in pie chart.
-    public static final double MIN_SPLINE_Y = 0.0;
+    //Actually bump a little above y=0 since if the skate goes below y=0 the pie chart disappears because of negative slice of PE.
+    public static final double MIN_SPLINE_Y = 1E-2;
 
     public BumpUpSplines( EnergySkateParkModel model, ImmutableRectangle2D bounds ) {
         this.model = model;
