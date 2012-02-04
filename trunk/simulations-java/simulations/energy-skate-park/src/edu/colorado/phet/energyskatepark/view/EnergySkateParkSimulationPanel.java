@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -106,7 +108,13 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
                      module.bumpUpSplines ) {
                     new BumpUpSplines( energySkateParkModel, modelRect.get() ).bumpUpSplines();
                 }
-                getRootNode().updateSplineNodes();//todo this hack is in place for now because spline nodes don't follow good mvc pattern yet
+
+                //Run it later since other events must be handled first in SplineNode so that a track can be dropped directly from toolbox to connect to another track
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        getRootNode().updateSplineNodes();//todo this hack is in place for now because spline nodes don't follow good mvc pattern yet
+                    }
+                } );
             }
         } );
 
