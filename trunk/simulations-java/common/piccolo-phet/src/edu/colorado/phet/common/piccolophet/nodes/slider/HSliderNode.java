@@ -31,7 +31,6 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.PFrame;
 
@@ -201,7 +200,7 @@ public class HSliderNode extends SliderNode {
         //Init sim sharing manager so it doesn't exception when trying to record messages
         String[] myArgs = { "-study" };
         SimSharingManager.init( new PhetApplicationConfig( myArgs, "myProject" ) );
-        PDebug.debugBounds = true;
+//        PDebug.debugBounds = true;
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
