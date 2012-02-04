@@ -1,3 +1,4 @@
+> Fixed: Tracks will not connect when dragged directly out of the toolbox
 > Moved track toolbox in front of the grid
 > When bumping up tracks, make sure they sit at y=0 instead of y=0.1 meters
 # 2.09.02 (60933) Feb 1, 2012

@@ -210,14 +210,6 @@ public class SplineNode extends PNode {
         popupMenu.detachListeners();
     }
 
-    public void setSpline( EnergySkateParkSpline spline ) {
-        detachListeners();
-        this.spline = spline;
-        this.spline.addListener( splineListener );
-        popupMenu.attachListeners( spline );
-        update();
-    }
-
     public void processExternalStartDragEvent() {
         initDragSpline();
     }
