@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 public class CellProteinSynthesisSimulator {
 
     public static final int DEFAULT_TRANSCRIPTION_FACTOR_COUNT = 2000;
-    public static final IntegerRange TRANSCRIPTION_FACTOR_COUNT_RANGE = new IntegerRange( 0, DEFAULT_TRANSCRIPTION_FACTOR_COUNT * 2 );
+    public static final IntegerRange TRANSCRIPTION_FACTOR_COUNT_RANGE = new IntegerRange( DEFAULT_TRANSCRIPTION_FACTOR_COUNT / 100, DEFAULT_TRANSCRIPTION_FACTOR_COUNT * 100 );
     public static final double DEFAULT_TF_ASSOCIATION_PROBABILITY = 2.5E-6;
     //    public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, DEFAULT_TF_ASSOCIATION_PROBABILITY * 2 );
     public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( DEFAULT_TF_ASSOCIATION_PROBABILITY / 10, DEFAULT_TF_ASSOCIATION_PROBABILITY * 10 );
@@ -74,6 +74,9 @@ public class CellProteinSynthesisSimulator {
      */
     public void setTranscriptionFactorCount( int tfCount ) {
         // Parameter checking.
+        if ( !TRANSCRIPTION_FACTOR_COUNT_RANGE.contains( tfCount ) ) {
+            System.out.println( "Oh man, this is bad..." );
+        }
         assert TRANSCRIPTION_FACTOR_COUNT_RANGE.contains( tfCount );
         _objectCounts[1] = tfCount;
     }
