@@ -4,18 +4,19 @@ package edu.colorado.phet.jmephet;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
-public class JMEPropertyRadioButton<T> extends JRadioButton {
+public class JMEPropertyRadioButton<T> extends SimSharingJRadioButton {
     private final SettableProperty<T> property;
     private final SimpleObserver propertyObserver;
 
-    public JMEPropertyRadioButton( final String text, final SettableProperty<T> property, final T value ) {
-        super( text );
+    public JMEPropertyRadioButton( final IUserComponent userComponent, final String text, final SettableProperty<T> property, final T value ) {
+        super( userComponent, text );
 
         this.property = property;
 

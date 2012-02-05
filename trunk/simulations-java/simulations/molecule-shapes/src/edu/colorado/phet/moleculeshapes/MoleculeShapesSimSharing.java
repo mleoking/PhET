@@ -18,7 +18,8 @@ public class MoleculeShapesSimSharing {
     public static enum UserComponents implements IUserComponent {
         backgroundColor, bond, draggingState, mouseMiddleButton, moleculeShapesTab, realMoleculesTab, moleculeComboBox,
         showLonePairsCheckBox, showAllLonePairsCheckBox, showBondAnglesCheckBox,
-        moleculeGeometryCheckBox, electronGeometryCheckBox
+        moleculeGeometryCheckBox, electronGeometryCheckBox,
+        realViewCheckBox, modelViewCheckBox
     }
 
     public static enum Actions implements IUserAction {
