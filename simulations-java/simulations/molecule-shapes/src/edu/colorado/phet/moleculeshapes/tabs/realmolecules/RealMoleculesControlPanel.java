@@ -9,7 +9,6 @@ import java.util.Arrays;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -254,11 +253,7 @@ public class RealMoleculesControlPanel extends PNode {
     }
 
     public static PropertyRadioButtonNode<RealMoleculeShape> createRadioButton( final RealMoleculeShape shape, Property<RealMoleculeShape> moleculeOptions ) {
-        return new PropertyRadioButtonNode<RealMoleculeShape>( new IUserComponent() {
-            @Override public String toString() {
-                return shape.getDisplayName();
-            }
-        }, "<html>" + ChemUtils.toSubscript( shape.getDisplayName() ) + "</html>", moleculeOptions, shape ) {{
+        return new PropertyRadioButtonNode<RealMoleculeShape>( UserComponents.valueOf( shape.getDisplayName() ), "<html>" + ChemUtils.toSubscript( shape.getDisplayName() ) + "</html>", moleculeOptions, shape ) {{
             getRadioButton().setForeground( Color.BLACK );
         }};
     }
