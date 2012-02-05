@@ -9,6 +9,7 @@ import java.util.Arrays;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -150,10 +151,10 @@ public class RealMoleculesControlPanel extends PNode {
             /*---------------------------------------------------------------------------*
             * real / model radio buttons
             *----------------------------------------------------------------------------*/
-            final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__REAL_VIEW, module.showRealView, true );
+            final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.realViewCheckBox, Strings.CONTROL__REAL_VIEW, module.showRealView, true );
             addChild( realRadioNode );
 
-            final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( Strings.CONTROL__MODEL_VIEW, module.showRealView, false );
+            final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.modelViewCheckBox, Strings.CONTROL__MODEL_VIEW, module.showRealView, false );
             addChild( modelRadioNode );
 
 //            if ( module.shouldUseKit() ) {
@@ -252,8 +253,12 @@ public class RealMoleculesControlPanel extends PNode {
         }
     }
 
-    public static PropertyRadioButtonNode<RealMoleculeShape> createRadioButton( RealMoleculeShape shape, Property<RealMoleculeShape> moleculeOptions ) {
-        return new PropertyRadioButtonNode<RealMoleculeShape>( "<html>" + ChemUtils.toSubscript( shape.getDisplayName() ) + "</html>", moleculeOptions, shape ) {{
+    public static PropertyRadioButtonNode<RealMoleculeShape> createRadioButton( final RealMoleculeShape shape, Property<RealMoleculeShape> moleculeOptions ) {
+        return new PropertyRadioButtonNode<RealMoleculeShape>( new IUserComponent() {
+            @Override public String toString() {
+                return shape.getDisplayName();
+            }
+        }, "<html>" + ChemUtils.toSubscript( shape.getDisplayName() ) + "</html>", moleculeOptions, shape ) {{
             getRadioButton().setForeground( Color.BLACK );
         }};
     }
