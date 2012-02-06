@@ -350,10 +350,10 @@
 
         chdir($cwd);
 
-        flushing_echo("Copying installers to ".$output_dir);
+        flushing_echo("Moving installers to ".$output_dir);
 
         // Now move everything in the BitRock directory to the output directory.
-        file_dircopy(BITROCK_DIST_DIR, $output_dir, true);
+        file_move_all(BITROCK_DIST_DIR, $output_dir, true);
 
         return true;
     }

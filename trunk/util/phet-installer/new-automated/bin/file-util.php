@@ -248,16 +248,14 @@
      * Move all files in the source directory to the destination directory.
      * This is NOT recursive, so subdirectories are not copied.
      */
-    function file_move_all( $srcdir, $dstdir ) {
+    function file_move_all( $srcdir, $dstdir, $verbose = false) {
         $filelist = file_list_in_directory( $srcdir );
         foreach ($filelist as $file) {
             // Move the old file to the new location.
-            // TODO: The following printout is here primarily for debug
-            // purposes and was put in place on Sep 22 2009 when this function
-            // was developed.  It can be removed or commented out when the
-            // function is believed to be fully tested and stable.
-            print "Moving file: ".$file." to ".str_replace( $srcdir, $dstdir, $file )."\n";
-            rename( $file,  str_replace( $srcdir, $dstdir, $file ) );
+            if($verbose){
+                print "Moving file: ".$file." to ".str_replace( $srcdir, $dstdir, $file )."\n";
+            }
+            rename( $file, str_replace( $srcdir, $dstdir, $file ) );
         }
     }
 
