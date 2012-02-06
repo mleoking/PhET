@@ -83,6 +83,7 @@ public class MultipleCellsModel implements Resettable {
      * Constructor.
      */
     public MultipleCellsModel() {
+
         // Hook up the clock.
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
