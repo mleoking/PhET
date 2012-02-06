@@ -11,7 +11,6 @@ import javax.swing.JSeparator;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
@@ -35,6 +34,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
     public static final Property<Boolean> tab2Visible = new Property<Boolean>( true );
     public static final Property<Boolean> tab3Visible = new Property<Boolean>( true );
     private static final Property<Boolean> whiteBackground = new Property<Boolean>( false );
+    private PhetApplicationConfig config;
 
     /**
      * Sole constructor.
@@ -43,6 +43,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
      */
     public MoleculeShapesApplication( PhetApplicationConfig config ) {
         super( config );
+        this.config = config;
         initModules();
         initMenubar();
     }
@@ -59,31 +60,38 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
         Frame parentFrame = getPhetFrame();
 
         addModule( new MoleculeShapesModule( parentFrame ) {{
+
             addTab( tab1 = new MoleculeShapesTab( Strings.MOLECULE__SHAPES__TITLE, false ) );
-            addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false, false ) );
-            addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
 
-            tab2Visible.addObserver( new SimpleObserver() {
-                public void update() {
-                    if ( tab2Visible.get() ) {
-                        addTab( tab2 );
-                    }
-                    else {
-                        removeTab( tab2 );
-                    }
-                }
-            }, false );
+            if ( config.hasCommandLineArg( "use.combobox" ) ) {
+                addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false, false ) );
+            }
+            if ( config.hasCommandLineArg( "use.kits" ) ) {
+                addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
+            }
 
-            tab3Visible.addObserver( new SimpleObserver() {
-                public void update() {
-                    if ( tab3Visible.get() ) {
-                        addTab( tab3 );
-                    }
-                    else {
-                        removeTab( tab3 );
-                    }
-                }
-            }, false );
+
+//            tab2Visible.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    if ( tab2Visible.get() ) {
+//                        addTab( tab2 );
+//                    }
+//                    else {
+//                        removeTab( tab2 );
+//                    }
+//                }
+//            }, false );
+//
+//            tab3Visible.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    if ( tab3Visible.get() ) {
+//                        addTab( tab3 );
+//                    }
+//                    else {
+//                        removeTab( tab3 );
+//                    }
+//                }
+//            }, false );
         }} );
     }
 

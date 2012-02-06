@@ -30,6 +30,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.tests.MongoLoadTesterSimLauncher;
 import edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.getConfig;
@@ -248,6 +249,7 @@ public class SimSharingManager {
                 add( parserVersion, PARSER_VERSION ).
                 add( study, studyName ).
                 add( id, studentId ).
+                add( commandLineArgs, new ObservableList<String>( config.getCommandLineArgs() ).mkString( " " ) ).
                 add( ParameterKeys.machineCookie, machineCookie ).
                 add( ParameterKeys.sessionId, sessionId ) );
     }

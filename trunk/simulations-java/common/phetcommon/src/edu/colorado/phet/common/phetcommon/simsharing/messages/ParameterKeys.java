@@ -12,7 +12,7 @@ public enum ParameterKeys implements IParameterKey {
     selectedKit,
 
     //For system:
-    time, name, version, project, flavor, locale, distributionTag, javaVersion, osName, osVersion, parserVersion, study, id, machineCookie, messageCount, messageIndex, sessionId,
+    time, name, version, project, flavor, locale, distributionTag, javaVersion, osName, osVersion, parserVersion, study, id, machineCookie, messageCount, messageIndex, sessionId, commandLineArgs,
 
     errorMessage,
     //For drag events
