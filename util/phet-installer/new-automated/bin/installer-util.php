@@ -315,6 +315,11 @@
         // Change working directory to location of EXE:
         chdir($exe_dir);
 
+        // Output the version info for the installer builder to the log for
+        // future reference.
+        flushing_echo("Installer builder version info: ".shell_exec($exe_dir.BITROCK_EXE." ".BITROCK_VERSION_ARGS));
+
+        // Build the installer for each platform.
         foreach ($g_bitrock_dists as $platform => $distfile) {
             $cmd_line = $exe_dir.BITROCK_EXE.BITROCK_PRE_ARGS.'"'."$new_buildfile".'" '.$platform;
 
