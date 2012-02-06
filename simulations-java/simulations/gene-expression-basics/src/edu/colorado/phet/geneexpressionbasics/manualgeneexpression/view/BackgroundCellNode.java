@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -25,7 +24,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class BackgroundCellNode extends PNode {
 
-    public static final Dimension2D DEFAULT_SIZE = new PDimension( DnaMolecule.MOLECULE_LENGTH * 1.5, DnaMolecule.MOLECULE_LENGTH * 0.5 ); // In screen coordinates, which are roughly the same as pixels.
+    public static final Dimension2D DEFAULT_SIZE = new PDimension( 65000, 20000 ); // In screen coordinates, which are roughly the same as pixels.  Empirically determined.
     private static final Color CELL_INTERIOR_COLOR = new Color( 190, 231, 251 );
 
     public BackgroundCellNode( Point2D centerLocation, int seed ) {
