@@ -39,7 +39,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -1011,7 +1010,7 @@ public class PhetTabbedPane extends JPanel {
             return content;
         }
 
-        public void addTab( Tab tab ) {
+        public void addTab( final Tab tab ) {
             HTMLTabNode tabNode = new HTMLTabNode( tab.getUserComponent(), tab.getTitle(), null,
                                                    PhetTabbedPane.DEFAULT_SELECTED_TAB_COLOR, PhetTabbedPane.DEFAULT_UNSELECTED_TAB_COLOR,
                                                    PhetTabbedPane.DEFAULT_SELECTED_TEXT_COLOR, PhetTabbedPane.DEFAULT_UNSELECTED_TEXT_COLOR,
@@ -1022,7 +1021,7 @@ public class PhetTabbedPane extends JPanel {
                     @Override public void mouseReleased( PInputEvent event ) {
                         if ( getFullBounds().contains( event.getCanvasPosition() ) ) {
 
-                            SimSharingManager.sendUserMessage( UserComponents.tab, UserComponentTypes.tab, pressed, ParameterSet.parameterSet( text, getText() ) );
+                            SimSharingManager.sendUserMessage( tab.getUserComponent(), UserComponentTypes.tab, pressed, ParameterSet.parameterSet( text, getText() ) );
 
                             selectedTab.set( tabNodeReverseMap.get( htmlTabNode ) );
                         }

@@ -77,7 +77,8 @@ import com.jme3.system.JmeCanvasContext;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.moleculeshapes.MoleculeShapesConstants.OUTSIDE_PADDING;
-import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.realMoleculesTab;
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.realMoleculesTabWithComboBox;
+import static edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents.realMoleculesTabWithKit;
 
 /**
  * Module that shows the difference between the model and the real shapes the molecules make
@@ -693,6 +694,6 @@ public class RealMoleculesTab extends MoleculeViewTab {
     }
 
     public IUserComponent getUserComponent() {
-        return realMoleculesTab;
+        return useKit ? realMoleculesTabWithKit : realMoleculesTabWithComboBox;
     }
 }
