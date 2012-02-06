@@ -32,11 +32,11 @@ public class Cell extends ShapeChangingModelElement {
 
     // Protein level at which the cell color starts to change.  This is meant
     // to make the cell act as though the protein being produced is florescent.
-    public static final double PROTEIN_LEVEL_WHERE_COLOR_CHANGE_STARTS = 75;
+    public static final double PROTEIN_LEVEL_WHERE_COLOR_CHANGE_STARTS = 50;
 
     // Protein level at which the color change (towards the florescent color)
     // is complete.
-    public static final double PROTEIN_LEVEL_WHERE_COLOR_CHANGE_COMPLETES = 200;
+    public static final double PROTEIN_LEVEL_WHERE_COLOR_CHANGE_COMPLETES = 150;
 
     //-------------------------------------------------------------------------
     // Instance Data
