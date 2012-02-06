@@ -24,12 +24,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class BackgroundCellNode extends PNode {
 
-    public static final Dimension2D DEFAULT_SIZE = new PDimension( 65000, 20000 ); // In screen coordinates, which are roughly the same as pixels.  Empirically determined.
+    // Default size in screen coordinates, which are pretty close to pixels
+    // when there is no zoom in effect.  Size was empirically determined to
+    // hold the DNA strand.
+    public static final Dimension2D DEFAULT_SIZE = new PDimension( 65000, 20000 );
+
     private static final Color CELL_INTERIOR_COLOR = new Color( 190, 231, 251 );
 
     public BackgroundCellNode( Point2D centerLocation, int seed ) {
         this( centerLocation, DEFAULT_SIZE, 0, seed );
-
     }
 
     public BackgroundCellNode( Point2D centerLocation, Dimension2D size, double rotationAngle, int seed ) {

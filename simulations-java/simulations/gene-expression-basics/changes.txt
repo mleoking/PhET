@@ -1,3 +1,5 @@
+Lengthened the DNA strand on the 1st tab so edges aren't seen when zooming in/out.
+Fixed an issue where background cells were too large.
 # 0.00.13 (61026) Feb 6, 2012
 2/6/12 Deploying to dev for review and feedback.
 Added counter to protein collection area for number of instances of a given protein.
