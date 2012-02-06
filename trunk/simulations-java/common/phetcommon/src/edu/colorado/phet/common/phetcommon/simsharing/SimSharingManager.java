@@ -74,7 +74,12 @@ public class SimSharingManager {
     public static final String MONGO_PASSWORD = "8zkamme";
 
     public static final SimSharingManager getInstance() {
-        assert ( INSTANCE != null ); // in case we forget to call init first
+
+        //If we try to use sim sharing before init called (say from a sample main), init with the default study and a dummy project name
+        if ( INSTANCE == null ) {
+            init( new PhetApplicationConfig( new String[] { "-study" }, "sim-sharing-manager" ) );
+        }
+        assert ( INSTANCE != null ); // make sure init worked
         return INSTANCE;
     }
 
