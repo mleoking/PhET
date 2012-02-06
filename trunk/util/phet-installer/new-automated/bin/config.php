@@ -270,6 +270,8 @@
     define("BITROCK_PRODUCT_VERSION",   PHET_VERSION);
     define("BITROCK_CODEBASE_MACRO",  '@@CODEBASE@@');
 
+    define("BITROCK_VERSION_ARGS",  "--version");
+
     define("BITROCK_DIR",               file_cleanup_local_filename(ROOT_DIR."BitRock/"));
     define("BITROCK_BUILDFILE_DIR",     file_cleanup_local_filename(BITROCK_DIR."projects/"));
 
