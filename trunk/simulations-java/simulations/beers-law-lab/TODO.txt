@@ -33,8 +33,7 @@ LOW
 - fix potential issues in TiledBackgroundNode
 
 SIM-SHARING
-- add sim-sharing to PropertyRadioButton
-- add sim-sharing to RulerNode
+- add sim-sharing to WavelengthControl
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
