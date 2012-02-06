@@ -1,3 +1,4 @@
+2/6/12 simsharing: Improve sim sharing for purposes of developing (e.g. test mains): SimSharingManager.getInstance doesn't require init() and default config doesn't send to server
 2/2/12 simsharing: factor out duplication of component/type/action throughout SimSharingJ* classes
 2/2/12 #3223, simplify SimSharingDragListener, which retaining same functionality (ability to specify IUserComponent and customize ParameterSet)
 2/2/12 #3223, make Property* Swing components subclass SimSharingJ*, replace and delete SimSharingProperty* classes

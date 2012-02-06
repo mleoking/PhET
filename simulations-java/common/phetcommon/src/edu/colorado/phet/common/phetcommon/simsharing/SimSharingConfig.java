@@ -73,7 +73,7 @@ public abstract class SimSharingConfig {
         }
 
         protected DefaultConfig( String name ) {
-            super( name, false, true, false, false, "" );
+            super( name, false, false, false, false, "" );
         }
     }
 
@@ -83,7 +83,7 @@ public abstract class SimSharingConfig {
      */
     private static class InterviewsConfig extends SimSharingConfig {
         public InterviewsConfig() {
-             super( "interviews", true, false, false, false );
+            super( "interviews", true, false, false, false );
         }
     }
 
