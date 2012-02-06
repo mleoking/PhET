@@ -43,11 +43,11 @@ public class DnaMolecule {
     private static final int BASE_PAIRS_PER_TWIST = 10; // In picometers.
     public static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
-    private static final int NUMBER_OF_TWISTS = 176;
+    private static final int NUMBER_OF_TWISTS = 200;
     private static final int NUMBER_OF_BASE_PAIRS = BASE_PAIRS_PER_TWIST * NUMBER_OF_TWISTS;
     public static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
     private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers.
-    private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES / 2;  // Make the strand start out of view to the left.
+    private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;  // Make the strand start out of view to the left.
     public static final double Y_POS = 0;
 
     // Distance within which transcription factors may attach.
