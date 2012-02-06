@@ -1,3 +1,4 @@
+Adjusted parameter ranges and chart range to keep protein level on the chart in last tab.
 Lengthened the DNA strand on the 1st tab so edges aren't seen when zooming in/out.
 Fixed an issue where background cells were too large.
 # 0.00.13 (61026) Feb 6, 2012
