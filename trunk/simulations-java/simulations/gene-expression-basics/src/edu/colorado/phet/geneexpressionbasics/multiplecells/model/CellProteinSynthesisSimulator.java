@@ -23,12 +23,11 @@ public class CellProteinSynthesisSimulator {
     public static final int DEFAULT_TRANSCRIPTION_FACTOR_COUNT = 2000;
     public static final IntegerRange TRANSCRIPTION_FACTOR_COUNT_RANGE = new IntegerRange( DEFAULT_TRANSCRIPTION_FACTOR_COUNT / 100, DEFAULT_TRANSCRIPTION_FACTOR_COUNT * 100 );
     public static final double DEFAULT_TF_ASSOCIATION_PROBABILITY = 2.5E-6;
-    //    public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, DEFAULT_TF_ASSOCIATION_PROBABILITY * 2 );
     public static final DoubleRange TF_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( DEFAULT_TF_ASSOCIATION_PROBABILITY / 10, DEFAULT_TF_ASSOCIATION_PROBABILITY * 10 );
     public static final double DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY = 9.5E-7;
     public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 2 * DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
     public static final double DEFAULT_PROTEIN_DEGRADATION_RATE = 0.0003f;
-    public static final DoubleRange PROTEIN_DEGRADATION_RANGE = new DoubleRange( DEFAULT_PROTEIN_DEGRADATION_RATE / 2, 2 * DEFAULT_PROTEIN_DEGRADATION_RATE );
+    public static final DoubleRange PROTEIN_DEGRADATION_RANGE = new DoubleRange( DEFAULT_PROTEIN_DEGRADATION_RATE / 2, DEFAULT_PROTEIN_DEGRADATION_RATE * 1.5 );
 
     private Random _random = new Random();
     private double _timeStep = 5e2;
