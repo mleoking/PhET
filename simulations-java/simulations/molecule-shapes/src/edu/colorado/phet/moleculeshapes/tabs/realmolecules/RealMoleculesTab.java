@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
@@ -36,6 +38,10 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelActions;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelComponentTypes;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelObjects;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelParameterKeys;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel;
@@ -163,6 +169,14 @@ public class RealMoleculesTab extends MoleculeViewTab {
         this.useKit = useKit;
         this.isBasicsVersion = isBasicsVersion;
 
+        realMolecule.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( realMolecule.get() != null ) {
+                    SimSharingManager.sendModelMessage( ModelObjects.molecule, ModelComponentTypes.moleculeModel, ModelActions.realMoleculeChanged, new ParameterSet( new Parameter( ModelParameterKeys.realMolecule, realMolecule.get().getDisplayName() ) ) );
+                }
+            }
+        } );
+
         // TODO: improve initialization here
         RealMoleculeShape startingMolecule = RealMoleculeShape.TAB_2_MOLECULES[0];
         RealMolecule startingMoleculeModel = new RealMolecule( startingMolecule );
@@ -280,10 +294,10 @@ public class RealMoleculesTab extends MoleculeViewTab {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-            public void update() {
-                rebuildMolecule( false );
-            }
-        }, false );
+                                      public void update() {
+                                          rebuildMolecule( false );
+                                      }
+                                  }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel

@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculeshapes;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -41,7 +42,15 @@ public class MoleculeShapesSimSharing {
         molecule
     }
 
+    public static enum ModelComponentTypes implements IModelComponentType {
+        moleculeModel
+    }
+
     public static enum ModelActions implements IModelAction {
-        bondsChanged
+        bondsChanged, realMoleculeChanged
+    }
+
+    public static enum ModelParameterKeys implements  IParameterKey {
+        realMolecule
     }
 }
