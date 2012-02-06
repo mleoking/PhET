@@ -127,6 +127,7 @@
         }
         else{
             fwrite( $fp, $time );
+            chmod( CREATION_TIMESTAMP_FILE_NAME, 0664 ); // Make sure anyone in group can modify this file.
             flushing_echo( 'Successfully created timestamp file '.CREATION_TIMESTAMP_FILE_NAME );
         }
     }
