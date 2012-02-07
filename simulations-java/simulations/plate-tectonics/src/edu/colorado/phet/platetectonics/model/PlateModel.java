@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 /**
@@ -20,8 +19,6 @@ public abstract class PlateModel {
     // event notification
     public final VoidNotifier modelChanged = new VoidNotifier();
     public final Notifier<Terrain> terrainAdded = new Notifier<Terrain>();
-    public final Notifier<Region> regionAdded = new Notifier<Region>();
-    public final Notifier<Region> regionRemoved = new Notifier<Region>();
     public final Notifier<CrossSectionPatch> patchAdded = new Notifier<CrossSectionPatch>();
     public final Notifier<CrossSectionPatch> patchRemoved = new Notifier<CrossSectionPatch>();
     public final Notifier<CrossSectionStrip> crossSectionStripAdded = new Notifier<CrossSectionStrip>();
@@ -34,9 +31,6 @@ public abstract class PlateModel {
 
     // terrains model the surface of the ground (and sea-floor)
     private final List<Terrain> terrains = new ArrayList<Terrain>();
-
-    // regions model the interior of the earth in the z=0 plane
-    private final List<Region> regions = new ArrayList<Region>();
 
     // replacement for regions with improved texturing
     private final List<CrossSectionPatch> patches = new ArrayList<CrossSectionPatch>();
@@ -69,20 +63,6 @@ public abstract class PlateModel {
 
     public List<Terrain> getTerrains() {
         return terrains;
-    }
-
-    public void addRegion( Region region ) {
-        regions.add( region );
-        regionAdded.updateListeners( region );
-    }
-
-    public void removeRegion( Region region ) {
-        regions.remove( region );
-        regionRemoved.updateListeners( region );
-    }
-
-    public List<Region> getRegions() {
-        return regions;
     }
 
     public void addPatch( CrossSectionPatch patch ) {
