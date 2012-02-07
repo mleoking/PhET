@@ -7,6 +7,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region;
@@ -23,6 +24,10 @@ public abstract class PlateModel {
     public final Notifier<CrossSectionStrip> crossSectionStripRemoved = new Notifier<CrossSectionStrip>();
     public final Notifier<TerrainStrip> terrainStripAdded = new Notifier<TerrainStrip>();
     public final Notifier<TerrainStrip> terrainStripRemoved = new Notifier<TerrainStrip>();
+    public final Notifier<Plate> plateAdded = new Notifier<Plate>();
+    public final Notifier<Plate> plateRemoved = new Notifier<Plate>();
+    public final Notifier<Region> regionAdded = new Notifier<Region>();
+    public final Notifier<Region> regionRemoved = new Notifier<Region>();
 
     // full bounds of the simulated model
     public final Bounds3D bounds;
@@ -36,6 +41,12 @@ public abstract class PlateModel {
 
     private final List<CrossSectionStrip> crossSectionStrips = new ArrayList<CrossSectionStrip>();
     private final List<TerrainStrip> terrainStrips = new ArrayList<TerrainStrip>();
+
+    private final VoidFunction1<Region> regionOnPlateAddedListener = new VoidFunction1<Region>() {
+        public void apply( Region region ) {
+            addRegion( region );
+        }
+    };
 
     protected PlateModel( final Bounds3D bounds ) {
         this.bounds = bounds;
@@ -66,20 +77,25 @@ public abstract class PlateModel {
 
     public void addPlate( Plate plate ) {
         plates.add( plate );
-        for ( Region region : plate.getRegions() ) {
+        plate.regions.addElementAddedObserver( regionOnPlateAddedListener );
+        plateAdded.updateListeners( plate );
+        for ( Region region : plate.regions ) {
             addRegion( region );
         }
     }
 
     public void removePlate( Plate plate ) {
         plates.remove( plate );
-        for ( Region region : plate.getRegions() ) {
+        plate.regions.removeElementAddedObserver( regionOnPlateAddedListener );
+        plateRemoved.updateListeners( plate );
+        for ( Region region : plate.regions ) {
             removeRegion( region );
         }
     }
 
     public void addRegion( Region region ) {
         regions.add( region );
+        regionAdded.updateListeners( region );
         for ( CrossSectionStrip strip : region.getStrips() ) {
             addStrip( strip );
         }
@@ -87,6 +103,7 @@ public abstract class PlateModel {
 
     public void removeRegion( Region region ) {
         regions.remove( region );
+        regionRemoved.updateListeners( region );
         for ( CrossSectionStrip strip : region.getStrips() ) {
             removeStrip( strip );
         }
