@@ -1,3 +1,4 @@
+# 1.02.03 (61076) Feb 7, 2012
 Renamed tab 1 to "Model"
 Tab 2: Removed "show outer lone pairs" checkbox
 # 1.02.02 (61032) Feb 6, 2012
