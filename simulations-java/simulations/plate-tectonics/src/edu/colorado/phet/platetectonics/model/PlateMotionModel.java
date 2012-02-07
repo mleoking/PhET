@@ -1,24 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
+import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 public class PlateMotionModel extends PlateModel {
 
-    private CrossSectionStrip leftCrustStrip;
-    private CrossSectionStrip rightCrustStrip;
-    private CrossSectionStrip leftMantleStrip;
-    private CrossSectionStrip rightMantleStrip;
+    private Plate leftPlate;
+    private Plate rightPlate;
 
     public static enum PlateType {
         CONTINENTAL( true, false ),
@@ -51,23 +50,22 @@ public class PlateMotionModel extends PlateModel {
     private final Terrain rightTerrain;
     private final TerrainConnector centerTerrain;
 
-    private static float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
-    private static float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
+    private static final float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
+    private static final float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
+    private static final float SIMPLE_MANTLE_TOP_TEMP = ZERO_CELSIUS + 700;
+    private static final float SIMPLE_MANTLE_BOTTOM_TEMP = ZERO_CELSIUS + 1300;
+    private static final float SIMPLE_MANTLE_DENSITY = 3300f;
 
-    private final int sideCount = 128;
-    private final int totalCount = 2 * sideCount;
+    private static final float SIMPLE_CRUST_TOP_TEMP = ZERO_CELSIUS;
+    private static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;
+
+    private static final int MANTLE_VERTICAL_SAMPLES = 2;
+    private static final int CRUST_VERTICAL_SAMPLES = 2;
+    private static final int HORIZONTAL_SAMPLES = 128;
+
+    private final int totalCount = 2 * HORIZONTAL_SAMPLES;
     private final int depthCount = 32;
     private final int bottomCount = 64;
-
-    private List<SamplePoint> leftCrustTopSamples = new ArrayList<SamplePoint>();
-    private List<SamplePoint> rightCrustTopSamples = new ArrayList<SamplePoint>();
-    private List<SamplePoint> leftCrustBottomSamples = new ArrayList<SamplePoint>();
-    private List<SamplePoint> rightCrustBottomSamples = new ArrayList<SamplePoint>();
-    private List<SamplePoint> leftMantleTopSamples = new ArrayList<SamplePoint>();
-    private List<SamplePoint> rightMantleTopSamples = new ArrayList<SamplePoint>();
-    private List<SamplePoint> leftMantleBottomSamples = new ArrayList<SamplePoint>();
-    private List<SamplePoint> rightMantleBottomSamples = new ArrayList<SamplePoint>();
-
 
     // TODO: better handling for this. ugly
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
@@ -101,14 +99,6 @@ public class PlateMotionModel extends PlateModel {
     public PlateMotionModel( final Bounds3D bounds ) {
         super( bounds );
 
-        addDebugPropertyListener( "canRun", canRun );
-        addDebugPropertyListener( "hasBothPlates", hasBothPlates );
-        addDebugPropertyListener( "animationStarted", animationStarted );
-        addDebugPropertyListener( "leftPlateType", leftPlateType );
-        addDebugPropertyListener( "rightPlateType", rightPlateType );
-        addDebugPropertyListener( "motionType", motionType );
-        addDebugPropertyListener( "motionTypeIfStarted", motionTypeIfStarted );
-
         final float minX = bounds.getMinX();
         final float maxX = bounds.getMaxX();
         final float centerX = bounds.getCenterX();
@@ -116,17 +106,18 @@ public class PlateMotionModel extends PlateModel {
         final float minZ = bounds.getMinZ();
         final float maxZ = bounds.getMaxZ();
 
-        resetSamples();
+
+        resetPlates();
 
         /*---------------------------------------------------------------------------*
          * terrains
          *----------------------------------------------------------------------------*/
-        leftTerrain = new Terrain( sideCount, depthCount ) {{
+        leftTerrain = new Terrain( HORIZONTAL_SAMPLES, depthCount ) {{
             setXBounds( minX, centerX );
             setZBounds( minZ, maxZ );
         }};
         addTerrain( leftTerrain );
-        rightTerrain = new Terrain( sideCount, depthCount ) {{
+        rightTerrain = new Terrain( HORIZONTAL_SAMPLES, depthCount ) {{
             setXBounds( centerX, maxX );
             setZBounds( minZ, maxZ );
         }};
@@ -136,25 +127,6 @@ public class PlateMotionModel extends PlateModel {
 
         updateTerrain();
         updateStrips();
-
-        leftMantleStrip = new CrossSectionStrip( leftMantleTopSamples, leftMantleBottomSamples );
-        addStrip( leftMantleStrip );
-        rightMantleStrip = new CrossSectionStrip( rightMantleTopSamples, rightMantleBottomSamples );
-        addStrip( rightMantleStrip );
-    }
-
-    private void resetMantleStrips() {
-        if ( leftMantleStrip != null ) {
-            removeStrip( leftMantleStrip );
-        }
-        leftMantleStrip = new CrossSectionStrip( leftMantleTopSamples, leftMantleBottomSamples );
-        addStrip( leftMantleStrip );
-
-        if ( rightMantleStrip != null ) {
-            removeStrip( rightMantleStrip );
-        }
-        rightMantleStrip = new CrossSectionStrip( rightMantleTopSamples, rightMantleBottomSamples );
-        addStrip( rightMantleStrip );
     }
 
     private ImmutableVector2F textureMap( ImmutableVector2F position ) {
@@ -171,144 +143,141 @@ public class PlateMotionModel extends PlateModel {
                               }, false );
     }
 
-    private void resetSamples() {
-        /*---------------------------------------------------------------------------*
-         * samples (intial values)
-         *----------------------------------------------------------------------------*/
-        leftCrustTopSamples.clear();
-        rightCrustTopSamples.clear();
-        leftCrustBottomSamples.clear();
-        rightCrustBottomSamples.clear();
-        leftMantleTopSamples.clear();
-        rightMantleTopSamples.clear();
-        leftMantleBottomSamples.clear();
-        rightMantleBottomSamples.clear();
-        for ( int i = 0; i < sideCount; i++ ) {
-            float leftX = getLeftX( i );
-            float rightX = getRightX( i );
-
-            // TODO: densities  (and change them when things are dropped in!)
-            leftCrustTopSamples.add( new SamplePoint( new ImmutableVector3F( leftX, 0, 0 ), ZERO_CELSIUS,
-                                                      2700.0f, textureMap( new ImmutableVector2F( leftX, 0 ) ) ) );
-            rightCrustTopSamples.add( new SamplePoint( new ImmutableVector3F( rightX, 0, 0 ), ZERO_CELSIUS,
-                                                       2700.0f, textureMap( new ImmutableVector2F( rightX, 0 ) ) ) );
-            leftCrustBottomSamples.add( new SamplePoint( new ImmutableVector3F( leftX, SIMPLE_MANTLE_TOP_Y, 0 ), ZERO_CELSIUS + 450,
-                                                         2700.0f, textureMap( new ImmutableVector2F( leftX, SIMPLE_MANTLE_TOP_Y ) ) ) );
-            rightCrustBottomSamples.add( new SamplePoint( new ImmutableVector3F( rightX, SIMPLE_MANTLE_TOP_Y, 0 ), ZERO_CELSIUS + 450,
-                                                          2700.0f, textureMap( new ImmutableVector2F( rightX, SIMPLE_MANTLE_TOP_Y ) ) ) );
-
-            leftMantleTopSamples.add( new SamplePoint( new ImmutableVector3F( leftX, SIMPLE_MANTLE_TOP_Y, 0 ), ZERO_CELSIUS + 700,
-                                                       3300f, textureMap( new ImmutableVector2F( leftX, SIMPLE_MANTLE_TOP_Y ) ) ) );
-            rightMantleTopSamples.add( new SamplePoint( new ImmutableVector3F( rightX, SIMPLE_MANTLE_TOP_Y, 0 ), ZERO_CELSIUS + 700,
-                                                        3300f, textureMap( new ImmutableVector2F( rightX, SIMPLE_MANTLE_TOP_Y ) ) ) );
-            leftMantleBottomSamples.add( new SamplePoint( new ImmutableVector3F( leftX, SIMPLE_MANTLE_BOTTOM_Y, 0 ), ZERO_CELSIUS + 1300,
-                                                          3300f, textureMap( new ImmutableVector2F( leftX, SIMPLE_MANTLE_BOTTOM_Y ) ) ) );
-            rightMantleBottomSamples.add( new SamplePoint( new ImmutableVector3F( rightX, SIMPLE_MANTLE_BOTTOM_Y, 0 ), ZERO_CELSIUS + 1300,
-                                                           3300f, textureMap( new ImmutableVector2F( rightX, SIMPLE_MANTLE_BOTTOM_Y ) ) ) );
+    private void resetPlates() {
+        if ( leftPlate != null ) {
+            removePlate( leftPlate );
         }
+
+        leftPlate = new Plate() {{
+            addMantle( new Region( MANTLE_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, SamplePoint>() {
+                public SamplePoint apply( Integer yIndex, Integer xIndex ) {
+                    // start with top first
+                    float x = getLeftX( xIndex );
+                    final float yRatio = ( (float) yIndex ) / ( (float) MANTLE_VERTICAL_SAMPLES - 1 );
+                    float y = SIMPLE_MANTLE_TOP_Y + ( SIMPLE_MANTLE_BOTTOM_Y - SIMPLE_MANTLE_TOP_Y ) * yRatio;
+                    float temp = SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_MANTLE_BOTTOM_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * yRatio;
+                    return new SamplePoint( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
+                                            textureMap( new ImmutableVector2F( x, y ) ) );
+                }
+            } ) );
+        }};
+        if ( rightPlate != null ) {
+            removePlate( rightPlate );
+        }
+        rightPlate = new Plate() {{
+            addMantle( new Region( MANTLE_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, SamplePoint>() {
+                public SamplePoint apply( Integer yIndex, Integer xIndex ) {
+                    // start with top first
+                    float x = getRightX( xIndex );
+                    final float yRatio = ( (float) yIndex ) / ( (float) MANTLE_VERTICAL_SAMPLES - 1 );
+                    float y = SIMPLE_MANTLE_TOP_Y + ( SIMPLE_MANTLE_BOTTOM_Y - SIMPLE_MANTLE_TOP_Y ) * yRatio;
+                    float temp = SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_MANTLE_BOTTOM_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * yRatio;
+                    return new SamplePoint( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
+                                            textureMap( new ImmutableVector2F( x, y ) ) );
+                }
+            } ) );
+        }};
+
+        addPlate( leftPlate );
+        addPlate( rightPlate );
     }
 
     @Override public void resetAll() {
         super.resetAll();
 
-        if ( leftCrustStrip != null ) {
-            removeStrip( leftCrustStrip );
-            leftCrustStrip = null;
-        }
         leftPlateType.reset();
-
-        if ( rightCrustStrip != null ) {
-            removeStrip( rightCrustStrip );
-            rightCrustStrip = null;
-        }
         rightPlateType.reset();
-
-        resetSamples();
+        resetPlates();
 
         canRun.reset();
         motionType.reset();
         motionTypeIfStarted.reset();
         animationStarted.reset();
 
-        resetMantleStrips(); // do this only after initializing the samples again
         updateStrips();
         updateTerrain();
 
         modelChanged.updateListeners();
     }
 
-    // i from 0 to sideCount-1
+    // i from 0 to HORIZONTAL_SAMPLES-1
     private float getLeftX( int i ) {
-        return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) i ) / (float) ( sideCount - 1 );
+        return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) i ) / (float) ( HORIZONTAL_SAMPLES - 1 );
     }
 
-    // i from 0 to sideCount-1
+    // i from 0 to HORIZONTAL_SAMPLES-1
     private float getRightX( int i ) {
-        return bounds.getCenterX() + ( bounds.getMaxX() - bounds.getCenterX() ) * ( (float) i ) / (float) ( sideCount - 1 );
+        return bounds.getCenterX() + ( bounds.getMaxX() - bounds.getCenterX() ) * ( (float) i ) / (float) ( HORIZONTAL_SAMPLES - 1 );
     }
 
-    public void dropLeftCrust( PlateType type ) {
-        // TODO: update the middle crust sample sometime
-        leftPlateType.set( type );
-        for ( int i = 0; i < sideCount; i++ ) {
-            float x = getLeftX( i );
-            final ImmutableVector3F top = new ImmutableVector3F( x, getFreshCrustTop( type ), 0 );
-            final ImmutableVector3F bottom = new ImmutableVector3F( x, getFreshCrustBottom( type ), 0 );
+    public void dropLeftCrust( final PlateType type ) {
+        leftPlate.addCrust( new Region( CRUST_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, SamplePoint>() {
+            public SamplePoint apply( Integer yIndex, Integer xIndex ) {
+                // start with top first
+                float x = getLeftX( xIndex );
 
-            leftCrustTopSamples.get( i ).setPosition( top );
-            leftCrustTopSamples.get( i ).setTextureCoordinates( textureMap( new ImmutableVector2F( top.x, top.y ) ) );
-            leftCrustBottomSamples.get( i ).setPosition( bottom );
-            leftCrustBottomSamples.get( i ).setTextureCoordinates( textureMap( new ImmutableVector2F( bottom.x, bottom.y ) ) );
-            leftMantleTopSamples.get( i ).setPosition( bottom );
-            leftMantleTopSamples.get( i ).setTextureCoordinates( textureMap( new ImmutableVector2F( bottom.x, bottom.y ) ) );
-            leftCrustTopSamples.get( i ).setDensity( getFreshDensity( type ) );
-            leftCrustBottomSamples.get( i ).setDensity( getFreshDensity( type ) );
-        }
+                final float topY = getFreshCrustTop( type );
+                final float bottomY = getFreshCrustBottom( type );
+
+                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES - 1 );
+                float y = topY + ( bottomY - topY ) * yRatio;
+
+                // TODO: young/old oceanic crust differences!
+                float temp = SIMPLE_CRUST_TOP_TEMP + ( SIMPLE_CRUST_BOTTOM_TEMP - SIMPLE_CRUST_TOP_TEMP ) * yRatio;
+                return new SamplePoint( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( type ),
+                                        textureMap( new ImmutableVector2F( x, y ) ) );
+            }
+        } ) );
+
+        // set the position/texture coordinates to be the same for the mantle top boundary
+        leftPlate.getMantle().getTopBoundary().borrowPositionAndTexture( leftPlate.getCrust().getBottomBoundary() );
+
+        leftPlateType.set( type );
+
         updateStrips();
         updateTerrain();
-        leftCrustStrip = new CrossSectionStrip( leftCrustTopSamples, leftCrustBottomSamples );
-        addStrip( leftCrustStrip );
         modelChanged.updateListeners();
     }
 
-    public void dropRightCrust( PlateType type ) {
-        // TODO: update the middle crust sample sometime
+    public void dropRightCrust( final PlateType type ) {
+        rightPlate.addCrust( new Region( CRUST_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, SamplePoint>() {
+            public SamplePoint apply( Integer yIndex, Integer xIndex ) {
+                // start with top first
+                float x = getRightX( xIndex );
+
+                final float topY = getFreshCrustTop( type );
+                final float bottomY = getFreshCrustBottom( type );
+
+                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES - 1 );
+                float y = topY + ( bottomY - topY ) * yRatio;
+
+                // TODO: young/old oceanic crust differences!
+                float temp = SIMPLE_CRUST_TOP_TEMP + ( SIMPLE_CRUST_BOTTOM_TEMP - SIMPLE_CRUST_TOP_TEMP ) * yRatio;
+                return new SamplePoint( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( type ),
+                                        textureMap( new ImmutableVector2F( x, y ) ) );
+            }
+        } ) );
+
+        // set the position/texture coordinates to be the same for the mantle top boundary
+        rightPlate.getMantle().getTopBoundary().borrowPositionAndTexture( rightPlate.getCrust().getBottomBoundary() );
+
         rightPlateType.set( type );
-        for ( int i = 0; i < sideCount; i++ ) {
-            float x = getRightX( i );
-            final ImmutableVector3F top = new ImmutableVector3F( x, getFreshCrustTop( type ), 0 );
-            final ImmutableVector3F bottom = new ImmutableVector3F( x, getFreshCrustBottom( type ), 0 );
-            rightCrustTopSamples.get( i ).setPosition( top );
-            rightCrustTopSamples.get( i ).setTextureCoordinates( textureMap( new ImmutableVector2F( top.x, top.y ) ) );
-            rightCrustBottomSamples.get( i ).setPosition( bottom );
-            rightCrustBottomSamples.get( i ).setTextureCoordinates( textureMap( new ImmutableVector2F( bottom.x, bottom.y ) ) );
-            rightMantleTopSamples.get( i ).setPosition( bottom );
-            rightMantleTopSamples.get( i ).setTextureCoordinates( textureMap( new ImmutableVector2F( bottom.x, bottom.y ) ) );
-            rightCrustTopSamples.get( i ).setDensity( getFreshDensity( type ) );
-            rightCrustBottomSamples.get( i ).setDensity( getFreshDensity( type ) );
-        }
+
         updateStrips();
         updateTerrain();
-        rightCrustStrip = new CrossSectionStrip( rightCrustTopSamples, rightCrustBottomSamples );
-        addStrip( rightCrustStrip );
         modelChanged.updateListeners();
     }
 
     private void updateStrips() {
-        for ( CrossSectionStrip strip : new CrossSectionStrip[] {
-                leftCrustStrip, rightCrustStrip,
-                leftMantleStrip, rightMantleStrip
-        } ) {
-            if ( strip != null ) {
-                strip.update();
-            }
+        for ( CrossSectionStrip strip : getCrossSectionStrips() ) {
+            strip.update();
         }
     }
 
     private void updateTerrain() {
-        for ( int column = 0; column < sideCount; column++ ) {
+        for ( int column = 0; column < HORIZONTAL_SAMPLES; column++ ) {
             // left side
-            ImmutableVector3F leftPosition = hasLeftPlate() ? leftCrustTopSamples.get( column ).getPosition() : leftCrustBottomSamples.get( column ).getPosition();
+            ImmutableVector3F leftPosition = ( hasLeftPlate() ? leftPlate.getCrust().getTopBoundary() : leftPlate.getMantle().getTopBoundary() ).samples.get( column ).getPosition();
             for ( int row = 0; row < depthCount; row++ ) {
                 // set the elevation for the whole column
                 leftTerrain.setElevation( leftPosition.y, column, row );
@@ -316,7 +285,7 @@ public class PlateMotionModel extends PlateModel {
             leftTerrain.xData[column] = leftPosition.x;
 
             // right side
-            ImmutableVector3F rightPosition = hasRightPlate() ? rightCrustTopSamples.get( column ).getPosition() : rightCrustBottomSamples.get( column ).getPosition();
+            ImmutableVector3F rightPosition = ( hasRightPlate() ? rightPlate.getCrust().getTopBoundary() : rightPlate.getMantle().getTopBoundary() ).samples.get( column ).getPosition();
             for ( int row = 0; row < depthCount; row++ ) {
                 rightTerrain.setElevation( rightPosition.y, column, row );
             }
@@ -373,15 +342,7 @@ public class PlateMotionModel extends PlateModel {
     }
 
     public List<SamplePoint> getAllSamples() {
-        return FunctionalUtils.concat(
-                leftCrustTopSamples,
-                rightCrustTopSamples,
-                leftCrustBottomSamples,
-                rightCrustBottomSamples,
-                leftMantleTopSamples,
-                rightMantleTopSamples,
-                leftMantleBottomSamples,
-                rightMantleBottomSamples );
+        return FunctionalUtils.concat( leftPlate.getSamples(), rightPlate.getSamples() );
     }
 
     // TODO: conversion from double to float

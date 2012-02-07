@@ -35,6 +35,14 @@ public class Region {
         }
     }
 
+    public Boundary getTopBoundary() {
+        return boundaries.get( 0 );
+    }
+
+    public Boundary getBottomBoundary() {
+        return boundaries.get( boundaries.size() - 1 );
+    }
+
     public List<Boundary> getBoundaries() {
         return boundaries;
     }
