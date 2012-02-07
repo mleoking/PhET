@@ -31,8 +31,9 @@ public class Solution implements Resettable {
         this.concentration = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
                 final double volume = Solution.this.volume.get();
+                Double soluteAmount = Solution.this.soluteAmount.get();
                 if ( volume > 0 ) {
-                    return Math.min( getSaturatedConcentration(), Solution.this.soluteAmount.get() / volume ); // M = mol/L
+                    return Math.min( getSaturatedConcentration(), soluteAmount / volume ); // M = mol/L
                 }
                 else {
                     return 0d;
@@ -44,7 +45,13 @@ public class Solution implements Resettable {
         this.precipitateAmount = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
                 final double volume = Solution.this.volume.get();
-                return Math.max( 0, volume * ( ( Solution.this.soluteAmount.get() / volume ) - getSaturatedConcentration() ) );
+                Double soluteAmount = Solution.this.soluteAmount.get();
+                if ( volume > 0 ) {
+                    return Math.max( 0, volume * ( ( soluteAmount / volume ) - getSaturatedConcentration() ) );
+                }
+                else {
+                    return soluteAmount;
+                }
             }
         }, this.solute, this.soluteAmount, this.volume );
     }
