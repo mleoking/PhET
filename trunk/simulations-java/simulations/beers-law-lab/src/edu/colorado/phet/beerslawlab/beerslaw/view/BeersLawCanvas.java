@@ -27,7 +27,7 @@ public class BeersLawCanvas extends BLLCanvas {
         // Nodes
         PNode lightNode = new LightNode( model.light );
         PNode lightControlsNode = new LightControlsNode( model.light, wavelengthControlType );
-        PNode solutionChoiceNode = new SolutionChoiceNode( model.getSolutes(), model.solute );
+        PNode solutionControlsNode = new SolutionControlsNode( model.solution, model.getSolutes(), model.solute );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
@@ -41,7 +41,7 @@ public class BeersLawCanvas extends BLLCanvas {
             addChild( resetAllButtonNode );
             addChild( cuvetteNode );
             addChild( rulerNode );
-            addChild( solutionChoiceNode );
+            addChild( solutionControlsNode );
         }
 
         // layout
@@ -56,7 +56,7 @@ public class BeersLawCanvas extends BLLCanvas {
             lightControlsNode.setOffset( lightNode.getXOffset(),
                                          lightNode.getFullBoundsReference().getMaxY() + 20 );
             // solution combo box at top center
-            solutionChoiceNode.setOffset( ( getStageSize().getWidth() - solutionChoiceNode.getFullBoundsReference().getWidth() ) / 2,
+            solutionControlsNode.setOffset( ( getStageSize().getWidth() - solutionControlsNode.getFullBoundsReference().getWidth() ) / 2,
                                         yMargin );
              // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
