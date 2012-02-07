@@ -37,24 +37,27 @@ class CuvetteNode extends PNode {
 
     public CuvetteNode( final Cuvette cuvette, final Solution solution, final ModelViewTransform mvt ) {
 
+        // nodes
         final PPath cuvetteNode = new PPath() {{
             setStroke( new BasicStroke( 2f ) );
         }};
         final PPath solutionNode = new PPath() {{
             setStroke( BLLConstants.FLUID_STROKE );
         }};
-        final DoubleArrowNode widthHandleNode = new DoubleArrowNode( new Point2D.Double( -ARROW_WIDTH/2, 0 ), new Double( ARROW_WIDTH/2, 0 ), 25, 30, 15 ) {{
+        final DoubleArrowNode widthHandleNode = new DoubleArrowNode( new Point2D.Double( -ARROW_WIDTH / 2, 0 ), new Double( ARROW_WIDTH / 2, 0 ), 25, 30, 15 ) {{
             setPaint( ARROW_FILL );
         }};
 
+        // rendering order
         addChild( solutionNode );
         addChild( cuvetteNode );
         addChild( widthHandleNode );
 
+        // when the cuvette's width changes...
         cuvette.width.addObserver( new SimpleObserver() {
             public void update() {
-                double width = mvt.modelToViewDeltaX( cuvette.width.get() );
-                double height = mvt.modelToViewDeltaY( cuvette.height );
+                final double width = mvt.modelToViewDeltaX( cuvette.width.get() );
+                final double height = mvt.modelToViewDeltaY( cuvette.height );
                 cuvetteNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
                 solutionNode.setPathTo( new Rectangle2D.Double( 0, 0, width, PERCENT_FULL * height ) );
                 solutionNode.setOffset( cuvetteNode.getXOffset(),
@@ -64,58 +67,55 @@ class CuvetteNode extends PNode {
             }
         } );
 
+        // when the solution color changes...
         solution.addFluidColorObserver( new SimpleObserver() {
             public void update() {
                 Color solutonColor = solution.getFluidColor();
                 solutionNode.setPaint( solutonColor );
                 solutionNode.setStrokePaint( BLLConstants.createFluidStrokeColor( solutonColor ) );
             }
-        });
+        } );
 
+        // location of the cuvette
         setOffset( mvt.modelToView( cuvette.location.toPoint2D() ) );
 
+        // Event handlers
         cuvetteNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.cuvette ) );
         solutionNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.solution ) );
         widthHandleNode.addInputEventListener( new CursorHandler() );
         addInputEventListener( new PaintHighlightHandler( widthHandleNode, ARROW_FILL, ARROW_FILL.brighter() ) );
-        addInputEventListener( new SimSharingDragHandler( UserComponents.cuvetteWidthHandle, UserComponentTypes.sprite ) {
+        addInputEventListener( new WidthDragHandler( this, cuvette, mvt ) );
+    }
 
-            private double globalClickXOffset; // x offset of mouse click from handle's origin, in global coordinates
-            private boolean tooFarLeft, tooFarRight;
+    // Drag handler for manipulating the cuvette's width
+    private static class WidthDragHandler extends SimSharingDragHandler {
 
-            @Override protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                tooFarLeft = tooFarRight = false;
-                // note the offset between the mouse click and the handle's origin
-                globalClickXOffset = widthHandleNode.localToGlobal( event.getPositionRelativeTo( widthHandleNode ) ).getX();
-            }
+        private final Cuvette cuvette;
+        private final CuvetteNode cuvetteNode;
+        private final ModelViewTransform mvt;
 
-            @Override protected void drag( PInputEvent event ) {
-                super.drag( event );
+        private double startXOffset; // x offset of mouse click from cuvette's origin
+        private double startWidth; // width of the cuvette when the drag started
 
-                double globalDragXOffset = widthHandleNode.localToGlobal( event.getPositionRelativeTo( widthHandleNode ) ).getX();
-                if ( tooFarLeft && globalDragXOffset >= globalClickXOffset ) {
-                    tooFarLeft = false;
-                }
-                else if ( tooFarRight && globalDragXOffset <= globalClickXOffset ) {
-                    tooFarRight = false;
-                }
+        public WidthDragHandler( CuvetteNode cuvetteNode, Cuvette cuvette, ModelViewTransform mvt ) {
+            super( UserComponents.cuvetteWidthHandle, UserComponentTypes.sprite );
+            this.cuvette = cuvette;
+            this.cuvetteNode = cuvetteNode;
+            this.mvt = mvt;
+        }
 
-                if ( !( tooFarLeft || tooFarRight ) ) {
-                    double deltaX = event.getDeltaRelativeTo( CuvetteNode.this ).getWidth();
-                    double deltaWidth = mvt.viewToModelDeltaX( deltaX );
-                    double cuvetteWidth = cuvette.width.get() + deltaWidth;
-                    if ( cuvetteWidth < cuvette.widthRange.getMin() ) {
-                        cuvetteWidth = cuvette.widthRange.getMin();
-                        tooFarLeft = true;
-                    }
-                    else if ( cuvetteWidth > cuvette.widthRange.getMax() ) {
-                        cuvetteWidth = cuvette.widthRange.getMax();
-                        tooFarRight = true;
-                    }
-                    cuvette.width.set( cuvetteWidth );
-                }
-            }
-        });
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            startXOffset = event.getPositionRelativeTo( cuvetteNode ).getX();
+            startWidth = cuvette.width.get();
+        }
+
+        @Override protected void drag( PInputEvent event ) {
+            super.drag( event );
+            double dragXOffset = event.getPositionRelativeTo( cuvetteNode ).getX();
+            double deltaWidth = mvt.viewToModelDeltaX( dragXOffset - startXOffset );
+            double cuvetteWidth = MathUtil.clamp( startWidth + deltaWidth, cuvette.widthRange );
+            cuvette.width.set( cuvetteWidth );
+        }
     }
 }
