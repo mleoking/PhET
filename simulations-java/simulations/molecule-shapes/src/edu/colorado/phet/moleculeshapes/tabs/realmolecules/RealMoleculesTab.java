@@ -294,10 +294,10 @@ public class RealMoleculesTab extends MoleculeViewTab {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-                                      public void update() {
-                                          rebuildMolecule( false );
-                                      }
-                                  }, false );
+            public void update() {
+                rebuildMolecule( false );
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -695,7 +695,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
     }
 
     @Override public boolean allowTogglingAllLonePairs() {
-        return !isBasicsVersion;
+        return false;
     }
 
     private void initializeResources() {

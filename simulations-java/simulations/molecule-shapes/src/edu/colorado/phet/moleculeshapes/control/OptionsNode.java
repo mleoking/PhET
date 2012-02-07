@@ -8,7 +8,6 @@ import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
@@ -89,6 +88,7 @@ public class OptionsNode extends PNode {
             setOffset( 0, y.get() );
         }};
         if ( module.allowTogglingAllLonePairs() ) {
+            System.out.println( "OptionsNode.OptionsNode" );
             checkboxContainer.addChild( showAllLonePairsNode );
             y.set( showAllLonePairsNode.getFullBounds().getMaxY() );
         }
