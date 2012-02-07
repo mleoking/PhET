@@ -27,7 +27,7 @@ public class Solvent implements IFluid {
 
     public final String name;
     public final String formula;
-    private final Color color;
+    public final Color color;
 
     public Solvent( String name, String formula, Color color ) {
         this.name = name;

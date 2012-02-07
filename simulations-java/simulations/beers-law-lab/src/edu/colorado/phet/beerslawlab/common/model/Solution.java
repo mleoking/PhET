@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
@@ -25,7 +24,7 @@ public class Solution implements IFluid, Resettable {
     public final Property<Double> volume; // L
     public final CompositeProperty<Double> concentration; // M (derived property)
     public final CompositeProperty<Double> precipitateAmount; // moles (derived property)
-    private final Property<Color> fluidColor; // derived from solute color and concentration //TODO use CompositeProperty
+    public final CompositeProperty<Color> fluidColor; // derived from solute color and concentration
 
     public Solution( Property<Solute> solute, double soluteAmount, double volume ) {
 
@@ -33,7 +32,6 @@ public class Solution implements IFluid, Resettable {
         this.solute = solute;
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );
-        this.fluidColor = new Property<Color>( Color.WHITE ); // will be properly initialized when colorUpdater is registered
 
         // derive concentration
         this.concentration = new CompositeProperty<Double>( new Function0<Double>() {
@@ -64,12 +62,11 @@ public class Solution implements IFluid, Resettable {
         }, this.solute, this.soluteAmount, this.volume );
 
         // derive the solution color
-        RichSimpleObserver colorUpdater = new RichSimpleObserver() {
-            @Override public void update() {
-                fluidColor.set( createColor( solvent, Solution.this.solute.get(), concentration.get() ) );
+        this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
+            public Color apply() {
+                return createColor( solvent, Solution.this.solute.get(), concentration.get() );
             }
-        };
-        colorUpdater.observe( this.solute, this.concentration );
+        }, this.solute, this.concentration );
     }
 
     // Convenience method
@@ -107,7 +104,7 @@ public class Solution implements IFluid, Resettable {
     }
 
     public static final Color createColor( Solvent solvent, Solute solute, double concentration ) {
-        Color color = solvent.getFluidColor();
+        Color color = solvent.color;
         if ( concentration > 0 ) {
             LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
             color = solute.solutionColor.interpolateLinear( f.evaluate( concentration ) );
