@@ -12,7 +12,7 @@ import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.common.model.Beaker;
+import edu.colorado.phet.beerslawlab.concentration.model.Beaker;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
