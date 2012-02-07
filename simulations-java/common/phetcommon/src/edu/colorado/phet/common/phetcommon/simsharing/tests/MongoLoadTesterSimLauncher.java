@@ -12,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 
 /**
  * Launch a sim several times to make sure the server can accommodate lots of sessions.
+ * This guarantees that each client will be using a different Mongo instance, to simulation a more realistic client/server relationship.
  *
  * @author Sam Reid
  */
 public class MongoLoadTesterSimLauncher {
 
+    //Number of simultaneous threads to be running on client machine.
     private static final int NUM_CLIENTS = 10;
 
     //To be used in conjunction with MongoLoadTesterSimLauncher for load testing the server.  Needs to be manually enabled when a load testing jar is built.
