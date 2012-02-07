@@ -98,8 +98,7 @@ class ConcentrationMeterNode extends PhetPNode {
             }
         };
         valueUpdater.observe( meter.probe.location, solution.solute, solution.volume, solution.concentration,
-                              solventFaucet.flowRate, drainFaucet.flowRate, dropper.location );
-        dropper.addFlowRateObserver( valueUpdater );
+                              dropper.flowRate, solventFaucet.flowRate, drainFaucet.flowRate, dropper.location );
     }
 
     private void updateValue() {

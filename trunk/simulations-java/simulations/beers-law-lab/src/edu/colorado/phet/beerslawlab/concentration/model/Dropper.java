@@ -4,8 +4,10 @@ package edu.colorado.phet.beerslawlab.concentration.model;
 import edu.colorado.phet.beerslawlab.common.model.Movable;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -20,7 +22,7 @@ public class Dropper extends Movable {
     public final Property<Boolean> on; // true if the dropper is dispensing solution
     public final Property<Boolean> enabled;
     public final Property<Boolean> empty;
-    private final Property<Double> flowRate; //TODO use CompositeProperty and make public
+    public final CompositeProperty<Double> flowRate;
 
     public Dropper( ImmutableVector2D location, PBounds dragBounds, Property<Solute> solute, final double maxFlowRate ) {
         super( location, dragBounds );
@@ -31,7 +33,6 @@ public class Dropper extends Movable {
         this.on = new Property<Boolean>( false );
         this.enabled = new Property<Boolean>( true );
         this.empty = new Property<Boolean>( false );
-        this.flowRate = new Property<Double>( 0d );
 
         // turn off the dropper when it's disabled
         this.enabled.addObserver( new SimpleObserver() {
@@ -43,16 +44,11 @@ public class Dropper extends Movable {
         } );
 
         // Toggle the flow rate when the dropper is turned on/off.
-        this.on.addObserver( new SimpleObserver() {
-            public void update() {
-                if ( Dropper.this.on.get() ) {
-                    flowRate.set( maxFlowRate );
-                }
-                else {
-                    flowRate.set( 0d );
-                }
+        this.flowRate = new CompositeProperty<Double>( new Function0<Double>() {
+            public Double apply() {
+                return ( Dropper.this.on.get() ? maxFlowRate : 0d );
             }
-        } );
+        }, this.on );
 
         // when the dropper becomes empty, disable it.
         this.empty.addObserver( new SimpleObserver() {
@@ -62,13 +58,5 @@ public class Dropper extends Movable {
                 }
             }
         } );
-    }
-
-    public double getFlowRate() {
-        return flowRate.get();
-    }
-
-    public void addFlowRateObserver( SimpleObserver observer ) {
-        flowRate.addObserver( observer );
     }
 }

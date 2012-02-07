@@ -33,7 +33,7 @@ public class Shaker extends Movable {
     public final Property<Boolean> visible;
     public final Property<Boolean> empty;
     private final double maxDispensingRate;
-    private final Property<Double> dispensingRate; // mol/sec
+    private final Property<Double> dispensingRate; // mol/sec //TODO use public CompositeProperty
     private ImmutableVector2D previousLocation;
 
     public Shaker( ImmutableVector2D location, double orientation, PBounds dragBounds, Property<Solute> solute, double maxDispensingRate ) {
