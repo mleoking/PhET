@@ -1,3 +1,4 @@
+2/6/12 #3233, support click-and-drag in slider tracks (ala MacOS and iOS)
 # 0.00.18 (60958) Feb 2, 2012
 2/2/12 add interviews flavor (with data collection enabled) to build.properties
 2/1/12 check in a snapshot of design doc
