@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.common.view;
 
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -34,13 +35,22 @@ public class SoluteChoiceNode extends PhetPNode {
     private final SoluteComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
     public SoluteChoiceNode( ArrayList<Solute> solutes, final Property<Solute> currentSolute ) {
+        this( Strings.SOLUTE, solutes, currentSolute,
+              new Function1<Solute, String>() {
+                  public String apply( Solute solute ) {
+                      return solute.name;
+                  }
+              } );
+    }
 
-        PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.SOLUTE ) ) {{
+    public SoluteChoiceNode( String label, ArrayList<Solute> solutes, final Property<Solute> currentSolute, Function1<Solute,String> soluteToString ) {
+
+        PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, label ) ) {{
             setFont( LABEL_FONT );
         }};
         addChild( labelNode );
 
-        comboBoxNode = new SoluteComboBoxNode( solutes, currentSolute.get() );
+        comboBoxNode = new SoluteComboBoxNode( solutes, currentSolute.get(), soluteToString );
         addChild( comboBoxNode );
 
         // layout: combo box to right of label, centers vertically aligned
@@ -65,17 +75,17 @@ public class SoluteChoiceNode extends PhetPNode {
 
     // Combo box, with custom creation of items (nodes)
     private static class SoluteComboBoxNode extends ComboBoxNode<Solute> {
-        public SoluteComboBoxNode( ArrayList<Solute> solute, Solute selectedSolute ) {
+        public SoluteComboBoxNode( ArrayList<Solute> solutes, Solute selectedSolute, final Function1<Solute,String> soluteToString ) {
             super( UserComponents.soluteComboBox,
                    new Function1<Solute, String>() {
                        public String apply( Solute solute ) {
                            return solute.name;
                        }
                    },
-                   solute, selectedSolute,
+                   solutes, selectedSolute,
                    new Function1<Solute, PNode>() {
                        public PNode apply( final Solute solute ) {
-                           return new SoluteItemNode( solute );
+                           return new SoluteItemNode( solute.solutionColor.getMax(), soluteToString.apply( solute ) );
                        }
                    }
             );
@@ -84,20 +94,18 @@ public class SoluteChoiceNode extends PhetPNode {
 
     // A solute item in the combo box
     private static class SoluteItemNode extends PComposite {
-        public SoluteItemNode( final Solute solute ) {
+        public SoluteItemNode( final Color color, final String label ) {
 
             // solute color chip
-            PPath colorNode = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) ) {{
-                setPaint( solute.solutionColor.getMax() );
-                setStroke( null );
-            }};
+            PPath colorNode = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) );
+            colorNode.setPaint( color );
+            colorNode.setStroke( null );
             addChild( colorNode );
 
             // solute label
-            HTMLNode labelNode = new HTMLNode() {{
-                setHTML( solute.formula.equals( solute.name ) ? solute.formula : MessageFormat.format( "{0}", solute.name ) );
-                setFont( ITEM_FONT );
-            }};
+            HTMLNode labelNode = new HTMLNode();
+            labelNode.setHTML( label );
+            labelNode.setFont( ITEM_FONT );
             addChild( labelNode );
 
             // layout, color chip to left of label, centers vertically aligned

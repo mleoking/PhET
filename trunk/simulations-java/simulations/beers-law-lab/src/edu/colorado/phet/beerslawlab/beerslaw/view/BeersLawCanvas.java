@@ -7,7 +7,6 @@ import java.awt.Frame;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
-import edu.colorado.phet.beerslawlab.common.view.SoluteChoiceNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -28,7 +27,7 @@ public class BeersLawCanvas extends BLLCanvas {
         // Nodes
         PNode lightNode = new LightNode( model.light );
         PNode lightControlsNode = new LightControlsNode( model.light, wavelengthControlType );
-        PNode soluteChoiceNode = new SoluteChoiceNode( model.getSolutes(), model.solute );
+        PNode solutionChoiceNode = new SolutionChoiceNode( model.getSolutes(), model.solute );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
@@ -42,7 +41,7 @@ public class BeersLawCanvas extends BLLCanvas {
             addChild( resetAllButtonNode );
             addChild( cuvetteNode );
             addChild( rulerNode );
-            addChild( soluteChoiceNode );
+            addChild( solutionChoiceNode );
         }
 
         // layout
@@ -57,7 +56,7 @@ public class BeersLawCanvas extends BLLCanvas {
             lightControlsNode.setOffset( lightNode.getXOffset(),
                                          lightNode.getFullBoundsReference().getMaxY() + 20 );
             // solution combo box at top center
-            soluteChoiceNode.setOffset( ( getStageSize().getWidth() - soluteChoiceNode.getFullBoundsReference().getWidth() ) / 2,
+            solutionChoiceNode.setOffset( ( getStageSize().getWidth() - solutionChoiceNode.getFullBoundsReference().getWidth() ) / 2,
                                         yMargin );
              // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
