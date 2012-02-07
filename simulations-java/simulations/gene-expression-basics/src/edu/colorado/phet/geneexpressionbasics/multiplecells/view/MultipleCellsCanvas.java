@@ -13,6 +13,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -24,6 +29,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
@@ -48,6 +54,10 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
     private final ModelViewTransform mvt;
     final MultipleCellsModel model;
+
+    // Property that controls whether the clock is running, used in the
+    // floating clock control.
+    BooleanProperty clockRunning = new BooleanProperty( false );
 
     // Local root node for all things in the "world", which in this case is
     // the set of cells.  This exists in order to support zooming.
@@ -115,6 +125,28 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
         cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
                                            cellNumberController.getFullBoundsReference().getMaxY() + 20 );
+
+        // Add the floating clock control.
+        final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
+        clockRunning.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean isRunning ) {
+                modelClock.setRunning( isRunning );
+            }
+        } );
+        final FloatingClockControlNode floatingClockControlNode = new FloatingClockControlNode( clockRunning, null,
+                                                                                                model.getClock(), null,
+                                                                                                new Property<Color>( Color.white ) );
+        floatingClockControlNode.centerFullBoundsOnPoint( ( proteinLevelChartNode.getFullBoundsReference().getMaxX() + cellParameterController.getFullBoundsReference().getMinX() ) / 2,
+                                                          proteinLevelChartNode.getFullBoundsReference().getCenterY() );
+        addWorldChild( floatingClockControlNode );
+
+        // Make sure that the floating clock control sees the change when the
+        // clock gets started.
+        model.getClock().addClockListener( new ClockAdapter() {
+            @Override public void clockStarted( ClockEvent clockEvent ) {
+                clockRunning.set( true );
+            }
+        } );
 
         // Add the Reset All button.
         final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
