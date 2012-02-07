@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.molarity.MolarityConstants;
 import edu.colorado.phet.molarity.MolarityResources.Strings;
 import edu.colorado.phet.molarity.MolaritySimSharing.UserComponents;
@@ -152,10 +153,21 @@ public class VerticalSliderNode extends PhetPNode {
             setPaint( trackPaint );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
+            addInputEventListener( new SimSharingDragHandler( userComponent, UserComponentTypes.slider ) {
+
                 // Clicking in the track changes the model to the corresponding value.
-                @Override public void mousePressed( PInputEvent event ) {
-                    SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, UserActions.pressed, ParameterSet.parameterSet( ParameterKeys.value, modelValue.get() ) );
+                @Override protected void startDrag( PInputEvent event ) {
+                    super.startDrag( event );
+                    handleEvent( event );
+                }
+
+                // ... and after clicking in the track, you can continue to drag.
+                @Override public void drag( PInputEvent event ) {
+                    super.drag( event );
+                    handleEvent( event );
+                }
+
+                private void handleEvent( PInputEvent event ) {
                     double trackPosition = event.getPositionRelativeTo( TrackNode.this ).getY();
                     modelValue.set( viewToModel.evaluate( trackPosition ) );
                 }
