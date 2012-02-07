@@ -21,7 +21,9 @@ public class BLLSimSharing {
         evaporationSlider,
         cuvette,
         lightHousing, lightButton,
-        ruler
+        ruler,
+        cuvetteWidthHandle,
+        solution
     }
 
     public static enum Parameters implements IParameterKey {

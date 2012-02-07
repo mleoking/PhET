@@ -1,3 +1,4 @@
+2/6/12 first pass at drag handle for cuvette width, has a few warts
 2/2/12 add images for absorbance meter
 2/2/12 change color of concentration meter/probe/wire, so it's different from absorbance meter
 2/2/12 encapsulate algorithm used to create the stroke color from a solution color
