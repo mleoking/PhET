@@ -4,7 +4,6 @@ package edu.colorado.phet.beerslawlab.common.model;
 import java.awt.Color;
 
 import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
-import edu.colorado.phet.beerslawlab.concentration.model.IFluid;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

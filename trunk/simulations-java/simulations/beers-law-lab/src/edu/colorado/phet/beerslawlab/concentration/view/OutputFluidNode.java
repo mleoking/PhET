@@ -1,12 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.view;
 
-import java.awt.BasicStroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
+import edu.colorado.phet.beerslawlab.common.model.IFluid;
 import edu.colorado.phet.beerslawlab.concentration.model.Faucet;
-import edu.colorado.phet.beerslawlab.concentration.model.IFluid;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PPath;
 
