@@ -67,7 +67,7 @@ public class BeersLawModel implements Resettable {
         double defaultWavelength = 500; //TODO get lambdaMax from solute
         this.light = new Light( false, LightRepresentation.BEAM, defaultWavelength );
 
-        this.cuvette = new Cuvette( new ImmutableVector2D( 3, 1 ), CUVETTE_WIDTH_RANGE.getDefault(), CUVETTE_HEIGHT, CUVETTE_WIDTH_RANGE );
+        this.cuvette = new Cuvette( new ImmutableVector2D( 3.25, 1.25 ), CUVETTE_WIDTH_RANGE.getDefault(), CUVETTE_HEIGHT, CUVETTE_WIDTH_RANGE );
     }
 
     public void reset() {

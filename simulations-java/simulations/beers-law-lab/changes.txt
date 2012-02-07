@@ -1,3 +1,4 @@
+2/6/12 placeholder for concentration control
 2/6/12 reuse the Solute combo box for Solutions, parameterize the format of the combo box item labels
 2/6/12 first pass at drag handle for cuvette width, has a few warts
 2/2/12 add images for absorbance meter
