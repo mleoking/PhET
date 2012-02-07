@@ -189,7 +189,7 @@ public class ConcentrationModel implements Resettable {
 
     // Add stock solution from dropper
     private void addStockSolutionFromDropper( double deltaSeconds ) {
-        double dropperVolume = dropper.getFlowRate() * deltaSeconds;
+        double dropperVolume = dropper.flowRate.get() * deltaSeconds;
         if ( dropperVolume > 0 ) {
             double volumeAdded = addSolvent( dropperVolume );
             //TODO if we don't add the full amount of solute here, then we've added too much solvent.

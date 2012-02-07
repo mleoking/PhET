@@ -200,9 +200,9 @@ class ConcentrationModelButton extends JButton {
                     shakerDispensingRate.setText( "shaker = " + rateFormat.format( model.shaker.getDispensingRate() ) + " mol/sec" );
                 }
             } );
-            model.dropper.addFlowRateObserver( new SimpleObserver() {
+            model.dropper.flowRate.addObserver( new SimpleObserver() {
                 public void update() {
-                    dropperFlowRate.setText( "dropper = " + rateFormat.format( model.dropper.getFlowRate() ) + " L/sec" );
+                    dropperFlowRate.setText( "dropper = " + rateFormat.format( model.dropper.flowRate.get() ) + " L/sec" );
                 }
             } );
         }
