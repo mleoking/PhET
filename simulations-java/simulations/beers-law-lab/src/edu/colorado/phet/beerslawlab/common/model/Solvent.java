@@ -5,7 +5,6 @@ import java.awt.Color;
 
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSymbols;
-import edu.colorado.phet.beerslawlab.concentration.model.IFluid;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
