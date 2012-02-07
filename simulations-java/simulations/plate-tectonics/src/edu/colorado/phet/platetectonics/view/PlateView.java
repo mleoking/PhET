@@ -12,7 +12,6 @@ import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.TerrainStrip;
-import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
@@ -53,10 +52,6 @@ public class PlateView extends GLNode {
             }
         }
 
-        for ( CrossSectionPatch patch : model.getPatches() ) {
-            addChild( new CrossSectionPatchNode( tab.getModelViewTransform(), tab.colorMode, patch ) );
-        }
-
         for ( CrossSectionStrip strip : model.getCrossSectionStrips() ) {
             addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
         }
@@ -81,11 +76,6 @@ public class PlateView extends GLNode {
             }
         }
 
-        model.patchAdded.addListener( new VoidFunction1<CrossSectionPatch>() {
-            public void apply( CrossSectionPatch patch ) {
-                addChild( new CrossSectionPatchNode( tab.getModelViewTransform(), tab.colorMode, patch ) );
-            }
-        } );
         model.crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
             public void apply( CrossSectionStrip strip ) {
                 addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
@@ -98,15 +88,6 @@ public class PlateView extends GLNode {
         } );
 
         // TODO: handle region removals in a better way
-        model.patchRemoved.addListener( new VoidFunction1<CrossSectionPatch>() {
-            public void apply( CrossSectionPatch patch ) {
-                for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
-                    if ( node instanceof CrossSectionPatchNode && ( (CrossSectionPatchNode) node ).getPatch() == patch ) {
-                        removeChild( node );
-                    }
-                }
-            }
-        } );
         model.crossSectionStripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
             public void apply( CrossSectionStrip strip ) {
                 for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
