@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
-import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
+import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 /**
@@ -19,8 +19,6 @@ public abstract class PlateModel {
     // event notification
     public final VoidNotifier modelChanged = new VoidNotifier();
     public final Notifier<Terrain> terrainAdded = new Notifier<Terrain>();
-    public final Notifier<CrossSectionPatch> patchAdded = new Notifier<CrossSectionPatch>();
-    public final Notifier<CrossSectionPatch> patchRemoved = new Notifier<CrossSectionPatch>();
     public final Notifier<CrossSectionStrip> crossSectionStripAdded = new Notifier<CrossSectionStrip>();
     public final Notifier<CrossSectionStrip> crossSectionStripRemoved = new Notifier<CrossSectionStrip>();
     public final Notifier<TerrainStrip> terrainStripAdded = new Notifier<TerrainStrip>();
@@ -32,8 +30,9 @@ public abstract class PlateModel {
     // terrains model the surface of the ground (and sea-floor)
     private final List<Terrain> terrains = new ArrayList<Terrain>();
 
-    // replacement for regions with improved texturing
-    private final List<CrossSectionPatch> patches = new ArrayList<CrossSectionPatch>();
+    // TODO: if we need, handle dynamic adding of strips from plates and regions
+    private final List<Plate> plates = new ArrayList<Plate>();
+    private final List<Region> regions = new ArrayList<Region>();
 
     private final List<CrossSectionStrip> crossSectionStrips = new ArrayList<CrossSectionStrip>();
     private final List<TerrainStrip> terrainStrips = new ArrayList<TerrainStrip>();
@@ -65,18 +64,32 @@ public abstract class PlateModel {
         return terrains;
     }
 
-    public void addPatch( CrossSectionPatch patch ) {
-        patches.add( patch );
-        patchAdded.updateListeners( patch );
+    public void addPlate( Plate plate ) {
+        plates.add( plate );
+        for ( Region region : plate.getRegions() ) {
+            addRegion( region );
+        }
     }
 
-    public void removePatch( CrossSectionPatch patch ) {
-        patches.remove( patch );
-        patchRemoved.updateListeners( patch );
+    public void removePlate( Plate plate ) {
+        plates.remove( plate );
+        for ( Region region : plate.getRegions() ) {
+            removeRegion( region );
+        }
     }
 
-    public List<CrossSectionPatch> getPatches() {
-        return patches;
+    public void addRegion( Region region ) {
+        regions.add( region );
+        for ( CrossSectionStrip strip : region.getStrips() ) {
+            addStrip( strip );
+        }
+    }
+
+    public void removeRegion( Region region ) {
+        regions.remove( region );
+        for ( CrossSectionStrip strip : region.getStrips() ) {
+            removeStrip( strip );
+        }
     }
 
     public void addStrip( CrossSectionStrip strip ) {
