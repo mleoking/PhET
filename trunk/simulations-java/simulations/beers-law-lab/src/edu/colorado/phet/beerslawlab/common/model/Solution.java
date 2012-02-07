@@ -6,9 +6,11 @@ import java.awt.Color;
 import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * Simple model of a solution, consisting of a solvent and a solute.
@@ -21,9 +23,9 @@ public class Solution implements IFluid, Resettable {
     public final Property<Solute> solute;
     public final Property<Double> soluteAmount; // moles
     public final Property<Double> volume; // L
-    private final Property<Double> concentration; // M (derived property)
-    private final Property<Double> precipitateAmount; // moles (derived property)
-    private final Property<Color> fluidColor; // derived from solute color and concentration
+    public final CompositeProperty<Double> concentration; // M (derived property)
+    public final CompositeProperty<Double> precipitateAmount; // moles (derived property)
+    private final Property<Color> fluidColor; // derived from solute color and concentration //TODO use CompositeProperty
 
     public Solution( Property<Solute> solute, double soluteAmount, double volume ) {
 
@@ -31,25 +33,35 @@ public class Solution implements IFluid, Resettable {
         this.solute = solute;
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );
-
-        this.concentration = new Property<Double>( 0d );
-        this.precipitateAmount = new Property<Double>( 0d );
         this.fluidColor = new Property<Color>( Color.WHITE ); // will be properly initialized when colorUpdater is registered
 
-        // derive the concentration and precipitate amount
-        RichSimpleObserver concentrationUpdater = new RichSimpleObserver() {
-            public void update() {
-                if ( getVolume() > 0 ) {
-                    concentration.set( Math.min( getSaturatedConcentration(), getSoluteAmount() / getVolume() ) ); // M = mol/L
-                    precipitateAmount.set( Math.max( 0, getVolume() * ( ( getSoluteAmount() / getVolume() ) - getSaturatedConcentration() ) ) );
+        // derive concentration
+        this.concentration = new CompositeProperty<Double>( new Function0<Double>() {
+            public Double apply() {
+                final double volume = Solution.this.volume.get();
+                final double soluteAmount = Solution.this.soluteAmount.get();
+                if ( volume > 0 ) {
+                    return Math.min( getSaturatedConcentration(), soluteAmount / volume ); // M = mol/L
                 }
                 else {
-                    concentration.set( 0d );
-                    precipitateAmount.set( getSoluteAmount() );
+                    return 0d;
                 }
             }
-        };
-        concentrationUpdater.observe( this.solute, this.soluteAmount, this.volume );
+        }, this.solute, this.soluteAmount, this.volume );
+
+        // derive amount of precipitate
+        this.precipitateAmount = new CompositeProperty<Double>( new Function0<Double>() {
+            public Double apply() {
+                final double volume = Solution.this.volume.get();
+                final double soluteAmount = Solution.this.soluteAmount.get();
+                if ( volume > 0 ) {
+                    return Math.max( 0, volume * ( ( Solution.this.soluteAmount.get() / volume ) - getSaturatedConcentration() ) );
+                }
+                else {
+                    return soluteAmount;
+                }
+            }
+        }, this.solute, this.soluteAmount, this.volume );
 
         // derive the solution color
         RichSimpleObserver colorUpdater = new RichSimpleObserver() {
@@ -60,40 +72,17 @@ public class Solution implements IFluid, Resettable {
         colorUpdater.observe( this.solute, this.concentration );
     }
 
-    private double getSoluteAmount() {
-        return soluteAmount.get();
-    }
-
-    private double getVolume() {
-        return volume.get();
-    }
-
+    // Convenience method
     public double getSaturatedConcentration() {
         return solute.get().saturatedConcentration;
     }
 
     public boolean isSaturated() {
         boolean saturated = false;
-        if ( getVolume() > 0 ) {
-            saturated = ( getSoluteAmount() / getVolume() ) > getSaturatedConcentration();
+        if ( volume.get() > 0 ) {
+            saturated = ( soluteAmount.get() / volume.get() ) > getSaturatedConcentration();
         }
         return saturated;
-    }
-
-    public double getConcentration() {
-        return concentration.get();
-    }
-
-    public void addConcentrationObserver( SimpleObserver observer ) {
-        concentration.addObserver( observer );
-    }
-
-    public double getPrecipitateAmount() {
-        return precipitateAmount.get();
-    }
-
-    public void addPrecipitateAmountObserver( SimpleObserver observer ) {
-        precipitateAmount.addObserver( observer );
     }
 
     public Color getFluidColor() {
@@ -105,8 +94,8 @@ public class Solution implements IFluid, Resettable {
     }
 
     public int getNumberOfPrecipitateParticles() {
-        int numberOfParticles = (int) ( solute.get().particlesPerMole * getPrecipitateAmount() );
-        if ( numberOfParticles == 0 && getPrecipitateAmount() > 0 ) {
+        int numberOfParticles = (int) ( solute.get().particlesPerMole * precipitateAmount.get() );
+        if ( numberOfParticles == 0 && precipitateAmount.get() > 0 ) {
             numberOfParticles = 1;
         }
         return numberOfParticles;

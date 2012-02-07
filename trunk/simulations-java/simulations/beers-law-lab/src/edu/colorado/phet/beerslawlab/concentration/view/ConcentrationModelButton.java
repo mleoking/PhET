@@ -164,14 +164,14 @@ class ConcentrationModelButton extends JButton {
                     soluteForm.setText( "form = " + model.soluteForm.get() );
                 }
             } );
-            model.solution.addConcentrationObserver( new SimpleObserver() {
+            model.solution.concentration.addObserver( new SimpleObserver() {
                 public void update() {
-                    solutionConcentration.setText( "concentration = " + concentrationFormat.format( model.solution.getConcentration() ) + " M" );
+                    solutionConcentration.setText( "concentration = " + concentrationFormat.format( model.solution.concentration.get() ) + " M" );
                 }
             } );
-            model.solution.addPrecipitateAmountObserver( new SimpleObserver() {
+            model.solution.precipitateAmount.addObserver( new SimpleObserver() {
                 public void update() {
-                    solutionPrecipitateAmount.setText( "precipitate amount = " + molesFormat.format( model.solution.getPrecipitateAmount() ) + " mol" );
+                    solutionPrecipitateAmount.setText( "precipitate amount = " + molesFormat.format( model.solution.precipitateAmount.get() ) + " mol" );
                     solutionPrecipitateParticles.setText( "precipitate particles = " + model.solution.getNumberOfPrecipitateParticles() );
                 }
             } );

@@ -171,7 +171,7 @@ public class ConcentrationModel implements Resettable {
     private void drainSolutionFromOutputFaucet( double deltaSeconds ) {
         double drainVolume = drainFaucet.flowRate.get() * deltaSeconds;
         if ( drainVolume > 0 ) {
-            double concentration = solution.getConcentration(); // get concentration before changing volume
+            double concentration = solution.concentration.get(); // get concentration before changing volume
             double volumeRemoved = removeSolvent( drainVolume );
             removeSolute( concentration * volumeRemoved );
         }

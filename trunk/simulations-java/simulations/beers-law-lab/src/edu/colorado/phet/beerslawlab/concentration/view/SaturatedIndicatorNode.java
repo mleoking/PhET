@@ -48,7 +48,7 @@ class SaturatedIndicatorNode extends PComposite {
                             backgroundNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
 
         // make this node visible when the solution is saturated
-        solution.addConcentrationObserver( new SimpleObserver() {
+        solution.concentration.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( solution.isSaturated() );
             }

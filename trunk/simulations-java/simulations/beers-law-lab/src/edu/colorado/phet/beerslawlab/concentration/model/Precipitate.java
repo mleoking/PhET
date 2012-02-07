@@ -36,7 +36,7 @@ public class Precipitate {
         this.listeners = new ArrayList<ParticlesChangeListener>();
 
         // when the saturation changes, update the number of precipitate particles
-        solution.addPrecipitateAmountObserver( new SimpleObserver() {
+        solution.precipitateAmount.addObserver( new SimpleObserver() {
             public void update() {
                 updateParticles();
             }
