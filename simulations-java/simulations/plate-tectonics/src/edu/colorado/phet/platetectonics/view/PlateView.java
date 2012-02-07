@@ -68,7 +68,7 @@ public class PlateView extends GLNode {
         }
 
         for ( TerrainStrip strip : model.getTerrainStrips() ) {
-            addChild( new TerrainStripNode( strip, model, tab.getModelViewTransform() ) );
+            addChild( new TerrainStripNode( strip, tab.getModelViewTransform() ) );
 
             if ( strip.hasWater() ) {
 //                final WaterNode waterNode = new WaterNode( terrain, model, tab );
@@ -107,7 +107,7 @@ public class PlateView extends GLNode {
         } );
         model.terrainStripAdded.addListener( new VoidFunction1<TerrainStrip>() {
             public void apply( TerrainStrip strip ) {
-                addChild( new TerrainStripNode( strip, model, tab.getModelViewTransform() ) );
+                addChild( new TerrainStripNode( strip, tab.getModelViewTransform() ) );
             }
         } );
 
