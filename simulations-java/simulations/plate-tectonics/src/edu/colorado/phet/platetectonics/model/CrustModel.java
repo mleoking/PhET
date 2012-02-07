@@ -53,10 +53,10 @@ public class CrustModel extends PlateModel {
 
     // thickness of the center crust, in meters
     public final Property<Double> thickness = new Property<Double>( 20000.0 );
-    private final FlatTerrain oceanicTerrain;
-    private final FlatTerrain middleTerrain;
-    private final FlatTerrain continentalTerrain;
-    private final List<TerrainConnector> terrainConnectors = new ArrayList<TerrainConnector>();
+    private final TerrainStrip oceanicTerrain;
+    private final TerrainStrip middleTerrain;
+    private final TerrainStrip continentalTerrain;
+    private final List<TerrainConnectorStrip> terrainConnectors = new ArrayList<TerrainConnectorStrip>();
 
     private static final int CENTER_X_SAMPLES = 20;
     private static final int SIDE_X_SAMPLES = 50;
@@ -112,54 +112,63 @@ public class CrustModel extends PlateModel {
         super( grid.getBounds() );
         final Bounds3D bounds = grid.getBounds();
 
-        // update when anything is modified
-//        SimpleObserver updateObserver = new SimpleObserver() {
-//            public void update() {
-//                updateView();
-//            }
-//        };
-//        temperatureRatio.addObserver( updateObserver, false );
-//        compositionRatio.addObserver( updateObserver, false );
-//        thickness.addObserver( updateObserver, false );
-
         /*---------------------------------------------------------------------------*
         * terrains
         *----------------------------------------------------------------------------*/
 
-        oceanicTerrain = new FlatTerrain( SIDE_X_SAMPLES, TERRAIN_Z_SAMPLES ) {{
-            // x-coordinate interpolation favoring the top more
-            for ( int i = 0; i < numXSamples; i++ ) {
-                float ratio = ( (float) i ) / ( (float) ( numXSamples - 1 ) );
+        oceanicTerrain = new TerrainStrip( TERRAIN_Z_SAMPLES, bounds.getMinZ(), bounds.getMaxZ() ) {{
+            for ( int col = SIDE_X_SAMPLES - 1; col >= 0; col-- ) {
+                float ratio = ( (float) col ) / ( (float) ( SIDE_X_SAMPLES - 1 ) );
                 ratio = (float) Math.pow( ratio, 0.3 );
-                xData[i] = -PlateModel.MAX_FLAT_X + ratio * ( (float) LEFT_BOUNDARY - -PlateModel.MAX_FLAT_X );
+                final float x = -PlateModel.MAX_FLAT_X + ratio * ( (float) LEFT_BOUNDARY - -PlateModel.MAX_FLAT_X );
+                addToLeft( x, new ArrayList<TerrainSamplePoint>() {{
+                    for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
+                        final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
+                        float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
+                        add( new TerrainSamplePoint( (float) LEFT_OCEANIC_ELEVATION, topTextureMap( new ImmutableVector2F( x, z ) ) ) );
+                    }
+                }} );
             }
-            setZBounds( bounds.getMinZ(), bounds.getMaxZ() );
-            setElevation( (float) LEFT_OCEANIC_ELEVATION );
         }};
-        middleTerrain = new FlatTerrain( CENTER_X_SAMPLES, TERRAIN_Z_SAMPLES ) {{
-            setXBounds( LEFT_BOUNDARY, RIGHT_BOUNDARY );
-            setZBounds( bounds.getMinZ(), bounds.getMaxZ() );
+        middleTerrain = new TerrainStrip( TERRAIN_Z_SAMPLES, bounds.getMinZ(), bounds.getMaxZ() ) {{
+            for ( int col = 0; col < SIDE_X_SAMPLES; col++ ) {
+                float ratio = ( (float) col ) / ( (float) ( SIDE_X_SAMPLES - 1 ) );
+                final float x = LEFT_BOUNDARY + ratio * ( RIGHT_BOUNDARY - LEFT_BOUNDARY );
+                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
+                    for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
+                        final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
+                        float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
+                        add( new TerrainSamplePoint( (float) getCenterCrustElevation(), topTextureMap( new ImmutableVector2F( x, z ) ) ) );
+                    }
+                }} );
+            }
         }};
-        continentalTerrain = new FlatTerrain( SIDE_X_SAMPLES, TERRAIN_Z_SAMPLES ) {{
-            // x-coordinate interpolation favoring the top more
-            for ( int i = 0; i < numXSamples; i++ ) {
-                float ratio = ( (float) i ) / ( (float) ( numXSamples - 1 ) );
+        continentalTerrain = new TerrainStrip( TERRAIN_Z_SAMPLES, bounds.getMinZ(), bounds.getMaxZ() ) {{
+            for ( int col = 0; col < SIDE_X_SAMPLES; col++ ) {
+                float ratio = ( (float) col ) / ( (float) ( SIDE_X_SAMPLES - 1 ) );
                 ratio = (float) ( 1 - Math.pow( 1 - ratio, 0.3 ) );
-                xData[i] = (float) RIGHT_BOUNDARY + ratio * ( PlateModel.MAX_FLAT_X - (float) RIGHT_BOUNDARY );
+                final float x = (float) RIGHT_BOUNDARY + ratio * ( PlateModel.MAX_FLAT_X - (float) RIGHT_BOUNDARY );
+                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
+                    for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
+                        final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
+                        float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
+                        add( new TerrainSamplePoint( (float) RIGHT_CONTINENTAL_ELEVATION, topTextureMap( new ImmutableVector2F( x, z ) ) ) );
+                    }
+                }} );
             }
-            setZBounds( bounds.getMinZ(), bounds.getMaxZ() );
-            setElevation( (float) RIGHT_CONTINENTAL_ELEVATION );
         }};
-        addTerrain( oceanicTerrain );
-        addTerrain( middleTerrain );
-        addTerrain( continentalTerrain );
+        addStrip( oceanicTerrain );
+        addStrip( middleTerrain );
+        addStrip( continentalTerrain );
 
-        TerrainConnector leftConnector = new TerrainConnector( oceanicTerrain, middleTerrain, 10 );
-        TerrainConnector rightConnector = new TerrainConnector( middleTerrain, continentalTerrain, 10 );
+        // TODO: terrain connectors!
+        TerrainConnectorStrip leftConnector = new TerrainConnectorStrip( oceanicTerrain, middleTerrain, 10, bounds.getMinZ(), bounds.getMaxZ() );
         terrainConnectors.add( leftConnector );
+        addStrip( leftConnector );
+
+        TerrainConnectorStrip rightConnector = new TerrainConnectorStrip( middleTerrain, continentalTerrain, 10, bounds.getMinZ(), bounds.getMaxZ() );
         terrainConnectors.add( rightConnector );
-        addTerrain( leftConnector );
-        addTerrain( rightConnector );
+        addStrip( rightConnector );
 
         /*---------------------------------------------------------------------------*
         * regions
@@ -379,6 +388,10 @@ public class CrustModel extends PlateModel {
         }};
     }
 
+    private ImmutableVector2F topTextureMap( ImmutableVector2F position ) {
+        return position.times( 0.000005f );
+    }
+
     private ImmutableVector2F textureMap( ImmutableVector2F position ) {
         return position.times( 0.00002f );
     }
@@ -458,10 +471,11 @@ public class CrustModel extends PlateModel {
 
     private void updateView() {
         // update the middle elevation
-        middleTerrain.setElevation( (float) getCenterCrustElevation() );
+        middleTerrain.setToFlatElevation( (float) getCenterCrustElevation() );
+        middleTerrain.elevationChanged.updateListeners();
 
         // update the terrain connectors
-        for ( TerrainConnector connector : terrainConnectors ) {
+        for ( TerrainConnectorStrip connector : terrainConnectors ) {
             connector.update();
         }
 

@@ -24,8 +24,10 @@ public abstract class PlateModel {
     public final Notifier<Region> regionRemoved = new Notifier<Region>();
     public final Notifier<CrossSectionPatch> patchAdded = new Notifier<CrossSectionPatch>();
     public final Notifier<CrossSectionPatch> patchRemoved = new Notifier<CrossSectionPatch>();
-    public final Notifier<CrossSectionStrip> stripAdded = new Notifier<CrossSectionStrip>();
-    public final Notifier<CrossSectionStrip> stripRemoved = new Notifier<CrossSectionStrip>();
+    public final Notifier<CrossSectionStrip> crossSectionStripAdded = new Notifier<CrossSectionStrip>();
+    public final Notifier<CrossSectionStrip> crossSectionStripRemoved = new Notifier<CrossSectionStrip>();
+    public final Notifier<TerrainStrip> terrainStripAdded = new Notifier<TerrainStrip>();
+    public final Notifier<TerrainStrip> terrainStripRemoved = new Notifier<TerrainStrip>();
 
     // full bounds of the simulated model
     public final Bounds3D bounds;
@@ -39,7 +41,8 @@ public abstract class PlateModel {
     // replacement for regions with improved texturing
     private final List<CrossSectionPatch> patches = new ArrayList<CrossSectionPatch>();
 
-    private final List<CrossSectionStrip> strips = new ArrayList<CrossSectionStrip>();
+    private final List<CrossSectionStrip> crossSectionStrips = new ArrayList<CrossSectionStrip>();
+    private final List<TerrainStrip> terrainStrips = new ArrayList<TerrainStrip>();
 
     protected PlateModel( final Bounds3D bounds ) {
         this.bounds = bounds;
@@ -97,17 +100,31 @@ public abstract class PlateModel {
     }
 
     public void addStrip( CrossSectionStrip strip ) {
-        strips.add( strip );
-        stripAdded.updateListeners( strip );
+        crossSectionStrips.add( strip );
+        crossSectionStripAdded.updateListeners( strip );
+    }
+
+    public void addStrip( TerrainStrip strip ) {
+        terrainStrips.add( strip );
+        terrainStripAdded.updateListeners( strip );
     }
 
     public void removeStrip( CrossSectionStrip strip ) {
-        strips.remove( strip );
-        stripRemoved.updateListeners( strip );
+        crossSectionStrips.remove( strip );
+        crossSectionStripRemoved.updateListeners( strip );
     }
 
-    public List<CrossSectionStrip> getStrips() {
-        return strips;
+    public void removeStrip( TerrainStrip strip ) {
+        terrainStrips.remove( strip );
+        terrainStripRemoved.updateListeners( strip );
+    }
+
+    public List<CrossSectionStrip> getCrossSectionStrips() {
+        return crossSectionStrips;
+    }
+
+    public List<TerrainStrip> getTerrainStrips() {
+        return terrainStrips;
     }
 
     /*---------------------------------------------------------------------------*
