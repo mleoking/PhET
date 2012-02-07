@@ -49,7 +49,7 @@ public class ConcentrationCanvas extends BLLCanvas {
                                                                    model.dropper, stockSolutionNode );
 
         // Various controls
-        PNode soluteControlNode = new SoluteControlNode( model.getSolutes(), model.solute, model.soluteForm );
+        PNode soluteControlNode = new SoluteControlsNode( model.getSolutes(), model.solute, model.soluteForm );
         PNode evaporationControlNode = new EvaporationControlNode( model.evaporator );
         PNode removeSoluteButtonNode = new RemoveSoluteButtonNode( model.solution, model.shakerParticles );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{

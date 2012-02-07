@@ -16,11 +16,11 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SoluteControlNode extends ControlPanelNode {
+class SoluteControlsNode extends ControlPanelNode {
 
     private PBounds contentBounds;
 
-    public SoluteControlNode( ArrayList<Solute> solutes, Property<Solute> currentSolute, Property<SoluteForm> soluteForm ) {
+    public SoluteControlsNode( ArrayList<Solute> solutes, Property<Solute> currentSolute, Property<SoluteForm> soluteForm ) {
         super( new LayoutNode( solutes, currentSolute, soluteForm ) );
     }
 
