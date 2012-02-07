@@ -166,16 +166,21 @@ class SimEventDataCollectionMonitor {
       def run() {
         while ( true ) {
           readDataFromMongoServer()
-          Thread.sleep(5000)
+          //          Thread.sleep(5000)
         }
       }
     }).start()
   }
 
   private def readDataFromMongoServer() {
-    for ( session: String <- asScalaSet(database.getCollectionNames) if session != "system.indexes" if session != "system.users" ) {
+    val start = System.currentTimeMillis
+    val collectionNames = asScalaSet(database.getCollectionNames)
+    val end = System.currentTimeMillis()
+    println("Read collection names: " + ( end - start ) + " ms")
+    for ( session: String <- collectionNames if session != "system.indexes" if session != "system.users" ) {
       val collection: DBCollection = database.getCollection(session)
 
+      val start = System.currentTimeMillis
       val startMessage = collection.findOne()
       val parameters: DBObject = startMessage.get("parameters").asInstanceOf[DBObject]
       val getStudy = parameters.get("study")
@@ -192,7 +197,10 @@ class SimEventDataCollectionMonitor {
       val endMessageTime = new Date(endMessage.get("_id").asInstanceOf[ObjectId].getTime)
 
       val row = Array(getMachineID, session, study, userID, endMessageTime, numberMessages.asInstanceOf[Object])
+      val end = System.currentTimeMillis
+      println("Read row: " + ( end - start ) + " ms")
 
+      //Run update in Swing thread
       SwingUtilities.invokeLater(new Runnable {
         def run() {
           //If the tableModel already has this session, then update the updateable fields
@@ -208,6 +216,8 @@ class SimEventDataCollectionMonitor {
         }
       })
     }
+    val done = System.currentTimeMillis
+    println("Time to update all = " + ( done - start ) + " ms")
   }
 
   def indexForUserID(sessionID: String, data: Array[Array[AnyRef]]): Int = {
