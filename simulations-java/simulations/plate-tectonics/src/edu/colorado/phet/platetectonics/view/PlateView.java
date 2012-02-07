@@ -87,8 +87,6 @@ public class PlateView extends GLNode {
             }
         }
 
-        // TODO: add new strips in if needed?
-
         // handle regions when they are added
         model.regionAdded.addListener( new VoidFunction1<Region>() {
             public void apply( Region region ) {
