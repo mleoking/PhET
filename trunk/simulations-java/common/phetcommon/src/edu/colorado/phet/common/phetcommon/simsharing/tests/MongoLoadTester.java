@@ -1,7 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing.tests;
 
-import java.io.IOException;
+import java.net.UnknownHostException;
+
+import edu.colorado.phet.common.phetcommon.simsharing.logs.MongoLog;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.Mongo;
+import com.mongodb.WriteResult;
 
 /**
  * Runs lots of threads which all send some data to the mongo server--helps us to see what kind of load MongoDB can support on our hardware/network configuration.
@@ -15,36 +23,38 @@ public class MongoLoadTester {
 
     public static void main( String[] args ) {
         for ( int i = 0; i < NUM_CLIENTS; i++ ) {
-            final int finalI = i;
+            final int clientIndex = i;
             new Thread( new Runnable() {
                 public void run() {
-
                     try {
-                        Process p = Runtime.getRuntime().exec( new String[] { "java", "-jar", "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\acid-base-solutions\\deploy\\acid-base-solutions_all.jar" } );
+                        Mongo m = new Mongo( MongoLog.HOST_IP_ADDRESS, MongoLog.PORT );
+                        DB db = m.getDB( "loadtester" );
+//                        db.authenticate( ??? );
+//                        DB db = m.getDB( "sessions" );
+                        DBCollection collection = db.getCollection( "loadtesterCollection" );
+                        int messageIndex = 0;
+                        while ( true ) {
+                            try {
+                                final int finalMessageIndex = messageIndex;
+                                WriteResult result = collection.insert( new BasicDBObject() {{
+                                    put( "index", clientIndex );
+                                    put( "messageIndex", finalMessageIndex );
+                                    for ( int k = 0; k < 100; k++ ) {
+                                        put( "value_" + k, k );
+                                    }
+                                }} );
+                                System.out.println( "result.getError() = " + result.getError() );
+                                Thread.sleep( TIME_BETWEEN_MESSAGES_MILLIS );
+                                messageIndex++;
+                            }
+                            catch ( InterruptedException e ) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
-                    catch ( IOException e ) {
+                    catch ( UnknownHostException e ) {
                         e.printStackTrace();
                     }
-//                    Mongo m = null;
-//                    try {
-//                        m = new Mongo( MongoLog.HOST_IP_ADDRESS, MongoLog.PORT );
-//                    }
-//                    catch ( UnknownHostException e ) {
-//                        e.printStackTrace();
-//                    }
-//                    DB db = m.getDB( "loadtester" );
-//                    DBCollection collection = db.getCollection( "loadtesterCollection" );
-//                    while ( true ) {
-//                        try {
-//                            collection.insert( new BasicDBObject() {{
-//                                put( "index", finalI );
-//                            }} );
-//                            Thread.sleep( TIME_BETWEEN_MESSAGES_MILLIS );
-//                        }
-//                        catch ( InterruptedException e ) {
-//                            e.printStackTrace();
-//                        }
-//                    }
                 }
             } ).start();
         }
