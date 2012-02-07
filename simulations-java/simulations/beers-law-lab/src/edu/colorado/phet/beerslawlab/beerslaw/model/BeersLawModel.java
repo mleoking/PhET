@@ -65,7 +65,7 @@ public class BeersLawModel implements Resettable {
         solution.soluteAmount.set( 0.1 ); //TODO we need to set concentration directly in this model
 
         double defaultWavelength = 500; //TODO get lambdaMax from solute
-        this.light = new Light( false, LightRepresentation.BEAM, defaultWavelength );
+        this.light = new Light( new ImmutableVector2D( 1.5, 2 ), false, LightRepresentation.BEAM, defaultWavelength );
 
         this.cuvette = new Cuvette( new ImmutableVector2D( 3.25, 1.25 ), CUVETTE_WIDTH_RANGE.getDefault(), CUVETTE_HEIGHT, CUVETTE_WIDTH_RANGE );
     }
