@@ -11,6 +11,7 @@ import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
+import edu.colorado.phet.platetectonics.model.TerrainStrip;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region;
@@ -62,8 +63,28 @@ public class PlateView extends GLNode {
             addChild( new CrossSectionPatchNode( tab.getModelViewTransform(), tab.colorMode, patch ) );
         }
 
-        for ( CrossSectionStrip strip : model.getStrips() ) {
+        for ( CrossSectionStrip strip : model.getCrossSectionStrips() ) {
             addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
+        }
+
+        for ( TerrainStrip strip : model.getTerrainStrips() ) {
+            addChild( new TerrainStripNode( strip, model, tab.getModelViewTransform() ) );
+
+            if ( strip.hasWater() ) {
+//                final WaterNode waterNode = new WaterNode( terrain, model, tab );
+//                showWater.addObserver( new SimpleObserver() {
+//                    public void update() {
+//                        if ( showWater.get() ) {
+//                            addChild( waterNode );
+//                        }
+//                        else {
+//                            if ( waterNode.getParent() != null ) {
+//                                removeChild( waterNode );
+//                            }
+//                        }
+//                    }
+//                } );
+            }
         }
 
         // TODO: add new strips in if needed?
@@ -79,9 +100,14 @@ public class PlateView extends GLNode {
                 addChild( new CrossSectionPatchNode( tab.getModelViewTransform(), tab.colorMode, patch ) );
             }
         } );
-        model.stripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
+        model.crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
             public void apply( CrossSectionStrip strip ) {
                 addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
+            }
+        } );
+        model.terrainStripAdded.addListener( new VoidFunction1<TerrainStrip>() {
+            public void apply( TerrainStrip strip ) {
+                addChild( new TerrainStripNode( strip, model, tab.getModelViewTransform() ) );
             }
         } );
 
@@ -104,10 +130,19 @@ public class PlateView extends GLNode {
                 }
             }
         } );
-        model.stripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
+        model.crossSectionStripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
             public void apply( CrossSectionStrip strip ) {
                 for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
                     if ( node instanceof CrossSectionStripNode && ( (CrossSectionStripNode) node ).getStrip() == strip ) {
+                        removeChild( node );
+                    }
+                }
+            }
+        } );
+        model.terrainStripRemoved.addListener( new VoidFunction1<TerrainStrip>() {
+            public void apply( TerrainStrip strip ) {
+                for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
+                    if ( node instanceof TerrainStripNode && ( (TerrainStripNode) node ).getTerrainStrip() == strip ) {
                         removeChild( node );
                     }
                 }
