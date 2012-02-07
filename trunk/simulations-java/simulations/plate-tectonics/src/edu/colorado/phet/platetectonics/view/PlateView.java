@@ -14,7 +14,6 @@ import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.TerrainStrip;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionPatch;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
 /**
@@ -54,11 +53,6 @@ public class PlateView extends GLNode {
             }
         }
 
-        // add all of the regions
-        for ( Region region : model.getRegions() ) {
-            addChild( new RegionNode( region, model, tab ) );
-        }
-
         for ( CrossSectionPatch patch : model.getPatches() ) {
             addChild( new CrossSectionPatchNode( tab.getModelViewTransform(), tab.colorMode, patch ) );
         }
@@ -87,12 +81,6 @@ public class PlateView extends GLNode {
             }
         }
 
-        // handle regions when they are added
-        model.regionAdded.addListener( new VoidFunction1<Region>() {
-            public void apply( Region region ) {
-                addChild( new RegionNode( region, model, tab ) );
-            }
-        } );
         model.patchAdded.addListener( new VoidFunction1<CrossSectionPatch>() {
             public void apply( CrossSectionPatch patch ) {
                 addChild( new CrossSectionPatchNode( tab.getModelViewTransform(), tab.colorMode, patch ) );
@@ -110,15 +98,6 @@ public class PlateView extends GLNode {
         } );
 
         // TODO: handle region removals in a better way
-        model.regionRemoved.addListener( new VoidFunction1<Region>() {
-            public void apply( Region region ) {
-                for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
-                    if ( node instanceof RegionNode && ( (RegionNode) node ).getRegion() == region ) {
-                        removeChild( node );
-                    }
-                }
-            }
-        } );
         model.patchRemoved.addListener( new VoidFunction1<CrossSectionPatch>() {
             public void apply( CrossSectionPatch patch ) {
                 for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
