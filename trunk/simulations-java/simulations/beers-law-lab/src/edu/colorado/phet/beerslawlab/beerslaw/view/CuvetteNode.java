@@ -70,9 +70,9 @@ class CuvetteNode extends PNode {
         // when the solution color changes...
         solution.addFluidColorObserver( new SimpleObserver() {
             public void update() {
-                Color solutonColor = solution.getFluidColor();
-                solutionNode.setPaint( solutonColor );
-                solutionNode.setStrokePaint( BLLConstants.createFluidStrokeColor( solutonColor ) );
+                Color solutionColor = solution.fluidColor.get();
+                solutionNode.setPaint( solutionColor );
+                solutionNode.setStrokePaint( BLLConstants.createFluidStrokeColor( solutionColor ) );
             }
         } );
 
