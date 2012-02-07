@@ -71,19 +71,19 @@ public class PlateView extends GLNode {
             addChild( new TerrainStripNode( strip, tab.getModelViewTransform() ) );
 
             if ( strip.hasWater() ) {
-//                final WaterNode waterNode = new WaterNode( terrain, model, tab );
-//                showWater.addObserver( new SimpleObserver() {
-//                    public void update() {
-//                        if ( showWater.get() ) {
-//                            addChild( waterNode );
-//                        }
-//                        else {
-//                            if ( waterNode.getParent() != null ) {
-//                                removeChild( waterNode );
-//                            }
-//                        }
-//                    }
-//                } );
+                final WaterStripNode waterNode = new WaterStripNode( strip, model, tab );
+                showWater.addObserver( new SimpleObserver() {
+                    public void update() {
+                        if ( showWater.get() ) {
+                            addChild( waterNode );
+                        }
+                        else {
+                            if ( waterNode.getParent() != null ) {
+                                removeChild( waterNode );
+                            }
+                        }
+                    }
+                } );
             }
         }
 
