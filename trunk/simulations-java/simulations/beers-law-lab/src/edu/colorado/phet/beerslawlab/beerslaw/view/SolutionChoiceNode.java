@@ -11,8 +11,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
- * The "Solution" combo box is really a Solute combo box, but the designers wanted it to be labeled "Solution".
- * It also has a different format for the solute labels.
+ * The "Solution" combo box is identical to the Solute combo box (it choose a solute),
+ * but the designers wanted it to be labeled "Solution".
+ * It also has a different format for the solute labels, showing both the formula and name.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
