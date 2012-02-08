@@ -4,6 +4,7 @@ package edu.colorado.phet.moleculeshapes.control;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
@@ -17,8 +18,19 @@ import edu.umd.cs.piccolo.PNode;
  * Displays a list of options that can be selected
  */
 public class OptionsNode extends PNode {
-    public OptionsNode( final MoleculeViewTab module, final double INNER_WIDTH ) {
+
+    private static final String[] CHECKBOX_STRINGS = new String[] {
+            Strings.CONTROL__SHOW_BOND_ANGLES, Strings.CONTROL__SHOW_LONE_PAIRS
+    };
+
+    public OptionsNode( final MoleculeViewTab module ) {
         // enforce the width constraint
+
+        double INNER_WIDTH = 0;
+        for ( String checkboxString : CHECKBOX_STRINGS ) {
+            INNER_WIDTH = Math.max( INNER_WIDTH, new PropertyCheckBoxNode( new UserComponent( "dummy" ), checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
+        }
+
         addChild( new Spacer( 0, 0, INNER_WIDTH, 10 ) );
 
         final Property<Double> y = new Property<Double>( 0.0 );

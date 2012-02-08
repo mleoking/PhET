@@ -25,7 +25,6 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
-import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyRadioButtonNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
@@ -175,13 +174,6 @@ public class RealMoleculesControlPanel extends PNode {
 //            }
         }}, Strings.CONTROL__MOLECULE );
         addChild( moleculePanel );
-
-        /*---------------------------------------------------------------------------*
-        * options
-        *----------------------------------------------------------------------------*/
-        final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module, INNER_WIDTH ), Strings.CONTROL__OPTIONS );
-        optionsPanel.setOffset( 0, moleculePanel.getFullBounds().getMaxY() + 20 );
-        addChild( optionsPanel );
 
         // set the combo box's offset based on our global full bounds, since the combo box is added to the root
         moleculeSelectionNode.setOffset( moleculeSelectionSpacer.getGlobalFullBounds().getX(), moleculeSelectionSpacer.getGlobalFullBounds().getY() - dropDownBoxTopPadding );

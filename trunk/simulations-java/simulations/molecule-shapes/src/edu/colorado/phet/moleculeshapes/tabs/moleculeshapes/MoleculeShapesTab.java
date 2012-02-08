@@ -36,6 +36,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
+import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.VSEPRMolecule;
@@ -310,12 +311,12 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                 return createRegularView( name + " Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
                                                                                 new CanvasTransformedBounds( canvasTransform,
                                                                                                              rectangle2DProperty ) ) {
-                    @Override public void positionMe() {
-                        setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
-                        setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
-                        lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-                    }
-                }, RenderPosition.MAIN );
+                                              @Override public void positionMe() {
+                                                  setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
+                                                  setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
+                                                  lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+                                              }
+                                          }, RenderPosition.MAIN );
             }
         };
 
@@ -369,6 +370,25 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                             controlPanel.position.set( new ImmutableVector2D(
                                     getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
                                     getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
+                        }
+                        resizeDirty = true; // TODO: better way of getting this dependency?
+                    }
+                }, true );
+
+
+        /*---------------------------------------------------------------------------*
+        * options
+        *----------------------------------------------------------------------------*/
+        final MoleculeShapesPanelNode optionsPanelNode = new MoleculeShapesPanelNode( new OptionsNode( this ), Strings.CONTROL__OPTIONS );
+        final PiccoloJMENode optionsPanel = new PiccoloJMENode( optionsPanelNode, inputHandler, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D() ) );
+        guiView.getScene().attachChild( optionsPanel );
+        optionsPanel.onResize.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        if ( optionsPanel != null ) {
+                            optionsPanel.position.set( new ImmutableVector2D(
+                                    getStageSize().width - optionsPanel.getComponentWidth() - OUTSIDE_PADDING,
+                                    OUTSIDE_PADDING ) );
                         }
                         resizeDirty = true; // TODO: better way of getting this dependency?
                     }

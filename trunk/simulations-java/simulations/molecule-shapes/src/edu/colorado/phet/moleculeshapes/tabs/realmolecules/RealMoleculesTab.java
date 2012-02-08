@@ -44,6 +44,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelObjects;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelParameterKeys;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
+import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
 import edu.colorado.phet.moleculeshapes.model.Bond;
@@ -294,10 +295,10 @@ public class RealMoleculesTab extends MoleculeViewTab {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-            public void update() {
-                rebuildMolecule( false );
-            }
-        }, false );
+                                      public void update() {
+                                          rebuildMolecule( false );
+                                      }
+                                  }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -318,6 +319,24 @@ public class RealMoleculesTab extends MoleculeViewTab {
                             controlPanel.position.set( new ImmutableVector2D(
                                     getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
                                     getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
+                        }
+                        resizeDirty = true; // TODO: better way of getting this dependency?
+                    }
+                }, true );
+
+        /*---------------------------------------------------------------------------*
+        * options
+        *----------------------------------------------------------------------------*/
+        final MoleculeShapesPanelNode optionsPanelNode = new MoleculeShapesPanelNode( new OptionsNode( this ), Strings.CONTROL__OPTIONS );
+        final PiccoloJMENode optionsPanel = new PiccoloJMENode( optionsPanelNode, inputHandler, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D() ) );
+        guiView.getScene().attachChild( optionsPanel );
+        optionsPanel.onResize.addUpdateListener(
+                new UpdateListener() {
+                    public void update() {
+                        if ( optionsPanel != null ) {
+                            optionsPanel.position.set( new ImmutableVector2D(
+                                    getStageSize().width - optionsPanel.getComponentWidth() - OUTSIDE_PADDING,
+                                    OUTSIDE_PADDING ) );
                         }
                         resizeDirty = true; // TODO: better way of getting this dependency?
                     }
