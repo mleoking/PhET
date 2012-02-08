@@ -92,6 +92,22 @@ public class TranscriptionFactor extends MobileBiomolecule {
         return new TranscriptionFactorAttachmentStateMachine( this );
     }
 
+    @Override protected void handleReleasedByUser() {
+        super.handleReleasedByUser();
+
+        // A case that is unique to transcription factors: If released on top
+        // of another biomolecule on the DNA strand, go directly into the
+        // detaching state so that this drifts away from the DNA.  This makes it
+        // clear the you can't have two transcription factors in the same
+        // place on the DNA.
+        for ( MobileBiomolecule biomolecule : model.getOverlappingBiomolecules( this.getShape() ) ) {
+            if ( biomolecule.isAttachedToDna() ) {
+                attachmentStateMachine.forceImmediateUnattachedButUnavailable();
+                break;
+            }
+        }
+    }
+
     /**
      * Static factory method that generates an instance of a transcription
      * factor for the specified gene and of the specified polarity (i.e.

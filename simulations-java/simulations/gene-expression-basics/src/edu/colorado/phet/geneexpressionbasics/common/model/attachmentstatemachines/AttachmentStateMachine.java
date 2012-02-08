@@ -71,7 +71,18 @@ public abstract class AttachmentStateMachine {
      * generally done only when the user has grabbed the associated molecule.
      * Calling this when already in this state is harmless.
      */
-    public abstract void forceImmediateUnattached();
+    public void forceImmediateUnattachedAndAvailable() {
+        System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
+    }
+
+    /**
+     * Move immediately into the unattached-but-unavailable state.  This is
+     * generally done only when the user has released the associated molecule
+     * in a place where it needs to move away.
+     */
+    public void forceImmediateUnattachedButUnavailable() {
+        System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
+    }
 
     /**
      * Set a new attachment state.  This calls the "entered" method, so this
