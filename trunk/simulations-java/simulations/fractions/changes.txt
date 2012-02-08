@@ -1,3 +1,4 @@
+Make the bars a little smaller in the representation control panel buttons
 Show entire filled whole icons in the representation control panel, not objects with divisions
 Intro tab: Removed reduced/mixed control panel
 Fixed: Fraction goes off the screen to the left on mac
