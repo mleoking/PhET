@@ -34,6 +34,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
     public static final Property<Boolean> tab2Visible = new Property<Boolean>( true );
     public static final Property<Boolean> tab3Visible = new Property<Boolean>( true );
+    public static final Property<Boolean> showRealMoleculeRadioButtons = new Property<Boolean>( true );
     private static final Property<Boolean> whiteBackground = new Property<Boolean>( false );
     private PhetApplicationConfig config;
 
@@ -128,6 +129,7 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show drop-down 2nd tab", tab2Visible ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show kit 2nd tab", tab3Visible ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show Real/Model radio buttons", showRealMoleculeRadioButtons ) );
     }
 
     //----------------------------------------------------------------------------

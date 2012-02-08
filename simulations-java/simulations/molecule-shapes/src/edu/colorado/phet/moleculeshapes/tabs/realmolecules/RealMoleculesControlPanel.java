@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.Kit;
 import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEUtils;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
@@ -150,10 +151,32 @@ public class RealMoleculesControlPanel extends PNode {
             * real / model radio buttons
             *----------------------------------------------------------------------------*/
             final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.realViewCheckBox, Strings.CONTROL__REAL_VIEW, module.showRealView, true );
-            addChild( realRadioNode );
+
+            // visibility handling (and initial adding)
+            MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
+                public void update() {
+                    if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
+                        addChild( realRadioNode );
+                    }
+                    else {
+                        removeChild( realRadioNode );
+                    }
+                }
+            } );
 
             final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.modelViewCheckBox, Strings.CONTROL__MODEL_VIEW, module.showRealView, false );
-            addChild( modelRadioNode );
+
+            // visibility handling (and initial adding)
+            MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
+                public void update() {
+                    if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
+                        addChild( modelRadioNode );
+                    }
+                    else {
+                        removeChild( modelRadioNode );
+                    }
+                }
+            } );
 
 //            if ( module.shouldUseKit() ) {
             // center the radio buttons side-by-side

@@ -1,3 +1,4 @@
+Added a developer control to toggle visibility on the Real / Model radio buttons. If off, switch to "Real" view only
 Made the "Molecule" box larger
 Moved "Options" box to the bottom right side
 Added "Show All Lone Pairs" to the Teacher menu
