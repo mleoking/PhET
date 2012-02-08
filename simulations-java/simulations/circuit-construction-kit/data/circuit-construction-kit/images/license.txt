@@ -25,4 +25,4 @@ stopwatch-thumb.png source=Open Clip Art Library notes="stop watch icon", http:/
 va-thumb.gif author=PhET 
 vm3.gif author=PhET notes=photograph Sam took of a physical voltmeter unit
 wood.jpg 
-x-20.png author=PhET 
+x-20.png author=PhET
