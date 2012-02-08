@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.jmephet.JMEPhetApplication;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesTeacherMenu;
 import edu.colorado.phet.moleculeshapes.dev.DeveloperOptions;
 import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
@@ -112,7 +113,11 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
         }
 
         // Teacher's menu
-        frame.addMenu( new MoleculeShapesTeacherMenu( whiteBackground ) );
+        frame.addMenu( new MoleculeShapesTeacherMenu( whiteBackground ) {{
+            if ( tab2 != null || tab3 != null ) {
+                add( new PropertyCheckBoxMenuItem( UserComponents.showAllLonePairsCheckBox, Strings.CONTROL__SHOW_ALL_LONE_PAIRS, ( tab2 == null ? tab3 : tab2 ).showAllLonePairs ) );
+            }
+        }} );
 
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
