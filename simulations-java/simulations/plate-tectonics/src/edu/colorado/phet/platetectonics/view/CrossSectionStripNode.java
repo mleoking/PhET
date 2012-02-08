@@ -16,7 +16,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.SamplePoint;
+import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 
@@ -69,8 +69,8 @@ public class CrossSectionStripNode extends GLNode {
         colorBuffer.clear();
 
         // alternate top to bottom, and use iterators so we don't make this O(n^2)
-        Iterator<SamplePoint> topIter = strip.topPoints.listIterator();
-        Iterator<SamplePoint> bottomIter = strip.bottomPoints.listIterator();
+        Iterator<Sample> topIter = strip.topPoints.listIterator();
+        Iterator<Sample> bottomIter = strip.bottomPoints.listIterator();
 
         while ( topIter.hasNext() ) {
             addSamplePoint( topIter.next() );
@@ -78,7 +78,7 @@ public class CrossSectionStripNode extends GLNode {
         }
     }
 
-    private void addSamplePoint( SamplePoint point ) {
+    private void addSamplePoint( Sample point ) {
         // calculate point properties
         final Color color = colorMode.get().getMaterial().getColor( point.getDensity(), point.getTemperature(),
                                                                     new ImmutableVector2F( point.getPosition().x, point.getPosition().y ) );

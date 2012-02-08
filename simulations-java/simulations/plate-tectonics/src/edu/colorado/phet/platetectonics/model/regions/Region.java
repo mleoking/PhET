@@ -7,7 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.platetectonics.model.SamplePoint;
+import edu.colorado.phet.platetectonics.model.Sample;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.flatten;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
@@ -19,7 +19,7 @@ public class Region {
     private List<CrossSectionStrip> strips = new ArrayList<CrossSectionStrip>();
 
     // sample point factory is called with (y (row), x (col))
-    public Region( int numStrips, int numXSamples, Function2<Integer, Integer, SamplePoint> samplePointFactory ) {
+    public Region( int numStrips, int numXSamples, Function2<Integer, Integer, Sample> samplePointFactory ) {
         int numBoundaries = numStrips + 1;
 
         for ( int row = 0; row < numBoundaries; row++ ) {
@@ -51,9 +51,9 @@ public class Region {
         return strips;
     }
 
-    public List<SamplePoint> getSamples() {
-        return flatten( map( boundaries, new Function1<Boundary, Collection<? extends SamplePoint>>() {
-            public Collection<? extends SamplePoint> apply( Boundary boundary ) {
+    public List<Sample> getSamples() {
+        return flatten( map( boundaries, new Function1<Boundary, Collection<? extends Sample>>() {
+            public Collection<? extends Sample> apply( Boundary boundary ) {
                 return boundary.samples;
             }
         } ) );
