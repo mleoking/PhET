@@ -38,6 +38,9 @@ public class OrthoComponentNode extends GLNode {
     public final ValueNotifier<OrthoComponentNode> onResize = new ValueNotifier<OrthoComponentNode>( this );
     public final Property<ImmutableVector2D> position;
 
+    // whether mouse events will pass through
+    private boolean mouseEnabled = true;
+
     private final JComponent component;
     private final LWJGLTab tab;
     private final CanvasTransform canvasTransform;
@@ -85,10 +88,10 @@ public class OrthoComponentNode extends GLNode {
             }
         } );
         position.addObserver( new SimpleObserver() {
-            public void update() {
-                rebuildComponentImage();
-            }
-        }, false );
+                                  public void update() {
+                                      rebuildComponentImage();
+                                  }
+                              }, false );
         canvasTransform.transform.addObserver( new SimpleObserver() {
             public void update() {
                 rebuildComponentImage();
@@ -99,7 +102,7 @@ public class OrthoComponentNode extends GLNode {
         mouseEventNotifier.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
-                        if ( componentImage != null ) {
+                        if ( componentImage != null && isMouseEnabled() ) {
                             // reversal of Y coordinate, and subtract out the offset that the ComponentImage doesn't have access to
                             ImmutableVector2F localCoordinates = screenToLocalCoordinates( new ImmutableVector2F( Mouse.getEventX(), Mouse.getEventY() ) );
                             componentImage.handleMouseEvent( (int) localCoordinates.x, (int) localCoordinates.y );
@@ -134,10 +137,10 @@ public class OrthoComponentNode extends GLNode {
 
     public <T> void updateOnEvent( Notifier<T> notifier ) {
         notifier.addUpdateListener( new UpdateListener() {
-            public void update() {
-                OrthoComponentNode.this.update();
-            }
-        }, false );
+                                        public void update() {
+                                            OrthoComponentNode.this.update();
+                                        }
+                                    }, false );
     }
 
     // should be called every frame
@@ -267,5 +270,13 @@ public class OrthoComponentNode extends GLNode {
 
     public JComponent getComponent() {
         return component;
+    }
+
+    public boolean isMouseEnabled() {
+        return mouseEnabled;
+    }
+
+    public void setMouseEnabled( boolean mouseEnabled ) {
+        this.mouseEnabled = mouseEnabled;
     }
 }
