@@ -310,7 +310,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                         }
                                         break;
                                     case TRANSFORM:
-                                        // TODO: fix transform
+                                        if ( motionVectorRight.get().y != 0 ) {
+                                            final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().y ) );
+                                            getClock().stepByWallSecondsForced( timeChange );
+                                        }
                                         break;
                                 }
                             }

@@ -2,6 +2,7 @@
 package edu.colorado.phet.platetectonics.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
@@ -54,6 +55,16 @@ public class TerrainConnectorStrip extends TerrainStrip {
                     add( new TerrainSamplePoint( elevation, new ImmutableVector2F( ( ratio ) / 2, rowRatio * 100 ) ) );
                 }
             }} );
+        }
+
+        // position the connector to the Z positions of the TOP terrain, so that the lower part can be shown with a cross-section
+        // "equals" since it's still boxed :P
+        if ( !left.zPositions.get( 0 ).equals( right.zPositions.get( 0 ) ) ) {
+            List<Float> topZPositions = left.getSample( leftXIndex, 0 ).getElevation() > right.getSample( rightXIndex, 0 ).getElevation()
+                                        ? left.zPositions : right.zPositions;
+            for ( int i = 0; i < left.getNumRows(); i++ ) {
+                zPositions.set( i, topZPositions.get( i ) );
+            }
         }
         columnsModified.updateListeners();
         elevationChanged.updateListeners();

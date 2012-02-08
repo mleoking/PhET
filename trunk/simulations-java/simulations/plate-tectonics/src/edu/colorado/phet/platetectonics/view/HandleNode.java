@@ -120,7 +120,7 @@ public class HandleNode extends GLNode {
 
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
-                    setVisible( ( motionType.get() == null ) || motionType.get() == MotionType.TRANSFORM );
+                    setVisible( ( motionType.get() == null ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW() ) );
                 }
             };
             tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
@@ -189,7 +189,7 @@ public class HandleNode extends GLNode {
 
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
-                    setVisible( ( motionType.get() == null ) || motionType.get() == MotionType.TRANSFORM );
+                    setVisible( ( motionType.get() == null ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle != model.isTransformMotionCCW() ) );
                 }
             };
             tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
@@ -235,8 +235,8 @@ public class HandleNode extends GLNode {
                 if ( verticalStrength > Math.abs( rightStrength ) ) {
                     // starting transform
                     System.out.println( "transform movement" );
+                    model.setTransformMotionCCW( !isRightHandle );
                     model.motionType.set( MotionType.TRANSFORM );
-                    // TODO: handle transform direction
                 }
                 else {
                     boolean pullingLeft = xyDelta.x < 0;

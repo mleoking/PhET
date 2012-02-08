@@ -47,9 +47,9 @@ public class PlateMotionModel extends PlateModel {
         TRANSFORM
     }
 
-    private final TerrainStrip leftTerrain;
-    private final TerrainStrip rightTerrain;
-    private final TerrainConnectorStrip centerTerrain;
+    private TerrainStrip leftTerrain;
+    private TerrainStrip rightTerrain;
+    private TerrainConnectorStrip centerTerrain;
 
     private static final float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
     private static final float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
@@ -65,6 +65,8 @@ public class PlateMotionModel extends PlateModel {
     private static final int HORIZONTAL_SAMPLES = 128;
 
     private final int TERRAIN_DEPTH_SAMPLES = 32;
+
+    private boolean transformMotionCCW = true;
 
     // TODO: better handling for this. ugly
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
@@ -99,53 +101,19 @@ public class PlateMotionModel extends PlateModel {
     public PlateMotionModel( final Bounds3D bounds ) {
         super( bounds );
 
-        final float minZ = bounds.getMinZ();
-        final float maxZ = bounds.getMaxZ();
-
         resetPlates();
-
-        /*---------------------------------------------------------------------------*
-         * terrains
-         *----------------------------------------------------------------------------*/
-        leftTerrain = new TerrainStrip( TERRAIN_DEPTH_SAMPLES, minZ, maxZ ) {{
-            for ( int xIndex = 0; xIndex < HORIZONTAL_SAMPLES; xIndex++ ) {
-                final float x = leftPlate.getMantle().getTopBoundary().samples.get( xIndex ).getPosition().x;
-                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
-                    for ( int zIndex = 0; zIndex < TERRAIN_DEPTH_SAMPLES; zIndex++ ) {
-                        final float z = zPositions.get( zIndex );
-                        // elevation to be fixed later
-                        add( new TerrainSamplePoint( 0, topTextureMap( new ImmutableVector2F( x, z ) ) ) );
-                    }
-                }} );
-            }
-        }};
-        rightTerrain = new TerrainStrip( TERRAIN_DEPTH_SAMPLES, minZ, maxZ ) {{
-            for ( int xIndex = 0; xIndex < HORIZONTAL_SAMPLES; xIndex++ ) {
-                final float x = rightPlate.getMantle().getTopBoundary().samples.get( xIndex ).getPosition().x;
-                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
-                    for ( int zIndex = 0; zIndex < TERRAIN_DEPTH_SAMPLES; zIndex++ ) {
-                        final float z = zPositions.get( zIndex );
-                        // elevation to be fixed later
-                        add( new TerrainSamplePoint( 0, topTextureMap( new ImmutableVector2F( x, z ) ) ) );
-                    }
-                }} );
-            }
-        }};
-        centerTerrain = new TerrainConnectorStrip( leftTerrain, rightTerrain, 3, minZ, maxZ );
-        addStrip( leftTerrain );
-        addStrip( rightTerrain );
-        addStrip( centerTerrain );
+        resetTerrain();
 
         updateTerrain();
         updateStrips();
     }
 
     private ImmutableVector2F topTextureMap( ImmutableVector2F position ) {
-        return position.times( 0.0000025f );
+        return position.times( 0.00000125f );
     }
 
     private ImmutableVector2F textureMap( ImmutableVector2F position ) {
-        return position.times( 0.00001f );
+        return position.times( 0.000005f );
     }
 
     private <T> void addDebugPropertyListener( final String name, final Property<T> property ) {
@@ -197,12 +165,56 @@ public class PlateMotionModel extends PlateModel {
         addPlate( rightPlate );
     }
 
+    public void resetTerrain() {
+        final float minZ = bounds.getMinZ();
+        final float maxZ = bounds.getMaxZ();
+
+        if ( leftTerrain != null ) {
+            removeStrip( leftTerrain );
+        }
+        leftTerrain = new TerrainStrip( TERRAIN_DEPTH_SAMPLES, minZ, maxZ ) {{
+            for ( int xIndex = 0; xIndex < HORIZONTAL_SAMPLES; xIndex++ ) {
+                final float x = leftPlate.getMantle().getTopBoundary().samples.get( xIndex ).getPosition().x;
+                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
+                    for ( int zIndex = 0; zIndex < TERRAIN_DEPTH_SAMPLES; zIndex++ ) {
+                        final float z = zPositions.get( zIndex );
+                        // elevation to be fixed later
+                        add( new TerrainSamplePoint( 0, topTextureMap( new ImmutableVector2F( x, z ) ) ) );
+                    }
+                }} );
+            }
+        }};
+        if ( rightTerrain != null ) {
+            removeStrip( rightTerrain );
+        }
+        rightTerrain = new TerrainStrip( TERRAIN_DEPTH_SAMPLES, minZ, maxZ ) {{
+            for ( int xIndex = 0; xIndex < HORIZONTAL_SAMPLES; xIndex++ ) {
+                final float x = rightPlate.getMantle().getTopBoundary().samples.get( xIndex ).getPosition().x;
+                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
+                    for ( int zIndex = 0; zIndex < TERRAIN_DEPTH_SAMPLES; zIndex++ ) {
+                        final float z = zPositions.get( zIndex );
+                        // elevation to be fixed later
+                        add( new TerrainSamplePoint( 0, topTextureMap( new ImmutableVector2F( x, z ) ) ) );
+                    }
+                }} );
+            }
+        }};
+        if ( centerTerrain != null ) {
+            removeStrip( centerTerrain );
+        }
+        centerTerrain = new TerrainConnectorStrip( leftTerrain, rightTerrain, 3, minZ, maxZ );
+        addStrip( leftTerrain );
+        addStrip( rightTerrain );
+        addStrip( centerTerrain );
+    }
+
     @Override public void resetAll() {
         super.resetAll();
 
         leftPlateType.reset();
         rightPlateType.reset();
         resetPlates();
+        resetTerrain();
 
         canRun.reset();
         motionType.reset();
@@ -368,6 +380,8 @@ public class PlateMotionModel extends PlateModel {
 
         if ( hasLeftPlate() && hasRightPlate() ) {
             if ( motionType.get() == null ) {
+                // default to a certain direction when we pick a motion-type this way
+                setTransformMotionCCW( false );
                 motionType.set( motionTypeIfStarted.get() );
             }
 
@@ -381,6 +395,19 @@ public class PlateMotionModel extends PlateModel {
                 for ( SamplePoint sample : getAllSamples() ) {
                     transformSample( sample, (float) -timeElapsed );
                 }
+            }
+            else if ( motionType.get() == MotionType.TRANSFORM ) {
+                // since time elapsed is in millions of years, here we have 3cm/year movement
+                // halved, since we only want the slip to be at that speed
+                float rightOffset = 30000f / 2 * (float) ( isTransformMotionCCW() ? -timeElapsed : timeElapsed );
+                for ( SamplePoint sample : rightPlate.getSamples() ) {
+                    sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, 0, rightOffset ) ) );
+                }
+                rightTerrain.shiftZ( rightOffset );
+                for ( SamplePoint sample : leftPlate.getSamples() ) {
+                    sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, 0, -rightOffset ) ) );
+                }
+                leftTerrain.shiftZ( -rightOffset );
             }
             updateStrips();
             updateTerrain();
@@ -500,5 +527,14 @@ public class PlateMotionModel extends PlateModel {
         System.out.println( getSimplifiedMantleTemperature( 0 ) - getSimplifiedMantleTemperature( -1000 ) );
         System.out.println( getSimplifiedMantleTemperature( -20000 ) );
         System.out.println( getSimplifiedMantleTemperature( -100000 ) );
+    }
+
+    public boolean isTransformMotionCCW() {
+        return transformMotionCCW;
+    }
+
+    public void setTransformMotionCCW( boolean transformMotionCCW ) {
+        System.out.println( "transformMotionCCW = " + transformMotionCCW );
+        this.transformMotionCCW = transformMotionCCW;
     }
 }
