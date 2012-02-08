@@ -4,13 +4,14 @@ package edu.colorado.phet.fractions.intro.intro.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
- * The entire state of what is filled and empty.
+ * The entire state of what is filled and empty for multiple containers.
  *
  * @author Sam Reid
  */
@@ -158,5 +159,36 @@ public class ContainerState {
                 }
             }
         }} );
+    }
+
+    //When converting denominator, try to keep pieces close to where they were.  This requires computing the closest unoccu
+    public CellPointer getClosestUnoccupiedLocation( final CellPointer cellPointer ) {
+        List<CellPointer> emptyCells = getEmptyCells();
+        if ( emptyCells.isEmpty() ) {
+            return null;
+        }
+        return Collections.min( emptyCells, new Comparator<CellPointer>() {
+            public int compare( CellPointer o1, CellPointer o2 ) {
+                double distance1 = cellPointer.distance( o1 );
+                double distance2 = cellPointer.distance( o2 );
+                return Double.compare( distance1, distance2 );
+            }
+        } );
+    }
+
+    public List<CellPointer> getFilledCells() {
+        return FunctionalUtils.filter( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
+            public Boolean apply( CellPointer cp ) {
+                return isFilled( cp );
+            }
+        } );
+    }
+
+    public List<CellPointer> getEmptyCells() {
+        return FunctionalUtils.filter( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
+            public Boolean apply( CellPointer cp ) {
+                return !isFilled( cp );
+            }
+        } );
     }
 }

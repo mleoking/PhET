@@ -35,12 +35,25 @@ public class FractionsIntroModel extends SingleFractionModel {
             public void apply( Integer denominator ) {
 
                 if ( !userToggled ) {
-                    int numContainers = numerator.get() / denominator + 1;
-                    Container[] c = new Container[numContainers];
-                    int numPieces = numerator.get();
 
-                    ContainerState cs = new ContainerState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).addPieces( numPieces ).padAndTrim();
-                    containerState.set( cs );
+                    //When changing denominator, move pieces to nearby slots
+                    ContainerState oldState = containerState.get();
+                    ContainerState newState = new ContainerState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).padAndTrim();
+
+                    //for each piece in oldState, find the closest unoccupied location in newState and add it there
+                    for ( CellPointer cellPointer : oldState.getFilledCells() ) {
+
+                        //Find closest unoccupied location
+                        CellPointer cp = newState.getClosestUnoccupiedLocation( cellPointer );
+                        if ( cp != null ) {
+                            newState = newState.toggle( cp );
+                        }
+                        else {
+                            System.out.println( "Null CP!" );
+                        }
+                    }
+
+                    containerState.set( newState.padAndTrim() );
                 }
             }
         } );

@@ -1,3 +1,4 @@
+Intro tab: When changing the denominator, have pieces stay as close to their original location as possible (no animation) instead of all filling from the left
 Make the bars a little smaller in the representation control panel buttons
 Show entire filled whole icons in the representation control panel, not objects with divisions
 Intro tab: Removed reduced/mixed control panel
