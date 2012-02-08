@@ -25,10 +25,6 @@ public class MessengerRnaFragmentAttachmentStateMachine extends AttachmentStateM
         setState( new UnattachedAndFadingState() );
     }
 
-    @Override public void forceImmediateUnattached() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     protected class AttachedToDestroyerState extends AttachmentState {
         @Override public void entered( AttachmentStateMachine asm ) {
             biomolecule.setMotionStrategy( new StillnessMotionStrategy() );

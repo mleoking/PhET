@@ -74,10 +74,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         userControlled.addObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
                 if ( wasUserControlled && !isUserControlled ) {
-                    // The user has released this node after moving it.  This
-                    // should cause any existing or pending attachments to be
-                    // severed.
-                    MobileBiomolecule.this.attachmentStateMachine.forceImmediateUnattached();
+                    handleReleasedByUser();
                 }
             }
         } );
@@ -91,6 +88,17 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      * @return
      */
     protected abstract AttachmentStateMachine createAttachmentStateMachine();
+
+    /**
+     * Handle the case where the user was controlling this model object (i.e.
+     * dragging it with the mouse) and has released it.  Override this if
+     * unique behavior is needed in a subclass.
+     */
+    protected void handleReleasedByUser() {
+        // The user has released this node after moving it.  This should cause
+        // any existing or pending attachments to be severed.
+        MobileBiomolecule.this.attachmentStateMachine.forceImmediateUnattachedAndAvailable();
+    }
 
     public void stepInTime( double dt ) {
 

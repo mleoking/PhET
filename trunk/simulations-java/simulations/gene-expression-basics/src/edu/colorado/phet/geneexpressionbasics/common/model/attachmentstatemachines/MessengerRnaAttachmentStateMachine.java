@@ -27,10 +27,6 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
         setState( new DetachingFromPolymeraseState() );
     }
 
-    @Override public void forceImmediateUnattached() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     /**
      * Signals this state machine that at least one ribosome is now attached
      * to the mRNA and is thus translating it.
