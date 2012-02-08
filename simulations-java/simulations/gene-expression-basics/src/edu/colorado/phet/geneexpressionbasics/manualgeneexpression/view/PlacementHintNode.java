@@ -34,7 +34,7 @@ public class PlacementHintNode extends PNode {
                                             placementHint.getBaseColor().getBlue(), 150 );
 
         addChild( new PhetPPath( transparentColor, HINT_STROKE, HINT_STROKE_COLOR ) {{
-//            Update the shape whenever it changes.
+            // Update the shape whenever it changes.
             placementHint.addShapeChangeObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     setPathTo( mvt.modelToView( shape ) );

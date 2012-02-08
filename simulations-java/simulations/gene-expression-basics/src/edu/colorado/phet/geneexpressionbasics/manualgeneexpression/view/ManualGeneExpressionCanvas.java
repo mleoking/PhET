@@ -29,6 +29,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
@@ -138,6 +139,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         modelRootNode.addChild( messengerRnaLayer );
         final PNode topBiomoleculeLayer = new PNode();
         modelRootNode.addChild( topBiomoleculeLayer );
+        final PNode placementHintLayer = new PNode();
+        modelRootNode.addChild( placementHintLayer );
 
         // Add the background cell that will enclose the DNA strand.  Clicking
         // on this cell will zoom in when we are in the zoomed out state.
@@ -178,10 +181,18 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                                                               Math.PI * 0.05,
                                                               2 ) );
 
-
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
         dnaLayer.addChild( dnaMoleculeNode );
+
+        // Add the placement hints that go on the DNA molecule.  These exist on
+        // their own layer so that they can be seen above any molecules that
+        // are attached to the DNA strand.
+        for ( Gene gene : model.getDnaMolecule().getGenes() ) {
+            for ( PlacementHint placementHint : gene.getPlacementHints() ) {
+                placementHintLayer.addChild( new PlacementHintNode( mvt, placementHint ) );
+            }
+        }
 
         // Add the protein collection box.
         final ProteinCollectionNode proteinCollectionNode = new ProteinCollectionNode( model, mvt ) {{

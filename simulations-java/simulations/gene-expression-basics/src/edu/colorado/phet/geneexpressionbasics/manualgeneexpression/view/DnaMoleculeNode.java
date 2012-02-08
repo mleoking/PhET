@@ -9,7 +9,6 @@ import java.awt.Stroke;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.BasePair;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
@@ -36,9 +35,6 @@ public class DnaMoleculeNode extends PNode {
     private PNode basePairLayer = new PNode();
     private PNode dnaStrandFrontLayer = new PNode();
 
-    // Add the layer where placement hits are put.
-    private PNode placementHintLayer = new PNode();
-
     /**
      * Constructor.
      *
@@ -53,7 +49,6 @@ public class DnaMoleculeNode extends PNode {
         addChild( dnaStrandBackLayer );
         addChild( basePairLayer );
         addChild( dnaStrandFrontLayer );
-        addChild( placementHintLayer );
 
         // Put the genes backgrounds and labels behind everything.
         for ( Gene gene : dnaMolecule.getGenes() ) {
@@ -71,16 +66,9 @@ public class DnaMoleculeNode extends PNode {
         for ( BasePair basePair : dnaMolecule.getBasePairs() ) {
             basePairLayer.addChild( new PhetPPath( mvt.modelToView( basePair.getShape() ), Color.DARK_GRAY ) );
         }
-        // Add the placement hints.
-        for ( Gene gene : dnaMolecule.getGenes() ) {
-            for ( PlacementHint placementHint : gene.getPlacementHints() ) {
-                placementHintLayer.addChild( new PlacementHintNode( mvt, placementHint ) );
-            }
-        }
     }
 
     private void addStrand( ModelViewTransform mvt, DnaStrandSegment dnaStrandSegment, Color color ) {
-//        PNode segmentNode = new PhetPPath( mvt.modelToView( dnaStrandSegment.getShape()), STRAND_STROKE, color );
         PNode segmentNode = new DnaStrandSegmentNode( dnaStrandSegment, mvt, color );
         if ( dnaStrandSegment.inFront ) {
             dnaStrandFrontLayer.addChild( segmentNode );
