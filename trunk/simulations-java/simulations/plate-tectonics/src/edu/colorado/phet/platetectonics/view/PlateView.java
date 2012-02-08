@@ -10,7 +10,6 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.TerrainStrip;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
@@ -30,31 +29,6 @@ public class PlateView extends GLNode {
 
     public PlateView( final PlateModel model, final PlateTectonicsTab tab, final Property<Boolean> showWater ) {
         this.tab = tab;
-        // add all of the terrain
-        for ( final Terrain terrain : model.getTerrains() ) {
-            addChild( new TerrainNode( terrain, model, tab ) ); // TODO: strip out model reference? a lot of unneeded stuff
-
-            // only include water nodes if it wants water
-            if ( terrain.hasWater() ) {
-                final WaterNode waterNode = new WaterNode( terrain, model, tab );
-                showWater.addObserver( new SimpleObserver() {
-                    public void update() {
-                        if ( showWater.get() ) {
-                            addChild( waterNode );
-                        }
-                        else {
-                            if ( waterNode.getParent() != null ) {
-                                removeChild( waterNode );
-                            }
-                        }
-                    }
-                } );
-            }
-        }
-
-        for ( CrossSectionStrip strip : model.getCrossSectionStrips() ) {
-            addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
-        }
 
         for ( TerrainStrip strip : model.getTerrainStrips() ) {
             addChild( new TerrainStripNode( strip, tab.getModelViewTransform() ) );
@@ -74,6 +48,10 @@ public class PlateView extends GLNode {
                     }
                 } );
             }
+        }
+
+        for ( CrossSectionStrip strip : model.getCrossSectionStrips() ) {
+            addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
         }
 
         model.crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
