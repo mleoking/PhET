@@ -1,3 +1,4 @@
+Added first cut at an indicator the tell the user when their protein collection is complete.
 Fixed an issue where the DNA strand would get pulled too far apart by the polymerase if it had been previously attached to the strand.
 Added the ability to prevent transcription factors from attaching to DNA is there is a different biomolecule in its way.
 Reduced the number of polymerase, ribosome, and rna destroyer molecules in the tool box from 3 to 2 in order to avoid false connection to the number of proteins in the collection area.
