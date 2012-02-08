@@ -1,3 +1,4 @@
+Intro tab: Removed reduced/mixed control panel
 Fixed: Fraction goes off the screen to the left on mac
 # 0.00.31 (59741) Dec 28, 2011
 Removed other tabs for posting feasibility test for Tab 1
