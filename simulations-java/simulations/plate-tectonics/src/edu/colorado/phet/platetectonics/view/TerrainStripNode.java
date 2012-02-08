@@ -11,7 +11,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.TerrainSamplePoint;
-import edu.colorado.phet.platetectonics.model.TerrainStrip;
+import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -22,7 +22,7 @@ import static org.lwjgl.opengl.GL11.*;
  * TODO: don't render if we don't have at least 2 columns
  */
 public class TerrainStripNode extends GridStripNode {
-    private final TerrainStrip terrainStrip;
+    private final Terrain terrainStrip;
 
     private boolean textureRefreshNeeded = true;
 
@@ -30,7 +30,7 @@ public class TerrainStripNode extends GridStripNode {
     private FloatBuffer colorBuffer;
 
 
-    public TerrainStripNode( final TerrainStrip terrainStrip, final LWJGLTransform modelViewTransform ) {
+    public TerrainStripNode( final Terrain terrainStrip, final LWJGLTransform modelViewTransform ) {
         super( modelViewTransform );
         this.terrainStrip = terrainStrip;
 
@@ -164,7 +164,7 @@ public class TerrainStripNode extends GridStripNode {
         glDisableClientState( GL_COLOR_ARRAY );
     }
 
-    public TerrainStrip getTerrainStrip() {
+    public Terrain getTerrainStrip() {
         return terrainStrip;
     }
 }

@@ -21,8 +21,8 @@ public abstract class PlateModel {
     public final VoidNotifier modelChanged = new VoidNotifier();
     public final Notifier<CrossSectionStrip> crossSectionStripAdded = new Notifier<CrossSectionStrip>();
     public final Notifier<CrossSectionStrip> crossSectionStripRemoved = new Notifier<CrossSectionStrip>();
-    public final Notifier<TerrainStrip> terrainStripAdded = new Notifier<TerrainStrip>();
-    public final Notifier<TerrainStrip> terrainStripRemoved = new Notifier<TerrainStrip>();
+    public final Notifier<Terrain> terrainStripAdded = new Notifier<Terrain>();
+    public final Notifier<Terrain> terrainStripRemoved = new Notifier<Terrain>();
     public final Notifier<Plate> plateAdded = new Notifier<Plate>();
     public final Notifier<Plate> plateRemoved = new Notifier<Plate>();
     public final Notifier<Region> regionAdded = new Notifier<Region>();
@@ -31,12 +31,14 @@ public abstract class PlateModel {
     // full bounds of the simulated model
     public final Bounds3D bounds;
 
+    private final TextureStrategy textureStrategy;
+
     // TODO: if we need, handle dynamic adding of strips from plates and regions
     private final List<Plate> plates = new ArrayList<Plate>();
     private final List<Region> regions = new ArrayList<Region>();
 
     private final List<CrossSectionStrip> crossSectionStrips = new ArrayList<CrossSectionStrip>();
-    private final List<TerrainStrip> terrainStrips = new ArrayList<TerrainStrip>();
+    private final List<Terrain> terrains = new ArrayList<Terrain>();
 
     private final VoidFunction1<Region> regionOnPlateAddedListener = new VoidFunction1<Region>() {
         public void apply( Region region ) {
@@ -44,8 +46,9 @@ public abstract class PlateModel {
         }
     };
 
-    protected PlateModel( final Bounds3D bounds ) {
+    protected PlateModel( final Bounds3D bounds, TextureStrategy textureStrategy ) {
         this.bounds = bounds;
+        this.textureStrategy = textureStrategy;
     }
 
     public abstract double getElevation( double x, double z );
@@ -69,6 +72,7 @@ public abstract class PlateModel {
         for ( Region region : plate.regions ) {
             addRegion( region );
         }
+        addTerrain( plate.getTerrain() );
     }
 
     public void removePlate( Plate plate ) {
@@ -78,6 +82,7 @@ public abstract class PlateModel {
         for ( Region region : plate.regions ) {
             removeRegion( region );
         }
+        removeTerrain( plate.getTerrain() );
     }
 
     public void addRegion( Region region ) {
@@ -101,8 +106,8 @@ public abstract class PlateModel {
         crossSectionStripAdded.updateListeners( strip );
     }
 
-    public void addStrip( TerrainStrip strip ) {
-        terrainStrips.add( strip );
+    public void addTerrain( Terrain strip ) {
+        terrains.add( strip );
         terrainStripAdded.updateListeners( strip );
     }
 
@@ -111,8 +116,8 @@ public abstract class PlateModel {
         crossSectionStripRemoved.updateListeners( strip );
     }
 
-    public void removeStrip( TerrainStrip strip ) {
-        terrainStrips.remove( strip );
+    public void removeTerrain( Terrain strip ) {
+        terrains.remove( strip );
         terrainStripRemoved.updateListeners( strip );
     }
 
@@ -120,8 +125,12 @@ public abstract class PlateModel {
         return crossSectionStrips;
     }
 
-    public List<TerrainStrip> getTerrainStrips() {
-        return terrainStrips;
+    public List<Terrain> getTerrains() {
+        return terrains;
+    }
+
+    public TextureStrategy getTextureStrategy() {
+        return textureStrategy;
     }
 
     /*---------------------------------------------------------------------------*

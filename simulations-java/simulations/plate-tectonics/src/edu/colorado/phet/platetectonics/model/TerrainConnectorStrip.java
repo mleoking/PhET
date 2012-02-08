@@ -12,14 +12,14 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
  * Left and right terrains to conenct should have the same number of Z samples,
  * and the Z samples should be equal to each other
  */
-public class TerrainConnectorStrip extends TerrainStrip {
-    private final TerrainStrip left;
-    private final TerrainStrip right;
+public class TerrainConnectorStrip extends Terrain {
+    private final Terrain left;
+    private final Terrain right;
     private final int samples;
     private final int leftXIndex;
     private final int rightXIndex = 0;
 
-    public TerrainConnectorStrip( TerrainStrip left, TerrainStrip right, int samples, float minZ, float maxZ ) {
+    public TerrainConnectorStrip( Terrain left, Terrain right, int samples, float minZ, float maxZ ) {
         super( left.getNumRows(), minZ, maxZ );
         this.left = left;
         this.right = right;

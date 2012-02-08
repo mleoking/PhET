@@ -10,7 +10,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.TerrainStrip;
+import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
@@ -30,7 +30,7 @@ public class PlateView extends GLNode {
     public PlateView( final PlateModel model, final PlateTectonicsTab tab, final Property<Boolean> showWater ) {
         this.tab = tab;
 
-        for ( TerrainStrip strip : model.getTerrainStrips() ) {
+        for ( Terrain strip : model.getTerrains() ) {
             addChild( new TerrainStripNode( strip, tab.getModelViewTransform() ) );
 
             if ( strip.hasWater() ) {
@@ -59,8 +59,8 @@ public class PlateView extends GLNode {
                 addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
             }
         } );
-        model.terrainStripAdded.addListener( new VoidFunction1<TerrainStrip>() {
-            public void apply( TerrainStrip strip ) {
+        model.terrainStripAdded.addListener( new VoidFunction1<Terrain>() {
+            public void apply( Terrain strip ) {
                 addChild( new TerrainStripNode( strip, tab.getModelViewTransform() ) );
             }
         } );
@@ -75,8 +75,8 @@ public class PlateView extends GLNode {
                 }
             }
         } );
-        model.terrainStripRemoved.addListener( new VoidFunction1<TerrainStrip>() {
-            public void apply( TerrainStrip strip ) {
+        model.terrainStripRemoved.addListener( new VoidFunction1<Terrain>() {
+            public void apply( Terrain strip ) {
                 for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
                     if ( node instanceof TerrainStripNode && ( (TerrainStripNode) node ).getTerrainStrip() == strip ) {
                         removeChild( node );
