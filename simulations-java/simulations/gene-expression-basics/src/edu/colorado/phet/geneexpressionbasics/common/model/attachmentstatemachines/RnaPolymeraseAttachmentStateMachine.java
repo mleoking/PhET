@@ -121,10 +121,6 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
         @Override public void entered( AttachmentStateMachine asm ) {
             attachCountdownTime = DEFAULT_ATTACH_TIME;
-
-            // Insert the separator.
-            dnaStrandSeparation.setXPos( rnaPolymerase.getPosition().getX() );
-            rnaPolymerase.getModel().getDnaMolecule().addSeparation( dnaStrandSeparation );
         }
     }
 
@@ -150,6 +146,11 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
+
+            // Insert the DNA strand separator.
+            dnaStrandSeparation.setXPos( rnaPolymerase.getPosition().getX() );
+            rnaPolymerase.getModel().getDnaMolecule().addSeparation( dnaStrandSeparation );
+
             conformationalChangeAmount = 0;
         }
     }
@@ -222,6 +223,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 // Conformational change complete, time to detach.
                 asm.detach();
                 asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
+
+                // Remove the DNA separator, which makes the DNA close back up.
                 rnaPolymerase.getModel().getDnaMolecule().removeSeparation( dnaStrandSeparation );
 
                 // Make sure that we enter the correct initial state upon the
