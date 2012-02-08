@@ -57,6 +57,10 @@ public abstract class PlateModel {
 
     public abstract double getTemperature( double x, double y ); // z = 0 (cross section plate), in...
 
+    public Bounds3D getBounds() {
+        return bounds;
+    }
+
     public void update( double timeElapsed ) {
 
     }
