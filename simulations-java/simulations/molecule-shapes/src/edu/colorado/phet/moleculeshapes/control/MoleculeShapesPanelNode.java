@@ -20,9 +20,13 @@ public class MoleculeShapesPanelNode extends TitledControlPanelNode {
     }
 
     public MoleculeShapesPanelNode( PNode content, String title ) {
+        this( content, title, TitledControlPanelNode.DEFAULT_INSET );
+    }
+
+    public MoleculeShapesPanelNode( PNode content, String title, int inset ) {
         super( content, title, MoleculeShapesColor.BACKGROUND.get(),
                new BasicStroke( MoleculeShapesConstants.CONTROL_PANEL_BORDER_WIDTH ),
-               MoleculeShapesColor.CONTROL_PANEL_BORDER.get() );
+               MoleculeShapesColor.CONTROL_PANEL_BORDER.get(), inset );
         initialize();
     }
 

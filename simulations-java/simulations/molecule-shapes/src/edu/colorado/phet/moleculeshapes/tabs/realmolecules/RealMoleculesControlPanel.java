@@ -172,7 +172,7 @@ public class RealMoleculesControlPanel extends PNode {
 //                realRadioNode.setOffset( radioButtonHorizontalOffset, moleculeSelectionSpacer.getFullBounds().getMaxY() );
 //                modelRadioNode.setOffset( radioButtonHorizontalOffset, realRadioNode.getFullBounds().getMaxY() );
 //            }
-        }}, Strings.CONTROL__MOLECULE );
+        }}, Strings.CONTROL__MOLECULE, 15 );
         addChild( moleculePanel );
 
         // set the combo box's offset based on our global full bounds, since the combo box is added to the root

@@ -1,3 +1,4 @@
+Made the "Molecule" box larger
 Moved "Options" box to the bottom right side
 Added "Show All Lone Pairs" to the Teacher menu
 # 1.02.04 (61078) Feb 7, 2012
