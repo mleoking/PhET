@@ -66,7 +66,6 @@ public abstract class AttachmentStateMachine {
      */
     public abstract void detach();
 
-
     /**
      * Move immediately into the unattached-and-available state.  This is
      * generally done only when the user has grabbed the associated molecule.
@@ -83,6 +82,16 @@ public abstract class AttachmentStateMachine {
     public void setState( AttachmentState attachmentState ) {
         this.attachmentState = attachmentState;
         this.attachmentState.entered( this );
+    }
+
+    /**
+     * Attachment test.
+     *
+     * @return - True if this molecule is currently attached to something or
+     *         moving towards and attachment, otherwise returns false.
+     */
+    public boolean isAttachedOrAttaching() {
+        return !( attachmentSite == null );
     }
 
     protected void setDestinationOffset( double x, double y ) {
