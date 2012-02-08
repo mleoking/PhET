@@ -190,6 +190,38 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         } );
     }
 
+    /**
+     * Get a list of all mobile biomolecules that overlap with the provided
+     * shape.
+     *
+     * @param testShape - Shape, in model coordinate, to test for overlap.
+     * @return List of molecules that overlap with the provided shape.
+     */
+    public List<MobileBiomolecule> getOverlappingBiomolecules( Shape testShape ) {
+
+        List<MobileBiomolecule> overlappingBiomolecules = new ArrayList<MobileBiomolecule>();
+
+        // Since it is computationally expensive to test overlap with every
+        // shape, we do a fast bounds test first, and then the more expensive
+        // test when necessary.
+        Rectangle2D testShapeBounds = testShape.getBounds2D();
+        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
+            if ( mobileBiomolecule.getShape().getBounds2D().intersects( testShapeBounds ) ) {
+                // Bounds overlap, see if actual shapes overlap.
+                Area testShapeArea = new Area( testShape );
+                Area biomoleculeArea = new Area( mobileBiomolecule.getShape() );
+                biomoleculeArea.intersect( testShapeArea );
+                if ( !biomoleculeArea.isEmpty() ) {
+                    // The biomolecule overlaps with the test shape, so add it
+                    // to the list.
+                    overlappingBiomolecules.add( mobileBiomolecule );
+                }
+            }
+        }
+
+        return overlappingBiomolecules;
+    }
+
     // Capture the specified protein, which means that it is actually removed
     // from the model and the associated capture count property is incremented.
     private void captureProtein( Protein protein ) {
