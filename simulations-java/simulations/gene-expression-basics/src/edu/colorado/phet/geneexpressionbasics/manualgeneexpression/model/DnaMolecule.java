@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
@@ -60,6 +62,9 @@ public class DnaMolecule {
     // Instance Data
     //-------------------------------------------------------------------------
 
+    // Reference to the model in which this is contained.
+    private final GeneExpressionModel model;
+
     // Points that, when connected, define the shape of the DNA strands.
     private final List<Point2D> strand1Points = new ArrayList<Point2D>();
     private final List<Point2D> strand2Points = new ArrayList<Point2D>();
@@ -90,7 +95,8 @@ public class DnaMolecule {
     /**
      * Constructor.
      */
-    public DnaMolecule() {
+    public DnaMolecule( GeneExpressionModel model ) {
+        this.model = model;
 
         // Add the initial set of shape-defining points for each of the two
         // strands.  Points are spaced the same as the base pairs.
@@ -177,6 +183,7 @@ public class DnaMolecule {
 
     public void addSeparation( DnaSeparation separation ) {
         separations.add( separation );
+        System.out.println( "Separation added, num separations = " + separations.size() );
     }
 
     public void removeSeparation( DnaSeparation separation ) {
@@ -186,6 +193,7 @@ public class DnaMolecule {
         else {
             separations.remove( separation );
         }
+        System.out.println( "Separation removed, num separations = " + separations.size() );
     }
 
     /**
@@ -453,12 +461,31 @@ public class DnaMolecule {
             }
         }
 
+        // Eliminate any attachment site where attaching would cause overlap
+        // with other biomolecules that are already on the DNA strand.
+        for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
+            ImmutableVector2D translationVector = new ImmutableVector2D( transcriptionFactor.getPosition(), potentialAttachmentSite.locationProperty.get() );
+            AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
+            Shape translatedShape = transform.createTransformedShape( transcriptionFactor.getShape() );
+            for ( MobileBiomolecule mobileBiomolecule : model.getOverlappingBiomolecules( translatedShape ) ) {
+                if ( mobileBiomolecule.isAttachedToDna() ) {
+                    // Eliminate this attachment site, since attaching to it
+                    // would cause overlap with molecules already there.
+                    potentialAttachmentSites.remove( potentialAttachmentSite );
+                    break;
+                }
+            }
+        }
+
         if ( potentialAttachmentSites.size() == 0 ) {
             // No acceptable sites found.
             return null;
         }
 
+        // Sort the collection so that the best match is first.
         Collections.sort( potentialAttachmentSites, new AttachmentSiteComparator<AttachmentSite>( transcriptionFactor.getPosition() ) );
+
+        // Return the first attachment site on the list.
         return potentialAttachmentSites.get( 0 );
     }
 

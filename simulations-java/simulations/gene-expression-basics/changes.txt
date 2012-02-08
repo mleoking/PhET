@@ -1,3 +1,5 @@
+Fixed an issue where the DNA strand would get pulled too far apart by the polymerase if it had been previously attached to the strand.
+Added the ability to prevent transcription factors from attaching to DNA is there is a different biomolecule in its way.
 Reduced the number of polymerase, ribosome, and rna destroyer molecules in the tool box from 3 to 2 in order to avoid false connection to the number of proteins in the collection area.
 Made the placement hints brighter and with a more apparent stroke so that they will be more easily seen (especially on the DNA strand).
 Added a floating clock control to the last tab.

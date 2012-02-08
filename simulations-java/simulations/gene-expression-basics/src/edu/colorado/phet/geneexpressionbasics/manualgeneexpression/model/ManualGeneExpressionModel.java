@@ -53,7 +53,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaMolecule = new DnaMolecule();
+    protected final DnaMolecule dnaMolecule = new DnaMolecule( this );
 
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();

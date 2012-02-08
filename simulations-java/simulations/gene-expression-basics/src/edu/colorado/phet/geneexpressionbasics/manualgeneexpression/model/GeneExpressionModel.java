@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.awt.Shape;
 import java.util.List;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -51,5 +52,12 @@ public abstract class GeneExpressionModel {
      */
     public abstract List<MessengerRna> getMessengerRnaList();
 
+    /**
+     * Get a list of all messenger biomolecules that overlap with the provided
+     * shape.
+     *
+     * @return
+     */
+    public abstract List<MobileBiomolecule> getOverlappingBiomolecules( Shape testShape );
 }
 
