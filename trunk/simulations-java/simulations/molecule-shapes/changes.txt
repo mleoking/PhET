@@ -1,3 +1,4 @@
+Increased bond angle font size for 2nd tab by 50%
 Added sim sharing messages to the relevant developer controls.
 Added a developer control to toggle 2nd tab bond visibility before viewing it.
 Added a developer control to toggle visibility on the Real / Model radio buttons. If off, switch to "Real" view only
