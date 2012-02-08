@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PlacementHintNode extends PNode {
 
-    private static final Stroke HINT_STROKE = new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 5.0f, new float[] { 5f }, 0f );
+    private static final Stroke HINT_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 5.0f, new float[] { 5f, 5f }, 0f );
     private final Color HINT_STROKE_COLOR = new Color( 0, 0, 0, 100 ); // Somewhat transparent stroke.
 
     /**
@@ -31,10 +31,10 @@ public class PlacementHintNode extends PNode {
 
         // Create a transparent color based on the base color of the molecule.
         Color transparentColor = new Color( placementHint.getBaseColor().getRed(), placementHint.getBaseColor().getGreen(),
-                                            placementHint.getBaseColor().getBlue(), 100 );
+                                            placementHint.getBaseColor().getBlue(), 150 );
 
         addChild( new PhetPPath( transparentColor, HINT_STROKE, HINT_STROKE_COLOR ) {{
-            // Update the shape whenever it changes.
+//            Update the shape whenever it changes.
             placementHint.addShapeChangeObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     setPathTo( mvt.modelToView( shape ) );
