@@ -7,7 +7,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
-public class TerrainStrip {
+public class Terrain {
 
     public final List<Float> xPositions = new ArrayList<Float>();
     public final List<Float> zPositions = new ArrayList<Float>();
@@ -16,13 +16,13 @@ public class TerrainStrip {
     private final List<List<TerrainSamplePoint>> samples = new ArrayList<List<TerrainSamplePoint>>();
 
     // nothing else besides elevation changed here (at least)
-    public final ValueNotifier<TerrainStrip> elevationChanged = new ValueNotifier<TerrainStrip>( this );
+    public final ValueNotifier<Terrain> elevationChanged = new ValueNotifier<Terrain>( this );
 
-    public final ValueNotifier<TerrainStrip> columnsModified = new ValueNotifier<TerrainStrip>( this );
+    public final ValueNotifier<Terrain> columnsModified = new ValueNotifier<Terrain>( this );
 
     private final int zSamples;
 
-    public TerrainStrip( int zSamples, float initialMinZ, float initialMaxZ ) {
+    public Terrain( int zSamples, float initialMinZ, float initialMaxZ ) {
         this.zSamples = zSamples;
         for ( int i = 0; i < zSamples; i++ ) {
             float ratio = ( (float) ( i ) ) / ( (float) ( zSamples - 1 ) );

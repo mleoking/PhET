@@ -13,7 +13,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
-import edu.colorado.phet.platetectonics.model.TerrainStrip;
+import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
@@ -23,11 +23,11 @@ import static org.lwjgl.opengl.GL11.*;
  * Displays the top and front of the water, according to the plate model.
  */
 public class WaterStripNode extends GLNode {
-    private final TerrainStrip terrain;
+    private final Terrain terrain;
     private final PlateModel model;
     private final PlateTectonicsTab module;
 
-    public WaterStripNode( final TerrainStrip terrain, PlateModel model, final PlateTectonicsTab module ) {
+    public WaterStripNode( final Terrain terrain, PlateModel model, final PlateTectonicsTab module ) {
         this.terrain = terrain;
         this.model = model;
         this.module = module;
