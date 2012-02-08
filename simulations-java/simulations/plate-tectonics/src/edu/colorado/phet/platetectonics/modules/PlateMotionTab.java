@@ -444,6 +444,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
             getPlateMotionModel().hasBothPlates.addObserver( new ChangeObserver<Boolean>() {
                 public void update( Boolean newValue, Boolean oldValue ) {
                     setVisible( !newValue );
+                    setMouseEnabled( !newValue );
                 }
             } );
         }
