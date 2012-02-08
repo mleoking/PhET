@@ -21,8 +21,8 @@ public abstract class PlateModel {
     public final VoidNotifier modelChanged = new VoidNotifier();
     public final Notifier<CrossSectionStrip> crossSectionStripAdded = new Notifier<CrossSectionStrip>();
     public final Notifier<CrossSectionStrip> crossSectionStripRemoved = new Notifier<CrossSectionStrip>();
-    public final Notifier<Terrain> terrainStripAdded = new Notifier<Terrain>();
-    public final Notifier<Terrain> terrainStripRemoved = new Notifier<Terrain>();
+    public final Notifier<Terrain> terrainAdded = new Notifier<Terrain>();
+    public final Notifier<Terrain> terrainRemoved = new Notifier<Terrain>();
     public final Notifier<Plate> plateAdded = new Notifier<Plate>();
     public final Notifier<Plate> plateRemoved = new Notifier<Plate>();
     public final Notifier<Region> regionAdded = new Notifier<Region>();
@@ -71,7 +71,7 @@ public abstract class PlateModel {
 
     public void addPlate( Plate plate ) {
         plates.add( plate );
-        plate.regions.addElementAddedObserver( regionOnPlateAddedListener );
+        plate.regions.addElementAddedObserver( regionOnPlateAddedListener, false );
         plateAdded.updateListeners( plate );
         for ( Region region : plate.regions ) {
             addRegion( region );
@@ -106,23 +106,27 @@ public abstract class PlateModel {
     }
 
     public void addStrip( CrossSectionStrip strip ) {
+        assert !crossSectionStrips.contains( strip );
         crossSectionStrips.add( strip );
         crossSectionStripAdded.updateListeners( strip );
     }
 
-    public void addTerrain( Terrain strip ) {
-        terrains.add( strip );
-        terrainStripAdded.updateListeners( strip );
+    public void addTerrain( Terrain terrain ) {
+        assert !terrains.contains( terrain );
+        terrains.add( terrain );
+        terrainAdded.updateListeners( terrain );
     }
 
     public void removeStrip( CrossSectionStrip strip ) {
+        assert crossSectionStrips.contains( strip );
         crossSectionStrips.remove( strip );
         crossSectionStripRemoved.updateListeners( strip );
     }
 
-    public void removeTerrain( Terrain strip ) {
-        terrains.remove( strip );
-        terrainStripRemoved.updateListeners( strip );
+    public void removeTerrain( Terrain terrain ) {
+        assert terrains.contains( terrain );
+        terrains.remove( terrain );
+        terrainRemoved.updateListeners( terrain );
     }
 
     public List<CrossSectionStrip> getCrossSectionStrips() {

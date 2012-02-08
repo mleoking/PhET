@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -20,7 +21,11 @@ import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
  */
 public class PlateView extends GLNode {
 
+    // keep track of which object corresponds to which node, so we can remove them later
+    private final Map<Object, GLNode> nodeMap = new HashMap<Object, GLNode>();
+    private final PlateModel model;
     private final PlateTectonicsTab tab;
+    private final Property<Boolean> showWater;
 
     // by default, show water
     public PlateView( final PlateModel model, final PlateTectonicsTab tab ) {
@@ -28,13 +33,50 @@ public class PlateView extends GLNode {
     }
 
     public PlateView( final PlateModel model, final PlateTectonicsTab tab, final Property<Boolean> showWater ) {
+        this.model = model;
         this.tab = tab;
+        this.showWater = showWater;
 
-        for ( Terrain strip : model.getTerrains() ) {
-            addChild( new TerrainStripNode( strip, tab.getModelViewTransform() ) );
+        for ( final Terrain terrain : model.getTerrains() ) {
+            addTerrain( terrain );
+        }
 
-            if ( strip.hasWater() ) {
-                final WaterStripNode waterNode = new WaterStripNode( strip, model, tab );
+        for ( CrossSectionStrip strip : model.getCrossSectionStrips() ) {
+            addWrappedChild( strip, new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
+        }
+
+        model.crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
+            public void apply( CrossSectionStrip strip ) {
+                addWrappedChild( strip, new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
+            }
+        } );
+        model.terrainAdded.addListener( new VoidFunction1<Terrain>() {
+            public void apply( Terrain terrain ) {
+                addTerrain( terrain );
+            }
+        } );
+
+        model.crossSectionStripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
+            public void apply( CrossSectionStrip strip ) {
+                removeChild( nodeMap.get( strip ) );
+                nodeMap.remove( strip );
+            }
+        } );
+        model.terrainRemoved.addListener( new VoidFunction1<Terrain>() {
+            public void apply( Terrain terrain ) {
+                removeChild( nodeMap.get( terrain ) );
+                nodeMap.remove( terrain );
+            }
+        } );
+    }
+
+    public void addTerrain( final Terrain terrain ) {
+        addWrappedChild( terrain, new GLNode() {{
+            final TerrainStripNode terrainNode = new TerrainStripNode( terrain, tab.getModelViewTransform() );
+            addChild( terrainNode );
+
+            if ( terrain.hasWater() ) {
+                final WaterStripNode waterNode = new WaterStripNode( terrain, model, tab );
                 showWater.addObserver( new SimpleObserver() {
                     public void update() {
                         if ( showWater.get() ) {
@@ -48,42 +90,13 @@ public class PlateView extends GLNode {
                     }
                 } );
             }
-        }
+        }} );
+    }
 
-        for ( CrossSectionStrip strip : model.getCrossSectionStrips() ) {
-            addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
-        }
-
-        model.crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
-            public void apply( CrossSectionStrip strip ) {
-                addChild( new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
-            }
-        } );
-        model.terrainStripAdded.addListener( new VoidFunction1<Terrain>() {
-            public void apply( Terrain strip ) {
-                addChild( new TerrainStripNode( strip, tab.getModelViewTransform() ) );
-            }
-        } );
-
-        // TODO: handle region removals in a better way
-        model.crossSectionStripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
-            public void apply( CrossSectionStrip strip ) {
-                for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
-                    if ( node instanceof CrossSectionStripNode && ( (CrossSectionStripNode) node ).getStrip() == strip ) {
-                        removeChild( node );
-                    }
-                }
-            }
-        } );
-        model.terrainStripRemoved.addListener( new VoidFunction1<Terrain>() {
-            public void apply( Terrain strip ) {
-                for ( GLNode node : new ArrayList<GLNode>( getChildren() ) ) {
-                    if ( node instanceof TerrainStripNode && ( (TerrainStripNode) node ).getTerrainStrip() == strip ) {
-                        removeChild( node );
-                    }
-                }
-            }
-        } );
+    public void addWrappedChild( Object object, GLNode node ) {
+        assert nodeMap.get( object ) == null;
+        addChild( node );
+        nodeMap.put( object, node );
     }
 
     @Override protected void renderChildren( GLOptions options ) {
