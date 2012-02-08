@@ -79,7 +79,6 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx++;
             constraints.insets.left = 20;
             addChild( new HBox( addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                                addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
                                 addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
                       constraints );
 
@@ -92,7 +91,6 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx++;
             constraints.insets.left = 20;
             addChild( new HBox( addCreatorNode( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                                addCreatorNode( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ),
                                 addCreatorNode( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
                       constraints );
 
@@ -105,7 +103,6 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx++;
             constraints.insets.left = 20;
             addChild( new HBox( addCreatorNode( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                                addCreatorNode( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ),
                                 addCreatorNode( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
                       constraints );
 
@@ -113,7 +110,6 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridy++;
             constraints.insets.left = 0;
             // TODO: i18n
-//            addChild( new RowLabel( "<center>Negative<br>Transcription Factor</center>" ), constraints );
             addChild( new RowLabel( "<center>Negative Transcription<br>Factor</center>" ), constraints );
 
             constraints.gridx++;
