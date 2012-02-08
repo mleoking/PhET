@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.awt.Shape;
 import java.util.List;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -33,5 +34,10 @@ public class StubGeneExpressionModel extends GeneExpressionModel {
     @Override public List<MessengerRna> getMessengerRnaList() {
         System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
         return null;
+    }
+
+    @Override public List<MobileBiomolecule> getOverlappingBiomolecules( Shape testShape ) {
+        System.out.println( getClass().getName() + " - Warning: Unimplemented method called in stub class." );
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
