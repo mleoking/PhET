@@ -46,6 +46,9 @@ case class Log(file: File, machine: String, session: String, entries: List[Entry
 
   override def toString = simName + " " + new Date(startTime) + " (" + startTime + "), study = " + study + ", user = " + user + ", events = " + size + ", machine = " + machine + ", session = " + session
 
+  //Tab delimited format for loading.
+  def text = entries.map(e => e.toPlainText) mkString "\n"
+
   lazy val histogramByObject = {
     val map = new HashMap[String, Int]
     for ( entry: Entry <- entries ) {

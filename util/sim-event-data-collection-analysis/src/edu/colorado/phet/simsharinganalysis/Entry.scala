@@ -17,18 +17,22 @@ case class Entry(time: Long, //Time on the client computer when message was crea
 
   lazy val parametersToString = parameters.keys.map(key => "" + key + " = " + parameters(key)).toList.mkString(SimSharingManager.DELIMITER)
 
-  override lazy val toString = ( time :: messageType :: component :: action :: parametersToString :: Nil ).mkString(SimSharingManager.DELIMITER)
+  lazy val toPlainText = ( time :: messageType :: component :: action :: parametersToString :: Nil ).mkString(SimSharingManager.DELIMITER)
+
+  override lazy val toString = toPlainText
 
   lazy val interactive = if ( parameters.contains("interactive") ) parameters("interactive") else null
 
+  def matches(component: String, action: String): Boolean = matches(component, action, Map())
+
   //Checks for a match for actor, event and optional params
-  def matches(actor: String, event: String, params: Map[String, String]): Boolean = {
+  def matches(component: String, action: String, params: Map[String, String]): Boolean = {
     for ( key <- params.keys ) {
       if ( !hasParameter(key, params(key)) ) {
         return false
       }
     }
-    this.component == actor && this.action == event
+    this.component == component && this.action == action
   }
 
   lazy val parametersToHashMap = {
