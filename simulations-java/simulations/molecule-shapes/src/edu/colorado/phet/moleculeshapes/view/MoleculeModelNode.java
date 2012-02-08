@@ -30,6 +30,7 @@ import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
+import edu.colorado.phet.moleculeshapes.tabs.realmolecules.RealMoleculesTab;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.math.Matrix4f;
@@ -393,7 +394,11 @@ public class MoleculeModelNode extends Node {
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
-                    text.setScale( scaleOverride == 0 ? tab.getApproximateScale() : scaleOverride ); // change the font size based on the sim scale
+                    float textScale = scaleOverride == 0 ? tab.getApproximateScale() : scaleOverride;
+                    if ( tab instanceof RealMoleculesTab ) {
+                        textScale *= 1.5;
+                    }
+                    text.setScale( textScale ); // change the font size based on the sim scale
                     float[] colors = MoleculeShapesColor.BOND_ANGLE_READOUT.get().getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
                     text.repaint(); // TODO: this should not be necessary, however it fixes the bond angle labels. JME-Piccolo repaint issue?
