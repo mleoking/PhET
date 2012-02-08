@@ -1,3 +1,5 @@
+# 0.00.14 (61129) Feb 8, 2012
+2/8/12 Deploying to dev for use in interviews.
 Added first cut at an indicator the tell the user when their protein collection is complete.
 Fixed an issue where the DNA strand would get pulled too far apart by the polymerase if it had been previously attached to the strand.
 Added the ability to prevent transcription factors from attaching to DNA is there is a different biomolecule in its way.
