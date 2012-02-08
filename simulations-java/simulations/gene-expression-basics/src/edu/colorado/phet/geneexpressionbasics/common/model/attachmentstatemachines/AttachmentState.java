@@ -25,13 +25,9 @@ public abstract class AttachmentState {
         // By default does nothing, override to implement unique behavior.
     }
 
-    ;
-
     public void entered( AttachmentStateMachine enclosingStateMachine ) {
         // By default does nothing, override to implement unique behavior.
     }
-
-    ;
 
     public static class GenericUnattachedAndAvailableState extends AttachmentState {
 
