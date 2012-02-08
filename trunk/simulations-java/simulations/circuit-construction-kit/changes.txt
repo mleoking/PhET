@@ -1,3 +1,5 @@
+2/8/11 #3166, enable sponsor prototype in circuit-construction-kit-build.properties
+2/8/12 #3166 change request: use a generic company (Your Company) instead of CU for the sponsor prototype
 12/12/11 #3166, disable sponsor prototype in circuit-construction-kit-build.properties
 # 3.20.01 (59298) Dec 12, 2011
 12/12/11 dev version to demo sponsor prototype
