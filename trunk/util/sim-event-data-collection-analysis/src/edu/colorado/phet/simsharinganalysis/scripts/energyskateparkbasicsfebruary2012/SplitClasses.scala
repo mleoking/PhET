@@ -45,10 +45,8 @@ object SplitClasses {
         val b = Log(log.file, log.machine, log.session, log.entries.slice(0, splitPoint))
 
         //Keep the start message, TODO: update the start message time
-        val c = Log(log.file, log.machine, log.session, log.entries.slice(0, 3) ++ log.entries.slice(splitPoint, log.entries.length))
+        val c = Log(log.file, log.machine, log.session, log.entries.head.copy(time = log.entries(splitPoint).time) :: log.entries.slice(splitPoint, log.entries.length))
 
-        //        write(new File(target, prefix(log.file) + "_b.txt"), b.text)
-        //        write(new File(target, prefix(log.file) + "_c.txt"), c.text)
         _splitLogs("b") = b :: _splitLogs("b")
         _splitLogs("c") = c :: _splitLogs("c")
       }
