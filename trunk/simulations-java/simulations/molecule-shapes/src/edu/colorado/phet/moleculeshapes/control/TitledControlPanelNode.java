@@ -20,14 +20,24 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class TitledControlPanelNode extends ControlPanelNode {
 
+    public static final int DEFAULT_INSET = 9;
+
     protected PhetPPath titleBackground;
 
     public TitledControlPanelNode( final PNode content, final String title, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor ) {
-        this( content, new TitleNode( title ), backgroundColor, borderStroke, borderColor );
+        this( content, title, backgroundColor, borderStroke, borderColor, DEFAULT_INSET );
+    }
+
+    public TitledControlPanelNode( final PNode content, final String title, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor, final int inset ) {
+        this( content, new TitleNode( title ), backgroundColor, borderStroke, borderColor, inset );
     }
 
     public TitledControlPanelNode( final PNode content, final PNode titleNode, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor ) {
-        super( content, backgroundColor, borderStroke, borderColor );
+        this( content, titleNode, backgroundColor, borderStroke, borderColor, DEFAULT_INSET );
+    }
+
+    public TitledControlPanelNode( final PNode content, final PNode titleNode, final Color backgroundColor, final BasicStroke borderStroke, final Color borderColor, final int inset ) {
+        super( content, backgroundColor, borderStroke, borderColor, inset );
 
         final ControlPanelNode controlPanelNode = this;
 
