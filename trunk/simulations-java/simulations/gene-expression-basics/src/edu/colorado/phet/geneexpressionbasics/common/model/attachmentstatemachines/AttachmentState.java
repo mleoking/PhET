@@ -12,8 +12,8 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Rand
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 
 /**
- * Base class for individual attachment states, used by the attachment state
- * machines.
+ * Base class for individual attachment states, used by the various attachment
+ * state machines.
  */
 public abstract class AttachmentState {
 
