@@ -10,8 +10,8 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
-import edu.colorado.phet.platetectonics.model.TerrainSamplePoint;
 import edu.colorado.phet.platetectonics.model.Terrain;
+import edu.colorado.phet.platetectonics.model.TerrainSamplePoint;
 import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 
 import static org.lwjgl.opengl.GL11.*;

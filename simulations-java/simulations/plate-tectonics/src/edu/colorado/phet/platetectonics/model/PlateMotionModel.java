@@ -15,8 +15,8 @@ import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 public class PlateMotionModel extends PlateModel {
 
-    private Plate leftPlate;
-    private Plate rightPlate;
+    private PlateMotionPlate leftPlate;
+    private PlateMotionPlate rightPlate;
 
     public static enum PlateType {
         CONTINENTAL( true, false ),
@@ -47,20 +47,20 @@ public class PlateMotionModel extends PlateModel {
 
     private TerrainConnectorStrip terrainConnector;
 
-    private static final float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
-    private static final float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
-    private static final float SIMPLE_MANTLE_TOP_TEMP = ZERO_CELSIUS + 700;
-    private static final float SIMPLE_MANTLE_BOTTOM_TEMP = ZERO_CELSIUS + 1300;
-    private static final float SIMPLE_MANTLE_DENSITY = 3300f;
+    public static final float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
+    public static final float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
+    public static final float SIMPLE_MANTLE_TOP_TEMP = ZERO_CELSIUS + 700;
+    public static final float SIMPLE_MANTLE_BOTTOM_TEMP = ZERO_CELSIUS + 1300;
+    public static final float SIMPLE_MANTLE_DENSITY = 3300f;
 
-    private static final float SIMPLE_CRUST_TOP_TEMP = ZERO_CELSIUS;
-    private static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;
+    public static final float SIMPLE_CRUST_TOP_TEMP = ZERO_CELSIUS;
+    public static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;
 
-    private static final int MANTLE_VERTICAL_SAMPLES = 2;
-    private static final int CRUST_VERTICAL_SAMPLES = 2;
-    private static final int HORIZONTAL_SAMPLES = 128;
+    public static final int MANTLE_VERTICAL_SAMPLES = 2;
+    public static final int CRUST_VERTICAL_SAMPLES = 2;
+    public static final int HORIZONTAL_SAMPLES = 128;
 
-    private final int TERRAIN_DEPTH_SAMPLES = 32;
+    public static final int TERRAIN_DEPTH_SAMPLES = 32;
 
     private boolean transformMotionCCW = true;
 
@@ -105,44 +105,15 @@ public class PlateMotionModel extends PlateModel {
     }
 
     private void resetPlates() {
-        final float minZ = bounds.getMinZ();
-        final float maxZ = bounds.getMaxZ();
-
         if ( leftPlate != null ) {
             removePlate( leftPlate );
         }
 
-        leftPlate = new Plate() {{
-            addMantle( new Region( MANTLE_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, SamplePoint>() {
-                public SamplePoint apply( Integer yIndex, Integer xIndex ) {
-                    // start with top first
-                    float x = getLeftX( xIndex );
-                    final float yRatio = ( (float) yIndex ) / ( (float) MANTLE_VERTICAL_SAMPLES - 1 );
-                    float y = SIMPLE_MANTLE_TOP_Y + ( SIMPLE_MANTLE_BOTTOM_Y - SIMPLE_MANTLE_TOP_Y ) * yRatio;
-                    float temp = SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_MANTLE_BOTTOM_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * yRatio;
-                    return new SamplePoint( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
-                                            getTextureStrategy().mapFront( new ImmutableVector2F( x, y ) ) );
-                }
-            } ) );
-            addTerrain( getTextureStrategy(), TERRAIN_DEPTH_SAMPLES, minZ, maxZ );
-        }};
+        leftPlate = new PlateMotionPlate( this, getTextureStrategy(), true );
         if ( rightPlate != null ) {
             removePlate( rightPlate );
         }
-        rightPlate = new Plate() {{
-            addMantle( new Region( MANTLE_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, SamplePoint>() {
-                public SamplePoint apply( Integer yIndex, Integer xIndex ) {
-                    // start with top first
-                    float x = getRightX( xIndex );
-                    final float yRatio = ( (float) yIndex ) / ( (float) MANTLE_VERTICAL_SAMPLES - 1 );
-                    float y = SIMPLE_MANTLE_TOP_Y + ( SIMPLE_MANTLE_BOTTOM_Y - SIMPLE_MANTLE_TOP_Y ) * yRatio;
-                    float temp = SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_MANTLE_BOTTOM_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * yRatio;
-                    return new SamplePoint( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
-                                            getTextureStrategy().mapFront( new ImmutableVector2F( x, y ) ) );
-                }
-            } ) );
-            addTerrain( getTextureStrategy(), TERRAIN_DEPTH_SAMPLES, minZ, maxZ );
-        }};
+        rightPlate = new PlateMotionPlate( this, getTextureStrategy(), false );
 
         addPlate( leftPlate );
         addPlate( rightPlate );
@@ -179,12 +150,12 @@ public class PlateMotionModel extends PlateModel {
     }
 
     // i from 0 to HORIZONTAL_SAMPLES-1
-    private float getLeftX( int i ) {
+    public float getLeftX( int i ) {
         return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) i ) / (float) ( HORIZONTAL_SAMPLES - 1 );
     }
 
     // i from 0 to HORIZONTAL_SAMPLES-1
-    private float getRightX( int i ) {
+    public float getRightX( int i ) {
         return bounds.getCenterX() + ( bounds.getMaxX() - bounds.getCenterX() ) * ( (float) i ) / (float) ( HORIZONTAL_SAMPLES - 1 );
     }
 
@@ -483,4 +454,6 @@ public class PlateMotionModel extends PlateModel {
         System.out.println( "transformMotionCCW = " + transformMotionCCW );
         this.transformMotionCCW = transformMotionCCW;
     }
+
+
 }
