@@ -104,20 +104,31 @@ public class ProteinCollectionNode extends PNode {
                 numProteinsCollected++;
             }
             removeAllChildren();
-            VBox collectionCountIndicator = new VBox(
-                    5,
-                    // TODO: i18n.
-                    new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numProteinsCollected ) ),
-                    new ReadoutPText( "of 3 protein types." ) {{
-                        setFont( READOUT_FONT );
-                    }}
-            );
-            if ( collectionCountIndicator.getFullBoundsReference().getWidth() > MAX_CONTENT_WIDTH ) {
+            PNode collectionStatusIndicator;
+            if ( numProteinsCollected < 3 ) {
+                collectionStatusIndicator = new VBox(
+                        5,
+                        // TODO: i18n.
+                        new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numProteinsCollected ) ),
+                        new ReadoutPText( "of 3 protein types." ) {{
+                            setFont( READOUT_FONT );
+                        }}
+                );
+            }
+            else {
+                collectionStatusIndicator = new HBox(
+                        new PText( "Collection Complete!" ) {{
+                            setFont( new PhetFont( 20 ) );
+                        }}
+                );
+            }
+
+            if ( collectionStatusIndicator.getFullBoundsReference().getWidth() > MAX_CONTENT_WIDTH ) {
                 // Make sure that this isn't wider than the max
                 // allowed content width.
-                setScale( MAX_CONTENT_WIDTH / collectionCountIndicator.getFullBoundsReference().width );
+                setScale( MAX_CONTENT_WIDTH / collectionStatusIndicator.getFullBoundsReference().width );
             }
-            addChild( collectionCountIndicator );
+            addChild( collectionStatusIndicator );
         }
     }
 
