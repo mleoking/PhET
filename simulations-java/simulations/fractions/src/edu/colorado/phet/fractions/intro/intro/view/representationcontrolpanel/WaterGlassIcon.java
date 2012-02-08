@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class WaterGlassIcon extends PNode implements RepresentationIcon {
 
     public WaterGlassIcon( final Property<ChosenRepresentation> selected ) {
-        addChild( new WaterGlassNode( 3, 4, new VoidFunction0.Null(), new VoidFunction0.Null() ) );
+        addChild( new WaterGlassNode( 1, 1, new VoidFunction0.Null(), new VoidFunction0.Null() ) );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {

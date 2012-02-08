@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class ShapeIcon extends PNode implements RepresentationIcon {
     //characteristic length
-    public static double DIM = 24;
+    public static double DIM = 20;
     public final ChosenRepresentation representation;
 
     public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Property<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation representation ) {
