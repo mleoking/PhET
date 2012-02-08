@@ -11,7 +11,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.Terrain;
-import edu.colorado.phet.platetectonics.model.TerrainSamplePoint;
+import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -92,7 +92,7 @@ public class TerrainStripNode extends GridStripNode {
             textureBuffer.clear();
             for ( int zIndex = 0; zIndex < numZSamples; zIndex++ ) {
                 for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
-                    TerrainSamplePoint point = terrainStrip.getSample( xIndex, zIndex );
+                    TerrainSample point = terrainStrip.getSample( xIndex, zIndex );
                     textureBuffer.put( new float[] { point.getTextureCoordinates().x, point.getTextureCoordinates().y } );
                 }
             }

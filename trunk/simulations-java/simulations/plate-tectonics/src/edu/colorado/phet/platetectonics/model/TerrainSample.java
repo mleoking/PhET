@@ -3,11 +3,11 @@ package edu.colorado.phet.platetectonics.model;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
-public class TerrainSamplePoint {
+public class TerrainSample {
     private float elevation;
     private ImmutableVector2F textureCoordinates;
 
-    public TerrainSamplePoint( float elevation, ImmutableVector2F textureCoordinates ) {
+    public TerrainSample( float elevation, ImmutableVector2F textureCoordinates ) {
         this.elevation = elevation;
         this.textureCoordinates = textureCoordinates;
     }

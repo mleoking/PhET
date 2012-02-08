@@ -13,7 +13,7 @@ public class Terrain {
     public final List<Float> zPositions = new ArrayList<Float>();
 
     // indexed first by column (x), then by z
-    private final List<List<TerrainSamplePoint>> samples = new ArrayList<List<TerrainSamplePoint>>();
+    private final List<List<TerrainSample>> samples = new ArrayList<List<TerrainSample>>();
 
     // nothing else besides elevation changed here (at least)
     public final ValueNotifier<Terrain> elevationChanged = new ValueNotifier<Terrain>( this );
@@ -43,7 +43,7 @@ public class Terrain {
         return zSamples;
     }
 
-    public TerrainSamplePoint getSample( int xIndex, int zIndex ) {
+    public TerrainSample getSample( int xIndex, int zIndex ) {
         return samples.get( xIndex ).get( zIndex );
     }
 
@@ -51,14 +51,18 @@ public class Terrain {
         return getNumColumns() * getNumRows();
     }
 
-    public void addToLeft( float x, List<TerrainSamplePoint> column ) {
+    public List<TerrainSample> getColumn( int xIndex ) {
+        return samples.get( xIndex );
+    }
+
+    public void addToLeft( float x, List<TerrainSample> column ) {
         assert column.size() == zSamples;
         samples.add( 0, column );
         xPositions.add( 0, x );
         columnsModified.updateListeners();
     }
 
-    public void addToRight( float x, List<TerrainSamplePoint> column ) {
+    public void addToRight( float x, List<TerrainSample> column ) {
         assert column.size() == zSamples;
         samples.add( column );
         xPositions.add( x );
@@ -90,8 +94,8 @@ public class Terrain {
     }
 
     public void setToFlatElevation( float elevation ) {
-        for ( List<TerrainSamplePoint> list : samples ) {
-            for ( TerrainSamplePoint point : list ) {
+        for ( List<TerrainSample> list : samples ) {
+            for ( TerrainSample point : list ) {
                 point.setElevation( elevation );
             }
         }

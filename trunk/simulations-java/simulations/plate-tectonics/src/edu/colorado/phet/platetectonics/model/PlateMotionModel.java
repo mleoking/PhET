@@ -6,11 +6,9 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
-import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 public class PlateMotionModel extends PlateModel {
@@ -54,7 +52,7 @@ public class PlateMotionModel extends PlateModel {
     public static final float SIMPLE_MANTLE_DENSITY = 3300f;
 
     public static final float SIMPLE_CRUST_TOP_TEMP = ZERO_CELSIUS;
-    public static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;
+    public static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;     // TODO: temperature view issue in 2nd tab?
 
     public static final int MANTLE_VERTICAL_SAMPLES = 2;
     public static final int CRUST_VERTICAL_SAMPLES = 2;
@@ -102,6 +100,15 @@ public class PlateMotionModel extends PlateModel {
 
         updateTerrain();
         updateStrips();
+
+        animationStarted.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( animationStarted.get() && motionType.get() == MotionType.TRANSFORM ) {
+                    leftPlate.addMiddleSide( rightPlate );
+                    rightPlate.addMiddleSide( leftPlate );
+                }
+            }
+        } );
     }
 
     private void resetPlates() {
@@ -160,27 +167,7 @@ public class PlateMotionModel extends PlateModel {
     }
 
     public void dropLeftCrust( final PlateType type ) {
-        leftPlate.addCrust( new Region( CRUST_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, SamplePoint>() {
-            public SamplePoint apply( Integer yIndex, Integer xIndex ) {
-                // start with top first
-                float x = getLeftX( xIndex );
-
-                final float topY = getFreshCrustTop( type );
-                final float bottomY = getFreshCrustBottom( type );
-
-                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES - 1 );
-                float y = topY + ( bottomY - topY ) * yRatio;
-
-                // TODO: young/old oceanic crust differences!
-                float temp = SIMPLE_CRUST_TOP_TEMP + ( SIMPLE_CRUST_BOTTOM_TEMP - SIMPLE_CRUST_TOP_TEMP ) * yRatio;
-                return new SamplePoint( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( type ),
-                                        getTextureStrategy().mapFront( new ImmutableVector2F( x, y ) ) );
-            }
-        } ) );
-
-        // set the position/texture coordinates to be the same for the mantle top boundary
-        leftPlate.getMantle().getTopBoundary().borrowPositionAndTexture( leftPlate.getCrust().getBottomBoundary() );
-
+        leftPlate.droppedCrust( type );
         leftPlateType.set( type );
 
         updateStrips();
@@ -189,27 +176,7 @@ public class PlateMotionModel extends PlateModel {
     }
 
     public void dropRightCrust( final PlateType type ) {
-        rightPlate.addCrust( new Region( CRUST_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, SamplePoint>() {
-            public SamplePoint apply( Integer yIndex, Integer xIndex ) {
-                // start with top first
-                float x = getRightX( xIndex );
-
-                final float topY = getFreshCrustTop( type );
-                final float bottomY = getFreshCrustBottom( type );
-
-                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES - 1 );
-                float y = topY + ( bottomY - topY ) * yRatio;
-
-                // TODO: young/old oceanic crust differences!
-                float temp = SIMPLE_CRUST_TOP_TEMP + ( SIMPLE_CRUST_BOTTOM_TEMP - SIMPLE_CRUST_TOP_TEMP ) * yRatio;
-                return new SamplePoint( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( type ),
-                                        getTextureStrategy().mapFront( new ImmutableVector2F( x, y ) ) );
-            }
-        } ) );
-
-        // set the position/texture coordinates to be the same for the mantle top boundary
-        rightPlate.getMantle().getTopBoundary().borrowPositionAndTexture( rightPlate.getCrust().getBottomBoundary() );
-
+        rightPlate.droppedCrust( type );
         rightPlateType.set( type );
 
         updateStrips();
@@ -293,7 +260,7 @@ public class PlateMotionModel extends PlateModel {
         return rightPlateType.get() != null;
     }
 
-    public List<SamplePoint> getAllSamples() {
+    public List<Sample> getAllSamples() {
         return FunctionalUtils.concat( leftPlate.getSamples(), rightPlate.getSamples() );
     }
 
@@ -310,12 +277,12 @@ public class PlateMotionModel extends PlateModel {
 
             animationStarted.set( true );
             if ( motionType.get() == MotionType.CONVERGENT ) {
-                for ( SamplePoint sample : getAllSamples() ) {
+                for ( Sample sample : getAllSamples() ) {
                     transformSample( sample, (float) timeElapsed );
                 }
             }
             else if ( motionType.get() == MotionType.DIVERGENT ) {
-                for ( SamplePoint sample : getAllSamples() ) {
+                for ( Sample sample : getAllSamples() ) {
                     transformSample( sample, (float) -timeElapsed );
                 }
             }
@@ -333,7 +300,7 @@ public class PlateMotionModel extends PlateModel {
         modelChanged.updateListeners();
     }
 
-    public void transformSample( SamplePoint sample, float timeElapsed ) {
+    public void transformSample( Sample sample, float timeElapsed ) {
         ImmutableVector2F origin = new ImmutableVector2F( 0, 5005 );
         ImmutableVector2F toDir = ImmutableVector2F.Y_UNIT.negate();
         ImmutableVector2F fromDir = ImmutableVector2F.X_UNIT;

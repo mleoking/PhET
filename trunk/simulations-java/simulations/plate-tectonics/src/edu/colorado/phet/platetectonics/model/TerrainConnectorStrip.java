@@ -44,7 +44,7 @@ public class TerrainConnectorStrip extends Terrain {
         }
         for ( int xIndex = 0; xIndex < samples; xIndex++ ) {
             final float ratio = ( (float) xIndex ) / ( (float) ( samples - 1 ) );
-            addToRight( leftX + ratio * ( rightX - leftX ), new ArrayList<TerrainSamplePoint>() {{
+            addToRight( leftX + ratio * ( rightX - leftX ), new ArrayList<TerrainSample>() {{
                 for ( int zIndex = 0; zIndex < left.getNumRows(); zIndex++ ) {
                     float rowRatio = ( (float) zIndex ) / ( (float) ( left.getNumRows() - 1 ) );
                     final float leftElevation = left.getSample( leftXIndex, zIndex ).getElevation();
@@ -52,7 +52,7 @@ public class TerrainConnectorStrip extends Terrain {
 
                     // TODO: do we need to change the texture coordinates?
                     final float elevation = leftElevation + ratio * ( rightElevation - leftElevation );
-                    add( new TerrainSamplePoint( elevation, new ImmutableVector2F( ( ratio ) / 2, rowRatio * 100 ) ) );
+                    add( new TerrainSample( elevation, new ImmutableVector2F( ( ratio ) / 2, rowRatio * 100 ) ) );
                 }
             }} );
         }

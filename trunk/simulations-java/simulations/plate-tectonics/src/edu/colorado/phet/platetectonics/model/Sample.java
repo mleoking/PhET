@@ -7,13 +7,13 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 /**
  * A location with specific temp/density information, that can move over time
  */
-public class SamplePoint {
+public class Sample {
     private ImmutableVector3F position;
     private float temperature;
     private float density;
     private ImmutableVector2F textureCoordinates;
 
-    public SamplePoint( ImmutableVector3F position, float temperature, float density, ImmutableVector2F textureCoordinates ) {
+    public Sample( ImmutableVector3F position, float temperature, float density, ImmutableVector2F textureCoordinates ) {
         this.position = position;
         this.temperature = temperature;
         this.density = density;

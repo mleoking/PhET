@@ -41,11 +41,11 @@ public class Plate {
             for ( int xIndex = 0; xIndex < currentTopRegion.getTopBoundary().samples.size(); xIndex++ ) {
                 final float x = currentTopRegion.getTopBoundary().samples.get( xIndex ).getPosition().x;
                 final int finalXIndex = xIndex;
-                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
+                addToRight( x, new ArrayList<TerrainSample>() {{
                     for ( int zIndex = 0; zIndex < depthSamples; zIndex++ ) {
                         final float z = zPositions.get( zIndex );
                         // elevation to be fixed later
-                        add( new TerrainSamplePoint( currentTopRegion.getTopBoundary().samples.get( finalXIndex ).getPosition().y, textureStrategy.mapTop( new ImmutableVector2F( x, z ) ) ) );
+                        add( new TerrainSample( currentTopRegion.getTopBoundary().samples.get( finalXIndex ).getPosition().y, textureStrategy.mapTop( new ImmutableVector2F( x, z ) ) ) );
                     }
                 }} );
             }
@@ -53,15 +53,15 @@ public class Plate {
     }
 
     public void shiftZ( float zOffset ) {
-        for ( SamplePoint sample : getSamples() ) {
+        for ( Sample sample : getSamples() ) {
             sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, 0, zOffset ) ) );
         }
         getTerrain().shiftZ( zOffset );
     }
 
-    public List<SamplePoint> getSamples() {
-        return unique( flatten( map( regions, new Function1<Region, Collection<? extends SamplePoint>>() {
-            public Collection<? extends SamplePoint> apply( Region region ) {
+    public List<Sample> getSamples() {
+        return unique( flatten( map( regions, new Function1<Region, Collection<? extends Sample>>() {
+            public Collection<? extends Sample> apply( Region region ) {
                 return region.getSamples();
             }
         } ) ) );
