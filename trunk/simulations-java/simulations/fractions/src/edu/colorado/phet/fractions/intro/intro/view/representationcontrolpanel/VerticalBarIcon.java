@@ -14,13 +14,9 @@ import edu.colorado.phet.fractions.intro.intro.view.ChosenRepresentation;
 public class VerticalBarIcon extends ShapeIcon {
     public VerticalBarIcon( Property<ChosenRepresentation> chosenRepresentation ) {
         super(
+                new ArrayList<Shape>(),
                 new ArrayList<Shape>() {{
-                    add( new Rectangle2D.Double( 0, 0, DIM, DIM ) );
-                    add( new Rectangle2D.Double( 0, DIM * 2, DIM, DIM ) );
-                }},
-                new ArrayList<Shape>() {{
-                    add( new Rectangle2D.Double( 0, DIM, DIM, DIM ) );
-                    add( new Rectangle2D.Double( 0, DIM * 3, DIM, DIM ) );
+                    add( new Rectangle2D.Double( 0, 0, DIM, DIM * 4 ) );
                 }}, chosenRepresentation, ChosenRepresentation.VERTICAL_BAR
         );
     }
