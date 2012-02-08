@@ -383,11 +383,11 @@ public class HandleNode extends GLNode {
         glEnable( GL_CULL_FACE );
         glEnable( GL_LIGHTING );
         GL11.glColor4f( 0.6f, 0, 0, 1 );
-        new Sphere().draw( ballRadius, 50, 50 );
+        new Sphere().draw( ballRadius, 25, 25 );
         glDisable( GL_LIGHTING );
         glDisable( GL_DEPTH_TEST );
         GL11.glColor4f( 1, 0, 0, 0.4f );
-        new Sphere().draw( ballRadius, 50, 50 );
+        new Sphere().draw( ballRadius, 25, 25 );
         glEnable( GL_DEPTH_TEST );
         glDisable( GL_COLOR_MATERIAL );
         glDisable( GL_CULL_FACE );
