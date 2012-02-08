@@ -19,7 +19,6 @@ import edu.colorado.phet.platetectonics.util.Bounds3D;
 public abstract class PlateModel {
     // event notification
     public final VoidNotifier modelChanged = new VoidNotifier();
-    public final Notifier<Terrain> terrainAdded = new Notifier<Terrain>();
     public final Notifier<CrossSectionStrip> crossSectionStripAdded = new Notifier<CrossSectionStrip>();
     public final Notifier<CrossSectionStrip> crossSectionStripRemoved = new Notifier<CrossSectionStrip>();
     public final Notifier<TerrainStrip> terrainStripAdded = new Notifier<TerrainStrip>();
@@ -31,9 +30,6 @@ public abstract class PlateModel {
 
     // full bounds of the simulated model
     public final Bounds3D bounds;
-
-    // terrains model the surface of the ground (and sea-floor)
-    private final List<Terrain> terrains = new ArrayList<Terrain>();
 
     // TODO: if we need, handle dynamic adding of strips from plates and regions
     private final List<Plate> plates = new ArrayList<Plate>();
@@ -64,15 +60,6 @@ public abstract class PlateModel {
 
     public void resetAll() {
 
-    }
-
-    public void addTerrain( Terrain terrain ) {
-        terrains.add( terrain );
-        terrainAdded.updateListeners( terrain );
-    }
-
-    public List<Terrain> getTerrains() {
-        return terrains;
     }
 
     public void addPlate( Plate plate ) {

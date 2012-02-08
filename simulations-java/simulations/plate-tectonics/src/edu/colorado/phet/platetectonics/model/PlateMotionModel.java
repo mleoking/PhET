@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -46,9 +47,9 @@ public class PlateMotionModel extends PlateModel {
         TRANSFORM
     }
 
-    private final Terrain leftTerrain;
-    private final Terrain rightTerrain;
-    private final TerrainConnector centerTerrain;
+    private final TerrainStrip leftTerrain;
+    private final TerrainStrip rightTerrain;
+    private final TerrainConnectorStrip centerTerrain;
 
     private static final float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
     private static final float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
@@ -63,9 +64,7 @@ public class PlateMotionModel extends PlateModel {
     private static final int CRUST_VERTICAL_SAMPLES = 2;
     private static final int HORIZONTAL_SAMPLES = 128;
 
-    private final int totalCount = 2 * HORIZONTAL_SAMPLES;
-    private final int depthCount = 32;
-    private final int bottomCount = 64;
+    private final int TERRAIN_DEPTH_SAMPLES = 32;
 
     // TODO: better handling for this. ugly
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
@@ -96,37 +95,53 @@ public class PlateMotionModel extends PlateModel {
         motionType.addObserver( observer );
     }};
 
+    // TODO: change bounds to possibly a Z range, or just bake it in
     public PlateMotionModel( final Bounds3D bounds ) {
         super( bounds );
 
-        final float minX = bounds.getMinX();
-        final float maxX = bounds.getMaxX();
-        final float centerX = bounds.getCenterX();
-
         final float minZ = bounds.getMinZ();
         final float maxZ = bounds.getMaxZ();
-
 
         resetPlates();
 
         /*---------------------------------------------------------------------------*
          * terrains
          *----------------------------------------------------------------------------*/
-        leftTerrain = new Terrain( HORIZONTAL_SAMPLES, depthCount ) {{
-            setXBounds( minX, centerX );
-            setZBounds( minZ, maxZ );
+        leftTerrain = new TerrainStrip( TERRAIN_DEPTH_SAMPLES, minZ, maxZ ) {{
+            for ( int xIndex = 0; xIndex < HORIZONTAL_SAMPLES; xIndex++ ) {
+                final float x = leftPlate.getMantle().getTopBoundary().samples.get( xIndex ).getPosition().x;
+                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
+                    for ( int zIndex = 0; zIndex < TERRAIN_DEPTH_SAMPLES; zIndex++ ) {
+                        final float z = zPositions.get( zIndex );
+                        // elevation to be fixed later
+                        add( new TerrainSamplePoint( 0, topTextureMap( new ImmutableVector2F( x, z ) ) ) );
+                    }
+                }} );
+            }
         }};
-        addTerrain( leftTerrain );
-        rightTerrain = new Terrain( HORIZONTAL_SAMPLES, depthCount ) {{
-            setXBounds( centerX, maxX );
-            setZBounds( minZ, maxZ );
+        rightTerrain = new TerrainStrip( TERRAIN_DEPTH_SAMPLES, minZ, maxZ ) {{
+            for ( int xIndex = 0; xIndex < HORIZONTAL_SAMPLES; xIndex++ ) {
+                final float x = rightPlate.getMantle().getTopBoundary().samples.get( xIndex ).getPosition().x;
+                addToRight( x, new ArrayList<TerrainSamplePoint>() {{
+                    for ( int zIndex = 0; zIndex < TERRAIN_DEPTH_SAMPLES; zIndex++ ) {
+                        final float z = zPositions.get( zIndex );
+                        // elevation to be fixed later
+                        add( new TerrainSamplePoint( 0, topTextureMap( new ImmutableVector2F( x, z ) ) ) );
+                    }
+                }} );
+            }
         }};
-        addTerrain( rightTerrain );
-        centerTerrain = new TerrainConnector( leftTerrain, rightTerrain, 2 );
-        addTerrain( centerTerrain );
+        centerTerrain = new TerrainConnectorStrip( leftTerrain, rightTerrain, 3, minZ, maxZ );
+        addStrip( leftTerrain );
+        addStrip( rightTerrain );
+        addStrip( centerTerrain );
 
         updateTerrain();
         updateStrips();
+    }
+
+    private ImmutableVector2F topTextureMap( ImmutableVector2F position ) {
+        return position.times( 0.0000025f );
     }
 
     private ImmutableVector2F textureMap( ImmutableVector2F position ) {
@@ -278,19 +293,21 @@ public class PlateMotionModel extends PlateModel {
         for ( int column = 0; column < HORIZONTAL_SAMPLES; column++ ) {
             // left side
             ImmutableVector3F leftPosition = ( hasLeftPlate() ? leftPlate.getCrust().getTopBoundary() : leftPlate.getMantle().getTopBoundary() ).samples.get( column ).getPosition();
-            for ( int row = 0; row < depthCount; row++ ) {
+            for ( int row = 0; row < TERRAIN_DEPTH_SAMPLES; row++ ) {
                 // set the elevation for the whole column
-                leftTerrain.setElevation( leftPosition.y, column, row );
+                leftTerrain.getSample( column, row ).setElevation( leftPosition.y );
             }
-            leftTerrain.xData[column] = leftPosition.x;
+            leftTerrain.xPositions.set( column, leftPosition.x );
 
             // right side
             ImmutableVector3F rightPosition = ( hasRightPlate() ? rightPlate.getCrust().getTopBoundary() : rightPlate.getMantle().getTopBoundary() ).samples.get( column ).getPosition();
-            for ( int row = 0; row < depthCount; row++ ) {
-                rightTerrain.setElevation( rightPosition.y, column, row );
+            for ( int row = 0; row < TERRAIN_DEPTH_SAMPLES; row++ ) {
+                rightTerrain.getSample( column, row ).setElevation( rightPosition.y );
             }
-            rightTerrain.xData[column] = rightPosition.x;
+            rightTerrain.xPositions.set( column, rightPosition.x );
         }
+        leftTerrain.elevationChanged.updateListeners();
+        rightTerrain.elevationChanged.updateListeners();
         centerTerrain.update();
     }
 
