@@ -126,6 +126,12 @@ public class TranscriptionFactor extends MobileBiomolecule {
         return model.getDnaMolecule().considerProposalFrom( this );
     }
 
+    @Override public boolean isAttachedToDna() {
+        // Since DNA is the only thing that this attaches to, if it is
+        // attached to anything, it is DNA.
+        return attachmentStateMachine.isAttachedOrAttaching();
+    }
+
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
