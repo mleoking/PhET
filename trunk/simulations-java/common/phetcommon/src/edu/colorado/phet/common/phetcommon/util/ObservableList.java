@@ -55,11 +55,27 @@ public class ObservableList<T> implements List<T> {
         list.addAll( Arrays.asList( parameters ) );
     }
 
-
+    /**
+     * Add an observer that will be notified whenever elements are added to
+     * the list.  Note that if there are elements already on the list, a
+     * notification will be received for each.
+     *
+     * @param elementAddedObserver Function object that will be called when an
+     *                             element is added.
+     */
     public void addElementAddedObserver( VoidFunction1<T> elementAddedObserver ) {
         addElementAddedObserver( elementAddedObserver, true );
     }
 
+    /**
+     * Add an observer that will be notified whenever elements are added to
+     * the list.
+     *
+     * @param elementAddedObserver - Function object that will be called when an
+     *                             element is added.
+     * @param notifyImmediately    - Flag that indicates whether notifications
+     *                             should be sent for items already in the list when the observer is added.
+     */
     public void addElementAddedObserver( VoidFunction1<T> elementAddedObserver, boolean notifyImmediately ) {
         elementAddedObservers.addObserver( elementAddedObserver );
         if ( notifyImmediately ) {
