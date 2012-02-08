@@ -1,3 +1,4 @@
+# 1.02.05 (61124) Feb 8, 2012
 Increased bond angle font size for 2nd tab by 50%
 Added sim sharing messages to the relevant developer controls.
 Added a developer control to toggle 2nd tab bond visibility before viewing it.
