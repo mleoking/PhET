@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.view;
 
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -47,5 +50,9 @@ public class WaterGlassSetFractionNode extends VisibilityNode {
                 addChild( box );
             }
         }.observe( containerState );
+    }
+
+    @Override public CellPointer getClosestOpenCell( Shape globalShape, Point2D center2D ) {
+        return null;
     }
 }

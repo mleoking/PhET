@@ -2,6 +2,8 @@
 package edu.colorado.phet.fractions.intro.intro.view;
 
 import java.awt.Font;
+import java.awt.Shape;
+import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -9,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 
 /**
  * Shows a decimal representation like "1.35"
@@ -28,5 +31,9 @@ public class DecimalFractionNode extends VisibilityNode {
                 }
             } );
         }} );
+    }
+
+    @Override public CellPointer getClosestOpenCell( Shape globalShape, Point2D center2D ) {
+        return null;
     }
 }

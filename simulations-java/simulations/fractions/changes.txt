@@ -1,3 +1,10 @@
+Removed "click to toggle" cell feature
+In the icon, change the number line to go from "0 to 1" with no tick marks in between to give a consistent view of "the whole"
+Fixed: The number of pieces in the bucket should be equal to the max numerator value - number in the slices
+Fixed: Adding values with the bucket should change the spinner
+Hide the bucket for number line
+Fixed: Pieces should be the right size or jump to right size when dragged out of bucket
+Added buckets
 # 0.00.32 (61123) Feb 8, 2012
 Intro tab: When changing the denominator, have pieces stay as close to their original location as possible (no animation) instead of all filling from the left
 Make the bars a little smaller in the representation control panel buttons
