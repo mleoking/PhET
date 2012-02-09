@@ -130,7 +130,9 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 //        developerMenu.add( new PropertyCheckBoxMenuItem( "Show drop-down 2nd tab", tab2Visible ) );
 //        developerMenu.add( new PropertyCheckBoxMenuItem( "Show kit 2nd tab", tab3Visible ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleRealModelButtonsVisible, "Show Real/Model radio buttons", showRealMoleculeRadioButtons ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggle2ndTabBondAngles, "Show 2nd tab bond angles", ( tab2 == null ? tab3 : tab2 ).showBondAngles ) );
+        if ( tab2 != null || tab3 != null ) {
+            developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggle2ndTabBondAngles, "Show 2nd tab bond angles", ( tab2 == null ? tab3 : tab2 ).showBondAngles ) );
+        }
     }
 
     //----------------------------------------------------------------------------
