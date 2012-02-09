@@ -1,5 +1,8 @@
 <html>
 <body>Prototype for putting more state into the model instead of spreading it across model and view.
 This became important when we added buckets and wanted to represent locations of pieces in the model.
+In this prototype, I am experimenting with a functional style where each model state is immutable, and copy constructors are used to make variants.
+This creates a difficulty for using piccolo if the scene graph is reconstructed any time there is a change to the model, because a dragged node could be deleted while dragging.
+Still, putting some of this state into the model solves this problem.
 </body>
 </html>
