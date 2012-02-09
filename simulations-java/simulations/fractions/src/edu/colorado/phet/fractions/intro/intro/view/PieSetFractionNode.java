@@ -17,9 +17,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Shows a fraction as a set of pies.
@@ -54,10 +58,25 @@ public class PieSetFractionNode extends VisibilityNode {
                     for ( int j = 0; j < numSlices; j++ ) {
                         final CellPointer cp = new CellPointer( i, j );
                         double degreesPerSlice = 360.0 / numSlices;
-                        Boolean empty = state.getContainer( cp.container ).isEmpty();
+                        boolean empty = state.getContainer( cp.container ).isEmpty();
                         final PieSliceNode pieSliceNode = new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white,
                                                                             empty ? Color.lightGray : Color.black,
                                                                             empty ? 1 : 2 );
+
+                        if ( !empty ) {
+                            pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white,
+                                                            !empty ? Color.lightGray : Color.black,
+                                                            !empty ? 1 : 2 ) );
+
+                            pieSliceNode.addInputEventListener( new CursorHandler() );
+                            pieSliceNode.addInputEventListener( new PBasicInputEventHandler() {
+                                @Override public void mouseDragged( PInputEvent event ) {
+                                    super.mouseDragged( event );
+                                    final PDimension delta = event.getDeltaRelativeTo( pieSliceNode.getParent() );
+                                    pieSliceNode.translate( delta.getWidth(), delta.getHeight() );
+                                }
+                            } );
+                        }
                         pie.addChild( pieSliceNode );
                         map.put( cp, pieSliceNode );
                     }
