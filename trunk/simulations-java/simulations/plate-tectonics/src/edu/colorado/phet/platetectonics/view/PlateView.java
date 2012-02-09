@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.view;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -42,12 +43,12 @@ public class PlateView extends GLNode {
         }
 
         for ( CrossSectionStrip strip : model.getCrossSectionStrips() ) {
-            addWrappedChild( strip, new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
+            addCrossSectionStrip( strip );
         }
 
         model.crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
             public void apply( CrossSectionStrip strip ) {
-                addWrappedChild( strip, new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
+                addCrossSectionStrip( strip );
             }
         } );
         model.terrainAdded.addListener( new VoidFunction1<Terrain>() {
@@ -68,6 +69,21 @@ public class PlateView extends GLNode {
                 nodeMap.remove( terrain );
             }
         } );
+    }
+
+    public void addCrossSectionStrip( final CrossSectionStrip strip ) {
+        addWrappedChild( strip, new CrossSectionStripNode( tab.getModelViewTransform(), tab.colorMode, strip ) );
+
+        // if this fires, add the node to the front of the list
+        strip.moveToFrontNotifier.addUpdateListener( new UpdateListener() {
+                                                         public void update() {
+                                                             GLNode node = nodeMap.get( strip );
+                                                             if ( node != null && node.getParent() != null ) {
+                                                                 removeChild( node );
+                                                                 addChild( node );
+                                                             }
+                                                         }
+                                                     }, false );
     }
 
     public void addTerrain( final Terrain terrain ) {

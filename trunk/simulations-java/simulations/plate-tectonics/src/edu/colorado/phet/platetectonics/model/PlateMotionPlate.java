@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.model;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.behaviors.PlateBehavior;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 
 import static edu.colorado.phet.platetectonics.model.PlateMotionModel.*;
@@ -14,6 +15,8 @@ public class PlateMotionPlate extends Plate {
     private final boolean isLeftPlate;
 
     private PlateType plateType = null;
+
+    private PlateBehavior behavior;
 
     public PlateMotionPlate( final PlateMotionModel model, final TextureStrategy textureStrategy, final boolean isLeftPlate ) {
         this.model = model;
@@ -120,5 +123,17 @@ public class PlateMotionPlate extends Plate {
                                    textureStrategy.mapFront( new ImmutableVector2F( isLeftPlate ? -z : z, y ) ) );
             }
         } ) );
+    }
+
+    public PlateBehavior getBehavior() {
+        return behavior;
+    }
+
+    public void setBehavior( PlateBehavior behavior ) {
+        this.behavior = behavior;
+    }
+
+    public boolean isLeftPlate() {
+        return isLeftPlate;
     }
 }
