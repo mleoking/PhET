@@ -28,24 +28,20 @@ public class PieSetView {
                     final int denominator = 3;
                     final double pieDiameter = 120;
                     final double pieSpacing = 10;
+                    final double anglePerSlice = 2 * Math.PI / denominator;
                     ArrayList<Slice> cells = new ArrayList<Slice>() {{
                         for ( int i = 0; i < numPies; i++ ) {
-                            double anglePerSlice = 2 * Math.PI / denominator;
                             for ( int k = 0; k < denominator; k++ ) {
-                                Slice slice = new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ), pieDiameter ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false );
-                                add( slice );
+                                add( createSlice( i, anglePerSlice, k, pieDiameter, pieSpacing ) );
                             }
                         }
                     }};
 
                     ArrayList<Slice> slices = new ArrayList<Slice>() {{
                         for ( int i = 0; i < numPies; i++ ) {
-
-                            double anglePerSlice = 2 * Math.PI / denominator;
                             for ( int k = 0; k < denominator; k++ ) {
                                 if ( Math.random() < 0.5 ) {
-                                    Slice slice = new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ), pieDiameter ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false );
-                                    add( slice );
+                                    add( createSlice( i, anglePerSlice, k, pieDiameter, pieSpacing ) );
                                 }
                             }
                         }
@@ -70,5 +66,9 @@ public class PieSetView {
                 }}.setVisible( true );
             }
         } );
+    }
+
+    private static Slice createSlice( int i, double anglePerSlice, int k, double pieDiameter, double pieSpacing ) {
+        return new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ), pieDiameter ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false );
     }
 }
