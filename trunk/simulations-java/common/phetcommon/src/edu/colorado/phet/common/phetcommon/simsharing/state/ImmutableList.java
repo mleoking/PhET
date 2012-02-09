@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.phetcommon.simsharing.state;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -22,6 +23,10 @@ public class ImmutableList<T> implements Iterable<T> {
 
     public ImmutableList( T... elm ) {
         addAll( elements, elm );
+    }
+
+    public ImmutableList( Collection<T> originalValues ) {
+        elements.addAll( originalValues );
     }
 
     //Create a list by appending an item to another list
@@ -91,5 +96,27 @@ public class ImmutableList<T> implements Iterable<T> {
 
     public ImmutableList<T> append( T element ) {
         return new ImmutableList<T>( this, element );
+    }
+
+    public ImmutableList<T> replace( final T oldOne, final T newOne ) {
+        return map( new Function1<T, T>() {
+            public T apply( T t ) {
+                return t == oldOne ? newOne : t;
+            }
+        } );
+    }
+
+    public ImmutableList<T> remove( final T element ) {
+        return new ImmutableList<T>( new ArrayList<T>( elements ) {{
+            remove( element );
+        }} );
+    }
+
+    public ArrayList<T> toArrayList() {
+        ArrayList<T> e = new ArrayList<T>();
+        for ( T element : elements ) {
+            e.add( element );
+        }
+        return e;
     }
 }

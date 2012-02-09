@@ -252,4 +252,8 @@ public class ImmutableVector2D implements Serializable {
     public Dimension2D toDimension() {
         return new Dimension2DDouble( x, y );
     }
+
+    public double distance( ImmutableVector2D x ) {
+        return this.minus( x ).getMagnitude();
+    }
 }
