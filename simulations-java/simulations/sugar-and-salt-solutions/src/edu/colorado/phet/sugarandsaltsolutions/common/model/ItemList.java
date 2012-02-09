@@ -118,6 +118,14 @@ public class ItemList<T> extends ObservableList<T> {
         }};
     }
 
+    public ItemList<T> filter( final Class clazz ) {
+        return filter( new Function1<T, Boolean>() {
+            public Boolean apply( T t ) {
+                return clazz.isInstance( t );
+            }
+        } );
+    }
+
     //Determine which items are instances of the specified classes
     public ItemList<T> filter( final Class<? extends T>... clazz ) {
         return filter( new Function1<T, Boolean>() {
