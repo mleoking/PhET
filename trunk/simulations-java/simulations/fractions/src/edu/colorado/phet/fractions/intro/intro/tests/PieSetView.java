@@ -12,7 +12,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.state.ImmutableList;
+import edu.colorado.phet.common.phetcommon.util.ImmutableList;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fractions.intro.intro.tests.model.PieSetState;
 import edu.colorado.phet.fractions.intro.intro.tests.model.Slice;

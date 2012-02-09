@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetcommon.simsharing.state;
+package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
