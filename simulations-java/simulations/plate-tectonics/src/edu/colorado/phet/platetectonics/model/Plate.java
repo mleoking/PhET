@@ -14,6 +14,7 @@ import edu.colorado.phet.platetectonics.model.regions.Region;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
 
 public class Plate {
+
     private Region crust;
     private Region mantle;
 

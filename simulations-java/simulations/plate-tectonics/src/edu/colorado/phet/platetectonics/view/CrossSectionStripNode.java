@@ -50,6 +50,14 @@ public class CrossSectionStripNode extends GLNode {
                 updatePosition();
             }
         } );
+
+        // TODO: model where this isn't needed?
+        // if we are moved to the front, ignore the depth test so we will draw OVER whatever is there
+        strip.moveToFrontNotifier.addUpdateListener( new UpdateListener() {
+                                                         public void update() {
+                                                             requireDisabled( GL_DEPTH_TEST );
+                                                         }
+                                                     }, false );
     }
 
     private void checkSize() {

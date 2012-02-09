@@ -35,6 +35,12 @@ public class Region {
         }
     }
 
+    public void moveToFront() {
+        for ( CrossSectionStrip strip : strips ) {
+            strip.moveToFrontNotifier.updateListeners();
+        }
+    }
+
     public Boundary getTopBoundary() {
         return boundaries.get( 0 );
     }

@@ -14,6 +14,9 @@ public class CrossSectionStrip {
 
     public final ValueNotifier<CrossSectionStrip> changed = new ValueNotifier<CrossSectionStrip>( this );
 
+    // fires when this strip should be moved to the front
+    public final ValueNotifier<CrossSectionStrip> moveToFrontNotifier = new ValueNotifier<CrossSectionStrip>( this );
+
     public CrossSectionStrip() {
     }
 

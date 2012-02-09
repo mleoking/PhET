@@ -8,6 +8,11 @@ import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.behaviors.CollidingBehavior;
+import edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior;
+import edu.colorado.phet.platetectonics.model.behaviors.RiftingBehavior;
+import edu.colorado.phet.platetectonics.model.behaviors.SubductingBehavior;
+import edu.colorado.phet.platetectonics.model.behaviors.TransformBehavior;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
@@ -101,11 +106,49 @@ public class PlateMotionModel extends PlateModel {
         updateTerrain();
         updateStrips();
 
+        // once plates have been chosen and animation has started, set up our plate behaviors so we can animate correctly
         animationStarted.addObserver( new SimpleObserver() {
             public void update() {
-                if ( animationStarted.get() && motionType.get() == MotionType.TRANSFORM ) {
-                    leftPlate.addMiddleSide( rightPlate );
-                    rightPlate.addMiddleSide( leftPlate );
+                if ( animationStarted.get() ) {
+                    switch( motionType.get() ) {
+                        case TRANSFORM:
+                            leftPlate.setBehavior( new TransformBehavior( leftPlate, rightPlate, isTransformMotionCCW() ) );
+                            rightPlate.setBehavior( new TransformBehavior( rightPlate, leftPlate, !isTransformMotionCCW() ) );
+                            leftPlate.addMiddleSide( rightPlate );
+                            rightPlate.addMiddleSide( leftPlate );
+                            break;
+                        case CONVERGENT:
+                            // if both continental, we collide
+                            if ( leftPlateType.get() == PlateType.CONTINENTAL && rightPlateType.get() == PlateType.CONTINENTAL ) {
+                                leftPlate.setBehavior( new CollidingBehavior( leftPlate, rightPlate ) );
+                                rightPlate.setBehavior( new CollidingBehavior( rightPlate, leftPlate ) );
+                            }
+                            // otherwise test for the heavier plate, which will subduct
+                            else if ( leftPlateType.get().isContinental() || rightPlateType.get() == PlateType.OLD_OCEANIC ) {
+                                // right plate subducts
+                                leftPlate.setBehavior( new OverridingBehavior( leftPlate, rightPlate ) );
+                                rightPlate.setBehavior( new SubductingBehavior( rightPlate, leftPlate ) );
+                                rightPlate.getCrust().moveToFront();
+                            }
+                            else if ( rightPlateType.get().isContinental() || leftPlateType.get() == PlateType.OLD_OCEANIC ) {
+                                // left plate subducts
+                                leftPlate.setBehavior( new SubductingBehavior( leftPlate, rightPlate ) );
+                                rightPlate.setBehavior( new OverridingBehavior( rightPlate, leftPlate ) );
+                                leftPlate.getCrust().moveToFront();
+                            }
+                            else {
+                                // plates must be the same
+                                assert leftPlateType.get() == rightPlateType.get();
+
+                                // which isn't allowed here for any oceanic combinations
+                                throw new RuntimeException( "behavior type not supported: " + leftPlateType.get() + ", " + rightPlateType.get() );
+                            }
+                            break;
+                        case DIVERGENT:
+                            leftPlate.setBehavior( new RiftingBehavior( leftPlate, rightPlate ) );
+                            rightPlate.setBehavior( new RiftingBehavior( rightPlate, leftPlate ) );
+                            break;
+                    }
                 }
             }
         } );
@@ -276,23 +319,8 @@ public class PlateMotionModel extends PlateModel {
             }
 
             animationStarted.set( true );
-            if ( motionType.get() == MotionType.CONVERGENT ) {
-                for ( Sample sample : getAllSamples() ) {
-                    transformSample( sample, (float) timeElapsed );
-                }
-            }
-            else if ( motionType.get() == MotionType.DIVERGENT ) {
-                for ( Sample sample : getAllSamples() ) {
-                    transformSample( sample, (float) -timeElapsed );
-                }
-            }
-            else if ( motionType.get() == MotionType.TRANSFORM ) {
-                // since time elapsed is in millions of years, here we have 3cm/year movement
-                // halved, since we only want the slip to be at that speed
-                float rightOffset = 30000f / 2 * (float) ( isTransformMotionCCW() ? -timeElapsed : timeElapsed );
-                rightPlate.shiftZ( rightOffset );
-                leftPlate.shiftZ( -rightOffset );
-            }
+            leftPlate.getBehavior().stepInTime( (float) timeElapsed );
+            rightPlate.getBehavior().stepInTime( (float) timeElapsed );
             updateStrips();
             updateTerrain();
         }
@@ -300,7 +328,7 @@ public class PlateMotionModel extends PlateModel {
         modelChanged.updateListeners();
     }
 
-    public void transformSample( Sample sample, float timeElapsed ) {
+    public static void transformSample( Sample sample, float timeElapsed ) {
         ImmutableVector2F origin = new ImmutableVector2F( 0, 5005 );
         ImmutableVector2F toDir = ImmutableVector2F.Y_UNIT.negate();
         ImmutableVector2F fromDir = ImmutableVector2F.X_UNIT;
