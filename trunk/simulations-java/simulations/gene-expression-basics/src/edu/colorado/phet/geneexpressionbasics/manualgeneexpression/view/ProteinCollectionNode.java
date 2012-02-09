@@ -42,6 +42,9 @@ public class ProteinCollectionNode extends PNode {
     // This prevents translations from making this box too large.
     private static final double MAX_CONTENT_WIDTH = 300;
 
+    // Total number of protein types that can be collected.
+    private static final double NUM_PROTEIN_TYPES = 3;
+
     // Attributes of various aspects of the box.
     private static final Font TITLE_FONT = new PhetFont( 20, true );
     private static final Font READOUT_FONT = new PhetFont( 18 );
@@ -74,6 +77,16 @@ public class ProteinCollectionNode extends PNode {
      * so far.  This monitors the model and updates automatically.
      */
     private static class CollectionCountIndicator extends PNode {
+
+        PNode collectionCompleteNode = new PText( "Collection Complete!" ) {{
+            setFont( new PhetFont( 20 ) );
+            if ( getFullBoundsReference().width > MAX_CONTENT_WIDTH ) {
+                // Scale to fit.
+                setScale( MAX_CONTENT_WIDTH / getFullBoundsReference().width );
+            }
+        }};
+
+        // Constructor.
         public CollectionCountIndicator( final ManualGeneExpressionModel model ) {
             model.proteinACollected.addObserver( new SimpleObserver() {
                 public void update() {
@@ -93,42 +106,45 @@ public class ProteinCollectionNode extends PNode {
         }
 
         private void updateCount( ManualGeneExpressionModel model ) {
-            int numProteinsCollected = 0;
+            int numProteinTypesCollected = 0;
             if ( model.proteinACollected.get() > 0 ) {
-                numProteinsCollected++;
+                numProteinTypesCollected++;
             }
             if ( model.proteinBCollected.get() > 0 ) {
-                numProteinsCollected++;
+                numProteinTypesCollected++;
             }
             if ( model.proteinCCollected.get() > 0 ) {
-                numProteinsCollected++;
+                numProteinTypesCollected++;
             }
             removeAllChildren();
-            PNode collectionStatusIndicator;
-            if ( numProteinsCollected < 3 ) {
-                collectionStatusIndicator = new VBox(
-                        5,
-                        // TODO: i18n.
-                        new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numProteinsCollected ) ),
-                        new ReadoutPText( "of 3 protein types." ) {{
-                            setFont( READOUT_FONT );
-                        }}
-                );
-            }
-            else {
-                collectionStatusIndicator = new HBox(
-                        new PText( "Collection Complete!" ) {{
-                            setFont( new PhetFont( 20 ) );
-                        }}
-                );
+            PNode collectedQuantityIndicator = new VBox(
+                    5,
+                    // TODO: i18n.
+                    new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numProteinTypesCollected ) ),
+                    new ReadoutPText( "of 3 protein types." ) {{
+                        setFont( READOUT_FONT );
+                    }}
+
+            );
+            if ( collectedQuantityIndicator.getFullBoundsReference().width > MAX_CONTENT_WIDTH ) {
+                // Scale to fit.
+                collectedQuantityIndicator.setScale( MAX_CONTENT_WIDTH / getFullBoundsReference().width );
             }
 
-            if ( collectionStatusIndicator.getFullBoundsReference().getWidth() > MAX_CONTENT_WIDTH ) {
-                // Make sure that this isn't wider than the max
-                // allowed content width.
-                setScale( MAX_CONTENT_WIDTH / collectionStatusIndicator.getFullBoundsReference().width );
-            }
-            addChild( collectionStatusIndicator );
+            // Offset the collection complete indicator so that it will be
+            // centered when it is shown.
+            collectionCompleteNode.centerFullBoundsOnPoint( collectedQuantityIndicator.getFullBoundsReference().getCenterX(),
+                                                            collectedQuantityIndicator.getFullBoundsReference().getCenterY() );
+
+            // Add both nodes, so that the overall size of the node is
+            // consistent, but only show one of them based upon whether the
+            // collection is complete.
+            addChild( collectedQuantityIndicator );
+            addChild( collectionCompleteNode );
+
+            // Set the visibility.
+            collectedQuantityIndicator.setVisible( numProteinTypesCollected != NUM_PROTEIN_TYPES );
+            collectionCompleteNode.setVisible( numProteinTypesCollected == NUM_PROTEIN_TYPES );
         }
     }
 
