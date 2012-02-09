@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.view;
 
+import java.awt.Shape;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -110,5 +112,9 @@ public class CakeSetFractionNode extends VisibilityNode {
             x[i] = values.get( i );
         }
         return x;
+    }
+
+    @Override public CellPointer getClosestOpenCell( Shape globalShape, Point2D center2D ) {
+        return null;
     }
 }

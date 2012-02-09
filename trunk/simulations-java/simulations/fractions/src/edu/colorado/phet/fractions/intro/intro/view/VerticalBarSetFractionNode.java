@@ -50,9 +50,7 @@ public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
                         Color color = filled ? FractionsIntroCanvas.FILL_COLOR : Color.white;
                         Color strokeColor = containerEmpty ? Color.lightGray : Color.black;
                         Stroke stroke = containerEmpty ? new BasicStroke( 1 ) : new BasicStroke( 2 );
-                        addChild( new PhetPPath( new Rectangle2D.Double( x, y, width, cellHeight ), color, stroke, strokeColor ) {{
-                            PieSetFractionNode.addListener( this, containerState, cp );
-                        }} );
+                        addChild( new PhetPPath( new Rectangle2D.Double( x, y, width, cellHeight ), color, stroke, strokeColor ) );
                         y = y - cellHeight;
                     }
                     //Move to next bar

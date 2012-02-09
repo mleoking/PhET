@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.view;
 
+import java.awt.Shape;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.fractions.intro.intro.model.CellPointer;
 import edu.colorado.phet.fractions.intro.intro.model.ContainerState;
 import edu.umd.cs.piccolo.PNode;
 
@@ -51,5 +55,18 @@ public class RepresentationArea extends PNode {
         //        addChild( new GridFractionNode( chosenRepresentation, numerator, denominator ) {{
         //            setOffset( 0, -50 );
         //        }} );
+    }
+
+    public CellPointer getClosestOpenCell( Shape globalShape, Point2D center2D ) {
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            PNode child = getChild( i );
+            if ( child instanceof VisibilityNode ) {
+                VisibilityNode visibilityNode = (VisibilityNode) child;
+                if ( visibilityNode.visible.get() ) {
+                    return visibilityNode.getClosestOpenCell( globalShape, center2D );
+                }
+            }
+        }
+        return null;
     }
 }

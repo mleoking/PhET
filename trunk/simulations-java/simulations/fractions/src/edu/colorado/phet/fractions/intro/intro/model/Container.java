@@ -14,7 +14,7 @@ public class Container {
     public final HashSet<Integer> filledCells;
     public final int numFilledCells;
 
-    Container( int numCells, int[] filledCells ) {
+    public Container( int numCells, int[] filledCells ) {
         this( numCells, toSet( filledCells ) );
     }
 
