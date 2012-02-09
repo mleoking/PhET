@@ -8,6 +8,7 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
+- make meter cable curvy (ala Bending Light)
 - separate Solution model elements for the 2 tabs? needs are very different...
 - add 3 sections of light beam
 - Meter: get images from bending-light; doesn't read anything in cuvette or outside beam; blocks beam
@@ -25,7 +26,6 @@ MEDIUM
 
 LOW
 - switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
-- make meter cable more curvy (ala Bending Light)
 - shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
 - dropper flickers/tears excessively while dragging
 - #3199, bigger slider thumb on FaucetNode
