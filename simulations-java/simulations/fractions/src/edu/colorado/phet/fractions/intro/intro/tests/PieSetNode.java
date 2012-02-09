@@ -45,11 +45,14 @@ public class PieSetNode extends PNode {
                             //Set all drag flags to false
                             @Override public void mouseReleased( PInputEvent event ) {
                                 PieSetState state = model.get();
-                                model.set( new PieSetState( state.numerator, state.denominator, state.cells, state.slices.map( new Function1<Slice, Slice>() {
-                                    public Slice apply( Slice slice ) {
-                                        return slice.dragging( false );
+                                final PieSetState notDragging = state.slices( state.slices.map( new Function1<Slice, Slice>() {
+                                    public Slice apply( Slice s ) {
+                                        return s.dragging( false );
                                     }
-                                } ) ) );
+                                } ) );
+
+                                //See if any pieces should snap to their destination
+                                model.set( notDragging.snapTo() );
                             }
 
                             //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)

@@ -15,6 +15,7 @@ public class Slice {
     public final double extent;//in radians
     public final double radius;
     public final boolean dragging;
+    public final ImmutableVector2D center;
 
     public Slice( ImmutableVector2D tip, double _angle, double extent, double radius, boolean dragging ) {
 
@@ -30,6 +31,8 @@ public class Slice {
         this.extent = extent;
         this.radius = radius;
         this.dragging = dragging;
+
+        this.center = new ImmutableVector2D( toShape().getBounds2D().getCenterX(), toShape().getBounds2D().getCenterY() );
     }
 
     public Shape toShape() {
@@ -52,8 +55,7 @@ public class Slice {
         return new Slice( tip, angle, extent, radius, dragging );
     }
 
-    public ImmutableVector2D getCenter() {
-//        return tip.plus( ImmutableVector2D.createPolar( radius / 2, angle + extent / 2 ) );
-        return new ImmutableVector2D( toShape().getBounds2D().getCenterX(), toShape().getBounds2D().getCenterY() );
+    public Slice tip( ImmutableVector2D tip ) {
+        return new Slice( tip, angle, extent, radius, dragging );
     }
 }
