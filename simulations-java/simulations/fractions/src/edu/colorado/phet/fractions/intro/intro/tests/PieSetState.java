@@ -55,7 +55,6 @@ public class PieSetState {
                 }
             }
         } );
-
         return new PieSetState( numerator, denominator, cells, slices );
     }
 }
