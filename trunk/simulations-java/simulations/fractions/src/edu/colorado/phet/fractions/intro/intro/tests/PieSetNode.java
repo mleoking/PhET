@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractions.intro.intro.tests.model.PieSetState;
+import edu.colorado.phet.fractions.intro.intro.tests.model.Slice;
 import edu.colorado.phet.fractions.intro.intro.view.FractionsIntroCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -45,14 +47,13 @@ public class PieSetNode extends PNode {
                             //Set all drag flags to false
                             @Override public void mouseReleased( PInputEvent event ) {
                                 PieSetState state = model.get();
-                                final PieSetState notDragging = state.slices( state.slices.map( new Function1<Slice, Slice>() {
+
+                                //See if any pieces should snap to their destination
+                                model.set( state.slices( state.slices.map( new Function1<Slice, Slice>() {
                                     public Slice apply( Slice s ) {
                                         return s.dragging( false );
                                     }
-                                } ) );
-
-                                //See if any pieces should snap to their destination
-                                model.set( notDragging.snapTo() );
+                                } ) ).snapTo() );
                             }
 
                             //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
