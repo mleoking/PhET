@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_it.xml created Wed Feb 08 18:15:09 CET 2012 using: stern-gerlach 2.02.00 (52653), translation-utility 2.13.00 (59150) dic 8, 2011-->
+<SimStrings>
+<string key="angle3" value="angolo 3"/>
+<string key="angle2" value="angolo 2"/>
+<string key="slow" value="lento"/>
+<string key="randomXZ" value="xz casuale"/>
+<string key="simTitle" value="Esperimento di Stern-Gerlach"/>
+<string key="sternGerlachExperiment" value="Esperimento di Stern-Gerlach"/>
+<string key="spinOrientation" value="orientamento \ndello spin"/>
+<string key="on" value="Acceso"/>
+<string key="up" value="su"/>
+<string key="down" value="giù"/>
+<string key="sound" value="Suono"/>
+<string key="fast" value="veloce"/>
+<string key="numberOfMagnets" value="numero dei \nmagneti"/>
+<string key="fireAtom" value="Spara gli atomi"/>
+<string key="autoFire" value="spara sempre"/>
+<string key="translation.credits" value="Vito Garganese&lt;br&gt;vito.garganese@alice.it&lt;/br&gt;"/>
+<string key="angle" value="angolo"/>
+<string key="reset" value="Ricomincia"/>
+<string key="resetCount" value="Azzerra il contatore"/>
+<string key="off" value="Spento"/>
+</SimStrings>
