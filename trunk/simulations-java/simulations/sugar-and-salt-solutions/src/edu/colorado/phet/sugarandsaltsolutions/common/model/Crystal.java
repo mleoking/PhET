@@ -345,11 +345,11 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         LOGGER.fine( "Crystal.matchesFormulaRatio" );
         HashSet<DivisionResult> result = new HashSet<DivisionResult>();
         for ( Class type : formula.getTypes() ) {
-            int count = constituents.map( new Function1<Constituent<T>, T>() {
+            int count = new ItemList<T>( constituents.map( new Function1<Constituent<T>, T>() {
                 public T apply( Constituent<T> constituent ) {
                     return constituent.particle;
                 }
-            } ).filter( type ).size();
+            } ) ).filter( type ).size();
             int factor = formula.getFactor( type );
             final DivisionResult e = new DivisionResult( count, factor );
             result.add( e );
