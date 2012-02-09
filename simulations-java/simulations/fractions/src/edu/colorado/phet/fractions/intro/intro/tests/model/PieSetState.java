@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import edu.colorado.phet.common.phetcommon.simsharing.state.ImmutableList;
+import edu.colorado.phet.common.phetcommon.util.ImmutableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**

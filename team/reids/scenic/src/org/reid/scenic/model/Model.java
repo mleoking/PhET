@@ -6,7 +6,7 @@ import java.util.Random;
 import org.reid.scenic.TestScenicPanel;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.simsharing.state.ImmutableList;
+import edu.colorado.phet.common.phetcommon.util.ImmutableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
