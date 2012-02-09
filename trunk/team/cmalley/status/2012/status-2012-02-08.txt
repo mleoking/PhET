@@ -1,0 +1,51 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Feb 2-8, 2011
+
+Molarity
+- created interview flavor, with data collection enabled
+- #3233, wrapped up code review ticket with SR
+
+Beer's Law Lab
+- created interview flavor, with data collection enabled
+- discussed 2nd tab in Chem meeting
+- made good progress on 2nd tab
+
+Reactants, Products and Leftovers:
+- #3204, started adding data collection, summarized remaining work
+
+Common Code
+- i18n of WavelengthControl
+
+Data Collection
+- folded data collection into Property-based Swing components
+- folded data collection into ComboBoxNode
+
+Sponsor Prototype
+- changed to generic "Your Company" because of confusion with using CU as the company
+- published new sponsor prototype (CCK DC 3.20.02)
+
+Help
+- #3248, responded to request for Glaciers model information
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Beer's Law Lab: 2nd tab
+- Molarity: publish 1.00
+- Reactants, Products and Leftovers: add data collection feature
+- Data Collection: feedback and help with changes
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- Feb 24-26 (not working)
+
+--
