@@ -4,7 +4,9 @@ package edu.colorado.phet.beerslawlab.concentration.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.geom.Line2D;
+import java.awt.geom.CubicCurve2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
@@ -18,6 +20,8 @@ import edu.colorado.phet.beerslawlab.common.view.TiledBackgroundNode;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationMeter;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
 import edu.colorado.phet.beerslawlab.concentration.model.Faucet;
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -52,6 +56,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 class ConcentrationMeterNode extends PhetPNode {
 
     public static final String VALUE_PATTERN = "0.000";
+    private static final Color WIRE_COLOR =  new Color( 133, 0, 66 ).darker(); // a little darker than the meter body
 
     private final ConcentrationMeter meter;
     private final Solution solution;
@@ -82,7 +87,8 @@ class ConcentrationMeterNode extends PhetPNode {
         // nodes
         BodyNode bodyNode = new BodyNode( meter );
         probeNode = new ProbeNode( meter, solutionNode, solventFluidNode, drainFluidNode, stockSolutionNode );
-        WireNode wireNode = new WireNode( meter, new ImmutableVector2D( bodyNode.getFullBoundsReference().getWidth() / 2, bodyNode.getFullBoundsReference().getHeight() / 2 ) );
+        PNode wireNode = new WireNode( probeNode, bodyNode );
+//        WireNode wireNode = new WireNode( meter, new ImmutableVector2D( bodyNode.getFullBoundsReference().getWidth() / 2, bodyNode.getFullBoundsReference().getHeight() / 2 ) );
 
         // rendering order
         addChild( wireNode );
@@ -257,19 +263,38 @@ class ConcentrationMeterNode extends PhetPNode {
     // Wire that connects the probe to the body of the meter.
     private static class WireNode extends PPath {
 
-        public WireNode( final ConcentrationMeter meter, final ImmutableVector2D bodyCenterOffset ) {
-            setStrokePaint( new Color( 133, 0, 66 ).darker() ); // a little darker than the meter body
-            setStroke( new BasicStroke( 6f ) );
+        // The y coordinate of the body's control point varies with the x distance between the body and probe.
+        private static final Function BODY_CTRL_Y = new LinearFunction( 0, 800, 0, 200 ); // x distance -> y coordinate
 
-            SimpleObserver observer = new SimpleObserver() {
-                public void update() {
-                    // straight line from the center of the probe to the center of the body.
-                    setPathTo( new Line2D.Double( meter.probe.getX(), meter.probe.getY(),
-                                                  meter.body.getX() + bodyCenterOffset.getX(), meter.body.getY() + bodyCenterOffset.getY() ) );
+        public WireNode( final PNode probeNode, final PNode bodyNode ) {
+
+            setStroke( new BasicStroke( 8, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ) );
+            setStrokePaint( WIRE_COLOR );
+
+            final PropertyChangeListener updateCurve = new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+
+                    // Connect bottom-center of body to right-center of probe.
+                    ImmutableVector2D bodyConnectionPoint = new ImmutableVector2D( bodyNode.getFullBoundsReference().getCenterX(), bodyNode.getFullBoundsReference().getMaxY() - 10 );
+                    ImmutableVector2D probeConnectionPoint = new ImmutableVector2D( probeNode.getFullBoundsReference().getMaxX(), probeNode.getFullBoundsReference().getCenterY() );
+
+                    // control points
+                    ImmutableVector2D c1Offset = new ImmutableVector2D( 0, BODY_CTRL_Y.evaluate( bodyNode.getFullBoundsReference().getCenterX() - probeNode.getFullBoundsReference().getX() ) );
+                    ImmutableVector2D c2Offset = new ImmutableVector2D( 50, 0 );
+                    ImmutableVector2D c1 = new ImmutableVector2D( bodyConnectionPoint.getX() + c1Offset.getX(), bodyConnectionPoint.getY() + c1Offset.getY() );
+                    ImmutableVector2D c2 = new ImmutableVector2D( probeConnectionPoint.getX() + c2Offset.getX(), probeConnectionPoint.getY() + c2Offset.getY() );
+
+                    // cubic curve
+                    setPathTo( new CubicCurve2D.Double( bodyConnectionPoint.getX(), bodyConnectionPoint.getY(),
+                                                        c1.getX(), c1.getY(),
+                                                        c2.getX(), c2.getY(),
+                                                        probeConnectionPoint.getX(), probeConnectionPoint.getY() ) );
                 }
             };
-            meter.body.location.addObserver( observer );
-            meter.probe.location.addObserver( observer );
+
+            // Update when bounds of the body or probe changes.
+            probeNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, updateCurve );
+            bodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, updateCurve );
         }
     }
 }
