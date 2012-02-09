@@ -26,10 +26,10 @@ public class PieSetView {
                 new JFrame() {{
                     final int numPies = 6;
                     final int denominator = 3;
+                    final double pieDiameter = 120;
+                    final double pieSpacing = 10;
                     ArrayList<Slice> cells = new ArrayList<Slice>() {{
                         for ( int i = 0; i < numPies; i++ ) {
-                            double pieDiameter = 100;
-                            double pieSpacing = 10;
                             double anglePerSlice = 2 * Math.PI / denominator;
                             for ( int k = 0; k < denominator; k++ ) {
                                 Slice slice = new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ), pieDiameter ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false );
@@ -40,8 +40,7 @@ public class PieSetView {
 
                     ArrayList<Slice> slices = new ArrayList<Slice>() {{
                         for ( int i = 0; i < numPies; i++ ) {
-                            double pieDiameter = 100;
-                            double pieSpacing = 10;
+
                             double anglePerSlice = 2 * Math.PI / denominator;
                             for ( int k = 0; k < denominator; k++ ) {
                                 if ( Math.random() < 0.5 ) {

@@ -3,7 +3,6 @@ package edu.colorado.phet.fractions.intro.intro.tests;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -30,7 +29,7 @@ public class PieSetNode extends PNode {
 
                 for ( Slice cell : state.cells ) {
                     addChild( new PhetPPath( cell.toShape(), new BasicStroke( 1 ), Color.darkGray ) );
-                    addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
+//                    addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
                 }
                 for ( final Slice slice : state.slices ) {
                     addChild( new PhetPPath( slice.toShape(), FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
@@ -66,7 +65,7 @@ public class PieSetNode extends PNode {
                             }
                         } );
                     }} );
-                    addChild( new PhetPPath( new Rectangle2D.Double( slice.getCenter().getX(), slice.getCenter().getY(), 2, 2 ) ) );
+//                    addChild( new PhetPPath( new Rectangle2D.Double( slice.getCenter().getX(), slice.getCenter().getY(), 2, 2 ) ) );
                 }
             }
         } );

@@ -45,7 +45,7 @@ public class PieSetState {
                         else if ( closestAngle < s.angle ) { closestAngle += 2 * Math.PI; }
                     }
                     double delta = closestAngle - s.angle;
-                    final Slice rotated = s.angle( s.angle + delta / 4 );//Xeno effect
+                    final Slice rotated = s.angle( s.angle + delta / 6 );//Xeno effect
 
                     //Keep the center in the same place
                     return rotated.translate( s.getCenter().minus( rotated.getCenter() ) );
