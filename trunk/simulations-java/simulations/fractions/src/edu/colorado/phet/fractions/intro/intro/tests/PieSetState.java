@@ -34,7 +34,7 @@ public class PieSetState {
                     final ArrayList<Slice> list = cells.toArrayList();//TODO: filter out occupied cells
                     Slice closest = Collections.min( list, new Comparator<Slice>() {
                         public int compare( Slice o1, Slice o2 ) {
-                            return Double.compare( o1.getCenter().distance( s.getCenter() ), o2.getCenter().distance( s.getCenter() ) );
+                            return Double.compare( o1.center.distance( s.center ), o2.center.distance( s.center ) );
                         }
                     } );
 
@@ -48,13 +48,33 @@ public class PieSetState {
                     final Slice rotated = s.angle( s.angle + delta / 6 );//Xeno effect
 
                     //Keep the center in the same place
-                    return rotated.translate( s.getCenter().minus( rotated.getCenter() ) );
+                    return rotated.translate( s.center.minus( rotated.center ) );
                 }
                 else {
                     return s;
                 }
             }
         } );
+        return slices( slices );
+    }
+
+    public PieSetState slices( ImmutableList<Slice> slices ) {
         return new PieSetState( numerator, denominator, cells, slices );
+    }
+
+    //Make all pieces move to the closest cell
+    public PieSetState snapTo() {
+        final ImmutableList<Slice> slices = this.slices.map( new Function1<Slice, Slice>() {
+            public Slice apply( final Slice s ) {
+                final ArrayList<Slice> list = cells.toArrayList();//TODO: filter out occupied cells
+                Slice closest = Collections.min( list, new Comparator<Slice>() {
+                    public int compare( Slice o1, Slice o2 ) {
+                        return Double.compare( o1.center.distance( s.center ), o2.center.distance( s.center ) );
+                    }
+                } );
+                return s.angle( closest.angle ).tip( closest.tip );
+            }
+        } );
+        return slices( slices );
     }
 }
