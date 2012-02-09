@@ -1,0 +1,47 @@
+PhET Weekly Progress Report
+John Blanco
+February 8th, 2012
+
+Time period covered: February 2nd through February 8th
+
+Gene Expression - 19.5 hrs
+
+-	Met with George E and tweaked the model for greater responsiveness.
+-	Changed the cells on 2nd tab to use a brighter green when protein level at max (requested by Mike K).
+-	Integrated a real picture of fluorescing E. coli.
+-	Searched for other fluorescent E. coli pictures and sent out emails requesting their use.  No responses yet.
+-	Created a logarithmic parameter control and integrated it into the last tab to get greater responsiveness.
+-	Fixed an issue with the cell sizes when zoomed out on first tab.
+-	Added play/pause button to last tab (requested by Mike K).
+-	Attended an interview, conducted by Emily, on this simulation.
+-	Discussed results of interviews with Julia and Emily.
+-	Made hints brighter and more apparent, made them appear over all other elements in the view.
+-	Reduced the number of some of the biomolecules in the toolbox from three to two to avoid false connection to number of proteins.
+-	Fixed and issue with the interaction between polymerase and DNA that could cause the spreading effect to be greatly exaggerated.
+-	Made the transcription factor move away from the DNA strand if dropped on top of one already on the strand.
+-	Added some positive feedback for the completion of the protein collection.
+-	Published versions for Mike K's web cast and for various interviews.
+
+Balancing Act - 2.5 hrs
+
+-	Met with Min Chi and Howard Palmer to discuss the data that is sent by the simulation.
+
+Sim Sharing and Data Collection - 6.5 hrs
+
+-	Met with Sam R to discuss the data processing code and how it could be used for or by Min Chi in her study.
+-	Discussed server upgrade, updated associated ticket.
+-	Discussed Min's needs for collecting data on the server, logged in ticket #3152.
+-	Worked with Sam on load testing of the sim sharing database.
+
+Installers - 2.5 hrs
+
+-	Resolved an issue where the installer build date on the web site was not updated when Sam R manually built the installer, see #3249.
+-	Updated the notebook that describes how to use the installer builder.
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+-	Weekly status meeting.
+-	Weekly status report.
+-	Logged January hours in spreadsheet, filled out vacation and sick leave form.
+-	Review, prioritization, and updating of Unfuddle issues.
+-	Normal email and administrative overhead.
