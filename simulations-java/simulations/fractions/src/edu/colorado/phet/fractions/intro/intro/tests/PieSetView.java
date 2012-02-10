@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ImmutableList;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.fractions.intro.intro.tests.model.MovableSlice;
 import edu.colorado.phet.fractions.intro.intro.tests.model.PieSetState;
 import edu.colorado.phet.fractions.intro.intro.tests.model.Slice;
 
@@ -39,17 +40,17 @@ public class PieSetView {
                         }
                     }};
 
-                    ArrayList<Slice> slices = new ArrayList<Slice>() {{
+                    ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
                         for ( int i = 0; i < numPies; i++ ) {
                             for ( int k = 0; k < denominator; k++ ) {
                                 if ( Math.random() < 0.5 ) {
-                                    add( createSlice( i, anglePerSlice, k, pieDiameter, pieSpacing ) );
+                                    add( new MovableSlice( createSlice( i, anglePerSlice, k, pieDiameter, pieSpacing ), null ) );
                                 }
                             }
                         }
                     }};
 
-                    final PieSetState state = new PieSetState( 0, denominator, new ImmutableList<Slice>( cells ), new ImmutableList<Slice>( slices ) );
+                    final PieSetState state = new PieSetState( 0, denominator, new ImmutableList<Slice>( cells ), new ImmutableList<MovableSlice>( slices ) ).snapTo();
                     final Property<PieSetState> model = new Property<PieSetState>( state );
 
                     new Timer( 30, new ActionListener() {

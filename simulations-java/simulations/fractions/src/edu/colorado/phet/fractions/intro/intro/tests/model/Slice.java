@@ -16,6 +16,7 @@ public class Slice {
     public final double radius;
     public final boolean dragging;
     public final ImmutableVector2D center;
+    public Shape shape;
 
     public Slice( ImmutableVector2D tip, double _angle, double extent, double radius, boolean dragging ) {
 
@@ -31,12 +32,8 @@ public class Slice {
         this.extent = extent;
         this.radius = radius;
         this.dragging = dragging;
-
-        this.center = new ImmutableVector2D( toShape().getBounds2D().getCenterX(), toShape().getBounds2D().getCenterY() );
-    }
-
-    public Shape toShape() {
-        return new Arc2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
+        this.shape = new Arc2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
+        this.center = new ImmutableVector2D( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
     }
 
     public Slice translate( ImmutableVector2D delta ) {

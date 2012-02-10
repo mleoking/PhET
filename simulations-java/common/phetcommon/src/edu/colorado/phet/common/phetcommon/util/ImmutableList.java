@@ -2,6 +2,8 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -86,8 +88,8 @@ public class ImmutableList<T> implements Iterable<T> {
         return elements.contains( item );
     }
 
-    public ImmutableList<T> map( final Function1<T, T> map ) {
-        ImmutableList<T> immutableList = new ImmutableList<T>();
+    public <U> ImmutableList<U> map( final Function1<T, U> map ) {
+        ImmutableList<U> immutableList = new ImmutableList<U>();
         for ( T t : this ) {
             immutableList.elements.add( map.apply( t ) );
         }
@@ -112,11 +114,23 @@ public class ImmutableList<T> implements Iterable<T> {
         }} );
     }
 
+    //Must return a new array list, since clients are allowed to mutate the returned list
     public ArrayList<T> toArrayList() {
         ArrayList<T> e = new ArrayList<T>();
         for ( T element : elements ) {
             e.add( element );
         }
         return e;
+    }
+
+    public T minBy( Comparator<T> comparator ) {
+        return Collections.min( toArrayList(), comparator );
+    }
+
+    public T find( Function1<T, Boolean> matcher ) {
+        for ( T element : elements ) {
+            if ( matcher.apply( element ) ) { return element; }
+        }
+        return null;
     }
 }

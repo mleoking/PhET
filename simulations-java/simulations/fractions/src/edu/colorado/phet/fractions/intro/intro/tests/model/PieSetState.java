@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.tests.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.util.ImmutableList;
@@ -16,10 +14,11 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 public class PieSetState {
     public final int numerator;
     public final int denominator;
-    public final ImmutableList<Slice> cells;
-    public final ImmutableList<Slice> slices;
 
-    public PieSetState( int numerator, int denominator, ImmutableList<Slice> cells, ImmutableList<Slice> slices ) {
+    public final ImmutableList<Slice> cells;
+    public final ImmutableList<MovableSlice> slices;
+
+    public PieSetState( int numerator, int denominator, ImmutableList<Slice> cells, ImmutableList<MovableSlice> slices ) {
         this.numerator = numerator;
         this.denominator = denominator;
         this.cells = cells;
@@ -27,12 +26,11 @@ public class PieSetState {
     }
 
     public PieSetState stepInTime() {
-        final ImmutableList<Slice> slices = this.slices.map( new Function1<Slice, Slice>() {
-            public Slice apply( final Slice s ) {
+        final ImmutableList<MovableSlice> slices = this.slices.map( new Function1<MovableSlice, MovableSlice>() {
+            public MovableSlice apply( final MovableSlice s ) {
                 if ( s.dragging ) {
 
-                    final ArrayList<Slice> list = cells.toArrayList();//TODO: filter out occupied cells
-                    Slice closest = Collections.min( list, new Comparator<Slice>() {
+                    Slice closest = cells.minBy( new Comparator<Slice>() {
                         public int compare( Slice o1, Slice o2 ) {
                             return Double.compare( o1.center.distance( s.center ), o2.center.distance( s.center ) );
                         }
@@ -45,7 +43,7 @@ public class PieSetState {
                         else if ( closestAngle < s.angle ) { closestAngle += 2 * Math.PI; }
                     }
                     double delta = closestAngle - s.angle;
-                    final Slice rotated = s.angle( s.angle + delta / 6 );//Xeno effect
+                    final MovableSlice rotated = s.angle( s.angle + delta / 6 );//Xeno effect
 
                     //Keep the center in the same place
                     return rotated.translate( s.center.minus( rotated.center ) );
@@ -58,23 +56,29 @@ public class PieSetState {
         return slices( slices );
     }
 
-    public PieSetState slices( ImmutableList<Slice> slices ) {
+    public PieSetState slices( ImmutableList<MovableSlice> slices ) {
         return new PieSetState( numerator, denominator, cells, slices );
     }
 
     //Make all pieces move to the closest cell
     public PieSetState snapTo() {
-        final ImmutableList<Slice> slices = this.slices.map( new Function1<Slice, Slice>() {
-            public Slice apply( final Slice s ) {
-                final ArrayList<Slice> list = cells.toArrayList();//TODO: filter out occupied cells
-                Slice closest = Collections.min( list, new Comparator<Slice>() {
+        return slices( slices.map( new Function1<MovableSlice, MovableSlice>() {
+            public MovableSlice apply( final MovableSlice s ) {
+                Slice closest = cells.minBy( new Comparator<Slice>() {
                     public int compare( Slice o1, Slice o2 ) {
                         return Double.compare( o1.center.distance( s.center ), o2.center.distance( s.center ) );
                     }
                 } );
-                return s.angle( closest.angle ).tip( closest.tip );
+                return s.angle( closest.angle ).tip( closest.tip ).container( closest );
+            }
+        } ) );
+    }
+
+    public boolean cellFilled( final Slice cell ) {
+        return slices.contains( new Function1<MovableSlice, Boolean>() {
+            public Boolean apply( MovableSlice m ) {
+                return m.container == cell;
             }
         } );
-        return slices( slices );
     }
 }
