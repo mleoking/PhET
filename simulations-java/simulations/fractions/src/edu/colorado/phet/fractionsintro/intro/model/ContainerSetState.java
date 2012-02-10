@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -16,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  *
  * @author Sam Reid
  */
-public class ContainerSetState {
+@Data public class ContainerSetState {
     public final List<Container> containers;
     public final int denominator;
     public final int numContainers;  //Number of containers to show
@@ -191,29 +193,5 @@ public class ContainerSetState {
                 return !isFilled( cp );
             }
         } );
-    }
-
-    @Override
-    public boolean equals( Object o ) {
-        if ( this == o ) { return true; }
-        if ( o == null || getClass() != o.getClass() ) { return false; }
-
-        ContainerSetState that = (ContainerSetState) o;
-
-        if ( denominator != that.denominator ) { return false; }
-        if ( numContainers != that.numContainers ) { return false; }
-        if ( numerator != that.numerator ) { return false; }
-        if ( containers != null ? !containers.equals( that.containers ) : that.containers != null ) { return false; }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = containers != null ? containers.hashCode() : 0;
-        result = 31 * result + denominator;
-        result = 31 * result + numContainers;
-        result = 31 * result + numerator;
-        return result;
     }
 }

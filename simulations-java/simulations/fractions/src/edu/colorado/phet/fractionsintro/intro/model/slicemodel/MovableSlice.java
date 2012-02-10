@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model.slicemodel;
 
+import lombok.Data;
+
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -11,14 +13,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  *
  * @author Sam Reid
  */
-public class MovableSlice {
+@Data public class MovableSlice {
     public final Slice slice;
     public final Slice container;//Null if not in a container
-
-    public MovableSlice( Slice slice, Slice container ) {
-        this.container = container;
-        this.slice = slice;
-    }
 
     public MovableSlice angle( double v ) { return new MovableSlice( slice.angle( v ), container ); }
 
