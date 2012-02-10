@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.tests;
+package edu.colorado.phet.fractionsintro.intro.view;
 
 import fj.Equal;
 import fj.F;
@@ -21,7 +21,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.MovableSlice;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.Slice;
-import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
