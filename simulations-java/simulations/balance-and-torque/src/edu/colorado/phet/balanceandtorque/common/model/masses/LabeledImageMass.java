@@ -4,12 +4,11 @@ package edu.colorado.phet.balanceandtorque.common.model.masses;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
  * This is an extension of the ImageMass class that adds a textual label.  This
- * was created in support of a request to label the mystery objects with
+ * was created in support of a request to label the mystery masses with
  * translatable labels.
  *
  * @author John Blanco
@@ -32,12 +31,6 @@ public class LabeledImageMass extends ImageMass {
     public String getLabelText() {
         return labelText;
     }
-
-    @Override public Mass createCopy() {
-        // TODO: Needs work on how to identify the mystery object.  Current approach is ambiguous - need label and instance.
-        return new LabeledImageMass( BalanceAndTorqueSimSharing.UserComponents.mysteryMass, positionProperty.get(), getMass(), imageProperty.get(), heightProperty.get(), labelText, isMystery() );
-    }
-
 
     // Collection of information needed to define a particular configuration
     // of a labeled image mass.

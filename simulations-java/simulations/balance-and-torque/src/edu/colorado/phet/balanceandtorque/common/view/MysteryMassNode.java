@@ -35,8 +35,8 @@ public class MysteryMassNode extends ImageMassNode {
         label.setScale( Math.min( widthScale, heightScale ) );
         // Position the label on the image.  TWEAK WARNING - These labels are
         // positioned a little below the center because it looked better on the
-        // initial set of mystery objects.  May require adjustment if the
-        // artwork for the mystery objects changes.
+        // initial set of mystery masses.  May require adjustment if the
+        // artwork for the mystery masses changes.
         label.centerFullBoundsOnPoint( imageNode.getFullBoundsReference().getCenterX(),
                                        imageNode.getFullBoundsReference().getCenterY() + imageNode.getFullBoundsReference().height * 0.1 );
         // Add the label as a child.

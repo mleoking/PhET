@@ -90,7 +90,7 @@ public class BalanceGameChallengeFactory {
         add( new CinderBlock( false ) );
     }};
 
-    // List of masses that can be used as "mystery objects" in the mass
+    // List of masses that can be used as "mystery masses" in the mass
     // deduction challenges.  These should not appear in other tabs, lest the
     // user could already know their mass.
     private static final List<Mass> MYSTERY_MASSES = new ArrayList<Mass>() {{

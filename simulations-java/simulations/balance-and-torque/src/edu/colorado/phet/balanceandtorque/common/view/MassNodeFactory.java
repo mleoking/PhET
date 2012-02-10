@@ -17,7 +17,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Factory class for creating mass nodes for a given Mass object.
+ * Factory class for creating mass nodes for a given Mass objects.  This
+ * basically does the class identification necessary to match the appropriate
+ * view representation (i.e. node) with the give model representation.
  *
  * @author John Blanco
  */
@@ -28,7 +30,6 @@ public class MassNodeFactory {
             massNode = new BrickStackNode( (ShapeMass) mass, mvt, canvas, labelVisibilityProperty );
         }
         else if ( mass instanceof MysteryMass ) {
-            // These are mystery objects.
             massNode = new MysteryMassNode( mvt, (MysteryMass) mass, canvas, labelVisibilityProperty );
         }
         else if ( mass instanceof ImageMass ) {
