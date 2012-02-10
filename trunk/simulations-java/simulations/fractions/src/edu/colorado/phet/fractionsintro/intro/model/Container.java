@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import java.util.Collection;
 import java.util.HashSet;
 
 /**
@@ -30,7 +31,15 @@ public class Container {
         return filledCells.toString();
     }
 
-    Container( int numCells, HashSet<Integer> filledCells ) {
+    public Container( int numCells, final Collection<Integer> filledCells ) {
+        this( numCells, new HashSet<Integer>() {{
+            for ( Integer filledCell : filledCells ) {
+                add( filledCell );
+            }
+        }} );
+    }
+
+    public Container( int numCells, HashSet<Integer> filledCells ) {
         this.numCells = numCells;
         this.filledCells = filledCells;
         this.numFilledCells = filledCells.size();
@@ -78,5 +87,27 @@ public class Container {
             if ( !isEmpty( i ) ) { return i; }
         }
         return -1;
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) { return true; }
+        if ( o == null || getClass() != o.getClass() ) { return false; }
+
+        Container container = (Container) o;
+
+        if ( numCells != container.numCells ) { return false; }
+        if ( numFilledCells != container.numFilledCells ) { return false; }
+        if ( filledCells != null ? !filledCells.equals( container.filledCells ) : container.filledCells != null ) { return false; }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = numCells;
+        result = 31 * result + ( filledCells != null ? filledCells.hashCode() : 0 );
+        result = 31 * result + numFilledCells;
+        return result;
     }
 }

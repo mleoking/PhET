@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.MovableSlice;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSetState;
+import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -49,7 +49,7 @@ public class PieSetNode extends PNode {
         } ) );
     }
 
-    public PieSetNode( final Property<PieSetState> model ) {
+    public PieSetNode( final Property<PieSet> model ) {
 
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 );
         Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
@@ -62,12 +62,12 @@ public class PieSetNode extends PNode {
         } );
     }
 
-    private void rebuildScene( final Property<PieSetState> model ) {
+    private void rebuildScene( final Property<PieSet> model ) {
         removeAllChildren();
 
         addChild( bucketView.getHoleNode() );
 
-        PieSetState state = model.get();
+        PieSet state = model.get();
         for ( Slice cell : state.cells ) {
             addChild( new PhetPPath( cell.shape, new BasicStroke( state.cellFilled( cell ) ? 2 : 1 ), Color.darkGray ) );
 //                    addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
@@ -79,15 +79,15 @@ public class PieSetNode extends PNode {
 
                     //Flag one slice as dragging
                     @Override public void mousePressed( PInputEvent event ) {
-                        PieSetState state = model.get();
+                        PieSet state = model.get();
                         final List<MovableSlice> newSlice = single( slice.dragging( true ).container( null ) );
-                        final PieSetState newState = new PieSetState( state.numerator, state.denominator, state.pies, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).append( newSlice ) );
+                        final PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).append( newSlice ) );
                         model.set( newState );
                     }
 
                     //Set all drag flags to false
                     @Override public void mouseReleased( PInputEvent event ) {
-                        final PieSetState state = model.get();
+                        final PieSet state = model.get();
 
                         //Any dropped pieces should snap to their destination.
                         model.set( state.slices( state.slices.map( new F<MovableSlice, MovableSlice>() {
@@ -102,9 +102,9 @@ public class PieSetNode extends PNode {
 
                     //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
                     @Override public void mouseDragged( PInputEvent event ) {
-                        PieSetState state = model.get();
+                        PieSet state = model.get();
                         final PDimension delta = event.getCanvasDelta();
-                        PieSetState newState = new PieSetState( state.numerator, state.denominator, state.pies, state.slices.map( new F<MovableSlice, MovableSlice>() {
+                        PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.map( new F<MovableSlice, MovableSlice>() {
                             public MovableSlice f( MovableSlice slice ) {
                                 return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
                             }

@@ -16,13 +16,14 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 
 import static fj.Function.curry;
 import static fj.Ord.ord;
+import static fj.data.List.range;
 
 /**
  * Immutable model representing the entire state at one instant, including the number and location of slices
  *
  * @author Sam Reid
  */
-public class PieSetState {
+public class PieSet {
     public final int numerator;
     public final int denominator;
     public final List<Pie> pies;
@@ -33,24 +34,22 @@ public class PieSetState {
     //The list of all cells
     public final List<Slice> cells;
 
-    public PieSetState() {
+    public PieSet() {
         this( 0, 1, createEmptyPies(), createDefaultSlices() );
     }
 
     private static List<MovableSlice> createDefaultSlices() {
 
         final int numPies = 6;
-        final int denominator = 3;
-        final double pieDiameter = 120;
+        final int denominator = 1;
+        final double pieDiameter = 155;
         final double anglePerSlice = 2 * Math.PI / denominator;
 
         //Slices to put in the pies
         ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
             for ( int i = 0; i < numPies; i++ ) {
                 for ( int k = 0; k < denominator; k++ ) {
-                    if ( Math.random() < 0.5 ) {
-                        add( new MovableSlice( new Slice( new ImmutableVector2D( 200, 300 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false, -1 ), null ) );
-                    }
+                    add( new MovableSlice( new Slice( new ImmutableVector2D( 200, 300 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
                 }
             }
         }};
@@ -60,8 +59,8 @@ public class PieSetState {
     private static List<Pie> createEmptyPies() {
 
         final int numPies = 6;
-        final int denominator = 3;
-        final double pieDiameter = 120;
+        final int denominator = 1;
+        final double pieDiameter = 155;
         final double pieSpacing = 10;
         final double anglePerSlice = 2 * Math.PI / denominator;
 
@@ -72,7 +71,7 @@ public class PieSetState {
 
                 ArrayList<Slice> cells = new ArrayList<Slice>();
                 for ( int k = 0; k < denominator; k++ ) {
-                    cells.add( new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ), pieDiameter ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false, i ) );
+                    cells.add( new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ) - 80, 250 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ) );
                 }
 
                 add( new Pie( List.iterableList( cells ) ) );
@@ -82,7 +81,7 @@ public class PieSetState {
         return List.iterableList( pies );
     }
 
-    public PieSetState( int numerator, int denominator, List<Pie> pies, List<MovableSlice> slices ) {
+    public PieSet( int numerator, int denominator, List<Pie> pies, List<MovableSlice> slices ) {
         this.numerator = numerator;
         this.denominator = denominator;
         this.pies = pies;
@@ -108,7 +107,7 @@ public class PieSetState {
         } );
     }
 
-    public PieSetState stepInTime( double simulationTimeChange ) {
+    public PieSet stepInTime( double simulationTimeChange ) {
         final List<MovableSlice> slices = this.slices.map( new F<MovableSlice, MovableSlice>() {
             public MovableSlice f( final MovableSlice s ) {
                 if ( s.dragging ) {
@@ -140,7 +139,7 @@ public class PieSetState {
         return slices( slices );
     }
 
-    public PieSetState slices( List<MovableSlice> slices ) { return new PieSetState( numerator, denominator, pies, slices ); }
+    public PieSet slices( List<MovableSlice> slices ) { return new PieSet( numerator, denominator, pies, slices ); }
 
     public boolean cellFilled( final Slice cell ) {
         return slices.exists( new F<MovableSlice, Boolean>() {
@@ -163,6 +162,18 @@ public class PieSetState {
     }
 
     public ContainerSetState toContainerState() {
-        return new ContainerSetState( denominator, new ArrayList<Container>() );
+        return new ContainerSetState( denominator, pies.map( new F<Pie, Container>() {
+            @Override public Container f( Pie pie ) {
+                return pieToContainer( pie );
+            }
+        } ).toCollection() );
+    }
+
+    private Container pieToContainer( final Pie pie ) {
+        return new Container( pie.size, range( 0, pie.size ).filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( Integer i ) {
+                return cellFilled( pie.cells.index( i ) );
+            }
+        } ).toCollection() );
     }
 }

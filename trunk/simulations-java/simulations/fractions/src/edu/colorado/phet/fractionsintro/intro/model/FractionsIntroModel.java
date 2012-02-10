@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractionsintro.common.model.SingleFractionModel;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSetState;
+import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Fill;
 
 /**
@@ -22,7 +22,7 @@ public class FractionsIntroModel extends SingleFractionModel {
     public final Property<ContainerSetState> containerState = new Property<ContainerSetState>( new ContainerSetState( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
     public final Property<Boolean> showReduced = new Property<Boolean>( false );
     public final Property<Boolean> showMixed = new Property<Boolean>( false );
-    public final Property<PieSetState> pieSetState = new Property<PieSetState>( new PieSetState() );
+    public final Property<PieSet> pieSetState = new Property<PieSet>( new PieSet() );
 
     public FractionsIntroModel() {
         //synchronize the container state with the numerator and denominator for when the user uses the spinners
@@ -75,12 +75,13 @@ public class FractionsIntroModel extends SingleFractionModel {
             }
         } );
 
+
         //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
-        pieSetState.addObserver( new VoidFunction1<PieSetState>() {
-            public void apply( PieSetState pieSetState ) {
-//                setUserToggled( true );
-//                containerState.set( pieSetState.toContainerState() );
-//                setUserToggled( false );
+        pieSetState.addObserver( new VoidFunction1<PieSet>() {
+            public void apply( PieSet pieSetState ) {
+                setUserToggled( true );
+                containerState.set( pieSetState.toContainerState() );
+                setUserToggled( false );
             }
         } );
 

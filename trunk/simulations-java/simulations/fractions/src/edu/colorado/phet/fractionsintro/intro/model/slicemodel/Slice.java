@@ -18,11 +18,7 @@ public class Slice {
     public final ImmutableVector2D center;
     public final Shape shape;
 
-    //TODO: This field only makes sense for cells
-    public final int containerIndex;
-
-    public Slice( ImmutableVector2D tip, double _angle, double extent, double radius, boolean dragging, int containerIndex ) {
-        this.containerIndex = containerIndex;
+    public Slice( ImmutableVector2D tip, double _angle, double extent, double radius, boolean dragging ) {
 
         //TODO: More elegant way to do this, perhaps with atan2?
         while ( _angle < 0 ) {
@@ -42,11 +38,11 @@ public class Slice {
 
     public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }
 
-    public Slice translate( double dx, double dy ) { return new Slice( tip.plus( dx, dy ), angle, extent, radius, dragging, containerIndex ); }
+    public Slice translate( double dx, double dy ) { return new Slice( tip.plus( dx, dy ), angle, extent, radius, dragging ); }
 
-    public Slice dragging( boolean dragging ) { return new Slice( tip, angle, extent, radius, dragging, containerIndex ); }
+    public Slice dragging( boolean dragging ) { return new Slice( tip, angle, extent, radius, dragging ); }
 
-    public Slice angle( double angle ) { return new Slice( tip, angle, extent, radius, dragging, containerIndex ); }
+    public Slice angle( double angle ) { return new Slice( tip, angle, extent, radius, dragging ); }
 
-    public Slice tip( ImmutableVector2D tip ) { return new Slice( tip, angle, extent, radius, dragging, containerIndex ); }
+    public Slice tip( ImmutableVector2D tip ) { return new Slice( tip, angle, extent, radius, dragging ); }
 }
