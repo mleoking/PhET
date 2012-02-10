@@ -4,9 +4,8 @@ package edu.colorado.phet.balanceandtorque.balancelab.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
-import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
-import edu.colorado.phet.balanceandtorque.common.model.masses.MysteryObjectFactory;
-import edu.colorado.phet.balanceandtorque.common.view.LabeledImageMassNode;
+import edu.colorado.phet.balanceandtorque.common.model.masses.MysteryMass;
+import edu.colorado.phet.balanceandtorque.common.view.MysteryMassNode;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -26,8 +25,8 @@ public class MysteryObjectCreatorNode extends ImageMassCreatorNode {
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 200 );
 
     public MysteryObjectCreatorNode( int mysteryObjectID, final BalanceModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas, MysteryObjectFactory.createLabeledMysteryObject( mysteryObjectID ), false );
-        setSelectionNode( new LabeledImageMassNode( SCALING_MVT, (LabeledImageMass) prototypeImageMass, canvas, new BooleanProperty( false ) ) );
+        super( model, mvt, canvas, new MysteryMass( mysteryObjectID ), false );
+        setSelectionNode( new MysteryMassNode( SCALING_MVT, (MysteryMass) prototypeImageMass, canvas, new BooleanProperty( false ) ) );
         setPositioningOffset( 0, -mvt.modelToViewDeltaY( prototypeImageMass.getHeight() / 2 ) );
     }
 }

@@ -56,7 +56,7 @@ public class MysteryObjectFactory {
     public static LabeledImageMass createLabeledMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
         assert ( mysteryObjectID < MYSTERY_OBJECT_CONFIGURATIONS.size() );
         MysteryObjectConfig config = MYSTERY_OBJECT_CONFIGURATIONS.get( mysteryObjectID );
-        return new LabeledImageMass( createMysteryObjectUserComponent( config.labelText ), config.mass, config.image, config.height, initialLocation, config.labelText, true );
+        return new LabeledImageMass( createMysteryObjectUserComponent( config.labelText ), initialLocation, config.mass, config.image, config.height, config.labelText, true );
     }
 
     /**
@@ -96,7 +96,7 @@ public class MysteryObjectFactory {
         }
         int instanceCount = labelToInstanceCountMap.get( labelText );
         labelToInstanceCountMap.put( labelText, instanceCount + 1 );
-        return UserComponentChain.chain( UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.mysteryObject, labelText ), instanceCount );
+        return UserComponentChain.chain( UserComponentChain.chain( BalanceAndTorqueSimSharing.UserComponents.mysteryMass, labelText ), instanceCount );
     }
 
     // Collection of information needed to define a particular configuration
@@ -114,5 +114,4 @@ public class MysteryObjectFactory {
             this.labelText = labelText;
         }
     }
-
 }

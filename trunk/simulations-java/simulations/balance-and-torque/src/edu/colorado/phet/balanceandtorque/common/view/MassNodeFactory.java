@@ -6,8 +6,8 @@ import java.awt.Color;
 import edu.colorado.phet.balanceandtorque.balancelab.view.ImageMassNode;
 import edu.colorado.phet.balanceandtorque.common.model.ShapeMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.ImageMass;
-import edu.colorado.phet.balanceandtorque.common.model.masses.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
+import edu.colorado.phet.balanceandtorque.common.model.masses.MysteryMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -27,9 +27,9 @@ public class MassNodeFactory {
         if ( mass instanceof ShapeMass ) {
             massNode = new BrickStackNode( (ShapeMass) mass, mvt, canvas, labelVisibilityProperty );
         }
-        else if ( mass instanceof LabeledImageMass ) {
+        else if ( mass instanceof MysteryMass ) {
             // These are mystery objects.
-            massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, canvas, labelVisibilityProperty );
+            massNode = new MysteryMassNode( mvt, (MysteryMass) mass, canvas, labelVisibilityProperty );
         }
         else if ( mass instanceof ImageMass ) {
             massNode = new ImageMassNode( mvt, (ImageMass) mass, canvas, labelVisibilityProperty );
