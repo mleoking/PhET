@@ -32,14 +32,6 @@ import static fj.data.List.single;
  * @author Sam Reid
  */
 public class PieSetNode extends PNode {
-//    private static final Equal<MovableSlice> REF_EQ = Equal.anyEqual();
-
-    //TODO: how do I make this work for any class and also for delete of subclasses?
-//    private static <A>  Equal<A> REF_EQ = equal( curry( new F2<A, MovableSlice, Boolean>() {
-//        public Boolean f( final MovableSlice a1, final MovableSlice a2 ) {
-//            return a1 == a2;
-//        }
-//    } ) );
 
     public static <T> Equal<T> refEqual() {
         return equal( curry( new F2<T, T, Boolean>() {
@@ -48,10 +40,6 @@ public class PieSetNode extends PNode {
             }
         } ) );
     }
-
-//    public static <T> Entry<T,T> twice(T value) {
-//       return new SimpleImmutableEntry<T,T>(value, value);
-//    }
 
     public PieSetNode( final Property<PieSetState> model ) {
         model.addObserver( new VoidFunction1<PieSetState>() {
@@ -70,19 +58,19 @@ public class PieSetNode extends PNode {
                             //Flag one slice as dragging
                             @Override public void mousePressed( PInputEvent event ) {
                                 PieSetState state = model.get();
-                                model.set( new PieSetState( state.numerator, state.denominator, state.cells, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).append( single( slice.dragging( true ) ) ) ) );
+                                model.set( new PieSetState( state.numerator, state.denominator, state.cells, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).append( single( slice.dragging( true ).container( null ) ) ) ) );
                             }
 
                             //Set all drag flags to false
                             @Override public void mouseReleased( PInputEvent event ) {
-                                PieSetState state = model.get();
+                                final PieSetState state = model.get();
 
                                 //See if any pieces should snap to their destination
                                 model.set( state.slices( state.slices.map( new F<MovableSlice, MovableSlice>() {
                                     public MovableSlice f( MovableSlice s ) {
-                                        return s.dragging( false );
+                                        return s.dragging ? s.moveTo( state.getDropTarget( s ) ) : s;
                                     }
-                                } ) ).snapTo() );
+                                } ) ) );
                             }
 
                             //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
