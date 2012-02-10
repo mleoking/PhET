@@ -3,7 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.fractions.common.view.SpinnerButtonPanel;
+import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
 
 /**
  * Node that shows a single number (numerator or denominator) and a control to change the value within a limiting range.
