@@ -1,3 +1,4 @@
+Fixed: Get rid of pie slice line
 Fixed bucket location
 Added lombok for data classes
 Added pie model and view to main sim
