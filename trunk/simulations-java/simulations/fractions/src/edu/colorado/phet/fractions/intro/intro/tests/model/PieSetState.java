@@ -88,6 +88,8 @@ public class PieSetState {
                 return Ord.<Comparable>comparableOrd().compare( u1.center.distance( s.center ), u2.center.distance( s.center ) );
             }
         } ) ) );
+
+        //Only allow it if the shapes actually overlapped
         return closestCell != null && !( new Area( closestCell.shape ) {{intersect( new Area( s.shape ) );}}.isEmpty() ) ? closestCell : null;
     }
 }
