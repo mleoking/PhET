@@ -3,8 +3,6 @@ package edu.colorado.phet.fractionsintro.intro.model.slicemodel;
 
 import fj.data.List;
 
-import java.util.Collection;
-
 /**
  * Immutable state representing an empty pie which can be filled up by the user.
  *
@@ -12,9 +10,10 @@ import java.util.Collection;
  */
 public class Pie {
     public final List<Slice> cells;
-    public Collection<? extends Slice> emptyCells;
+    public int size;
 
     public Pie( List<Slice> cells ) {
         this.cells = cells;
+        this.size = cells.length();
     }
 }

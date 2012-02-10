@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,8 +26,8 @@ public class ContainerSetState {
         this( denominator, Arrays.asList( containers ) );
     }
 
-    public ContainerSetState( int denominator, List<Container> containers ) {
-        this.containers = containers;
+    public ContainerSetState( int denominator, Collection<Container> containers ) {
+        this.containers = new ArrayList<Container>( containers );
         this.denominator = denominator;
         this.numContainers = containers.size();
         int count = 0;
@@ -190,5 +191,29 @@ public class ContainerSetState {
                 return !isFilled( cp );
             }
         } );
+    }
+
+    @Override
+    public boolean equals( Object o ) {
+        if ( this == o ) { return true; }
+        if ( o == null || getClass() != o.getClass() ) { return false; }
+
+        ContainerSetState that = (ContainerSetState) o;
+
+        if ( denominator != that.denominator ) { return false; }
+        if ( numContainers != that.numContainers ) { return false; }
+        if ( numerator != that.numerator ) { return false; }
+        if ( containers != null ? !containers.equals( that.containers ) : that.containers != null ) { return false; }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = containers != null ? containers.hashCode() : 0;
+        result = 31 * result + denominator;
+        result = 31 * result + numContainers;
+        result = 31 * result + numerator;
+        return result;
     }
 }
