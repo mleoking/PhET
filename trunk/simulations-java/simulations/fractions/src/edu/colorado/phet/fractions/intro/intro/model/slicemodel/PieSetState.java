@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractions.intro.intro.tests.model;
+package edu.colorado.phet.fractions.intro.intro.model.slicemodel;
 
 import fj.F;
 import fj.F2;

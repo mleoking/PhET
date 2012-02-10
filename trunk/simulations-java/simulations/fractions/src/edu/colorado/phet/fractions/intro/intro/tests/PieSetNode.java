@@ -17,9 +17,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractions.intro.intro.tests.model.MovableSlice;
-import edu.colorado.phet.fractions.intro.intro.tests.model.PieSetState;
-import edu.colorado.phet.fractions.intro.intro.tests.model.Slice;
+import edu.colorado.phet.fractions.intro.intro.model.slicemodel.MovableSlice;
+import edu.colorado.phet.fractions.intro.intro.model.slicemodel.PieSetState;
+import edu.colorado.phet.fractions.intro.intro.model.slicemodel.Slice;
 import edu.colorado.phet.fractions.intro.intro.view.FractionsIntroCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
