@@ -30,7 +30,10 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationArea );
 
-        addChild( new PieSetNode( model.pieSetState ) );
+        //Show the pie set node when pies are selected
+        addChild( new ChosenRepresentationNode( model.representation, ChosenRepresentation.PIE ) {{
+            addChild( new PieSetNode( model.pieSetState ) );
+        }} );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionEqualityPanel( model ) ) {{
             setOffset( 35, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
