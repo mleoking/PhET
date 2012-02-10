@@ -5,12 +5,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
+import edu.colorado.phet.beerslawlab.common.model.Solute;
+import edu.colorado.phet.beerslawlab.common.model.Solution;
+import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MomentaryButtonNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -19,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Dropper that contains a solute in solution form.
@@ -35,7 +41,7 @@ class DropperNode extends PhetPNode {
     public static final double TIP_WIDTH = 15; // specific to image file
 
     // glass portion of the dropper, used to fill dropper with stock solution, specific to the dropper image file
-    public static final GeneralPath GLASS_PATH = new DoubleGeneralPath() {{
+    private static final GeneralPath GLASS_PATH = new DoubleGeneralPath() {{
         final double tipWidth = TIP_WIDTH;
         final double tipHeight = 5;
         final double glassWidth = 46;
@@ -52,9 +58,10 @@ class DropperNode extends PhetPNode {
         closePath();
     }}.getGeneralPath();
 
-    public DropperNode( final Dropper dropper ) {
+    public DropperNode( final Dropper dropper, final Solvent solvent, final Property<Solute> solute ) {
 
         // nodes
+        final PPath fluidNode = new PPath( GLASS_PATH ); // fluid inside the dropper
         final PImage foregroundImageNode = new PImage( Images.DROPPER_FOREGROUND );
         final PImage backgroundImageNode = new PImage( Images.DROPPER_BACKGROUND );
         final HTMLNode labelNode = new HTMLNode( "", Color.BLACK, new PhetFont( Font.BOLD, 15 ) );
@@ -64,6 +71,7 @@ class DropperNode extends PhetPNode {
         }};
 
         // rendering order
+        addChild( fluidNode );
         addChild( backgroundImageNode );
         addChild( foregroundImageNode );
         addChild( labelNode );
@@ -83,14 +91,18 @@ class DropperNode extends PhetPNode {
             //NOTE: label will be positioned whenever its text is set, to keep it centered in the dropper's glass
         }
 
-        // Change the label when the solute changes.
+        // Change the label and fluid color when the solute changes.
         dropper.solute.addObserver( new SimpleObserver() {
             public void update() {
+                // label, centered in the dropper's glass
                 labelNode.setHTML( dropper.solute.get().formula );
                 labelNode.setRotation( -Math.PI / 2 );
-                // center the label in the dropper's glass
                 labelNode.setOffset( -( labelNode.getFullBoundsReference().getWidth() / 2 ),
                                      foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - LABEL_Y_OFFSET ) + ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
+                // fluid color
+                Color color = Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
+                fluidNode.setPaint( color );
+                fluidNode.setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
             }
         } );
 
@@ -111,6 +123,7 @@ class DropperNode extends PhetPNode {
         // Make the background visible only when the dropper is empty
         dropper.empty.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean empty ) {
+                fluidNode.setVisible( !empty );
                 backgroundImageNode.setVisible( empty );
             }
         } );
