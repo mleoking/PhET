@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
@@ -28,7 +29,13 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
     public Slice tip( ImmutableVector2D tip ) { return new Slice( tip, angle, extent, radius, dragging ); }
 
-    public Shape shape() {return new Arc2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );}
+    //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
+    public Shape shape() {
+        double epsilon = 1E-6;
+        return extent >= Math.PI * 2 - epsilon ?
+               new Ellipse2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2 ) :
+               new Arc2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
+    }
 
     public ImmutableVector2D center() {return new ImmutableVector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
 }
