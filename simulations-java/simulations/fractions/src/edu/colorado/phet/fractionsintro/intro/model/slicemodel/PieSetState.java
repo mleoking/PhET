@@ -8,6 +8,11 @@ import fj.Ordering;
 import fj.data.List;
 
 import java.awt.geom.Area;
+import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.fractionsintro.intro.model.Container;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 
 import static fj.Function.curry;
 import static fj.Ord.ord;
@@ -24,6 +29,54 @@ public class PieSetState {
     public final List<MovableSlice> slices;
 
     public final List<Slice> emptyCells;
+
+    public PieSetState() {
+        this( 0, 1, createDefaultCells(), createDefaultSlices() );
+    }
+
+    private static List<MovableSlice> createDefaultSlices() {
+
+        final int numPies = 6;
+        final int denominator = 3;
+        final double pieDiameter = 120;
+        final double pieSpacing = 10;
+        final double anglePerSlice = 2 * Math.PI / denominator;
+
+        //Slices to put in the pies
+        ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
+            for ( int i = 0; i < numPies; i++ ) {
+                for ( int k = 0; k < denominator; k++ ) {
+                    if ( Math.random() < 0.5 ) {
+                        add( new MovableSlice( new Slice( new ImmutableVector2D( 200, 300 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
+                    }
+                }
+            }
+        }};
+        return List.iterableList( slices );
+    }
+
+    private static List<Slice> createDefaultCells() {
+
+        final int numPies = 6;
+        final int denominator = 3;
+        final double pieDiameter = 120;
+        final double pieSpacing = 10;
+        final double anglePerSlice = 2 * Math.PI / denominator;
+
+        //Create some cells for the empty pies
+        ArrayList<Slice> cells = new ArrayList<Slice>() {{
+            for ( int i = 0; i < numPies; i++ ) {
+                for ( int k = 0; k < denominator; k++ ) {
+                    add( createSlice( i, anglePerSlice, k, pieDiameter, pieSpacing ) );
+                }
+            }
+        }};
+        return List.iterableList( cells );
+    }
+
+    private static Slice createSlice( int i, double anglePerSlice, int k, double pieDiameter, double pieSpacing ) {
+        return new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ), pieDiameter ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false );
+    }
 
     public PieSetState( int numerator, int denominator, List<Slice> cells, List<MovableSlice> slices ) {
         this.numerator = numerator;
@@ -91,5 +144,9 @@ public class PieSetState {
 
         //Only allow it if the shapes actually overlapped
         return closestCell != null && !( new Area( closestCell.shape ) {{intersect( new Area( s.shape ) );}}.isEmpty() ) ? closestCell : null;
+    }
+
+    public ContainerSetState toContainerState() {
+        return new ContainerSetState( denominator, new ArrayList<Container>() );
     }
 }

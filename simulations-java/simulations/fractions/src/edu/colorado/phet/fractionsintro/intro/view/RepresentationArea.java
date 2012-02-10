@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class RepresentationArea extends PNode {
-    public RepresentationArea( Property<ChosenRepresentation> chosenRepresentation, Property<Integer> numerator, Property<Integer> denominator, Property<ContainerState> containerState ) {
+    public RepresentationArea( Property<ChosenRepresentation> chosenRepresentation, Property<Integer> numerator, Property<Integer> denominator, Property<ContainerSetState> containerState ) {
 
         //Y offset values sampled with this inner class listener:
 //        addInputEventListener( new PBasicInputEventHandler() {

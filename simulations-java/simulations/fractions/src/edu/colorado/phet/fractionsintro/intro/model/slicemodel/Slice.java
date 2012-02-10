@@ -16,7 +16,7 @@ public class Slice {
     public final double radius;
     public final boolean dragging;
     public final ImmutableVector2D center;
-    public Shape shape;
+    public final Shape shape;
 
     public Slice( ImmutableVector2D tip, double _angle, double extent, double radius, boolean dragging ) {
 

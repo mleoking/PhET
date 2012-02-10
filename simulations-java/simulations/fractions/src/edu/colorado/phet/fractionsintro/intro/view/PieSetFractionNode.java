@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -32,14 +32,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class PieSetFractionNode extends VisibilityNode {
     private final HashMap<CellPointer, PieSliceNode> map = new HashMap<CellPointer, PieSliceNode>();
-    private final Property<ContainerState> containerState;
+    private final Property<ContainerSetState> containerState;
 
     //6 pies fit on the screen
     public static final int INSET_BETWEEN_PIES = 10;
     public static final double SPACE_FOR_PIES = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - INSET_BETWEEN_PIES * 5;
     public static final double DIAMETER = SPACE_FOR_PIES / 6;
 
-    public PieSetFractionNode( final Property<ContainerState> containerState, ObservableProperty<Boolean> enabled ) {
+    public PieSetFractionNode( final Property<ContainerSetState> containerState, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         this.containerState = containerState;
         new RichSimpleObserver() {
@@ -51,7 +51,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 SpacedHBox box = new SpacedHBox( DIAMETER + INSET_BETWEEN_PIES );
 
                 map.clear();
-                final ContainerState state = containerState.get();
+                final ContainerSetState state = containerState.get();
                 for ( int i = 0; i < state.numContainers; i++ ) {
                     int numSlices = state.denominator;
                     PNode pie = new PNode();

@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 
 /**
  * Shows the fraction as a set of bars that lie horizontally, taking up two rows if more than 3
@@ -21,7 +21,7 @@ public class HorizontalBarSetFractionNode extends ChosenRepresentationNode {
     private static final double NUM_BARS_PER_LINE = 3;
     private static final double DISTANCE_BETWEEN_BARS_Y = 20;
 
-    public HorizontalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<ContainerState> containerState ) {
+    public HorizontalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<ContainerSetState> containerState ) {
         super( chosenRepresentation, ChosenRepresentation.HORIZONTAL_BAR );
 
         new RichSimpleObserver() {

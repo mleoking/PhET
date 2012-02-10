@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -98,7 +98,7 @@ public class CakeNode extends PNode {
     }};
     private boolean debugPieceLocations = false;
 
-    public CakeNode( final int denominator, final int[] pieces, final Property<ContainerState> containerStateProperty, final int container, final int[] sliceOrder ) {
+    public CakeNode( final int denominator, final int[] pieces, final Property<ContainerSetState> containerStateProperty, final int container, final int[] sliceOrder ) {
         Rectangle2D r = new Rectangle2D.Double( cakeFrame[0].getX(), cakeFrame[0].getY(), 0, 0 );
         r = r.createUnion( new Rectangle2D.Double( cakeFrame[1].getX(), cakeFrame[1].getY(), 0, 0 ) );
         r = r.createUnion( new Rectangle2D.Double( cakeFrame[2].getX(), cakeFrame[2].getY(), 0, 0 ) );
