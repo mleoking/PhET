@@ -69,11 +69,11 @@ public class PieSetNode extends PNode {
 
         PieSet state = model.get();
         for ( Slice cell : state.cells ) {
-            addChild( new PhetPPath( cell.shape, new BasicStroke( state.cellFilled( cell ) ? 2 : 1 ), Color.darkGray ) );
+            addChild( new PhetPPath( cell.shape(), new BasicStroke( state.cellFilled( cell ) ? 2 : 1 ), Color.darkGray ) );
 //                    addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
         }
         for ( final MovableSlice slice : state.slices ) {
-            addChild( new PhetPPath( slice.shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
+            addChild( new PhetPPath( slice.shape(), FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new PBasicInputEventHandler() {
 
@@ -93,8 +93,8 @@ public class PieSetNode extends PNode {
                         model.set( state.slices( state.slices.map( new F<MovableSlice, MovableSlice>() {
                             public MovableSlice f( MovableSlice s ) {
                                 Slice target = state.getDropTarget( s );
-                                if ( s.dragging && target != null ) { return s.moveTo( state.getDropTarget( s ) ); }
-                                else if ( s.dragging ) { return s.dragging( false ); }
+                                if ( s.dragging() && target != null ) { return s.moveTo( state.getDropTarget( s ) ); }
+                                else if ( s.dragging() ) { return s.dragging( false ); }
                                 else { return s; }
                             }
                         } ) ) );
@@ -106,7 +106,7 @@ public class PieSetNode extends PNode {
                         final PDimension delta = event.getCanvasDelta();
                         PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.map( new F<MovableSlice, MovableSlice>() {
                             public MovableSlice f( MovableSlice slice ) {
-                                return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
+                                return slice.dragging() ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
                             }
                         } ) );
                         model.set( newState );

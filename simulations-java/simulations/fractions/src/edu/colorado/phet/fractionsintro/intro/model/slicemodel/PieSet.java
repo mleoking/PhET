@@ -110,26 +110,26 @@ public class PieSet {
     public PieSet stepInTime( double simulationTimeChange ) {
         final List<MovableSlice> slices = this.slices.map( new F<MovableSlice, MovableSlice>() {
             public MovableSlice f( final MovableSlice s ) {
-                if ( s.dragging ) {
+                if ( s.dragging() ) {
 
                     //TODO: make this minimum function a bit cleaner please?
                     Slice closest = emptyCells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
                         public Ordering f( final Slice u1, final Slice u2 ) {
-                            return Ord.<Comparable>comparableOrd().compare( u1.center.distance( s.center ), u2.center.distance( s.center ) );
+                            return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
                         }
                     } ) ) );
 
                     //Account for winding number
                     double closestAngle = closest.angle;
-                    if ( Math.abs( closestAngle - s.angle ) > Math.PI ) {
-                        if ( closestAngle > s.angle ) { closestAngle -= 2 * Math.PI; }
-                        else if ( closestAngle < s.angle ) { closestAngle += 2 * Math.PI; }
+                    if ( Math.abs( closestAngle - s.angle() ) > Math.PI ) {
+                        if ( closestAngle > s.angle() ) { closestAngle -= 2 * Math.PI; }
+                        else if ( closestAngle < s.angle() ) { closestAngle += 2 * Math.PI; }
                     }
-                    double delta = closestAngle - s.angle;
-                    final MovableSlice rotated = s.angle( s.angle + delta / 6 );//Xeno effect
+                    double delta = closestAngle - s.angle();
+                    final MovableSlice rotated = s.angle( s.angle() + delta / 6 );//Xeno effect
 
                     //Keep the center in the same place
-                    return rotated.translate( s.center.minus( rotated.center ) );
+                    return rotated.translate( s.center().minus( rotated.center() ) );
                 }
                 else {
                     return s;
@@ -153,12 +153,12 @@ public class PieSet {
     public Slice getDropTarget( final MovableSlice s ) {
         final Slice closestCell = emptyCells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
             public Ordering f( final Slice u1, final Slice u2 ) {
-                return Ord.<Comparable>comparableOrd().compare( u1.center.distance( s.center ), u2.center.distance( s.center ) );
+                return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
             }
         } ) ) );
 
         //Only allow it if the shapes actually overlapped
-        return closestCell != null && !( new Area( closestCell.shape ) {{intersect( new Area( s.shape ) );}}.isEmpty() ) ? closestCell : null;
+        return closestCell != null && !( new Area( closestCell.shape() ) {{intersect( new Area( s.shape() ) );}}.isEmpty() ) ? closestCell : null;
     }
 
     public ContainerSetState toContainerState() {
