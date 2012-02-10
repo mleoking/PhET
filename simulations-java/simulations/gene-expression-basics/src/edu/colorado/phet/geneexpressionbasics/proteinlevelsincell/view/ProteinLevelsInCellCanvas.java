@@ -52,7 +52,7 @@ public class ProteinLevelsInCellCanvas extends PhetPCanvas implements Resettable
         setBackground( new Color( 190, 231, 251 ) );
 
         // TODO: Temp - put up a drawing of the way this tab will ultimately look.
-        PNode screenImage = new PImage( GeneExpressionBasicsResources.Images.SECOND_TAB_STATIC_PICTURE );
+        PNode screenImage = new PImage( GeneExpressionBasicsResources.Images.SECOND_TAB_STATIC_PICTURE_VERSION_2 );
         screenImage.scale( STAGE_SIZE.getWidth() / screenImage.getFullBoundsReference().getWidth() );
         addWorldChild( screenImage );
 
