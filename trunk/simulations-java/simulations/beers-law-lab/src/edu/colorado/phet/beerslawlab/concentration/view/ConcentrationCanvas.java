@@ -32,7 +32,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         // Shaker and Dropper
         PNode shakerNode = new ShakerNode( model.shaker );
         PNode shakerParticlesNode = new ShakerParticlesNode( model.shakerParticles );
-        PNode dropperNode = new DropperNode( model.dropper );
+        PNode dropperNode = new DropperNode( model.dropper, model.solution.solvent, model.solution.solute );
         StockSolutionNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker );
 
         // Faucets
@@ -44,9 +44,9 @@ public class ConcentrationCanvas extends BLLCanvas {
         OutputFluidNode drainFluidNode = new OutputFluidNode( model.drainFaucet, model.solution, drainFaucetNode.getFluidWidth(), drainFluidHeight );
 
         // Meter
-        PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter, model.solution, solutionNode,
-                                                                   model.solventFaucet, solventFluidNode, model.drainFaucet, drainFluidNode,
-                                                                   model.dropper, stockSolutionNode );
+        PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter, model.solution, model.dropper, solutionNode,
+                                                                   stockSolutionNode, solventFluidNode, drainFluidNode
+        );
 
         // Various controls
         PNode soluteControlNode = new SoluteControlsNode( model.getSolutes(), model.solute, model.soluteForm );

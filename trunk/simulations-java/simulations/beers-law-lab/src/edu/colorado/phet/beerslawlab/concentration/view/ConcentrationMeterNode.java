@@ -19,7 +19,6 @@ import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.common.view.TiledBackgroundNode;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationMeter;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
-import edu.colorado.phet.beerslawlab.concentration.model.Faucet;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -60,35 +59,21 @@ class ConcentrationMeterNode extends PhetPNode {
 
     private final ConcentrationMeter meter;
     private final Solution solution;
-    private final SolutionNode solutionNode;
-    private final Faucet solventFaucet, drainFaucet;
-    private final OutputFluidNode solventFluidNode, drainFluidNode;
     private final Dropper dropper;
-    private final StockSolutionNode stockSolutionNode;
 
     private final ProbeNode probeNode;
 
-    public ConcentrationMeterNode( ConcentrationMeter meter,
-                                   Solution solution, SolutionNode solutionNode,
-                                   Faucet solventFaucet, OutputFluidNode solventFluidNode,
-                                   Faucet drainFaucet, OutputFluidNode drainFluidNode,
-                                   Dropper dropper, StockSolutionNode stockSolutionNode ) {
+    public ConcentrationMeterNode( ConcentrationMeter meter, Solution solution, Dropper dropper,
+                                   PNode solutionNode, PNode stockSolutionNode, PNode solventFluidNode, PNode drainFluidNode ) {
 
         this.meter = meter;
-        this.solutionNode = solutionNode;
         this.solution = solution;
-        this.solventFaucet = solventFaucet;
-        this.solventFluidNode = solventFluidNode;
-        this.drainFaucet = drainFaucet;
-        this.drainFluidNode = drainFluidNode;
         this.dropper = dropper;
-        this.stockSolutionNode = stockSolutionNode;
 
         // nodes
         BodyNode bodyNode = new BodyNode( meter );
         probeNode = new ProbeNode( meter, solutionNode, solventFluidNode, drainFluidNode, stockSolutionNode );
         PNode wireNode = new WireNode( probeNode, bodyNode );
-//        WireNode wireNode = new WireNode( meter, new ImmutableVector2D( bodyNode.getFullBoundsReference().getWidth() / 2, bodyNode.getFullBoundsReference().getHeight() / 2 ) );
 
         // rendering order
         addChild( wireNode );
@@ -97,14 +82,24 @@ class ConcentrationMeterNode extends PhetPNode {
 
         //NOTE: layout is handled by child nodes observing model elements.
 
-        // Update the meter value
+        // Update the meter value based on model changes
         RichSimpleObserver valueUpdater = new RichSimpleObserver() {
             public void update() {
                 updateValue();
             }
         };
-        valueUpdater.observe( meter.probe.location, solution.solute, solution.volume, solution.concentration,
-                              dropper.flowRate, solventFaucet.flowRate, drainFaucet.flowRate, dropper.location );
+        valueUpdater.observe( meter.probe.location, solution.solute, solution.concentration );
+
+        // Update the meter value based on changes to fluid shapes
+        PropertyChangeListener boundsListener = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                updateValue();
+            }
+        };
+        solutionNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, boundsListener );
+        solventFluidNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, boundsListener );
+        drainFluidNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, boundsListener );
+        stockSolutionNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, boundsListener );
     }
 
     private void updateValue() {
@@ -204,12 +199,12 @@ class ConcentrationMeterNode extends PhetPNode {
     private static class ProbeNode extends PNode {
 
         private final ConcentrationMeter meter;
-        private final SolutionNode solutionNode;
-        private final OutputFluidNode solventFluidNode;
-        private final OutputFluidNode drainFluidNode;
-        private final StockSolutionNode stockSolutionNode;
+        private final PNode solutionNode;
+        private final PNode solventFluidNode;
+        private final PNode drainFluidNode;
+        private final PNode stockSolutionNode;
 
-        public ProbeNode( final ConcentrationMeter meter, SolutionNode solutionNode, OutputFluidNode solventFluidNode, OutputFluidNode drainFluidNode, StockSolutionNode stockSolutionNode ) {
+        public ProbeNode( final ConcentrationMeter meter, PNode solutionNode, PNode solventFluidNode, PNode drainFluidNode, PNode stockSolutionNode ) {
 
             this.meter = meter;
             this.solutionNode = solutionNode;

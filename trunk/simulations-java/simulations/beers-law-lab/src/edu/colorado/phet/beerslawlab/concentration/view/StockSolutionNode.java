@@ -2,14 +2,13 @@
 package edu.colorado.phet.beerslawlab.concentration.view;
 
 import java.awt.Color;
-import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
-import edu.colorado.phet.beerslawlab.concentration.model.Beaker;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
+import edu.colorado.phet.beerslawlab.concentration.model.Beaker;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -65,22 +64,18 @@ class StockSolutionNode extends PPath {
             setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
 
             // solution outside the dropper
-            Rectangle2D solutionOutsideDropper = null;
+            Rectangle2D rect;
             if ( dropper.on.get() ) {
-
                 double x = -dropperTipWidth / 2;
                 double y = 0;
                 double width = dropperTipWidth;
                 double height = beaker.getY() - dropper.getY();
-                solutionOutsideDropper = new Rectangle2D.Double( x, y, width, height );
+                rect = new Rectangle2D.Double( x, y, width, height );
             }
-
-            // union of inside + outside
-            Area area = new Area( DropperNode.GLASS_PATH );
-            if ( solutionOutsideDropper != null ) {
-                area.add( new Area( solutionOutsideDropper ) );
+            else {
+                rect = new Rectangle2D.Double();
             }
-            setPathTo( area );
+            setPathTo( rect );
 
             // move this node to the dropper's location
             setOffset( dropper.location.get().toPoint2D() );
