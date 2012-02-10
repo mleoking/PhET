@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import lombok.Data;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -10,7 +12,7 @@ import java.util.HashSet;
  *
  * @author Sam Reid
  */
-public class Container {
+@Data public class Container {
     public final int numCells;
     public final HashSet<Integer> filledCells;
     public final int numFilledCells;
@@ -87,27 +89,5 @@ public class Container {
             if ( !isEmpty( i ) ) { return i; }
         }
         return -1;
-    }
-
-    @Override
-    public boolean equals( Object o ) {
-        if ( this == o ) { return true; }
-        if ( o == null || getClass() != o.getClass() ) { return false; }
-
-        Container container = (Container) o;
-
-        if ( numCells != container.numCells ) { return false; }
-        if ( numFilledCells != container.numFilledCells ) { return false; }
-        if ( filledCells != null ? !filledCells.equals( container.filledCells ) : container.filledCells != null ) { return false; }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = numCells;
-        result = 31 * result + ( filledCells != null ? filledCells.hashCode() : 0 );
-        result = 31 * result + numFilledCells;
-        return result;
     }
 }
