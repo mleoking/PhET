@@ -1,3 +1,4 @@
+Added pie model and view to main sim
 Require pieces to intersect with cells before they are dropped
 Fixed: when dragged, piece should not be contained by a cell
 Added detection of cells

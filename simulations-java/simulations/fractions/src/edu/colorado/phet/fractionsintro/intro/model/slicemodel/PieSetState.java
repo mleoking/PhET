@@ -42,7 +42,6 @@ public class PieSetState {
         final int numPies = 6;
         final int denominator = 3;
         final double pieDiameter = 120;
-        final double pieSpacing = 10;
         final double anglePerSlice = 2 * Math.PI / denominator;
 
         //Slices to put in the pies
@@ -109,7 +108,7 @@ public class PieSetState {
         } );
     }
 
-    public PieSetState stepInTime() {
+    public PieSetState stepInTime( double simulationTimeChange ) {
         final List<MovableSlice> slices = this.slices.map( new F<MovableSlice, MovableSlice>() {
             public MovableSlice f( final MovableSlice s ) {
                 if ( s.dragging ) {
