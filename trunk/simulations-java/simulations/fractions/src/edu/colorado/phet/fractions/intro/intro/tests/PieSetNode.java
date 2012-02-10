@@ -1,11 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.tests;
 
+import fj.Equal;
+import fj.F;
+import fj.F2;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -18,6 +21,10 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static fj.Equal.equal;
+import static fj.Function.curry;
+import static fj.data.List.single;
+
 /**
  * Renders the pie set node from the given model.  Unconventional way of using piccolo, where the scene graph is recreated any time the model changes.
  * Done to support immutable model and still get some piccolo benefits.
@@ -25,6 +32,27 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class PieSetNode extends PNode {
+//    private static final Equal<MovableSlice> REF_EQ = Equal.anyEqual();
+
+    //TODO: how do I make this work for any class and also for delete of subclasses?
+//    private static <A>  Equal<A> REF_EQ = equal( curry( new F2<A, MovableSlice, Boolean>() {
+//        public Boolean f( final MovableSlice a1, final MovableSlice a2 ) {
+//            return a1 == a2;
+//        }
+//    } ) );
+
+    public static <T> Equal<T> refEqual() {
+        return equal( curry( new F2<T, T, Boolean>() {
+            public Boolean f( final T a1, final T a2 ) {
+                return a1 == a2;
+            }
+        } ) );
+    }
+
+//    public static <T> Entry<T,T> twice(T value) {
+//       return new SimpleImmutableEntry<T,T>(value, value);
+//    }
+
     public PieSetNode( final Property<PieSetState> model ) {
         model.addObserver( new VoidFunction1<PieSetState>() {
             public void apply( PieSetState state ) {
@@ -42,7 +70,7 @@ public class PieSetNode extends PNode {
                             //Flag one slice as dragging
                             @Override public void mousePressed( PInputEvent event ) {
                                 PieSetState state = model.get();
-                                model.set( new PieSetState( state.numerator, state.denominator, state.cells, state.slices.remove( slice ).append( slice.dragging( true ) ) ) );
+                                model.set( new PieSetState( state.numerator, state.denominator, state.cells, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).append( single( slice.dragging( true ) ) ) ) );
                             }
 
                             //Set all drag flags to false
@@ -50,8 +78,8 @@ public class PieSetNode extends PNode {
                                 PieSetState state = model.get();
 
                                 //See if any pieces should snap to their destination
-                                model.set( state.slices( state.slices.map( new Function1<MovableSlice, MovableSlice>() {
-                                    public MovableSlice apply( MovableSlice s ) {
+                                model.set( state.slices( state.slices.map( new F<MovableSlice, MovableSlice>() {
+                                    public MovableSlice f( MovableSlice s ) {
                                         return s.dragging( false );
                                     }
                                 } ) ).snapTo() );
@@ -61,8 +89,8 @@ public class PieSetNode extends PNode {
                             @Override public void mouseDragged( PInputEvent event ) {
                                 PieSetState state = model.get();
                                 final PDimension delta = event.getCanvasDelta();
-                                PieSetState newState = new PieSetState( state.numerator, state.denominator, state.cells, state.slices.map( new Function1<MovableSlice, MovableSlice>() {
-                                    public MovableSlice apply( MovableSlice slice ) {
+                                PieSetState newState = new PieSetState( state.numerator, state.denominator, state.cells, state.slices.map( new F<MovableSlice, MovableSlice>() {
+                                    public MovableSlice f( MovableSlice slice ) {
                                         return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
                                     }
                                 } ) );
