@@ -14,18 +14,10 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 public class MovableSlice {
     public final Slice slice;
     public final Slice container;//Null if not in a container
-    public final boolean dragging;
-    public final ImmutableVector2D center;
-    public final double angle;
-    public final Shape shape;
 
     public MovableSlice( Slice slice, Slice container ) {
         this.container = container;
         this.slice = slice;
-        this.dragging = slice.dragging;
-        this.center = slice.center;
-        this.angle = slice.angle;
-        this.shape = slice.shape;
     }
 
     public MovableSlice angle( double v ) { return new MovableSlice( slice.angle( v ), container ); }
@@ -36,9 +28,17 @@ public class MovableSlice {
 
     public MovableSlice dragging( boolean b ) { return new MovableSlice( slice.dragging( b ), container ); }
 
+    public boolean dragging() { return slice.dragging;}
+
     public MovableSlice translate( double width, double height ) { return new MovableSlice( slice.translate( width, height ), container ); }
 
     public MovableSlice container( Slice closest ) { return new MovableSlice( slice, closest ); }
 
     public MovableSlice moveTo( Slice target ) { return dragging( false ).angle( target.angle ).tip( target.tip ).container( target ); }
+
+    public Shape shape() { return slice.shape(); }
+
+    public ImmutableVector2D center() {return slice.center();}
+
+    public double angle() { return slice.angle;}
 }
