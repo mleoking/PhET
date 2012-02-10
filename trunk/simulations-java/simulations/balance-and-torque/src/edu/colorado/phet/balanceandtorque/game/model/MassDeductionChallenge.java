@@ -52,7 +52,7 @@ public class MassDeductionChallenge extends BalanceGameChallenge {
      */
     public static MassDeductionChallenge create( Mass mysteryMass, double mysteryMassDistanceFromCenter, Mass knownMass ) {
 
-        // Create the mass-distance pair for the mystery object.
+        // Create the mass-distance pair for the mystery mass.
         MassDistancePair mysteryMassDistancePair = new MassDistancePair( mysteryMass, mysteryMassDistanceFromCenter );
 
         // Put the known mass on to a list.

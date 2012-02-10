@@ -53,7 +53,7 @@ public class MysteryMass extends LabeledImageMass {
      * @param initialPosition
      */
     public MysteryMass( int mysteryMassID, Point2D initialPosition ) {
-        super( createMysteryObjectUserComponent( mysteryMassID ), initialPosition, MYSTERY_MASS_CONFIGURATIONS.get( mysteryMassID ) );
+        super( createMysteryMassUserComponent( mysteryMassID ), initialPosition, MYSTERY_MASS_CONFIGURATIONS.get( mysteryMassID ) );
         if ( mysteryMassID >= 0 && mysteryMassID < instanceCounts.length ) {
             instanceCounts[mysteryMassID]++;
         }
@@ -64,7 +64,7 @@ public class MysteryMass extends LabeledImageMass {
         return new MysteryMass( myMysteryMassID, getPosition() );
     }
 
-    private static IUserComponent createMysteryObjectUserComponent( int mysteryMassID ) {
+    private static IUserComponent createMysteryMassUserComponent( int mysteryMassID ) {
 
         // Bounds checking.
         if ( mysteryMassID >= instanceCounts.length || mysteryMassID < 0 ) {

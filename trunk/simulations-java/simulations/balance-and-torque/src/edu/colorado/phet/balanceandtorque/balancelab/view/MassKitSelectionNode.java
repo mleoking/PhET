@@ -61,18 +61,18 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                ),
                new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.MYSTERY_OBJECTS, "1" ) ),
                                new VBox(
-                                       new HBox( 20, new MysteryObjectCreatorNode( 0, model, mvt, canvas ),
-                                                 new MysteryObjectCreatorNode( 1, model, mvt, canvas ) ),
-                                       new HBox( 20, new MysteryObjectCreatorNode( 2, model, mvt, canvas ),
-                                                 new MysteryObjectCreatorNode( 3, model, mvt, canvas ) )
+                                       new HBox( 20, new MysteryMassCreatorNode( 0, model, mvt, canvas ),
+                                                 new MysteryMassCreatorNode( 1, model, mvt, canvas ) ),
+                                       new HBox( 20, new MysteryMassCreatorNode( 2, model, mvt, canvas ),
+                                                 new MysteryMassCreatorNode( 3, model, mvt, canvas ) )
                                )
                ),
                new Kit<PNode>( new TitleNode( MessageFormat.format( BalanceAndTorqueResources.Strings.PATTERN_0_VALUE_1_UNITS, BalanceAndTorqueResources.Strings.MYSTERY_OBJECTS, "2" ) ),
                                new VBox(
-                                       new HBox( 20, new MysteryObjectCreatorNode( 4, model, mvt, canvas ),
-                                                 new MysteryObjectCreatorNode( 5, model, mvt, canvas ) ),
-                                       new HBox( 20, new MysteryObjectCreatorNode( 6, model, mvt, canvas ),
-                                                 new MysteryObjectCreatorNode( 7, model, mvt, canvas ) )
+                                       new HBox( 20, new MysteryMassCreatorNode( 4, model, mvt, canvas ),
+                                                 new MysteryMassCreatorNode( 5, model, mvt, canvas ) ),
+                                       new HBox( 20, new MysteryMassCreatorNode( 6, model, mvt, canvas ),
+                                                 new MysteryMassCreatorNode( 7, model, mvt, canvas ) )
                                )
                )
         );
