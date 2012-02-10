@@ -1,0 +1,10 @@
+For the Fractions Intro tab, this sim uses a functional/immutable model.
+
+Convention for copy methods is to use method of the name of the variable and to call the constructor with the
+arguments of the same names as the parameters to make it easy to see that everything is correct. Due to the abundance of copy methods,
+this sim uses single-line methods "simple methods in one line" in IntelliJ code style.  For example,
+if the main constructor was State(name,x,y), then the copy method for x would be:
+
+public State x(double x){ return new State(name,x,y);}
+
+To support the functional paradigm, this sim used FunctionalJava, http://functionaljava.org/
