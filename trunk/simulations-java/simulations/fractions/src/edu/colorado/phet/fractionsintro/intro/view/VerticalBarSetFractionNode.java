@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 
 /**
  * Shows the fraction as a set of vertical bars
@@ -18,7 +18,7 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerState;
  * @author Sam Reid
  */
 public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
-    public VerticalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<ContainerState> containerState ) {
+    public VerticalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<ContainerSetState> containerState ) {
         super( chosenRepresentation, ChosenRepresentation.VERTICAL_BAR );
 
         new RichSimpleObserver() {

@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractionsintro.common.model.SingleFractionModel;
+import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSetState;
 import edu.colorado.phet.fractionsintro.intro.view.Fill;
 
 /**
@@ -15,9 +16,10 @@ import edu.colorado.phet.fractionsintro.intro.view.Fill;
 public class FractionsIntroModel extends SingleFractionModel {
     private static boolean userToggled = false;
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
-    public final Property<ContainerState> containerState = new Property<ContainerState>( new ContainerState( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
-    public Property<Boolean> showReduced = new Property<Boolean>( false );
-    public Property<Boolean> showMixed = new Property<Boolean>( false );
+    public final Property<ContainerSetState> containerState = new Property<ContainerSetState>( new ContainerSetState( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
+    public final Property<Boolean> showReduced = new Property<Boolean>( false );
+    public final Property<Boolean> showMixed = new Property<Boolean>( false );
+    public final Property<PieSetState> pieSetState = new Property<PieSetState>( new PieSetState() );
 
     public FractionsIntroModel() {
         //synchronize the container state with the numerator and denominator for when the user uses the spinners
@@ -37,8 +39,8 @@ public class FractionsIntroModel extends SingleFractionModel {
                 if ( !userToggled ) {
 
                     //When changing denominator, move pieces to nearby slots
-                    ContainerState oldState = containerState.get();
-                    ContainerState newState = new ContainerState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).padAndTrim();
+                    ContainerSetState oldState = containerState.get();
+                    ContainerSetState newState = new ContainerSetState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).padAndTrim();
 
                     //for each piece in oldState, find the closest unoccupied location in newState and add it there
                     for ( CellPointer cellPointer : oldState.getFilledCells() ) {
@@ -58,8 +60,8 @@ public class FractionsIntroModel extends SingleFractionModel {
             }
         } );
 
-        containerState.addObserver( new ChangeObserver<ContainerState>() {
-            public void update( ContainerState newValue, ContainerState oldValue ) {
+        containerState.addObserver( new ChangeObserver<ContainerSetState>() {
+            public void update( ContainerSetState newValue, ContainerSetState oldValue ) {
 
                 //If caused by the user, then send the changes back to the numerator & denominator.
                 if ( userToggled ) {
@@ -67,6 +69,13 @@ public class FractionsIntroModel extends SingleFractionModel {
                         numerator.set( newValue.numerator );
                     }
                 }
+            }
+        } );
+
+        //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
+        pieSetState.addObserver( new VoidFunction1<PieSetState>() {
+            public void apply( PieSetState pieSetState ) {
+                containerState.set( pieSetState.toContainerState() );
             }
         } );
     }

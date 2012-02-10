@@ -11,21 +11,21 @@ import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
- * The entire state of what is filled and empty for multiple containers.
+ * The entire state (immutable) of what is filled and empty for multiple containers.
  *
  * @author Sam Reid
  */
-public class ContainerState {
+public class ContainerSetState {
     public final List<Container> containers;
     public final int denominator;
     public final int numContainers;  //Number of containers to show
     public final int numerator;
 
-    public ContainerState( int denominator, Container[] containers ) {
+    public ContainerSetState( int denominator, Container[] containers ) {
         this( denominator, Arrays.asList( containers ) );
     }
 
-    public ContainerState( int denominator, List<Container> containers ) {
+    public ContainerSetState( int denominator, List<Container> containers ) {
         this.containers = containers;
         this.denominator = denominator;
         this.numContainers = containers.size();
@@ -40,12 +40,12 @@ public class ContainerState {
         return containers.toString();
     }
 
-    public ContainerState addPieces( int delta ) {
+    public ContainerSetState addPieces( int delta ) {
         if ( delta == 0 ) {
             return this;
         }
         else if ( delta > 0 ) {
-            ContainerState cs = isFull() ? addEmptyContainer() : this;
+            ContainerSetState cs = isFull() ? addEmptyContainer() : this;
             return cs.toggle( cs.getFirstEmptyCell() ).addPieces( delta - 1 ).padAndTrim();
         }
         else {
@@ -54,8 +54,8 @@ public class ContainerState {
     }
 
     //Add an empty container if this one is all full, but don't go past 6 (would be off the screen)
-    public ContainerState padAndTrim() {
-        ContainerState cs = trim();
+    public ContainerSetState padAndTrim() {
+        ContainerSetState cs = trim();
         while ( cs.numContainers < 6 ) {
             cs = cs.addEmptyContainer();
         }
@@ -63,7 +63,7 @@ public class ContainerState {
     }
 
     //Remove any trailing containers that are completely empty
-    public ContainerState trim() {
+    public ContainerSetState trim() {
         final ArrayList<Container> reversed = new ArrayList<Container>( containers );
         Collections.reverse( reversed );
         final boolean[] foundNonEmpty = { false };
@@ -83,11 +83,11 @@ public class ContainerState {
             }
         }};
         Collections.reverse( all );
-        return new ContainerState( denominator, all );
+        return new ContainerSetState( denominator, all );
     }
 
-    public ContainerState addEmptyContainer() {
-        return new ContainerState( denominator, new ArrayList<Container>( containers ) {{
+    public ContainerSetState addEmptyContainer() {
+        return new ContainerSetState( denominator, new ArrayList<Container>( containers ) {{
             add( new Container( denominator, new int[0] ) );
         }} );
     }
@@ -99,8 +99,8 @@ public class ContainerState {
         return true;
     }
 
-    public ContainerState toggle( final CellPointer pointer ) {
-        return new ContainerState( denominator, FunctionalUtils.map( containers, new Function1<Container, Container>() {
+    public ContainerSetState toggle( final CellPointer pointer ) {
+        return new ContainerSetState( denominator, FunctionalUtils.map( containers, new Function1<Container, Container>() {
             public Container apply( Container container ) {
                 int containerIndex = containers.indexOf( container );
                 if ( pointer.container == containerIndex ) {
@@ -151,8 +151,8 @@ public class ContainerState {
         return containers.get( container );
     }
 
-    public ContainerState removeContainer( final int container ) {
-        return new ContainerState( denominator, new ArrayList<Container>() {{
+    public ContainerSetState removeContainer( final int container ) {
+        return new ContainerSetState( denominator, new ArrayList<Container>() {{
             for ( int i = 0; i < numContainers; i++ ) {
                 if ( i != container ) {
                     add( getContainer( i ) );

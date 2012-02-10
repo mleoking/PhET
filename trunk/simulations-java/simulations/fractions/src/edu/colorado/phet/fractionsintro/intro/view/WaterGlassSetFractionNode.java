@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 
 /**
  * Shows a fraction as a set of glasses of water.
@@ -18,7 +18,7 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerState;
  */
 public class WaterGlassSetFractionNode extends VisibilityNode {
 
-    public WaterGlassSetFractionNode( final Property<ContainerState> containerState, ObservableProperty<Boolean> enabled ) {
+    public WaterGlassSetFractionNode( final Property<ContainerSetState> containerState, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
             public void update() {
