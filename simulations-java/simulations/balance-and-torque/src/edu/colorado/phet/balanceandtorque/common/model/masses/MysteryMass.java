@@ -54,7 +54,7 @@ public class MysteryMass extends LabeledImageMass {
      */
     public MysteryMass( int mysteryMassID, Point2D initialPosition ) {
         super( createMysteryObjectUserComponent( mysteryMassID ), initialPosition, MYSTERY_MASS_CONFIGURATIONS.get( mysteryMassID ) );
-        if ( mysteryMassID >= instanceCounts.length || mysteryMassID < 0 ) {
+        if ( mysteryMassID >= 0 && mysteryMassID < instanceCounts.length ) {
             instanceCounts[mysteryMassID]++;
         }
         myMysteryMassID = mysteryMassID;
