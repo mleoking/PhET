@@ -32,18 +32,12 @@ class StockSolutionNode extends PPath {
         // shape and location
         RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
-                if ( dropper.empty.get() ) {
-                    setPathTo( new Rectangle2D.Double() );
+                // path
+                if ( dropper.on.get() && !dropper.empty.get() ) {
+                    setPathTo( new Rectangle2D.Double( -tipWidth / 2, 0, tipWidth, beaker.getY() - dropper.getY() ) );
                 }
                 else {
-                    Rectangle2D rect;
-                    if ( dropper.on.get() ) {
-                        rect = new Rectangle2D.Double( -tipWidth / 2, 0, tipWidth, beaker.getY() - dropper.getY() );
-                    }
-                    else {
-                        rect = new Rectangle2D.Double();
-                    }
-                    setPathTo( rect );
+                    setPathTo( new Rectangle2D.Double() );
                 }
                 // move this node to the dropper's location
                 setOffset( dropper.location.get().toPoint2D() );
