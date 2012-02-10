@@ -1,3 +1,4 @@
+Fixed bucket location
 Added lombok for data classes
 Added pie model and view to main sim
 Require pieces to intersect with cells before they are dropped

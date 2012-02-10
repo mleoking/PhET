@@ -53,7 +53,7 @@ public class PieSetNode extends PNode {
 
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 );
         Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
-        bucketView = new BucketView( new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 100, new Dimension2DDouble( 250, 100 ), Color.green, "pieces" ), mvt );
+        bucketView = new BucketView( new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" ), mvt );
 
         model.addObserver( new SimpleObserver() {
             public void update() {
