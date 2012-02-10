@@ -25,13 +25,16 @@ import static fj.Ord.ord;
 public class PieSetState {
     public final int numerator;
     public final int denominator;
-    public final List<Slice> cells;
+    public final List<Pie> pies;
     public final List<MovableSlice> slices;
 
     public final List<Slice> emptyCells;
 
+    //The list of all cells
+    public final List<Slice> cells;
+
     public PieSetState() {
-        this( 0, 1, createDefaultCells(), createDefaultSlices() );
+        this( 0, 1, createEmptyPies(), createDefaultSlices() );
     }
 
     private static List<MovableSlice> createDefaultSlices() {
@@ -47,7 +50,7 @@ public class PieSetState {
             for ( int i = 0; i < numPies; i++ ) {
                 for ( int k = 0; k < denominator; k++ ) {
                     if ( Math.random() < 0.5 ) {
-                        add( new MovableSlice( new Slice( new ImmutableVector2D( 200, 300 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
+                        add( new MovableSlice( new Slice( new ImmutableVector2D( 200, 300 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false, -1 ), null ) );
                     }
                 }
             }
@@ -55,7 +58,7 @@ public class PieSetState {
         return List.iterableList( slices );
     }
 
-    private static List<Slice> createDefaultCells() {
+    private static List<Pie> createEmptyPies() {
 
         final int numPies = 6;
         final int denominator = 3;
@@ -63,29 +66,43 @@ public class PieSetState {
         final double pieSpacing = 10;
         final double anglePerSlice = 2 * Math.PI / denominator;
 
+
         //Create some cells for the empty pies
-        ArrayList<Slice> cells = new ArrayList<Slice>() {{
+        ArrayList<Pie> pies = new ArrayList<Pie>() {{
             for ( int i = 0; i < numPies; i++ ) {
+
+                ArrayList<Slice> cells = new ArrayList<Slice>();
                 for ( int k = 0; k < denominator; k++ ) {
-                    add( createSlice( i, anglePerSlice, k, pieDiameter, pieSpacing ) );
+                    cells.add( new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ), pieDiameter ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false, i ) );
                 }
+
+                add( new Pie( List.iterableList( cells ) ) );
             }
         }};
-        return List.iterableList( cells );
+
+        return List.iterableList( pies );
     }
 
-    private static Slice createSlice( int i, double anglePerSlice, int k, double pieDiameter, double pieSpacing ) {
-        return new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ), pieDiameter ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false );
-    }
-
-    public PieSetState( int numerator, int denominator, List<Slice> cells, List<MovableSlice> slices ) {
+    public PieSetState( int numerator, int denominator, List<Pie> pies, List<MovableSlice> slices ) {
         this.numerator = numerator;
         this.denominator = denominator;
-        this.cells = cells;
+        this.pies = pies;
         this.slices = slices;
 
-        //TODO: should this be eager or lazy?
-        this.emptyCells = cells.filter( new F<Slice, Boolean>() {
+        this.emptyCells = pies.bind( new F<Pie, List<Slice>>() {
+            @Override public List<Slice> f( Pie pie ) {
+                return getEmptyCells( pie );
+            }
+        } );
+        this.cells = pies.bind( new F<Pie, List<Slice>>() {
+            @Override public List<Slice> f( Pie p ) {
+                return p.cells;
+            }
+        } );
+    }
+
+    private List<Slice> getEmptyCells( Pie pie ) {
+        return pie.cells.filter( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice slice ) {
                 return !cellFilled( slice );
             }
@@ -124,7 +141,7 @@ public class PieSetState {
         return slices( slices );
     }
 
-    public PieSetState slices( List<MovableSlice> slices ) { return new PieSetState( numerator, denominator, cells, slices ); }
+    public PieSetState slices( List<MovableSlice> slices ) { return new PieSetState( numerator, denominator, pies, slices ); }
 
     public boolean cellFilled( final Slice cell ) {
         return slices.exists( new F<MovableSlice, Boolean>() {
