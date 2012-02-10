@@ -9,9 +9,13 @@ public State x(double x){ return new State(name,x,y);}
 
 To support the functional paradigm, this sim used FunctionalJava, http://functionaljava.org/
 
+BEFORE LOMBOK SUPPORT:
 For fields in immutable state classes, values are eagerly created in the constructor and stored as public final fields so that usage reads like: state.name instead of state.getName() or state.name().
 Expensive computations may be put as lazy values or just methods where they are created each time.   If/when we use Lazy evaluation, we could use a pattern like this:
 http://en.wikipedia.org/wiki/Lazy_initialization#Java
+
+AFTER LOMBOK:
+Still looking for the best pattern to use when classes are combined with Lombok
 
 For a nice book on functional programming in Java, please see http://www.amazon.com/Functional-Programming-Java-Developers-Concurrency/dp/1449311032
 
