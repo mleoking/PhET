@@ -33,7 +33,7 @@ public class ConcentrationCanvas extends BLLCanvas {
         PNode shakerNode = new ShakerNode( model.shaker );
         PNode shakerParticlesNode = new ShakerParticlesNode( model.shakerParticles );
         PNode dropperNode = new DropperNode( model.dropper, model.solution.solvent, model.solution.solute );
-        StockSolutionNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker );
+        StockSolutionNode stockSolutionNode = new StockSolutionNode( model.solution.solvent, model.solute, model.dropper, model.beaker, DropperNode.TIP_WIDTH );
 
         // Faucets
         BLLFaucetNode solventFaucetNode = new BLLFaucetNode( UserComponents.solventFaucet, model.solventFaucet );

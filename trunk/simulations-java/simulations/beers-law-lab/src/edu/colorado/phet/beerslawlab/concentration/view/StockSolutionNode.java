@@ -12,6 +12,7 @@ import edu.colorado.phet.beerslawlab.concentration.model.Beaker;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -22,63 +23,47 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class StockSolutionNode extends PPath {
 
-    private final Solvent solvent;
-    private final Property<Solute> solute;
-    private final Dropper dropper;
-    private final Beaker beaker;
-    private final double dropperTipWidth;
+    public StockSolutionNode( final Solvent solvent, final Property<Solute> solute, final Dropper dropper, final Beaker beaker, final double tipWidth ) {
 
-    public StockSolutionNode( Solvent solvent, Property<Solute> solute, Dropper dropper, Beaker beaker ) {
         setPickable( false );
         setChildrenPickable( false );
         setStroke( BLLConstants.FLUID_STROKE );
 
-        this.solvent = solvent;
-        this.solute = solute;
-        this.dropper = dropper;
-        this.beaker = beaker;
-        this.dropperTipWidth = DropperNode.TIP_WIDTH;
-
+        // shape and location
         RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
-                updateNode();
+                if ( dropper.empty.get() ) {
+                    setPathTo( new Rectangle2D.Double() );
+                }
+                else {
+                    Rectangle2D rect;
+                    if ( dropper.on.get() ) {
+                        rect = new Rectangle2D.Double( -tipWidth / 2, 0, tipWidth, beaker.getY() - dropper.getY() );
+                    }
+                    else {
+                        rect = new Rectangle2D.Double();
+                    }
+                    setPathTo( rect );
+                }
+                // move this node to the dropper's location
+                setOffset( dropper.location.get().toPoint2D() );
             }
         };
-        observer.observe( solute, dropper.location, dropper.on, dropper.empty );
+        observer.observe( dropper.location, dropper.on, dropper.empty );
+
+        // set color to match solute
+        solute.addObserver( new SimpleObserver() {
+            public void update() {
+                Color color = Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
+                setPaint( color );
+                setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
+            }
+        } );
 
         dropper.visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
             }
         } );
-    }
-
-    private void updateNode() {
-        if ( dropper.empty.get() ) {
-            setPathTo( new Rectangle2D.Double() );
-        }
-        else {
-            // color
-            Color color = Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
-            setPaint( color );
-            setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
-
-            // path
-            Rectangle2D rect;
-            if ( dropper.on.get() ) {
-                double x = -dropperTipWidth / 2;
-                double y = 0;
-                double width = dropperTipWidth;
-                double height = beaker.getY() - dropper.getY();
-                rect = new Rectangle2D.Double( x, y, width, height );
-            }
-            else {
-                rect = new Rectangle2D.Double();
-            }
-            setPathTo( rect );
-
-            // move this node to the dropper's location
-            setOffset( dropper.location.get().toPoint2D() );
-        }
     }
 }
