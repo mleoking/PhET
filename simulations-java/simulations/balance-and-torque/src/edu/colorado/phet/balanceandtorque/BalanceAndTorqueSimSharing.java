@@ -30,7 +30,7 @@ public class BalanceAndTorqueSimSharing {
         singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
         statckOfEightBricks, mediumTrashCan, mediumBucket, tire, television,
         sodaBottle, smallRock, smallTrashCan, pottedPlant, tinyRock, flowerPot,
-        cinderBlock, mediumRock, largeTrashCan, mysteryObject, barrel,
+        cinderBlock, mediumRock, largeTrashCan, mysteryMass, barrel,
         fireExtinguisher, bigRock, largeBucket, fireHydrant, man, woman, boy,
         girl, smallBucket,
 

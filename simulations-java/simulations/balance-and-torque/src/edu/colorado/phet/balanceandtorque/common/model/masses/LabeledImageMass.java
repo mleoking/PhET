@@ -17,10 +17,14 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class LabeledImageMass extends ImageMass {
     private final String labelText;
 
+    public LabeledImageMass( IUserComponent userComponent, Point2D initialPosition, LabeledImageMassConfig config ) {
+        this( userComponent, initialPosition, config.mass, config.image, config.height, config.labelText, config.isMystery );
+    }
+
     /**
      * Constructor.
      */
-    public LabeledImageMass( IUserComponent userComponent, double mass, BufferedImage image, double height, Point2D initialPosition, String labelText, boolean isMystery ) {
+    public LabeledImageMass( IUserComponent userComponent, Point2D initialPosition, double mass, BufferedImage image, double height, String labelText, boolean isMystery ) {
         super( userComponent, mass, image, height, initialPosition, isMystery );
         this.labelText = labelText;
     }
@@ -31,6 +35,25 @@ public class LabeledImageMass extends ImageMass {
 
     @Override public Mass createCopy() {
         // TODO: Needs work on how to identify the mystery object.  Current approach is ambiguous - need label and instance.
-        return new LabeledImageMass( BalanceAndTorqueSimSharing.UserComponents.mysteryObject, getMass(), imageProperty.get(), heightProperty.get(), positionProperty.get(), labelText, isMystery() );
+        return new LabeledImageMass( BalanceAndTorqueSimSharing.UserComponents.mysteryMass, positionProperty.get(), getMass(), imageProperty.get(), heightProperty.get(), labelText, isMystery() );
+    }
+
+
+    // Collection of information needed to define a particular configuration
+    // of a labeled image mass.
+    static class LabeledImageMassConfig {
+        public final double mass;            // In kg
+        public final BufferedImage image;    // Image to use when depicting this object.
+        public final double height;          // In model space, which is in meters
+        public final String labelText;
+        public final boolean isMystery;
+
+        LabeledImageMassConfig( double mass, BufferedImage image, double height, String labelText, boolean isMystery ) {
+            this.mass = mass;
+            this.image = image;
+            this.height = height;
+            this.labelText = labelText;
+            this.isMystery = isMystery;
+        }
     }
 }
