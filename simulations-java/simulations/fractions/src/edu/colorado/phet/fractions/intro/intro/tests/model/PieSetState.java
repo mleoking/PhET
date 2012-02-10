@@ -1,10 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractions.intro.intro.tests.model;
 
-import java.util.Comparator;
+import fj.F;
+import fj.F2;
+import fj.Ord;
+import fj.Ordering;
+import fj.data.List;
 
-import edu.colorado.phet.common.phetcommon.util.ImmutableList;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import static fj.Function.curry;
+import static fj.Ord.ord;
 
 /**
  * Immutable model representing the entire state at one instant, including the number and location of slices
@@ -15,10 +19,10 @@ public class PieSetState {
     public final int numerator;
     public final int denominator;
 
-    public final ImmutableList<Slice> cells;
-    public final ImmutableList<MovableSlice> slices;
+    public final List<Slice> cells;
+    public final List<MovableSlice> slices;
 
-    public PieSetState( int numerator, int denominator, ImmutableList<Slice> cells, ImmutableList<MovableSlice> slices ) {
+    public PieSetState( int numerator, int denominator, List<Slice> cells, List<MovableSlice> slices ) {
         this.numerator = numerator;
         this.denominator = denominator;
         this.cells = cells;
@@ -26,15 +30,16 @@ public class PieSetState {
     }
 
     public PieSetState stepInTime() {
-        final ImmutableList<MovableSlice> slices = this.slices.map( new Function1<MovableSlice, MovableSlice>() {
-            public MovableSlice apply( final MovableSlice s ) {
+        final List<MovableSlice> slices = this.slices.map( new F<MovableSlice, MovableSlice>() {
+            public MovableSlice f( final MovableSlice s ) {
                 if ( s.dragging ) {
 
-                    Slice closest = cells.minBy( new Comparator<Slice>() {
-                        public int compare( Slice o1, Slice o2 ) {
-                            return Double.compare( o1.center.distance( s.center ), o2.center.distance( s.center ) );
+                    //TODO: make this minimum function a bit cleaner please?
+                    Slice closest = cells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
+                        public Ordering f( final Slice u1, final Slice u2 ) {
+                            return Ord.<Comparable>comparableOrd().compare( u1.center.distance( s.center ), u2.center.distance( s.center ) );
                         }
-                    } );
+                    } ) ) );
 
                     //Account for winding number
                     double closestAngle = closest.angle;
@@ -56,27 +61,28 @@ public class PieSetState {
         return slices( slices );
     }
 
-    public PieSetState slices( ImmutableList<MovableSlice> slices ) {
+    public PieSetState slices( List<MovableSlice> slices ) {
         return new PieSetState( numerator, denominator, cells, slices );
     }
 
     //Make all pieces move to the closest cell
     public PieSetState snapTo() {
-        return slices( slices.map( new Function1<MovableSlice, MovableSlice>() {
-            public MovableSlice apply( final MovableSlice s ) {
-                Slice closest = cells.minBy( new Comparator<Slice>() {
-                    public int compare( Slice o1, Slice o2 ) {
-                        return Double.compare( o1.center.distance( s.center ), o2.center.distance( s.center ) );
+        return slices( slices.map( new F<MovableSlice, MovableSlice>() {
+            public MovableSlice f( final MovableSlice s ) {
+
+                Slice closest = cells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
+                    public Ordering f( final Slice u1, final Slice u2 ) {
+                        return Ord.<Comparable>comparableOrd().compare( u1.center.distance( s.center ), u2.center.distance( s.center ) );
                     }
-                } );
+                } ) ) );
                 return s.angle( closest.angle ).tip( closest.tip ).container( closest );
             }
         } ) );
     }
 
     public boolean cellFilled( final Slice cell ) {
-        return slices.contains( new Function1<MovableSlice, Boolean>() {
-            public Boolean apply( MovableSlice m ) {
+        return slices.exists( new F<MovableSlice, Boolean>() {
+            public Boolean f( MovableSlice m ) {
                 return m.container == cell;
             }
         } );

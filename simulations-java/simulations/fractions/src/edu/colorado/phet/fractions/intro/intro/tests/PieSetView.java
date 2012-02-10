@@ -12,11 +12,12 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.ImmutableList;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fractions.intro.intro.tests.model.MovableSlice;
 import edu.colorado.phet.fractions.intro.intro.tests.model.PieSetState;
 import edu.colorado.phet.fractions.intro.intro.tests.model.Slice;
+
+import static fj.data.List.iterableList;
 
 /**
  * @author Sam Reid
@@ -50,7 +51,7 @@ public class PieSetView {
                         }
                     }};
 
-                    final PieSetState state = new PieSetState( 0, denominator, new ImmutableList<Slice>( cells ), new ImmutableList<MovableSlice>( slices ) ).snapTo();
+                    final PieSetState state = new PieSetState( 0, denominator, iterableList( cells ), iterableList( slices ) ).snapTo();
                     final Property<PieSetState> model = new Property<PieSetState>( state );
 
                     new Timer( 30, new ActionListener() {
