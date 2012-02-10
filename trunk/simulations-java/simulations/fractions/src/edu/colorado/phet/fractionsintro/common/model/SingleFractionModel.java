@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.common.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -72,6 +74,8 @@ public class SingleFractionModel {
     }};
 
     public final Property<ChosenRepresentation> representation = new Property<ChosenRepresentation>( ChosenRepresentation.PIE );
+
+    public final Clock clock = new ConstantDtClock();
 
     public void resetAll() {
         numerator.reset();

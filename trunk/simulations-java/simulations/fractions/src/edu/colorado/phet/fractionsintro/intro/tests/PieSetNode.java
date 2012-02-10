@@ -4,6 +4,7 @@ package edu.colorado.phet.fractionsintro.intro.tests;
 import fj.Equal;
 import fj.F;
 import fj.F2;
+import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -56,13 +57,13 @@ public class PieSetNode extends PNode {
 
         model.addObserver( new SimpleObserver() {
             public void update() {
-                removeAllChildren();
                 rebuildScene( model );
             }
         } );
     }
 
     private void rebuildScene( final Property<PieSetState> model ) {
+        removeAllChildren();
 
         addChild( bucketView.getHoleNode() );
 
@@ -79,7 +80,9 @@ public class PieSetNode extends PNode {
                     //Flag one slice as dragging
                     @Override public void mousePressed( PInputEvent event ) {
                         PieSetState state = model.get();
-                        model.set( new PieSetState( state.numerator, state.denominator, state.pies, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).append( single( slice.dragging( true ).container( null ) ) ) ) );
+                        final List<MovableSlice> newSlice = single( slice.dragging( true ).container( null ) );
+                        final PieSetState newState = new PieSetState( state.numerator, state.denominator, state.pies, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).append( newSlice ) );
+                        model.set( newState );
                     }
 
                     //Set all drag flags to false

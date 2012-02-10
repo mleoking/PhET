@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -75,9 +78,16 @@ public class FractionsIntroModel extends SingleFractionModel {
         //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
         pieSetState.addObserver( new VoidFunction1<PieSetState>() {
             public void apply( PieSetState pieSetState ) {
-                setUserToggled( true );
-                containerState.set( pieSetState.toContainerState() );
-                setUserToggled( false );
+//                setUserToggled( true );
+//                containerState.set( pieSetState.toContainerState() );
+//                setUserToggled( false );
+            }
+        } );
+
+        //Animate the model when the clock ticks
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
+                pieSetState.set( pieSetState.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
             }
         } );
     }
@@ -93,5 +103,9 @@ public class FractionsIntroModel extends SingleFractionModel {
     //TODO: Any better way of doing this?
     public static void setUserToggled( boolean userToggled ) {
         FractionsIntroModel.userToggled = userToggled;
+    }
+
+    public Clock getClock() {
+        return clock;
     }
 }

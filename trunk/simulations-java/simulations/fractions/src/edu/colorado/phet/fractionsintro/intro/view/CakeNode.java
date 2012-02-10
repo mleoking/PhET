@@ -126,7 +126,6 @@ public class CakeNode extends PNode {
                     BufferedImage image = images[i];
                     int pixel = image.getRGB( (int) position.getX(), (int) position.getY() );
                     Color color = new Color( pixel, true );
-//                    System.out.println( "color = " + color );
                     if ( color.getRed() > 0 || color.getGreen() > 0 || color.getBlue() > 0 ) {
                         //Clicked on a piece of cake, turning it off...
                         //System.out.println( "//Clicked on a piece of cake, turning it off..." );
