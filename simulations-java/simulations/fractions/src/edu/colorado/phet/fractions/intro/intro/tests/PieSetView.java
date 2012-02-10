@@ -20,6 +20,8 @@ import edu.colorado.phet.fractions.intro.intro.tests.model.Slice;
 import static fj.data.List.iterableList;
 
 /**
+ * Main class for creating and testing out the immutable PieSetState and PieSetNode
+ *
  * @author Sam Reid
  */
 public class PieSetView {
@@ -33,6 +35,8 @@ public class PieSetView {
                     final double pieDiameter = 120;
                     final double pieSpacing = 10;
                     final double anglePerSlice = 2 * Math.PI / denominator;
+
+                    //Create some cells for the empty pies
                     ArrayList<Slice> cells = new ArrayList<Slice>() {{
                         for ( int i = 0; i < numPies; i++ ) {
                             for ( int k = 0; k < denominator; k++ ) {
@@ -41,6 +45,7 @@ public class PieSetView {
                         }
                     }};
 
+                    //Slices to put in the pies
                     ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
                         for ( int i = 0; i < numPies; i++ ) {
                             for ( int k = 0; k < denominator; k++ ) {
