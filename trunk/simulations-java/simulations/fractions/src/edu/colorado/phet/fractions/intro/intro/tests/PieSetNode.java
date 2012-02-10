@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractions.intro.intro.tests.model.MovableSlice;
 import edu.colorado.phet.fractions.intro.intro.tests.model.PieSetState;
 import edu.colorado.phet.fractions.intro.intro.tests.model.Slice;
 import edu.colorado.phet.fractions.intro.intro.view.FractionsIntroCanvas;
@@ -30,11 +31,11 @@ public class PieSetNode extends PNode {
                 removeAllChildren();
 
                 for ( Slice cell : state.cells ) {
-                    addChild( new PhetPPath( cell.toShape(), new BasicStroke( 1 ), Color.darkGray ) );
+                    addChild( new PhetPPath( cell.shape, new BasicStroke( state.cellFilled( cell ) ? 2 : 1 ), Color.darkGray ) );
 //                    addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
                 }
-                for ( final Slice slice : state.slices ) {
-                    addChild( new PhetPPath( slice.toShape(), FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
+                for ( final MovableSlice slice : state.slices ) {
+                    addChild( new PhetPPath( slice.shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
 
@@ -49,8 +50,8 @@ public class PieSetNode extends PNode {
                                 PieSetState state = model.get();
 
                                 //See if any pieces should snap to their destination
-                                model.set( state.slices( state.slices.map( new Function1<Slice, Slice>() {
-                                    public Slice apply( Slice s ) {
+                                model.set( state.slices( state.slices.map( new Function1<MovableSlice, MovableSlice>() {
+                                    public MovableSlice apply( MovableSlice s ) {
                                         return s.dragging( false );
                                     }
                                 } ) ).snapTo() );
@@ -60,8 +61,8 @@ public class PieSetNode extends PNode {
                             @Override public void mouseDragged( PInputEvent event ) {
                                 PieSetState state = model.get();
                                 final PDimension delta = event.getCanvasDelta();
-                                PieSetState newState = new PieSetState( state.numerator, state.denominator, state.cells, state.slices.map( new Function1<Slice, Slice>() {
-                                    public Slice apply( Slice slice ) {
+                                PieSetState newState = new PieSetState( state.numerator, state.denominator, state.cells, state.slices.map( new Function1<MovableSlice, MovableSlice>() {
+                                    public MovableSlice apply( MovableSlice slice ) {
                                         return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
                                     }
                                 } ) );

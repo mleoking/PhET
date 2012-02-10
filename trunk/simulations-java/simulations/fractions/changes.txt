@@ -1,3 +1,4 @@
+Added detection of cells
 Removed "click to toggle" cell feature
 In the icon, change the number line to go from "0 to 1" with no tick marks in between to give a consistent view of "the whole"
 Fixed: The number of pieces in the bucket should be equal to the max numerator value - number in the slices
