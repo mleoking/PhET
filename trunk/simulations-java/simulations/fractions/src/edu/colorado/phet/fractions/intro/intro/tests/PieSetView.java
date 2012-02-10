@@ -59,9 +59,9 @@ public class PieSetView {
                     final PieSetState state = new PieSetState( 0, denominator, iterableList( cells ), iterableList( slices ) );
                     final Property<PieSetState> model = new Property<PieSetState>( state );
 
+                    //Any piece that is dragging should align with the closest open cell
                     new Timer( 30, new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            //Any piece that is dragging should align with the closest open cell
                             model.set( model.get().stepInTime() );
                         }
                     } ).start();
