@@ -63,7 +63,7 @@ class StockSolutionNode extends PPath {
             setPaint( color );
             setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
 
-            // solution outside the dropper
+            // path
             Rectangle2D rect;
             if ( dropper.on.get() ) {
                 double x = -dropperTipWidth / 2;
