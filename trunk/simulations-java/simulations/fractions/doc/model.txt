@@ -12,3 +12,5 @@ To support the functional paradigm, this sim used FunctionalJava, http://functio
 For fields in immutable state classes, values are eagerly created in the constructor and stored as public final fields so that usage reads like: state.name instead of state.getName() or state.name().
 Expensive computations may be put as lazy values or just methods where they are created each time.   If/when we use Lazy evaluation, we could use a pattern like this:
 http://en.wikipedia.org/wiki/Lazy_initialization#Java
+
+For a nice book on functional programming in Java, please see http://www.amazon.com/Functional-Programming-Java-Developers-Concurrency/dp/1449311032
