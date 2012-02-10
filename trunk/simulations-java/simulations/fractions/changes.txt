@@ -1,3 +1,4 @@
+Fixed: when dragged, piece should not be contained by a cell
 Added detection of cells
 Removed "click to toggle" cell feature
 In the icon, change the number line to go from "0 to 1" with no tick marks in between to give a consistent view of "the whole"

@@ -51,4 +51,8 @@ public class MovableSlice {
     public MovableSlice container( Slice closest ) {
         return new MovableSlice( slice, closest );
     }
+
+    public MovableSlice moveTo( Slice target ) {
+        return dragging( false ).angle( target.angle ).tip( target.tip ).container( target );
+    }
 }
