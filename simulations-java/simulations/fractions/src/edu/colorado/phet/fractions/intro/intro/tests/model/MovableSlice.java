@@ -28,31 +28,17 @@ public class MovableSlice {
         this.shape = slice.shape;
     }
 
-    public MovableSlice angle( double v ) {
-        return new MovableSlice( slice.angle( v ), container );
-    }
+    public MovableSlice angle( double v ) { return new MovableSlice( slice.angle( v ), container ); }
 
-    public MovableSlice translate( ImmutableVector2D minus ) {
-        return new MovableSlice( slice.translate( minus ), container );
-    }
+    public MovableSlice translate( ImmutableVector2D minus ) { return new MovableSlice( slice.translate( minus ), container ); }
 
-    public MovableSlice tip( ImmutableVector2D tip ) {
-        return new MovableSlice( slice.tip( tip ), container );
-    }
+    public MovableSlice tip( ImmutableVector2D tip ) { return new MovableSlice( slice.tip( tip ), container ); }
 
-    public MovableSlice dragging( boolean b ) {
-        return new MovableSlice( slice.dragging( b ), container );
-    }
+    public MovableSlice dragging( boolean b ) { return new MovableSlice( slice.dragging( b ), container ); }
 
-    public MovableSlice translate( double width, double height ) {
-        return new MovableSlice( slice.translate( width, height ), container );
-    }
+    public MovableSlice translate( double width, double height ) { return new MovableSlice( slice.translate( width, height ), container ); }
 
-    public MovableSlice container( Slice closest ) {
-        return new MovableSlice( slice, closest );
-    }
+    public MovableSlice container( Slice closest ) { return new MovableSlice( slice, closest ); }
 
-    public MovableSlice moveTo( Slice target ) {
-        return dragging( false ).angle( target.angle ).tip( target.tip ).container( target );
-    }
+    public MovableSlice moveTo( Slice target ) { return dragging( false ).angle( target.angle ).tip( target.tip ).container( target ); }
 }

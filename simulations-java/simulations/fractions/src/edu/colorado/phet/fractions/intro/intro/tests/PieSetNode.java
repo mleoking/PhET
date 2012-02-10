@@ -86,10 +86,13 @@ public class PieSetNode extends PNode {
                     @Override public void mouseReleased( PInputEvent event ) {
                         final PieSetState state = model.get();
 
-                        //See if any pieces should snap to their destination
+                        //Any dropped pieces should snap to their destination.
                         model.set( state.slices( state.slices.map( new F<MovableSlice, MovableSlice>() {
                             public MovableSlice f( MovableSlice s ) {
-                                return s.dragging ? s.moveTo( state.getDropTarget( s ) ) : s;
+                                Slice target = state.getDropTarget( s );
+                                if ( s.dragging && target != null ) { return s.moveTo( state.getDropTarget( s ) ); }
+                                else if ( s.dragging ) { return s.dragging( false ); }
+                                else { return s; }
                             }
                         } ) ) );
                     }

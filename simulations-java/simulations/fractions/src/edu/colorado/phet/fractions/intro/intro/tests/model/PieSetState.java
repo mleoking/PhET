@@ -7,6 +7,8 @@ import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
 
+import java.awt.geom.Area;
+
 import static fj.Function.curry;
 import static fj.Ord.ord;
 
@@ -69,23 +71,7 @@ public class PieSetState {
         return slices( slices );
     }
 
-    public PieSetState slices( List<MovableSlice> slices ) {
-        return new PieSetState( numerator, denominator, cells, slices );
-    }
-
-    //Make all pieces move to the closest cell
-    public PieSetState snapTo() {
-        return slices( slices.map( new F<MovableSlice, MovableSlice>() {
-            public MovableSlice f( final MovableSlice s ) {
-                Slice closest = cells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
-                    public Ordering f( final Slice u1, final Slice u2 ) {
-                        return Ord.<Comparable>comparableOrd().compare( u1.center.distance( s.center ), u2.center.distance( s.center ) );
-                    }
-                } ) ) );
-                return s.angle( closest.angle ).tip( closest.tip ).container( closest );
-            }
-        } ) );
-    }
+    public PieSetState slices( List<MovableSlice> slices ) { return new PieSetState( numerator, denominator, cells, slices ); }
 
     public boolean cellFilled( final Slice cell ) {
         return slices.exists( new F<MovableSlice, Boolean>() {
@@ -97,10 +83,11 @@ public class PieSetState {
 
     //Find which cell a slice should get dropped into 
     public Slice getDropTarget( final MovableSlice s ) {
-        return emptyCells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
+        final Slice closestCell = emptyCells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
             public Ordering f( final Slice u1, final Slice u2 ) {
                 return Ord.<Comparable>comparableOrd().compare( u1.center.distance( s.center ), u2.center.distance( s.center ) );
             }
         } ) ) );
+        return closestCell != null && !( new Area( closestCell.shape ) {{intersect( new Area( s.shape ) );}}.isEmpty() ) ? closestCell : null;
     }
 }

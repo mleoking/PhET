@@ -45,13 +45,13 @@ public class PieSetView {
                         for ( int i = 0; i < numPies; i++ ) {
                             for ( int k = 0; k < denominator; k++ ) {
                                 if ( Math.random() < 0.5 ) {
-                                    add( new MovableSlice( createSlice( i, anglePerSlice, k, pieDiameter, pieSpacing ), null ) );
+                                    add( new MovableSlice( new Slice( new ImmutableVector2D( 200, 300 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
                                 }
                             }
                         }
                     }};
 
-                    final PieSetState state = new PieSetState( 0, denominator, iterableList( cells ), iterableList( slices ) ).snapTo();
+                    final PieSetState state = new PieSetState( 0, denominator, iterableList( cells ), iterableList( slices ) );
                     final Property<PieSetState> model = new Property<PieSetState>( state );
 
                     new Timer( 30, new ActionListener() {

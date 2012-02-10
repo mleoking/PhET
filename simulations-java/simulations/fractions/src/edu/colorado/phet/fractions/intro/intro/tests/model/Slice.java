@@ -36,23 +36,13 @@ public class Slice {
         this.center = new ImmutableVector2D( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
     }
 
-    public Slice translate( ImmutableVector2D delta ) {
-        return translate( delta.getX(), delta.getY() );
-    }
+    public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }
 
-    public Slice translate( double dx, double dy ) {
-        return new Slice( tip.plus( dx, dy ), angle, extent, radius, dragging );
-    }
+    public Slice translate( double dx, double dy ) { return new Slice( tip.plus( dx, dy ), angle, extent, radius, dragging ); }
 
-    public Slice dragging( boolean dragging ) {
-        return new Slice( tip, angle, extent, radius, dragging );
-    }
+    public Slice dragging( boolean dragging ) { return new Slice( tip, angle, extent, radius, dragging ); }
 
-    public Slice angle( double angle ) {
-        return new Slice( tip, angle, extent, radius, dragging );
-    }
+    public Slice angle( double angle ) { return new Slice( tip, angle, extent, radius, dragging ); }
 
-    public Slice tip( ImmutableVector2D tip ) {
-        return new Slice( tip, angle, extent, radius, dragging );
-    }
+    public Slice tip( ImmutableVector2D tip ) { return new Slice( tip, angle, extent, radius, dragging ); }
 }
