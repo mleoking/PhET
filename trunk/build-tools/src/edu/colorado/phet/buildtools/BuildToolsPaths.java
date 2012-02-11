@@ -95,7 +95,6 @@ public class BuildToolsPaths {
 
     public static final String PHET_UPDATER = UTIL + "/phet-updater";
     public static final String TRANSLATION_UTILITY = UTIL + "/translation-utility";
-    public static final String SIM_SHARING_EVENT_DATA_COLLECTION_SERVER = UTIL + "/sim-event-data-collection-server";
     public static final String SIM_EVENT_DATA_COLLECTION_ANALYSIS = UTIL + "/sim-event-data-collection-analysis";
     public static final String TIMESHEET = UTIL + "/timesheet";
 
