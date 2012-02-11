@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -25,7 +24,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet.bucket;
 import static fj.Equal.equal;
 import static fj.Function.curry;
 
@@ -94,9 +92,7 @@ public class PieSetNode extends PNode {
                                 Slice target = state.getDropTarget( s );
                                 if ( s.dragging() && target != null ) { return s.moveTo( target ); }
                                 else if ( s.dragging() ) {
-                                    final ImmutableVector2D bucketCenter = new ImmutableVector2D( bucket.getHoleShape().getBounds().getCenterX() + bucket.getPosition().getX(),
-                                                                                                  -bucket.getHoleShape().getBounds().getCenterY() - bucket.getPosition().getY() );//Minus sign compensates for MVT in bucket code
-                                    return s.dragging( false ).animateTo( bucketCenter );
+                                    return s.dragging( false ).animateTo( PieSet.createBucketSlice( model.get().denominator ).tip );
                                 }
                                 else { return s; }
                             }
