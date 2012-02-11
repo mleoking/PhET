@@ -16,16 +16,19 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     public final double extent;//in radians
     public final double radius;
     public final boolean dragging;
+    public final ImmutableVector2D animateTo;
 
     public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }
 
-    public Slice translate( double dx, double dy ) { return new Slice( tip.plus( dx, dy ), angle, extent, radius, dragging ); }
+    public Slice translate( double dx, double dy ) { return new Slice( tip.plus( dx, dy ), angle, extent, radius, dragging, animateTo ); }
 
-    public Slice dragging( boolean dragging ) { return new Slice( tip, angle, extent, radius, dragging ); }
+    public Slice dragging( boolean dragging ) { return new Slice( tip, angle, extent, radius, dragging, animateTo ); }
 
-    public Slice angle( double angle ) { return new Slice( tip, angle, extent, radius, dragging ); }
+    public Slice angle( double angle ) { return new Slice( tip, angle, extent, radius, dragging, animateTo ); }
 
-    public Slice tip( ImmutableVector2D tip ) { return new Slice( tip, angle, extent, radius, dragging ); }
+    public Slice tip( ImmutableVector2D tip ) { return new Slice( tip, angle, extent, radius, dragging, animateTo ); }
+
+    public Slice animateTo( ImmutableVector2D animateTo ) { return new Slice( tip, angle, extent, radius, dragging, animateTo ); }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public Shape shape() {
@@ -36,4 +39,18 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     }
 
     public ImmutableVector2D center() {return new ImmutableVector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
+
+    public Slice stepAnimation() {
+        if ( animateTo == null ) { return this; }
+        return translate( getVelocity() ).checkFinishAnimation();
+    }
+
+    private ImmutableVector2D getVelocity() {return animateTo.minus( tip ).getInstanceOfMagnitude( 30 );}
+
+    private Slice checkFinishAnimation() {
+        if ( tip.distance( animateTo ) < getVelocity().getMagnitude() ) {
+            return tip( animateTo ).animateTo( null );
+        }
+        return this;
+    }
 }
