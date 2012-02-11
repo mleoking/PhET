@@ -31,7 +31,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
         //Show the pie set node when pies are selected
         addChild( new ChosenRepresentationNode( model.representation, ChosenRepresentation.PIE ) {{
-            addChild( new PieSetNode( model.pieSet ) );
+            addChild( new PieSetNode( model.pieSet, rootNode ) );
         }} );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionEqualityPanel( model ) ) {{

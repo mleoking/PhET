@@ -20,7 +20,7 @@ public class AbstractFractionsCanvas extends PhetPCanvas {
     public static final Color FILL_COLOR = new Color( 140, 198, 63 );
 
     //Stage where nodes are added and scaled up and down
-    private final PNode rootNode;
+    protected final PNode rootNode;
 
     //Size for the stage, should have the right aspect ratio since it will always be visible
     //The dimension was determined by running on Windows and inspecting the dimension of the canvas after menubar and tabs are added
