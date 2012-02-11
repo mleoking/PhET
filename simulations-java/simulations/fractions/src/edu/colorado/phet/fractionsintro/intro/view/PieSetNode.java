@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractionsintro.intro.model.slicemodel.AnimationTarget;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.MovableSlice;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.Slice;
@@ -92,7 +93,8 @@ public class PieSetNode extends PNode {
                                 Slice target = state.getDropTarget( s );
                                 if ( s.dragging() && target != null ) { return s.moveTo( target ); }
                                 else if ( s.dragging() ) {
-                                    return s.dragging( false ).animateTo( PieSet.createBucketSlice( model.get().denominator ).tip );
+                                    final Slice destination = PieSet.createBucketSlice( model.get().denominator );
+                                    return s.dragging( false ).animationTarget( new AnimationTarget( destination.tip, destination.angle ) );
                                 }
                                 else { return s; }
                             }

@@ -133,7 +133,8 @@ import static fj.data.List.range;
                         else if ( closestAngle < s.angle() ) { closestAngle += 2 * Math.PI; }
                     }
                     double delta = closestAngle - s.angle();
-                    final MovableSlice rotated = s.angle( s.angle() + delta / 6 * 30 * simulationTimeChange );//Xeno effect
+                    final double newAngle = s.angle() + delta / 6 * 30 * simulationTimeChange;
+                    final MovableSlice rotated = s.angle( newAngle );//Xeno effect
 
                     //Keep the center in the same place
                     return rotated.translate( s.center().minus( rotated.center() ) );
