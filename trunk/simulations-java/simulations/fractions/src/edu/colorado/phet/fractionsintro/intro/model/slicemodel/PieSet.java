@@ -11,6 +11,7 @@ import lombok.Data;
 import java.awt.Color;
 import java.awt.geom.Area;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
@@ -39,27 +40,26 @@ import static fj.data.List.range;
 
     public static final Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
     public static final Bucket bucket = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" );
+    public static final Random RANDOM = new Random();
+    public static final double pieDiameter = 155;
 
     public PieSet() {
-        this( 0, 1, createEmptyPies( 1 ), createSlicesForBucket( 1 ) );
+        this( 0, 1, createEmptyPies( 1 ), createSlicesForBucket( 1, 6 ) );
     }
 
-    private static List<MovableSlice> createSlicesForBucket( final int denominator ) {
+    private static List<MovableSlice> createSlicesForBucket( final int denominator, final int numSlices ) {
 
-        final int numPies = 6;
-        final double pieDiameter = 155;
         final double anglePerSlice = 2 * Math.PI / denominator;
 
-        //Slices to put in the pies
+        //Slices to put in the buckets
         ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
-            for ( int i = 0; i < numPies; i++ ) {
-                for ( int k = 0; k < denominator; k++ ) {
+            for ( int i = 0; i < numSlices; i++ ) {
 
-                    //Put the pieces right in the center of the bucket hole
-                    final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
-                    final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
-                    add( new MovableSlice( new Slice( new ImmutableVector2D( x, y ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
-                }
+                //Put the pieces right in the center of the bucket hole
+                final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
+                final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
+                final double radius = pieDiameter / 2;
+                add( new MovableSlice( new Slice( new ImmutableVector2D( x + ( RANDOM.nextDouble() * 2 - 1 ) * radius, y ), 0, anglePerSlice, radius, false ), null ) );
             }
         }};
         return List.iterableList( slices );
@@ -86,7 +86,7 @@ import static fj.data.List.range;
             }
         }};
 
-        return List.iterableList( pies );
+        return iterableList( pies );
     }
 
     public PieSet( int numerator, int denominator, List<Pie> pies, List<MovableSlice> slices ) {
@@ -206,6 +206,6 @@ import static fj.data.List.range;
                 all.add( new MovableSlice( slice, slice ) );
             }
         }
-        return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator ) );
+        return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator, containerSetState.getEmptyCells().length() ) );
     }
 }

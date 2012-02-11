@@ -1,3 +1,4 @@
+Randomize the location of slices in the bucket
 Fixed: Get rid of pie slice line
 Fixed bucket location
 Added lombok for data classes
