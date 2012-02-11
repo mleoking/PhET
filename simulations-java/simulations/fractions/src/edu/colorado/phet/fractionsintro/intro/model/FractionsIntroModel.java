@@ -45,6 +45,7 @@ public class FractionsIntroModel extends SingleFractionModel {
                     //When changing denominator, move pieces to nearby slots
                     ContainerSet newState = containerState.get().denominator( denominator );
                     containerState.set( newState.padAndTrim() );
+                    pieSet.set( PieSet.fromContainerSetState( containerState.get() ) );
                 }
             }
         } );

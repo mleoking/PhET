@@ -192,12 +192,12 @@ import static fj.data.List.range;
         return fromContainerSetState( toContainerState().denominator( denominator ) );
     }
 
-    private PieSet fromContainerSetState( ContainerSet containerSetState ) {
+    public static PieSet fromContainerSetState( ContainerSet containerSetState ) {
         final List<Pie> emptyPies = createEmptyPies( containerSetState.denominator );
         return new PieSet( containerSetState.numerator, containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ) );
     }
 
-    private List<MovableSlice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
+    private static List<MovableSlice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
         ArrayList<MovableSlice> all = new ArrayList<MovableSlice>();
         for ( int i = 0; i < containerSetState.containers.length(); i++ ) {
             Container c = containerSetState.containers.index( i );
