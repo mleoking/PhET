@@ -7,11 +7,13 @@ import fj.F;
 import fj.F2;
 import fj.F3;
 import fj.Function;
+import fj.Hash;
 import fj.Monoid;
 import fj.Ord;
 import fj.P;
 import fj.P1;
 import fj.P2;
+import fj.Show;
 import fj.Unit;
 import static fj.Function.curry;
 import static fj.Function.constant;
@@ -1593,7 +1595,7 @@ public abstract class List<A> implements Iterable<A> {
    */
   public static <A, B> F<B, List<A>> sequence_(final List<F<B, A>> fs) {
     return fs.foldRight(Function.<A, List<A>, List<A>, B>lift(List.<A>cons()), Function
-        .<B, List<A>>constant(List.<A>nil()));
+        .<B, List<A>>constant( List.<A>nil() ));
   }
 
   /**
@@ -1769,14 +1771,19 @@ public abstract class List<A> implements Iterable<A> {
     //Methods added by PhET 2/11/2012, see #3252
 
     @Override public boolean equals( Object obj ) {
-        return obj != null && obj instanceof List && new ArrayList<A>( toCollection() ).equals( new ArrayList( ( (List) obj ).toCollection() ) );
+        if (obj==null || !(obj instanceof List) )return false;
+        return Equal.listEqual( Equal.<A>anyEqual() ).eq( this, (List) obj );
     }
 
     @Override public int hashCode() {
-        return new ArrayList<A>( toCollection() ).hashCode();
+        return Hash.listHash( Hash.<A>anyHash() ).hash( this );
     }
 
     @Override public String toString() {
-        return new ArrayList<A>( toCollection() ).toString();
+        return Show.listShow( Show.<A>anyShow() ).show( this ).foldLeft( new F2<String, Character, String>() {
+            @Override public String f( String s, Character c ) {
+                return s+c;
+            }
+        },"" );
     }
 }
