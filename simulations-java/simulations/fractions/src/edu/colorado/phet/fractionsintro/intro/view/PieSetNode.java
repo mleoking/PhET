@@ -86,14 +86,16 @@ public class PieSetNode extends PNode {
                         final PieSet state = model.get();
 
                         //Any dropped pieces should snap to their destination.
-                        model.set( state.slices( state.slices.map( new F<MovableSlice, MovableSlice>() {
+                        final List<MovableSlice> newSlices = state.slices.map( new F<MovableSlice, MovableSlice>() {
                             public MovableSlice f( MovableSlice s ) {
                                 Slice target = state.getDropTarget( s );
                                 if ( s.dragging() && target != null ) { return s.moveTo( state.getDropTarget( s ) ); }
                                 else if ( s.dragging() ) { return s.dragging( false ); }
                                 else { return s; }
                             }
-                        } ) ) );
+                        } );
+                        final PieSet newState = state.slices( newSlices );
+                        model.set( newState );
                     }
 
                     //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
