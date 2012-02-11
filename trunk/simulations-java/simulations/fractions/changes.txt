@@ -1,3 +1,4 @@
+Fixed: Exception when dragging a piece that animated to the bucket.
 Animate pieces to the bucket
 Fixed: Pieces don't drag the right amount when the screen is scaled
 Fixed: Pieces should be pointing up in bucket so they are in alignment with nearest target cells
