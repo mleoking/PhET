@@ -42,6 +42,8 @@ import static fj.data.List.range;
     public static final Bucket bucket = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" );
     public static final Random RANDOM = new Random();
     public static final double pieDiameter = 155;
+    public static final int numPies = 6;
+    public static final double pieSpacing = 10;
 
     public PieSet() {
         this( 0, 1, createEmptyPies( 1 ), createSlicesForBucket( 1, 6 ) );
@@ -55,34 +57,28 @@ import static fj.data.List.range;
         ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
             for ( int i = 0; i < numSlices; i++ ) {
 
-                //Put the pieces right in the center of the bucket hole
+                //Put the pieces right in the center of the bucket hole.
+                //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
                 final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
                 final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
                 final double radius = pieDiameter / 2;
-                add( new MovableSlice( new Slice( new ImmutableVector2D( x + ( RANDOM.nextDouble() * 2 - 1 ) * radius, y ), 0, anglePerSlice, radius, false ), null ) );
+                final MovableSlice slice = new MovableSlice( new Slice( new ImmutableVector2D( x + ( RANDOM.nextDouble() * 2 - 1 ) * radius, y - radius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, radius, false ), null );
+                add( slice );
             }
         }};
         return List.iterableList( slices );
     }
 
+    //Create some cells for the empty pies
     private static List<Pie> createEmptyPies( final int denominator ) {
-
-        final int numPies = 6;
-        final double pieDiameter = 155;
-        final double pieSpacing = 10;
         final double anglePerSlice = 2 * Math.PI / denominator;
-
-
-        //Create some cells for the empty pies
         ArrayList<Pie> pies = new ArrayList<Pie>() {{
             for ( int i = 0; i < numPies; i++ ) {
-
                 ArrayList<Slice> cells = new ArrayList<Slice>();
                 for ( int k = 0; k < denominator; k++ ) {
                     cells.add( new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ) - 80, 250 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ) );
                 }
-
-                add( new Pie( List.iterableList( cells ) ) );
+                add( new Pie( iterableList( cells ) ) );
             }
         }};
 

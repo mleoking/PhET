@@ -67,20 +67,10 @@ public class FractionsIntroModel extends SingleFractionModel {
         pieSet.addObserver( new SimpleObserver() {
             public void update() {
                 setUserToggled( true );
-                System.out.println( "containerState.get() = " + containerState.get() );
-                System.out.println( "new one  state.get() = " + pieSet.get().toContainerState() );
-//                System.out.println( "before equals: " + ( pieSet.get().toContainerState().equals( containerState.get() ) ) );
                 containerState.set( pieSet.get().toContainerState() );
-//                System.out.println( "after equals: " + ( pieSet.get().toContainerState().equals( containerState.get() ) ) );
-                System.out.println();
                 setUserToggled( false );
             }
         } );
-//        pieSet.addObserver( new VoidFunction1<PieSet>() {
-//            public void apply( PieSet pieSet ) {
-//
-//            }
-//        } );
 
         //Animate the model when the clock ticks
         clock.addClockListener( new ClockAdapter() {
