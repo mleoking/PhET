@@ -42,22 +42,7 @@ public class FractionsIntroModel extends SingleFractionModel {
                 if ( !userToggled ) {
 
                     //When changing denominator, move pieces to nearby slots
-                    ContainerSetState oldState = containerState.get();
-                    ContainerSetState newState = new ContainerSetState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).padAndTrim();
-
-                    //for each piece in oldState, find the closest unoccupied location in newState and add it there
-                    for ( CellPointer cellPointer : oldState.getFilledCells() ) {
-
-                        //Find closest unoccupied location
-                        CellPointer cp = newState.getClosestUnoccupiedLocation( cellPointer );
-                        if ( cp != null ) {
-                            newState = newState.toggle( cp );
-                        }
-                        else {
-                            System.out.println( "Null CP!" );
-                        }
-                    }
-
+                    ContainerSetState newState = containerState.get().denominator( denominator );
                     containerState.set( newState.padAndTrim() );
                 }
             }

@@ -1,22 +1,22 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
+import fj.F;
+import fj.F2;
+import fj.Function;
+import fj.Ord;
+import fj.Ordering;
+
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
@@ -99,25 +99,26 @@ public class PieSetFractionNode extends VisibilityNode {
 //    }
 
     @Override public CellPointer getClosestOpenCell( final Shape globalShape, final Point2D center2D ) {
-        final List<CellPointer> emptyCells = FunctionalUtils.filter( new ArrayList<CellPointer>( containerState.get().getEmptyCells() ), new Function1<CellPointer, Boolean>() {
-            public Boolean apply( CellPointer cellPointer ) {
+        final fj.data.List<CellPointer> emptyCells = containerState.get().getEmptyCells().filter( new F<CellPointer, Boolean>() {
+            @Override public Boolean f( CellPointer cellPointer ) {
                 final PieSliceNode pieceNode = map.get( cellPointer );
                 final Shape pieceShape = pieceNode.getLocalToGlobalTransform( null ).createTransformedShape( pieceNode.getShape() );
                 final boolean intersects = !( new Area( pieceShape ) {{
                     intersect( new Area( globalShape ) );
                 }}.isEmpty() );
-//                System.out.println( "cellPointer = " + cellPointer + ", pieceShape = " + pieceShape.getBounds2D() + ", globalShape = " + globalShape.getBounds2D() + ", intersects = " + intersects );
+                //                System.out.println( "cellPointer = " + cellPointer + ", pieceShape = " + pieceShape.getBounds2D() + ", globalShape = " + globalShape.getBounds2D() + ", intersects = " + intersects );
                 //Only find pieces that overlap
                 return intersects;
             }
         } );
+
         if ( emptyCells.isEmpty() ) {
             return null;
         }
-        return Collections.min( emptyCells, new Comparator<CellPointer>() {
-            public int compare( CellPointer o1, CellPointer o2 ) {
-                return Double.compare( map.get( o1 ).getGlobalFullBounds().getCenter2D().distance( center2D ), map.get( o2 ).getGlobalFullBounds().getCenter2D().distance( center2D ) );
+        return emptyCells.minimum( Ord.ord( Function.curry( new F2<CellPointer, CellPointer, Ordering>() {
+            public Ordering f( final CellPointer u1, final CellPointer u2 ) {
+                return Ord.<Comparable>comparableOrd().compare( map.get( u1 ).getGlobalFullBounds().getCenter2D().distance( center2D ), map.get( u2 ).getGlobalFullBounds().getCenter2D().distance( center2D ) );
             }
-        } );
+        } ) ) );
     }
 }

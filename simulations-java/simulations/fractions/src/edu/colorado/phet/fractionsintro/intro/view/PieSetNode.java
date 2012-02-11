@@ -10,10 +10,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 
-import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
@@ -51,8 +49,7 @@ public class PieSetNode extends PNode {
     public PieSetNode( final Property<PieSet> model ) {
 
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 );
-        Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
-        bucketView = new BucketView( new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" ), mvt );
+        bucketView = new BucketView( model.get().bucket, mvt );
 
         model.addObserver( new SimpleObserver() {
             public void update() {

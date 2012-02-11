@@ -1,17 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import fj.F;
+import fj.F2;
+import fj.Ord;
+import fj.Ordering;
+import fj.data.List;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractionsintro.intro.view.PieSetNode;
+
+import static fj.Function.curry;
 
 /**
  * The entire state (immutable) of what is filled and empty for multiple containers.
@@ -28,8 +32,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
         this( denominator, Arrays.asList( containers ) );
     }
 
+    public ContainerSetState( int denominator, List<Container> containers ) {
+        this( denominator, containers.toCollection() );
+    }
+
     public ContainerSetState( int denominator, Collection<Container> containers ) {
-        this.containers = new ArrayList<Container>( containers );
+        this.containers = List.iterableList( containers );
         this.denominator = denominator;
         this.numContainers = containers.size();
         int count = 0;
@@ -67,8 +75,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
     //Remove any trailing containers that are completely empty
     public ContainerSetState trim() {
-        final ArrayList<Container> reversed = new ArrayList<Container>( containers );
-        Collections.reverse( reversed );
+        final List<Container> reversed = containers.reverse();
         final boolean[] foundNonEmpty = { false };
 
         final ArrayList<Container> all = new ArrayList<Container>() {{
@@ -90,7 +97,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     }
 
     public ContainerSetState addEmptyContainer() {
-        return new ContainerSetState( denominator, new ArrayList<Container>( containers ) {{
+        return new ContainerSetState( denominator, new ArrayList<Container>( containers.toCollection() ) {{
             add( new Container( denominator, new int[0] ) );
         }} );
     }
@@ -103,9 +110,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     }
 
     public ContainerSetState toggle( final CellPointer pointer ) {
-        return new ContainerSetState( denominator, FunctionalUtils.map( containers, new Function1<Container, Container>() {
-            public Container apply( Container container ) {
-                int containerIndex = containers.indexOf( container );
+        return new ContainerSetState( denominator, containers.map( new F<Container, Container>() {
+            @Override public Container f( Container container ) {
+                int containerIndex = containers.elementIndex( PieSetNode.<Container>refEqual(), container ).some();
                 if ( pointer.container == containerIndex ) {
                     return container.toggle( pointer.cell );
                 }
@@ -117,33 +124,33 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     }
 
     private CellPointer getLastFullCell() {
-        return FunctionalUtils.last( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
-            public Boolean apply( CellPointer p ) {
-                return !isEmpty( p );
+        return getAllCellPointers().reverse().find( new F<CellPointer, Boolean>() {
+            @Override public Boolean f( CellPointer cellPointer ) {
+                return !isEmpty( cellPointer );
             }
-        } ).get();
+        } ).some();
     }
 
-    public ArrayList<CellPointer> getAllCellPointers() {
-        return new ArrayList<CellPointer>() {{
+    public List<CellPointer> getAllCellPointers() {
+        return List.iterableList( new ArrayList<CellPointer>() {{
             for ( int i = 0; i < numContainers; i++ ) {
-                for ( int k = 0; k < containers.get( i ).numCells; k++ ) {
+                for ( int k = 0; k < containers.index( i ).numCells; k++ ) {
                     add( new CellPointer( i, k ) );
                 }
             }
-        }};
+        }} );
     }
 
     private CellPointer getFirstEmptyCell() {
-        return FunctionalUtils.first( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
-            public Boolean apply( CellPointer p ) {
-                return isEmpty( p );
+        return getAllCellPointers().find( new F<CellPointer, Boolean>() {
+            @Override public Boolean f( CellPointer cellPointer ) {
+                return isEmpty( cellPointer );
             }
-        } ).get();
+        } ).some();
     }
 
     public Boolean isEmpty( CellPointer cellPointer ) {
-        return containers.get( cellPointer.container ).isEmpty( cellPointer.cell );
+        return containers.index( cellPointer.container ).isEmpty( cellPointer.cell );
     }
 
     public boolean isFilled( CellPointer cp ) {
@@ -151,7 +158,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     }
 
     public Container getContainer( int container ) {
-        return containers.get( container );
+        return containers.index( container );
     }
 
     public ContainerSetState removeContainer( final int container ) {
@@ -164,34 +171,50 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
         }} );
     }
 
-    //When converting denominator, try to keep pieces close to where they were.  This requires computing the closest unoccu
+    //When converting denominator, try to keep pieces close to where they were.  This requires computing the closest unoccupied
     public CellPointer getClosestUnoccupiedLocation( final CellPointer cellPointer ) {
         List<CellPointer> emptyCells = getEmptyCells();
         if ( emptyCells.isEmpty() ) {
             return null;
         }
-        return Collections.min( emptyCells, new Comparator<CellPointer>() {
-            public int compare( CellPointer o1, CellPointer o2 ) {
-                double distance1 = cellPointer.distance( o1 );
-                double distance2 = cellPointer.distance( o2 );
-                return Double.compare( distance1, distance2 );
+        return emptyCells.minimum( Ord.ord( curry( new F2<CellPointer, CellPointer, Ordering>() {
+            public Ordering f( final CellPointer u1, final CellPointer u2 ) {
+                return Ord.<Comparable>comparableOrd().compare( cellPointer.distance( u1 ), cellPointer.distance( u2 ) );
             }
-        } );
+        } ) ) );
     }
 
     public List<CellPointer> getFilledCells() {
-        return FunctionalUtils.filter( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
-            public Boolean apply( CellPointer cp ) {
-                return isFilled( cp );
+        return getAllCellPointers().filter( new F<CellPointer, Boolean>() {
+            @Override public Boolean f( CellPointer c ) {
+                return isFilled( c );
             }
         } );
     }
 
     public List<CellPointer> getEmptyCells() {
-        return FunctionalUtils.filter( getAllCellPointers(), new Function1<CellPointer, Boolean>() {
-            public Boolean apply( CellPointer cp ) {
-                return !isFilled( cp );
+        return getAllCellPointers().filter( new F<CellPointer, Boolean>() {
+            @Override public Boolean f( CellPointer c ) {
+                return !isFilled( c );
             }
         } );
+    }
+
+    public ContainerSetState denominator( Integer denominator ) {
+        ContainerSetState newState = new ContainerSetState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).padAndTrim();
+
+        //for each piece in oldState, find the closest unoccupied location in newState and add it there
+        for ( CellPointer cellPointer : getFilledCells() ) {
+
+            //Find closest unoccupied location
+            CellPointer cp = newState.getClosestUnoccupiedLocation( cellPointer );
+            if ( cp != null ) {
+                newState = newState.toggle( cp );
+            }
+            else {
+                System.out.println( "Null CP!" );
+            }
+        }
+        return newState;
     }
 }
