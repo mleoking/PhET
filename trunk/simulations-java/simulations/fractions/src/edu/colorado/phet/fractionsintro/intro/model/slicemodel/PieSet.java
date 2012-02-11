@@ -6,6 +6,7 @@ import fj.F2;
 import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
+import lombok.Data;
 
 import java.awt.Color;
 import java.awt.geom.Area;
@@ -19,6 +20,7 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 
 import static fj.Function.curry;
 import static fj.Ord.ord;
+import static fj.data.List.iterableList;
 import static fj.data.List.range;
 
 /**
@@ -26,13 +28,11 @@ import static fj.data.List.range;
  *
  * @author Sam Reid
  */
-public class PieSet {
+@Data public class PieSet {
     public final int numerator;
     public final int denominator;
     public final List<Pie> pies;
     public final List<MovableSlice> slices;
-
-    public final List<Slice> emptyCells;
 
     //The list of all cells
     public final List<Slice> cells;
@@ -41,13 +41,12 @@ public class PieSet {
     public static final Bucket bucket = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" );
 
     public PieSet() {
-        this( 0, 1, createEmptyPies(), createDefaultSlices() );
+        this( 0, 1, createEmptyPies( 1 ), createSlicesForBucket( 1 ) );
     }
 
-    private static List<MovableSlice> createDefaultSlices() {
+    private static List<MovableSlice> createSlicesForBucket( final int denominator ) {
 
         final int numPies = 6;
-        final int denominator = 1;
         final double pieDiameter = 155;
         final double anglePerSlice = 2 * Math.PI / denominator;
 
@@ -66,10 +65,9 @@ public class PieSet {
         return List.iterableList( slices );
     }
 
-    private static List<Pie> createEmptyPies() {
+    private static List<Pie> createEmptyPies( final int denominator ) {
 
         final int numPies = 6;
-        final int denominator = 1;
         final double pieDiameter = 155;
         final double pieSpacing = 10;
         final double anglePerSlice = 2 * Math.PI / denominator;
@@ -97,14 +95,17 @@ public class PieSet {
         this.pies = pies;
         this.slices = slices;
 
-        this.emptyCells = pies.bind( new F<Pie, List<Slice>>() {
-            @Override public List<Slice> f( Pie pie ) {
-                return getEmptyCells( pie );
-            }
-        } );
         this.cells = pies.bind( new F<Pie, List<Slice>>() {
             @Override public List<Slice> f( Pie p ) {
                 return p.cells;
+            }
+        } );
+    }
+
+    public List<Slice> getEmptyCells() {
+        return pies.bind( new F<Pie, List<Slice>>() {
+            @Override public List<Slice> f( Pie pie ) {
+                return getEmptyCells( pie );
             }
         } );
     }
@@ -123,7 +124,7 @@ public class PieSet {
                 if ( s.dragging() ) {
 
                     //TODO: make this minimum function a bit cleaner please?
-                    Slice closest = emptyCells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
+                    Slice closest = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
                         public Ordering f( final Slice u1, final Slice u2 ) {
                             return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
                         }
@@ -161,7 +162,7 @@ public class PieSet {
 
     //Find which cell a slice should get dropped into 
     public Slice getDropTarget( final MovableSlice s ) {
-        final Slice closestCell = emptyCells.minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
+        final Slice closestCell = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
             public Ordering f( final Slice u1, final Slice u2 ) {
                 return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
             }
@@ -192,7 +193,19 @@ public class PieSet {
     }
 
     private PieSet fromContainerSetState( ContainerSetState containerSetState ) {
-        return this;
-//        return new PieSet( containerSetState.numerator, containerSetState.denominator, containerSetState.containers.map );
+        final List<Pie> emptyPies = createEmptyPies( containerSetState.denominator );
+        return new PieSet( containerSetState.numerator, containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ) );
+    }
+
+    private List<MovableSlice> createSlices( final List<Pie> emptyPies, final ContainerSetState containerSetState ) {
+        ArrayList<MovableSlice> all = new ArrayList<MovableSlice>();
+        for ( int i = 0; i < containerSetState.containers.length(); i++ ) {
+            Container c = containerSetState.containers.index( i );
+            for ( Integer cell : c.filledCells ) {
+                final Slice slice = emptyPies.index( i ).cells.index( cell );
+                all.add( new MovableSlice( slice, slice ) );
+            }
+        }
+        return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator ) );
     }
 }

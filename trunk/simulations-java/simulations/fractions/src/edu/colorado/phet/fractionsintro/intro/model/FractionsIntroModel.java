@@ -22,7 +22,7 @@ public class FractionsIntroModel extends SingleFractionModel {
     public final Property<ContainerSetState> containerState = new Property<ContainerSetState>( new ContainerSetState( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
     public final Property<Boolean> showReduced = new Property<Boolean>( false );
     public final Property<Boolean> showMixed = new Property<Boolean>( false );
-    public final Property<PieSet> pieSetState = new Property<PieSet>( new PieSet() );
+    public final Property<PieSet> pieSet = new Property<PieSet>( new PieSet() );
 
     public FractionsIntroModel() {
         //synchronize the container state with the numerator and denominator for when the user uses the spinners
@@ -62,7 +62,7 @@ public class FractionsIntroModel extends SingleFractionModel {
 
 
         //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
-        pieSetState.addObserver( new VoidFunction1<PieSet>() {
+        pieSet.addObserver( new VoidFunction1<PieSet>() {
             public void apply( PieSet pieSetState ) {
                 setUserToggled( true );
                 containerState.set( pieSetState.toContainerState() );
@@ -73,7 +73,7 @@ public class FractionsIntroModel extends SingleFractionModel {
         //Animate the model when the clock ticks
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                pieSetState.set( pieSetState.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
+                pieSet.set( pieSet.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
             }
         } );
     }
