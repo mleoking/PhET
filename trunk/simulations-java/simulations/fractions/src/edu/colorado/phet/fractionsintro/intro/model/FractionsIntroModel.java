@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractionsintro.common.model.SingleFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
@@ -19,7 +20,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Fill;
 public class FractionsIntroModel extends SingleFractionModel {
     private static boolean userToggled = false;
     public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
-    public final Property<ContainerSetState> containerState = new Property<ContainerSetState>( new ContainerSetState( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
+    public final Property<ContainerSet> containerState = new Property<ContainerSet>( new ContainerSet( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
     public final Property<Boolean> showReduced = new Property<Boolean>( false );
     public final Property<Boolean> showMixed = new Property<Boolean>( false );
     public final Property<PieSet> pieSet = new Property<PieSet>( new PieSet() );
@@ -42,14 +43,14 @@ public class FractionsIntroModel extends SingleFractionModel {
                 if ( !userToggled ) {
 
                     //When changing denominator, move pieces to nearby slots
-                    ContainerSetState newState = containerState.get().denominator( denominator );
+                    ContainerSet newState = containerState.get().denominator( denominator );
                     containerState.set( newState.padAndTrim() );
                 }
             }
         } );
 
-        containerState.addObserver( new ChangeObserver<ContainerSetState>() {
-            public void update( ContainerSetState newValue, ContainerSetState oldValue ) {
+        containerState.addObserver( new ChangeObserver<ContainerSet>() {
+            public void update( ContainerSet newValue, ContainerSet oldValue ) {
 
                 //If caused by the user, then send the changes back to the numerator & denominator.
                 if ( userToggled ) {
@@ -62,13 +63,23 @@ public class FractionsIntroModel extends SingleFractionModel {
 
 
         //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
-        pieSet.addObserver( new VoidFunction1<PieSet>() {
-            public void apply( PieSet pieSetState ) {
+        pieSet.addObserver( new SimpleObserver() {
+            public void update() {
                 setUserToggled( true );
-                containerState.set( pieSetState.toContainerState() );
+                System.out.println( "containerState.get() = " + containerState.get() );
+                System.out.println( "new one  state.get() = " + pieSet.get().toContainerState() );
+//                System.out.println( "before equals: " + ( pieSet.get().toContainerState().equals( containerState.get() ) ) );
+                containerState.set( pieSet.get().toContainerState() );
+//                System.out.println( "after equals: " + ( pieSet.get().toContainerState().equals( containerState.get() ) ) );
+                System.out.println();
                 setUserToggled( false );
             }
         } );
+//        pieSet.addObserver( new VoidFunction1<PieSet>() {
+//            public void apply( PieSet pieSet ) {
+//
+//            }
+//        } );
 
         //Animate the model when the clock ticks
         clock.addClockListener( new ClockAdapter() {

@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -52,7 +52,7 @@ public class CakeSetFractionNode extends VisibilityNode {
 //        put( 12, new int[] { 3, 4, 5, 2, 6, 1, 7, 12, 8, 11, 9, 10 } );
     }};
 
-    public CakeSetFractionNode( final Property<ContainerSetState> state, ObservableProperty<Boolean> enabled ) {
+    public CakeSetFractionNode( final Property<ContainerSet> state, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
             public void update() {
@@ -69,9 +69,9 @@ public class CakeSetFractionNode extends VisibilityNode {
 
                 if ( orderToAdd.containsKey( d ) ) {
 
-                    ContainerSetState c = state.get();
+                    ContainerSet c = state.get();
 
-                    for ( int i = 0; i < c.numContainers; i++ ) {
+                    for ( int i = 0; i < c.containers.length(); i++ ) {
                         box.addChild( new CakeNode( d, getSliceArray( i, c, d ), state, i, orderToAdd.get( d ) ) );
                     }
                 }
@@ -84,7 +84,7 @@ public class CakeSetFractionNode extends VisibilityNode {
         }.observe( state );
     }
 
-    private int[] getSliceArray( int container, ContainerSetState c, int denominator ) {
+    private int[] getSliceArray( int container, ContainerSet c, int denominator ) {
         final int[] orderToAddThem = orderToAdd.get( denominator );
         final int[] theRenderOrder = renderOrder.get( denominator );
 

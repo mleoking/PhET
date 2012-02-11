@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 
 /**
  * Shows the fraction as a set of vertical bars
@@ -18,7 +18,7 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
  * @author Sam Reid
  */
 public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
-    public VerticalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<ContainerSetState> containerState ) {
+    public VerticalBarSetFractionNode( Property<ChosenRepresentation> chosenRepresentation, final Property<ContainerSet> containerState ) {
         super( chosenRepresentation, ChosenRepresentation.VERTICAL_BAR );
 
         new RichSimpleObserver() {
@@ -42,7 +42,7 @@ public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
 
                 //Start at the bottom and work your way up, like with water glasses
                 double y = initY;
-                for ( int i = 0; i < containerState.get().numContainers; i++ ) {
+                for ( int i = 0; i < containerState.get().containers.length(); i++ ) {
                     boolean containerEmpty = containerState.get().getContainer( i ).isEmpty();
                     for ( int k = 0; k < denominator; k++ ) {
                         final CellPointer cp = new CellPointer( i, k );

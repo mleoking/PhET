@@ -22,27 +22,25 @@ import static fj.Function.curry;
  *
  * @author Sam Reid
  */
-@Data public class ContainerSetState {
+@Data public class ContainerSet {
     public final List<Container> containers;
     public final int denominator;
-    public final int numContainers;  //Number of containers to show
     public final int numerator;
 
-    public ContainerSetState( int denominator, Container[] containers ) {
+    public ContainerSet( int denominator, Container[] containers ) {
         this( denominator, Arrays.asList( containers ) );
     }
 
-    public ContainerSetState( int denominator, List<Container> containers ) {
+    public ContainerSet( int denominator, List<Container> containers ) {
         this( denominator, containers.toCollection() );
     }
 
-    public ContainerSetState( int denominator, Collection<Container> containers ) {
+    public ContainerSet( int denominator, Collection<Container> containers ) {
         this.containers = List.iterableList( containers );
         this.denominator = denominator;
-        this.numContainers = containers.size();
         int count = 0;
         for ( Container container : containers ) {
-            count += container.numFilledCells;
+            count += container.filledCells.length();
         }
         this.numerator = count;
     }
@@ -51,12 +49,12 @@ import static fj.Function.curry;
         return containers.toString();
     }
 
-    public ContainerSetState addPieces( int delta ) {
+    public ContainerSet addPieces( int delta ) {
         if ( delta == 0 ) {
             return this;
         }
         else if ( delta > 0 ) {
-            ContainerSetState cs = isFull() ? addEmptyContainer() : this;
+            ContainerSet cs = isFull() ? addEmptyContainer() : this;
             return cs.toggle( cs.getFirstEmptyCell() ).addPieces( delta - 1 ).padAndTrim();
         }
         else {
@@ -65,16 +63,16 @@ import static fj.Function.curry;
     }
 
     //Add an empty container if this one is all full, but don't go past 6 (would be off the screen)
-    public ContainerSetState padAndTrim() {
-        ContainerSetState cs = trim();
-        while ( cs.numContainers < 6 ) {
+    public ContainerSet padAndTrim() {
+        ContainerSet cs = trim();
+        while ( cs.containers.length() < 6 ) {
             cs = cs.addEmptyContainer();
         }
         return cs;
     }
 
     //Remove any trailing containers that are completely empty
-    public ContainerSetState trim() {
+    public ContainerSet trim() {
         final List<Container> reversed = containers.reverse();
         final boolean[] foundNonEmpty = { false };
 
@@ -93,11 +91,11 @@ import static fj.Function.curry;
             }
         }};
         Collections.reverse( all );
-        return new ContainerSetState( denominator, all );
+        return new ContainerSet( denominator, all );
     }
 
-    public ContainerSetState addEmptyContainer() {
-        return new ContainerSetState( denominator, new ArrayList<Container>( containers.toCollection() ) {{
+    public ContainerSet addEmptyContainer() {
+        return new ContainerSet( denominator, new ArrayList<Container>( containers.toCollection() ) {{
             add( new Container( denominator, new int[0] ) );
         }} );
     }
@@ -109,8 +107,8 @@ import static fj.Function.curry;
         return true;
     }
 
-    public ContainerSetState toggle( final CellPointer pointer ) {
-        return new ContainerSetState( denominator, containers.map( new F<Container, Container>() {
+    public ContainerSet toggle( final CellPointer pointer ) {
+        return new ContainerSet( denominator, containers.map( new F<Container, Container>() {
             @Override public Container f( Container container ) {
                 int containerIndex = containers.elementIndex( PieSetNode.<Container>refEqual(), container ).some();
                 if ( pointer.container == containerIndex ) {
@@ -133,7 +131,7 @@ import static fj.Function.curry;
 
     public List<CellPointer> getAllCellPointers() {
         return List.iterableList( new ArrayList<CellPointer>() {{
-            for ( int i = 0; i < numContainers; i++ ) {
+            for ( int i = 0; i < containers.length(); i++ ) {
                 for ( int k = 0; k < containers.index( i ).numCells; k++ ) {
                     add( new CellPointer( i, k ) );
                 }
@@ -159,16 +157,6 @@ import static fj.Function.curry;
 
     public Container getContainer( int container ) {
         return containers.index( container );
-    }
-
-    public ContainerSetState removeContainer( final int container ) {
-        return new ContainerSetState( denominator, new ArrayList<Container>() {{
-            for ( int i = 0; i < numContainers; i++ ) {
-                if ( i != container ) {
-                    add( getContainer( i ) );
-                }
-            }
-        }} );
     }
 
     //When converting denominator, try to keep pieces close to where they were.  This requires computing the closest unoccupied
@@ -200,8 +188,8 @@ import static fj.Function.curry;
         } );
     }
 
-    public ContainerSetState denominator( Integer denominator ) {
-        ContainerSetState newState = new ContainerSetState( denominator, new Container[] { new Container( denominator, new int[0] ) } ).padAndTrim();
+    public ContainerSet denominator( Integer denominator ) {
+        ContainerSet newState = new ContainerSet( denominator, new Container[] { new Container( denominator, new int[0] ) } ).padAndTrim();
 
         //for each piece in oldState, find the closest unoccupied location in newState and add it there
         for ( CellPointer cellPointer : getFilledCells() ) {

@@ -17,7 +17,6 @@ import java.util.HashSet;
 @Data public class Container {
     public final int numCells;
     public final List<Integer> filledCells;
-    public final int numFilledCells;
 
     public Container( int numCells, int[] filledCells ) {
         this( numCells, toSet( filledCells ) );
@@ -46,7 +45,6 @@ import java.util.HashSet;
     public Container( int numCells, List<Integer> filledCells ) {
         this.numCells = numCells;
         this.filledCells = filledCells;
-        this.numFilledCells = filledCells.length();
     }
 
     public static Container full( final int denominator ) {

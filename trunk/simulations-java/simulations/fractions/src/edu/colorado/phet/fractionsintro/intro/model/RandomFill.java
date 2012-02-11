@@ -17,7 +17,7 @@ import java.util.Random;
  * @author Sam Reid
  */
 public class RandomFill {
-    private ArrayList<ContainerSetState> history = new ArrayList<ContainerSetState>();
+    private ArrayList<ContainerSet> history = new ArrayList<ContainerSet>();
     private int numerator = 1;
     private int denominator = 1;
 
@@ -29,7 +29,7 @@ public class RandomFill {
 //        history.add( new ContainerState( numerator, denominator, new Container[] { new Container( 1, new int[] { 0 } ) } ) );
     }
 
-    public ContainerSetState getCurrentState() {
+    public ContainerSet getCurrentState() {
         if ( history.size() > 0 ) {
             return history.get( history.size() - 1 );
         }
@@ -44,7 +44,7 @@ public class RandomFill {
         history.add( createRandomState() );
     }
 
-    private ContainerSetState createRandomState() {
+    private ContainerSet createRandomState() {
         final int numFullContainers = numerator / denominator;
         final int numCellsInLast = numerator % denominator;
         final boolean partiallyFullContainer = numCellsInLast != 0;
