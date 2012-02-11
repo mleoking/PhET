@@ -55,7 +55,11 @@ public class PieSet {
         ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
             for ( int i = 0; i < numPies; i++ ) {
                 for ( int k = 0; k < denominator; k++ ) {
-                    add( new MovableSlice( new Slice( new ImmutableVector2D( bucket.getHoleShape().getBounds2D().getCenterX(), bucket.getHoleShape().getBounds2D().getCenterY() ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
+
+                    //Put the pieces right in the center of the bucket hole
+                    final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
+                    final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
+                    add( new MovableSlice( new Slice( new ImmutableVector2D( x, y ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
                 }
             }
         }};
