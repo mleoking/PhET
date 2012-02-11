@@ -42,4 +42,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     public MovableSlice animationTarget( AnimationTarget pt ) { return new MovableSlice( slice.animationTarget( pt ), container ); }
 
     public MovableSlice stepAnimation() { return new MovableSlice( slice.stepAnimation(), container ); }
+
+    public MovableSlice rotateTowardTarget( double angle ) { return new MovableSlice( slice.rotateTowardTarget( angle ), container ); }
 }

@@ -32,6 +32,10 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
     public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( tip, angle, extent, radius, dragging, animationTarget ); }
 
+    public ImmutableVector2D center() {return new ImmutableVector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
+
+    public Slice stepAnimation() { return stepTranslation().stepRotation(); }
+
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public Shape shape() {
         double epsilon = 1E-6;
@@ -40,32 +44,29 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
                new Arc2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
     }
 
-    public ImmutableVector2D center() {return new ImmutableVector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
+    private Slice stepTranslation() { return animationTarget == null ? this : translate( getVelocity() ).checkFinishAnimation();}
 
-    public Slice stepAnimation() {
-        return stepTranslation().stepRotation();
-    }
+    private Slice stepRotation() { return animationTarget == null ? this : rotateTowardTarget( animationTarget.angle );}
 
-    private Slice stepTranslation() {
-        if ( animationTarget == null ) { return this; }
-        return translate( getVelocity() ).checkFinishAnimation();
-    }
+    //Account for winding number and use the Zeno paradox to slow down
+    public Slice rotateTowardTarget( double targetAngle ) {
+        Slice s = this;
+        //Account for winding number so it will go to the nearest angle without going around the long way
+        if ( Math.abs( targetAngle - s.angle ) > Math.PI ) {
+            if ( targetAngle > s.angle ) { targetAngle -= 2 * Math.PI; }
+            else if ( targetAngle < s.angle ) { targetAngle += 2 * Math.PI; }
+        }
+        double delta = targetAngle - s.angle;
+        final double newAngle = s.angle + delta / 6 * 30 * 1.0 / 30.0;
 
-    private Slice stepRotation() {
-        if ( animationTarget == null ) { return this; }
-        return angle( 0.0 ).checkFinishRotation();
-    }
-
-    //TODO: implement
-    private Slice checkFinishRotation() {
-        return this;
+        return angle( newAngle );
     }
 
     private ImmutableVector2D getVelocity() {return animationTarget.position.minus( tip ).getInstanceOfMagnitude( 30 );}
 
     private Slice checkFinishAnimation() {
         if ( tip.distance( animationTarget.position ) < getVelocity().getMagnitude() ) {
-            return tip( animationTarget.position ).animationTarget( null );
+            return tip( animationTarget.position ).animationTarget( null ).angle( animationTarget.angle );
         }
         return this;
     }

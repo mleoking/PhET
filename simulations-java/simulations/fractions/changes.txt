@@ -1,3 +1,4 @@
+Fixed: When animating to bucket, pieces should rotate up and have their tip go to the tip location
 Fixed: When animating to bucket, pieces should have their tip go to the tip location
 Fixed: Exception when dragging a piece that animated to the bucket.
 Animate pieces to the bucket
