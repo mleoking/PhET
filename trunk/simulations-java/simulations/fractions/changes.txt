@@ -1,3 +1,4 @@
+Fixed: Pieces don't drag the right amount when the screen is scaled
 Fixed: Pieces should be pointing up in bucket so they are in alignment with nearest target cells
 Randomize the location of slices in the bucket
 Fixed: Get rid of pie slice line

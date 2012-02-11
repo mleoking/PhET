@@ -9,6 +9,7 @@ import fj.data.List;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -22,7 +23,6 @@ import edu.colorado.phet.fractionsintro.intro.model.slicemodel.Slice;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static fj.Equal.equal;
 import static fj.Function.curry;
@@ -37,6 +37,7 @@ import static fj.data.List.single;
 public class PieSetNode extends PNode {
 
     private final BucketView bucketView;
+    private final PNode rootNode;
 
     public static <T> Equal<T> refEqual() {
         return equal( curry( new F2<T, T, Boolean>() {
@@ -46,7 +47,9 @@ public class PieSetNode extends PNode {
         } ) );
     }
 
-    public PieSetNode( final Property<PieSet> model ) {
+    //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
+    public PieSetNode( final Property<PieSet> model, PNode rootNode ) {
+        this.rootNode = rootNode;
 
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 );
         bucketView = new BucketView( model.get().bucket, mvt );
@@ -101,7 +104,7 @@ public class PieSetNode extends PNode {
                     //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
                     @Override public void mouseDragged( PInputEvent event ) {
                         PieSet state = model.get();
-                        final PDimension delta = event.getCanvasDelta();
+                        final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
                         PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.map( new F<MovableSlice, MovableSlice>() {
                             public MovableSlice f( MovableSlice slice ) {
                                 return slice.dragging() ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
