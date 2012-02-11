@@ -181,7 +181,7 @@ import static fj.data.List.range;
     }
 
     private Container pieToContainer( final Pie pie ) {
-        return new Container( pie.size, range( 0, pie.size ).filter( new F<Integer, Boolean>() {
+        return new Container( pie.cells.length(), range( 0, pie.cells.length() ).filter( new F<Integer, Boolean>() {
             @Override public Boolean f( Integer i ) {
                 return cellFilled( pie.cells.index( i ) );
             }
