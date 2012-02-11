@@ -80,7 +80,7 @@ public class PieSetNode extends PNode {
                     //Flag one slice as dragging
                     @Override public void mousePressed( PInputEvent event ) {
                         PieSet state = model.get();
-                        final PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).snoc( slice.dragging( true ).container( null ) ) );
+                        final PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.delete( slice, Equal.<MovableSlice>anyEqual() ).snoc( slice.dragging( true ).container( null ) ) );
                         model.set( newState );
                     }
 
