@@ -1,3 +1,5 @@
+Added sim sharing messages for the number of points scored during the game.
+Turned on dialog for entering ID when study version is run.
 Added better user component IDs for mystery masses.
 # 1.00.07 (60612) Jan 25, 2012
 1/25/12 Deploying study version to dev for review by researchers.
