@@ -1,0 +1,1 @@
+2/10/2012 Forked fj.data.List to provide equals and hashcode, see #3252

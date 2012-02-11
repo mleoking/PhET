@@ -32,6 +32,7 @@ import static fj.Ord.intOrd;
 import fj.Ordering;
 
 import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -1764,4 +1765,12 @@ public abstract class List<A> implements Iterable<A> {
         snoc(t.head());
     }
   }
+
+    @Override public boolean equals( Object obj ) {
+        return obj != null && obj instanceof List && new ArrayList<A>( toCollection() ).equals( new ArrayList( ( (List) obj ).toCollection() ) );
+    }
+
+    @Override public int hashCode() {
+        return new ArrayList<A>( toCollection() ).hashCode();
+    }
 }
