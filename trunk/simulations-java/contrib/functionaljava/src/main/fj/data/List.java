@@ -1766,11 +1766,17 @@ public abstract class List<A> implements Iterable<A> {
     }
   }
 
+    //Methods added by PhET 2/11/2012, see #3252
+
     @Override public boolean equals( Object obj ) {
         return obj != null && obj instanceof List && new ArrayList<A>( toCollection() ).equals( new ArrayList( ( (List) obj ).toCollection() ) );
     }
 
     @Override public int hashCode() {
         return new ArrayList<A>( toCollection() ).hashCode();
+    }
+
+    @Override public String toString() {
+        return new ArrayList<A>( toCollection() ).toString();
     }
 }
