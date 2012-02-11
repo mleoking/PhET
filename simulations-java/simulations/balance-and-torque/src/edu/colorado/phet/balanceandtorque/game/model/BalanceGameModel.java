@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorque.common.model.AttachmentBar;
 import edu.colorado.phet.balanceandtorque.common.model.ColumnState;
@@ -22,6 +23,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -308,14 +311,22 @@ public class BalanceGameModel {
         if ( answerIsCorrect ) {
             // The user answered the challenge correctly.
             gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
+            int pointsEarned = 0;
             if ( incorrectGuessesOnCurrentChallenge == 0 ) {
                 // User got it right the first time.
-                scoreProperty.set( scoreProperty.get() + MAX_POINTS_PER_PROBLEM );
+                pointsEarned = MAX_POINTS_PER_PROBLEM;
             }
             else {
                 // User got it wrong at first, but got it right now.
-                scoreProperty.set( scoreProperty.get() + MAX_POINTS_PER_PROBLEM - incorrectGuessesOnCurrentChallenge );
+                pointsEarned = MAX_POINTS_PER_PROBLEM - incorrectGuessesOnCurrentChallenge;
             }
+            scoreProperty.set( scoreProperty.get() + pointsEarned );
+
+            // Log sim sharing message about the number of points scored.
+            SimSharingManager.sendModelMessage( SimSharing.Components.game,
+                                                challengeList.get( challengeCount ).getModelComponentType(),
+                                                pointsScored,
+                                                new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.pointsEarnedKey, pointsEarned ) ) );
         }
         else {
             // The user got it wrong.

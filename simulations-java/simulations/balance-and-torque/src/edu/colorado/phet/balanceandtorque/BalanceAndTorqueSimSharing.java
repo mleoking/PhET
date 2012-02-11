@@ -58,10 +58,12 @@ public class BalanceAndTorqueSimSharing {
 
     public static enum ModelActions implements IModelAction {
         massAddedToPlank, massRemovedFromPlank, startedTilting, stoppedTilting,
-        challengePresented, correctAnswerSubmitted, incorrectAnswerSubmitted
+        challengePresented, correctAnswerSubmitted, incorrectAnswerSubmitted,
+        pointsScored
     }
 
     public static enum ParameterKeys implements IParameterKey {
-        massValue, distanceFromPlankCenter, plankTiltAngle, massUserComponent
+        massValue, distanceFromPlankCenter, plankTiltAngle, massUserComponent,
+        pointsEarnedKey
     }
 }
