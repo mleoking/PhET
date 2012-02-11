@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.FractionRepresentationNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.HorizontalBarsNode;
@@ -109,7 +109,7 @@ public class MatchingGameModel {
 
                 //TODO: Fix
                 public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
-                    return new PieNode( transform, fraction, new Property<ContainerSetState>( new ContainerSetState( fraction.denominator, new Container[0] ) ) );
+                    return new PieNode( transform, fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[0] ) ) );
                 }
             } );
             add( new Representation() {

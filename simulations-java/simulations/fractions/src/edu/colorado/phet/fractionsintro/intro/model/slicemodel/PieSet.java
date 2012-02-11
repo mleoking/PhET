@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 
 import static fj.Function.curry;
 import static fj.Ord.ord;
@@ -172,12 +172,12 @@ import static fj.data.List.range;
         return closestCell != null && !( new Area( closestCell.shape() ) {{intersect( new Area( s.shape() ) );}}.isEmpty() ) ? closestCell : null;
     }
 
-    public ContainerSetState toContainerState() {
-        return new ContainerSetState( denominator, pies.map( new F<Pie, Container>() {
+    public ContainerSet toContainerState() {
+        return new ContainerSet( denominator, pies.map( new F<Pie, Container>() {
             @Override public Container f( Pie pie ) {
                 return pieToContainer( pie );
             }
-        } ).toCollection() );
+        } ) );
     }
 
     private Container pieToContainer( final Pie pie ) {
@@ -185,19 +185,19 @@ import static fj.data.List.range;
             @Override public Boolean f( Integer i ) {
                 return cellFilled( pie.cells.index( i ) );
             }
-        } ).toCollection() );
+        } ) );
     }
 
     public PieSet denominator( int denominator ) {
         return fromContainerSetState( toContainerState().denominator( denominator ) );
     }
 
-    private PieSet fromContainerSetState( ContainerSetState containerSetState ) {
+    private PieSet fromContainerSetState( ContainerSet containerSetState ) {
         final List<Pie> emptyPies = createEmptyPies( containerSetState.denominator );
         return new PieSet( containerSetState.numerator, containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ) );
     }
 
-    private List<MovableSlice> createSlices( final List<Pie> emptyPies, final ContainerSetState containerSetState ) {
+    private List<MovableSlice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
         ArrayList<MovableSlice> all = new ArrayList<MovableSlice>();
         for ( int i = 0; i < containerSetState.containers.length(); i++ ) {
             Container c = containerSetState.containers.index( i );

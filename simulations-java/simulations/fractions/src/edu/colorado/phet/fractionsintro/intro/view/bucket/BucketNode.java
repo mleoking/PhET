@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
+import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.view.RepresentationArea;
 import edu.umd.cs.piccolo.PNode;
@@ -43,8 +43,8 @@ public class BucketNode extends PNode {
 
         //Have to call update when the container state changes, but we need to make sure this listener is called after the container state itself changes
         //So we can do that by observing the container state for changes and updating when its denominator changes
-        model.containerState.addObserver( new ChangeObserver<ContainerSetState>() {
-            public void update( ContainerSetState newValue, ContainerSetState oldValue ) {
+        model.containerState.addObserver( new ChangeObserver<ContainerSet>() {
+            public void update( ContainerSet newValue, ContainerSet oldValue ) {
                 if ( newValue.denominator != oldValue.denominator ) {
                     refillBucket();
                 }
