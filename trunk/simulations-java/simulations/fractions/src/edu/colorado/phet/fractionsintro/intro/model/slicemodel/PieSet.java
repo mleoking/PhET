@@ -42,6 +42,7 @@ import static fj.data.List.range;
     public static final Bucket bucket = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" );
     public static final Random RANDOM = new Random();
     public static final double pieDiameter = 155;
+    public static final double radius = pieDiameter / 2;
     public static final int numPies = 6;
     public static final double pieSpacing = 10;
 
@@ -49,24 +50,23 @@ import static fj.data.List.range;
         this( 0, 1, createEmptyPies( 1 ), createSlicesForBucket( 1, 6 ) );
     }
 
+    //Slices to put in the buckets
     private static List<MovableSlice> createSlicesForBucket( final int denominator, final int numSlices ) {
+        return iterableList( new ArrayList<MovableSlice>() {{
+            for ( int i = 0; i < numSlices; i++ ) {
+                add( new MovableSlice( createBucketSlice( denominator ), null ) );
+            }
+        }} );
+    }
+
+    //Put the pieces right in the center of the bucket hole.
+    //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
+    public static Slice createBucketSlice( int denominator ) {
+        final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
+        final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
 
         final double anglePerSlice = 2 * Math.PI / denominator;
-
-        //Slices to put in the buckets
-        ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
-            for ( int i = 0; i < numSlices; i++ ) {
-
-                //Put the pieces right in the center of the bucket hole.
-                //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
-                final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
-                final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
-                final double radius = pieDiameter / 2;
-                final MovableSlice slice = new MovableSlice( new Slice( new ImmutableVector2D( x + ( RANDOM.nextDouble() * 2 - 1 ) * radius, y - radius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, radius, false, null ), null );
-                add( slice );
-            }
-        }};
-        return List.iterableList( slices );
+        return new Slice( new ImmutableVector2D( x + ( PieSet.RANDOM.nextDouble() * 2 - 1 ) * PieSet.radius, y - PieSet.radius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, PieSet.radius, false, null );
     }
 
     //Create some cells for the empty pies
