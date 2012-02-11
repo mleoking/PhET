@@ -2,7 +2,7 @@ Fixed: Pieces should be pointing up in bucket so they are in alignment with near
 Randomize the location of slices in the bucket
 Fixed: Get rid of pie slice line
 Fixed bucket location
-Added lombok for data classes
+Added Lombok for data classes
 Added pie model and view to main sim
 Require pieces to intersect with cells before they are dropped
 Fixed: when dragged, piece should not be contained by a cell
