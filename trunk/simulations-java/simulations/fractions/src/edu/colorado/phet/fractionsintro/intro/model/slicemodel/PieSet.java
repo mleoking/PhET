@@ -126,15 +126,7 @@ import static fj.data.List.range;
                         }
                     } ) ) );
 
-                    //Account for winding number
-                    double closestAngle = closest.angle;
-                    if ( Math.abs( closestAngle - s.angle() ) > Math.PI ) {
-                        if ( closestAngle > s.angle() ) { closestAngle -= 2 * Math.PI; }
-                        else if ( closestAngle < s.angle() ) { closestAngle += 2 * Math.PI; }
-                    }
-                    double delta = closestAngle - s.angle();
-                    final double newAngle = s.angle() + delta / 6 * 30 * simulationTimeChange;
-                    final MovableSlice rotated = s.angle( newAngle );//Xeno effect
+                    final MovableSlice rotated = s.rotateTowardTarget( closest.angle );
 
                     //Keep the center in the same place
                     return rotated.translate( s.center().minus( rotated.center() ) );
