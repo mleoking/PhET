@@ -36,7 +36,7 @@ public class PieSetView {
                     } ).start();
 
                     setContentPane( new PhetPCanvas() {{
-                        addScreenChild( new PieSetNode( model, null ) );
+                        addScreenChild( new PieSetNode( model, getPhetRootNode() ) );
                     }} );
                     pack();
                     setSize( new Dimension( 1024, 768 ) );

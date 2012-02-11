@@ -62,7 +62,6 @@ public class FractionsIntroModel extends SingleFractionModel {
             }
         } );
 
-
         //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
         pieSet.addObserver( new SimpleObserver() {
             public void update() {
