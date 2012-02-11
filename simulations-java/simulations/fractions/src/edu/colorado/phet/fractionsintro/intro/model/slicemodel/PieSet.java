@@ -163,8 +163,8 @@ import static fj.data.List.range;
 
     public ContainerSet toContainerState() {
         return new ContainerSet( denominator, pies.map( new F<Pie, Container>() {
-            @Override public Container f( Pie pie ) {
-                return pieToContainer( pie );
+            @Override public Container f( Pie p ) {
+                return pieToContainer( p );
             }
         } ) );
     }
