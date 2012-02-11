@@ -285,9 +285,13 @@ public class BalanceGameModel {
      * correct answer.
      *
      * @param isCorrect
+     * @param pointsEarned
      */
-    private void sendAnswerCheckResult( IModelComponentType modelComponentType, boolean isCorrect ) {
-        SimSharingManager.sendModelMessage( SimSharing.Components.game, modelComponentType, isCorrect ? correctAnswerSubmitted : incorrectAnswerSubmitted );
+    private void sendAnswerCheckResult( IModelComponentType modelComponentType, boolean isCorrect, int pointsEarned ) {
+        SimSharingManager.sendModelMessage( SimSharing.Components.game,
+                                            modelComponentType,
+                                            isCorrect ? correctAnswerSubmitted : incorrectAnswerSubmitted,
+                                            new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.pointsEarned, pointsEarned ) ) );
     }
 
     /**
@@ -308,10 +312,10 @@ public class BalanceGameModel {
      * @param answerIsCorrect
      */
     private void handleProposedAnswer( boolean answerIsCorrect ) {
+        int pointsEarned = 0;
         if ( answerIsCorrect ) {
             // The user answered the challenge correctly.
             gameStateProperty.set( GameState.SHOWING_CORRECT_ANSWER_FEEDBACK );
-            int pointsEarned = 0;
             if ( incorrectGuessesOnCurrentChallenge == 0 ) {
                 // User got it right the first time.
                 pointsEarned = MAX_POINTS_PER_PROBLEM;
@@ -321,12 +325,6 @@ public class BalanceGameModel {
                 pointsEarned = MAX_POINTS_PER_PROBLEM - incorrectGuessesOnCurrentChallenge;
             }
             scoreProperty.set( scoreProperty.get() + pointsEarned );
-
-            // Log sim sharing message about the number of points scored.
-            SimSharingManager.sendModelMessage( SimSharing.Components.game,
-                                                challengeList.get( challengeCount ).getModelComponentType(),
-                                                pointsScored,
-                                                new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.pointsEarnedKey, pointsEarned ) ) );
         }
         else {
             // The user got it wrong.
@@ -340,7 +338,7 @@ public class BalanceGameModel {
         }
 
         // Send up a sim sharing message about the result.
-        sendAnswerCheckResult( challengeList.get( challengeCount ).getModelComponentType(), answerIsCorrect );
+        sendAnswerCheckResult( challengeList.get( challengeCount ).getModelComponentType(), answerIsCorrect, pointsEarned );
     }
 
     public void nextChallenge() {
