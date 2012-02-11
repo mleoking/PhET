@@ -16,24 +16,12 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class RepresentationArea extends PNode {
     public RepresentationArea( Property<ChosenRepresentation> chosenRepresentation, Property<Integer> numerator, Property<Integer> denominator, Property<ContainerSetState> containerState ) {
-
-        //Y offset values sampled with this inner class listener:
-//        addInputEventListener( new PBasicInputEventHandler() {
-//                        @Override public void mouseDragged( PInputEvent event ) {
-//                            translate( 0, event.getDeltaRelativeTo( RepresentationArea.this.getParent() ).getHeight() );
-//                            System.out.println( "offset y = " + getOffset().getY() );
-//                        }
-//                    } );
-
         addChild( new HorizontalBarSetFractionNode( chosenRepresentation, containerState ) {{
             setOffset( 0, -29 );
         }} );
         addChild( new VerticalBarSetFractionNode( chosenRepresentation, containerState ) {{
             setOffset( 0, -73 );
         }} );
-//        addChild( new PieSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.PIE ) ) {{
-//            setOffset( 0, -48 );
-//        }} );
         addChild( new NumberLineNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.NUMBER_LINE ) ) {{
             setOffset( 10, 15 );
         }} );
@@ -42,19 +30,7 @@ public class RepresentationArea extends PNode {
         }} );
         addChild( new WaterGlassSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.WATER_GLASSES ) ) {{
             setOffset( 15, -65 );
-
-//            addInputEventListener( new PBasicInputEventHandler() {
-//                @Override public void mouseDragged( PInputEvent event ) {
-//                    translate( 0, event.getDeltaRelativeTo( RepresentationArea.this.getParent() ).getHeight() );
-//                    System.out.println( "offset y = " + getOffset().getY() );
-//                }
-//            } );
         }} );
-
-        //Since it is unclear how to subdivide a single grid while keeping it the same size, we have discarded this representation for now.
-        //        addChild( new GridFractionNode( chosenRepresentation, numerator, denominator ) {{
-        //            setOffset( 0, -50 );
-        //        }} );
     }
 
     public CellPointer getClosestOpenCell( Shape globalShape, Point2D center2D ) {
