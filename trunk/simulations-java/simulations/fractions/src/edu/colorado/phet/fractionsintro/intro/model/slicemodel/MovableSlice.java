@@ -38,4 +38,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     public ImmutableVector2D center() {return slice.center();}
 
     public double angle() { return slice.angle;}
+
+    public MovableSlice animateTo( ImmutableVector2D pt ) { return new MovableSlice( slice.animateTo( pt ), container ); }
+
+    public MovableSlice stepAnimation() { return new MovableSlice( slice.stepAnimation(), container ); }
 }

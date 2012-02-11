@@ -62,7 +62,7 @@ import static fj.data.List.range;
                 final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
                 final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
                 final double radius = pieDiameter / 2;
-                final MovableSlice slice = new MovableSlice( new Slice( new ImmutableVector2D( x + ( RANDOM.nextDouble() * 2 - 1 ) * radius, y - radius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, radius, false ), null );
+                final MovableSlice slice = new MovableSlice( new Slice( new ImmutableVector2D( x + ( RANDOM.nextDouble() * 2 - 1 ) * radius, y - radius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, radius, false, null ), null );
                 add( slice );
             }
         }};
@@ -76,7 +76,7 @@ import static fj.data.List.range;
             for ( int i = 0; i < numPies; i++ ) {
                 ArrayList<Slice> cells = new ArrayList<Slice>();
                 for ( int k = 0; k < denominator; k++ ) {
-                    cells.add( new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ) - 80, 250 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ) );
+                    cells.add( new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ) - 80, 250 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false, null ) );
                 }
                 add( new Pie( iterableList( cells ) ) );
             }
@@ -114,7 +114,7 @@ import static fj.data.List.range;
         } );
     }
 
-    public PieSet stepInTime( double simulationTimeChange ) {
+    public PieSet stepInTime( final double simulationTimeChange ) {
         final List<MovableSlice> slices = this.slices.map( new F<MovableSlice, MovableSlice>() {
             public MovableSlice f( final MovableSlice s ) {
                 if ( s.dragging() ) {
@@ -133,13 +133,13 @@ import static fj.data.List.range;
                         else if ( closestAngle < s.angle() ) { closestAngle += 2 * Math.PI; }
                     }
                     double delta = closestAngle - s.angle();
-                    final MovableSlice rotated = s.angle( s.angle() + delta / 6 );//Xeno effect
+                    final MovableSlice rotated = s.angle( s.angle() + delta / 6 * 30 * simulationTimeChange );//Xeno effect
 
                     //Keep the center in the same place
                     return rotated.translate( s.center().minus( rotated.center() ) );
                 }
                 else {
-                    return s;
+                    return s.stepAnimation();
                 }
             }
         } );

@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -24,9 +25,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet.bucket;
 import static fj.Equal.equal;
 import static fj.Function.curry;
-import static fj.data.List.single;
 
 /**
  * Renders the pie set node from the given model.  Unconventional way of using piccolo, where the scene graph is recreated any time the model changes.
@@ -79,8 +80,7 @@ public class PieSetNode extends PNode {
                     //Flag one slice as dragging
                     @Override public void mousePressed( PInputEvent event ) {
                         PieSet state = model.get();
-                        final List<MovableSlice> newSlice = single( slice.dragging( true ).container( null ) );
-                        final PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).append( newSlice ) );
+                        final PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.delete( slice, PieSetNode.<MovableSlice>refEqual() ).snoc( slice.dragging( true ).container( null ) ) );
                         model.set( newState );
                     }
 
@@ -92,8 +92,12 @@ public class PieSetNode extends PNode {
                         final List<MovableSlice> newSlices = state.slices.map( new F<MovableSlice, MovableSlice>() {
                             public MovableSlice f( MovableSlice s ) {
                                 Slice target = state.getDropTarget( s );
-                                if ( s.dragging() && target != null ) { return s.moveTo( state.getDropTarget( s ) ); }
-                                else if ( s.dragging() ) { return s.dragging( false ); }
+                                if ( s.dragging() && target != null ) { return s.moveTo( target ); }
+                                else if ( s.dragging() ) {
+                                    final ImmutableVector2D bucketCenter = new ImmutableVector2D( bucket.getHoleShape().getBounds().getCenterX() + bucket.getPosition().getX(),
+                                                                                                  -bucket.getHoleShape().getBounds().getCenterY() - bucket.getPosition().getY() );//Minus sign compensates for MVT in bucket code
+                                    return s.dragging( false ).animateTo( bucketCenter );
+                                }
                                 else { return s; }
                             }
                         } );
