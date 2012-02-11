@@ -7,10 +7,13 @@ import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
 
+import java.awt.Color;
 import java.awt.geom.Area;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Bucket;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSetState;
 
@@ -34,6 +37,9 @@ public class PieSet {
     //The list of all cells
     public final List<Slice> cells;
 
+    public static final Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
+    public static final Bucket bucket = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" );
+
     public PieSet() {
         this( 0, 1, createEmptyPies(), createDefaultSlices() );
     }
@@ -49,7 +55,7 @@ public class PieSet {
         ArrayList<MovableSlice> slices = new ArrayList<MovableSlice>() {{
             for ( int i = 0; i < numPies; i++ ) {
                 for ( int k = 0; k < denominator; k++ ) {
-                    add( new MovableSlice( new Slice( new ImmutableVector2D( 200, 300 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
+                    add( new MovableSlice( new Slice( new ImmutableVector2D( bucket.getHoleShape().getBounds2D().getCenterX(), bucket.getHoleShape().getBounds2D().getCenterY() ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false ), null ) );
                 }
             }
         }};
@@ -175,5 +181,14 @@ public class PieSet {
                 return cellFilled( pie.cells.index( i ) );
             }
         } ).toCollection() );
+    }
+
+    public PieSet denominator( int denominator ) {
+        return fromContainerSetState( toContainerState().denominator( denominator ) );
+    }
+
+    private PieSet fromContainerSetState( ContainerSetState containerSetState ) {
+        return this;
+//        return new PieSet( containerSetState.numerator, containerSetState.denominator, containerSetState.containers.map );
     }
 }

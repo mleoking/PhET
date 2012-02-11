@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import fj.F;
+import fj.data.List;
 import lombok.Data;
 
 import java.util.Collection;
@@ -14,7 +16,7 @@ import java.util.HashSet;
  */
 @Data public class Container {
     public final int numCells;
-    public final HashSet<Integer> filledCells;
+    public final List<Integer> filledCells;
     public final int numFilledCells;
 
     public Container( int numCells, int[] filledCells ) {
@@ -34,17 +36,17 @@ import java.util.HashSet;
     }
 
     public Container( int numCells, final Collection<Integer> filledCells ) {
-        this( numCells, new HashSet<Integer>() {{
+        this( numCells, List.iterableList( new HashSet<Integer>() {{
             for ( Integer filledCell : filledCells ) {
                 add( filledCell );
             }
-        }} );
+        }} ) );
     }
 
-    public Container( int numCells, HashSet<Integer> filledCells ) {
+    public Container( int numCells, List<Integer> filledCells ) {
         this.numCells = numCells;
         this.filledCells = filledCells;
-        this.numFilledCells = filledCells.size();
+        this.numFilledCells = filledCells.length();
     }
 
     public static Container full( final int denominator ) {
@@ -56,24 +58,32 @@ import java.util.HashSet;
     }
 
     public boolean isFull() {
-        return new HashSet<Integer>( filledCells ).equals( new HashSet<Integer>( RandomFill.listAll( numCells ) ) );
+        return new HashSet<Integer>( filledCells.toCollection() ).equals( new HashSet<Integer>( RandomFill.listAll( numCells ) ) );
     }
 
     public Boolean isEmpty() {
-        return filledCells.size() == 0;
+        return filledCells.length() == 0;
     }
 
-    public Boolean isEmpty( int cell ) {
-        return !filledCells.contains( cell );
+    public Boolean isEmpty( final int cell ) {
+        return !filledCells.exists( cellIndex( cell ) );
+    }
+
+    private F<Integer, Boolean> cellIndex( final int cell ) {
+        return new F<Integer, Boolean>() {
+            @Override public Boolean f( Integer i ) {
+                return i == cell;
+            }
+        };
     }
 
     //Return a copy but with the specified cell toggled
     public Container toggle( final int cell ) {
-        if ( !filledCells.contains( cell ) ) {
-            return new Container( numCells, new HashSet<Integer>( filledCells ) {{add( cell );}} );
+        if ( !filledCells.exists( cellIndex( cell ) ) ) {
+            return new Container( numCells, new HashSet<Integer>( filledCells.toCollection() ) {{add( cell );}} );
         }
         else {
-            return new Container( numCells, new HashSet<Integer>( filledCells ) {{remove( cell );}} );
+            return new Container( numCells, new HashSet<Integer>( filledCells.toCollection() ) {{remove( cell );}} );
         }
     }
 

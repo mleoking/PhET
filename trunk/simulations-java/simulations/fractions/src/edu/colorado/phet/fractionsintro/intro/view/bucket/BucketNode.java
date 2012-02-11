@@ -56,7 +56,7 @@ public class BucketNode extends PNode {
     //Fill the bucket with the right number of slices which can be dragged to the container cells
     private void refillBucket() {
         bucketContentsLayer.removeAllChildren();
-        int numSlicesForBucket = model.containerState.get().getAllCellPointers().size() - model.containerState.get().getFilledCells().size();
+        int numSlicesForBucket = model.containerState.get().getAllCellPointers().length() - model.containerState.get().getFilledCells().length();
         for ( int i = 0; i < numSlicesForBucket; i++ ) {
             PieSliceNode pieSliceNode = new PieSliceNode( model.denominator.get() ) {{
                 final PieSliceNode node = this;
