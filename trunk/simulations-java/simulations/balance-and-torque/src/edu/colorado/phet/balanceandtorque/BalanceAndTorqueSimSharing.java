@@ -28,7 +28,7 @@ public class BalanceAndTorqueSimSharing {
 
         // Movable masses
         singleBrick, stackOfTwoBricks, stackOfThreeBricks, stackOfFourBricks,
-        statckOfEightBricks, mediumTrashCan, mediumBucket, tire, television,
+        stackOfEightBricks, mediumTrashCan, mediumBucket, tire, television,
         sodaBottle, smallRock, smallTrashCan, pottedPlant, tinyRock, flowerPot,
         cinderBlock, mediumRock, largeTrashCan, mysteryMass, barrel,
         fireExtinguisher, bigRock, largeBucket, fireHydrant, man, woman, boy,
@@ -36,8 +36,8 @@ public class BalanceAndTorqueSimSharing {
 
         // Buttons
         redXRemoveSupportsButton, addSupportsButton, removeSupportsButton,
-        nextKitButton, previousKitButton, checkAnswer, tryAgain, displayAnswer,
-        nextChallenge, tiltLeftButton, stayBalancedButton, tiltRightButton,
+        checkAnswer, tryAgain, displayAnswer, nextChallenge, tiltLeftButton,
+        stayBalancedButton, tiltRightButton,
 
         // Kits
         massKitSelector
