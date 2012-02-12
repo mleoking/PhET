@@ -182,7 +182,6 @@ class ConcentrationMeterNode extends PhetPNode {
                                              valueNode.getYOffset() );
                     }
                     else {
-                        // eg, "0.23400 M"
                         valueNode.setText( VALUE_FORMAT.format( value ) );
                         // right justified
                         valueNode.setOffset( imageNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth() - VALUE_X_MARGIN,
@@ -218,7 +217,7 @@ class ConcentrationMeterNode extends PhetPNode {
             addChild( imageNode );
             imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
 
-            // body location
+            // probe location
             meter.probe.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D location ) {
                     setOffset( location.toPoint2D() );

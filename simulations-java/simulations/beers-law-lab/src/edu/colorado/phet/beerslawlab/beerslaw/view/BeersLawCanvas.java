@@ -7,6 +7,8 @@ import java.awt.Frame;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
+import edu.colorado.phet.beerslawlab.common.view.DebugLocationNode;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -33,6 +35,8 @@ public class BeersLawCanvas extends BLLCanvas {
         }};
         PNode rulerNode = new BLLRulerNode( (int)model.getCuvetteWidthRange().getMax(), getStageSize(), model.mvt );
         PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt );
+        PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
+        PNode debugLocationNode = new DebugLocationNode( model.mvt );
 
         // Rendering order
         {
@@ -41,7 +45,11 @@ public class BeersLawCanvas extends BLLCanvas {
             addChild( resetAllButtonNode );
             addChild( cuvetteNode );
             addChild( rulerNode );
+            addChild( detectorNode );
             addChild( solutionControlsNode );
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+                addChild( debugLocationNode );
+            }
         }
 
         // layout
@@ -61,6 +69,9 @@ public class BeersLawCanvas extends BLLCanvas {
             // bottom center
             rulerNode.setOffset( ( getStageSize().getWidth() - rulerNode.getFullBoundsReference().getWidth() ) / 2,
                                  ( getStageSize().getHeight() - rulerNode.getFullBoundsReference().getHeight() - yMargin ));
+            // location debugger left of Reset All button
+            debugLocationNode.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - 40,
+                                         resetAllButtonNode.getFullBoundsReference().getCenterY() );
         }
     }
 }

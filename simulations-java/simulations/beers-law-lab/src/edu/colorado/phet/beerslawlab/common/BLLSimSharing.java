@@ -23,7 +23,8 @@ public class BLLSimSharing {
         lightHousing, lightButton,
         ruler,
         cuvetteWidthHandle,
-        solution
+        solution,
+        detectorBody, detectorProbe, transmittanceRadioButton, absorbanceRadioButton
     }
 
     public static enum Parameters implements IParameterKey {

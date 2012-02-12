@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -23,27 +24,34 @@ public class MovableDragHandler extends SimSharingDragHandler {
 
     private final Movable movable;
     private final PNode dragNode;
+    private final ModelViewTransform mvt;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
+    // Use this constructor when there's a 1:1 mapping between model and view coordinate frames.
     public MovableDragHandler( final IUserComponent userComponent, final Movable movable, PNode dragNode ) {
+        this( userComponent, movable, dragNode, ModelViewTransform.createIdentity() );
+    }
+
+    public MovableDragHandler( final IUserComponent userComponent, final Movable movable, PNode dragNode, ModelViewTransform mvt ) {
         super( userComponent, UserComponentTypes.sprite );
         this.movable = movable;
         this.dragNode = dragNode;
+        this.mvt = mvt;
     }
 
     @Override protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        clickXOffset = pMouse.getX() - movable.location.get().getX();
-        clickYOffset = pMouse.getY() - movable.location.get().getY();
+        clickXOffset = pMouse.getX() - mvt.modelToViewDeltaX( movable.location.get().getX() );
+        clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( movable.location.get().getY() );
     }
 
     @Override protected void drag( final PInputEvent event ) {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        double x = pMouse.getX() - clickXOffset;
-        double y = pMouse.getY() - clickYOffset;
-        movable.location.set( constrainToBounds( x, y, movable.getDragBounds() ) ); // assumes a 1:1 model-view transform
+        double xModel = mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset );
+        double yModel = mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset );
+        movable.location.set( constrainToBounds( xModel, yModel, movable.getDragBounds() ) );
     }
 
     @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
