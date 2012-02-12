@@ -49,19 +49,6 @@ import static fj.Function.curry;
         return containers.toString();
     }
 
-    public ContainerSet addPieces( int delta ) {
-        if ( delta == 0 ) {
-            return this;
-        }
-        else if ( delta > 0 ) {
-            ContainerSet cs = isFull() ? addEmptyContainer() : this;
-            return cs.toggle( cs.getFirstEmptyCell() ).addPieces( delta - 1 ).padAndTrim();
-        }
-        else {
-            return toggle( getLastFullCell() ).addPieces( delta + 1 ).padAndTrim();
-        }
-    }
-
     //Add an empty container if this one is all full, but don't go past 6 (would be off the screen)
     public ContainerSet padAndTrim() {
         ContainerSet cs = trim();
@@ -121,7 +108,7 @@ import static fj.Function.curry;
         } ) );
     }
 
-    private CellPointer getLastFullCell() {
+    public CellPointer getLastFullCell() {
         return getAllCellPointers().reverse().find( new F<CellPointer, Boolean>() {
             @Override public Boolean f( CellPointer cellPointer ) {
                 return !isEmpty( cellPointer );
@@ -139,7 +126,7 @@ import static fj.Function.curry;
         }} );
     }
 
-    private CellPointer getFirstEmptyCell() {
+    public CellPointer getFirstEmptyCell() {
         return getAllCellPointers().find( new F<CellPointer, Boolean>() {
             @Override public Boolean f( CellPointer cellPointer ) {
                 return isEmpty( cellPointer );

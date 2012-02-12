@@ -70,4 +70,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
         }
         return this;
     }
+
+    public boolean movingToward( Slice cell ) {
+        return animationTarget != null && animationTarget.position.equals( cell.tip ) && animationTarget.angle == cell.angle;
+    }
 }
