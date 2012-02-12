@@ -33,6 +33,7 @@ public class FractionsIntroModel extends SingleFractionModel {
                 if ( !userToggled ) {
                     int delta = newValue - oldValue;
                     containerState.set( containerState.get().addPieces( delta ) );
+                    pieSet.set( PieSet.fromContainerSetState( containerState.get() ) );
                 }
             }
         } );
