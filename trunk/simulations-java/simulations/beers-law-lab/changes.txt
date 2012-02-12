@@ -1,5 +1,6 @@
-2/9/12 preliminary pass at AT detector
-2/9/12 debug node that display model and view locations
+2/11/12 add wire to AT detector, standardize wire colors
+2/11/12 preliminary pass at AT detector
+2/11/12 debug node that display model and view locations
 2/9/12 make center of concentration probe transparent, so you can see the fluid that the crosshairs are on [61163]
 2/9/12 fix: concentration meter continues to read a value after dropper is turned off
 # 0.00.09 (61151) Feb 9, 2012
