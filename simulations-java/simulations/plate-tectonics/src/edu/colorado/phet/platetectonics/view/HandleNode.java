@@ -140,7 +140,7 @@ public class HandleNode extends GLNode {
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
                     if ( isConvergent ) {
-                        setVisible( motionType.get() == null || motionType.get() == MotionType.CONVERGENT );
+                        setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsConvergentMotion() ) || motionType.get() == MotionType.CONVERGENT );
                     }
                     else {
                         setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsDivergentMotion() )
@@ -165,7 +165,7 @@ public class HandleNode extends GLNode {
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
                     if ( isConvergent ) {
-                        setVisible( motionType.get() == null || motionType.get() == MotionType.CONVERGENT );
+                        setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsConvergentMotion() ) || motionType.get() == MotionType.CONVERGENT );
                     }
                     else {
                         setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsDivergentMotion() )

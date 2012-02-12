@@ -187,12 +187,18 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 new CrustPieceNode( PlateType.CONTINENTAL, CrustChooserPanel.CRUST_AREA_MAX_HEIGHT, 0.8f ),
                 getContinentalOffset() ) );
 
-        // young oceanic piece
+        // young oceanic pieces (2 can be dragged out)
+        addCrustPieceGLNode( new CrustPieceGLNode(
+                new CrustPieceNode( PlateType.YOUNG_OCEANIC, 35, 0.5f ),
+                getYoungOceanicOffset() ) );
         addCrustPieceGLNode( new CrustPieceGLNode(
                 new CrustPieceNode( PlateType.YOUNG_OCEANIC, 35, 0.5f ),
                 getYoungOceanicOffset() ) );
 
-        // old oceanic piece
+        // old oceanic pieces (2 can be dragged out)
+        addCrustPieceGLNode( new CrustPieceGLNode(
+                new CrustPieceNode( PlateType.OLD_OCEANIC, 35, 0.4f ),
+                getOldOceanicOffset() ) );
         addCrustPieceGLNode( new CrustPieceGLNode(
                 new CrustPieceNode( PlateType.OLD_OCEANIC, 35, 0.4f ),
                 getOldOceanicOffset() ) );
