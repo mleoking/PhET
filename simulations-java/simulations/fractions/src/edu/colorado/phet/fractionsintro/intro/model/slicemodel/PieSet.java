@@ -16,6 +16,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 
@@ -71,18 +72,22 @@ import static fj.data.List.range;
 
     //Create some cells for the empty pies
     private static List<Pie> createEmptyPies( final int denominator ) {
-        final double anglePerSlice = 2 * Math.PI / denominator;
         ArrayList<Pie> pies = new ArrayList<Pie>() {{
             for ( int i = 0; i < numPies; i++ ) {
                 ArrayList<Slice> cells = new ArrayList<Slice>();
                 for ( int k = 0; k < denominator; k++ ) {
-                    cells.add( new Slice( new ImmutableVector2D( pieDiameter * ( i + 1 ) + pieSpacing * ( i + 1 ) - 80, 250 ), anglePerSlice * k, anglePerSlice, pieDiameter / 2, false, null ) );
+                    cells.add( createPieCell( i, k, denominator ) );
                 }
                 add( new Pie( iterableList( cells ) ) );
             }
         }};
 
         return iterableList( pies );
+    }
+
+    private static Slice createPieCell( int pie, int cell, int denominator ) {
+        final double anglePerSlice = 2 * Math.PI / denominator;
+        return new Slice( new ImmutableVector2D( PieSet.pieDiameter * ( pie + 1 ) + PieSet.pieSpacing * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, PieSet.pieDiameter / 2, false, null );
     }
 
     public PieSet( int numerator, int denominator, List<Pie> pies, List<MovableSlice> slices ) {
@@ -144,7 +149,7 @@ import static fj.data.List.range;
     public boolean cellFilled( final Slice cell ) {
         return slices.exists( new F<MovableSlice, Boolean>() {
             public Boolean f( MovableSlice m ) {
-                return m.container == cell;
+                return m.container == cell || m.movingToward( cell );
             }
         } );
     }
@@ -196,5 +201,22 @@ import static fj.data.List.range;
             }
         }
         return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator, containerSetState.getEmptyCells().length() ) );
+    }
+
+    public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
+
+        //Find a slice from the bucket
+        //TODO: Should find any slice at the bucket or heading toward the bucket (if the user toggles the buttons fast)
+        final MovableSlice bucketSlice = slices.find( new F<MovableSlice, Boolean>() {
+            @Override public Boolean f( MovableSlice m ) {
+                return m.tip().getY() == createBucketSlice( denominator ).tip.getY();
+            }
+        } ).some();
+        final Slice target = createPieCell( emptyCell.container, emptyCell.cell, denominator );
+        return slices( slices.map( new F<MovableSlice, MovableSlice>() {
+            @Override public MovableSlice f( MovableSlice m ) {
+                return m == bucketSlice ? bucketSlice.animationTarget( new AnimationTarget( target.tip, target.angle ) ) : m;
+            }
+        } ) );
     }
 }

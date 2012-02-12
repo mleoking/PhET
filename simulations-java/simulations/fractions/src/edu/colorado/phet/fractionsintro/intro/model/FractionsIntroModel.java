@@ -12,6 +12,8 @@ import edu.colorado.phet.fractionsintro.common.model.SingleFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Fill;
 
+import static edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet.fromContainerSetState;
+
 /**
  * Model for the Fractions Intro sim.
  *
@@ -30,11 +32,23 @@ public class FractionsIntroModel extends SingleFractionModel {
         numerator.addObserver( new ChangeObserver<Integer>() {
             public void update( Integer newValue, Integer oldValue ) {
 
-                if ( !userToggled ) {
-                    int delta = newValue - oldValue;
-                    containerState.set( containerState.get().addPieces( delta ) );
-                    pieSet.set( PieSet.fromContainerSetState( containerState.get() ) );
+//                if ( !userToggled ) {
+                int delta = newValue - oldValue;
+                if ( delta != 0 ) {
+                    if ( delta > 0 ) {
+                        for ( int i = 0; i < delta; i++ ) {
+                            pieSet.set( pieSet.get().animateBucketSliceToPie( containerState.get().getFirstEmptyCell() ) );
+                        }
+                    }
+                    else {
+                        for ( int i = 0; i < Math.abs( delta ); i++ ) {
+                            containerState.set( containerState.get().toggle( containerState.get().getLastFullCell() ) );
+                        }
+                    }
+                    //To have it automatically update
+//                        pieSet.set( fromContainerSetState( containerState.get() ) );
                 }
+//                }
             }
         } );
 
@@ -46,7 +60,7 @@ public class FractionsIntroModel extends SingleFractionModel {
                     //When changing denominator, move pieces to nearby slots
                     ContainerSet newState = containerState.get().denominator( denominator );
                     containerState.set( newState.padAndTrim() );
-                    pieSet.set( PieSet.fromContainerSetState( containerState.get() ) );
+                    pieSet.set( fromContainerSetState( containerState.get() ) );
                 }
             }
         } );
