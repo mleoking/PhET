@@ -261,4 +261,9 @@ public abstract class ObservableProperty<T> implements Cloneable {
             newAndOldValueObservers.clear();
         }
     }
+
+    //Return a new observable property to indicate whether this value equals the specified value
+    public ValueEquals<T> valueEquals( T value ) {
+        return new ValueEquals<T>( this, value );
+    }
 }
