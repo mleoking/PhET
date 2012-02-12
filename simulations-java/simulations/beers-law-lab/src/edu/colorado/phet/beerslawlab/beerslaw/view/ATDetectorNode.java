@@ -1,7 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
-import java.awt.geom.Point2D;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.CubicCurve2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -45,7 +49,7 @@ public class ATDetectorNode extends PhetPNode {
         // nodes
         PNode bodyNode = new BodyNode( detector, mvt );
         PNode probeNode = new ProbeNode( detector, mvt );
-        PNode wireNode = new WireNode();
+        PNode wireNode = new WireNode( bodyNode, probeNode );
 
         // rendering order
         addChild( wireNode );
@@ -138,6 +142,7 @@ public class ATDetectorNode extends PhetPNode {
             addChild( imageNode );
             imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth()/2, -PROBE_CENTER_Y_OFFSET );
 
+            //TODO show the shape of the sensor region, detector.probeDiameter
             // show origin, for debugging PROBE_CENTER_OFFSET
             PNode originNode = new DebugOriginNode();
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
@@ -161,10 +166,33 @@ public class ATDetectorNode extends PhetPNode {
     }
 
     // Wire that connects the probe to the body of the detector.
-    private static class WireNode extends PPath {
+    public class WireNode extends PPath {
+        public WireNode( final PNode bodyNode, final PNode probeNode ) {
+            setStroke( new BasicStroke( 8, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ) );
+            setStrokePaint( Color.GRAY );
 
-        public WireNode() {
+            // Update when bounds of the body or probe change
+            final PropertyChangeListener listener = new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
 
+                    // connect to left center of body
+                    final double bodyConnectionX = bodyNode.getFullBoundsReference().getMinX();
+                    final double bodyConnectionY = bodyNode.getFullBounds().getCenterY();
+
+                    // connect to bottom center of probe
+                    final double probeConnectionX = probeNode.getFullBoundsReference().getCenterX();
+                    final double probeConnectionY = probeNode.getFullBoundsReference().getMaxY();
+
+                    // cubic curve
+                    final double controlPointOffset = 60;
+                    setPathTo( new CubicCurve2D.Double( bodyConnectionX, bodyConnectionY,
+                                                        bodyConnectionX - controlPointOffset, bodyConnectionY,
+                                                        probeConnectionX, probeConnectionY + controlPointOffset,
+                                                        probeConnectionX, probeConnectionY ) );
+                }
+            };
+            probeNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
+            bodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
         }
     }
 

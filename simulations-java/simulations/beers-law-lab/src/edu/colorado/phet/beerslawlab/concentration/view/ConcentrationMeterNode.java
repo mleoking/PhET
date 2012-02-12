@@ -55,7 +55,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 class ConcentrationMeterNode extends PhetPNode {
 
     public static final String VALUE_PATTERN = "0.000";
-    private static final Color WIRE_COLOR =  new Color( 133, 0, 66 ).darker(); // a little darker than the meter body
 
     private final ConcentrationMeter meter;
     private final Solution solution;
@@ -263,7 +262,7 @@ class ConcentrationMeterNode extends PhetPNode {
         public WireNode( final PNode probeNode, final PNode bodyNode ) {
 
             setStroke( new BasicStroke( 8, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ) );
-            setStrokePaint( WIRE_COLOR );
+            setStrokePaint( Color.GRAY );
 
             final PropertyChangeListener updateCurve = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
