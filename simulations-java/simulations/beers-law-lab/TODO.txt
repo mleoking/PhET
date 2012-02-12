@@ -18,6 +18,7 @@ HIGH
 
 MEDIUM
 - meter and detector body images don't have transparent backgrounds (at rounded corners)
+- increase space for radio buttons in AT detector images
 - use CompositeProperty for Shaker.dispensingRate?
 - fix resizing issue with LightControlNode, control panel width changes when dragging wavelength slider
 - #3242, make combo box popup appear on top of everything in the scenegraph
