@@ -431,7 +431,13 @@ public class PlateMotionModel extends PlateModel {
     }
 
     public boolean allowsDivergentMotion() {
-        return hasLeftPlate() && hasRightPlate() && leftPlateType.get().isContinental() && rightPlateType.get().isContinental();
+        return hasLeftPlate() && hasRightPlate();
+    }
+
+    public boolean allowsConvergentMotion() {
+        // allow convergent motion unless both are the same type of oceanic plate
+        return hasLeftPlate() && hasRightPlate() && ( leftPlateType.get() != rightPlateType.get()
+                                                      || ( leftPlateType.get().isContinental() && rightPlateType.get().isContinental() ) );
     }
 
     public static void main( String[] args ) {

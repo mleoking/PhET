@@ -39,6 +39,7 @@ public class MotionTypeChooserPanel extends PNode {
         this.motionType = plateModel.motionType;
 
         boolean showDivergent = plateModel.allowsDivergentMotion();
+        boolean showConvergent = plateModel.allowsConvergentMotion();
 
         PSwing convergentButton = new PSwing( new MotionTypeChooserRadioButton( "Convergent", MotionType.CONVERGENT ) );
         PSwing divergentButton = new PSwing( new MotionTypeChooserRadioButton( "Divergent", MotionType.DIVERGENT ) );
@@ -50,18 +51,20 @@ public class MotionTypeChooserPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * convergent
         *----------------------------------------------------------------------------*/
-        convergentButton.setOffset( x.get() + ( ICON_WIDTH - convergentButton.getFullBounds().getWidth() ) / 2, ICON_HEIGHT + 10 );
-        addChild( convergentButton );
-        addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) );
-        addChild( new IconArrow( new Point2D.Double( 2, 0 ), new Point2D.Double( ICON_WIDTH / 2 - 5, 0 ) ) {{
-            setOffset( x.get(), ICON_HEIGHT / 2 );
-            setPaint( PlateTectonicsConstants.ARROW_CONVERGENT_FILL );
-        }} );
-        addChild( new IconArrow( new Point2D.Double( ICON_WIDTH - 2, 0 ), new Point2D.Double( ICON_WIDTH / 2 + 5, 0 ) ) {{
-            setOffset( x.get(), ICON_HEIGHT / 2 );
-            setPaint( PlateTectonicsConstants.ARROW_CONVERGENT_FILL );
-        }} );
-        x.set( x.get() + ICON_WIDTH + SPACING );
+        if ( showConvergent ) {
+            convergentButton.setOffset( x.get() + ( ICON_WIDTH - convergentButton.getFullBounds().getWidth() ) / 2, ICON_HEIGHT + 10 );
+            addChild( convergentButton );
+            addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) );
+            addChild( new IconArrow( new Point2D.Double( 2, 0 ), new Point2D.Double( ICON_WIDTH / 2 - 5, 0 ) ) {{
+                setOffset( x.get(), ICON_HEIGHT / 2 );
+                setPaint( PlateTectonicsConstants.ARROW_CONVERGENT_FILL );
+            }} );
+            addChild( new IconArrow( new Point2D.Double( ICON_WIDTH - 2, 0 ), new Point2D.Double( ICON_WIDTH / 2 + 5, 0 ) ) {{
+                setOffset( x.get(), ICON_HEIGHT / 2 );
+                setPaint( PlateTectonicsConstants.ARROW_CONVERGENT_FILL );
+            }} );
+            x.set( x.get() + ICON_WIDTH + SPACING );
+        }
 
         /*---------------------------------------------------------------------------*
         * divergent
