@@ -91,11 +91,6 @@ public class Property<T> extends SettableProperty<T> {
         enabled.set( !enabled.get() );
     }
 
-    //Return a new observable property to indicate whether this value equals the specified value
-    public ValueEquals<T> valueEquals( T value ) {
-        return new ValueEquals<T>( this, value );
-    }
-
     /**
      * Convenience factory method to allow writing in the form "value(white)" instead of the more verbose "new Property<Color>(white)", to improve readability at usage sites
      *
