@@ -72,8 +72,8 @@ public class BeersLawModel implements Resettable {
         this.cuvette = new Cuvette( new ImmutableVector2D( 3.25, 1.25 ), CUVETTE_WIDTH_RANGE.getDefault(), CUVETTE_HEIGHT, CUVETTE_WIDTH_RANGE );
 
         //TODO compute drag bounds to match the stage size
-        this.detector = new ATDetector( new ImmutableVector2D( 6, 3 ), new PBounds( 0, 0, 7.9, 5.25 ),
-                                        new ImmutableVector2D( 5, 2 ), new PBounds( 0, 0, 7.9, 5.25 ) );
+        this.detector = new ATDetector( new ImmutableVector2D( 6, 3.75 ), new PBounds( 0, 0, 7.9, 5.25 ),
+                                        new ImmutableVector2D( 5.5, 2.5 ), new PBounds( 0, 0, 7.9, 5.25 ) );
     }
 
     public void reset() {
