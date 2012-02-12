@@ -34,6 +34,7 @@ public class BLLResources {
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
         public static final String PATTERN_0VALUE_1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
         public static final String PATTERN_PARENTHESES_0TEXT = RESOURCES.getLocalizedString( "pattern.parentheses.0text" );
+        public static final String PATTERN_0PERCENT = RESOURCES.getLocalizedString( "pattern.0percent" );
         public static final String PERCENT_TRANSMITTANCE = RESOURCES.getLocalizedString( "percentTransmittance" );
         public static final String PHOTONS = RESOURCES.getLocalizedString( "photons" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );
@@ -56,10 +57,10 @@ public class BLLResources {
 
     // Images
     public static class Images {
-        public static final Image ABSORBANCE_METER_BODY_LEFT = RESOURCES.getImage( "absorbance-meter-body-left.png" );
-        public static final Image ABSORBANCE_METER_BODY_CENTER = RESOURCES.getImage( "absorbance-meter-body-center.png" );
-        public static final Image ABSORBANCE_METER_BODY_RIGHT = RESOURCES.getImage( "absorbance-meter-body-right.png" );
-        public static final Image ABSORBANCE_METER_PROBE = RESOURCES.getImage( "absorbance-meter-probe.png" );
+        public static final Image AT_DETECTOR_BODY_LEFT = RESOURCES.getImage( "at-detector-body-left.png" );
+        public static final Image AT_DETECTOR_BODY_CENTER = RESOURCES.getImage( "at-detector-body-center.png" );
+        public static final Image AT_DETECTOR_BODY_RIGHT = RESOURCES.getImage( "at-detector-body-right.png" );
+        public static final Image AT_DETECTOR_PROBE = RESOURCES.getImage( "at-detector-probe.png" );
         public static final Image CONCENTRATION_METER_BODY_LEFT = RESOURCES.getImage( "concentration-meter-body-left.png" );
         public static final Image CONCENTRATION_METER_BODY_CENTER = RESOURCES.getImage( "concentration-meter-body-center.png" );
         public static final Image CONCENTRATION_METER_BODY_RIGHT = RESOURCES.getImage( "concentration-meter-body-right.png" );

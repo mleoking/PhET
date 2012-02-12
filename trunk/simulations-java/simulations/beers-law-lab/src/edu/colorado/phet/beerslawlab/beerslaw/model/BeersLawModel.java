@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Model for the "Beer's Law" module.
@@ -41,11 +42,12 @@ public class BeersLawModel implements Resettable {
     public final Light light;
     public final ModelViewTransform mvt;
     public final Cuvette cuvette;
+    public final ATDetector detector;
 
     public BeersLawModel() {
 
-        // No offset, scale 125x when going from model to view
-        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double(0,0), 125 );
+        // No offset, scale 125x when going from model to view (1cm == 125 pixels)
+        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 125 );
 
         //TODO same set of solutes as ConcentrationModel, move to base class?
         // Solutes, in rainbow (ROYGBIV) order.
@@ -68,12 +70,17 @@ public class BeersLawModel implements Resettable {
         this.light = new Light( new ImmutableVector2D( 1.5, 2 ), false, LightRepresentation.BEAM, defaultWavelength );
 
         this.cuvette = new Cuvette( new ImmutableVector2D( 3.25, 1.25 ), CUVETTE_WIDTH_RANGE.getDefault(), CUVETTE_HEIGHT, CUVETTE_WIDTH_RANGE );
+
+        //TODO compute drag bounds to match the stage size
+        this.detector = new ATDetector( new ImmutableVector2D( 6, 3 ), new PBounds( 0, 0, 7.9, 5.25 ),
+                                        new ImmutableVector2D( 5, 2 ), new PBounds( 0, 0, 7.9, 5.25 ) );
     }
 
     public void reset() {
         solute.reset();
         solution.reset();
         cuvette.reset();
+        detector.reset();
     }
 
     public ArrayList<Solute> getSolutes() {
