@@ -2,27 +2,21 @@
 package edu.colorado.phet.fractionsintro.intro.view;
 
 import fj.Equal;
-import fj.F;
 import fj.F2;
-import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.AnimationTarget;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.Slice;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static fj.Equal.equal;
 import static fj.Function.curry;
@@ -37,6 +31,7 @@ public class PieSetNode extends PNode {
 
     private final BucketView bucketView;
     private final PNode rootNode;
+    private boolean debugCenter = false;
 
     public static <T> Equal<T> refEqual() {
         return equal( curry( new F2<T, T, Boolean>() {
@@ -68,56 +63,14 @@ public class PieSetNode extends PNode {
         PieSet state = model.get();
         for ( Slice cell : state.cells ) {
             addChild( new PhetPPath( cell.shape(), new BasicStroke( state.cellFilled( cell ) ? 2 : 1 ), Color.darkGray ) );
-//                    addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
+
+            if ( debugCenter ) {
+                addChild( new PhetPPath( new Rectangle2D.Double( cell.center().getX(), cell.center().getY(), 2, 2 ) ) );
+            }
         }
         for ( final Slice slice : state.slices ) {
-            addChild( new PhetPPath( slice.shape(), FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
-                addInputEventListener( new CursorHandler() );
-                addInputEventListener( new PBasicInputEventHandler() {
-
-                    //Flag one slice as dragging
-                    @Override public void mousePressed( PInputEvent event ) {
-                        PieSet state = model.get();
-                        final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) );
-                        model.set( newState );
-                    }
-
-                    //Set all drag flags to false
-                    @Override public void mouseReleased( PInputEvent event ) {
-                        final PieSet state = model.get();
-
-                        //Any dropped pieces should snap to their destination.
-                        final List<Slice> newSlices = state.slices.map( new F<Slice, Slice>() {
-                            public Slice f( Slice s ) {
-                                Slice target = state.getDropTarget( s );
-                                if ( s.dragging && target != null ) { return s.moveTo( target ); }
-                                else if ( s.dragging ) {
-                                    final Slice destination = PieSet.createBucketSlice( model.get().denominator );
-                                    return s.dragging( false ).animationTarget( new AnimationTarget( destination.tip, destination.angle ) );
-                                }
-                                else { return s; }
-                            }
-                        } );
-                        final PieSet newState = state.slices( newSlices );
-                        model.set( newState );
-                    }
-
-                    //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
-                    @Override public void mouseDragged( PInputEvent event ) {
-                        PieSet state = model.get();
-                        final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                        PieSet newState = new PieSet( state.denominator, state.pies, state.slices.map( new F<Slice, Slice>() {
-                            public Slice f( Slice slice ) {
-                                return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
-                            }
-                        } ) );
-                        model.set( newState );
-                    }
-                } );
-            }} );
-//                    addChild( new PhetPPath( new Rectangle2D.Double( slice.getCenter().getX(), slice.getCenter().getY(), 2, 2 ) ) );
-
-            addChild( bucketView.getFrontNode() );
+            addChild( new MovableSliceNode( rootNode, model, slice ) );
         }
+        addChild( bucketView.getFrontNode() );
     }
 }
