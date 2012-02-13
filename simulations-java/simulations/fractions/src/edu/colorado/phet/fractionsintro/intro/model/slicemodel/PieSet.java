@@ -40,12 +40,12 @@ import static fj.data.List.range;
     public final List<Slice> cells;
 
     public static final Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
-    public static final Bucket bucket = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" );
+    public static final Bucket BUCKET = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" );
     public static final Random RANDOM = new Random();
-    public static final double pieDiameter = 155;
-    public static final double radius = pieDiameter / 2;
-    public static final int numPies = 6;
-    public static final double pieSpacing = 10;
+    public static final double PIE_DIAMETER = 155;
+    public static final double PIE_RADIUS = PIE_DIAMETER / 2;
+    public static final int NUM_PIES = 6;
+    public static final double PIE_SPACING = 10;
 
     public PieSet() {
         this( 1, createEmptyPies( 1 ), createSlicesForBucket( 1, 6 ) );
@@ -63,17 +63,17 @@ import static fj.data.List.range;
     //Put the pieces right in the center of the bucket hole.
     //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
     public static Slice createBucketSlice( int denominator ) {
-        final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
-        final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
+        final double x = BUCKET.getHoleShape().getBounds2D().getCenterX() + BUCKET.getPosition().getX();
+        final double y = -BUCKET.getHoleShape().getBounds2D().getCenterY() - BUCKET.getPosition().getY();
 
         final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( x + ( PieSet.RANDOM.nextDouble() * 2 - 1 ) * PieSet.radius, y - PieSet.radius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, PieSet.radius, false, null );
+        return new Slice( new ImmutableVector2D( x + ( PieSet.RANDOM.nextDouble() * 2 - 1 ) * PieSet.PIE_RADIUS, y - PieSet.PIE_RADIUS / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, PieSet.PIE_RADIUS, false, null );
     }
 
     //Create some cells for the empty pies
     private static List<Pie> createEmptyPies( final int denominator ) {
         ArrayList<Pie> pies = new ArrayList<Pie>() {{
-            for ( int i = 0; i < numPies; i++ ) {
+            for ( int i = 0; i < NUM_PIES; i++ ) {
                 ArrayList<Slice> cells = new ArrayList<Slice>();
                 for ( int k = 0; k < denominator; k++ ) {
                     cells.add( createPieCell( i, k, denominator ) );
@@ -87,7 +87,7 @@ import static fj.data.List.range;
 
     private static Slice createPieCell( int pie, int cell, int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( PieSet.pieDiameter * ( pie + 1 ) + PieSet.pieSpacing * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, PieSet.pieDiameter / 2, false, null );
+        return new Slice( new ImmutableVector2D( PieSet.PIE_DIAMETER * ( pie + 1 ) + PieSet.PIE_SPACING * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, PieSet.PIE_DIAMETER / 2, false, null );
     }
 
     public PieSet( int denominator, List<Pie> pies, List<Slice> slices ) {
