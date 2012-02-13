@@ -9,11 +9,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.model.SingleFractionModel;
-import edu.colorado.phet.fractionsintro.intro.view.FractionControlNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Shows the entire grid of 2x2 representations.
@@ -49,22 +46,22 @@ public class RepresentationGridNode extends PNode {
         addChild( topRight );
 
         //Show the main fraction control.  Wrap in a zero offset node since its internal layout is not normalized
-        final ZeroOffsetNode fractionNode = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator ) ) {{
-            scale( 0.5 );
-            setOffset( topLeft.getCenterX() - getFullWidth() / 2, topLeft.getMaxY() + 5 );
-        }};
-        addChild( fractionNode );
+//        final ZeroOffsetNode fractionNode = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator ) ) {{
+//            scale( 0.5 );
+//            setOffset( topLeft.getCenterX() - getFullWidth() / 2, topLeft.getMaxY() + 5 );
+//        }};
+//        addChild( fractionNode );
 
-        final PText bottomEqualsSign = new PhetPText( "=", new PhetFont( 80, true ) ) {{
-            setOffset( topLeft.getFullWidth() + 20, fractionNode.getCenterY() - getFullHeight() / 2 );
-        }};
-        addChild( bottomEqualsSign );
-
-        final ZeroOffsetNode scaledUpVersionNode = new ZeroOffsetNode( new ScaledUpFractionNode( model.numerator, model.denominator ) ) {{
-            scale( 0.5 );
-            setOffset( topRight.getCenterX() - getFullWidth() / 2, topRight.getMaxY() + 5 );
-        }};
-
-        addChild( scaledUpVersionNode );
+//        final PText bottomEqualsSign = new PhetPText( "=", new PhetFont( 80, true ) ) {{
+//            setOffset( topLeft.getFullWidth() + 20, fractionNode.getCenterY() - getFullHeight() / 2 );
+//        }};
+//        addChild( bottomEqualsSign );
+//
+//        final ZeroOffsetNode scaledUpVersionNode = new ZeroOffsetNode( new ScaledUpFractionNode( model.numerator, model.denominator ) ) {{
+//            scale( 0.5 );
+//            setOffset( topRight.getCenterX() - getFullWidth() / 2, topRight.getMaxY() + 5 );
+//        }};
+//
+//        addChild( scaledUpVersionNode );
     }
 }

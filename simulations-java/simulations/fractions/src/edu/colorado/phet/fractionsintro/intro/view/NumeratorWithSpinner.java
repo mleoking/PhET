@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
-import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
+import edu.colorado.phet.fractionsintro.intro.model.IntClientProperty;
 
 /**
  * Node that shows a single number (numerator or denominator) and a control to change the value within a limiting range.
@@ -14,7 +15,7 @@ public class NumeratorWithSpinner extends FractionNumberNode {
     //Allow numerator to go to 0
     private static final int MIN_VALUE = 0;
 
-    public NumeratorWithSpinner( final IntegerProperty numerator, IntegerProperty denominator ) {
+    public NumeratorWithSpinner( final IntClientProperty numerator, IntClientProperty denominator ) {
         super( numerator );
 
 //        Max amount of things will be 6
@@ -25,11 +26,22 @@ public class NumeratorWithSpinner extends FractionNumberNode {
             public void apply() {
                 numerator.set( numerator.get() + 1 );
             }
-        }, numerator.lessThan( denominator.times( 6 ) ), new VoidFunction0() {
-            public void apply() {
-                numerator.set( numerator.get() - 1 );
-            }
-        }, numerator.greaterThanOrEqualTo( MIN_VALUE + 1 )
+        },
+                                          //TODO: FIx
+                                          new Property<Boolean>( true ),
+//                                          numerator.lessThan( denominator.times( 6 ) ),
+
+                                          new VoidFunction0() {
+                                              public void apply() {
+                                                  numerator.set( numerator.get() - 1 );
+                                              }
+                                          },
+
+                                          //TODO: Fix
+                                          new Property<Boolean>( true )
+
+
+//                                          numerator.greaterThanOrEqualTo( MIN_VALUE + 1 )
         ) {{
             setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth(), biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );

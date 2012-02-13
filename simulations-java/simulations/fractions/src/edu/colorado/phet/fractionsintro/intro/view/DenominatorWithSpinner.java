@@ -2,10 +2,11 @@
 package edu.colorado.phet.fractionsintro.intro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.LessThan;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
+import edu.colorado.phet.fractionsintro.intro.model.IntClientProperty;
 
 /**
  * Node that shows a single number (numerator or denominator) and a control to change the value within a limiting range.
@@ -16,7 +17,7 @@ public class DenominatorWithSpinner extends FractionNumberNode {
 
     private final int MAX_DENOMINATOR = 8;
 
-    public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator ) {
+    public DenominatorWithSpinner( final IntClientProperty numerator, final IntClientProperty denominator ) {
         super( denominator );
 
         //        n / d <= 6 , so n<=6d
@@ -34,7 +35,7 @@ public class DenominatorWithSpinner extends FractionNumberNode {
             public void apply() {
                 denominator.set( denominator.get() + 1 );
             }
-        }, denominator.lessThan( MAX_DENOMINATOR ), new VoidFunction0() {
+        }, new LessThan( denominator, MAX_DENOMINATOR ), new VoidFunction0() {
             public void apply() {
                 denominator.set( denominator.get() - 1 );
             }

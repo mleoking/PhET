@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Generic property of the model, this provides an Property interface to observing and interacting with the model.
@@ -42,23 +41,25 @@ public class ClientProperty<T> extends SettableProperty<T> {
     }
 
     //Wire up to Property to use its richer interface like add, greaterThan, etc.
-    public Property<T> toProperty() {
-        final Property<T> p = new Property<T>( get() );
-        addObserver( new VoidFunction1<T>() {
-            public void apply( T T ) {
-                p.set( T );
-            }
-        } );
-        p.addObserver( new VoidFunction1<T>() {
-            public void apply( T T ) {
-                set( T );
-            }
-        } );
-        state.addObserver( new SimpleObserver() {
-            public void update() {
-                p.notifyIfChanged();
-            }
-        } );
-        return p;
-    }
+//    public Property<T> toProperty() {
+//        final Property<T> p = createProperty();
+//        addObserver( new VoidFunction1<T>() {
+//            public void apply( T t ) {
+//                p.set( t );
+//            }
+//        } );
+//        p.addObserver( new VoidFunction1<T>() {
+//            public void apply( T T ) {
+//                set( T );
+//            }
+//        } );
+////        state.addObserver( new SimpleObserver() {
+////            public void update() {
+////                p.notifyIfChanged();
+////            }
+////        } );
+//        return p;
+//    }
+//
+//    protected Property<T> createProperty() {return new Property<T>( get() );}
 }

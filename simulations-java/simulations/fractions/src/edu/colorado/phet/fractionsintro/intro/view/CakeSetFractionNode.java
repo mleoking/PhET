@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
@@ -52,7 +52,7 @@ public class CakeSetFractionNode extends VisibilityNode {
 //        put( 12, new int[] { 3, 4, 5, 2, 6, 1, 7, 12, 8, 11, 9, 10 } );
     }};
 
-    public CakeSetFractionNode( final Property<ContainerSet> state, ObservableProperty<Boolean> enabled ) {
+    public CakeSetFractionNode( final SettableProperty<ContainerSet> state, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
             public void update() {

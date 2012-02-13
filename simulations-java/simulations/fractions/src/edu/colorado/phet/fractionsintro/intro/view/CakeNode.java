@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -97,7 +97,7 @@ public class CakeNode extends PNode {
     }};
     private boolean debugPieceLocations = false;
 
-    public CakeNode( final int denominator, final int[] pieces, final Property<ContainerSet> containerStateProperty, final int container, final int[] sliceOrder ) {
+    public CakeNode( final int denominator, final int[] pieces, final SettableProperty<ContainerSet> containerStateProperty, final int container, final int[] sliceOrder ) {
         Rectangle2D r = new Rectangle2D.Double( cakeFrame[0].getX(), cakeFrame[0].getY(), 0, 0 );
         r = r.createUnion( new Rectangle2D.Double( cakeFrame[1].getX(), cakeFrame[1].getY(), 0, 0 ) );
         r = r.createUnion( new Rectangle2D.Double( cakeFrame[2].getX(), cakeFrame[2].getY(), 0, 0 ) );

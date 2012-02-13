@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
@@ -18,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class CakeIcon extends PNode implements RepresentationIcon {
 
-    public CakeIcon( final Property<ChosenRepresentation> selected ) {
+    public CakeIcon( final SettableProperty<ChosenRepresentation> selected ) {
         addChild( new CakeNode( 1, new int[] { 1 }, new Property<ContainerSet>( new ContainerSet( 1, new Container[] { } ) ), 0, new int[] { 1 } ) );
 
         addInputEventListener( new CursorHandler() );

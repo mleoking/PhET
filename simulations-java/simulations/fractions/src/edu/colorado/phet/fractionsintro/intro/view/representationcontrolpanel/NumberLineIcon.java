@@ -3,7 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class NumberLineIcon extends NumberLineRootNode implements RepresentationIcon {
-    public NumberLineIcon( final Property<ChosenRepresentation> chosenRepresentation ) {
+    public NumberLineIcon( final SettableProperty<ChosenRepresentation> chosenRepresentation ) {
 
         final PhetPPath child = new PhetPPath( getFullBounds(), new Color( 0, 0, 0, 0 ) );
         addChild( child );

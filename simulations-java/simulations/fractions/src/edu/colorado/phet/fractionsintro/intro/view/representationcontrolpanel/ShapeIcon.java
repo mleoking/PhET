@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
@@ -23,7 +23,7 @@ public class ShapeIcon extends PNode implements RepresentationIcon {
     public static double DIM = 20;
     public final ChosenRepresentation representation;
 
-    public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Property<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation representation ) {
+    public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final SettableProperty<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation representation ) {
         this.representation = representation;
         for ( Shape shape : unfilled ) {
             addChild( new PhetPPath( shape, Color.white, new BasicStroke( 1 ), Color.gray ) );

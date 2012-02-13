@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -22,12 +22,12 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class RepresentationControlPanel extends ControlPanelNode {
-    public RepresentationControlPanel( Property<ChosenRepresentation> chosenRepresentation ) {
+    public RepresentationControlPanel( SettableProperty<ChosenRepresentation> chosenRepresentation ) {
         super( new RepresentationControlPanelContentNode( chosenRepresentation ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
     }
 
     private static class RepresentationControlPanelContentNode extends PNode {
-        private RepresentationControlPanelContentNode( final Property<ChosenRepresentation> selected ) {
+        private RepresentationControlPanelContentNode( final SettableProperty<ChosenRepresentation> selected ) {
             final RepresentationIcon[] elements = new RepresentationIcon[] {
                     new PieIcon( selected ),
                     new HorizontalBarIcon( selected ),

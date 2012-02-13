@@ -11,7 +11,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -48,7 +48,7 @@ public class PieSetNode extends PNode {
     }
 
     //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
-    public PieSetNode( final Property<PieSet> model, PNode rootNode ) {
+    public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
         this.rootNode = rootNode;
 
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 );
@@ -61,7 +61,7 @@ public class PieSetNode extends PNode {
         } );
     }
 
-    private void rebuildScene( final Property<PieSet> model ) {
+    private void rebuildScene( final SettableProperty<PieSet> model ) {
         removeAllChildren();
 
         addChild( bucketView.getHoleNode() );
