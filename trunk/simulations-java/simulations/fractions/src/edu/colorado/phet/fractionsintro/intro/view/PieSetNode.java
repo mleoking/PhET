@@ -32,7 +32,7 @@ public class PieSetNode extends PNode {
         this.rootNode = rootNode;
 
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 );
-        bucketView = new BucketView( model.get().bucket, mvt );
+        bucketView = new BucketView( PieSet.BUCKET, mvt );
 
         model.addObserver( new SimpleObserver() {
             public void update() {
