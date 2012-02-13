@@ -71,13 +71,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
         return this;
     }
 
-    public boolean movingToward( Slice cell ) {
-        return animationTarget != null && animationTarget.position.equals( cell.tip ) && animationTarget.angle == cell.angle;
-    }
+    public boolean movingToward( Slice cell ) { return animationTarget != null && animationTarget.position.equals( cell.tip ) && animationTarget.angle == cell.angle; }
 
-    public boolean positionAndAngleEquals( Slice cell ) {
-        return cell.tip.equals( tip ) && cell.angle == angle;
-    }
+    public boolean positionAndAngleEquals( Slice cell ) { return cell.tip.equals( tip ) && cell.angle == angle; }
 
     public Slice moveTo( Slice target ) { return dragging( false ).angle( target.angle ).tip( target.tip );}
 }

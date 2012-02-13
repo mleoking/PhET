@@ -148,7 +148,6 @@ import static fj.data.List.range;
     public boolean cellFilled( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
             public Boolean f( Slice m ) {
-                //TODO: container is broken, needs to be fixed when animation target reached
                 return m.movingToward( cell ) || m.positionAndAngleEquals( cell );
             }
         } );
