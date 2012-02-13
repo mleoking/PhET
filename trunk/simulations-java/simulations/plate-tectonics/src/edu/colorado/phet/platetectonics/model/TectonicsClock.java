@@ -47,6 +47,7 @@ public class TectonicsClock implements IClock {
     }
 
     public synchronized void stepByWallSecondsForced( float timeElapsed ) {
+        assert !Float.isNaN( timeElapsed );
         tick( timeElapsed );
     }
 

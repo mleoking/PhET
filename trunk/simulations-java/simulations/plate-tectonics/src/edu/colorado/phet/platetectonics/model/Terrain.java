@@ -79,6 +79,10 @@ public class Terrain {
         columnsModified.updateListeners();
     }
 
+    public int getZSamples() {
+        return zSamples;
+    }
+
     // whether water should be displayed over this particular section of terrain
     public boolean hasWater() {
         return true;
