@@ -19,12 +19,6 @@ public class TestCompositeModel {
         final Property<Double> x = new Property<Double>( Math.cos( angle.get() ) * radius.get() );
         final Property<Double> y = new Property<Double>( Math.sin( angle.get() ) * radius.get() );
 
-        //See when the values change
-//        radius.trace( "radius" );
-//        angle.trace( "angle" );
-//        x.trace( "x" );
-//        y.trace( "y" );
-
         //When radius or angle changes, update x and y
         final SimpleObserver updateXY = new SimpleObserver() {
             public void update() {
