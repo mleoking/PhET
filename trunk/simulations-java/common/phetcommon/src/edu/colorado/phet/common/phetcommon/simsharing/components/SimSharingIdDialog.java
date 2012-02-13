@@ -7,8 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -49,15 +47,7 @@ public class SimSharingIdDialog extends JDialog {
     public SimSharingIdDialog( Frame owner, String prompt, final boolean idRequired ) {
         super( owner, true /* modal */ );
         setResizable( false );
-
-        // TODO: Temporary code for demo of dialog with border.
-//        setUndecorated( true ); // so that the user can't use the close button. Also means that can't move the dialog.
-        addWindowListener( new WindowAdapter() {
-            public void windowClosing( WindowEvent e ) {
-                // User pressed the standard "close" button.
-                System.exit( 0 );
-            }
-        } );
+        setUndecorated( true ); // so that the user can't use the close button. Also means that can't move the dialog.
 
         // banner
         JLabel phetLogo = new JLabel( new ImageIcon( PhetCommonResources.getImage( PhetCommonResources.IMAGE_PHET_LOGO ) ) ) {{
