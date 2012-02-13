@@ -53,6 +53,7 @@ public class PlateMotionModel extends PlateModel {
     public static final float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
     public static final float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
     public static final float SIMPLE_MANTLE_TOP_TEMP = ZERO_CELSIUS + 700;
+    public static final float SIMPLE_LITHOSPHERE_BOUNDARY_TEMP = ZERO_CELSIUS + 1100;
     public static final float SIMPLE_MANTLE_BOTTOM_TEMP = ZERO_CELSIUS + 1300;
     public static final float SIMPLE_MANTLE_DENSITY = 3300f;
 
@@ -61,6 +62,7 @@ public class PlateMotionModel extends PlateModel {
 
     public static final int MANTLE_VERTICAL_SAMPLES = 2;
     public static final int CRUST_VERTICAL_SAMPLES = 2;
+    public static final int LITHOSPHERE_VERTICAL_SAMPLES = 2;
     public static final int HORIZONTAL_SAMPLES = 128;
 
     public static final int TERRAIN_DEPTH_SAMPLES = 32;
@@ -290,6 +292,19 @@ public class PlateMotionModel extends PlateModel {
                 return -3000;
             case OLD_OCEANIC:
                 return -3000;
+            default:
+                throw new RuntimeException( "unknown type: " + type );
+        }
+    }
+
+    public static float getFreshLithosphereBottom( PlateType type ) {
+        switch( type ) {
+            case CONTINENTAL:
+                return getFreshCrustBottom( type ) - 100000;
+            case YOUNG_OCEANIC:
+                return getFreshCrustBottom( type ) - 30000;
+            case OLD_OCEANIC:
+                return getFreshCrustBottom( type ) - 40000; // old oceanic lithosphere is thicker
             default:
                 throw new RuntimeException( "unknown type: " + type );
         }

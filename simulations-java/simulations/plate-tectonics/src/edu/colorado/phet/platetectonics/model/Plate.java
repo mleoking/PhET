@@ -16,6 +16,7 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
 public class Plate {
 
     private Region crust;
+    private Region lithosphere;
     private Region mantle;
 
     private Terrain terrain;
@@ -27,6 +28,13 @@ public class Plate {
 
         this.crust = crust;
         regions.add( crust );
+    }
+
+    public void addLithosphere( Region lithosphere ) {
+        assert this.lithosphere == null;
+
+        this.lithosphere = lithosphere;
+        regions.add( lithosphere );
     }
 
     public void addMantle( Region mantle ) {
@@ -74,6 +82,10 @@ public class Plate {
 
     public Region getMantle() {
         return mantle;
+    }
+
+    public Region getLithosphere() {
+        return lithosphere;
     }
 
     public Terrain getTerrain() {
