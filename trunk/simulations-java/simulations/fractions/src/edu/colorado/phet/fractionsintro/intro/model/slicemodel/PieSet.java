@@ -204,11 +204,15 @@ import static fj.data.List.range;
 
     public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
 
-        //Find a slice from the bucket
-        //TODO: Should find any slice at the bucket or heading toward the bucket (if the user toggles the buttons fast)
+        //Find a slice from the bucket, or one that is leaving the bucket
+
+        //TODO: maybe check for bucket piece first, instead of piece going to the bucket as equal priority
         final Option<Slice> bucketSlice = slices.find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
-                return m.tip.getY() == createBucketSlice( denominator ).tip.getY() && m.animationTarget == null;
+                final double bucketY = createBucketSlice( denominator ).tip.getY();
+                return ( m.tip.getY() == bucketY && m.animationTarget == null ) ||
+                       //Count piece going toward bucket as being in the bucket
+                       ( m.animationTarget != null && m.animationTarget.position.getY() == bucketY );
             }
         } );
 
