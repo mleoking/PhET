@@ -55,10 +55,6 @@ import java.util.HashSet;
         }} );
     }
 
-    public boolean isFull() {
-        return new HashSet<Integer>( filledCells.toCollection() ).equals( new HashSet<Integer>( RandomFill.listAll( numCells ) ) );
-    }
-
     public Boolean isEmpty() {
         return filledCells.length() == 0;
     }

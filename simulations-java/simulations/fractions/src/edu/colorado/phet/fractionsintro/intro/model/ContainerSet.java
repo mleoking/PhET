@@ -87,13 +87,6 @@ import static fj.Function.curry;
         }} );
     }
 
-    private boolean isFull() {
-        for ( Container container : containers ) {
-            if ( !container.isFull() ) { return false; }
-        }
-        return true;
-    }
-
     public ContainerSet toggle( final CellPointer pointer ) {
         return new ContainerSet( denominator, containers.map( new F<Container, Container>() {
             @Override public Container f( Container container ) {
