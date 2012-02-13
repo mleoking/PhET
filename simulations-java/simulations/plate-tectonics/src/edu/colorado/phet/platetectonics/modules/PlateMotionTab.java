@@ -306,19 +306,25 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                         // comparison works for opposite direction
                                         if ( motionVectorRight.get().x != 0 ) {
                                             final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().x ) );
-                                            getClock().stepByWallSecondsForced( timeChange );
+                                            if ( !Float.isNaN( timeChange ) ) {
+                                                getClock().stepByWallSecondsForced( timeChange );
+                                            }
                                         }
                                         break;
                                     case DIVERGENT:
                                         if ( motionVectorRight.get().x != 0 ) {
                                             final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().x ) );
-                                            getClock().stepByWallSecondsForced( timeChange );
+                                            if ( !Float.isNaN( timeChange ) ) {
+                                                getClock().stepByWallSecondsForced( timeChange );
+                                            }
                                         }
                                         break;
                                     case TRANSFORM:
                                         if ( motionVectorRight.get().y != 0 ) {
                                             final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().y ) );
-                                            getClock().stepByWallSecondsForced( timeChange );
+                                            if ( !Float.isNaN( timeChange ) ) {
+                                                getClock().stepByWallSecondsForced( timeChange );
+                                            }
                                         }
                                         break;
                                 }

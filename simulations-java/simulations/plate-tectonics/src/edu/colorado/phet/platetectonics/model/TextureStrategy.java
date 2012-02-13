@@ -22,7 +22,15 @@ public class TextureStrategy {
         return position.times( getTopScale() );
     }
 
+    public ImmutableVector2F mapTopDelta( ImmutableVector2F vector ) {
+        return vector.times( getTopScale() );
+    }
+
     public ImmutableVector2F mapFront( ImmutableVector2F position ) {
         return position.times( getFrontScale() );
+    }
+
+    public ImmutableVector2F mapFrontDelta( ImmutableVector2F vector ) {
+        return vector.times( getFrontScale() );
     }
 }

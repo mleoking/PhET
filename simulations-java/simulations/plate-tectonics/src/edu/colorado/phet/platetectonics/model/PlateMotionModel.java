@@ -324,6 +324,7 @@ public class PlateMotionModel extends PlateModel {
 
     // TODO: conversion from double to float
     @Override public void update( double timeElapsed ) {
+        assert !Double.isNaN( timeElapsed );
         super.update( timeElapsed );
 
         if ( hasLeftPlate() && hasRightPlate() ) {
