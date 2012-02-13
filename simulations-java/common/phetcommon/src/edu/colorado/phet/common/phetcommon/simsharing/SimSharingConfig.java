@@ -177,7 +177,7 @@ public abstract class SimSharingConfig {
      */
     private static class BalancingActSpring2012 extends SimSharingConfig {
         public BalancingActSpring2012() {
-            super( "balancing-act-spring-2012", true, true, true, true, "Please enter provided ID:" );
+            super( "balancing-act-spring-2012", true, true, true, true, "Please enter ID:" );
         }
     }
 
