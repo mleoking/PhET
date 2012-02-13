@@ -13,6 +13,10 @@ public class Boundary {
         samples.add( 0, sample );
     }
 
+    public void addRightSample( Sample sample ) {
+        samples.add( sample );
+    }
+
     public void borrowPosition( Boundary other ) {
         assert other.samples.size() == samples.size();
 

@@ -48,6 +48,19 @@ public class Region {
         }
     }
 
+    public void addRightRow( List<Sample> samples ) {
+        assert samples.size() == boundaries.size();
+
+        // insert samples into the start of the boundaries
+        for ( int i = 0; i < samples.size(); i++ ) {
+            boundaries.get( i ).addRightSample( samples.get( i ) );
+        }
+
+        for ( int i = 0; i < strips.size(); i++ ) {
+            strips.get( i ).addRightPatch( samples.get( i ), samples.get( i + 1 ) );
+        }
+    }
+
     public void moveToFront() {
         for ( CrossSectionStrip strip : strips ) {
             strip.moveToFrontNotifier.updateListeners();
