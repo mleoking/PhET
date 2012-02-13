@@ -1,3 +1,4 @@
+Added a piece icon to the bucket
 Performance improvements: don't construct water glasses unless visible
 # 0.00.34 (61278) Feb 13, 2012
 # 0.00.33 (61275) Feb 13, 2012

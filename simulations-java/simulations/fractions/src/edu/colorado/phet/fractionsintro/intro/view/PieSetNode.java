@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.Slice;
 import edu.umd.cs.piccolo.PNode;
@@ -25,7 +26,7 @@ public class PieSetNode extends PNode {
 
     private final BucketView bucketView;
     private final PNode rootNode;
-    private boolean debugCenter = false;
+    private static final boolean debugCenter = false;
 
     //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
     public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
@@ -58,5 +59,14 @@ public class PieSetNode extends PNode {
             addChild( new MovableSliceNode( rootNode, model, slice ) );
         }
         addChild( bucketView.getFrontNode() );
+
+        //Show an icon label on the bucket so the user knows what is in the bucket
+        addChild( new ZeroOffsetNode( new MovableSliceNode( rootNode, model, PieSet.createBucketSlice( model.get().denominator ) ) {{
+            setPickable( false );
+            setChildrenPickable( false );
+            scale( 0.4 );
+        }} ) {{
+            centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );
+        }} );
     }
 }

@@ -40,7 +40,8 @@ import static fj.data.List.range;
     public final List<Slice> cells;
 
     public static final Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
-    public static final Bucket BUCKET = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), Color.green, "pieces" );
+    public static final Color BUCKET_COLOR = new Color( 136, 177, 240 );//A shade that looks good behind the green objects
+    public static final Bucket BUCKET = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), BUCKET_COLOR, "" );
     public static final Random RANDOM = new Random();
     public static final double PIE_DIAMETER = 155;
     public static final double PIE_RADIUS = PIE_DIAMETER / 2;
