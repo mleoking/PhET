@@ -20,4 +20,12 @@ public class Boundary {
             mySample.setTextureCoordinates( otherSample.getTextureCoordinates() );
         }
     }
+
+    public Sample getFirstSample() {
+        return samples.get( 0 );
+    }
+
+    public Sample getLastSample() {
+        return samples.get( samples.size() - 1 );
+    }
 }
