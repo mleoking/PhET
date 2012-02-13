@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.view;
+package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import fj.F;
 import fj.F2;
@@ -20,6 +20,10 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
+import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
+import edu.colorado.phet.fractionsintro.intro.view.PieSliceNode;
+import edu.colorado.phet.fractionsintro.intro.view.SpacedHBox;
+import edu.colorado.phet.fractionsintro.intro.view.VisibilityNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

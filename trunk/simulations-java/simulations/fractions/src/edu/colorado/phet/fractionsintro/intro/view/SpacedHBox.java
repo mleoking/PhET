@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-class SpacedHBox extends RichPNode {
+public class SpacedHBox extends RichPNode {
     private final double spacing;
     private double x = 0;
 
