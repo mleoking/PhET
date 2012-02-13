@@ -404,39 +404,6 @@ public class DnaMolecule {
         return STRAND_DIAMETER;
     }
 
-    public List<AttachmentSite> getNearbyPolymeraseAttachmentSites( Point2D position ) {
-        List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
-        // TODO: Fix or replace.
-//        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
-//        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
-//            Gene gene = getGeneContainingBasePair( i );
-//            if ( gene != null ) {
-//                nearbyAttachmentSites.add( gene.getPolymeraseAttachmentSite( i ) );
-//            }
-//            else {
-//                // Base pair is not contained within a gene, so use the default.
-//                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
-//            }
-//        }
-        return nearbyAttachmentSites;
-    }
-
-    public List<AttachmentSite> getNearbyTranscriptionFactorAttachmentSites( Point2D position ) {
-        List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
-        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
-        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
-            Gene gene = getGeneContainingBasePair( i );
-            if ( gene != null ) {
-                nearbyAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
-            }
-            else {
-                // Base pair is not contained within a gene, so use the default.
-                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
-            }
-        }
-        return nearbyAttachmentSites;
-    }
-
     /**
      * Consider an attachment proposal from a transcription factor instance.
      * To determine whether or not to accept or reject this proposal, the base
