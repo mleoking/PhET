@@ -78,7 +78,6 @@ public class PlateMotionPlate extends Plate {
         getMantle().getTopBoundary().borrowPositionTemperatureAndTexture( getLithosphere().getBottomBoundary() );
     }
 
-    // TODO: fix terrain and density part of this
     public void addLeftSection() {
         final float width = model.getLeftX( 1 ) - model.getLeftX( 0 );
         final float xOffset = -width;
@@ -86,7 +85,7 @@ public class PlateMotionPlate extends Plate {
         final float crustMantleBoundaryY = getFreshCrustBottom( plateType );
         final float lithosphereBottomY = getFreshLithosphereBottom( plateType );
 
-        final float x = getCrust().getTopBoundary().getFirstSample().getPosition().x - width;
+        final float x = getCrust().getTopBoundary().getFirstSample().getPosition().x + xOffset;
 
         // TODO: clean up code duplication
         getCrust().addLeftRow( new ArrayList<Sample>() {{
@@ -123,11 +122,62 @@ public class PlateMotionPlate extends Plate {
 
         getTerrain().addToLeft( x, new ArrayList<TerrainSample>() {{
             for ( int zIndex = 0; zIndex < getTerrain().getZSamples(); zIndex++ ) {
-                final float z = getTerrain().zPositions.get( zIndex );
                 final TerrainSample mySample = getTerrain().getSample( 0, zIndex );
                 // elevation to be fixed later
                 // TODO: fix texture coordinates on newly added terrain
-                add( new TerrainSample( getCrust().getTopBoundary().samples.get( 0 ).getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
+                add( new TerrainSample( getCrust().getTopBoundary().getFirstSample().getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
+            }
+        }} );
+    }
+
+    public void addRightSection() {
+        final float width = model.getRightX( 1 ) - model.getRightX( 0 );
+        final float xOffset = width;
+        final float crustTopY = getFreshCrustTop( plateType );
+        final float crustMantleBoundaryY = getFreshCrustBottom( plateType );
+        final float lithosphereBottomY = getFreshLithosphereBottom( plateType );
+
+        final float x = getCrust().getTopBoundary().getLastSample().getPosition().x + xOffset;
+
+        // TODO: clean up code duplication
+        getCrust().addRightRow( new ArrayList<Sample>() {{
+            float topY = crustTopY;
+            float bottomY = crustMantleBoundaryY;
+            for ( int yIndex = 0; yIndex < getCrust().getBoundaries().size(); yIndex++ ) {
+                final Sample mySample = getCrust().getBoundaries().get( yIndex ).getLastSample();
+
+                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES );
+                float y = topY + ( bottomY - topY ) * yRatio;
+
+                float temp = getCrustTemperatureFromYRatio( yRatio );
+                final float x = mySample.getPosition().x + xOffset;
+                add( new Sample( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( plateType ),
+                                 mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
+            }
+        }} );
+
+        getLithosphere().addRightRow( new ArrayList<Sample>() {{
+            float topY = crustMantleBoundaryY;
+            float bottomY = lithosphereBottomY;
+            for ( int yIndex = 0; yIndex < getLithosphere().getBoundaries().size(); yIndex++ ) {
+                final Sample mySample = getLithosphere().getBoundaries().get( yIndex ).getLastSample();
+
+                final float yRatio = ( (float) yIndex ) / ( (float) LITHOSPHERE_VERTICAL_SAMPLES );
+                float y = topY + ( bottomY - topY ) * yRatio;
+
+                float temp = getLithosphereTemperatureFromYRatio( yRatio );
+                final float x = mySample.getPosition().x + xOffset;
+                add( new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
+                                 mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
+            }
+        }} );
+
+        getTerrain().addToRight( x, new ArrayList<TerrainSample>() {{
+            for ( int zIndex = 0; zIndex < getTerrain().getZSamples(); zIndex++ ) {
+                final TerrainSample mySample = getTerrain().getSample( getTerrain().getNumColumns() - 1, zIndex );
+                // elevation to be fixed later
+                // TODO: fix texture coordinates on newly added terrain
+                add( new TerrainSample( getCrust().getTopBoundary().getLastSample().getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
             }
         }} );
     }
