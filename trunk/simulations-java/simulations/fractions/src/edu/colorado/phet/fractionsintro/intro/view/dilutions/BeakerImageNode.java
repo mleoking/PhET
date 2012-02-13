@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.view.representations.dilutions;
+package edu.colorado.phet.fractionsintro.intro.view.dilutions;
 
 import java.awt.Color;
 import java.awt.Dimension;
