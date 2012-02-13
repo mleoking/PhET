@@ -55,7 +55,7 @@ import static fj.data.List.range;
     private static List<MovableSlice> createSlicesForBucket( final int denominator, final int numSlices ) {
         return iterableList( new ArrayList<MovableSlice>() {{
             for ( int i = 0; i < numSlices; i++ ) {
-                add( new MovableSlice( createBucketSlice( denominator ), null ) );
+                add( new MovableSlice( createBucketSlice( denominator ) ) );
             }
         }} );
     }
@@ -149,9 +149,7 @@ import static fj.data.List.range;
         return slices.exists( new F<MovableSlice, Boolean>() {
             public Boolean f( MovableSlice m ) {
                 //TODO: container is broken, needs to be fixed when animation target reached
-                return ( m.container != null && m.container.equals( cell ) ) ||
-                       m.movingToward( cell ) ||
-                       ( m.tip().equals( cell.tip ) && m.angle() == cell.angle );
+                return m.movingToward( cell ) || m.positionAndAngleEquals( cell );
             }
         } );
     }
@@ -199,7 +197,7 @@ import static fj.data.List.range;
             Container c = containerSetState.containers.index( i );
             for ( Integer cell : c.filledCells ) {
                 final Slice slice = emptyPies.index( i ).cells.index( cell );
-                all.add( new MovableSlice( slice, slice ) );
+                all.add( new MovableSlice( slice ) );
             }
         }
         return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator, containerSetState.getEmptyCells().length() ) );
@@ -247,7 +245,7 @@ import static fj.data.List.range;
                 @Override public MovableSlice f( MovableSlice m ) {
 
                     //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
-                    return m == slice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ).container( null ).stepAnimation() : m;
+                    return m == slice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ).stepAnimation() : m;
                 }
             } ) );
         }
