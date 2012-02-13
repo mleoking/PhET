@@ -34,7 +34,7 @@ import static fj.data.List.range;
 @Data public class PieSet {
     public final int denominator;
     public final List<Pie> pies;
-    public final List<MovableSlice> slices;
+    public final List<Slice> slices;
 
     //The list of all cells
     public final List<Slice> cells;
@@ -52,10 +52,10 @@ import static fj.data.List.range;
     }
 
     //Slices to put in the buckets
-    private static List<MovableSlice> createSlicesForBucket( final int denominator, final int numSlices ) {
-        return iterableList( new ArrayList<MovableSlice>() {{
+    private static List<Slice> createSlicesForBucket( final int denominator, final int numSlices ) {
+        return iterableList( new ArrayList<Slice>() {{
             for ( int i = 0; i < numSlices; i++ ) {
-                add( new MovableSlice( createBucketSlice( denominator ) ) );
+                add( createBucketSlice( denominator ) );
             }
         }} );
     }
@@ -90,7 +90,7 @@ import static fj.data.List.range;
         return new Slice( new ImmutableVector2D( PieSet.pieDiameter * ( pie + 1 ) + PieSet.pieSpacing * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, PieSet.pieDiameter / 2, false, null );
     }
 
-    public PieSet( int denominator, List<Pie> pies, List<MovableSlice> slices ) {
+    public PieSet( int denominator, List<Pie> pies, List<Slice> slices ) {
         this.denominator = denominator;
         this.pies = pies;
         this.slices = slices;
@@ -119,9 +119,9 @@ import static fj.data.List.range;
     }
 
     public PieSet stepInTime( final double simulationTimeChange ) {
-        final List<MovableSlice> slices = this.slices.map( new F<MovableSlice, MovableSlice>() {
-            public MovableSlice f( final MovableSlice s ) {
-                if ( s.dragging() ) {
+        final List<Slice> slices = this.slices.map( new F<Slice, Slice>() {
+            public Slice f( final Slice s ) {
+                if ( s.dragging ) {
 
                     //TODO: make this minimum function a bit cleaner please?
                     Slice closest = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
@@ -130,7 +130,7 @@ import static fj.data.List.range;
                         }
                     } ) ) );
 
-                    final MovableSlice rotated = s.rotateTowardTarget( closest.angle );
+                    final Slice rotated = s.rotateTowardTarget( closest.angle );
 
                     //Keep the center in the same place
                     return rotated.translate( s.center().minus( rotated.center() ) );
@@ -143,11 +143,11 @@ import static fj.data.List.range;
         return slices( slices );
     }
 
-    public PieSet slices( List<MovableSlice> slices ) { return new PieSet( denominator, pies, slices ); }
+    public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices ); }
 
     public boolean cellFilled( final Slice cell ) {
-        return slices.exists( new F<MovableSlice, Boolean>() {
-            public Boolean f( MovableSlice m ) {
+        return slices.exists( new F<Slice, Boolean>() {
+            public Boolean f( Slice m ) {
                 //TODO: container is broken, needs to be fixed when animation target reached
                 return m.movingToward( cell ) || m.positionAndAngleEquals( cell );
             }
@@ -155,7 +155,7 @@ import static fj.data.List.range;
     }
 
     //Find which cell a slice should get dropped into 
-    public Slice getDropTarget( final MovableSlice s ) {
+    public Slice getDropTarget( final Slice s ) {
         final Slice closestCell = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
             public Ordering f( final Slice u1, final Slice u2 ) {
                 return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
@@ -191,13 +191,12 @@ import static fj.data.List.range;
         return new PieSet( containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ) );
     }
 
-    private static List<MovableSlice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
-        ArrayList<MovableSlice> all = new ArrayList<MovableSlice>();
+    private static List<Slice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
+        ArrayList<Slice> all = new ArrayList<Slice>();
         for ( int i = 0; i < containerSetState.containers.length(); i++ ) {
             Container c = containerSetState.containers.index( i );
             for ( Integer cell : c.filledCells ) {
-                final Slice slice = emptyPies.index( i ).cells.index( cell );
-                all.add( new MovableSlice( slice ) );
+                all.add( emptyPies.index( i ).cells.index( cell ) );
             }
         }
         return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator, containerSetState.getEmptyCells().length() ) );
@@ -207,17 +206,17 @@ import static fj.data.List.range;
 
         //Find a slice from the bucket
         //TODO: Should find any slice at the bucket or heading toward the bucket (if the user toggles the buttons fast)
-        final Option<MovableSlice> bucketSlice = slices.find( new F<MovableSlice, Boolean>() {
-            @Override public Boolean f( MovableSlice m ) {
-                return m.tip().getY() == createBucketSlice( denominator ).tip.getY() && m.animationTarget() == null;
+        final Option<Slice> bucketSlice = slices.find( new F<Slice, Boolean>() {
+            @Override public Boolean f( Slice m ) {
+                return m.tip.getY() == createBucketSlice( denominator ).tip.getY() && m.animationTarget == null;
             }
         } );
 
         //Could be none if still animating
         if ( bucketSlice.isSome() ) {
             final Slice target = createPieCell( emptyCell.container, emptyCell.cell, denominator );
-            return slices( slices.map( new F<MovableSlice, MovableSlice>() {
-                @Override public MovableSlice f( MovableSlice m ) {
+            return slices( slices.map( new F<Slice, Slice>() {
+                @Override public Slice f( Slice m ) {
                     return m == bucketSlice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ) : m;
                 }
             } ) );
@@ -231,9 +230,9 @@ import static fj.data.List.range;
 
         //Cell that should be moved
         final Slice prototype = createPieCell( cell.container, cell.cell, denominator );
-        final Option<MovableSlice> slice = slices.find( new F<MovableSlice, Boolean>() {
-            @Override public Boolean f( MovableSlice m ) {
-                return m.tip().equals( prototype.getTip() ) && m.angle() == prototype.angle;
+        final Option<Slice> slice = slices.find( new F<Slice, Boolean>() {
+            @Override public Boolean f( Slice m ) {
+                return m.tip.equals( prototype.getTip() ) && m.angle == prototype.angle;
             }
         } );
 
@@ -241,8 +240,8 @@ import static fj.data.List.range;
         if ( slice.isSome() ) {
 
             final Slice target = createBucketSlice( denominator );
-            return slices( slices.map( new F<MovableSlice, MovableSlice>() {
-                @Override public MovableSlice f( MovableSlice m ) {
+            return slices( slices.map( new F<Slice, Slice>() {
+                @Override public Slice f( Slice m ) {
 
                     //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
                     return m == slice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ).stepAnimation() : m;
