@@ -73,6 +73,9 @@ public class BoxHighlightNode extends GLNode {
         ImmutableVector3F rightTopBack = new ImmutableVector3F( bounds.getMaxX(), bounds.getMaxY(), bounds.getMinZ() );
         ImmutableVector3F rightTopFront = new ImmutableVector3F( bounds.getMaxX(), bounds.getMaxY(), bounds.getMaxZ() );
 
+        int zSectionQuantity = 10;
+        int xSectionQuantity = 20;
+
         glEnable( GL_LINE_STIPPLE );
 //        glDisable( GL_DEPTH_TEST );
 //        glLineWidth( 1.5f );
@@ -80,41 +83,43 @@ public class BoxHighlightNode extends GLNode {
         color4f( color.get() );
 
         // front face
-        quadLine( transformedLine( leftTopFront, rightTopFront, 20 ),
-                  transformedLine( leftBottomFront, rightBottomFront, 20 ) );
+        quadLine( transformedLine( leftTopFront, rightTopFront, xSectionQuantity ),
+                  transformedLine( leftBottomFront, rightBottomFront, xSectionQuantity ) );
 
         // top face
-        quadLine( transformedLine( leftTopFront, rightTopFront, 20 ),
-                  transformedLine( leftTopBack, rightTopBack, 20 ) );
+        for ( int i = 0; i < zSectionQuantity - 1; i++ ) {
+            float ratioA = ( (float) i ) / ( (float) ( zSectionQuantity - 1 ) );
+            float ratioB = ( (float) ( i + 1 ) ) / ( (float) ( zSectionQuantity - 1 ) );
+            quadLine( transformedLine( leftTopBack.times( ratioA ).plus( leftTopFront.times( 1 - ratioA ) ),
+                                       rightTopBack.times( ratioA ).plus( rightTopFront.times( 1 - ratioA ) ), xSectionQuantity ),
+                      transformedLine( leftTopBack.times( ratioB ).plus( leftTopFront.times( 1 - ratioB ) ),
+                                       rightTopBack.times( ratioB ).plus( rightTopFront.times( 1 - ratioB ) ), xSectionQuantity ) );
+        }
 
         glColor4f( 0, 0, 0, 1 );
         glBegin( GL_LINE_STRIP );
         drawFromTo( leftBottomBack, leftTopBack, 2 );
-        drawFromTo( leftTopBack, rightTopBack, 20 );
+        drawFromTo( leftTopBack, rightTopBack, xSectionQuantity );
         drawFromTo( rightTopBack, rightBottomBack, 2 );
-        drawFromTo( rightBottomBack, leftBottomBack, 20 );
+        drawFromTo( rightBottomBack, leftBottomBack, xSectionQuantity );
         glEnd();
         glBegin( GL_LINE_STRIP );
         drawFromTo( leftBottomFront, leftTopFront, 2 );
-        drawFromTo( leftTopFront, rightTopFront, 20 );
+        drawFromTo( leftTopFront, rightTopFront, xSectionQuantity );
         drawFromTo( rightTopFront, rightBottomFront, 2 );
-        drawFromTo( rightBottomFront, leftBottomFront, 20 );
+        drawFromTo( rightBottomFront, leftBottomFront, xSectionQuantity );
         glEnd();
         glBegin( GL_LINE_STRIP );
-        vertex3f( transformPoint( leftBottomFront ) );
-        vertex3f( transformPoint( leftBottomBack ) );
+        drawFromTo( leftBottomBack, leftBottomFront, zSectionQuantity );
         glEnd();
         glBegin( GL_LINE_STRIP );
-        vertex3f( transformPoint( leftTopFront ) );
-        vertex3f( transformPoint( leftTopBack ) );
+        drawFromTo( leftTopBack, leftTopFront, zSectionQuantity );
         glEnd();
         glBegin( GL_LINE_STRIP );
-        vertex3f( transformPoint( rightBottomFront ) );
-        vertex3f( transformPoint( rightBottomBack ) );
+        drawFromTo( rightBottomBack, rightBottomFront, zSectionQuantity );
         glEnd();
         glBegin( GL_LINE_STRIP );
-        vertex3f( transformPoint( rightTopFront ) );
-        vertex3f( transformPoint( rightTopBack ) );
+        drawFromTo( rightTopBack, rightTopFront, zSectionQuantity );
         glEnd();
 
         glDisable( GL_LINE_STIPPLE );

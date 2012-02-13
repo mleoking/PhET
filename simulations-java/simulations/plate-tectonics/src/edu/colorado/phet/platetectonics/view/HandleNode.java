@@ -311,28 +311,6 @@ public class HandleNode extends GLNode {
 //            updateTransform( 0, angle );
             tab.motionVectorRight.set( new ImmutableVector2F( 0, isRightHandle ? angle : -angle ) );
         }
-
-//        switch( model.motionType.get() ) {
-//            case CONVERGENT:
-//                // comparison works for opposite direction
-//                if ( isRightHandle == pullingLeft ) {
-//                    final float timeChange = getTimeElapsed() * Math.abs( deltaXY.x ) / 10;
-//                    getClock().stepByWallSecondsForced( timeChange );
-//                    motionVectorRight.set( new ImmutableVector2F( -Math.abs( deltaXY.x ), 0 ) );
-//                }
-//                break;
-//            case DIVERGENT:
-//                if ( isRightHandle != pullingLeft ) {
-//                    final float timeChange = getTimeElapsed() * Math.abs( deltaXY.x ) / 10;
-//                    getClock().stepByWallSecondsForced( timeChange );
-//                    motionVectorRight.set( new ImmutableVector2F( Math.abs( deltaXY.x ), 0 ) );
-//                }
-//                break;
-//            case TRANSFORM:
-//                // TODO: fix transform
-//                motionVectorRight.set( new ImmutableVector2F( 0, -deltaXY.y ) );
-//                break;
-//        }
     }
 
     public void endDrag() {
