@@ -23,33 +23,36 @@ public class WaterGlassSetFractionNode extends VisibilityNode {
         new RichSimpleObserver() {
             public void update() {
 
-                //6 fit on the screen
-                int distanceBetweenPies = 10;
-                double spaceForPies = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - distanceBetweenPies * 5;
-                final double DIAMETER = spaceForPies / 6;
+                //On 2/13/2012 I profiled this as costing 15% of the application during animation on the 1st tab, so skip it if not visible
+                if ( visible.get() ) {
+                    //6 fit on the screen
+                    int distanceBetweenPies = 10;
+                    double spaceForPies = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - distanceBetweenPies * 5;
+                    final double DIAMETER = spaceForPies / 6;
 
-                removeAllChildren();
-                SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
+                    removeAllChildren();
+                    SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
-                for ( int i = 0; i < containerSet.get().containers.length(); i++ ) {
-                    final int container = i;
-                    box.addChild( new WaterGlassNode( containerSet.get().getContainer( i ).getFilledCells().length(), containerSet.get().getContainer( i ).numCells, new VoidFunction0() {
-                        public void apply() {
-                            CellPointer cp = new CellPointer( container, containerSet.get().getContainer( container ).getLowestEmptyCell() );
-                            containerSet.set( containerSet.get().toggle( cp ) );
+                    for ( int i = 0; i < containerSet.get().containers.length(); i++ ) {
+                        final int container = i;
+                        box.addChild( new WaterGlassNode( containerSet.get().getContainer( i ).getFilledCells().length(), containerSet.get().getContainer( i ).numCells, new VoidFunction0() {
+                            public void apply() {
+                                CellPointer cp = new CellPointer( container, containerSet.get().getContainer( container ).getLowestEmptyCell() );
+                                containerSet.set( containerSet.get().toggle( cp ) );
+                            }
+                        }, new VoidFunction0() {
+                            public void apply() {
+                                CellPointer cp = new CellPointer( container, containerSet.get().getContainer( container ).getHighestFullCell() );
+                                containerSet.set( containerSet.get().toggle( cp ) );
+                            }
                         }
-                    }, new VoidFunction0() {
-                        public void apply() {
-                            CellPointer cp = new CellPointer( container, containerSet.get().getContainer( container ).getHighestFullCell() );
-                            containerSet.set( containerSet.get().toggle( cp ) );
-                        }
+                        ) );
                     }
-                    ) );
-                }
 
-                addChild( box );
+                    addChild( box );
+                }
             }
-        }.observe( containerSet );
+        }.observe( containerSet, visible );
     }
 
     @Override public CellPointer getClosestOpenCell( Shape globalShape, Point2D center2D ) {
