@@ -60,23 +60,14 @@ public class FractionsIntroModel {
                     if ( delta > 0 ) {
                         for ( int i = 0; i < delta; i++ ) {
                             final PieSet p = s.pieSet.animateBucketSliceToPie( s.containerSet.getFirstEmptyCell() );
-                            s = s.pieSet( p ).containerSet( p.toContainerState() ).numerator( numerator );
+                            s = s.pieSet( p ).containerSet( p.toContainerSet() ).numerator( numerator );
                         }
                     }
                     else if ( delta < 0 ) {
-//                        for ( int i = 0; i < Math.abs( delta ); i++ ) {
-//                            final ContainerSet newContainerSet = s.containerSet.toggle( s.containerSet.getLastFullCell() );
-//                            s = s.containerSet( newContainerSet ).pieSet( fromContainerSetState( newContainerSet ) ).numerator( newContainerSet.numerator );
-////                                                state.set( state.get().containerSet( state.get().containerSet.toggle( containerSet.get().getLastFullCell() ) ) );
-//                        }
-
-
                         for ( int i = 0; i < Math.abs( delta ); i++ ) {
-                            CellPointer cellPointer = s.containerSet.getLastFullCell();
-                            final PieSet p = s.pieSet.animateSliceToBucket( cellPointer );
-                            s = s.pieSet( p ).containerSet( p.toContainerState() ).numerator( numerator );
+                            final PieSet p = s.pieSet.animateSliceToBucket( s.containerSet.getLastFullCell() );
+                            s = s.pieSet( p ).containerSet( p.toContainerSet() ).numerator( numerator );
                         }
-
                     }
                     else {
                         //Nothing to do if delta == 0
@@ -122,7 +113,7 @@ public class FractionsIntroModel {
             }
     );
 
-    //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
+    //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
     public final SettableProperty<PieSet> pieSet = new ClientProperty<PieSet>(
             state, new Function1<FractionsIntroModelState, PieSet>() {
         public PieSet apply( FractionsIntroModelState s ) {
@@ -131,7 +122,7 @@ public class FractionsIntroModel {
     },
             new Function2<FractionsIntroModelState, PieSet, FractionsIntroModelState>() {
                 public FractionsIntroModelState apply( FractionsIntroModelState s, PieSet pieSet ) {
-                    final ContainerSet cs = pieSet.toContainerState();
+                    final ContainerSet cs = pieSet.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
                     return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator );
                 }
@@ -152,7 +143,7 @@ public class FractionsIntroModel {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 final FractionsIntroModelState s = state.get();
                 final PieSet newPieSet = s.pieSet.stepInTime( clockEvent.getSimulationTimeChange() );
-                state.set( s.pieSet( newPieSet ).containerSet( newPieSet.toContainerState() ) );
+                state.set( s.pieSet( newPieSet ).containerSet( newPieSet.toContainerSet() ) );
             }
         } );
     }

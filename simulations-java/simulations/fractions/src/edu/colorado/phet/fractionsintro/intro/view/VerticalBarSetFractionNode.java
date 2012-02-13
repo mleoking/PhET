@@ -18,7 +18,7 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
  * @author Sam Reid
  */
 public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
-    public VerticalBarSetFractionNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final ObservableProperty<ContainerSet> containerState ) {
+    public VerticalBarSetFractionNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final ObservableProperty<ContainerSet> containerSet ) {
         super( chosenRepresentation, ChosenRepresentation.VERTICAL_BAR );
 
         new RichSimpleObserver() {
@@ -30,7 +30,7 @@ public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
                 final double width = spaceForBars / 6;
 
                 double barHeight = 200;
-                int denominator = containerState.get().denominator;
+                int denominator = containerSet.get().denominator;
                 double cellHeight = barHeight / denominator;
 
                 removeAllChildren();
@@ -42,11 +42,11 @@ public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
 
                 //Start at the bottom and work your way up, like with water glasses
                 double y = initY;
-                for ( int i = 0; i < containerState.get().containers.length(); i++ ) {
-                    boolean containerEmpty = containerState.get().getContainer( i ).isEmpty();
+                for ( int i = 0; i < containerSet.get().containers.length(); i++ ) {
+                    boolean containerEmpty = containerSet.get().getContainer( i ).isEmpty();
                     for ( int k = 0; k < denominator; k++ ) {
                         final CellPointer cp = new CellPointer( i, k );
-                        boolean filled = containerState.get().isFilled( cp );
+                        boolean filled = containerSet.get().isFilled( cp );
                         Color color = filled ? FractionsIntroCanvas.FILL_COLOR : Color.white;
                         Color strokeColor = containerEmpty ? Color.lightGray : Color.black;
                         Stroke stroke = containerEmpty ? new BasicStroke( 1 ) : new BasicStroke( 2 );
@@ -58,6 +58,6 @@ public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
                     x = x + width + distanceBetween;
                 }
             }
-        }.observe( containerState );
+        }.observe( containerSet );
     }
 }

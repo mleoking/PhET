@@ -17,20 +17,20 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class RepresentationArea extends PNode {
-    public RepresentationArea( ObservableProperty<ChosenRepresentation> chosenRepresentation, IntegerProperty numerator, IntegerProperty denominator, SettableProperty<ContainerSet> containerState ) {
-        addChild( new HorizontalBarSetFractionNode( chosenRepresentation, containerState ) {{
+    public RepresentationArea( ObservableProperty<ChosenRepresentation> chosenRepresentation, IntegerProperty numerator, IntegerProperty denominator, SettableProperty<ContainerSet> containerSet ) {
+        addChild( new HorizontalBarSetFractionNode( chosenRepresentation, containerSet ) {{
             setOffset( 0, -29 );
         }} );
-        addChild( new VerticalBarSetFractionNode( chosenRepresentation, containerState ) {{
+        addChild( new VerticalBarSetFractionNode( chosenRepresentation, containerSet ) {{
             setOffset( 0, -73 );
         }} );
         addChild( new NumberLineNode( numerator, denominator, chosenRepresentation.valueEquals( ChosenRepresentation.NUMBER_LINE ) ) {{
             setOffset( 10, 15 );
         }} );
-        addChild( new CakeSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.CAKE ) ) {{
+        addChild( new CakeSetFractionNode( containerSet, chosenRepresentation.valueEquals( ChosenRepresentation.CAKE ) ) {{
             setOffset( -10, -40 );
         }} );
-        addChild( new WaterGlassSetFractionNode( containerState, chosenRepresentation.valueEquals( ChosenRepresentation.WATER_GLASSES ) ) {{
+        addChild( new WaterGlassSetFractionNode( containerSet, chosenRepresentation.valueEquals( ChosenRepresentation.WATER_GLASSES ) ) {{
             setOffset( 15, -65 );
         }} );
     }

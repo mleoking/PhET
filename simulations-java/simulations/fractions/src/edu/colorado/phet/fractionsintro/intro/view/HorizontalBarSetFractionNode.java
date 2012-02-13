@@ -21,7 +21,7 @@ public class HorizontalBarSetFractionNode extends ChosenRepresentationNode {
     private static final double NUM_BARS_PER_LINE = 3;
     private static final double DISTANCE_BETWEEN_BARS_Y = 20;
 
-    public HorizontalBarSetFractionNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final ObservableProperty<ContainerSet> containerState ) {
+    public HorizontalBarSetFractionNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final ObservableProperty<ContainerSet> containerSet ) {
         super( chosenRepresentation, ChosenRepresentation.HORIZONTAL_BAR );
 
         new RichSimpleObserver() {
@@ -33,17 +33,17 @@ public class HorizontalBarSetFractionNode extends ChosenRepresentationNode {
                 //Find how much space we can use for 3 bars horizontally
                 double spaceForBars = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - distanceBetweenBars * 2;
                 double totalBarWidth = spaceForBars / NUM_BARS_PER_LINE;
-                final int denominator = containerState.get().denominator;
+                final int denominator = containerSet.get().denominator;
                 final double cellWidth = totalBarWidth / denominator;
 
                 double x = 0;
                 double y = 0;
-                for ( int i = 0; i < containerState.get().containers.length(); i++ ) {
-                    boolean containerEmpty = containerState.get().getContainer( i ).isEmpty();
+                for ( int i = 0; i < containerSet.get().containers.length(); i++ ) {
+                    boolean containerEmpty = containerSet.get().getContainer( i ).isEmpty();
                     double barHeight = 50;
                     for ( int k = 0; k < denominator; k++ ) {
                         final CellPointer cp = new CellPointer( i, k );
-                        boolean filled = containerState.get().isFilled( cp );
+                        boolean filled = containerSet.get().isFilled( cp );
                         Color color = filled ? FractionsIntroCanvas.FILL_COLOR : Color.white;
                         Color strokeColor = containerEmpty ? Color.lightGray : Color.black;
                         Stroke stroke = containerEmpty ? new BasicStroke( 1 ) : new BasicStroke( 2 );
@@ -61,6 +61,6 @@ public class HorizontalBarSetFractionNode extends ChosenRepresentationNode {
                     }
                 }
             }
-        }.observe( containerState );
+        }.observe( containerSet );
     }
 }
