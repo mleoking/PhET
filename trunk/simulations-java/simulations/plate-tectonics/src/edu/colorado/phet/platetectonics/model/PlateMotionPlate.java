@@ -38,6 +38,23 @@ public class PlateMotionPlate extends Plate {
 
     public void droppedCrust( final PlateType type ) {
         plateType = type;
+        addLithosphere( new Region( LITHOSPHERE_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
+            public Sample apply( Integer yIndex, Integer xIndex ) {
+                // start with top first
+                float x = isLeftPlate ? model.getLeftX( xIndex ) : model.getRightX( xIndex );
+
+                final float topY = getFreshCrustBottom( type );
+                final float bottomY = getFreshLithosphereBottom( type );
+
+                // TODO: fix code sharing with below
+                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES );
+                float y = topY + ( bottomY - topY ) * yRatio;
+
+                float temp = getLithosphereTemperatureFromYRatio( yRatio );
+                return new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
+                                   textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
+            }
+        } ) );
         addCrust( new Region( CRUST_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 // start with top first
@@ -49,19 +66,23 @@ public class PlateMotionPlate extends Plate {
                 final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES );
                 float y = topY + ( bottomY - topY ) * yRatio;
 
-                float temp = getTemperatureFromYRatio( yRatio );
+                float temp = getCrustTemperatureFromYRatio( yRatio );
                 return new Sample( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( type ),
                                    textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
             }
         } ) );
 
         // set the position/texture coordinates to be the same for the mantle top boundary
-        getMantle().getTopBoundary().borrowPositionAndTexture( getCrust().getBottomBoundary() );
+        getMantle().getTopBoundary().borrowPositionTemperatureAndTexture( getLithosphere().getBottomBoundary() );
     }
 
-    private static float getTemperatureFromYRatio( float ratioFromTop ) {
+    private static float getCrustTemperatureFromYRatio( float ratioFromTop ) {
         // TODO: young/old oceanic crust differences!
         return SIMPLE_CRUST_TOP_TEMP + ( SIMPLE_CRUST_BOTTOM_TEMP - SIMPLE_CRUST_TOP_TEMP ) * ratioFromTop;
+    }
+
+    private static float getLithosphereTemperatureFromYRatio( float ratioFromTop ) {
+        return SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_LITHOSPHERE_BOUNDARY_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * ratioFromTop;
     }
 
     // only for the transform boundary, so we can simplify a few things here
@@ -78,6 +99,27 @@ public class PlateMotionPlate extends Plate {
 
                 // grab the y location from the mantle cross section boundary
                 final Sample sample = getMantle().getBoundaries().get( yIndex ).samples.get( 0 );
+                float y = sample.getPosition().y;
+
+                // grab the Z from the terrain. we also reverse the index for the side of the left plate, so the sidedness is correct
+                float z = getTerrain().zPositions.get( isLeftPlate ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
+
+                // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
+                return new Sample( new ImmutableVector3F( x, y, z ), sample.getTemperature(), sample.getDensity(),
+                                   textureStrategy.mapFront( new ImmutableVector2F( isLeftPlate ? -z : z, y ) ) );
+            }
+        } ) );
+
+        /*---------------------------------------------------------------------------*
+        * lithosphere
+        *----------------------------------------------------------------------------*/
+        regions.add( new Region( LITHOSPHERE_VERTICAL_SAMPLES, getTerrain().getNumRows(), new Function2<Integer, Integer, Sample>() {
+            public Sample apply( Integer yIndex, Integer xIndex ) {
+                // we're in the center exactly
+                float x = 0;
+
+                // grab the y location from the lithosphere cross section boundary
+                final Sample sample = getLithosphere().getBoundaries().get( yIndex ).samples.get( 0 );
                 float y = sample.getPosition().y;
 
                 // grab the Z from the terrain. we also reverse the index for the side of the left plate, so the sidedness is correct
@@ -117,7 +159,7 @@ public class PlateMotionPlate extends Plate {
                 // grab the Z from the terrain. we also reverse the index for the side of the left plate, so the sidedness is correct
                 float z = getTerrain().zPositions.get( isLeftPlate ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
 
-                float temp = getTemperatureFromYRatio( yRatio );
+                float temp = getCrustTemperatureFromYRatio( yRatio );
                 // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
                 return new Sample( new ImmutableVector3F( x, y, z ), temp, sample.getDensity(),
                                    textureStrategy.mapFront( new ImmutableVector2F( isLeftPlate ? -z : z, y ) ) );

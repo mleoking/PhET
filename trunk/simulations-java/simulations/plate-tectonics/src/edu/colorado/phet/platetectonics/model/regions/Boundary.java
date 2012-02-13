@@ -21,6 +21,19 @@ public class Boundary {
         }
     }
 
+    public void borrowPositionTemperatureAndTexture( Boundary other ) {
+        assert other.samples.size() == samples.size();
+
+        for ( int i = 0; i < samples.size(); i++ ) {
+            final Sample mySample = samples.get( i );
+            final Sample otherSample = other.samples.get( i );
+
+            mySample.setPosition( otherSample.getPosition() );
+            mySample.setTextureCoordinates( otherSample.getTextureCoordinates() );
+            mySample.setTemperature( otherSample.getTemperature() );
+        }
+    }
+
     public Sample getFirstSample() {
         return samples.get( 0 );
     }
