@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractionsintro.intro.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
@@ -18,12 +19,12 @@ public class IntClientProperty extends ClientProperty<Integer> {
         super( state, get, change );
     }
 
-//    @Override protected Property<Integer> createProperty() {
-//        return new IntegerProperty( get() );
-//    }
-//
-//    //TODO: get rid of cast
-//    public IntegerProperty toIntegerProperty() {
-//        return (IntegerProperty) toProperty();
-//    }
+    protected Property<Integer> createProperty() {
+        return new IntegerProperty( get() );
+    }
+
+    //TODO: get rid of cast, could do so with generics gymnastics
+    public IntegerProperty toIntegerProperty() {
+        return (IntegerProperty) toProperty();
+    }
 }
