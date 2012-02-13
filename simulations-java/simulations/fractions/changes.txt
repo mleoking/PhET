@@ -1,3 +1,4 @@
+# 0.00.33 (61275) Feb 13, 2012
 Fixed: if a slice is moving toward the pie when the user presses "down" on the numerator, it should turn around and head back to the bucket
 Changed from IntClientProperty back to IntegerProperty
 Fixed a bug in PieSet.toContainerState
