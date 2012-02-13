@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
@@ -57,25 +56,27 @@ public class FractionsIntroModel {
             }, new Function2<FractionsIntroModelState, Integer, FractionsIntroModelState>() {
                 public FractionsIntroModelState apply( FractionsIntroModelState s, Integer numerator ) {
                     int oldValue = s.numerator;
-                    System.out.println( "FractionsIntroModel.update, numerator: old = " + oldValue + ", new = " + numerator );
                     int delta = numerator - oldValue;
                     if ( delta > 0 ) {
                         for ( int i = 0; i < delta; i++ ) {
-                            final CellPointer target = s.containerSet.getFirstEmptyCell();
-                            System.out.println( "target = " + target + ", in " + s.containerSet + ", for pieset's cs = " + s.pieSet.toContainerState() );
-                            final PieSet newPieSet = s.pieSet.animateBucketSliceToPie( target );
-                            final ContainerSet newContainerSet = newPieSet.toContainerState();
-                            System.out.println( "newContainerSet = " + newContainerSet );
-                            s = s.pieSet( newPieSet ).containerSet( newContainerSet ).numerator( numerator );
-                            System.out.println();
+                            final PieSet p = s.pieSet.animateBucketSliceToPie( s.containerSet.getFirstEmptyCell() );
+                            s = s.pieSet( p ).containerSet( p.toContainerState() ).numerator( numerator );
                         }
                     }
                     else if ( delta < 0 ) {
+//                        for ( int i = 0; i < Math.abs( delta ); i++ ) {
+//                            final ContainerSet newContainerSet = s.containerSet.toggle( s.containerSet.getLastFullCell() );
+//                            s = s.containerSet( newContainerSet ).pieSet( fromContainerSetState( newContainerSet ) ).numerator( newContainerSet.numerator );
+////                                                state.set( state.get().containerSet( state.get().containerSet.toggle( containerSet.get().getLastFullCell() ) ) );
+//                        }
+
+
                         for ( int i = 0; i < Math.abs( delta ); i++ ) {
-                            final ContainerSet newContainerSet = s.containerSet.toggle( s.containerSet.getLastFullCell() );
-                            s = s.containerSet( newContainerSet ).pieSet( fromContainerSetState( newContainerSet ) ).numerator( newContainerSet.numerator );
-//                                                state.set( state.get().containerSet( state.get().containerSet.toggle( containerSet.get().getLastFullCell() ) ) );
+                            CellPointer cellPointer = s.containerSet.getLastFullCell();
+                            final PieSet p = s.pieSet.animateSliceToBucket( cellPointer );
+                            s = s.pieSet( p ).containerSet( p.toContainerState() ).numerator( numerator );
                         }
+
                     }
                     else {
                         //Nothing to do if delta == 0
@@ -139,11 +140,11 @@ public class FractionsIntroModel {
 
     public FractionsIntroModel() {
 //        numerator.valueEquals( 2 ).trace( "got a 2" );
-        containerSet.addObserver( new SimpleObserver() {
-            public void update() {
-                System.out.println( "New container state: " + containerSet.get() );
-            }
-        } );
+//        containerSet.addObserver( new SimpleObserver() {
+//            public void update() {
+//                System.out.println( "New container state: " + containerSet.get() );
+//            }
+//        } );
 
 //        numerator.trace( "Numerator" );
         //Animate the model when the clock ticks
