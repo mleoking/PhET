@@ -7,6 +7,7 @@ import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -28,7 +29,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class MovableSliceNode extends PNode {
     public MovableSliceNode( final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
 
-        addChild( new PhetPPath( slice.shape(), FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
+        final Shape shape = slice.shape();
+        if ( Double.isNaN( shape.getBounds2D().getX() ) || Double.isNaN( shape.getBounds2D().getY() ) ) {
+            //TODO: Find and prevent the NaNs in the first place
+            return;
+        }
+        addChild( new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
 

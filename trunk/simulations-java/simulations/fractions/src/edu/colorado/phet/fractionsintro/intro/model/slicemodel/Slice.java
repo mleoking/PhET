@@ -28,7 +28,12 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
     public Slice angle( double angle ) { return new Slice( tip, angle, extent, radius, dragging, animationTarget ); }
 
-    public Slice tip( ImmutableVector2D tip ) { return new Slice( tip, angle, extent, radius, dragging, animationTarget ); }
+    public Slice tip( ImmutableVector2D tip ) {
+        if ( Double.isNaN( tip.getX() ) ) {
+            throw new RuntimeException( "NANA" );
+        }
+        return new Slice( tip, angle, extent, radius, dragging, animationTarget );
+    }
 
     public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( tip, angle, extent, radius, dragging, animationTarget ); }
 
