@@ -181,10 +181,6 @@ import static fj.data.List.range;
         } ) );
     }
 
-    public PieSet denominator( int denominator ) {
-        return fromContainerSetState( toContainerState().denominator( denominator ) );
-    }
-
     public static PieSet fromContainerSetState( ContainerSet containerSetState ) {
         final List<Pie> emptyPies = createEmptyPies( containerSetState.denominator );
         return new PieSet( containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ) );
