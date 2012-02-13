@@ -6,6 +6,7 @@ import fj.F2;
 import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.Color;
@@ -208,16 +209,50 @@ import static fj.data.List.range;
 
         //Find a slice from the bucket
         //TODO: Should find any slice at the bucket or heading toward the bucket (if the user toggles the buttons fast)
-        final MovableSlice bucketSlice = slices.find( new F<MovableSlice, Boolean>() {
+        final Option<MovableSlice> bucketSlice = slices.find( new F<MovableSlice, Boolean>() {
             @Override public Boolean f( MovableSlice m ) {
                 return m.tip().getY() == createBucketSlice( denominator ).tip.getY() && m.animationTarget() == null;
             }
-        } ).some();
-        final Slice target = createPieCell( emptyCell.container, emptyCell.cell, denominator );
-        return slices( slices.map( new F<MovableSlice, MovableSlice>() {
-            @Override public MovableSlice f( MovableSlice m ) {
-                return m == bucketSlice ? bucketSlice.animationTarget( new AnimationTarget( target.tip, target.angle ) ) : m;
+        } );
+
+        //Could be none if still animating
+        if ( bucketSlice.isSome() ) {
+            final Slice target = createPieCell( emptyCell.container, emptyCell.cell, denominator );
+            return slices( slices.map( new F<MovableSlice, MovableSlice>() {
+                @Override public MovableSlice f( MovableSlice m ) {
+                    return m == bucketSlice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ) : m;
+                }
+            } ) );
+        }
+        else {
+            return this;
+        }
+    }
+
+    public PieSet animateSliceToBucket( CellPointer cell ) {
+
+        //Cell that should be moved
+        final Slice prototype = createPieCell( cell.container, cell.cell, denominator );
+        final Option<MovableSlice> slice = slices.find( new F<MovableSlice, Boolean>() {
+            @Override public Boolean f( MovableSlice m ) {
+                return m.tip().equals( prototype.getTip() ) && m.angle() == prototype.angle;
             }
-        } ) );
+        } );
+
+        //Could be none if still animating
+        if ( slice.isSome() ) {
+
+            final Slice target = createBucketSlice( denominator );
+            return slices( slices.map( new F<MovableSlice, MovableSlice>() {
+                @Override public MovableSlice f( MovableSlice m ) {
+
+                    //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
+                    return m == slice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ).container( null ).stepAnimation() : m;
+                }
+            } ) );
+        }
+        else {
+            return this;
+        }
     }
 }
