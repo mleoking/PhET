@@ -60,6 +60,16 @@ public abstract class AttachmentStateMachine {
     }
 
     /**
+     * Find out if the biomolecule using this state machine is currently
+     * attached to anything (i.e. another biomolecule).
+     *
+     * @return true if attached to something, false if not.
+     */
+    public boolean isAttached() {
+        return !( attachmentSite == null );
+    }
+
+    /**
      * Detach the biomolecule from any current attachments.  This will cause
      * the molecule to go into the unattached-but-unavailable state for some
      * period of time, then it will become available again.

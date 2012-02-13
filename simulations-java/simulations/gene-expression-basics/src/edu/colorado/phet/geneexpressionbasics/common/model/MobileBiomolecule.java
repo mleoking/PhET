@@ -142,6 +142,16 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     }
 
     /**
+     * Force this biomolecule to detach from anything to which it is
+     * currently attached.
+     */
+    public void forceDetach() {
+        if ( attachmentStateMachine.isAttached() ) {
+            attachmentStateMachine.detach();
+        }
+    }
+
+    /**
      * Get the state that this biomolecule should transition into when it
      * becomes attached to some location.  This exists to allow biomolecules to
      * return different states (through overriding this method), thus exhibiting

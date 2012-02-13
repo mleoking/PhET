@@ -175,6 +175,15 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             // Move the DNA strand separator.
             dnaStrandSeparation.setXPos( rnaPolymerase.getPosition().getX() );
 
+            // Check for molecules that are in the way.
+            for ( MobileBiomolecule molecule : asm.biomolecule.getModel().getOverlappingBiomolecules( asm.biomolecule.getShape() ) ) {
+                if ( molecule.getPosition().getX() > asm.biomolecule.getPosition().getX() && molecule.isAttachedToDna() ) {
+                    // This molecule is blocking transcription, so bump it off
+                    // of the DNA strand.
+                    molecule.forceDetach();
+                }
+            }
+
             // If we've reached the end of the gene, detach.
             if ( biomolecule.getPosition().equals( endOfGene ) ) {
                 attachedState = attachedAndDeconformingState;
