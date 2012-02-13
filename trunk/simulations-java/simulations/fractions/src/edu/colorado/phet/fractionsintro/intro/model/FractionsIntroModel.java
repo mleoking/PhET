@@ -4,107 +4,275 @@ package edu.colorado.phet.fractionsintro.intro.model;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.fractionsintro.common.model.SingleFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
-import edu.colorado.phet.fractionsintro.intro.view.Fill;
-
-import static edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet.fromContainerSetState;
+import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
 
 /**
  * Model for the Fractions Intro sim.
+ * <p/>
+ * Property is a convenient interface for clients, but causes problems when mapping between multiple representations.
+ * I should create an isolated case of this, because trivial cases seem like they should work.
+ * One solution would be to have the Property.set() methods only be called from the user side, not from the model side.
+ * When any of the client interface methods are called, the rest of the state should update to reflect the new state.
+ * This means that all handlers in this class should call to the state itself, not to any of the derived properties.
+ * <p/>
+ * New style:
+ * 1. No way to forget to call reset() on some representation instances
+ * 2. Interface setters are all focused on "update the entire state to match the given request"
  *
  * @author Sam Reid
  */
-public class FractionsIntroModel extends SingleFractionModel {
-    private static boolean userToggled = false;
-    public final Property<Fill> fill = new Property<Fill>( Fill.SEQUENTIAL );
-    public final Property<ContainerSet> containerState = new Property<ContainerSet>( new ContainerSet( denominator.get(), new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim() );
-    public final Property<Boolean> showReduced = new Property<Boolean>( false );
-    public final Property<Boolean> showMixed = new Property<Boolean>( false );
-    public final Property<PieSet> pieSet = new Property<PieSet>( new PieSet() );
+public class FractionsIntroModel {
+    private final Property<FractionsIntroModelState> state = new Property<FractionsIntroModelState>( new FractionsIntroModelState() );
+
+    public final Clock clock = new ConstantDtClock();
+
+    //Observable parts of the model
+    public final Property<ChosenRepresentation> representation =
+            clientInterface( state, new Function1<FractionsIntroModelState, ChosenRepresentation>() {
+                                 public ChosenRepresentation apply( FractionsIntroModelState s ) {
+                                     return s.representation;
+                                 }
+                             },
+                             new Function2<FractionsIntroModelState, ChosenRepresentation, FractionsIntroModelState>() {
+                                 public FractionsIntroModelState apply( FractionsIntroModelState s, ChosenRepresentation representation ) {
+                                     return s.representation( representation );
+                                 }
+                             }
+            );
+    public final IntegerProperty numerator =
+            intClientInterface( state, new Function1<FractionsIntroModelState, Integer>() {
+                                    public Integer apply( FractionsIntroModelState s ) {
+                                        return s.numerator;
+                                    }
+                                },
+                                new Function2<FractionsIntroModelState, Integer, FractionsIntroModelState>() {
+                                    public FractionsIntroModelState apply( FractionsIntroModelState s, Integer numerator ) {
+                                        int oldValue = s.numerator;
+                                        System.out.println( "FractionsIntroModel.update, numerator: old = " + oldValue + ", new = " + numerator );
+                                        int delta = numerator - oldValue;
+                                        if ( delta > 0 ) {
+                                            for ( int i = 0; i < delta; i++ ) {
+                                                final CellPointer target = s.containerSet.getFirstEmptyCell();
+                                                System.out.println( "target = " + target + ", in " + s.containerSet + ", for pieset's cs = " + s.pieSet.toContainerState() );
+                                                final PieSet newPieSet = s.pieSet.animateBucketSliceToPie( target );
+                                                final ContainerSet newContainerSet = newPieSet.toContainerState();
+                                                System.out.println( "newContainerSet = " + newContainerSet );
+                                                s = s.pieSet( newPieSet ).containerSet( newContainerSet ).numerator( numerator );
+                                                System.out.println();
+                                            }
+                                        }
+                                        else if ( delta < 0 ) {
+                                            for ( int i = 0; i < Math.abs( delta ); i++ ) {
+                                                final ContainerSet newContainerSet = s.containerSet.toggle( s.containerSet.getLastFullCell() );
+                                                s = s.containerSet( newContainerSet ).pieSet( PieSet.fromContainerSetState( newContainerSet ) ).numerator( newContainerSet.numerator );
+//                                                state.set( state.get().containerSet( state.get().containerSet.toggle( containerSet.get().getLastFullCell() ) ) );
+                                            }
+                                        }
+                                        else {
+                                            //Nothing to do if delta == 0
+                                        }
+                                        return s;
+                                    }
+                                }
+            );
+    public final IntegerProperty denominator =
+            intClientInterface( state, new Function1<FractionsIntroModelState, Integer>() {
+                                    public Integer apply( FractionsIntroModelState s ) {
+                                        return s.denominator;
+                                    }
+                                },
+                                new Function2<FractionsIntroModelState, Integer, FractionsIntroModelState>() {
+                                    public FractionsIntroModelState apply( FractionsIntroModelState s, Integer denominator ) {
+                                        //                        state.set( state.get().containerSet( containerSet.get().denominator( denominator ).padAndTrim() ) );
+                                        return s.denominator( denominator );
+                                    }
+                                }
+            );
+    public final Property<ContainerSet> containerSet = clientInterface(
+            state, new Function1<FractionsIntroModelState, ContainerSet>() {
+                public ContainerSet apply( FractionsIntroModelState s ) {
+                    return s.containerSet;
+                }
+            },
+            new Function2<FractionsIntroModelState, ContainerSet, FractionsIntroModelState>() {
+                public FractionsIntroModelState apply( FractionsIntroModelState s, ContainerSet containerSet ) {
+                    return s.containerSet( containerSet );
+                }
+            }
+    );
+    public final Property<PieSet> pieSet = clientInterface(
+            state, new Function1<FractionsIntroModelState, PieSet>() {
+                public PieSet apply( FractionsIntroModelState s ) {
+                    return s.pieSet;
+                }
+            },
+            new Function2<FractionsIntroModelState, PieSet, FractionsIntroModelState>() {
+                public FractionsIntroModelState apply( FractionsIntroModelState s, PieSet pieSet ) {
+                    final ContainerSet cs = pieSet.toContainerState();
+                    System.out.println( "new pie state from user: " + cs );
+                    //Update both the pie set and container state to match the user specified pie set
+                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator );
+                }
+            }
+    );
+    private static boolean modelUpdating = false;
+
+    private static <T> Property<T> clientInterface( final Property<FractionsIntroModelState> state,
+                                                    final Function1<FractionsIntroModelState, T> get,
+                                                    final Function2<FractionsIntroModelState, T, FractionsIntroModelState> change ) {
+        //TODO: Maybe override set() here and use another function to update the model?
+        final Property<T> property = new Property<T>( get.apply( state.get() ) ) {
+            @Override public void set( T value ) {
+                //When the user calls set on this property, use its value and the current state of the model to update the entire model.
+                //Then send out updates to all properties that changed (including this one)
+                FractionsIntroModelState newState = change.apply( state.get(), value );
+                state.set( newState );
+
+                //Make sure the change went through
+                assert ( get.apply( newState ).equals( value ) );
+
+                super.set( get.apply( newState ) );
+            }
+        };
+
+        //When the state changes, notify observers
+        state.addObserver( new VoidFunction1<FractionsIntroModelState>() {
+            public void apply( FractionsIntroModelState fractionsIntroModelState ) {
+
+                //Blocks against values that didn't really change value
+                property.set( get.apply( state.get() ) );
+            }
+        } );
+
+        return property;
+    }
+
+    //TODO: Factor out code between intClientInterface and the generic one
+    private static IntegerProperty intClientInterface( final Property<FractionsIntroModelState> state,
+                                                       final Function1<FractionsIntroModelState, Integer> get,
+                                                       final Function2<FractionsIntroModelState, Integer, FractionsIntroModelState> change ) {
+        //TODO: Maybe override set() here and use another function to update the model?
+        final IntegerProperty property = new IntegerProperty( get.apply( state.get() ) ) {
+            @Override public void set( Integer value ) {
+                //When the user calls set on this property, use its value and the current state of the model to update the entire model.
+                //Then send out updates to all properties that changed (including this one)
+                FractionsIntroModelState newState = change.apply( state.get(), value );
+                state.set( newState );
+
+                //Make sure the change went through
+                final boolean checked = get.apply( newState ).equals( value );
+                if ( !checked ) {
+                    throw new RuntimeException( "Value mismatched, tried to set: " + value + ", but value is still: " + get.apply( newState ) );
+                }
+
+                super.set( get.apply( newState ) );
+            }
+        };
+
+        //When the state changes, notify observers
+        state.addObserver( new VoidFunction1<FractionsIntroModelState>() {
+            public void apply( FractionsIntroModelState fractionsIntroModelState ) {
+
+                //Blocks against values that didn't really change value
+                property.set( get.apply( state.get() ) );
+            }
+        } );
+
+        return property;
+    }
 
     public FractionsIntroModel() {
+
+        state.addObserver( new VoidFunction1<FractionsIntroModelState>() {
+            public void apply( FractionsIntroModelState s ) {
+                System.out.println( "State changed, containers = " + s.containerSet );
+            }
+        } );
+
         //synchronize the container state with the numerator and denominator for when the user uses the spinners
-        numerator.addObserver( new ChangeObserver<Integer>() {
-            public void update( Integer newValue, Integer oldValue ) {
+//        numerator.addObserver( new ChangeObserver<Integer>() {
+//            public void update( final Integer newValue, final Integer oldValue ) {
+//
+//                runModelUpdate( new VoidFunction0() {
+//                    public void apply() {
+//
+//                    }
+//                } );
+//
+////                        pieSet.set( fromContainerSetState( containerState.get() ) );//To have it automatically update
+//            }
+//        } );
 
-//                if ( !userToggled ) {
-                int delta = newValue - oldValue;
-                if ( delta != 0 ) {
-                    if ( delta > 0 ) {
-                        for ( int i = 0; i < delta; i++ ) {
-                            pieSet.set( pieSet.get().animateBucketSliceToPie( containerState.get().getFirstEmptyCell() ) );
-                        }
-                    }
-                    else {
-                        for ( int i = 0; i < Math.abs( delta ); i++ ) {
-                            containerState.set( containerState.get().toggle( containerState.get().getLastFullCell() ) );
-                        }
-                    }
-                    //To have it automatically update
-//                        pieSet.set( fromContainerSetState( containerState.get() ) );
-                }
-//                }
-            }
-        } );
+//        denominator.addObserver( new VoidFunction1<Integer>() {
+//            public void apply( final Integer denominator ) {
+//                runModelUpdate( new VoidFunction0() {
+//                    public void apply() {
+//                        //When changing denominator, move pieces to nearby slots
+//                        state.set( state.get().containerSet( containerSet.get().denominator( denominator ).padAndTrim() ) );
+//                    }
+//                } );
+//                //pieSet.set( fromContainerSetState( containerSet.get() ) );
+//            }
+//        } );
 
-        denominator.addObserver( new VoidFunction1<Integer>() {
-            public void apply( Integer denominator ) {
-
-                if ( !userToggled ) {
-
-                    //When changing denominator, move pieces to nearby slots
-                    ContainerSet newState = containerState.get().denominator( denominator );
-                    containerState.set( newState.padAndTrim() );
-                    pieSet.set( fromContainerSetState( containerState.get() ) );
-                }
-            }
-        } );
-
-        containerState.addObserver( new ChangeObserver<ContainerSet>() {
-            public void update( ContainerSet newValue, ContainerSet oldValue ) {
-
-                //If caused by the user, then send the changes back to the numerator & denominator.
-                if ( userToggled ) {
-                    if ( newValue.denominator == oldValue.denominator ) {
-                        numerator.set( newValue.numerator );
-                    }
-                }
-            }
-        } );
+//        containerSet.addObserver( new ChangeObserver<ContainerSet>() {
+//            public void update( final ContainerSet newValue, final ContainerSet oldValue ) {
+//                runModelUpdate( new VoidFunction0() {
+//                    public void apply() {                //If caused by the user, then send the changes back to the numerator & denominator.
+//                        if ( newValue.denominator == oldValue.denominator ) {
+//                            numerator.set( newValue.numerator );
+//                        }
+//                    }
+//                } );
+//
+//            }
+//        } );
 
         //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
-        pieSet.addObserver( new SimpleObserver() {
-            public void update() {
-                setUserToggled( true );
-                containerState.set( pieSet.get().toContainerState() );
-                setUserToggled( false );
-            }
-        } );
+//        pieSet.addObserver( new SimpleObserver() {
+//            public void update() {
+//                runModelUpdate( new VoidFunction0() {
+//                    public void apply() {
+//                        containerSet.set( pieSet.get().toContainerState() );
+//                    }
+//                } );
+//            }
+//        } );
 
         //Animate the model when the clock ticks
         clock.addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                pieSet.set( pieSet.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
+            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                runModelUpdate( new VoidFunction0() {
+                    public void apply() {
+                        final FractionsIntroModelState s = state.get();
+                        final PieSet newPieSet = s.pieSet.stepInTime( clockEvent.getSimulationTimeChange() );
+                        state.set( s.pieSet( newPieSet ).containerSet( newPieSet.toContainerState() ) );
+                    }
+                } );
             }
         } );
     }
 
-    public void resetAll() {
-        super.resetAll();
-        fill.reset();
-        showReduced.reset();
-        showMixed.reset();
+    //We want to propagate the user changes throughout the model, but if the model calls set() on intermediate values, then they ripple back through the model.
+    //So we conditionally avoid model changes.
+    //A better way to change this would be for the clients to have a set() interface which is not called by the model
+    private void runModelUpdate( VoidFunction0 voidFunction0 ) {
+        if ( modelUpdating ) { return; }
+        modelUpdating = true;
+        voidFunction0.apply();
+        modelUpdating = false;
     }
 
-    //Flag to indicate the source of changes--if coming from the user, then changes need to be pushed to numerator and denominator
-    //TODO: Any better way of doing this?
-    public static void setUserToggled( boolean userToggled ) {
-        FractionsIntroModel.userToggled = userToggled;
+    public void resetAll() {
+        state.set( new FractionsIntroModelState() );
     }
 
     public Clock getClock() {

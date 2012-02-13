@@ -79,7 +79,7 @@ public class PieSetNode extends PNode {
                     //Flag one slice as dragging
                     @Override public void mousePressed( PInputEvent event ) {
                         PieSet state = model.get();
-                        final PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.delete( slice, Equal.<MovableSlice>anyEqual() ).snoc( slice.dragging( true ).container( null ) ) );
+                        final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<MovableSlice>anyEqual() ).snoc( slice.dragging( true ).container( null ) ) );
                         model.set( newState );
                     }
 
@@ -107,7 +107,7 @@ public class PieSetNode extends PNode {
                     @Override public void mouseDragged( PInputEvent event ) {
                         PieSet state = model.get();
                         final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                        PieSet newState = new PieSet( state.numerator, state.denominator, state.pies, state.slices.map( new F<MovableSlice, MovableSlice>() {
+                        PieSet newState = new PieSet( state.denominator, state.pies, state.slices.map( new F<MovableSlice, MovableSlice>() {
                             public MovableSlice f( MovableSlice slice ) {
                                 return slice.dragging() ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
                             }

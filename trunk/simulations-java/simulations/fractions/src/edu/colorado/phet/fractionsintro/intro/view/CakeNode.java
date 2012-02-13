@@ -20,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
-import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -115,8 +114,6 @@ public class CakeNode extends PNode {
         final PBasicInputEventHandler sharedMouseListener = new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
 
-                FractionsIntroModel.setUserToggled( true );
-
                 //Find the color of the pixel hit by the mouse.  If white or transparent in the image, subtract a piece because the user clicked the background
                 //Otherwise add a piece
                 Point2D position = event.getPositionRelativeTo( CakeNode.this );
@@ -134,7 +131,6 @@ public class CakeNode extends PNode {
                         //I do not know why pieces are backwards for the d=2 case, but they are.  So un-backwards them with the next line:
                         if ( denominator == 2 ) { piece = ( piece + 1 ) % denominator; }
                         containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, piece ) ) );
-                        FractionsIntroModel.setUserToggled( false );
                         return;
                     }
                 }
@@ -153,12 +149,9 @@ public class CakeNode extends PNode {
                             piece = ( piece + 1 ) % denominator;
                         }
                         containerStateProperty.set( containerStateProperty.get().toggle( new CellPointer( container, piece ) ) );
-                        FractionsIntroModel.setUserToggled( false );
                         return;
                     }
                 }
-
-                FractionsIntroModel.setUserToggled( false );
             }
         };
 

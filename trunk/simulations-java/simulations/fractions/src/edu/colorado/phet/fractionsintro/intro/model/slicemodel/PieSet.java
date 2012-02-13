@@ -31,7 +31,6 @@ import static fj.data.List.range;
  * @author Sam Reid
  */
 @Data public class PieSet {
-    public final int numerator;
     public final int denominator;
     public final List<Pie> pies;
     public final List<MovableSlice> slices;
@@ -48,7 +47,7 @@ import static fj.data.List.range;
     public static final double pieSpacing = 10;
 
     public PieSet() {
-        this( 0, 1, createEmptyPies( 1 ), createSlicesForBucket( 1, 6 ) );
+        this( 1, createEmptyPies( 1 ), createSlicesForBucket( 1, 6 ) );
     }
 
     //Slices to put in the buckets
@@ -90,8 +89,7 @@ import static fj.data.List.range;
         return new Slice( new ImmutableVector2D( PieSet.pieDiameter * ( pie + 1 ) + PieSet.pieSpacing * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, PieSet.pieDiameter / 2, false, null );
     }
 
-    public PieSet( int numerator, int denominator, List<Pie> pies, List<MovableSlice> slices ) {
-        this.numerator = numerator;
+    public PieSet( int denominator, List<Pie> pies, List<MovableSlice> slices ) {
         this.denominator = denominator;
         this.pies = pies;
         this.slices = slices;
@@ -144,12 +142,15 @@ import static fj.data.List.range;
         return slices( slices );
     }
 
-    public PieSet slices( List<MovableSlice> slices ) { return new PieSet( numerator, denominator, pies, slices ); }
+    public PieSet slices( List<MovableSlice> slices ) { return new PieSet( denominator, pies, slices ); }
 
     public boolean cellFilled( final Slice cell ) {
         return slices.exists( new F<MovableSlice, Boolean>() {
             public Boolean f( MovableSlice m ) {
-                return m.container == cell || m.movingToward( cell );
+                //TODO: container is broken, needs to be fixed when animation target reached
+                return ( m.container != null && m.container.equals( cell ) ) ||
+                       m.movingToward( cell ) ||
+                       m.tip().equals( cell.tip );
             }
         } );
     }
@@ -188,7 +189,7 @@ import static fj.data.List.range;
 
     public static PieSet fromContainerSetState( ContainerSet containerSetState ) {
         final List<Pie> emptyPies = createEmptyPies( containerSetState.denominator );
-        return new PieSet( containerSetState.numerator, containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ) );
+        return new PieSet( containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ) );
     }
 
     private static List<MovableSlice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
@@ -209,7 +210,7 @@ import static fj.data.List.range;
         //TODO: Should find any slice at the bucket or heading toward the bucket (if the user toggles the buttons fast)
         final MovableSlice bucketSlice = slices.find( new F<MovableSlice, Boolean>() {
             @Override public Boolean f( MovableSlice m ) {
-                return m.tip().getY() == createBucketSlice( denominator ).tip.getY();
+                return m.tip().getY() == createBucketSlice( denominator ).tip.getY() && m.animationTarget() == null;
             }
         } ).some();
         final Slice target = createPieCell( emptyCell.container, emptyCell.cell, denominator );
