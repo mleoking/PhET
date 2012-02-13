@@ -78,4 +78,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     public boolean positionAndAngleEquals( Slice cell ) {
         return cell.tip.equals( tip ) && cell.angle == angle;
     }
+
+    public Slice moveTo( Slice target ) { return dragging( false ).angle( target.angle ).tip( target.tip );}
 }

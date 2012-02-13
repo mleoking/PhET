@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.AnimationTarget;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.MovableSlice;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.Slice;
 import edu.umd.cs.piccolo.PNode;
@@ -71,7 +70,7 @@ public class PieSetNode extends PNode {
             addChild( new PhetPPath( cell.shape(), new BasicStroke( state.cellFilled( cell ) ? 2 : 1 ), Color.darkGray ) );
 //                    addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
         }
-        for ( final MovableSlice slice : state.slices ) {
+        for ( final Slice slice : state.slices ) {
             addChild( new PhetPPath( slice.shape(), FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new PBasicInputEventHandler() {
@@ -79,7 +78,7 @@ public class PieSetNode extends PNode {
                     //Flag one slice as dragging
                     @Override public void mousePressed( PInputEvent event ) {
                         PieSet state = model.get();
-                        final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<MovableSlice>anyEqual() ).snoc( slice.dragging( true ) ) );
+                        final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) );
                         model.set( newState );
                     }
 
@@ -88,11 +87,11 @@ public class PieSetNode extends PNode {
                         final PieSet state = model.get();
 
                         //Any dropped pieces should snap to their destination.
-                        final List<MovableSlice> newSlices = state.slices.map( new F<MovableSlice, MovableSlice>() {
-                            public MovableSlice f( MovableSlice s ) {
+                        final List<Slice> newSlices = state.slices.map( new F<Slice, Slice>() {
+                            public Slice f( Slice s ) {
                                 Slice target = state.getDropTarget( s );
-                                if ( s.dragging() && target != null ) { return s.moveTo( target ); }
-                                else if ( s.dragging() ) {
+                                if ( s.dragging && target != null ) { return s.moveTo( target ); }
+                                else if ( s.dragging ) {
                                     final Slice destination = PieSet.createBucketSlice( model.get().denominator );
                                     return s.dragging( false ).animationTarget( new AnimationTarget( destination.tip, destination.angle ) );
                                 }
@@ -107,9 +106,9 @@ public class PieSetNode extends PNode {
                     @Override public void mouseDragged( PInputEvent event ) {
                         PieSet state = model.get();
                         final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                        PieSet newState = new PieSet( state.denominator, state.pies, state.slices.map( new F<MovableSlice, MovableSlice>() {
-                            public MovableSlice f( MovableSlice slice ) {
-                                return slice.dragging() ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
+                        PieSet newState = new PieSet( state.denominator, state.pies, state.slices.map( new F<Slice, Slice>() {
+                            public Slice f( Slice slice ) {
+                                return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
                             }
                         } ) );
                         model.set( newState );
