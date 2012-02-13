@@ -729,14 +729,22 @@ public class DnaMolecule {
         // Compare the two attachment sites.  The comparison is based on a
         // combination of the affinity and the distance.
         public int compare( T attachmentSite1, T attachmentSite2 ) {
-            // The comparison is kind of like comparing gravitational attraction.
-            double as1Factor = attachmentSite1.getAffinity() / Math.pow( attachLocation.distance( attachmentSite1.locationProperty.get() ), 2 );
-            double as2Factor = attachmentSite2.getAffinity() / Math.pow( attachLocation.distance( attachmentSite2.locationProperty.get() ), 2 );
+            // The comparison is based on a combination of the affinity and the
+            // distance, much like gravitational attraction.  The exponent
+            // effectively sets the relative weighting of one versus another.
+            // An exponent value of zero means only the affinity matters, a
+            // value of 100 means it is pretty much entirely distance.  A value
+            // of 2 is how gravity works, so it appears kind of natural.  Tweak
+            // as needed.
+            double exponent = 1;
+            double as1Factor = attachmentSite1.getAffinity() / Math.pow( attachLocation.distance( attachmentSite1.locationProperty.get() ), exponent );
+            double as2Factor = attachmentSite2.getAffinity() / Math.pow( attachLocation.distance( attachmentSite2.locationProperty.get() ), exponent );
             return Double.compare( as2Factor, as1Factor );
         }
 
         public boolean equals( Object obj ) {
             // Stubbed, because it isn't needed.
+            assert false; // Make sure no one calls this.
             return false;
         }
     }
