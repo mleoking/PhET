@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
 
+import static edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet.fromContainerSetState;
+
 /**
  * Model for the Fractions Intro sim.
  * <p/>
@@ -68,7 +70,7 @@ public class FractionsIntroModel {
                     else if ( delta < 0 ) {
                         for ( int i = 0; i < Math.abs( delta ); i++ ) {
                             final ContainerSet newContainerSet = s.containerSet.toggle( s.containerSet.getLastFullCell() );
-                            s = s.containerSet( newContainerSet ).pieSet( PieSet.fromContainerSetState( newContainerSet ) ).numerator( newContainerSet.numerator );
+                            s = s.containerSet( newContainerSet ).pieSet( fromContainerSetState( newContainerSet ) ).numerator( newContainerSet.numerator );
 //                                                state.set( state.get().containerSet( state.get().containerSet.toggle( containerSet.get().getLastFullCell() ) ) );
                         }
                     }
@@ -79,20 +81,23 @@ public class FractionsIntroModel {
                 }
             }
             ).toIntegerProperty();
+
     public final IntegerProperty denominator =
             new IntClientProperty( state, new Function1<FractionsIntroModelState, Integer>() {
                 public Integer apply( FractionsIntroModelState s ) {
                     return s.denominator;
                 }
-            }, new Function2<FractionsIntroModelState, Integer, FractionsIntroModelState>() {
-                public FractionsIntroModelState apply( FractionsIntroModelState s, Integer denominator ) {
+            },
+                                   new Function2<FractionsIntroModelState, Integer, FractionsIntroModelState>() {
+                                       public FractionsIntroModelState apply( FractionsIntroModelState s, Integer denominator ) {
 
-                    //create a new container set
-                    ContainerSet cs = s.containerSet.denominator( denominator ).padAndTrim();
-                    return s.pieSet( PieSet.fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator );
-                }
-            }
+                                           //create a new container set
+                                           ContainerSet cs = s.containerSet.denominator( denominator ).padAndTrim();
+                                           return s.pieSet( fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator );
+                                       }
+                                   }
             ).toIntegerProperty();
+
     public final Property<ContainerSet> containerSet = new ClientProperty<ContainerSet>(
             state, new Function1<FractionsIntroModelState, ContainerSet>() {
         public ContainerSet apply( FractionsIntroModelState s ) {
@@ -101,10 +106,15 @@ public class FractionsIntroModel {
     },
             new Function2<FractionsIntroModelState, ContainerSet, FractionsIntroModelState>() {
                 public FractionsIntroModelState apply( FractionsIntroModelState s, ContainerSet containerSet ) {
-                    return s.containerSet( containerSet );
+                    return s.containerSet( containerSet ).
+                            pieSet( fromContainerSetState( containerSet ) ).
+                            numerator( containerSet.numerator ).
+                            denominator( containerSet.denominator );
                 }
             }
     ).toProperty();
+
+    //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
     public final Property<PieSet> pieSet = new ClientProperty<PieSet>(
             state, new Function1<FractionsIntroModelState, PieSet>() {
         public PieSet apply( FractionsIntroModelState s ) {
@@ -120,79 +130,7 @@ public class FractionsIntroModel {
             }
     ).toProperty();
 
-    //TODO: Factor out code between intClientInterface and the generic one
-//    private static IntClientProperty intClientInterface( final Property<FractionsIntroModelState> state,
-//                                                         final Function1<FractionsIntroModelState, Integer> get,
-//                                                         final Function2<FractionsIntroModelState, Integer, FractionsIntroModelState> change ) {
-//        //TODO: Maybe override set() here and use another function to update the model?
-//        final IntegerProperty property = new IntegerProperty( get.apply( state.get() ) ) {
-//            @Override public void set( Integer value ) {
-//                //When the user calls set on this property, use its value and the current state of the model to update the entire model.
-//                //Then send out updates to all properties that changed (including this one)
-//                FractionsIntroModelState newState = change.apply( state.get(), value );
-//                state.set( newState );
-//
-//                //Make sure the change went through
-//                final boolean checked = get.apply( newState ).equals( value );
-//                if ( !checked ) {
-//                    throw new RuntimeException( "Value mismatched, tried to set: " + value + ", but value is still: " + get.apply( newState ) );
-//                }
-//
-//                super.set( get.apply( newState ) );
-//            }
-//        };
-//
-//        //When the state changes, notify observers
-//        state.addObserver( new VoidFunction1<FractionsIntroModelState>() {
-//            public void apply( FractionsIntroModelState fractionsIntroModelState ) {
-//
-//                System.out.println( "get.apply( state.get() ) = " + get.apply( state.get() ) );
-//                //Blocks against values that didn't really change value
-//                property.set( get.apply( state.get() ) );
-//            }
-//        } );
-//
-//        return property;
-//    }
-
     public FractionsIntroModel() {
-
-//        state.trace( "State" );
-//        denominator.addObserver( new VoidFunction1<Integer>() {
-//            public void apply( final Integer denominator ) {
-//                runModelUpdate( new VoidFunction0() {
-//                    public void apply() {
-//                        //When changing denominator, move pieces to nearby slots
-//                        state.set( state.get().containerSet( containerSet.get().denominator( denominator ).padAndTrim() ) );
-//                    }
-//                } );
-//                //pieSet.set( fromContainerSetState( containerSet.get() ) );
-//            }
-//        } );
-
-//        containerSet.addObserver( new ChangeObserver<ContainerSet>() {
-//            public void update( final ContainerSet newValue, final ContainerSet oldValue ) {
-//                runModelUpdate( new VoidFunction0() {
-//                    public void apply() {                //If caused by the user, then send the changes back to the numerator & denominator.
-//                        if ( newValue.denominator == oldValue.denominator ) {
-//                            numerator.set( newValue.numerator );
-//                        }
-//                    }
-//                } );
-//
-//            }
-//        } );
-
-        //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
-//        pieSet.addObserver( new SimpleObserver() {
-//            public void update() {
-//                runModelUpdate( new VoidFunction0() {
-//                    public void apply() {
-//                        containerSet.set( pieSet.get().toContainerState() );
-//                    }
-//                } );
-//            }
-//        } );
 
         //Animate the model when the clock ticks
         clock.addClockListener( new ClockAdapter() {
