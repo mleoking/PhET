@@ -9,13 +9,15 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.PieSetFractionNode;
 
 /**
+ * Graphic for one pie
+ *
  * @author Sam Reid
  */
 public class PieNode extends RepresentationNode {
-    public PieNode( ModelViewTransform transform, final Fraction fraction, Property<ContainerSet> containerState ) {
+    public PieNode( ModelViewTransform transform, final Fraction fraction, Property<ContainerSet> containerSet ) {
         super( transform, fraction );
 
-        PieSetFractionNode pieSetFractionNode = new PieSetFractionNode( containerState, new Property<Boolean>( true ) );
+        PieSetFractionNode pieSetFractionNode = new PieSetFractionNode( containerSet, new Property<Boolean>( true ) );
         addChild( new ZeroOffsetNode( pieSetFractionNode ) );
 
         scale( 0.5 );

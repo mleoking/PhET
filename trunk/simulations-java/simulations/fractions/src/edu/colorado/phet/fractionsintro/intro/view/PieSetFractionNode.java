@@ -32,16 +32,16 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class PieSetFractionNode extends VisibilityNode {
     private final HashMap<CellPointer, PieSliceNode> map = new HashMap<CellPointer, PieSliceNode>();
-    private final Property<ContainerSet> containerState;
+    private final Property<ContainerSet> containerSet;
 
     //6 pies fit on the screen
     public static final int INSET_BETWEEN_PIES = 10;
     public static final double SPACE_FOR_PIES = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - INSET_BETWEEN_PIES * 5;
     public static final double DIAMETER = SPACE_FOR_PIES / 6;
 
-    public PieSetFractionNode( final Property<ContainerSet> containerState, ObservableProperty<Boolean> enabled ) {
+    public PieSetFractionNode( final Property<ContainerSet> containerSet, ObservableProperty<Boolean> enabled ) {
         super( enabled );
-        this.containerState = containerState;
+        this.containerSet = containerSet;
         new RichSimpleObserver() {
             public void update() {
 
@@ -51,7 +51,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 SpacedHBox box = new SpacedHBox( DIAMETER + INSET_BETWEEN_PIES );
 
                 map.clear();
-                final ContainerSet state = containerState.get();
+                final ContainerSet state = containerSet.get();
                 for ( int i = 0; i < state.containers.length(); i++ ) {
                     int numSlices = state.denominator;
                     PNode pie = new PNode();
@@ -84,7 +84,7 @@ public class PieSetFractionNode extends VisibilityNode {
                 }
                 addChild( box );
             }
-        }.observe( containerState );
+        }.observe( containerSet );
     }
 
 //    public static void addListener( PNode node, final Property<ContainerState> containerState, final CellPointer cp ) {
@@ -99,7 +99,7 @@ public class PieSetFractionNode extends VisibilityNode {
 //    }
 
     @Override public CellPointer getClosestOpenCell( final Shape globalShape, final Point2D center2D ) {
-        final fj.data.List<CellPointer> emptyCells = containerState.get().getEmptyCells().filter( new F<CellPointer, Boolean>() {
+        final fj.data.List<CellPointer> emptyCells = containerSet.get().getEmptyCells().filter( new F<CellPointer, Boolean>() {
             @Override public Boolean f( CellPointer cellPointer ) {
                 final PieSliceNode pieceNode = map.get( cellPointer );
                 final Shape pieceShape = pieceNode.getLocalToGlobalTransform( null ).createTransformedShape( pieceNode.getShape() );

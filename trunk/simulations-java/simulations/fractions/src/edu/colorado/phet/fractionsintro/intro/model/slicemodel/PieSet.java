@@ -165,7 +165,7 @@ import static fj.data.List.range;
         return closestCell != null && !( new Area( closestCell.shape() ) {{intersect( new Area( s.shape() ) );}}.isEmpty() ) ? closestCell : null;
     }
 
-    public ContainerSet toContainerState() {
+    public ContainerSet toContainerSet() {
         return new ContainerSet( denominator, pies.map( new F<Pie, Container>() {
             @Override public Container f( Pie p ) {
                 return pieToContainer( p );

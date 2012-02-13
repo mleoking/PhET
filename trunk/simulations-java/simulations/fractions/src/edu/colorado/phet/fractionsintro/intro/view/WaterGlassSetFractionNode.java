@@ -16,7 +16,7 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
  */
 public class WaterGlassSetFractionNode extends VisibilityNode {
 
-    public WaterGlassSetFractionNode( final ObservableProperty<ContainerSet> containerState, ObservableProperty<Boolean> enabled ) {
+    public WaterGlassSetFractionNode( final ObservableProperty<ContainerSet> containerSet, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
             public void update() {
@@ -29,17 +29,17 @@ public class WaterGlassSetFractionNode extends VisibilityNode {
                 removeAllChildren();
                 SpacedHBox box = new SpacedHBox( DIAMETER + distanceBetweenPies );
 
-                for ( int i = 0; i < containerState.get().containers.length(); i++ ) {
+                for ( int i = 0; i < containerSet.get().containers.length(); i++ ) {
 //                    final int container = i;
-//                    box.addChild( new WaterGlassNode( containerState.get().getContainer( i ).numFilledCells, containerState.get().getContainer( i ).numCells, new VoidFunction0() {
+//                    box.addChild( new WaterGlassNode( containerSet.get().getContainer( i ).numFilledCells, containerSet.get().getContainer( i ).numCells, new VoidFunction0() {
 //                        public void apply() {
-//                            CellPointer cp = new CellPointer( container, containerState.get().getContainer( container ).getLowestEmptyCell() );
-//                            containerState.set( containerState.get().toggle( cp ) );
+//                            CellPointer cp = new CellPointer( container, containerSet.get().getContainer( container ).getLowestEmptyCell() );
+//                            containerSet.set( containerSet.get().toggle( cp ) );
 //                        }
 //                    }, new VoidFunction0() {
 //                        public void apply() {
-//                            CellPointer cp = new CellPointer( container, containerState.get().getContainer( container ).getHighestFullCell() );
-//                            containerState.set( containerState.get().toggle( cp ) );
+//                            CellPointer cp = new CellPointer( container, containerSet.get().getContainer( container ).getHighestFullCell() );
+//                            containerSet.set( containerSet.get().toggle( cp ) );
 //                        }
 //                    }
 //                    ) );
@@ -47,7 +47,7 @@ public class WaterGlassSetFractionNode extends VisibilityNode {
 
                 addChild( box );
             }
-        }.observe( containerState );
+        }.observe( containerSet );
     }
 
     @Override public CellPointer getClosestOpenCell( Shape globalShape, Point2D center2D ) {
