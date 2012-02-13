@@ -1,3 +1,5 @@
+Fixed a bug in PieSet.toContainerState
+Generalized interfaces to SettableProperty and IntClientProperty
 Switched to immutable model with public property interface
 When changing the numerator, move pieces from the bucket to the pies
 Fixed: When animating to bucket, pieces should rotate up and have their tip go to the tip location

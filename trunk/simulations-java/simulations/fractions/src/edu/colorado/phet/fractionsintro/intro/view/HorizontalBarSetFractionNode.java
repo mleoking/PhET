@@ -7,7 +7,6 @@ import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
@@ -22,7 +21,7 @@ public class HorizontalBarSetFractionNode extends ChosenRepresentationNode {
     private static final double NUM_BARS_PER_LINE = 3;
     private static final double DISTANCE_BETWEEN_BARS_Y = 20;
 
-    public HorizontalBarSetFractionNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final Property<ContainerSet> containerState ) {
+    public HorizontalBarSetFractionNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final ObservableProperty<ContainerSet> containerState ) {
         super( chosenRepresentation, ChosenRepresentation.HORIZONTAL_BAR );
 
         new RichSimpleObserver() {

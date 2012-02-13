@@ -150,7 +150,7 @@ import static fj.data.List.range;
                 //TODO: container is broken, needs to be fixed when animation target reached
                 return ( m.container != null && m.container.equals( cell ) ) ||
                        m.movingToward( cell ) ||
-                       m.tip().equals( cell.tip );
+                       ( m.tip().equals( cell.tip ) && m.angle() == cell.angle );
             }
         } );
     }

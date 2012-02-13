@@ -5,7 +5,6 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
@@ -17,7 +16,7 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
  */
 public class WaterGlassSetFractionNode extends VisibilityNode {
 
-    public WaterGlassSetFractionNode( final Property<ContainerSet> containerState, ObservableProperty<Boolean> enabled ) {
+    public WaterGlassSetFractionNode( final ObservableProperty<ContainerSet> containerState, ObservableProperty<Boolean> enabled ) {
         super( enabled );
         new RichSimpleObserver() {
             public void update() {

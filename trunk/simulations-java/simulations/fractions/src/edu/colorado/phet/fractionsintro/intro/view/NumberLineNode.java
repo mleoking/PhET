@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -21,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.fractionsintro.intro.model.IntClientProperty;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -39,7 +39,7 @@ public class NumberLineNode extends PNode {
     //When tick marks change, clear everything except the green circle--it has to be persisted across recreations of the number line because the user interacts with it
     private final PhetPPath greenCircle;
 
-    public NumberLineNode( final Property<Integer> numerator, final Property<Integer> denominator, ValueEquals<ChosenRepresentation> showing ) {
+    public NumberLineNode( final IntClientProperty numerator, final IntClientProperty denominator, ValueEquals<ChosenRepresentation> showing ) {
         final double scale = 5;
         scale( scale );
         showing.addObserver( new VoidFunction1<Boolean>() {
@@ -152,7 +152,7 @@ public class NumberLineNode extends PNode {
         addChild( greenCircle );
     }
 
-    private void handleMousePress( PInputEvent event, Property<Integer> numerator ) {
+    private void handleMousePress( PInputEvent event, IntClientProperty numerator ) {
         final Point2D newPressPoint = event.getPositionRelativeTo( event.getPickedNode().getParent() );
 
         //whichever tick mark is closer, go to that one

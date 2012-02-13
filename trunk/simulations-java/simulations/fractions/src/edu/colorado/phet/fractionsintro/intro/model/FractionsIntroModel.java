@@ -6,7 +6,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
@@ -35,7 +36,7 @@ public class FractionsIntroModel {
     public final Clock clock = new ConstantDtClock();
 
     //Observable parts of the model
-    public final Property<ChosenRepresentation> representation =
+    public final SettableProperty<ChosenRepresentation> representation =
             new ClientProperty<ChosenRepresentation>( state, new Function1<FractionsIntroModelState, ChosenRepresentation>() {
                 public ChosenRepresentation apply( FractionsIntroModelState s ) {
                     return s.representation;
@@ -45,8 +46,9 @@ public class FractionsIntroModel {
                     return s.representation( representation );
                 }
             }
-            ).toProperty();
-    public final IntegerProperty numerator =
+            );
+
+    public final IntClientProperty numerator =
             new IntClientProperty( state, new Function1<FractionsIntroModelState, Integer>() {
                 public Integer apply( FractionsIntroModelState s ) {
                     return s.numerator;
@@ -80,9 +82,9 @@ public class FractionsIntroModel {
                     return s;
                 }
             }
-            ).toIntegerProperty();
+            );
 
-    public final IntegerProperty denominator =
+    public final IntClientProperty denominator =
             new IntClientProperty( state, new Function1<FractionsIntroModelState, Integer>() {
                 public Integer apply( FractionsIntroModelState s ) {
                     return s.denominator;
@@ -91,14 +93,18 @@ public class FractionsIntroModel {
                                    new Function2<FractionsIntroModelState, Integer, FractionsIntroModelState>() {
                                        public FractionsIntroModelState apply( FractionsIntroModelState s, Integer denominator ) {
 
+                                           System.out.println( "FractionsIntroModel.apply.denominator changed old=" + s.denominator + ", new = " + denominator );
                                            //create a new container set
                                            ContainerSet cs = s.containerSet.denominator( denominator ).padAndTrim();
+                                           System.out.println( "old state = " + s.containerSet );
+                                           System.out.println( "new state = " + cs );
+                                           System.out.println();
                                            return s.pieSet( fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator );
                                        }
                                    }
-            ).toIntegerProperty();
+            );
 
-    public final Property<ContainerSet> containerSet = new ClientProperty<ContainerSet>(
+    public final SettableProperty<ContainerSet> containerSet = new ClientProperty<ContainerSet>(
             state, new Function1<FractionsIntroModelState, ContainerSet>() {
         public ContainerSet apply( FractionsIntroModelState s ) {
             return s.containerSet;
@@ -112,10 +118,10 @@ public class FractionsIntroModel {
                             denominator( containerSet.denominator );
                 }
             }
-    ).toProperty();
+    );
 
     //When the user drags slices, update the ContainerState (so it will update the spinner and make it easy to switch representations)
-    public final Property<PieSet> pieSet = new ClientProperty<PieSet>(
+    public final SettableProperty<PieSet> pieSet = new ClientProperty<PieSet>(
             state, new Function1<FractionsIntroModelState, PieSet>() {
         public PieSet apply( FractionsIntroModelState s ) {
             return s.pieSet;
@@ -128,10 +134,17 @@ public class FractionsIntroModel {
                     return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator );
                 }
             }
-    ).toProperty();
+    );
 
     public FractionsIntroModel() {
+//        numerator.valueEquals( 2 ).trace( "got a 2" );
+        containerSet.addObserver( new SimpleObserver() {
+            public void update() {
+                System.out.println( "New container state: " + containerSet.get() );
+            }
+        } );
 
+//        numerator.trace( "Numerator" );
         //Animate the model when the clock ticks
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {

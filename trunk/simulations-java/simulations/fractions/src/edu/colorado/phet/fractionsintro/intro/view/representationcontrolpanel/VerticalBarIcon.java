@@ -5,14 +5,14 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
 
 /**
  * @author Sam Reid
  */
 public class VerticalBarIcon extends ShapeIcon {
-    public VerticalBarIcon( Property<ChosenRepresentation> chosenRepresentation ) {
+    public VerticalBarIcon( SettableProperty<ChosenRepresentation> chosenRepresentation ) {
         super(
                 new ArrayList<Shape>(),
                 new ArrayList<Shape>() {{
