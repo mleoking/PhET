@@ -228,27 +228,23 @@ import static fj.data.List.range;
     public PieSet animateSliceToBucket( CellPointer cell ) {
 
         //Cell that should be moved
+        //May choose a slice that is on its way to a pie
         final Slice prototype = createPieCell( cell.container, cell.cell, denominator );
-        final Option<Slice> slice = slices.find( new F<Slice, Boolean>() {
+        final Slice slice = slices.find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
-                return m.tip.equals( prototype.getTip() ) && m.angle == prototype.angle;
+                return ( m.tip.equals( prototype.getTip() ) && m.angle == prototype.angle ) ||
+                       m.movingToward( prototype );
             }
-        } );
+        } ).some();
 
         //Could be none if still animating
-        if ( slice.isSome() ) {
+        final Slice target = createBucketSlice( denominator );
+        return slices( slices.map( new F<Slice, Slice>() {
+            @Override public Slice f( Slice m ) {
 
-            final Slice target = createBucketSlice( denominator );
-            return slices( slices.map( new F<Slice, Slice>() {
-                @Override public Slice f( Slice m ) {
-
-                    //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
-                    return m == slice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ).stepAnimation() : m;
-                }
-            } ) );
-        }
-        else {
-            return this;
-        }
+                //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
+                return m == slice ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ).stepAnimation() : m;
+            }
+        } ) );
     }
 }
