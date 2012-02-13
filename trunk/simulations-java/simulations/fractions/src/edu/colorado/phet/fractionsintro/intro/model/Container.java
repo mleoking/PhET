@@ -47,14 +47,6 @@ import java.util.HashSet;
         this.filledCells = filledCells;
     }
 
-    public static Container full( final int denominator ) {
-        return new Container( denominator, new HashSet<Integer>() {{
-            for ( int i = 0; i < denominator; i++ ) {
-                add( i );
-            }
-        }} );
-    }
-
     public Boolean isEmpty() {
         return filledCells.length() == 0;
     }
