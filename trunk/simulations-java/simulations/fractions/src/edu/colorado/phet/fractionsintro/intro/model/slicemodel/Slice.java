@@ -74,4 +74,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     public boolean movingToward( Slice cell ) {
         return animationTarget != null && animationTarget.position.equals( cell.tip ) && animationTarget.angle == cell.angle;
     }
+
+    public boolean positionAndAngleEquals( Slice cell ) {
+        return cell.tip.equals( tip ) && cell.angle == angle;
+    }
 }
