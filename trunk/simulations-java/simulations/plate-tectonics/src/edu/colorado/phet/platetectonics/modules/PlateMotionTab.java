@@ -79,7 +79,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         Grid3D grid = new Grid3D(
                 Bounds3D.fromMinMax( -700000, 700000,
                                      -400000, 15000,
-                                     -250000, 0 ),
+                                     -1000000, 0 ),
                 256, 256, 32 );
 
         // create the model and terrain
