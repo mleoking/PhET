@@ -33,6 +33,8 @@ public class CrossSectionStripNode extends GLNode {
     private FloatBuffer textureBuffer;
     private FloatBuffer colorBuffer;
 
+    private boolean checkDepth = true;
+
     // remember CCW order
     public CrossSectionStripNode( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, CrossSectionStrip strip ) {
         this.modelViewTransform = modelViewTransform;
@@ -55,7 +57,7 @@ public class CrossSectionStripNode extends GLNode {
         // if we are moved to the front, ignore the depth test so we will draw OVER whatever is there
         strip.moveToFrontNotifier.addUpdateListener( new UpdateListener() {
                                                          public void update() {
-                                                             requireDisabled( GL_DEPTH_TEST );
+                                                             checkDepth = false;
                                                          }
                                                      }, false );
     }
@@ -118,9 +120,15 @@ public class CrossSectionStripNode extends GLNode {
         positionBuffer.rewind();
         glVertexPointer( 3, 0, positionBuffer );
 
+        if ( !checkDepth ) {
+            glDepthFunc( GL_ALWAYS );
+        }
         EarthTexture.begin();
         glDrawArrays( GL_TRIANGLE_STRIP, 0, strip.getNumberOfVertices() );
         EarthTexture.end();
+        if ( !checkDepth ) {
+            glDepthFunc( GL_LESS );
+        }
 
         glDisableClientState( GL_VERTEX_ARRAY );
         if ( options.shouldSendTexture() ) {
