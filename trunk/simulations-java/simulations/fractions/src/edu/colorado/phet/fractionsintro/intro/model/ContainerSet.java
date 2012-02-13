@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import fj.Equal;
 import fj.F;
 import fj.F2;
 import fj.Ord;
@@ -13,8 +14,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import edu.colorado.phet.fractionsintro.intro.view.PieSetNode;
-
 import static fj.Function.curry;
 
 /**
@@ -26,6 +25,14 @@ import static fj.Function.curry;
     public final List<Container> containers;
     public final int denominator;
     public final int numerator;
+
+    public static <T> Equal<T> refEqual() {
+        return Equal.equal( curry( new F2<T, T, Boolean>() {
+            public Boolean f( final T a1, final T a2 ) {
+                return a1 == a2;
+            }
+        } ) );
+    }
 
     public ContainerSet( int denominator, Container[] containers ) {
         this( denominator, Arrays.asList( containers ) );
@@ -90,7 +97,7 @@ import static fj.Function.curry;
     public ContainerSet toggle( final CellPointer pointer ) {
         return new ContainerSet( denominator, containers.map( new F<Container, Container>() {
             @Override public Container f( Container container ) {
-                int containerIndex = containers.elementIndex( PieSetNode.<Container>refEqual(), container ).some();
+                int containerIndex = containers.elementIndex( ContainerSet.<Container>refEqual(), container ).some();
                 if ( pointer.container == containerIndex ) {
                     return container.toggle( pointer.cell );
                 }
