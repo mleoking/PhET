@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -48,7 +49,7 @@ public class FractionsIntroModel {
             }
             );
 
-    public final IntClientProperty numerator =
+    public final IntegerProperty numerator =
             new IntClientProperty( state, new Function1<FractionsIntroModelState, Integer>() {
                 public Integer apply( FractionsIntroModelState s ) {
                     return s.numerator;
@@ -82,9 +83,9 @@ public class FractionsIntroModel {
                     return s;
                 }
             }
-            );
+            ).toIntegerProperty();
 
-    public final IntClientProperty denominator =
+    public final IntegerProperty denominator =
             new IntClientProperty( state, new Function1<FractionsIntroModelState, Integer>() {
                 public Integer apply( FractionsIntroModelState s ) {
                     return s.denominator;
@@ -102,7 +103,7 @@ public class FractionsIntroModel {
                                            return s.pieSet( fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator );
                                        }
                                    }
-            );
+            ).toIntegerProperty();
 
     public final SettableProperty<ContainerSet> containerSet = new ClientProperty<ContainerSet>(
             state, new Function1<FractionsIntroModelState, ContainerSet>() {

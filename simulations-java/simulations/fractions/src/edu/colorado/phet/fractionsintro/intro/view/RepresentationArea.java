@@ -6,9 +6,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
-import edu.colorado.phet.fractionsintro.intro.model.IntClientProperty;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class RepresentationArea extends PNode {
-    public RepresentationArea( ObservableProperty<ChosenRepresentation> chosenRepresentation, IntClientProperty numerator, IntClientProperty denominator, SettableProperty<ContainerSet> containerState ) {
+    public RepresentationArea( ObservableProperty<ChosenRepresentation> chosenRepresentation, IntegerProperty numerator, IntegerProperty denominator, SettableProperty<ContainerSet> containerState ) {
         addChild( new HorizontalBarSetFractionNode( chosenRepresentation, containerState ) {{
             setOffset( 0, -29 );
         }} );

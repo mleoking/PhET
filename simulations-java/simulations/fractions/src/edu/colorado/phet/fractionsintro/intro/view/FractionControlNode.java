@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.fractionsintro.intro.model.IntClientProperty;
 
 /**
  * Node that shows a fraction (numerator and denominator and dividing line) along with controls to change the values.
@@ -11,7 +11,7 @@ import edu.colorado.phet.fractionsintro.intro.model.IntClientProperty;
  * @author Sam Reid
  */
 public class FractionControlNode extends RichPNode {
-    public FractionControlNode( final IntClientProperty numerator, final IntClientProperty denominator ) {
+    public FractionControlNode( final IntegerProperty numerator, final IntegerProperty denominator ) {
         final RoundedDivisorLine line = new RoundedDivisorLine();
         addChild( line );
         addChild( new NumeratorWithSpinner( numerator, denominator ) {{

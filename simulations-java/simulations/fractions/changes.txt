@@ -1,3 +1,4 @@
+Changed from IntClientProperty back to IntegerProperty
 Fixed a bug in PieSet.toContainerState
 Generalized interfaces to SettableProperty and IntClientProperty
 Switched to immutable model with public property interface
