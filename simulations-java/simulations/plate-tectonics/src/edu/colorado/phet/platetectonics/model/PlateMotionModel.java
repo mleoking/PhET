@@ -237,7 +237,7 @@ public class PlateMotionModel extends PlateModel {
 
     private void updateTerrain() {
         // TODO: heavily refactor this stuff into the more behavioral way
-        for ( int column = 0; column < HORIZONTAL_SAMPLES; column++ ) {
+        for ( int column = 0; column < leftPlate.getTerrain().getNumColumns(); column++ ) {
             // left side
             ImmutableVector3F leftPosition = ( hasLeftPlate() ? leftPlate.getCrust().getTopBoundary() : leftPlate.getMantle().getTopBoundary() ).samples.get( column ).getPosition();
             for ( int row = 0; row < TERRAIN_DEPTH_SAMPLES; row++ ) {
@@ -245,7 +245,8 @@ public class PlateMotionModel extends PlateModel {
                 leftPlate.getTerrain().getSample( column, row ).setElevation( leftPosition.y );
             }
             leftPlate.getTerrain().xPositions.set( column, leftPosition.x );
-
+        }
+        for ( int column = 0; column < rightPlate.getTerrain().getNumColumns(); column++ ) {
             // right side
             ImmutableVector3F rightPosition = ( hasRightPlate() ? rightPlate.getCrust().getTopBoundary() : rightPlate.getMantle().getTopBoundary() ).samples.get( column ).getPosition();
             for ( int row = 0; row < TERRAIN_DEPTH_SAMPLES; row++ ) {

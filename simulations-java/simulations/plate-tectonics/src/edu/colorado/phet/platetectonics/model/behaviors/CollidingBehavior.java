@@ -19,9 +19,9 @@ public class CollidingBehavior extends PlateBehavior {
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
-//        if ( getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getFirstSample().getPosition().x > -700000 ) {
-//            getPlate().addLeftSection();
-//        }
+        while ( getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getFirstSample().getPosition().x > -700000 ) {
+            getPlate().addLeftSection();
+        }
         float sign = plate.isLeftPlate() ? 1 : -1;
         final List<Sample> topSamples = getPlate().getCrust().getTopBoundary().samples;
         final List<Sample> bottomSamples = getPlate().getLithosphere().getBottomBoundary().samples;
@@ -77,6 +77,7 @@ public class CollidingBehavior extends PlateBehavior {
         final float maxXDelta = sign * 30000f / 2 * millionsOfYears;
         final float delta = newX - currentX;
         float ratio = Math.min( 1, Math.abs( currentX / 500000 ) );
+        ratio *= 0.75;
 
         newX = currentX + ( 1 - ratio ) * delta + ratio * maxXDelta;
 
