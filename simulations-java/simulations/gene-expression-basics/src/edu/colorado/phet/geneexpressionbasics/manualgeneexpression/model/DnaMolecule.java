@@ -183,7 +183,6 @@ public class DnaMolecule {
 
     public void addSeparation( DnaSeparation separation ) {
         separations.add( separation );
-        System.out.println( "Separation added, num separations = " + separations.size() );
     }
 
     public void removeSeparation( DnaSeparation separation ) {
@@ -193,7 +192,6 @@ public class DnaMolecule {
         else {
             separations.remove( separation );
         }
-        System.out.println( "Separation removed, num separations = " + separations.size() );
     }
 
     /**
