@@ -24,7 +24,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
-        final RepresentationArea representationArea = new RepresentationArea( model.representation, model.numerator, model.denominator, model.containerState ) {{
+        final RepresentationArea representationArea = new RepresentationArea( model.representation, model.numerator, model.denominator, model.containerSet ) {{
             setOffset( INSET, representationControlPanel.getFullBounds().getMaxY() + 100 );
         }};
         addChild( representationArea );

@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractions.FractionsResources;
-import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.view.representations.dilutions.BeakerNode;
 import edu.colorado.phet.fractionsintro.intro.view.representations.dilutions.Solute;
 import edu.colorado.phet.fractionsintro.intro.view.representations.dilutions.Solution;
@@ -80,9 +79,7 @@ public class WaterGlassNode extends PNode {
         waterNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( !empty ) {
-                    FractionsIntroModel.setUserToggled( true );
                     removeWater.apply();
-                    FractionsIntroModel.setUserToggled( false );
                 }
             }
         } );
@@ -92,9 +89,7 @@ public class WaterGlassNode extends PNode {
         waterBeakerBackgroundNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( !full ) {
-                    FractionsIntroModel.setUserToggled( true );
                     addWater.apply();
-                    FractionsIntroModel.setUserToggled( false );
                 }
             }
         } );
