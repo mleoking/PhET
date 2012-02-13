@@ -4,11 +4,14 @@ package edu.colorado.phet.fractionsintro.intro.model;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
+ * Integer property of the model, this provides an IntegerProperty interface to observing and interacting with the model.
+ *
  * @author Sam Reid
  */
 public class IntClientProperty extends SettableProperty<Integer> {
@@ -23,10 +26,16 @@ public class IntClientProperty extends SettableProperty<Integer> {
         this.state = state;
         this.get = get;
         this.change = change;
+        state.addObserver( new SimpleObserver() {
+            public void update() {
+                notifyIfChanged();
+            }
+        } );
     }
 
     @Override public void set( Integer value ) {
         state.set( change.apply( state.get(), value ) );
+        notifyIfChanged();
     }
 
     @Override public Integer get() {
@@ -44,6 +53,11 @@ public class IntClientProperty extends SettableProperty<Integer> {
         p.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer integer ) {
                 set( integer );
+            }
+        } );
+        state.addObserver( new SimpleObserver() {
+            public void update() {
+                p.notifyIfChanged();
             }
         } );
         return p;
