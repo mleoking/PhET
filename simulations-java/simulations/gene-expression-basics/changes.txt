@@ -1,3 +1,5 @@
+Prevented user interaction with polymerase when it is transcribing.
+Added infrastructure to prevent user interaction with biomolecules in some circumstances.
 Fixed an issue where ribosomes wouldn't be able to perform another translation until they were moved by the user.
 Fixed an issue that was preventing multiple polymerases from transcribing at the same time.
 Made it easier to get transcription factors and polymerase to attach to the high-affinity sites on the DNA molecule.

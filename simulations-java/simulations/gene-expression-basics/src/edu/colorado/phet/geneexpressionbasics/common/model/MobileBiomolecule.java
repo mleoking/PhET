@@ -28,6 +28,14 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Messeng
  */
 public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
     // Reference to the model in which this biomolecule exists.  This is
     // needed in case the biomolecule needs to locate or create other
     // biomolecules.
@@ -54,10 +62,19 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // attaching, detaching, etc.
     protected final AttachmentStateMachine attachmentStateMachine;
 
-    // A property that keeps track of this biomolecules "existence strength",
+    // A property that keeps track of this biomolecule's "existence strength",
     // which is used primarily to fade out of existence.  The range for this
     // is 1 (full existence) to 0 (non-existent).
     public final Property<Double> existenceStrength = new Property<Double>( 1.0 );
+
+    // Property that is used to let the view know whether or not this
+    // biomolecule is in a state where it is okay for the user to move it
+    // around.
+    public final BooleanProperty movableByUser = new BooleanProperty( true );
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -79,6 +96,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
             }
         } );
     }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
 
     /**
      * Method used to set the attachment state machine during construction.
