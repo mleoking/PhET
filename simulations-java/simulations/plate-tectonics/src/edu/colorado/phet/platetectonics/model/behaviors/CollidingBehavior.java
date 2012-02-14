@@ -11,6 +11,8 @@ import edu.colorado.phet.platetectonics.model.regions.Region;
 
 public class CollidingBehavior extends PlateBehavior {
 
+    private float timeElapsed = 0;
+
     public CollidingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
@@ -19,6 +21,7 @@ public class CollidingBehavior extends PlateBehavior {
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
+        timeElapsed += millionsOfYears;
         while ( getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getFirstSample().getPosition().x > -700000 ) {
             getPlate().addLeftSection();
         }
@@ -75,11 +78,11 @@ public class CollidingBehavior extends PlateBehavior {
 
     private float computeNewX( float millionsOfYears, float sign, float currentX ) {
         assert !Float.isNaN( millionsOfYears );
-        final int exponentialFactor = 25;
-        float newX = (float) ( currentX * Math.exp( -millionsOfYears / exponentialFactor ) );
+        final int exponentialFactor = 45;
+        float newX = (float) ( currentX * Math.exp( -Math.pow( millionsOfYears, 2 ) / exponentialFactor ) );
         final float maxXDelta = sign * 30000f / 2 * millionsOfYears;
         final float delta = newX - currentX;
-        float ratio = Math.min( 1, Math.abs( currentX / 500000 ) );
+        float ratio = Math.min( 1, Math.abs( currentX / 600000 ) );
         ratio *= 0.75;
 
         newX = currentX + ( 1 - ratio ) * delta + ratio * maxXDelta;
