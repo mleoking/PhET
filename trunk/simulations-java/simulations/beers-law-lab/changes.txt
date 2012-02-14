@@ -1,3 +1,4 @@
+2/14/12 flesh out concentration control a bit more
 2/14/12 change units on concentration control to match appropriate units for specific solution
 2/14/12 hide concentration control for pure water
 2/14/12 base class for solutions
