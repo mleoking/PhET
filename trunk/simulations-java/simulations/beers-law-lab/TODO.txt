@@ -12,6 +12,7 @@ HIGH
 - Light beam: add to model & view (3 segments)
 - Detector: show vertical diameter line, for debugging; display proper values
 - Concentration control: slider; textfield event handlers
+- make distance between light and cuvette something that's easy to measure
 
 MEDIUM
 - meter and detector body images don't have transparent backgrounds (at rounded corners)
