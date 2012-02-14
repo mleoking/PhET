@@ -84,7 +84,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         // create the model and terrain
 //        model = new AnimatedPlateModel( grid );
-        setModel( new PlateMotionModel( grid.getBounds() ) );
+        setModel( new PlateMotionModel( getClock(), grid.getBounds() ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
         leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 0, -125 / 2 ) ), this, false ) {{
@@ -415,6 +415,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         showWater.reset();
         isAutoMode.reset();
         getClock().pause();
+        getClock().resetTimeLimit();
         getClock().resetSimulationTime();
 
         for ( OrthoPiccoloNode placedPiece : placedPieces ) {
