@@ -10,10 +10,10 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
-import static edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet.fromContainerSetState;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet.fromContainerSetState;
 
 /**
  * Model for the Fractions Intro sim.

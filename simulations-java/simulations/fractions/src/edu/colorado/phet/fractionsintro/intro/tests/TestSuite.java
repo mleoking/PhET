@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 
 /**
  * @author Sam Reid

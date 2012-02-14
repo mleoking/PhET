@@ -11,7 +11,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.PieSetNode;
 
 /**
