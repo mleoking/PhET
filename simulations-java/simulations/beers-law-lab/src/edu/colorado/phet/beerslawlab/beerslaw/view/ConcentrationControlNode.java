@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -24,7 +24,7 @@ public class ConcentrationControlNode extends PNode {
 
     private static final Dimension TRACK_SIZE = new Dimension( 250, 30 );
 
-    public ConcentrationControlNode( Property<BLSolution> solution ) {
+    public ConcentrationControlNode( Property<BeersLawSolution> solution ) {
 
         // nodes
         PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.CONCENTRATION ) );

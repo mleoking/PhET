@@ -3,7 +3,7 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
@@ -18,7 +18,7 @@ class SolutionControlsNode extends ControlPanelNode {
 
     private PBounds contentBounds;
 
-    public SolutionControlsNode( ArrayList<BLSolution> solutions, Property<BLSolution> currentSolution ) {
+    public SolutionControlsNode( ArrayList<BeersLawSolution> solutions, Property<BeersLawSolution> currentSolution ) {
         super( new LayoutNode( solutions, currentSolution ) );
     }
 
@@ -35,7 +35,7 @@ class SolutionControlsNode extends ControlPanelNode {
     }
 
     private static class LayoutNode extends PNode {
-        public LayoutNode( ArrayList<BLSolution> solutions, Property<BLSolution> currentSolution ) {
+        public LayoutNode( ArrayList<BeersLawSolution> solutions, Property<BeersLawSolution> currentSolution ) {
 
             // nodes
             SolutionChoiceNode solutionChoiceNode = new SolutionChoiceNode( solutions, currentSolution );

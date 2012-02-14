@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.concentration.model.Beaker;
-import edu.colorado.phet.beerslawlab.concentration.model.Solution;
+import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -21,11 +21,11 @@ class SolutionNode extends PPath {
 
     private static final double MIN_NONZERO_HEIGHT = 5; // minimum height for a solution with non-zero volume, set by visual inspection
 
-    private final Solution solution;
+    private final ConcentrationSolution solution;
     private final Beaker beaker;
     private final LinearFunction volumeToHeightFunction;
 
-    public SolutionNode( Solution solution, Beaker beaker ) {
+    public SolutionNode( ConcentrationSolution solution, Beaker beaker ) {
         setPickable( false );
         setChildrenPickable( false );
         setStroke( BLLConstants.FLUID_STROKE );

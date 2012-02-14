@@ -4,14 +4,14 @@ package edu.colorado.phet.beerslawlab.beerslaw.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.CobaltChlorideSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.CobaltIINitrateSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.CopperSulfateSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.KoolAidSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.NickelIIChlorideSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.PotassiumChromateSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.PotassiumDichromateSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.PotassiumPermanganateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.CobaltChlorideSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.CobaltIINitrateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.CopperSulfateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.KoolAidSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.NickelIIChlorideSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumChromateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumDichromateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumPermanganateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -33,8 +33,8 @@ public class BeersLawModel implements Resettable {
     private static final DoubleRange CUVETTE_WIDTH_RANGE = new DoubleRange( 0.5, 2.0, 1.0 ); // cm
     private static final double CUVETTE_HEIGHT = 3; // cm
 
-    private final ArrayList<BLSolution> solutions; // the supported set of solutions
-    public final Property<BLSolution> solution; // the selected solution
+    private final ArrayList<BeersLawSolution> solutions; // the supported set of solutions
+    public final Property<BeersLawSolution> solution; // the selected solution
     public final Light light;
     public final ModelViewTransform mvt;
     public final Cuvette cuvette;
@@ -46,7 +46,7 @@ public class BeersLawModel implements Resettable {
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 125 );
 
         // Solutions, in rainbow (ROYGBIV) order.
-        this.solutions = new ArrayList<BLSolution>() {{
+        this.solutions = new ArrayList<BeersLawSolution>() {{
             add( new KoolAidSolution() );
             add( new CobaltIINitrateSolution() );
             add( new CobaltChlorideSolution() );
@@ -56,7 +56,7 @@ public class BeersLawModel implements Resettable {
             add( new CopperSulfateSolution() );
             add( new PotassiumPermanganateSolution() );
         }};
-        this.solution = new Property<BLSolution>( solutions.get( 0 ) );
+        this.solution = new Property<BeersLawSolution>( solutions.get( 0 ) );
 
         double defaultWavelength = 500; //TODO get lambdaMax from solute
         this.light = new Light( new ImmutableVector2D( 1.5, 2 ), false, LightRepresentation.BEAM, defaultWavelength );
@@ -74,8 +74,8 @@ public class BeersLawModel implements Resettable {
         detector.reset();
     }
 
-    public ArrayList<BLSolution> getSolutions() {
-        return new ArrayList<BLSolution>( solutions );
+    public ArrayList<BeersLawSolution> getSolutions() {
+        return new ArrayList<BeersLawSolution>( solutions );
     }
 
     public DoubleRange getCuvetteWidthRange() {

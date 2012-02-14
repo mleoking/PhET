@@ -16,7 +16,7 @@ public class Evaporator implements Resettable {
     public final Property<Double> evaporationRate; // L/sec
     public final Property<Boolean> enabled;
 
-    public Evaporator( double maxEvaporationRate, final Solution solution ) {
+    public Evaporator( double maxEvaporationRate, final ConcentrationSolution solution ) {
 
         this.maxEvaporationRate = maxEvaporationRate;
         this.evaporationRate = new Property<Double>( 0d );

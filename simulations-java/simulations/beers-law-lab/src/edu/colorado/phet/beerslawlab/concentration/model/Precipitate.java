@@ -22,12 +22,12 @@ public class Precipitate {
         public void particleRemoved( PrecipitateParticle particle );
     }
 
-    private final Solution solution;
+    private final ConcentrationSolution solution;
     private final Beaker beaker;
     private final ArrayList<PrecipitateParticle> particles;
     private final ArrayList<ParticlesChangeListener> listeners;
 
-    public Precipitate( Solution solution, Beaker beaker ) {
+    public Precipitate( ConcentrationSolution solution, Beaker beaker ) {
 
         this.solution = solution;
         this.beaker = beaker;

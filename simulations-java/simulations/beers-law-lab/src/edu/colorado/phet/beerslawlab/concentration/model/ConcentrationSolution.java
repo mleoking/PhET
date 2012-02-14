@@ -16,11 +16,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * Solution model for the "Concentration" module.
+ * This module has a single solution that is mutated by changing the solute, solute amount, and volume.
  * Concentration is derived via M=mol/L.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Solution implements IFluid, Resettable {
+public class ConcentrationSolution implements IFluid, Resettable {
 
     public final Solvent solvent;
     public final Property<Solute> solute;
@@ -30,7 +31,7 @@ public class Solution implements IFluid, Resettable {
     public final CompositeProperty<Double> precipitateAmount; // moles (derived property)
     public final CompositeProperty<Color> fluidColor; // derived from solute color and concentration
 
-    public Solution( Property<Solute> solute, double soluteAmount, double volume ) {
+    public ConcentrationSolution( Property<Solute> solute, double soluteAmount, double volume ) {
 
         this.solvent = new Water();
         this.solute = solute;
@@ -40,8 +41,8 @@ public class Solution implements IFluid, Resettable {
         // derive concentration
         this.concentration = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
-                final double volume = Solution.this.volume.get();
-                final double soluteAmount = Solution.this.soluteAmount.get();
+                final double volume = ConcentrationSolution.this.volume.get();
+                final double soluteAmount = ConcentrationSolution.this.soluteAmount.get();
                 if ( volume > 0 ) {
                     return Math.min( getSaturatedConcentration(), soluteAmount / volume ); // M = mol/L
                 }
@@ -54,10 +55,10 @@ public class Solution implements IFluid, Resettable {
         // derive amount of precipitate
         this.precipitateAmount = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
-                final double volume = Solution.this.volume.get();
-                final double soluteAmount = Solution.this.soluteAmount.get();
+                final double volume = ConcentrationSolution.this.volume.get();
+                final double soluteAmount = ConcentrationSolution.this.soluteAmount.get();
                 if ( volume > 0 ) {
-                    return Math.max( 0, volume * ( ( Solution.this.soluteAmount.get() / volume ) - getSaturatedConcentration() ) );
+                    return Math.max( 0, volume * ( ( ConcentrationSolution.this.soluteAmount.get() / volume ) - getSaturatedConcentration() ) );
                 }
                 else {
                     return soluteAmount;
@@ -68,7 +69,7 @@ public class Solution implements IFluid, Resettable {
         // derive the solution color
         this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
             public Color apply() {
-                return createColor( solvent, Solution.this.solute.get(), concentration.get() );
+                return createColor( solvent, ConcentrationSolution.this.solute.get(), concentration.get() );
             }
         }, this.solute, this.concentration );
     }

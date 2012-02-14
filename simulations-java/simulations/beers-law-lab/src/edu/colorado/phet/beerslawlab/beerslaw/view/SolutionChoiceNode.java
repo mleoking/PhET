@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
@@ -34,16 +34,16 @@ public class SolutionChoiceNode extends PhetPNode {
 
     private final SolutionComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
-    public SolutionChoiceNode( ArrayList<BLSolution> solutions, final Property<BLSolution> currentSolution ) {
+    public SolutionChoiceNode( ArrayList<BeersLawSolution> solutions, final Property<BeersLawSolution> currentSolution ) {
         this( Strings.SOLUTION, solutions, currentSolution,
-              new Function1<BLSolution, String>() {
-                  public String apply( BLSolution solution ) {
+              new Function1<BeersLawSolution, String>() {
+                  public String apply( BeersLawSolution solution ) {
                       return solution.solute.name;
                   }
               } );
     }
 
-    public SolutionChoiceNode( String label, ArrayList<BLSolution> solutions, final Property<BLSolution> currentSolution, Function1<BLSolution,String> solutionToString ) {
+    public SolutionChoiceNode( String label, ArrayList<BeersLawSolution> solutions, final Property<BeersLawSolution> currentSolution, Function1<BeersLawSolution,String> solutionToString ) {
 
         PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, label ) ) {{
             setFont( LABEL_FONT );
@@ -59,32 +59,32 @@ public class SolutionChoiceNode extends PhetPNode {
         comboBoxNode.setOffset( labelNode.getFullBoundsReference().getMaxX() + 5, Math.min( 0, heightDiff / 2 ) );
 
         // sync view with model
-        currentSolution.addObserver( new VoidFunction1<BLSolution>() {
-            public void apply( BLSolution solution ) {
+        currentSolution.addObserver( new VoidFunction1<BeersLawSolution>() {
+            public void apply( BeersLawSolution solution ) {
                 comboBoxNode.selectedItem.set( solution );
             }
         } );
 
         // sync model with view
-        comboBoxNode.selectedItem.addObserver( new VoidFunction1<BLSolution>() {
-            public void apply( BLSolution solution ) {
+        comboBoxNode.selectedItem.addObserver( new VoidFunction1<BeersLawSolution>() {
+            public void apply( BeersLawSolution solution ) {
                 currentSolution.set( solution );
             }
         } );
     }
 
     // Combo box, with custom creation of items (nodes)
-    private static class SolutionComboBoxNode extends ComboBoxNode<BLSolution> {
-        public SolutionComboBoxNode( ArrayList<BLSolution> solutions, BLSolution selectedSolution, final Function1<BLSolution,String> solutionToString ) {
+    private static class SolutionComboBoxNode extends ComboBoxNode<BeersLawSolution> {
+        public SolutionComboBoxNode( ArrayList<BeersLawSolution> solutions, BeersLawSolution selectedSolution, final Function1<BeersLawSolution,String> solutionToString ) {
             super( UserComponents.solutionComboBox,
-                   new Function1<BLSolution, String>() {
-                       public String apply( BLSolution solution ) {
+                   new Function1<BeersLawSolution, String>() {
+                       public String apply( BeersLawSolution solution ) {
                            return solution.solute.name;
                        }
                    },
                    solutions, selectedSolution,
-                   new Function1<BLSolution, PNode>() {
-                       public PNode apply( final BLSolution solution ) {
+                   new Function1<BeersLawSolution, PNode>() {
+                       public PNode apply( final BeersLawSolution solution ) {
                            return new SoluteItemNode( solution.solute.solutionColor.getMax(), solutionToString.apply( solution ) );
                        }
                    }

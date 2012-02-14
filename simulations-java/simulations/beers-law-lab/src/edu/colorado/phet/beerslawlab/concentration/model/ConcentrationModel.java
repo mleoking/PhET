@@ -52,7 +52,7 @@ public class ConcentrationModel implements Resettable {
 
     private final ArrayList<Solute> solutes; // the supported set of solutes
     public final Property<Solute> solute; // the selected solute
-    public final Solution solution;
+    public final ConcentrationSolution solution;
     public final Property<SoluteForm> soluteForm = new Property<SoluteForm>( SoluteForm.SOLID );
     public final Shaker shaker;
     public final ShakerParticles shakerParticles;
@@ -84,7 +84,7 @@ public class ConcentrationModel implements Resettable {
         }};
 
         this.solute = new Property<Solute>( solutes.get( 0 ) );
-        this.solution = new Solution( solute, DEFAULT_SOLUTE_AMOUNT, SOLUTION_VOLUME_RANGE.getDefault() );
+        this.solution = new ConcentrationSolution( solute, DEFAULT_SOLUTE_AMOUNT, SOLUTION_VOLUME_RANGE.getDefault() );
         this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.precipitate = new Precipitate( solution, beaker );
         this.shaker = new Shaker( new ImmutableVector2D( 340, 170 ), 0.75 * Math.PI, new PBounds( 225, 50, 400, 160 ), solute, SHAKER_MAX_DISPENSING_RATE );
