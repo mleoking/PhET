@@ -76,7 +76,6 @@ public class MobileBiomoleculeNode extends PNode {
                 public void apply( Boolean movableByUser ) {
                     setPickable( movableByUser );
                     setChildrenPickable( movableByUser );
-                    System.out.println( "movableByUser = " + movableByUser );
                 }
             } );
         }} );
