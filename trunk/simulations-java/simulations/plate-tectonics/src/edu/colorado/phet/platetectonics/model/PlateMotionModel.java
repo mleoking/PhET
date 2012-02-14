@@ -112,50 +112,54 @@ public class PlateMotionModel extends PlateModel {
         animationStarted.addObserver( new SimpleObserver() {
             public void update() {
                 if ( animationStarted.get() ) {
-                    switch( motionType.get() ) {
-                        case TRANSFORM:
-                            leftPlate.setBehavior( new TransformBehavior( leftPlate, rightPlate, isTransformMotionCCW() ) );
-                            rightPlate.setBehavior( new TransformBehavior( rightPlate, leftPlate, !isTransformMotionCCW() ) );
-                            leftPlate.addMiddleSide( rightPlate );
-                            rightPlate.addMiddleSide( leftPlate );
-                            break;
-                        case CONVERGENT:
-                            // if both continental, we collide
-                            if ( leftPlateType.get() == PlateType.CONTINENTAL && rightPlateType.get() == PlateType.CONTINENTAL ) {
-                                // TODO: set time limit to 35 million years
-                                leftPlate.setBehavior( new CollidingBehavior( leftPlate, rightPlate ) );
-                                rightPlate.setBehavior( new CollidingBehavior( rightPlate, leftPlate ) );
-                            }
-                            // otherwise test for the heavier plate, which will subduct
-                            else if ( leftPlateType.get().isContinental() || rightPlateType.get() == PlateType.OLD_OCEANIC ) {
-                                // right plate subducts
-                                leftPlate.setBehavior( new OverridingBehavior( leftPlate, rightPlate ) );
-                                rightPlate.setBehavior( new SubductingBehavior( rightPlate, leftPlate ) );
-                                rightPlate.getCrust().moveToFront();
-                            }
-                            else if ( rightPlateType.get().isContinental() || leftPlateType.get() == PlateType.OLD_OCEANIC ) {
-                                // left plate subducts
-                                leftPlate.setBehavior( new SubductingBehavior( leftPlate, rightPlate ) );
-                                rightPlate.setBehavior( new OverridingBehavior( rightPlate, leftPlate ) );
-                                leftPlate.getCrust().moveToFront();
-                            }
-                            else {
-                                // plates must be the same
-                                assert leftPlateType.get() == rightPlateType.get();
-
-                                // which isn't allowed here for any oceanic combinations
-                                throw new RuntimeException( "behavior type not supported: " + leftPlateType.get() + ", " + rightPlateType.get() );
-                            }
-                            break;
-                        case DIVERGENT:
-                            // TODO: set time limit to 25 million years
-                            leftPlate.setBehavior( new RiftingBehavior( leftPlate, rightPlate ) );
-                            rightPlate.setBehavior( new RiftingBehavior( rightPlate, leftPlate ) );
-                            break;
-                    }
+                    initializeBehaviors();
                 }
             }
         } );
+    }
+
+    private void initializeBehaviors() {
+        switch( motionType.get() ) {
+            case TRANSFORM:
+                leftPlate.setBehavior( new TransformBehavior( leftPlate, rightPlate, isTransformMotionCCW() ) );
+                rightPlate.setBehavior( new TransformBehavior( rightPlate, leftPlate, !isTransformMotionCCW() ) );
+                leftPlate.addMiddleSide( rightPlate );
+                rightPlate.addMiddleSide( leftPlate );
+                break;
+            case CONVERGENT:
+                // if both continental, we collide
+                if ( leftPlateType.get() == PlateType.CONTINENTAL && rightPlateType.get() == PlateType.CONTINENTAL ) {
+                    // TODO: set time limit to 35 million years
+                    leftPlate.setBehavior( new CollidingBehavior( leftPlate, rightPlate ) );
+                    rightPlate.setBehavior( new CollidingBehavior( rightPlate, leftPlate ) );
+                }
+                // otherwise test for the heavier plate, which will subduct
+                else if ( leftPlateType.get().isContinental() || rightPlateType.get() == PlateType.OLD_OCEANIC ) {
+                    // right plate subducts
+                    leftPlate.setBehavior( new OverridingBehavior( leftPlate, rightPlate ) );
+                    rightPlate.setBehavior( new SubductingBehavior( rightPlate, leftPlate ) );
+                    rightPlate.getCrust().moveToFront();
+                }
+                else if ( rightPlateType.get().isContinental() || leftPlateType.get() == PlateType.OLD_OCEANIC ) {
+                    // left plate subducts
+                    leftPlate.setBehavior( new SubductingBehavior( leftPlate, rightPlate ) );
+                    rightPlate.setBehavior( new OverridingBehavior( rightPlate, leftPlate ) );
+                    leftPlate.getCrust().moveToFront();
+                }
+                else {
+                    // plates must be the same
+                    assert leftPlateType.get() == rightPlateType.get();
+
+                    // which isn't allowed here for any oceanic combinations
+                    throw new RuntimeException( "behavior type not supported: " + leftPlateType.get() + ", " + rightPlateType.get() );
+                }
+                break;
+            case DIVERGENT:
+                // TODO: set time limit to 25 million years
+                leftPlate.setBehavior( new RiftingBehavior( leftPlate, rightPlate ) );
+                rightPlate.setBehavior( new RiftingBehavior( rightPlate, leftPlate ) );
+                break;
+        }
     }
 
     private void resetPlates() {
@@ -182,6 +186,25 @@ public class PlateMotionModel extends PlateModel {
         }
         terrainConnector = new TerrainConnectorStrip( leftPlate.getTerrain(), rightPlate.getTerrain(), 3, minZ, maxZ );
         addTerrain( terrainConnector );
+    }
+
+    private boolean rewinding = false;
+
+    public void rewind() {
+        rewinding = true;
+        resetPlates();
+        resetTerrain();
+
+        dropLeftCrust( leftPlateType.get() );
+        dropRightCrust( rightPlateType.get() );
+        rewinding = false;
+
+        updateStrips();
+        updateTerrain();
+
+        modelChanged.updateListeners();
+
+        initializeBehaviors();
     }
 
     @Override public void resetAll() {
@@ -217,18 +240,22 @@ public class PlateMotionModel extends PlateModel {
         leftPlate.droppedCrust( type );
         leftPlateType.set( type );
 
-        updateStrips();
-        updateTerrain();
-        modelChanged.updateListeners();
+        if ( !rewinding ) {
+            updateStrips();
+            updateTerrain();
+            modelChanged.updateListeners();
+        }
     }
 
     public void dropRightCrust( final PlateType type ) {
         rightPlate.droppedCrust( type );
         rightPlateType.set( type );
 
-        updateStrips();
-        updateTerrain();
-        modelChanged.updateListeners();
+        if ( !rewinding ) {
+            updateStrips();
+            updateTerrain();
+            modelChanged.updateListeners();
+        }
     }
 
     private void updateStrips() {

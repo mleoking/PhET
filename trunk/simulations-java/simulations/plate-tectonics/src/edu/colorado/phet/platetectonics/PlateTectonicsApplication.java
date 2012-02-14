@@ -136,6 +136,6 @@ public class PlateTectonicsApplication extends PhetApplication {
         * If you want to customize your application (look-&-feel, window size, etc)
         * create your own PhetApplicationConfig and use one of the other launchSim methods
         */
-        new PhetApplicationLauncher().launchSim( args, PlateTectonicsResources.NAME, PlateTectonicsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, PlateTectonicsResources.PROJECT_NAME, PlateTectonicsApplication.class );
     }
 }
