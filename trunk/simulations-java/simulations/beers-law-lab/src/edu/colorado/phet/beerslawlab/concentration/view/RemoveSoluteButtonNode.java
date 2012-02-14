@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
+import edu.colorado.phet.beerslawlab.concentration.model.Solution;
 import edu.colorado.phet.beerslawlab.concentration.model.ShakerParticles;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

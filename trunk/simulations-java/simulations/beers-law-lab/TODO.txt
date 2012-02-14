@@ -8,7 +8,6 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
-- separate Solution model elements for the 2 tabs? needs are very different...
 - add 3 sections of light beam
 - Meter: get images from bending-light; doesn't read anything in cuvette or outside beam; blocks beam
 - Concentration slider: different units to match the ranges for each solute (see design doc table, "Conc Range" column, which JC needs to verify)

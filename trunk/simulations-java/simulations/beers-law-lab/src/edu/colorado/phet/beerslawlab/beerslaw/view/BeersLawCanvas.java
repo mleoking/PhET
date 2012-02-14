@@ -29,7 +29,7 @@ public class BeersLawCanvas extends BLLCanvas {
         // Nodes
         PNode lightNode = new LightNode( model.light, model.mvt );
         PNode lightControlsNode = new LightControlsNode( model.light, wavelengthControlType );
-        PNode solutionControlsNode = new SolutionControlsNode( model.solution, model.getSolutes(), model.solute );
+        PNode solutionControlsNode = new SolutionControlsNode( model.getSolutions(), model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};

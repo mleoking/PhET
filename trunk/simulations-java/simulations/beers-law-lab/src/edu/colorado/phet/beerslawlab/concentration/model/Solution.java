@@ -1,8 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.beerslawlab.common.model;
+package edu.colorado.phet.beerslawlab.concentration.model;
 
 import java.awt.Color;
 
+import edu.colorado.phet.beerslawlab.common.model.IFluid;
+import edu.colorado.phet.beerslawlab.common.model.Solute;
+import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -12,7 +15,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
- * Simple model of a solution, consisting of a solvent and a solute.
+ * Solution model for the "Concentration" module.
+ * Concentration is derived via M=mol/L.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

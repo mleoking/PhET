@@ -3,9 +3,7 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.beerslawlab.common.model.Solute;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
-import edu.colorado.phet.beerslawlab.common.view.SoluteChoiceNode;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
@@ -20,8 +18,8 @@ class SolutionControlsNode extends ControlPanelNode {
 
     private PBounds contentBounds;
 
-    public SolutionControlsNode( Solution solution, ArrayList<Solute> solutes, Property<Solute> currentSolute ) {
-        super( new LayoutNode( solution, solutes, currentSolute ) );
+    public SolutionControlsNode( ArrayList<BLSolution> solutions, Property<BLSolution> currentSolution ) {
+        super( new LayoutNode( solutions, currentSolution ) );
     }
 
     /*
@@ -37,11 +35,11 @@ class SolutionControlsNode extends ControlPanelNode {
     }
 
     private static class LayoutNode extends PNode {
-        public LayoutNode( Solution solution, ArrayList<Solute> solutes, Property<Solute> currentSolute ) {
+        public LayoutNode( ArrayList<BLSolution> solutions, Property<BLSolution> currentSolution ) {
 
             // nodes
-            SolutionChoiceNode solutionChoiceNode = new SolutionChoiceNode( solutes, currentSolute );
-            ConcentrationControlNode concentrationControlNode = new ConcentrationControlNode( solution );
+            SolutionChoiceNode solutionChoiceNode = new SolutionChoiceNode( solutions, currentSolution );
+            ConcentrationControlNode concentrationControlNode = new ConcentrationControlNode( currentSolution );
 
             // rendering order: combo box on top, because it has a popup
             {
