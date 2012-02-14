@@ -1,3 +1,4 @@
+# 0.00.17 (61306) Feb 13, 2012
 Added ability to limit simulation time on animations
 Added "Rewind" button to the plate motion tab
 Increased the "texture" contrast
