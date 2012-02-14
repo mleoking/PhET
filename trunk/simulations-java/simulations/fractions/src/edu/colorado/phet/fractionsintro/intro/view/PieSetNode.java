@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.Slice;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
 
 /**

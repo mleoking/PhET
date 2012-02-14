@@ -3,7 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.model;
 
 import lombok.Data;
 
-import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**

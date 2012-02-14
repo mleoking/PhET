@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.model.slicemodel;
+package edu.colorado.phet.fractionsintro.intro.model.pieset;
 
 import fj.data.List;
 import lombok.Data;
