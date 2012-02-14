@@ -1,3 +1,4 @@
+When increasing numerator, take from slices in front (higher z-ordering)
 Reduced shadow offset to 50% distance
 Made shadow black with 75% opacity
 # 0.00.35 (61302) Feb 13, 2012

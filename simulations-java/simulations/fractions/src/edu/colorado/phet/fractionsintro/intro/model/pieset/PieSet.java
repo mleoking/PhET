@@ -201,9 +201,9 @@ import static fj.data.List.range;
     public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
 
         //Find a slice from the bucket, or one that is leaving the bucket
-
+        //Reverse the list so that slices are taken from the front in z-ordering
         //TODO: maybe check for bucket piece first, instead of piece going to the bucket as equal priority
-        final Option<Slice> bucketSlice = slices.find( new F<Slice, Boolean>() {
+        final Option<Slice> bucketSlice = slices.reverse().find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
                 final double bucketY = createBucketSlice( denominator ).tip.getY();
                 return ( m.tip.getY() == bucketY && m.animationTarget == null ) ||
