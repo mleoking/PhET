@@ -9,11 +9,17 @@ import org.jfree.chart.{JFreeChart, ChartFrame}
 import org.jfree.chart.renderer.category.StatisticalBarRenderer
 import java.io.File
 import edu.colorado.phet.simsharinganalysis.phet
+import edu.colorado.phet.simsharinganalysis.util.MathUtil
 
 object GroupComparisonTool extends App {
 
   //Recursively list all files under a directory, see http://stackoverflow.com/questions/4629984/scala-cleanest-way-to-recursively-parse-files-checking-for-multiple-strings
-  def filesAt(f: File): List[File] = if ( f.isDirectory ) f.listFiles.flatMap(filesAt).toList else f :: Nil
+  def filesAt(f: File): List[File] = if ( f.isDirectory ) {
+    f.listFiles.flatMap(filesAt).toList
+  }
+  else {
+    f :: Nil
+  }
 
   process(new File("C:\\Users\\Sam\\Desktop\\abs-study-data"))
 
@@ -122,40 +128,50 @@ object GroupComparisonTool extends App {
 
 class MyStatisticalDataSet extends DefaultStatisticalCategoryDataset {
   def addBooleanToPlot(group: GroupResult, f: SessionResult => Boolean, label: String) {
-    val values: Seq[Double] = group.sessionResults.map(f).map(x => if ( x ) 1.0 else 0.0)
-    add(phet average values, phet standardDeviation values, group.name, label)
+    val values: Seq[Double] = group.sessionResults.map(f).map(x => if ( x ) {
+      1.0
+    }
+    else {
+      0.0
+    })
+    add(MathUtil average values, MathUtil standardDeviation values, group.name, label)
   }
 
   def addToPlot(group: GroupResult, f: SessionResult => Double, label: String) {
     val values: Seq[Double] = group.sessionResults.map(f)
-    add(phet average values, phet standardDeviation values, group.name, label)
+    add(MathUtil average values, MathUtil standardDeviation values, group.name, label)
   }
 }
 
 case class GroupResult(sessionResults: List[SessionResult], name: String) {
-  def indicator(b: Boolean) = if ( b ) 1 else 0
+  def indicator(b: Boolean) = if ( b ) {
+    1
+  }
+  else {
+    0
+  }
 
-  def averageTimeOpen = phet average sessionResults.map(_.timeSimOpenMin)
+  def averageTimeOpen = MathUtil average sessionResults.map(_.timeSimOpenMin)
 
-  def averageNumberOfClicks = phet averageInt sessionResults.map(_.numberOfClicks)
+  def averageNumberOfClicks = MathUtil averageInt sessionResults.map(_.numberOfClicks)
 
-  def averageNumberSelectedBase = phet averageInt sessionResults.map(_.selectedBase).map(indicator)
+  def averageNumberSelectedBase = MathUtil averageInt sessionResults.map(_.selectedBase).map(indicator)
 
-  def averageNumberShowedSolvent = phet averageInt sessionResults.map(_.showedSolvent).map(indicator)
+  def averageNumberShowedSolvent = MathUtil averageInt sessionResults.map(_.showedSolvent).map(indicator)
 
-  def averageNumberDunkedPHMeter = phet averageInt sessionResults.map(_.dunkedPHMeter).map(indicator)
+  def averageNumberDunkedPHMeter = MathUtil averageInt sessionResults.map(_.dunkedPHMeter).map(indicator)
 
-  def averageNumberDunkedPHPaper = phet averageInt sessionResults.map(_.dunkedPHPaper).map(indicator)
+  def averageNumberDunkedPHPaper = MathUtil averageInt sessionResults.map(_.dunkedPHPaper).map(indicator)
 
-  def averageNumberCompletedCircuit = phet averageInt sessionResults.map(_.completedCircuit).map(indicator)
+  def averageNumberCompletedCircuit = MathUtil averageInt sessionResults.map(_.completedCircuit).map(indicator)
 
-  def averageNumberTabTransitions = phet averageInt sessionResults.map(_.numTabTransitions)
+  def averageNumberTabTransitions = MathUtil averageInt sessionResults.map(_.numTabTransitions)
 
-  def averageNumberSolutionTransitions = phet averageInt sessionResults.map(_.numSolutionTransitions)
+  def averageNumberSolutionTransitions = MathUtil averageInt sessionResults.map(_.numSolutionTransitions)
 
-  def averageNumberViewTransitions = phet averageInt sessionResults.map(_.numViewTransitions)
+  def averageNumberViewTransitions = MathUtil averageInt sessionResults.map(_.numViewTransitions)
 
-  def averageNumberTestTransitions = phet averageInt sessionResults.map(_.numTestTransitions)
+  def averageNumberTestTransitions = MathUtil averageInt sessionResults.map(_.numTestTransitions)
 }
 
 //Results from parsing and analyzing, so they can be averaged, composited, etc.
