@@ -30,6 +30,7 @@ LOW
 - dropper flickers/tears excessively while dragging
 - #3199, bigger slider thumb on FaucetNode
 - fix potential issues in TiledBackgroundNode
+- ruler can get lost behind solution control panel, move it to front layer when combo box #3242 is fixed
 
 SIM-SHARING
 - add sim-sharing to WavelengthControl
