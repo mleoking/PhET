@@ -8,6 +8,7 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
 
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -42,6 +43,7 @@ public class MobileBiomoleculeNode extends PNode {
     public MobileBiomoleculeNode( final ModelViewTransform mvt, final MobileBiomolecule mobileBiomolecule, Stroke outlineStroke ) {
 
         addChild( new PhetPPath( outlineStroke, Color.BLACK ) {{
+
             // Update the shape whenever it changes.
             mobileBiomolecule.addShapeChangeObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
@@ -49,22 +51,35 @@ public class MobileBiomoleculeNode extends PNode {
                     setPaint( createGradientPaint( mvt.modelToView( mobileBiomolecule.getShape() ), mobileBiomolecule.colorProperty.get() ) );
                 }
             } );
+
             // Update the color whenever it changes.
             mobileBiomolecule.colorProperty.addObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
                     setPaint( createGradientPaint( mvt.modelToView( mobileBiomolecule.getShape() ), mobileBiomolecule.colorProperty.get() ) );
                 }
             } );
+
             // Update its existence strength (i.e. fade level) whenever it changes.
             mobileBiomolecule.existenceStrength.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double existenceStrength ) {
                     setTransparency( existenceStrength.floatValue() );
                 }
             } );
+
             // Cursor handling.
             addInputEventListener( new CursorHandler() );
+
             // Drag handling.
             addInputEventListener( new BiomoleculeDragHandler( mobileBiomolecule, this, mvt ) );
+
+            // Interactivity control.
+            mobileBiomolecule.movableByUser.addObserver( new ChangeObserver<Boolean>() {
+                public void update( Boolean isMovable, Boolean wasMovable ) {
+                    setPickable( isMovable );
+                    setChildrenPickable( isMovable );
+                    System.out.println( "isMovable = " + isMovable );
+                }
+            } );
         }} );
     }
 

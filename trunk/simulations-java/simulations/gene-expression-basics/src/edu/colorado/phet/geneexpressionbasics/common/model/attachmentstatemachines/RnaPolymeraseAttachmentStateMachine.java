@@ -130,6 +130,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
         @Override public void entered( AttachmentStateMachine asm ) {
             attachCountdownTime = DEFAULT_ATTACH_TIME;
+
+            // Allow user interaction.
+            asm.biomolecule.movableByUser.set( true );
         }
     }
 
@@ -155,6 +158,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
+
+            // Prevent user interaction.
+            asm.biomolecule.movableByUser.set( false );
 
             // Insert the DNA strand separator.
             dnaStrandSeparation.setXPos( rnaPolymerase.getPosition().getX() );
@@ -202,6 +208,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
+
+            // Prevent user interaction.
+            asm.biomolecule.movableByUser.set( false );
+
             // Determine the gene that is being transcribed.
             Gene geneToTranscribe = biomolecule.getModel().getDnaMolecule().getGeneAtLocation( biomolecule.getPosition() );
             assert geneToTranscribe != null;
@@ -257,6 +267,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
+            // Prevent user interaction.
+            asm.biomolecule.movableByUser.set( false );
+
             conformationalChangeAmount = 1;
         }
     }

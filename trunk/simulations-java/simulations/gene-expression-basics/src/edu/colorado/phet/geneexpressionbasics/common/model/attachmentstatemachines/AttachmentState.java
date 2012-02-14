@@ -54,6 +54,9 @@ public abstract class AttachmentState {
 
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             enclosingStateMachine.biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( enclosingStateMachine.biomolecule.motionBoundsProperty ) );
+
+            // Allow user interaction.
+            enclosingStateMachine.biomolecule.movableByUser.set( true );
         }
     }
 
@@ -80,7 +83,8 @@ public abstract class AttachmentState {
         }
 
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
-            // No initialization needed.
+            // Allow user interaction.
+            enclosingStateMachine.biomolecule.movableByUser.set( true );
         }
     }
 
@@ -113,6 +117,8 @@ public abstract class AttachmentState {
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             attachCountdownTime = DEFAULT_ATTACH_TIME;
             enclosingStateMachine.biomolecule.setMotionStrategy( new FollowAttachmentSite( enclosingStateMachine.attachmentSite ) );
+            // Prevent user interaction.
+            enclosingStateMachine.biomolecule.movableByUser.set( false );
         }
     }
 
@@ -138,6 +144,8 @@ public abstract class AttachmentState {
 
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             detachCountdownTime = DEFAULT_DETACH_TIME;
+            // Allow user interaction.
+            enclosingStateMachine.biomolecule.movableByUser.set( true );
         }
     }
 }
