@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class MovableSliceNode extends PNode {
-    private static final Paint SHADOW_PAINT = new Color( 128, 128, 128, 200 );
+    private static final Paint SHADOW_PAINT = new Color( 0, 0, 0, (int) ( 0.75 * 255 ) );
 
     public MovableSliceNode( final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
 
