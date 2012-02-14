@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Demonstrate fix for SR's "multiple representations problem.
+ * Demonstrate fix for SR's "multiple representations" problem.
  * In SR's example, it was impossible to keep Cartesian and polar coordinate representations properly
  * synchronized because the representations were not atomic; that is, changes in some part of the
  * one representation would trigger changes in some part of the other representation, leading to
@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class SynchronizingMultipleRepresentations {
 
+    // This replaces separate Property<Double> for x and y coordinates.
     public static class PolarCoordinates {
         public final double radius;
         public final double angle;
@@ -40,6 +41,7 @@ public class SynchronizingMultipleRepresentations {
         }
     }
 
+    // This replaces separate Property<Double> for radius and angle coordinates.
     public static class CartesianCoordinates {
         public final double x;
         public final double y;
@@ -65,12 +67,12 @@ public class SynchronizingMultipleRepresentations {
 
     public static void main( String[] args ) {
 
-        // Polar & Cartesian representations
+        // Polar & Cartesian representations, which we wish to keep synchronized.
         final Property<PolarCoordinates> polarCoordinates = new Property<PolarCoordinates>( new PolarCoordinates( 1.0, Math.toRadians( 45 ) ) );
         final Property<CartesianCoordinates> cartesianCoordinates = new Property<CartesianCoordinates>(
                 new CartesianCoordinates( Math.cos( polarCoordinates.get().angle ) * polarCoordinates.get().radius, Math.sin( polarCoordinates.get().angle ) * polarCoordinates.get().radius ) );
 
-        // When polarCoordinates changes, update Cartesian
+        // When polar coordinates changes, update Cartesian coordinates.
         polarCoordinates.addObserver( new VoidFunction1<PolarCoordinates>() {
             public void apply( PolarCoordinates polar ) {
                 CartesianCoordinates newCartesianCoordinates = new CartesianCoordinates( Math.cos( polar.angle ) * polar.radius, Math.sin( polar.angle ) * polar.radius );
@@ -81,7 +83,7 @@ public class SynchronizingMultipleRepresentations {
             }
         } );
 
-        // When Cartesian changes, update polarCoordinates
+        // When Cartesian coordinates changes, update polar coordinates.
         cartesianCoordinates.addObserver( new VoidFunction1<CartesianCoordinates>() {
             public void apply( CartesianCoordinates cartesian ) {
                 PolarCoordinates newPolarCoordinates = new PolarCoordinates( Math.sqrt( cartesian.x * cartesian.x + cartesian.y * cartesian.y ), Math.atan2( cartesian.y, cartesian.x ) );
@@ -93,7 +95,6 @@ public class SynchronizingMultipleRepresentations {
         } );
 
         polarCoordinates.set( new PolarCoordinates( 3.0, polarCoordinates.get().angle ) );
-
         System.out.println( "radius.get() = " + polarCoordinates.get().radius );
     }
 
