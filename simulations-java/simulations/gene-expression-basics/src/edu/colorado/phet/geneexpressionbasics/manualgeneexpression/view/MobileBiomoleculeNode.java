@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCellNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -87,11 +88,23 @@ public class MobileBiomoleculeNode extends PNode {
      * depict biomolecules.
      */
     public static Paint createGradientPaint( Shape shape, Color baseColor ) {
-        return new GradientPaint( (float) shape.getBounds2D().getMinX(),
-                                  (float) shape.getBounds2D().getCenterY(),
-                                  ColorUtils.brighterColor( baseColor, 0.8 ),
-                                  (float) shape.getBounds2D().getMaxX(),
-                                  (float) shape.getBounds2D().getCenterY(),
-                                  ColorUtils.darkerColor( baseColor, 0.3 ) );
+        Paint paint;
+        if ( baseColor != ColorChangingCellNode.FLORESCENT_FILL_COLOR ) {
+            paint = new GradientPaint( (float) shape.getBounds2D().getMinX(),
+                                       (float) shape.getBounds2D().getCenterY(),
+                                       ColorUtils.brighterColor( baseColor, 0.8 ),
+                                       (float) shape.getBounds2D().getMaxX(),
+                                       (float) shape.getBounds2D().getCenterY(),
+                                       ColorUtils.darkerColor( baseColor, 0.3 ) );
+
+        }
+        else {
+            // Special case: If using the "fluorescent" color, i.e. the one
+            // used to depict green fluorescent protein in the sim, don't
+            // create a gradient, because it looks brighter and more distinct.
+            paint = baseColor;
+        }
+
+        return paint;
     }
 }
