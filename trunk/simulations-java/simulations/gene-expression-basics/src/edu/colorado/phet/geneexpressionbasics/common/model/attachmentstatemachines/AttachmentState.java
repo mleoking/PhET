@@ -125,7 +125,6 @@ public abstract class AttachmentState {
         @Override public void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt ) {
             GenericAttachmentStateMachine gsm = (GenericAttachmentStateMachine) enclosingStateMachine;
 
-
             // Verify that state is consistent.
             assert gsm.attachmentSite == null;
 
@@ -133,7 +132,7 @@ public abstract class AttachmentState {
             detachCountdownTime -= dt;
             if ( detachCountdownTime <= 0 ) {
                 // Move to the unattached-and-available state.
-                gsm.setState( gsm.unattachedButUnavailableState );
+                gsm.setState( gsm.unattachedAndAvailableState );
             }
         }
 
