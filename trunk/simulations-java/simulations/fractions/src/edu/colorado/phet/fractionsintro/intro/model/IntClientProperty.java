@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
  */
 public class IntClientProperty extends ClientProperty<Integer> {
 
-    public IntClientProperty( final Property<FractionsIntroModelState> state,
-                              final Function1<FractionsIntroModelState, Integer> get,
-                              final Function2<FractionsIntroModelState, Integer, FractionsIntroModelState> change ) {
+    public IntClientProperty( final Property<IntroState> state,
+                              final Function1<IntroState, Integer> get,
+                              final Function2<IntroState, Integer, IntroState> change ) {
         super( state, get, change );
     }
 

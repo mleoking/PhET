@@ -14,13 +14,13 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author Sam Reid
  */
 public class ClientProperty<T> extends SettableProperty<T> {
-    private final Property<FractionsIntroModelState> state;
-    private final Function1<FractionsIntroModelState, T> get;
-    private final Function2<FractionsIntroModelState, T, FractionsIntroModelState> change;
+    private final Property<IntroState> state;
+    private final Function1<IntroState, T> get;
+    private final Function2<IntroState, T, IntroState> change;
 
-    public ClientProperty( final Property<FractionsIntroModelState> state,
-                           final Function1<FractionsIntroModelState, T> get,
-                           final Function2<FractionsIntroModelState, T, FractionsIntroModelState> change ) {
+    public ClientProperty( final Property<IntroState> state,
+                           final Function1<IntroState, T> get,
+                           final Function2<IntroState, T, IntroState> change ) {
         super( get.apply( state.get() ) );
         this.state = state;
         this.get = get;
