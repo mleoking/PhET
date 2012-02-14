@@ -7,13 +7,16 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Cuvette;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
@@ -35,7 +38,7 @@ class CuvetteNode extends PNode {
     private static final double ARROW_WIDTH = 80;
     private static final Color ARROW_FILL = Color.ORANGE;
 
-    public CuvetteNode( final Cuvette cuvette, final Solution solution, final ModelViewTransform mvt ) {
+    public CuvetteNode( final Cuvette cuvette, final Property<BLSolution> solution, final ModelViewTransform mvt ) {
 
         // nodes
         final PPath cuvetteNode = new PPath() {{
@@ -67,14 +70,23 @@ class CuvetteNode extends PNode {
             }
         } );
 
-        // when the solution color changes...
-        solution.addFluidColorObserver( new SimpleObserver() {
-            public void update() {
-                Color solutionColor = solution.fluidColor.get();
-                solutionNode.setPaint( solutionColor );
-                solutionNode.setStrokePaint( BLLConstants.createFluidStrokeColor( solutionColor ) );
+        // fluid color observer
+        final VoidFunction1<Color> colorObserver = new VoidFunction1<Color>() {
+            public void apply( Color color ) {
+                updateColor( solutionNode, color );
+            }
+        };
+
+        // when the solution changes, rewire the color observer
+        solution.addObserver( new ChangeObserver<BLSolution>() {
+            public void update( BLSolution newValue, BLSolution oldValue ) {
+                if ( oldValue != null ) {
+                    oldValue.fluidColor.removeObserver( colorObserver );
+                }
+                newValue.fluidColor.addObserver( colorObserver );
             }
         } );
+        colorObserver.apply( solution.get().fluidColor.get() );
 
         // location of the cuvette
         setOffset( mvt.modelToView( cuvette.location.toPoint2D() ) );
@@ -85,6 +97,11 @@ class CuvetteNode extends PNode {
         widthHandleNode.addInputEventListener( new CursorHandler() );
         addInputEventListener( new PaintHighlightHandler( widthHandleNode, ARROW_FILL, ARROW_FILL.brighter() ) );
         addInputEventListener( new WidthDragHandler( this, cuvette, mvt ) );
+    }
+
+    private void updateColor( PPath node, Color color ) {
+        node.setPaint( color );
+        node.setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
     }
 
     // Drag handler for manipulating the cuvette's width

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solute.SoluteForm;
-import edu.colorado.phet.beerslawlab.common.view.SoluteChoiceNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;

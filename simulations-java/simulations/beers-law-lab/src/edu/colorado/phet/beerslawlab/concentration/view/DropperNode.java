@@ -9,7 +9,7 @@ import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
+import edu.colorado.phet.beerslawlab.concentration.model.Solution;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MomentaryButtonNode;

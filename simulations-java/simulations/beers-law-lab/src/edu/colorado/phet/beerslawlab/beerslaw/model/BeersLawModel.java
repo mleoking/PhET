@@ -2,20 +2,17 @@
 package edu.colorado.phet.beerslawlab.beerslaw.model;
 
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.CobaltChlorideSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.CobaltIINitrateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.CopperSulfateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.KoolAidSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.NickelIIChlorideSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.PotassiumChromateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.PotassiumDichromateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution.PotassiumPermanganateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
-import edu.colorado.phet.beerslawlab.common.model.Solute;
-import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltChloride;
-import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltIINitrate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.CopperSulfate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.KoolAid;
-import edu.colorado.phet.beerslawlab.common.model.Solute.NickelIIChloride;
-import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumChromate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumDichromate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumPermanganate;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -36,9 +33,8 @@ public class BeersLawModel implements Resettable {
     private static final DoubleRange CUVETTE_WIDTH_RANGE = new DoubleRange( 0.5, 2.0, 1.0 ); // cm
     private static final double CUVETTE_HEIGHT = 3; // cm
 
-    private final ArrayList<Solute> solutes; // the supported set of solutes
-    public final Property<Solute> solute; // the selected solute
-    public final Solution solution;
+    private final ArrayList<BLSolution> solutions; // the supported set of solutions
+    public final Property<BLSolution> solution; // the selected solution
     public final Light light;
     public final ModelViewTransform mvt;
     public final Cuvette cuvette;
@@ -49,22 +45,18 @@ public class BeersLawModel implements Resettable {
         // No offset, scale 125x when going from model to view (1cm == 125 pixels)
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 125 );
 
-        //TODO same set of solutes as ConcentrationModel, move to base class?
-        // Solutes, in rainbow (ROYGBIV) order.
-        this.solutes = new ArrayList<Solute>() {{
-            add( new KoolAid() );
-            add( new CobaltIINitrate() );
-            add( new CobaltChloride() );
-            add( new PotassiumDichromate() );
-            add( new PotassiumChromate() );
-            add( new NickelIIChloride() );
-            add( new CopperSulfate() );
-            add( new PotassiumPermanganate() );
+        // Solutions, in rainbow (ROYGBIV) order.
+        this.solutions = new ArrayList<BLSolution>() {{
+            add( new KoolAidSolution() );
+            add( new CobaltIINitrateSolution() );
+            add( new CobaltChlorideSolution() );
+            add( new PotassiumDichromateSolution() );
+            add( new PotassiumChromateSolution() );
+            add( new NickelIIChlorideSolution() );
+            add( new CopperSulfateSolution() );
+            add( new PotassiumPermanganateSolution() );
         }};
-        this.solute = new Property<Solute>( solutes.get( 0 ) );
-
-        this.solution = new Solution( solute, DEFAULT_SOLUTE_AMOUNT, SOLUTION_VOLUME_RANGE.getDefault() );
-        solution.soluteAmount.set( 0.1 ); //TODO we need to set concentration directly in this model
+        this.solution = new Property<BLSolution>( solutions.get( 0 ) );
 
         double defaultWavelength = 500; //TODO get lambdaMax from solute
         this.light = new Light( new ImmutableVector2D( 1.5, 2 ), false, LightRepresentation.BEAM, defaultWavelength );
@@ -77,14 +69,13 @@ public class BeersLawModel implements Resettable {
     }
 
     public void reset() {
-        solute.reset();
         solution.reset();
         cuvette.reset();
         detector.reset();
     }
 
-    public ArrayList<Solute> getSolutes() {
-        return new ArrayList<Solute>( solutes );
+    public ArrayList<BLSolution> getSolutions() {
+        return new ArrayList<BLSolution>( solutions );
     }
 
     public DoubleRange getCuvetteWidthRange() {

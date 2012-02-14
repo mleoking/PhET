@@ -14,7 +14,7 @@ import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
+import edu.colorado.phet.beerslawlab.concentration.model.Solution;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.common.view.TiledBackgroundNode;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationMeter;

@@ -4,7 +4,6 @@ package edu.colorado.phet.beerslawlab.concentration.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.common.model.Solute;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltChloride;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltIINitrate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CopperSulfate;
