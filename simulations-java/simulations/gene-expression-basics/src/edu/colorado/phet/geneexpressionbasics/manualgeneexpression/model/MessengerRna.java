@@ -119,7 +119,7 @@ public class MessengerRna extends MobileBiomolecule {
         }} );
 
         // Add the placement hints for the locations where the user can attach
-        // a ribosome or and mRNA destroyer.
+        // a ribosome or an mRNA destroyer.
         ribosomePlacementHint = new PlacementHint( new Ribosome( model ) );
         mRnaDestroyerPlacementHint = new PlacementHint( new MessengerRnaDestroyer( model ) );
         shapeProperty.addObserver( new SimpleObserver() {
@@ -976,7 +976,7 @@ public class MessengerRna extends MobileBiomolecule {
         frame.setVisible( true );
 
         MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(),
-                                                      new ProteinA( new StubGeneExpressionModel(), new Ribosome( new StubGeneExpressionModel() ) ),
+                                                      new ProteinA( new StubGeneExpressionModel() ),
                                                       mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         canvas.addWorldChild( new MessengerRnaNode( mvt, messengerRna ) );
         for ( int i = 0; i < 200; i++ ) {
