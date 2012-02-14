@@ -20,6 +20,8 @@ public class TectonicsClock implements IClock {
     private final List<ClockListener> listeners = new ArrayList<ClockListener>();
     private final Property<Boolean> running = new Property<Boolean>( false );
 
+    private double timeLimit = Double.MAX_VALUE;
+
     public TectonicsClock( double timeMultiplier ) {
         this.timeMultiplier = timeMultiplier;
 
@@ -55,7 +57,18 @@ public class TectonicsClock implements IClock {
         lastWallTime = wallTime;
         wallTime = System.currentTimeMillis();
 
-        setSimulationTime( simulationTime + timeElapsed * timeMultiplier );
+        // bail if we are already at the maximum time limit
+        if ( simulationTime >= timeLimit ) {
+            return;
+        }
+
+        // don't go past the time limit
+        double proposedTime = simulationTime + timeElapsed * timeMultiplier;
+        if ( proposedTime > timeLimit ) {
+            proposedTime = timeLimit;
+        }
+
+        setSimulationTime( proposedTime );
 
         ClockEvent event = new ClockEvent( this );
         for ( ClockListener listener : listeners ) {
@@ -141,5 +154,17 @@ public class TectonicsClock implements IClock {
 
     public synchronized void setTimeMultiplier( double timeMultiplier ) {
         this.timeMultiplier = timeMultiplier;
+    }
+
+    public double getTimeLimit() {
+        return timeLimit;
+    }
+
+    public void setTimeLimit( double timeLimit ) {
+        this.timeLimit = timeLimit;
+    }
+
+    public void resetTimeLimit() {
+        timeLimit = Double.MAX_VALUE;
     }
 }

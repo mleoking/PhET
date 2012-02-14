@@ -20,6 +20,7 @@ public class PlateMotionModel extends PlateModel {
 
     private PlateMotionPlate leftPlate;
     private PlateMotionPlate rightPlate;
+    private final TectonicsClock clock;
 
     public static enum PlateType {
         CONTINENTAL( true, false ),
@@ -99,8 +100,9 @@ public class PlateMotionModel extends PlateModel {
     }};
 
     // TODO: change bounds to possibly a Z range, or just bake it in
-    public PlateMotionModel( final Bounds3D bounds ) {
+    public PlateMotionModel( final TectonicsClock clock, final Bounds3D bounds ) {
         super( bounds, new TextureStrategy( 0.000005f ) );
+        this.clock = clock;
 
         resetPlates();
         resetTerrain();
@@ -121,6 +123,8 @@ public class PlateMotionModel extends PlateModel {
     private void initializeBehaviors() {
         switch( motionType.get() ) {
             case TRANSFORM:
+                // limit to 25 million years
+                clock.setTimeLimit( 25 );
                 leftPlate.setBehavior( new TransformBehavior( leftPlate, rightPlate, isTransformMotionCCW() ) );
                 rightPlate.setBehavior( new TransformBehavior( rightPlate, leftPlate, !isTransformMotionCCW() ) );
                 leftPlate.addMiddleSide( rightPlate );
@@ -129,7 +133,8 @@ public class PlateMotionModel extends PlateModel {
             case CONVERGENT:
                 // if both continental, we collide
                 if ( leftPlateType.get() == PlateType.CONTINENTAL && rightPlateType.get() == PlateType.CONTINENTAL ) {
-                    // TODO: set time limit to 35 million years
+                    // limit to 35 million years
+                    clock.setTimeLimit( 35 );
                     leftPlate.setBehavior( new CollidingBehavior( leftPlate, rightPlate ) );
                     rightPlate.setBehavior( new CollidingBehavior( rightPlate, leftPlate ) );
                 }
@@ -155,7 +160,6 @@ public class PlateMotionModel extends PlateModel {
                 }
                 break;
             case DIVERGENT:
-                // TODO: set time limit to 25 million years
                 leftPlate.setBehavior( new RiftingBehavior( leftPlate, rightPlate ) );
                 rightPlate.setBehavior( new RiftingBehavior( rightPlate, leftPlate ) );
                 break;
@@ -209,6 +213,8 @@ public class PlateMotionModel extends PlateModel {
 
     @Override public void resetAll() {
         super.resetAll();
+
+        clock.resetTimeLimit();
 
         leftPlateType.reset();
         rightPlateType.reset();
