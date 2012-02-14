@@ -7,7 +7,9 @@ import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -27,12 +29,20 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class MovableSliceNode extends PNode {
+    private static final Paint SHADOW_PAINT = new Color( 128, 128, 128, 200 );
+
     public MovableSliceNode( final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
 
-        final Shape shape = slice.shape();
+        final Shape origShape = slice.shape();
+        Shape shape = slice.dragging ? AffineTransform.getTranslateInstance( -10, -10 ).createTransformedShape( origShape ) : origShape;
         if ( Double.isNaN( shape.getBounds2D().getX() ) || Double.isNaN( shape.getBounds2D().getY() ) ) {
             //TODO: Find and prevent the NaNs in the first place
             return;
+        }
+
+        //Show a shadow behind the object so it will look like it is a bit out of the screen and hence not part of the fraction
+        if ( slice.dragging ) {
+            addChild( new PhetPPath( origShape, SHADOW_PAINT ) );
         }
         addChild( new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
             addInputEventListener( new CursorHandler() );

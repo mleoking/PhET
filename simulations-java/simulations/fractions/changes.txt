@@ -1,3 +1,4 @@
+Show a shadow behind the object so it will look like it is a bit out of the screen and hence not part of the fraction
 Added a piece icon to the bucket
 Performance improvements: don't construct water glasses unless visible
 # 0.00.34 (61278) Feb 13, 2012
