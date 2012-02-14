@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public class ProteinC extends Protein {
 
-    private static final Color BASE_COLOR = Color.YELLOW;
+    private static final Color BASE_COLOR = new Color( 255, 99, 71 );
     private static final double FULL_GROWN_WIDTH = 450;
 
     public ProteinC() {
