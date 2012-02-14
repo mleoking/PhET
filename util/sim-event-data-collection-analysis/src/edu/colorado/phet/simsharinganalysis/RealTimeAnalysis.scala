@@ -5,7 +5,7 @@ package edu.colorado.phet.simsharinganalysis
 import java.awt.event.{ActionEvent, ActionListener}
 import java.io.File
 import swing._
-import edu.colorado.phet.simsharinganalysis.util.{SimpleTextFrame, MyStringBuffer}
+import edu.colorado.phet.simsharinganalysis.util.SimpleTextFrame
 import javax.swing.{JFrame, Timer}
 
 /**
@@ -21,7 +21,6 @@ class RealTimeAnalysis(reporter: Log => String) extends SimpleSwingApplication {
       val mostRecentFile = logDir.listFiles().toList.sortBy(_.lastModified).last
       println("most recent file: " + mostRecentFile)
 
-      val myBuffer = new MyStringBuffer
       try {
         val log = new Parser().parse(mostRecentFile)
         val text = reporter(log)
@@ -33,8 +32,6 @@ class RealTimeAnalysis(reporter: Log => String) extends SimpleSwingApplication {
       catch {
         case e: Exception => e.printStackTrace()
       }
-
-
     }
   }).start()
 
