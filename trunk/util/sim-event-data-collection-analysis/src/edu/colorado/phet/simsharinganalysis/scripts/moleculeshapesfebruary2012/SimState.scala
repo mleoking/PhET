@@ -8,8 +8,8 @@ object SimState {
   def apply(): SimState = SimState(0, initialTab0, initialTab1)
 }
 
-case class SimState(selectedTab: Int, tab0: Tab0, tab1: Tab1) {
-  def getSelectedTab = if ( selectedTab == 0 ) {
+case class SimState(tab: Int, tab0: Tab0, tab1: Tab1) {
+  def getSelectedTab = if ( tab == 0 ) {
     tab0
   }
   else {
@@ -17,7 +17,7 @@ case class SimState(selectedTab: Int, tab0: Tab0, tab1: Tab1) {
   }
 }
 
-trait AcidBaseSolutionsTab {
+trait MSTab {
 
 }
 
@@ -50,7 +50,7 @@ case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolea
 }
 
 //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
-case class Tab0(solution: String, viewAndTestState: ViewAndTestState) extends AcidBaseSolutionsTab {
+case class Tab0(solution: String, viewAndTestState: ViewAndTestState) extends MSTab {
 
   def next(e: Entry): Tab0 = {
 
@@ -78,7 +78,7 @@ case class Tab0(solution: String, viewAndTestState: ViewAndTestState) extends Ac
   }
 }
 
-case class Tab1(viewAndTestState: ViewAndTestState, acid: Boolean, weak: Boolean) extends AcidBaseSolutionsTab {
+case class Tab1(viewAndTestState: ViewAndTestState, acid: Boolean, weak: Boolean) extends MSTab {
 
   def next(e: Entry): Tab1 = {
 
