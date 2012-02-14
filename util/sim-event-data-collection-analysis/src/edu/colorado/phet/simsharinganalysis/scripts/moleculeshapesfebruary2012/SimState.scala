@@ -11,11 +11,14 @@ object SimState {
 case class SimState(tab: Int, tab0: Tab0, tab1: Tab1, time: Long) {
   def getSelectedTab = if ( tab == 0 ) tab0 else tab1
 
-  def view = if ( tab == 1 ) tab1.view else "other"
+  //  def view = if ( tab == 1 ) tab1.view else "other"
+  def kit = tab1.kit
+
+  def molecule = getSelectedTab.molecule
 }
 
 trait MSTab {
-
+  def molecule: String
 }
 
 //Factored out state that is shared between all tabs, since case classes do not inherit well.
@@ -48,6 +51,7 @@ case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolea
 
 //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
 case class Tab0() extends MSTab {
+  def molecule = "???"
 
   def next(e: Entry): Tab0 = {
 
@@ -76,7 +80,8 @@ case class Tab0() extends MSTab {
   }
 }
 
-case class Tab1(view: String) extends MSTab {
+case class Tab1(view: String, kit: String) extends MSTab {
+  def molecule = "???"
 
   def next(e: Entry): Tab1 = {
 

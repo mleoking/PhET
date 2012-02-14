@@ -14,6 +14,6 @@ object MSRealTimeAnalysis extends App {
 
     ( MSAnalysis toReport log ).toString + "\n" +
     "Tab " + states.last.tab + "\n" +
-    "View " + states.last.view;
+    "Tab 1 View " + states.last.tab1.view;
   }).main(args)
 }

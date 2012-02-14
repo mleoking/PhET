@@ -19,7 +19,6 @@ class RealTimeAnalysis(reporter: Log => String) extends SimpleSwingApplication {
     def actionPerformed(e: ActionEvent) {
       val logDir = new File(System.getProperty("user.home"), "phet-logs")
       val mostRecentFile = logDir.listFiles().toList.sortBy(_.lastModified).last
-      println("most recent file: " + mostRecentFile)
 
       try {
         val log = new Parser().parse(mostRecentFile)
