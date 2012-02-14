@@ -2,7 +2,6 @@
 package edu.colorado.phet.simsharinganalysis.scripts.moleculeshapesfebruary2012
 
 import collection.mutable.ArrayBuffer
-import edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012.SimState
 import edu.colorado.phet.simsharinganalysis.{Entry, Log}
 
 /**

@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharinganalysis
 
-import _root_.scala.math._
 
 import collection.Seq
 import org.jfree.data.xy.{XYSeriesCollection, XYSeries}
@@ -15,6 +14,7 @@ import org.jfree.chart.{JFreeChart, ChartFrame, ChartFactory}
 
 import org.jfree.chart.axis.{CategoryLabelPositions, NumberAxis, CategoryAxis}
 import org.jfree.chart.renderer.category.BarRenderer3D
+import util.MathUtil
 
 /**
  * Utilities for loading files and data processing.
@@ -23,21 +23,6 @@ import org.jfree.chart.renderer.category.BarRenderer3D
  */
 object phet {
 
-  def averageInt(list: Seq[Int]) = average(list.map(_.toDouble))
-
-  def average(list: Seq[Double]) = list.sum / list.length
-
-  def averageLong(list: Seq[Long]) = average(list.map(_.toDouble))
-
-  //See http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance
-  //This is the unbiased estimate of a population variance from a finite sample
-  def variance(x: Seq[Double]) = {
-    val a = x.map(pow(_, 2)).sum
-    val b = pow(x.sum, 2) / x.length
-    ( a - b ) / ( x.length - 1 )
-  }
-
-  def standardDeviation(a: Seq[Double]) = sqrt(variance(a))
 
   def toMap(seq: Pair[String, String]*): Map[String, String] = {
     val map = new HashMap[String, String]
@@ -112,8 +97,8 @@ object phet {
     val d = new DefaultStatisticalCategoryDataset {
       for ( entry <- dataSet ) {
         val values: Seq[Long] = entry._2
-        val average = phet.averageLong(values)
-        val standardDeviation = phet.standardDeviation(values.map(_.toDouble))
+        val average = MathUtil.averageLong(values)
+        val standardDeviation = MathUtil.standardDeviation(values.map(_.toDouble))
         add(average, standardDeviation, entry._1._1, entry._1._2)
       }
     }
@@ -182,13 +167,4 @@ class SeqPairPointWrapper(pairs: Seq[Pair[Long, Int]]) {
 class EntrySeqWrapper(entries: Seq[Entry]) {
   //For a log that has been subsetted from another, get the total amount of time between first and last events
   val elapsedTime = entries.last.time - entries.head.time
-}
-
-//Tests that our standard deviation matches Excel's answer
-object Tester extends App {
-  val x = phet.standardDeviation(( 1L :: 2L :: 3L :: 2L :: 7L :: 2L :: Nil ).map(_.toDouble))
-  println("x = " + x)
-
-  //should be
-  2.136976056643281
 }
