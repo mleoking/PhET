@@ -29,8 +29,6 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class BeersLawModel implements Resettable {
 
     private static final double BEAKER_VOLUME = 1; // L
-    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0, BEAKER_VOLUME, 0.5 ); // L
-    private static final double DEFAULT_SOLUTE_AMOUNT = 0; // moles
     private static final DoubleRange CUVETTE_WIDTH_RANGE = new DoubleRange( 0.5, 2.0, 1.0 ); // cm
     private static final double CUVETTE_HEIGHT = 3; // cm
 
@@ -40,6 +38,7 @@ public class BeersLawModel implements Resettable {
     public final ModelViewTransform mvt;
     public final Cuvette cuvette;
     public final ATDetector detector;
+    public final Ruler ruler;
 
     public BeersLawModel() {
 
@@ -68,12 +67,16 @@ public class BeersLawModel implements Resettable {
         //TODO compute drag bounds to match the stage size
         this.detector = new ATDetector( new ImmutableVector2D( 6, 3.75 ), new PBounds( 0, 0, 7.9, 5.25 ),
                                         new ImmutableVector2D( 5.5, 2.5 ), new PBounds( 0, 0, 7.9, 5.25 ) );
+
+        //TODO compute drag bounds to match the stage size
+        this.ruler = new Ruler( 2, new ImmutableVector2D( 3, 4.9 ), new PBounds( 0, 0, 8, 5.5 ) );
     }
 
     public void reset() {
         solution.reset();
         cuvette.reset();
         detector.reset();
+        ruler.reset();
     }
 
     public ArrayList<BeersLawSolution> getSolutions() {

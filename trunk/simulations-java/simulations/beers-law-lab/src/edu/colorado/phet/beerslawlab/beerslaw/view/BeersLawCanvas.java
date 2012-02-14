@@ -33,7 +33,7 @@ public class BeersLawCanvas extends BLLCanvas {
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
-        PNode rulerNode = new BLLRulerNode( (int)model.getCuvetteWidthRange().getMax(), getStageSize(), model.mvt );
+        PNode rulerNode = new BLLRulerNode( model.ruler, model.mvt );
         PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt );
         PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
         PNode debugLocationNode = new DebugLocationNode( model.mvt );
@@ -44,8 +44,8 @@ public class BeersLawCanvas extends BLLCanvas {
             addChild( lightControlsNode );
             addChild( resetAllButtonNode );
             addChild( cuvetteNode );
-            addChild( rulerNode );
             addChild( detectorNode );
+            addChild( rulerNode );
             addChild( solutionControlsNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( debugLocationNode );
@@ -66,9 +66,6 @@ public class BeersLawCanvas extends BLLCanvas {
              // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
-            // bottom center
-            rulerNode.setOffset( ( getStageSize().getWidth() - rulerNode.getFullBoundsReference().getWidth() ) / 2,
-                                 ( getStageSize().getHeight() - rulerNode.getFullBoundsReference().getHeight() - yMargin ));
             // location debugger left of Reset All button
             debugLocationNode.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - 40,
                                          resetAllButtonNode.getFullBoundsReference().getCenterY() );
