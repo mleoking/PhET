@@ -126,7 +126,7 @@ public class MessengerRna extends MobileBiomolecule {
             public void update() {
                 // This hint always sits at the beginning of the RNA strand.
                 ImmutableVector2D currentMRnaFirstPointPosition = new ImmutableVector2D( firstShapeDefiningPoint.getPosition() );
-                ImmutableVector2D offsetToTranslationChannelEntrance = ( new Ribosome( model ) ).getEntranceOfRnaChannelPos();
+                ImmutableVector2D offsetToTranslationChannelEntrance = Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE;
                 ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
                 mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
             }
