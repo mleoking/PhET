@@ -17,12 +17,12 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
  *
  * @author Sam Reid
  */
-public class HorizontalBarSetFractionNode extends ChosenRepresentationNode {
+public class HorizontalBarSetFractionNode extends RepresentationNode {
     private static final double NUM_BARS_PER_LINE = 3;
     private static final double DISTANCE_BETWEEN_BARS_Y = 20;
 
-    public HorizontalBarSetFractionNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final ObservableProperty<ContainerSet> containerSet ) {
-        super( chosenRepresentation, ChosenRepresentation.HORIZONTAL_BAR );
+    public HorizontalBarSetFractionNode( ObservableProperty<Representation> chosenRepresentation, final ObservableProperty<ContainerSet> containerSet ) {
+        super( chosenRepresentation, Representation.HORIZONTAL_BAR );
 
         new RichSimpleObserver() {
             public void update() {

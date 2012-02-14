@@ -6,11 +6,13 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Piccolo node that is only visible when the indicated representation is selected
+ *
  * @author Sam Reid
  */
-public class ChosenRepresentationNode extends PNode {
-    public ChosenRepresentationNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final ChosenRepresentation value ) {
-        chosenRepresentation.valueEquals( value ).addObserver( new VoidFunction1<Boolean>() {
+public class RepresentationNode extends PNode {
+    public RepresentationNode( ObservableProperty<Representation> chosenRepresentation, final Representation representation ) {
+        chosenRepresentation.valueEquals( representation ).addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
             }

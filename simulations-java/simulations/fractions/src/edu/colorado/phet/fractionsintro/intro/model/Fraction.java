@@ -16,10 +16,6 @@ public class Fraction {
         this.denominator = den;
     }
 
-    public Fraction getReduced() {
-        return reduced( numerator, denominator );
-    }
-
     public static Fraction reduced( int num, int den ) {
         int value = num;
         if ( num > den ) { value = gcd( num, den ); }

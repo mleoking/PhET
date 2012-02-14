@@ -3,11 +3,11 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.matchinggame.view.RepresentationNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.RepNode;
 
 /**
  * @author Sam Reid
  */
 public interface Representation {
-    RepresentationNode createNode( ModelViewTransform transform, Fraction fraction );
+    RepNode createNode( ModelViewTransform transform, Fraction fraction );
 }

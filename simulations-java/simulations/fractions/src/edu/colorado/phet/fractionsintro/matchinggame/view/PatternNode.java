@@ -13,7 +13,7 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 /**
  * @author Sam Reid
  */
-public class PatternNode extends RepresentationNode {
+public class PatternNode extends RepNode {
     public PatternNode( final ModelViewTransform transform, final Pattern representation, Fraction fraction, int numFilled ) {
         super( transform, fraction );
         int count = 0;

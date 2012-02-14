@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.matchinggame.view.FractionRepresentationNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.FractionRepNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.HorizontalBarsNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.PieNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.RepresentationNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.RepNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.VerticalBarsNode;
 
 import static edu.colorado.phet.fractionsintro.common.view.Pattern.NineGrid;
@@ -25,14 +25,14 @@ import static edu.colorado.phet.fractionsintro.common.view.Pattern.SixPlusSigns;
  * @author Sam Reid
  */
 public class MatchingGameModel {
-    public final ArrayList<RepresentationNode> nodes = new ArrayList<RepresentationNode>();
+    public final ArrayList<RepNode> nodes = new ArrayList<RepNode>();
     private final Random random = new Random();
 
     public MatchingGameModel( ModelViewTransform transform ) {
         {
             Fraction ninth = new Fraction( random.nextInt( 8 ) + 1, 9 );
             nodes.add( new PatternNode( transform, new NineGrid(), ninth, ninth.numerator ) {{setOffset( randomLocation() );}} );
-            final RepresentationNode x = getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, ninth );
+            final RepNode x = getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, ninth );
             x.setOffset( randomLocation() );
             nodes.add( x );
         }
@@ -40,7 +40,7 @@ public class MatchingGameModel {
         {
             Fraction sixth = new Fraction( random.nextInt( 5 ) + 1, 6 );
             nodes.add( new PatternNode( transform, new SixPlusSigns(), sixth, sixth.numerator ) {{setOffset( randomLocation() );}} );
-            final RepresentationNode node = getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, sixth );
+            final RepNode node = getGenericRepresentations().get( random.nextInt( getGenericRepresentations().size() ) ).createNode( transform, sixth );
             node.setOffset( randomLocation() );
             nodes.add( node );
         }
@@ -52,7 +52,7 @@ public class MatchingGameModel {
             for ( int k = 0; k < 2; k++ ) {
                 int selected = random.nextInt( remainingRepresentations.size() );
                 Representation selectedRepresentation = remainingRepresentations.get( selected );
-                final RepresentationNode node = selectedRepresentation.createNode( transform, fraction );
+                final RepNode node = selectedRepresentation.createNode( transform, fraction );
                 node.setOffset( randomLocation() );
                 nodes.add( node );
                 remainingRepresentations.remove( selectedRepresentation );
@@ -72,7 +72,7 @@ public class MatchingGameModel {
             //For nine-grid, use that representation and one other at random
             if ( canUseNineGrid ) {
                 add( new Representation() {
-                    public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                    public RepNode createNode( ModelViewTransform transform, Fraction fraction ) {
                         return new PatternNode( transform, new NineGrid(), fraction, fraction.numerator );
                     }
                 } );
@@ -80,7 +80,7 @@ public class MatchingGameModel {
             }
             else if ( canUseSixPlusSigns ) {
                 add( new Representation() {
-                    public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                    public RepNode createNode( ModelViewTransform transform, Fraction fraction ) {
                         return new PatternNode( transform, new SixPlusSigns(), fraction, fraction.numerator );
                     }
                 } );
@@ -101,24 +101,24 @@ public class MatchingGameModel {
 //                }
 //            } );
             add( new Representation() {
-                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
-                    return new FractionRepresentationNode( transform, fraction );
+                public RepNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                    return new FractionRepNode( transform, fraction );
                 }
             } );
             add( new Representation() {
 
                 //TODO: Fix
-                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                public RepNode createNode( ModelViewTransform transform, Fraction fraction ) {
                     return new PieNode( transform, fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[0] ) ) );
                 }
             } );
             add( new Representation() {
-                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                public RepNode createNode( ModelViewTransform transform, Fraction fraction ) {
                     return new HorizontalBarsNode( transform, fraction );
                 }
             } );
             add( new Representation() {
-                public RepresentationNode createNode( ModelViewTransform transform, Fraction fraction ) {
+                public RepNode createNode( ModelViewTransform transform, Fraction fraction ) {
                     return new VerticalBarsNode( transform, fraction );
                 }
             } );

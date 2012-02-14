@@ -17,9 +17,9 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
  *
  * @author Sam Reid
  */
-public class VerticalBarSetFractionNode extends ChosenRepresentationNode {
-    public VerticalBarSetFractionNode( ObservableProperty<ChosenRepresentation> chosenRepresentation, final ObservableProperty<ContainerSet> containerSet ) {
-        super( chosenRepresentation, ChosenRepresentation.VERTICAL_BAR );
+public class VerticalBarSetFractionNode extends RepresentationNode {
+    public VerticalBarSetFractionNode( ObservableProperty<Representation> chosenRepresentation, final ObservableProperty<ContainerSet> containerSet ) {
+        super( chosenRepresentation, Representation.VERTICAL_BAR );
 
         new RichSimpleObserver() {
             public void update() {

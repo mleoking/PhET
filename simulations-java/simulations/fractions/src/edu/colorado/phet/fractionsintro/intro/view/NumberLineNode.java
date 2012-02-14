@@ -39,7 +39,7 @@ public class NumberLineNode extends PNode {
     //When tick marks change, clear everything except the green circle--it has to be persisted across recreations of the number line because the user interacts with it
     private final PhetPPath greenCircle;
 
-    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<ChosenRepresentation> showing ) {
+    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<Representation> showing ) {
         final double scale = 5;
         scale( scale );
         showing.addObserver( new VoidFunction1<Boolean>() {

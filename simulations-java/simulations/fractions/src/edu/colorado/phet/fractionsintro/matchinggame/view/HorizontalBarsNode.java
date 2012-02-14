@@ -12,7 +12,7 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 /**
  * @author Sam Reid
  */
-public class HorizontalBarsNode extends RepresentationNode {
+public class HorizontalBarsNode extends RepNode {
     public HorizontalBarsNode( ModelViewTransform transform, final Fraction fraction ) {
         super( transform, fraction );
 
