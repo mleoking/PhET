@@ -17,7 +17,8 @@ import org.jfree.chart.axis.{CategoryLabelPositions, NumberAxis, CategoryAxis}
 import org.jfree.chart.renderer.category.BarRenderer3D
 
 /**
- * Functions and implicits to make the REPL easier to use
+ * Utilities for loading files and data processing.
+ *
  * @author Sam Reid
  */
 object phet {
@@ -64,7 +65,7 @@ object phet {
   implicit def wrapLogSeq(i: Seq[Log]) = new LogSeqWrapper(i)
 
   //Implicit to add toXYSeries("plot") method
-  implicit def wrapPointPair(i: Seq[Pair[Long, Int]]) = new SeqPairPointWrapper(i)
+  //  implicit def wrapPointPair(i: Seq[Pair[Long, Int]]) = new SeqPairPointWrapper(i)
 
   implicit def wrapEntrySeq(i: Seq[Entry]) = new EntrySeqWrapper(i)
 
@@ -183,6 +184,7 @@ class EntrySeqWrapper(entries: Seq[Entry]) {
   val elapsedTime = entries.last.time - entries.head.time
 }
 
+//Tests that our standard deviation matches Excel's answer
 object Tester extends App {
   val x = phet.standardDeviation(( 1L :: 2L :: 3L :: 2L :: 7L :: 2L :: Nil ).map(_.toDouble))
   println("x = " + x)
