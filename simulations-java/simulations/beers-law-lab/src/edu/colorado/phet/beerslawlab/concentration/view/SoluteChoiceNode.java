@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
+import edu.colorado.phet.beerslawlab.common.BLLResources;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
@@ -30,22 +31,13 @@ class SoluteChoiceNode extends PhetPNode {
     private final SoluteComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
     public SoluteChoiceNode( ArrayList<Solute> solutes, final Property<Solute> currentSolute ) {
-        this( Strings.SOLUTE, solutes, currentSolute,
-              new Function1<Solute, String>() {
-                  public String apply( Solute solute ) {
-                      return solute.name;
-                  }
-              } );
-    }
 
-    public SoluteChoiceNode( String label, ArrayList<Solute> solutes, final Property<Solute> currentSolute, Function1<Solute,String> soluteToString ) {
-
-        PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, label ) ) {{
+        PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, BLLResources.Strings.SOLUTE ) ) {{
             setFont( LABEL_FONT );
         }};
         addChild( labelNode );
 
-        comboBoxNode = new SoluteComboBoxNode( solutes, currentSolute.get(), soluteToString );
+        comboBoxNode = new SoluteComboBoxNode( solutes, currentSolute.get() );
         addChild( comboBoxNode );
 
         // layout: combo box to right of label, centers vertically aligned
@@ -70,7 +62,7 @@ class SoluteChoiceNode extends PhetPNode {
 
     // Combo box, with custom creation of items (nodes)
     private static class SoluteComboBoxNode extends ComboBoxNode<Solute> {
-        public SoluteComboBoxNode( ArrayList<Solute> solutes, Solute selectedSolute, final Function1<Solute,String> soluteToString ) {
+        public SoluteComboBoxNode( ArrayList<Solute> solutes, Solute selectedSolute ) {
             super( UserComponents.soluteComboBox,
                    new Function1<Solute, String>() {
                        public String apply( Solute solute ) {
@@ -80,7 +72,7 @@ class SoluteChoiceNode extends PhetPNode {
                    solutes, selectedSolute,
                    new Function1<Solute, PNode>() {
                        public PNode apply( final Solute solute ) {
-                           return new SoluteItemNode( solute.solutionColor.getMax(), soluteToString.apply( solute ) );
+                           return new SoluteItemNode( solute.getSaturatedColor(), solute.getDisplayName() );
                        }
                    }
             );

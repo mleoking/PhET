@@ -51,6 +51,14 @@ public class Solute {
         this.particlesPerMole = particlesPerMole;
     }
 
+    public String getDisplayName() {
+        return name;
+    }
+
+    public Color getSaturatedColor() {
+        return solutionColor.getMax();
+    }
+
     public static class KoolAid extends Solute {
         public KoolAid() {
             super( Strings.KOOL_AID, BLLSymbols.KOOL_AID, 342.296, 5.96, 5.50,
