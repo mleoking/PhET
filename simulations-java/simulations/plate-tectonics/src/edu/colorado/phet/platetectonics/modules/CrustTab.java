@@ -225,7 +225,7 @@ public class CrustTab extends PlateTectonicsTab {
          * options panel
          *----------------------------------------------------------------------------*/
         optionsPiccoloNode = new OrthoPiccoloNode(
-                new ControlPanelNode( new OptionsPanel( showLabels, new Runnable() {
+                new ControlPanelNode( new OptionsPanel( this, showLabels, new Runnable() {
                     public void run() {
                         resetAll();
                     }

@@ -207,7 +207,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         * options panel
         *----------------------------------------------------------------------------*/
         addGuiNode( new OrthoPiccoloNode(
-                new ControlPanelNode( new OptionsPanel( showLabels, true, showWater, getPlateMotionModel().hasBothPlates, new Runnable() {
+                new ControlPanelNode( new OptionsPanel( PlateMotionTab.this, showLabels, true, showWater, getPlateMotionModel().hasBothPlates, new Runnable() {
                     public void run() {
                         resetAll();
                     }
@@ -440,6 +440,12 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                            -0.0018950196f, 0.9999494f, -0.0098764775f, 0.11180614f,
                                            0.109761804f, 0.010024817f, 0.9939069f, -6.4759464f,
                                            0.0f, 0.0f, 0.0f, 1.0f ).times( regularView );
+    }
+
+    public void rewind() {
+        getPlateMotionModel().rewind();
+        getClock().pause();
+        getClock().resetSimulationTime();
     }
 
     // 3D GLNode responsible for showing the CrustPiece
