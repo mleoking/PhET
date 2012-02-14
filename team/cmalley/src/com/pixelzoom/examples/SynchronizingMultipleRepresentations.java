@@ -72,7 +72,7 @@ public class SynchronizingMultipleRepresentations {
         final Property<CartesianCoordinates> cartesianCoordinates = new Property<CartesianCoordinates>(
                 new CartesianCoordinates( Math.cos( polarCoordinates.get().angle ) * polarCoordinates.get().radius, Math.sin( polarCoordinates.get().angle ) * polarCoordinates.get().radius ) );
 
-        // When polar coordinates changes, update Cartesian coordinates.
+        // When polar coordinates change, update Cartesian coordinates.
         polarCoordinates.addObserver( new VoidFunction1<PolarCoordinates>() {
             public void apply( PolarCoordinates polar ) {
                 CartesianCoordinates newCartesianCoordinates = new CartesianCoordinates( Math.cos( polar.angle ) * polar.radius, Math.sin( polar.angle ) * polar.radius );
@@ -83,7 +83,7 @@ public class SynchronizingMultipleRepresentations {
             }
         } );
 
-        // When Cartesian coordinates changes, update polar coordinates.
+        // When Cartesian coordinates change, update polar coordinates.
         cartesianCoordinates.addObserver( new VoidFunction1<CartesianCoordinates>() {
             public void apply( CartesianCoordinates cartesian ) {
                 PolarCoordinates newPolarCoordinates = new PolarCoordinates( Math.sqrt( cartesian.x * cartesian.x + cartesian.y * cartesian.y ), Math.atan2( cartesian.y, cartesian.x ) );
