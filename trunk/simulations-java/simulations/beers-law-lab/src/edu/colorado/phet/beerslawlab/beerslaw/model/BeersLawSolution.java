@@ -15,9 +15,7 @@ import edu.colorado.phet.beerslawlab.common.model.Solute.NullSolute;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumChromate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumDichromate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumPermanganate;
-import edu.colorado.phet.beerslawlab.common.model.Solvent;
-import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
-import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
+import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -30,10 +28,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeersLawSolution {
+public class BeersLawSolution extends Solution {
 
     public final Property<Double> concentration;
-    public final Solvent solvent;
     public final Solute solute;
     public final CompositeProperty<Color> fluidColor; // derived from solute color and concentration
     public final String concentrationUnits;
@@ -46,14 +43,13 @@ public class BeersLawSolution {
     public BeersLawSolution( final Solute solute, double initialConcentration, String concentrationUnits ) {
 
         this.concentration = new Property<Double>( initialConcentration );
-        this.solvent = new Water();
         this.solute = solute;
         this.concentrationUnits = concentrationUnits;
 
         // derive the solution color
         this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
             public Color apply() {
-                return ConcentrationSolution.createColor( solvent, solute, concentration.get() ); //TODO undesirable dependency on Solution here
+                return createColor( solvent, solute, concentration.get() );
             }
         }, this.concentration );
     }
