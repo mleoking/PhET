@@ -42,6 +42,12 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // transcribing it.
     private final DnaSeparation dnaStrandSeparation;
 
+    // This attachment site is used by the state machine to get the polymerase
+    // something to attach to when transcribing.  This is a bit hokey, but was
+    // a lot easier than trying to move to each and every base pair in the DNA
+    // strand.
+    private final AttachmentSite transcribingAttachmentSite = new AttachmentSite( new Point2D.Double( 0, 0 ), 1 );
+
     /**
      * Constructor.
      *
@@ -57,6 +63,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
         // Create the DNA strand separator.
         dnaStrandSeparation = new DnaSeparation( rnaPolymerase.getPosition().getX(), rnaPolymerase.getShape().getBounds2D().getHeight() * 0.9 );
+
+        // Initialize the attachment site used when transcribing.
+        transcribingAttachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( rnaPolymerase ) );
     }
 
     // Subclass of the "attached" state for polymerase when it is attached to
@@ -193,7 +202,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
-            // Determine the change that is being transcribed.
+            // Determine the gene that is being transcribed.
             Gene geneToTranscribe = biomolecule.getModel().getDnaMolecule().getGeneAtLocation( biomolecule.getPosition() );
             assert geneToTranscribe != null;
 
@@ -212,6 +221,11 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                                                                  biomolecule.getPosition().getY() + RnaPolymerase.MESSENGER_RNA_GENERATION_OFFSET.getY() ) );
             biomolecule.spawnMessengerRna( messengerRna );
 
+            // Free up the initial attachment site by hooking up to a somewhat
+            // fictional attachment site instead.
+            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+            transcribingAttachmentSite.attachedOrAttachingMolecule.set( new Option.Some( asm.biomolecule ) );
+            attachmentSite = transcribingAttachmentSite;
         }
     }
 
