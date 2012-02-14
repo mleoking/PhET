@@ -1,3 +1,4 @@
+2/14/12 add stroke around color chips in combo boxes, sames as for fluids
 2/14/12 add pure water to the list of solutions (even though it's not technically a solution)
 2/14/12 use different solution models for the 2 tabs, needs are very different
 2/11/12 add wire to AT detector, standardize wire colors

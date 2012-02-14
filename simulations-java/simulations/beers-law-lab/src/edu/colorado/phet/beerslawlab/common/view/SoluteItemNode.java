@@ -24,7 +24,8 @@ public class SoluteItemNode extends PComposite {
         // solute color chip
         PPath colorNode = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) );
         colorNode.setPaint( color );
-        colorNode.setStroke( null );
+        colorNode.setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
+        colorNode.setStroke( BLLConstants.FLUID_STROKE );
         addChild( colorNode );
 
         // solute label
