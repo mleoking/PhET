@@ -9,7 +9,7 @@ import java.io.File
  * @author Sam Reid
  */
 
-object MSFeb2012Analysis extends StateMachine[SimState] {
+object MSAnalysis extends StateMachine[SimState] {
   def toReport(log: Log) = {
     val states = getStates(log)
     "num states: " + states.length

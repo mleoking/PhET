@@ -9,5 +9,5 @@ import edu.colorado.phet.simsharinganalysis.RealTimeAnalysis
  * @author Sam Reid
  */
 object MSRealTimeAnalysis extends App {
-  new RealTimeAnalysis(log => ( MSFeb2012Analysis toReport log ).toString).main(args)
+  new RealTimeAnalysis(log => ( MSAnalysis toReport log ).toString).main(args)
 }
