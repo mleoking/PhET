@@ -122,6 +122,7 @@ public class PlateMotionModel extends PlateModel {
                         case CONVERGENT:
                             // if both continental, we collide
                             if ( leftPlateType.get() == PlateType.CONTINENTAL && rightPlateType.get() == PlateType.CONTINENTAL ) {
+                                // TODO: set time limit to 35 million years
                                 leftPlate.setBehavior( new CollidingBehavior( leftPlate, rightPlate ) );
                                 rightPlate.setBehavior( new CollidingBehavior( rightPlate, leftPlate ) );
                             }
@@ -147,6 +148,7 @@ public class PlateMotionModel extends PlateModel {
                             }
                             break;
                         case DIVERGENT:
+                            // TODO: set time limit to 25 million years
                             leftPlate.setBehavior( new RiftingBehavior( leftPlate, rightPlate ) );
                             rightPlate.setBehavior( new RiftingBehavior( rightPlate, leftPlate ) );
                             break;
