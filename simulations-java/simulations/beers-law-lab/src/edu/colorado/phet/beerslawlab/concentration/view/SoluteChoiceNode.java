@@ -26,7 +26,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 class SoluteChoiceNode extends PhetPNode {
 
     private static final PhetFont LABEL_FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
-    private static final PhetFont ITEM_FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
     private final SoluteComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
