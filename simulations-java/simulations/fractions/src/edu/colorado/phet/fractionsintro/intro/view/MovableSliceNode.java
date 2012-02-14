@@ -34,7 +34,7 @@ public class MovableSliceNode extends PNode {
     public MovableSliceNode( final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
 
         final Shape origShape = slice.shape();
-        Shape shape = slice.dragging ? AffineTransform.getTranslateInstance( -10, -10 ).createTransformedShape( origShape ) : origShape;
+        Shape shape = slice.dragging ? AffineTransform.getTranslateInstance( -5, -5 ).createTransformedShape( origShape ) : origShape;
         if ( Double.isNaN( shape.getBounds2D().getX() ) || Double.isNaN( shape.getBounds2D().getY() ) ) {
             //TODO: Find and prevent the NaNs in the first place
             return;
