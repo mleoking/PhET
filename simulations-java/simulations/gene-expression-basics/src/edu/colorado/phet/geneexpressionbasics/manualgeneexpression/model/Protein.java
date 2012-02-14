@@ -11,7 +11,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentState;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.ProteinAttachmentStateMachine;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 
 /**
  * Base class for proteins.  Defines the methods used for growing a protein.
@@ -42,10 +41,8 @@ public abstract class Protein extends MobileBiomolecule {
     // Constructor
     //-------------------------------------------------------------------------
 
-    protected Protein( GeneExpressionModel model, Ribosome parentRibosome, Shape initialShape, Color baseColor ) {
+    protected Protein( GeneExpressionModel model, Shape initialShape, Color baseColor ) {
         super( model, initialShape, baseColor );
-        // TODO: Remove this when state behavior is implemented for proteins.
-        setMotionStrategy( new StillnessMotionStrategy() );
     }
 
     //-------------------------------------------------------------------------
