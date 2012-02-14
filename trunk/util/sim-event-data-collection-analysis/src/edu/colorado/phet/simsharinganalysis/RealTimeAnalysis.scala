@@ -1,16 +1,19 @@
+package edu.colorado.phet.simsharinganalysis
+
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012
 
 import java.awt.event.{ActionEvent, ActionListener}
 import java.io.File
-import edu.colorado.phet.simsharinganalysis.Parser
 import swing._
 import edu.colorado.phet.simsharinganalysis.util.{SimpleTextFrame, MyStringBuffer}
 import javax.swing.{JFrame, Timer}
 
-//Utility to show logs from a file as it is being generated.
-//This is to help in testing that parsing is working properly.
-object RealTimeAnalysis extends SimpleSwingApplication {
+/**
+ * Utility to show logs from a file as it is being generated.
+ * This is to help in testing that parsing is working properly.
+ * @author Sam Reid
+ */
+class RealTimeAnalysis(reporter: Log => String) extends SimpleSwingApplication {
 
   new Timer(1000, new ActionListener {
     def actionPerformed(e: ActionEvent) {
@@ -20,16 +23,18 @@ object RealTimeAnalysis extends SimpleSwingApplication {
 
       val myBuffer = new MyStringBuffer
       try {
-        AcidBaseSolutionSpring2012AnalysisReport.writeSingleLogReport(new Parser().parse(mostRecentFile), myBuffer.println)
+        val log = new Parser().parse(mostRecentFile)
+        val text = reporter(log)
+        //Only set the new text on the text area if different, because it scrolls the scroll pane back to default
+        if ( top.text != text ) {
+          top.text = text
+        }
       }
       catch {
         case e: Exception => e.printStackTrace()
       }
 
-      //Only set the new text on the text area if different, because it scrolls the scroll pane back to default
-      if ( top.text != myBuffer.toString ) {
-        top.text = myBuffer.toString
-      }
+
     }
   }).start()
 
