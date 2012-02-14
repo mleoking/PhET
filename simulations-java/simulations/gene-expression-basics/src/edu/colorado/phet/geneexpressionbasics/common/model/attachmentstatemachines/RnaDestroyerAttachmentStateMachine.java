@@ -89,6 +89,8 @@ public class RnaDestroyerAttachmentStateMachine extends GenericAttachmentStateMa
         @Override public void entered( AttachmentStateMachine asm ) {
             mRnaDestroyer.initiateMessengerRnaDestruction();
             mRnaDestroyer.setMotionStrategy( new DestroyerTrackingRnaMotionStrategy( mRnaDestroyer ) );
+            // Turn off user interaction while mRNA is being destroyed.
+            asm.biomolecule.movableByUser.set( false );
         }
     }
 }
