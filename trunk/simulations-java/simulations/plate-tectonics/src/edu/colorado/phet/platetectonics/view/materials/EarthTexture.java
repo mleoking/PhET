@@ -31,9 +31,9 @@ public class EarthTexture {
             BufferedImage image = ImageIO.read( RESOURCES.getResourceAsStream( "images/textures/noise.png" ) );
             byte data[] = (byte[]) image.getRaster().getDataElements( 0, 0, image.getWidth(), image.getHeight(), null );
             for ( int i = 0; i < data.length; i += 4 ) {
-                data[i] = (byte) ( data[i] & 0x3F | 0xC0 );
-                data[i + 1] = (byte) ( data[i + 1] & 0x3F | 0xC0 );
-                data[i + 2] = (byte) ( data[i + 2] & 0x3F | 0xC0 );
+                data[i] = (byte) ( data[i] & 0x7F | 0x80 );
+                data[i + 1] = (byte) ( data[i + 1] & 0x7F | 0x80 );
+                data[i + 2] = (byte) ( data[i + 2] & 0x7F | 0x80 );
                 data[i + 3] = (byte) ( 0xFF );
             }
             buffer.clear();
