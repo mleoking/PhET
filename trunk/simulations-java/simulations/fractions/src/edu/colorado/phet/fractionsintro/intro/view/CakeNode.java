@@ -95,7 +95,7 @@ public class CakeNode extends PNode {
                 new Point2D.Double( 85.11669128508127, 150.05760709010337 ),
                 new Point2D.Double( 149.4002954209749, 129.96898079763662 ) } );
     }};
-    private boolean debugPieceLocations = false;
+    private static final boolean debugPieceLocations = false;
 
     public CakeNode( final int denominator, final int[] pieces, final SettableProperty<ContainerSet> containerSetProperty, final int container, final int[] sliceOrder ) {
         Rectangle2D r = new Rectangle2D.Double( cakeFrame[0].getX(), cakeFrame[0].getY(), 0, 0 );
