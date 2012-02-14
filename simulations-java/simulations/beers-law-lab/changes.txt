@@ -1,3 +1,5 @@
+2/14/12 change units on concentration control to match appropriate units for specific solution
+2/14/12 hide concentration control for pure water
 2/14/12 base class for solutions
 2/14/12 add stroke around color chips in combo boxes, sames as for fluids
 2/14/12 add pure water to the list of solutions (even though it's not technically a solution)
