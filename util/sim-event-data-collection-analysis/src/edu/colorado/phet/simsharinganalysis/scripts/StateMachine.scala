@@ -9,7 +9,7 @@ import collection.mutable.ArrayBuffer
  * @author Sam Reid
  */
 trait StateMachine[T] {
-  def initialState: T
+  def initialState(log: Log): T
 
   def nextState(currentState: T, entry: Entry): T
 
@@ -17,7 +17,7 @@ trait StateMachine[T] {
   //The list will contain one state per event, indicating the state of the sim after the event.
   def getStates(log: Log) = {
     val states = new ArrayBuffer[T]
-    var state = initialState
+    var state = initialState(log)
     for ( e <- log.entries ) {
       state = nextState(state, e)
       states += state
