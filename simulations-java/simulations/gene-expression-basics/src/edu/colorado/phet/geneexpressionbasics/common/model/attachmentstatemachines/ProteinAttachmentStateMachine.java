@@ -31,6 +31,8 @@ public class ProteinAttachmentStateMachine extends GenericAttachmentStateMachine
 
         @Override public void entered( AttachmentStateMachine asm ) {
             biomolecule.setMotionStrategy( new StillnessMotionStrategy() );
+            // Prevent user interaction while the protein is growing.
+            asm.biomolecule.movableByUser.set( false );
         }
     }
 }
