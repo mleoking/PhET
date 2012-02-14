@@ -8,7 +8,6 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
 
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -73,11 +72,11 @@ public class MobileBiomoleculeNode extends PNode {
             addInputEventListener( new BiomoleculeDragHandler( mobileBiomolecule, this, mvt ) );
 
             // Interactivity control.
-            mobileBiomolecule.movableByUser.addObserver( new ChangeObserver<Boolean>() {
-                public void update( Boolean isMovable, Boolean wasMovable ) {
-                    setPickable( isMovable );
-                    setChildrenPickable( isMovable );
-                    System.out.println( "isMovable = " + isMovable );
+            mobileBiomolecule.movableByUser.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean movableByUser ) {
+                    setPickable( movableByUser );
+                    setChildrenPickable( movableByUser );
+                    System.out.println( "movableByUser = " + movableByUser );
                 }
             } );
         }} );
