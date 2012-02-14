@@ -115,4 +115,12 @@ public class Solute {
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
     }
+
+    // A null solute, to handle the case of pure solvent.
+    public static class NullSolute extends Solute {
+        private static final Color NO_COLOR = new Color( 0, 0, 0, 0 ); // transparent
+        public NullSolute() {
+            super( "", "", 0, 0, 0, new ColorRange( NO_COLOR, NO_COLOR ), 0, 0 );
+        }
+    }
 }
