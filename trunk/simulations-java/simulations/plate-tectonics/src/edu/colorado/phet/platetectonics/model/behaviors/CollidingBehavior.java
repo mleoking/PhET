@@ -30,7 +30,8 @@ public class CollidingBehavior extends PlateBehavior {
         }
         float sign = plate.isLeftPlate() ? 1 : -1;
         final List<Sample> topSamples = getPlate().getCrust().getTopBoundary().samples;
-        final List<Sample> bottomSamples = getPlate().getLithosphere().getBottomBoundary().samples;
+        final Boundary lithosphereBottomBoundary = getPlate().getLithosphere().getBottomBoundary();
+        final List<Sample> bottomSamples = lithosphereBottomBoundary.samples;
         float[] oldXes = new float[topSamples.size()];
         float[] newXes = new float[topSamples.size()];
         float[] oldTopYs = new float[topSamples.size()];
@@ -74,6 +75,45 @@ public class CollidingBehavior extends PlateBehavior {
 
         // we want to slide along the mantle instead!
 //        getPlate().getMantle().getTopBoundary().borrowPosition( getPlate().getLithosphere().getBottomBoundary() );
+
+        // sew aesthenosphere to lithosphere bottom
+
+        float padding = 750;
+        int xIndex = 0;
+        Sample leftSample = lithosphereBottomBoundary.getFirstSample();
+        for ( Sample mantleSample : getPlate().getMantle().getTopBoundary().samples ) {
+            // too far to the left
+            if ( leftSample.getPosition().x > mantleSample.getPosition().x ) {
+                continue;
+            }
+
+            int rightIndex = xIndex + 1;
+
+            // too far to the right
+            if ( rightIndex > lithosphereBottomBoundary.samples.size() - 1 ) {
+                break;
+            }
+            Sample rightSample = lithosphereBottomBoundary.samples.get( rightIndex );
+            while ( rightSample.getPosition().x < mantleSample.getPosition().x && rightIndex + 1 < lithosphereBottomBoundary.samples.size() ) {
+                rightIndex++;
+                rightSample = lithosphereBottomBoundary.samples.get( rightIndex );
+            }
+
+            // couldn't go far enough
+            if ( rightSample.getPosition().x < mantleSample.getPosition().x ) {
+                break;
+            }
+
+            // how leftSample and rightSample surround our x
+            assert leftSample.getPosition().x <= mantleSample.getPosition().x;
+            assert rightSample.getPosition().x >= mantleSample.getPosition().x;
+
+            // interpolate between their y values
+            float ratio = ( mantleSample.getPosition().x - leftSample.getPosition().x ) / ( rightSample.getPosition().x - leftSample.getPosition().x );
+            mantleSample.setPosition( new ImmutableVector3F( mantleSample.getPosition().x,
+                                                             padding + leftSample.getPosition().y * ( 1 - ratio ) + rightSample.getPosition().y * ratio,
+                                                             mantleSample.getPosition().z ) );
+        }
     }
 
     private float computeNewX( float millionsOfYears, float sign, float currentX ) {
