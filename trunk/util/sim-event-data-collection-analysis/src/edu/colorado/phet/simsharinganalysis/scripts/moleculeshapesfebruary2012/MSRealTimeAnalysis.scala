@@ -9,5 +9,11 @@ import edu.colorado.phet.simsharinganalysis.RealTimeAnalysis
  * @author Sam Reid
  */
 object MSRealTimeAnalysis extends App {
-  new RealTimeAnalysis(log => ( MSAnalysis toReport log ).toString).main(args)
+  new RealTimeAnalysis(log => {
+    val states = MSAnalysis getStates log
+
+    ( MSAnalysis toReport log ).toString + "\n" +
+    "Tab " + states.last.tab + "\n" +
+    "View " + states.last.view;
+  }).main(args)
 }

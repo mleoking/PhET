@@ -9,12 +9,9 @@ object SimState {
 }
 
 case class SimState(tab: Int, tab0: Tab0, tab1: Tab1, time: Long) {
-  def getSelectedTab = if ( tab == 0 ) {
-    tab0
-  }
-  else {
-    tab1
-  }
+  def getSelectedTab = if ( tab == 0 ) tab0 else tab1
+
+  def view = if ( tab == 1 ) tab1.view else "other"
 }
 
 trait MSTab {
@@ -50,7 +47,7 @@ case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolea
 }
 
 //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
-case class Tab0(solution: String, viewAndTestState: ViewAndTestState) extends MSTab {
+case class Tab0() extends MSTab {
 
   def next(e: Entry): Tab0 = {
 
@@ -74,11 +71,12 @@ case class Tab0(solution: String, viewAndTestState: ViewAndTestState) extends MS
 
     }
 
-    updated.copy(viewAndTestState = viewAndTestState.next(e))
+    //    updated.copy(viewAndTestState = viewAndTestState.next(e))
+    updated
   }
 }
 
-case class Tab1(viewAndTestState: ViewAndTestState, acid: Boolean, weak: Boolean) extends MSTab {
+case class Tab1(view: String) extends MSTab {
 
   def next(e: Entry): Tab1 = {
 
@@ -88,10 +86,8 @@ case class Tab1(viewAndTestState: ViewAndTestState, acid: Boolean, weak: Boolean
       case x: Entry if x.enabled == false => this
 
       //Watch which solution the user selects
-      case Entry(_, "user", "acidRadioButton", _, "pressed", _) => copy(acid = true)
-      case Entry(_, "user", "baseRadioButton", _, "pressed", _) => copy(acid = false)
-      case Entry(_, "user", "weakRadioButton", _, "pressed", _) => copy(weak = true)
-      case Entry(_, "user", "strongRadioButton", _, "pressed", _) => copy(weak = false)
+      case Entry(_, "user", "modelViewCheckBox", _, "pressed", _) => copy(view = "model")
+      case Entry(_, "user", "realViewCheckBox", _, "pressed", _) => copy(view = "real")
 
       //Handle reset all presses
       case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab1
@@ -99,9 +95,7 @@ case class Tab1(viewAndTestState: ViewAndTestState, acid: Boolean, weak: Boolean
       //Nothing happened to change the state
       case _ => this
     }
-
-    updated.copy(viewAndTestState = viewAndTestState.next(e))
+    updated
+    //    updated.copy(viewAndTestState = viewAndTestState.next(e))
   }
-
-
 }
