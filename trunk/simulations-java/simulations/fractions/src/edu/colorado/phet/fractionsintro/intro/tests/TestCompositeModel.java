@@ -13,17 +13,24 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class TestCompositeModel {
     public static void main( String[] args ) {
+        //Radius/angle representation
         final Property<Double> radius = new Property<Double>( 1.0 );
         final Property<Double> angle = new Property<Double>( Math.toRadians( 45 ) );
 
+        //Cartesian representation
         final Property<Double> x = new Property<Double>( Math.cos( angle.get() ) * radius.get() );
         final Property<Double> y = new Property<Double>( Math.sin( angle.get() ) * radius.get() );
 
         //When radius or angle changes, update x and y
         final SimpleObserver updateXY = new SimpleObserver() {
             public void update() {
-                x.set( Math.cos( angle.get() ) * radius.get() );
-                y.set( Math.sin( angle.get() ) * radius.get() );
+                final double newX = Math.cos( angle.get() ) * radius.get();
+                System.out.println( "newX = " + newX );
+                x.set( newX );
+
+                final double newY = Math.sin( angle.get() ) * radius.get();
+                System.out.println( "newY = " + newY );
+                y.set( newY );
             }
         };
         radius.addObserver( updateXY );
@@ -32,9 +39,12 @@ public class TestCompositeModel {
         //When x or y changes, update the radius and angle
         SimpleObserver updateRA = new SimpleObserver() {
             public void update() {
-                radius.set( Math.sqrt( x.get() * x.get() + y.get() * y.get() ) );
-                angle.set( Math.atan2( y.get(), x.get() ) );
-                System.out.println( "radius = " + radius );
+                final double newRadius = Math.sqrt( x.get() * x.get() + y.get() * y.get() );
+                System.out.println( "newRadius = " + newRadius );
+                radius.set( newRadius );
+                final double newAngle = Math.atan2( y.get(), x.get() );
+                System.out.println( "newAngle = " + newAngle );
+                angle.set( newAngle );
             }
         };
         x.addObserver( updateRA );
