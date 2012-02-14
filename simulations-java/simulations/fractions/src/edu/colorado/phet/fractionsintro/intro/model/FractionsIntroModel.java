@@ -54,7 +54,9 @@ public class FractionsIntroModel {
             },
                                                 new Function2<IntroState, Representation, IntroState>() {
                                                     public IntroState apply( IntroState s, Representation r ) {
-                                                        return s.representation( r );
+
+                                                        //Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
+                                                        return s.representation( r ).pieSet( fromContainerSetState( s.containerSet ) );
                                                     }
                                                 }
             );
