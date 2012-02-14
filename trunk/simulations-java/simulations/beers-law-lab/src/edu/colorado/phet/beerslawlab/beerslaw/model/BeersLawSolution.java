@@ -63,7 +63,7 @@ public class BeersLawSolution {
     }
 
     public Color getSaturatedColor() {
-        return solute.solutionColor.getMax();
+        return solute.getSaturatedColor();
     }
 
     public static class KoolAidSolution extends BeersLawSolution {

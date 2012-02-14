@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
+import edu.colorado.phet.beerslawlab.common.BLLResources;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.SoluteItemNode;
@@ -30,22 +31,13 @@ public class SolutionChoiceNode extends PhetPNode {
     private final SolutionComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
     public SolutionChoiceNode( ArrayList<BeersLawSolution> solutions, final Property<BeersLawSolution> currentSolution ) {
-        this( Strings.SOLUTION, solutions, currentSolution,
-              new Function1<BeersLawSolution, String>() {
-                  public String apply( BeersLawSolution solution ) {
-                      return solution.solute.name;
-                  }
-              } );
-    }
 
-    public SolutionChoiceNode( String label, ArrayList<BeersLawSolution> solutions, final Property<BeersLawSolution> currentSolution, Function1<BeersLawSolution,String> solutionToString ) {
-
-        PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, label ) ) {{
+        PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.SOLUTION ) ) {{
             setFont( LABEL_FONT );
         }};
         addChild( labelNode );
 
-        comboBoxNode = new SolutionComboBoxNode( solutions, currentSolution.get(), solutionToString );
+        comboBoxNode = new SolutionComboBoxNode( solutions, currentSolution.get() );
         addChild( comboBoxNode );
 
         // layout: combo box to right of label, centers vertically aligned
@@ -70,7 +62,7 @@ public class SolutionChoiceNode extends PhetPNode {
 
     // Combo box, with custom creation of items (nodes)
     private static class SolutionComboBoxNode extends ComboBoxNode<BeersLawSolution> {
-        public SolutionComboBoxNode( ArrayList<BeersLawSolution> solutions, BeersLawSolution selectedSolution, final Function1<BeersLawSolution,String> solutionToString ) {
+        public SolutionComboBoxNode( ArrayList<BeersLawSolution> solutions, BeersLawSolution selectedSolution ) {
             super( UserComponents.solutionComboBox,
                    new Function1<BeersLawSolution, String>() {
                        public String apply( BeersLawSolution solution ) {
