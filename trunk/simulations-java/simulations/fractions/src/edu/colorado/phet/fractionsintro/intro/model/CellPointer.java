@@ -12,11 +12,6 @@ import lombok.Data;
     public final int container;
     public final int cell;
 
-    public CellPointer( int container, int cell ) {
-        this.container = container;
-        this.cell = cell;
-    }
-
     //Using the denominator for this CellPointer, find a distance metric to the other cell pointer
     public double distance( CellPointer o1 ) {
 

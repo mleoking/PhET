@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel;
 
-import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
+import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -12,5 +12,5 @@ import edu.umd.cs.piccolo.PNode;
 public interface RepresentationIcon {
     PNode getNode();
 
-    ChosenRepresentation getRepresentation();
+    Representation getRepresentation();
 }

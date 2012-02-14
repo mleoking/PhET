@@ -12,7 +12,7 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
  *
  * @author Sam Reid
  */
-public class PieNode extends RepresentationNode {
+public class PieNode extends RepNode {
     public PieNode( ModelViewTransform transform, final Fraction fraction, Property<ContainerSet> containerSet ) {
         super( transform, fraction );
 

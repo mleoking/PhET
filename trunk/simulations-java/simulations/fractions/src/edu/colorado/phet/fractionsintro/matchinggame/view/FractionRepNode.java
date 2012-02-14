@@ -16,8 +16,8 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public class FractionRepresentationNode extends RepresentationNode {
-    public FractionRepresentationNode( ModelViewTransform transform, final Fraction fractionRepresentation ) {
+public class FractionRepNode extends RepNode {
+    public FractionRepNode( ModelViewTransform transform, final Fraction fractionRepresentation ) {
         super( transform, fractionRepresentation );
 
         addChild( new ZeroOffsetNode( new PNode() {{

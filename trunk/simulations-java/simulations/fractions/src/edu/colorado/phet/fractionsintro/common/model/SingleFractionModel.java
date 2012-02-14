@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
+import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
  * @author Sam Reid
@@ -71,7 +71,7 @@ public class SingleFractionModel {
         } );
     }};
 
-    public final Property<ChosenRepresentation> representation = new Property<ChosenRepresentation>( ChosenRepresentation.PIE );
+    public final Property<Representation> representation = new Property<Representation>( Representation.PIE );
 
     public void resetAll() {
         numerator.reset();

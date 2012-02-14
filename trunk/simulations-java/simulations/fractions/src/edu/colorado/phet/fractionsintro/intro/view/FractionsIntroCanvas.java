@@ -30,7 +30,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         addChild( representationArea );
 
         //Show the pie set node when pies are selected
-        addChild( new ChosenRepresentationNode( model.representation, ChosenRepresentation.PIE ) {{
+        addChild( new RepresentationNode( model.representation, Representation.PIE ) {{
             addChild( new PieSetNode( model.pieSet, rootNode ) );
         }} );
 

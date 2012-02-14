@@ -6,18 +6,18 @@ import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
+import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
  * @author Sam Reid
  */
 public class PieIcon extends ShapeIcon {
-    public PieIcon( SettableProperty<ChosenRepresentation> chosenRepresentation ) {
+    public PieIcon( SettableProperty<Representation> chosenRepresentation ) {
         super( new ArrayList<Shape>(),
                new ArrayList<Shape>() {{
 //                   add( new Arc2D.Double( 0, 0, DIM * 2, DIM * 2, 0, 360, Arc2D.PIE ) );
                    add( new Ellipse2D.Double( 0, 0, DIM * 2, DIM * 2 ) );
-               }}, chosenRepresentation, ChosenRepresentation.PIE
+               }}, chosenRepresentation, Representation.PIE
         );
     }
 }

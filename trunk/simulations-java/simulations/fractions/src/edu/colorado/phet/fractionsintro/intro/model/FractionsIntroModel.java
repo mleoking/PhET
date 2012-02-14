@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet;
-import edu.colorado.phet.fractionsintro.intro.view.ChosenRepresentation;
+import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.fractionsintro.intro.model.slicemodel.PieSet.fromContainerSetState;
 
@@ -36,13 +36,13 @@ public class FractionsIntroModel {
     public final Clock clock = new ConstantDtClock();
 
     //Observable parts of the model
-    public final SettableProperty<ChosenRepresentation> representation =
-            new ClientProperty<ChosenRepresentation>( state, new Function1<FractionsIntroModelState, ChosenRepresentation>() {
-                public ChosenRepresentation apply( FractionsIntroModelState s ) {
+    public final SettableProperty<Representation> representation =
+            new ClientProperty<Representation>( state, new Function1<FractionsIntroModelState, Representation>() {
+                public Representation apply( FractionsIntroModelState s ) {
                     return s.representation;
                 }
-            }, new Function2<FractionsIntroModelState, ChosenRepresentation, FractionsIntroModelState>() {
-                public FractionsIntroModelState apply( FractionsIntroModelState s, ChosenRepresentation representation ) {
+            }, new Function2<FractionsIntroModelState, Representation, FractionsIntroModelState>() {
+                public FractionsIntroModelState apply( FractionsIntroModelState s, Representation representation ) {
                     return s.representation( representation );
                 }
             }

@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 /**
  * @author Sam Reid
  */
-public class RepresentationNode extends PNode {
+public class RepNode extends PNode {
 
     public final Fraction fraction;
     public final Property<ImmutableVector2D> velocity = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
@@ -37,7 +37,7 @@ public class RepresentationNode extends PNode {
     public final BooleanProperty scored = new BooleanProperty( false );
     private long timeArrivedOnPlatform = -1;
 
-    public RepresentationNode( final ModelViewTransform transform, Fraction fraction ) {
+    public RepNode( final ModelViewTransform transform, Fraction fraction ) {
         this.fraction = fraction;
 //        representation.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
 //            public void apply( ImmutableVector2D immutableVector2D ) {

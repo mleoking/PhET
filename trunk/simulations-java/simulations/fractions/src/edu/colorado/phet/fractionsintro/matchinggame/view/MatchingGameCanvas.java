@@ -39,7 +39,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     public static final Random random = new Random();
 
     public MatchingGameCanvas( MatchingGameModel model ) {
-        for ( RepresentationNode representation : model.nodes ) {
+        for ( RepNode representation : model.nodes ) {
             representationLayer.addChild( representation );
         }
 
@@ -62,7 +62,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
     private void stepInTime( double dt ) {
         for ( Object fractionRepresentation : representationLayer.getChildrenReference() ) {
-            RepresentationNode node = (RepresentationNode) fractionRepresentation;
+            RepNode node = (RepNode) fractionRepresentation;
 
             if ( node.dropped.get() && !node.dragging.get() && isOverBalancePlatform( node ) && !node.scored.get() ) {
                 ImmutableVector2D acceleration = node.force.times( 1.0 / node.mass );
@@ -103,8 +103,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         }
 
         if ( numFramesBalanced > 30 ) {
-            final RepresentationNode left = getNode( balanceNode.leftPlatform );
-            final RepresentationNode right = getNode( balanceNode.rightPlatform );
+            final RepNode left = getNode( balanceNode.leftPlatform );
+            final RepNode right = getNode( balanceNode.rightPlatform );
             left.solved();
             right.solved();
             double scaleFactor = 0.5;
@@ -145,8 +145,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
     //Prevent weights from sitting on the same platform
     private void moveMultipleWeightsOff( PImage platform, double dx ) {
-        List<RepresentationNode> sorted = getNodesOnPlatform( platform ).sort( ord( curry( new F2<RepresentationNode, RepresentationNode, Ordering>() {
-            public Ordering f( final RepresentationNode u1, final RepresentationNode u2 ) {
+        List<RepNode> sorted = getNodesOnPlatform( platform ).sort( ord( curry( new F2<RepNode, RepNode, Ordering>() {
+            public Ordering f( final RepNode u1, final RepNode u2 ) {
                 return Ord.<Comparable>comparableOrd().compare( u1.getTimeArrivedOnPlatform(), u2.getTimeArrivedOnPlatform() );
             }
         } ) ) );
@@ -158,10 +158,10 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         }
     }
 
-    private List<RepresentationNode> getNodesOnPlatform( final PImage platform ) {
-        return List.iterableList( new ArrayList<RepresentationNode>() {{
+    private List<RepNode> getNodesOnPlatform( final PImage platform ) {
+        return List.iterableList( new ArrayList<RepNode>() {{
             for ( Object fractionRepresentation : representationLayer.getChildrenReference() ) {
-                RepresentationNode node = (RepresentationNode) fractionRepresentation;
+                RepNode node = (RepNode) fractionRepresentation;
                 if ( node.getOverPlatform() == platform ) {
                     add( node );
                 }
@@ -169,7 +169,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         }} );
     }
 
-    private void updateOnPlatform( RepresentationNode node, double insetY ) {
+    private void updateOnPlatform( RepNode node, double insetY ) {
         if ( node.getOverPlatform() != null ) {
             double deltaY = node.getOverPlatform().getGlobalFullBounds().getMinY() - node.getGlobalFullBounds().getMaxY() - insetY;
             node.setOffset( new ImmutableVector2D( node.getOffset().getX(), node.getOffset().getY() + deltaY ) );
@@ -177,16 +177,16 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     private double getWeight( PImage platform ) {
-        return getNodesOnPlatform( platform ).foldLeft( new F2<Double, RepresentationNode, Double>() {
-            @Override public Double f( Double sum, RepresentationNode node ) {
+        return getNodesOnPlatform( platform ).foldLeft( new F2<Double, RepNode, Double>() {
+            @Override public Double f( Double sum, RepNode node ) {
                 return sum + node.getWeight();
             }
         }, 0.0 );
     }
 
-    private RepresentationNode getNode( PImage platform ) {
+    private RepNode getNode( PImage platform ) {
         for ( Object fractionRepresentation : representationLayer.getChildrenReference() ) {
-            RepresentationNode node = (RepresentationNode) fractionRepresentation;
+            RepNode node = (RepNode) fractionRepresentation;
             if ( node.getOverPlatform() == platform ) {
                 return node;
             }
@@ -194,11 +194,11 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         return null;
     }
 
-    private boolean isOverBalancePlatform( RepresentationNode node ) {
+    private boolean isOverBalancePlatform( RepNode node ) {
         return isOverPlatform( node, balanceNode.leftPlatform ) || isOverPlatform( node, balanceNode.rightPlatform );
     }
 
-    private boolean isOverPlatform( RepresentationNode node, PImage platform ) {
+    private boolean isOverPlatform( RepNode node, PImage platform ) {
         double nodeCenter = node.getGlobalFullBounds().getCenterX();
         return platform.getGlobalFullBounds().getMinX() < nodeCenter && platform.getGlobalFullBounds().getMaxX() > nodeCenter;
     }
