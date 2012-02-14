@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.concentration.model.Solution;
+import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.concentration.model.ShakerParticles;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
  */
 class RemoveSoluteButtonNode extends TextButtonNode {
 
-    public RemoveSoluteButtonNode( final Solution solution, final ShakerParticles shakerParticles ) {
+    public RemoveSoluteButtonNode( final ConcentrationSolution solution, final ShakerParticles shakerParticles ) {
         super( Strings.REMOVE_SOLUTE, new PhetFont( BLLConstants.CONTROL_FONT_SIZE ), Color.ORANGE );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

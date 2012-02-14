@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.BLSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Cuvette;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
@@ -38,7 +38,7 @@ class CuvetteNode extends PNode {
     private static final double ARROW_WIDTH = 80;
     private static final Color ARROW_FILL = Color.ORANGE;
 
-    public CuvetteNode( final Cuvette cuvette, final Property<BLSolution> solution, final ModelViewTransform mvt ) {
+    public CuvetteNode( final Cuvette cuvette, final Property<BeersLawSolution> solution, final ModelViewTransform mvt ) {
 
         // nodes
         final PPath cuvetteNode = new PPath() {{
@@ -78,8 +78,8 @@ class CuvetteNode extends PNode {
         };
 
         // when the solution changes, rewire the color observer
-        solution.addObserver( new ChangeObserver<BLSolution>() {
-            public void update( BLSolution newValue, BLSolution oldValue ) {
+        solution.addObserver( new ChangeObserver<BeersLawSolution>() {
+            public void update( BeersLawSolution newValue, BeersLawSolution oldValue ) {
                 if ( oldValue != null ) {
                     oldValue.fluidColor.removeObserver( colorObserver );
                 }

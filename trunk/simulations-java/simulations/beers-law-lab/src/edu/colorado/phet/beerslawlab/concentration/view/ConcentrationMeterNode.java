@@ -14,7 +14,7 @@ import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.concentration.model.Solution;
+import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.common.view.TiledBackgroundNode;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationMeter;
@@ -57,12 +57,12 @@ class ConcentrationMeterNode extends PhetPNode {
     public static final String VALUE_PATTERN = "0.000";
 
     private final ConcentrationMeter meter;
-    private final Solution solution;
+    private final ConcentrationSolution solution;
     private final Dropper dropper;
 
     private final ProbeNode probeNode;
 
-    public ConcentrationMeterNode( ConcentrationMeter meter, Solution solution, Dropper dropper,
+    public ConcentrationMeterNode( ConcentrationMeter meter, ConcentrationSolution solution, Dropper dropper,
                                    PNode solutionNode, PNode stockSolutionNode, PNode solventFluidNode, PNode drainFluidNode ) {
 
         this.meter = meter;

@@ -33,13 +33,13 @@ public class ShakerParticles {
     }
 
     private final Shaker shaker;
-    private final Solution solution;
+    private final ConcentrationSolution solution;
     private final Beaker beaker;
     private final ArrayList<ParticlesChangeListener> listeners;
     private final ArrayList<ShakerParticle> particles;
     private final Random randomLocation = new Random();
 
-    public ShakerParticles( Shaker shaker, Solution solution, Beaker beaker ) {
+    public ShakerParticles( Shaker shaker, ConcentrationSolution solution, Beaker beaker ) {
 
         this.shaker = shaker;
         this.solution = solution;
