@@ -5,10 +5,10 @@ import edu.colorado.phet.simsharinganalysis.Entry
 import Globals._
 
 object SimState {
-  def apply(): SimState = SimState(0, initialTab0, initialTab1)
+  def apply(time: Long): SimState = SimState(0, initialTab0, initialTab1, time)
 }
 
-case class SimState(tab: Int, tab0: Tab0, tab1: Tab1) {
+case class SimState(tab: Int, tab0: Tab0, tab1: Tab1, time: Long) {
   def getSelectedTab = if ( tab == 0 ) {
     tab0
   }
