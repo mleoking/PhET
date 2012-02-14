@@ -1,3 +1,4 @@
+Prevented user interaction with ribosome when it is translating mRNA.
 Prevented user interaction with polymerase when it is transcribing.
 Added infrastructure to prevent user interaction with biomolecules in some circumstances.
 Fixed an issue where ribosomes wouldn't be able to perform another translation until they were moved by the user.
