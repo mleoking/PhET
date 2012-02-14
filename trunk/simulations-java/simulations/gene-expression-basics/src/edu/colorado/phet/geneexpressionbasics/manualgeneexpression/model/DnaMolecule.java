@@ -464,7 +464,8 @@ public class DnaMolecule {
         List<AttachmentSite> potentialAttachmentSites = new ArrayList<AttachmentSite>();
         for ( int i = 0; i < basePairs.size(); i++ ) {
             // See if the base pair is within the max attachment distance.
-            if ( basePairs.get( i ).getCenterLocation().distance( rnaPolymerase.getPosition() ) <= RNA_POLYMERASE_ATTACHMENT_DISTANCE ) {
+            Point2D attachmentSiteLocation = new java.awt.geom.Point2D.Double( basePairs.get( i ).getCenterLocation().getX(), Y_POS );
+            if ( attachmentSiteLocation.distance( rnaPolymerase.getPosition() ) <= RNA_POLYMERASE_ATTACHMENT_DISTANCE ) {
                 // In range.  Add it to the list if it is available.
                 AttachmentSite potentialAttachmentSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( i );
                 if ( potentialAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
