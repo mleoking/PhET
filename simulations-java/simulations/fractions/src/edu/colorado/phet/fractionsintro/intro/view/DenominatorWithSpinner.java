@@ -15,7 +15,7 @@ import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
  */
 public class DenominatorWithSpinner extends FractionNumberNode {
 
-    private final int MAX_DENOMINATOR = 8;
+    private static final int MAX_DENOMINATOR = 8;
 
     public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator ) {
         super( denominator );
