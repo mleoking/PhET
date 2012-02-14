@@ -2,6 +2,8 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
@@ -25,6 +27,14 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
      */
     @Override public void detach() {
         setState( new DetachingFromPolymeraseState() );
+    }
+
+    @Override public void forceImmediateUnattachedAndAvailable() {
+        if ( attachmentSite != null ) {
+            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+        }
+        attachmentSite = null;
+        setState( new WanderingAroundCytoplasmState() );
     }
 
     /**
