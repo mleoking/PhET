@@ -60,11 +60,11 @@ case class Tab0(solution: String, viewAndTestState: ViewAndTestState) extends MS
       case x: Entry if x.enabled == false => this
 
       //Watch which solution the user selects
-      case Entry(_, "user", c, _, "pressed", _) if List("waterRadioButton", "waterIcon").contains(c) => copy(solution = water)
-      case Entry(_, "user", c, _, "pressed", _) if List("strongAcidRadioButton", "strongAcidIcon").contains(c) => copy(solution = strongAcid)
-      case Entry(_, "user", c, _, "pressed", _) if List("weakAcidRadioButton", "weakAcidIcon").contains(c) => copy(solution = weakAcid)
-      case Entry(_, "user", c, _, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon").contains(c) => copy(solution = strongBase)
-      case Entry(_, "user", c, _, "pressed", _) if List("weakBaseRadioButton", "weakBaseIcon").contains(c) => copy(solution = weakBase)
+      //      case Entry(_, "user", c, _, "pressed", _) if List("waterRadioButton", "waterIcon").contains(c) => copy(solution = water)
+      //      case Entry(_, "user", c, _, "pressed", _) if List("strongAcidRadioButton", "strongAcidIcon").contains(c) => copy(solution = strongAcid)
+      //      case Entry(_, "user", c, _, "pressed", _) if List("weakAcidRadioButton", "weakAcidIcon").contains(c) => copy(solution = weakAcid)
+      //      case Entry(_, "user", c, _, "pressed", _) if List("strongBaseRadioButton", "strongBaseIcon").contains(c) => copy(solution = strongBase)
+      //      case Entry(_, "user", c, _, "pressed", _) if List("weakBaseRadioButton", "weakBaseIcon").contains(c) => copy(solution = weakBase)
 
       //Handle reset all presses
       case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab0
@@ -103,18 +103,5 @@ case class Tab1(viewAndTestState: ViewAndTestState, acid: Boolean, weak: Boolean
     updated.copy(viewAndTestState = viewAndTestState.next(e))
   }
 
-  def solution = {
-    if ( weak && acid ) {
-      weakAcid
-    }
-    else if ( weak && !acid ) {
-      weakBase
-    }
-    else if ( !weak && acid ) {
-      strongAcid
-    }
-    else {
-      strongBase
-    }
-  }
+
 }
