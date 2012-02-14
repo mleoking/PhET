@@ -52,6 +52,7 @@ public class BLLResources {
         public static final String UNITS_CENTIMETERS = RESOURCES.getLocalizedString( "units.centimeters" );
         public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
         public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
+        public static final String UNITS_M = RESOURCES.getLocalizedString( "units.M" );
         public static final String UNITS_mM = RESOURCES.getLocalizedString( "units.mM" );
         public static final String UNITS_uM = RESOURCES.getLocalizedString( "units.uM" );
         public static final String VARIABLE = RESOURCES.getLocalizedString( "variable" );

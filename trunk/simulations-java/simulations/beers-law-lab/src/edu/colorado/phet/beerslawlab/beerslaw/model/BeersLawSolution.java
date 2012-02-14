@@ -4,6 +4,7 @@ package edu.colorado.phet.beerslawlab.beerslaw.model;
 import java.awt.Color;
 import java.text.MessageFormat;
 
+import edu.colorado.phet.beerslawlab.common.BLLResources;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltChloride;
@@ -18,6 +19,7 @@ import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumPermanganate;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
@@ -30,21 +32,20 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  */
 public class BeersLawSolution extends Solution {
 
-    public final Property<Double> concentration;
     public final Solute solute;
+    public final Property<Double> concentration; // M
+    public final int concentrationDisplayExponent;
+    public final DoubleRange concentrationRange; // M
     public final CompositeProperty<Color> fluidColor; // derived from solute color and concentration
-    public final String concentrationUnits;
+
     //TODO add CompositeProperty for absorbance and %transmission
 
-    public BeersLawSolution( final Solute solute, String concentrationUnits ) {
-        this( solute, 0d, concentrationUnits );
-    }
+    public BeersLawSolution( final Solute solute, DoubleRange concentrationRange, int concentrationDisplayExponent ) {
 
-    public BeersLawSolution( final Solute solute, double initialConcentration, String concentrationUnits ) {
-
-        this.concentration = new Property<Double>( initialConcentration );
+        this.concentration = new Property<Double>( concentrationRange.getDefault() );
         this.solute = solute;
-        this.concentrationUnits = concentrationUnits;
+        this.concentrationDisplayExponent = concentrationDisplayExponent;
+        this.concentrationRange = concentrationRange;
 
         // derive the solution color
         this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
@@ -52,6 +53,8 @@ public class BeersLawSolution extends Solution {
                 return createColor( solvent, solute, concentration.get() );
             }
         }, this.concentration );
+
+        getDisplayUnits(); // call this to catch problems at instantiation
     }
 
     public String getDisplayName() {
@@ -62,9 +65,24 @@ public class BeersLawSolution extends Solution {
         return solute.getSaturatedColor();
     }
 
+    public String getDisplayUnits() {
+        if ( concentrationDisplayExponent == 1 ) {
+            return Strings.UNITS_M;
+        }
+        if ( concentrationDisplayExponent == -3 ) {
+            return Strings.UNITS_mM;
+        }
+        else if ( concentrationDisplayExponent == -6 ) {
+            return Strings.UNITS_uM;
+        }
+        else {
+            throw new IllegalStateException( "unsupported concentrationDisplayExponent=" + concentrationDisplayExponent );
+        }
+    }
+
     public static class KoolAidSolution extends BeersLawSolution {
         public KoolAidSolution() {
-            super( new KoolAid(), Strings.UNITS_mM );
+            super( new KoolAid(), new DoubleRange( 0, 0.400 ), -3 );
         }
 
         @Override public String getDisplayName() {
@@ -74,43 +92,43 @@ public class BeersLawSolution extends Solution {
 
     public static class CobaltIINitrateSolution extends BeersLawSolution {
         public CobaltIINitrateSolution() {
-            super( new CobaltIINitrate(), Strings.UNITS_mM );
+            super( new CobaltIINitrate(), new DoubleRange( 0, 0.400 ), -3 );
         }
     }
 
     public static class CobaltChlorideSolution extends BeersLawSolution {
         public CobaltChlorideSolution() {
-            super( new CobaltChloride(), Strings.UNITS_mM );
+            super( new CobaltChloride(), new DoubleRange( 0, 0.250 ), -3 );
         }
     }
 
     public static class PotassiumDichromateSolution extends BeersLawSolution {
         public PotassiumDichromateSolution() {
-            super( new PotassiumDichromate(), Strings.UNITS_uM );
+            super( new PotassiumDichromate(), new DoubleRange( 0, 0.000500 ), -6 );
         }
     }
 
     public static class PotassiumChromateSolution extends BeersLawSolution {
         public PotassiumChromateSolution() {
-            super( new PotassiumChromate(), Strings.UNITS_uM );
+            super( new PotassiumChromate(), new DoubleRange( 0, 0.000400 ), -6  );
         }
     }
 
     public static class NickelIIChlorideSolution extends BeersLawSolution {
         public NickelIIChlorideSolution() {
-            super( new NickelIIChloride(), Strings.UNITS_mM );
+            super( new NickelIIChloride(), new DoubleRange( 0, 0.350 ), -3 );
         }
     }
 
     public static class CopperSulfateSolution extends BeersLawSolution {
         public CopperSulfateSolution() {
-            super( new CopperSulfate(), Strings.UNITS_mM );
+            super( new CopperSulfate(), new DoubleRange( 0, 0.200 ), -3 );
         }
     }
 
     public static class PotassiumPermanganateSolution extends BeersLawSolution {
         public PotassiumPermanganateSolution() {
-            super( new PotassiumPermanganate(), Strings.UNITS_uM );
+            super( new PotassiumPermanganate(), new DoubleRange( 0, 0.000800 ), -6 );
         }
     }
 
@@ -118,7 +136,8 @@ public class BeersLawSolution extends Solution {
     public static class PureWater extends BeersLawSolution {
 
         public PureWater() {
-            super( new NullSolute(), 0d, "" );
+            super( new NullSolute(), new DoubleRange( 0, 0, 0 ), 1 );
+            assert( concentration.get() == 0d );
             concentration.addObserver( new SimpleObserver() {
                 public void update() {
                     throw new IllegalStateException( "cannot set concentration of pure water" );
