@@ -9,6 +9,7 @@ import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
+import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
@@ -100,7 +101,7 @@ class DropperNode extends PhetPNode {
                 labelNode.setOffset( -( labelNode.getFullBoundsReference().getWidth() / 2 ),
                                      foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - LABEL_Y_OFFSET ) + ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
                 // fluid color
-                Color color = ConcentrationSolution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
+                Color color = Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
                 fluidNode.setPaint( color );
                 fluidNode.setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
             }

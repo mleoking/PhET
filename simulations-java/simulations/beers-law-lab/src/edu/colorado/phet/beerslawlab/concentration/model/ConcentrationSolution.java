@@ -5,10 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.beerslawlab.common.model.IFluid;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
-import edu.colorado.phet.beerslawlab.common.model.Solute.NullSolute;
-import edu.colorado.phet.beerslawlab.common.model.Solvent;
-import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -22,9 +19,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConcentrationSolution implements IFluid, Resettable {
+public class ConcentrationSolution extends Solution implements IFluid, Resettable {
 
-    public final Solvent solvent;
     public final Property<Solute> solute;
     public final Property<Double> soluteAmount; // moles
     public final Property<Double> volume; // L
@@ -34,7 +30,6 @@ public class ConcentrationSolution implements IFluid, Resettable {
 
     public ConcentrationSolution( Property<Solute> solute, double soluteAmount, double volume ) {
 
-        this.solvent = new Water();
         this.solute = solute;
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );
@@ -107,14 +102,5 @@ public class ConcentrationSolution implements IFluid, Resettable {
     public void reset() {
         soluteAmount.reset();
         volume.reset();
-    }
-
-    public static final Color createColor( Solvent solvent, Solute solute, double concentration ) {
-        Color color = solvent.color;
-        if ( concentration > 0 ) {
-            LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
-            color = solute.solutionColor.interpolateLinear( f.evaluate( concentration ) );
-        }
-        return color;
     }
 }
