@@ -79,13 +79,13 @@ public class SolutionChoiceNode extends PhetPNode {
             super( UserComponents.solutionComboBox,
                    new Function1<BeersLawSolution, String>() {
                        public String apply( BeersLawSolution solution ) {
-                           return solution.solute.name;
+                           return solution.getDisplayName();
                        }
                    },
                    solutions, selectedSolution,
                    new Function1<BeersLawSolution, PNode>() {
                        public PNode apply( final BeersLawSolution solution ) {
-                           return new SoluteItemNode( solution.solute.solutionColor.getMax(), solutionToString.apply( solution ) );
+                           return new SoluteItemNode( solution.getSaturatedColor(), solution.getDisplayName() );
                        }
                    }
             );

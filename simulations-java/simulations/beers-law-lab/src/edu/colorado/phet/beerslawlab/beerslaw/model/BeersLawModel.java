@@ -12,6 +12,7 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.NickelIIChl
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumChromateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumDichromateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumPermanganateSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PureWater;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -55,6 +56,7 @@ public class BeersLawModel implements Resettable {
             add( new NickelIIChlorideSolution() );
             add( new CopperSulfateSolution() );
             add( new PotassiumPermanganateSolution() );
+            add( new PureWater() );
         }};
         this.solution = new Property<BeersLawSolution>( solutions.get( 0 ) );
 

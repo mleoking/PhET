@@ -5,6 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.beerslawlab.common.model.IFluid;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
+import edu.colorado.phet.beerslawlab.common.model.Solute.NullSolute;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
