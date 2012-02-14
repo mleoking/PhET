@@ -8,12 +8,10 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
-- add 3 sections of light beam
-- Meter: get images from bending-light; doesn't read anything in cuvette or outside beam; blocks beam
-- Concentration slider: different units to match the ranges for each solute (see design doc table, "Conc Range" column, which JC needs to verify)
-- add "Pure water" to bottom of the Solutions combo box
-- start with no Toolbox, add it later after exploring meter usability issues
-- Beer's Law tab (see JC notes below)
+- add absorbance and %transmission to solution model
+- Light beam: add to model & view (3 segments)
+- Detector: show vertical diameter line, for debugging; display proper values
+- Concentration control: slider; textfield event handlers
 
 MEDIUM
 - meter and detector body images don't have transparent backgrounds (at rounded corners)
@@ -31,6 +29,7 @@ LOW
 - #3199, bigger slider thumb on FaucetNode
 - fix potential issues in TiledBackgroundNode
 - ruler can get lost behind solution control panel, move it to front layer when combo box #3242 is fixed
+- Toolbox in Beer's tab?
 
 SIM-SHARING
 - add sim-sharing to WavelengthControl
@@ -39,8 +38,3 @@ MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
 - TiledBackgroundNode to piccolo-phet
 - BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>)
-
-From JC's 1/24/12 email:
-Tab 2 (see discussion in google doc for more details)
-- We had a big discussion about the concentration slider number read out, and decided that each solution will have it's range shown using prefixes
-  like milli and micro (symbols "m" and the greek letter mu, lowercase).  I will mock this up for future discussion.
