@@ -11,6 +11,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularPieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.PieSetNode;
 
@@ -25,7 +26,7 @@ public class PieSetView {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame() {{
-                    final PieSet state = new PieSet();
+                    final PieSet state = new PieSet( CircularPieSet.CircularPieSet );
                     final Property<PieSet> model = new Property<PieSet>( state );
 
                     //Any piece that is dragging should align with the closest open cell

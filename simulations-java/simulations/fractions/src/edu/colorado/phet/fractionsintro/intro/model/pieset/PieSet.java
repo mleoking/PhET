@@ -9,21 +9,14 @@ import fj.data.List;
 import fj.data.Option;
 import lombok.Data;
 
-import java.awt.Color;
 import java.awt.geom.Area;
-import java.util.ArrayList;
-import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.Bucket;
-import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 
 import static fj.Function.curry;
 import static fj.Ord.ord;
-import static fj.data.List.iterableList;
 import static fj.data.List.range;
 
 /**
@@ -35,66 +28,18 @@ import static fj.data.List.range;
     public final int denominator;
     public final List<Pie> pies;
     public final List<Slice> slices;
+    public final List<Slice> cells;              //The list of all cells
+    public final SliceFactory sliceFactory;
 
-    //The list of all cells
-    public final List<Slice> cells;
-
-    public static final Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
-    public static final Color BUCKET_COLOR = new Color( 136, 177, 240 );//A shade that looks good behind the green objects
-    public static final Bucket BUCKET = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), BUCKET_COLOR, "" );
-    public static final Random RANDOM = new Random();
-    public static final double PIE_DIAMETER = 155;
-    public static final double PIE_RADIUS = PIE_DIAMETER / 2;
-    public static final int NUM_PIES = 6;
-    public static final double PIE_SPACING = 10;
-
-    public PieSet() {
-        this( 1, createEmptyPies( 1 ), createSlicesForBucket( 1, 6 ) );
+    public PieSet( SliceFactory sliceFactory ) {
+        this( 1, sliceFactory.createEmptyPies( 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
     }
 
-    //Slices to put in the buckets
-    private static List<Slice> createSlicesForBucket( final int denominator, final int numSlices ) {
-        return iterableList( new ArrayList<Slice>() {{
-            for ( int i = 0; i < numSlices; i++ ) {
-                add( createBucketSlice( denominator ) );
-            }
-        }} );
-    }
-
-    //Put the pieces right in the center of the bucket hole.
-    //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
-    public static Slice createBucketSlice( int denominator ) {
-        final double x = BUCKET.getHoleShape().getBounds2D().getCenterX() + BUCKET.getPosition().getX();
-        final double y = -BUCKET.getHoleShape().getBounds2D().getCenterY() - BUCKET.getPosition().getY();
-
-        final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( x + ( PieSet.RANDOM.nextDouble() * 2 - 1 ) * PieSet.PIE_RADIUS, y - PieSet.PIE_RADIUS / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, PieSet.PIE_RADIUS, false, null );
-    }
-
-    //Create some cells for the empty pies
-    private static List<Pie> createEmptyPies( final int denominator ) {
-        ArrayList<Pie> pies = new ArrayList<Pie>() {{
-            for ( int i = 0; i < NUM_PIES; i++ ) {
-                ArrayList<Slice> cells = new ArrayList<Slice>();
-                for ( int k = 0; k < denominator; k++ ) {
-                    cells.add( createPieCell( i, k, denominator ) );
-                }
-                add( new Pie( iterableList( cells ) ) );
-            }
-        }};
-
-        return iterableList( pies );
-    }
-
-    private static Slice createPieCell( int pie, int cell, int denominator ) {
-        final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( PieSet.PIE_DIAMETER * ( pie + 1 ) + PieSet.PIE_SPACING * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, PieSet.PIE_DIAMETER / 2, false, null );
-    }
-
-    public PieSet( int denominator, List<Pie> pies, List<Slice> slices ) {
+    public PieSet( int denominator, List<Pie> pies, List<Slice> slices, SliceFactory sliceFactory ) {
         this.denominator = denominator;
         this.pies = pies;
         this.slices = slices;
+        this.sliceFactory = sliceFactory;
 
         this.cells = pies.bind( new F<Pie, List<Slice>>() {
             @Override public List<Slice> f( Pie p ) {
@@ -144,7 +89,7 @@ import static fj.data.List.range;
         return slices( slices );
     }
 
-    public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices ); }
+    public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
 
     public boolean cellFilled( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
@@ -182,22 +127,6 @@ import static fj.data.List.range;
         } ) );
     }
 
-    public static PieSet fromContainerSetState( ContainerSet containerSetState ) {
-        final List<Pie> emptyPies = createEmptyPies( containerSetState.denominator );
-        return new PieSet( containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ) );
-    }
-
-    private static List<Slice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
-        ArrayList<Slice> all = new ArrayList<Slice>();
-        for ( int i = 0; i < containerSetState.containers.length(); i++ ) {
-            Container c = containerSetState.containers.index( i );
-            for ( Integer cell : c.filledCells ) {
-                all.add( emptyPies.index( i ).cells.index( cell ) );
-            }
-        }
-        return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator, containerSetState.getEmptyCells().length() ) );
-    }
-
     public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
 
         //Find a slice from the bucket, or one that is leaving the bucket
@@ -205,7 +134,7 @@ import static fj.data.List.range;
         //TODO: maybe check for bucket piece first, instead of piece going to the bucket as equal priority
         final Option<Slice> bucketSlice = slices.reverse().find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
-                final double bucketY = createBucketSlice( denominator ).tip.getY();
+                final double bucketY = sliceFactory.createBucketSlice( denominator ).tip.getY();
                 return ( m.tip.getY() == bucketY && m.animationTarget == null ) ||
                        //Count piece going toward bucket as being in the bucket
                        ( m.animationTarget != null && m.animationTarget.position.getY() == bucketY );
@@ -214,7 +143,7 @@ import static fj.data.List.range;
 
         //Could be none if still animating
         if ( bucketSlice.isSome() ) {
-            final Slice target = createPieCell( emptyCell.container, emptyCell.cell, denominator );
+            final Slice target = sliceFactory.createPieCell( emptyCell.container, emptyCell.cell, denominator );
             return slices( slices.map( new F<Slice, Slice>() {
                 @Override public Slice f( Slice m ) {
                     return m == bucketSlice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ) : m;
@@ -230,7 +159,7 @@ import static fj.data.List.range;
 
         //Cell that should be moved
         //May choose a slice that is on its way to a pie
-        final Slice prototype = createPieCell( cell.container, cell.cell, denominator );
+        final Slice prototype = sliceFactory.createPieCell( cell.container, cell.cell, denominator );
         final Slice slice = slices.find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
                 return ( m.tip.equals( prototype.getTip() ) && m.angle == prototype.angle ) ||
@@ -239,7 +168,7 @@ import static fj.data.List.range;
         } ).some();
 
         //Could be none if still animating
-        final Slice target = createBucketSlice( denominator );
+        final Slice target = sliceFactory.createBucketSlice( denominator );
         return slices( slices.map( new F<Slice, Slice>() {
             @Override public Slice f( Slice m ) {
 

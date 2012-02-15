@@ -33,7 +33,7 @@ public class PieSetNode extends PNode {
         this.rootNode = rootNode;
 
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 );
-        bucketView = new BucketView( PieSet.BUCKET, mvt );
+        bucketView = new BucketView( model.get().sliceFactory.bucket(), mvt );
 
         model.addObserver( new SimpleObserver() {
             public void update() {
@@ -61,7 +61,7 @@ public class PieSetNode extends PNode {
         addChild( bucketView.getFrontNode() );
 
         //Show an icon label on the bucket so the user knows what is in the bucket
-        addChild( new ZeroOffsetNode( new MovableSliceNode( rootNode, model, PieSet.createBucketSlice( model.get().denominator ) ) {{
+        addChild( new ZeroOffsetNode( new MovableSliceNode( rootNode, model, model.get().sliceFactory.createBucketSlice( model.get().denominator ) ) {{
             setPickable( false );
             setChildrenPickable( false );
             scale( 0.4 );

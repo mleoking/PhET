@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet.fromContainerSetState;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularPieSet.CircularPieSet;
 
 /**
  * Model for the Fractions Intro sim.
@@ -40,7 +40,8 @@ public class FractionsIntroModel {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 final IntroState s = state.get();
                 final PieSet newPieSet = s.pieSet.stepInTime( clockEvent.getSimulationTimeChange() );
-                state.set( s.pieSet( newPieSet ).containerSet( newPieSet.toContainerSet() ) );
+                final IntroState newState = s.pieSet( newPieSet ).containerSet( newPieSet.toContainerSet() ).horizontalBarSet( s.horizontalBarSet.stepInTime( clockEvent.getSimulationTimeChange() ) );
+                state.set( newState );
             }
         } );
     }};
@@ -56,7 +57,7 @@ public class FractionsIntroModel {
                                                     public IntroState apply( IntroState s, Representation r ) {
 
                                                         //Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
-                                                        return s.representation( r ).pieSet( fromContainerSetState( s.containerSet ) );
+                                                        return s.representation( r ).pieSet( CircularPieSet.fromContainerSetState( s.containerSet ) );
                                                     }
                                                 }
             );
@@ -100,13 +101,9 @@ public class FractionsIntroModel {
                                    new Function2<IntroState, Integer, IntroState>() {
                                        public IntroState apply( IntroState s, Integer denominator ) {
 
-                                           System.out.println( "FractionsIntroModel.apply.denominator changed old=" + s.denominator + ", new = " + denominator );
                                            //create a new container set
                                            ContainerSet cs = s.containerSet.denominator( denominator ).padAndTrim();
-                                           System.out.println( "old state = " + s.containerSet );
-                                           System.out.println( "new state = " + cs );
-                                           System.out.println();
-                                           return s.pieSet( fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator );
+                                           return s.pieSet( CircularPieSet.fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator );
                                        }
                                    }
             ).toIntegerProperty();
@@ -120,7 +117,7 @@ public class FractionsIntroModel {
             new Function2<IntroState, ContainerSet, IntroState>() {
                 public IntroState apply( IntroState s, ContainerSet containerSet ) {
                     return s.containerSet( containerSet ).
-                            pieSet( fromContainerSetState( containerSet ) ).
+                            pieSet( CircularPieSet.fromContainerSetState( containerSet ) ).
                             numerator( containerSet.numerator ).
                             denominator( containerSet.denominator );
                 }
@@ -138,7 +135,7 @@ public class FractionsIntroModel {
                 public IntroState apply( IntroState s, PieSet pieSet ) {
                     final ContainerSet cs = pieSet.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
-                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator );
+                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator ).horizontalBarSet( CircularPieSet.fromContainerSetState( cs ) );
                 }
             }
     );
@@ -151,10 +148,10 @@ public class FractionsIntroModel {
         }
     },
             new Function2<IntroState, PieSet, IntroState>() {
-                public IntroState apply( IntroState s, PieSet pieSet ) {
-                    final ContainerSet cs = pieSet.toContainerSet();
+                public IntroState apply( IntroState s, PieSet p ) {
+                    final ContainerSet cs = p.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
-                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator );
+                    return s.horizontalBarSet( p ).containerSet( cs ).numerator( cs.numerator ).pieSet( CircularPieSet.fromContainerSetState( cs ) );
                 }
             }
     );
