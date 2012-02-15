@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarget;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
@@ -52,7 +51,7 @@ public class MovableSliceNode extends PNode {
                 //Flag one slice as dragging
                 @Override public void mousePressed( PInputEvent event ) {
                     PieSet state = model.get();
-                    final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ), CircularSliceFactory.CircularSliceFactory );
+                    final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ), state.sliceFactory );
                     model.set( newState );
                 }
 

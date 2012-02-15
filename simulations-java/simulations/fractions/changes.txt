@@ -1,3 +1,4 @@
+Added buckets/dragging for horizontal bars
 Factored factory pattern out of PieSet in preparation for more bucket/drag representations
 # 0.00.36 (61366) Feb 14, 2012
 Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
