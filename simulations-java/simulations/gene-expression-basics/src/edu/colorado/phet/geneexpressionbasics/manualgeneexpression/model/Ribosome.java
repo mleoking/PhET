@@ -23,19 +23,19 @@ import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachin
  */
 public class Ribosome extends MobileBiomolecule {
 
-    private static final double WIDTH = 290;                  // In nanometers.
-    private static final double OVERALL_HEIGHT = 300;         // In nanometers.
+    private static final double WIDTH = 430;                  // In nanometers.
+    private static final double OVERALL_HEIGHT = 450;         // In nanometers.
     private static final double TOP_SUBUNIT_HEIGHT_PROPORTION = 0.6;
     private static final double TOP_SUBUNIT_HEIGHT = OVERALL_HEIGHT * TOP_SUBUNIT_HEIGHT_PROPORTION;
     private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
 
     // Offset from the center position to the entrance of the translation
-    // channel.  May require some tweaking of the shape changes.
-    public static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT / 2 + BOTTOM_SUBUNIT_HEIGHT );
+    // channel.  May require some tweaking if the shape changes.
+    public static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT * 0.20 );
 
     // Offset from the center position to the point from which the protein
     // emerges.  May require some tweaking if the overall shape changes.
-    private static final ImmutableVector2D OFFSET_TO_PROTEIN_OUTPUT_CHANNEL = new ImmutableVector2D( WIDTH * 0.4, OVERALL_HEIGHT * 0.6 );
+    private static final ImmutableVector2D OFFSET_TO_PROTEIN_OUTPUT_CHANNEL = new ImmutableVector2D( WIDTH * 0.4, OVERALL_HEIGHT * 0.55 );
 
     // Messenger RNA being translated, null if no translation is in progress.
     private MessengerRna messengerRnaBeingTranslated;
@@ -50,35 +50,6 @@ public class Ribosome extends MobileBiomolecule {
     public Ribosome( final GeneExpressionModel model, Point2D position ) {
         super( model, createShape(), new Color( 205, 155, 29 ) );
         setPosition( position );
-        /* TODO: Shouldn't need this anymore - new state behavior as of 12/2/2011 should handle it.  Keep for a while just in case.
-        userControlled.addObserver( new ChangeObserver<Boolean>() {
-            public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
-                if ( wasUserControlled && !isUserControlled ) {
-                    // The user just dropped this ribosome.  If there is an
-                    // mRNA nearby, attach to it.
-                    for ( MessengerRna messengerRna : model.getMessengerRnaList() ) {
-                        if ( messengerRna.getTranslationAttachmentPoint().distance( getEntranceOfRnaChannelPos().toPoint2D() ) < MRNA_CAPTURE_DISTANCE ) {
-                            // Move to the appropriate location in order to
-                            // look attached to the mRNA.
-                            setPosition( new ImmutableVector2D( messengerRna.getTranslationAttachmentPoint() ).getSubtractedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
-
-                            // Attach to this mRNA.
-                            messengerRna.connectToRibosome( Ribosome.this );
-
-                            // Create the protein associated with this mRNA and
-                            // add it to the model.
-                            proteinBeingSynthesized = messengerRna.getProteinPrototype().createInstance( model, Ribosome.this );
-                            proteinBeingSynthesized.setGrowthFactor( 0 );
-                            model.addMobileBiomolecule( proteinBeingSynthesized );
-
-                            // Move into the translating state.
-                            behaviorState = new TranslatingMRnaState( messengerRna, Ribosome.this );
-                        }
-                    }
-                }
-            }
-        } );
-        */
     }
 
     public void setProteinGrowth( double growthFactor ) {
