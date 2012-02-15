@@ -1,3 +1,4 @@
+2/14/12 add concentration slider, not wired up yet
 2/14/12 add ruler to model, to take advantage of resetting its location on Reset All
 2/14/12 flesh out concentration control a bit more
 2/14/12 change units on concentration control to match appropriate units for specific solution
