@@ -43,23 +43,23 @@ public class CircularPieSet implements SliceFactory {
                    new Arc2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
         }
     };
-    public final int NUM_PIES = 6;
-    public final Dimension2DDouble STAGE_SIZE = new Dimension2DDouble( 1024, 768 );
-    public final Color BUCKET_COLOR = new Color( 136, 177, 240 );//A shade that looks good behind the green objects
-    public final Bucket BUCKET = new Bucket( STAGE_SIZE.width / 2, -STAGE_SIZE.height + 200, new Dimension2DDouble( 300, 100 ), BUCKET_COLOR, "" );
-    public final Random RANDOM = new Random();
-    public final double PIE_DIAMETER = 155;
-    public final double PIE_RADIUS = PIE_DIAMETER / 2;
-    public final double PIE_SPACING = 10;
+    public final int numPies = 6;
+    public final Dimension2DDouble stageSize = new Dimension2DDouble( 1024, 768 );
+    public final Color bucketColor = new Color( 136, 177, 240 );//A shade that looks good behind the green objects
+    public final Bucket bucket = new Bucket( stageSize.width / 2, -stageSize.height + 200, new Dimension2DDouble( 300, 100 ), bucketColor, "" );
+    public final Random random = new Random();
+    public final double pieDiameter = 155;
+    public final double pieRadius = pieDiameter / 2;
+    public final double pieSpacing = 10;
 
     @Override public Bucket bucket() {
-        return BUCKET;
+        return bucket;
     }
 
     //Create some cells for the empty pies
     public List<Pie> createEmptyPies( final int denominator ) {
         ArrayList<Pie> pies = new ArrayList<Pie>() {{
-            for ( int i = 0; i < NUM_PIES; i++ ) {
+            for ( int i = 0; i < numPies; i++ ) {
                 ArrayList<Slice> cells = new ArrayList<Slice>();
                 for ( int k = 0; k < denominator; k++ ) {
                     cells.add( createPieCell( i, k, denominator ) );
@@ -74,16 +74,16 @@ public class CircularPieSet implements SliceFactory {
     //Put the pieces right in the center of the bucket hole.
     //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
     public Slice createBucketSlice( int denominator ) {
-        final double x = BUCKET.getHoleShape().getBounds2D().getCenterX() + BUCKET.getPosition().getX();
-        final double y = -BUCKET.getHoleShape().getBounds2D().getCenterY() - BUCKET.getPosition().getY();
+        final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
+        final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
 
         final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( x + ( RANDOM.nextDouble() * 2 - 1 ) * PIE_RADIUS, y - PIE_RADIUS / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, PIE_RADIUS, false, null, toShape );
+        return new Slice( new ImmutableVector2D( x + ( random.nextDouble() * 2 - 1 ) * pieRadius, y - pieRadius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, pieRadius, false, null, toShape );
     }
 
     public Slice createPieCell( int pie, int cell, int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( PIE_DIAMETER * ( pie + 1 ) + PIE_SPACING * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, PIE_DIAMETER / 2, false, null, toShape );
+        return new Slice( new ImmutableVector2D( pieDiameter * ( pie + 1 ) + pieSpacing * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, pieDiameter / 2, false, null, toShape );
     }
 
     public PieSet fromContainerSetState( ContainerSet containerSetState ) {
