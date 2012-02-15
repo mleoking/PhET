@@ -30,7 +30,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
     private static final Random RAND = new Random();
 
-    private AttachmentState attachedAndWanderingState = new AttachedAndWanderingState();
+    private AttachmentState attachedAndWanderingState = new AttachedAndDoing1DWalkState();
     private AttachmentState attachedAndConformingState = new AttachedAndConformingState();
     private AttachmentState attachedAndTranscribingState = new AttachedAndTranscribingState();
     private AttachmentState attachedAndDeconformingState = new AttachedAndDeconformingState();
@@ -69,8 +69,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     }
 
     // Subclass of the "attached" state for polymerase when it is attached to
-    // the DNA but is not transcribing.
-    protected class AttachedAndWanderingState extends AttachmentState {
+    // the DNA but is not transcribing.  In this state, it is doing a 1D
+    // random walk on the DNA strand.
+    protected class AttachedAndDoing1DWalkState extends AttachmentState {
 
         // Scalar velocity when moving between attachment points on the DNA.
         private static final double VELOCITY_ON_DNA = 200;
@@ -98,11 +99,12 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 // See if we have been attached long enough.
                 attachCountdownTime -= dt;
                 if ( attachCountdownTime <= 0 ) {
-                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentTranscriptionFactorAttachmentSites( asm.attachmentSite );
+                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentPolymeraseAttachmentSites( asm.attachmentSite );
                     Collections.shuffle( attachmentSites );
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.
-                    if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
+//                    if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
+                    if ( RAND.nextDouble() > 0.95 || attachmentSites.size() == 0 ) {
                         // Detach.
                         asm.attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
                         asm.attachmentSite = null;

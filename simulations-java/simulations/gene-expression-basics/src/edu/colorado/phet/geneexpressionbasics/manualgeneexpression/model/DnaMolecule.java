@@ -521,17 +521,33 @@ public class DnaMolecule {
      * @return
      */
     public List<AttachmentSite> getAdjacentTranscriptionFactorAttachmentSites( AttachmentSite attachmentSite ) {
-        // TODO: Fix this up when base pairs each have their own attachment sites.
         int basePairIndex = getBasePairIndexFromXOffset( attachmentSite.locationProperty.get().getX() );
-        if ( basePairIndex == 0 || basePairIndex == basePairs.size() - 1 ) {
-            System.out.println( getClass().getName() + " Suspicious index for base pair, value = " + basePairIndex );
-        }
         List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
         if ( basePairIndex != 0 ) {
             attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex - 1 ) );
         }
         if ( basePairIndex != basePairs.size() - 1 ) {
             attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
+        }
+        return attachmentSites;
+    }
+
+    /**
+     * Get the two base pair attachment sites that are next to the provided
+     * one, i.e. the one before it on the DNA strand and the one after it.  If
+     * at one end of the strand, only one site will be returned.
+     *
+     * @param attachmentSite
+     * @return
+     */
+    public List<AttachmentSite> getAdjacentPolymeraseAttachmentSites( AttachmentSite attachmentSite ) {
+        int basePairIndex = getBasePairIndexFromXOffset( attachmentSite.locationProperty.get().getX() );
+        List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
+        if ( basePairIndex != 0 ) {
+            attachmentSites.add( getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex - 1 ) );
+        }
+        if ( basePairIndex != basePairs.size() - 1 ) {
+            attachmentSites.add( getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
         }
         return attachmentSites;
     }
