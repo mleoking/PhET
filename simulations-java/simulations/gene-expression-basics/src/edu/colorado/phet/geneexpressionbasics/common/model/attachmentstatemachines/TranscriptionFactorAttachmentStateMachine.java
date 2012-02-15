@@ -25,7 +25,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
     private static final Random RAND = new Random();
 
     // Scalar velocity when moving between attachment points on the DNA.
-    private static final double VELOCITY_ON_DNA = 100;
+    private static final double VELOCITY_ON_DNA = 200;
 
     public TranscriptionFactorAttachmentStateMachine( MobileBiomolecule biomolecule ) {
         super( biomolecule );
@@ -37,7 +37,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
 
     // Subclass of the "attached" state.
     protected class TranscriptionFactorAttachedState extends AttachmentState.GenericAttachedState {
-        private static final double DEFAULT_ATTACH_TIME = 1; // In seconds.
+        private static final double DEFAULT_ATTACH_TIME = 0.15; // In seconds.
 
         private double attachCountdownTime;
 
