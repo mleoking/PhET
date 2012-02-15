@@ -1,6 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package com.pixelzoom.examples;
 
+import sun.java2d.Disposer.PollDisposable;
+
+import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -67,15 +70,22 @@ public class SynchronizingMultipleRepresentations {
 
     public static void main( String[] args ) {
 
+        // Save this so we can compare results at the end.
+        final double initialAngle = Math.toRadians( 45 );
+
         // Polar & Cartesian representations, which we wish to keep synchronized.
-        final Property<PolarCoordinates> polarCoordinates = new Property<PolarCoordinates>( new PolarCoordinates( 1.0, Math.toRadians( 45 ) ) );
-        final Property<CartesianCoordinates> cartesianCoordinates = new Property<CartesianCoordinates>(
-                new CartesianCoordinates( Math.cos( polarCoordinates.get().angle ) * polarCoordinates.get().radius, Math.sin( polarCoordinates.get().angle ) * polarCoordinates.get().radius ) );
+        final Property<PolarCoordinates> polarCoordinates = new Property<PolarCoordinates>( new PolarCoordinates( 1.0, initialAngle ) );
+        final Property<CartesianCoordinates> cartesianCoordinates =
+                new Property<CartesianCoordinates>( new CartesianCoordinates( PolarCartesianConverter.getX( polarCoordinates.get().radius, polarCoordinates.get().angle ),
+                                                                              PolarCartesianConverter.getY( polarCoordinates.get().radius, polarCoordinates.get().angle ) ) );
+
+        PolarCartesianConverter.getX( polarCoordinates.get().radius, polarCoordinates.get().angle );
 
         // When polar coordinates change, update Cartesian coordinates.
         polarCoordinates.addObserver( new VoidFunction1<PolarCoordinates>() {
-            public void apply( PolarCoordinates polar ) {
-                CartesianCoordinates newCartesianCoordinates = new CartesianCoordinates( Math.cos( polar.angle ) * polar.radius, Math.sin( polar.angle ) * polar.radius );
+            public void apply( PolarCoordinates polarCoordinates ) {
+                CartesianCoordinates newCartesianCoordinates = new CartesianCoordinates( PolarCartesianConverter.getX( polarCoordinates.radius, polarCoordinates.angle ),
+                                                                                         PolarCartesianConverter.getY( polarCoordinates.radius, polarCoordinates.angle ) );
                 if ( !newCartesianCoordinates.equals( cartesianCoordinates.get() ) ) {
                     cartesianCoordinates.set( newCartesianCoordinates );
                 }
@@ -85,8 +95,9 @@ public class SynchronizingMultipleRepresentations {
 
         // When Cartesian coordinates change, update polar coordinates.
         cartesianCoordinates.addObserver( new VoidFunction1<CartesianCoordinates>() {
-            public void apply( CartesianCoordinates cartesian ) {
-                PolarCoordinates newPolarCoordinates = new PolarCoordinates( Math.sqrt( cartesian.x * cartesian.x + cartesian.y * cartesian.y ), Math.atan2( cartesian.y, cartesian.x ) );
+            public void apply( CartesianCoordinates cartesianCoordinates ) {
+                PolarCoordinates newPolarCoordinates = new PolarCoordinates( PolarCartesianConverter.getRadius( cartesianCoordinates.x, cartesianCoordinates.y ),
+                                                                             PolarCartesianConverter.getAngle( cartesianCoordinates.x, cartesianCoordinates.y ) );
                 if ( !newPolarCoordinates.equals( polarCoordinates.get() ) ) {
                     polarCoordinates.set( newPolarCoordinates );
                 }
@@ -94,8 +105,17 @@ public class SynchronizingMultipleRepresentations {
             }
         } );
 
+        // Change just the radius.
         polarCoordinates.set( new PolarCoordinates( 3.0, polarCoordinates.get().angle ) );
-        System.out.println( "radius.get() = " + polarCoordinates.get().radius );
+
+        // Compare actual and expected results. There will be a small error (in this case, in the angle) due to precision of double.
+        System.out.println( "Polar coordinates: " );
+        System.out.println( "  actual = " + polarCoordinates.get().toString() );
+        System.out.println( "  expected = " + new PolarCoordinates( polarCoordinates.get().radius, initialAngle ).toString() );
+        System.out.println( "Cartestian coordinates: " );
+        System.out.println( "  actual = " + cartesianCoordinates.get().toString() );
+        System.out.println( "  expected = " + new CartesianCoordinates( PolarCartesianConverter.getX( polarCoordinates.get().radius, polarCoordinates.get().angle ),
+                                                                        PolarCartesianConverter.getY( polarCoordinates.get().radius, polarCoordinates.get().angle ) ).toString() );
     }
 
 }
