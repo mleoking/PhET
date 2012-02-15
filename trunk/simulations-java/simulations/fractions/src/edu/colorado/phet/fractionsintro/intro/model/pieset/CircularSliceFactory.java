@@ -41,11 +41,8 @@ public class CircularSliceFactory extends AbstractSliceFactory {
     //Put the pieces right in the center of the bucket hole.
     //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
     public Slice createBucketSlice( int denominator ) {
-        final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
-        final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
-
         final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( x + ( random.nextDouble() * 2 - 1 ) * pieRadius, y - pieRadius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, pieRadius, false, null, toShape );
+        return new Slice( new ImmutableVector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * pieRadius, getBucketCenter().getY() - pieRadius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, pieRadius, false, null, toShape );
     }
 
     public Slice createPieCell( int pie, int cell, int denominator ) {
