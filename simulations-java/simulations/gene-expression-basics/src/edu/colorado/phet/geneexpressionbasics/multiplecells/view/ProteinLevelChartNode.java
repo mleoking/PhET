@@ -18,10 +18,11 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -46,7 +47,7 @@ public class ProteinLevelChartNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 400, 200 );  // In screen coordinates, which is close to pixels.
     private static final double TIME_SPAN = 30; // In seconds.
-    private static final IntegerRange PROTEIN_LEVEL_RANGE = new IntegerRange( 0, 300 );
+    private static final IntegerRange PROTEIN_LEVEL_RANGE = new IntegerRange( 0, 170 );
 
     private final XYSeries dataSeries = new XYSeries( "0" );
     private double timeOffset = 0;
@@ -58,7 +59,7 @@ public class ProteinLevelChartNode extends PNode {
         JFreeChart chart = createXYLineChart( "Average Protein Level vs. Time", "Time", null, dataSet, PlotOrientation.VERTICAL );
 
         // Create and configure the x axis.
-        NumberAxis xAxis = new NumberAxis( "Time(s)" );
+        NumberAxis xAxis = new NumberAxis( "Time(s)" ); // TODO: i18n
         xAxis.setRange( 0, TIME_SPAN );
         xAxis.setNumberFormatOverride( new DecimalFormat( "##" ) );
         xAxis.setLabelFont( new PhetFont( 12 ) );
@@ -67,7 +68,6 @@ public class ProteinLevelChartNode extends PNode {
         // Make the Y axis, and have it be essentially blank, since we are
         // going to create our own custom label.
         NumberAxis yAxis = new NumberAxis();
-        yAxis.setRange( 0, TIME_SPAN );
         yAxis.setRange( PROTEIN_LEVEL_RANGE.getMin(), PROTEIN_LEVEL_RANGE.getMax() );
         yAxis.setTickLabelsVisible( false ); // Y axis label is provided elsewhere.
         yAxis.setTickMarksVisible( false );
@@ -95,10 +95,8 @@ public class ProteinLevelChartNode extends PNode {
         // looking border.
         addChild( new ControlPanelNode( contents ) );
 
-        // Hook up a listener to the average protein level and update the data
-        // on the chart.
-        averageProteinLevelProperty.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double averageProteinLevel ) {
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
                 if ( clock.getSimulationTime() - timeOffset > TIME_SPAN ) {
                     // If the end of the chart has been reached, clear it.
                     clear();
