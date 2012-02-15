@@ -1,3 +1,4 @@
+3rd tab: Adjusted the range of the graph, the parameter ranges, and the default values in order to make the "noisy" nature of the single cell more apparent and yet still stay on the graph when all values are maxed out.
 Made ribosomes larger, since it was pointed out they they are in reality about 5x larger (by mass) than the polymerase.
 Made the polymerase and transcription factors do the 1D walk more quickly and detach sooner.
 Prevented user interaction with mRNA destroyers when they are destroying.
