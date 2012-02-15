@@ -1,3 +1,4 @@
+Made the polymerase and transcription factors do the 1D walk more quickly and detach sooner.
 Prevented user interaction with mRNA destroyers when they are destroying.
 Prevented user interaction with protein until it is fully grown.
 Prevented user interaction with ribosome when it is translating mRNA.

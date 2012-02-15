@@ -77,7 +77,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         private static final double VELOCITY_ON_DNA = 200;
 
         // Time for attachment to a site on the DNA.
-        private static final double DEFAULT_ATTACH_TIME = 1; // In seconds.
+        private static final double DEFAULT_ATTACH_TIME = 0.15; // In seconds.
 
         // Countdown timer for the amount of time that the polymerase is
         // attached to a single attachment site.
@@ -103,8 +103,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                     Collections.shuffle( attachmentSites );
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.
-//                    if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
-                    if ( RAND.nextDouble() > 0.95 || attachmentSites.size() == 0 ) {
+                    if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
                         // Detach.
                         asm.attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
                         asm.attachmentSite = null;
