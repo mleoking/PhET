@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
@@ -67,5 +68,11 @@ public abstract class AbstractSliceFactory implements SliceFactory {
                 add( createBucketSlice( denominator ) );
             }
         }} );
+    }
+
+    public ImmutableVector2D getBucketCenter() {
+        final double x = bucket.getHoleShape().getBounds2D().getCenterX() + bucket.getPosition().getX();
+        final double y = -bucket.getHoleShape().getBounds2D().getCenterY() - bucket.getPosition().getY();
+        return new ImmutableVector2D( x, y );
     }
 }
