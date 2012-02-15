@@ -14,9 +14,9 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class RepresentationArea extends PNode {
     public RepresentationArea( ObservableProperty<Representation> chosenRepresentation, IntegerProperty numerator, IntegerProperty denominator, SettableProperty<ContainerSet> containerSet ) {
-        addChild( new HorizontalBarSetFractionNode( chosenRepresentation, containerSet ) {{
-            setOffset( 0, -29 );
-        }} );
+//        addChild( new HorizontalBarSetFractionNode( chosenRepresentation, containerSet ) {{
+//            setOffset( 0, -29 );
+//        }} );
         addChild( new VerticalBarSetFractionNode( chosenRepresentation, containerSet ) {{
             setOffset( 0, -73 );
         }} );

@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.model;
 
 import lombok.Data;
 
+import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularPieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
@@ -27,8 +28,8 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
         containerSet = new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim();
         showReduced = false;
         showMixed = false;
-        pieSet = new PieSet();
-        horizontalBarSet = new PieSet();
+        pieSet = new PieSet( CircularPieSet.CircularPieSet );
+        horizontalBarSet = new PieSet( CircularPieSet.CircularPieSet );
         representation = Representation.PIE;
     }
 
@@ -46,15 +47,13 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
     public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
 
-    public IntroState representation( Representation representation ) {
-        return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation );
-    }
+    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
 
     public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
 
     public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
 
-    public IntroState containerSet( ContainerSet containerSet ) {
-        return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation );
-    }
+    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
+
+    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation );}
 }

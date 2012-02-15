@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarget;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularPieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
@@ -51,7 +52,7 @@ public class MovableSliceNode extends PNode {
                 //Flag one slice as dragging
                 @Override public void mousePressed( PInputEvent event ) {
                     PieSet state = model.get();
-                    final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) );
+                    final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ), CircularPieSet.CircularPieSet );
                     model.set( newState );
                 }
 
@@ -65,7 +66,7 @@ public class MovableSliceNode extends PNode {
                             Slice target = state.getDropTarget( s );
                             if ( s.dragging && target != null ) { return s.moveTo( target ); }
                             else if ( s.dragging ) {
-                                final Slice destination = PieSet.createBucketSlice( model.get().denominator );
+                                final Slice destination = model.get().sliceFactory.createBucketSlice( model.get().denominator );
                                 return s.dragging( false ).animationTarget( new AnimationTarget( destination.tip, destination.angle ) );
                             }
                             else { return s; }
@@ -83,7 +84,7 @@ public class MovableSliceNode extends PNode {
                         public Slice f( Slice slice ) {
                             return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
                         }
-                    } ) );
+                    } ), state.sliceFactory );
                     model.set( newState );
                 }
             } );

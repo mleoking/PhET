@@ -35,9 +35,9 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }} );
 
         //For squares
-//        addChild( new RepresentationNode( model.representation, Representation.HORIZONTAL_BAR ) {{
-//            addChild( new PieSetNode( model.horizontalBarSet, rootNode ) );
-//        }} );
+        addChild( new RepresentationNode( model.representation, Representation.HORIZONTAL_BAR ) {{
+            addChild( new PieSetNode( model.horizontalBarSet, rootNode ) );
+        }} );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionEqualityPanel( model ) ) {{
             setOffset( 35, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
