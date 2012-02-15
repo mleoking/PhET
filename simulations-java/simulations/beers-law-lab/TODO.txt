@@ -9,7 +9,7 @@ DESIGN
 
 HIGH
 - add absorbance and %transmission to solution model (start with Gaussian based on lambdaMax, later integrate JC's observed data)
-- Light beam: add to model & view (3 segments)
+- Light beam: add to model & view (3 segments); beam and photon views
 - Detector: show vertical diameter line, for debugging; display proper values
 - Concentration control: slider; textfield event handlers
 - make distance between light and cuvette something that's easy to measure
