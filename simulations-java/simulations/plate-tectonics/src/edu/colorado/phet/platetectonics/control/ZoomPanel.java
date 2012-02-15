@@ -16,7 +16,7 @@ public class ZoomPanel extends PNode {
     public ZoomPanel( final Property<Double> zoomRatio ) {
         final PText zoomText = new PText( Strings.ZOOM );
 
-        VSliderNode slider = new VSliderNode( UserComponents.zoomSlider, 0, 1, new SwingForwardingProperty<Double>( zoomRatio ), new Property<Boolean>( true ), 100 ) {{
+        VSliderNode slider = new VSliderNode( UserComponents.zoomSlider, 0, 1, 6, 100, new SwingForwardingProperty<Double>( zoomRatio ), new Property<Boolean>( true ) ) {{
             setOffset( ( zoomText.getFullBounds().getWidth() - getFullBounds().getWidth() ) / 2,
                        zoomText.getFullBounds().getMaxY() + 10
             );
