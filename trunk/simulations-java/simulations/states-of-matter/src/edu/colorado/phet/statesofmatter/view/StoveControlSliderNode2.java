@@ -33,7 +33,7 @@ public class StoveControlSliderNode2 extends VSliderNode {
     private static final Font LABEL_FONT = new PhetFont( 20, true );
 
     public StoveControlSliderNode2( final SettableProperty<Double> value ) {
-        super( UserComponents.stoveSlider, -1, 1, value, new BooleanProperty( true ), 75 );
+        super( UserComponents.stoveSlider, -1, 1, 6, 75, value, new BooleanProperty( true ) );
 
         // Show labels for add, zero, and remove.
         addLabel( +1, new PhetPText( STOVE_CONTROL_PANEL_HEAT_LABEL, LABEL_FONT ) );

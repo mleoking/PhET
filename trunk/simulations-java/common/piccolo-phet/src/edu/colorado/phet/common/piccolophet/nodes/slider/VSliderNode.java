@@ -35,6 +35,11 @@ import edu.umd.cs.piccolox.PFrame;
  * @author John Blanco
  */
 public class VSliderNode extends SliderNode {
+
+    private static final double DEFAULT_TRACK_WIDTH = 6;
+    private static final double DEFAULT_TRACK_HEIGHT = 200;
+
+
     private PhetPPath trackNode;
     private PNode knobNode;
     private int trackWidth;
@@ -45,14 +50,13 @@ public class VSliderNode extends SliderNode {
     protected PNode rootNode = new PNode();
 
     public VSliderNode( IUserComponent userComponent, double min, double max, SettableProperty<Double> value ) {
-        this( userComponent, min, max, value, new Property<Boolean>( true ), 200 );
+        this( userComponent, min, max, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT, value, new Property<Boolean>( true ) );
     }
 
-    public VSliderNode( IUserComponent userComponent, final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled, int trackHeight ) {
+    public VSliderNode( IUserComponent userComponent, final double min, final double max, double trackWidth, double trackHeight, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( userComponent, min, max, value );
         addChild( rootNode );
 
-        trackWidth = 6;
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, trackHeight );
         trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackWidth, trackHeight ), new BasicStroke( 1 ), getTrackStrokePaint( trackWidth, trackHeight ) );
         rootNode.addChild( trackNode );
@@ -110,12 +114,12 @@ public class VSliderNode extends SliderNode {
         adjustOrigin();
     }
 
-    public Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
-        return new GradientPaint( 0, 0, Color.gray, 0, (float) trackWidth, Color.black, false );
+    protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
+        return new GradientPaint( 0, 0, Color.gray, 0, (float) trackHeight, Color.white, false );
     }
 
-    public Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-        return new GradientPaint( (float) ( trackWidth / 2.0 ), 0, Color.white, (float) trackWidth, 0, Color.gray, false );
+    protected Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
+        return Color.BLACK;
     }
 
     protected double getViewY( double value ) {

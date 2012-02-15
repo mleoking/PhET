@@ -67,8 +67,7 @@ public class HSliderNode extends SliderNode {
 
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, trackHeight );
 
-        trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackPath ),
-                                   new BasicStroke( 1 ), new GradientPaint( 0, 0, Color.gray, 0, (float) trackHeight, Color.black, false ) );
+        trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackWidth, trackHeight ), new BasicStroke( 1 ), getTrackStrokePaint( trackWidth, trackHeight ) );
         rootNode.addChild( trackNode );
 
         double knobSize = KnobNode.DEFAULT_SIZE < trackWidth / 5 ? KnobNode.DEFAULT_SIZE : trackWidth / 5;
@@ -152,16 +151,12 @@ public class HSliderNode extends SliderNode {
         return leftKnobRect;
     }
 
-    /**
-     * Get the paint used for filling in the track.  Override in subclasses if
-     * a different look is desired.
-     *
-     * @param trackRect - rectangle that defines shape of the track.
-     * @return
-     */
-    protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
-        return new GradientPaint( (float) trackRect.getMinX(), (float) trackRect.getCenterY(), Color.white, (float) trackRect.getWidth(),
-                                  (float) trackRect.getCenterY(), Color.gray, false );
+    protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
+        return new GradientPaint( 0, 0, Color.white, (float)trackWidth, 0, Color.gray, false );
+    }
+
+    protected Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
+        return Color.BLACK;
     }
 
     protected double getViewX( double value ) {
@@ -219,7 +214,7 @@ public class HSliderNode extends SliderNode {
                         } );
                     }};
 
-                    final HSliderNode sliderNode = new HSliderNode( new UserComponent( "mySlider" ), 0, 100, 90, 10, sliderValue, new Property<Boolean>( true ) ) {{
+                    final HSliderNode sliderNode = new HSliderNode( new UserComponent( "mySlider" ), 0, 100, 300, 10, sliderValue, new Property<Boolean>( true ) ) {{
                         addLabel( 0.0, new PhetPText( "None" ) );
                         addLabel( 100.0, new PhetPText( "Lots" ) );
                         setOffset( 150, 250 );
