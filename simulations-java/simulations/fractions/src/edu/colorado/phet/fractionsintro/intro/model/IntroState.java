@@ -3,9 +3,10 @@ package edu.colorado.phet.fractionsintro.intro.model;
 
 import lombok.Data;
 
-import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularPieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
+
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
 
 /**
  * Immutable state class representing the state of the model at any given instant.
@@ -28,8 +29,8 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
         containerSet = new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim();
         showReduced = false;
         showMixed = false;
-        pieSet = new PieSet( CircularPieSet.CircularPieSet );
-        horizontalBarSet = new PieSet( CircularPieSet.CircularPieSet );
+        pieSet = new PieSet( CircularSliceFactory );
+        horizontalBarSet = new PieSet( CircularSliceFactory );
         representation = Representation.PIE;
     }
 

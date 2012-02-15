@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularPieSet.CircularPieSet;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
 
 /**
  * Model for the Fractions Intro sim.
@@ -57,7 +57,7 @@ public class FractionsIntroModel {
                                                     public IntroState apply( IntroState s, Representation r ) {
 
                                                         //Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
-                                                        return s.representation( r ).pieSet( CircularPieSet.fromContainerSetState( s.containerSet ) );
+                                                        return s.representation( r ).pieSet( CircularSliceFactory.fromContainerSetState( s.containerSet ) );
                                                     }
                                                 }
             );
@@ -103,7 +103,7 @@ public class FractionsIntroModel {
 
                                            //create a new container set
                                            ContainerSet cs = s.containerSet.denominator( denominator ).padAndTrim();
-                                           return s.pieSet( CircularPieSet.fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator );
+                                           return s.pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator );
                                        }
                                    }
             ).toIntegerProperty();
@@ -117,7 +117,7 @@ public class FractionsIntroModel {
             new Function2<IntroState, ContainerSet, IntroState>() {
                 public IntroState apply( IntroState s, ContainerSet containerSet ) {
                     return s.containerSet( containerSet ).
-                            pieSet( CircularPieSet.fromContainerSetState( containerSet ) ).
+                            pieSet( CircularSliceFactory.fromContainerSetState( containerSet ) ).
                             numerator( containerSet.numerator ).
                             denominator( containerSet.denominator );
                 }
@@ -135,7 +135,7 @@ public class FractionsIntroModel {
                 public IntroState apply( IntroState s, PieSet pieSet ) {
                     final ContainerSet cs = pieSet.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
-                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator ).horizontalBarSet( CircularPieSet.fromContainerSetState( cs ) );
+                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator ).horizontalBarSet( CircularSliceFactory.fromContainerSetState( cs ) );//TODO: should be horizontal
                 }
             }
     );
@@ -151,7 +151,7 @@ public class FractionsIntroModel {
                 public IntroState apply( IntroState s, PieSet p ) {
                     final ContainerSet cs = p.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
-                    return s.horizontalBarSet( p ).containerSet( cs ).numerator( cs.numerator ).pieSet( CircularPieSet.fromContainerSetState( cs ) );
+                    return s.horizontalBarSet( p ).containerSet( cs ).numerator( cs.numerator ).pieSet( CircularSliceFactory.fromContainerSetState( cs ) );
                 }
             }
     );
