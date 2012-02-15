@@ -14,12 +14,16 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  * @author Sam Reid
  */
 @Data public class Slice {
+
+    //TODO: Different internal representations for slices (square slices don't have angle)
     public final ImmutableVector2D tip;
     public final double angle;//in radians
     public final double extent;//in radians
     public final double radius;
     public final boolean dragging;
     public final AnimationTarget animationTarget;
+
+    //Left as a function instead of a field so we don't eagerly compute it when not necessary
     public final Function1<Slice, Shape> toShape;
 
     public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }

@@ -7,6 +7,7 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
 
 /**
  * Immutable state class representing the state of the model at any given instant.
@@ -30,7 +31,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceF
         showReduced = false;
         showMixed = false;
         pieSet = new PieSet( CircularSliceFactory );
-        horizontalBarSet = new PieSet( CircularSliceFactory );
+        horizontalBarSet = new PieSet( HorizontalSliceFactory );
         representation = Representation.PIE;
     }
 

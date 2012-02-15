@@ -42,11 +42,13 @@ public class CircularSliceFactory extends AbstractSliceFactory {
     //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
     public Slice createBucketSlice( int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * pieRadius, getBucketCenter().getY() - pieRadius / 2 ), 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, pieRadius, false, null, toShape );
+        final ImmutableVector2D location = new ImmutableVector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * pieRadius, getBucketCenter().getY() - pieRadius / 2 );
+        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, anglePerSlice, pieRadius, false, null, toShape );
     }
 
     public Slice createPieCell( int pie, int cell, int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
-        return new Slice( new ImmutableVector2D( pieDiameter * ( pie + 1 ) + pieSpacing * ( pie + 1 ) - 80, 250 ), anglePerSlice * cell, anglePerSlice, pieDiameter / 2, false, null, toShape );
+        final ImmutableVector2D location = new ImmutableVector2D( pieDiameter * ( pie + 1 ) + pieSpacing * ( pie + 1 ) - 80, 250 );
+        return new Slice( location, anglePerSlice * cell, anglePerSlice, pieDiameter / 2, false, null, toShape );
     }
 }
