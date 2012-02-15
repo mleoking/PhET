@@ -2,7 +2,6 @@
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import java.awt.Dimension;
-import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
@@ -13,14 +12,15 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PureWater;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -31,12 +31,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class ConcentrationControlNode extends PNode {
 
-    private static final Dimension TRACK_SIZE = new Dimension( 250, 30 );
+    private static final Dimension TRACK_SIZE = new Dimension( 200, 15 );
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE  );
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private final Property<BeersLawSolution> solution;
-    private final PPath sliderNode; //TODO use a slider
+    private final HSliderNode sliderNode;
     private final JTextField textField;
     private final PText unitsNode;
 
@@ -48,7 +48,7 @@ public class ConcentrationControlNode extends PNode {
         PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.CONCENTRATION ) ) {{
             setFont( FONT );
         }};
-        sliderNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) );
+        sliderNode = new SliderNode( solution );
         textField = new JTextField( "??????" ) {{
             setColumns( 4 );
             setFont( FONT );
@@ -104,5 +104,18 @@ public class ConcentrationControlNode extends PNode {
         //TODO move slider to correct position
         textField.setText( FORMAT.format( currentSolution.concentration.get() * ( 1 / Math.pow( 10, currentSolution.concentrationDisplayExponent ) ) ) );
         unitsNode.setText( currentSolution.getDisplayUnits() );
+    }
+
+    //TODO set proper track gradient, wire up, provide intermediate Property<T>s to handle solute change, etc.
+    // The slider
+    private static class SliderNode extends HSliderNode {
+        public SliderNode( Property<BeersLawSolution> solution ) {
+            super( UserComponents.concentrationSlider,
+                   solution.get().concentrationRange.getMin(),
+                   solution.get().concentrationRange.getMax(),
+                   TRACK_SIZE.width, TRACK_SIZE.height,
+                   solution.get().concentration,
+                   new Property<Boolean>( true ));
+        }
     }
 }
