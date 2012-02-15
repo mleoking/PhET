@@ -143,6 +143,22 @@ public class FractionsIntroModel {
             }
     );
 
+    //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
+    public final SettableProperty<PieSet> horizontalBarSet = new ClientProperty<PieSet>(
+            state, new Function1<IntroState, PieSet>() {
+        public PieSet apply( IntroState s ) {
+            return s.horizontalBarSet;
+        }
+    },
+            new Function2<IntroState, PieSet, IntroState>() {
+                public IntroState apply( IntroState s, PieSet pieSet ) {
+                    final ContainerSet cs = pieSet.toContainerSet();
+                    //Update both the pie set and container state to match the user specified pie set
+                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator );
+                }
+            }
+    );
+
     public void resetAll() {
         state.set( new IntroState() );
     }
