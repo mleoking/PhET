@@ -1,3 +1,4 @@
+2/14/12 change request: change max solute amount to 1.2 mol, so that max concentration is 6M and all solutes will saturate
 2/6/12 add support for zero-volume in Solution (even though we don't currently need it)
 2/6/12 #3233, support click-and-drag in slider tracks (ala MacOS and iOS)
 # 0.00.18 (60958) Feb 2, 2012
