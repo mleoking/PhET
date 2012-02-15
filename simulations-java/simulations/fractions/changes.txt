@@ -1,3 +1,4 @@
+# 0.00.36 (61366) Feb 14, 2012
 Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
 When increasing numerator, take from slices in front (higher z-ordering)
 Reduced shadow offset to 50% distance
