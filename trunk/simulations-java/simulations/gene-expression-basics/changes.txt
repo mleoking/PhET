@@ -1,3 +1,4 @@
+Made ribosomes larger, since it was pointed out they they are in reality about 5x larger (by mass) than the polymerase.
 Made the polymerase and transcription factors do the 1D walk more quickly and detach sooner.
 Prevented user interaction with mRNA destroyers when they are destroying.
 Prevented user interaction with protein until it is fully grown.
