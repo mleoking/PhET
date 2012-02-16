@@ -26,14 +26,14 @@ class BLLRulerNode extends PNode {
      */
     public BLLRulerNode( final Ruler ruler, final ModelViewTransform mvt ) {
 
-        // Compute tick labels, 1 major tick for every 1 unit of length
-        String[] majorTicks = new String[ruler.length + 1];
+        // Compute tick labels, 1 major tick for every 0.5 unit of length, labels on the ticks that correspond to integer values.
+        String[] majorTicks = new String[ ( 2 * ruler.length ) + 1];
         for ( int i = 0; i < majorTicks.length; i++ ) {
-            majorTicks[i] = String.valueOf( i );
+            majorTicks[i] = ( i % 2 == 0 ) ? String.valueOf( i / 2 ) : "";
         }
 
         // Use ruler node from common framework
-        addChild( new RulerNode( mvt.modelToViewDeltaX( ruler.length ), 40, majorTicks, Strings.UNITS_CENTIMETERS, 9, 12 ) );
+        addChild( new RulerNode( mvt.modelToViewDeltaX( ruler.length ), 40, majorTicks, Strings.UNITS_CENTIMETERS, 4, 12 ) );
 
         // interactivity
         addInputEventListener( new CursorHandler() );
