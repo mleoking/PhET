@@ -34,6 +34,7 @@ LOW
 
 SIM-SHARING
 - add sim-sharing to WavelengthControl
+- create SimSharingJTextField
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
