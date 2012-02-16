@@ -1,0 +1,50 @@
+PhET Weekly Progress Report
+John Blanco
+February 16th, 2012
+
+Time period covered: February 9th through February 15th
+
+Gene Expression - 22.0 hrs
+
+-	Drew up proposal for 2nd tab and put the static picture into the sim for review.
+-	Finished positive feedback for when all proteins produced.
+-	Contacted Tom Perkins and Mike Klymkowsky about pictures of bacteria fluorescing.  No luck so far.
+-	Met with Mike K to review progress, discuss design of 2nd tab.
+-	Discussed presenting interview data to Mike K with the postdocs who have conducted interviews.
+-	Fixed case where polymerase is transcribing and there is something already on the strand (the other thing gets knocked off).
+-	Made it easier for the polymerase to get started if the user releases it near the correct spot.
+-	Fixed a bug where two polymerases couldn't transcribe at one time.
+-	Made one of the proteins generated on the 1st tab match the fluorescent color used in the last tab for a potential connection between the two.
+-	Fixed some issues with having polymerase start to transcribe when it wanders to the correct location on its own (instead of being put there).
+-	Made the random walk on the DNA strand move faster and detach sooner.
+-	Made the ribosomes larger, since in reality they are substantially bigger than the polymerase.
+-	Fixed bug with graph on 3rd tab that was causing occasional discontinuities.
+-	Tried logarithmic scale for graph on 3rd tab, reverted it in favor of a higher resolution graph with more a more limited range for the protein level.
+
+Balancing Act - 3.5 hrs
+
+-	Made mystery object include label and instance information in their user component messages so that they can be uniquely identified.
+-	Enabled the student ID dialog.
+-	Added earned score to sim sharing messages from the game.
+-	Published a version, sent link to Min C for review.  Haven't received a response yet.
+
+Sim Sharing and Data Collection - 4.0 hrs
+
+-	Ran a test to see if last message actually made it to the DB during our testing.  Turns out it did, which is good.  See #3250.
+-	Worked with Sam R, Mike D, and Doug J on choosing the new server hardware and finding a location for it.
+
+Fractions - 3.0 hrs
+
+-	Worked with Sam R on refactoring model to be immutable.
+
+Math Sims - 1.0 hr
+
+-	Met with Ariel to discuss work on upcoming math simulations.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+-	Weekly status meeting.
+-	Weekly status report.
+-	Logged January hours in spreadsheet, filled out vacation and sick leave form.
+-	Review, prioritization, and updating of Unfuddle issues.
+-	Normal email and administrative overhead.
