@@ -1,7 +1,7 @@
 2/16/12 replace Dilutions design doc with Molarity in SVN
 2/16/12 tweak margin for beaker label
 2/16/12 change Kool-Aid to "Drink mix"
-2/16/12 revert to ranges in 0.00.18: solute=0-1 mol, volume=0.2-1L, concentration=0-6M
+2/16/12 revert to ranges in 0.00.18: solute=0-1 mol, volume=0.2-1L, concentration=0-5M
 2/16/12 add an assertion to guard against addition of a solute whose saturated concentration exceeds the maximum of the concentration display
 # 0.00.22 (61408) Feb 16, 2012
 2/16/12 change ranges and saturation points: solute=0-1 mol, volume=0.1-1L, concentration=0-6M, Kool-Aid=5.95M, Cobalt nitrate=5.65M, Nickel chloride=5.20M
