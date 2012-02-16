@@ -106,7 +106,7 @@ class PrecipitateNode extends PComposite {
     private void updateValue() {
         double precipitateAmount = solution.precipitateAmount.get();
         int numberOfParticles = getNumberOfParticles();
-        valueNode.setText( "precipitate: " + new DecimalFormat( "0.00000" ).format( precipitateAmount ) + " mol = " + numberOfParticles + " particles" );
+        valueNode.setText( "dev: precipitate = " + new DecimalFormat( "0.00000" ).format( precipitateAmount ) + " mol, " + numberOfParticles + " particles" );
     }
 
     // Gets the number of particles used to represent the solution's saturation.
