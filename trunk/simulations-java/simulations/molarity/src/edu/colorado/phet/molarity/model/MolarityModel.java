@@ -49,8 +49,8 @@ public class MolarityModel implements Resettable {
             add( new Solute( Strings.POTASSIUM_PERMANGANATE, MolaritySymbols.POTASSIUM_PERMANGANATE, 0.50, new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) ), Color.BLACK, PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
         }};
         for ( Solute solute : solutes ) {
-            assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) );
-            assert ( CONCENTRATION_DISPLAY_RANGE.contains( solute.saturatedConcentration ) );
+            assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) ); // all solutes must be within the range of the concentration model
+            assert ( CONCENTRATION_DISPLAY_RANGE.contains( solute.saturatedConcentration ) ); // all solutes must be within the range of the concentration display
         }
 
         this.solution = new Solution( new Water(), solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
