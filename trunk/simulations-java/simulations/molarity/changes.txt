@@ -1,3 +1,4 @@
+# 0.00.23 (61437) Feb 16, 2012
 2/16/12 put a faint line around colors of solutes in combo box
 2/16/12 replace Dilutions design doc with Molarity in SVN
 2/16/12 tweak margin for beaker label
