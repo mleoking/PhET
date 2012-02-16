@@ -37,8 +37,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
  */
 public class SimSharingJTextField extends JTextField {
 
-    private final IUserComponent userComponent;
-    private final ActionListener dummyActionListener = new ActionListener() {
+    private final IUserComponent userComponent; // user component that will appear in all messages
+    private final ActionListener dummyActionListener = new ActionListener() {  // workaround, see enableFireActionPerformed
         public void actionPerformed( ActionEvent e ) {}
     };
 
@@ -151,10 +151,10 @@ public class SimSharingJTextField extends JTextField {
     }
 
     /*
-    * When mouse is pressed, send a simsharing event if the component is disabled.
-    * Safer to override than add listener, since the listener could be removed with removeAllListeners().
-    * Only works if enableEvents has been called. See #3218.
-    */
+     * When mouse is pressed, send a message if the component is disabled.
+     * Safer to override than add listener, since the listener could be removed with removeAllListeners().
+     * Only works if enableEvents has been called. See #3218.
+     */
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
             sendUserMessage( UserActions.pressed, parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
@@ -167,6 +167,7 @@ public class SimSharingJTextField extends JTextField {
        return new ParameterSet().add( ParameterKeys.text, getText() );
     }
 
+    // All messages are sent via this method, so that they all have the same component and component type.
     private void sendUserMessage( IUserAction action, ParameterSet parameterSet ) {
         SimSharingManager.sendUserMessage( userComponent, textField, action, parameterSet );
     }
