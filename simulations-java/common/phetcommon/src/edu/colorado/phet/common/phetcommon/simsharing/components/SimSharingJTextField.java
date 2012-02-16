@@ -31,7 +31,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterS
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.textField;
 
 /**
- * Swing text field that sends sim-sharing events.
+ * Swing text field that sends sim-sharing messages.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
