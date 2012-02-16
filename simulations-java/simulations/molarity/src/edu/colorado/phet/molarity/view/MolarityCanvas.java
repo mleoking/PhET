@@ -8,6 +8,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -73,7 +74,7 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION,
                                                                                           MessageFormat.format( Strings.PATTERN__PARENTHESES__0TEXT, Strings.MOLARITY ),
                                                                                           concentrationBarSize,
-                                                                                          model.solution, model.getConcentrationRange(),
+                                                                                          model.solution, new DoubleRange( 0, 6 ),
                                                                                           Strings.UNITS__MOLARITY, Strings.ZERO, Strings.HIGH,
                                                                                           valuesVisible );
 
