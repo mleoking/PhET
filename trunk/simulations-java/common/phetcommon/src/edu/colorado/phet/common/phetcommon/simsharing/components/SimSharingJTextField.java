@@ -38,6 +38,10 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
 public class SimSharingJTextField extends JTextField {
 
     private final IUserComponent userComponent;
+    private final ActionListener dummyActionListener = new ActionListener() {
+        public void actionPerformed( ActionEvent e ) {}
+    };
+
     private boolean focusMessagesEnabled = true; // Enabled by default because we typically commit text field values on focusLost.
     private boolean keyPressMessagesEnabled = false; // Disabled by default because this verbosity isn't typically needed.
 
@@ -94,14 +98,22 @@ public class SimSharingJTextField extends JTextField {
         return keyPressMessagesEnabled;
     }
 
-    // fireActionPerformed is only called if there is at least one register ActionListener, so register one.
+    // fireActionPerformed is only called if there is at least one registered ActionListener, so register one that does nothing.
     private void enableFireActionPerformed() {
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {}
-        } );
+        addActionListener( dummyActionListener );
     }
 
-    // Make sure processMouseEvent gets called even if no listeners registered. See http://www.dickbaldwin.com/java/Java102.htm#essential_ingredients_for_extending_exis
+    // Prevent clients from sabotaging the workaround installed by enableFireActionPerformed.
+    @Override public void removeActionListener( ActionListener l ) {
+        if ( l != dummyActionListener ) {
+            super.removeActionListener( l );
+        }
+    }
+
+    /*
+    * Make sure processMouseEvent gets called even if no listeners registered.
+    * See http://www.dickbaldwin.com/java/Java102.htm#essential_ingredients_for_extending_exis
+    */
     private void enableMouseEvents() {
         enableEvents( AWTEvent.MOUSE_EVENT_MASK );
     }
