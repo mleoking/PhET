@@ -3,9 +3,11 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 
@@ -55,7 +57,7 @@ public class CollidingBehavior extends PlateBehavior {
             float rightScale = ( newXes[i + 1] - newXes[i] ) / ( oldXes[i + 1] - oldXes[i] );
             scales[i] = ( leftScale + rightScale ) / 2;
         }
-        for ( Region region : new Region[] { getPlate().getCrust(), getPlate().getLithosphere() } ) {
+        for ( Region region : new Region[] { getPlate().getLithosphere(), getPlate().getCrust() } ) {
             for ( int i = 0; i < getPlate().getCrust().getTopBoundary().samples.size(); i++ ) {
                 float centerY = ( getPlate().getCrust().getTopBoundary().samples.get( i ).getPosition().y
                                   + getPlate().getCrust().getBottomBoundary().samples.get( i ).getPosition().y ) / 2;
@@ -68,10 +70,48 @@ public class CollidingBehavior extends PlateBehavior {
                     final float currentY = currentPosition.y;
                     float newX = currentX == 0 ? 0 : computeNewX( millionsOfYears, sign, currentX );
                     float newY = ( currentY - centerY ) / scales[i] + centerY;
-                    sample.setPosition( currentPosition.plus( new ImmutableVector3F( newX - currentX, newY - currentY, 0 ) ) );
+                    final float yOffset = newY - currentY;
+                    final ImmutableVector3F offset3d = new ImmutableVector3F( newX - currentX, yOffset, 0 );
+                    sample.setPosition( currentPosition.plus( offset3d ) );
+
+                    // kind of a weird hack, but it helps us store less amounts of massive information
+                    if ( boundary == getPlate().getCrust().getTopBoundary() ) {
+                        getPlate().getTerrain().xPositions.set( i, newX );
+                        for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
+                            final TerrainSample terrainSample = getPlate().getTerrain().getSample( i, row );
+                            terrainSample.setElevation( terrainSample.getElevation() + yOffset );
+                        }
+                    }
                 }
             }
         }
+
+        // create some mountains!
+        for ( int col = 0; col < getPlate().getCrust().getTopBoundary().samples.size(); col++ ) {
+            for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
+                final TerrainSample terrainSample = getPlate().getTerrain().getSample( col, row );
+                float mountainRatio = (float) MathUtil.clamp( 0, ( terrainSample.getElevation() - 6000 ) / ( 13000 - 6000 ), 1 );
+                final float elevationOffset = (float) ( mountainRatio * ( Math.random() * 1000 - 500 ) );
+                terrainSample.setElevation( terrainSample.getElevation() + elevationOffset );
+                if ( row == getPlate().getTerrain().getFrontZIndex() ) {
+                    final Sample sample = getPlate().getCrust().getTopBoundary().samples.get( col );
+                    sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, elevationOffset, 0 ) ) );
+                }
+            }
+        }
+
+        // copy elevation from left plate to right plate on the center line
+        if ( !getPlate().isLeftPlate() ) {
+            for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
+                final float elevation = getOtherPlate().getTerrain().getSample( getOtherPlate().getTerrain().getNumColumns() - 1, row ).getElevation();
+                getPlate().getTerrain().getSample( 0, row ).setElevation(
+                        elevation );
+                final Sample sample = getPlate().getCrust().getTopBoundary().samples.get( 0 );
+                sample.setPosition( new ImmutableVector3F( sample.getPosition().x, elevation, sample.getPosition().z ) );
+            }
+        }
+
+        getPlate().getTerrain().elevationChanged.updateListeners();
 
         // we want to slide along the mantle instead!
 //        getPlate().getMantle().getTopBoundary().borrowPosition( getPlate().getLithosphere().getBottomBoundary() );
@@ -116,7 +156,7 @@ public class CollidingBehavior extends PlateBehavior {
         }
 
         // TODO: different terrain sync so we can handle height differences
-        getPlate().fullSyncTerrain();
+//        getPlate().fullSyncTerrain();
     }
 
     private float computeNewX( float millionsOfYears, float sign, float currentX ) {
