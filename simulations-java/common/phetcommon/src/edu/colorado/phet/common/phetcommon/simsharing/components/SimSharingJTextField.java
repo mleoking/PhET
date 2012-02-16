@@ -43,7 +43,7 @@ public class SimSharingJTextField extends JTextField {
     };
 
     private boolean focusMessagesEnabled = true; // Enabled by default because we typically commit text field values on focusLost.
-    private boolean keyPressMessagesEnabled = false; // Disabled by default because this verbosity isn't typically needed.
+    private boolean keyPressedMessagesEnabled = false; // Disabled by default because this verbosity isn't typically needed.
 
     public SimSharingJTextField( IUserComponent userComponent ) {
         super();
@@ -90,12 +90,12 @@ public class SimSharingJTextField extends JTextField {
     }
 
     // Determines whether messages are sent for key presses.
-    public void setKeyPressMessagesEnabled( boolean enabled ) {
-        keyPressMessagesEnabled = enabled;
+    public void setKeyPressedMessagesEnabled( boolean enabled ) {
+        keyPressedMessagesEnabled = enabled;
     }
 
-    public boolean isKeyPressMessagesEnabled() {
-        return keyPressMessagesEnabled;
+    public boolean isKeyPressedMessagesEnabled() {
+        return keyPressedMessagesEnabled;
     }
 
     // fireActionPerformed is only called if there is at least one registered ActionListener, so register one that does nothing.
@@ -120,9 +120,9 @@ public class SimSharingJTextField extends JTextField {
 
     /*
      * Called when the user presses enter/return.
-     * This could have been treated as a keyPress action (see processKeyEvent), but
+     * This could have been treated as a keyPressed action (see processKeyEvent), but
      * (a) the primary way that a text field is committed is by registering an ActionListener (not a KeyListener), and
-     * (b) keyPress messages are disabled by default, because they are verbose.
+     * (b) keyPressed messages are disabled by default, because they are verbose.
      */
     @Override protected void fireActionPerformed() {
         sendUserMessage( UserActions.enterPressed, getParameters() );
@@ -144,7 +144,7 @@ public class SimSharingJTextField extends JTextField {
 
     // Called when a key is pressed. Enter is ignored so we don't have duplication with fireActionPerformed.
     @Override protected void processKeyEvent( KeyEvent e ) {
-        if ( keyPressMessagesEnabled && e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() != KeyEvent.VK_ENTER ) {
+        if ( keyPressedMessagesEnabled && e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() != KeyEvent.VK_ENTER ) {
             sendUserMessage( UserActions.keyPressed, getParameters().add( ParameterKeys.key, e.getKeyCode() ) ); //TODO what should we use for key parameter value?
         }
         super.processKeyEvent( e );
@@ -176,14 +176,14 @@ public class SimSharingJTextField extends JTextField {
      *
      * - change check boxes to enable/disable message types
      * - press Enter/Return in text field to demonstrate enterPressed message
-     * - type in text field to demonstrate keyPress messages
+     * - type in text field to demonstrate keyPressed messages
      * - tab through components to demonstrate focus messages
      * - note that registered listeners are notified after messages are sent
      */
     public static void main( String[] args ) {
 
         final SimSharingJTextField textField = new SimSharingJTextField( new UserComponent( "myTextField" ), "SimSharingJTextField", 20 );
-        textField.setKeyPressMessagesEnabled( true );
+        textField.setKeyPressedMessagesEnabled( true );
 
         // Add listeners to verify that messages occur before listeners are notified.
         textField.addActionListener( new ActionListener() {
@@ -206,10 +206,10 @@ public class SimSharingJTextField extends JTextField {
         } );
 
         // check box for turning keyPress messages on/off
-        final JCheckBox keyPressCheckBox = new JCheckBox( "keyPress messages", textField.isKeyPressMessagesEnabled() );
+        final JCheckBox keyPressCheckBox = new JCheckBox( "keyPressed messages", textField.isKeyPressedMessagesEnabled() );
         keyPressCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                textField.setKeyPressMessagesEnabled( keyPressCheckBox.isSelected() );
+                textField.setKeyPressedMessagesEnabled( keyPressCheckBox.isSelected() );
             }
         } );
 
