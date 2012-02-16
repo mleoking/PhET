@@ -24,9 +24,11 @@ import com.mongodb.WriteResult;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
- * The destination for Mongo logging messages for sim sharing, connects directly to MongoDB server, see #3213.
- * Note that currently there is one database per machine, and one top-level collection for each session.
- * This may not be optimal for searches that span multiple machines (or operations that must operate on all stored logs), so may be changed in the future.
+ * The destination for Mongo logging messages for sim sharing, connects
+ * directly to MongoDB server, see #3213. Note that currently there is one
+ * collection per session. This may not be optimal for searches that span
+ * multiple machines (or operations that must operate on all stored logs), so
+ * may be changed in the future.
  *
  * @author Sam Reid
  */
@@ -62,11 +64,11 @@ public class MongoLog implements Log {
     //Part of the mongoDB password, see #3231
     public static final String MER = "meR".toLowerCase();
 
-    public MongoLog( String sessionID ) throws UnknownHostException {
+    public MongoLog( String sessionID, String dbName ) throws UnknownHostException {
         mongo = new Mongo( HOST_IP_ADDRESS, PORT );
 
         //one database to store all the sessions, otherwise disk space fills up too fast
-        DB database = mongo.getDB( "sessions" );
+        DB database = mongo.getDB( dbName );
 
         //TODO: Authentication
         boolean auth = database.authenticate( "phetsimclient", ( MER + SimSharingManager.MONGO_PASSWORD + "" + ( 2 * 2 * 2 ) + "ss0O88723otbubaoue" ).toCharArray() );

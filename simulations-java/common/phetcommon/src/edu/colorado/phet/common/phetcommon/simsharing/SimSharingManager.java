@@ -53,6 +53,9 @@ import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMyIPAddr
  */
 public class SimSharingManager {
 
+    // Standard DB name for sim event data collection.
+    private static final String SIM_EVENT_COLLECTION_DB_NAME = "sessions";
+
     // component and type used for system messages sent by this class
     private final ISystemComponent SYSTEM_COMPONENT = SystemComponents.simsharingManager;
     private final ISystemComponentType SYSTEM_COMPONENT_TYPE = SystemComponentTypes.simsharingManager;
@@ -85,7 +88,11 @@ public class SimSharingManager {
 
     // Initialization, creates the singleton and sends startup events if sim-sharing is enabled.
     public static void init( final PhetApplicationConfig config ) {
-        INSTANCE = new SimSharingManager( config );
+        init( config, SIM_EVENT_COLLECTION_DB_NAME );
+    }
+
+    public static void init( final PhetApplicationConfig config, String dbName ) {
+        INSTANCE = new SimSharingManager( config, dbName );
     }
 
     // These members are always initialized.
@@ -103,7 +110,7 @@ public class SimSharingManager {
     public final StringLog stringLog = new StringLog();
 
     // Singleton, private constructor
-    private SimSharingManager( final PhetApplicationConfig config ) {
+    private SimSharingManager( final PhetApplicationConfig config, String dbName ) {
 
         enabled = config.hasCommandLineArg( COMMAND_LINE_OPTION );
         simStartedTime = System.currentTimeMillis();
@@ -126,7 +133,7 @@ public class SimSharingManager {
             //If Mongo delivery is enabled, add that log (but if trying to connect to unknown host, print an exception and skip it)
             if ( getConfig( studyName ).isSendToServer() ) {
                 try {
-                    logs.add( new MongoLog( sessionId ) );
+                    logs.add( new MongoLog( sessionId, dbName ) );
                 }
                 catch ( UnknownHostException unknownHostException ) {
                     unknownHostException.printStackTrace();
