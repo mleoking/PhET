@@ -50,6 +50,7 @@ public class MolarityModel implements Resettable {
         }};
         for ( Solute solute : solutes ) {
             assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) );
+            assert ( CONCENTRATION_DISPLAY_RANGE.contains( solute.saturatedConcentration ) );
         }
 
         this.solution = new Solution( new Water(), solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
