@@ -14,8 +14,7 @@ case class SimState(tab: Int, tab0: Tab0, tab1: Tab1, time: Long) {
 
 case class Molecule(electronGeometry: String, moleculeGeometry: String)
 
-trait MSTab {
-}
+trait MSTab
 
 //Factored out state that is shared between all tabs, since case classes do not inherit well.
 case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolean) {
