@@ -204,6 +204,10 @@ public class PlateMotionModel extends PlateModel {
         rewinding = false;
 
         updateStrips();
+
+        // needed since our animation is started
+        leftPlate.fullSyncTerrain();
+        rightPlate.fullSyncTerrain();
         updateTerrain();
 
         modelChanged.updateListeners();
