@@ -165,7 +165,7 @@ public class SimSharingJTextField extends JTextField {
 
     // Parameters that are common to all messages
     protected ParameterSet getParameters() {
-       return new ParameterSet().add( ParameterKeys.text, getText() );
+        return new ParameterSet().add( ParameterKeys.text, getText() );
     }
 
     // All messages are sent via this method, so that they all have the same component and component type.
@@ -195,10 +195,11 @@ public class SimSharingJTextField extends JTextField {
         } );
         textField.addFocusListener( new FocusListener() {
             public void focusGained( FocusEvent e ) {
-                System.out.println( "focusLost" );
-            }
-            public void focusLost( FocusEvent e ) {
                 System.out.println( "focusGained" );
+            }
+
+            public void focusLost( FocusEvent e ) {
+                System.out.println( "focusLost" );
             }
         } );
         textField.addKeyListener( new KeyAdapter() {
