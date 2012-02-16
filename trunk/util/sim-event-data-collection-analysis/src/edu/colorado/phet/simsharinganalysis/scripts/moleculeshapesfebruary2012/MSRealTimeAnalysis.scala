@@ -13,8 +13,8 @@ object MSRealTimeAnalysis extends App {
     val states = MSAnalysis getStates log
 
     ( MSAnalysis toReport log ).toString + "\n" +
-    "Tab " + states.last.tab + "\n" +
-    "Tab 1 View " + states.last.tab1.view + "\n" +
-    "Tab 1 molecule: " + states.last.tab1.molecule + "\n"
+    "Tab " + states.last.end.tab + "\n" +
+    "Tab 1 View " + states.last.end.tab1.view + "\n" +
+    "Tab 1 molecule: " + states.last.end.tab1.molecule + "\n"
   }).main(args)
 }
