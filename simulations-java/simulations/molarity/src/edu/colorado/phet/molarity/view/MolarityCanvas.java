@@ -73,7 +73,7 @@ public class MolarityCanvas extends AbstractMolarityCanvas {
         ConcentrationDisplayNode concentrationDisplayNode = new ConcentrationDisplayNode( Strings.SOLUTION_CONCENTRATION,
                                                                                           MessageFormat.format( Strings.PATTERN__PARENTHESES__0TEXT, Strings.MOLARITY ),
                                                                                           concentrationBarSize,
-                                                                                          model.solution, model.getConcentrationRange(),
+                                                                                          model.solution, model.getConcentrationDisplayRange(),
                                                                                           Strings.UNITS__MOLARITY, Strings.ZERO, Strings.HIGH,
                                                                                           valuesVisible );
 
