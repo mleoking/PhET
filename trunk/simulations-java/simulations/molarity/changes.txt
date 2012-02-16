@@ -1,7 +1,8 @@
+2/15/12 restore ranges to 0.00.18 (solute=0-1 mol, volume=0.2-1L, concentration=0-5M)
 # 0.00.21 (61382) Feb 15, 2012
-2/14/12 limit range of concentration display to 0-6 M
+2/15/12 limit range of concentration display to 0-6 M
 # 0.00.20 (61380) Feb 15, 2012
-2/14/12 experiment with a different range: solute=0-1 mol, volume=0.1-1 L
+2/15/12 experiment with a different range: solute=0-1 mol, volume=0.1-1 L
 # 0.00.19 (61363) Feb 14, 2012
 2/14/12 change request: change max solute amount to 1.2 mol, so that max concentration is 6M and all solutes will saturate
 2/6/12 add support for zero-volume in Solution (even though we don't currently need it)
