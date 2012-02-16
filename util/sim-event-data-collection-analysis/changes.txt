@@ -1,3 +1,4 @@
+# 00.00.27 (61391) Feb 15, 2012
 Added realtime analysis for molecule-shapes
 Added scripts for molecule shapes
 Fixed monitor to use new authentication, see #3231
