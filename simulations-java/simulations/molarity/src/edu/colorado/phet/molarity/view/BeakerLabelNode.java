@@ -133,7 +133,7 @@ class BeakerLabelNode extends PComposite {
         }
 
         // scale to fit the background with some margin
-        final double margin = 2;
+        final double margin = 5;
         final double scaleX = ( backgroundNode.getFullBoundsReference().getWidth() - ( 2 * margin ) ) / textParentNode.getFullBoundsReference().getWidth();
         final double scaleY = ( backgroundNode.getFullBoundsReference().getHeight() - ( 2 * margin ) ) / textParentNode.getFullBoundsReference().getHeight();
         if ( scaleX < 1 || scaleY < 1 ) {
