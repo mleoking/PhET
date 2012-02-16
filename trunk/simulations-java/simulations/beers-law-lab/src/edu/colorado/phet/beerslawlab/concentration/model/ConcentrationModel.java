@@ -7,7 +7,7 @@ import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltChloride;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltIINitrate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CopperSulfate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.KoolAid;
+import edu.colorado.phet.beerslawlab.common.model.Solute.DrinkMix;
 import edu.colorado.phet.beerslawlab.common.model.Solute.NickelIIChloride;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumChromate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumDichromate;
@@ -73,7 +73,7 @@ public class ConcentrationModel implements Resettable {
 
         // Solutes, in rainbow (ROYGBIV) order.
         this.solutes = new ArrayList<Solute>() {{
-            add( new KoolAid() );
+            add( new DrinkMix() );
             add( new CobaltIINitrate() );
             add( new CobaltChloride() );
             add( new PotassiumDichromate() );

@@ -4,13 +4,12 @@ package edu.colorado.phet.beerslawlab.beerslaw.model;
 import java.awt.Color;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.beerslawlab.common.BLLResources;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltChloride;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltIINitrate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CopperSulfate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.KoolAid;
+import edu.colorado.phet.beerslawlab.common.model.Solute.DrinkMix;
 import edu.colorado.phet.beerslawlab.common.model.Solute.NickelIIChloride;
 import edu.colorado.phet.beerslawlab.common.model.Solute.NullSolute;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumChromate;
@@ -82,7 +81,7 @@ public class BeersLawSolution extends Solution {
 
     public static class KoolAidSolution extends BeersLawSolution {
         public KoolAidSolution() {
-            super( new KoolAid(), new DoubleRange( 0, 0.400 ), -3 );
+            super( new DrinkMix(), new DoubleRange( 0, 0.400 ), -3 );
         }
 
         @Override public String getDisplayName() {
