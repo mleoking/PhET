@@ -1,0 +1,48 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Feb 9-15, 2011
+
+Beer's Law Lab
+- more progress on 2nd tab (Beer's Law)
+
+Molarity
+- several dev versions to experiment with alternative ranges for solute, volume and concentration (0.00.19-21)
+
+Common Code
+- fixes and fiddling with Piccolo sliders (HSliderNode/VSliderNode, #3255)
+
+Data Collection
+- created text field with data collection (SimSharingJTextField, #3258)
+
+Dev
+- discussion about lumbok, JDK6 requirement, etc.
+- SR's discussion about how to synchronization multiple data representations
+
+Build
+- identified why "Generate Licence Info" feature was broken
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Beer's Law Lab: 2nd tab
+- Molarity: publish 1.00
+- Reactants, Products and Leftovers: add data collection feature
+- Data Collection: feedback and help with changes
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- Feb 24-26 (not working)
+- April 16 - May 8 (bike trip some portion of that time, not working)
+- July 5-11 (CT, working)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working)
+
+--
