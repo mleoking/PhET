@@ -182,6 +182,19 @@ public class PlateMotionPlate extends Plate {
         }} );
     }
 
+    public void fullSyncTerrain() {
+        for ( int column = 0; column < getTerrain().getNumColumns(); column++ ) {
+            // left side
+            ImmutableVector3F position = ( plateType != null ? getCrust().getTopBoundary() : getMantle().getTopBoundary() ).samples.get( column ).getPosition();
+            for ( int row = 0; row < TERRAIN_DEPTH_SAMPLES; row++ ) {
+                // set the elevation for the whole column
+                getTerrain().getSample( column, row ).setElevation( position.y );
+            }
+            getTerrain().xPositions.set( column, position.x );
+        }
+        getTerrain().elevationChanged.updateListeners();
+    }
+
     private static float getCrustTemperatureFromYRatio( float ratioFromTop ) {
         // TODO: young/old oceanic crust differences!
         return SIMPLE_CRUST_TOP_TEMP + ( SIMPLE_CRUST_BOTTOM_TEMP - SIMPLE_CRUST_TOP_TEMP ) * ratioFromTop;

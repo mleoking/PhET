@@ -114,6 +114,9 @@ public class CollidingBehavior extends PlateBehavior {
                                                              padding + leftSample.getPosition().y * ( 1 - ratio ) + rightSample.getPosition().y * ratio,
                                                              mantleSample.getPosition().z ) );
         }
+
+        // TODO: different terrain sync so we can handle height differences
+        getPlate().fullSyncTerrain();
     }
 
     private float computeNewX( float millionsOfYears, float sign, float currentX ) {
