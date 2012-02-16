@@ -38,7 +38,7 @@ public class MolarityModel implements Resettable {
 
         // solutes, in rainbow (ROYGBIV) order
         this.solutes = new ArrayList<Solute>() {{
-            add( new Solute( Strings.KOOL_AID, MolaritySymbols.KOOL_AID, 5.95, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
+            add( new Solute( Strings.DRINK_MIX, MolaritySymbols.DRINK_MIX, 5.95, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
             add( new Solute( Strings.COBALT_II_NITRATE, MolaritySymbols.COBALT_II_NITRATE, 5.65, new ColorRange( new Color( 255, 225, 225 ), Color.RED ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
             add( new Solute( Strings.COBALT_CHLORIDE, MolaritySymbols.COBALT_CHLORIDE, 4.35, new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
             add( new Solute( Strings.POTASSIUM_DICHROMATE, MolaritySymbols.POTASSIUM_DICHROMATE, 0.50, new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
