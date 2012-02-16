@@ -20,8 +20,8 @@ public class MolarityModel implements Resettable {
 
     private static final int PARTICLES_PER_MOLE = 200; // number of particles to show for each mole of precipitate
     private static final int PARTICLE_SIZE = 5; // particles are square, this is the length of one side
-    private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1.2, 0.5 ); // moles
-    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
+    private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
+    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.1, 1, 0.5 ); // liters
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / SOLUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / SOLUTION_VOLUME_RANGE.getMin() );
 
