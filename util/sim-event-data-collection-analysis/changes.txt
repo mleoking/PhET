@@ -1,5 +1,5 @@
-# 00.00.28 (61389) Feb 15, 2012
-# 00.00.27 (61388) Feb 15, 2012
+Added realtime analysis for molecule-shapes
+Added scripts for molecule shapes
 Fixed monitor to use new authentication, see #3231
 Fixed monitor to use new database layout, see #3230
 # 00.00.26 (60719) Jan 27, 2012
