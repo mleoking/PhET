@@ -75,6 +75,7 @@ public class SimSharingJTextField extends JTextField {
         init();
     }
 
+    // Non-final initialization common to all constructors
     private void init() {
         enableFireActionPerformed();
         enableMouseEvents();
