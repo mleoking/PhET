@@ -80,6 +80,10 @@ public class EnergySkateParkModuleBean implements IProguardKeepClass {
         module.getEnergySkateParkModel().removeAllSplineSurfaces();
         for ( int i = 0; i < splines.size(); i++ ) {
             SplineElement spline = (SplineElement) splines.get( i );
+
+            //There is something a little odd here.  When we added Energy Skate Park Basics, we added a new field to the model called "rollerCoaster" and made it so that all tracks were rollercoaster or not
+            //So this flag has to get set each time when loading a track (such as Double Well (roller coaster mode)), but the latest value will apply to all tracks
+            module.getEnergySkateParkModel().setRollerCoasterMode( spline.rollerCoaster );
             module.getEnergySkateParkModel().addSplineSurface( spline.toEnergySkateParkSpline() );
         }
         module.getEnergySkateParkModel().updateFloorState();

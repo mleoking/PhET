@@ -69,7 +69,7 @@ public class EnergySkateParkSpline implements Serializable {
     public void setRollerCoasterMode( boolean selected ) {
         if ( selected != rollerCoaster ) {
             this.rollerCoaster = selected;
-            parametricFunction2D.rollerCoasterMode = rollerCoaster;
+            parametricFunction2D.rollerCoasterMode = selected;
             notifyRollerCoasterModeChanged();
         }
     }

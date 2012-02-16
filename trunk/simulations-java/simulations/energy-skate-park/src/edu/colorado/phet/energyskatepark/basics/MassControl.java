@@ -3,7 +3,6 @@ package edu.colorado.phet.energyskatepark.basics;
 
 import java.awt.Color;
 import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -29,7 +28,7 @@ public class MassControl extends PNode {
         addChild( new VBox( 10, new PhetPText( EnergySkateParkResources.getString( "skater.mass" ), EnergySkateParkBasicsModule.TITLE_FONT ),
                             new HSliderNode( skaterMassSlider, MIN_MASS, MAX_MASS, 90, 5, module.mass, new Property<Boolean>( true ) ) {
 
-                                @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
+                                @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
                                     // Override the gradient and fill with white.  The gradient
                                     // just looked weird.
                                     return Color.WHITE;
