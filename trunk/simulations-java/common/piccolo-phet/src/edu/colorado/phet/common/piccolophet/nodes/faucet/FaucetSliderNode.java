@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
+import java.awt.Color;
+import java.awt.Paint;
+
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -54,5 +57,10 @@ public class FaucetSliderNode extends HSliderNode {
                 }
             }
         } );
+    }
+
+    // Use white because the faucet is a 3D-looking shaded gray image.
+    @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
+        return Color.WHITE;
     }
 }
