@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.molarity.control;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -93,8 +95,10 @@ public class SoluteControlNode extends PhetPNode {
 
             // solute color chip
             PPath colorNode = new PPath( new Rectangle2D.Double( 0, 0, 20, 20 ) ) {{
-                setPaint( solute.solutionColor.getMax() );
-                setStroke( null );
+                final Color color = solute.solutionColor.getMax();
+                setPaint( color );
+                setStrokePaint( color.darker().darker() );
+                setStroke( new BasicStroke( 0.25f ) );
             }};
             addChild( colorNode );
 
