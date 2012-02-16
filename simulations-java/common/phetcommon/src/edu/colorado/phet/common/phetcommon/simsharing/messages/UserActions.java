@@ -10,5 +10,6 @@ public enum UserActions implements IUserAction {
     activated, changed, closed, deactivated, deiconified, drag, endDrag,
     iconified, moved, pressed, released, resized, startDrag,
     windowOpened, windowClosed, windowClosing, popupTriggered,
-    focusLost, selected, textFieldCommitted, textFieldCorrected
+    focusLost, focusGained, selected, textFieldCommitted, textFieldCorrected,
+    enterPressed, keyPressed
 }

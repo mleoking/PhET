@@ -1,3 +1,4 @@
+2/15/12 #3258, created SimSharingJTextField
 2/12/12 Moved Property.valueEquals to ObservableProperty
 2/6/12 simsharing: Improve sim sharing for purposes of developing (e.g. test mains): SimSharingManager.getInstance doesn't require init() and default config doesn't send to server
 2/2/12 simsharing: factor out duplication of component/type/action throughout SimSharingJ* classes
