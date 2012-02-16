@@ -14,8 +14,8 @@ public class MolaritySymbols {
     public static final String COBALT_II_NITRATE = ChemUtils.toSubscript( "Co(NO3)2" );
     public static final String COBALT_CHLORIDE = ChemUtils.toSubscript( "CoCl2" );
     public static final String COPPER_SULFATE = ChemUtils.toSubscript( "CuSO4" );
+    public static final String DRINK_MIX = Strings.DRINK_MIX;
     public static final String GOLD_III_CHLORIDE = ChemUtils.toSubscript( "AuCl3" );
-    public static final String KOOL_AID = Strings.KOOL_AID;
     public static final String NICKEL_II_CHLORIDE = ChemUtils.toSubscript( "NiCl2" );
     public static final String POTASSIUM_CHROMATE = ChemUtils.toSubscript( "K2CrO4" );
     public static final String POTASSIUM_DICHROMATE = ChemUtils.toSubscript( "K2Cr2O7" );
