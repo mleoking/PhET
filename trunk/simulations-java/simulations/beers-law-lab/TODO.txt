@@ -8,6 +8,7 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
+- create something like a PropertyTextField<Double>, common component for handling numeric entry, to be used in concentration control
 - add absorbance and %transmission to solution model (start with Gaussian based on lambdaMax, later integrate JC's observed data)
 - Light beam: add to model & view (3 segments); beam and photon views
 - Detector: show vertical diameter line, for debugging; display proper values
@@ -34,7 +35,6 @@ LOW
 
 SIM-SHARING
 - add sim-sharing to WavelengthControl
-- create SimSharingJTextField
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
