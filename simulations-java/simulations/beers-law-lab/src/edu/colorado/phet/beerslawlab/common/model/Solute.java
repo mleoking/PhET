@@ -59,9 +59,9 @@ public class Solute {
         return solutionColor.getMax();
     }
 
-    public static class KoolAid extends Solute {
-        public KoolAid() {
-            super( Strings.KOOL_AID, BLLSymbols.KOOL_AID, 342.296, 5.96, 5.50,
+    public static class DrinkMix extends Solute {
+        public DrinkMix() {
+            super( Strings.DRINK_MIX, BLLSymbols.DRINK_MIX, 342.296, 5.96, 5.50,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ),
                    PARTICLE_SIZE, PARTICLES_PER_MOLE );
         }
