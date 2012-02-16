@@ -146,7 +146,7 @@ public class SimSharingJTextField extends JTextField {
     // Called when a key is pressed. Enter is ignored so we don't have duplication with fireActionPerformed.
     @Override protected void processKeyEvent( KeyEvent e ) {
         if ( keyPressedMessagesEnabled && e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() != KeyEvent.VK_ENTER ) {
-            sendUserMessage( UserActions.keyPressed, getParameters().add( ParameterKeys.key, e.getKeyCode() ) ); //TODO what should we use for key parameter value?
+            sendUserMessage( UserActions.keyPressed, getParameters().add( ParameterKeys.key, KeyEvent.getKeyText( e.getKeyCode() ) ) );
         }
         super.processKeyEvent( e );
     }
