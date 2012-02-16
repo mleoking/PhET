@@ -67,7 +67,8 @@ class StudentActivityCanvas(path: String) extends PCanvas {
       //      addChild(new PText("Student " + " " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
       //      addChild(new PText("Student " + " " + sessionLogs.filter(_.machine == machine).map(_.user).distinct.sortBy(phet.numerical).mkString(", ")))
 
-      def trim(s: String) = s.substring(0, s.indexOf("2012") - 1)
+      //      def trim(s: String) = s.substring(0, s.indexOf("2012") - 1)
+      def trim(s: String) = s
 
       addChild(new PText("Source: " + sessionLogs.filter(_.machine == machine).map(log => trim(log.file.getName)).mkString(", ")))
 
