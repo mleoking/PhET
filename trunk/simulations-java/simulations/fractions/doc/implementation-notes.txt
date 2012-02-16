@@ -9,6 +9,9 @@ public State x(double x){ return new State(name,x,y);}
 
 To support the functional paradigm, this sim used FunctionalJava, http://functionaljava.org/
 
+The sim uses a novel technique for supporting multiple representations with Property<T> while avoiding looping, please see this ticket for details:
+https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3259
+
 BEFORE LOMBOK SUPPORT:
 For fields in immutable state classes, values are eagerly created in the constructor and stored as public final fields so that usage reads like: state.name instead of state.getName() or state.name().
 Expensive computations may be put as lazy values or just methods where they are created each time.   If/when we use Lazy evaluation, we could use a pattern like this:
