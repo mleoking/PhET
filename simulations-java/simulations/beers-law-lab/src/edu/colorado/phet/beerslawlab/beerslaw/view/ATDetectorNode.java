@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.geom.CubicCurve2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -201,7 +202,7 @@ public class ATDetectorNode extends PhetPNode {
         public ModeButton( IUserComponent userComponent, String text, Property<ATDetectorMode> mode, ATDetectorMode value ) {
             super( new PropertyRadioButton<ATDetectorMode>( userComponent, text, mode, value ) {{
                 setForeground( Color.WHITE );
-                setFont( new PhetFont( BLLConstants.CONTROL_FONT_SIZE ) );
+                setFont( new PhetFont( Font.BOLD, BLLConstants.CONTROL_FONT_SIZE ) );
             }} );
         }
     }
