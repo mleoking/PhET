@@ -7,6 +7,9 @@ import java.io.File
 import java.text.DecimalFormat
 
 /**
+ * Main class for the sim event data collection analysis for the Molecule
+ * Shapes simulation.
+ *
  * @author Sam Reid
  */
 object MSAnalysis extends StateMachine[SimState] {
@@ -19,12 +22,19 @@ object MSAnalysis extends StateMachine[SimState] {
     ( b zip a ).toList
   }
 
+  /**
+   * Consolidate the important information that was needed from a single log
+   * of entries.
+   */
   class Report(val log: Log) {
+
+    //Uses a state machine to compute the states that the simulation went through.
     val states = getStates(log)
 
     //For timing, only keep things between first and last user event because sometimes the sim is left on with no activity for an hour or more after student is gone
     val userStates = states.slice(states.indexWhere(_.entry.messageType == "user"), states.lastIndexWhere(_.entry.messageType == "user") + 1)
 
+    //Count the number of transitions that the user made.
     val kitTransitions = log.entries.filter(entry => List("kitSelectionNode.previousButton", "kitSelectionNode.nextButton").contains(entry.component)).length
     val tabTransitions = states.filter(entry => entry.start.tab != entry.end.tab).length
     val moleculeTransitions = states.filter(entry => entry.start.tab1.molecule != entry.end.tab1.molecule).length
