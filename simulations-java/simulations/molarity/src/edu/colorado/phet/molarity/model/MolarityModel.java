@@ -21,10 +21,10 @@ public class MolarityModel implements Resettable {
     private static final int PARTICLES_PER_MOLE = 200; // number of particles to show for each mole of precipitate
     private static final int PARTICLE_SIZE = 5; // particles are square, this is the length of one side
     private static final DoubleRange SOLUTE_AMOUNT_RANGE = new DoubleRange( 0, 1, 0.5 ); // moles
-    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.1, 1, 0.5 ); // liters
+    private static final DoubleRange SOLUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / SOLUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / SOLUTION_VOLUME_RANGE.getMin() ); // M
-    private static final DoubleRange CONCENTRATION_DISPLAY_RANGE = new DoubleRange( CONCENTRATION_RANGE.getMin(), 6 ); // M
+    private static final DoubleRange CONCENTRATION_DISPLAY_RANGE = CONCENTRATION_RANGE; // M
 
     // validate assumptions
     static {
@@ -48,10 +48,6 @@ public class MolarityModel implements Resettable {
             add( new Solute( Strings.COPPER_SULFATE, MolaritySymbols.COPPER_SULFATE, 1.40, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
             add( new Solute( Strings.POTASSIUM_PERMANGANATE, MolaritySymbols.POTASSIUM_PERMANGANATE, 0.50, new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) ), Color.BLACK, PARTICLE_SIZE, PARTICLES_PER_MOLE ) );
         }};
-        for ( Solute solute : solutes ) {
-            assert ( CONCENTRATION_RANGE.contains( solute.saturatedConcentration ) ); // all solutes must be within the range of the concentration model
-            assert ( CONCENTRATION_DISPLAY_RANGE.contains( solute.saturatedConcentration ) ); // all solutes must be within the range of the concentration display
-        }
 
         this.solution = new Solution( new Water(), solutes.get( 0 ), SOLUTE_AMOUNT_RANGE.getDefault(), SOLUTION_VOLUME_RANGE.getDefault() );
     }
