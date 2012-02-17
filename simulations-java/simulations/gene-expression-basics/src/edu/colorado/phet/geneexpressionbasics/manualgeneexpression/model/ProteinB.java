@@ -15,8 +15,7 @@ import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCe
  */
 public class ProteinB extends Protein {
 
-    // Make the color look like the fluorescent green used in last tab.
-    private static final Color BASE_COLOR = ColorChangingCellNode.FLORESCENT_FILL_COLOR;
+    private static final Color BASE_COLOR = new Color( 255, 99, 71 );
 
     private static final double FULL_GROWN_WIDTH = 450;
 

@@ -8,13 +8,16 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCellNode;
 
 /**
  * @author John Blanco
  */
 public class ProteinC extends Protein {
 
-    private static final Color BASE_COLOR = new Color( 255, 99, 71 );
+    // Make the color look like the fluorescent green used in "multiple cells" tab.
+    private static final Color BASE_COLOR = ColorChangingCellNode.FLORESCENT_FILL_COLOR;
+
     private static final double FULL_GROWN_WIDTH = 450;
 
     public ProteinC() {
