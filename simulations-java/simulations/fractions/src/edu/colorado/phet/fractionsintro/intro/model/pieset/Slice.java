@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     //TODO: Different internal representations for slices (square slices don't have angle)
     public final ImmutableVector2D tip;
     public final double angle;//in radians
-    public final double extent;//in radians
     public final double radius;
     public final boolean dragging;
     public final AnimationTarget animationTarget;
@@ -28,20 +27,20 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
     public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }
 
-    public Slice translate( double dx, double dy ) { return new Slice( tip.plus( dx, dy ), angle, extent, radius, dragging, animationTarget, toShape ); }
+    public Slice translate( double dx, double dy ) { return new Slice( tip.plus( dx, dy ), angle, radius, dragging, animationTarget, toShape ); }
 
-    public Slice dragging( boolean dragging ) { return new Slice( tip, angle, extent, radius, dragging, animationTarget, toShape ); }
+    public Slice dragging( boolean dragging ) { return new Slice( tip, angle, radius, dragging, animationTarget, toShape ); }
 
-    public Slice angle( double angle ) { return new Slice( tip, angle, extent, radius, dragging, animationTarget, toShape ); }
+    public Slice angle( double angle ) { return new Slice( tip, angle, radius, dragging, animationTarget, toShape ); }
 
     public Slice tip( ImmutableVector2D tip ) {
         if ( Double.isNaN( tip.getX() ) ) {
             throw new RuntimeException( "NANA" );
         }
-        return new Slice( tip, angle, extent, radius, dragging, animationTarget, toShape );
+        return new Slice( tip, angle, radius, dragging, animationTarget, toShape );
     }
 
-    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( tip, angle, extent, radius, dragging, animationTarget, toShape ); }
+    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( tip, angle, radius, dragging, animationTarget, toShape ); }
 
     public ImmutableVector2D center() {return new ImmutableVector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
 

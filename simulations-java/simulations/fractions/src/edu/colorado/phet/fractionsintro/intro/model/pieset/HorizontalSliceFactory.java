@@ -67,6 +67,6 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
         final double cellCenterX = barX + distanceInBar + cellWidth / 2;
 
 //        System.out.println( "pie = " + pie + ", cell = " + cell + ", row=" + row + ", column = " + column + ", position = " + center );
-        return new Slice( new ImmutableVector2D( cellCenterX, center.getY() ), Math.PI, Math.PI, oneBarWidth / 2 / denominator, false, null, toShape );
+        return new Slice( new ImmutableVector2D( cellCenterX, center.getY() ), Math.PI, oneBarWidth / 2 / denominator, false, null, toShape );
     }
 }
