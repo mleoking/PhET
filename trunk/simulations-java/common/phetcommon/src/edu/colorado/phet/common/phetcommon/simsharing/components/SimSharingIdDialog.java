@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig;
+import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -47,7 +50,6 @@ public class SimSharingIdDialog extends JDialog {
     public SimSharingIdDialog( Frame owner, String prompt, final boolean idRequired ) {
         super( owner, true /* modal */ );
         setResizable( false );
-        setUndecorated( true ); // so that the user can't use the close button. Also means that can't move the dialog.
 
         // banner
         JLabel phetLogo = new JLabel( new ImageIcon( PhetCommonResources.getImage( PhetCommonResources.IMAGE_PHET_LOGO ) ) ) {{
@@ -83,7 +85,7 @@ public class SimSharingIdDialog extends JDialog {
             addActionListener( new ActionListener() {
                 // pressing the Exit button exits the application.
                 public void actionPerformed( ActionEvent event ) {
-                    System.exit( 0 );
+                    exit();
                 }
             } );
         }};
@@ -116,6 +118,7 @@ public class SimSharingIdDialog extends JDialog {
             }
         } );
 
+        // main panel
         JPanel mainPanel = new VerticalLayoutPanel() {{
             setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
         }};
@@ -126,6 +129,13 @@ public class SimSharingIdDialog extends JDialog {
         mainPanel.add( actionPanel );
         setContentPane( mainPanel );
         pack();
+
+        // Add a handler to treat the close button like the exit key.
+        addWindowListener( new WindowAdapter() {
+            public void windowClosing( WindowEvent e ) {
+                exit();
+            }
+        } );
     }
 
     private boolean isValidId( String id ) {
@@ -138,6 +148,10 @@ public class SimSharingIdDialog extends JDialog {
             id = null;
         }
         dispose();
+    }
+
+    private void exit() {
+        System.exit( 0 );
     }
 
     // Gets the id entered by the user. Returns null if no id was entered.
