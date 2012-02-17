@@ -37,7 +37,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
      * This data structure contains the configuration information for all of the
      * transcription factors used in this sim.
      */
-    private static final List<TranscriptionFactorConfig> positiveTranscriptionFactorInfo = new ArrayList<TranscriptionFactorConfig>() {{
+    private static final List<TranscriptionFactorConfig> transcriptionFactorConfigurations = new ArrayList<TranscriptionFactorConfig>() {{
         add( new TranscriptionFactorConfig( 1, BioShapeUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow ) );
         add( new TranscriptionFactorConfig( 1, BioShapeUtils.createRandomShape( SIZE, 2000 ), false, Color.red ) );
         add( new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 3000 ), true, Color.green ) );
@@ -120,7 +120,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
      */
     public static TranscriptionFactor generateTranscriptionFactor( GeneExpressionModel model, int geneID, boolean positive, Point2D initialPosition ) {
         TranscriptionFactorConfig config = null;
-        for ( TranscriptionFactorConfig tfc : positiveTranscriptionFactorInfo ) {
+        for ( TranscriptionFactorConfig tfc : transcriptionFactorConfigurations ) {
             if ( tfc.geneID == geneID && tfc.isPositive == positive ) {
                 // Matching configuration found.
                 config = tfc;
@@ -131,7 +131,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
         assert config != null;
         if ( config == null ) {
             System.out.println( "Error: No transcription factor information for specified parameters, using default." );
-            config = positiveTranscriptionFactorInfo.get( positiveTranscriptionFactorInfo.size() - 1 );
+            config = transcriptionFactorConfigurations.get( transcriptionFactorConfigurations.size() - 1 );
         }
         // Create the transcription factor instance.
         return new TranscriptionFactor( model, config.shape, initialPosition, config.baseColor, positive );
