@@ -293,6 +293,7 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         }
         EnergySkateParkSpline energySkateParkSpline = new EnergySkateParkSpline( spline.getControlPoints() );
 //        System.out.println( "energySkateParkSpline @ creation= " + energySkateParkSpline );
+        energySkateParkModel.setRollerCoasterMode( rollerCoaster );
         energySkateParkSpline.setRollerCoasterMode( rollerCoaster );
 
 //        EnergySkateParkLogging.println( "change = " + change );
@@ -341,7 +342,8 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
     }
 
     private boolean getRollerCoaster( EnergySkateParkSpline s1, EnergySkateParkSpline s2 ) {
-        return s1.numControlPoints() > s2.numControlPoints() ? s1.isRollerCoasterMode() : s2.isRollerCoasterMode();
+        return s1.isRollerCoasterMode() || s2.isRollerCoasterMode();
+//        return s1.numControlPoints() > s2.numControlPoints() ? s1.isRollerCoasterMode() : s2.isRollerCoasterMode();
     }
 
     public EnergySkateParkModel getEnergySkateParkModel() {
