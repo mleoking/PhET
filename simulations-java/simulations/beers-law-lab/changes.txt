@@ -1,3 +1,4 @@
+2/17/12 add "Concentration" flavor to this project
 2/16/12 use white text on detector
 2/16/12 change Kool-Aid to "Drink mix"
 2/16/12 add unlabeled major ticks to ruler at 1/2 cm increments

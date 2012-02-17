@@ -30,6 +30,6 @@ public class BeersLawLabApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, BLLResources.PROJECT_NAME, BeersLawLabApplication.class );
+        new PhetApplicationLauncher().launchSim( args, BLLResources.PROJECT_NAME, "beers-law-lab", BeersLawLabApplication.class );
     }
 }
