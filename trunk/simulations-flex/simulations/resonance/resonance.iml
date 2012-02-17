@@ -8,6 +8,20 @@
     <option name="ADDITIONAL_COMPILER_OPTIONS" value="-use-network" />
     <option name="VERSION" value="3" />
   </component>
+  <component name="FlexBuildConfigurationManager" active="Unnamed">
+    <configurations>
+      <configuration main-class="edu.colorado.phet.resonance.ResonanceApplication" output-file="resonance.swf" output-folder="$MODULE_DIR$/deploy">
+        <dependencies target-player="9">
+          <sdk name="flex_sdk_3.4.1.10084" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+    </configurations>
+    <compiler-options />
+  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/output" />
     <exclude-output />
@@ -15,11 +29,8 @@
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex-sdk-3.4" jdkType="Flex SDK Type" />
+    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="flexcommon" />
-    <orderEntry type="module" module-name="common-as3" />
-    <orderEntry type="module" module-name="aswing-a3" />
   </component>
 </module>
 
