@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     public final boolean dragging;
     public final AnimationTarget animationTarget;
 
-    //Left as a function instead of a field so we don't eagerly compute it when not necessary
+    //Left as a function instead of a field so we don't eagerly compute it until necessary
     public final Function1<Slice, Shape> toShape;
 
     public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }
