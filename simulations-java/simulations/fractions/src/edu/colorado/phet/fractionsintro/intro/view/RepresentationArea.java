@@ -14,12 +14,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class RepresentationArea extends PNode {
     public RepresentationArea( ObservableProperty<Representation> chosenRepresentation, IntegerProperty numerator, IntegerProperty denominator, SettableProperty<ContainerSet> containerSet ) {
-//        addChild( new HorizontalBarSetFractionNode( chosenRepresentation, containerSet ) {{
-//            setOffset( 0, -29 );
-//        }} );
-        addChild( new VerticalBarSetFractionNode( chosenRepresentation, containerSet ) {{
-            setOffset( 0, -73 );
-        }} );
         addChild( new NumberLineNode( numerator, denominator, chosenRepresentation.valueEquals( Representation.NUMBER_LINE ) ) {{
             setOffset( 10, 15 );
         }} );

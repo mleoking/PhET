@@ -10,11 +10,12 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
 
 /**
  * Model for the Fractions Intro sim.
@@ -41,7 +42,9 @@ public class FractionsIntroModel {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 final IntroState s = state.get();
                 final PieSet newPieSet = s.pieSet.stepInTime( clockEvent.getSimulationTimeChange() );
-                final IntroState newState = s.pieSet( newPieSet ).containerSet( newPieSet.toContainerSet() ).horizontalBarSet( s.horizontalBarSet.stepInTime( clockEvent.getSimulationTimeChange() ) );
+                final IntroState newState = s.pieSet( newPieSet ).containerSet( newPieSet.toContainerSet() ).
+                        horizontalBarSet( s.horizontalBarSet.stepInTime( clockEvent.getSimulationTimeChange() ) ).
+                        verticalBarSet( s.verticalBarSet.stepInTime( clockEvent.getSimulationTimeChange() ) );
                 state.set( newState );
             }
         } );
@@ -77,14 +80,16 @@ public class FractionsIntroModel {
                                                for ( int i = 0; i < delta; i++ ) {
                                                    final PieSet p = s.pieSet.animateBucketSliceToPie( s.containerSet.getFirstEmptyCell() );
                                                    final PieSet h = s.horizontalBarSet.animateBucketSliceToPie( s.containerSet.getFirstEmptyCell() );
-                                                   s = s.pieSet( p ).horizontalBarSet( h ).containerSet( p.toContainerSet() ).numerator( numerator );
+                                                   final PieSet v = s.verticalBarSet.animateBucketSliceToPie( s.containerSet.getFirstEmptyCell() );
+                                                   s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( numerator );
                                                }
                                            }
                                            else if ( delta < 0 ) {
                                                for ( int i = 0; i < Math.abs( delta ); i++ ) {
                                                    final PieSet p = s.pieSet.animateSliceToBucket( s.containerSet.getLastFullCell() );
                                                    final PieSet h = s.horizontalBarSet.animateSliceToBucket( s.containerSet.getLastFullCell() );
-                                                   s = s.pieSet( p ).horizontalBarSet( h ).containerSet( p.toContainerSet() ).numerator( numerator );
+                                                   final PieSet v = s.verticalBarSet.animateSliceToBucket( s.containerSet.getLastFullCell() );
+                                                   s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( numerator );
                                                }
                                            }
                                            else {
@@ -107,7 +112,8 @@ public class FractionsIntroModel {
                                            //create a new container set
                                            ContainerSet cs = s.containerSet.denominator( denominator ).padAndTrim();
                                            return s.pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator ).
-                                                   horizontalBarSet( HorizontalSliceFactory.HorizontalSliceFactory.fromContainerSetState( cs ) );
+                                                   horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
+                                                   verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) );
                                        }
                                    }
             ).toIntegerProperty();
@@ -139,7 +145,7 @@ public class FractionsIntroModel {
                 public IntroState apply( IntroState s, PieSet pieSet ) {
                     final ContainerSet cs = pieSet.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
-                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator ).horizontalBarSet( HorizontalSliceFactory.HorizontalSliceFactory.fromContainerSetState( cs ) );//TODO: should be horizontal
+                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator ).horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) );//TODO: should be horizontal
                 }
             }
     );
@@ -155,7 +161,28 @@ public class FractionsIntroModel {
                 public IntroState apply( IntroState s, PieSet p ) {
                     final ContainerSet cs = p.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
-                    return s.horizontalBarSet( p ).containerSet( cs ).numerator( cs.numerator ).pieSet( CircularSliceFactory.fromContainerSetState( cs ) );
+                    return s.horizontalBarSet( p ).containerSet( cs ).numerator( cs.numerator ).pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
+                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) );
+                }
+            }
+    );
+
+    //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
+    public final SettableProperty<PieSet> verticalBarSet = new ClientProperty<PieSet>(
+            state, new Function1<IntroState, PieSet>() {
+        public PieSet apply( IntroState s ) {
+            return s.verticalBarSet;
+        }
+    },
+            new Function2<IntroState, PieSet, IntroState>() {
+                public IntroState apply( IntroState s, PieSet p ) {
+                    final ContainerSet cs = p.toContainerSet();
+                    //Update both the pie set and container state to match the user specified pie set
+                    return s.verticalBarSet( p ).
+                            containerSet( cs ).
+                            horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
+                            numerator( cs.numerator ).
+                            pieSet( CircularSliceFactory.fromContainerSetState( cs ) );
                 }
             }
     );

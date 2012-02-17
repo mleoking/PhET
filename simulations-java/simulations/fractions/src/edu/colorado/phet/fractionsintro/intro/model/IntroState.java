@@ -8,6 +8,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
 
 /**
  * Immutable state class representing the state of the model at any given instant.
@@ -20,6 +21,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSlic
     public final boolean showMixed;
     public final PieSet pieSet;
     public final PieSet horizontalBarSet;
+    public final PieSet verticalBarSet;
     public final int numerator;
     public final int denominator;
     public final Representation representation;
@@ -32,30 +34,34 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSlic
         showMixed = false;
         pieSet = new PieSet( CircularSliceFactory );
         horizontalBarSet = new PieSet( HorizontalSliceFactory );
+        verticalBarSet = new PieSet( VerticalSliceFactory );
         representation = Representation.PIE;
     }
 
     //I'm not sure why Lombok didn't generate this
-    public IntroState( ContainerSet containerSet, boolean showReduced, boolean showMixed, PieSet pieSet, PieSet squareSet, int numerator, int denominator, Representation representation ) {
+    public IntroState( ContainerSet containerSet, boolean showReduced, boolean showMixed, PieSet pieSet, PieSet squareSet, PieSet verticalBarSet, int numerator, int denominator, Representation representation ) {
         this.containerSet = containerSet;
         this.showReduced = showReduced;
         this.showMixed = showMixed;
         this.pieSet = pieSet;
         this.horizontalBarSet = squareSet;
+        this.verticalBarSet = verticalBarSet;
         this.numerator = numerator;
         this.denominator = denominator;
         this.representation = representation;
     }
 
-    public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
+    public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation ); }
 
-    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
+    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation ); }
 
-    public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
+    public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation ); }
 
-    public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
+    public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation ); }
 
-    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation ); }
+    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation ); }
 
-    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, numerator, denominator, representation );}
+    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation );}
+
+    public IntroState verticalBarSet( PieSet verticalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation );}
 }
