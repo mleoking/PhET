@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     //Position of the slice.  Center for circles or squares.  For pie slices, it is the tip.  For a half-circle, it is the center of the line edge.
     public final ImmutableVector2D position;
     public final double angle;//in radians
-    public final double radius;
     public final boolean dragging;
     public final AnimationTarget animationTarget;
 
@@ -27,20 +26,20 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
     public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }
 
-    public Slice translate( double dx, double dy ) { return new Slice( position.plus( dx, dy ), angle, radius, dragging, animationTarget, toShape ); }
+    public Slice translate( double dx, double dy ) { return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape ); }
 
-    public Slice dragging( boolean dragging ) { return new Slice( position, angle, radius, dragging, animationTarget, toShape ); }
+    public Slice dragging( boolean dragging ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
 
-    public Slice angle( double angle ) { return new Slice( position, angle, radius, dragging, animationTarget, toShape ); }
+    public Slice angle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
 
     public Slice tip( ImmutableVector2D tip ) {
         if ( Double.isNaN( tip.getX() ) ) {
             throw new RuntimeException( "NANA" );
         }
-        return new Slice( tip, angle, radius, dragging, animationTarget, toShape );
+        return new Slice( tip, angle, dragging, animationTarget, toShape );
     }
 
-    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, radius, dragging, animationTarget, toShape ); }
+    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
 
     public ImmutableVector2D center() {return new ImmutableVector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
 

@@ -17,6 +17,10 @@ public class CircularSliceFactory extends AbstractSliceFactory {
 
     public static final CircularSliceFactory CircularSliceFactory = new CircularSliceFactory();
 
+    public final double diameter = 155;
+    public final double radius = diameter / 2;
+    public final double spacing = 10;
+
     //Private, require users to use singleton
     private CircularSliceFactory() {}
 
@@ -26,7 +30,6 @@ public class CircularSliceFactory extends AbstractSliceFactory {
             @Override public Shape apply( Slice slice ) {
                 double epsilon = 1E-6;
                 ImmutableVector2D tip = slice.position;
-                double radius = slice.radius;
                 double angle = slice.angle;
                 return extent >= Math.PI * 2 - epsilon ?
                        new Ellipse2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2 ) :
@@ -35,21 +38,17 @@ public class CircularSliceFactory extends AbstractSliceFactory {
         };
     }
 
-    public final double pieDiameter = 155;
-    public final double pieRadius = pieDiameter / 2;
-    public final double pieSpacing = 10;
-
     //Put the pieces right in the center of the bucket hole.
     //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
     public Slice createBucketSlice( int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
-        final ImmutableVector2D location = new ImmutableVector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * pieRadius, getBucketCenter().getY() - pieRadius / 2 );
-        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, pieRadius, false, null, getShapeFunction( anglePerSlice ) );
+        final ImmutableVector2D location = new ImmutableVector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().getY() - radius / 2 );
+        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ) );
     }
 
     public Slice createPieCell( int pie, int cell, int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
-        final ImmutableVector2D location = new ImmutableVector2D( pieDiameter * ( pie + 1 ) + pieSpacing * ( pie + 1 ) - 80, 250 );
-        return new Slice( location, anglePerSlice * cell, pieDiameter / 2, false, null, getShapeFunction( anglePerSlice ) );
+        final ImmutableVector2D location = new ImmutableVector2D( diameter * ( pie + 1 ) + spacing * ( pie + 1 ) - 80, 250 );
+        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ) );
     }
 }

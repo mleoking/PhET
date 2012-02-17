@@ -22,13 +22,14 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
     private HorizontalSliceFactory() {}
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
-    public final Function1<Slice, Shape> toShape = new Function1<Slice, Shape>() {
-        @Override public Shape apply( Slice slice ) {
-            ImmutableVector2D tip = slice.position;
-            double radius = slice.radius;
-            return new Rectangle2D.Double( tip.getX() - radius, tip.getY() - barHeight / 2, radius * 2, barHeight );
-        }
-    };
+    public final Function1<Slice, Shape> createToShape( final double width ) {
+        return new Function1<Slice, Shape>() {
+            @Override public Shape apply( Slice slice ) {
+                ImmutableVector2D tip = slice.position;
+                return new Rectangle2D.Double( tip.getX() - width / 2, tip.getY() - barHeight / 2, width, barHeight );
+            }
+        };
+    }
 
     //Put the pieces right in the center of the bucket hole.
     public Slice createBucketSlice( int denominator ) {
@@ -54,7 +55,6 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
         int row = pie / NUM_BARS_PER_LINE;
         int column = pie % NUM_BARS_PER_LINE;
 
-//        double leftBarX = AbstractFractionsCanvas.INSET + oneBarWidth / 2;
         double barPlusSpace = oneBarWidth + distanceBetweenBars;
         final double cellWidth = oneBarWidth / denominator;
 
@@ -66,7 +66,6 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
         final double distanceInBar = cellWidth * cell;
         final double cellCenterX = barX + distanceInBar + cellWidth / 2;
 
-//        System.out.println( "pie = " + pie + ", cell = " + cell + ", row=" + row + ", column = " + column + ", position = " + center );
-        return new Slice( new ImmutableVector2D( cellCenterX, center.getY() ), Math.PI, oneBarWidth / 2 / denominator, false, null, toShape );
+        return new Slice( new ImmutableVector2D( cellCenterX, center.getY() ), Math.PI, false, null, createToShape( oneBarWidth / denominator ) );
     }
 }
