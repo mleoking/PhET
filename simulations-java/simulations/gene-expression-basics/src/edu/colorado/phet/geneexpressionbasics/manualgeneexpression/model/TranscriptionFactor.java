@@ -63,18 +63,17 @@ public class TranscriptionFactor extends MobileBiomolecule {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    // Flag that determines whether this transcription factor is positive or
-    // negative, i.e. whether it enhances or diminishes the likelihood of
-    // transcription.
-    private final boolean isPositive;
+    // Configuration used to create this transcription factor, used when
+    // comparing factors and creating copies.
+    private final TranscriptionFactorConfig config;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    private TranscriptionFactor( GeneExpressionModel model, Shape shape, Point2D initialPosition, Color baseColor, boolean isPositive ) {
-        super( model, shape, baseColor );
-        this.isPositive = isPositive;
+    private TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config, Point2D initialPosition ) {
+        super( model, config.shape, config.baseColor );
+        this.config = config;
         setPosition( initialPosition );
     }
 
@@ -90,7 +89,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
      * @return
      */
     public boolean isPositive() {
-        return isPositive;
+        return config.isPositive;
     }
 
     @Override public void stepInTime( double dt ) {
@@ -148,7 +147,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
             config = transcriptionFactorConfigurations.get( transcriptionFactorConfigurations.size() - 1 );
         }
         // Create the transcription factor instance.
-        return new TranscriptionFactor( model, config.shape, initialPosition, config.baseColor, positive );
+        return new TranscriptionFactor( model, config, initialPosition );
     }
 
     @Override public AttachmentSite proposeAttachments() {
