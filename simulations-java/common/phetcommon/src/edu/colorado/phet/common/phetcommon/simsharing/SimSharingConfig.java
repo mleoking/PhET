@@ -192,4 +192,13 @@ public abstract class SimSharingConfig {
             super( "molecule-shapes-feb-2012", true, true, false, false );
         }
     }
+
+    /*
+     *  Fake configuration used for load testing of the DB.
+     */
+    private static class LoadTestingConfig extends SimSharingConfig {
+        public LoadTestingConfig() {
+            super( "load-testing-config", false, true, false, false );
+        }
+    }
 }
