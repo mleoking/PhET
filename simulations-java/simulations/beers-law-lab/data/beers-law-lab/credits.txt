@@ -1,1 +1,1 @@
-phet-credits lead-design=Julia Chamberlain software-development=Chris Malley design-team=Kelly Lancaster, Patricia Loeblein, Emily B. Moore, Robert Parson, Kathy Perkins
+phet-credits lead-design=Julia Chamberlain software-development=Chris Malley design-team=Kelly Lancaster, Emily B. Moore, Kathy Perkins
