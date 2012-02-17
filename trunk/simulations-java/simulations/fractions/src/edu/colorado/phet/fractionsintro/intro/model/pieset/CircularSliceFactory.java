@@ -25,7 +25,7 @@ public class CircularSliceFactory extends AbstractSliceFactory {
         return new Function1<Slice, Shape>() {
             @Override public Shape apply( Slice slice ) {
                 double epsilon = 1E-6;
-                ImmutableVector2D tip = slice.tip;
+                ImmutableVector2D tip = slice.position;
                 double radius = slice.radius;
                 double angle = slice.angle;
                 return extent >= Math.PI * 2 - epsilon ?

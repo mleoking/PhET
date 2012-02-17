@@ -66,7 +66,7 @@ public class MovableSliceNode extends PNode {
                             if ( s.dragging && target != null ) { return s.moveTo( target ); }
                             else if ( s.dragging ) {
                                 final Slice destination = model.get().sliceFactory.createBucketSlice( model.get().denominator );
-                                return s.dragging( false ).animationTarget( new AnimationTarget( destination.tip, destination.angle ) );
+                                return s.dragging( false ).animationTarget( new AnimationTarget( destination.position, destination.angle ) );
                             }
                             else { return s; }
                         }

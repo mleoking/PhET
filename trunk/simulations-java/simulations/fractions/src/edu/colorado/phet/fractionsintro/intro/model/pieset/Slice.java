@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  */
 @Data public class Slice {
 
-    //TODO: Different internal representations for slices (square slices don't have angle)
-    public final ImmutableVector2D tip;
+    //Position of the slice.  Center for circles or squares.  For pie slices, it is the tip.  For a half-circle, it is the center of the line edge.
+    public final ImmutableVector2D position;
     public final double angle;//in radians
     public final double radius;
     public final boolean dragging;
@@ -27,11 +27,11 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
     public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }
 
-    public Slice translate( double dx, double dy ) { return new Slice( tip.plus( dx, dy ), angle, radius, dragging, animationTarget, toShape ); }
+    public Slice translate( double dx, double dy ) { return new Slice( position.plus( dx, dy ), angle, radius, dragging, animationTarget, toShape ); }
 
-    public Slice dragging( boolean dragging ) { return new Slice( tip, angle, radius, dragging, animationTarget, toShape ); }
+    public Slice dragging( boolean dragging ) { return new Slice( position, angle, radius, dragging, animationTarget, toShape ); }
 
-    public Slice angle( double angle ) { return new Slice( tip, angle, radius, dragging, animationTarget, toShape ); }
+    public Slice angle( double angle ) { return new Slice( position, angle, radius, dragging, animationTarget, toShape ); }
 
     public Slice tip( ImmutableVector2D tip ) {
         if ( Double.isNaN( tip.getX() ) ) {
@@ -40,7 +40,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
         return new Slice( tip, angle, radius, dragging, animationTarget, toShape );
     }
 
-    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( tip, angle, radius, dragging, animationTarget, toShape ); }
+    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, radius, dragging, animationTarget, toShape ); }
 
     public ImmutableVector2D center() {return new ImmutableVector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
 
@@ -66,18 +66,18 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
         return angle( newAngle );
     }
 
-    private ImmutableVector2D getVelocity() {return animationTarget.position.minus( tip ).getInstanceOfMagnitude( 30 );}
+    private ImmutableVector2D getVelocity() {return animationTarget.position.minus( position ).getInstanceOfMagnitude( 30 );}
 
     private Slice checkFinishAnimation() {
-        if ( tip.distance( animationTarget.position ) < getVelocity().getMagnitude() ) {
+        if ( position.distance( animationTarget.position ) < getVelocity().getMagnitude() ) {
             return tip( animationTarget.position ).animationTarget( null ).angle( animationTarget.angle );
         }
         return this;
     }
 
-    public boolean movingToward( Slice cell ) { return animationTarget != null && animationTarget.position.equals( cell.tip ) && animationTarget.angle == cell.angle; }
+    public boolean movingToward( Slice cell ) { return animationTarget != null && animationTarget.position.equals( cell.position ) && animationTarget.angle == cell.angle; }
 
-    public boolean positionAndAngleEquals( Slice cell ) { return cell.tip.equals( tip ) && cell.angle == angle; }
+    public boolean positionAndAngleEquals( Slice cell ) { return cell.position.equals( position ) && cell.angle == angle; }
 
-    public Slice moveTo( Slice target ) { return dragging( false ).angle( target.angle ).tip( target.tip );}
+    public Slice moveTo( Slice target ) { return dragging( false ).angle( target.angle ).tip( target.position );}
 }

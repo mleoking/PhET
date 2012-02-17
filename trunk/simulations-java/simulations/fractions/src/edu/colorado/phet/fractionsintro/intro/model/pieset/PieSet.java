@@ -134,8 +134,8 @@ import static fj.data.List.range;
         //TODO: maybe check for bucket piece first, instead of piece going to the bucket as equal priority
         final Option<Slice> bucketSlice = slices.reverse().find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
-                final double bucketY = sliceFactory.createBucketSlice( denominator ).tip.getY();
-                return ( m.tip.getY() == bucketY && m.animationTarget == null ) ||
+                final double bucketY = sliceFactory.createBucketSlice( denominator ).position.getY();
+                return ( m.position.getY() == bucketY && m.animationTarget == null ) ||
                        //Count piece going toward bucket as being in the bucket
                        ( m.animationTarget != null && m.animationTarget.position.getY() == bucketY );
             }
@@ -146,7 +146,7 @@ import static fj.data.List.range;
             final Slice target = sliceFactory.createPieCell( emptyCell.container, emptyCell.cell, denominator );
             return slices( slices.map( new F<Slice, Slice>() {
                 @Override public Slice f( Slice m ) {
-                    return m == bucketSlice.some() ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ) : m;
+                    return m == bucketSlice.some() ? m.animationTarget( new AnimationTarget( target.position, target.angle ) ) : m;
                 }
             } ) );
         }
@@ -162,7 +162,7 @@ import static fj.data.List.range;
         final Slice prototype = sliceFactory.createPieCell( cell.container, cell.cell, denominator );
         final Slice slice = slices.find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
-                return ( m.tip.equals( prototype.getTip() ) && m.angle == prototype.angle ) ||
+                return ( m.position.equals( prototype.getPosition() ) && m.angle == prototype.angle ) ||
                        m.movingToward( prototype );
             }
         } ).some();
@@ -173,7 +173,7 @@ import static fj.data.List.range;
             @Override public Slice f( Slice m ) {
 
                 //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
-                return m == slice ? m.animationTarget( new AnimationTarget( target.tip, target.angle ) ).stepAnimation() : m;
+                return m == slice ? m.animationTarget( new AnimationTarget( target.position, target.angle ) ).stepAnimation() : m;
             }
         } ) );
     }
