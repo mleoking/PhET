@@ -24,7 +24,7 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> toShape = new Function1<Slice, Shape>() {
         @Override public Shape apply( Slice slice ) {
-            ImmutableVector2D tip = slice.tip;
+            ImmutableVector2D tip = slice.position;
             double radius = slice.radius;
             return new Rectangle2D.Double( tip.getX() - radius, tip.getY() - barHeight / 2, radius * 2, barHeight );
         }
