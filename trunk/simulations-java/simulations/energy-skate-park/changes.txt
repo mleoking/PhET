@@ -1,3 +1,4 @@
+# 2.11.00 (61455) Feb 17, 2012
 # 2.10.03 (61454) Feb 17, 2012
 > Fixed: When resetting the sim, switch back to non-roller-coaster mode for future tracks.
 > Fixed: When changing "roller coaster" mode through the right-click popup menu, have the result apply to all future tracks
