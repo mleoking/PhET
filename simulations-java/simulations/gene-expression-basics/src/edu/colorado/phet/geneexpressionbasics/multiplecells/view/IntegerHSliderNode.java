@@ -61,7 +61,7 @@ class IntegerHSliderNode extends PNode {
 
         // Create the slider node.
         hSliderNode = new HSliderNode( userComponent, min, max, trackWidth, trackHeight, doubleProperty, new BooleanProperty( true ) ) {
-            @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
+            @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
                 return Color.BLACK;
             }
         };
