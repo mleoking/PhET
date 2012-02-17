@@ -19,7 +19,7 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 
 /**
  * Renders the pie set node from the given model.  Unconventional way of using piccolo, where the scene graph is recreated any time the model changes.
- * Done to support immutable model and still get some piccolo benefits.
+ * Done to support immutable model and still get efficient reuse of piccolo.
  *
  * @author Sam Reid
  */
@@ -61,11 +61,20 @@ public class PieSetNode extends PNode {
         addChild( bucketView.getFrontNode() );
 
         //Show an icon label on the bucket so the user knows what is in the bucket
-        addChild( new ZeroOffsetNode( new MovableSliceNode( rootNode, model, model.get().sliceFactory.createBucketSlice( model.get().denominator ) ) {{
-            setPickable( false );
-            setChildrenPickable( false );
+        PNode icon = new PNode() {{
+            final int denominator = model.get().denominator;
+            for ( int i = 0; i < denominator; i++ ) {
+                Slice cell = model.get().sliceFactory.createPieCell( 0, i, denominator );
+                addChild( new PhetPPath( cell.shape(), Color.white, new BasicStroke( 3 ), Color.black ) );
+            }
+
+            addChild( new MovableSliceNode( rootNode, model, model.get().sliceFactory.createPieCell( 0, 0, denominator ) ) {{
+                setPickable( false );
+                setChildrenPickable( false );
+            }} );
             scale( 0.4 );
-        }} ) {{
+        }};
+        addChild( new ZeroOffsetNode( icon ) {{
             centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );
         }} );
     }
