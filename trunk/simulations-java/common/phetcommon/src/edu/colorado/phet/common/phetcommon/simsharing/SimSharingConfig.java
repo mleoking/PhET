@@ -27,6 +27,7 @@ public abstract class SimSharingConfig {
         addConfig( new FaradaySpring2012() );
         addConfig( new BalancingActSpring2012() );
         addConfig( new MoleculeShapesFeb2012() );
+        addConfig( new LoadTestingConfig() );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
@@ -198,7 +199,7 @@ public abstract class SimSharingConfig {
      */
     private static class LoadTestingConfig extends SimSharingConfig {
         public LoadTestingConfig() {
-            super( "load-testing-config", false, true, false, false );
+            super( "load-testing", false, true, false, false );
         }
     }
 }
