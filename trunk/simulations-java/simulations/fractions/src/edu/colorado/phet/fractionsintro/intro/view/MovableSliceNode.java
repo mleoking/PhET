@@ -54,8 +54,7 @@ public class MovableSliceNode extends PNode {
                 //Flag one slice as dragging
                 @Override public void mousePressed( PInputEvent event ) {
                     PieSet state = model.get();
-                    final PieSet newState = new PieSet( state.denominator, state.pies, state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ), state.sliceFactory );
-                    model.set( newState );
+                    model.set( state.slices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) ) );
                 }
 
                 //Set all drag flags to false
