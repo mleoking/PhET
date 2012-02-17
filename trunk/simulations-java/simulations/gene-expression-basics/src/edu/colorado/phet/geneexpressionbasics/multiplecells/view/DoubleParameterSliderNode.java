@@ -37,7 +37,7 @@ class DoubleParameterSliderNode extends PNode {
 
         // Create the slider node.
         HSliderNode sliderNode = new HSliderNode( userComponent, min, max, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, settableProperty, new BooleanProperty( true ) ) {
-            @Override protected Paint getTrackFillPaint( Rectangle2D trackRect ) {
+            @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
                 return Color.BLACK;
             }
         };
