@@ -6,11 +6,13 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
@@ -72,9 +74,16 @@ public class PieSetNode extends PNode {
                 setPickable( false );
                 setChildrenPickable( false );
             }} );
+
             scale( 0.4 );
         }};
-        addChild( new ZeroOffsetNode( icon ) {{
+
+        PNode text = new FractionNode( new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
+            scale( 0.2 );
+        }};
+        PNode iconAndText = new HBox( icon, text );
+
+        addChild( new ZeroOffsetNode( iconAndText ) {{
             centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );
         }} );
     }

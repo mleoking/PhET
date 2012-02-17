@@ -1,3 +1,4 @@
+Added a fraction readout on the bucket next to the icon
 For icon on bucket, show an entire "full icon" and the piece within it
 Added shadows for animating pieces
 Added buckets/dragging for vertical bars
