@@ -1,3 +1,5 @@
+> Fixed: When resetting the sim, switch back to non-roller-coaster mode for future tracks.
+> Fixed: When changing "roller coaster" mode through the right-click popup menu, have the result apply to all future tracks
 # 2.10.02 (61450) Feb 17, 2012
 > When any two tracks join, set the resultant track to be roller coaster mode if either was in roller coaster mode.
 # 2.10.01 (61402) Feb 15, 2012

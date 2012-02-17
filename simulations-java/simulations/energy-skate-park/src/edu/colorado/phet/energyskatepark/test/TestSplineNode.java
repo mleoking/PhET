@@ -58,6 +58,9 @@ public class TestSplineNode {
 
             public void notifySplineDeletedByUser() {
             }
+
+            @Override public void setRollerCoasterMode( boolean rollerCoasterMode ) {
+            }
         }, true );
         phetPCanvas.addWorldChild( splineNode );
 

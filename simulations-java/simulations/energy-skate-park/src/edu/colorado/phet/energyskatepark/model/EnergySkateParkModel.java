@@ -389,6 +389,7 @@ public class EnergySkateParkModel implements Serializable {
     }
 
     public void reset() {
+        setRollerCoasterMode( false );
         removeAllBodies();
         removeAllSplineSurfaces();
         clearHistory();
