@@ -8,13 +8,14 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 
 /**
  * Renders the pie set node from the given model.  Unconventional way of using piccolo, where the scene graph is recreated any time the model changes.
@@ -32,8 +33,7 @@ public class PieSetNode extends PNode {
     public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
         this.rootNode = rootNode;
 
-        final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 );
-        bucketView = new BucketView( model.get().sliceFactory.bucket(), mvt );
+        bucketView = new BucketView( model.get().sliceFactory.bucket(), createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
 
         model.addObserver( new SimpleObserver() {
             public void update() {

@@ -1,3 +1,4 @@
+Added shadows for animating pieces
 Added buckets/dragging for vertical bars
 # 0.00.37 (61374) Feb 15, 2012
 Added buckets/dragging for horizontal bars
