@@ -1,3 +1,4 @@
+> When any two tracks join, set the resultant track to be roller coaster mode if either was in roller coaster mode.
 # 2.10.01 (61402) Feb 15, 2012
 > Fixed: Double Well (roller coaster) in the Tracks menu is loading without roller coaster mode
 # 2.10.00 (61021) Feb 4, 2012
