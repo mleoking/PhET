@@ -67,10 +67,11 @@ public class MongoLog implements Log {
     public MongoLog( String sessionID, String dbName ) throws UnknownHostException {
         mongo = new Mongo( HOST_IP_ADDRESS, PORT );
 
-        //one database to store all the sessions, otherwise disk space fills up too fast
+        // All sessions are stored in the same DB.  Having a separate DB for
+        // each uses an excessive amount of disk space.
         DB database = mongo.getDB( dbName );
 
-        //TODO: Authentication
+        // Authenticate.
         boolean auth = database.authenticate( "phetsimclient", ( MER + SimSharingManager.MONGO_PASSWORD + "" + ( 2 * 2 * 2 ) + "ss0O88723otbubaoue" ).toCharArray() );
         if ( !auth ) {
             new RuntimeException( "Authentication failed" ).printStackTrace();

@@ -98,11 +98,11 @@ public class SimSharingManager {
     // These members are always initialized.
     private final boolean enabled; //Flag indicating whether sim-sharing is enabled.
     private final long simStartedTime; //The time that the singleton was instantiated.
+    private final String sessionId; // identifies the session
 
     // These members are initialized only if sim-sharing is enabled.
     private String studyName; // name for the study, as provided on the command line
     private String studentId; // student id, as provided by the student
-    private String sessionId; // identifies the session
     private String machineCookie; // identifies the client machine
     private int messageCount; // number of delivered events, for cross-checking that no events were dropped
 
@@ -114,7 +114,7 @@ public class SimSharingManager {
 
         enabled = config.hasCommandLineArg( COMMAND_LINE_OPTION );
         simStartedTime = System.currentTimeMillis();
-        sessionId = generateStrongId();
+        sessionId = generateSessionId();
         if ( enabled ) {
 
             studyName = config.getOptionArg( COMMAND_LINE_OPTION );
@@ -170,11 +170,16 @@ public class SimSharingManager {
         return enabled;
     }
 
+    // Gets the session ID that is being used for this sim-sharing session.
+    public String getSessionId() {
+        return sessionId;
+    }
+
     /*
-     * Gets the name of the study.
-     * This is the optional arg supplied after the "-study" program arg (eg, "-study utah").
-     * Returns null if no study is specified.
-     */
+    * Gets the name of the study.
+    * This is the optional arg supplied after the "-study" program arg (eg, "-study utah").
+    * Returns null if no study is specified.
+    */
     public String getStudyName() {
         return studyName;
     }
@@ -266,8 +271,18 @@ public class SimSharingManager {
                 add( ParameterKeys.sessionId, sessionId ) );
     }
 
+    public static String generateSessionId(){
+        // MongoDB documentation says that collections should start with a
+        // letter, so we prepend one here.
+        return "s" + generateStrongId();
+    }
+
+    public static String generateMachineCookie(){
+        return generateStrongId();
+    }
+
     //Generate a strong unique id, see http://stackoverflow.com/questions/41107/how-to-generate-a-random-alpha-numeric-string-in-java
-    public static String generateStrongId() {
+    private static String generateStrongId() {
         return new BigInteger( 130, new SecureRandom() ).toString( 32 );
     }
 
