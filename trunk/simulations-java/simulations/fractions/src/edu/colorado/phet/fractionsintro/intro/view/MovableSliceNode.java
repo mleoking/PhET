@@ -33,15 +33,18 @@ public class MovableSliceNode extends PNode {
 
     public MovableSliceNode( final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
 
+        //A piece should have a shadow if it is being dragged or animating to a location
+        boolean showShadow = slice.dragging || slice.animationTarget != null;
+
         final Shape origShape = slice.shape();
-        Shape shape = slice.dragging ? AffineTransform.getTranslateInstance( -5, -5 ).createTransformedShape( origShape ) : origShape;
+        Shape shape = showShadow ? AffineTransform.getTranslateInstance( -5, -5 ).createTransformedShape( origShape ) : origShape;
         if ( Double.isNaN( shape.getBounds2D().getX() ) || Double.isNaN( shape.getBounds2D().getY() ) ) {
             //TODO: Find and prevent the NaNs in the first place
             return;
         }
 
         //Show a shadow behind the object so it will look like it is a bit out of the screen and hence not part of the fraction
-        if ( slice.dragging ) {
+        if ( showShadow ) {
             addChild( new PhetPPath( origShape, SHADOW_PAINT ) );
         }
         addChild( new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
