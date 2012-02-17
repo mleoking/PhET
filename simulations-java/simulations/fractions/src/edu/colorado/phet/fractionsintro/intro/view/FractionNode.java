@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractionsintro.intro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -25,19 +24,19 @@ public class FractionNode extends PNode {
         }};
         addChild( den );
 
-        final ZeroOffsetNode numberNode = new ZeroOffsetNode( new FractionNumberNode( numerator ) ) {{
-            setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-        }};
-        addChild( numberNode );
+//        final ZeroOffsetNode numberNode = new ZeroOffsetNode( new FractionNumberNode( numerator ) ) {{
+//            setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+//        }};
+//        addChild( numberNode );
 
-        denominator.addObserver( new VoidFunction1<Integer>() {
-            public void apply( Integer integer ) {
-                line.setVisible( integer != 1 );
-                den.setVisible( integer != 1 );
-                num.setVisible( integer != 1 );
-
-                numberNode.setVisible( integer == 1 );
-            }
-        } );
+//        denominator.addObserver( new VoidFunction1<Integer>() {
+//            public void apply( Integer integer ) {
+//                line.setVisible( integer != 1 );
+//                den.setVisible( integer != 1 );
+//                num.setVisible( integer != 1 );
+//
+//                numberNode.setVisible( integer == 1 );
+//            }
+//        } );
     }
 }
