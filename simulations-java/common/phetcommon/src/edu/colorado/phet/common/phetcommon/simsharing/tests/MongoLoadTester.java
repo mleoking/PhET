@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.logs.MongoLog;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
@@ -63,9 +64,10 @@ public class MongoLoadTester {
         System.out.println( "Load test starting up, run time = " + runTime );
 
         // Initialize the sim sharing manager.
-        SimSharingManager.init( new PhetApplicationConfig( SIM_SHARING_ARGS, "test-java-project" ) );
+        SimSharingManager.init( new PhetApplicationConfig( SIM_SHARING_ARGS, "test-java-project" ), LOAD_TESTING_DB_NAME );
+        System.out.println( "SimSharingManager.getInstance().getSessionId() = " + SimSharingManager.getInstance().getSessionId() );
 
-        // Establish a connection to the database.
+        // Establish a separate connection to the database.
         long initialMessageCount;
         Mongo mongo;
         DB db;
@@ -74,7 +76,7 @@ public class MongoLoadTester {
             mongo = new Mongo( MongoLog.HOST_IP_ADDRESS, MongoLog.PORT );
             db = mongo.getDB( LOAD_TESTING_DB_NAME );
             db.authenticate( DB_USER_NAME, ( MER + SimSharingManager.MONGO_PASSWORD + "" + ( 2 * 2 * 2 ) + "ss0O88723otbubaoue" ).toCharArray() );
-            collection = db.getCollection( DB_COLLECTION );
+            collection = db.getCollection( SimSharingManager.getInstance().getSessionId() );
             initialMessageCount = collection.getCount();
         }
         catch ( UnknownHostException e ) {
@@ -102,6 +104,7 @@ public class MongoLoadTester {
         try {
             threadPool.shutdown();
             threadPool.awaitTermination( (long) ( runTime * 10 ), TimeUnit.SECONDS );
+            Thread.sleep( 100 ); // If we don't wait a little bit, the last message if often not get counted.
             System.out.println( "All threads terminated." );
             long finalMessageCount = collection.getCount();
             // Total up the sent messages.
@@ -113,6 +116,7 @@ public class MongoLoadTester {
             System.out.println( "finalMessageCount = " + finalMessageCount );
             System.out.println( "totalMessagesSent = " + totalMessagesSent );
 
+//            SimSharingManager.getInstance().
             // Compare the expected and actual message count to decide whether
             // the test was successful.
             System.out.println( "Test passed = " + ( initialMessageCount + totalMessagesSent == finalMessageCount ) );
@@ -159,7 +163,6 @@ public class MongoLoadTester {
             }
         }
     }
-
 
     private static enum UserComponents implements IUserComponent {
         loadTester
