@@ -26,4 +26,6 @@ public interface EnergySkateParkSplineEnvironment {
     double getMaxDragX();
 
     void notifySplineDeletedByUser();
+
+    void setRollerCoasterMode( boolean rollerCoasterMode );
 }

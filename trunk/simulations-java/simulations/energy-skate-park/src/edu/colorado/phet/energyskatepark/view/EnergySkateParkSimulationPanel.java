@@ -337,6 +337,10 @@ public class EnergySkateParkSimulationPanel extends PhetPCanvas implements Energ
         }
     }
 
+    @Override public void setRollerCoasterMode( boolean rollerCoasterMode ) {
+        module.getEnergySkateParkModel().setRollerCoasterMode( rollerCoasterMode );
+    }
+
     public void addSplineDeletedByUserListener( VoidFunction0 listener ) {
         splineDeletedByUserListeners.add( listener );
     }

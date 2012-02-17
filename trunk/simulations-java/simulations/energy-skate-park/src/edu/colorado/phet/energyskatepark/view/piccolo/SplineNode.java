@@ -536,6 +536,7 @@ public class SplineNode extends PNode {
             attachListeners( spline );
             rollerCoasterMode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
+                    splineEnvironment.setRollerCoasterMode( rollerCoasterMode.isSelected() );
                     spline.setRollerCoasterMode( rollerCoasterMode.isSelected() );
                     lastState = null;
                 }
