@@ -34,9 +34,14 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             addChild( new PieSetNode( model.pieSet, rootNode ) );
         }} );
 
-        //For squares
+        //For horizontal bars
         addChild( new RepresentationNode( model.representation, Representation.HORIZONTAL_BAR ) {{
             addChild( new PieSetNode( model.horizontalBarSet, rootNode ) );
+        }} );
+
+        //For vertical bars
+        addChild( new RepresentationNode( model.representation, Representation.VERTICAL_BAR ) {{
+            addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
         }} );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionEqualityPanel( model ) ) {{
