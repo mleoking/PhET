@@ -175,8 +175,12 @@ import static fj.Function.curry;
         } );
     }
 
-    public ContainerSet denominator( Integer denominator ) {
-        ContainerSet newState = new ContainerSet( denominator, new Container[] { new Container( denominator, new int[0] ) } ).padAndTrim();
+    public ContainerSet update( final int numContainers, final Integer denominator ) {
+        ContainerSet newState = new ContainerSet( denominator, List.iterableList( new ArrayList<Container>() {{
+            for ( int i = 0; i < numContainers; i++ ) {
+                add( new Container( denominator, new int[0] ) );
+            }
+        }} ) );
 
         //for each piece in oldState, find the closest unoccupied location in newState and add it there
         for ( CellPointer cellPointer : getFilledCells() ) {
@@ -192,4 +196,8 @@ import static fj.Function.curry;
         }
         return newState;
     }
+
+    public ContainerSet maximum( Integer maximum ) { return update( maximum, denominator ); }
+
+    private ContainerSet containers( List<Container> containers ) { return new ContainerSet( denominator, containers ); }
 }

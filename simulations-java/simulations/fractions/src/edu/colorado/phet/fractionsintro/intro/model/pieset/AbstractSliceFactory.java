@@ -22,14 +22,13 @@ import static fj.data.List.iterableList;
  */
 public abstract class AbstractSliceFactory {
 
-    public final int numPies = 6;
     public final Dimension2DDouble stageSize = new Dimension2DDouble( 1024, 768 );
     public final Color bucketColor = new Color( 136, 177, 240 );//A shade that looks good behind the green objects
     public final Bucket bucket = new Bucket( stageSize.width / 2, -stageSize.height + 200, new Dimension2DDouble( 350, 100 ), bucketColor, "" );
     public final Random random = new Random();
 
     //Create some cells for the empty pies
-    public List<Pie> createEmptyPies( final int denominator ) {
+    public List<Pie> createEmptyPies( final int numPies, final int denominator ) {
         ArrayList<Pie> pies = new ArrayList<Pie>() {{
             for ( int i = 0; i < numPies; i++ ) {
                 ArrayList<Slice> cells = new ArrayList<Slice>();
@@ -48,7 +47,7 @@ public abstract class AbstractSliceFactory {
     public abstract Slice createPieCell( int container, int cell, int denominator );
 
     public PieSet fromContainerSetState( ContainerSet containerSetState ) {
-        final List<Pie> emptyPies = createEmptyPies( containerSetState.denominator );
+        final List<Pie> emptyPies = createEmptyPies( containerSetState.containers.length(), containerSetState.denominator );
         return new PieSet( containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ), this );
     }
 
