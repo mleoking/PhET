@@ -49,7 +49,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( fractionEqualityPanel );
 
-        ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
+        final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {
                 model.resetAll();
             }
@@ -59,5 +59,10 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         addChild( resetAllButtonNode );
 
         resetAllButtonNode.setOffset( STAGE_SIZE.width - resetAllButtonNode.getFullBounds().getWidth() - INSET, STAGE_SIZE.height - resetAllButtonNode.getFullBounds().getHeight() - INSET );
+
+        MaxSpinner maxSpinner = new MaxSpinner( model.maximum ) {{
+            setOffset( STAGE_SIZE.width - getFullWidth() - INSET, resetAllButtonNode.getFullBounds().getY() - getFullHeight() - INSET );
+        }};
+        addChild( maxSpinner );
     }
 }

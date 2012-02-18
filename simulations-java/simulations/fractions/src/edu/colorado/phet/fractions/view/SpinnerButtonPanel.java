@@ -15,12 +15,16 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.*;
  */
 public class SpinnerButtonPanel extends VBox {
     public SpinnerButtonPanel( VoidFunction0 up, ObservableProperty<Boolean> upEnabled, VoidFunction0 down, ObservableProperty<Boolean> downEnabled ) {
-        super( 2,
-               new SpinnerButtonNode( multiscale( ROUND_BUTTON_UP ), multiscale( ROUND_BUTTON_UP_PRESSED ), multiscale( ROUND_BUTTON_UP_GRAY ), up, upEnabled ),
-               new SpinnerButtonNode( multiscale( ROUND_BUTTON_DOWN ), multiscale( ROUND_BUTTON_DOWN_PRESSED ), multiscale( ROUND_BUTTON_DOWN_GRAY ), down, downEnabled ) );
+        this( 50, up, upEnabled, down, downEnabled );
     }
 
-    private static BufferedImage multiscale( BufferedImage im ) {
-        return BufferedImageUtils.multiScaleToHeight( im, 50 );
+    public SpinnerButtonPanel( int size, VoidFunction0 up, ObservableProperty<Boolean> upEnabled, VoidFunction0 down, ObservableProperty<Boolean> downEnabled ) {
+        super( 2,
+               new SpinnerButtonNode( multiscale( ROUND_BUTTON_UP, size ), multiscale( ROUND_BUTTON_UP_PRESSED, size ), multiscale( ROUND_BUTTON_UP_GRAY, size ), up, upEnabled ),
+               new SpinnerButtonNode( multiscale( ROUND_BUTTON_DOWN, size ), multiscale( ROUND_BUTTON_DOWN_PRESSED, size ), multiscale( ROUND_BUTTON_DOWN_GRAY, size ), down, downEnabled ) );
+    }
+
+    private static BufferedImage multiscale( BufferedImage im, int size ) {
+        return BufferedImageUtils.multiScaleToHeight( im, size );
     }
 }
