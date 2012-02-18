@@ -9,6 +9,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
  */
 public class EqualsSignNode extends RichPNode {
     public EqualsSignNode() {
-        addChild( new PhetPText( "=", FractionNumberControlNode.NUMBER_FONT ) );
+        addChild( new PhetPText( "=", FractionNumberNode.NUMBER_FONT ) );
     }
 }

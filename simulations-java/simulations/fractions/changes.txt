@@ -1,3 +1,4 @@
+Disable numerator spinner as a function of min/max spinner
 Update numerator/denominator based on max
 Centered containers horizontally on the screen based on max value
 Wired up max spinner (still several special cases to handle)

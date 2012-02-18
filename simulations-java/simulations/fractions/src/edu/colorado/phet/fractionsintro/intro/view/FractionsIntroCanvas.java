@@ -44,7 +44,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
         }} );
 
-        ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionEqualityPanel( model ) ) {{
+        ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
             setOffset( 35, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
         addChild( fractionEqualityPanel );
