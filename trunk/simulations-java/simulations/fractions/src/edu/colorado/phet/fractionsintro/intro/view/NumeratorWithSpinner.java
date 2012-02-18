@@ -14,18 +14,18 @@ public class NumeratorWithSpinner extends FractionNumberNode {
     //Allow numerator to go to 0
     private static final int MIN_VALUE = 0;
 
-    public NumeratorWithSpinner( final IntegerProperty numerator, IntegerProperty denominator ) {
+    public NumeratorWithSpinner( final IntegerProperty numerator, IntegerProperty denominator, IntegerProperty max ) {
         super( numerator );
 
-//        Max amount of things will be 6
+//        Max amount of things will be MAX
 //        Max numerator will be a function of the denominator
-//        n / d <= 6 , so n<=6d
+//        n / d <= MAX , so n<=MAX * d
         //Limit the numerator based on the denominator so that the entire number is less than or equal to 6
         addChild( new SpinnerButtonPanel( new VoidFunction0() {
             public void apply() {
                 numerator.set( numerator.get() + 1 );
             }
-        }, numerator.lessThan( denominator.times( 6 ) ), new VoidFunction0() {
+        }, numerator.lessThan( denominator.times( max ) ), new VoidFunction0() {
             public void apply() {
                 numerator.set( numerator.get() - 1 );
             }
