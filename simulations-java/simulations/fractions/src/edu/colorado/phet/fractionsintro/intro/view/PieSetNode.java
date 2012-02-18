@@ -66,11 +66,11 @@ public class PieSetNode extends PNode {
         PNode icon = new PNode() {{
             final int denominator = model.get().denominator;
             for ( int i = 0; i < denominator; i++ ) {
-                Slice cell = model.get().sliceFactory.createPieCell( 0, i, denominator );
+                Slice cell = model.get().sliceFactory.createPieCell( model.get().pies.length(), 0, i, denominator );
                 addChild( new PhetPPath( cell.shape(), Color.white, new BasicStroke( 3 ), Color.black ) );
             }
 
-            addChild( new MovableSliceNode( rootNode, model, model.get().sliceFactory.createPieCell( 0, 0, denominator ) ) {{
+            addChild( new MovableSliceNode( rootNode, model, model.get().sliceFactory.createPieCell( model.get().pies.length(), 0, 0, denominator ) ) {{
                 setPickable( false );
                 setChildrenPickable( false );
             }} );

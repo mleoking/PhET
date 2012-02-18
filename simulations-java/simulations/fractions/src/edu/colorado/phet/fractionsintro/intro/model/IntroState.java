@@ -33,11 +33,11 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
         containerSet = new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim();
         showReduced = false;
         showMixed = false;
-        pieSet = new PieSet( CircularSliceFactory );
-        horizontalBarSet = new PieSet( HorizontalSliceFactory );
-        verticalBarSet = new PieSet( VerticalSliceFactory );
-        representation = Representation.PIE;
         maximum = 1;
+        pieSet = new PieSet( maximum, CircularSliceFactory );
+        horizontalBarSet = new PieSet( maximum, HorizontalSliceFactory );
+        verticalBarSet = new PieSet( maximum, VerticalSliceFactory );
+        representation = Representation.PIE;
     }
 
     //I'm not sure why Lombok didn't generate this

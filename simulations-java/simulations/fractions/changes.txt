@@ -1,3 +1,4 @@
+Centered containers horizontally on the screen based on max value
 Wired up max spinner (still several special cases to handle)
 Added a spinner for Max (not wired up)
 Made bucket supply of slices limitless

@@ -26,7 +26,7 @@ public class PieSetView {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame() {{
-                    final PieSet state = new PieSet( CircularSliceFactory.CircularSliceFactory );
+                    final PieSet state = new PieSet( 6, CircularSliceFactory.CircularSliceFactory );
                     final Property<PieSet> model = new Property<PieSet>( state );
 
                     //Any piece that is dragging should align with the closest open cell

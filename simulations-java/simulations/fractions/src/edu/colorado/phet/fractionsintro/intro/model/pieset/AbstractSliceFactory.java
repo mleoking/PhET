@@ -33,7 +33,7 @@ public abstract class AbstractSliceFactory {
             for ( int i = 0; i < numPies; i++ ) {
                 ArrayList<Slice> cells = new ArrayList<Slice>();
                 for ( int k = 0; k < denominator; k++ ) {
-                    cells.add( createPieCell( i, k, denominator ) );
+                    cells.add( createPieCell( numPies, i, k, denominator ) );
                 }
                 add( new Pie( iterableList( cells ) ) );
             }
@@ -44,7 +44,7 @@ public abstract class AbstractSliceFactory {
 
     public abstract Slice createBucketSlice( int denominator );
 
-    public abstract Slice createPieCell( int container, int cell, int denominator );
+    public abstract Slice createPieCell( int max, int container, int cell, int denominator );
 
     public PieSet fromContainerSetState( ContainerSet containerSetState ) {
         final List<Pie> emptyPies = createEmptyPies( containerSetState.containers.length(), containerSetState.denominator );

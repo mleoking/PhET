@@ -5,6 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
@@ -46,9 +47,12 @@ public class CircularSliceFactory extends AbstractSliceFactory {
         return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ) );
     }
 
-    public Slice createPieCell( int pie, int cell, int denominator ) {
+    public Slice createPieCell( int maxPies, int pie, int cell, int denominator ) {
+        //Center
+        double offset = new LinearFunction( 1, 6, diameter * 3 - diameter / 3, 0 ).evaluate( maxPies );
+
         final double anglePerSlice = 2 * Math.PI / denominator;
-        final ImmutableVector2D location = new ImmutableVector2D( diameter * ( pie + 1 ) + spacing * ( pie + 1 ) - 80, 250 );
+        final ImmutableVector2D location = new ImmutableVector2D( diameter * ( pie + 1 ) + spacing * ( pie + 1 ) - 80 + offset, 250 );
         return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ) );
     }
 }
