@@ -31,8 +31,8 @@ import static fj.data.List.range;
     public final List<Slice> cells;              //The list of all cells
     public final AbstractSliceFactory sliceFactory;
 
-    public PieSet( AbstractSliceFactory sliceFactory ) {
-        this( 1, sliceFactory.createEmptyPies( 6, 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
+    public PieSet( int numPies, AbstractSliceFactory sliceFactory ) {
+        this( 1, sliceFactory.createEmptyPies( numPies, 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
     }
 
     public PieSet( int denominator, List<Pie> pies, List<Slice> slices, AbstractSliceFactory sliceFactory ) {
@@ -147,7 +147,7 @@ import static fj.data.List.range;
         //But do not actually delete the slice because there must seem to be an "infinite" supply from the bucket.
         final Slice bucketSlice = bucketSlices.index( random.nextInt( bucketSlices.length() ) );
 
-        final Slice target = sliceFactory.createPieCell( emptyCell.container, emptyCell.cell, denominator );
+        final Slice target = sliceFactory.createPieCell( pies.length(), emptyCell.container, emptyCell.cell, denominator );
         return slices( slices.cons( bucketSlice.animationTarget( new AnimationTarget( target.position, target.angle ) ) ) );
     }
 
@@ -155,7 +155,7 @@ import static fj.data.List.range;
 
         //Cell that should be moved
         //May choose a slice that is on its way to a pie
-        final Slice prototype = sliceFactory.createPieCell( cell.container, cell.cell, denominator );
+        final Slice prototype = sliceFactory.createPieCell( pies.length(), cell.container, cell.cell, denominator );
         final Slice slice = slices.find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
                 return ( m.position.equals( prototype.getPosition() ) && m.angle == prototype.angle ) ||

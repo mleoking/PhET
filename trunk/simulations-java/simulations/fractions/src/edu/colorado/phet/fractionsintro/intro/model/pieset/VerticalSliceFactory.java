@@ -33,7 +33,7 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
 
     //Put the pieces right in the center of the bucket hole.
     public Slice createBucketSlice( int denominator ) {
-        final Slice cell = createPieCell( 0, 0, denominator );
+        final Slice cell = createPieCell( 6, 0, 0, denominator );
         final Shape shape = cell.shape();
         double leftEdgeBucketHole = getBucketCenter().getX() - bucket.getHoleShape().getBounds2D().getWidth() / 2 + shape.getBounds2D().getWidth() / 2 + 20;
         double rightEdgeBucketHole = getBucketCenter().getX() + bucket.getHoleShape().getBounds2D().getWidth() / 2 - shape.getBounds2D().getWidth() / 2 - 20;
@@ -41,7 +41,8 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
         return cell.tip( new ImmutableVector2D( desiredCenter, getBucketCenter().getY() ) );
     }
 
-    public Slice createPieCell( int pie, int cell, int denominator ) {
+    public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {
+        double offset = new LinearFunction( 1, 6, barWidth * 3 - barWidth / 3, 0 ).evaluate( numPies );
         double barHeight = 225;
         final double cellHeight = barHeight / denominator;
         int distanceBetweenBars = 20;
@@ -50,6 +51,6 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
 
         //Account for offset, determined empirically: den=1 => offset = 0, den = 2 => offset = -cellHeight/2
         LinearFunction linearFunction = new LinearFunction( 1, 2, 0, -cellHeight / 2 );
-        return new Slice( new ImmutableVector2D( barX, 265 + cellHeight * cell + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ) );
+        return new Slice( new ImmutableVector2D( barX + offset, 265 + cellHeight * cell + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ) );
     }
 }
