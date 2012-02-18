@@ -188,6 +188,17 @@ public class FractionsIntroModel {
                 }
             }
     );
+    public IntegerProperty maximum = new IntClientProperty(
+            state, new Function1<IntroState, Integer>() {
+        @Override public Integer apply( IntroState introState ) {
+            return introState.maximum;
+        }
+    }, new Function2<IntroState, Integer, IntroState>() {
+        @Override public IntroState apply( IntroState introState, Integer maximum ) {
+            return introState.maximum( maximum );
+        }
+    }
+    ).toIntegerProperty();
 
     public void resetAll() {
         state.set( new IntroState() );

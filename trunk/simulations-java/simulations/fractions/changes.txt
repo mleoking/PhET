@@ -1,3 +1,4 @@
+Added a spinner for Max (not wired up)
 Made bucket supply of slices limitless
 Added a fraction readout on the bucket next to the icon
 For icon on bucket, show an entire "full icon" and the piece within it

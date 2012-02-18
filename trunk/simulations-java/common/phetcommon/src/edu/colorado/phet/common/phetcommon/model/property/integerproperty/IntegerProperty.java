@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
  * Subclass that adds convenience methods such as plus(), times(), divide(), etc.
@@ -81,5 +82,23 @@ public class IntegerProperty extends Property<Integer> {
 
     public void decrement() {
         set( get() - 1 );
+    }
+
+    //Returns a function that calls increment() on this instance
+    public VoidFunction0 increment_() {
+        return new VoidFunction0() {
+            @Override public void apply() {
+                increment();
+            }
+        };
+    }
+
+    //Returns a function that calls decrement() on this instance
+    public VoidFunction0 decrement_() {
+        return new VoidFunction0() {
+            @Override public void apply() {
+                decrement();
+            }
+        };
     }
 }
