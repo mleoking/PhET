@@ -21,6 +21,10 @@ public class PhetPText extends PText {
         setFont( font );
     }
 
+    public PhetPText( Font font ) {
+        setFont( font );
+    }
+
     public PhetPText( String text, Font font, Paint paint ) {
         super( text );
         setFont( font );

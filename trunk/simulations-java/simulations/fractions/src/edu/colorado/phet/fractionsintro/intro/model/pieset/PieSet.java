@@ -32,7 +32,7 @@ import static fj.data.List.range;
     public final AbstractSliceFactory sliceFactory;
 
     public PieSet( AbstractSliceFactory sliceFactory ) {
-        this( 1, sliceFactory.createEmptyPies( 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
+        this( 1, sliceFactory.createEmptyPies( 6, 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
     }
 
     public PieSet( int denominator, List<Pie> pies, List<Slice> slices, AbstractSliceFactory sliceFactory ) {

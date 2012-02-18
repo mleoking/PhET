@@ -112,7 +112,7 @@ public class FractionsIntroModel {
                                        public IntroState apply( IntroState s, Integer denominator ) {
 
                                            //create a new container set
-                                           ContainerSet cs = s.containerSet.denominator( denominator ).padAndTrim();
+                                           ContainerSet cs = s.containerSet.update( s.maximum, denominator );
                                            return s.pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator ).
                                                    horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
                                                    verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) );
@@ -188,14 +188,17 @@ public class FractionsIntroModel {
                 }
             }
     );
-    public IntegerProperty maximum = new IntClientProperty(
-            state, new Function1<IntroState, Integer>() {
-        @Override public Integer apply( IntroState introState ) {
-            return introState.maximum;
+    public IntegerProperty maximum = new IntClientProperty( state, new Function1<IntroState, Integer>() {
+        @Override public Integer apply( IntroState s ) {
+            return s.maximum;
         }
     }, new Function2<IntroState, Integer, IntroState>() {
-        @Override public IntroState apply( IntroState introState, Integer maximum ) {
-            return introState.maximum( maximum );
+        @Override public IntroState apply( IntroState s, Integer maximum ) {
+            final ContainerSet cs = s.containerSet.maximum( maximum );
+            return s.maximum( maximum ).containerSet( cs ).
+                    pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
+                    horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
+                    verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) );
         }
     }
     ).toIntegerProperty();
