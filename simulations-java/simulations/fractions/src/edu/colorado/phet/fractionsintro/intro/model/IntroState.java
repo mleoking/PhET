@@ -11,7 +11,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSlic
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
 
 /**
- * Immutable state class representing the state of the model at any given instant.
+ * Immutable state class representing the state of the model at any given instant.  Managed by FractionsIntroModel.
  *
  * @author Sam Reid
  */
