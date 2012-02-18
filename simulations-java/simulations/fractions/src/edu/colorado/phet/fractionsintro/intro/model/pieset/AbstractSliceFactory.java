@@ -20,17 +20,13 @@ import static fj.data.List.iterableList;
  *
  * @author Sam Reid
  */
-public abstract class AbstractSliceFactory implements SliceFactory {
+public abstract class AbstractSliceFactory {
 
     public final int numPies = 6;
     public final Dimension2DDouble stageSize = new Dimension2DDouble( 1024, 768 );
     public final Color bucketColor = new Color( 136, 177, 240 );//A shade that looks good behind the green objects
     public final Bucket bucket = new Bucket( stageSize.width / 2, -stageSize.height + 200, new Dimension2DDouble( 350, 100 ), bucketColor, "" );
     public final Random random = new Random();
-
-    @Override public Bucket bucket() {
-        return bucket;
-    }
 
     //Create some cells for the empty pies
     public List<Pie> createEmptyPies( final int denominator ) {
@@ -47,6 +43,10 @@ public abstract class AbstractSliceFactory implements SliceFactory {
         return iterableList( pies );
     }
 
+    public abstract Slice createBucketSlice( int denominator );
+
+    public abstract Slice createPieCell( int container, int cell, int denominator );
+
     public PieSet fromContainerSetState( ContainerSet containerSetState ) {
         final List<Pie> emptyPies = createEmptyPies( containerSetState.denominator );
         return new PieSet( containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ), this );
@@ -60,7 +60,9 @@ public abstract class AbstractSliceFactory implements SliceFactory {
                 all.add( emptyPies.index( i ).cells.index( cell ) );
             }
         }
-        return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator, containerSetState.getEmptyCells().length() ) );
+//        final int numSlicesForBucket = containerSetState.getEmptyCells().length();
+        final int numSlicesForBucket = 10;
+        return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator, numSlicesForBucket ) );
     }
 
     //Slices to put in the buckets

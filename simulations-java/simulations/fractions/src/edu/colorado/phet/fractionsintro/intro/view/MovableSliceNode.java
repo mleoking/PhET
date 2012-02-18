@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
-import fj.Equal;
 import fj.F;
 import fj.data.List;
 
@@ -54,7 +53,8 @@ public class MovableSliceNode extends PNode {
                 //Flag one slice as dragging
                 @Override public void mousePressed( PInputEvent event ) {
                     PieSet state = model.get();
-                    model.set( state.slices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) ) );
+//                    model.set( state.slices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) ) );
+                    model.set( state.slices( state.slices.snoc( slice.dragging( true ) ) ) );
                 }
 
                 //Set all drag flags to false

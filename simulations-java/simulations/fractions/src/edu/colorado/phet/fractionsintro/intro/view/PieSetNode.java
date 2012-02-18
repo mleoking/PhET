@@ -35,7 +35,7 @@ public class PieSetNode extends PNode {
     public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
         this.rootNode = rootNode;
 
-        bucketView = new BucketView( model.get().sliceFactory.bucket(), createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
+        bucketView = new BucketView( model.get().sliceFactory.bucket, createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
 
         model.addObserver( new SimpleObserver() {
             public void update() {

@@ -41,10 +41,12 @@ public class FractionsIntroModel {
         addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 final IntroState s = state.get();
-                final PieSet newPieSet = s.pieSet.stepInTime( clockEvent.getSimulationTimeChange() );
-                final IntroState newState = s.pieSet( newPieSet ).containerSet( newPieSet.toContainerSet() ).
-                        horizontalBarSet( s.horizontalBarSet.stepInTime( clockEvent.getSimulationTimeChange() ) ).
-                        verticalBarSet( s.verticalBarSet.stepInTime( clockEvent.getSimulationTimeChange() ) );
+                final double dt = clockEvent.getSimulationTimeChange();
+                final PieSet newPieSet = s.pieSet.stepInTime( dt );
+                final IntroState newState = s.pieSet( newPieSet ).
+                        containerSet( newPieSet.toContainerSet() ).
+                        horizontalBarSet( s.horizontalBarSet.stepInTime( dt ) ).
+                        verticalBarSet( s.verticalBarSet.stepInTime( dt ) );
                 state.set( newState );
             }
         } );

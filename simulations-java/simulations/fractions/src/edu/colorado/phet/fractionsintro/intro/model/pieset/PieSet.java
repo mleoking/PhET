@@ -6,10 +6,10 @@ import fj.F2;
 import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
-import fj.data.Option;
 import lombok.Data;
 
 import java.awt.geom.Area;
+import java.util.Random;
 
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
@@ -29,13 +29,13 @@ import static fj.data.List.range;
     public final List<Pie> pies;
     public final List<Slice> slices;
     public final List<Slice> cells;              //The list of all cells
-    public final SliceFactory sliceFactory;
+    public final AbstractSliceFactory sliceFactory;
 
-    public PieSet( SliceFactory sliceFactory ) {
+    public PieSet( AbstractSliceFactory sliceFactory ) {
         this( 1, sliceFactory.createEmptyPies( 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
     }
 
-    public PieSet( int denominator, List<Pie> pies, List<Slice> slices, SliceFactory sliceFactory ) {
+    public PieSet( int denominator, List<Pie> pies, List<Slice> slices, AbstractSliceFactory sliceFactory ) {
         this.denominator = denominator;
         this.pies = pies;
         this.slices = slices;
@@ -69,17 +69,22 @@ import static fj.data.List.range;
             public Slice f( final Slice s ) {
                 if ( s.dragging ) {
 
-                    //TODO: make this minimum function a bit cleaner please?
-                    Slice closest = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
-                        public Ordering f( final Slice u1, final Slice u2 ) {
-                            return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
-                        }
-                    } ) ) );
+                    if ( getEmptyCells().length() > 0 ) {
+                        //TODO: make this minimum function a bit cleaner please?
+                        Slice closest = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
+                            public Ordering f( final Slice u1, final Slice u2 ) {
+                                return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
+                            }
+                        } ) ) );
 
-                    final Slice rotated = s.rotateTowardTarget( closest.angle );
+                        final Slice rotated = s.rotateTowardTarget( closest.angle );
 
-                    //Keep the center in the same place
-                    return rotated.translate( s.center().minus( rotated.center() ) );
+                        //Keep the center in the same place
+                        return rotated.translate( s.center().minus( rotated.center() ) );
+                    }
+                    else {
+                        return s;
+                    }
                 }
                 else {
                     return s.stepAnimation();
@@ -101,6 +106,7 @@ import static fj.data.List.range;
 
     //Find which cell a slice should get dropped into 
     public Slice getDropTarget( final Slice s ) {
+        if ( getEmptyCells().length() == 0 ) { return null; }
         final Slice closestCell = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
             public Ordering f( final Slice u1, final Slice u2 ) {
                 return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
@@ -127,32 +133,22 @@ import static fj.data.List.range;
         } ) );
     }
 
+    private static final Random random = new Random();
+
     public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
 
-        //Find a slice from the bucket, or one that is leaving the bucket
-        //Reverse the list so that slices are taken from the front in z-ordering
-        //TODO: maybe check for bucket piece first, instead of piece going to the bucket as equal priority
-        final Option<Slice> bucketSlice = slices.reverse().find( new F<Slice, Boolean>() {
-            @Override public Boolean f( Slice m ) {
-                final double bucketY = sliceFactory.createBucketSlice( denominator ).position.getY();
-                return ( m.position.getY() == bucketY && m.animationTarget == null ) ||
-                       //Count piece going toward bucket as being in the bucket
-                       ( m.animationTarget != null && m.animationTarget.position.getY() == bucketY );
+        final List<Slice> bucketSlices = slices.filter( new F<Slice, Boolean>() {
+            @Override public Boolean f( Slice s ) {
+                return sliceFactory.createBucketSlice( denominator ).position.getY() == s.position.getY();
             }
         } );
 
-        //Could be none if still animating
-        if ( bucketSlice.isSome() ) {
-            final Slice target = sliceFactory.createPieCell( emptyCell.container, emptyCell.cell, denominator );
-            return slices( slices.map( new F<Slice, Slice>() {
-                @Override public Slice f( Slice m ) {
-                    return m == bucketSlice.some() ? m.animationTarget( new AnimationTarget( target.position, target.angle ) ) : m;
-                }
-            } ) );
-        }
-        else {
-            return this;
-        }
+        //Randomly choose a slice as the prototype for where the slice should come from.
+        //But do not actually delete the slice because there must seem to be an "infinite" supply from the bucket.
+        final Slice bucketSlice = bucketSlices.index( random.nextInt( bucketSlices.length() ) );
+
+        final Slice target = sliceFactory.createPieCell( emptyCell.container, emptyCell.cell, denominator );
+        return slices( slices.cons( bucketSlice.animationTarget( new AnimationTarget( target.position, target.angle ) ) ) );
     }
 
     public PieSet animateSliceToBucket( CellPointer cell ) {
