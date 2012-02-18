@@ -142,26 +142,11 @@ public class DnaMolecule {
         // The first gene is set up to be centered at or near (0,0) in model
         // space to avoid having to scroll the DNA at startup.
         int startIndex = getBasePairIndexFromXOffset( 0 ) - ( regRegionSize + gene1TranscribedRegionSize ) / 2;
-        genes.add( new Gene( this,
-                             new IntegerRange( startIndex, startIndex + regRegionSize ),
-                             new Color( 216, 191, 216 ),
-                             new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene1TranscribedRegionSize ),
-                             new Color( 255, 165, 79, 150 ),
-                             1 ) );
+        genes.add( new GeneA( this, startIndex ) );
         startIndex += DISTANCE_BETWEEN_GENES / DISTANCE_BETWEEN_BASE_PAIRS;
-        genes.add( new Gene( this,
-                             new IntegerRange( startIndex, startIndex + regRegionSize ),
-                             new Color( 216, 191, 216 ),
-                             new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene2TranscribedRegionSize ),
-                             new Color( 240, 246, 143, 150 ),
-                             2 ) );
+        genes.add( new GeneB( this, startIndex ) );
         startIndex += DISTANCE_BETWEEN_GENES / DISTANCE_BETWEEN_BASE_PAIRS;
-        genes.add( new Gene( this,
-                             new IntegerRange( startIndex, startIndex + regRegionSize ),
-                             new Color( 216, 191, 216 ),
-                             new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene3TranscribedRegionSize ),
-                             new Color( 205, 255, 112, 150 ),
-                             3 ) );
+        genes.add( new GeneC( this, startIndex ) );
     }
 
     //-------------------------------------------------------------------------

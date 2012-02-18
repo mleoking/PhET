@@ -22,7 +22,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
  * @author John Blanco
  * @author Sam Reid
  */
-public class Gene {
+public abstract class Gene {
 
     // Offset from the first base pair in the regulatory region of the gene
     // where the high-affinity site for the transcription factor lives.
@@ -44,7 +44,6 @@ public class Gene {
     private final PlacementHint rnaPolymerasePlacementHint;
     private final PlacementHint positiveTranscriptionFactorPlacementHint;
     private final PlacementHint negativeTranscriptionFactorPlacementHint;
-    private Protein swi;
 
     /**
      * Constructor.
@@ -58,8 +57,8 @@ public class Gene {
      *                               DNA strand, where this region exists.
      * @param transcribedRegionColor
      */
-    public Gene( DnaMolecule dnaMolecule, IntegerRange regulatoryRegion, Color regulatoryRegionColor,
-                 IntegerRange transcribedRegion, Color transcribedRegionColor, int identifier ) {
+    protected Gene( DnaMolecule dnaMolecule, IntegerRange regulatoryRegion, Color regulatoryRegionColor,
+                    IntegerRange transcribedRegion, Color transcribedRegionColor, int identifier ) {
         this.dnaMolecule = dnaMolecule;
         this.regulatoryRegion = regulatoryRegion;
         this.regulatoryRegionColor = regulatoryRegionColor;
