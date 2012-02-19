@@ -46,7 +46,7 @@ public class MovableSliceNode extends PNode {
         if ( showShadow ) {
             addChild( new PhetPPath( origShape, SHADOW_PAINT ) );
         }
-        addChild( new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.darkGray ) {{
+        addChild( new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 2 ), Color.black ) {{
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
 

@@ -173,4 +173,22 @@ import static fj.data.List.range;
             }
         } ) );
     }
+
+    //Find out whether the pie contains a movable slice instead of just empty cells--if so it will be drawn with a thicker darker background
+    public boolean pieContainsSliceForCell( Slice cell ) {
+        return getEmptyCells( getPie( cell ) ).length() < denominator;
+    }
+
+    //Find the pie that contains the cell
+    private Pie getPie( final Slice cell ) {
+        return pies.find( new F<Pie, Boolean>() {
+            @Override public Boolean f( Pie pie ) {
+                return pie.cells.find( new F<Slice, Boolean>() {
+                    @Override public Boolean f( Slice slice ) {
+                        return slice == cell;
+                    }
+                } ).isSome();
+            }
+        } ).some();
+    }
 }

@@ -50,8 +50,11 @@ public class PieSetNode extends PNode {
         addChild( bucketView.getHoleNode() );
 
         PieSet state = model.get();
+
+        //Show graphics for the empty cells
         for ( Slice cell : state.cells ) {
-            addChild( new PhetPPath( cell.shape(), new BasicStroke( state.cellFilled( cell ) ? 2 : 1 ), Color.darkGray ) );
+            boolean anythingInPie = state.pieContainsSliceForCell( cell );
+            addChild( new PhetPPath( cell.shape(), new BasicStroke( anythingInPie ? 2 : 1 ), anythingInPie ? Color.black : Color.lightGray ) );
 
             if ( debugCenter ) {
                 addChild( new PhetPPath( new Rectangle2D.Double( cell.center().getX(), cell.center().getY(), 2, 2 ) ) );
