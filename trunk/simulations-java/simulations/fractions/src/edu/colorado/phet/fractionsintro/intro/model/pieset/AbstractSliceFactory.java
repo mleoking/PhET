@@ -47,10 +47,14 @@ public abstract class AbstractSliceFactory {
     public abstract Slice createPieCell( int max, int container, int cell, int denominator );
 
     public PieSet fromContainerSetState( ContainerSet containerSetState ) {
+        //Use the same random seed each time so that the bucket slices don't jump around when the max changes
+        random.setSeed( 0L );
+
         final List<Pie> emptyPies = createEmptyPies( containerSetState.containers.length(), containerSetState.denominator );
         return new PieSet( containerSetState.denominator, emptyPies, createSlices( emptyPies, containerSetState ), this );
     }
 
+    //Create movable slices (in pies) and also slices in the buckets
     private List<Slice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
         ArrayList<Slice> all = new ArrayList<Slice>();
         for ( int i = 0; i < containerSetState.containers.length(); i++ ) {
