@@ -191,4 +191,9 @@ import static fj.data.List.range;
             }
         } ).some();
     }
+
+    public boolean isInBucket( Slice slice ) {
+        final Slice target = sliceFactory.createBucketSlice( denominator );
+        return !slice.isDragging() && slice.position.getY() == target.position.getY();
+    }
 }
