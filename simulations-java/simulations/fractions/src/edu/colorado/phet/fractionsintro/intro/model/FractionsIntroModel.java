@@ -188,24 +188,27 @@ public class FractionsIntroModel {
                 }
             }
     );
-    public IntegerProperty maximum = new IntClientProperty( state, new Function1<IntroState, Integer>() {
-        @Override public Integer apply( IntroState s ) {
-            return s.maximum;
-        }
-    }, new Function2<IntroState, Integer, IntroState>() {
-        @Override public IntroState apply( IntroState s, Integer maximum ) {
-            final ContainerSet cs = s.containerSet.maximum( maximum );
 
-            //TODO: if not too difficult, would be nice to animate pie pieces leaving from pies that are dropped when max decreases
-            return s.maximum( maximum ).containerSet( cs ).
-                    pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                    horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
-                    verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
-                    numerator( cs.numerator ).
-                    denominator( cs.denominator );
-        }
-    }
-    ).toIntegerProperty();
+    //When the user changes the max value with the spinner, update the model
+    public IntegerProperty maximum =
+            new IntClientProperty( state, new Function1<IntroState, Integer>() {
+                @Override public Integer apply( IntroState s ) {
+                    return s.maximum;
+                }
+            }, new Function2<IntroState, Integer, IntroState>() {
+                @Override public IntroState apply( IntroState s, Integer maximum ) {
+                    final ContainerSet cs = s.containerSet.maximum( maximum );
+
+                    //TODO: if not too difficult, would be nice to animate pie pieces leaving from pies that are dropped when max decreases
+                    return s.maximum( maximum ).containerSet( cs ).
+                            pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
+                            horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
+                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
+                            numerator( cs.numerator ).
+                            denominator( cs.denominator );
+                }
+            }
+            ).toIntegerProperty();
 
     public void resetAll() { state.set( new IntroState() ); }
 
