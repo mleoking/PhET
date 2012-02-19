@@ -1,3 +1,4 @@
+Fixed: Slices duplicated when dragging out of containers (not just bucket)
 Fixed: Bucket pie slices shouldn't jump around when changing the max spinner
 Made empty containers gray, but have them turn black when it contains anything (as in toggle-based version)
 Disable numerator spinner as a function of min/max spinner
