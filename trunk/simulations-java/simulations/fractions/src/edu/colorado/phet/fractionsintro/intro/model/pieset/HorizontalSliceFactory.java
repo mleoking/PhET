@@ -49,7 +49,6 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
 
     public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {
         int numColumns = Math.min( numPies, 3 );
-        System.out.println( "numColumns = " + numColumns );
 
         double barPlusSpace = oneBarWidth + distanceBetweenBars;
         double offset = new LinearFunction( 1, 3, barPlusSpace * 1, 0 ).evaluate( numColumns );
