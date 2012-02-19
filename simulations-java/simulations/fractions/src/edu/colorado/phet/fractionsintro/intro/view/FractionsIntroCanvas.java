@@ -24,10 +24,20 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
-        final RepresentationArea representationArea = new RepresentationArea( model.representation, model.numerator, model.denominator, model.containerSet ) {{
-            setOffset( INSET, representationControlPanel.getFullBounds().getMaxY() + 100 );
-        }};
-        addChild( representationArea );
+        //Cake set
+        addChild( new CakeSetFractionNode( model.containerSet, model.representation.valueEquals( Representation.CAKE ) ) {{
+            setOffset( INSET + -10, representationControlPanel.getFullBounds().getMaxY() + 100 - 40 );
+        }} );
+
+        //Water glasses
+        addChild( new WaterGlassSetFractionNode( model.containerSet, model.representation.valueEquals( Representation.WATER_GLASSES ) ) {{
+            setOffset( INSET + 15, representationControlPanel.getFullBounds().getMaxY() + 100 - 65 );
+        }} );
+
+        //Number line
+        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( Representation.NUMBER_LINE ) ) {{
+            setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
+        }} );
 
         //Show the pie set node when pies are selected
         addChild( new RepresentationNode( model.representation, Representation.PIE ) {{
