@@ -48,7 +48,7 @@ public abstract class AttachmentState {
                 gsm.setState( gsm.movingTowardsAttachmentState );
 
                 // Mark the attachment site as being in use.
-                gsm.attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( gsm.biomolecule ) );
+                gsm.attachmentSite.attachedOrAttachingMolecule.set( gsm.biomolecule );
             }
         }
 
@@ -67,7 +67,7 @@ public abstract class AttachmentState {
 
             // Verify that state is consistent.
             assert gsm.attachmentSite != null;
-            assert gsm.attachmentSite.attachedOrAttachingMolecule.get().get() == gsm.biomolecule;
+            assert gsm.attachmentSite.attachedOrAttachingMolecule.get() == gsm.biomolecule;
 
             // Calculate the location where this biomolecule must be in order
             // to attach to the attachment site.
@@ -103,7 +103,7 @@ public abstract class AttachmentState {
 
             // Verify that state is consistent.
             assert gsm.attachmentSite != null;
-            assert gsm.attachmentSite.attachedOrAttachingMolecule.get().get() == gsm.biomolecule;
+            assert gsm.attachmentSite.attachedOrAttachingMolecule.get() == gsm.biomolecule;
 
             // See if it is time to detach.
             attachCountdownTime -= dt;

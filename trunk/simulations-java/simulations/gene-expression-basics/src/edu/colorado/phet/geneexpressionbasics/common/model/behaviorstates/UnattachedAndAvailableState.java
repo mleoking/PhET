@@ -68,7 +68,7 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
             // Choose randomly between all the equivalent attachment sites.
             AttachmentSite newAttachmentSite = attachmentSitesToConsider.get( RAND.nextInt( attachmentSitesToConsider.size() ) );
             // Accept the new attachment site.
-            newAttachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+            newAttachmentSite.attachedOrAttachingMolecule.set(biomolecule );
             return new MovingTowardsAttachmentState( biomolecule, newAttachmentSite );
         }
         else {

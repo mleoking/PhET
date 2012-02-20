@@ -161,21 +161,26 @@ public class TranscriptionFactor extends MobileBiomolecule {
         return attachmentStateMachine.isAttachedOrAttaching();
     }
 
+    public TranscriptionFactorConfig getConfig() {
+        return config;
+    }
+
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
 
     /**
-     * Convenience class for keeping together the information needed to specify
-     * a transcription factor.
+     * Class the defines the shape, color, polarity, etc. of a transcription
+     * factor.
      */
-    private static class TranscriptionFactorConfig {
+    public static class TranscriptionFactorConfig {
+
         protected final Shape shape;
         protected final Color baseColor;
         protected final int geneID;
         protected final boolean isPositive;
 
-        private TranscriptionFactorConfig( int geneID, Shape shape, boolean positive, Color baseColor ) {
+        TranscriptionFactorConfig( int geneID, Shape shape, boolean positive, Color baseColor ) {
             this.shape = shape;
             this.baseColor = baseColor;
             this.geneID = geneID;
