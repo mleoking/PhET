@@ -42,9 +42,10 @@ public class GeneA extends Gene {
                TRANSCRIBED_REGION_COLOR,
                ID );
 
-        // Add transcription factors that are specific to this gene.
-        addTranscriptionFactor( 0, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS );
-        addTranscriptionFactor( 0, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG );
+        // Add transcription factors that are specific to this gene.  Location
+        // is pretty much arbitrary, just meant to look decent.
+        addTranscriptionFactor( 6, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS );
+        addTranscriptionFactor( 2, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG );
     }
 
     @Override public Protein getProteinPrototype() {
