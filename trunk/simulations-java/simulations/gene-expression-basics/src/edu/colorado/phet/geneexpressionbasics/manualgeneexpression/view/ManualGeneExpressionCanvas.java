@@ -331,7 +331,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // Add the tool boxes from which the various biomolecules can be moved
         // into the active area of the sim.
         for ( final Gene gene : model.getDnaMolecule().getGenes() ) {
-            BiomoleculeToolBoxNode biomoleculeToolBoxNode = new BiomoleculeToolBoxNode( model, this, mvt, gene.identifier ) {{
+            BiomoleculeToolBoxNode biomoleculeToolBoxNode = new BiomoleculeToolBoxNode( model, this, mvt, gene ) {{
                 setOffset( mvt.modelToViewX( gene.getCenterX() ) - STAGE_SIZE.getWidth() / 2 + INSET, INSET );
             }};
             biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode );

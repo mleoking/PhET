@@ -37,8 +37,8 @@ public class TranscriptionFactor extends MobileBiomolecule {
     // are used by this sim.
     public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS = new TranscriptionFactorConfig( 1, BioShapeUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow );
     public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG = new TranscriptionFactorConfig( 1, BioShapeUtils.createRandomShape( SIZE, 2000 ), false, Color.red );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_1 = new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 3000 ), true, Color.green );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_2 = new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 3050 ), true, Color.cyan );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_1 = new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 3001 ), true, Color.orange );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_2 = new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 3050 ), true, new Color( 70, 130, 180 ) );
     public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_NEG = new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 4000 ), false, Color.pink );
     public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS = new TranscriptionFactorConfig( 3, BioShapeUtils.createRandomShape( SIZE, 57 ), true, new Color( 255, 127, 0 ) );
     public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_3_NEG = new TranscriptionFactorConfig( 3, BioShapeUtils.createRandomShape( SIZE, 40 ), false, Color.magenta );
@@ -175,10 +175,10 @@ public class TranscriptionFactor extends MobileBiomolecule {
      */
     public static class TranscriptionFactorConfig {
 
-        protected final Shape shape;
-        protected final Color baseColor;
-        protected final int geneID;
-        protected final boolean isPositive;
+        public final Shape shape;
+        public final Color baseColor;
+        public final int geneID;
+        public final boolean isPositive;
 
         TranscriptionFactorConfig( int geneID, Shape shape, boolean positive, Color baseColor ) {
             this.shape = shape;
