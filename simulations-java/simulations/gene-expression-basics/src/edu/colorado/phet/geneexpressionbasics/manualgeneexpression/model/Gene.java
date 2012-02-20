@@ -325,4 +325,16 @@ public abstract class Gene {
      * @return
      */
     public abstract Protein getProteinPrototype();
+
+    /**
+     * Get the list of all transcription factors that have high-affinity
+     * binding sites on this gene.
+     *
+     * @return
+     */
+    public List<TranscriptionFactorConfig> getTranscriptionFactorConfigs(){
+        List<TranscriptionFactorConfig> configList = new ArrayList<TranscriptionFactorConfig>();
+        configList.addAll( transcriptionFactorMap.values() );
+        return configList;
+    }
 }

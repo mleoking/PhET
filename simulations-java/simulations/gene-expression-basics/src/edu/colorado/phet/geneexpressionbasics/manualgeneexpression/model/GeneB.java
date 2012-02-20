@@ -18,7 +18,7 @@ public class GeneB extends Gene {
 
     private static final Color REGULATORY_REGION_COLOR = new Color( 216, 191, 216 );
     private static final Color TRANSCRIBED_REGION_COLOR = new Color( 240, 246, 143, 150 );
-    private static final int NUM_BASE_PAIRS_IN_REGULATORY_REGION = 16;
+    private static final int NUM_BASE_PAIRS_IN_REGULATORY_REGION = 28;
     private static final int NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION = 150;
     private static final int ID = 2; // TODO: Can this be done away with?
 
@@ -45,6 +45,7 @@ public class GeneB extends Gene {
         // Add transcription factors that are specific to this gene.  Location
         // is pretty much arbitrary, just meant to look decent.
         addTranscriptionFactor( 6, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_1 );
+        addTranscriptionFactor( 18, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_2 );
         addTranscriptionFactor( 2, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_2_NEG );
     }
 
