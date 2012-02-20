@@ -4,13 +4,16 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 /**
  * This class is the model representation of a gene on a DNA molecule.  The
@@ -40,10 +43,16 @@ public abstract class Gene {
     // determining which transcription factors are associated with it.
     public final int identifier;
 
+    // Placement hint
+
     // Placement hints associated with this gene.
     private final PlacementHint rnaPolymerasePlacementHint;
     private final PlacementHint positiveTranscriptionFactorPlacementHint;
     private final PlacementHint negativeTranscriptionFactorPlacementHint;
+
+    // Map of transcription factors that interact with this gene to the
+    // location, in terms of base pair offset, where the TF attaches.
+    private final Map<TranscriptionFactorConfig, Integer> transcriptionFactorMap = new HashMap<TranscriptionFactorConfig, Integer>();
 
     /**
      * Constructor.
@@ -249,18 +258,11 @@ public abstract class Gene {
         polymeraseAttachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
     }
 
-    public Protein getProteinPrototype() {
-        // TODO: This is lame and should be handled in subclasses.
-        switch( identifier ) {
-            case 1:
-                return new ProteinA();
-            case 2:
-                return new ProteinB();
-            case 3:
-                return new ProteinC();
-            default:
-                assert false;
-                return null;
-        }
-    }
+    /**
+     * Get an instance (a.k.a. a prototype) of the protein associated with this
+     * gene.
+     * 
+     * @return
+     */
+    public abstract Protein getProteinPrototype();
 }

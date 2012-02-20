@@ -42,4 +42,8 @@ public class GeneB extends Gene {
                TRANSCRIBED_REGION_COLOR,
                ID );
     }
+
+    @Override public Protein getProteinPrototype() {
+        return new ProteinB();
+    }
 }

@@ -42,4 +42,8 @@ public class GeneA extends Gene {
                TRANSCRIBED_REGION_COLOR,
                ID );
     }
+
+    @Override public Protein getProteinPrototype() {
+        return new ProteinA();
+    }
 }
