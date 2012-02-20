@@ -3,15 +3,12 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.*;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
@@ -157,10 +154,10 @@ public abstract class Gene {
      * construction.
      *
      * @param basePairOffset - Offset WITHIN THIS GENE where the transcription
-     * factor's high affinity site will exist.
+     *                       factor's high affinity site will exist.
      * @param tfConfig
      */
-    protected void addTranscriptionFactor( int basePairOffset, TranscriptionFactorConfig tfConfig ){
+    protected void addTranscriptionFactor( int basePairOffset, TranscriptionFactorConfig tfConfig ) {
         transcriptionFactorMap.put( basePairOffset, tfConfig );
         Point2D position = new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( basePairOffset + regulatoryRegion.getMin() ), DnaMolecule.Y_POS );
         transcriptionFactorPlacementHints.add( new TranscriptionFactorPlacementHint( new TranscriptionFactor( new StubGeneExpressionModel(), tfConfig, position ) ) );
@@ -243,11 +240,9 @@ public abstract class Gene {
                 // Found matching site.  Is it available and in the right place?
                 if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() == null &&
                      Math.abs( transcriptionFactorAttachmentSite.locationProperty.get().getX() - dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) ) < DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 2 ) {
-                    {
-                        // Yes, so this is the site where the given TF should go.
-                        attachmentSite = transcriptionFactorAttachmentSite;
-                        break;
-                    }
+                    // Yes, so this is the site where the given TF should go.
+                    attachmentSite = transcriptionFactorAttachmentSite;
+                    break;
                 }
             }
         }
