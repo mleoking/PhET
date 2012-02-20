@@ -50,7 +50,7 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
         final double barX = delta + pie * delta;
 
         //Account for offset, determined empirically: den=1 => offset = 0, den = 2 => offset = -cellHeight/2
-        LinearFunction linearFunction = new LinearFunction( 1, 2, 0, -cellHeight / 2 );
-        return new Slice( new ImmutableVector2D( barX + offset, 265 + cellHeight * cell + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ) );
+        LinearFunction linearFunction = new LinearFunction( 1, 2, -barHeight, -barHeight + cellHeight / 2 );
+        return new Slice( new ImmutableVector2D( barX + offset, 265 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ) );
     }
 }

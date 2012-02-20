@@ -54,6 +54,11 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
         }} );
 
+        //For vertical bars
+        addChild( new RepresentationNode( model.representation, Representation.WATER_GLASSES ) {{
+            addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
+        }} );
+
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
             setOffset( 35, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
