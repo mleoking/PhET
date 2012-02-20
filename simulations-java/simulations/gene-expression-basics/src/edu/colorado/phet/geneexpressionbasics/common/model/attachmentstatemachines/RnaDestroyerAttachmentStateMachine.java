@@ -51,7 +51,7 @@ public class RnaDestroyerAttachmentStateMachine extends GenericAttachmentStateMa
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == asm.biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == asm.biomolecule;
 
             // Grow the mRNA fragment, release it if it is time to do so.
             if ( messengerRnaFragment == null ) {

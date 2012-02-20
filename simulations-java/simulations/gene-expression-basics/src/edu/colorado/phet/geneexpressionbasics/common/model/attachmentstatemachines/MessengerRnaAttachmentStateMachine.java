@@ -31,7 +31,7 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
 
     @Override public void forceImmediateUnattachedAndAvailable() {
         if ( attachmentSite != null ) {
-            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+            attachmentSite.attachedOrAttachingMolecule.set( null );
         }
         attachmentSite = null;
         setState( new WanderingAroundCytoplasmState() );

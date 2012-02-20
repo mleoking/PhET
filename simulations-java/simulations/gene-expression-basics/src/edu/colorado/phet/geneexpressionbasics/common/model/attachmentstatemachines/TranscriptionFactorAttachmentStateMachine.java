@@ -11,6 +11,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 
 /**
  * Attachment state machine for all transcription factor molecules.  This
@@ -45,20 +46,20 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
 
             // TODO: For now, transcription factors stay attached to a max affinity site forever.  This will probably need to change.
             if ( attachmentSite.getAffinity() < 1 ) {
                 // See if we have been attached long enough.
                 attachCountdownTime -= dt;
                 if ( attachCountdownTime <= 0 ) {
-                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentTranscriptionFactorAttachmentSites( asm.attachmentSite );
+                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentTranscriptionFactorAttachmentSites( asm.attachmentSite, (( TranscriptionFactor )biomolecule).getConfig() );
                     Collections.shuffle( attachmentSites );
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.
                     if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
                         // Detach.
-                        asm.attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+                        asm.attachmentSite.attachedOrAttachingMolecule.set( null );
                         asm.attachmentSite = null;
                         asm.setState( unattachedButUnavailableState );
                         biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
@@ -66,11 +67,11 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                     else {
 
                         // Clear the old attachment site.
-                        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+                        attachmentSite.attachedOrAttachingMolecule.set( null );
 
                         // Set a new attachment site.
                         attachmentSite = attachmentSites.get( 0 );
-                        attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+                        attachmentSite.attachedOrAttachingMolecule.set( biomolecule );
 
                         // Set up the state to move to the new attachment site.
                         setState( movingTowardsAttachmentState );

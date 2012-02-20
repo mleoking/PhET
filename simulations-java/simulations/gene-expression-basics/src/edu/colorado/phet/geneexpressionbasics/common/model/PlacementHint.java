@@ -38,31 +38,14 @@ public class PlacementHint extends ShapeChangingModelElement {
 
     /**
      * Determine whether the given biomolecule matches the one that this hint is
-     * meant to represent.
+     * meant to represent.  In this base class, type alone indicates a match.
+     * Subclass if greater specificity is needed.
      *
      * @param testBiomolecule
      * @return
      */
     public boolean isMatchingBiomolecule( MobileBiomolecule testBiomolecule ) {
-        boolean match = false;
-        if ( testBiomolecule.getClass() == this.biomolecule.getClass() ) {
-            if ( this.biomolecule instanceof TranscriptionFactor ) {
-                // There are multiple configurations of transcription factor,
-                // so we need to test whether this one matches.
-                // TODO: This test is kind of hokey.  As the class and behavior
-                // of transcription factors evolve some better way may come
-                // along.
-                if ( this.biomolecule.colorProperty.get() == testBiomolecule.colorProperty.get() ) {
-                    match = true;
-                }
-            }
-            else {
-                // All other biomolecules are considered a match based on type
-                // alone.
-                match = true;
-            }
-        }
-        return match;
+        return testBiomolecule.getClass() == this.biomolecule.getClass();
     }
 
     /**

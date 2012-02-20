@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactorPlacementHint;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.TranscriptionFactorAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 /**
@@ -27,32 +29,29 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Transcr
  */
 public abstract class Gene {
 
-    // Offset from the first base pair in the regulatory region of the gene
-    // where the high-affinity site for the transcription factor lives.
-    private static final int TRANSCRIPTION_FACTOR_LOCATION_OFFSET = 6;
-
     private final DnaMolecule dnaMolecule;
     private final Color regulatoryRegionColor;
     private final Color transcribedRegionColor;
     private final IntegerRange regulatoryRegion;
     private final IntegerRange transcribedRegion;
     private final AttachmentSite polymeraseAttachmentSite;
-    private final AttachmentSite transcriptionFactorAttachmentSite;
 
     // Each gene has an ID that is used for labeling it in the view and for
     // determining which transcription factors are associated with it.
     public final int identifier;
 
-    // Placement hint
+    // Placement hint for polymerase.  There is always only one.
+    private final PlacementHint rnaPolymerasePlacementHint = new PlacementHint( new RnaPolymerase() );
 
-    // Placement hints associated with this gene.
-    private final PlacementHint rnaPolymerasePlacementHint;
-    private final PlacementHint positiveTranscriptionFactorPlacementHint;
-    private final PlacementHint negativeTranscriptionFactorPlacementHint;
+    // Placement hints for transcription factors.
+    private final List<TranscriptionFactorPlacementHint> transcriptionFactorPlacementHints = new ArrayList<TranscriptionFactorPlacementHint>();
+
+    // Attachment sites for transcription factors.
+    private final List<TranscriptionFactorAttachmentSite> transcriptionFactorAttachmentSites = new ArrayList<TranscriptionFactorAttachmentSite>();
 
     // Map of transcription factors that interact with this gene to the
     // location, in terms of base pair offset, where the TF attaches.
-    private final Map<TranscriptionFactorConfig, Integer> transcriptionFactorMap = new HashMap<TranscriptionFactorConfig, Integer>();
+    private final Map<Integer, TranscriptionFactorConfig> transcriptionFactorMap = new HashMap<Integer, TranscriptionFactorConfig>();
 
     /**
      * Constructor.
@@ -75,20 +74,13 @@ public abstract class Gene {
         this.transcribedRegionColor = transcribedRegionColor;
         this.identifier = identifier;
 
-        // Create the attachment sites for polymerase and transcription factors.
+        // Create the attachment site for polymerase.  It is always at the end
+        // of the regulatory region.
         polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex(
                 regulatoryRegion.getMax() ), DnaMolecule.Y_POS ), identifier );
-        transcriptionFactorAttachmentSite = new AttachmentSite(
-                new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMin() + TRANSCRIPTION_FACTOR_LOCATION_OFFSET ),
-                                    DnaMolecule.Y_POS ), 1 );
 
-        // Initialize the placement hints.
-        rnaPolymerasePlacementHint = new PlacementHint( new RnaPolymerase() );
+        // Initialize the placement hint for polymerase.
         rnaPolymerasePlacementHint.setPosition( polymeraseAttachmentSite.locationProperty.get() );
-        positiveTranscriptionFactorPlacementHint = new PlacementHint( TranscriptionFactor.generateTranscriptionFactor(
-                new StubGeneExpressionModel(), identifier, true, transcriptionFactorAttachmentSite.locationProperty.get() ) );
-        negativeTranscriptionFactorPlacementHint = new PlacementHint( TranscriptionFactor.generateTranscriptionFactor(
-                new StubGeneExpressionModel(), identifier, false, transcriptionFactorAttachmentSite.locationProperty.get() ) );
     }
 
     public Color getRegulatoryRegionColor() {
@@ -137,34 +129,74 @@ public abstract class Gene {
      * @return
      */
     public AttachmentSite getPolymeraseAttachmentSite( int basePairIndex ) {
-        if ( basePairIndex == regulatoryRegion.getMax() && transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().isSome() ) {
+        if ( basePairIndex == regulatoryRegion.getMax() ) {
             // This is the last base pair within the regulatory region, which
-            // is where the polymerase would begin transcription, and the
-            // transcription factor is attached to the appropriate place.
-            if ( polymeraseAttachmentSite.attachedOrAttachingMolecule.get().isSome() ) {
-                // Already in use, return a zero affinity attachment site.
-                return new AttachmentSite( transcriptionFactorAttachmentSite.locationProperty.get(), 0 );
+            // is where the polymerase would begin transcription.
+            if ( polymeraseAttachmentSite.attachedOrAttachingMolecule.get() != null || transcriptionFactorsBlockTranscription() ) {
+                // Something is blocking attachment, return a low affinity site.
+                return new AttachmentSite( polymeraseAttachmentSite.locationProperty.get(), 0 );
             }
-            else {
-                TranscriptionFactor attachedTranscriptionFactor = (TranscriptionFactor) transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().get();
-                if ( attachedTranscriptionFactor.isPositive() ) {
-                    // The positive transcription factor is attached, so we
-                    // set the attachment site to the max affinity.
-                    polymeraseAttachmentSite.setAffinity( 1 );
-                }
-                else {
-                    // It must be a negative transcription factor, so the
-                    // affinity should be very low.
-                    polymeraseAttachmentSite.setAffinity( 0 );
-                }
+            else if ( transcriptionFactorsSupportTranscription() ) {
+                // Transcription enabled, return high affinity site.
+                polymeraseAttachmentSite.setAffinity( 1 );
                 return polymeraseAttachmentSite;
             }
         }
-        else {
-            // Not a special location as far as this biomolecule is concerned,
-            // so return the default affinity.
-            return dnaMolecule.createDefaultAffinityAttachmentSite( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) );
+
+        // There is currently nothing special about this site, so return a
+        // default affinity site.
+        return dnaMolecule.createDefaultAffinityAttachmentSite( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) );
+    }
+
+    /**
+     * Returns true if all positive transcription factors are attached and
+     * no negative ones are attached, which indicates that transcription is
+     * essentially enabled.
+     */
+    private boolean transcriptionFactorsSupportTranscription() {
+
+        // In this sim, blocking factors overrule positive factors, so test for
+        // those first.
+        if ( transcriptionFactorsBlockTranscription() ) {
+            return false;
         }
+
+        // Count the number of positive transcription factors needed to enable
+        // transcription.
+        int numPositiveTranscriptionFactorsNeeded = 0;
+        for ( TranscriptionFactorConfig transcriptionFactorConfig : transcriptionFactorMap.values() ) {
+            if ( transcriptionFactorConfig.isPositive ) {
+                numPositiveTranscriptionFactorsNeeded++;
+            }
+        }
+
+        // Count the number of positive transcription factors attached.
+        int numPositiveTranscriptionFactorsAttached = 0;
+        for ( AttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
+            if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() != null ) {
+                if ( ( (TranscriptionFactor) transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() ).isPositive() ) {
+                    numPositiveTranscriptionFactorsAttached++;
+                }
+            }
+        }
+
+        return numPositiveTranscriptionFactorsAttached == numPositiveTranscriptionFactorsNeeded;
+    }
+
+    /**
+     * Evaluate if transcription factors are blocking transcription.
+     *
+     * @return true if there are transcription factors that block transcription.
+     */
+    private boolean transcriptionFactorsBlockTranscription() {
+        for ( AttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
+            if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() != null ) {
+                if ( !( (TranscriptionFactor) transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() ).isPositive() ) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -180,24 +212,28 @@ public abstract class Gene {
      *                      simplification.
      * @return
      */
-    public AttachmentSite getTranscriptionFactorAttachmentSite( int basePairIndex ) {
-        if ( basePairIndex == regulatoryRegion.getMin() + TRANSCRIPTION_FACTOR_LOCATION_OFFSET ) {
-            if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
-                // The attachment site is open.
-                return transcriptionFactorAttachmentSite;
-            }
-            else {
-                // This attachment site is in use, so we return one with an
-                // affinity of 0 so that another transcription factor won't
-                // attach to it.
-                return new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ), dnaMolecule.Y_POS ), 0 );
+    public AttachmentSite getTranscriptionFactorAttachmentSite( int basePairIndex, TranscriptionFactorConfig tfConfig ) {
+
+        // Assume a default affinity site until proven otherwise.
+        AttachmentSite attachmentSite = dnaMolecule.createDefaultAffinityAttachmentSite( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) );
+
+        // Determine whether there are any transcription factor attachment
+        // sites on this gene that match the specified configuration.
+        for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
+            if ( transcriptionFactorAttachmentSite.configurationMatches( tfConfig ) ) {
+                // Found matching site.  Is it available and in the right place?
+                if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() == null &&
+                     Math.abs( transcriptionFactorAttachmentSite.locationProperty.get().getX() - dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) ) < DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 2 ) {
+                    {
+                        // Yes, so this is the site where the given TF should go.
+                        attachmentSite = transcriptionFactorAttachmentSite;
+                        break;
+                    }
+                }
             }
         }
-        else {
-            // Not a special location as far as this biomolecule is concerned,
-            // so return an attachment site with the default affinity.
-            return dnaMolecule.createDefaultAffinityAttachmentSite( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) );
-        }
+
+        return attachmentSite;
     }
 
     public boolean containsBasePair( int basePairIndex ) {
@@ -212,40 +248,47 @@ public abstract class Gene {
      */
     public void activateHints( MobileBiomolecule biomolecule ) {
         if ( rnaPolymerasePlacementHint.isMatchingBiomolecule( biomolecule ) ) {
-            if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
-                // Activate both the polymerase hint AND the positive
-                // transcription factor hint in order to convey to the user
-                // that both are needed for transcription to start.
+
+            if ( !transcriptionFactorsBlockTranscription() ) {
+                // Activate the polymerase hint.
                 rnaPolymerasePlacementHint.active.set( true );
-                positiveTranscriptionFactorPlacementHint.active.set( true );
+
+                // Also activate any unoccupied positive transcription factor
+                // hints in order to convey to the user that these are needed
+                // for transcription to start.
+                for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
+                    if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule == null && transcriptionFactorAttachmentSite.getTfConfig().isPositive ) {
+                        activateTranscriptionFactorHint( transcriptionFactorAttachmentSite.getTfConfig() );
+                    }
+                }
             }
-            else if ( ( (TranscriptionFactor) ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get().get() ) ).isPositive() ) {
-                // The positive transcription factor is already in place, so
-                // only activate the polymerase hint.
-                rnaPolymerasePlacementHint.active.set( true );
+        }
+        else if ( biomolecule instanceof TranscriptionFactor ) {
+            // Activate hint that matches this transcription factor.
+            for ( TranscriptionFactorPlacementHint transcriptionFactorPlacementHint : transcriptionFactorPlacementHints ) {
+                transcriptionFactorPlacementHint.activateIfMatch( biomolecule );
             }
-            // Note that if the negative transcription factor is in place, the
-            // polymerase hint is not activated.
         }
-        else if ( positiveTranscriptionFactorPlacementHint.isMatchingBiomolecule( biomolecule ) ) {
-            positiveTranscriptionFactorPlacementHint.active.set( true );
-        }
-        else if ( negativeTranscriptionFactorPlacementHint.isMatchingBiomolecule( biomolecule ) ) {
-            negativeTranscriptionFactorPlacementHint.active.set( true );
-        }
+    }
+
+    private void activateTranscriptionFactorHint( TranscriptionFactorConfig tfConfig ) {
+
+        //To change body of created methods use File | Settings | File Templates.
     }
 
     public void deactivateHints() {
         rnaPolymerasePlacementHint.active.set( false );
-        positiveTranscriptionFactorPlacementHint.active.set( false );
-        negativeTranscriptionFactorPlacementHint.active.set( false );
+        for ( TranscriptionFactorPlacementHint transcriptionFactorPlacementHint : transcriptionFactorPlacementHints ) {
+            transcriptionFactorPlacementHint.active.set( false );
+        }
     }
 
     public List<PlacementHint> getPlacementHints() {
         return new ArrayList<PlacementHint>() {{
             add( rnaPolymerasePlacementHint );
-            add( positiveTranscriptionFactorPlacementHint );
-            add( negativeTranscriptionFactorPlacementHint );
+            for ( TranscriptionFactorPlacementHint transcriptionFactorPlacementHint : transcriptionFactorPlacementHints ) {
+                add( transcriptionFactorPlacementHint );
+            }
         }};
     }
 
@@ -254,14 +297,16 @@ public abstract class Gene {
      * operation.
      */
     public void clearAttachmentSites() {
-        transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
-        polymeraseAttachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+        polymeraseAttachmentSite.attachedOrAttachingMolecule.set( null );
+        for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
+            transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.set( null );
+        }
     }
 
     /**
      * Get an instance (a.k.a. a prototype) of the protein associated with this
      * gene.
-     * 
+     *
      * @return
      */
     public abstract Protein getProteinPrototype();

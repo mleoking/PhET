@@ -853,7 +853,7 @@ public class MessengerRna extends MobileBiomolecule {
             // See if the attachment site at the leading edge of the mRNA is
             // available.
             AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
-            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get().isNone() &&
+            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get()== null &&
                  leadingEdgeAttachmentSite.locationProperty.get().distance( ribosome.getEntranceOfRnaChannelPos().toPoint2D() ) < RIBOSOME_CONNECTION_DISTANCE ) {
                 // This attachment site is in range and available.
                 returnValue = leadingEdgeAttachmentSite;
@@ -876,7 +876,7 @@ public class MessengerRna extends MobileBiomolecule {
             // See if the attachment site at the leading edge of the mRNA is
             // available.
             AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
-            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get().isNone() &&
+            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get()== null &&
                  leadingEdgeAttachmentSite.locationProperty.get().distance( messengerRnaDestroyer.getPosition() ) < MRNA_DESTROYER_CONNECT_DISTANCE ) {
                 // This attachment site is in range and available.
                 returnValue = leadingEdgeAttachmentSite;

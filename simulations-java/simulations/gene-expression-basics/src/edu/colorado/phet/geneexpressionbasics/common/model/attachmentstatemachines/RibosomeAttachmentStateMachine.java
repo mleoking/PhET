@@ -48,7 +48,7 @@ public class RibosomeAttachmentStateMachine extends GenericAttachmentStateMachin
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
 
             // Grow the protein.
             proteinBeingSynthesized.setFullSizeProportion( ribosome.getMessengerRnaBeingTranslated().getProportionOfRnaTranslated( ribosome ) );

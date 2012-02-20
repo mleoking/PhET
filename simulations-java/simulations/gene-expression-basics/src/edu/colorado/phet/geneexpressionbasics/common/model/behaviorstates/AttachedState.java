@@ -53,7 +53,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
         }
         if ( probabilityOfAttachmentDecay > 0.999 || probabilityOfAttachmentDecay > RAND.nextDouble() ) {
             // Go ahead and detach.
-            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+            attachmentSite.attachedOrAttachingMolecule.set( null );
             if ( attachmentSite.locationProperty.get().getY() < 100 ) {
                 // Must be on the DNA, so drift upwards.
                 return new DetachingState( biomolecule, new ImmutableVector2D( 0, 1 ) );
@@ -98,9 +98,9 @@ public class AttachedState extends BiomoleculeBehaviorState {
                     // sites.
                     AttachmentSite newAttachmentSite = copyOfProposedAttachmentSites.get( RAND.nextInt( copyOfProposedAttachmentSites.size() ) );
                     // Release the previous attachment site.
-                    attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+                    attachmentSite.attachedOrAttachingMolecule.set( null );
                     // Accept the new attachment site.
-                    newAttachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+                    newAttachmentSite.attachedOrAttachingMolecule.set( biomolecule );
                     return new MovingTowardsAttachmentState( biomolecule, newAttachmentSite );
                 }
             }
@@ -111,7 +111,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
-        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+        attachmentSite.attachedOrAttachingMolecule.set( null );
         return new UnattachedAndAvailableState( biomolecule );
     }
 }

@@ -65,7 +65,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         dnaStrandSeparation = new DnaSeparation( rnaPolymerase.getPosition().getX(), rnaPolymerase.getShape().getBounds2D().getHeight() * 0.9 );
 
         // Initialize the attachment site used when transcribing.
-        transcribingAttachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( rnaPolymerase ) );
+        transcribingAttachmentSite.attachedOrAttachingMolecule.set(rnaPolymerase );
     }
 
     // Subclass of the "attached" state for polymerase when it is attached to
@@ -87,7 +87,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
 
             if ( attachmentSite.getAffinity() == 1 ) {
                 // Attached to a max affinity site, which means that it is time
@@ -105,18 +105,18 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                     // move to an adjacent attachment point.
                     if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
                         // Detach.
-                        asm.attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+                        asm.attachmentSite.attachedOrAttachingMolecule.set( null );
                         asm.attachmentSite = null;
                         asm.setState( unattachedButUnavailableState );
                         biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
                     }
                     else {
                         // Clear the old attachment site.
-                        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+                        attachmentSite.attachedOrAttachingMolecule.set( null );
 
                         // Set a new attachment site.
                         attachmentSite = attachmentSites.get( 0 );
-                        attachmentSite.attachedOrAttachingMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+                        attachmentSite.attachedOrAttachingMolecule.set( biomolecule );
 
                         // Set up the state to move to the new attachment site.
                         setState( movingTowardsAttachmentState );
@@ -145,7 +145,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
 
             conformationalChangeAmount = Math.min( conformationalChangeAmount + CONFORMATIONAL_CHANGE_RATE * dt, 1 );
             biomolecule.changeConformation( conformationalChangeAmount );
@@ -180,7 +180,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
 
             // Grow the messenger RNA and position it to be attached to the
             // polymerase.
@@ -234,8 +234,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Free up the initial attachment site by hooking up to a somewhat
             // fictional attachment site instead.
-            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
-            transcribingAttachmentSite.attachedOrAttachingMolecule.set( new Option.Some( asm.biomolecule ) );
+            attachmentSite.attachedOrAttachingMolecule.set( null );
+            transcribingAttachmentSite.attachedOrAttachingMolecule.set( asm.biomolecule );
             attachmentSite = transcribingAttachmentSite;
         }
     }
@@ -248,7 +248,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get().get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
 
             conformationalChangeAmount = Math.max( conformationalChangeAmount - CONFORMATIONAL_CHANGE_RATE * dt, 0 );
             biomolecule.changeConformation( conformationalChangeAmount );

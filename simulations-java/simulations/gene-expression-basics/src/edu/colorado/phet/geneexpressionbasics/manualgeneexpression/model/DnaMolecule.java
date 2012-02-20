@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
-import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -18,6 +17,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelElement;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 /**
  * This class models a molecule of DNA in the model.  It includes the shape of
@@ -404,8 +404,8 @@ public class DnaMolecule {
             // See if the base pair is within the max attachment distance.
             if ( basePairs.get( i ).getCenterLocation().distance( transcriptionFactor.getPosition() ) <= TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE ) {
                 // In range.  Add it to the list if it is available.
-                AttachmentSite potentialAttachmentSite = getTranscriptionFactorAttachmentSiteForBasePairIndex( i );
-                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
+                AttachmentSite potentialAttachmentSite = getTranscriptionFactorAttachmentSiteForBasePairIndex( i, transcriptionFactor.getConfig() );
+                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get() == null ) {
                     potentialAttachmentSites.add( potentialAttachmentSite );
                 }
             }
@@ -453,7 +453,7 @@ public class DnaMolecule {
             if ( attachmentSiteLocation.distance( rnaPolymerase.getPosition() ) <= RNA_POLYMERASE_ATTACHMENT_DISTANCE ) {
                 // In range.  Add it to the list if it is available.
                 AttachmentSite potentialAttachmentSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( i );
-                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get().isNone() ) {
+                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get()== null ) {
                     potentialAttachmentSites.add( potentialAttachmentSite );
                 }
             }
@@ -471,12 +471,12 @@ public class DnaMolecule {
         return potentialAttachmentSites.get( 0 );
     }
 
-    private AttachmentSite getTranscriptionFactorAttachmentSiteForBasePairIndex( int i ) {
+    private AttachmentSite getTranscriptionFactorAttachmentSiteForBasePairIndex( int i, TranscriptionFactorConfig tfConfig ) {
         // See if this base pair is inside a gene.
         Gene gene = getGeneContainingBasePair( i );
         if ( gene != null ) {
             // Base pair is in a gene.  See if site is available.
-            return gene.getTranscriptionFactorAttachmentSite( i );
+            return gene.getTranscriptionFactorAttachmentSite( i, tfConfig );
         }
         else {
             // Base pair is not contained within a gene, so use the default.
@@ -505,14 +505,14 @@ public class DnaMolecule {
      * @param attachmentSite
      * @return
      */
-    public List<AttachmentSite> getAdjacentTranscriptionFactorAttachmentSites( AttachmentSite attachmentSite ) {
+    public List<AttachmentSite> getAdjacentTranscriptionFactorAttachmentSites( AttachmentSite attachmentSite, TranscriptionFactorConfig tfConfig ) {
         int basePairIndex = getBasePairIndexFromXOffset( attachmentSite.locationProperty.get().getX() );
         List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
         if ( basePairIndex != 0 ) {
-            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex - 1 ) );
+            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex - 1, tfConfig ) );
         }
         if ( basePairIndex != basePairs.size() - 1 ) {
-            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
+            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex + 1, tfConfig ) );
         }
         return attachmentSites;
     }
@@ -537,37 +537,6 @@ public class DnaMolecule {
         return attachmentSites;
     }
 
-    /**
-     * Get a list of all attachments sites for transcription factors within a
-     * specified radius from a given point in model space.
-     *
-     * @param position
-     * @param distance
-     * @return
-     */
-    public List<AttachmentSite> getTranscriptionFactorAttachmentSites( Point2D position, double distance ) {
-        List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
-        // Attachment sites are associated with base pairs, so index through
-        // all base pairs and determine the attachment sites that are in range.
-        for ( int i = 0; i < basePairs.size(); i++ ) {
-            if ( basePairs.get( i ).getCenterLocation().distance( position ) <= distance ) {
-                // This base pair is in range.  All such base pairs have some
-                // affinity for transcription factors, but some have more.
-                // Determine whether this is a normal- or high-affinity site.
-                Gene gene = getGeneContainingBasePair( i );
-                if ( gene != null ) {
-                    attachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
-                }
-                else {
-                    // Base pair is not contained within a gene, so use the default.
-                    attachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
-                }
-
-            }
-        }
-        return attachmentSites;
-    }
-
     public List<BasePair> getBasePairsWithinDistance( Point2D position, double distance ) {
         List<BasePair> basePairList = new ArrayList<BasePair>();
         for ( BasePair basePair : getBasePairs() ) {
@@ -577,7 +546,6 @@ public class DnaMolecule {
         }
         return basePairList;
     }
-
 
     /**
      * Get a range of base pairs to scan for attachment sites given an X

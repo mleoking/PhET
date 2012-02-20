@@ -30,14 +30,14 @@ public class GenericAttachmentStateMachine extends AttachmentStateMachine {
 
     @Override public void detach() {
         assert attachmentSite != null; // Verify internal state is consistent.
-        attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+        attachmentSite.attachedOrAttachingMolecule.set( null );
         attachmentSite = null;
         forceImmediateUnattachedButUnavailable();
     }
 
     @Override public void forceImmediateUnattachedAndAvailable() {
         if ( attachmentSite != null ) {
-            attachmentSite.attachedOrAttachingMolecule.set( new Option.None<MobileBiomolecule>() );
+            attachmentSite.attachedOrAttachingMolecule.set( null );
         }
         attachmentSite = null;
         setState( unattachedAndAvailableState );

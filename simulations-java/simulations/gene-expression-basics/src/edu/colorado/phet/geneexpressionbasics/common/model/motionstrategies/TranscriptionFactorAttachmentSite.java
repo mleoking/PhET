@@ -11,7 +11,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Transcr
  */
 public class TranscriptionFactorAttachmentSite extends AttachmentSite {
 
-    public final TranscriptionFactorConfig tfConfig;
+    private final TranscriptionFactorConfig tfConfig;
 
     /**
      * Constructor.
@@ -22,5 +22,13 @@ public class TranscriptionFactorAttachmentSite extends AttachmentSite {
     public TranscriptionFactorAttachmentSite( Point2D initialLocation, TranscriptionFactorConfig tfConfig, double affinity ) {
         super( initialLocation, affinity );
         this.tfConfig = tfConfig;
+    }
+
+    public boolean configurationMatches( TranscriptionFactorConfig tfConfig ){
+        return this.tfConfig.equals( tfConfig );
+    }
+
+    public TranscriptionFactorConfig getTfConfig() {
+        return tfConfig;
     }
 }
