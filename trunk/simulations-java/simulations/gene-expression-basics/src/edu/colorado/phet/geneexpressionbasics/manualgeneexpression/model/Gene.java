@@ -271,7 +271,7 @@ public abstract class Gene {
                 // hints in order to convey to the user that these are needed
                 // for transcription to start.
                 for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
-                    if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule == null && transcriptionFactorAttachmentSite.getTfConfig().isPositive ) {
+                    if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() == null && transcriptionFactorAttachmentSite.getTfConfig().isPositive ) {
                         activateTranscriptionFactorHint( transcriptionFactorAttachmentSite.getTfConfig() );
                     }
                 }
@@ -286,8 +286,9 @@ public abstract class Gene {
     }
 
     private void activateTranscriptionFactorHint( TranscriptionFactorConfig tfConfig ) {
-
-        //To change body of created methods use File | Settings | File Templates.
+        for ( TranscriptionFactorPlacementHint transcriptionFactorPlacementHint : transcriptionFactorPlacementHints ) {
+            transcriptionFactorPlacementHint.activateIfConfigMatch( tfConfig );
+        }
     }
 
     public void deactivateHints() {

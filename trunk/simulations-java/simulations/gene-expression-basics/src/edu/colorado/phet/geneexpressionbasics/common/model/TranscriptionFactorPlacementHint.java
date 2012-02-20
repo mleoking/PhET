@@ -30,4 +30,10 @@ public class TranscriptionFactorPlacementHint extends PlacementHint {
         }
         return false;
     }
+
+    public void activateIfConfigMatch( TranscriptionFactorConfig transcriptionFactorConfig ){
+        if ( this.tfConfig.equals( transcriptionFactorConfig )){
+            active.set( true );
+        }
+    }
 }
