@@ -143,6 +143,7 @@ public class CollidingBehavior extends PlateBehavior {
             if ( rightSample.getPosition().x < mantleSample.getPosition().x ) {
                 break;
             }
+            leftSample = lithosphereBottomBoundary.samples.get( rightIndex - 1 );
 
             // how leftSample and rightSample surround our x
             assert leftSample.getPosition().x <= mantleSample.getPosition().x;
