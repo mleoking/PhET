@@ -71,7 +71,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    private TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config, Point2D initialPosition ) {
+    public TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config, Point2D initialPosition ) {
         super( model, config.shape, config.baseColor );
         this.config = config;
         setPosition( initialPosition );

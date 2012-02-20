@@ -3,6 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.*;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -146,6 +148,23 @@ public abstract class Gene {
         // There is currently nothing special about this site, so return a
         // default affinity site.
         return dnaMolecule.createDefaultAffinityAttachmentSite( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) );
+    }
+
+
+    /**
+     * Method used by descendant classes to add locations where transcription
+     * factors go on the gene.  Generally this is only used during
+     * construction.
+     *
+     * @param basePairOffset - Offset WITHIN THIS GENE where the transcription
+     * factor's high affinity site will exist.
+     * @param tfConfig
+     */
+    protected void addTranscriptionFactor( int basePairOffset, TranscriptionFactorConfig tfConfig ){
+        transcriptionFactorMap.put( basePairOffset, tfConfig );
+        Point2D position = new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( basePairOffset + regulatoryRegion.getMin() ), DnaMolecule.Y_POS );
+        transcriptionFactorPlacementHints.add( new TranscriptionFactorPlacementHint( new TranscriptionFactor( new StubGeneExpressionModel(), tfConfig, position ) ) );
+        transcriptionFactorAttachmentSites.add( new TranscriptionFactorAttachmentSite( position, tfConfig, 0.5 ) );
     }
 
     /**

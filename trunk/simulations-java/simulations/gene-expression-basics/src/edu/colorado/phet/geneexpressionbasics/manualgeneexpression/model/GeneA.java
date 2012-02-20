@@ -41,6 +41,10 @@ public class GeneA extends Gene {
                new IntegerRange( initialBasePair + NUM_BASE_PAIRS_IN_REGULATORY_REGION + 1, initialBasePair + NUM_BASE_PAIRS_IN_REGULATORY_REGION + 1 + NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION ),
                TRANSCRIBED_REGION_COLOR,
                ID );
+
+        // Add transcription factors that are specific to this gene.
+        addTranscriptionFactor( 0, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS );
+        addTranscriptionFactor( 0, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG );
     }
 
     @Override public Protein getProteinPrototype() {
