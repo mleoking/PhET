@@ -25,7 +25,7 @@ class LightNode extends PNode {
         lightHousingNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.lightHousing ) );
         addChild( lightHousingNode );
         lightHousingNode.setOffset( -lightHousingNode.getFullBoundsReference().getWidth(),
-                                    lightHousingNode.getFullBoundsReference().getHeight() / 2 );
+                                    -lightHousingNode.getFullBoundsReference().getHeight() / 2 );
 
         // button, scaled to fit image
         MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.lightButton, light.on );

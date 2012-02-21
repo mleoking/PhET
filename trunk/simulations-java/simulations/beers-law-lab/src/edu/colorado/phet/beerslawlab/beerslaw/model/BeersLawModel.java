@@ -28,7 +28,6 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class BeersLawModel implements Resettable {
 
-    private static final double BEAKER_VOLUME = 1; // L
     private static final DoubleRange CUVETTE_WIDTH_RANGE = new DoubleRange( 0.5, 2.0, 1.0 ); // cm
     private static final double CUVETTE_HEIGHT = 3; // cm
 
@@ -60,13 +59,13 @@ public class BeersLawModel implements Resettable {
         this.solution = new Property<BeersLawSolution>( solutions.get( 0 ) );
 
         double defaultWavelength = 500; //TODO get lambdaMax from solute
-        this.light = new Light( new ImmutableVector2D( 1.5, 2 ), false, LightRepresentation.BEAM, defaultWavelength );
+        this.light = new Light( new ImmutableVector2D( 1.5, 2.2 ), false, LightRepresentation.BEAM, defaultWavelength );
 
         this.cuvette = new Cuvette( new ImmutableVector2D( light.location.getX() + 1.5, 1.25 ), CUVETTE_WIDTH_RANGE.getDefault(), CUVETTE_HEIGHT, CUVETTE_WIDTH_RANGE );
 
         //TODO compute drag bounds to match the stage size
         this.detector = new ATDetector( new ImmutableVector2D( 6, 3.75 ), new PBounds( 0, 0, 7.9, 5.25 ),
-                                        new ImmutableVector2D( 5.5, 2.5 ), new PBounds( 0, 0, 7.9, 5.25 ) );
+                                        new ImmutableVector2D( 6, light.location.getY() ), new PBounds( 0, 0, 7.9, 5.25 ) );
 
         //TODO compute drag bounds to match the stage size
         this.ruler = new Ruler( 2, new ImmutableVector2D( 3, 4.9 ), new PBounds( 0, 0, 8, 5.5 ) );
