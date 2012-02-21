@@ -1,3 +1,4 @@
+Made the node for the grabbed biomolecule always move to the top of the z-order for its layer.
 Added support for multiple positive transcription factors per gene, added to gene 2 only so far.
 Made the positive and negative transcription factors offset somewhat so they aren't right on top of each other (requested by MK).
 3rd tab: Adjusted the range of the graph, the parameter ranges, and the default values in order to make the "noisy" nature of the single cell more apparent and yet still stay on the graph when all values are maxed out.

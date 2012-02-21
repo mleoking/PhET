@@ -80,6 +80,13 @@ public class MobileBiomoleculeNode extends PNode {
                 }
             } );
         }} );
+
+        // Move this biomolecule to the top of its layer when grabbed.
+        mobileBiomolecule.userControlled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean userControlled ) {
+                moveToFront();
+            }
+        } );
     }
 
     /**
