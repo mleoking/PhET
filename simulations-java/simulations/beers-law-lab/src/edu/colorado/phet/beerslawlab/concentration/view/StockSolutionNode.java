@@ -5,11 +5,10 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
-import edu.colorado.phet.beerslawlab.common.model.Solute;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
-import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.concentration.model.Beaker;
+import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -49,7 +48,7 @@ class StockSolutionNode extends PPath {
         // set color to match solute
         solute.addObserver( new SimpleObserver() {
             public void update() {
-                Color color = Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
+                Color color = ConcentrationSolution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
                 setPaint( color );
                 setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
             }

@@ -14,7 +14,6 @@ import java.text.NumberFormat;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.ConcentrationTransform;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
@@ -154,9 +153,7 @@ public class ConcentrationSliderNode extends PhetPNode {
 
         // Computes a gradient that corresponds to the solution's concentration range.
         private static Paint createPaint( BeersLawSolution solution, double trackWidth ) {
-            Color minColor = solution.solute.solutionColorRange.getMin(); // use the min non-zero solution color, so we don't get solvent color
-            Color maxColor = Solution.createColor( solution.solvent, solution.solute, solution.concentrationRange.getMax() ); // compute the color for the max concentration
-            return new GradientPaint( 0, 0, minColor, (float) trackWidth, 0, maxColor );
+            return new GradientPaint( 0, 0, solution.colorRange.getMin(), (float) trackWidth, 0, solution.colorRange.getMax() );
         }
     }
 

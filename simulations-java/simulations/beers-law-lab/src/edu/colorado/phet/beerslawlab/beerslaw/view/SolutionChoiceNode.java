@@ -72,7 +72,7 @@ public class SolutionChoiceNode extends PhetPNode {
                    solutions, selectedSolution,
                    new Function1<BeersLawSolution, PNode>() {
                        public PNode apply( final BeersLawSolution solution ) {
-                           return new SoluteItemNode( solution.getSaturatedColor(), solution.getDisplayName() );
+                           return new SoluteItemNode( solution.saturatedColor, solution.getDisplayName() );
                        }
                    }
             );

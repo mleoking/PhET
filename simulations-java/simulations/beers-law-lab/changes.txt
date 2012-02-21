@@ -1,3 +1,6 @@
+2/21/12 specify a color range for the concentration range in Beer's solutions
+2/21/12 move Solute to concentration.model package
+2/21/12 remove Solute from Beer's model, too much baggage that's specific to Concentration model, and too many differences
 2/21/12 snap cuvette width to the closest 0.1cm interval when the user stops dragging
 2/21/12 remove "pure water" from Beer's Law tab, it creates problems, and all solutions are pure water when concentration=0 [61532]
 2/21/12 reduce cuvette height by 0.25 cm so that it's easier to drag detector probe around bottom of cuvette

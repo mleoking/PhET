@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.beerslawlab.common.model;
+package edu.colorado.phet.beerslawlab.concentration.model;
 
 import java.awt.Color;
 

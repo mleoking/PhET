@@ -13,8 +13,7 @@ CONCENTRATION 1.00 prep
 
 HIGH
 - collision detection for probe, don't allow dragging into cuvette
-- dump Solute from BeersLawSolution model
-- implement colors for BeersLawSolution, use full range to start, KMnO4 uses colorRange.min for its max
+- KMnO4 uses colorRange.min for its max
 - add molar absorption to BeersLawSolution, use value for lambdaMax from JC's data
 - derive absorbance and %transmission in BeersLawSolution
 - should there be a model of light beam? view only right now
