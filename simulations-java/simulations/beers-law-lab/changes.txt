@@ -1,3 +1,4 @@
+2/20/12 add translucent background to label on dropper, so that labels are visible on all solution colors
 2/20/12 first pass at concentration text field
 2/17/12 make distance between light and cuvette something that's easy to measure (1.5cm)
 2/17/12 add "Concentration" flavor to this project
