@@ -8,12 +8,11 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
+- Concentration slider
 - hide wavelength control panel, but keep it in the implementation for possible resurrection (continue to show for -dev? add additional command line arg to show?)
-- create something like a PropertyTextField<Double>, common component for handling numeric entry, to be used in concentration control
 - add absorbance and %transmission to solution model (start with Gaussian based on lambdaMax, later integrate JC's observed data)
 - Light beam: add to model & view (3 segments); beam and photon views
 - Detector: show vertical diameter line, for debugging; display proper values
-- Concentration control: slider; textfield event handlers
 
 MEDIUM
 - meter and detector body images don't have transparent backgrounds (at rounded corners)
