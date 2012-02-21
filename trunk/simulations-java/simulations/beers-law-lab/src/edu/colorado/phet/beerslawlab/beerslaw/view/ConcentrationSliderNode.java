@@ -12,7 +12,6 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PureWater;
 import edu.colorado.phet.beerslawlab.beerslaw.model.ConcentrationTransform;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
@@ -155,14 +154,9 @@ public class ConcentrationSliderNode extends PhetPNode {
 
         // Computes a gradient that corresponds to the solution's concentration range.
         private static Paint createPaint( BeersLawSolution solution, double trackWidth ) {
-            if ( solution instanceof PureWater ) {
-                return solution.solvent.getFluidColor();
-            }
-            else {
-                Color minColor = solution.solute.solutionColorRange.getMin(); // use the min non-zero solution color, so we don't get solvent color
-                Color maxColor = Solution.createColor( solution.solvent, solution.solute, solution.concentrationRange.getMax() ); // compute the color for the max concentration
-                return new GradientPaint( 0, 0, minColor, (float) trackWidth, 0, maxColor );
-            }
+            Color minColor = solution.solute.solutionColorRange.getMin(); // use the min non-zero solution color, so we don't get solvent color
+            Color maxColor = Solution.createColor( solution.solvent, solution.solute, solution.concentrationRange.getMax() ); // compute the color for the max concentration
+            return new GradientPaint( 0, 0, minColor, (float) trackWidth, 0, maxColor );
         }
     }
 

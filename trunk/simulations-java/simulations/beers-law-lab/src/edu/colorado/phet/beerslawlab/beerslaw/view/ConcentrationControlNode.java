@@ -1,23 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
-import java.awt.Dimension;
-import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PureWater;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -52,12 +46,5 @@ class ConcentrationControlNode extends PNode {
                                  sliderNode.getFullBoundsReference().getCenterY() - ( textFieldNode.getFullBoundsReference().getHeight() / 2 ) );
         unitsNode.setOffset( textFieldNode.getFullBoundsReference().getMaxX() + 5,
                              textFieldNode.getFullBoundsReference().getCenterY() - ( unitsNode.getFullBoundsReference().getHeight() / 2 ) );
-
-        // Hide this control for pure water, since concentration is meaningless.
-        solution.addObserver( new VoidFunction1<BeersLawSolution>() {
-            public void apply( BeersLawSolution solution ) {
-                setVisible( !( solution instanceof PureWater ) );
-            }
-        } );
     }
 }
