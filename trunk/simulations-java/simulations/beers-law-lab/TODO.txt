@@ -4,17 +4,18 @@ DEADLINES
 - 5/14/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
-- what color light to use for pure water?
-- should color of beam segments (center and right) change as path length changes?
-- should light have a momentary or toggle button?
-- how is color range supposed to be utilized for concentration in 2nd tab?
-- how to color sections of the beam? modulate alpha based on %transmission?
-- are we using molar mass for anything?
-- do photon colors change as they pass thru the solution, or are there simply fewer of them?
-- how to deal with photon absorption? is distribution even across the width of the cuvette?
+* what color light to use for pure water? (delete water)
+* should color of beam segments (center and right) change as path length changes? (yes, use gradient with modulated alpha inside solution)
+* should light have a momentary or toggle button? (toggle)
+* how is color range supposed to be utilized for concentration in 2nd tab? (use full range)
+* how to color sections of the beam? modulate alpha based on %transmission? (yes)
+* are we using molar mass for anything? (no)
+* do photon colors change as they pass thru the solution, or are there simply fewer of them? (fewer)
+* how to deal with photon absorption? is distribution even across the width of the cuvette?
+* change arrow on cuvette at min/max of width range?
 
 HIGH
-- change arrow on cuvette at min/max of width range
+- snap path length to 0.1 cm increments
 - add absorbance and %transmission to solution model (start with Gaussian based on lambdaMax, later integrate JC's observed data)
 - Light beam: add to model & view (3 segments); beam and photon views
 - Detector: show vertical diameter line, for debugging; display proper values
