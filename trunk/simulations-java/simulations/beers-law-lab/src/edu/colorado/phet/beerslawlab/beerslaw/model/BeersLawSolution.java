@@ -34,10 +34,14 @@ public class BeersLawSolution {
     public final Color saturatedColor;
     public final CompositeProperty<Color> fluidColor; // derived
     public final double lambdaMax; // wavelength for maximum absorbance, nm
+    public final double molarAbsorptionMax; // corresponds to lambdaMax, 1/(cm*M)
 
     //TODO add CompositeProperty for absorbance and %transmission
 
-    public BeersLawSolution( String name, String formula, DoubleRange concentrationRange, int concentrationViewExponent, ColorRange colorRange, Color saturatedColor, double lambdaMax ) {
+    public BeersLawSolution( String name, String formula,
+                             DoubleRange concentrationRange, int concentrationViewExponent,
+                             ColorRange colorRange, Color saturatedColor,
+                             double lambdaMax, double molarAbsorptionMax ) {
 
         this.solvent = new Water();
         this.name = name;
@@ -48,6 +52,7 @@ public class BeersLawSolution {
         this.colorRange = colorRange;
         this.saturatedColor = saturatedColor;
         this.lambdaMax = lambdaMax;
+        this.molarAbsorptionMax = molarAbsorptionMax;
 
         // derive the solution color
         this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
@@ -80,7 +85,7 @@ public class BeersLawSolution {
             super( Strings.DRINK_MIX, BLLSymbols.DRINK_MIX,
                    new DoubleRange( 0, 0.400 ), -3,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ), Color.RED,
-                   511 );
+                   511, 1270.18 );
         }
 
         // This solution's solute doesn't have a formula, so use just its name.
@@ -94,7 +99,7 @@ public class BeersLawSolution {
             super( Strings.COBALT_II_NITRATE, BLLSymbols.COBALT_II_NITRATE,
                    new DoubleRange( 0, 0.400 ), -3,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ), Color.RED,
-                   550 );
+                   550, 4.72 );
         }
     }
 
@@ -103,7 +108,7 @@ public class BeersLawSolution {
             super( Strings.COBALT_CHLORIDE, BLLSymbols.COBALT_CHLORIDE,
                    new DoubleRange( 0, 0.250 ), -3,
                    new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) ), new Color( 0xFF6A6A ),
-                   549 );
+                   549, 7.23 );
         }
     }
 
@@ -112,7 +117,7 @@ public class BeersLawSolution {
             super( Strings.POTASSIUM_DICHROMATE, BLLSymbols.POTASSIUM_DICHROMATE,
                    new DoubleRange( 0, 0.000500 ), -6,
                    new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) ), new Color( 0xFF7F00 ),
-                   394 );
+                   394, 3696.53 );
         }
     }
 
@@ -120,7 +125,7 @@ public class BeersLawSolution {
         public PotassiumChromateSolution() {
             super( Strings.POTASSIUM_CHROMATE, BLLSymbols.POTASSIUM_CHROMATE,
                    new DoubleRange( 0, 0.000400 ), -6, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), Color.YELLOW,
-                   413 );
+                   413, 4770.07 );
         }
     }
 
@@ -128,7 +133,7 @@ public class BeersLawSolution {
         public NickelIIChlorideSolution() {
             super( Strings.NICKEL_II_CHLORIDE, BLLSymbols.NICKEL_II_CHLORIDE,
                    new DoubleRange( 0, 0.350 ), -3, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), new Color( 0x008000 ),
-                   435 );
+                   435, 5.31 );
         }
     }
 
@@ -136,7 +141,7 @@ public class BeersLawSolution {
         public CopperSulfateSolution() {
             super( Strings.COPPER_SULFATE, BLLSymbols.COPPER_SULFATE,
                    new DoubleRange( 0, 0.200 ), -3, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), new Color( 0x1E90FF ),
-                   780 );
+                   780, 9.67 );
         }
     }
 
@@ -145,7 +150,7 @@ public class BeersLawSolution {
             super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE,
                    new DoubleRange( 0, 0.000800 ), -6,
                    new ColorRange( new Color( 255, 235, 255 ), new Color( 255, 0, 255 ) ), new Color( 0x8B008B ),
-                   566 );
+                   566, 2389.61 );
         }
     }
 }
