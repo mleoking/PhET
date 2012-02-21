@@ -54,7 +54,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
         }} );
 
-        //For vertical bars
+        //For water glasses
         addChild( new RepresentationNode( model.representation, Representation.WATER_GLASSES ) {{
             addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
         }} );
