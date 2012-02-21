@@ -1,3 +1,4 @@
+2/22/12 remove "pure water" from Beer's Law tab, it creates problems, and all solutions are pure water when concentration=0
 2/22/12 reduce cuvette height by 0.25 cm so that it's easier to drag detector probe around bottom of cuvette
 2/22/12 add height to ruler model
 2/22/12 design decision: don't change appear of arrow at min/max range of cuvette width

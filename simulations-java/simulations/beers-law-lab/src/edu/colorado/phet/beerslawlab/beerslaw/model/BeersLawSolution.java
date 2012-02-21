@@ -18,9 +18,7 @@ import edu.colorado.phet.beerslawlab.common.model.Solution;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * Solution model for the Beer's Law module.
@@ -118,31 +116,6 @@ public class BeersLawSolution extends Solution {
     public static class PotassiumPermanganateSolution extends BeersLawSolution {
         public PotassiumPermanganateSolution() {
             super( new PotassiumPermanganate(), new DoubleRange( 0, 0.000800 ), -6, 566 );
-        }
-    }
-
-    // Water is not technically a solution, but the design team wants it to act like a Solution in the model.
-    public static class PureWater extends BeersLawSolution {
-
-        public PureWater() {
-            // use a real solute and a dummy concentration range, so that we don't have divide-by-zero problems elsewhere.
-            super( new DrinkMix(), new DoubleRange( 0, 1, 0 ), 1, VisibleColor.MIN_WAVELENGTH ); //TODO what color light to use for pure water? it has no lambdaMax
-
-            // concentration should be initially zero, and must stay zero
-            assert( concentration.get() == 0d );
-            concentration.addObserver( new SimpleObserver() {
-                public void update() {
-                    throw new IllegalStateException( "cannot set concentration of pure water" );
-                }
-            }, false );
-        }
-
-        public String getDisplayName() {
-            return Strings.NONE_PURE_WATER;
-        }
-
-        public Color getSaturatedColor() {
-            return solvent.getFluidColor();
         }
     }
 }
