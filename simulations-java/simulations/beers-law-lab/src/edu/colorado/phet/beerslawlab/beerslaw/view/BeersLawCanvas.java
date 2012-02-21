@@ -20,15 +20,11 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BeersLawCanvas extends BLLCanvas {
 
-    public enum WavelengthControlType {LAMBDA_MAX, VARIABLE}
-
-    private final Property<WavelengthControlType> wavelengthControlType = new Property<WavelengthControlType>( WavelengthControlType.LAMBDA_MAX  ); //TODO probably a derived property of Light
-
     public BeersLawCanvas( final BeersLawModel model, Frame parentFrame ) {
 
         // Nodes
         PNode lightNode = new LightNode( model.light, model.mvt );
-        PNode lightControlsNode = new LightControlsNode( model.light, wavelengthControlType );
+        PNode lightControlsNode = new LightControlsNode( model.light );
         PNode solutionControlsNode = new SolutionControlsNode( model.getSolutions(), model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );

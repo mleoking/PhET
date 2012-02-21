@@ -1,3 +1,4 @@
+2/20/12 delete wavelength feature (too expensive to hide and continue to support)
 2/20/12 concentration slider
 # 0.00.10 (61504) Feb 20, 2012
 2/20/12 first dev version of "Concentration" flavor
