@@ -12,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PureWater;
 import edu.colorado.phet.beerslawlab.beerslaw.model.ConcentrationTransform;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.model.Solution;
@@ -60,7 +61,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     private static final Color THUMB_CENTER_LINE_COLOR = Color.WHITE;
 
     // Tick properties
-    private static final boolean TICKS_VISIBLE = false;
+    private static final boolean TICKS_VISIBLE = true;
     private static final double TICK_LENGTH = 8;
     private static final PhetFont TICK_FONT = new PhetFont( 12 );
     private static final NumberFormat TICK_FORMAT = new DefaultDecimalFormat( "0" );
@@ -139,24 +140,29 @@ public class ConcentrationSliderNode extends PhetPNode {
             } );
 
             // sync view with model
-            solution.addObserver( new SimpleObserver() {
-                public void update() {
+            solution.addObserver( new VoidFunction1<BeersLawSolution>() {
+                public void apply( BeersLawSolution solution ) {
 
                     // change the view-to-model function to match the solution's concentration range
-                    DoubleRange concentrationRange = solution.get().concentrationRange;
+                    DoubleRange concentrationRange = solution.concentrationRange;
                     viewToModel = new LinearFunction( 0, trackSize.getWidth(), concentrationRange.getMin(), concentrationRange.getMax() );
 
                     // change track color to match solution's color range
-                    setPaint( createPaint( solution.get(), trackSize.getWidth() ) );
+                    setPaint( createPaint( solution, trackSize.getWidth() ) );
                 }
             } );
         }
 
         // Computes a gradient that corresponds to the solution's concentration range.
         private static Paint createPaint( BeersLawSolution solution, double trackWidth ) {
-            Color minColor = solution.solute.solutionColorRange.getMin(); // use the min non-zero solution color, so we don't get solvent color
-            Color maxColor = Solution.createColor( solution.solvent, solution.solute, solution.concentrationRange.getMax() ); // compute the color for the max concentration
-            return new GradientPaint( 0, 0, minColor, (float) trackWidth, 0, maxColor );
+            if ( solution instanceof PureWater ) {
+                return solution.solvent.getFluidColor();
+            }
+            else {
+                Color minColor = solution.solute.solutionColorRange.getMin(); // use the min non-zero solution color, so we don't get solvent color
+                Color maxColor = Solution.createColor( solution.solvent, solution.solute, solution.concentrationRange.getMax() ); // compute the color for the max concentration
+                return new GradientPaint( 0, 0, minColor, (float) trackWidth, 0, maxColor );
+            }
         }
     }
 
