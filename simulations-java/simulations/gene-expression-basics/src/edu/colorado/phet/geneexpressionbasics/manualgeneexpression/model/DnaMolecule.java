@@ -479,7 +479,7 @@ public class DnaMolecule {
             AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
             Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
             for ( MobileBiomolecule mobileBiomolecule : model.getOverlappingBiomolecules( translatedShape ) ) {
-                if ( mobileBiomolecule.isAttachedToDna() ) {
+                if ( mobileBiomolecule.isAttachedToDna() && mobileBiomolecule != biomolecule ) {
                     // Eliminate this attachment site, since attaching to it
                     // would cause overlap with molecules already there.
                     potentialAttachmentSites.remove( potentialAttachmentSite );
@@ -523,15 +523,20 @@ public class DnaMolecule {
      * @param attachmentSite
      * @return
      */
-    public List<AttachmentSite> getAdjacentTranscriptionFactorAttachmentSites( AttachmentSite attachmentSite, TranscriptionFactorConfig tfConfig ) {
+    public List<AttachmentSite> getAdjacentAttachmentSites( TranscriptionFactor transcriptionFactor, AttachmentSite attachmentSite ) {
         int basePairIndex = getBasePairIndexFromXOffset( attachmentSite.locationProperty.get().getX() );
         List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
         if ( basePairIndex != 0 ) {
-            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex - 1, tfConfig ) );
+            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex - 1, transcriptionFactor.getConfig() ) );
         }
         if ( basePairIndex != basePairs.size() - 1 ) {
-            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex + 1, tfConfig ) );
+            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex + 1, transcriptionFactor.getConfig() ) );
         }
+
+        // Eliminate any sites that, if attached to, would cause overlapping
+        // biomolecules on the same strand.
+        eliminateOverlappedAttachmentSites( transcriptionFactor, attachmentSites );
+
         return attachmentSites;
     }
 
@@ -540,10 +545,11 @@ public class DnaMolecule {
      * one, i.e. the one before it on the DNA strand and the one after it.  If
      * at one end of the strand, only one site will be returned.
      *
+     *
      * @param attachmentSite
      * @return
      */
-    public List<AttachmentSite> getAdjacentPolymeraseAttachmentSites( AttachmentSite attachmentSite ) {
+    public List<AttachmentSite> getAdjacentAttachmentSites( RnaPolymerase rnaPolymerase, AttachmentSite attachmentSite ) {
         int basePairIndex = getBasePairIndexFromXOffset( attachmentSite.locationProperty.get().getX() );
         List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
         if ( basePairIndex != 0 ) {
@@ -552,6 +558,11 @@ public class DnaMolecule {
         if ( basePairIndex != basePairs.size() - 1 ) {
             attachmentSites.add( getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
         }
+        
+        // Eliminate any sites that, if attached to, would cause overlapping
+        // biomolecules on the same strand.
+        eliminateOverlappedAttachmentSites( rnaPolymerase, attachmentSites );
+
         return attachmentSites;
     }
 
