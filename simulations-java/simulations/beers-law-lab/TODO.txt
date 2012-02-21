@@ -11,7 +11,6 @@ DESIGN
 * are we using molar mass for anything? (no)
 * do photon colors change as they pass thru the solution, or are there simply fewer of them? (fewer)
 * how to deal with photon absorption? is distribution even across the width of the cuvette?
-* change arrow on cuvette at min/max of width range?
 
 HIGH
 - snap path length to 0.1 cm increments
