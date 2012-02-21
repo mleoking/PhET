@@ -33,7 +33,7 @@ class BLLRulerNode extends PNode {
         }
 
         // Use ruler node from common framework
-        addChild( new RulerNode( mvt.modelToViewDeltaX( ruler.length ), 40, majorTicks, Strings.UNITS_CENTIMETERS, 4, 12 ) );
+        addChild( new RulerNode( mvt.modelToViewDeltaX( ruler.length ), mvt.modelToViewDeltaY( ruler.height ), majorTicks, Strings.UNITS_CENTIMETERS, 4, 12 ) );
 
         // interactivity
         addInputEventListener( new CursorHandler() );
