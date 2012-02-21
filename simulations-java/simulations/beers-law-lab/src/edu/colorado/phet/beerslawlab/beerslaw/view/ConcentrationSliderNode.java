@@ -65,17 +65,17 @@ public class ConcentrationSliderNode extends PhetPNode {
     private static final PhetFont TICK_FONT = new PhetFont( 12 );
     private static final NumberFormat TICK_FORMAT = new DefaultDecimalFormat( "0" );
 
-    public ConcentrationSliderNode( final Property<BeersLawSolution> solutionProperty ) {
+    public ConcentrationSliderNode( final Property<BeersLawSolution> solution ) {
 
         // track that the thumb moves in
-        PNode trackNode = new TrackNode( UserComponents.concentrationSliderTrack, TRACK_SIZE, solutionProperty );
+        PNode trackNode = new TrackNode( UserComponents.concentrationSliderTrack, TRACK_SIZE, solution );
 
         // thumb that moves in the track
-        PNode thumbNode = new ThumbNode( UserComponents.concentrationSliderThumb, THUMB_SIZE, TRACK_SIZE, this, trackNode, solutionProperty );
+        PNode thumbNode = new ThumbNode( UserComponents.concentrationSliderThumb, THUMB_SIZE, TRACK_SIZE, this, trackNode, solution );
 
         // min and max tick marks
-        final TickNode minNode = new TickNode( solutionProperty.get().concentrationRange.getMin() );
-        final TickNode maxNode = new TickNode( solutionProperty.get().concentrationRange.getMax() );
+        final TickNode minNode = new TickNode( solution.get().concentrationRange.getMin() );
+        final TickNode maxNode = new TickNode( solution.get().concentrationRange.getMax() );
 
         // rendering order
         {
@@ -98,10 +98,10 @@ public class ConcentrationSliderNode extends PhetPNode {
         }
 
         // update the tick marks to match the solution
-        solutionProperty.addObserver( new SimpleObserver() {
+        solution.addObserver( new SimpleObserver() {
             public void update() {
-                final DoubleRange concentrationRange = solutionProperty.get().concentrationRange;
-                final ConcentrationTransform transform = solutionProperty.get().concentrationTransform;
+                final DoubleRange concentrationRange = solution.get().concentrationRange;
+                final ConcentrationTransform transform = solution.get().concentrationTransform;
                 minNode.setValue( transform.modelToView( concentrationRange.getMin() ) );
                 maxNode.setValue( transform.modelToView( concentrationRange.getMax() ) );
             }
@@ -113,7 +113,7 @@ public class ConcentrationSliderNode extends PhetPNode {
 
         private Function viewToModel;
 
-        public TrackNode( final IUserComponent userComponent, final PDimension trackSize, final Property<BeersLawSolution> solutionProperty ) {
+        public TrackNode( final IUserComponent userComponent, final PDimension trackSize, final Property<BeersLawSolution> solution ) {
             setPathTo( new Rectangle2D.Double( 0, 0, trackSize.getWidth(), trackSize.getHeight() ) );
 
             addInputEventListener( new CursorHandler() );
@@ -134,20 +134,20 @@ public class ConcentrationSliderNode extends PhetPNode {
                 private void handleEvent( PInputEvent event ) {
                     double trackPosition = event.getPositionRelativeTo( TrackNode.this ).getX();
                     final double concentration = viewToModel.evaluate( trackPosition );
-                    solutionProperty.get().concentration.set( concentration );
+                    solution.get().concentration.set( concentration );
                 }
             } );
 
             // sync view with model
-            solutionProperty.addObserver( new SimpleObserver() {
+            solution.addObserver( new SimpleObserver() {
                 public void update() {
 
                     // change the view-to-model function to match the solution's concentration range
-                    DoubleRange concentrationRange = solutionProperty.get().concentrationRange;
+                    DoubleRange concentrationRange = solution.get().concentrationRange;
                     viewToModel = new LinearFunction( 0, trackSize.getWidth(), concentrationRange.getMin(), concentrationRange.getMax() );
 
                     // change track color to match solution's color range
-                    setPaint( createPaint( solutionProperty.get(), trackSize.getWidth() ) );
+                    setPaint( createPaint( solution.get(), trackSize.getWidth() ) );
                 }
             } );
         }
@@ -187,7 +187,7 @@ public class ConcentrationSliderNode extends PhetPNode {
         private ThumbDragHandler dragHandler;
 
         public ThumbNode( final IUserComponent userComponent, final PDimension thumbSize, final PDimension trackSize,
-                          final PNode relativeNode, final PNode trackNode, final Property<BeersLawSolution> solutionProperty ) {
+                          final PNode relativeNode, final PNode trackNode, final Property<BeersLawSolution> solution ) {
 
             PPath bodyNode = new PPath() {{
                 final double arcWidth = 0.25 * thumbSize.getWidth();
@@ -236,8 +236,8 @@ public class ConcentrationSliderNode extends PhetPNode {
                     newSolution.concentration.addObserver( concentrationObserver );
                 }
             };
-            solutionProperty.addObserver( solutionObserver );
-            solutionObserver.update( solutionProperty.get(), null ); // because ChangeObserver.update is not called on registration
+            solution.addObserver( solutionObserver );
+            solutionObserver.update( solution.get(), null ); // because ChangeObserver.update is not called on registration
         }
     }
 

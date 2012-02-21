@@ -38,12 +38,12 @@ class ConcentrationTextField extends SimSharingJTextField {
     private Property<BeersLawSolution> solutionProperty;
     private final SimpleObserver concentrationObserver;
 
-    public ConcentrationTextField( final Property<BeersLawSolution> solutionProperty, PhetFont font ) {
+    public ConcentrationTextField( final Property<BeersLawSolution> solution, PhetFont font ) {
         super( UserComponents.concentrationTextField, COLUMNS );
         setFont( font );
         setHorizontalAlignment( SwingConstants.RIGHT ); // right justified
 
-        this.solutionProperty = solutionProperty;
+        this.solutionProperty = solution;
 
         // commit the value when the user presses Enter
         addActionListener( new ActionListener() {
@@ -67,16 +67,16 @@ class ConcentrationTextField extends SimSharingJTextField {
         // sync with model when concentration changes
         concentrationObserver = new SimpleObserver() {
             public void update() {
-                updateView( solutionProperty.get().concentration.get() );
+                updateView( solution.get().concentration.get() );
             }
         };
-        solutionProperty.get().concentration.addObserver( concentrationObserver );
+        solution.get().concentration.addObserver( concentrationObserver );
 
         // sync with model when solution changes
-        solutionProperty.addObserver( new SimpleObserver() {
+        solution.addObserver( new SimpleObserver() {
             public void update() {
-                solutionProperty.get().concentration.removeObserver( concentrationObserver );
-                solutionProperty.get().concentration.addObserver( concentrationObserver );
+                solution.get().concentration.removeObserver( concentrationObserver );
+                solution.get().concentration.addObserver( concentrationObserver );
             }
         } );
     }
