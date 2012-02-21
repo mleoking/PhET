@@ -1,5 +1,6 @@
+2/20/12 beam segment in solution
 2/20/12 fix divide-by-zero error for pure water
-2/20/12 portion of beam between light and cuvette
+2/20/12 beam segment between light and cuvette
 2/20/12 add lambdaMax to solution model
 2/20/12 delete wavelength feature (too expensive to hide and continue to support)
 2/20/12 concentration slider
