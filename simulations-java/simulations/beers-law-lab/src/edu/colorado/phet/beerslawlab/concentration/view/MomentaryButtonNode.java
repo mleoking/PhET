@@ -1,5 +1,5 @@
-// Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.beerslawlab.common.view;
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.beerslawlab.concentration.view;
 
 import java.awt.Cursor;
 import java.awt.Image;
@@ -19,12 +19,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * A toggle button.
+ * A momentary button is "on" while pressed.
  * Origin is at the center of the button.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ToggleButtonNode extends PNode {
+class MomentaryButtonNode extends PNode {
 
     private final IUserComponentType USER_COMPONENT_TYPE = UserComponentTypes.button;
 
@@ -32,19 +32,19 @@ public class ToggleButtonNode extends PNode {
     private final DynamicCursorHandler cursorHandler;
 
     // Button that will always be enabled.
-    public ToggleButtonNode( IUserComponent userComponent, Property<Boolean> onProperty ) {
+    public MomentaryButtonNode( IUserComponent userComponent, Property<Boolean> onProperty ) {
         this( userComponent, onProperty, new Property<Boolean>( true ) );
     }
 
     // Constructor that uses default images (round red buttons with 3D look)
-    public ToggleButtonNode( IUserComponent userComponent, Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
+    public MomentaryButtonNode( IUserComponent userComponent, Property<Boolean> onProperty, Property<Boolean> enabledProperty ) {
         this( userComponent, onProperty, enabledProperty,
               PiccoloPhetResources.getImage( "button_pressed.png" ),
               PiccoloPhetResources.getImage( "button_unpressed.png" ),
               PiccoloPhetResources.getImage( "button_disabled.png" ) );
     }
 
-    public ToggleButtonNode( final IUserComponent userComponent, final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
+    public MomentaryButtonNode( final IUserComponent userComponent, final Property<Boolean> onProperty, final Property<Boolean> enabledProperty, final Image onImage, final Image offImage, final Image disabledImage ) {
         assert ( onImage != offImage ); // different images are required
 
         cursorHandler = new DynamicCursorHandler();
@@ -56,7 +56,14 @@ public class ToggleButtonNode extends PNode {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
                     SimSharingManager.sendUserMessage( userComponent, USER_COMPONENT_TYPE, UserActions.pressed );
-                    onProperty.set( !onProperty.get() );
+                    onProperty.set( true );
+                }
+            }
+
+            @Override public void mouseReleased( PInputEvent event ) {
+                if ( enabledProperty.get() ) {
+                    SimSharingManager.sendUserMessage( userComponent, USER_COMPONENT_TYPE, UserActions.released );
+                    onProperty.set( false );
                 }
             }
         } );

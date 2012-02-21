@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeamNode extends PhetPNode {
+class BeamNode extends PhetPNode {
 
     public BeamNode( final Light light, Cuvette cuvette, ModelViewTransform mvt ) {
 

@@ -1,3 +1,5 @@
+2/21/12 make all view classes package private, except canvas
+2/21/12 move button classes to proper packages
 2/21/12 specify a color range for the concentration range in Beer's solutions
 2/21/12 move Solute to concentration.model package
 2/21/12 remove Solute from Beer's model, too much baggage that's specific to Concentration model, and too many differences

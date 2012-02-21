@@ -43,7 +43,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ATDetectorNode extends PhetPNode {
+class ATDetectorNode extends PhetPNode {
 
     public ATDetectorNode( ATDetector detector, ModelViewTransform mvt ) {
 

@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SolutionChoiceNode extends PhetPNode {
+class SolutionChoiceNode extends PhetPNode {
 
     private static final PhetFont LABEL_FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
