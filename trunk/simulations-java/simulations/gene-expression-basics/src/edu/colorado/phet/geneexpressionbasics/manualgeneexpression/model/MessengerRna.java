@@ -16,6 +16,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -75,6 +76,10 @@ public class MessengerRna extends MobileBiomolecule {
     // List of the shape segments that define the outline shape.
     public final EnhancedObservableList<ShapeSegment> shapeSegments = new EnhancedObservableList<ShapeSegment>();
 
+    // Externally visible indicator for whether this mRNA is being synthesized.
+    // Assumes that it is being synthesized when created.
+    public final BooleanProperty beingSynthesized = new BooleanProperty( true );
+
     // Map from ribosomes to the shape segment to which they are attached.
     private final Map<Ribosome, ShapeSegment> mapRibosomeToShapeSegment = new HashMap<Ribosome, ShapeSegment>();
 
@@ -126,9 +131,8 @@ public class MessengerRna extends MobileBiomolecule {
             public void update() {
                 // This hint always sits at the beginning of the RNA strand.
                 ImmutableVector2D currentMRnaFirstPointPosition = new ImmutableVector2D( firstShapeDefiningPoint.getPosition() );
-                ImmutableVector2D offsetToTranslationChannelEntrance = Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE;
-                ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
-                mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( offsetToTranslationChannelEntrance ).toPoint2D() );
+                ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
+                mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.toPoint2D() );
             }
         } );
     }

@@ -14,6 +14,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.Timer;
 
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -50,11 +51,19 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         addChild( new PlacementHintNode( mvt, messengerRna.ribosomePlacementHint ) );
         addChild( new PlacementHintNode( mvt, messengerRna.mRnaDestroyerPlacementHint ) );
 
-        // Add the label.  TODO: i18n
+        // Add the label. This fades in during synthesis, then fades out.
         final FadeLabel label = new FadeLabel( "mRNA", false );
         addChild( label );
-        label.setOffset( 10, -10 );
-        label.startFadeIn( 2000 );
+        messengerRna.beingSynthesized.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean beingSynthesized ) {
+                if ( beingSynthesized ){
+                    label.startFadeIn( 3000 ); // Fade time chosen empirically.
+                }
+                else if ( !beingSynthesized ){
+                    label.startFadeOut( 1000 ); // Fade time chosen empirically.
+                }
+            }
+        } );
 
         // Update the label position as the shape changes.
         messengerRna.addShapeChangeObserver( new VoidFunction1<Shape>() {
@@ -187,7 +196,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
             fadeInTimer = new Timer( TIMER_DELAY, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     opacity = Math.min( opacity + fadeDelta, 1 );
-                    setTransparency( (float)opacity );
+                    setTransparency( (float) opacity );
                     if (opacity >= 1 ){
                         fadeInTimer.stop();
                     }
@@ -196,7 +205,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
             fadeOutTimer = new Timer( TIMER_DELAY, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     opacity = Math.max( opacity - fadeDelta, 0 );
-                    setTransparency( (float)opacity );
+                    setTransparency( (float) opacity );
                     if (opacity <= 0 ){
                         fadeOutTimer.stop();
                     }
