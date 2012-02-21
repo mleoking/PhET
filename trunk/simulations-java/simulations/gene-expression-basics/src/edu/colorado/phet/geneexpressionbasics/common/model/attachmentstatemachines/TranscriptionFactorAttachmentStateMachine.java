@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
@@ -53,7 +52,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                 // See if we have been attached long enough.
                 attachCountdownTime -= dt;
                 if ( attachCountdownTime <= 0 ) {
-                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentTranscriptionFactorAttachmentSites( asm.attachmentSite, (( TranscriptionFactor )biomolecule).getConfig() );
+                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( (TranscriptionFactor) biomolecule, asm.attachmentSite );
                     Collections.shuffle( attachmentSites );
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.

@@ -8,7 +8,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
@@ -99,7 +98,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 // See if we have been attached long enough.
                 attachCountdownTime -= dt;
                 if ( attachCountdownTime <= 0 ) {
-                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentPolymeraseAttachmentSites( asm.attachmentSite );
+                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( rnaPolymerase, asm.attachmentSite );
                     Collections.shuffle( attachmentSites );
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.
