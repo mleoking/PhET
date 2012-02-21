@@ -9,7 +9,6 @@ import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.common.view.DebugLocationNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -33,15 +32,15 @@ public class BeersLawCanvas extends BLLCanvas {
         PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt );
         PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
         PNode debugLocationNode = new DebugLocationNode( model.mvt );
-        PNode beamLeftNode = new BeamLeftNode( model.light, model.cuvette, model.mvt );
+        PNode beamNode = new BeamNode( model.light, model.cuvette, model.mvt );
 
         // Rendering order
         {
-            addChild( beamLeftNode );
             addChild( lightNode );
             addChild( lightControlsNode );
             addChild( resetAllButtonNode );
             addChild( cuvetteNode );
+            addChild( beamNode );
             addChild( detectorNode );
             addChild( rulerNode );
             addChild( solutionControlsNode );
