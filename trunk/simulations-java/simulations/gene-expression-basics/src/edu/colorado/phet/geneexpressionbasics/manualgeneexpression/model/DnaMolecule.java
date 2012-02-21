@@ -413,19 +413,7 @@ public class DnaMolecule {
 
         // Eliminate any attachment site where attaching would cause overlap
         // with other biomolecules that are already on the DNA strand.
-        for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
-            ImmutableVector2D translationVector = new ImmutableVector2D( transcriptionFactor.getPosition(), potentialAttachmentSite.locationProperty.get() );
-            AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
-            Shape translatedShape = transform.createTransformedShape( transcriptionFactor.getShape() );
-            for ( MobileBiomolecule mobileBiomolecule : model.getOverlappingBiomolecules( translatedShape ) ) {
-                if ( mobileBiomolecule.isAttachedToDna() ) {
-                    // Eliminate this attachment site, since attaching to it
-                    // would cause overlap with molecules already there.
-                    potentialAttachmentSites.remove( potentialAttachmentSite );
-                    break;
-                }
-            }
-        }
+        eliminateOverlappedAttachmentSites( transcriptionFactor, potentialAttachmentSites );
 
         if ( potentialAttachmentSites.size() == 0 ) {
             // No acceptable sites found.
@@ -459,6 +447,10 @@ public class DnaMolecule {
             }
         }
 
+        // Eliminate any attachment site where attaching would cause overlap
+        // with other biomolecules that are already on the DNA strand.
+        eliminateOverlappedAttachmentSites( rnaPolymerase, potentialAttachmentSites );
+
         if ( potentialAttachmentSites.size() == 0 ) {
             // No acceptable sites found.
             return null;
@@ -469,6 +461,32 @@ public class DnaMolecule {
 
         // Return the optimal attachment site.
         return potentialAttachmentSites.get( 0 );
+    }
+
+    /**
+     * Take a list of attachment sites and eliminate any of them that, if the
+     * given molecule attaches, it would end up overlapping with another
+     * biomolecule that is already attached to the DNA strand.
+     *
+     * @param biomolecule - the biomolecule that is potentially going to
+     * attach to the provided list of attachment sites.
+     * @param potentialAttachmentSites - attachment sites where the given
+     * biomolecule could attach.
+     */
+    private void eliminateOverlappedAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
+        for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
+            ImmutableVector2D translationVector = new ImmutableVector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
+            AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
+            Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
+            for ( MobileBiomolecule mobileBiomolecule : model.getOverlappingBiomolecules( translatedShape ) ) {
+                if ( mobileBiomolecule.isAttachedToDna() ) {
+                    // Eliminate this attachment site, since attaching to it
+                    // would cause overlap with molecules already there.
+                    potentialAttachmentSites.remove( potentialAttachmentSite );
+                    break;
+                }
+            }
+        }
     }
 
     private AttachmentSite getTranscriptionFactorAttachmentSiteForBasePairIndex( int i, TranscriptionFactorConfig tfConfig ) {
