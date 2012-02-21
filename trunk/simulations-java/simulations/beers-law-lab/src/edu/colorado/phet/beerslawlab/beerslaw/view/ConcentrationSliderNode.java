@@ -154,7 +154,7 @@ public class ConcentrationSliderNode extends PhetPNode {
 
         // Computes a gradient that corresponds to the solution's concentration range.
         private static Paint createPaint( BeersLawSolution solution, double trackWidth ) {
-            Color minColor = solution.solute.solutionColor.getMin(); // use the min non-zero solution color, so we don't get solvent color
+            Color minColor = solution.solute.solutionColorRange.getMin(); // use the min non-zero solution color, so we don't get solvent color
             Color maxColor = Solution.createColor( solution.solvent, solution.solute, solution.concentrationRange.getMax() ); // compute the color for the max concentration
             return new GradientPaint( 0, 0, minColor, (float) trackWidth, 0, maxColor );
         }

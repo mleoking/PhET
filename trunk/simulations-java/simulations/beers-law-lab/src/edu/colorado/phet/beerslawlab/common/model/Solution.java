@@ -24,7 +24,7 @@ public class Solution {
         Color color = solvent.color;
         if ( concentration > 0 ) {
             LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
-            color = solute.solutionColor.interpolateLinear( f.evaluate( concentration ) );
+            color = solute.solutionColorRange.interpolateLinear( f.evaluate( concentration ) );
         }
         return color;
     }
