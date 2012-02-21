@@ -11,7 +11,6 @@ import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltIINitrate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.CopperSulfate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.DrinkMix;
 import edu.colorado.phet.beerslawlab.common.model.Solute.NickelIIChloride;
-import edu.colorado.phet.beerslawlab.common.model.Solute.NullSolute;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumChromate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumDichromate;
 import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumPermanganate;
@@ -21,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * Solution model for the Beer's Law module.
@@ -125,7 +125,10 @@ public class BeersLawSolution extends Solution {
     public static class PureWater extends BeersLawSolution {
 
         public PureWater() {
-            super( new NullSolute(), new DoubleRange( 0, 0, 0 ), 1, 780 ); //TODO what color light to use for pure water? it has no lambdaMax
+            // use a real solute and a dummy concentration range, so that we don't have divide-by-zero problems elsewhere.
+            super( new DrinkMix(), new DoubleRange( 0, 1, 0 ), 1, VisibleColor.MIN_WAVELENGTH ); //TODO what color light to use for pure water? it has no lambdaMax
+
+            // concentration should be initially zero, and must stay zero
             assert( concentration.get() == 0d );
             concentration.addObserver( new SimpleObserver() {
                 public void update() {
