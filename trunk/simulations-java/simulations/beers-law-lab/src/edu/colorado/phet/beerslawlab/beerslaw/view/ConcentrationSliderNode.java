@@ -45,7 +45,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConcentrationSliderNode extends PhetPNode {
+class ConcentrationSliderNode extends PhetPNode {
 
     // Track properties
     private static final PDimension TRACK_SIZE = new PDimension( 200, 15 );
