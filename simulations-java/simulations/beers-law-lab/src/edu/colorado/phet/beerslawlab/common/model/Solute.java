@@ -25,27 +25,27 @@ public class Solute {
 
     public final String name; // localized name
     public final String formula; // chemical formula, not localized
-    public final double molarMass; // g/mol
+    public final double molarMass; // g/mol //TODO delete this property? are we using it?
     public final double saturatedConcentration; // M, in beaker
     public final double stockSolutionConcentration; // M, stock solution in dropper
-    public final ColorRange solutionColor; // color range for a solution with non-zero concentration
+    public final ColorRange solutionColorRange; // color range for a solution with non-zero concentration
     public final Color particleColor; // color of solid particles
     public final double particleSize; // solid particles are square, this is the length of one side
     public final int particlesPerMole; // number of particles to show per mol of solute
 
     // For most solutes, particles are the same as the color as the saturated solution.
-    public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration, ColorRange solutionColor, double particleSize, int particlesPerMole ) {
-        this( name, formula, molarMass, saturatedConcentration, stockSolutionConcentration, solutionColor, solutionColor.getMax(), particleSize, particlesPerMole );
+    public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration, ColorRange solutionColorRange, double particleSize, int particlesPerMole ) {
+        this( name, formula, molarMass, saturatedConcentration, stockSolutionConcentration, solutionColorRange, solutionColorRange.getMax(), particleSize, particlesPerMole );
     }
 
     public Solute( String name, String formula, double molarMass, double saturatedConcentration, double stockSolutionConcentration,
-                   ColorRange solutionColor, Color particleColor, double particleSize, int particlesPerMole ) {
+                   ColorRange solutionColorRange, Color particleColor, double particleSize, int particlesPerMole ) {
         this.name = name;
         this.formula = formula;
         this.molarMass = molarMass;
         this.saturatedConcentration = saturatedConcentration;
         this.stockSolutionConcentration = stockSolutionConcentration;
-        this.solutionColor = solutionColor;
+        this.solutionColorRange = solutionColorRange;
         this.particleColor = particleColor;
         this.particleSize = particleSize;
         this.particlesPerMole = particlesPerMole;
@@ -56,7 +56,7 @@ public class Solute {
     }
 
     public Color getSaturatedColor() {
-        return solutionColor.getMax();
+        return solutionColorRange.getMax();
     }
 
     public static class DrinkMix extends Solute {
