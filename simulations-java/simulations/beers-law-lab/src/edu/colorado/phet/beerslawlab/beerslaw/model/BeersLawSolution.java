@@ -66,11 +66,12 @@ public class BeersLawSolution extends Solution {
         return concentrationTransform.getViewUnits();
     }
 
-    public static class KoolAidSolution extends BeersLawSolution {
-        public KoolAidSolution() {
+    public static class DrinkMixSolution extends BeersLawSolution {
+        public DrinkMixSolution() {
             super( new DrinkMix(), new DoubleRange( 0, 0.400 ), -3 );
         }
 
+        // This solution's solute doesn't have a formula, so use its name.
         @Override public String getDisplayName() {
             return solute.name;
         }

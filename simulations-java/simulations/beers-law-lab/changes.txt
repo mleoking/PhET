@@ -1,3 +1,4 @@
+2/20/12 concentration slider
 # 0.00.10 (61504) Feb 20, 2012
 2/20/12 first dev version of "Concentration" flavor
 2/20/12 add translucent background to label on dropper, so that labels are visible on all solution colors

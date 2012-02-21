@@ -6,15 +6,18 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PureWater;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -24,16 +27,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 class ConcentrationControlNode extends PNode {
 
-    private static final Dimension TRACK_SIZE = new Dimension( 200, 15 );
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
-    public ConcentrationControlNode( Property<BeersLawSolution> solution ) {
+    public ConcentrationControlNode( Property<BeersLawSolution> solutionProperty ) {
 
         // nodes
         PText labelNode = new PhetPText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.CONCENTRATION ), FONT );
-        PNode sliderNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) );  //TODO create a custom slider
-        PNode textFieldNode = new PSwing( new ConcentrationTextField( solution, FONT ) );
-        PNode unitsNode = new ConcentrationUnitsNode( solution, FONT );
+        PNode sliderNode = new ZeroOffsetNode( new ConcentrationSliderNode( solutionProperty ) );
+        PNode textFieldNode = new PSwing( new ConcentrationTextField( solutionProperty, FONT ) );
+        PNode unitsNode = new ConcentrationUnitsNode( solutionProperty, FONT );
 
         // rendering order
         PNode parentNode = new PNode();
@@ -44,11 +46,18 @@ class ConcentrationControlNode extends PNode {
         addChild( new ZeroOffsetNode( parentNode ) );
 
         // layout
-        sliderNode.setOffset( labelNode.getFullBoundsReference().getMaxX() + 5,
+        sliderNode.setOffset( labelNode.getFullBoundsReference().getMaxX() + 8,
                               labelNode.getFullBoundsReference().getCenterY() - ( sliderNode.getFullBoundsReference().getHeight() / 2 ) );
         textFieldNode.setOffset( sliderNode.getFullBoundsReference().getMaxX() + 10,
                                  sliderNode.getFullBoundsReference().getCenterY() - ( textFieldNode.getFullBoundsReference().getHeight() / 2 ) );
         unitsNode.setOffset( textFieldNode.getFullBoundsReference().getMaxX() + 5,
                              textFieldNode.getFullBoundsReference().getCenterY() - ( unitsNode.getFullBoundsReference().getHeight() / 2 ) );
+
+        // Hide this control for pure water, since concentration is meaningless.
+        solutionProperty.addObserver( new VoidFunction1<BeersLawSolution>() {
+            public void apply( BeersLawSolution solution ) {
+                setVisible( !( solution instanceof PureWater ) );
+            }
+        });
     }
 }

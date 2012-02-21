@@ -80,7 +80,6 @@ class CuvetteNode extends PNode {
         // when the solution changes, rewire the color observer
         final ChangeObserver<BeersLawSolution> solutionObserver = new ChangeObserver<BeersLawSolution>() {
             public void update( BeersLawSolution newValue, BeersLawSolution oldValue ) {
-                System.out.println( "CuvetteNode.ChangeObserver<BeersLawSolution>.update" );
                 if ( oldValue != null ) {
                     oldValue.fluidColor.removeObserver( colorObserver );
                 }

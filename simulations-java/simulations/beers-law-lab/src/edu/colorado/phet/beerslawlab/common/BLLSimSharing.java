@@ -26,7 +26,7 @@ public class BLLSimSharing {
         solution,
         detectorBody, detectorProbe, transmittanceRadioButton, absorbanceRadioButton,
         solutionComboBox,
-        concentrationSlider, concentrationTextField
+        concentrationSliderThumb, concentrationSliderTrack, concentrationTextField
     }
 
     public static enum Parameters implements IParameterKey {
