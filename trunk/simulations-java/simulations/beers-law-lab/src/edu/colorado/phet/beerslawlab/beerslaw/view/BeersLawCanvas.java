@@ -40,8 +40,8 @@ public class BeersLawCanvas extends BLLCanvas {
             addChild( lightControlsNode );
             addChild( resetAllButtonNode );
             addChild( cuvetteNode );
-            addChild( beamNode );
             addChild( detectorNode );
+            addChild( beamNode );
             addChild( rulerNode );
             addChild( solutionControlsNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
