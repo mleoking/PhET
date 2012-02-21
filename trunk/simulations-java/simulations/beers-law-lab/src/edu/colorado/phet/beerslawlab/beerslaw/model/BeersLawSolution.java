@@ -33,18 +33,20 @@ public class BeersLawSolution extends Solution {
 
     public final Solute solute;
     public final Property<Double> concentration; // M
-    public final ConcentrationTransform concentrationTransform;
     public final DoubleRange concentrationRange; // M
+    public final ConcentrationTransform concentrationTransform;
     public final CompositeProperty<Color> fluidColor; // derived from solute color and concentration
+    public final double lambdaMax; // wavelength for maximum absorbance, nm
 
     //TODO add CompositeProperty for absorbance and %transmission
 
-    public BeersLawSolution( final Solute solute, DoubleRange concentrationRange, int concentrationViewExponent ) {
+    public BeersLawSolution( final Solute solute, DoubleRange concentrationRange, int concentrationViewExponent, double lambdaMax ) {
 
         this.concentration = new Property<Double>( concentrationRange.getDefault() );
         this.solute = solute;
-        this.concentrationTransform = new ConcentrationTransform( concentrationViewExponent );
         this.concentrationRange = concentrationRange;
+        this.concentrationTransform = new ConcentrationTransform( concentrationViewExponent );
+        this.lambdaMax = lambdaMax;
 
         // derive the solution color
         this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
@@ -68,7 +70,7 @@ public class BeersLawSolution extends Solution {
 
     public static class DrinkMixSolution extends BeersLawSolution {
         public DrinkMixSolution() {
-            super( new DrinkMix(), new DoubleRange( 0, 0.400 ), -3 );
+            super( new DrinkMix(), new DoubleRange( 0, 0.400 ), -3, 511 );
         }
 
         // This solution's solute doesn't have a formula, so use its name.
@@ -79,43 +81,43 @@ public class BeersLawSolution extends Solution {
 
     public static class CobaltIINitrateSolution extends BeersLawSolution {
         public CobaltIINitrateSolution() {
-            super( new CobaltIINitrate(), new DoubleRange( 0, 0.400 ), -3 );
+            super( new CobaltIINitrate(), new DoubleRange( 0, 0.400 ), -3, 550 );
         }
     }
 
     public static class CobaltChlorideSolution extends BeersLawSolution {
         public CobaltChlorideSolution() {
-            super( new CobaltChloride(), new DoubleRange( 0, 0.250 ), -3 );
+            super( new CobaltChloride(), new DoubleRange( 0, 0.250 ), -3, 549 );
         }
     }
 
     public static class PotassiumDichromateSolution extends BeersLawSolution {
         public PotassiumDichromateSolution() {
-            super( new PotassiumDichromate(), new DoubleRange( 0, 0.000500 ), -6 );
+            super( new PotassiumDichromate(), new DoubleRange( 0, 0.000500 ), -6, 394 );
         }
     }
 
     public static class PotassiumChromateSolution extends BeersLawSolution {
         public PotassiumChromateSolution() {
-            super( new PotassiumChromate(), new DoubleRange( 0, 0.000400 ), -6  );
+            super( new PotassiumChromate(), new DoubleRange( 0, 0.000400 ), -6, 413  );
         }
     }
 
     public static class NickelIIChlorideSolution extends BeersLawSolution {
         public NickelIIChlorideSolution() {
-            super( new NickelIIChloride(), new DoubleRange( 0, 0.350 ), -3 );
+            super( new NickelIIChloride(), new DoubleRange( 0, 0.350 ), -3, 435 );
         }
     }
 
     public static class CopperSulfateSolution extends BeersLawSolution {
         public CopperSulfateSolution() {
-            super( new CopperSulfate(), new DoubleRange( 0, 0.200 ), -3 );
+            super( new CopperSulfate(), new DoubleRange( 0, 0.200 ), -3, 780 );
         }
     }
 
     public static class PotassiumPermanganateSolution extends BeersLawSolution {
         public PotassiumPermanganateSolution() {
-            super( new PotassiumPermanganate(), new DoubleRange( 0, 0.000800 ), -6 );
+            super( new PotassiumPermanganate(), new DoubleRange( 0, 0.000800 ), -6, 566 );
         }
     }
 
@@ -123,7 +125,7 @@ public class BeersLawSolution extends Solution {
     public static class PureWater extends BeersLawSolution {
 
         public PureWater() {
-            super( new NullSolute(), new DoubleRange( 0, 0, 0 ), 1 );
+            super( new NullSolute(), new DoubleRange( 0, 0, 0 ), 1, 780 ); //TODO what color light to use for pure water? it has no lambdaMax
             assert( concentration.get() == 0d );
             concentration.addObserver( new SimpleObserver() {
                 public void update() {
