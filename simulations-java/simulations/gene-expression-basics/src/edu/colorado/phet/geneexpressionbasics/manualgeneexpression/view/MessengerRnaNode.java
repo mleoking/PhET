@@ -6,10 +6,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.*;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -48,9 +51,10 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         addChild( new PlacementHintNode( mvt, messengerRna.mRnaDestroyerPlacementHint ) );
 
         // Add the label.  TODO: i18n
-        final FadeLabel label = new FadeLabel( "mRNA" );
+        final FadeLabel label = new FadeLabel( "mRNA", false );
         addChild( label );
         label.setOffset( 10, -10 );
+        label.startFadeIn( 2000 );
 
         // Update the label position as the shape changes.
         messengerRna.addShapeChangeObserver( new VoidFunction1<Shape>() {
@@ -159,13 +163,61 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
      * PNode that is a textual label that can fade in and out.
      */
     private static class FadeLabel extends PNode {
-        private static final Font FONT = new PhetFont( 12 );
+        private static final Font FONT = new PhetFont( 14 );
+        private static final int TIMER_DELAY = 100; // In milliseconds.
 
-        private FadeLabel( String text ) {
-            PNode label = new PText( text ){{ setFont( FONT ); }};
+        private final Timer fadeInTimer;
+        private final Timer fadeOutTimer;
+
+        private double opacity;
+        private double fadeDelta;
+
+        public FadeLabel( String text, boolean initiallyVisible ) {
+            final PNode label = new PText( text ){{ setFont( FONT ); }};
             addChild( label );
+            if ( !initiallyVisible ){
+                setTransparency( 0 );
+                opacity = 0;
+            }
+            else{
+                opacity = 1;
+            }
+
+            // Create the timers that will be used for fading in and out.
+            fadeInTimer = new Timer( TIMER_DELAY, new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    opacity = Math.min( opacity + fadeDelta, 1 );
+                    setTransparency( (float)opacity );
+                    if (opacity >= 1 ){
+                        fadeInTimer.stop();
+                    }
+                }
+            } );
+            fadeOutTimer = new Timer( TIMER_DELAY, new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    opacity = Math.max( opacity - fadeDelta, 0 );
+                    setTransparency( (float)opacity );
+                    if (opacity <= 0 ){
+                        fadeOutTimer.stop();
+                    }
+                }
+            } );
+        }
+
+        public void startFadeIn( double time ){
+            if ( fadeOutTimer.isRunning() ){
+                fadeOutTimer.stop();
+            }
+            fadeDelta = TIMER_DELAY / time;
+            fadeInTimer.restart();
+        }
+
+        public void startFadeOut( double time ){
+            if ( fadeInTimer.isRunning() ){
+                fadeInTimer.stop();
+            }
+            fadeDelta = TIMER_DELAY / time;
+            fadeOutTimer.restart();
         }
     }
-
-
 }
