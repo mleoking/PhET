@@ -9,9 +9,12 @@ HIGH
 - collision detection for probe, don't allow dragging into cuvette
 - dump Solute from BeersLawSolution model
 - implement colors for BeersLawSolution, use full range to start, KMnO4 uses colorRange.min for its max
-- add absorbance and %transmission to solution model (start with Gaussian based on lambdaMax, later integrate JC's observed data)
-- Light beam: add to model & view (3 segments); beam and photon views
-- Detector: show vertical diameter line, for debugging; display proper values; reads value only when entire beam is fully hitting detector
+- add molar absorption to BeersLawSolution, use value for lambdaMax from JC's data
+- derive absorbance and %transmission in BeersLawSolution
+- should there be a model of light beam? view only right now
+- show vertical diameter line in detector, for debugging
+- detector only reads value hen entire beam is fully hitting detector
+- show value in detector
 - use gradient with modulated alpha for portion of the beam that passes through solution
 - color of photons doesn't change, created a believable algorithm for how they are absorbed as they pass through solution
 
@@ -34,7 +37,7 @@ LOW
 - Toolbox in Beer's tab?
 
 SIM-SHARING
-- add sim-sharing to WavelengthControl
+- add sim-sharing to WavelengthControl (if I use it)
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
