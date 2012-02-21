@@ -58,7 +58,7 @@ public class BeersLawModel implements Resettable {
         }};
         this.solution = new Property<BeersLawSolution>( solutions.get( 0 ) );
 
-        this.light = new Light( new ImmutableVector2D( 1.5, 2.2 ), false, LightRepresentation.BEAM, 0.25, solution );
+        this.light = new Light( new ImmutableVector2D( 1.5, 2.2 ), false, LightRepresentation.BEAM, 0.45, solution );
 
         this.cuvette = new Cuvette( new ImmutableVector2D( light.location.getX() + 1.5, 1.25 ), CUVETTE_WIDTH_RANGE.getDefault(), CUVETTE_HEIGHT, CUVETTE_WIDTH_RANGE );
 

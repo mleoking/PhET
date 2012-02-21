@@ -30,7 +30,7 @@ class LightNode extends PNode {
         // button, scaled to fit image
         MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.lightButton, light.on );
         addChild( buttonNode );
-        buttonNode.scale( 0.75 * lightHousingNode.getFullBoundsReference().getHeight() / buttonNode.getFullBoundsReference().getHeight() );
+        buttonNode.scale( 0.65 * lightHousingNode.getFullBoundsReference().getHeight() / buttonNode.getFullBoundsReference().getHeight() );
         buttonNode.setOffset( lightHousingNode.getFullBoundsReference().getMaxX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ) - 40,
                               lightHousingNode.getFullBoundsReference().getCenterY() );
 
