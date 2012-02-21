@@ -18,7 +18,7 @@ public class GeneC extends Gene {
 
     private static final Color REGULATORY_REGION_COLOR = new Color( 216, 191, 216 );
     private static final Color TRANSCRIBED_REGION_COLOR = new Color( 205, 255, 112, 150 );
-    private static final int NUM_BASE_PAIRS_IN_REGULATORY_REGION = 16;
+    private static final int NUM_BASE_PAIRS_IN_REGULATORY_REGION = 28;
     private static final int NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION = 200;
     private static final int ID = 3; // TODO: Can this be done away with?
 
@@ -44,8 +44,9 @@ public class GeneC extends Gene {
 
         // Add transcription factors that are specific to this gene.  Location
         // is pretty much arbitrary, just meant to look decent.
-        addTranscriptionFactor( 6, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS );
-        addTranscriptionFactor( 2, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_3_NEG );
+        addTranscriptionFactor( 6, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS_1 );
+        addTranscriptionFactor( 16, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS_2 );
+        addTranscriptionFactor( 11, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_3_NEG );
     }
 
     @Override public Protein getProteinPrototype() {

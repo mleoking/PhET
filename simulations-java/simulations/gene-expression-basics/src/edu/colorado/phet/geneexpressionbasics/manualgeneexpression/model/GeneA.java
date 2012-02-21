@@ -44,7 +44,7 @@ public class GeneA extends Gene {
 
         // Add transcription factors that are specific to this gene.  Location
         // is pretty much arbitrary, just meant to look decent.
-        addTranscriptionFactor( 6, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS );
+        addTranscriptionFactor( 5, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS );
         addTranscriptionFactor( 2, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG );
     }
 
