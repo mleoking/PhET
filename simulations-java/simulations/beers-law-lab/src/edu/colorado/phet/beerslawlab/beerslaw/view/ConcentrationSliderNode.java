@@ -60,6 +60,7 @@ public class ConcentrationSliderNode extends PhetPNode {
     private static final Color THUMB_CENTER_LINE_COLOR = Color.WHITE;
 
     // Tick properties
+    private static final boolean TICKS_VISIBLE = false;
     private static final double TICK_LENGTH = 8;
     private static final PhetFont TICK_FONT = new PhetFont( 12 );
     private static final NumberFormat TICK_FORMAT = new DefaultDecimalFormat( "0" );
@@ -78,8 +79,10 @@ public class ConcentrationSliderNode extends PhetPNode {
 
         // rendering order
         {
-            addChild( maxNode );
-            addChild( minNode );
+            if ( TICKS_VISIBLE ) {
+                addChild( maxNode );
+                addChild( minNode );
+            }
             addChild( trackNode );
             addChild( thumbNode );
         }
@@ -90,8 +93,8 @@ public class ConcentrationSliderNode extends PhetPNode {
             minNode.setOffset( 0, trackNode.getFullBoundsReference().getMaxY() );
             // max label at right end of track
             maxNode.setOffset( TRACK_SIZE.getWidth(), trackNode.getFullBoundsReference().getMaxY() );
-            // thumb centered in track
-            thumbNode.setOffset( trackNode.getFullBoundsReference().getCenterX(), trackNode.getFullBoundsReference().getCenterY() );
+            // thumb vertically centered in track
+            thumbNode.setOffset( trackNode.getXOffset(), trackNode.getFullBoundsReference().getCenterY() );
         }
 
         // update the tick marks to match the solution
