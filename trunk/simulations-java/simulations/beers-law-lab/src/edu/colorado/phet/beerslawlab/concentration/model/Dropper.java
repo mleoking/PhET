@@ -2,7 +2,6 @@
 package edu.colorado.phet.beerslawlab.concentration.model;
 
 import edu.colorado.phet.beerslawlab.common.model.Movable;
-import edu.colorado.phet.beerslawlab.common.model.Solute;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

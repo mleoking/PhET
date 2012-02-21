@@ -11,7 +11,7 @@ import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.common.model.Solute.SoluteForm;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyIcon;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;

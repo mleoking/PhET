@@ -3,21 +3,18 @@ package edu.colorado.phet.beerslawlab.concentration.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.common.model.Solute;
-import edu.colorado.phet.beerslawlab.common.model.Solution;
-import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MomentaryButtonNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
+import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -119,7 +116,7 @@ class DropperNode extends PhetPNode {
                 labelBackgroundNode.setPathTo( new RoundRectangle2D.Double( x, y, width, height, 8, 8 ) );
 
                 // fluid color
-                Color color = Solution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
+                Color color = ConcentrationSolution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
                 fluidNode.setPaint( color );
                 fluidNode.setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
             }

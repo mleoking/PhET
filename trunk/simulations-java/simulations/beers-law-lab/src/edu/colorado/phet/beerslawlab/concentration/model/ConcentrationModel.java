@@ -3,16 +3,15 @@ package edu.colorado.phet.beerslawlab.concentration.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.beerslawlab.common.model.Solute;
-import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltChloride;
-import edu.colorado.phet.beerslawlab.common.model.Solute.CobaltIINitrate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.CopperSulfate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.DrinkMix;
-import edu.colorado.phet.beerslawlab.common.model.Solute.NickelIIChloride;
-import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumChromate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumDichromate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.PotassiumPermanganate;
-import edu.colorado.phet.beerslawlab.common.model.Solute.SoluteForm;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.CobaltChloride;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.CobaltIINitrate;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.CopperSulfate;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.DrinkMix;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.NickelIIChloride;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumChromate;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumDichromate;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumPermanganate;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute.SoluteForm;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
