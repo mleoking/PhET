@@ -1,3 +1,4 @@
+2/22/12 remove molar mass from model, it appears in design doc but isn't used for anything
 2/22/12 use toggle button on light
 2/22/12 make the light 40% taller, so we can increase the lens diameter
 # 0.00.11 (61522) Feb 21, 2012
