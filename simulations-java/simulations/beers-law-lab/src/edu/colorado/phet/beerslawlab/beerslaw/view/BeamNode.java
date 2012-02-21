@@ -24,8 +24,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class BeamNode extends PhetPNode {
 
     public BeamNode( final Light light, Cuvette cuvette, ModelViewTransform mvt ) {
+
         addChild( new LeftSegmentNode( light, cuvette, mvt ) );
         addChild( new CenterSegmentNode( light, cuvette, mvt ) );
+        addChild( new RightSegmentNode( light, cuvette, mvt ) );
 
         // Make this node visible when the light is on and type is "beam".
         final RichSimpleObserver observer = new RichSimpleObserver() {
@@ -38,7 +40,7 @@ public class BeamNode extends PhetPNode {
 
     // Base class for all segments of the beam.
     private static abstract class SegmentNode extends PPath {
-        public SegmentNode( final Light light ) {
+        public SegmentNode() {
             setStroke( new BasicStroke( 0.25f ) );
         }
 
@@ -52,8 +54,8 @@ public class BeamNode extends PhetPNode {
     private static class LeftSegmentNode extends SegmentNode {
 
         public LeftSegmentNode( final Light light, Cuvette cuvette, ModelViewTransform mvt ) {
-            super( light );
 
+            // Distance from light to cuvette is fixed
             double x = mvt.modelToViewDeltaX( light.location.getX() );
             double y = mvt.modelToViewDeltaY( light.location.getY() - ( light.lensDiameter / 2 ) );
             double w = mvt.modelToViewDeltaX( cuvette.location.getX() - light.location.getX() );
@@ -73,7 +75,6 @@ public class BeamNode extends PhetPNode {
     private static class CenterSegmentNode extends SegmentNode {
 
         public CenterSegmentNode( final Light light, final Cuvette cuvette, final ModelViewTransform mvt ) {
-            super( light );
 
             // resize the beam when the path length (cuvette width) changes
             cuvette.width.addObserver( new VoidFunction1<Double>() {
@@ -89,7 +90,32 @@ public class BeamNode extends PhetPNode {
             // Set the color to match the light's wavelength
             light.wavelength.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double wavelength ) {
-                    setBeamColor( ColorUtils.createColor( new VisibleColor( wavelength ), 100 ) );
+                    setBeamColor( ColorUtils.createColor( new VisibleColor( wavelength ), 100 ) ); //TODO should alpha be a function of %transmission?
+                }
+            } );
+        }
+    }
+
+    // The right segment, portion that has passed through the cuvette
+    private static class RightSegmentNode extends SegmentNode {
+
+        public RightSegmentNode( final Light light, final Cuvette cuvette, final ModelViewTransform mvt ) {
+
+            // resize the beam when the path length (cuvette width) changes
+            cuvette.width.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double width ) {
+                    double x = mvt.modelToViewDeltaX( cuvette.location.getX() + cuvette.width.get() );
+                    double y = mvt.modelToViewDeltaY( light.location.getY() - ( light.lensDiameter / 2 ) );
+                    double w = mvt.modelToViewDeltaX( 100 ); // very long, so that the end is way off to the right of the play area
+                    double h = mvt.modelToViewDeltaY( light.lensDiameter );
+                    setPathTo( new Rectangle2D.Double( x, y, w, h ) );
+                }
+            } );
+
+            // Set the color to match the light's wavelength
+            light.wavelength.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double wavelength ) {
+                    setBeamColor( ColorUtils.createColor( new VisibleColor( wavelength ), 40 ) ); //TODO should alpha be a function of %transmission?
                 }
             } );
         }
