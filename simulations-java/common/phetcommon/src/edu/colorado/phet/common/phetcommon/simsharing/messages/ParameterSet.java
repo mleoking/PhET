@@ -8,7 +8,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
 /**
- * Set of parameters used in sim sharing.  Key ordering is maintained.  Duplicate keys are not allowed,
+ * An immutable of parameters used in sim sharing.  Key ordering is maintained.  Duplicate keys are not allowed,
  * but setting the same key/value pair is allowed to permit flexibility in tricky sims.
  *
  * @author Sam Reid
@@ -89,8 +89,9 @@ public class ParameterSet implements Iterable<Parameter> {
             }
         }
         else {
-            parameters.add( parameter );
-            return this;
+            return new ParameterSet( new ArrayList<Parameter>( parameters ) {{
+                add( parameter );
+            }} );
         }
     }
 
