@@ -4,8 +4,7 @@ DEADLINES
 - 5/14/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
-- should shaker particles be removed when the shaker is made invisible?
-- change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
+- what color light to use for pure water?
 
 HIGH
 - how is color range supposed to be utilized in 2nd tab?
