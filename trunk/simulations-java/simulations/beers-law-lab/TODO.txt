@@ -6,7 +6,6 @@ DEADLINES
 DESIGN
 * what color light to use for pure water? (delete water)
 * should color of beam segments (center and right) change as path length changes? (yes, use gradient with modulated alpha inside solution)
-* should light have a momentary or toggle button? (toggle)
 * how is color range supposed to be utilized for concentration in 2nd tab? (use full range)
 * how to color sections of the beam? modulate alpha based on %transmission? (yes)
 * are we using molar mass for anything? (no)
@@ -43,5 +42,6 @@ SIM-SHARING
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
+- ToggleButtonNode to piccolo-phet
 - TiledBackgroundNode to piccolo-phet
 - BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>)
