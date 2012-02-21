@@ -1,10 +1,10 @@
-2/22/12 remove "pure water" from Beer's Law tab, it creates problems, and all solutions are pure water when concentration=0
-2/22/12 reduce cuvette height by 0.25 cm so that it's easier to drag detector probe around bottom of cuvette
-2/22/12 add height to ruler model
-2/22/12 design decision: don't change appear of arrow at min/max range of cuvette width
-2/22/12 remove molar mass from model, it appears in design doc but isn't used for anything
-2/22/12 use toggle button on light
-2/22/12 make the light 40% taller, so we can increase the lens diameter
+2/21/12 remove "pure water" from Beer's Law tab, it creates problems, and all solutions are pure water when concentration=0 [61532]
+2/21/12 reduce cuvette height by 0.25 cm so that it's easier to drag detector probe around bottom of cuvette
+2/21/12 add height to ruler model
+2/21/12 design decision: don't change appear of arrow at min/max range of cuvette width
+2/21/12 remove molar mass from model, it appears in design doc but isn't used for anything
+2/21/12 use toggle button on light
+2/21/12 make the light 40% taller, so we can increase the lens diameter
 # 0.00.11 (61522) Feb 21, 2012
 2/21/12 dev version for discussion of design issues with JC
 2/20/12 beam segment to right of cuvette
@@ -12,7 +12,7 @@
 2/20/12 fix divide-by-zero error for pure water
 2/20/12 beam segment between light and cuvette
 2/20/12 add lambdaMax to solution model
-2/20/12 delete wavelength feature (too expensive to hide and continue to support)
+2/20/12 delete wavelength feature (too expensive to hide and continue to support) [[61509]
 2/20/12 concentration slider
 # 0.00.10 (61504) Feb 20, 2012
 2/20/12 first dev version of "Concentration" flavor
