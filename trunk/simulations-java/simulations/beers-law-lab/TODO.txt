@@ -5,6 +5,7 @@ DEADLINES
 
 DESIGN
 - what color light to use for pure water?
+- should color of beam segments (center and right) change as path length changes?
 
 HIGH
 - how is color range supposed to be utilized in 2nd tab?
