@@ -7,6 +7,8 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Cuvette;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
+import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -19,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class BeamLeftNode extends PPath {
 
-    public BeamLeftNode( Light light, Cuvette cuvette, ModelViewTransform mvt ) {
+    public BeamLeftNode( final Light light, Cuvette cuvette, ModelViewTransform mvt ) {
         setStroke( new BasicStroke( 0.25f ) );
 
         double x = mvt.modelToViewDeltaX( light.location.getX() );
@@ -37,11 +39,12 @@ public class BeamLeftNode extends PPath {
             }
         } );
 
-        // Make this node visible when the light is on.
-        light.on.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean on ) {
-                setVisible( on );
+        // Make this node visible when the light is on and type is "beam".
+        final RichSimpleObserver observer = new RichSimpleObserver() {
+            public void update() {
+                setVisible( light.on.get() & light.representation.get() == LightRepresentation.BEAM );
             }
-        });
+        };
+        observer.observe( light.on, light.representation );
     }
 }
