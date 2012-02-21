@@ -4,19 +4,16 @@ DEADLINES
 - 5/14/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
-* what color light to use for pure water? (delete water)
-* should color of beam segments (center and right) change as path length changes? (yes, use gradient with modulated alpha inside solution)
-* how is color range supposed to be utilized for concentration in 2nd tab? (use full range)
-* how to color sections of the beam? modulate alpha based on %transmission? (yes)
-* are we using molar mass for anything? (no)
-* do photon colors change as they pass thru the solution, or are there simply fewer of them? (fewer)
-* how to deal with photon absorption? is distribution even across the width of the cuvette?
 
 HIGH
-- snap path length to 0.1 cm increments
+- collision detection for probe, don't allow dragging into cuvette
+- dump Solute from BeersLawSolution model
+- implement colors for BeersLawSolution, use full range to start, KMnO4 uses colorRange.min for its max
 - add absorbance and %transmission to solution model (start with Gaussian based on lambdaMax, later integrate JC's observed data)
 - Light beam: add to model & view (3 segments); beam and photon views
-- Detector: show vertical diameter line, for debugging; display proper values
+- Detector: show vertical diameter line, for debugging; display proper values; reads value only when entire beam is fully hitting detector
+- use gradient with modulated alpha for portion of the beam that passes through solution
+- color of photons doesn't change, created a believable algorithm for how they are absorbed as they pass through solution
 
 MEDIUM
 - meter and detector body images don't have transparent backgrounds (at rounded corners)
