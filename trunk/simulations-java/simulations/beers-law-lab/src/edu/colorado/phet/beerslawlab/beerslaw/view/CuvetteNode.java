@@ -38,7 +38,7 @@ class CuvetteNode extends PNode {
     private static final double ARROW_WIDTH = 80;
     private static final Color ARROW_FILL = Color.ORANGE;
 
-    public CuvetteNode( final Cuvette cuvette, final Property<BeersLawSolution> solution, final ModelViewTransform mvt ) {
+    public CuvetteNode( final Cuvette cuvette, final Property<BeersLawSolution> solution, final ModelViewTransform mvt, double snapInterval ) {
 
         // nodes
         final PPath cuvetteNode = new PPath() {{
@@ -97,7 +97,7 @@ class CuvetteNode extends PNode {
         solutionNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.solution ) );
         widthHandleNode.addInputEventListener( new CursorHandler() );
         addInputEventListener( new PaintHighlightHandler( widthHandleNode, ARROW_FILL, ARROW_FILL.brighter() ) );
-        addInputEventListener( new WidthDragHandler( this, cuvette, mvt ) );
+        addInputEventListener( new WidthDragHandler( this, cuvette, mvt, snapInterval ) );
     }
 
     private void updateColor( PPath node, Color color ) {
@@ -111,15 +111,17 @@ class CuvetteNode extends PNode {
         private final Cuvette cuvette;
         private final CuvetteNode cuvetteNode;
         private final ModelViewTransform mvt;
+        private final double snapInterval;
 
         private double startXOffset; // x offset of mouse click from cuvette's origin
         private double startWidth; // width of the cuvette when the drag started
 
-        public WidthDragHandler( CuvetteNode cuvetteNode, Cuvette cuvette, ModelViewTransform mvt ) {
+        public WidthDragHandler( CuvetteNode cuvetteNode, Cuvette cuvette, ModelViewTransform mvt, double snapInterval ) {
             super( UserComponents.cuvetteWidthHandle, UserComponentTypes.sprite );
             this.cuvette = cuvette;
             this.cuvetteNode = cuvetteNode;
             this.mvt = mvt;
+            this.snapInterval = snapInterval;
         }
 
         @Override protected void startDrag( PInputEvent event ) {
@@ -134,6 +136,21 @@ class CuvetteNode extends PNode {
             double deltaWidth = mvt.viewToModelDeltaX( dragXOffset - startXOffset );
             double cuvetteWidth = MathUtil.clamp( startWidth + deltaWidth, cuvette.widthRange );
             cuvette.width.set( cuvetteWidth );
+        }
+
+        // snap to the closest value
+        @Override protected void endDrag( PInputEvent event ) {
+            super.endDrag( event );
+            double remainder = cuvette.width.get() % snapInterval;
+            int numberOfIntervals = (int) ( cuvette.width.get() / snapInterval );
+            if ( remainder < snapInterval / 2 ) {
+                // snap down
+                cuvette.width.set( numberOfIntervals * snapInterval );
+            }
+            else {
+                // snap up
+                cuvette.width.set( ( numberOfIntervals + 1 ) * snapInterval );
+            }
         }
     }
 }

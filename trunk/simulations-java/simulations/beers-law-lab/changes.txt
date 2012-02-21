@@ -1,3 +1,4 @@
+2/21/12 snap cuvette width to the closest 0.1cm interval when the user stops dragging
 2/21/12 remove "pure water" from Beer's Law tab, it creates problems, and all solutions are pure water when concentration=0 [61532]
 2/21/12 reduce cuvette height by 0.25 cm so that it's easier to drag detector probe around bottom of cuvette
 2/21/12 add height to ruler model

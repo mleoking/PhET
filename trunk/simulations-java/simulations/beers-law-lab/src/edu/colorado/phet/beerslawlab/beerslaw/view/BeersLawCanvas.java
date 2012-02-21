@@ -29,7 +29,7 @@ public class BeersLawCanvas extends BLLCanvas {
             setConfirmationEnabled( false );
         }};
         PNode rulerNode = new BLLRulerNode( model.ruler, model.mvt );
-        PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt );
+        PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt, 0.1 /* snapInterval, cm */ );
         PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
         PNode debugLocationNode = new DebugLocationNode( model.mvt );
         PNode beamNode = new BeamNode( model.light, model.cuvette, model.mvt );
