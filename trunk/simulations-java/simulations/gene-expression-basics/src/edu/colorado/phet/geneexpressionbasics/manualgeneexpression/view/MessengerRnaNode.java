@@ -3,18 +3,23 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.PointMass;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ShapeSegment;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * View representation for messenger RNA.  This is done differently from most
@@ -41,6 +46,19 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         // could be attached.
         addChild( new PlacementHintNode( mvt, messengerRna.ribosomePlacementHint ) );
         addChild( new PlacementHintNode( mvt, messengerRna.mRnaDestroyerPlacementHint ) );
+
+        // Add the label.  TODO: i18n
+        final FadeLabel label = new FadeLabel( "mRNA" );
+        addChild( label );
+        label.setOffset( 10, -10 );
+
+        // Update the label position as the shape changes.
+        messengerRna.addShapeChangeObserver( new VoidFunction1<Shape>() {
+            public void apply( Shape shape ) {
+                Point2D upperRightCornerPos = mvt.modelToView( new Point2D.Double( messengerRna.getShape().getBounds2D().getMaxX(), messengerRna.getShape().getBounds().getMaxY() ) );
+                label.setOffset( upperRightCornerPos.getX(), upperRightCornerPos.getY() );
+            }
+        } );
 
         if ( SHOW_SHAPE_SEGMENTS ) {
 
@@ -134,6 +152,18 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
 
         public void updatePosition() {
             representation.setOffset( mvt.modelToView( pointMass.getPosition() ) );
+        }
+    }
+
+    /**
+     * PNode that is a textual label that can fade in and out.
+     */
+    private static class FadeLabel extends PNode {
+        private static final Font FONT = new PhetFont( 12 );
+
+        private FadeLabel( String text ) {
+            PNode label = new PText( text ){{ setFont( FONT ); }};
+            addChild( label );
         }
     }
 
