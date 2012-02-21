@@ -144,7 +144,7 @@ public class BeersLawSolution {
         public PotassiumPermanganateSolution() {
             super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE,
                    new DoubleRange( 0, 0.000800 ), -6,
-                   new ColorRange( new Color( 255, 0, 255 ), new Color( 0x8B008B ) ), new Color( 0x8B008B ),
+                   new ColorRange( new Color( 255, 235, 255 ), new Color( 255, 0, 255 ) ), new Color( 0x8B008B ),
                    566 );
         }
     }
