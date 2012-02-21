@@ -33,17 +33,17 @@ public class BeersLawSolution extends Solution {
 
     public final Solute solute;
     public final Property<Double> concentration; // M
-    public final int concentrationDisplayExponent;
+    public final ConcentrationTransform concentrationTransform;
     public final DoubleRange concentrationRange; // M
     public final CompositeProperty<Color> fluidColor; // derived from solute color and concentration
 
     //TODO add CompositeProperty for absorbance and %transmission
 
-    public BeersLawSolution( final Solute solute, DoubleRange concentrationRange, int concentrationDisplayExponent ) {
+    public BeersLawSolution( final Solute solute, DoubleRange concentrationRange, int concentrationViewExponent ) {
 
         this.concentration = new Property<Double>( concentrationRange.getDefault() );
         this.solute = solute;
-        this.concentrationDisplayExponent = concentrationDisplayExponent;
+        this.concentrationTransform = new ConcentrationTransform( concentrationViewExponent );
         this.concentrationRange = concentrationRange;
 
         // derive the solution color
@@ -52,8 +52,6 @@ public class BeersLawSolution extends Solution {
                 return createColor( solvent, solute, concentration.get() );
             }
         }, this.concentration );
-
-        getDisplayUnits(); // call this to catch problems at instantiation
     }
 
     public String getDisplayName() {
@@ -64,19 +62,8 @@ public class BeersLawSolution extends Solution {
         return solute.getSaturatedColor();
     }
 
-    public String getDisplayUnits() {
-        if ( concentrationDisplayExponent == 1 ) {
-            return Strings.UNITS_M;
-        }
-        if ( concentrationDisplayExponent == -3 ) {
-            return Strings.UNITS_mM;
-        }
-        else if ( concentrationDisplayExponent == -6 ) {
-            return Strings.UNITS_uM;
-        }
-        else {
-            throw new IllegalStateException( "unsupported concentrationDisplayExponent=" + concentrationDisplayExponent );
-        }
+    public String getViewUnits() {
+        return concentrationTransform.getViewUnits();
     }
 
     public static class KoolAidSolution extends BeersLawSolution {
