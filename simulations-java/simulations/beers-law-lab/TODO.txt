@@ -43,4 +43,4 @@ MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
 - ToggleButtonNode to piccolo-phet
 - TiledBackgroundNode to piccolo-phet
-- BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>)
+- BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>) - or delete if not used
