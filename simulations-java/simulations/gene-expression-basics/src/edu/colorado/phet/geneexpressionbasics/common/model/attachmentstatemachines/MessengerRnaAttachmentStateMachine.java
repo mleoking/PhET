@@ -2,8 +2,6 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
@@ -16,8 +14,12 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Messeng
  */
 public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
 
-    public MessengerRnaAttachmentStateMachine( MessengerRna biomolecule ) {
-        super( biomolecule );
+    // Local reference of appropriate type.
+    private final MessengerRna messengerRna;
+
+    public MessengerRnaAttachmentStateMachine( MessengerRna messengerRna ) {
+        super( messengerRna );
+        this.messengerRna = messengerRna;
         setState( new BeingSynthesizedState() );
     }
 
@@ -87,6 +89,9 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
             // Move upwards, away from the DNA and polymerase.
             enclosingStateMachine.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( -0.5, 1 ),
                                                                                                              enclosingStateMachine.biomolecule.motionBoundsProperty ) );
+
+            // Update externally visible state.
+            messengerRna.beingSynthesized.set( false );
         }
     }
 
