@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.CobaltChlorideSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.CobaltIINitrateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.CopperSulfateSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.KoolAidSolution;
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.DrinkMixSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.NickelIIChlorideSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumChromateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumDichromateSolution;
@@ -47,7 +47,7 @@ public class BeersLawModel implements Resettable {
 
         // Solutions, in rainbow (ROYGBIV) order.
         this.solutions = new ArrayList<BeersLawSolution>() {{
-            add( new KoolAidSolution() );
+            add( new DrinkMixSolution() );
             add( new CobaltIINitrateSolution() );
             add( new CobaltChlorideSolution() );
             add( new PotassiumDichromateSolution() );
