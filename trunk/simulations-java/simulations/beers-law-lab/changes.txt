@@ -1,3 +1,4 @@
+2/22/12 design decision: don't change appear of arrow at min/max range of cuvette width
 2/22/12 remove molar mass from model, it appears in design doc but isn't used for anything
 2/22/12 use toggle button on light
 2/22/12 make the light 40% taller, so we can increase the lens diameter
