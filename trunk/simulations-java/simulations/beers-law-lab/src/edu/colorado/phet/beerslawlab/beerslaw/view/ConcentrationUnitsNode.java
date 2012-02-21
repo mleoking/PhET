@@ -13,11 +13,11 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 class ConcentrationUnitsNode extends PText {
-    public ConcentrationUnitsNode( final Property<BeersLawSolution> solutionProperty, PhetFont font ) {
+    public ConcentrationUnitsNode( final Property<BeersLawSolution> solution, PhetFont font ) {
         setFont( font );
-        solutionProperty.addObserver( new SimpleObserver() {
+        solution.addObserver( new SimpleObserver() {
             public void update() {
-                setText( solutionProperty.get().getViewUnits() );
+                setText( solution.get().getViewUnits() );
             }
         } );
     }

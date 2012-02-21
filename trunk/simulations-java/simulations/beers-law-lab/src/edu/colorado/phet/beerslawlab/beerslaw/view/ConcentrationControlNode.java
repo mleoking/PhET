@@ -29,13 +29,13 @@ class ConcentrationControlNode extends PNode {
 
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
-    public ConcentrationControlNode( Property<BeersLawSolution> solutionProperty ) {
+    public ConcentrationControlNode( Property<BeersLawSolution> solution ) {
 
         // nodes
         PText labelNode = new PhetPText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.CONCENTRATION ), FONT );
-        PNode sliderNode = new ZeroOffsetNode( new ConcentrationSliderNode( solutionProperty ) );
-        PNode textFieldNode = new PSwing( new ConcentrationTextField( solutionProperty, FONT ) );
-        PNode unitsNode = new ConcentrationUnitsNode( solutionProperty, FONT );
+        PNode sliderNode = new ZeroOffsetNode( new ConcentrationSliderNode( solution ) );
+        PNode textFieldNode = new PSwing( new ConcentrationTextField( solution, FONT ) );
+        PNode unitsNode = new ConcentrationUnitsNode( solution, FONT );
 
         // rendering order
         PNode parentNode = new PNode();
@@ -54,10 +54,10 @@ class ConcentrationControlNode extends PNode {
                              textFieldNode.getFullBoundsReference().getCenterY() - ( unitsNode.getFullBoundsReference().getHeight() / 2 ) );
 
         // Hide this control for pure water, since concentration is meaningless.
-        solutionProperty.addObserver( new VoidFunction1<BeersLawSolution>() {
+        solution.addObserver( new VoidFunction1<BeersLawSolution>() {
             public void apply( BeersLawSolution solution ) {
                 setVisible( !( solution instanceof PureWater ) );
             }
-        });
+        } );
     }
 }
