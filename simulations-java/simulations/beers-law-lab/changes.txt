@@ -1,3 +1,4 @@
+2/21/12 change request: use RGB=[255,0,255] for max color of KMnO4 (this was min color in 1st tab)
 2/21/12 make all view classes package private, except canvas
 2/21/12 move button classes to proper packages
 2/21/12 specify a color range for the concentration range in Beer's solutions
