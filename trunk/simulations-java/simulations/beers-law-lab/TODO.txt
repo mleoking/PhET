@@ -8,7 +8,7 @@ DESIGN
 - change probe sensor to use a shape instead of a point (what shape? what to do when the shape intersects >1 fluid?)
 
 HIGH
-- Concentration slider
+- how is color range supposed to be utilized in 2nd tab?
 - hide wavelength control panel, but keep it in the implementation for possible resurrection (continue to show for -dev? add additional command line arg to show?)
 - add absorbance and %transmission to solution model (start with Gaussian based on lambdaMax, later integrate JC's observed data)
 - Light beam: add to model & view (3 segments); beam and photon views
