@@ -6,9 +6,11 @@ DEADLINES
 DESIGN
 - what color light to use for pure water?
 - should color of beam segments (center and right) change as path length changes?
+- should light have a momentary or toggle button?
+- how is color range supposed to be utilized for concentration in 2nd tab?
+- how to color sections of the beam? modulate alpha based on %transmission?
 
 HIGH
-- how is color range supposed to be utilized in 2nd tab?
 - add absorbance and %transmission to solution model (start with Gaussian based on lambdaMax, later integrate JC's observed data)
 - Light beam: add to model & view (3 segments); beam and photon views
 - Detector: show vertical diameter line, for debugging; display proper values
