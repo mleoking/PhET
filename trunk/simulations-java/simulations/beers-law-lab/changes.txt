@@ -1,4 +1,5 @@
-2/21/12 wire up %transmission property (value not correctly computed yet)
+2/21/12 first pass at %T model (but something isn't right)
+2/21/12 wire up %T property (value not correctly computed yet)
 2/21/12 first pass at integrating absorbance model (detector always shows absorbance, no matter where it's placed)
 2/21/12 check in JC's latest measured data for molar absorption
 2/21/12 add max molar absorption to BeersLawSolution (looked these up in JC's spreadsheet)
