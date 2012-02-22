@@ -1,3 +1,4 @@
+2/22/12 fix molar conversion factor for Drink Mix
 2/22/12 make beam unpickable so that we can grab detector probe through beam
 2/22/12 add molar conversion factor to model
 2/22/12 revert %T model: %T = 100 * 10^(-A)
