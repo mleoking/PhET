@@ -73,7 +73,7 @@ class ATDetectorNode extends PhetPNode {
         public BodyNode( final ATDetector detector, final ModelViewTransform mvt ) {
 
             // buttons for changing the detector "mode"
-            PNode transmittanceButton = new ModeButton( UserComponents.transmittanceRadioButton, Strings.PERCENT_TRANSMITTANCE, detector.mode, ATDetectorMode.TRANSMITTANCE );
+            PNode transmittanceButton = new ModeButton( UserComponents.transmittanceRadioButton, Strings.PERCENT_TRANSMITTANCE, detector.mode, ATDetectorMode.PERCENT_TRANSMITTANCE );
             PNode absorbanceButton = new ModeButton( UserComponents.absorbanceRadioButton, Strings.ABSORBANCE, detector.mode, ATDetectorMode.ABSORBANCE );
 
             // group the radio buttons
@@ -118,7 +118,7 @@ class ATDetectorNode extends PhetPNode {
                                              valueNode.getYOffset() );
                     }
                     else {
-                        NumberFormat format = ( detector.mode.get() == ATDetectorMode.TRANSMITTANCE ) ? TRANSMITTANCE_FORMAT : ABSORBANCE_FORMAT;
+                        NumberFormat format = ( detector.mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? TRANSMITTANCE_FORMAT : ABSORBANCE_FORMAT;
                         valueNode.setText( format.format( value ) );
                         // right justified
                         valueNode.setOffset( backgroundNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth() - VALUE_X_MARGIN,

@@ -46,6 +46,9 @@ public class BeersLawModel implements Resettable {
     private final CompositeProperty<Double> pathLength; // b
     private final Property<Double> concentration; // C
 
+    // % Transmission model
+    private final CompositeProperty<Double> percentTransmission;
+
     public BeersLawModel() {
 
         // No offset, scale 125x when going from model to view (1cm == 125 pixels)
@@ -117,10 +120,19 @@ public class BeersLawModel implements Resettable {
             }, molarAbsorptivity, pathLength, concentration );
         }
 
+        // percent transmission model: A = 2 - log10 %T TODO change this to "%T=..." formula
+        {
+            percentTransmission = new CompositeProperty<Double>( new Function0<Double>() {
+                public Double apply() {
+                    return 0d; //TODO compute
+                }
+            }, absorbance );
+        }
+
         //TODO compute drag bounds to match the stage size
         this.detector = new ATDetector( new ImmutableVector2D( 6, 3.75 ), new PBounds( 0, 0, 7.9, 5.25 ),
                                         new ImmutableVector2D( 6, light.location.getY() ), new PBounds( 0, 0, 7.9, 5.25 ),
-                                        absorbance );
+                                        absorbance, percentTransmission );
 
         //TODO compute drag bounds to match the stage size
         this.ruler = new Ruler( 2, 0.3, new ImmutableVector2D( 3, 4.9 ), new PBounds( 0, 0, 8, 5.5 ) );
