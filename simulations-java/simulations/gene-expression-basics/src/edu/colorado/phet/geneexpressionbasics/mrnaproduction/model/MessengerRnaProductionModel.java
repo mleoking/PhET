@@ -28,6 +28,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Protein
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinB;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinC;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
@@ -54,6 +56,10 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // gene.
     private static final double BIOMOLECULE_STAGE_WIDTH = 10000; // In picometers.
     private static final double BIOMOLECULE_STAGE_HEIGHT = 5250; // In picometers.
+
+    // Configurations for the transcriptions factors used within this model.
+    public static final TranscriptionFactorConfig POSITIVE_TRANSCRIPTION_FACTOR_CONFIG = TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS;
+    public static final TranscriptionFactorConfig NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG = TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG;
 
     //------------------------------------------------------------------------
     // Instance Data

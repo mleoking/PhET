@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +72,10 @@ public class TranscriptionFactor extends MobileBiomolecule {
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
+
+    public TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config ) {
+        this( model, config, new Point2D.Double( 0, 0 ) );
+    }
 
     public TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config, Point2D initialPosition ) {
         super( model, config.shape, config.baseColor );
