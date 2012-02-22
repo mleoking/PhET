@@ -13,7 +13,6 @@ HIGH
 - Beers: should there be a model of light beam? view only right now
 - Beers: make detector aware of whether it's in beam, and which part of the beam it's in
 - Beers: detector only reads value when entire beam is fully hitting detector
-- Beers: use gradient with modulated alpha for portion of the beam that passes through solution
 - Beers: color of photons doesn't change, create a believable algorithm for how they are absorbed as they pass through solution
 
 MEDIUM

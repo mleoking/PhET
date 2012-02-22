@@ -1,3 +1,4 @@
+2/22/12 color center nad right beam segments based on wavelength and %T, use gradient for beam segment in cuvette
 2/22/12 show vertical diameter line in detector, for debugging
 2/22/12 restore ability to move detector
 # 0.00.12 (61619) Feb 22, 2012
