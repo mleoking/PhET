@@ -96,6 +96,8 @@ import static fj.data.List.range;
 
     public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
 
+    public PieSet pies( List<Pie> pies ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
+
     public boolean cellFilled( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
             public Boolean f( Slice m ) {
@@ -158,8 +160,7 @@ import static fj.data.List.range;
         final Slice prototype = sliceFactory.createPieCell( pies.length(), cell.container, cell.cell, denominator );
         final Slice slice = slices.find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
-                return ( m.position.equals( prototype.getPosition() ) && m.angle == prototype.angle ) ||
-                       m.movingToward( prototype );
+                return ( m.position.equals( prototype.position ) && m.angle == prototype.angle ) || m.movingToward( prototype );
             }
         } ).some();
 

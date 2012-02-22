@@ -80,17 +80,19 @@ public class FractionsIntroModel {
                                            int delta = numerator - oldValue;
                                            if ( delta > 0 ) {
                                                for ( int i = 0; i < delta; i++ ) {
-                                                   final PieSet p = s.pieSet.animateBucketSliceToPie( s.containerSet.getFirstEmptyCell() );
-                                                   final PieSet h = s.horizontalBarSet.animateBucketSliceToPie( s.containerSet.getFirstEmptyCell() );
-                                                   final PieSet v = s.verticalBarSet.animateBucketSliceToPie( s.containerSet.getFirstEmptyCell() );
+                                                   final CellPointer firstEmptyCell = s.containerSet.getFirstEmptyCell();
+                                                   final PieSet p = s.pieSet.animateBucketSliceToPie( firstEmptyCell );
+                                                   final PieSet h = s.horizontalBarSet.animateBucketSliceToPie( firstEmptyCell );
+                                                   final PieSet v = s.verticalBarSet.animateBucketSliceToPie( firstEmptyCell );
                                                    s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( numerator );
                                                }
                                            }
                                            else if ( delta < 0 ) {
                                                for ( int i = 0; i < Math.abs( delta ); i++ ) {
-                                                   final PieSet p = s.pieSet.animateSliceToBucket( s.containerSet.getLastFullCell() );
-                                                   final PieSet h = s.horizontalBarSet.animateSliceToBucket( s.containerSet.getLastFullCell() );
-                                                   final PieSet v = s.verticalBarSet.animateSliceToBucket( s.containerSet.getLastFullCell() );
+                                                   final CellPointer lastFullCell = s.containerSet.getLastFullCell();
+                                                   final PieSet p = s.pieSet.animateSliceToBucket( lastFullCell );
+                                                   final PieSet h = s.horizontalBarSet.animateSliceToBucket( lastFullCell );
+                                                   final PieSet v = s.verticalBarSet.animateSliceToBucket( lastFullCell );
                                                    s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( numerator );
                                                }
                                            }
@@ -197,15 +199,34 @@ public class FractionsIntroModel {
                 }
             }, new Function2<IntroState, Integer, IntroState>() {
                 @Override public IntroState apply( IntroState s, Integer maximum ) {
-                    final ContainerSet cs = s.containerSet.maximum( maximum );
+                    int lastMax = s.maximum;
+                    int delta = maximum - lastMax;
 
-                    //TODO: if not too difficult, would be nice to animate pie pieces leaving from pies that are dropped when max decreases
-                    return s.maximum( maximum ).containerSet( cs ).
-                            pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                            horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
-                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
-                            numerator( cs.numerator ).
-                            denominator( cs.denominator );
+                    int numPiecesToEject = s.numerator - maximum;
+
+                    //Animate pie pieces leaving from pies that are dropped when max decreases
+                    if ( delta < 0 && numPiecesToEject > 0 ) {
+                        for ( int i = 0; i < numPiecesToEject; i++ ) {
+                            final CellPointer cp = s.containerSet.getLastFullCell();
+
+                            //TODO: Make this more readable, factor out the pies/take function
+                            final PieSet p = s.pieSet.animateSliceToBucket( cp ).pies( s.pieSet.pies.take( s.pieSet.pies.length() - 1 ) );
+                            final PieSet h = s.horizontalBarSet.animateSliceToBucket( cp ).pies( s.horizontalBarSet.pies.take( s.horizontalBarSet.pies.length() - 1 ) );
+                            final PieSet v = s.verticalBarSet.animateSliceToBucket( cp ).pies( s.verticalBarSet.pies.take( s.verticalBarSet.pies.length() - 1 ) );
+                            s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( maximum );
+                        }
+                        s = s.maximum( maximum );
+                        return s;
+                    }
+                    else {
+                        final ContainerSet cs = s.containerSet.maximum( maximum );
+                        return s.maximum( maximum ).containerSet( cs ).
+                                pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
+                                horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
+                                verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
+                                numerator( cs.numerator ).
+                                denominator( cs.denominator );
+                    }
                 }
             }
             ).toIntegerProperty();

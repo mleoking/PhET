@@ -1,3 +1,4 @@
+When decreasing the max below the current value, animate slices to return
 Put the "Max" label centered above the spinner and number
 Reduced the size of the bucket icon so that larger representations will fit
 Made the bucket bottom "bottomless" so the long vertical bars don't stick out the bottom
