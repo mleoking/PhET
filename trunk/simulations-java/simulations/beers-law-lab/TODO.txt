@@ -4,6 +4,7 @@ DEADLINES
 - 5/14/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
+- different slider thumb for Evaporation and Concentration sliders (#3195, customize slider knob)
 
 CONCENTRATION 1.00 prep
 - Concentration: screenshot
