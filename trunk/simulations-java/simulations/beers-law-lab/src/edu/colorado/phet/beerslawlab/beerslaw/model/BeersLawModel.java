@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -46,8 +45,8 @@ public class BeersLawModel implements Resettable {
     private final CompositeProperty<Double> pathLength; // b
     private final Property<Double> concentration; // C
 
-    // % Transmission model
-    private final CompositeProperty<Double> percentTransmission;
+    // % Transmittance model
+    private final CompositeProperty<Double> percentTransmittance;
 
     public BeersLawModel() {
 
@@ -120,9 +119,9 @@ public class BeersLawModel implements Resettable {
             }, molarAbsorptivity, pathLength, concentration );
         }
 
-        // percent transmission model: A = 2 - log10 %T TODO change this to "%T=..." formula
+        // percent transmittance model: A = 2 - log10 %T TODO change this to "%T=..." formula
         {
-            percentTransmission = new CompositeProperty<Double>( new Function0<Double>() {
+            percentTransmittance = new CompositeProperty<Double>( new Function0<Double>() {
                 public Double apply() {
                     return 0d; //TODO compute
                 }
@@ -132,7 +131,7 @@ public class BeersLawModel implements Resettable {
         //TODO compute drag bounds to match the stage size
         this.detector = new ATDetector( new ImmutableVector2D( 6, 3.75 ), new PBounds( 0, 0, 7.9, 5.25 ),
                                         new ImmutableVector2D( 6, light.location.getY() ), new PBounds( 0, 0, 7.9, 5.25 ),
-                                        absorbance, percentTransmission );
+                                        absorbance, percentTransmittance );
 
         //TODO compute drag bounds to match the stage size
         this.ruler = new Ruler( 2, 0.3, new ImmutableVector2D( 3, 4.9 ), new PBounds( 0, 0, 8, 5.5 ) );

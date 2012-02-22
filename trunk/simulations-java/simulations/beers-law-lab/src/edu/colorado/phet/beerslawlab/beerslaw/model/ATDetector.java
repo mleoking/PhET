@@ -28,7 +28,7 @@ public class ATDetector {
 
     public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
                        ImmutableVector2D probeLocation, PBounds probeDragBounds,
-                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> percentTransmission ) {
+                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> percentTransmittance ) {
 
         this.body = new Movable( bodyLocation, bodyDragBounds );
         this.probe = new Movable( probeLocation, probeDragBounds );
@@ -39,13 +39,13 @@ public class ATDetector {
         this.value = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
                 if ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) {
-                    return percentTransmission.get();
+                    return percentTransmittance.get();
                 }
                 else {
                     return absorbance.get();
                 }
             }
-        }, absorbance, percentTransmission, mode );
+        }, absorbance, percentTransmittance, mode );
     }
 
     public void reset() {
