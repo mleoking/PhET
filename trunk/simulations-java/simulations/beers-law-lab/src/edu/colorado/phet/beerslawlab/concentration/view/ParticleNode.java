@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ParticleNode extends PPath {
+abstract class ParticleNode extends PPath {
 
     private static final float STROKE_WIDTH = 1f;
 
