@@ -1,4 +1,3 @@
-# 0.00.38 (61575) Feb 22, 2012
 Fixed: Vertical bars should fill from the bottom to match water glasses
 Fixed: Slices duplicated when dragging out of containers (not just bucket)
 Fixed: Bucket pie slices shouldn't jump around when changing the max spinner
