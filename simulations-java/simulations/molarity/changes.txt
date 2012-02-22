@@ -1,4 +1,5 @@
 # 1.00.01 (61594) Feb 22, 2012
+> fix for bug with slider controls
 2/22/12 #3263, fix for click and drag in slider tracks, constrain values to model range
 # 1.00.00 (61500) Feb 20, 2012
 # 0.00.23 (61437) Feb 16, 2012
