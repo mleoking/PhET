@@ -6,7 +6,6 @@ DEADLINES
 DESIGN
 
 CONCENTRATION 1.00 prep
-- implementation-notes.txt
 - screenshot
 - internal doc
 
