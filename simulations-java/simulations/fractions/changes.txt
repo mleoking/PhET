@@ -1,3 +1,4 @@
+Reduced the size of the bucket icon so that larger representations will fit
 Made the bucket bottom "bottomless" so the long vertical bars don't stick out the bottom
 # 0.00.38 (61577) Feb 22, 2012
 Fixed: Vertical bars should fill from the bottom to match water glasses

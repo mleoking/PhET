@@ -92,7 +92,8 @@ public class PieSetNode extends PNode {
                 setChildrenPickable( false );
             }} );
 
-            scale( 0.4 );
+            //Make as large as possible, but small enough that tall representations (like vertical bars) fit
+            scale( 0.28 );
         }};
 
         PNode text = new FractionNode( new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
