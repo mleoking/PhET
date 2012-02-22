@@ -119,10 +119,10 @@ public class BeersLawModel implements Resettable {
             }, molarAbsorptivity, pathLength, concentration );
         }
 
-        // percent transmittance model: %T = 10^(2-A)
+        // percent transmittance model: %T = 100 * 10^(-A)
         percentTransmittance = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
-                return Math.pow( 10, 2 - absorbance.get() );
+                return 100 * Math.pow( 10, -absorbance.get() );
             }
         }, absorbance );
 
