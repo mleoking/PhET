@@ -8,6 +8,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
 
 /**
@@ -56,7 +58,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
         //For water glasses
         addChild( new RepresentationNode( model.representation, Representation.WATER_GLASSES ) {{
-            addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
+            addChild( new PieSetNode( model.verticalBarSet, rootNode, new WaterGlassNodeFactory() ) );
         }} );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{

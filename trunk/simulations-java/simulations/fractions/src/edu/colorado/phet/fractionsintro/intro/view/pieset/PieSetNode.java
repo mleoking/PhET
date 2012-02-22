@@ -1,5 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.view;
+package edu.colorado.phet.fractionsintro.intro.view.pieset;
+
+import fj.F;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
+import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PClip;
 
@@ -32,20 +35,28 @@ public class PieSetNode extends PNode {
     private final PNode rootNode;
     private static final boolean debugCenter = false;
 
-    //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
     public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
+        this( model, rootNode, new F<SliceNodeArg, PNode>() {
+            @Override public PNode f( SliceNodeArg s ) {
+                return new MovableSliceNode( s.rootNode, s.model, s.slice );
+            }
+        } );
+    }
+
+    //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
+    public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode, final F<SliceNodeArg, PNode> createSliceNode ) {
         this.rootNode = rootNode;
 
         bucketView = new BucketView( model.get().sliceFactory.bucket, createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
 
         model.addObserver( new SimpleObserver() {
             public void update() {
-                rebuildScene( model );
+                rebuildScene( model, createSliceNode );
             }
         } );
     }
 
-    private void rebuildScene( final SettableProperty<PieSet> model ) {
+    private void rebuildScene( final SettableProperty<PieSet> model, final F<SliceNodeArg, PNode> createSliceNode ) {
         removeAllChildren();
 
         final PNode bucketHoleNode = bucketView.getHoleNode();
@@ -72,7 +83,7 @@ public class PieSetNode extends PNode {
 
             setPathTo( new Rectangle2D.Double( -far, -far, far * 2, far + bucketHoleNode.getFullBoundsReference().getMaxY() ) );
             for ( final Slice slice : state.slices ) {
-                addChild( new MovableSliceNode( rootNode, model, slice ) );
+                addChild( createSliceNode.f( new SliceNodeArg( rootNode, model, slice ) ) );
             }
         }};
         addChild( movablePiecesLayer );
