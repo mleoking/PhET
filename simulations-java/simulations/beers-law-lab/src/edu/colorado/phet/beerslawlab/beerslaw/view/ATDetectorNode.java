@@ -8,7 +8,7 @@ import java.awt.geom.CubicCurve2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.ATDetector;
 import edu.colorado.phet.beerslawlab.beerslaw.model.ATDetector.ATDetectorMode;
@@ -118,8 +118,14 @@ class ATDetectorNode extends PhetPNode {
                                              valueNode.getYOffset() );
                     }
                     else {
-                        NumberFormat format = ( detector.mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? TRANSMITTANCE_FORMAT : ABSORBANCE_FORMAT;
-                        valueNode.setText( format.format( value ) );
+                        String text;
+                        if ( detector.mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) {
+                           text = MessageFormat.format( Strings.PATTERN_0PERCENT, TRANSMITTANCE_FORMAT.format( value ) );
+                        }
+                        else {
+                           text = ABSORBANCE_FORMAT.format( value );
+                        }
+                        valueNode.setText( text );
                         // right justified
                         valueNode.setOffset( backgroundNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth() - VALUE_X_MARGIN,
                                              valueNode.getYOffset() );

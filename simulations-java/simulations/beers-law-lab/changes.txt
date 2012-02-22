@@ -1,3 +1,4 @@
+2/21/12 add "%" after %T value in AT detector
 2/21/12 move duplicate code for particle nodes into a base class
 2/21/12 doc and minor tweaks for potential code review of Concentration sim
 2/21/12 create implementation-notes.txt and add notes for Concentration tab
