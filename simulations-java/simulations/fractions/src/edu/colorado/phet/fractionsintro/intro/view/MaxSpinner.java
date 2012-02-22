@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
 
 /**
@@ -16,12 +17,15 @@ import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
  */
 public class MaxSpinner extends RichPNode {
     public MaxSpinner( final IntegerProperty value ) {
-        addChild( new HBox( new PhetPText( new PhetFont( 24 ) ) {{
-            value.addObserver( new VoidFunction1<Integer>() {
-                @Override public void apply( Integer m ) {
-                    setText( "Max " + m );
-                }
-            } );
-        }}, new SpinnerButtonPanel( (int) ( 50.0 / 2.0 ), value.increment_(), value.lessThan( 6 ), value.decrement_(), value.greaterThan( 1 ) ) ) );
+        final PhetFont font = new PhetFont( 24 );
+        addChild( new VBox( 0, new PhetPText( "Max", font ),
+                            new HBox( new PhetPText( font ) {{
+                                value.addObserver( new VoidFunction1<Integer>() {
+                                    @Override public void apply( Integer m ) {
+                                        setText( m + "" );
+                                    }
+                                } );
+                            }}, new SpinnerButtonPanel( (int) ( 50.0 / 2.0 ), value.increment_(), value.lessThan( 6 ), value.decrement_(), value.greaterThan( 1 ) ) )
+        ) );
     }
 }

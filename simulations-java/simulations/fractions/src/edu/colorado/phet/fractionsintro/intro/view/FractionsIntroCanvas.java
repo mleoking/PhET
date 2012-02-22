@@ -76,7 +76,8 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         resetAllButtonNode.setOffset( STAGE_SIZE.width - resetAllButtonNode.getFullBounds().getWidth() - INSET, STAGE_SIZE.height - resetAllButtonNode.getFullBounds().getHeight() - INSET );
 
         MaxSpinner maxSpinner = new MaxSpinner( model.maximum ) {{
-            setOffset( STAGE_SIZE.width - getFullWidth() - INSET, resetAllButtonNode.getFullBounds().getY() - getFullHeight() - INSET );
+//            setOffset( STAGE_SIZE.width - getFullWidth() - INSET, resetAllButtonNode.getFullBounds().getY() - getFullHeight() - INSET );
+            setOffset( resetAllButtonNode.getFullBounds().getCenterX() - getFullWidth() / 2, resetAllButtonNode.getFullBounds().getY() - getFullHeight() - INSET );
         }};
         addChild( maxSpinner );
     }
