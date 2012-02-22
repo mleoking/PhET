@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 
@@ -47,9 +48,10 @@ public class PieSetNode extends PNode {
     private void rebuildScene( final SettableProperty<PieSet> model ) {
         removeAllChildren();
 
-        addChild( bucketView.getHoleNode() );
+        final PNode bucketHoleNode = bucketView.getHoleNode();
+        addChild( bucketHoleNode );
 
-        PieSet state = model.get();
+        final PieSet state = model.get();
 
         //Show graphics for the empty cells
         for ( Slice cell : state.cells ) {
@@ -60,9 +62,21 @@ public class PieSetNode extends PNode {
                 addChild( new PhetPPath( new Rectangle2D.Double( cell.center().getX(), cell.center().getY(), 2, 2 ) ) );
             }
         }
-        for ( final Slice slice : state.slices ) {
-            addChild( new MovableSliceNode( rootNode, model, slice ) );
-        }
+
+        //Show graphics for the movable cells.  Put in a clip so that long bars will look like they sink through a "bottomless" bucket since they are too big at full size
+        PClip movablePiecesLayer = new PClip() {{
+            setStroke( null );
+
+            //Create a clip that is far enough away that it will work for a variety of screen resolutions
+            double far = 10000;
+
+            setPathTo( new Rectangle2D.Double( -far, -far, far * 2, far + bucketHoleNode.getFullBoundsReference().getMaxY() ) );
+            for ( final Slice slice : state.slices ) {
+                addChild( new MovableSliceNode( rootNode, model, slice ) );
+            }
+        }};
+        addChild( movablePiecesLayer );
+
         addChild( bucketView.getFrontNode() );
 
         //Show an icon label on the bucket so the user knows what is in the bucket
