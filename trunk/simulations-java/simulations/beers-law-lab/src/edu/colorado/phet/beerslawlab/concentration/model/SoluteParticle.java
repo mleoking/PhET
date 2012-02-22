@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class SoluteParticle {
+public abstract class SoluteParticle {
 
     private final Color color;
     private final double size; // particles are square, this is the length of one side
