@@ -6,31 +6,31 @@ DEADLINES
 DESIGN
 
 CONCENTRATION 1.00 prep
-- screenshot
-- #3242, make combo box popup appear on top of everything in the scenegraph
-- #3199, bigger slider thumb on FaucetNode
-- add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
-- shaker shouldn't dispense more than the max amount of solute
-- use CompositeProperty for Shaker.dispensingRate?
+- Concentration: screenshot
 
 HIGH
-- collision detection for probe, don't allow dragging into cuvette
-- should there be a model of light beam? view only right now
-- make detector aware of whether it's in beam, and which part of the beam it's in
-- detector only reads value when entire beam is fully hitting detector
-- use gradient with modulated alpha for portion of the beam that passes through solution
-- color of photons doesn't change, create a believable algorithm for how they are absorbed as they pass through solution
+- Beers: collision detection for probe, don't allow dragging into cuvette
+- Beers: should there be a model of light beam? view only right now
+- Beers: make detector aware of whether it's in beam, and which part of the beam it's in
+- Beers: detector only reads value when entire beam is fully hitting detector
+- Beers: use gradient with modulated alpha for portion of the beam that passes through solution
+- Beers: color of photons doesn't change, create a believable algorithm for how they are absorbed as they pass through solution
 
 MEDIUM
-- meter and detector body images don't have transparent backgrounds (at rounded corners)
-- increase space for radio buttons in AT detector images
+- Beers: meter and detector body images don't have transparent backgrounds (at rounded corners)
+- Beers: increase space for radio buttons in AT detector images
+- common: #3242, make combo box popup appear on top of everything in the scenegraph
 
 LOW
-- switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
-- shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
-- dropper flickers/tears excessively while dragging
-- ruler can get lost behind solution control panel, move it to front layer when combo box #3242 is fixed
-- Toolbox in Beer's tab?
+- Concentration: #3199, bigger slider thumb on FaucetNode
+- Concentration: switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
+- Concentration: shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
+- Concentration: dropper flickers/tears excessively while dragging
+- Concentration: add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
+- Concentration: shaker shouldn't dispense more than the max amount of solute
+- Concentration: use CompositeProperty for Shaker.dispensingRate?
+- Beers: ruler can get lost behind solution control panel, move it to front layer when combo box #3242 is fixed
+- Beers: add toolbox?
 
 SIM-SHARING
 - add sim-sharing to WavelengthControl (if I use it)
