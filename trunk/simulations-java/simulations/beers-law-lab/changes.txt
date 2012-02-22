@@ -1,3 +1,4 @@
+2/22/12 check in JC's latest spreadsheet
 2/22/12 temporarily make detector position fixed
 2/22/12 add alpha to left segment of beam
 2/22/12 fix molar conversion factor for Drink Mix
