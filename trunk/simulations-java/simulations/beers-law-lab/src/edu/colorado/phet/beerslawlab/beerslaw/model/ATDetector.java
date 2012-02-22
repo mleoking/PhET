@@ -33,7 +33,7 @@ public class ATDetector {
 
         this.body = new Movable( bodyLocation, bodyDragBounds );
         this.probe = new Movable( probeLocation, probeDragBounds );
-        this.probeDiameter = 0.25; // specific to the probe image file
+        this.probeDiameter = 0.57; // cm, specific to the probe image file
 
         //TODO this should also be a function of the detector's probe location
         // update the value that is displayed by the detector

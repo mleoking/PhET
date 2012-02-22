@@ -13,7 +13,6 @@ CONCENTRATION 1.00 prep
 HIGH
 - collision detection for probe, don't allow dragging into cuvette
 - should there be a model of light beam? view only right now
-- show vertical diameter line in detector, for debugging
 - make detector aware of whether it's in beam, and which part of the beam it's in
 - detector only reads value when entire beam is fully hitting detector
 - use gradient with modulated alpha for portion of the beam that passes through solution
