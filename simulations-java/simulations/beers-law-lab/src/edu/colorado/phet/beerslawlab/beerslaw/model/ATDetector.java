@@ -3,8 +3,11 @@ package edu.colorado.phet.beerslawlab.beerslaw.model;
 
 import edu.colorado.phet.beerslawlab.common.model.Movable;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -34,41 +37,28 @@ public class ATDetector {
 
     public static enum ATDetectorMode {TRANSMITTANCE, ABSORBANCE}
 
-    public final Property<Double> value; //TODO this should be a CompositeProperty, so it can't be set by clients
+    public final CompositeProperty<Double> value; //TODO this should be a CompositeProperty, so it can't be set by clients
     public final Movable body;
     public final Movable probe;
     public final double probeDiameter; // diameter of the probe's sensor area, in cm
     public Property<ATDetectorMode> mode = new Property<ATDetectorMode>( ATDetectorMode.TRANSMITTANCE );
 
     public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
-                       ImmutableVector2D probeLocation, PBounds probeDragBounds ) {
-        this.value = new Property<Double>( null );
+                       ImmutableVector2D probeLocation, PBounds probeDragBounds,
+                       final ObservableProperty<Double> absorbance ) {
+
         this.body = new Movable( bodyLocation, bodyDragBounds );
         this.probe = new Movable( probeLocation, probeDragBounds );
         this.probeDiameter = 0.25;
 
-        mode.addObserver( new VoidFunction1<ATDetectorMode>() {
-            public void apply( ATDetectorMode displayType ) {
-               //TODO change value
+        this.value = new CompositeProperty<Double>( new Function0<Double>() {
+            public Double apply() {
+                return absorbance.get();
             }
-        });
-    }
-
-    public void setValue( Double value ) {
-        this.value.set( value );
-    }
-
-    // Gets the value to be displayed by the meter, null if the meter is not reading a value.
-    public Double getValue() {
-        return value.get();
-    }
-
-    public void addValueObserver( SimpleObserver observer ) {
-        value.addObserver( observer );
+        }, absorbance, mode );
     }
 
     public void reset() {
-        this.value.reset();
         this.body.reset();
         this.probe.reset();
         this.mode.reset();
