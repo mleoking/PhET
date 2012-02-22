@@ -23,4 +23,4 @@ so it adds both solute and solvent. You can measure the concentration of the sto
 the Concentration meter.  Pressing the "Remove Solute" button removes all solute from
 the solution.
 
-For additional details, consult the class files in package edu.colorado.phet
+For additional details, consult the class files in package edu.colorado.phet.beerslawlab.concentration.model.
