@@ -4,8 +4,9 @@ package edu.colorado.phet.beerslawlab.concentration.view;
 import java.util.HashMap;
 
 import edu.colorado.phet.beerslawlab.concentration.model.Precipitate;
-import edu.colorado.phet.beerslawlab.concentration.model.PrecipitateParticle;
 import edu.colorado.phet.beerslawlab.concentration.model.Precipitate.ParticlesChangeListener;
+import edu.colorado.phet.beerslawlab.concentration.model.PrecipitateParticle;
+import edu.colorado.phet.beerslawlab.concentration.view.ParticleNode.PrecipitateParticleNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -39,4 +40,5 @@ class PrecipitateNode extends PComposite {
             }
         } );
     }
+
 }
