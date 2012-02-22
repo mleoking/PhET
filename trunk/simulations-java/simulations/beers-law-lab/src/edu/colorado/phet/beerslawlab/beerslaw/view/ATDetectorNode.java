@@ -134,8 +134,8 @@ class ATDetectorNode extends PhetPNode {
             };
             observer.observe( detector.value, detector.mode );
 
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( UserComponents.detectorBody, detector.body, this, mvt ) );
+//            addInputEventListener( new CursorHandler() );
+//            addInputEventListener( new MovableDragHandler( UserComponents.detectorBody, detector.body, this, mvt ) );
         }
     }
 
@@ -163,12 +163,12 @@ class ATDetectorNode extends PhetPNode {
                 }
             } );
 
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( UserComponents.detectorProbe, detector.probe, this, mvt ) {
-                @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return super.getParametersForAllEvents( event ); //TODO add parameter for whether the probe is in the beam
-                }
-            } );
+//            addInputEventListener( new CursorHandler() );
+//            addInputEventListener( new MovableDragHandler( UserComponents.detectorProbe, detector.probe, this, mvt ) {
+//                @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
+//                    return super.getParametersForAllEvents( event ); //TODO add parameter for whether the probe is in the beam
+//                }
+//            } );
         }
     }
 

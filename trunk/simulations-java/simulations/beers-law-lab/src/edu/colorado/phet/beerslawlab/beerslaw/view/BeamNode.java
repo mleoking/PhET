@@ -23,6 +23,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class BeamNode extends PhetPNode {
 
+    private static final int LEFT_ALPHA = 200;
+    private static final int CENTER_ALPHA = 100;
+    private static final int RIGHT_ALPHA = 40;
+
     public BeamNode( final Light light, Cuvette cuvette, ModelViewTransform mvt ) {
 
         setPickable( false );
@@ -68,7 +72,8 @@ class BeamNode extends PhetPNode {
             // Set the color to match the light's wavelength
             light.wavelength.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double wavelength ) {
-                    setBeamColor( new VisibleColor( wavelength ) );
+                    //TODO this should be a gradient, and alpha should be a function of transmittance
+                    setBeamColor( ColorUtils.createColor( new VisibleColor( wavelength ), LEFT_ALPHA ) );
                 }
             } );
         }
@@ -93,7 +98,8 @@ class BeamNode extends PhetPNode {
             // Set the color to match the light's wavelength
             light.wavelength.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double wavelength ) {
-                    setBeamColor( ColorUtils.createColor( new VisibleColor( wavelength ), 100 ) ); //TODO should alpha be a function of %transmission?
+                    //TODO alpha should be a function of transmittance
+                    setBeamColor( ColorUtils.createColor( new VisibleColor( wavelength ), CENTER_ALPHA ) );
                 }
             } );
         }
@@ -118,7 +124,7 @@ class BeamNode extends PhetPNode {
             // Set the color to match the light's wavelength
             light.wavelength.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double wavelength ) {
-                    setBeamColor( ColorUtils.createColor( new VisibleColor( wavelength ), 40 ) ); //TODO should alpha be a function of %transmission?
+                    setBeamColor( ColorUtils.createColor( new VisibleColor( wavelength ), RIGHT_ALPHA ) ); //TODO should alpha be a function of %transmission?
                 }
             } );
         }
