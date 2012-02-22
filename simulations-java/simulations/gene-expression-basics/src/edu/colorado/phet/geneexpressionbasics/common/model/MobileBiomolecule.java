@@ -8,8 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
@@ -170,21 +168,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         if ( attachmentStateMachine.isAttached() ) {
             attachmentStateMachine.detach();
         }
-    }
-
-    /**
-     * Get the state that this biomolecule should transition into when it
-     * becomes attached to some location.  This exists to allow biomolecules to
-     * return different states (through overriding this method), thus exhibiting
-     * unique behavior when attached.  If this is not overridden, the default
-     * attachment state is returned.
-     *
-     * @return
-     */
-    public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
-        // Return the default attachment state.  For details on what this does,
-        // see the class definition.
-        return new AttachedState( this, attachmentSite );
     }
 
     /**

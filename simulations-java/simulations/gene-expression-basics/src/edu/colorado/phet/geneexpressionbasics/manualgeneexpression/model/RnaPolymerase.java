@@ -15,9 +15,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RnaPolymeraseAttachmentStateMachine;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
-import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.TranscribingDnaState;
 
 /**
  * Class that represents RNA polymerase in the model.
@@ -97,17 +94,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Overridden to provide attachment behavior that is unique to polymerase.
     @Override protected AttachmentStateMachine createAttachmentStateMachine() {
         return new RnaPolymeraseAttachmentStateMachine( this );
-    }
-
-    // Overridden to provide attachment behavior that is unique to polymerase.
-    @Override public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
-        if ( attachmentSite.getAffinity() > START_TRANSCRIPTION_THRESHOLD ) {
-            // The attachment site is strong enough to trigger transcription.
-            return new TranscribingDnaState( this, attachmentSite, model.getDnaMolecule().getGeneAtLocation( attachmentSite.locationProperty.get() ), MESSENGER_RNA_GENERATION_OFFSET );
-        }
-        else {
-            return new AttachedState( this, attachmentSite );
-        }
     }
 
     @Override public void changeConformation( double changeFactor ) {
