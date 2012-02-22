@@ -20,7 +20,7 @@ public class ATDetector {
 
     public static enum ATDetectorMode {PERCENT_TRANSMITTANCE, ABSORBANCE}
 
-    public final CompositeProperty<Double> value;
+    public final CompositeProperty<Double> value; // null if no value is detected
     public final Movable body;
     public final Movable probe;
     public final double probeDiameter; // diameter of the probe's sensor area, in cm
@@ -28,7 +28,8 @@ public class ATDetector {
 
     public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
                        ImmutableVector2D probeLocation, PBounds probeDragBounds,
-                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> percentTransmittance ) {
+                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> percentTransmittance,
+                       final Light light ) {
 
         this.body = new Movable( bodyLocation, bodyDragBounds );
         this.probe = new Movable( probeLocation, probeDragBounds );
@@ -38,14 +39,19 @@ public class ATDetector {
         // update the value that is displayed by the detector
         this.value = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
-                if ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) {
-                    return percentTransmittance.get();
+                if ( light.on.get() ) {
+                    if ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) {
+                        return percentTransmittance.get();
+                    }
+                    else {
+                        return absorbance.get();
+                    }
                 }
                 else {
-                    return absorbance.get();
+                    return null;
                 }
             }
-        }, absorbance, percentTransmittance, mode );
+        }, absorbance, percentTransmittance, light.on, mode );
     }
 
     public void reset() {
