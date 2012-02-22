@@ -29,7 +29,7 @@ public class GeneNode extends PNode {
     private static final double BRACKET_DEPTH = 20;
     private static final double RECT_ROUNDING = 15;
 
-    public GeneNode( final ModelViewTransform mvt, final Gene gene, DnaMolecule dnaMolecule ) {
+    public GeneNode( final ModelViewTransform mvt, final Gene gene, DnaMolecule dnaMolecule, boolean showBracketLabel ) {
         double highlightHeight = -mvt.modelToViewDeltaY( dnaMolecule.getDiameter() * 1.5 );
         double highlightStartY = mvt.modelToViewY( dnaMolecule.getLeftEdgePos().getY() ) - highlightHeight / 2;
 
@@ -63,21 +63,23 @@ public class GeneNode extends PNode {
 
         // Add the bracket.  This is a portion (the non-textual part) of the
         // label for the gene.
-        final DoubleGeneralPath bracketPath = new DoubleGeneralPath();
-        bracketPath.moveTo( regulatoryRegionNode.getFullBoundsReference().getMinX(),
-                            regulatoryRegionCaption.getFullBoundsReference().getMaxY() );
-        bracketPath.lineToRelative( BRACKET_DEPTH, BRACKET_DEPTH );
-        bracketPath.lineTo( transcribedRegionNode.getFullBoundsReference().getMaxX() - BRACKET_DEPTH,
-                            transcribedRegionCaption.getFullBoundsReference().getMaxY() + BRACKET_DEPTH );
-        bracketPath.lineToRelative( BRACKET_DEPTH, -BRACKET_DEPTH );
-        addChild( new PhetPPath( bracketPath.getGeneralPath(), new BasicStroke( 2 ), Color.BLACK ) );
+        if ( showBracketLabel ) {
+            final DoubleGeneralPath bracketPath = new DoubleGeneralPath();
+            bracketPath.moveTo( regulatoryRegionNode.getFullBoundsReference().getMinX(),
+                                regulatoryRegionCaption.getFullBoundsReference().getMaxY() );
+            bracketPath.lineToRelative( BRACKET_DEPTH, BRACKET_DEPTH );
+            bracketPath.lineTo( transcribedRegionNode.getFullBoundsReference().getMaxX() - BRACKET_DEPTH,
+                                transcribedRegionCaption.getFullBoundsReference().getMaxY() + BRACKET_DEPTH );
+            bracketPath.lineToRelative( BRACKET_DEPTH, -BRACKET_DEPTH );
+            addChild( new PhetPPath( bracketPath.getGeneralPath(), new BasicStroke( 2 ), Color.BLACK ) );
 
-        // And the textual label for the gene.
-        // TODO: i18n
-        addChild( new PText( "Gene " + gene.identifier ) {{
-            setFont( GENE_LABEL_FONT );
-            setOffset( bracketPath.getGeneralPath().getBounds2D().getCenterX() - getFullBoundsReference().width / 2,
-                       bracketPath.getGeneralPath().getBounds2D().getMaxY() + 5 );
-        }} );
+            // And the textual label for the gene.
+            // TODO: i18n
+            addChild( new PText( "Gene " + gene.identifier ) {{
+                setFont( GENE_LABEL_FONT );
+                setOffset( bracketPath.getGeneralPath().getBounds2D().getCenterX() - getFullBoundsReference().width / 2,
+                           bracketPath.getGeneralPath().getBounds2D().getMaxY() + 5 );
+            }} );
+        }
     }
 }

@@ -3,34 +3,25 @@ package edu.colorado.phet.geneexpressionbasics.mrnaproduction.view;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.DnaMoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.PlacementHintNode;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.ProteinCollectionNode;
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.model.MessengerRnaProductionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
-import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Images.GRAY_ARROW;
 
 /**
  * Primary canvas for the Messenger RNA Production tab.
@@ -98,7 +89,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         modelRootNode.addChild( placementHintLayer );
 
         // Add the representation of the DNA strand.
-        final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
+        final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt, 5, false );
         dnaLayer.addChild( dnaMoleculeNode );
 
         // Add the placement hints that go on the DNA molecule.  These exist on
