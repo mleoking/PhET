@@ -141,16 +141,8 @@ class CuvetteNode extends PNode {
         // snap to the closest value
         @Override protected void endDrag( PInputEvent event ) {
             super.endDrag( event );
-            double remainder = cuvette.width.get() % snapInterval;
-            int numberOfIntervals = (int) ( cuvette.width.get() / snapInterval );
-            if ( remainder < snapInterval / 2 ) {
-                // snap down
-                cuvette.width.set( numberOfIntervals * snapInterval );
-            }
-            else {
-                // snap up
-                cuvette.width.set( ( numberOfIntervals + 1 ) * snapInterval );
-            }
+            int numberOfIntervals = (int) ( ( cuvette.width.get() + ( snapInterval / 2 ) ) / snapInterval );
+            cuvette.width.set( numberOfIntervals * snapInterval );
         }
     }
 }

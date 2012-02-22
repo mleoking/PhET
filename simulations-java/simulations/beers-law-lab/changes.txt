@@ -1,3 +1,4 @@
+2/22/12 fix snapping of cuvette width to nearest 0.1cm
 2/22/12 change detector to 2 decimal places, to match data in spreadsheet
 2/22/12 change to vertical layout of "Light View" radio buttons, so there's more room to move the detector probe between the light and cuvette
 2/22/12 make AT detector show "-" when light is off
