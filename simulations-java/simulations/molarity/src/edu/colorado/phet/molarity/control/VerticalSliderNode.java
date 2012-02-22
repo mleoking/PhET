@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
@@ -88,7 +89,7 @@ public class VerticalSliderNode extends PhetPNode {
         PNode subtitleNode = new HTMLNode( subtitle, Color.BLACK, MolarityConstants.SUBTITLE_FONT );
 
         // track that the thumb moves in
-        trackNode = new TrackNode( UserComponentChain.chain( userComponent, UserComponents.track ), trackSize, trackPaint, modelValue, modelToView.createInverse() );
+        trackNode = new TrackNode( UserComponentChain.chain( userComponent, UserComponents.track ), trackSize, trackPaint, modelValue, range, modelToView.createInverse() );
 
         // background that surrounds the track
         PNode backgroundNode = new PPath() {{
@@ -148,7 +149,9 @@ public class VerticalSliderNode extends PhetPNode {
     // Track that the thumb moves in, origin at upper left. Clicking in the track changes the value.
     private static class TrackNode extends PPath {
 
-        public TrackNode( final IUserComponent userComponent, PDimension trackSize, Paint trackPaint, final Property<Double> modelValue, final Function viewToModel ) {
+        public TrackNode( final IUserComponent userComponent, PDimension trackSize, Paint trackPaint,
+                          final Property<Double> modelValue, final DoubleRange range, final Function viewToModel ) {
+
             setPathTo( new Rectangle2D.Double( 0, 0, trackSize.getWidth(), trackSize.getHeight() ) );
             setPaint( trackPaint );
 
@@ -169,7 +172,8 @@ public class VerticalSliderNode extends PhetPNode {
 
                 private void handleEvent( PInputEvent event ) {
                     double trackPosition = event.getPositionRelativeTo( TrackNode.this ).getY();
-                    modelValue.set( viewToModel.evaluate( trackPosition ) );
+                    double value = Math.min( Math.max( viewToModel.evaluate( trackPosition ), range.getMin() ), range.getMax() );
+                    modelValue.set( value );
                 }
             } );
         }
