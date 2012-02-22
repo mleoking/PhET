@@ -6,7 +6,11 @@ Package structure is as follows:
 - stuff under the "beerslaw" subpackage is used only by the "Beer's Law" module
 - each of the above subpackages is further divided into model and view packages
 
-This project uses Property<T> throughout the model and view for storage of properties and notification of changes.
+With the exception of the PCanvas subclasses, all classes in the module-specific view packages are
+package private, so that they are not accidentally used in other modules. Unfortunately this pattern
+can't be applied to the model packages because they must be visible to the view packages.
+
+Property<T> is used throughout the model and view for storage of properties and notification of changes.
 
 In the "Concentration" module, spatial units (distance, size, location) have no relevance to the model,
 so there is no model-view transform. The model uses the view coordinate frame, where positive x is to
