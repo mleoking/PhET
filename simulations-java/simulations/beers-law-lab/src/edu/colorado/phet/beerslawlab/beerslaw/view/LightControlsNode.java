@@ -48,9 +48,9 @@ class LightControlsNode extends PNode {
         panel.setOpaque( false );
         panel.setAnchor( Anchor.WEST );
         panel.setFill( Fill.HORIZONTAL );
-        panel.add( lightViewLabel, row++, 0, 2, 1 );
-        panel.add( beamRadioButton, row, 0 );
-        panel.add( photonsRadioButton, row++, 1 );
+        panel.add( lightViewLabel, row++, 0 );
+        panel.add( beamRadioButton, row++, 0 );
+        panel.add( photonsRadioButton, row++, 0 );
 
         // Put it in a Piccolo control panel
         addChild( new ControlPanelNode( panel ) );
