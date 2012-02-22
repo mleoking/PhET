@@ -1,3 +1,4 @@
+Made the molecules that don't directly interact with the DNA stay above it when doing random walk.  This should serve to prevent some confusion about what is interacting with the DNA.
 Added label for mRNA that fades in during synthesis and out when synthesis is complete.
 Fixed an issue where polymerase could attach to DNA in locations that overlapped with transcription factors.
 Made the node for the grabbed biomolecule always move to the top of the z-order for its layer.

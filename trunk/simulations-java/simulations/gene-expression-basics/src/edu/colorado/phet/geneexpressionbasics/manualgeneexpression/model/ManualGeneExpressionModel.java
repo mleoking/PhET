@@ -147,9 +147,9 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         activeGene.set( dnaMolecule.getGenes().get( i ) );
     }
 
-    public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule ) {
+    public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule, boolean interactsWithDna ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
-        mobileBiomolecule.setMotionBounds( getBoundsForActiveGene() );
+        mobileBiomolecule.setMotionBounds( getBoundsForActiveGene( interactsWithDna ) );
 
         // Hook up an observer that will activate and deactivate placement
         // hints for this molecule.
@@ -253,7 +253,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     public void addMessengerRna( final MessengerRna messengerRna ) {
         messengerRnaList.add( messengerRna );
-        messengerRna.setMotionBounds( getBoundsForActiveGene() );
+        messengerRna.setMotionBounds( getBoundsForActiveGene( false ) );
     }
 
     @Override public void removeMessengerRna( MessengerRna messengerRnaBeingDestroyed ) {
@@ -305,12 +305,22 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     /**
      * Get the motion bounds for any biomolecule that is going to be associated
-     * with the currently active gene.
+     * with the currently active gene.  This is used to keep the biomolecules
+     * from wandering outside of the area that the user can see.
+     *
+     * @param includeDnaStrand - Flag to signify whether these bounds should
+     * include the DNA strand.  This should be true for molecules that
+     * interact with the DNA, false for those that don't.
      */
-    public MotionBounds getBoundsForActiveGene() {
+    public MotionBounds getBoundsForActiveGene( boolean includeDnaStrand ) {
+
+        // The bottom of the bounds depends on whether or not the DNA strand
+        // is included.
+        double bottomYPos = includeDnaStrand ? DnaMolecule.Y_POS - DnaMolecule.STRAND_DIAMETER * 3 : DnaMolecule.Y_POS + DnaMolecule.STRAND_DIAMETER / 2;
+
         // Get the nominal bounds for this gene.
         Area bounds = new Area( new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
-                                                        DnaMolecule.Y_POS - DnaMolecule.STRAND_DIAMETER * 3,
+                                                        bottomYPos,
                                                         BIOMOLECULE_STAGE_WIDTH,
                                                         BIOMOLECULE_STAGE_HEIGHT ) );
 

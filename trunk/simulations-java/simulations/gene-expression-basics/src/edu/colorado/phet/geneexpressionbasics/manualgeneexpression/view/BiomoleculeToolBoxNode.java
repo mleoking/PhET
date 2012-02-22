@@ -181,7 +181,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                    new Function1<Point2D, MobileBiomolecule>() {   // Molecule creator function.
                        public MobileBiomolecule apply( Point2D pos ) {
                            RnaPolymerase rnaPolymerase = new RnaPolymerase( biomoleculeBoxNode.model, pos );
-                           biomoleculeBoxNode.model.addMobileBiomolecule( rnaPolymerase );
+                           biomoleculeBoxNode.model.addMobileBiomolecule( rnaPolymerase, true );
                            return rnaPolymerase;
                        }
                    },
@@ -213,7 +213,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                    new Function1<Point2D, MobileBiomolecule>() {   // Molecule creator function.
                        public MobileBiomolecule apply( Point2D pos ) {
                            Ribosome srs = new Ribosome( biomoleculeBoxNode.model, pos );
-                           biomoleculeBoxNode.model.addMobileBiomolecule( srs );
+                           biomoleculeBoxNode.model.addMobileBiomolecule( srs, false );
                            return srs;
                        }
                    },
@@ -243,7 +243,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
                            TranscriptionFactor transcriptionFactor = new TranscriptionFactor( biomoleculeBoxNode.model, tfConfig, pos );
-                           biomoleculeBoxNode.model.addMobileBiomolecule( transcriptionFactor );
+                           biomoleculeBoxNode.model.addMobileBiomolecule( transcriptionFactor, true );
                            return transcriptionFactor;
                        }
                    },
@@ -273,7 +273,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
                            MessengerRnaDestroyer mRnaDestroyer = new MessengerRnaDestroyer( biomoleculeBoxNode.model, pos );
-                           biomoleculeBoxNode.model.addMobileBiomolecule( mRnaDestroyer );
+                           biomoleculeBoxNode.model.addMobileBiomolecule( mRnaDestroyer, false );
                            return mRnaDestroyer;
                        }
                    },
