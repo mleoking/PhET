@@ -102,7 +102,7 @@ public class BeersLawSolution {
             super( Strings.DRINK_MIX, BLLSymbols.DRINK_MIX,
                    new DoubleRange( 0, 0.400 ), -3,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ), Color.RED,
-                   511, 1270.18, 0.000003999268 );
+                   511, 1270.18, 0.003999268 );
         }
 
         // This solution's solute doesn't have a formula, so use just its name.
