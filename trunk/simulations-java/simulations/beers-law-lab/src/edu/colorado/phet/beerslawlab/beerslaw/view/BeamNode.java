@@ -25,6 +25,9 @@ class BeamNode extends PhetPNode {
 
     public BeamNode( final Light light, Cuvette cuvette, ModelViewTransform mvt ) {
 
+        setPickable( false );
+        setChildrenPickable( false );
+
         addChild( new LeftSegmentNode( light, cuvette, mvt ) );
         addChild( new CenterSegmentNode( light, cuvette, mvt ) );
         addChild( new RightSegmentNode( light, cuvette, mvt ) );

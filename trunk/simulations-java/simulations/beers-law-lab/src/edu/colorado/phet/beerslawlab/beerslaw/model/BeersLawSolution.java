@@ -19,6 +19,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  * Solution model for the Beer's Law module.
  * This module has a set of selectable solutions.
  * Concentration is directly settable, solvent and solute are immutable.
+ * <p>
+ * The numeric values for specific solutions were arrived at by running lab experiments,
+ * and are documented in doc/Beers-Law-Lab-design.pdf and doc/BeersLawLabData.xlsx.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -35,13 +38,20 @@ public class BeersLawSolution {
     public final CompositeProperty<Color> fluidColor; // derived
     public final double lambdaMax; // wavelength for maximum absorbance, nm
     public final double molarAbsorptionMax; // corresponds to lambdaMax, 1/(cm*M)
+    public final double molarConversionFactor; // this is needed primarily for DrinkMixSolution, see class doc
 
-    //TODO add CompositeProperty for absorbance and %transmission
-
+    // Most solutions have a molarConversionFactor of 1.
     public BeersLawSolution( String name, String formula,
                              DoubleRange concentrationRange, int concentrationViewExponent,
                              ColorRange colorRange, Color saturatedColor,
                              double lambdaMax, double molarAbsorptionMax ) {
+        this( name, formula, concentrationRange, concentrationViewExponent, colorRange, saturatedColor, lambdaMax, molarAbsorptionMax, 1 );
+    }
+
+    public BeersLawSolution( String name, String formula,
+                             DoubleRange concentrationRange, int concentrationViewExponent,
+                             ColorRange colorRange, Color saturatedColor,
+                             double lambdaMax, double molarAbsorptionMax, double molarConversionFactor ) {
 
         this.solvent = new Water();
         this.name = name;
@@ -53,6 +63,7 @@ public class BeersLawSolution {
         this.saturatedColor = saturatedColor;
         this.lambdaMax = lambdaMax;
         this.molarAbsorptionMax = molarAbsorptionMax;
+        this.molarConversionFactor = molarConversionFactor;
 
         // derive the solution color
         this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
@@ -80,12 +91,18 @@ public class BeersLawSolution {
         return color;
     }
 
+    /*
+     * This solution corresponds to a popular powdered drink mix whose name is a registered trademark.
+     * It's a bit tricky because the molar absorptivity is for Red 40, but the concentration range is for sugar.
+     * So we need to specify a "molar conversion factor" to adjust its concentration when computing
+     * absorbance (A) and transmittance (T).
+     */
     public static class DrinkMixSolution extends BeersLawSolution {
         public DrinkMixSolution() {
             super( Strings.DRINK_MIX, BLLSymbols.DRINK_MIX,
                    new DoubleRange( 0, 0.400 ), -3,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ), Color.RED,
-                   511, 1270.18 );
+                   511, 1270.18, 0.000003999268 );
         }
 
         // This solution's solute doesn't have a formula, so use just its name.

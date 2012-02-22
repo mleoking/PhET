@@ -1,3 +1,5 @@
+2/22/12 make beam unpickable so that we can grab detector probe through beam
+2/22/12 add molar conversion factor to model
 2/22/12 revert %T model: %T = 100 * 10^(-A)
 2/22/12 change %T model: %T = 100 * e^(-A)
 2/22/12 fix snapping of cuvette width to nearest 0.1cm
