@@ -73,21 +73,21 @@ public class BeersLawModel implements Resettable {
         //TODO this is too complicated
         // absorbance model: A=abC
         {
-            // a: molar absorptivity
+            // a: molar absorptivity, units=1/(cm*M)
             this.molarAbsorptivity = new CompositeProperty<Double>( new Function0<Double>() {
                 public Double apply() {
                     return solution.get().molarAbsorptionMax;
                 }
             }, solution );
 
-            // b: path length, synonymous with cuvette width
+            // b: path length, synonymous with cuvette width, units=cm
             this.pathLength = new CompositeProperty<Double>( new Function0<Double>() {
                 public Double apply() {
                     return cuvette.width.get();
                 }
             }, cuvette.width );
 
-            // C: concentration
+            // C: concentration, units=M
             {
                 this.concentration = new Property<Double>( solution.get().concentration.get() );
 
@@ -119,14 +119,12 @@ public class BeersLawModel implements Resettable {
             }, molarAbsorptivity, pathLength, concentration );
         }
 
-        // percent transmittance model: A = 2 - log10 %T TODO change this to "%T=..." formula
-        {
-            percentTransmittance = new CompositeProperty<Double>( new Function0<Double>() {
-                public Double apply() {
-                    return 0d; //TODO compute
-                }
-            }, absorbance );
-        }
+        // percent transmittance model: %T = 10^(2-A)
+        percentTransmittance = new CompositeProperty<Double>( new Function0<Double>() {
+            public Double apply() {
+                return Math.pow( 10, 2 - absorbance.get() );
+            }
+        }, absorbance );
 
         //TODO compute drag bounds to match the stage size
         this.detector = new ATDetector( new ImmutableVector2D( 6, 3.75 ), new PBounds( 0, 0, 7.9, 5.25 ),
