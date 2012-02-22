@@ -9,6 +9,7 @@ CONCENTRATION 1.00 prep
 - screenshot
 
 HIGH
+- bug: cuvette width snapping doesn't work correctly, and results in width > 2cm
 - collision detection for probe, don't allow dragging into cuvette
 - should there be a model of light beam? view only right now
 - show vertical diameter line in detector, for debugging
