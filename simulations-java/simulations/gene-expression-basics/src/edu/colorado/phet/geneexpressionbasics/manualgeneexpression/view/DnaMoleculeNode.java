@@ -25,7 +25,6 @@ public class DnaMoleculeNode extends PNode {
 
     public static Color STRAND_1_COLOR = new Color( 31, 163, 223 );
     public static Color STRAND_2_COLOR = new Color( 214, 87, 107 );
-    public static Stroke STRAND_STROKE = new BasicStroke( 3 );
 
     // Layer where the gene nodes are placed.
     private PNode geneBackgroundLayer = new PNode();
@@ -40,8 +39,9 @@ public class DnaMoleculeNode extends PNode {
      *
      * @param dnaMolecule
      * @param mvt
+     * @param showGeneBracketLabels
      */
-    public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt ) {
+    public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt, float backboneStrokeWidth, boolean showGeneBracketLabels ) {
 
         // Add the layers onto which the various nodes that represent parts of
         // the dna, the hints, etc. are placed.
@@ -50,17 +50,17 @@ public class DnaMoleculeNode extends PNode {
         addChild( basePairLayer );
         addChild( dnaStrandFrontLayer );
 
-        // Put the genes backgrounds and labels behind everything.
+        // Put the gene backgrounds and labels behind everything.
         for ( Gene gene : dnaMolecule.getGenes() ) {
-            geneBackgroundLayer.addChild( new GeneNode( mvt, gene, dnaMolecule ) );
+            geneBackgroundLayer.addChild( new GeneNode( mvt, gene, dnaMolecule, showGeneBracketLabels ) );
         }
         // Add the first strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand1Segments() ) {
-            addStrand( mvt, dnaStrandSegment, STRAND_1_COLOR );
+            addStrand( mvt, dnaStrandSegment, new BasicStroke( backboneStrokeWidth ), STRAND_1_COLOR );
         }
         // Add the other strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2Segments() ) {
-            addStrand( mvt, dnaStrandSegment, STRAND_2_COLOR );
+            addStrand( mvt, dnaStrandSegment, new BasicStroke( backboneStrokeWidth ), STRAND_2_COLOR );
         }
         // Add the base pairs.
         for ( BasePair basePair : dnaMolecule.getBasePairs() ) {
@@ -68,8 +68,8 @@ public class DnaMoleculeNode extends PNode {
         }
     }
 
-    private void addStrand( ModelViewTransform mvt, DnaStrandSegment dnaStrandSegment, Color color ) {
-        PNode segmentNode = new DnaStrandSegmentNode( dnaStrandSegment, mvt, color );
+    private void addStrand( ModelViewTransform mvt, DnaStrandSegment dnaStrandSegment, Stroke strandSegmentStroke, Color color ) {
+        PNode segmentNode = new DnaStrandSegmentNode( dnaStrandSegment, mvt, strandSegmentStroke, color );
         if ( dnaStrandSegment.inFront ) {
             dnaStrandFrontLayer.addChild( segmentNode );
         }
@@ -79,8 +79,8 @@ public class DnaMoleculeNode extends PNode {
     }
 
     private class DnaStrandSegmentNode extends PNode {
-        private DnaStrandSegmentNode( final DnaStrandSegment dnaStrandSegment, final ModelViewTransform mvt, Color color ) {
-            final PPath pathNode = new PhetPPath( STRAND_STROKE, color );
+        private DnaStrandSegmentNode( final DnaStrandSegment dnaStrandSegment, final ModelViewTransform mvt, Stroke strandSegmentStroke, Color color ) {
+            final PPath pathNode = new PhetPPath( strandSegmentStroke, color );
             addChild( pathNode );
             dnaStrandSegment.addShapeChangeObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {

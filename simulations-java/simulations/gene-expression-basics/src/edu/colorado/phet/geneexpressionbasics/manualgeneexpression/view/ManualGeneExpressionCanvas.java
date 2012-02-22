@@ -182,7 +182,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                                                               2 ) );
 
         // Add the representation of the DNA strand.
-        final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
+        final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt, 3, true );
         dnaLayer.addChild( dnaMoleculeNode );
 
         // Add the placement hints that go on the DNA molecule.  These exist on
@@ -417,7 +417,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             modelRootNode.addChild( motionBoundsIndicator );
             model.activeGene.addObserver( new VoidFunction1<Gene>() {
                 public void apply( Gene gene ) {
-                    motionBoundsIndicator.setPathTo( mvt.modelToView( model.getBoundsForActiveGene().getBounds() ) );
+                    motionBoundsIndicator.setPathTo( mvt.modelToView( model.getBoundsForActiveGene( true ).getBounds() ) );
                 }
             } );
         }
