@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.view.dilutions;
+package edu.colorado.phet.fractionsintro.intro.view.beaker;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
