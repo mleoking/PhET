@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Line2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
@@ -149,11 +150,15 @@ class ATDetectorNode extends PhetPNode {
             addChild( imageNode );
             imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth()/2, -PROBE_CENTER_Y_OFFSET );
 
-            //TODO show the shape of the sensor region, detector.probeDiameter
-            // show origin, for debugging PROBE_CENTER_OFFSET
+            // show origin and vertical "diameter" line, for debugging PROBE_CENTER_OFFSET
             PNode originNode = new DebugOriginNode();
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( originNode );
+                addChild( new PPath() {{
+                    setStrokePaint( Color.RED );
+                    double viewDiameter = mvt.modelToViewY( detector.probeDiameter );
+                    setPathTo( new Line2D.Double( 0, -viewDiameter / 2, 0, viewDiameter / 2 ) );
+                }} );
             }
 
             // probe location
