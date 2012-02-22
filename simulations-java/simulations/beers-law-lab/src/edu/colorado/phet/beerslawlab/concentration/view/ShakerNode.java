@@ -3,14 +3,12 @@ package edu.colorado.phet.beerslawlab.concentration.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.concentration.model.Shaker;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -20,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Shaker that contains a solute in solid form.
@@ -56,7 +53,6 @@ class ShakerNode extends PhetPNode {
         // debugging for origin and holes
         if ( SHOW_ORIGIN ) {
             addChild( new DebugOriginNode() );
-            addHoleNodes( shaker.getRelativeHoleLocations() );
         }
 
         // Change the label when the solute changes.
@@ -84,26 +80,5 @@ class ShakerNode extends PhetPNode {
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new MovableDragHandler( UserComponents.shaker, shaker, this ) );
-    }
-
-    private void addHoleNodes( ImmutableVector2D[] holeLocations ) {
-        for ( ImmutableVector2D location : holeLocations ) {
-            PNode holeNode = new HoleNode();
-            holeNode.setOffset( location.toPoint2D() );
-            addChild( holeNode );
-        }
-    }
-
-    private static class HoleNode extends PPath {
-
-        private static final double DIAMETER = 4;
-
-        public HoleNode() {
-            setPickable( false );
-            setChildrenPickable( false );
-            setPathTo( new Ellipse2D.Double( -( DIAMETER / 2 ), -( DIAMETER ) / 2, DIAMETER, DIAMETER ) );
-            setStroke( null );
-            setPaint( Color.GREEN );
-        }
     }
 }
