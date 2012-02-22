@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Detector for absorbance (A) and transmittance (T).
+ * Detector for absorbance (A) and percent transmittance (%T).
  * If place in the path of the beam between the light and cuvette, measures 0 absorbance and 100% transmittance.
  * Inside the cuvette, there is no measurement.
  *
