@@ -71,7 +71,7 @@ public class BeersLawModel implements Resettable {
         this.cuvette = new Cuvette( new ImmutableVector2D( light.location.getX() + 1.5, 1.25 ), 1.0, 2.75, new DoubleRange( 0.5, 2.0 ) );
 
         //TODO this is too complicated
-        // absorbance model: A=abC
+        // absorbance model: A=abCf
         {
             // a: molar absorptivity, units=1/(cm*M)
             this.molarAbsorptivity = new CompositeProperty<Double>( new Function0<Double>() {
@@ -114,7 +114,7 @@ public class BeersLawModel implements Resettable {
             // A=abC
             this.absorbance = new CompositeProperty<Double>( new Function0<Double>() {
                 public Double apply() {
-                    return molarAbsorptivity.get() * pathLength.get() * concentration.get();
+                    return molarAbsorptivity.get() * pathLength.get() * concentration.get() * solution.get().molarConversionFactor;
                 }
             }, molarAbsorptivity, pathLength, concentration );
         }
