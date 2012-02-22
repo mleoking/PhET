@@ -13,11 +13,10 @@ CONCENTRATION 1.00 prep
 
 HIGH
 - collision detection for probe, don't allow dragging into cuvette
-- derive absorbance and %transmission in BeersLawSolution
 - should there be a model of light beam? view only right now
 - show vertical diameter line in detector, for debugging
-- detector only reads value hen entire beam is fully hitting detector
-- show value in detector
+- make detector aware of whether it's in beam, and which part of the beam it's in
+- detector only reads value when entire beam is fully hitting detector
 - use gradient with modulated alpha for portion of the beam that passes through solution
 - color of photons doesn't change, created a believable algorithm for how they are absorbed as they pass through solution
 
