@@ -22,12 +22,16 @@ class RemoveSoluteButtonNode extends TextButtonNode {
 
     public RemoveSoluteButtonNode( final ConcentrationSolution solution, final ShakerParticles shakerParticles ) {
         super( Strings.REMOVE_SOLUTE, new PhetFont( BLLConstants.CONTROL_FONT_SIZE ), Color.ORANGE );
+
+        // remove all solute when the button is pressed
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 solution.soluteAmount.set( 0d );
                 shakerParticles.removeAllParticles();
             }
         } );
+
+        // disable the button when the solution contains no solute
         solution.soluteAmount.addObserver( new VoidFunction1<Double>() {
             public void apply( Double soluteAmount ) {
                 setEnabled( soluteAmount > 0 );

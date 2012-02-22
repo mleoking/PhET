@@ -7,7 +7,6 @@ DESIGN
 
 CONCENTRATION 1.00 prep
 - screenshot
-- internal doc
 
 HIGH
 - collision detection for probe, don't allow dragging into cuvette

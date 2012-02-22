@@ -15,6 +15,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Indicator that the solution is saturated.
+ * This consists of "Saturated!" on a translucent background.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

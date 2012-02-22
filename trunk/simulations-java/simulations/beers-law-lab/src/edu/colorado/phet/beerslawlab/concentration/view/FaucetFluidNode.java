@@ -15,9 +15,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class OutputFluidNode extends PPath {
+class FaucetFluidNode extends PPath {
 
-    public OutputFluidNode( final Faucet faucet, final IFluid fluid, final double maxWidth, final double height ) {
+    public FaucetFluidNode( final Faucet faucet, final IFluid fluid, final double maxWidth, final double height ) {
         setPickable( false );
         setChildrenPickable( false );
 
