@@ -26,8 +26,10 @@ public abstract class GeneExpressionModel {
      * appropriate notifications.
      *
      * @param mobileBiomolecule
+     * @param interactsWithDna - True if this molecule interacts directly with
+     * the DNA strand.
      */
-    public abstract void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule );
+    public abstract void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule, boolean interactsWithDna );
 
     /**
      * Add the specified messenger RNA strand to the model.  The model must
