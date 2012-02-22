@@ -1,3 +1,4 @@
+2/21/12 create implementation-notes.txt and add notes for Concentration tab
 2/21/12 create model.txt and write description for Concentration tab
 2/21/12 first pass at %T model (but something isn't right)
 2/21/12 wire up %T property (value not correctly computed yet)

@@ -1,0 +1,26 @@
+This project uses Property<T> throughout the model and view for storage of properties and notification of changes.
+
+In the Concentration module, spatial units (distance, size, location) have no relevance to the model,
+so there is no model-view transform. The model uses the view coordinate frame, where positive x is to
+the right, and positive y is down.
+
+In the Beer's Law module, spatial units are relevant, and are in centimeters. In this module we do have
+a model-view transform, defined in BeersLawModel. The transform performs scaling only. The orientation
+of the axes is the same in model and view coordinate frames; positive x is to the right, positive y is down.
+
+For the purposes of view layout, the origin of view components is generally described in each component's javadoc.
+If the origin isn't documented, you can assume the Piccolo default (upper-left).
+
+I find that I frequently need to change the rendering order and layout of nodes and canvases.
+To make this easier, node and canvas constructors typically have this structure:
+
+    public MyNode(...) {
+
+        // instantiate nodes
+
+        // set rendering order (addChild)
+
+        // do layout (setOffset)
+
+        // register property observers
+    }
