@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
-import edu.colorado.phet.fractionsintro.intro.view.PieSetNode;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 
 /**
  * Main class for creating and testing out the immutable PieSetState and PieSetNode
