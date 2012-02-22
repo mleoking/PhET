@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.*;
+import java.awt.geom.Point2D.Double;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -102,7 +104,8 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         }
 
         // Add the nodes that control the transcription factor parameters.
-        controlsRootNode.addChild( new TranscriptionFactorControlPanel ( model, mvt, true ));
+        ModelViewTransform tfControlPanelMvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0  ), new Point2D.Double( 0, 0 ), 0.1 );
+        controlsRootNode.addChild( new TranscriptionFactorControlPanel ( model, tfControlPanelMvt, true ));
 
 
         // Add any initial molecules.
