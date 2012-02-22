@@ -66,8 +66,8 @@ class ATDetectorNode extends PhetPNode {
         private static final double BUTTONS_Y_OFFSET = 7;  // specific to image files
         private static final double VALUE_X_MARGIN = 30; // specific to image files
         private static final double VALUE_Y_OFFSET = 67; // specific to image files
-        private static final DecimalFormat ABSORBANCE_FORMAT = new DecimalFormat( "0.000" );
-        private static final DecimalFormat TRANSMITTANCE_FORMAT = new DecimalFormat( "0.000" );
+        private static final DecimalFormat ABSORBANCE_FORMAT = new DecimalFormat( "0.00" );
+        private static final DecimalFormat TRANSMITTANCE_FORMAT = new DecimalFormat( "0.00" );
         private static final String NO_VALUE = "-";
 
         public BodyNode( final ATDetector detector, final ModelViewTransform mvt ) {
