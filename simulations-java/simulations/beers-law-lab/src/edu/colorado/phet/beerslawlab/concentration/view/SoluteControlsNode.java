@@ -19,8 +19,20 @@ class SoluteControlsNode extends ControlPanelNode {
 
     private PBounds contentBounds;
 
-    public SoluteControlsNode( ArrayList<Solute> solutes, Property<Solute> currentSolute, Property<SoluteForm> soluteForm ) {
-        super( new LayoutNode( solutes, currentSolute, soluteForm ) );
+    public SoluteControlsNode( final ArrayList<Solute> solutes, final Property<Solute> currentSolute, final Property<SoluteForm> soluteForm ) {
+        super( new PNode() {{
+            // nodes
+            SoluteChoiceNode soluteChoiceNode = new SoluteChoiceNode( solutes, currentSolute );
+            SoluteFormChoiceNode soluteFormChoiceNode = new SoluteFormChoiceNode( soluteForm );
+
+            // rendering order: combo box on top, because it has a popup
+            this.addChild( soluteFormChoiceNode );
+            this.addChild( soluteChoiceNode );
+
+            // layout: below solute choice, left justified
+            soluteFormChoiceNode.setOffset( soluteChoiceNode.getFullBoundsReference().getMinX(),
+                                            soluteChoiceNode.getFullBoundsReference().getMaxY() + 10 );
+        }} );
     }
 
     /*
@@ -33,27 +45,5 @@ class SoluteControlsNode extends ControlPanelNode {
             contentBounds = content.getFullBounds();
         }
         return contentBounds;
-    }
-
-    private static class LayoutNode extends PNode {
-        public LayoutNode( ArrayList<Solute> solutes, Property<Solute> currentSolute, Property<SoluteForm> soluteForm ) {
-
-            // nodes
-            SoluteChoiceNode soluteChoiceNode = new SoluteChoiceNode( solutes, currentSolute );
-            SoluteFormChoiceNode soluteFormChoiceNode = new SoluteFormChoiceNode( soluteForm );
-
-            // rendering order: combo box on top, because it has a popup
-            {
-                addChild( soluteFormChoiceNode );
-                addChild( soluteChoiceNode );
-            }
-
-            // layout
-            {
-                // below solute choice, left justified
-                soluteFormChoiceNode.setOffset( soluteChoiceNode.getFullBoundsReference().getMinX(),
-                                                soluteChoiceNode.getFullBoundsReference().getMaxY() + 10 );
-            }
-        }
     }
 }

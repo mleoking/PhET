@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * A momentary button is "on" while pressed.
+ * A momentary button is "on" while pressed, "off" when released.
  * Origin is at the center of the button.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

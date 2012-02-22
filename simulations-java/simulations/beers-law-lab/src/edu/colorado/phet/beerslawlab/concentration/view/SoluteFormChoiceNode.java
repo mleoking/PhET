@@ -30,6 +30,7 @@ class SoluteFormChoiceNode extends PhetPNode {
 
     public SoluteFormChoiceNode( final Property<SoluteForm> soluteForm ) {
 
+        // "Solid" radio button and icon
         final JPanel solidPanel = new JPanel() {{
             add( new PropertyRadioButton<SoluteForm>( Strings.SOLID, soluteForm, SoluteForm.SOLID ) {{
                 setFont( FONT );
@@ -38,6 +39,7 @@ class SoluteFormChoiceNode extends PhetPNode {
             add( new PropertyIcon<SoluteForm>( UserComponents.shakerIcon, new ImageIcon( Images.SHAKER_ICON ), soluteForm, SoluteForm.SOLID ) );
         }};
 
+        // "Solution" radio button and icon
         final JPanel solutionPanel = new JPanel() {{
             add( new PropertyRadioButton<SoluteForm>( Strings.SOLUTION, soluteForm, SoluteForm.STOCK_SOLUTION ) {{
                 setFont( FONT );

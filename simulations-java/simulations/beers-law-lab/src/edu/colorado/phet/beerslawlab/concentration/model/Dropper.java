@@ -21,7 +21,7 @@ public class Dropper extends Movable {
     public final Property<Boolean> on; // true if the dropper is dispensing solution
     public final Property<Boolean> enabled;
     public final Property<Boolean> empty;
-    public final CompositeProperty<Double> flowRate;
+    public final CompositeProperty<Double> flowRate; // L/sec
 
     public Dropper( ImmutableVector2D location, PBounds dragBounds, Property<Solute> solute, final double maxFlowRate ) {
         super( location, dragBounds );

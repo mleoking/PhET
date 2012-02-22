@@ -22,6 +22,7 @@ public class Evaporator implements Resettable {
         this.evaporationRate = new Property<Double>( 0d );
         this.enabled = new Property<Boolean>( true );
 
+        // disable when the volume gets to zero
         solution.volume.addObserver( new SimpleObserver() {
             public void update() {
                 enabled.set( solution.volume.get() > 0 );

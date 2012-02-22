@@ -101,6 +101,7 @@ class ConcentrationMeterNode extends PhetPNode {
         stockSolutionNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, boundsListener );
     }
 
+    // Update the value based on what solution (if any) the probe intersects.
     private void updateValue() {
         if ( probeNode.isInSolution() ) {
             meter.setValue( solution.concentration.get() );

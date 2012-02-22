@@ -14,8 +14,8 @@ public class Faucet implements Resettable {
 
     private final ImmutableVector2D location; // center of output pipe
     private final double inputPipeLength;
-    private final double maxFlowRate;
-    public final Property<Double> flowRate;
+    private final double maxFlowRate; // L/sec
+    public final Property<Double> flowRate; // L/sec
     public final Property<Boolean> enabled;
 
     public Faucet( ImmutableVector2D location, double inputPipeLength, double maxFlowRate ) {

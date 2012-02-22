@@ -54,6 +54,7 @@ public class Precipitate {
         listeners.add( listener );
     }
 
+    // Adds/removes particles to match the model
     private void updateParticles() {
         int numberOfParticles = solution.getNumberOfPrecipitateParticles();
         if ( numberOfParticles == 0 ) {

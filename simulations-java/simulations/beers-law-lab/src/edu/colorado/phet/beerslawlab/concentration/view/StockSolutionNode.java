@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Stock solution coming out of dropper.
+ * Stock solution coming out of the dropper.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -54,6 +54,7 @@ class StockSolutionNode extends PPath {
             }
         } );
 
+        // hide this node when the dropper is invisible
         dropper.visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );

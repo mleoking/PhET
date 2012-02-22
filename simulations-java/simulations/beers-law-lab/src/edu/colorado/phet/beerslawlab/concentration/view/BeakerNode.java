@@ -122,6 +122,7 @@ class BeakerNode extends PComposite {
                 tickNode.setStrokePaint( TICK_COLOR );
                 ticksNode.addChild( tickNode );
 
+                // major tick label
                 int labelIndex = ( i / MINOR_TICKS_PER_MAJOR_TICK ) - 1;
                 if ( labelIndex < MAJOR_TICK_LABELS.length && MAJOR_TICK_LABELS[labelIndex] != null ) {
                     String label = MessageFormat.format( Strings.PATTERN_0VALUE_1UNITS, MAJOR_TICK_LABELS[labelIndex], Strings.UNITS_LITERS );
