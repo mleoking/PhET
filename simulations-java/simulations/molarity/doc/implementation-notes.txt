@@ -1,10 +1,5 @@
 Implementation notes for Molarity sim
 
-Package structure was motivated by the fact that this sim was originally a "Dilutions" sim with multiple tabs.
-Stuff under the "common" subpackage was used by all modules; stuff under the "molarity" subpackage was specific to the Molarity tab.
-All tabs except Molarity were ultimately dropped, making the package organization somewhat obsolete.
-While I did prune code specific to abandoned tabs, I didn't think that reorganizing the package structure was a good use of time.
-
 This sim uses Property<T> throughout the model and view for storage of properties and notification of changes.
 
 Since spatial units (distance, size, location) have no relevance to the model, there is no model-view transform.
