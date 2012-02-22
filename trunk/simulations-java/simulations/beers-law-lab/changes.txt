@@ -1,9 +1,10 @@
+2/22/12 change %T model: T = e^(-A)
 2/22/12 fix snapping of cuvette width to nearest 0.1cm
 2/22/12 change detector to 2 decimal places, to match data in spreadsheet
 2/22/12 change to vertical layout of "Light View" radio buttons, so there's more room to move the detector probe between the light and cuvette
 2/22/12 make AT detector show "-" when light is off
 2/22/12 check in JC's latest spreadsheet
-2/22/12 fix %T model
+2/22/12 change %T model: T = 10^(-A)
 2/21/12 add "%" after %T value in AT detector
 2/21/12 move duplicate code for particle nodes into a base class
 2/21/12 doc and minor tweaks for potential code review of Concentration sim
