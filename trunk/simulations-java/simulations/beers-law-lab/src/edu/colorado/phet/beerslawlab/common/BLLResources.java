@@ -30,7 +30,6 @@ public class BLLResources {
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
-        public static final String NONE_PURE_WATER = RESOURCES.getLocalizedString( "nonePureWater" );
         public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
         public static final String PATTERN_0VALUE_1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
         public static final String PATTERN_PARENTHESES_0TEXT = RESOURCES.getLocalizedString( "pattern.parentheses.0text" );

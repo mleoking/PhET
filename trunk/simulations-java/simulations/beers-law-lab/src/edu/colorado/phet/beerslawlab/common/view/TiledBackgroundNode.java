@@ -36,7 +36,7 @@ public class TiledBackgroundNode extends PImage {
         }
         double tiledWidth = totalWidth - leftWidth - rightWidth;
 
-        // parent all node to this node, which will later be converted to an image
+        // parent all nodes to this node, which will later be converted to an image
         PNode parentNode = new PNode();
 
         // left

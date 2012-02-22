@@ -8,6 +8,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * A movable model element.
+ * Units are determined by usage.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
