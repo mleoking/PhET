@@ -7,6 +7,8 @@ DESIGN
 
 CONCENTRATION 1.00 prep
 - screenshot
+- #3242, make combo box popup appear on top of everything in the scenegraph
+- #3199, bigger slider thumb on FaucetNode
 
 HIGH
 - bug: cuvette width snapping doesn't work correctly, and results in width > 2cm
@@ -22,7 +24,6 @@ MEDIUM
 - meter and detector body images don't have transparent backgrounds (at rounded corners)
 - increase space for radio buttons in AT detector images
 - use CompositeProperty for Shaker.dispensingRate?
-- #3242, make combo box popup appear on top of everything in the scenegraph
 - add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
 - shaker shouldn't dispense more than the max amount of solute
 
@@ -30,7 +31,6 @@ LOW
 - switching from dropper to shaker causes 1 particle of solute to be created (cannot reproduce)
 - shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
 - dropper flickers/tears excessively while dragging
-- #3199, bigger slider thumb on FaucetNode
 - ruler can get lost behind solution control panel, move it to front layer when combo box #3242 is fixed
 - Toolbox in Beer's tab?
 
