@@ -1,0 +1,26 @@
+Concentration tab:
+
+Concentration of a solution is:
+
+   M = min( (saturatedConcentration (M), ( (amountOfSolute (moles)) / (volumeOfSolution (L)) ))
+
+When a solution is saturated, the amount of precipitate is:
+
+   precipitate (moles) = ( (amountOfSolute (moles)) / (volumeOfSolution(L)) ) - (saturatedConcentration (M))
+
+The number of precipitate particles shown in the beaker is:
+
+   numberOfParticles = (precipitate (moles)) * particlesPerMole
+
+where particlesPerMole is specified for each solute.
+
+The solvent is pure water. Solvent can be added to the solution using the faucet in
+the upper-left corner of the play area.  Solvent can be removed from the solution using
+the Evaporation control.
+
+Solute can be added via either the shaker or dropper. The dropper contains a stock solution,
+so it adds both solute and solvent. You can measure the concentration of the stock using
+the Concentration meter.  Pressing the "Remove Solute" button removes all solute from
+the solution.
+
+For additional details, consult the class files in package edu.colorado.phet

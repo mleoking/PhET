@@ -6,7 +6,6 @@ DEADLINES
 DESIGN
 
 CONCENTRATION 1.00 prep
-- model.txt
 - implementation-notes.txt
 - screenshot
 - internal doc
@@ -18,7 +17,7 @@ HIGH
 - make detector aware of whether it's in beam, and which part of the beam it's in
 - detector only reads value when entire beam is fully hitting detector
 - use gradient with modulated alpha for portion of the beam that passes through solution
-- color of photons doesn't change, created a believable algorithm for how they are absorbed as they pass through solution
+- color of photons doesn't change, create a believable algorithm for how they are absorbed as they pass through solution
 
 MEDIUM
 - meter and detector body images don't have transparent backgrounds (at rounded corners)
