@@ -102,6 +102,33 @@ public class OptionsPanel extends PNode {
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
         }};
         addChild( temperatureMode );
+        final PSwing combinedMode = new PSwing( new JRadioButton( "Combined View" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setSelected( true );
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            colorMode.set( ColorMode.COMBINED );
+                        }
+                    } );
+                }
+            } );
+            colorMode.addObserver( new SimpleObserver() {
+                public void update() {
+                    final boolean set = colorMode.get() == ColorMode.COMBINED;
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            setSelected( set );
+                        }
+                    } );
+                }
+            } );
+        }} ) {{
+            setOffset( 0, y.get() );
+            y.set( getFullBounds().getMaxY() );
+            maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
+        }};
+        addChild( combinedMode );
 
         final PSwing showLabelCheckBox = new PSwing( new JCheckBox( Strings.SHOW_LABELS ) {{
             setSelected( showLabels.get() );

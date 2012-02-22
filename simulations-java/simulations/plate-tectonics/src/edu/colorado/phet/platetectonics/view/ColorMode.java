@@ -2,6 +2,7 @@
 package edu.colorado.phet.platetectonics.view;
 
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
+import edu.colorado.phet.platetectonics.view.materials.CombinedMaterial;
 import edu.colorado.phet.platetectonics.view.materials.DensityMaterial;
 import edu.colorado.phet.platetectonics.view.materials.EarthMaterial;
 import edu.colorado.phet.platetectonics.view.materials.TemperatureMaterial;
@@ -11,7 +12,8 @@ import edu.colorado.phet.platetectonics.view.materials.TemperatureMaterial;
  */
 public enum ColorMode {
     DENSITY( new DensityMaterial(), Strings.LESS_DENSE, Strings.MORE_DENSE ),
-    TEMPERATURE( new TemperatureMaterial(), Strings.COOL, Strings.WARM );
+    TEMPERATURE( new TemperatureMaterial(), Strings.COOL, Strings.WARM ),
+    COMBINED( new CombinedMaterial(), "Testing", "Testing" );
 
     private final EarthMaterial material;
     private final String minString;
