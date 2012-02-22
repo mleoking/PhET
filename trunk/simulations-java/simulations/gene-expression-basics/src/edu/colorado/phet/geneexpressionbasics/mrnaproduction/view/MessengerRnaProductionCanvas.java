@@ -68,8 +68,8 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.70 ) ),
-                0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.75 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.4 ) ),
+                0.25 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
         setBackground( new Color( 171, 202, 217 ) );
@@ -149,48 +149,11 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
             }
         } );
 
-        // Add buttons for moving to next and previous genes.
-        // TODO: i18n
-        final HTMLImageButtonNode nextGeneButton = new HTMLImageButtonNode( "Next Gene", GRAY_ARROW ) {{
-            setTextPosition( TextPosition.LEFT );
-            setFont( new PhetFont( 20 ) );
-            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 90 );
-            setBackground( Color.GREEN );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.nextGene();
-                }
-            } );
-            model.isLastGeneActive.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean lastGeneActive ) {
-                    setEnabled( !lastGeneActive );
-                }
-            } );
-        }};
-        controlsRootNode.addChild( nextGeneButton );
-        // TODO: i18n
-        final HTMLImageButtonNode previousGeneButton = new HTMLImageButtonNode( "Previous Gene", flipX( GRAY_ARROW ) ) {{
-            setTextPosition( TextPosition.RIGHT );
-            setFont( new PhetFont( 20 ) );
-            setOffset( 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 90 );
-            setBackground( Color.GREEN );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.previousGene();
-                }
-            } );
-            model.isFirstGeneActive.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean firstGeneActive ) {
-                    setEnabled( !firstGeneActive );
-                }
-            } );
-        }};
-        controlsRootNode.addChild( previousGeneButton );
-
         // Add the Reset All button.
         controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
-            centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
+            centerFullBoundsOnPoint( STAGE_SIZE.getWidth() - getFullBoundsReference().getWidth() - INSET,
+                                     STAGE_SIZE.getHeight() - getFullBoundsReference().getHeight() - INSET );
         }} );
     }
 }
