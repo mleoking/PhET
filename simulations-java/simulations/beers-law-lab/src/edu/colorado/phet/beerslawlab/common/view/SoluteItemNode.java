@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- *  Representation of a Solute item in a combo box.
+ * Representation of a Solute item in a combo box.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

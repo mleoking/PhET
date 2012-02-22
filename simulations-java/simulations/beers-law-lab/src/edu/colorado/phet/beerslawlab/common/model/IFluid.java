@@ -14,5 +14,6 @@ public interface IFluid {
 
     public Color getFluidColor();
 
+    // Notifies when the fluid color changes
     public void addFluidColorObserver( SimpleObserver observer );
 }
