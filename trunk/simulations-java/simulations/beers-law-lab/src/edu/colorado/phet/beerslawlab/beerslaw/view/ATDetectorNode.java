@@ -212,6 +212,7 @@ class ATDetectorNode extends PhetPNode {
     private static class ModeButton extends PSwing {
         public ModeButton( IUserComponent userComponent, String text, Property<ATDetectorMode> mode, ATDetectorMode value ) {
             super( new PropertyRadioButton<ATDetectorMode>( userComponent, text, mode, value ) {{
+                setOpaque( false );
                 setForeground( Color.WHITE );
                 setFont( new PhetFont( Font.BOLD, BLLConstants.CONTROL_FONT_SIZE ) );
             }} );
