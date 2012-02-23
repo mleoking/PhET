@@ -83,32 +83,10 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // suspended.  Start with the 0th gene in the DNA (leftmost).
     public final Property<Gene> activeGene = new Property<Gene>( dnaMolecule.getGenes().get( 0 ) );
 
-    // Properties that keep track of whether the first or last gene is
-    // currently active, which means that the user is viewing it.
-    public final ObservableProperty<Boolean> isFirstGeneActive = activeGene.valueEquals( dnaMolecule.getGenes().get( 0 ) );
-    public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaMolecule.getLastGene() );
-
     // List of areas where biomolecules should not be allowed.  These are
     // generally populated by the view in order to keep biomolecules from
     // wandering over the tool boxes and such.
     private final List<Shape> offLimitsMotionSpaces = new ArrayList<Shape>();
-
-    // Properties that track how many of the various proteins have been collected.
-    public final Property<Integer> proteinACollected = new Property<Integer>( 0 );
-    public final Property<Integer> proteinBCollected = new Property<Integer>( 0 );
-    public final Property<Integer> proteinCCollected = new Property<Integer>( 0 );
-
-    // Map of the protein collection count properties to the protein types,
-    // used to obtain the count property based on the type of protein.
-    private final Map<Class<? extends Protein>, Property<Integer>> mapProteinClassToCollectedCount = new HashMap<Class<? extends Protein>, Property<Integer>>() {{
-        put( ProteinA.class, proteinACollected );
-        put( ProteinB.class, proteinBCollected );
-        put( ProteinC.class, proteinCCollected );
-    }};
-
-    // Rectangle that describes the "protein capture area".  When a protein is
-    // dropped by the user over this area, it is considered to be captured.
-    private final Rectangle2D proteinCaptureArea = new Rectangle2D.Double();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -134,33 +112,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         return dnaMolecule;
     }
 
-    public void previousGene() {
-        switchToGeneRelative( -1 );
-    }
-
-    public void nextGene() {
-        switchToGeneRelative( +1 );
-    }
-
-    public void setProteinCaptureArea( Rectangle2D newCaptureAreaBounds ) {
-        proteinCaptureArea.setFrame( newCaptureAreaBounds );
-    }
-
-    public Property<Integer> getCollectedCounterForProteinType( Class<? extends Protein> proteinType ) {
-        assert mapProteinClassToCollectedCount.containsKey( proteinType );
-        return mapProteinClassToCollectedCount.get( proteinType );
-    }
-
-    private void switchToGeneRelative( int i ) {
-        final ArrayList<Gene> genes = dnaMolecule.getGenes();
-        int index = clamp( 0, genes.indexOf( activeGene.get() ) + i, genes.size() - 1 );
-        activeGene.set( genes.get( index ) );
-    }
-
-    private void activateGene( int i ) {
-        activeGene.set( dnaMolecule.getGenes().get( i ) );
-    }
-
     public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule, boolean interactsWithDna ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
         mobileBiomolecule.setMotionBounds( getBoundsForActiveGene( interactsWithDna ) );
@@ -179,14 +130,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
                     dnaMolecule.deactivateAllHints();
                     for ( MessengerRna messengerRna : messengerRnaList ) {
                         messengerRna.deactivateAllHints();
-                    }
-                    if ( wasUserControlled ) {
-                        // The user dropped this biomolecule.
-                        if ( proteinCaptureArea.contains( mobileBiomolecule.getPosition() ) && mobileBiomolecule instanceof Protein ) {
-                            // The user has dropped this protein in the
-                            // capture area.  So, like, capture it.
-                            captureProtein( (Protein) mobileBiomolecule );
-                        }
                     }
                 }
             }
@@ -236,31 +179,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         return overlappingBiomolecules;
     }
 
-    // Capture the specified protein, which means that it is actually removed
-    // from the model and the associated capture count property is incremented.
-    private void captureProtein( Protein protein ) {
-        if ( protein instanceof ProteinA ) {
-            proteinACollected.set( proteinACollected.get() + 1 );
-        }
-        if ( protein instanceof ProteinB ) {
-            proteinBCollected.set( proteinBCollected.get() + 1 );
-        }
-        if ( protein instanceof ProteinC ) {
-            proteinCCollected.set( proteinCCollected.get() + 1 );
-        }
-        mobileBiomoleculeList.remove( protein );
-    }
-
-    public int getProteinCount( Class<? extends Protein> proteinClass ) {
-        int count = 0;
-        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
-            if ( mobileBiomolecule.getClass() == proteinClass ) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.remove( mobileBiomolecule );
     }
@@ -282,10 +200,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         mobileBiomoleculeList.clear();
         messengerRnaList.clear();
         dnaMolecule.reset();
-        proteinACollected.reset();
-        proteinBCollected.reset();
-        proteinCCollected.reset();
-        activateGene( 0 );
     }
 
     /**
