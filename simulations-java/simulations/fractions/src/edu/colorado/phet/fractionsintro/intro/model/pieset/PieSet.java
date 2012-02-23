@@ -6,6 +6,7 @@ import fj.F2;
 import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.geom.Area;
@@ -168,13 +169,23 @@ import static fj.data.List.range;
         //Cell that should be moved
         //May choose a slice that is on its way to a pie
         final Slice prototype = sliceFactory.createPieCell( pies.length(), cell.container, cell.cell, denominator );
-        final Slice slice = slices.find( new F<Slice, Boolean>() {
+        final Option<Slice> sliceOption = slices.find( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice m ) {
                 return ( m.position.equals( prototype.position ) && m.angle == prototype.angle ) || m.movingToward( prototype );
+            }
+        } );
+
+        final Slice slice = sliceOption.isSome() ? sliceOption.some() : slices.find( new F<Slice, Boolean>() {
+            @Override public Boolean f( Slice _ ) {
+                return _.position.getY() == prototype.position.getY();
             }
         } ).some();
 
         //Could be none if still animating
+        return animateSliceToBucket( slice );
+    }
+
+    public PieSet animateSliceToBucket( final Slice slice ) {
         final Slice target = sliceFactory.createBucketSlice( denominator );
         return slices( slices.map( new F<Slice, Slice>() {
             @Override public Slice f( Slice m ) {

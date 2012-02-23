@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
@@ -238,36 +239,48 @@ public class FractionsIntroModel {
                     return s.maximum;
                 }
             }, new Function2<IntroState, Integer, IntroState>() {
-                @Override public IntroState apply( IntroState s, Integer maximum ) {
+                @Override public IntroState apply( final IntroState s, final Integer maximum ) {
+                    final ContainerSet c = s.containerSet.maximum( maximum );
+                    IntroState newState = s.maximum( maximum ).containerSet( c ).
+                            pieSet( CircularSliceFactory.fromContainerSetState( c ) ).
+                            horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( c ) ).
+                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( c ) ).
+                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( c ) ).
+                            numerator( c.numerator ).
+                            denominator( c.denominator );
+
                     int lastMax = s.maximum;
                     int delta = maximum - lastMax;
 
-                    int numPiecesToEject = s.numerator - maximum;
+                    //Eject any pieces in the pie that will be dropped
+                    int numPiecesToEject = s.containerSet.getContainer( s.containerSet.getContainers().length() - 1 ).getFilledCells().length();
 
                     //Animate pie pieces leaving from pies that are dropped when max decreases
+                    //Do this by creating a new slice in the location of the deleted slice, and animating it to the bucket.
+                    //This is necessary since the location of pies changed when max changed.
                     if ( delta < 0 && numPiecesToEject > 0 ) {
+                        ContainerSet csx = s.containerSet;
                         for ( int i = 0; i < numPiecesToEject; i++ ) {
-                            final CellPointer cp = s.containerSet.getLastFullCell();
+                            final CellPointer cp = csx.getLastFullCell();
 
-                            s = s.updatePieSets( new F<PieSet, PieSet>() {
-                                @Override public PieSet f( PieSet p ) {
-                                    return p.animateSliceToBucket( cp ).pies( p.pies.take( p.pies.length() - 1 ) );
-                                }
-                            } ).numerator( maximum );
+                            //TODO: improve readability
+                            final Slice newPieSlice = CircularSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
+                            newState = newState.pieSet( newState.pieSet.slices( newState.pieSet.slices.cons( newPieSlice ) ).animateSliceToBucket( newPieSlice ) );
+
+                            final Slice newHorizontalSlice = HorizontalSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
+                            newState = newState.horizontalBarSet( newState.horizontalBarSet.slices( newState.horizontalBarSet.slices.cons( newHorizontalSlice ) ).animateSliceToBucket( newHorizontalSlice ) );
+
+                            final Slice newVerticalSlice = VerticalSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
+                            newState = newState.verticalBarSet( newState.verticalBarSet.slices( newState.verticalBarSet.slices.cons( newVerticalSlice ) ).animateSliceToBucket( newVerticalSlice ) );
+
+                            final Slice newWaterSlice = WaterGlassSetFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
+                            newState = newState.waterGlassSet( newState.waterGlassSet.slices( newState.waterGlassSet.slices.cons( newWaterSlice ) ).animateSliceToBucket( newWaterSlice ) );
+
+                            csx = csx.toggle( cp );
+                            System.out.println( "Toggling cp = " + cp );
                         }
-                        s = s.maximum( maximum );
-                        return s;
                     }
-                    else {
-                        final ContainerSet cs = s.containerSet.maximum( maximum );
-                        return s.maximum( maximum ).containerSet( cs ).
-                                pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                                horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
-                                verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
-                                waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) ).
-                                numerator( cs.numerator ).
-                                denominator( cs.denominator );
-                    }
+                    return newState;
                 }
             }
             ).toIntegerProperty();

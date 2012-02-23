@@ -83,6 +83,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
         return pieSet( newPieSet ).
                 horizontalBarSet( f.f( horizontalBarSet ) ).
                 verticalBarSet( f.f( verticalBarSet ) ).
-                waterGlassSet( f.f( waterGlassSet ) ).containerSet( newPieSet.toContainerSet() );
+                waterGlassSet( f.f( waterGlassSet ) ).
+                containerSet( newPieSet.toContainerSet() );
     }
 }

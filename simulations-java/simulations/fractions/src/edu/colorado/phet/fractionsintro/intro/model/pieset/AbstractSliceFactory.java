@@ -55,17 +55,17 @@ public abstract class AbstractSliceFactory {
     }
 
     //Create movable slices (in pies) and also slices in the buckets
-    private List<Slice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSetState ) {
+    private List<Slice> createSlices( final List<Pie> emptyPies, final ContainerSet containerSet ) {
         ArrayList<Slice> all = new ArrayList<Slice>();
-        for ( int i = 0; i < containerSetState.containers.length(); i++ ) {
-            Container c = containerSetState.containers.index( i );
+        for ( int i = 0; i < containerSet.containers.length(); i++ ) {
+            Container c = containerSet.containers.index( i );
             for ( Integer cell : c.filledCells ) {
                 all.add( emptyPies.index( i ).cells.index( cell ) );
             }
         }
 //        final int numSlicesForBucket = containerSetState.getEmptyCells().length();
         final int numSlicesForBucket = 10;
-        return iterableList( all ).append( createSlicesForBucket( containerSetState.denominator, numSlicesForBucket ) );
+        return iterableList( all ).append( createSlicesForBucket( containerSet.denominator, numSlicesForBucket ) );
     }
 
     //Slices to put in the buckets
