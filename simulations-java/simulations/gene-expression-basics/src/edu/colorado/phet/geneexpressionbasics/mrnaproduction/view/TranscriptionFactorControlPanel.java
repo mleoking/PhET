@@ -111,7 +111,7 @@ public class TranscriptionFactorControlPanel extends PNode {
             PNode affinityKey = new HBox(
                     new MobileBiomoleculeNode( mvt, new TranscriptionFactor( new StubGeneExpressionModel(), transcriptionFactorConfig ) ),
                     arrowNode,
-                    new DnaMoleculeNode( new DnaMolecule( new StubGeneExpressionModel(), 10, 0 ), MOLECULE_MVT, 2, false )
+                    new DnaMoleculeNode( new DnaMolecule( new StubGeneExpressionModel(), DnaMolecule.BASE_PAIRS_PER_TWIST + 1, 0 ), MOLECULE_MVT, 2, false )
             );
             affinityKey.setPickable( false );
             affinityKey.setChildrenPickable( false );
