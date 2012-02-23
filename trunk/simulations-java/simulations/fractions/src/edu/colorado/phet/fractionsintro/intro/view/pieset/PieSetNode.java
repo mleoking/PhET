@@ -33,6 +33,8 @@ public class PieSetNode extends PNode {
 
     private final BucketView bucketView;
     private final PNode rootNode;
+
+    //Flag for showing the center of a shape.  This can help debug pie piece rotation.
     private static final boolean debugCenter = false;
 
     public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
