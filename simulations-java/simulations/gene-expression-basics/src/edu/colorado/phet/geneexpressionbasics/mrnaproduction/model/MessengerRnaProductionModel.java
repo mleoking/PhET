@@ -67,7 +67,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaMolecule = new DnaMolecule( this );
+    protected final DnaMolecule dnaMolecule = new DnaMolecule( this, 2000 ); // TODO: Size will be reduced when genes are added individually.
 
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();

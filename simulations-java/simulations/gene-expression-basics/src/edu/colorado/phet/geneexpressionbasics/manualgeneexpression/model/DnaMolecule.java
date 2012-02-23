@@ -45,10 +45,10 @@ public class DnaMolecule {
     private static final int BASE_PAIRS_PER_TWIST = 10; // In picometers.
     public static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
-    private static final int NUMBER_OF_TWISTS = 200;
-    private static final int NUMBER_OF_BASE_PAIRS = BASE_PAIRS_PER_TWIST * NUMBER_OF_TWISTS;
-    public static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
-    private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers.
+//    private static final int NUMBER_OF_TWISTS = 200;
+//    private static final int NUMBER_OF_BASE_PAIRS = BASE_PAIRS_PER_TWIST * NUMBER_OF_TWISTS;
+//    public static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
+    private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers, chosen to work will with the viewport approach.
     private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;  // Make the strand start out of view to the left.
     public static final double Y_POS = 0;
 
@@ -65,15 +65,19 @@ public class DnaMolecule {
     // Reference to the model in which this is contained.
     private final GeneExpressionModel model;
 
+    // Aspects of the DNA strand that are initialized at construction.
+    private final int numBasePairs;
+    private final double moleculeLength;
+    private final double numberOfTwists;
+
     // Points that, when connected, define the shape of the DNA strands.
     private final List<Point2D> strand1Points = new ArrayList<Point2D>();
     private final List<Point2D> strand2Points = new ArrayList<Point2D>();
     private final List<DnaStrandPoint> strandPoints = new ArrayList<DnaStrandPoint>();
 
     // Shadow of the points that define the strand shapes, used for rapid
-    // evaluation of any changes.
+    // evaluation of any shape changes.
     private final List<DnaStrandPoint> strandPointsShadow;
-
 
     // The strands that are portrayed in the view, which consist of lists of shapes.
     private final List<DnaStrandSegment> strand1Segments = new ArrayList<DnaStrandSegment>();
@@ -94,13 +98,22 @@ public class DnaMolecule {
 
     /**
      * Constructor.
+     *
+     * @param model - The gene expression model within which this DNA strand
+     * exists.  Needed for evaluation of biomolecule interaction.
+     * @param numBasePairs - The number of base pairs on the DNA strand.  This
+     * defines the length of the strand.
      */
-    public DnaMolecule( GeneExpressionModel model ) {
+    public DnaMolecule( GeneExpressionModel model, int numBasePairs ) {
         this.model = model;
+        this.numBasePairs = numBasePairs;
+
+        moleculeLength = (double)numBasePairs * DISTANCE_BETWEEN_BASE_PAIRS;
+        numberOfTwists = moleculeLength / LENGTH_PER_TWIST;
 
         // Add the initial set of shape-defining points for each of the two
         // strands.  Points are spaced the same as the base pairs.
-        for ( int i = 0; i < MOLECULE_LENGTH / DISTANCE_BETWEEN_BASE_PAIRS; i++ ) {
+        for ( int i = 0; i < moleculeLength / DISTANCE_BETWEEN_BASE_PAIRS; i++ ) {
             double xPos = LEFT_EDGE_X_POS + i * DISTANCE_BETWEEN_BASE_PAIRS;
             strand1Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, 0 ) ) );
             strand2Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, INTER_STRAND_OFFSET ) ) );
@@ -157,6 +170,10 @@ public class DnaMolecule {
         updateStrandSegments();
     }
 
+    public double getLength(){
+        return moleculeLength;
+    }
+
     /**
      * Get the X position of the specified base pair.  The first base pair at
      * the left side of the DNA molecule is base pair 0, and it goes up from
@@ -184,8 +201,8 @@ public class DnaMolecule {
      * space.
      */
     private int getBasePairIndexFromXOffset( double xOffset ) {
-        assert xOffset >= LEFT_EDGE_X_POS && xOffset < LEFT_EDGE_X_POS + MOLECULE_LENGTH;
-        xOffset = MathUtil.clamp( LEFT_EDGE_X_POS, xOffset, LEFT_EDGE_X_POS + LENGTH_PER_TWIST * NUMBER_OF_TWISTS );
+        assert xOffset >= LEFT_EDGE_X_POS && xOffset < LEFT_EDGE_X_POS + moleculeLength;
+        xOffset = MathUtil.clamp( LEFT_EDGE_X_POS, xOffset, LEFT_EDGE_X_POS + LENGTH_PER_TWIST * numberOfTwists );
         return (int) Math.round( ( xOffset - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / DISTANCE_BETWEEN_BASE_PAIRS );
     }
 
@@ -587,7 +604,7 @@ public class DnaMolecule {
     private IntegerRange getBasePairScanningRange( double xOffsetOnStrand ) {
         int scanningRange = 2; // Pretty arbitrary, can adjust if needed.
         int centerBasePairIndex = getBasePairIndexFromXOffset( xOffsetOnStrand );
-        return new IntegerRange( Math.max( 0, centerBasePairIndex - scanningRange ), Math.min( NUMBER_OF_BASE_PAIRS - 1, centerBasePairIndex + scanningRange ) );
+        return new IntegerRange( Math.max( 0, centerBasePairIndex - scanningRange ), Math.min( numBasePairs - 1, centerBasePairIndex + scanningRange ) );
     }
 
     private Gene getGeneContainingBasePair( int basePairIndex ) {
@@ -623,7 +640,7 @@ public class DnaMolecule {
      * @return Gene at the location, null if no gene exists.
      */
     public Gene getGeneAtLocation( Point2D location ) {
-        boolean isLocationOnMolecule = location.getX() >= LEFT_EDGE_X_POS && location.getX() <= LEFT_EDGE_X_POS + MOLECULE_LENGTH &&
+        boolean isLocationOnMolecule = location.getX() >= LEFT_EDGE_X_POS && location.getX() <= LEFT_EDGE_X_POS + moleculeLength &&
                                        location.getY() >= Y_POS - STRAND_DIAMETER / 2 && location.getY() <= Y_POS + STRAND_DIAMETER / 2;
         assert isLocationOnMolecule; // At the time of this development, this method should never be called when not on the DNA molecule.
         Gene geneAtLocation = null;

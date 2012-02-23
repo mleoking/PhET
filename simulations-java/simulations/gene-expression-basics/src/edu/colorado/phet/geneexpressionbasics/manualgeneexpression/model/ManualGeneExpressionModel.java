@@ -47,13 +47,16 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     private static final double BIOMOLECULE_STAGE_WIDTH = 10000; // In picometers.
     private static final double BIOMOLECULE_STAGE_HEIGHT = 5250; // In picometers.
 
+    // Size of the DNA strand.
+    private static final int NUM_BASE_PAIRS_ON_DNA_STRAND = 2000;
+
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaMolecule = new DnaMolecule( this );
+    protected final DnaMolecule dnaMolecule = new DnaMolecule( this, NUM_BASE_PAIRS_ON_DNA_STRAND );
 
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
