@@ -30,9 +30,9 @@ public class DnaMoleculeNode extends PNode {
     private PNode geneBackgroundLayer = new PNode();
 
     // Layers for supporting the 3D look by allowing the "twist" to be depicted.
-    private PNode dnaStrandBackLayer = new PNode();
+    private PNode dnaBackboneBackLayer = new PNode();
     private PNode basePairLayer = new PNode();
-    private PNode dnaStrandFrontLayer = new PNode();
+    private PNode dnaBackboneFrontLayer = new PNode();
 
     /**
      * Constructor.
@@ -46,19 +46,19 @@ public class DnaMoleculeNode extends PNode {
         // Add the layers onto which the various nodes that represent parts of
         // the dna, the hints, etc. are placed.
         addChild( geneBackgroundLayer );
-        addChild( dnaStrandBackLayer );
+        addChild( dnaBackboneBackLayer );
         addChild( basePairLayer );
-        addChild( dnaStrandFrontLayer );
+        addChild( dnaBackboneFrontLayer );
 
         // Put the gene backgrounds and labels behind everything.
         for ( Gene gene : dnaMolecule.getGenes() ) {
             geneBackgroundLayer.addChild( new GeneNode( mvt, gene, dnaMolecule, showGeneBracketLabels ) );
         }
-        // Add the first strand.
+        // Add the first backbone strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand1Segments() ) {
             addStrand( mvt, dnaStrandSegment, new BasicStroke( backboneStrokeWidth ), STRAND_1_COLOR );
         }
-        // Add the other strand.
+        // Add the other backbone strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2Segments() ) {
             addStrand( mvt, dnaStrandSegment, new BasicStroke( backboneStrokeWidth ), STRAND_2_COLOR );
         }
@@ -71,10 +71,10 @@ public class DnaMoleculeNode extends PNode {
     private void addStrand( ModelViewTransform mvt, DnaStrandSegment dnaStrandSegment, Stroke strandSegmentStroke, Color color ) {
         PNode segmentNode = new DnaStrandSegmentNode( dnaStrandSegment, mvt, strandSegmentStroke, color );
         if ( dnaStrandSegment.inFront ) {
-            dnaStrandFrontLayer.addChild( segmentNode );
+            dnaBackboneFrontLayer.addChild( segmentNode );
         }
         else {
-            dnaStrandBackLayer.addChild( segmentNode );
+            dnaBackboneBackLayer.addChild( segmentNode );
         }
     }
 

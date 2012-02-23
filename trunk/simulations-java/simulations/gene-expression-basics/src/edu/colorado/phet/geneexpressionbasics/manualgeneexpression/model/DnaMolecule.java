@@ -43,7 +43,7 @@ public class DnaMolecule {
     // Constants the define the geometry of the DNA molecule.
     public static final double DIAMETER = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
-    private static final int BASE_PAIRS_PER_TWIST = 10; // In picometers.
+    public static final int BASE_PAIRS_PER_TWIST = 10; // In picometers.
     public static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
     public static final double Y_POS = 0; // Y position of the molecule in model space.
@@ -74,7 +74,9 @@ public class DnaMolecule {
     // evaluation of any shape changes.
     private final List<DnaStrandPoint> strandPointsShadow;
 
-    // The strands that are portrayed in the view, which consist of lists of shapes.
+    // The backbone strands that are portrayed in the view, which consist of
+    // lists of shapes.  This is done so that the shapes can be colored
+    // differently and layered in order to create a "twisted" look.
     private final List<DnaStrandSegment> strand1Segments = new ArrayList<DnaStrandSegment>();
     private final List<DnaStrandSegment> strand2Segments = new ArrayList<DnaStrandSegment>();
 
