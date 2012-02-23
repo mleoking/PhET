@@ -104,7 +104,12 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         }
 
         // Add the nodes that control the transcription factor parameters.
-        controlsRootNode.addChild( new TranscriptionFactorControlPanel ( model, true ));
+        TranscriptionFactorControlPanel positiveTranscriptionFactorControlPanel = new TranscriptionFactorControlPanel( model, true );
+        controlsRootNode.addChild( positiveTranscriptionFactorControlPanel );
+
+        // Lay out the control nodes.
+        positiveTranscriptionFactorControlPanel.setOffset( INSET,
+                                                           STAGE_SIZE.getHeight() - positiveTranscriptionFactorControlPanel.getFullBoundsReference().height - INSET );
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
