@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.mrnaproduction.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -10,9 +11,11 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.DnaMoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.model.MessengerRnaProductionModel;
 import edu.umd.cs.piccolo.PNode;
@@ -32,7 +35,10 @@ public class TranscriptionFactorControlPanel extends PNode {
                                                                                                                                   TRANSCRIPTION_FACTOR_SCALE );
 
     public static final double DNA_SCALE = 0.1;
-    
+    private static final ModelViewTransform DNA_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                                                                                  new Point2D.Double( 0, 0 ),
+                                                                                                                                  DNA_SCALE );
+
     /**
      * Constructor.
      *
@@ -56,11 +62,13 @@ public class TranscriptionFactorControlPanel extends PNode {
             setFont( new PhetFont( 14 ) );
         }};
 
+        PNode transcriptionFactorNode = new MobileBiomoleculeNode( TRANSCRIPTION_FACTOR_MVT, new TranscriptionFactor( transcriptionFactorConfig ) );
+        PNode dnaFragmentNode = new DnaMoleculeNode( new DnaMolecule( DnaMolecule.BASE_PAIRS_PER_TWIST + 1, 0.0 ), DNA_MVT, 2, false );
         PNode contents = new VBox(
                 20,
                 title,
                 new ConcentrationController( transcriptionFactorConfig ),
-                new AffinityController( transcriptionFactorConfig, TRANSCRIPTION_FACTOR_SCALE, DNA_SCALE )
+                new AffinityController( transcriptionFactorNode, dnaFragmentNode, new Property<Double>( 0.0 ) ) // TODO: Need to hook up to actual model.
         );
 
         addChild( new ControlPanelNode( contents ) );
