@@ -20,7 +20,7 @@ import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
  *
  * @author Sam Reid
  */
-public class PieSetView {
+public class TestPieSetNode {
     public static void main( String[] args ) {
 //        PDebug.debugRegionManagement=true;
         SwingUtilities.invokeLater( new Runnable() {
