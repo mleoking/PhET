@@ -91,7 +91,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         } );
 
         // Add gene to DNA molecule.
-        dnaMolecule.addGene( new GeneA( dnaMolecule, NUM_BASE_PAIRS_ON_DNA_STRAND / 2 ) );
+        dnaMolecule.addGene( new GeneA( dnaMolecule, (int)Math.round( NUM_BASE_PAIRS_ON_DNA_STRAND * 0.45 ) ) );
     }
 
     //------------------------------------------------------------------------
