@@ -3,11 +3,15 @@ package edu.colorado.phet.fractionsintro.intro.view.pieset;
 
 import fj.F;
 
+import java.awt.Color;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -21,6 +25,7 @@ public class WaterGlassNodeFactory extends F<SliceNodeArgs, PNode> {
 
     //Fix performance by cashing images to avoid calling the WaterGlassNode constructor too many times
     private static final Hashtable<Pair<Integer, Integer>, BufferedImage> nodes = new Hashtable<Pair<Integer, Integer>, BufferedImage>();
+    private static final boolean debugDragRegion = false;
 
     @Override public PNode f( final SliceNodeArgs args ) {
         final Pair<Integer, Integer> key = new Pair<Integer, Integer>( 1, args.denominator );
@@ -29,9 +34,12 @@ public class WaterGlassNodeFactory extends F<SliceNodeArgs, PNode> {
             nodes.put( key, BufferedImageUtils.toBufferedImage( node.toImage() ) );
         }
 
-        return new PImage( nodes.get( key ) ) {{
-            setOffset( args.slice.shape().getBounds2D().getCenterX() - getFullBounds().getWidth() / 2, args.slice.shape().getBounds2D().getCenterY() - getFullBounds().getHeight() / 2 );
-            setVisible( !args.inContainer );
-        }};
+        int c = debugDragRegion ? 100 : 0;
+        final Point2D offset = new Point2D.Double( args.slice.shape().getBounds2D().getCenterX() - nodes.get( key ).getWidth() / 2, args.slice.shape().getBounds2D().getCenterY() - nodes.get( key ).getHeight() / 2 );
+        PNode node = args.inContainer ? new PhetPPath( new Rectangle2D.Double( 0, 0, nodes.get( key ).getWidth(), nodes.get( key ).getHeight() ), new Color( c, c, c, c ) )
+                                      : new PImage( nodes.get( key ) );
+
+        node.setOffset( offset );
+        return node;
     }
 }
