@@ -7,6 +7,7 @@ import lombok.Data;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CakeSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
@@ -25,57 +26,40 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
     public final PieSet horizontalBarSet;
     public final PieSet verticalBarSet;
     public final PieSet waterGlassSet;
+    public final PieSet cakeSet;
     public final int numerator;
     public final int denominator;
     public final Representation representation;
     public final int maximum;
 
-    public IntroState() {
-        denominator = 1;
-        numerator = 0;
-        containerSet = new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim();
-        showReduced = false;
-        showMixed = false;
-        maximum = 1;
-        pieSet = new PieSet( maximum, CircularSliceFactory );
-        horizontalBarSet = new PieSet( maximum, HorizontalSliceFactory );
-        verticalBarSet = new PieSet( maximum, VerticalSliceFactory );
-        waterGlassSet = new PieSet( maximum, WaterGlassSetFactory );
-        representation = Representation.PIE;
+    public static IntroState IntroState() {
+        int maximum = 1;
+        int denominator = 1;
+        return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim(), false, false,
+                               new PieSet( maximum, CircularSliceFactory ),
+                               new PieSet( maximum, HorizontalSliceFactory ),
+                               new PieSet( maximum, VerticalSliceFactory ),
+                               new PieSet( maximum, WaterGlassSetFactory ),
+                               new PieSet( maximum, CakeSliceFactory ), 0, 1, Representation.PIE, maximum );
     }
 
-    //I'm not sure why Lombok didn't generate this
-    public IntroState( ContainerSet containerSet, boolean showReduced, boolean showMixed, PieSet pieSet, PieSet squareSet, PieSet verticalBarSet, PieSet waterGlassSet, int numerator, int denominator, Representation representation, int maximum ) {
-        this.containerSet = containerSet;
-        this.showReduced = showReduced;
-        this.showMixed = showMixed;
-        this.pieSet = pieSet;
-        this.horizontalBarSet = squareSet;
-        this.verticalBarSet = verticalBarSet;
-        this.waterGlassSet = waterGlassSet;
-        this.numerator = numerator;
-        this.denominator = denominator;
-        this.representation = representation;
-        this.maximum = maximum;
-    }
+    public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
+    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
+    public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
+    public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
+    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
+    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum );}
 
-    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
+    public IntroState verticalBarSet( PieSet verticalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum );}
 
-    public IntroState verticalBarSet( PieSet verticalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
+    public IntroState maximum( int maximum ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum );}
 
-    public IntroState maximum( int maximum ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
-
-    public IntroState waterGlassSet( PieSet waterGlassSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
+    public IntroState waterGlassSet( PieSet waterGlassSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum );}
 
     //Apply an update rule to all of the pie sets, and updates the container set to match
     public IntroState updatePieSets( F<PieSet, PieSet> f ) {

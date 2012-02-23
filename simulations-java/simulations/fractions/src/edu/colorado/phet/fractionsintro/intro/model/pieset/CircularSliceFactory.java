@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 public class CircularSliceFactory extends AbstractSliceFactory {
 
     public static final CircularSliceFactory CircularSliceFactory = new CircularSliceFactory();
+    public static final CircularSliceFactory CakeSliceFactory = new CircularSliceFactory();
 
     public final double diameter = 155;
     public final double radius = diameter / 2;
