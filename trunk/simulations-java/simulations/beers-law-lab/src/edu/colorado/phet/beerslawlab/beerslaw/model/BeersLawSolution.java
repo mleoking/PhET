@@ -9,6 +9,7 @@ import edu.colorado.phet.beerslawlab.common.BLLSymbols;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ColorRange;
@@ -25,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeersLawSolution {
+public class BeersLawSolution implements Resettable {
 
     public final Solvent solvent;
     public final String name;
@@ -62,6 +63,10 @@ public class BeersLawSolution {
                 return createColor( concentration.get(), BeersLawSolution.this.concentrationRange, BeersLawSolution.this.colorRange, solvent );
             }
         }, this.concentration );
+    }
+
+    public void reset() {
+        concentration.reset();
     }
 
     public String getDisplayName() {

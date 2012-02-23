@@ -136,6 +136,9 @@ public class BeersLawModel implements Resettable {
     }
 
     public void reset() {
+        for ( BeersLawSolution solution : solutions ) {
+            solution.reset();
+        }
         solution.reset();
         cuvette.reset();
         detector.reset();
