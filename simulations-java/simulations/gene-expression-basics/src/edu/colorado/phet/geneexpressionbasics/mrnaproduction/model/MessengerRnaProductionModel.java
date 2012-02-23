@@ -5,16 +5,13 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -24,10 +21,6 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMole
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Protein;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinB;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinC;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
 
@@ -67,7 +60,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaMolecule = new DnaMolecule( this, 2000 ); // TODO: Size will be reduced when genes are added individually.
+    protected final DnaMolecule dnaMolecule = new DnaMolecule( this, 2000, -500 * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS ); // TODO: Size will be reduced when genes are added individually.
 
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
@@ -244,7 +237,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
         // The bottom of the bounds depends on whether or not the DNA strand
         // is included.
-        double bottomYPos = includeDnaStrand ? DnaMolecule.Y_POS - DnaMolecule.STRAND_DIAMETER * 3 : DnaMolecule.Y_POS + DnaMolecule.STRAND_DIAMETER / 2;
+        double bottomYPos = includeDnaStrand ? DnaMolecule.Y_POS - DnaMolecule.DIAMETER * 3 : DnaMolecule.Y_POS + DnaMolecule.DIAMETER / 2;
 
         // Get the nominal bounds for this gene.
         Area bounds = new Area( new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
