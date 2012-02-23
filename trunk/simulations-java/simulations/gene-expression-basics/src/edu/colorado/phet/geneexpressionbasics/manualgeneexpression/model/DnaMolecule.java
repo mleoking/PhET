@@ -48,7 +48,7 @@ public class DnaMolecule {
 //    private static final int NUMBER_OF_TWISTS = 200;
 //    private static final int NUMBER_OF_BASE_PAIRS = BASE_PAIRS_PER_TWIST * NUMBER_OF_TWISTS;
 //    public static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
-    private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers, chosen to work well with the viewport approach.
+//    private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers, chosen to work well with the viewport approach.
 //    private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;  // Make the strand start out of view to the left.
     public static final double Y_POS = 0;
 
@@ -148,20 +148,6 @@ public class DnaMolecule {
             basePairs.add( new BasePair( new Point2D.Double( basePairXPos, basePairYPos ), height ) );
             basePairXPos += DISTANCE_BETWEEN_BASE_PAIRS;
         }
-
-        // Add the genes.  The initial parameters can be tweaked in order to
-        // adjust the sizes of the genes on the screen.
-        int regRegionSize = 16;                   // Base pairs in the regulatory region for all genes.
-        int gene1TranscribedRegionSize = 100;     // Base pairs in transcribed region for this gene.
-
-        // The first gene is set up to be centered at or near (0,0) in model
-        // space to avoid having to scroll the DNA at startup.
-        int startIndex = getBasePairIndexFromXOffset( 0 ) - ( regRegionSize + gene1TranscribedRegionSize ) / 2;
-        genes.add( new GeneA( this, startIndex ) );
-        startIndex += DISTANCE_BETWEEN_GENES / DISTANCE_BETWEEN_BASE_PAIRS;
-        genes.add( new GeneB( this, startIndex ) );
-        startIndex += DISTANCE_BETWEEN_GENES / DISTANCE_BETWEEN_BASE_PAIRS;
-        genes.add( new GeneC( this, startIndex ) );
     }
 
     //-------------------------------------------------------------------------

@@ -61,7 +61,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.75 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.4 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.4 ) ),
                 0.25 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.

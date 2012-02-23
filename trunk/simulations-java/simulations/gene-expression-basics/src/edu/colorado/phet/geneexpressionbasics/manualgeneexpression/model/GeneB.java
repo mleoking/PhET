@@ -20,6 +20,7 @@ public class GeneB extends Gene {
     private static final Color TRANSCRIBED_REGION_COLOR = new Color( 240, 246, 143, 150 );
     private static final int NUM_BASE_PAIRS_IN_REGULATORY_REGION = 28;
     private static final int NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION = 150;
+    public static final int NUM_BASE_PAIRS = NUM_BASE_PAIRS_IN_REGULATORY_REGION + NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION;
     private static final int ID = 2; // TODO: Can this be done away with?
 
     //-------------------------------------------------------------------------
