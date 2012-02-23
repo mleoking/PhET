@@ -59,7 +59,7 @@ import static fj.data.List.range;
     private List<Slice> getEmptyCells( Pie pie ) {
         return pie.cells.filter( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice slice ) {
-                return !cellFilled( slice );
+                return !cellFilledNowOrSoon( slice );
             }
         } );
     }
@@ -98,10 +98,20 @@ import static fj.data.List.range;
 
     public PieSet pies( List<Pie> pies ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
 
-    public boolean cellFilled( final Slice cell ) {
+    //True if a piece is in the cell, or animating toward the cell
+    public boolean cellFilledNowOrSoon( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
             public Boolean f( Slice m ) {
                 return m.movingToward( cell ) || m.positionAndAngleEquals( cell );
+            }
+        } );
+    }
+
+    //True if a piece is in the cell
+    public boolean cellCurrentlyFilled( final Slice cell ) {
+        return slices.exists( new F<Slice, Boolean>() {
+            public Boolean f( Slice m ) {
+                return m.positionAndAngleEquals( cell );
             }
         } );
     }
@@ -130,7 +140,7 @@ import static fj.data.List.range;
     private Container pieToContainer( final Pie pie ) {
         return new Container( pie.cells.length(), range( 0, pie.cells.length() ).filter( new F<Integer, Boolean>() {
             @Override public Boolean f( Integer i ) {
-                return cellFilled( pie.cells.index( i ) );
+                return cellFilledNowOrSoon( pie.cells.index( i ) );
             }
         } ) );
     }
@@ -183,10 +193,10 @@ import static fj.data.List.range;
     //Find the pie that contains the cell
     private Pie getPie( final Slice cell ) {
         return pies.find( new F<Pie, Boolean>() {
-            @Override public Boolean f( Pie pie ) {
-                return pie.cells.find( new F<Slice, Boolean>() {
-                    @Override public Boolean f( Slice slice ) {
-                        return slice == cell;
+            @Override public Boolean f( Pie p ) {
+                return p.cells.find( new F<Slice, Boolean>() {
+                    @Override public Boolean f( Slice s ) {
+                        return s == cell;
                     }
                 } ).isSome();
             }
@@ -201,7 +211,7 @@ import static fj.data.List.range;
     public int countFilledCells( Pie pie ) {
         return pie.cells.map( new F<Slice, Integer>() {
             @Override public Integer f( Slice cell ) {
-                return cellFilled( cell ) ? 1 : 0;
+                return cellCurrentlyFilled( cell ) ? 1 : 0;
             }
         } ).foldLeft( new F2<Integer, Integer, Integer>() {
             @Override public Integer f( Integer o, Integer integer ) {

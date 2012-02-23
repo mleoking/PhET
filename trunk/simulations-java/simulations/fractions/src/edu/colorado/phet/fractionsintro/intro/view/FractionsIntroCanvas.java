@@ -72,6 +72,8 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
                                 return s.shape().getBounds2D().getMinY();
                             }
                         } );
+
+                        //TODO: Could read from cache like WaterGlassNodeFactory instead of creating new each time to improve performance
                         node.addChild( new WaterGlassNode( state.countFilledCells( pie ), state.denominator ) {{
                             setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
                         }} );
