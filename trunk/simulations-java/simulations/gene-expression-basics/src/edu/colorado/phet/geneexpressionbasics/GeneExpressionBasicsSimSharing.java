@@ -15,6 +15,6 @@ public class GeneExpressionBasicsSimSharing {
         transcriptionFactorLevelSlider,
         transcriptionFactorAffinitySlider,
         polymeraseAffinitySlider,
-        proteinDegradationRateSlider
+        proteinDegradationRateSlider,
     }
 }
