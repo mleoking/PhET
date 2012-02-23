@@ -104,9 +104,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         }
 
         // Add the nodes that control the transcription factor parameters.
-        ModelViewTransform tfControlPanelMvt = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0  ), new Point2D.Double( 0, 0 ), 0.1 );
-        controlsRootNode.addChild( new TranscriptionFactorControlPanel ( model, tfControlPanelMvt, true ));
-
+        controlsRootNode.addChild( new TranscriptionFactorControlPanel ( model, true ));
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
