@@ -1,3 +1,4 @@
+Fixed: When adding cups with the spinner, container cup fills up before animated cup gets there
 Made it possible to drag water away from cups
 When decreasing the max below the current value, animate slices to return
 Put the "Max" label centered above the spinner and number
