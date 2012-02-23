@@ -13,12 +13,15 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Node for showing the shape of a Slice that has a shape() function that matches the desired representation, for example for squares or circles (but not for cakes or water glasses).
+ *
  * @author Sam Reid
  */
 public class ShapeNode extends PNode {
     private static final Paint SHADOW_PAINT = new Color( 0, 0, 0, (int) ( 0.75 * 255 ) );
 
     public ShapeNode( Slice slice ) {
+
         //A piece should have a shadow if it is being dragged or animating to a location
         boolean showShadow = slice.dragging || slice.animationTarget != null;
 

@@ -36,15 +36,15 @@ public class PieSetNode extends PNode {
     private static final boolean debugCenter = false;
 
     public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
-        this( model, rootNode, new F<Slice, PNode>() {
-            @Override public PNode f( Slice s ) {
-                return new ShapeNode( s );
+        this( model, rootNode, new F<SliceNodeArgs, PNode>() {
+            @Override public PNode f( SliceNodeArgs s ) {
+                return new ShapeNode( s.slice );
             }
         } );
     }
 
     //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
-    public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode, final F<Slice, PNode> createSliceNode ) {
+    public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode, final F<SliceNodeArgs, PNode> createSliceNode ) {
         this.rootNode = rootNode;
 
         bucketView = new BucketView( model.get().sliceFactory.bucket, createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
@@ -56,7 +56,7 @@ public class PieSetNode extends PNode {
         } );
     }
 
-    private void rebuildScene( final SettableProperty<PieSet> model, final F<Slice, PNode> createSliceNode ) {
+    private void rebuildScene( final SettableProperty<PieSet> model, final F<SliceNodeArgs, PNode> createSliceNode ) {
         removeAllChildren();
 
         final PNode bucketHoleNode = bucketView.getHoleNode();
@@ -83,7 +83,7 @@ public class PieSetNode extends PNode {
 
             setPathTo( new Rectangle2D.Double( -far, -far, far * 2, far + bucketHoleNode.getFullBoundsReference().getMaxY() ) );
             for ( final Slice slice : state.slices ) {
-                addChild( new MovableSliceNode( createSliceNode.f( slice ), rootNode, model, slice ) );
+                addChild( new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator ) ), rootNode, model, slice ) );
             }
         }};
         addChild( movablePiecesLayer );
@@ -99,7 +99,7 @@ public class PieSetNode extends PNode {
             }
 
             Slice slice = model.get().sliceFactory.createPieCell( model.get().pies.length(), 0, 0, denominator );
-            PNode node = new MovableSliceNode( createSliceNode.f( slice ), rootNode, model, slice );
+            PNode node = new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator ) ), rootNode, model, slice );
             node.setPickable( false );
             node.setChildPaintInvalid( false );
             addChild( node );
