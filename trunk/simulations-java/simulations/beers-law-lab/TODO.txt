@@ -23,7 +23,6 @@ MEDIUM
 
 LOW
 - Concentration: #3199, bigger slider thumb on FaucetNode
-- Concentration: make shaker empty, then drain out a little bit of solution, one grain of solute comes out of the shaker while activating the drain
 - Concentration: shaker image has orientation=Math.PI built in, makes using shaker.orientation a little messy
 - Concentration: dropper flickers/tears excessively while dragging
 - Concentration: add soluteInPlay to model = solution.soluteAmount + solute falling from shaker
