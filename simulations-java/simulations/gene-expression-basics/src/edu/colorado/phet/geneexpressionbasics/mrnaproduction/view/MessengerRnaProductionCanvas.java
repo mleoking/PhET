@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.*;
-import java.awt.geom.Point2D.Double;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -113,6 +111,8 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         // Lay out the control nodes.
         positiveTranscriptionFactorControlPanel.setOffset( INSET,
                                                            STAGE_SIZE.getHeight() - positiveTranscriptionFactorControlPanel.getFullBoundsReference().height - INSET );
+        polymeraseAffinityControlPanel.setOffset( positiveTranscriptionFactorControlPanel.getFullBoundsReference().getMaxX() + 10,
+                                                  positiveTranscriptionFactorControlPanel.getFullBoundsReference().getMinY() );
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
