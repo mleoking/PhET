@@ -1,5 +1,6 @@
-2/23/12 fix for: make shaker empty, then drain out a little bit of solution, one grain of solute comes out of the shaker while activating the drain
-2/23/12 setOpaque(false) for radio buttons
+2/23/12 Beers: reset all solutions on Reset All
+2/23/12 Concentration: fix for: make shaker empty, then drain out a little bit of solution, one grain of solute comes out of the shaker while activating the drain
+2/23/12 Beers: setOpaque(false) for radio buttons
 2/22/12 color center and right beam segments based on wavelength and %T, use gradient for beam segment in cuvette
 2/22/12 show vertical diameter line in detector, for debugging
 2/22/12 restore ability to move detector
