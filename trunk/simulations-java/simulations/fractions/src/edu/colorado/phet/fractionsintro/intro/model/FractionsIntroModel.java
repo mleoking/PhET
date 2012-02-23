@@ -16,6 +16,7 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
+import static edu.colorado.phet.fractionsintro.intro.model.IntroState.IntroState;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
@@ -37,7 +38,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
  * @author Sam Reid
  */
 public class FractionsIntroModel {
-    private final Property<IntroState> state = new Property<IntroState>( new IntroState() );
+    private final Property<IntroState> state = new Property<IntroState>( IntroState() );
 
     //Clock for the model.
     //Animate the model when the clock ticks
@@ -285,7 +286,7 @@ public class FractionsIntroModel {
             }
             ).toIntegerProperty();
 
-    public void resetAll() { state.set( new IntroState() ); }
+    public void resetAll() { state.set( IntroState() ); }
 
     public Clock getClock() { return clock;}
 }
