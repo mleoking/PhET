@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import fj.F;
 import lombok.Data;
 
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -75,4 +76,13 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
     public IntroState maximum( int maximum ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
 
     public IntroState waterGlassSet( PieSet waterGlassSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
+
+    //Apply an update rule to all of the pie sets, and updates the container set to match
+    public IntroState updatePieSets( F<PieSet, PieSet> f ) {
+        final PieSet newPieSet = f.f( pieSet );
+        return pieSet( newPieSet ).
+                horizontalBarSet( f.f( horizontalBarSet ) ).
+                verticalBarSet( f.f( verticalBarSet ) ).
+                waterGlassSet( f.f( waterGlassSet ) ).containerSet( newPieSet.toContainerSet() );
+    }
 }
