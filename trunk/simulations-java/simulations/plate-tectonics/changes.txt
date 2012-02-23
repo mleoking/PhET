@@ -1,3 +1,6 @@
+Initial (rough and blocky) version of the rift boundary
+Added experimental "combined" temperature-density view
+Mountain refinement in collsisions
 # 0.00.18 (61414) Feb 16, 2012
 2/16/12 Experimenting with "mountains" in continental collision
 # 0.00.17 (61306) Feb 13, 2012

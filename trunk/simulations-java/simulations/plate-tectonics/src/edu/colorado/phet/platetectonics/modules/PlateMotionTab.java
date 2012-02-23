@@ -78,7 +78,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         // grid centered X, with front Z at 0
         Grid3D grid = new Grid3D(
                 Bounds3D.fromMinMax( -700000, 700000,
-                                     -400000, 15000,
+                                     -300000, 15000,
                                      -1000000, 0 ),
                 256, 256, 32 );
 

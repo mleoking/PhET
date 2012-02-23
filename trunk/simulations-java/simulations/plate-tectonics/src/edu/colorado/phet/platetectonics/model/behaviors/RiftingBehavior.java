@@ -14,14 +14,28 @@ public class RiftingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
 
+    public static final float RIDGE_TOP_Y = -2500;
+    public static final float RIDGE_START_Y = -400000; // 400km
+    public static final float SPREAD_START_TIME = 10.0f;
+
     public RiftingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
-        timeElapsed += millionsOfYears;
+        final float timeBeforeSpreading = Math.max( 0, SPREAD_START_TIME - timeElapsed );
+        float stretchTimeDelta = Math.min( timeBeforeSpreading, millionsOfYears );
+        float spreadTimeDelta = millionsOfYears - stretchTimeDelta;
 
-        moveStretched( millionsOfYears );
+        timeElapsed += millionsOfYears;
+        System.out.println( "elapsed: " + timeElapsed );
+
+        if ( stretchTimeDelta > 0 ) {
+            moveStretched( stretchTimeDelta );
+        }
+        if ( spreadTimeDelta > 0 ) {
+            // TODO: do spreading animation here
+        }
     }
 
     private void moveStretched( float millionsOfYears ) {
@@ -52,10 +66,12 @@ public class RiftingBehavior extends PlateBehavior {
             float rightScale = ( newXes[i + 1] - newXes[i] ) / ( oldXes[i + 1] - oldXes[i] );
             scales[i] = ( leftScale + rightScale ) / 2;
         }
-        for ( Region region : new Region[] { getPlate().getLithosphere(), getPlate().getCrust() } ) {
+        final Region[] mobileRegions = { getPlate().getLithosphere(), getPlate().getCrust() };
+        for ( Region region : mobileRegions ) {
             for ( int i = 0; i < getPlate().getCrust().getTopBoundary().samples.size(); i++ ) {
                 float centerY = ( getPlate().getCrust().getTopBoundary().samples.get( i ).getPosition().y
                                   + getPlate().getCrust().getBottomBoundary().samples.get( i ).getPosition().y ) / 2;
+                float targetY = RIDGE_TOP_Y;
                 for ( Boundary boundary : region.getBoundaries() ) {
 
                     Sample sample = boundary.samples.get( i );
@@ -64,7 +80,7 @@ public class RiftingBehavior extends PlateBehavior {
                     final float currentX = currentPosition.x;
                     final float currentY = currentPosition.y;
                     float newX = currentX == 0 ? 0 : computeNewStretchedX( millionsOfYears, sign, currentX );
-                    float newY = ( currentY - centerY ) / scales[i] + centerY;
+                    float newY = ( currentY - targetY ) / scales[i] + targetY;
                     final float yOffset = newY - currentY;
                     final ImmutableVector3F offset3d = new ImmutableVector3F( newX - currentX, yOffset, 0 );
                     sample.setPosition( currentPosition.plus( offset3d ) );
@@ -80,6 +96,43 @@ public class RiftingBehavior extends PlateBehavior {
                 }
             }
         }
+
+        for ( Region region : new Region[] { getPlate().getLithosphere(), getPlate().getCrust(), getPlate().getMantle() } ) {
+            for ( Boundary boundary : region.getBoundaries() ) {
+                Sample centerSample = getCenterSample( boundary );
+
+                float y = centerSample.getPosition().y;
+                float currentX = centerSample.getPosition().x;
+                float newX = getPlumeX( y ) * ( getPlate().isLeftPlate() ? -1 : 1 );
+                float deltaX = newX - currentX;
+
+//                System.out.println( "---" );
+//                System.out.println( "currentX = " + currentX );
+//                System.out.println( "y = " + y );
+//                System.out.println( "getPlumeTop() = " + getPlumeTop() );
+//                System.out.println( "getPlumeX( y ) = " + getPlumeX( y ) );
+//                System.out.println( "deltaX = " + deltaX );
+
+                if ( deltaX != 0 ) {
+                    for ( Sample sample : boundary.samples ) {
+                        sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( deltaX, 0, 0 ) ) );
+                    }
+                }
+            }
+        }
+
+//        if ( timeElapsed > SPREAD_START_TIME / 2 ) {
+//            for ( Region region : new Region[] { getPlate().getLithosphere(), getPlate().getCrust() } ) {
+//                for ( Boundary boundary : region.getBoundaries() ) {
+//                    Sample sample = getPlate().isLeftPlate() ? boundary.getLastSample() : boundary.getFirstSample();
+//
+//                    ImmutableVector3F position = sample.getPosition();
+//                    sample.setPosition( new ImmutableVector3F( position.x,
+//                                                               (float) ( ( position.y - RIDGE_TOP_Y ) * ( Math.exp( -millionsOfYears ) ) + RIDGE_TOP_Y ),
+//                                                               position.z ) );
+//                }
+//            }
+//        }
 
         getPlate().getTerrain().elevationChanged.updateListeners();
 
@@ -133,13 +186,43 @@ public class RiftingBehavior extends PlateBehavior {
     private float computeNewStretchedX( float millionsOfYears, float sign, float currentX ) {
         assert !Float.isNaN( millionsOfYears );
         final int exponentialFactor = 10;
-        float newX = (float) ( currentX / Math.exp( -millionsOfYears / exponentialFactor ) );
         final float maxXDelta = -sign * 20000f / 2 * millionsOfYears;
-        final float delta = newX - currentX;
+        float delta = (float) ( ( 1 / Math.exp( -millionsOfYears / exponentialFactor ) ) - 1 ) * currentX;
+//        if ( delta != 0 ) {
+//            delta += millionsOfYears * 10 / currentX;
+//        }
 
-        newX = Math.abs( maxXDelta ) > Math.abs( delta ) ? currentX + delta : currentX + maxXDelta;
+        delta *= 2.0;
+
+        float newX = Math.abs( maxXDelta ) > Math.abs( delta ) ? currentX + delta : currentX + maxXDelta;
 
         assert !Float.isNaN( newX );
         return newX;
+    }
+
+    private float getPlumeTop() {
+        if ( timeElapsed > SPREAD_START_TIME ) {
+            return RIDGE_TOP_Y;
+        }
+        else {
+            float ratio = timeElapsed / SPREAD_START_TIME;
+            return RIDGE_START_Y * ( 1 - ratio ) + RIDGE_TOP_Y * ratio;
+        }
+    }
+
+    private float getPlumeX( float y ) {
+        float fromTop = y - getPlumeTop();
+
+        // above plume, it has no width
+        if ( fromTop > 0 ) {
+            return 0;
+        }
+
+//        return ( y * y - y ) * 0.000001f;
+        return Math.abs( fromTop / 3 );
+    }
+
+    private Sample getCenterSample( Boundary boundary ) {
+        return getPlate().isLeftPlate() ? boundary.getLastSample() : boundary.getFirstSample();
     }
 }
