@@ -15,21 +15,25 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  */
 public class VerticalSliceFactory extends AbstractSliceFactory {
 
-    public static final VerticalSliceFactory VerticalSliceFactory = new VerticalSliceFactory( 125, 225 );
+    public static final VerticalSliceFactory VerticalSliceFactory = new VerticalSliceFactory( 125, 225, false );
 
     //Water glasses are a bit smaller to match up with the graphics exactly
-    public static final VerticalSliceFactory WaterGlassSetFactory = new VerticalSliceFactory( 100, 200 );
+    public static final VerticalSliceFactory WaterGlassSetFactory = new VerticalSliceFactory( 100, 200, true );
 
     public final double barWidth;
     public final double barHeight;
 
+    //For water glasses, bucket slices should have the full height (since they look like water glasses), so that bounds intersection will
+    private final boolean fullBars;
+
     //Private, require users to use singleton
-    private VerticalSliceFactory( double barWidth, double barHeight ) {
+    private VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars ) {
         this.barWidth = barWidth;
         this.barHeight = barHeight;
+        this.fullBars = fullBars;
     }
 
-    //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
+    //Returns the shape for the slice
     public final Function1<Slice, Shape> createToShape( final double height ) {
         return new Function1<Slice, Shape>() {
             @Override public Shape apply( Slice slice ) {
@@ -40,7 +44,7 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
 
     //Put the pieces right in the center of the bucket hole.
     public Slice createBucketSlice( int denominator ) {
-        final Slice cell = createPieCell( 6, 0, 0, denominator );
+        final Slice cell = createPieCell( 6, 0, 0, denominator, fullBars ? barHeight : barHeight / denominator );
         final Shape shape = cell.shape();
         double leftEdgeBucketHole = getBucketCenter().getX() - bucket.getHoleShape().getBounds2D().getWidth() / 2 + shape.getBounds2D().getWidth() / 2 + 20;
         double rightEdgeBucketHole = getBucketCenter().getX() + bucket.getHoleShape().getBounds2D().getWidth() / 2 - shape.getBounds2D().getWidth() / 2 - 20;
@@ -49,8 +53,11 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
     }
 
     public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {
+        return createPieCell( numPies, pie, cell, denominator, barHeight / denominator );
+    }
+
+    private Slice createPieCell( int numPies, int pie, int cell, int denominator, double cellHeight ) {
         double offset = new LinearFunction( 1, 6, barWidth * 3 - barWidth / 3, 0 ).evaluate( numPies );
-        final double cellHeight = barHeight / denominator;
         int distanceBetweenBars = 20;
         double delta = barWidth + distanceBetweenBars;
         final double barX = delta + pie * delta;
