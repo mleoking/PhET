@@ -35,11 +35,12 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class TranscriptionFactorControlPanel extends PNode {
 
-    // Model-view transform used for scaling the molecules that appear in this
-    // panel.
-    private static final ModelViewTransform MOLECULE_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                                      new Point2D.Double( 0, 0 ),
-                                                                                                                      0.08 );
+    private static final ModelViewTransform TRANSCRIPTION_FACTOR_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                                                                                  new Point2D.Double( 0, 0 ),
+                                                                                                                                  0.08 );
+    private static final ModelViewTransform DNA_FRAGMENT_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                                                                                  new Point2D.Double( 0, 0 ),
+                                                                                                                                  0.1 );
 
     /**
      * Constructor.
@@ -67,8 +68,8 @@ public class TranscriptionFactorControlPanel extends PNode {
         PNode contents = new VBox(
                 20,
                 title,
-                new ConcentrationController( MOLECULE_MVT, transcriptionFactorConfig ),
-                new AffinityController( MOLECULE_MVT, transcriptionFactorConfig )
+                new ConcentrationController( transcriptionFactorConfig ),
+                new AffinityController( transcriptionFactorConfig )
         );
 
         addChild( new ControlPanelNode( contents ) );
@@ -78,12 +79,12 @@ public class TranscriptionFactorControlPanel extends PNode {
     // transcription factor.
     private static class ConcentrationController extends PNode {
 
-        private ConcentrationController( ModelViewTransform mvt, TranscriptionFactorConfig transcriptionFactorConfig ) {
+        private ConcentrationController( TranscriptionFactorConfig transcriptionFactorConfig ) {
             // TODO: i18n
             PText caption = new PText( "Concentration" ) {{
                 setFont( new PhetFont( 14, false ) );
             }};
-            PNode molecule = new MobileBiomoleculeNode( mvt, new TranscriptionFactor( new StubGeneExpressionModel(), transcriptionFactorConfig ) );
+            PNode molecule = new MobileBiomoleculeNode( TRANSCRIPTION_FACTOR_MVT, new TranscriptionFactor( new StubGeneExpressionModel(), transcriptionFactorConfig ) );
             molecule.setPickable( false );
             molecule.setChildrenPickable( false );
             addChild( new VBox( 5,
@@ -101,7 +102,7 @@ public class TranscriptionFactorControlPanel extends PNode {
         private static final double ARROW_LENGTH = 30;
         private static final double ARROW_HEAD_HEIGHT = 10;
 
-        private AffinityController( ModelViewTransform mvt, TranscriptionFactorConfig transcriptionFactorConfig ) {
+        private AffinityController( TranscriptionFactorConfig transcriptionFactorConfig ) {
             // TODO: i18n
             PText caption = new PText( "Affinity" ) {{
                 setFont( new PhetFont( 14, false ) );
@@ -109,9 +110,9 @@ public class TranscriptionFactorControlPanel extends PNode {
             PNode arrowNode = new DoubleArrowNode( new Point2D.Double( 0, 0 ), new Point2D.Double( ARROW_LENGTH, 0 ), ARROW_HEAD_HEIGHT / 2, ARROW_HEAD_HEIGHT, ARROW_HEAD_HEIGHT / 3 );
             arrowNode.setPaint( Color.BLACK );
             PNode affinityKey = new HBox(
-                    new MobileBiomoleculeNode( mvt, new TranscriptionFactor( new StubGeneExpressionModel(), transcriptionFactorConfig ) ),
+                    new MobileBiomoleculeNode( TRANSCRIPTION_FACTOR_MVT, new TranscriptionFactor( new StubGeneExpressionModel(), transcriptionFactorConfig ) ),
                     arrowNode,
-                    new DnaMoleculeNode( new DnaMolecule( new StubGeneExpressionModel(), DnaMolecule.BASE_PAIRS_PER_TWIST + 1, 0 ), MOLECULE_MVT, 2, false )
+                    new DnaMoleculeNode( new DnaMolecule( new StubGeneExpressionModel(), DnaMolecule.BASE_PAIRS_PER_TWIST + 1, 0 ), DNA_FRAGMENT_MVT, 2, false )
             );
             affinityKey.setPickable( false );
             affinityKey.setChildrenPickable( false );
