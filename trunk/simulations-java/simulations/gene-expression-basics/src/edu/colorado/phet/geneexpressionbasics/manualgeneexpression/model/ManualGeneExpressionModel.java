@@ -56,7 +56,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaMolecule = new DnaMolecule( this, NUM_BASE_PAIRS_ON_DNA_STRAND );
+    protected final DnaMolecule dnaMolecule = new DnaMolecule( this, NUM_BASE_PAIRS_ON_DNA_STRAND, -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 4 );
 
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
@@ -319,7 +319,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
         // The bottom of the bounds depends on whether or not the DNA strand
         // is included.
-        double bottomYPos = includeDnaStrand ? DnaMolecule.Y_POS - DnaMolecule.STRAND_DIAMETER * 3 : DnaMolecule.Y_POS + DnaMolecule.STRAND_DIAMETER / 2;
+        double bottomYPos = includeDnaStrand ? DnaMolecule.Y_POS - DnaMolecule.DIAMETER * 3 : DnaMolecule.Y_POS + DnaMolecule.DIAMETER / 2;
 
         // Get the nominal bounds for this gene.
         Area bounds = new Area( new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
