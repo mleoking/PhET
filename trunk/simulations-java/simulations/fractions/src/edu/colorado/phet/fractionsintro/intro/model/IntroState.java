@@ -9,6 +9,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.WaterGlassSetFactory;
 
 /**
  * Immutable state class representing the state of the model at any given instant.  Managed by FractionsIntroModel.
@@ -22,6 +23,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
     public final PieSet pieSet;
     public final PieSet horizontalBarSet;
     public final PieSet verticalBarSet;
+    public final PieSet waterGlassSet;
     public final int numerator;
     public final int denominator;
     public final Representation representation;
@@ -37,36 +39,40 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
         pieSet = new PieSet( maximum, CircularSliceFactory );
         horizontalBarSet = new PieSet( maximum, HorizontalSliceFactory );
         verticalBarSet = new PieSet( maximum, VerticalSliceFactory );
+        waterGlassSet = new PieSet( maximum, WaterGlassSetFactory );
         representation = Representation.PIE;
     }
 
     //I'm not sure why Lombok didn't generate this
-    public IntroState( ContainerSet containerSet, boolean showReduced, boolean showMixed, PieSet pieSet, PieSet squareSet, PieSet verticalBarSet, int numerator, int denominator, Representation representation, int maximum ) {
+    public IntroState( ContainerSet containerSet, boolean showReduced, boolean showMixed, PieSet pieSet, PieSet squareSet, PieSet verticalBarSet, PieSet waterGlassSet, int numerator, int denominator, Representation representation, int maximum ) {
         this.containerSet = containerSet;
         this.showReduced = showReduced;
         this.showMixed = showMixed;
         this.pieSet = pieSet;
         this.horizontalBarSet = squareSet;
         this.verticalBarSet = verticalBarSet;
+        this.waterGlassSet = waterGlassSet;
         this.numerator = numerator;
         this.denominator = denominator;
         this.representation = representation;
         this.maximum = maximum;
     }
 
-    public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation, maximum ); }
+    public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation, maximum ); }
+    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation, maximum ); }
+    public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation, maximum ); }
+    public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation, maximum ); }
+    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum ); }
 
-    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation, maximum );}
+    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
 
-    public IntroState verticalBarSet( PieSet verticalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation, maximum );}
+    public IntroState verticalBarSet( PieSet verticalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
 
-    public IntroState maximum( int maximum ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, numerator, denominator, representation, maximum );}
+    public IntroState maximum( int maximum ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
+
+    public IntroState waterGlassSet( PieSet waterGlassSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, numerator, denominator, representation, maximum );}
 }
