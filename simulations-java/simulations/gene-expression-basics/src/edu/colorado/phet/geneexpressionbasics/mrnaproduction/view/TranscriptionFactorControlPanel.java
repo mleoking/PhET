@@ -1,27 +1,18 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.mrnaproduction.view;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.DnaMoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.model.MessengerRnaProductionModel;
 import edu.umd.cs.piccolo.PNode;
@@ -35,13 +26,13 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class TranscriptionFactorControlPanel extends PNode {
 
+    public static final double TRANSCRIPTION_FACTOR_SCALE = 0.08;
     private static final ModelViewTransform TRANSCRIPTION_FACTOR_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
                                                                                                                                   new Point2D.Double( 0, 0 ),
-                                                                                                                                  0.08 );
-    private static final ModelViewTransform DNA_FRAGMENT_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                                                  new Point2D.Double( 0, 0 ),
-                                                                                                                                  0.1 );
+                                                                                                                                  TRANSCRIPTION_FACTOR_SCALE );
 
+    public static final double DNA_SCALE = 0.1;
+    
     /**
      * Constructor.
      *
@@ -69,7 +60,7 @@ public class TranscriptionFactorControlPanel extends PNode {
                 20,
                 title,
                 new ConcentrationController( transcriptionFactorConfig ),
-                new AffinityController( transcriptionFactorConfig )
+                new AffinityController( transcriptionFactorConfig, TRANSCRIPTION_FACTOR_SCALE, DNA_SCALE )
         );
 
         addChild( new ControlPanelNode( contents ) );
@@ -97,52 +88,4 @@ public class TranscriptionFactorControlPanel extends PNode {
         }
     }
 
-    private static class AffinityController extends PNode {
-
-        private static final double ARROW_LENGTH = 30;
-        private static final double ARROW_HEAD_HEIGHT = 10;
-
-        private AffinityController( TranscriptionFactorConfig transcriptionFactorConfig ) {
-            // TODO: i18n
-            PText caption = new PText( "Affinity" ) {{
-                setFont( new PhetFont( 14, false ) );
-            }};
-            PNode arrowNode = new DoubleArrowNode( new Point2D.Double( 0, 0 ), new Point2D.Double( ARROW_LENGTH, 0 ), ARROW_HEAD_HEIGHT / 2, ARROW_HEAD_HEIGHT, ARROW_HEAD_HEIGHT / 3 );
-            arrowNode.setPaint( Color.BLACK );
-            PNode affinityKey = new HBox(
-                    new MobileBiomoleculeNode( TRANSCRIPTION_FACTOR_MVT, new TranscriptionFactor( new StubGeneExpressionModel(), transcriptionFactorConfig ) ),
-                    arrowNode,
-                    new DnaMoleculeNode( new DnaMolecule( new StubGeneExpressionModel(), DnaMolecule.BASE_PAIRS_PER_TWIST + 1, 0 ), DNA_FRAGMENT_MVT, 2, false )
-            );
-            affinityKey.setPickable( false );
-            affinityKey.setChildrenPickable( false );
-            addChild( new VBox( 5,
-                                caption,
-                                affinityKey,
-                                new HorizontalSliderWithLabelsAtEnds( new UserComponent( UserComponents.transcriptionFactorLevelSlider ),
-                                                                      // TODO: i18n
-                                                                      "Low",
-                                                                      "High " ) ) );
-        }
-    }
-
-    // Convenience class for a horizontal slider with labels at ends.
-    private static class HorizontalSliderWithLabelsAtEnds extends PNode {
-        private static final double OVERALL_WIDTH = 150;
-        private static final Font LABEL_FONT = new PhetFont( 12 );
-        private static final double INTER_ELEMENT_SPACING = 5;
-
-        private HorizontalSliderWithLabelsAtEnds( UserComponent userComponent, String leftLabel, String rightLabel ) {
-            PText leftLabelNode = new PText( leftLabel ) {{
-                setFont( LABEL_FONT );
-            }};
-            PText rightLabelNode = new PText( rightLabel ) {{
-                setFont( LABEL_FONT );
-            }};
-            double sliderWidth = OVERALL_WIDTH - leftLabelNode.getFullBoundsReference().width -
-                                 rightLabelNode.getFullBoundsReference().width - ( 2 * INTER_ELEMENT_SPACING );
-            PNode sliderNode = new HSliderNode( userComponent, 0, 1, sliderWidth, 5, new Property<Double>( 0.0 ), new BooleanProperty( true ) );
-            addChild( new HBox( INTER_ELEMENT_SPACING, leftLabelNode, sliderNode, rightLabelNode ) );
-        }
-    }
 }
