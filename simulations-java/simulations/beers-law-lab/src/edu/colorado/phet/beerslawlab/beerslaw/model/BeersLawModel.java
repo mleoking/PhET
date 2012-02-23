@@ -127,7 +127,7 @@ public class BeersLawModel implements Resettable {
         }, absorbance );
 
         //TODO compute drag bounds to match the stage size
-        this.detector = new ATDetector( new ImmutableVector2D( 6, 3.75 ), new PBounds( 0, 0, 7.9, 5.25 ),
+        this.detector = new ATDetector( new ImmutableVector2D( 6, 3.70 ), new PBounds( 0, 0, 7.9, 5.25 ),
                                         new ImmutableVector2D( 6, light.location.getY() ), new PBounds( 0, 0, 7.9, 5.25 ),
                                         absorbance, percentTransmittance, light );
 
