@@ -36,13 +36,13 @@ public class PolymeraseAffinityControlPanel extends PNode {
 
     public PolymeraseAffinityControlPanel( TranscriptionFactorConfig tfConfig ) {
         PNode title = new PText( "RNA Polymerase" ) {{
-            setFont( new PhetFont( 14 ) );
+            setFont( new PhetFont( 16, true ) );
         }};
 
         PNode polymeraseNode = new MobileBiomoleculeNode( POLYMERASE_MVT, new RnaPolymerase() );
         PNode dnaFragmentNode = new DnaMoleculeNode( new DnaMolecule( DnaMolecule.BASE_PAIRS_PER_TWIST * 2 + 1, 0.0 ), DNA_AND_TF_MVT, 2, false );
         PNode transcriptionFactorNode = new MobileBiomoleculeNode( DNA_AND_TF_MVT, new TranscriptionFactor( tfConfig ) );
-        transcriptionFactorNode.setOffset( 25, 0 ); // Position to be on top of the dna, values empirically determined.
+        transcriptionFactorNode.setOffset( 25, 0 ); // Set position to be on top of the dna, values empirically determined.
         dnaFragmentNode.addChild( transcriptionFactorNode );
         PNode contents = new VBox(
                 20,

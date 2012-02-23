@@ -107,12 +107,16 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         controlsRootNode.addChild( positiveTranscriptionFactorControlPanel );
         PolymeraseAffinityControlPanel polymeraseAffinityControlPanel = new PolymeraseAffinityControlPanel( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG );
         controlsRootNode.addChild( polymeraseAffinityControlPanel );
+        TranscriptionFactorControlPanel negativeTranscriptionFactorControlPanel = new TranscriptionFactorControlPanel( model, false );
+        controlsRootNode.addChild( negativeTranscriptionFactorControlPanel );
 
-        // Lay out the control nodes.
+        // Lay out the control panels.
         positiveTranscriptionFactorControlPanel.setOffset( INSET,
                                                            STAGE_SIZE.getHeight() - positiveTranscriptionFactorControlPanel.getFullBoundsReference().height - INSET );
         polymeraseAffinityControlPanel.setOffset( positiveTranscriptionFactorControlPanel.getFullBoundsReference().getMaxX() + 10,
                                                   positiveTranscriptionFactorControlPanel.getFullBoundsReference().getMinY() );
+        negativeTranscriptionFactorControlPanel.setOffset( polymeraseAffinityControlPanel.getFullBoundsReference().getMaxX() + 10,
+                                                           polymeraseAffinityControlPanel.getFullBoundsReference().getMinY() );
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {

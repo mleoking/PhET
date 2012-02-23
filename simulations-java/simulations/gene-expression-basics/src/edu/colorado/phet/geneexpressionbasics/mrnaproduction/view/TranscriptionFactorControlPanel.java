@@ -59,7 +59,7 @@ public class TranscriptionFactorControlPanel extends PNode {
         }
 
         PNode title = new HTMLNode( titleText ) {{
-            setFont( new PhetFont( 14 ) );
+            setFont( new PhetFont( 16, true ) );
         }};
 
         PNode transcriptionFactorNode = new MobileBiomoleculeNode( TRANSCRIPTION_FACTOR_MVT, new TranscriptionFactor( transcriptionFactorConfig ) );
