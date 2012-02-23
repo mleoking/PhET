@@ -47,19 +47,13 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }} );
 
         //Show the pie set node when pies are selected
-        addChild( new RepresentationNode( model.representation, PIE ) {{
-            addChild( new PieSetNode( model.pieSet, rootNode ) );
-        }} );
+        addChild( new RepresentationNode( model.representation, PIE, new PieSetNode( model.pieSet, rootNode ) ) );
 
         //For horizontal bars
-        addChild( new RepresentationNode( model.representation, HORIZONTAL_BAR ) {{
-            addChild( new PieSetNode( model.horizontalBarSet, rootNode ) );
-        }} );
+        addChild( new RepresentationNode( model.representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
 
         //For vertical bars
-        addChild( new RepresentationNode( model.representation, VERTICAL_BAR ) {{
-            addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
-        }} );
+        addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode ) ) );
 
         //For Debugging water glasses region management
 //        addChild( new RepresentationNode( model.representation, WATER_GLASSES ) {{
@@ -67,27 +61,25 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 //        }} );
 
         //For water glasses
-        addChild( new RepresentationNode( model.representation, WATER_GLASSES ) {{
-            addChild( new PieSetNode( model.waterGlassSet, rootNode, new WaterGlassNodeFactory() ) {
-                @Override protected PNode createEmptyCellsNode( PieSet state ) {
-                    PNode node = new PNode();
-                    //Show the beakers
-                    for ( final Pie pie : state.pies ) {
-                        final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
-                            @Override public Double f( Slice s ) {
-                                return s.shape().getBounds2D().getMinY();
-                            }
-                        } );
+        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode, new WaterGlassNodeFactory() ) {
+            @Override protected PNode createEmptyCellsNode( PieSet state ) {
+                PNode node = new PNode();
+                //Show the beakers
+                for ( final Pie pie : state.pies ) {
+                    final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
+                        @Override public Double f( Slice s ) {
+                            return s.shape().getBounds2D().getMinY();
+                        }
+                    } );
 
-                        //TODO: Could read from cache like WaterGlassNodeFactory instead of creating new each time to improve performance
-                        node.addChild( new WaterGlassNode( state.countFilledCells( pie ), state.denominator ) {{
-                            setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
-                        }} );
-                    }
-                    return node;
+                    //TODO: Could read from cache like WaterGlassNodeFactory instead of creating new each time to improve performance
+                    node.addChild( new WaterGlassNode( state.countFilledCells( pie ), state.denominator ) {{
+                        setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
+                    }} );
                 }
-            } );
-        }} );
+                return node;
+            }
+        } ) );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
             setOffset( 35, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
