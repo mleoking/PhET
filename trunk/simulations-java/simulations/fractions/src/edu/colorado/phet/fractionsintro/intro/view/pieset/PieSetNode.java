@@ -67,14 +67,7 @@ public class PieSetNode extends PNode {
         final PieSet state = model.get();
 
         //Show graphics for the empty cells
-        for ( Slice cell : state.cells ) {
-            boolean anythingInPie = state.pieContainsSliceForCell( cell );
-            addChild( new PhetPPath( cell.shape(), new BasicStroke( anythingInPie ? 2 : 1 ), anythingInPie ? Color.black : Color.lightGray ) );
-
-            if ( debugCenter ) {
-                addChild( new PhetPPath( new Rectangle2D.Double( cell.center().getX(), cell.center().getY(), 2, 2 ) ) );
-            }
-        }
+        addChild( createEmptyCellsNode( state ) );
 
         //Show graphics for the movable cells.  Put in a clip so that long bars will look like they sink through a "bottomless" bucket since they are too big at full size
         PClip movablePiecesLayer = new PClip() {{
@@ -85,7 +78,7 @@ public class PieSetNode extends PNode {
 
             setPathTo( new Rectangle2D.Double( -far, -far, far * 2, far + bucketHoleNode.getFullBoundsReference().getMaxY() ) );
             for ( final Slice slice : state.slices ) {
-                addChild( new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator ) ), rootNode, model, slice ) );
+                addChild( new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator, state.isInContainer( slice ) ) ), rootNode, model, slice ) );
             }
         }};
         addChild( movablePiecesLayer );
@@ -101,7 +94,7 @@ public class PieSetNode extends PNode {
             }
 
             Slice slice = model.get().sliceFactory.createPieCell( model.get().pies.length(), 0, 0, denominator );
-            PNode node = new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator ) ), rootNode, model, slice );
+            PNode node = new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator, false ) ), rootNode, model, slice );
             node.setPickable( false );
             node.setChildPaintInvalid( false );
             addChild( node );
@@ -118,5 +111,18 @@ public class PieSetNode extends PNode {
         addChild( new ZeroOffsetNode( iconAndText ) {{
             centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );
         }} );
+    }
+
+    protected PNode createEmptyCellsNode( PieSet state ) {
+        PNode node = new PNode();
+        for ( Slice cell : state.cells ) {
+            boolean anythingInPie = state.pieContainsSliceForCell( cell );
+            node.addChild( new PhetPPath( cell.shape(), new BasicStroke( anythingInPie ? 2 : 1 ), anythingInPie ? Color.black : Color.lightGray ) );
+
+            if ( debugCenter ) {
+                node.addChild( new PhetPPath( new Rectangle2D.Double( cell.center().getX(), cell.center().getY(), 2, 2 ) ) );
+            }
+        }
+        return node;
     }
 }

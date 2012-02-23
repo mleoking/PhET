@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0.Null;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -35,6 +36,10 @@ public class WaterGlassNode extends RichPNode {
     private static final DoubleRange DILUTION_VOLUME_RANGE = new DoubleRange( 0.2, 1, 0.5 ); // liters
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / DILUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / DILUTION_VOLUME_RANGE.getMin() ); // M
+
+    public WaterGlassNode( Integer numerator, Integer denominator ) {
+        this( numerator, denominator, new Null(), new Null() );
+    }
 
     public WaterGlassNode( Integer numerator, Integer denominator, final VoidFunction0 addWater, final VoidFunction0 removeWater ) {
 

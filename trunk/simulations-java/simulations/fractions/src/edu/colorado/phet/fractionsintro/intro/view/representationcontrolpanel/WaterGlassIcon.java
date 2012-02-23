@@ -2,13 +2,14 @@
 package edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import static edu.colorado.phet.fractionsintro.intro.view.Representation.WATER_GLASSES;
 
 /**
  * Representation control panel icon for water glass.
@@ -18,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class WaterGlassIcon extends PNode implements RepresentationIcon {
 
     public WaterGlassIcon( final SettableProperty<Representation> selected ) {
-        addChild( new WaterGlassNode( 1, 1, new VoidFunction0.Null(), new VoidFunction0.Null() ) );
+        addChild( new WaterGlassNode( 1, 1 ) );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
@@ -34,6 +35,6 @@ public class WaterGlassIcon extends PNode implements RepresentationIcon {
     }
 
     public Representation getRepresentation() {
-        return Representation.WATER_GLASSES;
+        return WATER_GLASSES;
     }
 }
