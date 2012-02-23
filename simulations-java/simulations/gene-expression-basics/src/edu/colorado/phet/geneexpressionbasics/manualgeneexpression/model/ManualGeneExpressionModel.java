@@ -56,7 +56,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaMolecule = new DnaMolecule( this, NUM_BASE_PAIRS_ON_DNA_STRAND, -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 4 );
+    private final DnaMolecule dnaMolecule;
 
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
@@ -70,12 +70,12 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     // The gene that the user is focusing on, other gene activity is
     // suspended.  Start with the 0th gene in the DNA (leftmost).
-    public final Property<Gene> activeGene = new Property<Gene>( dnaMolecule.getGenes().get( 0 ) );
+    public final Property<Gene> activeGene;
 
     // Properties that keep track of whether the first or last gene is
     // currently active, which means that the user is viewing it.
-    public final ObservableProperty<Boolean> isFirstGeneActive = activeGene.valueEquals( dnaMolecule.getGenes().get( 0 ) );
-    public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaMolecule.getLastGene() );
+    public final ObservableProperty<Boolean> isFirstGeneActive;
+    public final ObservableProperty<Boolean> isLastGeneActive;
 
     // List of areas where biomolecules should not be allowed.  These are
     // generally populated by the view in order to keep biomolecules from
@@ -109,6 +109,17 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
+
+        // Initialize the DNA molecule.
+        dnaMolecule = new DnaMolecule( this, NUM_BASE_PAIRS_ON_DNA_STRAND, -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 4 );
+        dnaMolecule.addGene( new GeneA( dnaMolecule, NUM_BASE_PAIRS_ON_DNA_STRAND / 4 - GeneA.NUM_BASE_PAIRS / 2 ) );
+        dnaMolecule.addGene( new GeneB( dnaMolecule, NUM_BASE_PAIRS_ON_DNA_STRAND / 2 - GeneB.NUM_BASE_PAIRS / 2 ) );
+        dnaMolecule.addGene( new GeneC( dnaMolecule, NUM_BASE_PAIRS_ON_DNA_STRAND * 3 / 4 - GeneC.NUM_BASE_PAIRS / 2 ) );
+
+        // Initialize variables that are dependent upon the DNA.
+        activeGene = new Property<Gene>( dnaMolecule.getGenes().get( 0 ) );
+        isFirstGeneActive = activeGene.valueEquals( dnaMolecule.getGenes().get( 0 ) );
+        isLastGeneActive = activeGene.valueEquals( dnaMolecule.getLastGene() );
     }
 
     //------------------------------------------------------------------------

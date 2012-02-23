@@ -21,6 +21,7 @@ public class GeneA extends Gene {
     private static final int NUM_BASE_PAIRS_IN_REGULATORY_REGION = 16;
     private static final int NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION = 100;
     private static final int ID = 1; // TODO: Can this be done away with?
+    public static final int NUM_BASE_PAIRS = NUM_BASE_PAIRS_IN_REGULATORY_REGION + NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION;
 
     //-------------------------------------------------------------------------
     // Constructor(s)

@@ -12,19 +12,16 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneA;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
-
-import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
 /**
  * Primary model for the manual gene expression tab.
@@ -50,6 +47,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     private static final double BIOMOLECULE_STAGE_WIDTH = 10000; // In picometers.
     private static final double BIOMOLECULE_STAGE_HEIGHT = 5250; // In picometers.
 
+    // Length, in terms of base pairs, of the DNA molecule.
+    private static final int NUM_BASE_PAIRS_ON_DNA_STRAND = 500;
+
     // Configurations for the transcriptions factors used within this model.
     public static final TranscriptionFactorConfig POSITIVE_TRANSCRIPTION_FACTOR_CONFIG = TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS;
     public static final TranscriptionFactorConfig NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG = TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG;
@@ -60,7 +60,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaMolecule = new DnaMolecule( this, 2000, -500 * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS ); // TODO: Size will be reduced when genes are added individually.
+    protected final DnaMolecule dnaMolecule = new DnaMolecule( this,
+                                                               NUM_BASE_PAIRS_ON_DNA_STRAND,
+                                                               -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 2 );
 
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
@@ -71,10 +73,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
-
-    // The gene that the user is focusing on, other gene activity is
-    // suspended.  Start with the 0th gene in the DNA (leftmost).
-    public final Property<Gene> activeGene = new Property<Gene>( dnaMolecule.getGenes().get( 0 ) );
 
     // List of areas where biomolecules should not be allowed.  These are
     // generally populated by the view in order to keep biomolecules from
@@ -91,6 +89,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
+
+        // Add gene to DNA molecule.
+        dnaMolecule.addGene( new GeneA( dnaMolecule, NUM_BASE_PAIRS_ON_DNA_STRAND / 2 ) );
     }
 
     //------------------------------------------------------------------------
@@ -107,7 +108,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule, boolean interactsWithDna ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
-        mobileBiomolecule.setMotionBounds( getBoundsForActiveGene( interactsWithDna ) );
+        mobileBiomolecule.setMotionBounds( getMotionBounds( interactsWithDna ) );
 
         // Hook up an observer that will activate and deactivate placement
         // hints for this molecule.
@@ -178,7 +179,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     public void addMessengerRna( final MessengerRna messengerRna ) {
         messengerRnaList.add( messengerRna );
-        messengerRna.setMotionBounds( getBoundsForActiveGene( false ) );
     }
 
     @Override public void removeMessengerRna( MessengerRna messengerRnaBeingDestroyed ) {
@@ -225,22 +225,21 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     }
 
     /**
-     * Get the motion bounds for any biomolecule that is going to be associated
-     * with the currently active gene.  This is used to keep the biomolecules
-     * from wandering outside of the area that the user can see.
+     * Get the motion bounds for the biomolecules that are interacting with
+     * this DNA strand.
      *
      * @param includeDnaStrand - Flag to signify whether these bounds should
-     * include the DNA strand.  This should be true for molecules that
-     * interact with the DNA, false for those that don't.
+     *                         include the DNA strand.  This should be true for molecules that
+     *                         interact with the DNA, false for those that don't.
      */
-    public MotionBounds getBoundsForActiveGene( boolean includeDnaStrand ) {
+    public MotionBounds getMotionBounds( boolean includeDnaStrand ) {
 
         // The bottom of the bounds depends on whether or not the DNA strand
         // is included.
         double bottomYPos = includeDnaStrand ? DnaMolecule.Y_POS - DnaMolecule.DIAMETER * 3 : DnaMolecule.Y_POS + DnaMolecule.DIAMETER / 2;
 
-        // Get the nominal bounds for this gene.
-        Area bounds = new Area( new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
+        // Get the nominal bounds.
+        Area bounds = new Area( new Rectangle2D.Double( -BIOMOLECULE_STAGE_WIDTH / 2,
                                                         bottomYPos,
                                                         BIOMOLECULE_STAGE_WIDTH,
                                                         BIOMOLECULE_STAGE_HEIGHT ) );
