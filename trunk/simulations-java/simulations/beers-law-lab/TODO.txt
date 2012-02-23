@@ -17,7 +17,6 @@ HIGH
 - Beers: implement photon view, create a believable algorithm for how they are absorbed as they pass through solution (#2620, improve PhotonImageFactory)
 
 MEDIUM
-- Beers: increase space for radio buttons in AT detector images
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 
 LOW

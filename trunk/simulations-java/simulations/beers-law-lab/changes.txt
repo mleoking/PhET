@@ -1,3 +1,4 @@
+2/23/12 Beers: increase vertical space for radio buttons in AT body (increase height of image files)
 2/23/12 fix transparency at corners of meter body images
 2/23/12 revised model.txt with JC's contributions
 2/23/12 Beers: reset all solutions on Reset All
