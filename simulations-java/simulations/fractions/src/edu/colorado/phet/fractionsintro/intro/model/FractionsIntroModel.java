@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import fj.F;
+
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -43,12 +45,11 @@ public class FractionsIntroModel {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 final IntroState s = state.get();
                 final double dt = clockEvent.getSimulationTimeChange();
-                final PieSet newPieSet = s.pieSet.stepInTime( dt );
-                final IntroState newState = s.pieSet( newPieSet ).
-                        containerSet( newPieSet.toContainerSet() ).
-                        horizontalBarSet( s.horizontalBarSet.stepInTime( dt ) ).
-                        verticalBarSet( s.verticalBarSet.stepInTime( dt ) ).
-                        waterGlassSet( s.waterGlassSet.stepInTime( dt ) );
+                final IntroState newState = s.updatePieSets( new F<PieSet, PieSet>() {
+                    @Override public PieSet f( PieSet pieSet ) {
+                        return pieSet.stepInTime( dt );
+                    }
+                } );
                 state.set( newState );
             }
         } );
@@ -83,21 +84,21 @@ public class FractionsIntroModel {
                                            if ( delta > 0 ) {
                                                for ( int i = 0; i < delta; i++ ) {
                                                    final CellPointer firstEmptyCell = s.containerSet.getFirstEmptyCell();
-                                                   final PieSet p = s.pieSet.animateBucketSliceToPie( firstEmptyCell );
-                                                   final PieSet h = s.horizontalBarSet.animateBucketSliceToPie( firstEmptyCell );
-                                                   final PieSet v = s.verticalBarSet.animateBucketSliceToPie( firstEmptyCell );
-                                                   final PieSet w = s.waterGlassSet.animateBucketSliceToPie( firstEmptyCell );
-                                                   s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).waterGlassSet( w ).containerSet( p.toContainerSet() ).numerator( numerator );
+                                                   s = s.updatePieSets( new F<PieSet, PieSet>() {
+                                                       @Override public PieSet f( PieSet p ) {
+                                                           return p.animateBucketSliceToPie( firstEmptyCell );
+                                                       }
+                                                   } ).numerator( numerator );
                                                }
                                            }
                                            else if ( delta < 0 ) {
                                                for ( int i = 0; i < Math.abs( delta ); i++ ) {
                                                    final CellPointer lastFullCell = s.containerSet.getLastFullCell();
-                                                   final PieSet p = s.pieSet.animateSliceToBucket( lastFullCell );
-                                                   final PieSet h = s.horizontalBarSet.animateSliceToBucket( lastFullCell );
-                                                   final PieSet v = s.verticalBarSet.animateSliceToBucket( lastFullCell );
-                                                   final PieSet w = s.waterGlassSet.animateSliceToBucket( lastFullCell );
-                                                   s = s.pieSet( p ).horizontalBarSet( h ).waterGlassSet( w ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( numerator );
+                                                   s = s.updatePieSets( new F<PieSet, PieSet>() {
+                                                       @Override public PieSet f( PieSet p ) {
+                                                           return p.animateSliceToBucket( lastFullCell );
+                                                       }
+                                                   } ).numerator( numerator );
                                                }
                                            }
                                            else {
@@ -248,12 +249,11 @@ public class FractionsIntroModel {
                         for ( int i = 0; i < numPiecesToEject; i++ ) {
                             final CellPointer cp = s.containerSet.getLastFullCell();
 
-                            //TODO: Make this more readable, factor out the pies/take function
-                            final PieSet p = s.pieSet.animateSliceToBucket( cp ).pies( s.pieSet.pies.take( s.pieSet.pies.length() - 1 ) );
-                            final PieSet h = s.horizontalBarSet.animateSliceToBucket( cp ).pies( s.horizontalBarSet.pies.take( s.horizontalBarSet.pies.length() - 1 ) );
-                            final PieSet v = s.verticalBarSet.animateSliceToBucket( cp ).pies( s.verticalBarSet.pies.take( s.verticalBarSet.pies.length() - 1 ) );
-                            final PieSet w = s.waterGlassSet.animateSliceToBucket( cp ).pies( s.waterGlassSet.pies.take( s.waterGlassSet.pies.length() - 1 ) );
-                            s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( maximum ).waterGlassSet( w );
+                            s = s.updatePieSets( new F<PieSet, PieSet>() {
+                                @Override public PieSet f( PieSet p ) {
+                                    return p.animateSliceToBucket( cp ).pies( p.pies.take( p.pies.length() - 1 ) );
+                                }
+                            } ).numerator( maximum );
                         }
                         s = s.maximum( maximum );
                         return s;
