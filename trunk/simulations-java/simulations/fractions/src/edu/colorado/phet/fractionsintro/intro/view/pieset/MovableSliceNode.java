@@ -68,11 +68,11 @@ public class MovableSliceNode extends PNode {
             @Override public void mouseDragged( PInputEvent event ) {
                 PieSet state = model.get();
                 final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                PieSet newState = new PieSet( state.denominator, state.pies, state.slices.map( new F<Slice, Slice>() {
-                    public Slice f( Slice slice ) {
-                        return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
+                PieSet newState = state.slices( state.slices.map( new F<Slice, Slice>() {
+                    public Slice f( Slice s ) {
+                        return s.dragging ? s.translate( delta.getWidth(), delta.getHeight() ) : s;
                     }
-                } ), state.sliceFactory );
+                } ) );
                 model.set( newState );
             }
         } );
