@@ -144,7 +144,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         // Add the background cell that will enclose the DNA strand.  Clicking
         // on this cell will zoom in when we are in the zoomed out state.
-        backgroundCell = new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + DnaMolecule.MOLECULE_LENGTH / 2,
+        backgroundCell = new BackgroundCellNode( mvt.modelToView( model.getDnaMolecule().getLeftEdgePos().getX() + model.getDnaMolecule().getLength() / 2,
                                                                   DnaMolecule.Y_POS ),
                                                  6 );
         backgroundCell.setPickable( true );
