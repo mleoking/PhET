@@ -94,6 +94,14 @@ public class DnaMolecule {
     //-------------------------------------------------------------------------
 
     /**
+     * Constructor that doesn't specify a model, so a stub model is created.
+     * This is primarily for use in creating DNA likenesses on control panels.
+     */
+    public DnaMolecule( int numBasePairs, double leftEdgeXOffset ) {
+        this( new StubGeneExpressionModel(), numBasePairs, leftEdgeXOffset );
+    }
+
+    /**
      * Constructor.
      *
      * @param model - The gene expression model within which this DNA strand

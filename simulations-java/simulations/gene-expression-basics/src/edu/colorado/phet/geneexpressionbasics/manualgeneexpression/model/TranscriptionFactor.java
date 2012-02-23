@@ -73,10 +73,32 @@ public class TranscriptionFactor extends MobileBiomolecule {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
+    /**
+     * Constructor for a TF that doesn't need to interact with a real model.
+     * 
+     * @param config
+     */
+    public TranscriptionFactor( TranscriptionFactorConfig config ) {
+        this( new StubGeneExpressionModel(), config );
+    }
+
+    /**
+     * Constructor with default position.
+     *
+     * @param model
+     * @param config
+     */
     public TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config ) {
         this( model, config, new Point2D.Double( 0, 0 ) );
     }
 
+    /**
+     * Primary constructor.
+     * 
+     * @param model
+     * @param config
+     * @param initialPosition
+     */
     public TranscriptionFactor( GeneExpressionModel model, TranscriptionFactorConfig config, Point2D initialPosition ) {
         super( model, config.shape, config.baseColor );
         this.config = config;
