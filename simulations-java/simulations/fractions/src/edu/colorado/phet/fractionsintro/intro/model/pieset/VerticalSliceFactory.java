@@ -15,12 +15,19 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  */
 public class VerticalSliceFactory extends AbstractSliceFactory {
 
-    public static final VerticalSliceFactory VerticalSliceFactory = new VerticalSliceFactory();
+    public static final VerticalSliceFactory VerticalSliceFactory = new VerticalSliceFactory( 125, 225 );
 
-    public final double barWidth = 125;
+    //Water glasses are a bit smaller to match up with the graphics exactly
+    public static final VerticalSliceFactory WaterGlassSetFactory = new VerticalSliceFactory( 100, 200 );
+
+    public final double barWidth;
+    public final double barHeight;
 
     //Private, require users to use singleton
-    private VerticalSliceFactory() {}
+    private VerticalSliceFactory( double barWidth, double barHeight ) {
+        this.barWidth = barWidth;
+        this.barHeight = barHeight;
+    }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> createToShape( final double height ) {
@@ -43,7 +50,6 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
 
     public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {
         double offset = new LinearFunction( 1, 6, barWidth * 3 - barWidth / 3, 0 ).evaluate( numPies );
-        double barHeight = 225;
         final double cellHeight = barHeight / denominator;
         int distanceBetweenBars = 20;
         double delta = barWidth + distanceBetweenBars;

@@ -19,6 +19,7 @@ import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 import static fj.Ord.doubleOrd;
 
 /**
@@ -41,28 +42,33 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }} );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( Representation.NUMBER_LINE ) ) {{
+        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ) ) {{
             setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
         }} );
 
         //Show the pie set node when pies are selected
-        addChild( new RepresentationNode( model.representation, Representation.PIE ) {{
+        addChild( new RepresentationNode( model.representation, PIE ) {{
             addChild( new PieSetNode( model.pieSet, rootNode ) );
         }} );
 
         //For horizontal bars
-        addChild( new RepresentationNode( model.representation, Representation.HORIZONTAL_BAR ) {{
+        addChild( new RepresentationNode( model.representation, HORIZONTAL_BAR ) {{
             addChild( new PieSetNode( model.horizontalBarSet, rootNode ) );
         }} );
 
         //For vertical bars
-        addChild( new RepresentationNode( model.representation, Representation.VERTICAL_BAR ) {{
+        addChild( new RepresentationNode( model.representation, VERTICAL_BAR ) {{
             addChild( new PieSetNode( model.verticalBarSet, rootNode ) );
         }} );
 
+        //For Debugging water glasses region management
+//        addChild( new RepresentationNode( model.representation, WATER_GLASSES ) {{
+//            addChild( new PieSetNode( model.waterGlassSet, rootNode ) );
+//        }} );
+
         //For water glasses
-        addChild( new RepresentationNode( model.representation, Representation.WATER_GLASSES ) {{
-            addChild( new PieSetNode( model.verticalBarSet, rootNode, new WaterGlassNodeFactory() ) {
+        addChild( new RepresentationNode( model.representation, WATER_GLASSES ) {{
+            addChild( new PieSetNode( model.waterGlassSet, rootNode, new WaterGlassNodeFactory() ) {
                 @Override protected PNode createEmptyCellsNode( PieSet state ) {
                     PNode node = new PNode();
                     //Show the beakers

@@ -16,6 +16,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.WaterGlassSetFactory;
 
 /**
  * Model for the Fractions Intro sim.
@@ -46,7 +47,8 @@ public class FractionsIntroModel {
                 final IntroState newState = s.pieSet( newPieSet ).
                         containerSet( newPieSet.toContainerSet() ).
                         horizontalBarSet( s.horizontalBarSet.stepInTime( dt ) ).
-                        verticalBarSet( s.verticalBarSet.stepInTime( dt ) );
+                        verticalBarSet( s.verticalBarSet.stepInTime( dt ) ).
+                        waterGlassSet( s.waterGlassSet.stepInTime( dt ) );
                 state.set( newState );
             }
         } );
@@ -84,7 +86,8 @@ public class FractionsIntroModel {
                                                    final PieSet p = s.pieSet.animateBucketSliceToPie( firstEmptyCell );
                                                    final PieSet h = s.horizontalBarSet.animateBucketSliceToPie( firstEmptyCell );
                                                    final PieSet v = s.verticalBarSet.animateBucketSliceToPie( firstEmptyCell );
-                                                   s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( numerator );
+                                                   final PieSet w = s.waterGlassSet.animateBucketSliceToPie( firstEmptyCell );
+                                                   s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).waterGlassSet( w ).containerSet( p.toContainerSet() ).numerator( numerator );
                                                }
                                            }
                                            else if ( delta < 0 ) {
@@ -93,7 +96,8 @@ public class FractionsIntroModel {
                                                    final PieSet p = s.pieSet.animateSliceToBucket( lastFullCell );
                                                    final PieSet h = s.horizontalBarSet.animateSliceToBucket( lastFullCell );
                                                    final PieSet v = s.verticalBarSet.animateSliceToBucket( lastFullCell );
-                                                   s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( numerator );
+                                                   final PieSet w = s.waterGlassSet.animateSliceToBucket( lastFullCell );
+                                                   s = s.pieSet( p ).horizontalBarSet( h ).waterGlassSet( w ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( numerator );
                                                }
                                            }
                                            else {
@@ -115,9 +119,12 @@ public class FractionsIntroModel {
 
                                            //create a new container set
                                            ContainerSet cs = s.containerSet.update( s.maximum, denominator );
-                                           return s.pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).containerSet( cs ).denominator( denominator ).
+                                           return s.pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
+                                                   containerSet( cs ).
+                                                   denominator( denominator ).
                                                    horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
-                                                   verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) );
+                                                   verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
+                                                   waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) );
                                        }
                                    }
             ).toIntegerProperty();
@@ -132,6 +139,7 @@ public class FractionsIntroModel {
                 public IntroState apply( IntroState s, ContainerSet containerSet ) {
                     return s.containerSet( containerSet ).
                             pieSet( CircularSliceFactory.fromContainerSetState( containerSet ) ).
+                            waterGlassSet( CircularSliceFactory.fromContainerSetState( containerSet ) ).
                             numerator( containerSet.numerator ).
                             denominator( containerSet.denominator );
                 }
@@ -149,7 +157,12 @@ public class FractionsIntroModel {
                 public IntroState apply( IntroState s, PieSet pieSet ) {
                     final ContainerSet cs = pieSet.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
-                    return s.pieSet( pieSet ).containerSet( cs ).numerator( cs.numerator ).horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) );//TODO: should be horizontal
+                    return s.pieSet( pieSet ).
+                            containerSet( cs ).
+                            numerator( cs.numerator ).
+                            //TODO: Missing representations
+                                    horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
+                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) );//TODO: should be horizontal
                 }
             }
     );
@@ -165,8 +178,12 @@ public class FractionsIntroModel {
                 public IntroState apply( IntroState s, PieSet p ) {
                     final ContainerSet cs = p.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
-                    return s.horizontalBarSet( p ).containerSet( cs ).numerator( cs.numerator ).pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) );
+                    return s.horizontalBarSet( p ).
+                            containerSet( cs ).
+                            numerator( cs.numerator ).
+                            pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
+                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
+                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) );
                 }
             }
     );
@@ -184,6 +201,28 @@ public class FractionsIntroModel {
                     //Update both the pie set and container state to match the user specified pie set
                     return s.verticalBarSet( p ).
                             containerSet( cs ).
+                            horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
+                            numerator( cs.numerator ).
+                            pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
+                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) );
+                }
+            }
+    );
+
+    //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
+    public final SettableProperty<PieSet> waterGlassSet = new ClientProperty<PieSet>(
+            state, new Function1<IntroState, PieSet>() {
+        public PieSet apply( IntroState s ) {
+            return s.waterGlassSet;
+        }
+    },
+            new Function2<IntroState, PieSet, IntroState>() {
+                public IntroState apply( IntroState s, PieSet p ) {
+                    final ContainerSet cs = p.toContainerSet();
+                    //Update both the pie set and container state to match the user specified pie set
+                    return s.waterGlassSet( p ).
+                            containerSet( cs ).
+                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
                             horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
                             numerator( cs.numerator ).
                             pieSet( CircularSliceFactory.fromContainerSetState( cs ) );
@@ -213,7 +252,8 @@ public class FractionsIntroModel {
                             final PieSet p = s.pieSet.animateSliceToBucket( cp ).pies( s.pieSet.pies.take( s.pieSet.pies.length() - 1 ) );
                             final PieSet h = s.horizontalBarSet.animateSliceToBucket( cp ).pies( s.horizontalBarSet.pies.take( s.horizontalBarSet.pies.length() - 1 ) );
                             final PieSet v = s.verticalBarSet.animateSliceToBucket( cp ).pies( s.verticalBarSet.pies.take( s.verticalBarSet.pies.length() - 1 ) );
-                            s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( maximum );
+                            final PieSet w = s.waterGlassSet.animateSliceToBucket( cp ).pies( s.waterGlassSet.pies.take( s.waterGlassSet.pies.length() - 1 ) );
+                            s = s.pieSet( p ).horizontalBarSet( h ).verticalBarSet( v ).containerSet( p.toContainerSet() ).numerator( maximum ).waterGlassSet( w );
                         }
                         s = s.maximum( maximum );
                         return s;
@@ -224,6 +264,7 @@ public class FractionsIntroModel {
                                 pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
                                 horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
                                 verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
+                                waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) ).
                                 numerator( cs.numerator ).
                                 denominator( cs.denominator );
                     }
