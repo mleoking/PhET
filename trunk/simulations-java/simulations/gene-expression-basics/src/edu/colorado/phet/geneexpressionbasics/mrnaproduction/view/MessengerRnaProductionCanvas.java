@@ -103,9 +103,12 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
             }
         }
 
-        // Add the nodes that control the transcription factor parameters.
+        // Add the nodes that allow the user to control the concentrations and
+        // affinities.
         TranscriptionFactorControlPanel positiveTranscriptionFactorControlPanel = new TranscriptionFactorControlPanel( model, true );
         controlsRootNode.addChild( positiveTranscriptionFactorControlPanel );
+        PolymeraseAffinityControlPanel polymeraseAffinityControlPanel = new PolymeraseAffinityControlPanel( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG );
+        controlsRootNode.addChild( polymeraseAffinityControlPanel );
 
         // Lay out the control nodes.
         positiveTranscriptionFactorControlPanel.setOffset( INSET,
