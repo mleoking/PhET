@@ -21,15 +21,16 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Transcr
 
 /**
  * This class models a molecule of DNA in the model.  It includes the shape of
- * the two strands of the DNA and the base pairs, defines where the various
- * genes reside, and retains other information about the DNA molecule.  This is
- * an important and central object in the model for this simulation.
+ * the two "backbone" strands of the DNA and the individual base pairs, defines
+ * where the various genes reside, and retains other information about the DNA
+ * molecule.  This is an important and central object in the model for this
+ * simulation.
  * <p/>
  * A big simplifying assumption that this class makes is that molecules that
  * attach to the DNA do so to individual base pairs.  In reality, biomolecules
- * attach to SETS OF THREE base pairs (called "codons") that dictate where
- * biomolecules attach. This was unnecessarily complicated for the needs of
- * this sim.
+ * attach to groups of base pairs, the exact configuration of which dictate
+ * where biomolecules attach. This was unnecessarily complicated for the needs
+ * of this sim.
  *
  * @author John Blanco
  */
@@ -39,18 +40,13 @@ public class DnaMolecule {
     // Class Data
     //-------------------------------------------------------------------------
 
-    // Constants the define the size and related attributes of the strand.
+    // Constants the define the geometry of the DNA molecule.
     public static final double DIAMETER = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
     private static final int BASE_PAIRS_PER_TWIST = 10; // In picometers.
     public static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
-//    private static final int NUMBER_OF_TWISTS = 200;
-//    private static final int NUMBER_OF_BASE_PAIRS = BASE_PAIRS_PER_TWIST * NUMBER_OF_TWISTS;
-//    public static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
-//    private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers, chosen to work well with the viewport approach.
-//    private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;  // Make the strand start out of view to the left.
-    public static final double Y_POS = 0;
+    public static final double Y_POS = 0; // Y position of the molecule in model space.
 
     // Distance within which transcription factors may attach.
     private static final double TRANSCRIPTION_FACTOR_ATTACHMENT_DISTANCE = 400;
@@ -72,8 +68,6 @@ public class DnaMolecule {
     private final double leftEdgeXOffset;
 
     // Points that, when connected, define the shape of the DNA strands.
-    private final List<Point2D> strand1Points = new ArrayList<Point2D>();
-    private final List<Point2D> strand2Points = new ArrayList<Point2D>();
     private final List<DnaStrandPoint> strandPoints = new ArrayList<DnaStrandPoint>();
 
     // Shadow of the points that define the strand shapes, used for rapid
@@ -121,8 +115,6 @@ public class DnaMolecule {
         // strands.  Points are spaced the same as the base pairs.
         for ( int i = 0; i < moleculeLength / DISTANCE_BETWEEN_BASE_PAIRS; i++ ) {
             double xPos = leftEdgeXOffset + i * DISTANCE_BETWEEN_BASE_PAIRS;
-            strand1Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, 0 ) ) );
-            strand2Points.add( new Point2D.Double( xPos, getDnaStrandYPosition( xPos, INTER_STRAND_OFFSET ) ) );
             strandPoints.add( new DnaStrandPoint( xPos, getDnaStrandYPosition( xPos, 0 ), getDnaStrandYPosition( xPos, INTER_STRAND_OFFSET ) ) );
         }
 
@@ -136,11 +128,11 @@ public class DnaMolecule {
         // Create the sets of segments that will be observed by the view.
         initializeStrandSegments();
 
-        // Add in the base pairs between the strands.  This calculates the
-        // distance between the two strands and puts a line between them in
+        // Add in the base pairs between the backbone strands.  This calculates
+        // the distance between the two strands and puts a line between them in
         // order to look like the base pair.
         double basePairXPos = leftEdgeXOffset;
-        while ( basePairXPos <= strand1Points.get( strand1Points.size() - 1 ).getX() ) {
+        while ( basePairXPos <= strandPoints.get( strandPoints.size() - 1 ).xPos ) {
             double strand1YPos = getDnaStrandYPosition( basePairXPos, 0 );
             double strand2YPos = getDnaStrandYPosition( basePairXPos, INTER_STRAND_OFFSET );
             double height = Math.abs( strand1YPos - strand2YPos );
