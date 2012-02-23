@@ -245,7 +245,8 @@ public class RulerNode extends PhetPNode {
     }
 
     /**
-     * Sets an optional scale for the fonts used in this ruler (default scale is 1.0).  This is useful when embedding the ruler in model coordinates.
+     * Sets an optional scale for the fonts used in this ruler (default scale is 1.0).
+     * This is useful when embedding the ruler in model coordinates.
      *
      * @param fontScale
      */
