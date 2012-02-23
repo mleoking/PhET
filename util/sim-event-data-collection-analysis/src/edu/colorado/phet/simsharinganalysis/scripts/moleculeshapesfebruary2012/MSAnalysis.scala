@@ -70,7 +70,7 @@ object MSAnalysis extends StateMachine[SimState] {
 
   def main(args: Array[String]) {
 
-    val logs = phet load new File("C:\\Users\\Sam\\Desktop\\ms-data")
+    val logs = phet load new File("C:\\Users\\Sam\\Desktop\\ms-data-revised")
     val reports = logs.map(toReport(_))
     println("filename\t" + "" +
             "time tab 1\t" +
