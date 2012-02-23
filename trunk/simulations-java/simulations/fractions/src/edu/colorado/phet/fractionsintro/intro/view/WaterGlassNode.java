@@ -7,13 +7,13 @@ import java.awt.Font;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractions.FractionsResources;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.BeakerNode;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.Solute;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.Solution;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.SolutionNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Sam Reid
  */
-public class WaterGlassNode extends PNode {
+public class WaterGlassNode extends RichPNode {
 
     // properties common to all 3 beakers
     private static final double BEAKER_SCALE_X = 0.33;

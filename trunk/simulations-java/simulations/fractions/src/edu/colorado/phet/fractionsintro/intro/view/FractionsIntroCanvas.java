@@ -31,11 +31,6 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             setOffset( INSET + -10, representationControlPanel.getFullBounds().getMaxY() + 100 - 40 );
         }} );
 
-        //Water glasses
-        addChild( new WaterGlassSetFractionNode( model.containerSet, model.representation.valueEquals( Representation.WATER_GLASSES ) ) {{
-            setOffset( INSET + 15, representationControlPanel.getFullBounds().getMaxY() + 100 - 65 );
-        }} );
-
         //Number line
         addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( Representation.NUMBER_LINE ) ) {{
             setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
@@ -77,8 +72,10 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
         resetAllButtonNode.setOffset( STAGE_SIZE.width - resetAllButtonNode.getFullBounds().getWidth() - INSET, STAGE_SIZE.height - resetAllButtonNode.getFullBounds().getHeight() - INSET );
 
+        //Spinner to change the maximum allowed value
         MaxSpinner maxSpinner = new MaxSpinner( model.maximum ) {{
-//            setOffset( STAGE_SIZE.width - getFullWidth() - INSET, resetAllButtonNode.getFullBounds().getY() - getFullHeight() - INSET );
+
+            //Center above reset all button
             setOffset( resetAllButtonNode.getFullBounds().getCenterX() - getFullWidth() / 2, resetAllButtonNode.getFullBounds().getY() - getFullHeight() - INSET );
         }};
         addChild( maxSpinner );
