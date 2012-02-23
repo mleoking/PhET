@@ -5,20 +5,13 @@ import fj.Equal;
 import fj.F;
 import fj.data.List;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarget;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
-import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -30,73 +23,58 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class MovableSliceNode extends PNode {
-    private static final Paint SHADOW_PAINT = new Color( 0, 0, 0, (int) ( 0.75 * 255 ) );
 
-    public MovableSliceNode( final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
+    public MovableSliceNode( PNode child, final PNode rootNode, final SettableProperty<PieSet> model, final Slice slice ) {
 
-        //A piece should have a shadow if it is being dragged or animating to a location
-        boolean showShadow = slice.dragging || slice.animationTarget != null;
+        addChild( child );
 
-        final Shape origShape = slice.shape();
-        Shape shape = showShadow ? AffineTransform.getTranslateInstance( -5, -5 ).createTransformedShape( origShape ) : origShape;
-        if ( Double.isNaN( shape.getBounds2D().getX() ) || Double.isNaN( shape.getBounds2D().getY() ) ) {
-            //TODO: Find and prevent the NaNs in the first place
-            return;
-        }
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
 
-        //Show a shadow behind the object so it will look like it is a bit out of the screen and hence not part of the fraction
-        if ( showShadow ) {
-            addChild( new PhetPPath( origShape, SHADOW_PAINT ) );
-        }
-        addChild( new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 2 ), Color.black ) {{
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
+            //Flag one slice as dragging
+            @Override public void mousePressed( PInputEvent event ) {
+                PieSet state = model.get();
 
-                //Flag one slice as dragging
-                @Override public void mousePressed( PInputEvent event ) {
-                    PieSet state = model.get();
-
-                    //If dragging from the bucket, do not delete the old piece (since bucket should always look like it has an infinite supply)
-                    if ( state.isInBucket( slice ) ) {
-                        model.set( state.slices( state.slices.snoc( slice.dragging( true ) ) ) );
-                    }
-                    else {
-                        model.set( state.slices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) ) );
-                    }
+                //If dragging from the bucket, do not delete the old piece (since bucket should always look like it has an infinite supply)
+                if ( state.isInBucket( slice ) ) {
+                    model.set( state.slices( state.slices.snoc( slice.dragging( true ) ) ) );
                 }
+                else {
+                    model.set( state.slices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) ) );
+                }
+            }
 
-                //Set all drag flags to false
-                @Override public void mouseReleased( PInputEvent event ) {
-                    final PieSet state = model.get();
+            //Set all drag flags to false
+            @Override public void mouseReleased( PInputEvent event ) {
+                final PieSet state = model.get();
 
-                    //Any dropped pieces should snap to their destination.
-                    final List<Slice> newSlices = state.slices.map( new F<Slice, Slice>() {
-                        public Slice f( Slice s ) {
-                            Slice target = state.getDropTarget( s );
-                            if ( s.dragging && target != null ) { return s.moveTo( target ); }
-                            else if ( s.dragging ) {
-                                final Slice destination = model.get().sliceFactory.createBucketSlice( model.get().denominator );
-                                return s.dragging( false ).animationTarget( new AnimationTarget( destination.position, destination.angle ) );
-                            }
-                            else { return s; }
+                //Any dropped pieces should snap to their destination.
+                final List<Slice> newSlices = state.slices.map( new F<Slice, Slice>() {
+                    public Slice f( Slice s ) {
+                        Slice target = state.getDropTarget( s );
+                        if ( s.dragging && target != null ) { return s.moveTo( target ); }
+                        else if ( s.dragging ) {
+                            final Slice destination = model.get().sliceFactory.createBucketSlice( model.get().denominator );
+                            return s.dragging( false ).animationTarget( new AnimationTarget( destination.position, destination.angle ) );
                         }
-                    } );
-                    final PieSet newState = state.slices( newSlices );
-                    model.set( newState );
-                }
+                        else { return s; }
+                    }
+                } );
+                final PieSet newState = state.slices( newSlices );
+                model.set( newState );
+            }
 
-                //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
-                @Override public void mouseDragged( PInputEvent event ) {
-                    PieSet state = model.get();
-                    final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                    PieSet newState = new PieSet( state.denominator, state.pies, state.slices.map( new F<Slice, Slice>() {
-                        public Slice f( Slice slice ) {
-                            return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
-                        }
-                    } ), state.sliceFactory );
-                    model.set( newState );
-                }
-            } );
-        }} );
+            //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
+            @Override public void mouseDragged( PInputEvent event ) {
+                PieSet state = model.get();
+                final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
+                PieSet newState = new PieSet( state.denominator, state.pies, state.slices.map( new F<Slice, Slice>() {
+                    public Slice f( Slice slice ) {
+                        return slice.dragging ? slice.translate( delta.getWidth(), delta.getHeight() ) : slice;
+                    }
+                } ), state.sliceFactory );
+                model.set( newState );
+            }
+        } );
     }
 }
