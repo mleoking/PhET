@@ -23,4 +23,15 @@ so it adds both solute and solvent. You can measure the concentration of the sto
 the Concentration meter.  Pressing the "Remove Solute" button removes all solute from
 the solution.
 
+The faucet in the lower-right corner of the play area is a drain to remove solution
+(solvent and solute together). This decreases volume with no change to solution concentration.
+
+Displaced volume due to dissolved solutes is ignored in the simulation; it is a small value,
+but would be non-negligible if we chose to model it. We removed the effect of volume on dissolved
+solutes for the following reasons:
+(a) the effect is relatively small, since solute particles have a small mass
+(b) implementation difficulty in terms of both math and software design
+Regarding this latter point, it reduces to a pair of coupled equations:
+molesDissolved = f(volume) and volume = f(molesDissolved)
+
 For additional details, consult the class files in package edu.colorado.phet.beerslawlab.concentration.model.
