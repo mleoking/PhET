@@ -197,4 +197,20 @@ import static fj.data.List.range;
         final Slice target = sliceFactory.createBucketSlice( denominator );
         return !slice.isDragging() && slice.position.getY() == target.position.getY();
     }
+
+    public int countFilledCells( Pie pie ) {
+        return pie.cells.map( new F<Slice, Integer>() {
+            @Override public Integer f( Slice cell ) {
+                return cellFilled( cell ) ? 1 : 0;
+            }
+        } ).foldLeft( new F2<Integer, Integer, Integer>() {
+            @Override public Integer f( Integer o, Integer integer ) {
+                return o + integer;
+            }
+        }, 0 );
+    }
+
+    public boolean isInContainer( Slice slice ) {
+        return !isInBucket( slice ) && !slice.dragging && slice.animationTarget == null;
+    }
 }

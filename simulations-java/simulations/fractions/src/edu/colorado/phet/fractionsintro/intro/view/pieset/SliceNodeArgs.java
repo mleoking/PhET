@@ -13,4 +13,5 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 public @Data class SliceNodeArgs {
     public final Slice slice;
     public final int denominator;
+    public final boolean inContainer;
 }

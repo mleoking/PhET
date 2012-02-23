@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
+import fj.F;
+import fj.data.List;
+
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -8,9 +11,15 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.Pie;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
+import edu.umd.cs.piccolo.PNode;
+
+import static fj.Ord.doubleOrd;
 
 /**
  * Canvas for "Fractions Intro" sim.
@@ -53,7 +62,23 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
         //For water glasses
         addChild( new RepresentationNode( model.representation, Representation.WATER_GLASSES ) {{
-            addChild( new PieSetNode( model.verticalBarSet, rootNode, new WaterGlassNodeFactory() ) );
+            addChild( new PieSetNode( model.verticalBarSet, rootNode, new WaterGlassNodeFactory() ) {
+                @Override protected PNode createEmptyCellsNode( PieSet state ) {
+                    PNode node = new PNode();
+                    //Show the beakers
+                    for ( final Pie pie : state.pies ) {
+                        final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
+                            @Override public Double f( Slice s ) {
+                                return s.shape().getBounds2D().getMinY();
+                            }
+                        } );
+                        node.addChild( new WaterGlassNode( state.countFilledCells( pie ), state.denominator ) {{
+                            setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
+                        }} );
+                    }
+                    return node;
+                }
+            } );
         }} );
 
         ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
