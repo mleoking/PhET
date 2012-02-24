@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class Shaker extends Movable {
 
-    private final double orientation; // rotation angle, in radians
+    public final double orientation; // rotation angle, in radians
     public final Property<Solute> solute;
     public final Property<Boolean> visible;
     public final Property<Boolean> empty;
@@ -44,10 +44,6 @@ public class Shaker extends Movable {
             }
         };
         rateObserver.observe( empty, visible );
-    }
-
-    public double getOrientation() {
-        return orientation;
     }
 
     public double getDispensingRate() {

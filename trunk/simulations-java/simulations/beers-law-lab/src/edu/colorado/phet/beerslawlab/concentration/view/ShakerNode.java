@@ -44,7 +44,7 @@ class ShakerNode extends PhetPNode {
         imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
 
         // Image file has shaker holes pointing left (orientation=Math.PI), so account for this when using model orientation.
-        parentNode.rotate( shaker.getOrientation() - Math.PI );
+        parentNode.rotate( shaker.orientation - Math.PI );
 
         ZeroOffsetNode zeroOffsetNode = new ZeroOffsetNode( parentNode );
         addChild( zeroOffsetNode );
