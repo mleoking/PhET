@@ -5,7 +5,6 @@ import edu.colorado.phet.beerslawlab.common.model.Movable;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -19,7 +18,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class ConcentrationMeter implements Resettable {
 
-    private final Property<Double> value;
+    public final Property<Double> value; // null if the meter is not reading a value
     public final Movable body;
     public final Movable probe;
 
@@ -28,19 +27,6 @@ public class ConcentrationMeter implements Resettable {
         this.value = new Property<Double>( null );
         this.body = new Movable( bodyLocation, bodyDragBounds );
         this.probe = new Movable( probeLocation, probeDragBounds );
-    }
-
-    public void setValue( Double value ) {
-        this.value.set( value );
-    }
-
-    // Gets the value to be displayed by the meter, null if the meter is not reading a value.
-    public Double getValue() {
-        return value.get();
-    }
-
-    public void addValueObserver( SimpleObserver observer ) {
-        value.addObserver( observer );
     }
 
     public void reset() {

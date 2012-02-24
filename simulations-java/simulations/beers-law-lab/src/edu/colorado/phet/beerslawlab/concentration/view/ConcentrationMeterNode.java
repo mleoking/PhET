@@ -14,10 +14,10 @@ import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.common.view.TiledBackgroundNode;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationMeter;
+import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
@@ -104,19 +104,19 @@ class ConcentrationMeterNode extends PhetPNode {
     // Update the value based on what solution (if any) the probe intersects.
     private void updateValue() {
         if ( probeNode.isInSolution() ) {
-            meter.setValue( solution.concentration.get() );
+            meter.value.set( solution.concentration.get() );
         }
         else if ( probeNode.isInSolvent() ) {
-            meter.setValue( 0d );
+            meter.value.set( 0d );
         }
         else if ( probeNode.isInDrain() ) {
-            meter.setValue( solution.concentration.get() );
+            meter.value.set( solution.concentration.get() );
         }
         else if ( probeNode.isInStockSolution() ) {
-            meter.setValue( dropper.solute.get().stockSolutionConcentration );
+            meter.value.set( dropper.solute.get().stockSolutionConcentration );
         }
         else {
-            meter.setValue( null );
+            meter.value.set( null );
         }
     }
 
@@ -172,9 +172,9 @@ class ConcentrationMeterNode extends PhetPNode {
             } );
 
             // displayed value
-            meter.addValueObserver( new SimpleObserver() {
+            meter.value.addObserver( new SimpleObserver() {
                 public void update() {
-                    Double value = meter.getValue();
+                    Double value = meter.value.get();
                     if ( value == null ) {
                         valueNode.setText( NO_VALUE );
                         // centered
