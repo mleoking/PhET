@@ -13,21 +13,20 @@ import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.platetectonics.model.PlateMotionModel.*;
 import static edu.colorado.phet.platetectonics.util.Side.LEFT;
-import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
 
 public class PlateMotionPlate extends Plate {
     private final PlateMotionModel model;
     private final TextureStrategy textureStrategy;
-    private final boolean isLeftPlate;
+    private final Side side;
 
     private PlateType plateType = null;
 
     private PlateBehavior behavior;
 
-    public PlateMotionPlate( final PlateMotionModel model, final TextureStrategy textureStrategy, final boolean isLeftPlate ) {
+    public PlateMotionPlate( final PlateMotionModel model, final TextureStrategy textureStrategy, final Side side ) {
         this.model = model;
         this.textureStrategy = textureStrategy;
-        this.isLeftPlate = isLeftPlate;
+        this.side = side;
         addMantle( new Region( MANTLE_VERTICAL_STRIPS, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 return createMantleSample( xIndex, yIndex, MANTLE_VERTICAL_STRIPS,
@@ -40,7 +39,7 @@ public class PlateMotionPlate extends Plate {
 
     private Sample createMantleSample( int xIndex, int yIndex, int verticalSamples, float mantleTopY, float mantleBottomY, float mantleTopTemp, float mantleBottomTemp ) {
         // TODO: consider adding a higher concentration of samples near the top?
-        float x = isLeftPlate ? model.getStartingX( LEFT, xIndex ) : model.getStartingX( RIGHT, xIndex );
+        float x = model.getStartingX( side, xIndex );
         final float yRatio = ( (float) yIndex ) / ( (float) verticalSamples );
         float y = mantleTopY + ( mantleBottomY - mantleTopY ) * yRatio;
         float temp = mantleTopTemp + ( mantleBottomTemp - mantleTopTemp ) * yRatio;
@@ -66,7 +65,7 @@ public class PlateMotionPlate extends Plate {
         addCrust( new Region( CRUST_VERTICAL_STRIPS, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 // start with top first
-                float x = isLeftPlate ? model.getStartingX( LEFT, xIndex ) : model.getStartingX( RIGHT, xIndex );
+                float x = model.getStartingX( side, xIndex );
 
                 final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
                 float y = crustTopY + ( crustBottomY - crustTopY ) * yRatio;
@@ -200,11 +199,11 @@ public class PlateMotionPlate extends Plate {
                 float y = sample.getPosition().y;
 
                 // grab the Z from the terrain. we also reverse the index for the side of the left plate, so the sidedness is correct
-                float z = getTerrain().zPositions.get( isLeftPlate ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
+                float z = getTerrain().zPositions.get( side == LEFT ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
 
                 // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
                 return new Sample( new ImmutableVector3F( x, y, z ), sample.getTemperature(), sample.getDensity(),
-                                   textureStrategy.mapFront( new ImmutableVector2F( isLeftPlate ? -z : z, y ) ) );
+                                   textureStrategy.mapFront( new ImmutableVector2F( z * side.getSign(), y ) ) );
             }
         } ) );
 
@@ -221,11 +220,11 @@ public class PlateMotionPlate extends Plate {
                 float y = sample.getPosition().y;
 
                 // grab the Z from the terrain. we also reverse the index for the side of the left plate, so the sidedness is correct
-                float z = getTerrain().zPositions.get( isLeftPlate ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
+                float z = getTerrain().zPositions.get( side == LEFT ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
 
                 // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
                 return new Sample( new ImmutableVector3F( x, y, z ), sample.getTemperature(), sample.getDensity(),
-                                   textureStrategy.mapFront( new ImmutableVector2F( isLeftPlate ? -z : z, y ) ) );
+                                   textureStrategy.mapFront( new ImmutableVector2F( z * side.getSign(), y ) ) );
             }
         } ) );
 
@@ -255,12 +254,12 @@ public class PlateMotionPlate extends Plate {
                 float y = myTopY + ( myBottomY - myTopY ) * yRatio;
 
                 // grab the Z from the terrain. we also reverse the index for the side of the left plate, so the sidedness is correct
-                float z = getTerrain().zPositions.get( isLeftPlate ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
+                float z = getTerrain().zPositions.get( side == LEFT ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
                 // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
                 return new Sample( new ImmutableVector3F( x, y, z ), temp, sample.getDensity(),
-                                   textureStrategy.mapFront( new ImmutableVector2F( isLeftPlate ? -z : z, y ) ) );
+                                   textureStrategy.mapFront( new ImmutableVector2F( z * side.getSign(), y ) ) );
             }
         } ) );
     }
@@ -273,13 +272,8 @@ public class PlateMotionPlate extends Plate {
         this.behavior = behavior;
     }
 
-    // TODO: refactor this away, not needed
-    public boolean isLeftPlate() {
-        return isLeftPlate;
-    }
-
     public Side getSide() {
-        return isLeftPlate() ? LEFT : RIGHT;
+        return side;
     }
 
     public TextureStrategy getTextureStrategy() {

@@ -46,6 +46,18 @@ public enum Side {
         return list.get( getIndex( list ) );
     }
 
+    // returns true of A is to the <side> side of B
+    public boolean isToSideOf( float a, float b ) {
+        switch( this ) {
+            case LEFT:
+                return a < b;
+            case RIGHT:
+                return a > b;
+            default:
+                throw new RuntimeException( "Side not found: " + this );
+        }
+    }
+
     public Side opposite() {
         return this == LEFT ? RIGHT : LEFT;
     }

@@ -10,6 +10,7 @@ import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
+import edu.colorado.phet.platetectonics.util.Side;
 
 public class CollidingBehavior extends PlateBehavior {
 
@@ -26,7 +27,7 @@ public class CollidingBehavior extends PlateBehavior {
         timeElapsed += millionsOfYears;
         createEarthEdges();
 
-        float sign = plate.isLeftPlate() ? 1 : -1;
+        float sign = -plate.getSide().getSign();
         final List<Sample> topSamples = getPlate().getCrust().getTopBoundary().samples;
         final Boundary lithosphereBottomBoundary = getPlate().getLithosphere().getBottomBoundary();
         final List<Sample> bottomSamples = lithosphereBottomBoundary.samples;
@@ -97,7 +98,7 @@ public class CollidingBehavior extends PlateBehavior {
         }
 
         // copy elevation from left plate to right plate on the center line
-        if ( !getPlate().isLeftPlate() ) {
+        if ( getPlate().getSide() == Side.RIGHT ) {
             for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
                 final float elevation = getOtherPlate().getTerrain().getSample( getOtherPlate().getTerrain().getNumColumns() - 1, row ).getElevation();
                 getPlate().getTerrain().getSample( 0, row ).setElevation(

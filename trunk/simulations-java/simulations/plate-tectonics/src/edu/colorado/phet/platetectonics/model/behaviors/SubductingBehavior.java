@@ -14,7 +14,7 @@ public class SubductingBehavior extends PlateBehavior {
 
     @Override public void stepInTime( float millionsOfYears ) {
         for ( Sample sample : plate.getCrust().getSamples() ) {
-            final int sign = getPlate().isLeftPlate() ? 1 : -1;
+            final int sign = -getPlate().getSide().getSign();
             final float shearFactor = 1;
 
             ImmutableVector3F preShearedPosition = sample.getPosition();

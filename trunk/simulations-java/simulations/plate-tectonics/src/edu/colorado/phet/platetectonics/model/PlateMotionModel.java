@@ -175,11 +175,11 @@ public class PlateMotionModel extends PlateModel {
             removePlate( leftPlate );
         }
 
-        leftPlate = new PlateMotionPlate( this, getTextureStrategy(), true );
+        leftPlate = new PlateMotionPlate( this, getTextureStrategy(), Side.LEFT );
         if ( rightPlate != null ) {
             removePlate( rightPlate );
         }
-        rightPlate = new PlateMotionPlate( this, getTextureStrategy(), false );
+        rightPlate = new PlateMotionPlate( this, getTextureStrategy(), Side.RIGHT );
 
         addPlate( leftPlate );
         addPlate( rightPlate );
