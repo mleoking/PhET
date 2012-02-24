@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_sv.xml created Mon Feb 06 02:45:41 CET 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="simSpeed" value="simuleringshastighet"/>
+<string key="sameFrequency" value="samma frekvens"/>
+<string key="sameSpring" value="samma fjäder k"/>
+<string key="slow" value="långsam"/>
+<string key="mixedMAndK" value="blandat m och k"/>
+<string key="numberOfResonators" value="Antal resonatorer"/>
+<string key="pause" value="paus"/>
+<string key="amplitude" value="amplitud"/>
+<string key="frequencyEqualsXHz" value="frekvens = {0} Hz"/>
+<string key="step" value="stegvis"/>
+<string key="driver" value="VIBRATOR"/>
+<string key="on" value="på"/>
+<string key="ruler" value="Linjal"/>
+<string key="resonance.simTitle" value="Resonans"/>
+<string key="springConstant" value="fjäderkonstant"/>
+<string key="frequency" value="frekvens"/>
+<string key="resetAll" value="Återställ allt"/>
+<string key="mass" value="massa"/>
+<string key="sameMass" value="samma massa m"/>
+<string key="resonator" value="Resonator"/>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="play" value="Kör"/>
+<string key="gravityColon" value="Gravitation:"/>
+<string key="paused" value="PAUSAD"/>
+<string key="off" value="av"/>
+<string key="dampingConstant" value="dämpningskonstant"/>
+<string key="selectPreset" value="Välj förinställt"/>
+</SimStrings>
