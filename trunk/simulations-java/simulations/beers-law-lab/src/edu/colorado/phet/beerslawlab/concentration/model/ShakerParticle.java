@@ -28,7 +28,7 @@ public class ShakerParticle extends SoluteParticle {
     public void stepInTime( double deltaSeconds, Beaker beaker ) {
 
         velocity = velocity.plus( acceleration.times( deltaSeconds ) );
-        ImmutableVector2D newLocation = getLocation().plus( velocity.times( deltaSeconds ) );
+        ImmutableVector2D newLocation = location.get().plus( velocity.times( deltaSeconds ) );
 
         /*
          * Did the particle hit the left wall of the beaker? If so, change direction.
@@ -41,6 +41,6 @@ public class ShakerParticle extends SoluteParticle {
             velocity = new ImmutableVector2D( Math.abs( velocity.getX() ), velocity.getY() );
         }
 
-        setLocation( newLocation );
+        location.set( newLocation );
     }
 }

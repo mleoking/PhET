@@ -66,7 +66,7 @@ public class ShakerParticles {
             // If the particle hits the solution surface or bottom of the beaker, delete it, and add a corresponding amount of solute to the solution.
             double percentFull = solution.volume.get() / beaker.volume;
             double solutionSurfaceY = beaker.location.getY() - ( percentFull * beaker.size.getHeight() ) - solution.solute.get().particleSize;
-            if ( particle.getLocation().getY() > solutionSurfaceY ) {
+            if ( particle.location.get().getY() > solutionSurfaceY ) {
                 removeParticle( particle );
                 solution.soluteAmount.set( solution.soluteAmount.get() + ( 1d / solution.solute.get().particlesPerMole ) );
             }
