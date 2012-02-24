@@ -95,6 +95,11 @@ public class PlateMotionPlate extends Plate {
         }
     }
 
+    public float getSimpleChunkWidth() {
+        // TODO: consider a direct model query with this, as if we change to uneven spacing this will break
+        return model.getLeftX( 1 ) - model.getLeftX( 0 );
+    }
+
     public void addLeftSection() {
         final float width = model.getLeftX( 1 ) - model.getLeftX( 0 );
         final float xOffset = -width;
@@ -197,6 +202,18 @@ public class PlateMotionPlate extends Plate {
                 add( new TerrainSample( getCrust().getTopBoundary().getLastSample().getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
             }
         }} );
+    }
+
+    public void removeLeftSection() {
+        getCrust().removeLeftRow();
+        getLithosphere().removeLeftRow();
+        getTerrain().removeLeft();
+    }
+
+    public void removeRightSection() {
+        getCrust().removeRightRow();
+        getLithosphere().removeRightRow();
+        getTerrain().removeRight();
     }
 
     public void fullSyncTerrain() {

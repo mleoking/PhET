@@ -16,7 +16,7 @@ public class TerrainConnectorStrip extends Terrain {
     private final Terrain left;
     private final Terrain right;
     private final int samples;
-    private final int leftXIndex;
+    private int leftXIndex;
     private final int rightXIndex = 0;
 
     public TerrainConnectorStrip( Terrain left, Terrain right, int samples, float minZ, float maxZ ) {
@@ -28,12 +28,12 @@ public class TerrainConnectorStrip extends Terrain {
         // left and right need to have the same number of samples here
         assert left.getNumRows() == right.getNumRows();
 
-        leftXIndex = left.getNumColumns() - 1;
-
         update();
     }
 
     public void update() {
+        leftXIndex = left.getNumColumns() - 1;
+
         // get the X-data correct from each side
         final Float leftX = left.xPositions.get( leftXIndex );
         final Float rightX = right.xPositions.get( rightXIndex );
