@@ -4,7 +4,7 @@ DEADLINES
 - 5/14/12: "feature complete dev version, ready for interviews and/or classroom testing"
 
 DESIGN
-- different slider thumb for Evaporation and Concentration sliders (#3195, customize slider thumb)
+- confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 CONCENTRATION 1.00 prep
 - Concentration: screenshot
@@ -26,6 +26,7 @@ LOW
 - Concentration: use CompositeProperty for Shaker.dispensingRate?
 - Beers: ruler can get lost behind solution control panel, move it to front layer when combo box #3242 is fixed
 - Beers: add toolbox?
+- common: meter bodies may run off right side of stage if text is too long
 
 SIM-SHARING
 - add sim-sharing to WavelengthControl (if I use it)
