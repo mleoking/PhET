@@ -318,4 +318,8 @@ public class PlateMotionPlate extends Plate {
     public boolean isLeftPlate() {
         return isLeftPlate;
     }
+
+    public TextureStrategy getTextureStrategy() {
+        return textureStrategy;
+    }
 }
