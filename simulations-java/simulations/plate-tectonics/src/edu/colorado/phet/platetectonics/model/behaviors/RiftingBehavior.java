@@ -24,7 +24,7 @@ public class RiftingBehavior extends PlateBehavior {
     public static final float RIDGE_START_Y = -400000; // 400km
     public static final float SPREAD_START_TIME = 10.0f;
 
-    public static final float MAGMA_PLUME_PADDING = 5000;
+    public static final float MAGMA_PLUME_PADDING = 6000;
 
     // the height of the magma plume
     public static final float MAGMA_HEIGHT = RIDGE_TOP_Y - RIDGE_START_Y;
@@ -170,6 +170,31 @@ public class RiftingBehavior extends PlateBehavior {
         for ( Sample magmaSample : magma.getSamples() ) {
             magmaSample.setTextureCoordinates( magmaSample.getTextureCoordinates().plus(
                     plate.getTextureStrategy().mapFrontDelta( new ImmutableVector2F( 0, -MAGMA_SPEED * millionsOfYears ) ) ) );
+        }
+
+        // move all of the lithosphere
+        final Region[] mobileRegions = { getPlate().getLithosphere(), getPlate().getCrust() };
+        for ( Region region : mobileRegions ) {
+            for ( Sample sample : region.getSamples() ) {
+                sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( RIFT_PLATE_SPEED * getPlateSign() * millionsOfYears, 0, 0 ) ) );
+            }
+        }
+
+        // synchronize the terrain with the crust top
+        for ( int i = 0; i < getPlate().getCrust().getTopBoundary().samples.size(); i++ ) {
+            Sample crustSample = getPlate().getCrust().getTopBoundary().samples.get( i );
+            TerrainSample frontTerrainSample = getPlate().getTerrain().getSample( i, getPlate().getTerrain().getFrontZIndex() );
+
+            float oldXPosition = getPlate().getTerrain().xPositions.get( i );
+            ImmutableVector3F delta = crustSample.getPosition().minus( new ImmutableVector3F( oldXPosition,
+                                                                                              frontTerrainSample.getElevation(), 0 ) );
+
+            for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
+                final TerrainSample terrainSample = getPlate().getTerrain().getSample( i, row );
+                terrainSample.setElevation( terrainSample.getElevation() + delta.y );
+            }
+
+            getPlate().getTerrain().xPositions.set( i, oldXPosition + delta.x );
         }
 
         riftPostProcess();
