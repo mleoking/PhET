@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_sv.xml created Sun Jan 29 00:56:33 CET 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="properties.mass" value="Massa"/>
+<string key="controlPanel.showVectorValues" value="Storlek krafter"/>
+<string key="forceArrows.contact" value="Kontakt"/>
+<string key="mode.objectsOfSameVolume" value="Samma volym"/>
+<string key="mysteryObject.densityColumnHeader" value="Densitet ({0})"/>
+<string key="material.aluminum" value="Aluminium"/>
+<string key="material.air" value="Luft"/>
+<string key="material.custom" value="Mitt material"/>
+<string key="material.gasoline" value="Bensin"/>
+<string key="mode.mysteryObjects" value="Okänd"/>
+<string key="customObject.custom" value="Mitt material"/>
+<string key="material.wood" value="Trä"/>
+<string key="mode.two" value="Två"/>
+<string key="material.styrofoam" value="Frigolit"/>
+<string key="material.honey" value="Honung"/>
+<string key="material.apple" value="Äpple"/>
+<string key="material.ice" value="Is"/>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="buoyancy.tab.playground" value="Lek med flytkraft"/>
+<string key="fluid.controls.intro.label" value="Vätska"/>
+<string key="material.diamond" value="Diamant"/>
+<string key="mode.title" value="Block"/>
+<string key="material.oliveOil" value="Olivolja"/>
+<string key="material.lead" value="Bly"/>
+<string key="forceArrows.buoyancy" value="Flytkraft"/>
+<string key="properties.fluidDensity" value="Vätskedensitet"/>
+<string key="customObject.properties" value="Egenskaper"/>
+<string key="forceArrows.gravity" value="Gravitation"/>
+<string key="mysteryObject.table.title" value="Densitet hos olika material"/>
+<string key="material.brick" value="Tegelsten"/>
+<string key="material.oil" value="Olja"/>
+<string key="mode.objectsOfSameDensity" value="Samma densitet"/>
+<string key="controlPanel.readouts" value="Avläsningar"/>
+<string key="density.simTitle" value="Densitet"/>
+<string key="properties.volumeMilliLiterValue" value="{0} ml"/>
+<string key="mode.customObject" value="Anpassat"/>
+<string key="mode.objectsOfSameMass" value="Samma massa"/>
+<string key="application.resetAll" value="Återställ allt"/>
+<string key="material.gold" value="Guld"/>
+<string key="forceArrowControlPanelTitle" value="Visa krafter"/>
+<string key="customObject.name" value="namn"/>
+<string key="controlPanel.showMasses" value="Massor"/>
+<string key="material.water" value="Vatten"/>
+<string key="properties.density" value="Densitet"/>
+<string key="material.waterBalloon" value="Vattenballong"/>
+<string key="mysteryObject.table.showTable" value="Visa tabell"/>
+<string key="mode.one" value="En"/>
+<string key="properties.volume" value="Volym"/>
+<string key="buoyancy.simTitle" value="Flytkraft"/>
+</SimStrings>
