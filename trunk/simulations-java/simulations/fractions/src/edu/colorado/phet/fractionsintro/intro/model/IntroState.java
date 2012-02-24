@@ -61,6 +61,8 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
 
     public IntroState waterGlassSet( PieSet waterGlassSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum );}
 
+    public IntroState cakeSet( PieSet cakeSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum );}
+
     //Apply an update rule to all of the pie sets, and updates the container set to match
     public IntroState updatePieSets( F<PieSet, PieSet> f ) {
         final PieSet newPieSet = f.f( pieSet );
@@ -68,6 +70,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
                 horizontalBarSet( f.f( horizontalBarSet ) ).
                 verticalBarSet( f.f( verticalBarSet ) ).
                 waterGlassSet( f.f( waterGlassSet ) ).
+                cakeSet( f.f( cakeSet ) ).
                 containerSet( newPieSet.toContainerSet() );
     }
 }
