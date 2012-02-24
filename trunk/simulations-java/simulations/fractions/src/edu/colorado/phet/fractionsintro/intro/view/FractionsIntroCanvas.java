@@ -2,13 +2,12 @@
 package edu.colorado.phet.fractionsintro.intro.view;
 
 import fj.F;
-import fj.F2;
 import fj.data.List;
+import lombok.Data;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -67,50 +66,29 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         //For debugging cakes
         addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
 
-        final Cache<Integer, BufferedImage> cakeImages = cache( new F<Integer, BufferedImage>() {
-            @Override public BufferedImage f( Integer denominator ) {
-                return cropSides( RESOURCES.getImage( "cake/cake_" + denominator + "_" + 1 + ".png" ) );
-            }
-        } );
-        final Cache<Integer, BufferedImage> cakeGridImages = cache( new F<Integer, BufferedImage>() {
-            @Override public BufferedImage f( Integer denominator ) {
-                return RESOURCES.getImage( "cake/cake_grid_" + denominator + ".png" );
+        @Data class Arg {
+            final int cell;
+            final int denominator;
+        }
+
+        final Cache<Arg, BufferedImage> cakeImages = cache( new F<Arg, BufferedImage>() {
+            @Override public BufferedImage f( Arg a ) {
+                return cropSides( RESOURCES.getImage( "cake/cake_" + a.denominator + "_" + ( a.cell + 1 ) + ".png" ) );
             }
         } );
 
         //For draggable cakes
         addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode, new F<SliceNodeArgs, PNode>() {
             @Override public PNode f( final SliceNodeArgs a ) {
-                return new PImage( cakeImages.f( a.denominator ) ) {{
-                    setOffset( a.slice.shape().getBounds2D().getCenterX() - getFullBounds().getWidth() / 2, a.slice.shape().getBounds2D().getCenterY() - getFullBounds().getHeight() / 2 );
+                double anglePerSlice = Math.PI * 2 / a.denominator;
+                int cell = (int) ( a.slice.angle / anglePerSlice );
+                return new PImage( cakeImages.f( new Arg( cell, a.denominator ) ) ) {{
+                    //Center on the slice tip because each image is padded to the amount of a full cake
+                    double fudgeY = getFullBounds().getHeight() / 4;
+                    setOffset( a.slice.position.getX() - getFullBounds().getWidth() / 2, a.slice.position.getY() - getFullBounds().getHeight() / 2 - fudgeY );
                 }};
             }
-        } ) {
-            @Override protected PNode createEmptyCellsNode( PieSet state ) {
-
-                PNode node = new PNode();
-
-                //Show the pie cells
-                for ( final Pie pie : state.pies ) {
-                    final List<ImmutableRectangle2D> rectangles = pie.cells.map( new F<Slice, ImmutableRectangle2D>() {
-                        @Override public ImmutableRectangle2D f( Slice slice ) {
-                            return new ImmutableRectangle2D( slice.shape().getBounds2D() );
-                        }
-                    } );
-                    final ImmutableRectangle2D union = rectangles.tail().foldLeft( new F2<ImmutableRectangle2D, ImmutableRectangle2D, ImmutableRectangle2D>() {
-                        @Override public ImmutableRectangle2D f( ImmutableRectangle2D a, ImmutableRectangle2D b ) {
-                            return a.union( b );
-                        }
-                    }, rectangles.head() );
-
-                    node.addChild( new PImage( cakeGridImages.f( state.denominator ) ) {{
-                        double fudgeY = getFullBounds().getHeight() * 0.2;
-                        setOffset( union.getCenter().getX() - getFullBounds().getWidth() / 2, union.getCenter().getY() - getFullBounds().getHeight() / 2 - fudgeY );
-                    }} );
-                }
-                return node;
-            }
-        } ) );
+        } ) ) );
 
         //For debugging water glasses region management
 //        addChild( new RepresentationNode( model.representation, WATER_GLASSES ) {{
