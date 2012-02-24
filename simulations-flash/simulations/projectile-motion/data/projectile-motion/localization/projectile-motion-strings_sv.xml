@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_sv.xml created Sat Feb 04 17:30:26 CET 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="dragLabel" value="friktionskoefficient"/>
+<string key="userChoice" value="Eget val"/>
+<string key="altitudeLabel" value="altitud(m)"/>
+<string key="football" value="Fotboll"/>
+<string key="golfball" value="Golfboll"/>
+<string key="simTitle" value="Projektilbana"/>
+<string key="collision" value="Kollision!"/>
+<string key="adultHuman" value="Vuxen person"/>
+<string key="time" value="tid(s)"/>
+<string key="buick" value="Bil"/>
+<string key="initSpeed" value="utgångshastighet(m/s)"/>
+<string key="bowlingball" value="Bowlingklot"/>
+<string key="piano" value="Piano"/>
+<string key="sound" value="Ljud"/>
+<string key="range" value="räckvidd(m)"/>
+<string key="height" value="höjd(m)"/>
+<string key="mass" value="massa(kg)"/>
+<string key="pumpkin" value="Pumpa"/>
+<string key="score" value="Poäng!"/>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="angle" value="vinkel(grader)"/>
+<string key="airResistance" value="Luftmotstånd"/>
+<string key="fire" value="Avlossa"/>
+<string key="erase" value="Radera"/>
+<string key="tankshell" value="Kanonkula"/>
+</SimStrings>
