@@ -2,11 +2,13 @@
 package edu.colorado.phet.fractionsintro.intro.view;
 
 import fj.F;
+import fj.F2;
 import fj.data.List;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -62,6 +64,9 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         //For vertical bars
         addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode ) ) );
 
+        //For debugging cakes
+        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
+
         final Cache<Integer, BufferedImage> cakeImages = cache( new F<Integer, BufferedImage>() {
             @Override public BufferedImage f( Integer denominator ) {
                 return cropSides( RESOURCES.getImage( "cake/cake_" + denominator + "_" + 1 + ".png" ) );
@@ -84,16 +89,27 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             @Override protected PNode createEmptyCellsNode( PieSet state ) {
 
                 PNode node = new PNode();
-                //Show the beakers
+
+                //Show the pie cells
                 for ( final Pie pie : state.pies ) {
-                    final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
+                    final List<Double> minYs = pie.cells.map( new F<Slice, Double>() {
                         @Override public Double f( Slice s ) {
                             return s.shape().getBounds2D().getMinY();
                         }
                     } );
+                    final List<ImmutableRectangle2D> rectangles = pie.cells.map( new F<Slice, ImmutableRectangle2D>() {
+                        @Override public ImmutableRectangle2D f( Slice slice ) {
+                            return new ImmutableRectangle2D( slice.shape().getBounds2D() );
+                        }
+                    } );
+                    final ImmutableRectangle2D union = rectangles.tail().foldLeft( new F2<ImmutableRectangle2D, ImmutableRectangle2D, ImmutableRectangle2D>() {
+                        @Override public ImmutableRectangle2D f( ImmutableRectangle2D a, ImmutableRectangle2D b ) {
+                            return a.union( b );
+                        }
+                    }, rectangles.head() );
 
                     node.addChild( new PImage( cakeGridImages.f( state.denominator ) ) {{
-                        setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
+                        setOffset( union.getCenter().getX() - getFullBounds().getWidth() / 2, minYs.minimum( doubleOrd ) );
                     }} );
                 }
                 return node;
