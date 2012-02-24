@@ -52,6 +52,24 @@ public class PolymeraseAffinityControlPanel extends PNode {
         dnaFragmentNode.addChild( transcriptionFactorNode );
         SpacerNode topSpacer = new SpacerNode();
         SpacerNode bottomSpacer = new SpacerNode();
+
+        // In order to size the control panel correctly, make one first, see
+        // how far off it is, and then make one of the correct size.
+        PNode dummyContents = new VBox(
+                20,
+                title,
+                topSpacer,
+                new AffinityController( polymeraseNode, dnaFragmentNode, new Property<Double>( 0.0 ) ), // TODO: Need to hook up to actual model.
+                bottomSpacer
+        );
+
+        ControlPanelNode dummyControlPanel = new ControlPanelNode( dummyContents );
+
+        double growthAmount = minHeight - dummyControlPanel.getFullBoundsReference().height;
+
+        topSpacer.setSize( SpacerNode.MIN_DIMENSION, growthAmount * 0.25 );
+        bottomSpacer.setSize( SpacerNode.MIN_DIMENSION, growthAmount * 0.75 );
+
         PNode contents = new VBox(
                 20,
                 title,
@@ -61,14 +79,6 @@ public class PolymeraseAffinityControlPanel extends PNode {
         );
 
         ControlPanelNode controlPanel = new ControlPanelNode( contents );
-
-        double growAmount = minHeight - controlPanel.getFullBoundsReference().height;
-
-        // Make the panel meet the minimum height.
-        if ( growAmount > 0 ){
-            topSpacer.setSize( SpacerNode.MIN_DIMENSION, growAmount / 2 );
-            bottomSpacer.setSize( SpacerNode.MIN_DIMENSION, growAmount / 2 );
-        }
 
         addChild( controlPanel );
     }
@@ -84,11 +94,12 @@ public class PolymeraseAffinityControlPanel extends PNode {
         }
 
         public SpacerNode(double width, double height ) {
-            spacer = new PhetPPath( new Rectangle2D.Double(0, 0, height, width ), new Color( 0, 0, 0, 0 ) );
+            spacer = new PhetPPath( new Rectangle2D.Double(0, 0, width, height ), new Color( 0, 0, 0, 255 ) );
+            addChild( spacer );
         }
 
         public void setSize( double width, double height ){
-            spacer.setPathTo( new Rectangle2D.Double(0, 0, height, width ) );
+            spacer.setPathTo( new Rectangle2D.Double(0, 0, width, height ) );
         }
     }
 }
