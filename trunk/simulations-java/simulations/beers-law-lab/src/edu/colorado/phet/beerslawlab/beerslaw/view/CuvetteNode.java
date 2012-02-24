@@ -42,7 +42,7 @@ class CuvetteNode extends PNode {
 
         // nodes
         final PPath cuvetteNode = new PPath() {{
-            setStroke( new BasicStroke( 2f ) );
+            setStroke( new BasicStroke( 1.5f ) );
         }};
         final PPath solutionNode = new PPath() {{
             setStroke( BLLConstants.FLUID_STROKE );
