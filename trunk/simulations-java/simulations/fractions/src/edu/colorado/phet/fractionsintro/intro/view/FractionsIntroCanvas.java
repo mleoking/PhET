@@ -5,20 +5,27 @@ import fj.F;
 import fj.data.List;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Pie;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.SliceNodeArgs;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.fractions.FractionsResources.RESOURCES;
+import static edu.colorado.phet.fractions.util.Cache.cache;
+import static edu.colorado.phet.fractionsintro.intro.view.CakeNode.cropSides;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 import static fj.Ord.doubleOrd;
 
@@ -29,7 +36,7 @@ import static fj.Ord.doubleOrd;
  */
 public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
-    public FractionsIntroCanvas( final FractionsIntroModel model ) {
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
@@ -37,9 +44,9 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         addChild( representationControlPanel );
 
         //Cake set with click-to-toggle (not draggable) cakes
-        addChild( new CakeSetFractionNode( model.containerSet, model.representation.valueEquals( Representation.CAKE ) ) {{
-            setOffset( INSET + -10, representationControlPanel.getFullBounds().getMaxY() + 100 - 40 );
-        }} );
+//        addChild( new CakeSetFractionNode( model.containerSet, model.representation.valueEquals( Representation.CAKE ) ) {{
+//            setOffset( INSET + -10, representationControlPanel.getFullBounds().getMaxY() + 100 - 40 );
+//        }} );
 
         //Number line
         addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ) ) {{
@@ -55,14 +62,43 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         //For vertical bars
         addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode ) ) );
 
+        final Cache<Integer, BufferedImage> cakeImages = cache( new F<Integer, BufferedImage>() {
+            @Override public BufferedImage f( Integer denominator ) {
+                return cropSides( RESOURCES.getImage( "cake/cake_" + denominator + "_" + 1 + ".png" ) );
+            }
+        } );
+        final Cache<Integer, BufferedImage> cakeGridImages = cache( new F<Integer, BufferedImage>() {
+            @Override public BufferedImage f( Integer denominator ) {
+                return RESOURCES.getImage( "cake/cake_grid_" + denominator + ".png" );
+            }
+        } );
+
         //For draggable cakes
-//        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode, new F<SliceNodeArgs, PNode>() {
-//            @Override public PNode f( final SliceNodeArgs a ) {
-//                return new PImage( CakeNode.cropSides( FractionsResources.RESOURCES.getImage( "cake/cake_" + a.denominator + "_" + 1 + ".png" ) ) ) {{
-//                    setOffset( a.slice.shape().getBounds2D().getCenterX() - getFullBounds().getWidth() / 2, a.slice.shape().getBounds2D().getCenterY() - getFullBounds().getHeight() / 2 );
-//                }};
-//            }
-//        } ) ) );
+        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode, new F<SliceNodeArgs, PNode>() {
+            @Override public PNode f( final SliceNodeArgs a ) {
+                return new PImage( cakeImages.f( a.denominator ) ) {{
+                    setOffset( a.slice.shape().getBounds2D().getCenterX() - getFullBounds().getWidth() / 2, a.slice.shape().getBounds2D().getCenterY() - getFullBounds().getHeight() / 2 );
+                }};
+            }
+        } ) {
+            @Override protected PNode createEmptyCellsNode( PieSet state ) {
+
+                PNode node = new PNode();
+                //Show the beakers
+                for ( final Pie pie : state.pies ) {
+                    final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
+                        @Override public Double f( Slice s ) {
+                            return s.shape().getBounds2D().getMinY();
+                        }
+                    } );
+
+                    node.addChild( new PImage( cakeGridImages.f( state.denominator ) ) {{
+                        setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
+                    }} );
+                }
+                return node;
+            }
+        } ) );
 
         //For debugging water glasses region management
 //        addChild( new RepresentationNode( model.representation, WATER_GLASSES ) {{

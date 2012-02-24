@@ -7,7 +7,7 @@ import lombok.Data;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CakeSliceFactory;
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory.CakeSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
