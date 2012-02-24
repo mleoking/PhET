@@ -44,11 +44,11 @@ public class RiftingBehavior extends PlateBehavior {
                 float yRatio = ( (float) yIndex ) / ( (float) ( MAGMA_VERTICAL_SAMPLES - 1 ) );
                 final float distanceFromPlumeTop = yRatio * MAGMA_HEIGHT;
 
-                final boolean isCenterPoint = plate.isLeftPlate() == ( xIndex == 1 );
+                final boolean isCenterPoint = ( plate.getSide() == Side.LEFT ) == ( xIndex == 1 );
                 float x = isCenterPoint
                           ? 0
-                          : getPlumeXFromTop( -distanceFromPlumeTop ) * getPlateSign();
-                final float textureX = isCenterPoint ? 0 : MAGMA_TEXTURE_COORDINATE_X * getPlateSign();
+                          : getPlumeXFromTop( -distanceFromPlumeTop ) * (float) RiftingBehavior.this.plate.getSide().getSign();
+                final float textureX = isCenterPoint ? 0 : MAGMA_TEXTURE_COORDINATE_X * (float) RiftingBehavior.this.plate.getSide().getSign();
                 float y = RIDGE_START_Y - distanceFromPlumeTop;
 
                 final ImmutableVector2F textureCoordinates = plate.getTextureStrategy().mapFront( new ImmutableVector2F( textureX, y ) );
@@ -80,12 +80,8 @@ public class RiftingBehavior extends PlateBehavior {
         }
     }
 
-    private float getPlateSign() {
-        return plate.isLeftPlate() ? -1 : 1;
-    }
-
     private void moveStretched( float millionsOfYears ) {
-        float sign = plate.isLeftPlate() ? 1 : -1;
+        float sign = -plate.getSide().getSign();
         final List<Sample> topSamples = getPlate().getCrust().getTopBoundary().samples;
         final Boundary lithosphereBottomBoundary = getPlate().getLithosphere().getBottomBoundary();
         final List<Sample> bottomSamples = lithosphereBottomBoundary.samples;
@@ -150,7 +146,7 @@ public class RiftingBehavior extends PlateBehavior {
 
                 float y = centerSample.getPosition().y;
                 float currentX = centerSample.getPosition().x;
-                float newX = getPaddedPlumeX( y, MAGMA_PLUME_PADDING ) * ( getPlate().isLeftPlate() ? -1 : 1 );
+                float newX = getPaddedPlumeX( y, MAGMA_PLUME_PADDING ) * getPlate().getSide().getSign();
                 float deltaX = newX - currentX;
 
                 if ( deltaX != 0 ) {
@@ -180,7 +176,7 @@ public class RiftingBehavior extends PlateBehavior {
         final Region[] mobileRegions = { getPlate().getLithosphere(), getPlate().getCrust() };
         for ( Region region : mobileRegions ) {
             for ( Sample sample : region.getSamples() ) {
-                sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( RIFT_PLATE_SPEED * getPlateSign() * millionsOfYears, 0, 0 ) ) );
+                sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( RIFT_PLATE_SPEED * (float) plate.getSide().getSign() * millionsOfYears, 0, 0 ) ) );
             }
         }
 
@@ -267,6 +263,6 @@ public class RiftingBehavior extends PlateBehavior {
     }
 
     private Sample getCenterSample( Boundary boundary ) {
-        return getPlate().isLeftPlate() ? boundary.getEdgeSample( Side.RIGHT ) : boundary.getEdgeSample( Side.LEFT );
+        return boundary.getEdgeSample( getPlate().getSide().opposite() );
     }
 }
