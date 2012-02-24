@@ -36,7 +36,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
-        //Cake set
+        //Cake set with click-to-toggle (not draggable) cakes
         addChild( new CakeSetFractionNode( model.containerSet, model.representation.valueEquals( Representation.CAKE ) ) {{
             setOffset( INSET + -10, representationControlPanel.getFullBounds().getMaxY() + 100 - 40 );
         }} );
@@ -55,7 +55,16 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         //For vertical bars
         addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode ) ) );
 
-        //For Debugging water glasses region management
+        //For draggable cakes
+//        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode, new F<SliceNodeArgs, PNode>() {
+//            @Override public PNode f( final SliceNodeArgs a ) {
+//                return new PImage( CakeNode.cropSides( FractionsResources.RESOURCES.getImage( "cake/cake_" + a.denominator + "_" + 1 + ".png" ) ) ) {{
+//                    setOffset( a.slice.shape().getBounds2D().getCenterX() - getFullBounds().getWidth() / 2, a.slice.shape().getBounds2D().getCenterY() - getFullBounds().getHeight() / 2 );
+//                }};
+//            }
+//        } ) ) );
+
+        //For debugging water glasses region management
 //        addChild( new RepresentationNode( model.representation, WATER_GLASSES ) {{
 //            addChild( new PieSetNode( model.waterGlassSet, rootNode ) );
 //        }} );

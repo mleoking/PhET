@@ -213,7 +213,7 @@ public class CakeNode extends PNode {
 
     //trim whitespace on the sides of the image so cakes don't overlap (or else space out the cakes more)
     //Trim the sides since there is too much alpha left over in the images and it causes them to overlap so that mouse presses are caught by adjacent cakes instead of the desired cake
-    private BufferedImage cropSides( BufferedImage image ) {
+    public static BufferedImage cropSides( BufferedImage image ) {
         final int TRIM = 24;
         BufferedImage im = new BufferedImage( image.getWidth() - TRIM * 2, image.getHeight(), image.getType() );
         Graphics2D g2 = im.createGraphics();
