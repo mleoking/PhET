@@ -1,3 +1,4 @@
+2/23/12 Concentration: screenshot
 2/23/12 reduce cuvette stroke width from 2 to 1.5 so it doesn't look so heavy
 2/23/12 increase font size on ruler
 2/23/12 Beers: increase vertical space for radio buttons in AT body (increase height of image files)

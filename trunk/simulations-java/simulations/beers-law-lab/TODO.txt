@@ -6,9 +6,6 @@ DEADLINES
 DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
-CONCENTRATION 1.00 prep
-- Concentration: screenshot
-
 HIGH
 - Beers: collision detection for probe, don't allow dragging into cuvette
 - Beers: should there be a model of light beam? view only right now
