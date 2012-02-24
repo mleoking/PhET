@@ -8,9 +8,11 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -119,9 +121,9 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         // Add the check box for showing/hiding the control panel for the
         // negative transcription factor.
         BooleanProperty negativeTranscriptionFactorEnabled = new BooleanProperty( false );
-        PNode negativeFactorEnabledCheckBox = new PSwing( new PropertyCheckBox( negativeTranscriptionFactorCheckBox,
-                                                                                "Negative Transcription Factor",
-                                                                                negativeTranscriptionFactorEnabled ) );
+        PNode negativeFactorEnabledCheckBox = new PropertyCheckBoxNode( negativeTranscriptionFactorCheckBox,
+                                                                        "Negative Transcription Factor",
+                                                                        negativeTranscriptionFactorEnabled );
         controlsRootNode.addChild( negativeFactorEnabledCheckBox );
 
         // Only show the control for the negative transcription factor if it
@@ -190,4 +192,15 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
             }
         } );
     }
+
+    // Convenience class for check boxes, prevents code duplication.
+    private static class PropertyCheckBoxNode extends PNode {
+        private PropertyCheckBoxNode( IUserComponent userComponent, String text, BooleanProperty property ) {
+            PropertyCheckBox checkBox = new PropertyCheckBox( userComponent, text, property );
+            checkBox.setFont( new PhetFont( 18 ) );
+            checkBox.setBackground( new Color( 0, 0, 0, 0 ) );
+            addChild( new PSwing( checkBox ) );
+        }
+    }
+
 }
