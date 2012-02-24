@@ -1,3 +1,4 @@
+2/23/12 replace Beaker getters with public final fields
 2/23/12 replace getter with public final field
 2/23/12 Concentration: verified that this sim is fully instrumented for data collection
 2/23/12 Concentration: add non-interactive simsharing message for solution

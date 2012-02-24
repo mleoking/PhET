@@ -107,8 +107,8 @@ public class Precipitate {
         final double particleSize = solution.solute.get().particleSize;
         // x offset
         double xMargin = particleSize;
-        double width = beaker.getWidth() - particleSize - ( 2 * xMargin );
-        double x = xMargin + ( Math.random() * width ) - ( beaker.getWidth() / 2 );
+        double width = beaker.size.getWidth() - particleSize - ( 2 * xMargin );
+        double x = xMargin + ( Math.random() * width ) - ( beaker.size.getWidth() / 2 );
         // y offset
         double yMargin = particleSize;
         double y = -yMargin;

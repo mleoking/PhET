@@ -70,19 +70,19 @@ class BeakerNode extends PComposite {
         ticksNode = new PComposite();
         addChild( ticksNode );
 
-        setOffset( beaker.getLocation().toPoint2D() );
+        setOffset( beaker.location.toPoint2D() );
         createOutline();
         updateTicks( ticksLocation );
     }
 
     // Where the beaker's origin is in relation to its width.
     private double getOriginXOffset() {
-        return beaker.getWidth() / 2; // origin a midpoint
+        return beaker.size.getWidth() / 2; // origin a midpoint
     }
 
     // Where the beaker's origin is in relation to its height.
     private double getOriginYOffset() {
-        return beaker.getHeight(); // origin at bottom
+        return beaker.size.getHeight(); // origin at bottom
     }
 
     /*
@@ -96,10 +96,10 @@ class BeakerNode extends PComposite {
         double yOffset = getOriginYOffset();
         outlinePath.moveTo( (float) ( -xOffset - RIM_OFFSET ), (float) ( -yOffset - RIM_OFFSET ) );
         outlinePath.lineTo( (float) -xOffset, (float) -yOffset );
-        outlinePath.lineTo( (float) -xOffset, (float) ( beaker.getHeight() - yOffset ) );
-        outlinePath.lineTo( (float) ( beaker.getWidth() - xOffset ), (float) ( beaker.getHeight() - yOffset ) );
-        outlinePath.lineTo( (float) ( beaker.getWidth() - xOffset ), (float) -yOffset );
-        outlinePath.lineTo( (float) ( beaker.getWidth() - xOffset + RIM_OFFSET ), (float) ( -yOffset - RIM_OFFSET ) );
+        outlinePath.lineTo( (float) -xOffset, (float) ( beaker.size.getHeight() - yOffset ) );
+        outlinePath.lineTo( (float) ( beaker.size.getWidth() - xOffset ), (float) ( beaker.size.getHeight() - yOffset ) );
+        outlinePath.lineTo( (float) ( beaker.size.getWidth() - xOffset ), (float) -yOffset );
+        outlinePath.lineTo( (float) ( beaker.size.getWidth() - xOffset + RIM_OFFSET ), (float) ( -yOffset - RIM_OFFSET ) );
         outlineNode.setPathTo( outlinePath );
     }
 
@@ -108,8 +108,8 @@ class BeakerNode extends PComposite {
         int numberOfTicks = (int) Math.round( MAX_VOLUME / MINOR_TICK_SPACING );
         final double leftX = -getOriginXOffset(); // don't use bounds or position will be off because of stroke width
         final double rightX = getOriginXOffset();
-        final double bottomY = beaker.getHeight() - getOriginYOffset(); // don't use bounds or position will be off because of stroke width
-        double deltaY = beaker.getHeight() / numberOfTicks;
+        final double bottomY = beaker.size.getHeight() - getOriginYOffset(); // don't use bounds or position will be off because of stroke width
+        double deltaY = beaker.size.getHeight() / numberOfTicks;
         for ( int i = 1; i <= numberOfTicks; i++ ) {
             final double y = bottomY - ( i * deltaY );
             if ( i % MINOR_TICKS_PER_MAJOR_TICK == 0 ) {

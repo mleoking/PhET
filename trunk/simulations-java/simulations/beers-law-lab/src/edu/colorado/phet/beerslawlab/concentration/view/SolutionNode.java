@@ -32,7 +32,7 @@ class SolutionNode extends PPath {
 
         this.solution = solution;
         this.beaker = beaker;
-        this.volumeToHeightFunction = new LinearFunction( 0, beaker.getVolume(), 0, beaker.getHeight() );
+        this.volumeToHeightFunction = new LinearFunction( 0, beaker.volume, 0, beaker.size.getHeight() );
 
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
@@ -59,6 +59,6 @@ class SolutionNode extends PPath {
             // constrain non-zero volume to minimum height, so that the solution is visible to the user and detectable by the concentration probe
             height = MIN_NONZERO_HEIGHT;
         }
-        setPathTo( new Rectangle2D.Double( -beaker.getWidth() / 2, -height, beaker.getWidth(), height ) );
+        setPathTo( new Rectangle2D.Double( -beaker.size.getWidth() / 2, -height, beaker.size.getWidth(), height ) );
     }
 }

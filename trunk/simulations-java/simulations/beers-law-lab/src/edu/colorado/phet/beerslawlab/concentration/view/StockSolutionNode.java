@@ -34,7 +34,7 @@ class StockSolutionNode extends PPath {
             public void update() {
                 // path
                 if ( dropper.on.get() && !dropper.empty.get() ) {
-                    setPathTo( new Rectangle2D.Double( -tipWidth / 2, 0, tipWidth, beaker.getY() - dropper.getY() ) );
+                    setPathTo( new Rectangle2D.Double( -tipWidth / 2, 0, tipWidth, beaker.location.getY() - dropper.getY() ) );
                 }
                 else {
                     setPathTo( new Rectangle2D.Double() );
