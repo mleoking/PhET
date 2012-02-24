@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
 import edu.colorado.phet.beerslawlab.concentration.model.Beaker;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -26,8 +28,6 @@ class SolutionNode extends PPath {
     private final LinearFunction volumeToHeightFunction;
 
     public SolutionNode( ConcentrationSolution solution, Beaker beaker ) {
-        setPickable( false );
-        setChildrenPickable( false );
         setStroke( BLLConstants.FLUID_STROKE );
 
         this.solution = solution;
@@ -41,6 +41,8 @@ class SolutionNode extends PPath {
         };
         solution.addFluidColorObserver( observer );
         solution.volume.addObserver( observer );
+
+        addInputEventListener( new NonInteractiveEventHandler( BLLSimSharing.UserComponents.solution ) );
     }
 
     private void updateNode() {
