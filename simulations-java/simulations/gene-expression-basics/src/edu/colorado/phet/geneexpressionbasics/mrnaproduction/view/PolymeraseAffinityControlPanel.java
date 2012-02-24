@@ -21,35 +21,45 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import com.sun.deploy.panel.ControlPanel;
-
 /**
  * Control panel that present a user interface for controlling the affinity
  * of RNA polymerase to DNA plus a transcription factor.
- * 
+ *
  * @author John Blanco
  */
 public class PolymeraseAffinityControlPanel extends PNode {
 
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
     public static final double POLYMERASE_SCALE = 0.08;
     private static final ModelViewTransform POLYMERASE_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                                                  new Point2D.Double( 0, 0 ),
-                                                                                                                                  POLYMERASE_SCALE );
+                                                                                                                        new Point2D.Double( 0, 0 ),
+                                                                                                                        POLYMERASE_SCALE );
     public static final double DNA_AND_TF_SCALE = 0.08;
     private static final ModelViewTransform DNA_AND_TF_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                                                  new Point2D.Double( 0, 0 ),
-                                                                                                                                  DNA_AND_TF_SCALE );
+                                                                                                                        new Point2D.Double( 0, 0 ),
+                                                                                                                        DNA_AND_TF_SCALE );
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     public PolymeraseAffinityControlPanel( TranscriptionFactorConfig tfConfig, double minHeight ) {
+
+        // Create the title.
         PNode title = new PText( "RNA Polymerase" ) {{
             setFont( new PhetFont( 16, true ) );
         }};
 
+        // Create the affinity control node.
         PNode polymeraseNode = new MobileBiomoleculeNode( POLYMERASE_MVT, new RnaPolymerase() );
         PNode dnaFragmentNode = new DnaMoleculeNode( new DnaMolecule( DnaMolecule.BASE_PAIRS_PER_TWIST * 2 + 1, 0.0 ), DNA_AND_TF_MVT, 2, false );
         PNode transcriptionFactorNode = new MobileBiomoleculeNode( DNA_AND_TF_MVT, new TranscriptionFactor( tfConfig ) );
         transcriptionFactorNode.setOffset( 25, 0 ); // Set position to be on top of the dna, values empirically determined.
         dnaFragmentNode.addChild( transcriptionFactorNode );
+
+        // Create the spacers used to make the panel meet the min size.
         SpacerNode topSpacer = new SpacerNode();
         SpacerNode bottomSpacer = new SpacerNode();
 
@@ -83,23 +93,27 @@ public class PolymeraseAffinityControlPanel extends PNode {
         addChild( controlPanel );
     }
 
+    //-------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //-------------------------------------------------------------------------
+
     private static class SpacerNode extends PNode {
 
         private static final double MIN_DIMENSION = 1E-7;
 
         private final PPath spacer;
 
-        public SpacerNode( ) {
+        public SpacerNode() {
             this( MIN_DIMENSION, MIN_DIMENSION );
         }
 
-        public SpacerNode(double width, double height ) {
-            spacer = new PhetPPath( new Rectangle2D.Double(0, 0, width, height ), new Color( 0, 0, 0, 255 ) );
+        public SpacerNode( double width, double height ) {
+            spacer = new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new Color( 0, 0, 0, 255 ) );
             addChild( spacer );
         }
 
-        public void setSize( double width, double height ){
-            spacer.setPathTo( new Rectangle2D.Double(0, 0, width, height ) );
+        public void setSize( double width, double height ) {
+            spacer.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
         }
     }
 }
