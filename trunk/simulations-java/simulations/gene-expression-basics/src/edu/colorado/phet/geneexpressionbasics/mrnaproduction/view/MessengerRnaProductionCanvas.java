@@ -7,7 +7,9 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -22,6 +24,9 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.Placemen
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.model.MessengerRnaProductionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents.negativeTranscriptionFactorCheckBox;
 
 /**
  * Primary canvas for the Messenger RNA Production tab.
@@ -108,16 +113,43 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         PolymeraseAffinityControlPanel polymeraseAffinityControlPanel = new PolymeraseAffinityControlPanel( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
                                                                                                             positiveTranscriptionFactorControlPanel.getFullBoundsReference().height );
         controlsRootNode.addChild( polymeraseAffinityControlPanel );
-        TranscriptionFactorControlPanel negativeTranscriptionFactorControlPanel = new TranscriptionFactorControlPanel( model, false );
+        final TranscriptionFactorControlPanel negativeTranscriptionFactorControlPanel = new TranscriptionFactorControlPanel( model, false );
         controlsRootNode.addChild( negativeTranscriptionFactorControlPanel );
 
-        // Lay out the control panels.
+        // Add the check box for showing/hiding the control panel for the
+        // negative transcription factor.
+        BooleanProperty negativeTranscriptionFactorEnabled = new BooleanProperty( false );
+        PNode negativeFactorEnabledCheckBox = new PSwing( new PropertyCheckBox( negativeTranscriptionFactorCheckBox,
+                                                                                "Negative Transcription Factor",
+                                                                                negativeTranscriptionFactorEnabled ) );
+        controlsRootNode.addChild( negativeFactorEnabledCheckBox );
+
+        // Only show the control for the negative transcription factor if it
+        // is enabled.
+        negativeTranscriptionFactorEnabled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean enabled ) {
+                negativeTranscriptionFactorControlPanel.setVisible( enabled );
+            }
+        } );
+
+        // Add the Reset All button.
+        ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+            setConfirmationEnabled( false );
+        }};
+        controlsRootNode.addChild( resetAllButton );
+
+        // Lay out the controls.
         positiveTranscriptionFactorControlPanel.setOffset( INSET,
                                                            STAGE_SIZE.getHeight() - positiveTranscriptionFactorControlPanel.getFullBoundsReference().height - INSET );
         polymeraseAffinityControlPanel.setOffset( positiveTranscriptionFactorControlPanel.getFullBoundsReference().getMaxX() + 10,
                                                   positiveTranscriptionFactorControlPanel.getFullBoundsReference().getMinY() );
         negativeTranscriptionFactorControlPanel.setOffset( polymeraseAffinityControlPanel.getFullBoundsReference().getMaxX() + 10,
                                                            polymeraseAffinityControlPanel.getFullBoundsReference().getMinY() );
+        double middleXOfUnusedSpace = ( negativeTranscriptionFactorControlPanel.getFullBoundsReference().getMaxX() +
+                                        STAGE_SIZE.getWidth() ) / 2;
+
+        resetAllButton.setOffset( middleXOfUnusedSpace, 0 );
+
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
@@ -157,12 +189,5 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
                 } );
             }
         } );
-
-        // Add the Reset All button.
-        controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
-            setConfirmationEnabled( false );
-            centerFullBoundsOnPoint( STAGE_SIZE.getWidth() - getFullBoundsReference().getWidth() - INSET,
-                                     STAGE_SIZE.getHeight() - getFullBoundsReference().getHeight() - INSET );
-        }} );
     }
 }
