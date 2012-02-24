@@ -61,10 +61,10 @@ public class PlateMotionModel extends PlateModel {
     public static final float SIMPLE_CRUST_TOP_TEMP = ZERO_CELSIUS;
     public static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;     // TODO: temperature view issue in 2nd tab?
 
-    public static final int MANTLE_VERTICAL_SAMPLES = 4;
+    public static final int MANTLE_VERTICAL_SAMPLES = 6;
     public static final int CRUST_VERTICAL_SAMPLES = 2;
     public static final int LITHOSPHERE_VERTICAL_SAMPLES = 2;
-    public static final int HORIZONTAL_SAMPLES = 128;
+    public static final int HORIZONTAL_SAMPLES = 64;
 
     public static final int TERRAIN_DEPTH_SAMPLES = 32;
 
