@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -323,8 +324,8 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
      * from wandering outside of the area that the user can see.
      *
      * @param includeDnaStrand - Flag to signify whether these bounds should
-     * include the DNA strand.  This should be true for molecules that
-     * interact with the DNA, false for those that don't.
+     *                         include the DNA strand.  This should be true for molecules that
+     *                         interact with the DNA, false for those that don't.
      */
     public MotionBounds getBoundsForActiveGene( boolean includeDnaStrand ) {
 
@@ -338,7 +339,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
                                                         BIOMOLECULE_STAGE_WIDTH,
                                                         BIOMOLECULE_STAGE_HEIGHT ) );
 
-        // Subtract off any overlapping areas.
+        // Subtract off any off limits areas.
         for ( Shape offLimitMotionSpace : offLimitsMotionSpaces ) {
             if ( bounds.intersects( offLimitMotionSpace.getBounds2D() ) ) {
                 bounds.subtract( new Area( offLimitMotionSpace ) );

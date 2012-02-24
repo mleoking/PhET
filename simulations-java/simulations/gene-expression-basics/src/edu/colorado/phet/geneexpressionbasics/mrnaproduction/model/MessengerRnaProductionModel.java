@@ -3,9 +3,11 @@ package edu.colorado.phet.geneexpressionbasics.mrnaproduction.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -20,6 +22,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMole
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneA;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
 
@@ -42,10 +45,10 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     // Stage size for the mobile biomolecules, which is basically the area in
     // which the molecules can move.  These are empirically determined such
-    // that the molecules don't move off of the screen when looking at a given
-    // gene.
-    private static final double BIOMOLECULE_STAGE_WIDTH = 10000; // In picometers.
-    private static final double BIOMOLECULE_STAGE_HEIGHT = 5250; // In picometers.
+    // that the molecules move around primarily in the viewable area, but are
+    // able to move somewhat outside the area too.
+    private static final double BIOMOLECULE_STAGE_WIDTH = 5000; // In picometers.
+    private static final double BIOMOLECULE_STAGE_HEIGHT = 2600; // In picometers.
 
     // Length, in terms of base pairs, of the DNA molecule.
     private static final int NUM_BASE_PAIRS_ON_DNA_STRAND = 500;
@@ -53,6 +56,12 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // Configurations for the transcriptions factors used within this model.
     public static final TranscriptionFactorConfig POSITIVE_TRANSCRIPTION_FACTOR_CONFIG = TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS;
     public static final TranscriptionFactorConfig NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG = TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG;
+
+    // Number of RNA polymerase molecules present.
+    public static final int RNA_POLYMERASE_COUNT = 20;
+
+    // etc.
+    private static final Random RAND = new Random();
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -84,14 +93,22 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     //------------------------------------------------------------------------
 
     public MessengerRnaProductionModel() {
+
+        // Create the clock and hook it up.
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
 
-        // Add gene to DNA molecule.
-        dnaMolecule.addGene( new GeneA( dnaMolecule, (int)Math.round( NUM_BASE_PAIRS_ON_DNA_STRAND * 0.45 ) ) );
+        // Add the gene to the DNA molecule.  Only one gene in this model.
+        dnaMolecule.addGene( new GeneA( dnaMolecule, (int) Math.round( NUM_BASE_PAIRS_ON_DNA_STRAND * 0.45 ) ) );
+
+        // Add the polymerase.  This doesn't come and go, the concentration
+        // of these remains constant in this model.
+        for ( int i = 0; i < RNA_POLYMERASE_COUNT; i++ ){
+            addMobileBiomolecule( new RnaPolymerase( this, generateInitialLocation() ), true );
+        }
     }
 
     //------------------------------------------------------------------------
@@ -108,7 +125,10 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule, boolean interactsWithDna ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
-        mobileBiomolecule.setMotionBounds( getMotionBounds( interactsWithDna ) );
+
+        // Set the motion bounds such that the molecules move around above and
+        // on top of the DNA.
+        mobileBiomolecule.setMotionBounds( getMotionBounds( mobileBiomolecule ) );
 
         // Hook up an observer that will activate and deactivate placement
         // hints for this molecule.
@@ -224,19 +244,25 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         dnaMolecule.stepInTime( dt );
     }
 
-    /**
-     * Get the motion bounds for the biomolecules that are interacting with
-     * this DNA strand.
-     *
-     * @param includeDnaStrand - Flag to signify whether these bounds should
-     *                         include the DNA strand.  This should be true for molecules that
-     *                         interact with the DNA, false for those that don't.
-     */
-    public MotionBounds getMotionBounds( boolean includeDnaStrand ) {
+    // Generate a random initial location for a biomolecule.
+    private Point2D generateInitialLocation() {
+        double xPos = BIOMOLECULE_STAGE_WIDTH * ( -0.5 + RAND.nextDouble() );
+        double yPos = DnaMolecule.Y_POS + BIOMOLECULE_STAGE_HEIGHT * RAND.nextDouble();
+        return new Point2D.Double( xPos, yPos );
+    }
 
-        // The bottom of the bounds depends on whether or not the DNA strand
-        // is included.
-        double bottomYPos = includeDnaStrand ? DnaMolecule.Y_POS - DnaMolecule.DIAMETER * 3 : DnaMolecule.Y_POS + DnaMolecule.DIAMETER / 2;
+    /**
+     * Get the motion bounds for the biomolecules in this model.  These
+     * bounds are set up to stay above and around the DNA molecule, and to
+     * go in and out of the area that the user is likely to be viewing.
+     * However, there is no direct interaction with the view to determine the
+     * bounds - they are fixed based on the expected view.
+     */
+    public MotionBounds getMotionBounds( MobileBiomolecule mobileBiomolecule ) {
+
+        // The bottom of the bounds depends on the size of the biomolecule.  A
+        // little bit of margin is added.
+        double bottomYPos = DnaMolecule.Y_POS - mobileBiomolecule.getShape().getBounds2D().getHeight() / 2 * 1.1;
 
         // Get the nominal bounds.
         Area bounds = new Area( new Rectangle2D.Double( -BIOMOLECULE_STAGE_WIDTH / 2,
@@ -244,7 +270,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
                                                         BIOMOLECULE_STAGE_WIDTH,
                                                         BIOMOLECULE_STAGE_HEIGHT ) );
 
-        // Subtract off any overlapping areas.
+        // Subtract off any off limits areas.
         for ( Shape offLimitMotionSpace : offLimitsMotionSpaces ) {
             if ( bounds.intersects( offLimitMotionSpace.getBounds2D() ) ) {
                 bounds.subtract( new Area( offLimitMotionSpace ) );
