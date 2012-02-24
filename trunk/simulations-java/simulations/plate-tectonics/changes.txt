@@ -1,3 +1,5 @@
+Renamed the Options panel to "View", and moved the reset/rewind buttons out of it
+Renamed "combined" coloring to "Both"
 Added magma to rifting behavior
 Increased vertical resolution for cross section, and reduced horizontal resolution.
 # 0.00.19 (61657) Feb 23, 2012

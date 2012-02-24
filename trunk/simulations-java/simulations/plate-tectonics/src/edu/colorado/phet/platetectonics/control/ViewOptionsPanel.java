@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,13 +10,10 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
-import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.umd.cs.piccolo.PNode;
@@ -29,17 +25,16 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TIT
 /**
  * Gives the user a list of view options
  */
-public class OptionsPanel extends PNode {
-    public OptionsPanel( final PlateTectonicsTab tab, final Property<Boolean> showLabels, Runnable resetAll, Property<ColorMode> colorMode ) {
-        this( tab, showLabels, false, new Property<Boolean>( false ), new Property<Boolean>( false ), resetAll, colorMode );
+public class ViewOptionsPanel extends PNode {
+    public ViewOptionsPanel( final PlateTectonicsTab tab, final Property<Boolean> showLabels, Property<ColorMode> colorMode ) {
+        this( tab, showLabels, false, new Property<Boolean>( false ), new Property<Boolean>( false ), colorMode );
     }
 
-    public OptionsPanel( final PlateTectonicsTab tab, final Property<Boolean> showLabels,
-                         final boolean containsWaterOption,
-                         final Property<Boolean> showWater,
-                         final Property<Boolean> showWaterEnabled,
-                         final Runnable resetAll,
-                         final Property<ColorMode> colorMode ) {
+    public ViewOptionsPanel( final PlateTectonicsTab tab, final Property<Boolean> showLabels,
+                             final boolean containsWaterOption,
+                             final Property<Boolean> showWater,
+                             final Property<Boolean> showWaterEnabled,
+                             final Property<ColorMode> colorMode ) {
         final PNode title = new PText( PlateTectonicsResources.Strings.OPTIONS ) {{
             setFont( PANEL_TITLE_FONT );
         }};
@@ -194,56 +189,14 @@ public class OptionsPanel extends PNode {
                     }
                 } );
             }} ) {{
-                setOffset( 0, y.get() + 5 );
+                setOffset( 0, y.get() );
                 y.set( getFullBounds().getMaxY() );
                 maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
             }};
             addChild( showWaterCheckBox );
         }
 
-        // TODO: remove. hiding the reset all button on the 1st tab not ideal
-        if ( containsWaterOption ) {
-            if ( tab instanceof PlateMotionTab ) {
-                PNode rewindNode = new TextButtonNode( Strings.REWIND, new PhetFont( 14 ), Color.ORANGE ) {{
-                    setOffset( 0, y.get() + 15 );
-                    y.set( getFullBounds().getMaxY() );
-                    maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
-                    ( (PlateMotionTab) tab ).getPlateMotionModel().animationStarted.addObserver( new SimpleObserver() {
-                        public void update() {
-                            setEnabled( ( (PlateMotionTab) tab ).getPlateMotionModel().animationStarted.get() );
-                        }
-                    } );
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            LWJGLUtils.invoke( new Runnable() {
-                                public void run() {
-                                    ( (PlateMotionTab) tab ).rewind();
-                                }
-                            } );
-                        }
-                    } );
-                }};
-                addChild( rewindNode );
-
-                rewindNode.setOffset( ( maxWidth.get() - rewindNode.getFullBounds().getWidth() ) / 2, rewindNode.getYOffset() );
-            }
-
-            PNode resetAllNode = new TextButtonNode( Strings.RESET_ALL, new PhetFont( 14 ), Color.ORANGE ) {{
-                setOffset( 0, y.get() + 15 );
-                y.set( getFullBounds().getMaxY() );
-                maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent actionEvent ) {
-                        LWJGLUtils.invoke( resetAll );
-                    }
-                } );
-            }};
-            addChild( resetAllNode );
-
-            // horizontally center reset all button
-            resetAllNode.setOffset( ( maxWidth.get() - resetAllNode.getFullBounds().getWidth() ) / 2, resetAllNode.getYOffset() );
-        }
-
+        // this prevents panel resizing when the button bounds change (like when they are pressed)
         addChild( new Spacer( 0, y.get(), 1, 1 ) );
 
         // horizontally center title
