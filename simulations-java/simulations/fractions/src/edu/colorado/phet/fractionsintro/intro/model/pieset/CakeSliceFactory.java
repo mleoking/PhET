@@ -40,6 +40,11 @@ public class CakeSliceFactory extends AbstractSliceFactory {
                 ImmutableVector2D tip = slice.position;
                 double angle = slice.angle;
                 final Ellipse2D.Double boundingEllipse = new Ellipse2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2 - radius * 0.65 );
+
+                //Special case for half-pies since they should be vertical instead of horizontal (like pies)
+                if ( Math.abs( extent - Math.PI ) < epsilon ) {
+                    angle = angle + Math.PI / 2;
+                }
                 return extent >= Math.PI * 2 - epsilon ?
                        boundingEllipse :
                        new Arc2D.Double( boundingEllipse.x, boundingEllipse.y, boundingEllipse.width, boundingEllipse.height, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
