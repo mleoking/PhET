@@ -2,15 +2,14 @@
 package edu.colorado.phet.fractionsintro.common.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
+ * Model for something with a single fraction
+ *
  * @author Sam Reid
  */
 public class SingleFractionModel {
@@ -24,52 +23,6 @@ public class SingleFractionModel {
             return (double) numerator.get() / denominator.get();
         }
     }, numerator, denominator );
-
-    public final ObservableProperty<Fraction> reducedFraction = new CompositeProperty<Fraction>( new Function0<Fraction>() {
-        public Fraction apply() {
-            return Fraction.reduced( numerator.get(), denominator.get() );
-        }
-    }, numerator, denominator );
-
-    //Representations to show
-    public final Property<Integer> reducedNumerator = new Property<Integer>( reducedFraction.get().numerator ) {{
-        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
-            public void apply( Fraction fraction ) {
-                set( fraction.numerator );
-            }
-        } );
-    }};
-    public final Property<Integer> reducedDenominator = new Property<Integer>( reducedFraction.get().denominator ) {{
-        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
-            public void apply( Fraction fraction ) {
-                set( fraction.denominator );
-            }
-        } );
-    }};
-
-    public final Property<Integer> mixedInteger = new Property<Integer>( (int) Math.floor( reducedFraction.get().getValue() ) ) {{
-        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
-            public void apply( Fraction f ) {
-                set( (int) Math.floor( f.getValue() ) );
-            }
-        } );
-    }};
-    public final Property<Integer> mixedNumerator = new Property<Integer>( 1 ) {{
-        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
-            public void apply( Fraction f ) {
-                int coeff = (int) Math.floor( f.getValue() );
-                //subtract off coeff*denominator from the numerator
-                set( f.numerator - coeff * f.denominator );
-            }
-        } );
-    }};
-    public final Property<Integer> mixedDenominator = new Property<Integer>( 1 ) {{
-        reducedFraction.addObserver( new VoidFunction1<Fraction>() {
-            public void apply( Fraction fraction ) {
-                set( fraction.denominator );
-            }
-        } );
-    }};
 
     public final Property<Representation> representation = new Property<Representation>( Representation.PIE );
 
