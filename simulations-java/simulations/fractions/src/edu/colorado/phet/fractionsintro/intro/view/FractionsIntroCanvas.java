@@ -92,11 +92,6 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
                 //Show the pie cells
                 for ( final Pie pie : state.pies ) {
-                    final List<Double> minYs = pie.cells.map( new F<Slice, Double>() {
-                        @Override public Double f( Slice s ) {
-                            return s.shape().getBounds2D().getMinY();
-                        }
-                    } );
                     final List<ImmutableRectangle2D> rectangles = pie.cells.map( new F<Slice, ImmutableRectangle2D>() {
                         @Override public ImmutableRectangle2D f( Slice slice ) {
                             return new ImmutableRectangle2D( slice.shape().getBounds2D() );
@@ -109,7 +104,8 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
                     }, rectangles.head() );
 
                     node.addChild( new PImage( cakeGridImages.f( state.denominator ) ) {{
-                        setOffset( union.getCenter().getX() - getFullBounds().getWidth() / 2, minYs.minimum( doubleOrd ) );
+                        double fudgeY = getFullBounds().getHeight() * 0.2;
+                        setOffset( union.getCenter().getX() - getFullBounds().getWidth() / 2, union.getCenter().getY() - getFullBounds().getHeight() / 2 - fudgeY );
                     }} );
                 }
                 return node;
