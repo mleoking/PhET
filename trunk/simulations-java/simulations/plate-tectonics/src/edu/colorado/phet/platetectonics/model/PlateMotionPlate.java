@@ -25,56 +25,51 @@ public class PlateMotionPlate extends Plate {
         this.model = model;
         this.textureStrategy = textureStrategy;
         this.isLeftPlate = isLeftPlate;
-        addMantle( new Region( MANTLE_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
+        addMantle( new Region( MANTLE_VERTICAL_STRIPS, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
-                return createMantleSample( xIndex, yIndex, SIMPLE_MANTLE_TOP_Y );
+                return createMantleSample( xIndex, yIndex, MANTLE_VERTICAL_STRIPS,
+                                           SIMPLE_MANTLE_TOP_Y, SIMPLE_MANTLE_BOTTOM_Y,
+                                           SIMPLE_MANTLE_TOP_TEMP, SIMPLE_MANTLE_BOTTOM_TEMP );
             }
         } ) );
         addTerrain( textureStrategy, TERRAIN_DEPTH_SAMPLES, model.getBounds().getMinZ(), model.getBounds().getMaxZ() );
     }
 
-    private Sample createMantleSample( int xIndex, int yIndex, float mantleTopY ) {
-        // TODO: consider adding a higher concentration of samples near the top
+    private Sample createMantleSample( int xIndex, int yIndex, int verticalSamples, float mantleTopY, float mantleBottomY, float mantleTopTemp, float mantleBottomTemp ) {
+        // TODO: consider adding a higher concentration of samples near the top?
         float x = isLeftPlate ? model.getLeftX( xIndex ) : model.getRightX( xIndex );
-        final float yRatio = ( (float) yIndex ) / ( (float) MANTLE_VERTICAL_SAMPLES - 1 );
-        float y = mantleTopY + ( SIMPLE_MANTLE_BOTTOM_Y - mantleTopY ) * yRatio;
-        float temp = SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_MANTLE_BOTTOM_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * yRatio;
+        final float yRatio = ( (float) yIndex ) / ( (float) verticalSamples );
+        float y = mantleTopY + ( mantleBottomY - mantleTopY ) * yRatio;
+        float temp = mantleTopTemp + ( mantleBottomTemp - mantleTopTemp ) * yRatio;
         return new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
                            textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
     }
 
     public void droppedCrust( final PlateType type ) {
         plateType = type;
-        addLithosphere( new Region( LITHOSPHERE_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
+        final float crustTopY = getFreshCrustTop( type );
+        final float crustBottomY = getFreshCrustBottom( type );
+        final float lithosphereBottomY = getFreshLithosphereBottom( type );
+
+        final float crustDensity = getFreshDensity( type );
+
+        addLithosphere( new Region( LITHOSPHERE_VERTICAL_STRIPS, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
-                // start with top first
-                float x = isLeftPlate ? model.getLeftX( xIndex ) : model.getRightX( xIndex );
-
-                final float topY = getFreshCrustBottom( type );
-                final float bottomY = getFreshLithosphereBottom( type );
-
-                // TODO: fix code sharing with below
-                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES );
-                float y = topY + ( bottomY - topY ) * yRatio;
-
-                float temp = getLithosphereTemperatureFromYRatio( yRatio );
-                return new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
-                                   textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
+                return createMantleSample( xIndex, yIndex, LITHOSPHERE_VERTICAL_STRIPS,
+                                           crustBottomY, lithosphereBottomY,
+                                           SIMPLE_MANTLE_TOP_TEMP, SIMPLE_LITHOSPHERE_BOUNDARY_TEMP );
             }
         } ) );
-        addCrust( new Region( CRUST_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
+        addCrust( new Region( CRUST_VERTICAL_STRIPS, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 // start with top first
                 float x = isLeftPlate ? model.getLeftX( xIndex ) : model.getRightX( xIndex );
 
-                final float topY = getFreshCrustTop( type );
-                final float bottomY = getFreshCrustBottom( type );
-
-                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES );
-                float y = topY + ( bottomY - topY ) * yRatio;
+                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
+                float y = crustTopY + ( crustBottomY - crustTopY ) * yRatio;
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
-                return new Sample( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( type ),
+                return new Sample( new ImmutableVector3F( x, y, 0 ), temp, crustDensity,
                                    textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
             }
         } ) );
@@ -88,8 +83,9 @@ public class PlateMotionPlate extends Plate {
 
             for ( int xIndex = 0; xIndex < boundary.samples.size(); xIndex++ ) {
                 final Sample sample = boundary.samples.get( xIndex );
-                final float mantleTopY = getLithosphere().getBottomBoundary().samples.get( xIndex ).getPosition().y;
-                final Sample desiredSample = createMantleSample( xIndex, yIndex, mantleTopY );
+                final Sample desiredSample = createMantleSample( xIndex, yIndex, MANTLE_VERTICAL_STRIPS,
+                                                                 lithosphereBottomY, SIMPLE_MANTLE_BOTTOM_Y,
+                                                                 SIMPLE_LITHOSPHERE_BOUNDARY_TEMP, SIMPLE_MANTLE_BOTTOM_TEMP );
 
                 sample.setPosition( desiredSample.getPosition() );
                 sample.setTemperature( desiredSample.getTemperature() );
@@ -115,7 +111,7 @@ public class PlateMotionPlate extends Plate {
             for ( int yIndex = 0; yIndex < getCrust().getBoundaries().size(); yIndex++ ) {
                 final Sample mySample = getCrust().getBoundaries().get( yIndex ).getFirstSample();
 
-                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES );
+                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
                 float y = topY + ( bottomY - topY ) * yRatio;
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
@@ -131,7 +127,7 @@ public class PlateMotionPlate extends Plate {
             for ( int yIndex = 0; yIndex < getLithosphere().getBoundaries().size(); yIndex++ ) {
                 final Sample mySample = getLithosphere().getBoundaries().get( yIndex ).getFirstSample();
 
-                final float yRatio = ( (float) yIndex ) / ( (float) LITHOSPHERE_VERTICAL_SAMPLES );
+                final float yRatio = ( (float) yIndex ) / ( (float) LITHOSPHERE_VERTICAL_STRIPS );
                 float y = topY + ( bottomY - topY ) * yRatio;
 
                 float temp = getLithosphereTemperatureFromYRatio( yRatio );
@@ -167,7 +163,7 @@ public class PlateMotionPlate extends Plate {
             for ( int yIndex = 0; yIndex < getCrust().getBoundaries().size(); yIndex++ ) {
                 final Sample mySample = getCrust().getBoundaries().get( yIndex ).getLastSample();
 
-                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES );
+                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
                 float y = topY + ( bottomY - topY ) * yRatio;
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
@@ -183,7 +179,7 @@ public class PlateMotionPlate extends Plate {
             for ( int yIndex = 0; yIndex < getLithosphere().getBoundaries().size(); yIndex++ ) {
                 final Sample mySample = getLithosphere().getBoundaries().get( yIndex ).getLastSample();
 
-                final float yRatio = ( (float) yIndex ) / ( (float) LITHOSPHERE_VERTICAL_SAMPLES );
+                final float yRatio = ( (float) yIndex ) / ( (float) LITHOSPHERE_VERTICAL_STRIPS );
                 float y = topY + ( bottomY - topY ) * yRatio;
 
                 float temp = getLithosphereTemperatureFromYRatio( yRatio );
@@ -232,7 +228,7 @@ public class PlateMotionPlate extends Plate {
         /*---------------------------------------------------------------------------*
         * mantle
         *----------------------------------------------------------------------------*/
-        regions.add( new Region( MANTLE_VERTICAL_SAMPLES, getTerrain().getNumRows(), new Function2<Integer, Integer, Sample>() {
+        regions.add( new Region( MANTLE_VERTICAL_STRIPS, getTerrain().getNumRows(), new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 // we're in the center exactly
                 float x = 0;
@@ -253,7 +249,7 @@ public class PlateMotionPlate extends Plate {
         /*---------------------------------------------------------------------------*
         * lithosphere
         *----------------------------------------------------------------------------*/
-        regions.add( new Region( LITHOSPHERE_VERTICAL_SAMPLES, getTerrain().getNumRows(), new Function2<Integer, Integer, Sample>() {
+        regions.add( new Region( LITHOSPHERE_VERTICAL_STRIPS, getTerrain().getNumRows(), new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 // we're in the center exactly
                 float x = 0;
@@ -282,7 +278,7 @@ public class PlateMotionPlate extends Plate {
         float topEarthY = Math.min( myTopY, otherTopY );
         final float ratioSpread = ( topEarthY - myBottomY ) / ( myTopY - myBottomY );
         System.out.println( "ratioSpread = " + ratioSpread );
-        regions.add( new Region( CRUST_VERTICAL_SAMPLES, getTerrain().getNumRows(), new Function2<Integer, Integer, Sample>() {
+        regions.add( new Region( CRUST_VERTICAL_STRIPS, getTerrain().getNumRows(), new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 // we're in the center exactly
                 float x = 0;
@@ -290,7 +286,7 @@ public class PlateMotionPlate extends Plate {
                 // grab the y location from the mantle cross section boundary
                 final Sample sample = getCrust().getBoundaries().get( yIndex ).samples.get( 0 );
 
-                float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_SAMPLES );
+                float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
                 System.out.println( "yRatio before = " + yRatio );
                 yRatio = ( yRatio * ratioSpread + ( 1 - ratioSpread ) ); // compensate for the difference
                 System.out.println( "yRatio after  = " + yRatio );

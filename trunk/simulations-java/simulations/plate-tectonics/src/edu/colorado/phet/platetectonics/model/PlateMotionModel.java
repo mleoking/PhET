@@ -51,8 +51,8 @@ public class PlateMotionModel extends PlateModel {
 
     private TerrainConnectorStrip terrainConnector;
 
-    public static final float SIMPLE_MANTLE_TOP_Y = -10000; // 10km depth
-    public static final float SIMPLE_MANTLE_BOTTOM_Y = -500000; // 200km depth
+    public static final float SIMPLE_MANTLE_TOP_Y = -10000;
+    public static final float SIMPLE_MANTLE_BOTTOM_Y = -600000;
     public static final float SIMPLE_MANTLE_TOP_TEMP = ZERO_CELSIUS + 700;
     public static final float SIMPLE_LITHOSPHERE_BOUNDARY_TEMP = ZERO_CELSIUS + 1100;
     public static final float SIMPLE_MANTLE_BOTTOM_TEMP = ZERO_CELSIUS + 1300;
@@ -64,9 +64,9 @@ public class PlateMotionModel extends PlateModel {
     public static final float SIMPLE_MAGMA_TEMP = ZERO_CELSIUS + 1000; // TODO: should this be warmer the farther down we are?
     public static final float SIMPLE_MAGMA_DENSITY = 2000f;
 
-    public static final int MANTLE_VERTICAL_SAMPLES = 6;
-    public static final int CRUST_VERTICAL_SAMPLES = 2;
-    public static final int LITHOSPHERE_VERTICAL_SAMPLES = 2;
+    public static final int MANTLE_VERTICAL_STRIPS = 6;
+    public static final int CRUST_VERTICAL_STRIPS = 2;
+    public static final int LITHOSPHERE_VERTICAL_STRIPS = 2;
     public static final int HORIZONTAL_SAMPLES = 64;
 
     public static final int TERRAIN_DEPTH_SAMPLES = 32;
