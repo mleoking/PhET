@@ -24,7 +24,7 @@ class FaucetFluidNode extends PPath {
         setStroke( BLLConstants.FLUID_STROKE );
         setStrokePaint( BLLConstants.createFluidStrokeColor( fluid.getFluidColor() ) );
 
-        setOffset( faucet.getLocation().toPoint2D() );
+        setOffset( faucet.location.toPoint2D() );
 
         // match the color of the fluid
         fluid.addFluidColorObserver( new SimpleObserver() {
@@ -40,7 +40,7 @@ class FaucetFluidNode extends PPath {
                     setPathTo( new Rectangle2D.Double() ); // empty rectangle
                 }
                 else {
-                    double width = maxWidth * faucet.flowRate.get() / faucet.getMaxFlowRate();
+                    double width = maxWidth * faucet.flowRate.get() / faucet.maxFlowRate;
                     setPathTo( new Rectangle2D.Double( -width / 2, 0, width, height ) );
                 }
             }
