@@ -7,6 +7,7 @@ import java.util.ListIterator;
 
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.util.Side;
 
 public class CrossSectionStrip {
     public final List<Sample> topPoints = new LinkedList<Sample>();
@@ -25,7 +26,7 @@ public class CrossSectionStrip {
         ListIterator<Sample> bottomIter = bottomPoints.listIterator();
 
         while ( topIter.hasNext() ) {
-            addRightPatch( topIter.next(), bottomIter.next() );
+            addPatch( Side.RIGHT, topIter.next(), bottomIter.next() );
         }
     }
 
@@ -37,24 +38,14 @@ public class CrossSectionStrip {
         return topPoints.size() * 2;
     }
 
-    public void addLeftPatch( Sample top, Sample bottom ) {
-        topPoints.add( 0, top );
-        bottomPoints.add( 0, bottom );
+    public void addPatch( Side side, Sample top, Sample bottom ) {
+        side.addToList( topPoints, top );
+        side.addToList( bottomPoints, bottom );
     }
 
-    public void addRightPatch( Sample top, Sample bottom ) {
-        topPoints.add( top );
-        bottomPoints.add( bottom );
-    }
-
-    public void removeLeftPatch() {
-        topPoints.remove( 0 );
-        bottomPoints.remove( 0 );
-    }
-
-    public void removeRightPatch() {
-        topPoints.remove( topPoints.size() - 1 );
-        bottomPoints.remove( bottomPoints.size() - 1 );
+    public void removePatch( Side side ) {
+        side.removeFromList( topPoints );
+        side.removeFromList( bottomPoints );
     }
 
     public void update() {

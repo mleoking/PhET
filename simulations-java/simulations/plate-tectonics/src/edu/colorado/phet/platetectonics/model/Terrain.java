@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.platetectonics.util.Side;
 
 public class Terrain {
 
@@ -55,29 +56,18 @@ public class Terrain {
         return samples.get( xIndex );
     }
 
-    public void addToLeft( float x, List<TerrainSample> column ) {
+    public void addColumn( Side side, float x, List<TerrainSample> column ) {
         assert column.size() == zSamples;
-        samples.add( 0, column );
-        xPositions.add( 0, x );
+        side.addToList( samples, column );
+        side.addToList( xPositions, x );
+
         columnsModified.updateListeners();
     }
 
-    public void addToRight( float x, List<TerrainSample> column ) {
-        assert column.size() == zSamples;
-        samples.add( column );
-        xPositions.add( x );
-        columnsModified.updateListeners();
-    }
+    public void removeColumn( Side side ) {
+        side.removeFromList( samples );
+        side.removeFromList( xPositions );
 
-    public void removeLeft() {
-        samples.remove( 0 );
-        xPositions.remove( 0 );
-        columnsModified.updateListeners();
-    }
-
-    public void removeRight() {
-        samples.remove( samples.size() - 1 );
-        xPositions.remove( xPositions.size() - 1 );
         columnsModified.updateListeners();
     }
 

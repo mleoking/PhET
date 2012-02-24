@@ -9,8 +9,11 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.behaviors.PlateBehavior;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
+import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.platetectonics.model.PlateMotionModel.*;
+import static edu.colorado.phet.platetectonics.util.Side.LEFT;
+import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
 
 public class PlateMotionPlate extends Plate {
     private final PlateMotionModel model;
@@ -37,7 +40,7 @@ public class PlateMotionPlate extends Plate {
 
     private Sample createMantleSample( int xIndex, int yIndex, int verticalSamples, float mantleTopY, float mantleBottomY, float mantleTopTemp, float mantleBottomTemp ) {
         // TODO: consider adding a higher concentration of samples near the top?
-        float x = isLeftPlate ? model.getLeftX( xIndex ) : model.getRightX( xIndex );
+        float x = isLeftPlate ? model.getStartingX( LEFT, xIndex ) : model.getStartingX( RIGHT, xIndex );
         final float yRatio = ( (float) yIndex ) / ( (float) verticalSamples );
         float y = mantleTopY + ( mantleBottomY - mantleTopY ) * yRatio;
         float temp = mantleTopTemp + ( mantleBottomTemp - mantleTopTemp ) * yRatio;
@@ -63,7 +66,7 @@ public class PlateMotionPlate extends Plate {
         addCrust( new Region( CRUST_VERTICAL_STRIPS, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 // start with top first
-                float x = isLeftPlate ? model.getLeftX( xIndex ) : model.getRightX( xIndex );
+                float x = isLeftPlate ? model.getStartingX( LEFT, xIndex ) : model.getStartingX( RIGHT, xIndex );
 
                 final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
                 float y = crustTopY + ( crustBottomY - crustTopY ) * yRatio;
@@ -97,24 +100,24 @@ public class PlateMotionPlate extends Plate {
 
     public float getSimpleChunkWidth() {
         // TODO: consider a direct model query with this, as if we change to uneven spacing this will break
-        return model.getLeftX( 1 ) - model.getLeftX( 0 );
+        return model.getStartingX( LEFT, 1 ) - model.getStartingX( LEFT, 0 );
     }
 
-    public void addLeftSection() {
-        final float width = model.getLeftX( 1 ) - model.getLeftX( 0 );
-        final float xOffset = -width;
+    public void addSection( final Side side ) {
+        final float width = model.getStartingX( side, 1 ) - model.getStartingX( side, 0 );
+        final float xOffset = width * side.getSign();
         final float crustTopY = getFreshCrustTop( plateType );
         final float crustMantleBoundaryY = getFreshCrustBottom( plateType );
         final float lithosphereBottomY = getFreshLithosphereBottom( plateType );
 
-        final float x = getCrust().getTopBoundary().getFirstSample().getPosition().x + xOffset;
+        final float x = getCrust().getTopBoundary().getEdgeSample( side ).getPosition().x + xOffset;
 
         // TODO: clean up code duplication
-        getCrust().addLeftRow( new ArrayList<Sample>() {{
+        getCrust().addColumn( side, new ArrayList<Sample>() {{
             float topY = crustTopY;
             float bottomY = crustMantleBoundaryY;
             for ( int yIndex = 0; yIndex < getCrust().getBoundaries().size(); yIndex++ ) {
-                final Sample mySample = getCrust().getBoundaries().get( yIndex ).getFirstSample();
+                final Sample mySample = getCrust().getBoundaries().get( yIndex ).getEdgeSample( side );
 
                 final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
                 float y = topY + ( bottomY - topY ) * yRatio;
@@ -126,11 +129,11 @@ public class PlateMotionPlate extends Plate {
             }
         }} );
 
-        getLithosphere().addLeftRow( new ArrayList<Sample>() {{
+        getLithosphere().addColumn( side, new ArrayList<Sample>() {{
             float topY = crustMantleBoundaryY;
             float bottomY = lithosphereBottomY;
             for ( int yIndex = 0; yIndex < getLithosphere().getBoundaries().size(); yIndex++ ) {
-                final Sample mySample = getLithosphere().getBoundaries().get( yIndex ).getFirstSample();
+                final Sample mySample = getLithosphere().getBoundaries().get( yIndex ).getEdgeSample( side );
 
                 final float yRatio = ( (float) yIndex ) / ( (float) LITHOSPHERE_VERTICAL_STRIPS );
                 float y = topY + ( bottomY - topY ) * yRatio;
@@ -142,78 +145,20 @@ public class PlateMotionPlate extends Plate {
             }
         }} );
 
-        getTerrain().addToLeft( x, new ArrayList<TerrainSample>() {{
+        getTerrain().addColumn( side, x, new ArrayList<TerrainSample>() {{
             for ( int zIndex = 0; zIndex < getTerrain().getZSamples(); zIndex++ ) {
-                final TerrainSample mySample = getTerrain().getSample( 0, zIndex );
+                final TerrainSample mySample = getTerrain().getSample( side.getIndex( getTerrain().getNumColumns() ), zIndex );
                 // elevation to be fixed later
                 // TODO: fix texture coordinates on newly added terrain
-                add( new TerrainSample( getCrust().getTopBoundary().getFirstSample().getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
+                add( new TerrainSample( getCrust().getTopBoundary().getEdgeSample( side ).getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
             }
         }} );
     }
 
-    public void addRightSection() {
-        final float width = model.getRightX( 1 ) - model.getRightX( 0 );
-        final float xOffset = width;
-        final float crustTopY = getFreshCrustTop( plateType );
-        final float crustMantleBoundaryY = getFreshCrustBottom( plateType );
-        final float lithosphereBottomY = getFreshLithosphereBottom( plateType );
-
-        final float x = getCrust().getTopBoundary().getLastSample().getPosition().x + xOffset;
-
-        // TODO: clean up code duplication
-        getCrust().addRightRow( new ArrayList<Sample>() {{
-            float topY = crustTopY;
-            float bottomY = crustMantleBoundaryY;
-            for ( int yIndex = 0; yIndex < getCrust().getBoundaries().size(); yIndex++ ) {
-                final Sample mySample = getCrust().getBoundaries().get( yIndex ).getLastSample();
-
-                final float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
-                float y = topY + ( bottomY - topY ) * yRatio;
-
-                float temp = getCrustTemperatureFromYRatio( yRatio );
-                final float x = mySample.getPosition().x + xOffset;
-                add( new Sample( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( plateType ),
-                                 mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
-            }
-        }} );
-
-        getLithosphere().addRightRow( new ArrayList<Sample>() {{
-            float topY = crustMantleBoundaryY;
-            float bottomY = lithosphereBottomY;
-            for ( int yIndex = 0; yIndex < getLithosphere().getBoundaries().size(); yIndex++ ) {
-                final Sample mySample = getLithosphere().getBoundaries().get( yIndex ).getLastSample();
-
-                final float yRatio = ( (float) yIndex ) / ( (float) LITHOSPHERE_VERTICAL_STRIPS );
-                float y = topY + ( bottomY - topY ) * yRatio;
-
-                float temp = getLithosphereTemperatureFromYRatio( yRatio );
-                final float x = mySample.getPosition().x + xOffset;
-                add( new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
-                                 mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
-            }
-        }} );
-
-        getTerrain().addToRight( x, new ArrayList<TerrainSample>() {{
-            for ( int zIndex = 0; zIndex < getTerrain().getZSamples(); zIndex++ ) {
-                final TerrainSample mySample = getTerrain().getSample( getTerrain().getNumColumns() - 1, zIndex );
-                // elevation to be fixed later
-                // TODO: fix texture coordinates on newly added terrain
-                add( new TerrainSample( getCrust().getTopBoundary().getLastSample().getPosition().y, mySample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
-            }
-        }} );
-    }
-
-    public void removeLeftSection() {
-        getCrust().removeLeftRow();
-        getLithosphere().removeLeftRow();
-        getTerrain().removeLeft();
-    }
-
-    public void removeRightSection() {
-        getCrust().removeRightRow();
-        getLithosphere().removeRightRow();
-        getTerrain().removeRight();
+    public void removeSection( Side side ) {
+        getCrust().removeColumn( side );
+        getLithosphere().removeColumn( side );
+        getTerrain().removeColumn( side );
     }
 
     public void fullSyncTerrain() {
@@ -328,8 +273,13 @@ public class PlateMotionPlate extends Plate {
         this.behavior = behavior;
     }
 
+    // TODO: refactor this away, not needed
     public boolean isLeftPlate() {
         return isLeftPlate;
+    }
+
+    public Side getSide() {
+        return isLeftPlate() ? LEFT : RIGHT;
     }
 
     public TextureStrategy getTextureStrategy() {

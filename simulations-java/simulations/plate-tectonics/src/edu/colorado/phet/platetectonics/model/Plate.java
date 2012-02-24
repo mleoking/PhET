@@ -12,6 +12,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
+import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
 
 public class Plate {
 
@@ -50,7 +51,7 @@ public class Plate {
             for ( int xIndex = 0; xIndex < currentTopRegion.getTopBoundary().samples.size(); xIndex++ ) {
                 final float x = currentTopRegion.getTopBoundary().samples.get( xIndex ).getPosition().x;
                 final int finalXIndex = xIndex;
-                addToRight( x, new ArrayList<TerrainSample>() {{
+                addColumn( RIGHT, x, new ArrayList<TerrainSample>() {{
                     for ( int zIndex = 0; zIndex < depthSamples; zIndex++ ) {
                         final float z = zPositions.get( zIndex );
                         // elevation to be fixed later

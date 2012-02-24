@@ -5,24 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.util.Side;
 
 public class Boundary {
     public List<Sample> samples = new ArrayList<Sample>();
 
-    public void addLeftSample( Sample sample ) {
-        samples.add( 0, sample );
+    public void addSample( Side side, Sample sample ) {
+        side.addToList( samples, sample );
     }
 
-    public void addRightSample( Sample sample ) {
-        samples.add( sample );
-    }
-
-    public void removeLeftSample() {
-        samples.remove( 0 );
-    }
-
-    public void removeRightSample() {
-        samples.remove( samples.size()-1 );
+    public void removeSample( Side side ) {
+        side.removeFromList( samples );
     }
 
     public void borrowPosition( Boundary other ) {
@@ -61,11 +54,7 @@ public class Boundary {
         }
     }
 
-    public Sample getFirstSample() {
-        return samples.get( 0 );
-    }
-
-    public Sample getLastSample() {
-        return samples.get( samples.size() - 1 );
+    public Sample getEdgeSample( Side side ) {
+        return side.getEnd( samples );
     }
 }

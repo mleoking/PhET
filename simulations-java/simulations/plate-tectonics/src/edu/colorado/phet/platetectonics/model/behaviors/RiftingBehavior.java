@@ -12,6 +12,7 @@ import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
+import edu.colorado.phet.platetectonics.util.Side;
 
 public class RiftingBehavior extends PlateBehavior {
 
@@ -266,6 +267,6 @@ public class RiftingBehavior extends PlateBehavior {
     }
 
     private Sample getCenterSample( Boundary boundary ) {
-        return getPlate().isLeftPlate() ? boundary.getLastSample() : boundary.getFirstSample();
+        return getPlate().isLeftPlate() ? boundary.getEdgeSample( Side.RIGHT ) : boundary.getEdgeSample( Side.LEFT );
     }
 }

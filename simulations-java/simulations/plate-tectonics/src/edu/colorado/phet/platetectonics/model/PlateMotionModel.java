@@ -15,6 +15,7 @@ import edu.colorado.phet.platetectonics.model.behaviors.SubductingBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.TransformBehavior;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
+import edu.colorado.phet.platetectonics.util.Side;
 
 public class PlateMotionModel extends PlateModel {
 
@@ -239,14 +240,18 @@ public class PlateMotionModel extends PlateModel {
         modelChanged.updateListeners();
     }
 
-    // i from 0 to HORIZONTAL_SAMPLES-1
-    public float getLeftX( int i ) {
-        return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) i ) / (float) ( HORIZONTAL_SAMPLES - 1 );
-    }
-
-    // i from 0 to HORIZONTAL_SAMPLES-1
-    public float getRightX( int i ) {
-        return bounds.getCenterX() + ( bounds.getMaxX() - bounds.getCenterX() ) * ( (float) i ) / (float) ( HORIZONTAL_SAMPLES - 1 );
+    // xIndex can be from 0 to HORIZONTAL_SAMPLES-1
+    public float getStartingX( Side side, int xIndex ) {
+        assert xIndex >= 0;
+        assert xIndex < HORIZONTAL_SAMPLES;
+        switch( side ) {
+            case LEFT:
+                return bounds.getMinX() + ( bounds.getCenterX() - bounds.getMinX() ) * ( (float) xIndex ) / (float) ( HORIZONTAL_SAMPLES - 1 );
+            case RIGHT:
+                return bounds.getCenterX() + ( bounds.getMaxX() - bounds.getCenterX() ) * ( (float) xIndex ) / (float) ( HORIZONTAL_SAMPLES - 1 );
+            default:
+                throw new RuntimeException( "Side not found: " + side );
+        }
     }
 
     public void dropLeftCrust( final PlateType type ) {

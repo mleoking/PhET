@@ -8,6 +8,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.flatten;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
@@ -35,49 +36,26 @@ public class Region {
         }
     }
 
-    public void addLeftRow( List<Sample> samples ) {
+    public void addColumn( Side side, List<Sample> samples ) {
         assert samples.size() == boundaries.size();
 
         // insert samples into the start of the boundaries
         for ( int i = 0; i < samples.size(); i++ ) {
-            boundaries.get( i ).addLeftSample( samples.get( i ) );
+            boundaries.get( i ).addSample( side, samples.get( i ) );
         }
 
         for ( int i = 0; i < strips.size(); i++ ) {
-            strips.get( i ).addLeftPatch( samples.get( i ), samples.get( i + 1 ) );
+            strips.get( i ).addPatch( side, samples.get( i ), samples.get( i + 1 ) );
         }
     }
 
-    public void addRightRow( List<Sample> samples ) {
-        assert samples.size() == boundaries.size();
-
-        // insert samples into the start of the boundaries
-        for ( int i = 0; i < samples.size(); i++ ) {
-            boundaries.get( i ).addRightSample( samples.get( i ) );
-        }
-
-        for ( int i = 0; i < strips.size(); i++ ) {
-            strips.get( i ).addRightPatch( samples.get( i ), samples.get( i + 1 ) );
-        }
-    }
-
-    public void removeLeftRow() {
+    public void removeColumn( Side side ) {
         for ( Boundary boundary : boundaries ) {
-            boundary.removeLeftSample();
+            boundary.removeSample( side );
         }
 
         for ( CrossSectionStrip strip : strips ) {
-            strip.removeLeftPatch();
-        }
-    }
-
-    public void removeRightRow() {
-        for ( Boundary boundary : boundaries ) {
-            boundary.removeRightSample();
-        }
-
-        for ( CrossSectionStrip strip : strips ) {
-            strip.removeRightPatch();
+            strip.removePatch( side );
         }
     }
 
