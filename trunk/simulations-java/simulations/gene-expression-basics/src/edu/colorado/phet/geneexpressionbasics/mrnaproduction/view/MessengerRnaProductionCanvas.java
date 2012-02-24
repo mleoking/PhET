@@ -7,7 +7,9 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -15,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
@@ -134,6 +137,19 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
             }
         } );
 
+        // Add the floating clock control.
+        BooleanProperty clockRunning = new BooleanProperty( false );
+        final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
+        clockRunning.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean isRunning ) {
+                modelClock.setRunning( isRunning );
+            }
+        } );
+        final FloatingClockControlNode floatingClockControlNode = new FloatingClockControlNode( clockRunning, null,
+                                                                                                model.getClock(), null,
+                                                                                                new Property<Color>( Color.white ) );
+        controlsRootNode.addChild( floatingClockControlNode );
+
         // Add the Reset All button.
         ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
@@ -150,8 +166,12 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         double middleXOfUnusedSpace = ( negativeTranscriptionFactorControlPanel.getFullBoundsReference().getMaxX() +
                                         STAGE_SIZE.getWidth() ) / 2;
 
-        resetAllButton.setOffset( middleXOfUnusedSpace, 0 );
-
+        resetAllButton.setOffset( middleXOfUnusedSpace - resetAllButton.getFullBoundsReference().width / 2,
+                                  positiveTranscriptionFactorControlPanel.getFullBoundsReference().getMaxY() - resetAllButton.getFullBoundsReference().height );
+        negativeFactorEnabledCheckBox.setOffset( middleXOfUnusedSpace - negativeFactorEnabledCheckBox.getFullBoundsReference().width / 2,
+                                                 resetAllButton.getFullBoundsReference().getMinY() - negativeFactorEnabledCheckBox.getFullBoundsReference().height - 10 );
+        floatingClockControlNode.setOffset( middleXOfUnusedSpace - floatingClockControlNode.getFullBoundsReference().width / 2,
+                                            negativeFactorEnabledCheckBox.getFullBoundsReference().getMinY() - floatingClockControlNode.getFullBoundsReference().height - 10 );
 
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
