@@ -22,12 +22,12 @@ abstract class ParticleNode extends PPath {
     private static final float STROKE_WIDTH = 1f;
 
     public ParticleNode( SoluteParticle particle ) {
-        setPaint( particle.getColor() );
-        setStrokePaint( particle.getColor().darker() );
+        setPaint( particle.color );
+        setStrokePaint( particle.color.darker() );
         setStroke( new BasicStroke( STROKE_WIDTH ) );
-        setPathTo( new Rectangle2D.Double( -particle.getSize() / 2, -particle.getSize() / 2, particle.getSize(), particle.getSize() ) ); // square
-        setRotation( particle.getOrientation() );
-        setOffset( particle.getLocation().getX(), particle.getLocation().getY() - STROKE_WIDTH ); // account for stroke width so there's no overlap with bottom of beaker
+        setPathTo( new Rectangle2D.Double( -particle.size / 2, -particle.size / 2, particle.size, particle.size ) ); // square
+        setRotation( particle.orientation );
+        setOffset( particle.location.get().getX(), particle.location.get().getY() - STROKE_WIDTH ); // account for stroke width so there's no overlap with bottom of beaker
     }
 
     /**
@@ -59,11 +59,11 @@ abstract class ParticleNode extends PPath {
                     setOffset( location.toPoint2D() );
                 }
             };
-            particle.addLocationObserver( locationObserver );
+            particle.location.addObserver( locationObserver );
         }
 
         public void cleanup() {
-            particle.removeLocationObserver( locationObserver );
+            particle.location.removeObserver(    locationObserver );
         }
     }
 }
