@@ -106,13 +106,6 @@ public class RiftingBehavior extends PlateBehavior {
                 float newX = getPlumeX( y ) * ( getPlate().isLeftPlate() ? -1 : 1 );
                 float deltaX = newX - currentX;
 
-//                System.out.println( "---" );
-//                System.out.println( "currentX = " + currentX );
-//                System.out.println( "y = " + y );
-//                System.out.println( "getPlumeTop() = " + getPlumeTop() );
-//                System.out.println( "getPlumeX( y ) = " + getPlumeX( y ) );
-//                System.out.println( "deltaX = " + deltaX );
-
                 if ( deltaX != 0 ) {
                     for ( Sample sample : boundary.samples ) {
                         sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( deltaX, 0, 0 ) ) );
@@ -121,66 +114,10 @@ public class RiftingBehavior extends PlateBehavior {
             }
         }
 
-//        if ( timeElapsed > SPREAD_START_TIME / 2 ) {
-//            for ( Region region : new Region[] { getPlate().getLithosphere(), getPlate().getCrust() } ) {
-//                for ( Boundary boundary : region.getBoundaries() ) {
-//                    Sample sample = getPlate().isLeftPlate() ? boundary.getLastSample() : boundary.getFirstSample();
-//
-//                    ImmutableVector3F position = sample.getPosition();
-//                    sample.setPosition( new ImmutableVector3F( position.x,
-//                                                               (float) ( ( position.y - RIDGE_TOP_Y ) * ( Math.exp( -millionsOfYears ) ) + RIDGE_TOP_Y ),
-//                                                               position.z ) );
-//                }
-//            }
-//        }
-
         getPlate().getTerrain().elevationChanged.updateListeners();
 
-        // we want to slide along the mantle instead!
-//        getPlate().getMantle().getTopBoundary().borrowPosition( getPlate().getLithosphere().getBottomBoundary() );
-
-        // sew aesthenosphere to lithosphere bottom
-
-        float padding = 750;
-        int xIndex = 0;
-        Sample leftSample = lithosphereBottomBoundary.getFirstSample();
-        for ( Sample mantleSample : getPlate().getMantle().getTopBoundary().samples ) {
-            // too far to the left
-            if ( leftSample.getPosition().x > mantleSample.getPosition().x ) {
-                continue;
-            }
-
-            int rightIndex = xIndex + 1;
-
-            // too far to the right
-            if ( rightIndex > lithosphereBottomBoundary.samples.size() - 1 ) {
-                break;
-            }
-            Sample rightSample = lithosphereBottomBoundary.samples.get( rightIndex );
-            while ( rightSample.getPosition().x < mantleSample.getPosition().x && rightIndex + 1 < lithosphereBottomBoundary.samples.size() ) {
-                rightIndex++;
-                rightSample = lithosphereBottomBoundary.samples.get( rightIndex );
-            }
-
-            // couldn't go far enough
-            if ( rightSample.getPosition().x < mantleSample.getPosition().x ) {
-                break;
-            }
-            leftSample = lithosphereBottomBoundary.samples.get( rightIndex - 1 );
-
-            // how leftSample and rightSample surround our x
-            assert leftSample.getPosition().x <= mantleSample.getPosition().x;
-            assert rightSample.getPosition().x >= mantleSample.getPosition().x;
-
-            // interpolate between their y values
-            float ratio = ( mantleSample.getPosition().x - leftSample.getPosition().x ) / ( rightSample.getPosition().x - leftSample.getPosition().x );
-            assert ratio >= 0;
-            assert ratio <= 1;
-//            ratio = 0;
-            mantleSample.setPosition( new ImmutableVector3F( mantleSample.getPosition().x,
-                                                             padding + leftSample.getPosition().y * ( 1 - ratio ) + rightSample.getPosition().y * ratio,
-                                                             mantleSample.getPosition().z ) );
-        }
+        glueMantleTopToLithosphere( 1000 );
+        redistributeMantle();
     }
 
     private float computeNewStretchedX( float millionsOfYears, float sign, float currentX ) {
@@ -188,9 +125,6 @@ public class RiftingBehavior extends PlateBehavior {
         final int exponentialFactor = 10;
         final float maxXDelta = -sign * 20000f / 2 * millionsOfYears;
         float delta = (float) ( ( 1 / Math.exp( -millionsOfYears / exponentialFactor ) ) - 1 ) * currentX;
-//        if ( delta != 0 ) {
-//            delta += millionsOfYears * 10 / currentX;
-//        }
 
         delta *= 2.0;
 

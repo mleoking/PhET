@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.behaviors.PlateBehavior;
+import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 
 import static edu.colorado.phet.platetectonics.model.PlateMotionModel.*;
@@ -26,16 +27,20 @@ public class PlateMotionPlate extends Plate {
         this.isLeftPlate = isLeftPlate;
         addMantle( new Region( MANTLE_VERTICAL_SAMPLES, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
-                // start with top first
-                float x = isLeftPlate ? model.getLeftX( xIndex ) : model.getRightX( xIndex );
-                final float yRatio = ( (float) yIndex ) / ( (float) MANTLE_VERTICAL_SAMPLES - 1 );
-                float y = SIMPLE_MANTLE_TOP_Y + ( SIMPLE_MANTLE_BOTTOM_Y - SIMPLE_MANTLE_TOP_Y ) * yRatio;
-                float temp = SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_MANTLE_BOTTOM_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * yRatio;
-                return new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
-                                   textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
+                return createMantleSample( xIndex, yIndex, SIMPLE_MANTLE_TOP_Y );
             }
         } ) );
         addTerrain( textureStrategy, TERRAIN_DEPTH_SAMPLES, model.getBounds().getMinZ(), model.getBounds().getMaxZ() );
+    }
+
+    private Sample createMantleSample( int xIndex, int yIndex, float mantleTopY ) {
+        // TODO: consider adding a higher concentration of samples near the top
+        float x = isLeftPlate ? model.getLeftX( xIndex ) : model.getRightX( xIndex );
+        final float yRatio = ( (float) yIndex ) / ( (float) MANTLE_VERTICAL_SAMPLES - 1 );
+        float y = mantleTopY + ( SIMPLE_MANTLE_BOTTOM_Y - mantleTopY ) * yRatio;
+        float temp = SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_MANTLE_BOTTOM_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * yRatio;
+        return new Sample( new ImmutableVector3F( x, y, 0 ), temp, SIMPLE_MANTLE_DENSITY,
+                           textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
     }
 
     public void droppedCrust( final PlateType type ) {
@@ -75,7 +80,23 @@ public class PlateMotionPlate extends Plate {
         } ) );
 
         // set the position/texture coordinates to be the same for the mantle top boundary
-        getMantle().getTopBoundary().borrowPositionTemperatureAndTexture( getLithosphere().getBottomBoundary() );
+//        getMantle().getTopBoundary().borrowPositionTemperatureAndTexture( getLithosphere().getBottomBoundary() );
+
+        // essentially re-set all of the mantle samples based on our new information
+        for ( int yIndex = 0; yIndex < getMantle().getBoundaries().size(); yIndex++ ) {
+            Boundary boundary = getMantle().getBoundaries().get( yIndex );
+
+            for ( int xIndex = 0; xIndex < boundary.samples.size(); xIndex++ ) {
+                final Sample sample = boundary.samples.get( xIndex );
+                final float mantleTopY = getLithosphere().getBottomBoundary().samples.get( xIndex ).getPosition().y;
+                final Sample desiredSample = createMantleSample( xIndex, yIndex, mantleTopY );
+
+                sample.setPosition( desiredSample.getPosition() );
+                sample.setTemperature( desiredSample.getTemperature() );
+                sample.setDensity( desiredSample.getDensity() );
+                sample.setTextureCoordinates( desiredSample.getTextureCoordinates() );
+            }
+        }
     }
 
     public void addLeftSection() {
