@@ -31,6 +31,8 @@ public class RiftingBehavior extends PlateBehavior {
 
     public static final float MAGMA_SPEED = MAGMA_HEIGHT / SPREAD_START_TIME;
 
+    public static final float MAGMA_TEXTURE_COORDINATE_X = 100000;
+
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
@@ -39,13 +41,17 @@ public class RiftingBehavior extends PlateBehavior {
                 float yRatio = ( (float) yIndex ) / ( (float) ( MAGMA_VERTICAL_SAMPLES - 1 ) );
                 final float distanceFromPlumeTop = yRatio * MAGMA_HEIGHT;
 
-                float x = ( plate.isLeftPlate() == ( xIndex == 1 ) )
+                final boolean isCenterPoint = plate.isLeftPlate() == ( xIndex == 1 );
+                float x = isCenterPoint
                           ? 0
                           : getPlumeXFromTop( -distanceFromPlumeTop ) * getPlateSign();
+                final float textureX = isCenterPoint ? 0 : MAGMA_TEXTURE_COORDINATE_X * getPlateSign();
                 float y = RIDGE_START_Y - distanceFromPlumeTop;
+
+                final ImmutableVector2F textureCoordinates = plate.getTextureStrategy().mapFront( new ImmutableVector2F( textureX, y ) );
                 return new Sample( new ImmutableVector3F( x, y, 0 ),
                                    PlateMotionModel.SIMPLE_MAGMA_TEMP, PlateMotionModel.SIMPLE_MAGMA_DENSITY,
-                                   plate.getTextureStrategy().mapFront( new ImmutableVector2F( x, y ) ) ); // TODO: x-y coordinates offset based on relative width of plume, so we don't see that "shrinking" as it goes up
+                                   textureCoordinates ); // TODO: x-y coordinates offset based on relative width of plume, so we don't see that "shrinking" as it goes up
             }
         } );
 
@@ -59,13 +65,12 @@ public class RiftingBehavior extends PlateBehavior {
         float spreadTimeDelta = millionsOfYears - stretchTimeDelta;
 
         timeElapsed += millionsOfYears;
-        System.out.println( "elapsed: " + timeElapsed );
 
         if ( stretchTimeDelta > 0 ) {
             moveStretched( stretchTimeDelta );
         }
         if ( spreadTimeDelta > 0 ) {
-            // TODO: do spreading animation here
+            moveSpreading( spreadTimeDelta );
         }
     }
 
@@ -161,6 +166,14 @@ public class RiftingBehavior extends PlateBehavior {
         redistributeMantle();
     }
 
+    private void moveSpreading( float millionsOfYears ) {
+        // animate magma plume texture
+        for ( Sample magmaSample : magma.getSamples() ) {
+            magmaSample.setTextureCoordinates( magmaSample.getTextureCoordinates().plus(
+                    plate.getTextureStrategy().mapFrontDelta( new ImmutableVector2F( 0, -MAGMA_SPEED * millionsOfYears ) ) ) );
+        }
+    }
+
     private float computeNewStretchedX( float millionsOfYears, float sign, float currentX ) {
         assert !Float.isNaN( millionsOfYears );
         final int exponentialFactor = 10;
@@ -208,7 +221,7 @@ public class RiftingBehavior extends PlateBehavior {
         if ( yFromTop > 0 ) {
             return 0;
         }
-        return Math.abs( yFromTop / 3 );
+        return -yFromTop / 3;
     }
 
     private Sample getCenterSample( Boundary boundary ) {
