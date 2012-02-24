@@ -101,4 +101,6 @@ public class ImmutableRectangle2D {
     public ImmutableRectangle2D shrink( double delta ) {
         return new ImmutableRectangle2D( x + delta / 2, y + delta / 2, width - delta, height - delta );
     }
+
+    public ImmutableRectangle2D union( ImmutableRectangle2D immutableRectangle2D1 ) { return new ImmutableRectangle2D( toRectangle2D().createUnion( immutableRectangle2D1.toRectangle2D() ) ); }
 }
