@@ -1,3 +1,4 @@
+Added special case for half-pies since they should be vertical instead of horizontal (like pies)
 Added bucket/dragging for cake slices
 # 0.00.39 (61666) Feb 23, 2012
 Fixed: exception when removing a slice after max spinner reduced
