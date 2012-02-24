@@ -128,6 +128,7 @@ public class RiftingBehavior extends PlateBehavior {
             }
         }
 
+        // push the earth away from the magma plume
         for ( Region region : new Region[] { getPlate().getLithosphere(), getPlate().getCrust(), getPlate().getMantle() } ) {
             for ( Boundary boundary : region.getBoundaries() ) {
                 Sample centerSample = getCenterSample( boundary );
@@ -143,6 +144,11 @@ public class RiftingBehavior extends PlateBehavior {
                     }
                 }
             }
+        }
+
+        // move the magma plume up
+        for ( Sample magmaSample : magma.getSamples() ) {
+            magmaSample.setPosition( magmaSample.getPosition().plus( new ImmutableVector3F( 0, MAGMA_HEIGHT * millionsOfYears / SPREAD_START_TIME, 0 ) ) );
         }
 
         getPlate().getTerrain().elevationChanged.updateListeners();
