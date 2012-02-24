@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_sv.xml created Sat Feb 04 16:34:53 CET 2012 using: plinko-probability 2.02.00 (53818), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="ball" value="kula"/>
+<string key="number" value="antal"/>
+<string key="simTitle" value="Plinko sannolikhet"/>
+<string key="help" value="Hjälp"/>
+<string key="continuous" value="kontinuerlig"/>
+<string key="reset" value="Återställ"/>
+<string key="stop" value="Stopp"/>
+<string key="none" value="ingen"/>
+<string key="histogramDisplay" value="Histogram \nvisa:"/>
+<string key="oneBall" value="1 kula"/>
+<string key="show" value="Visa:"/>
+<string key="sound" value="Ljud"/>
+<string key="fraction" value="bråkdel"/>
+<string key="autoScale" value="autoskalning"/>
+<string key="path" value="bana"/>
+<string key="rows" value="rader"/>
+</SimStrings>
