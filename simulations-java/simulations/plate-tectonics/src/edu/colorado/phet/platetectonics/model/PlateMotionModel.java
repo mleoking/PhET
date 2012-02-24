@@ -59,7 +59,10 @@ public class PlateMotionModel extends PlateModel {
     public static final float SIMPLE_MANTLE_DENSITY = 3300f;
 
     public static final float SIMPLE_CRUST_TOP_TEMP = ZERO_CELSIUS;
-    public static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;     // TODO: temperature view issue in 2nd tab?
+    public static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;
+
+    public static final float SIMPLE_MAGMA_TEMP = ZERO_CELSIUS + 1000; // TODO: should this be warmer the farther down we are?
+    public static final float SIMPLE_MAGMA_DENSITY = 2000f;
 
     public static final int MANTLE_VERTICAL_SAMPLES = 6;
     public static final int CRUST_VERTICAL_SAMPLES = 2;

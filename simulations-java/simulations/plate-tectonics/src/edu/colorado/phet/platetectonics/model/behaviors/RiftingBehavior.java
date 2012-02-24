@@ -3,7 +3,10 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
@@ -12,14 +15,38 @@ import edu.colorado.phet.platetectonics.model.regions.Region;
 
 public class RiftingBehavior extends PlateBehavior {
 
+    private Region magma;
+    public static final int MAGMA_VERTICAL_SAMPLES = 20;
+
     private float timeElapsed = 0;
 
     public static final float RIDGE_TOP_Y = -2500;
     public static final float RIDGE_START_Y = -400000; // 400km
     public static final float SPREAD_START_TIME = 10.0f;
 
-    public RiftingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
+    // the height of the magma plume
+    public static final float MAGMA_HEIGHT = RIDGE_TOP_Y - RIDGE_START_Y;
+
+    public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
+
+        magma = new Region( MAGMA_VERTICAL_SAMPLES, 2, new Function2<Integer, Integer, Sample>() {
+            public Sample apply( Integer yIndex, Integer xIndex ) {
+                float yRatio = ( (float) yIndex ) / ( (float) ( MAGMA_VERTICAL_SAMPLES - 1 ) );
+                final float distanceFromPlumeTop = yRatio * MAGMA_HEIGHT;
+
+                float x = ( plate.isLeftPlate() == ( xIndex == 1 ) )
+                          ? 0
+                          : getPlumeXFromTop( -distanceFromPlumeTop ) * getPlateSign();
+                float y = RIDGE_START_Y - distanceFromPlumeTop;
+                return new Sample( new ImmutableVector3F( x, y, 0 ),
+                                   PlateMotionModel.SIMPLE_MAGMA_TEMP, PlateMotionModel.SIMPLE_MAGMA_DENSITY,
+                                   plate.getTextureStrategy().mapFront( new ImmutableVector2F( x, y ) ) ); // TODO: x-y coordinates offset based on relative width of plume, so we don't see that "shrinking" as it goes up
+            }
+        } );
+
+        plate.regions.add( magma );
+        magma.moveToFront();
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
@@ -36,6 +63,10 @@ public class RiftingBehavior extends PlateBehavior {
         if ( spreadTimeDelta > 0 ) {
             // TODO: do spreading animation here
         }
+    }
+
+    private float getPlateSign() {
+        return plate.isLeftPlate() ? -1 : 1;
     }
 
     private void moveStretched( float millionsOfYears ) {
@@ -144,16 +175,19 @@ public class RiftingBehavior extends PlateBehavior {
         }
     }
 
+    // y in absolute terms
     private float getPlumeX( float y ) {
-        float fromTop = y - getPlumeTop();
+        return getPlumeXFromTop( y - getPlumeTop() );
+    }
 
-        // above plume, it has no width
-        if ( fromTop > 0 ) {
+    // y from the top of the magma plume
+    private float getPlumeXFromTop( float yFromTop ) {
+        if ( yFromTop > 0 ) {
             return 0;
         }
 
 //        return ( y * y - y ) * 0.000001f;
-        return Math.abs( fromTop / 3 );
+        return Math.abs( yFromTop / 3 );
     }
 
     private Sample getCenterSample( Boundary boundary ) {
