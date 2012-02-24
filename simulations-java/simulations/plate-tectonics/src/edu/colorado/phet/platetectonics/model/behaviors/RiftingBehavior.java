@@ -33,6 +33,8 @@ public class RiftingBehavior extends PlateBehavior {
 
     public static final float MAGMA_TEXTURE_COORDINATE_X = 100000;
 
+    public static final float RIFT_PLATE_SPEED = 30000f / 2;
+
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
@@ -160,10 +162,7 @@ public class RiftingBehavior extends PlateBehavior {
             magmaSample.setPosition( magmaSample.getPosition().plus( new ImmutableVector3F( 0, MAGMA_SPEED * millionsOfYears, 0 ) ) );
         }
 
-        getPlate().getTerrain().elevationChanged.updateListeners();
-
-        glueMantleTopToLithosphere( 1000 );
-        redistributeMantle();
+        riftPostProcess();
     }
 
     private void moveSpreading( float millionsOfYears ) {
@@ -172,15 +171,29 @@ public class RiftingBehavior extends PlateBehavior {
             magmaSample.setTextureCoordinates( magmaSample.getTextureCoordinates().plus(
                     plate.getTextureStrategy().mapFrontDelta( new ImmutableVector2F( 0, -MAGMA_SPEED * millionsOfYears ) ) ) );
         }
+
+        riftPostProcess();
     }
 
+    private void riftPostProcess() {
+        getPlate().getTerrain().elevationChanged.updateListeners();
+
+        glueMantleTopToLithosphere( 1000 );
+        redistributeMantle();
+    }
+
+    // fun function full of magical constants!
     private float computeNewStretchedX( float millionsOfYears, float sign, float currentX ) {
         assert !Float.isNaN( millionsOfYears );
         final int exponentialFactor = 10;
-        final float maxXDelta = -sign * 20000f / 2 * millionsOfYears;
+        final float maxXDelta = -sign * RIFT_PLATE_SPEED * millionsOfYears;
         float delta = (float) ( ( 1 / Math.exp( -millionsOfYears / exponentialFactor ) ) - 1 ) * currentX;
 
-        delta *= 2.0;
+        delta *= 1.3;
+
+        // essentially blend the two together
+        float power = 0.7f;
+        delta = (float) ( Math.pow( Math.abs( delta ), power ) * Math.signum( delta ) * Math.pow( Math.abs( maxXDelta ), 1 - power ) );
 
         float newX = Math.abs( maxXDelta ) > Math.abs( delta ) ? currentX + delta : currentX + maxXDelta;
 

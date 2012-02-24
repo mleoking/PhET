@@ -67,7 +67,7 @@ public class PlateMotionModel extends PlateModel {
     public static final int MANTLE_VERTICAL_STRIPS = 6;
     public static final int CRUST_VERTICAL_STRIPS = 2;
     public static final int LITHOSPHERE_VERTICAL_STRIPS = 2;
-    public static final int HORIZONTAL_SAMPLES = 64;
+    public static final int HORIZONTAL_SAMPLES = 96;
 
     public static final int TERRAIN_DEPTH_SAMPLES = 32;
 
