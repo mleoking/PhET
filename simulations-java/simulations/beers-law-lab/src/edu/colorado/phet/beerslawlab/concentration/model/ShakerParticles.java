@@ -83,7 +83,7 @@ public class ShakerParticles {
 
     // Computes an initial velocity for the particle.
     protected ImmutableVector2D getInitialVelocity() {
-        return ImmutableVector2D.createPolar( INITIAL_SPEED, shaker.getOrientation() ); // in the direction the shaker is pointing
+        return ImmutableVector2D.createPolar( INITIAL_SPEED, shaker.orientation ); // in the direction the shaker is pointing
     }
 
     // Gravitational acceleration is in the downward direction.
