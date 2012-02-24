@@ -13,7 +13,7 @@ import edu.colorado.phet.platetectonics.view.materials.TemperatureMaterial;
 public enum ColorMode {
     DENSITY( new DensityMaterial(), Strings.LESS_DENSE, Strings.MORE_DENSE ),
     TEMPERATURE( new TemperatureMaterial(), Strings.COOL, Strings.WARM ),
-    COMBINED( new CombinedMaterial(), "Testing", "Testing" );
+    COMBINED( new CombinedMaterial(), null, null );
 
     private final EarthMaterial material;
     private final String minString;
