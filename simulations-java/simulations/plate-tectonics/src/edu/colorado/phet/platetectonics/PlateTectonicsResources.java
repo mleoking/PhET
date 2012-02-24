@@ -14,6 +14,7 @@ public class PlateTectonicsResources {
     //Strings
     public static class Strings {
         public static final String AUTOMATIC_MODE = RESOURCES.getLocalizedString( "automaticMode" );
+        public static final String BOTH_VIEW = RESOURCES.getLocalizedString( "bothView" );
         public static final String COMPOSITION = RESOURCES.getLocalizedString( "composition" );
         public static final String CONTINENTAL_CRUST = RESOURCES.getLocalizedString( "continentalCrust" );
         public static final String COOL = RESOURCES.getLocalizedString( "cool" );

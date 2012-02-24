@@ -27,7 +27,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TITLE_FONT;
 
 /**
- * Gives the user a list of options
+ * Gives the user a list of view options
  */
 public class OptionsPanel extends PNode {
     public OptionsPanel( final PlateTectonicsTab tab, final Property<Boolean> showLabels, Runnable resetAll, Property<ColorMode> colorMode ) {
@@ -102,7 +102,7 @@ public class OptionsPanel extends PNode {
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
         }};
         addChild( temperatureMode );
-        final PSwing combinedMode = new PSwing( new JRadioButton( "Combined View" ) {{
+        final PSwing combinedMode = new PSwing( new JRadioButton( Strings.BOTH_VIEW ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setSelected( true );
