@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view.pieset;
 
+import fj.Effect;
 import fj.F;
+import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -77,9 +79,16 @@ public class PieSetNode extends PNode {
             double far = 10000;
 
             setPathTo( new Rectangle2D.Double( -far, -far, far * 2, far + bucketHoleNode.getFullBoundsReference().getMaxY() ) );
-            for ( final Slice slice : state.slices ) {
-                addChild( new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator, state.isInContainer( slice ) ) ), rootNode, model, slice ) );
-            }
+            List<MovableSliceNode> nodes = state.slices.map( new F<Slice, MovableSliceNode>() {
+                @Override public MovableSliceNode f( Slice slice ) {
+                    return new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator, state.isInContainer( slice ) ) ), rootNode, model, slice );
+                }
+            } );
+            nodes.foreach( new Effect<MovableSliceNode>() {
+                @Override public void e( MovableSliceNode m ) {
+                    addChild( m );
+                }
+            } );
         }};
         addChild( movablePiecesLayer );
 
