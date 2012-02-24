@@ -17,6 +17,14 @@ public class Boundary {
         samples.add( sample );
     }
 
+    public void removeLeftSample() {
+        samples.remove( 0 );
+    }
+
+    public void removeRightSample() {
+        samples.remove( samples.size()-1 );
+    }
+
     public void borrowPosition( Boundary other ) {
         assert other.samples.size() == samples.size();
 

@@ -68,6 +68,9 @@ public class RiftingBehavior extends PlateBehavior {
 
         timeElapsed += millionsOfYears;
 
+        // TODO: why are we having terrain issues with this?
+//        removeEarthEdges();
+
         if ( stretchTimeDelta > 0 ) {
             moveStretched( stretchTimeDelta );
         }

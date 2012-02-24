@@ -11,6 +11,8 @@ public abstract class PlateBehavior {
     public final PlateMotionPlate plate;
     public final PlateMotionPlate otherPlate;
 
+    public static final float PLATE_X_LIMIT = 700000;
+
     public PlateBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         this.plate = plate;
         this.otherPlate = otherPlate;
@@ -24,6 +26,24 @@ public abstract class PlateBehavior {
 
     public PlateMotionPlate getPlate() {
         return plate;
+    }
+
+    protected void createEarthEdges() {
+        while ( getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getFirstSample().getPosition().x > -PlateBehavior.PLATE_X_LIMIT ) {
+            getPlate().addLeftSection();
+        }
+        while ( !getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getLastSample().getPosition().x < PlateBehavior.PLATE_X_LIMIT ) {
+            getPlate().addRightSection();
+        }
+    }
+
+    protected void removeEarthEdges() {
+        while ( getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getFirstSample().getPosition().x < -PlateBehavior.PLATE_X_LIMIT ) {
+            getPlate().removeLeftSection();
+        }
+        while ( !getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getLastSample().getPosition().x > PlateBehavior.PLATE_X_LIMIT ) {
+            getPlate().removeRightSection();
+        }
     }
 
     protected void glueMantleTopToLithosphere( float verticalPadding ) {

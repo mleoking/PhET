@@ -71,11 +71,13 @@ public class Terrain {
 
     public void removeLeft() {
         samples.remove( 0 );
+        xPositions.remove( 0 );
         columnsModified.updateListeners();
     }
 
     public void removeRight() {
         samples.remove( samples.size() - 1 );
+        xPositions.remove( xPositions.size() - 1 );
         columnsModified.updateListeners();
     }
 

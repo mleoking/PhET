@@ -24,12 +24,8 @@ public class CollidingBehavior extends PlateBehavior {
 
     @Override public void stepInTime( float millionsOfYears ) {
         timeElapsed += millionsOfYears;
-        while ( getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getFirstSample().getPosition().x > -700000 ) {
-            getPlate().addLeftSection();
-        }
-        while ( !getPlate().isLeftPlate() && getPlate().getCrust().getTopBoundary().getLastSample().getPosition().x < 700000 ) {
-            getPlate().addRightSection();
-        }
+        createEarthEdges();
+
         float sign = plate.isLeftPlate() ? 1 : -1;
         final List<Sample> topSamples = getPlate().getCrust().getTopBoundary().samples;
         final Boundary lithosphereBottomBoundary = getPlate().getLithosphere().getBottomBoundary();

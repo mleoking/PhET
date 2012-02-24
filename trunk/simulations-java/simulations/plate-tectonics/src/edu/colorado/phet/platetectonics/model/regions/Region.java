@@ -61,6 +61,26 @@ public class Region {
         }
     }
 
+    public void removeLeftRow() {
+        for ( Boundary boundary : boundaries ) {
+            boundary.removeLeftSample();
+        }
+
+        for ( CrossSectionStrip strip : strips ) {
+            strip.removeLeftPatch();
+        }
+    }
+
+    public void removeRightRow() {
+        for ( Boundary boundary : boundaries ) {
+            boundary.removeRightSample();
+        }
+
+        for ( CrossSectionStrip strip : strips ) {
+            strip.removeRightPatch();
+        }
+    }
+
     public void moveToFront() {
         for ( CrossSectionStrip strip : strips ) {
             strip.moveToFrontNotifier.updateListeners();
