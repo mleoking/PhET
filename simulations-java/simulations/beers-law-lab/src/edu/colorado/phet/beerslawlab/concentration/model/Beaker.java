@@ -11,9 +11,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class Beaker {
 
-    private final ImmutableVector2D location; // bottom center
-    private final PDimension size;
-    private final double volume; // L
+    public final ImmutableVector2D location; // bottom center
+    public final PDimension size;
+    public final double volume; // L
 
     public Beaker( ImmutableVector2D location, PDimension size, double volume ) {
         this.location = location;
@@ -21,32 +21,8 @@ public class Beaker {
         this.volume = volume;
     }
 
-    public ImmutableVector2D getLocation() {
-        return location;
-    }
-
-    public double getX() {
-        return location.getX();
-    }
-
-    public double getY() {
-        return location.getY();
-    }
-
     // Gets the x coordinate of the left wall.
     public double getMinX() {
-        return getX() - ( getWidth() / 2 );
-    }
-
-    public double getWidth() {
-        return size.getWidth();
-    }
-
-    public double getHeight() {
-        return size.getHeight();
-    }
-
-    public double getVolume() {
-        return volume;
+        return location.getX() - ( size.getWidth() / 2 );
     }
 }
