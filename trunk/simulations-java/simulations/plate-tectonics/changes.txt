@@ -1,3 +1,4 @@
+# 0.00.20 (61724) Feb 24, 2012
 Renamed the Options panel to "View", and moved the reset/rewind buttons out of it
 Renamed "combined" coloring to "Both"
 Added magma to rifting behavior
