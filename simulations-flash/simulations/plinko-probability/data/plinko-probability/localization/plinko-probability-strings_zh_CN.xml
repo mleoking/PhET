@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--plinko-probability-strings_zh_CN.xml created Sat Feb 18 21:04:57 CST 2012 using: plinko-probability 2.02.00 (53818), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
+<SimStrings>
+<string key="none" value="不显示"/>
+<string key="number" value="个数"/>
+<string key="start" value="开始"/>
+<string key="continuous" value="持续掉落"/>
+<string key="simTitle" value="二项分布弹珠台机率 "/>
+<string key="fraction" value="分数"/>
+<string key="NEquals" value="数量 ="/>
+<string key="rows" value="列数"/>
+<string key="sEquals" value="标准差 ="/>
+<string key="sound" value="声音"/>
+<string key="oneBall" value="1 个球"/>
+<string key="path" value="路径"/>
+<string key="histogramDisplay" value="直方图 \n 显示:"/>
+<string key="p" value="p"/>
+<string key="stop" value="停止"/>
+<string key="ball" value="弹球"/>
+<string key="help" value="帮助"/>
+<string key="translation.credits" value="陈江涛  华南师范大学  cjtmw@163.com"/>
+<string key="reset" value="重置"/>
+<string key="show" value="显示:"/>
+<string key="autoScale" value="自动比例"/>
+</SimStrings>
