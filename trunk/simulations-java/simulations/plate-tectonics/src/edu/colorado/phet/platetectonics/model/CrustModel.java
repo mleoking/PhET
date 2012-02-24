@@ -16,6 +16,9 @@ import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
 
+import static edu.colorado.phet.platetectonics.util.Side.LEFT;
+import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
+
 /**
  * Displays a simplified block model of crusts resting on the mantle. Their elevation is dependent on
  * their density (temperature and composition), and the center crust is user controlled.
@@ -121,7 +124,7 @@ public class CrustModel extends PlateModel {
                 float ratio = ( (float) col ) / ( (float) ( SIDE_X_SAMPLES - 1 ) );
                 ratio = (float) Math.pow( ratio, 0.3 );
                 final float x = -PlateModel.MAX_FLAT_X + ratio * ( (float) LEFT_BOUNDARY - -PlateModel.MAX_FLAT_X );
-                addToLeft( x, new ArrayList<TerrainSample>() {{
+                addColumn( LEFT, x, new ArrayList<TerrainSample>() {{
                     for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
                         final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
                         float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
@@ -134,7 +137,7 @@ public class CrustModel extends PlateModel {
             for ( int col = 0; col < SIDE_X_SAMPLES; col++ ) {
                 float ratio = ( (float) col ) / ( (float) ( SIDE_X_SAMPLES - 1 ) );
                 final float x = LEFT_BOUNDARY + ratio * ( RIGHT_BOUNDARY - LEFT_BOUNDARY );
-                addToRight( x, new ArrayList<TerrainSample>() {{
+                addColumn( RIGHT, x, new ArrayList<TerrainSample>() {{
                     for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
                         final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
                         float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
@@ -148,7 +151,7 @@ public class CrustModel extends PlateModel {
                 float ratio = ( (float) col ) / ( (float) ( SIDE_X_SAMPLES - 1 ) );
                 ratio = (float) ( 1 - Math.pow( 1 - ratio, 0.3 ) );
                 final float x = (float) RIGHT_BOUNDARY + ratio * ( PlateModel.MAX_FLAT_X - (float) RIGHT_BOUNDARY );
-                addToRight( x, new ArrayList<TerrainSample>() {{
+                addColumn( RIGHT, x, new ArrayList<TerrainSample>() {{
                     for ( int row = 0; row < TERRAIN_Z_SAMPLES; row++ ) {
                         final float rowRatio = ( (float) row ) / ( (float) ( TERRAIN_Z_SAMPLES - 1 ) );
                         float z = bounds.getMinZ() + rowRatio * ( bounds.getMaxZ() - bounds.getMinZ() );
@@ -300,7 +303,7 @@ public class CrustModel extends PlateModel {
 
             CrossSectionStrip strip = new CrossSectionStrip();
             for ( int i = 0; i < oceanTop.length; i++ ) {
-                strip.addRightPatch( tops[i], bottoms[i] );
+                strip.addPatch( RIGHT, tops[i], bottoms[i] );
             }
             addStrip( strip );
         }
@@ -328,20 +331,20 @@ public class CrustModel extends PlateModel {
 
             CrossSectionStrip strip = new CrossSectionStrip();
             for ( int i = 0; i < continentTop.length; i++ ) {
-                strip.addRightPatch( tops[i], bottoms[i] );
+                strip.addPatch( RIGHT, tops[i], bottoms[i] );
             }
             addStrip( strip );
         }
 
         middleCrustStrip = new CrossSectionStrip() {{
             for ( int i = 0; i < middleTop.length; i++ ) {
-                addRightPatch( middleTopSamples[i], middleCrustBottomSamples[i] );
+                addPatch( RIGHT, middleTopSamples[i], middleCrustBottomSamples[i] );
             }
         }};
         addStrip( middleCrustStrip );
         middleMantleStrip = new CrossSectionStrip() {{
             for ( int i = 0; i < middleMantleTopSamples.length; i++ ) {
-                addRightPatch( middleMantleTopSamples[i], middleSideMinYSamples[i] );
+                addPatch( RIGHT, middleMantleTopSamples[i], middleSideMinYSamples[i] );
             }
         }};
         addStrip( middleMantleStrip );
@@ -382,9 +385,7 @@ public class CrustModel extends PlateModel {
                                                         final float topTemperature, final float bottomTemperature ) {
         return new CrossSectionStrip() {{
             for ( int i = 0; i < top.length; i++ ) {
-                addRightPatch(
-                        new Sample( new ImmutableVector3F( top[i].x, top[i].y, 0 ), topTemperature, topDensity, getTextureStrategy().mapFront( top[i] ) ),
-                        new Sample( new ImmutableVector3F( bottom[i].x, bottom[i].y, 0 ), bottomTemperature, bottomDensity, getTextureStrategy().mapFront( bottom[i] ) ) );
+                addPatch( RIGHT, new Sample( new ImmutableVector3F( top[i].x, top[i].y, 0 ), topTemperature, topDensity, getTextureStrategy().mapFront( top[i] ) ), new Sample( new ImmutableVector3F( bottom[i].x, bottom[i].y, 0 ), bottomTemperature, bottomDensity, getTextureStrategy().mapFront( bottom[i] ) ) );
             }
         }};
     }

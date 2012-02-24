@@ -6,6 +6,8 @@ import java.util.List;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
+import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
+
 /**
  * Describes a simple terrain as connecting the edges of two other terrains
  * <p/>
@@ -40,11 +42,11 @@ public class TerrainConnectorStrip extends Terrain {
 
         // TODO: fix low performance
         while ( getNumColumns() > 0 ) {
-            removeRight();
+            removeColumn( RIGHT );
         }
         for ( int xIndex = 0; xIndex < samples; xIndex++ ) {
             final float ratio = ( (float) xIndex ) / ( (float) ( samples - 1 ) );
-            addToRight( leftX + ratio * ( rightX - leftX ), new ArrayList<TerrainSample>() {{
+            addColumn( RIGHT, leftX + ratio * ( rightX - leftX ), new ArrayList<TerrainSample>() {{
                 for ( int zIndex = 0; zIndex < left.getNumRows(); zIndex++ ) {
                     float rowRatio = ( (float) zIndex ) / ( (float) ( left.getNumRows() - 1 ) );
                     final float leftElevation = left.getSample( leftXIndex, zIndex ).getElevation();
