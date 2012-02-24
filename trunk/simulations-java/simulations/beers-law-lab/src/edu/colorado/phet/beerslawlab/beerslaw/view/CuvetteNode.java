@@ -96,8 +96,8 @@ class CuvetteNode extends PNode {
         cuvetteNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.cuvette ) );
         solutionNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.solution ) );
         widthHandleNode.addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PaintHighlightHandler( widthHandleNode, ARROW_FILL, ARROW_FILL.brighter() ) );
-        addInputEventListener( new WidthDragHandler( this, cuvette, mvt, snapInterval ) );
+        widthHandleNode.addInputEventListener( new PaintHighlightHandler( widthHandleNode, ARROW_FILL, ARROW_FILL.brighter() ) );
+        widthHandleNode.addInputEventListener( new WidthDragHandler( this, cuvette, mvt, snapInterval ) );
     }
 
     private void updateColor( PPath node, Color color ) {
