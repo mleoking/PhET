@@ -1,3 +1,4 @@
+Added magma to rifting behavior
 Increased vertical resolution for cross section, and reduced horizontal resolution.
 # 0.00.19 (61657) Feb 23, 2012
 Initial (rough and blocky) version of the rift boundary

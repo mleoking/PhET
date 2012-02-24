@@ -24,8 +24,12 @@ public class RiftingBehavior extends PlateBehavior {
     public static final float RIDGE_START_Y = -400000; // 400km
     public static final float SPREAD_START_TIME = 10.0f;
 
+    public static final float MAGMA_PLUME_PADDING = 5000;
+
     // the height of the magma plume
     public static final float MAGMA_HEIGHT = RIDGE_TOP_Y - RIDGE_START_Y;
+
+    public static final float MAGMA_SPEED = MAGMA_HEIGHT / SPREAD_START_TIME;
 
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
@@ -135,7 +139,7 @@ public class RiftingBehavior extends PlateBehavior {
 
                 float y = centerSample.getPosition().y;
                 float currentX = centerSample.getPosition().x;
-                float newX = getPlumeX( y ) * ( getPlate().isLeftPlate() ? -1 : 1 );
+                float newX = getPaddedPlumeX( y, MAGMA_PLUME_PADDING ) * ( getPlate().isLeftPlate() ? -1 : 1 );
                 float deltaX = newX - currentX;
 
                 if ( deltaX != 0 ) {
@@ -148,7 +152,7 @@ public class RiftingBehavior extends PlateBehavior {
 
         // move the magma plume up
         for ( Sample magmaSample : magma.getSamples() ) {
-            magmaSample.setPosition( magmaSample.getPosition().plus( new ImmutableVector3F( 0, MAGMA_HEIGHT * millionsOfYears / SPREAD_START_TIME, 0 ) ) );
+            magmaSample.setPosition( magmaSample.getPosition().plus( new ImmutableVector3F( 0, MAGMA_SPEED * millionsOfYears, 0 ) ) );
         }
 
         getPlate().getTerrain().elevationChanged.updateListeners();
@@ -181,18 +185,29 @@ public class RiftingBehavior extends PlateBehavior {
         }
     }
 
-    // y in absolute terms
+    // returns the absolute value x from an absolutely positioned y
     private float getPlumeX( float y ) {
         return getPlumeXFromTop( y - getPlumeTop() );
     }
 
+    private float getPaddedPlumeX( float y, float xPadding ) {
+        return Math.max( getPlumeX( y ) - xPadding, 0 );
+    }
+
     // y from the top of the magma plume
     private float getPlumeXFromTop( float yFromTop ) {
+        float max = getSimplifiedPlumeX( -MAGMA_HEIGHT );
+        float x = getSimplifiedPlumeX( yFromTop );
+
+        // add a quadratic curvature to it
+        return x * x / max;
+    }
+
+    // a "linear" magma plume, which will be used in multiple ways later
+    private float getSimplifiedPlumeX( float yFromTop ) {
         if ( yFromTop > 0 ) {
             return 0;
         }
-
-//        return ( y * y - y ) * 0.000001f;
         return Math.abs( yFromTop / 3 );
     }
 
