@@ -79,4 +79,17 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     public boolean positionAndAngleEquals( Slice cell ) { return cell.position.equals( position ) && cell.angle == angle; }
 
     public Slice moveTo( Slice target ) { return dragging( false ).angle( target.angle ).tip( target.position );}
+
+    //Determine which cell would be occupied based on the angle, used to rotate the cake slice images
+    public int cell( int denominator ) {
+        double anglePerSlice = Math.PI * 2 / denominator;
+        return (int) ( canonical( angle ) / anglePerSlice );
+    }
+
+    //Make sure the angle lies between 0 and 2PI
+    private double canonical( double angle ) {
+        while ( angle < 0 ) { angle += Math.PI * 2; }
+        while ( angle > Math.PI * 2 ) {angle -= Math.PI * 2;}
+        return angle;
+    }
 }

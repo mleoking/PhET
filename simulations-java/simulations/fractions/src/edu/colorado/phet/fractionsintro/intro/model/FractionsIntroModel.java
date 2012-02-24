@@ -49,11 +49,14 @@ public class FractionsIntroModel {
                 final IntroState s = state.get();
                 final double dt = clockEvent.getSimulationTimeChange();
                 final IntroState newState = s.updatePieSets( new F<PieSet, PieSet>() {
-                    @Override public PieSet f( PieSet pieSet ) {
-                        return pieSet.stepInTime( dt );
+                    @Override public PieSet f( PieSet p ) {
+                        return p.stepInTime( dt );
                     }
                 } );
-                state.set( newState );
+
+                //Fix the z-ordering for cake slices
+                final IntroState sorted = newState.cakeSet( CakeSliceFactory.sort( newState.cakeSet ) );
+                state.set( sorted );
             }
         } );
     }};
