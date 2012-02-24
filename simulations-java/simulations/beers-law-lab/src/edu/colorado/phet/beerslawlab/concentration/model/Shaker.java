@@ -58,7 +58,10 @@ public class Shaker extends Movable {
         dispensingRate.addObserver( observer );
     }
 
-    // Set the dispensing rate if the shaker is moving.
+    /*
+     * This is called whenever the simulation clock ticks.
+     * Sets the dispensing rate if the shaker is moving.
+     */
     public void stepInTime() {
         if ( visible.get() && !empty.get() ) {
             if ( previousLocation.equals( location.get() ) ) {
