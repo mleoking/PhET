@@ -64,7 +64,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode ) ) );
 
         //For debugging cakes
-        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
+//        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
 
         @Data class Arg {
             final int cell;
@@ -80,8 +80,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         //For draggable cakes
         addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode, new F<SliceNodeArgs, PNode>() {
             @Override public PNode f( final SliceNodeArgs a ) {
-                double anglePerSlice = Math.PI * 2 / a.denominator;
-                int cell = (int) ( canonical( a.slice.angle ) / anglePerSlice );
+                int cell = a.slice.cell( a.denominator );
                 return new PImage( cakeImages.f( new Arg( cell, a.denominator ) ) ) {{
                     //Center on the slice tip because each image is padded to the amount of a full cake
                     double fudgeY = getFullBounds().getHeight() / 4;
@@ -139,12 +138,5 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             setOffset( resetAllButtonNode.getFullBounds().getCenterX() - getFullWidth() / 2, resetAllButtonNode.getFullBounds().getY() - getFullHeight() - INSET );
         }};
         addChild( maxSpinner );
-    }
-
-    //Make sure the angle lies between 0 and 2PI
-    private double canonical( double angle ) {
-        while ( angle < 0 ) { angle += Math.PI * 2; }
-        while ( angle > Math.PI * 2 ) {angle -= Math.PI * 2;}
-        return angle;
     }
 }

@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -35,21 +36,6 @@ public class CakeSetFractionNode extends VisibilityNode {
 
 
 //        put( 12, new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3 } );
-    }};
-
-    //Find which should appear before/after others in z-ordering.  Must be back to front.
-    HashMap<Integer, int[]> renderOrder = new HashMap<Integer, int[]>() {{
-        put( 1, new int[] { 1 } );
-        put( 2, new int[] { 2, 1 } );
-        put( 3, new int[] { 1, 2, 3 } );
-        put( 4, new int[] { 1, 2, 3, 4 } );
-        put( 5, new int[] { 2, 1, 3, 5, 4 } );
-        put( 6, new int[] { 2, 1, 3, 6, 4, 5 } );
-        put( 7, new int[] { 2, 3, 1, 4, 7, 5, 6 } );
-        put( 8, new int[] { 2, 3, 1, 4, 5, 8, 6, 7 } );
-
-
-//        put( 12, new int[] { 3, 4, 5, 2, 6, 1, 7, 12, 8, 11, 9, 10 } );
     }};
 
     public CakeSetFractionNode( final SettableProperty<ContainerSet> state, ObservableProperty<Boolean> enabled ) {
@@ -86,7 +72,7 @@ public class CakeSetFractionNode extends VisibilityNode {
 
     private int[] getSliceArray( int container, ContainerSet c, int denominator ) {
         final int[] orderToAddThem = orderToAdd.get( denominator );
-        final int[] theRenderOrder = renderOrder.get( denominator );
+        final int[] theRenderOrder = CakeSliceFactory._renderOrder.get( denominator );
 
         final ArrayList<Integer> renderOrder = new ArrayList<Integer>();
         for ( int aTheRenderOrder : theRenderOrder ) {

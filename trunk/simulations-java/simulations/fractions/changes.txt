@@ -1,3 +1,4 @@
+Added bucket/dragging for cake slices
 # 0.00.39 (61666) Feb 23, 2012
 Fixed: exception when removing a slice after max spinner reduced
 Fixed: When adding cups with the spinner, container cup fills up before animated cup gets there
