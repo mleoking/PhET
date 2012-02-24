@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class Faucet implements Resettable {
 
-    private final ImmutableVector2D location; // center of output pipe
-    private final double inputPipeLength;
-    private final double maxFlowRate; // L/sec
+    public final ImmutableVector2D location; // center of output pipe
+    public final double inputPipeLength;
+    public final double maxFlowRate; // L/sec
     public final Property<Double> flowRate; // L/sec
     public final Property<Boolean> enabled;
 
@@ -25,26 +25,6 @@ public class Faucet implements Resettable {
         this.maxFlowRate = maxFlowRate;
         this.flowRate = new Property<Double>( 0d );
         this.enabled = new Property<Boolean>( true );
-    }
-
-    public ImmutableVector2D getLocation() {
-        return location;
-    }
-
-    public double getX() {
-        return location.getX();
-    }
-
-    public double getY() {
-        return location.getY();
-    }
-
-    public double getInputPipeLength() {
-        return inputPipeLength;
-    }
-
-    public double getMaxFlowRate() {
-        return maxFlowRate;
     }
 
     public void reset() {
