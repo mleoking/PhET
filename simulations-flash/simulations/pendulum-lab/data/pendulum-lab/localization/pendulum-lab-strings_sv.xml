@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_sv.xml created Wed Feb 15 10:18:56 CET 2012 using: pendulum-lab 2.03.00 (52288), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="KE" value="Kinetisk"/>
+<string key="noneFriction" value="ingen"/>
+<string key="moon" value="Måne"/>
+<string key="earth" value="Jorden"/>
+<string key="length" value="läng"/>
+<string key="sixteenthTime" value="1/16 tid"/>
+<string key="simTitle" value="Pendellab"/>
+<string key="pausePlay" value="paus/kör"/>
+<string key="simStrings" value="Pendellab"/>
+<string key="friction" value="friktion"/>
+<string key="quarterTime" value="1/4 tid"/>
+<string key="showEnergyOf" value="Visa energiform:"/>
+<string key="velocity" value="hastighet"/>
+<string key="mass2" value="massa 2:"/>
+<string key="realTime" value="realtid"/>
+<string key="acceleration" value="acceleration"/>
+<string key="lots" value="massor"/>
+<string key="noneEnergy" value="ingen"/>
+<string key="thermal" value="Termisk"/>
+<string key="length2" value="längd 2:"/>
+<string key="mass" value="massa"/>
+<string key="otherTools" value="ytterligare vertyg"/>
+<string key="resetStopwatch" value="återställ"/>
+<string key="showSecondPendulum" value="Visa 2:a pendel"/>
+<string key="PE" value="Potentiell"/>
+<string key="pendulum" value="Pendel:"/>
+<string key="startPauseStopwatch" value="start/pause"/>
+<string key="angleUnit" value=" grader"/>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="showPhotoGateTimer" value="fotocellstimer"/>
+<string key="paused" value="pausad"/>
+<string key="reset" value="Återställ"/>
+<string key="show" value="Visa:"/>
+<string key="photoGateTimer" value="fotocellstimer:"/>
+</SimStrings>
