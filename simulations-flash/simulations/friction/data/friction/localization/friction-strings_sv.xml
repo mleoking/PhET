@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_sv.xml created Mon Jan 30 02:00:29 CET 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Gnid gula atomer \n mot gröna."/>
+<string key="physics" value="Fysik"/>
+<string key="reset" value="Återställ"/>
+<string key="simTitle" value="Friktion"/>
+<string key="translation.credits" value="Anders Gölstam"/>
+<string key="chemistry" value="Kemi"/>
+</SimStrings>
