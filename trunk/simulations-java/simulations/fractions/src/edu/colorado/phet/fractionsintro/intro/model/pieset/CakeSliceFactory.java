@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
- * Factory pattern for creating circular pies and PieSets.
+ * Factory pattern for creating cakes.  Even though cakes are images, use an underlying shape representation to efficiently re-use code for other representations.
  *
  * @author Sam Reid
  */
@@ -32,9 +32,10 @@ public class CakeSliceFactory extends AbstractSliceFactory {
                 double epsilon = 1E-6;
                 ImmutableVector2D tip = slice.position;
                 double angle = slice.angle;
+                final Ellipse2D.Double boundingEllipse = new Ellipse2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2 - radius * 0.65 );
                 return extent >= Math.PI * 2 - epsilon ?
-                       new Ellipse2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2 ) :
-                       new Arc2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
+                       boundingEllipse :
+                       new Arc2D.Double( boundingEllipse.x, boundingEllipse.y, boundingEllipse.width, boundingEllipse.height, angle * 180.0 / Math.PI, extent * 180.0 / Math.PI, Arc2D.PIE );
             }
         };
     }
