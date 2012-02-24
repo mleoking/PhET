@@ -21,7 +21,7 @@ import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.control.LegendPanel;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
-import edu.colorado.phet.platetectonics.control.OptionsPanel;
+import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.control.ZoomPanel;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -225,11 +225,7 @@ public class CrustTab extends PlateTectonicsTab {
          * options panel
          *----------------------------------------------------------------------------*/
         optionsPiccoloNode = new OrthoPiccoloNode(
-                new ControlPanelNode( new OptionsPanel( this, showLabels, new Runnable() {
-                    public void run() {
-                        resetAll();
-                    }
-                }, colorMode ) ),
+                new ControlPanelNode( new ViewOptionsPanel( this, showLabels, colorMode ) ),
                 CrustTab.this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {

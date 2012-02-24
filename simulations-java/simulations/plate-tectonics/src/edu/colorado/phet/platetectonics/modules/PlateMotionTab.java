@@ -28,9 +28,10 @@ import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
 import edu.colorado.phet.platetectonics.control.CrustChooserPanel;
 import edu.colorado.phet.platetectonics.control.CrustPieceNode;
 import edu.colorado.phet.platetectonics.control.MotionTypeChooserPanel;
-import edu.colorado.phet.platetectonics.control.OptionsPanel;
 import edu.colorado.phet.platetectonics.control.PlayModePanel;
+import edu.colorado.phet.platetectonics.control.ResetPanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
+import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
@@ -204,30 +205,56 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 getOldOceanicOffset() ) );
 
         /*---------------------------------------------------------------------------*
-        * options panel
+        * view panel, reset and rewind
         *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoPiccoloNode(
-                new ControlPanelNode( new OptionsPanel( PlateMotionTab.this, showLabels, true, showWater, getPlateMotionModel().hasBothPlates, new Runnable() {
-                    public void run() {
-                        resetAll();
-                    }
-                }, colorMode ) ),
+        final OrthoPiccoloNode viewPanelNode = new OrthoPiccoloNode(
+                new ControlPanelNode( new ViewOptionsPanel( PlateMotionTab.this, showLabels, true, showWater, getPlateMotionModel().hasBothPlates, colorMode ) ),
                 this, getCanvasTransform(),
                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
-            canvasSize.addObserver( new SimpleObserver() {
-                public void update() {
-                    int center = (int) ( ( toolbox.position.get().getX() + toolbox.getComponentWidth() )
-                                         + ( crustChooserNode.position.get().getX() ) ) / 2;
-                    position.set( new ImmutableVector2D( center - getComponentWidth() / 2,
-                                                         getStageSize().height - getComponentHeight() - 10 ) );
-                }
-            } );
+            // NOTE: positioning code for this is below
             updateOnEvent( beforeFrameRender );
-        }} );
+        }};
+        addGuiNode( viewPanelNode );
+
+        final OrthoPiccoloNode resetPanelNode = new OrthoPiccoloNode( new ResetPanel( this, new Runnable() {
+            public void run() {
+                resetAll();
+            }
+        } ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+            // NOTE: positioning code for this is below
+            updateOnEvent( beforeFrameRender );
+        }};
+        addGuiNode( resetPanelNode );
+
+        // shared view and reset sizing code, because we need to compute both at the same time
+        canvasSize.addObserver( new SimpleObserver() {
+            public void update() {
+                // lays out the toolbox far left, crust chooser far right, and the view and reset panels as evenly in-between as possible
+                final double toolboxRightEdge = toolbox.position.get().getX() + toolbox.getComponentWidth();
+                final double crustChooserLeftEdge = crustChooserNode.position.get().getX();
+
+                final double viewPanelWidth = viewPanelNode.getComponentWidth();
+                final double resetPanelWidth = resetPanelNode.getComponentWidth();
+
+                // this amount of "free" width needs to be split into padding between all 4 items (so 3 strips of padding)
+                final double freeWidth = crustChooserLeftEdge - toolboxRightEdge - viewPanelWidth - resetPanelWidth;
+
+                final double padding = freeWidth / 3;
+
+                // int casts so that we are aligned on a pixel boundary
+                viewPanelNode.position.set( new ImmutableVector2D(
+                        (int) ( toolboxRightEdge + padding ),
+                        getStageSize().height - viewPanelNode.getComponentHeight() - 10 ) );
+
+                resetPanelNode.position.set( new ImmutableVector2D(
+                        (int) ( toolboxRightEdge + padding + viewPanelWidth + padding ),
+                        getStageSize().height - resetPanelNode.getComponentHeight() - 40 ) ); // extra padding
+            }
+        } );
 
         /*---------------------------------------------------------------------------*
-         * time control
-         *----------------------------------------------------------------------------*/
+        * time control
+        *----------------------------------------------------------------------------*/
         final OrthoComponentNode timeControlPanelNode = new OrthoComponentNode( new TectonicsTimeControl( getClock(), isAutoMode ),
                                                                                 this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
                                                                                 mouseEventNotifier ) {{
