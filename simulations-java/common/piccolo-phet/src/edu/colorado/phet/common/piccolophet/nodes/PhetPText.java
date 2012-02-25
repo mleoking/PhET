@@ -3,7 +3,9 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Font;
 import java.awt.Paint;
+import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -64,5 +66,13 @@ public class PhetPText extends PText {
 
     public double getCenterX() {
         return getFullBoundsReference().getCenterX();
+    }
+
+    public void centerFullBoundsOnPoint( Point2D point ) {
+        super.centerFullBoundsOnPoint( point.getX(), point.getY() );
+    }
+
+    public void centerFullBoundsOnPoint( ImmutableVector2D point ) {
+        super.centerFullBoundsOnPoint( point.getX(), point.getY() );
     }
 }

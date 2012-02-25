@@ -1,8 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -59,5 +61,13 @@ public class RichPNode extends PNode {
 
     public double getCenterX() {
         return getFullBoundsReference().getCenterX();
+    }
+
+    public void centerFullBoundsOnPoint( Point2D point ) {
+        super.centerFullBoundsOnPoint( point.getX(), point.getY() );
+    }
+
+    public void centerFullBoundsOnPoint( ImmutableVector2D point ) {
+        super.centerFullBoundsOnPoint( point.getX(), point.getY() );
     }
 }
