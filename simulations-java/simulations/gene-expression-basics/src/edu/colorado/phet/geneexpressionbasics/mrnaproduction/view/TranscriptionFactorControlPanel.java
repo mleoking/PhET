@@ -3,8 +3,12 @@ package edu.colorado.phet.geneexpressionbasics.mrnaproduction.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -48,14 +52,17 @@ public class TranscriptionFactorControlPanel extends PNode {
     public TranscriptionFactorControlPanel( MessengerRnaProductionModel model, boolean positive ) {
 
         final TranscriptionFactorConfig transcriptionFactorConfig;
-        String titleText;
+        final String titleText;
+        final IntegerProperty tfLevelProperty;
         if ( positive ) {
             transcriptionFactorConfig = model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG;
             titleText = "<center>Positive<br>Transcription Factor</center>";
+            tfLevelProperty = model.positiveTranscriptionFactorCount;
         }
         else {
             transcriptionFactorConfig = model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG;
             titleText = "<center>Negative<br>Transcription Factor</center>";
+            tfLevelProperty = model.negativeTranscriptionFactorCount;
         }
 
         PNode title = new HTMLNode( titleText ) {{
@@ -67,7 +74,7 @@ public class TranscriptionFactorControlPanel extends PNode {
         PNode contents = new VBox(
                 20,
                 title,
-                new ConcentrationController( transcriptionFactorConfig ),
+                new ConcentrationController( transcriptionFactorConfig, tfLevelProperty, 0, model.MAX_TRANSCRIPTION_FACTOR_COUNT ),
                 new AffinityController( transcriptionFactorNode, dnaFragmentNode, new Property<Double>( 0.0 ) ) // TODO: Need to hook up to actual model.
         );
 
@@ -78,7 +85,7 @@ public class TranscriptionFactorControlPanel extends PNode {
     // transcription factor.
     private static class ConcentrationController extends PNode {
 
-        private ConcentrationController( TranscriptionFactorConfig transcriptionFactorConfig ) {
+        private ConcentrationController( TranscriptionFactorConfig transcriptionFactorConfig, IntegerProperty tfLevelProperty, int min, int max ) {
             // TODO: i18n
             PText caption = new PText( "Concentration" ) {{
                 setFont( new PhetFont( 14, false ) );
@@ -90,10 +97,33 @@ public class TranscriptionFactorControlPanel extends PNode {
                                 caption,
                                 molecule,
                                 new HorizontalSliderWithLabelsAtEnds( new UserComponent( UserComponents.transcriptionFactorLevelSlider ),
+                                                                      new IntegerToDoublePropertyWrapper( tfLevelProperty ),
+                                                                      (double)min,
+                                                                      (double)max,
                                                                       // TODO: i18n
                                                                       "None",
                                                                       "Lots " ) ) );
         }
     }
 
+    // Convenience class that connects an integer property to a double property.
+    private static class IntegerToDoublePropertyWrapper extends DoubleProperty {
+        private IntegerToDoublePropertyWrapper( final IntegerProperty integerProperty ) {
+            super( (double)integerProperty.get() );
+
+            // Connect from integer to double.
+            integerProperty.addObserver( new VoidFunction1<Integer>() {
+                public void apply( Integer integerValue ) {
+                    set( (double)integerValue );
+                }
+            } );
+
+            // Connect from double to integer.
+            addObserver( new VoidFunction1<Double>() {
+                public void apply( Double doubleValue ) {
+                    integerProperty.set( (int)Math.round( doubleValue ) );
+                }
+            } );
+        }
+    }
 }
