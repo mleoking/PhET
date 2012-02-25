@@ -24,11 +24,11 @@ import static edu.colorado.phet.fractionsintro.common.view.Pattern.SixPlusSigns;
 /**
  * @author Sam Reid
  */
-public class MatchingGameModel {
+public class MatchingGameModelOld {
     public final ArrayList<RepNode> nodes = new ArrayList<RepNode>();
     private final Random random = new Random();
 
-    public MatchingGameModel( ModelViewTransform transform ) {
+    public MatchingGameModelOld( ModelViewTransform transform ) {
         {
             Fraction ninth = new Fraction( random.nextInt( 8 ) + 1, 9 );
             nodes.add( new PatternNode( transform, new NineGrid(), ninth, ninth.numerator ) {{setOffset( randomLocation() );}} );
