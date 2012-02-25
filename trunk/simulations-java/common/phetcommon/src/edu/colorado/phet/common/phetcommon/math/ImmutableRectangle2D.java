@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 /**
- * Immutable Rectangle2D class, suitable for usage in Property<ImmutableRectangle2D> pattern, which also adds convenience methods missing from awt's Rectangle2D.
+ * Immutable Rectangle2D class, suitable for usage in <code>Property<ImmutableRectangle2D></code> pattern, which also adds convenience methods missing from awt's Rectangle2D.
  *
  * @author Sam Reid
  */
@@ -71,6 +71,10 @@ public class ImmutableRectangle2D {
         return "x=" + x + ", y=" + y + ", width = " + width + ", height = " + height;
     }
 
+    /**
+     * @return
+     * @deprecated use toRectangle2D
+     */
     public Shape toShape() {
         return new Rectangle2D.Double( x, y, width, height );
     }
