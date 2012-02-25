@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -57,6 +59,10 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final TranscriptionFactorConfig POSITIVE_TRANSCRIPTION_FACTOR_CONFIG = TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS;
     public static final TranscriptionFactorConfig NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG = TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG;
 
+    // Maximum number of transcription factor molecules.  The pertains to both
+    // positive and negative transcription factors.
+    public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 30;
+
     // Number of RNA polymerase molecules present.
     public static final int RNA_POLYMERASE_COUNT = 20;
 
@@ -79,6 +85,17 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // List of mRNA molecules in the sim.  These are kept separate because they
     // are treated a bit differently than the other mobile biomolecules.
     public final ObservableList<MessengerRna> messengerRnaList = new ObservableList<MessengerRna>();
+
+    // Properties that control the quantity of transcription factors.
+    public final IntegerProperty positiveTranscriptionFactorCount = new IntegerProperty( 0 ){{
+        addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer count ) {
+                setTranscriptionFactorCount( TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS, count );
+            }
+        } );
+    }};
+
+    public final IntegerProperty negativeTranscriptionFactorCount = new IntegerProperty( 0 );
 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
@@ -249,6 +266,39 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         double xPos = BIOMOLECULE_STAGE_WIDTH * ( -0.5 + RAND.nextDouble() );
         double yPos = DnaMolecule.Y_POS + BIOMOLECULE_STAGE_HEIGHT * RAND.nextDouble();
         return new Point2D.Double( xPos, yPos );
+    }
+
+    private void setTranscriptionFactorCount( TranscriptionFactorConfig tcConfig, int targetCount ) {
+        // Count the transcription factors that match this configuration.
+        int currentCount = 0;
+        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
+            if ( mobileBiomolecule instanceof TranscriptionFactor ){
+                if (((TranscriptionFactor)mobileBiomolecule).getConfig().equals( tcConfig )){
+                    currentCount++;
+                }
+            }
+        }
+
+        if ( targetCount > currentCount ){
+            // Add some.
+            for ( int i = currentCount; i < targetCount; i++ ){
+                addMobileBiomolecule( new TranscriptionFactor( this, tcConfig, generateInitialLocation() ), true );
+            }
+        }
+        else if ( targetCount < currentCount ){
+            // Remove some.
+            for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
+                if ( mobileBiomolecule instanceof TranscriptionFactor ){
+                    if (((TranscriptionFactor)mobileBiomolecule).getConfig().equals( tcConfig )){
+                        removeMobileBiomolecule( mobileBiomolecule );
+                        currentCount--;
+                        if ( currentCount == targetCount ){
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

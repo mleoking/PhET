@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -23,7 +24,7 @@ class HorizontalSliderWithLabelsAtEnds extends PNode {
     private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final double INTER_ELEMENT_SPACING = 5;
 
-    HorizontalSliderWithLabelsAtEnds( UserComponent userComponent, String leftLabel, String rightLabel ) {
+    HorizontalSliderWithLabelsAtEnds( UserComponent userComponent, Property<Double> doubleProperty, double min, double max, String leftLabel, String rightLabel ) {
         PText leftLabelNode = new PText( leftLabel ) {{
             setFont( LABEL_FONT );
         }};
@@ -32,7 +33,7 @@ class HorizontalSliderWithLabelsAtEnds extends PNode {
         }};
         double sliderWidth = OVERALL_WIDTH - leftLabelNode.getFullBoundsReference().width -
                              rightLabelNode.getFullBoundsReference().width - ( 2 * INTER_ELEMENT_SPACING );
-        PNode sliderNode = new HSliderNode( userComponent, 0, 1, sliderWidth, 5, new Property<Double>( 0.0 ), new BooleanProperty( true ) );
+        PNode sliderNode = new HSliderNode( userComponent, min, max, sliderWidth, 5, doubleProperty, new BooleanProperty( true ) );
         addChild( new HBox( INTER_ELEMENT_SPACING, leftLabelNode, sliderNode, rightLabelNode ) );
     }
 }
