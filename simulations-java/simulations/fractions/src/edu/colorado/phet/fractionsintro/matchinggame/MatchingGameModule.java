@@ -4,7 +4,7 @@ package edu.colorado.phet.fractionsintro.matchinggame;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
-import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
+import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModelOld;
 import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
 
 /**
@@ -13,7 +13,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
 public class MatchingGameModule extends AbstractFractionsModule {
     public MatchingGameModule() {
         super( "Matching Game", new ConstantDtClock() );
-        MatchingGameModel model = new MatchingGameModel( ModelViewTransform.createIdentity() );
+        MatchingGameModelOld model = new MatchingGameModelOld( ModelViewTransform.createIdentity() );
         setSimulationPanel( new MatchingGameCanvas( model ) );
     }
 }
