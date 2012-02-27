@@ -125,30 +125,39 @@ import static fj.data.List.range;
         } ) );
     }
 
-    public Option<MovableFraction> getLeftScaleFraction() {
+    public Option<MovableFraction> getScaleFraction( final Scale scale ) {
         return fractions.find( new F<MovableFraction, Boolean>() {
             @Override public Boolean f( MovableFraction m ) {
-                return m.position.equals( leftScale.getAttachmentPoint() );
+                return m.position.equals( scale.getAttachmentPoint() );
             }
         } );
     }
 
-    public double getLeftScaleValue() {
-        return getLeftScaleFraction().isSome() ? getLeftScaleFraction().some().getValue() : 0.0;
+    public double getScaleValue( Scale scale ) {
+        return getScaleFraction( scale ).isSome() ? getScaleFraction( scale ).some().getValue() : 0.0;
     }
 
-    public MatchingGameState jettisonLeftScale() {
-        final Option<MovableFraction> leftScaleFraction = getLeftScaleFraction();
-        if ( leftScaleFraction.isSome() ) {
+    private MatchingGameState jettisonFraction( Scale scale ) {
+        final Option<MovableFraction> scaleFraction = getScaleFraction( scale );
+        if ( scaleFraction.isSome() ) {
             return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
                 @Override public MovableFraction f( MovableFraction m ) {
-                    return leftScaleFraction.some().equals( m ) ? m.motion( MoveToCell( m.home ) ) :
-                           m;
+                    return scaleFraction.some().equals( m ) ? m.motion( MoveToCell( m.home ) ) : m;
                 }
             } ) );
         }
         else {
             return this;
         }
+    }
+
+    public MatchingGameState jettison( final Vector2D selectedAttachmentPoint ) {
+        Option<Scale> s = scales().find( new F<Scale, Boolean>() {
+            @Override public Boolean f( Scale scale ) {
+                return scale.getAttachmentPoint().equals( selectedAttachmentPoint );
+            }
+        } );
+        if ( s.isSome() ) { return jettisonFraction( s.some() ); }
+        else { return this; }
     }
 }
