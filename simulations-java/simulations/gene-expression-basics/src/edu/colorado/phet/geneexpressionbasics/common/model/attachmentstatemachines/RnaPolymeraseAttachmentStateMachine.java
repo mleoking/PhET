@@ -45,7 +45,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // something to attach to when transcribing.  This is a bit hokey, but was
     // a lot easier than trying to move to each and every base pair in the DNA
     // strand.
-    private final AttachmentSite transcribingAttachmentSite = new AttachmentSite( new Point2D.Double( 0, 0 ) );
+    private final AttachmentSite transcribingAttachmentSite = new AttachmentSite( new Point2D.Double( 0, 0 ), 1 );
 
     /**
      * Constructor.

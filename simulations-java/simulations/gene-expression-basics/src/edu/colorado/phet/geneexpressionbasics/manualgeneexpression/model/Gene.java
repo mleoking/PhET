@@ -70,7 +70,8 @@ public abstract class Gene {
 
         // Create the attachment site for polymerase.  It is always at the end
         // of the regulatory region.
-        polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMax() ), DnaMolecule.Y_POS ) );
+        polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex(
+                regulatoryRegion.getMax() ), DnaMolecule.Y_POS ), 1 );
 
         // Initialize the placement hint for polymerase.
         rnaPolymerasePlacementHint.setPosition( polymeraseAttachmentSite.locationProperty.get() );
@@ -127,7 +128,7 @@ public abstract class Gene {
             // is where the polymerase would begin transcription.
             if ( polymeraseAttachmentSite.attachedOrAttachingMolecule.get() != null || transcriptionFactorsBlockTranscription() ) {
                 // Something is blocking attachment, return a low affinity site.
-                return new AttachmentSite( polymeraseAttachmentSite.locationProperty.get() );
+                return new AttachmentSite( polymeraseAttachmentSite.locationProperty.get(), 0 );
             }
             else if ( transcriptionFactorsSupportTranscription() ) {
                 // Transcription enabled, return high affinity site.
