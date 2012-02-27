@@ -95,7 +95,13 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         } );
     }};
 
-    public final IntegerProperty negativeTranscriptionFactorCount = new IntegerProperty( 0 );
+    public final IntegerProperty negativeTranscriptionFactorCount = new IntegerProperty( 0 ) {{
+        addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer count ) {
+                setTranscriptionFactorCount( TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG, count );
+            }
+        } );
+    }};
 
     // For debug - node that represents molecule motion bounds.
     public final Shape moleculeMotionBounds;
