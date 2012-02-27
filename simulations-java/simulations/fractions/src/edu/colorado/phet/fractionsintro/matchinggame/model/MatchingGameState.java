@@ -8,7 +8,7 @@ import lombok.Data;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -17,7 +17,9 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.HorizontalBarsNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.PieNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.VerticalBarsNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 import static fj.data.List.list;
 import static fj.data.List.range;
 
@@ -61,7 +63,7 @@ import static fj.data.List.range;
 
         final F<Fraction, PNode> horizontalBars = new F<Fraction, PNode>() {
             @Override public PNode f( Fraction f ) {
-                return new HorizontalBarsNode( ModelViewTransform.createIdentity(), new Fraction( f.numerator, f.denominator ) ) {{
+                return new HorizontalBarsNode( createIdentity(), new Fraction( f.numerator, f.denominator ) ) {{
                     scale( 0.85 );
                 }};
             }
@@ -69,7 +71,7 @@ import static fj.data.List.range;
 
         final F<Fraction, PNode> verticalBars = new F<Fraction, PNode>() {
             @Override public PNode f( Fraction f ) {
-                return new VerticalBarsNode( ModelViewTransform.createIdentity(), new Fraction( f.numerator, f.denominator ) ) {{
+                return new VerticalBarsNode( createIdentity(), new Fraction( f.numerator, f.denominator ) ) {{
                     scale( 0.85 );
                 }};
             }
@@ -77,7 +79,7 @@ import static fj.data.List.range;
 
         final F<Fraction, PNode> pies = new F<Fraction, PNode>() {
             @Override public PNode f( Fraction fraction ) {
-                return new PieNode( ModelViewTransform.createIdentity(), fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ) );
+                return new PieNode( createIdentity(), fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ) );
             }
         };
 
@@ -100,8 +102,13 @@ import static fj.data.List.range;
         } ), cells );
     }
 
-    private static MovableFraction fraction( int numerator, int denominator, Cell cell, F<Fraction, PNode> nodeF ) {
-        return new MovableFraction( new ImmutableVector2D( cell.rectangle.getCenter() ), numerator, denominator, false, nodeF );
+    //TODO: Cache nodes as images to improve performance
+    private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node ) {
+        return new MovableFraction( new ImmutableVector2D( cell.rectangle.getCenter() ), numerator, denominator, false, new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
+            @Override public PNode f( Fraction fraction ) {
+                return new PImage( node.f( fraction ).toImage() );
+            }
+        } ) );
     }
 
     //Create adjacent cells from which fractions can be dragged

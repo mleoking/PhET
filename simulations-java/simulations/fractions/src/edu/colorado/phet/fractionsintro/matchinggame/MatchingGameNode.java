@@ -28,6 +28,8 @@ public class MatchingGameNode extends FNode {
                 return s.toNode();
             }
         } ).foreach( addChild );
+
+        //Render the cells, costs about 50% of a CPU--could be optimized
         model.get().cells.map( new F<Cell, PNode>() {
             @Override public PNode f( Cell c ) {
                 return new PhetPPath( c.rectangle.toRectangle2D(), new BasicStroke( 1 ), lightGray );
