@@ -117,7 +117,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     public MessengerRnaProductionModel() {
 
-        // Create the clock and hook it up.
+        // Hook up the clock.
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
