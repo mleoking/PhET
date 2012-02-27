@@ -3,7 +3,7 @@ package edu.colorado.phet.fractionsintro.matchinggame;
 
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
-import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas2;
+import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
 
 /**
  * @author Sam Reid
@@ -15,6 +15,6 @@ public class MatchingGameModule extends AbstractFractionsModule {
 
     public MatchingGameModule( MatchingGameModel model ) {
         super( "Matching Game", model.clock );
-        setSimulationPanel( new MatchingGameCanvas2( model ) );
+        setSimulationPanel( new MatchingGameCanvas( model ) );
     }
 }
