@@ -97,20 +97,10 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         REACTIONS.add( LEVEL3_LIST );
     };
 
-    /**
-     * Default constructor.
-     */
+    // Default constructor.
     public NumberOfVariablesChallengeFactory() {}
 
-    /**
-     * Creates challenges.
-     *
-     * @param numberOfChallenges
-     * @param level 1-N
-     * @param maxQuantity
-     * @param imagesVisible
-     * @param numbersVisible
-     */
+    // Creates challenges.
     public GameChallenge[] createChallenges( int numberOfChallenges, int level, int maxQuantity, ChallengeVisibility challengeVisibility ) {
 
         if ( level < 1 || level > REACTIONS.size() ) {
