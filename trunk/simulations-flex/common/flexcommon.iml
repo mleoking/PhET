@@ -11,6 +11,11 @@
     <configurations>
       <configuration skip-build="true">
         <dependencies target-player="9">
+          <entries>
+            <entry library-id="b1fd9134-21d0-4222-baed-04a5bd71b703">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
           <sdk name="flex_sdk_3.4.1.10084" />
         </dependencies>
         <compiler-options />
@@ -28,6 +33,16 @@
     </content>
     <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="b1fd9134-21d0-4222-baed-04a5bd71b703" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../simulations-flash/common-as3/src" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

@@ -12,6 +12,17 @@
     <configurations>
       <configuration main-class="edu.colorado.phet.resonance.ResonanceApplication" output-file="resonance.swf" output-folder="$MODULE_DIR$/deploy">
         <dependencies target-player="9">
+          <entries>
+            <entry library-id="0baae111-4c7e-44a1-b289-b79581f307bc">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="4cee3098-6916-4fc7-ba47-5dc1da8e7056">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="6282846f-c2db-499f-b67b-0ce8ef934cdf">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
           <sdk name="flex_sdk_3.4.1.10084" />
         </dependencies>
         <compiler-options />
@@ -31,6 +42,36 @@
     </content>
     <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="0baae111-4c7e-44a1-b289-b79581f307bc" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../common/src" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="4cee3098-6916-4fc7-ba47-5dc1da8e7056" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../simulations-flash/common-as3/src" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="6282846f-c2db-499f-b67b-0ce8ef934cdf" />
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../../simulations-flash/contrib/aswing-a3/src" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
