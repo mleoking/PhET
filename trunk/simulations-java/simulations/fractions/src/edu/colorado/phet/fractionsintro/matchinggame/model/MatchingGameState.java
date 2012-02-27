@@ -37,8 +37,8 @@ import static fj.data.List.range;
     //Cells where the fractions start
     public final List<Cell> cells;
 
-    public final Scale leftScale = new Scale( new Vector2D( 200, 300 ) );
-    public final Scale rightScale = new Scale( new Vector2D( 400, 300 ) );
+    public final Scale leftScale = new Scale( new Vector2D( 150, 300 ) );
+    public final Scale rightScale = new Scale( new Vector2D( 500, 300 ) );
 
     public static MatchingGameState initialState() {
         final List<Cell> cells = createCells( 0, 500, 100, 100, 6, 2 );

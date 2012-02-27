@@ -13,6 +13,8 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
 
 /**
+ * Immutable model object for a scale upon which fractions can be placed.
+ *
  * @author Sam Reid
  */
 @Data public class Scale {
