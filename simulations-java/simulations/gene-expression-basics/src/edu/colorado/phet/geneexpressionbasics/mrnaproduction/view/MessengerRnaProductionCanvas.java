@@ -148,7 +148,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         } );
 
         // Add the floating clock control.
-        BooleanProperty clockRunning = new BooleanProperty( false );
+        final BooleanProperty clockRunning = new BooleanProperty( false );
         final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean isRunning ) {
@@ -159,6 +159,14 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
                                                                                                 model.getClock(), null,
                                                                                                 new Property<Color>( Color.white ) );
         controlsRootNode.addChild( floatingClockControlNode );
+
+        // Make sure that the floating clock control sees the change when the
+        // clock gets started.
+        model.getClock().addClockListener( new edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter() {
+            @Override public void clockStarted( edu.colorado.phet.common.phetcommon.model.clock.ClockEvent clockEvent ) {
+                clockRunning.set( true );
+            }
+        } );
 
         // Add the Reset All button.
         ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
