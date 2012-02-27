@@ -38,9 +38,9 @@ import edu.umd.cs.piccolo.PNode;
 
     public MovableFraction translate( ImmutableVector2D v ) { return translate( v.getX(), v.getY() ); }
 
-    private MovableFraction position( ImmutableVector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
+    public MovableFraction position( ImmutableVector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
 
-    private MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
+    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
 
     public Fraction fraction() { return new Fraction( numerator, denominator );}
 
