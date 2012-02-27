@@ -20,7 +20,11 @@ public class FractionNumberNode extends PNode {
     public final PhetPText biggestNumber = new PhetPText( "12", NUMBER_FONT );
 
     public FractionNumberNode( final ObservableProperty<Integer> value ) {
-        final PhetPText numberText = new PhetPText( value.get() + "", NUMBER_FONT ) {{
+        this( NUMBER_FONT, value );
+    }
+
+    public FractionNumberNode( Font font, final ObservableProperty<Integer> value ) {
+        final PhetPText numberText = new PhetPText( value.get() + "", font ) {{
             value.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
                     setText( integer + "" );
