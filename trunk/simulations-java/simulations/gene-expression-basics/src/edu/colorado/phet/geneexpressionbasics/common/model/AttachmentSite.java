@@ -34,7 +34,7 @@ public class AttachmentSite {
      * @param initialLocation
      *
      */
-    public AttachmentSite( java.awt.geom.Point2D initialLocation ) {
+    public AttachmentSite( Point2D initialLocation, double affinity ) {
         this.locationProperty.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
         this.affinity = affinity;
     }
