@@ -5,8 +5,8 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * Factory pattern for creating circular pies and PieSets.
@@ -24,7 +24,7 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
     public final Function1<Slice, Shape> createToShape( final double width ) {
         return new Function1<Slice, Shape>() {
             @Override public Shape apply( Slice slice ) {
-                ImmutableVector2D tip = slice.position;
+                Vector2D tip = slice.position;
                 return new Rectangle2D.Double( tip.getX() - width / 2, tip.getY() - barHeight / 2, width, barHeight );
             }
         };
@@ -37,7 +37,7 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
         double leftEdgeBucketHole = getBucketCenter().getX() - bucket.getHoleShape().getBounds2D().getWidth() / 2 + shape.getBounds2D().getWidth() / 2 + 20;
         double rightEdgeBucketHole = getBucketCenter().getX() + bucket.getHoleShape().getBounds2D().getWidth() / 2 - shape.getBounds2D().getWidth() / 2 - 20;
         double desiredCenter = random.nextDouble() * ( rightEdgeBucketHole - leftEdgeBucketHole ) + leftEdgeBucketHole;
-        return cell.tip( new ImmutableVector2D( desiredCenter, getBucketCenter().getY() ) );
+        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() ) );
     }
 
     private static final int NUM_BARS_PER_LINE = 3;
@@ -59,12 +59,12 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
 
         double rowHeight = barHeight + distanceBetweenBars;
 
-        final ImmutableVector2D center = new ImmutableVector2D( oneBarWidth / 2 + column * barPlusSpace + distanceBetweenBars, 250 + row * rowHeight );
+        final Vector2D center = new Vector2D( oneBarWidth / 2 + column * barPlusSpace + distanceBetweenBars, 250 + row * rowHeight );
 
         final double barX = center.getX() - oneBarWidth / 2;
         final double distanceInBar = cellWidth * cell;
         final double cellCenterX = barX + distanceInBar + cellWidth / 2;
 
-        return new Slice( new ImmutableVector2D( cellCenterX + offset, center.getY() ), Math.PI, false, null, createToShape( oneBarWidth / denominator ) );
+        return new Slice( new Vector2D( cellCenterX + offset, center.getY() ), Math.PI, false, null, createToShape( oneBarWidth / denominator ) );
     }
 }

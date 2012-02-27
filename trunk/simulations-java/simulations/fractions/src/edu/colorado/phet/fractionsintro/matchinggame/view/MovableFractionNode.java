@@ -12,9 +12,9 @@ import fj.data.TreeMap;
 import java.awt.geom.Dimension2D;
 import java.util.HashMap;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.UpdateArgs;
@@ -51,18 +51,18 @@ public class MovableFractionNode extends PNode {
                 //animate to the closest destination
                 model.set( state.fractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
                     @Override public MovableFraction f( final MovableFraction f ) {
-                        HashMap<ImmutableVector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<ImmutableVector2D, F<UpdateArgs, MovableFraction>>() {{
+                        HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
                             put( state.rightScale.center(), MoveToRightScale );
                             put( state.leftScale.center(), MoveToLeftScale );
                             put( f.home.position(), MoveToCell( f.home ) );
                         }};
-                        final Ord<ImmutableVector2D> ord = Ord.ord( curry( new F2<ImmutableVector2D, ImmutableVector2D, Ordering>() {
-                            public Ordering f( final ImmutableVector2D u1, final ImmutableVector2D u2 ) {
+                        final Ord<Vector2D> ord = Ord.ord( curry( new F2<Vector2D, Vector2D, Ordering>() {
+                            public Ordering f( final Vector2D u1, final Vector2D u2 ) {
                                 return Ord.<Comparable>comparableOrd().compare( f.position.distance( u1 ), f.position.distance( u2 ) );
                             }
                         } ) );
-                        TreeMap<ImmutableVector2D, F<UpdateArgs, MovableFraction>> tm = fromMutableMap( ord, map );
-                        List<ImmutableVector2D> sorted = tm.keys().sort( ord );
+                        TreeMap<Vector2D, F<UpdateArgs, MovableFraction>> tm = fromMutableMap( ord, map );
+                        List<Vector2D> sorted = tm.keys().sort( ord );
 
                         return f.dragging ? f.dragging( false ).motion( tm.get( sorted.head() ).some() ) : f;
                     }

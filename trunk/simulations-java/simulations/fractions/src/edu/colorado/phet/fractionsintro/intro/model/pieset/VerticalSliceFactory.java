@@ -5,8 +5,8 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * Factory pattern for creating circular pies and PieSets.
@@ -49,7 +49,7 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
         double leftEdgeBucketHole = getBucketCenter().getX() - bucket.getHoleShape().getBounds2D().getWidth() / 2 + shape.getBounds2D().getWidth() / 2 + 20;
         double rightEdgeBucketHole = getBucketCenter().getX() + bucket.getHoleShape().getBounds2D().getWidth() / 2 - shape.getBounds2D().getWidth() / 2 - 20;
         double desiredCenter = random.nextDouble() * ( rightEdgeBucketHole - leftEdgeBucketHole ) + leftEdgeBucketHole;
-        return cell.tip( new ImmutableVector2D( desiredCenter, getBucketCenter().getY() ) );
+        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() ) );
     }
 
     public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {
@@ -64,6 +64,6 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
 
         //Account for offset, determined empirically: den=1 => offset = 0, den = 2 => offset = -cellHeight/2
         LinearFunction linearFunction = new LinearFunction( 1, 2, -barHeight, -barHeight + cellHeight / 2 );
-        return new Slice( new ImmutableVector2D( barX + offset, 265 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ) );
+        return new Slice( new Vector2D( barX + offset, 265 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ) );
     }
 }

@@ -4,7 +4,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 import lombok.Data;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * Cells where the fractions start
@@ -18,5 +18,5 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     public final int i;
     public final int j;
 
-    public ImmutableVector2D position() {return rectangle.getCenter();}
+    public Vector2D position() {return new Vector2D( rectangle.getCenter() );}
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -17,7 +17,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
  */
 @Data public class Scale {
     private static final BufferedImage scale = multiScale( SCALE, 0.5 );
-    public final ImmutableVector2D position;
+    public final Vector2D position;
 
     public PNode toNode() {
         return new PImage( scale ) {{
@@ -25,5 +25,5 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
         }};
     }
 
-    public ImmutableVector2D center() { return position.plus( scale.getWidth() / 2, scale.getHeight() / 2 ); }
+    public Vector2D center() { return position.plus( scale.getWidth() / 2, scale.getHeight() / 2 ); }
 }

@@ -6,9 +6,9 @@ import fj.data.List;
 import lombok.Data;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractions.util.Cache;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -37,8 +37,8 @@ import static fj.data.List.range;
     //Cells where the fractions start
     public final List<Cell> cells;
 
-    public final Scale leftScale = new Scale( new ImmutableVector2D( 200, 300 ) );
-    public final Scale rightScale = new Scale( new ImmutableVector2D( 400, 300 ) );
+    public final Scale leftScale = new Scale( new Vector2D( 200, 300 ) );
+    public final Scale rightScale = new Scale( new Vector2D( 400, 300 ) );
 
     public static MatchingGameState initialState() {
         final List<Cell> cells = createCells( 0, 500, 100, 100, 6, 2 );
@@ -90,7 +90,7 @@ import static fj.data.List.range;
     private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node ) {
 
         //Cache nodes as images to improve performance
-        return new MovableFraction( new ImmutableVector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell,
+        return new MovableFraction( new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell,
                                     new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
                                         @Override public PNode f( Fraction fraction ) {
                                             return new PImage( node.f( fraction ).toImage() );

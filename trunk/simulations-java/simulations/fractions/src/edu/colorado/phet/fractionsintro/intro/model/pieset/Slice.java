@@ -5,8 +5,8 @@ import lombok.Data;
 
 import java.awt.Shape;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * A single slice, used for pie cells or draggable pieces.
@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 @Data public class Slice {
 
     //Position of the slice.  Center for circles or squares.  For pie slices, it is the tip.  For a half-circle, it is the center of the line edge.
-    public final ImmutableVector2D position;
+    public final Vector2D position;
     public final double angle;//in radians
     public final boolean dragging;
     public final AnimationTarget animationTarget;
@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
     //Left as a function instead of a field so we don't eagerly compute it until necessary
     public final Function1<Slice, Shape> toShape;
 
-    public Slice translate( ImmutableVector2D delta ) { return translate( delta.getX(), delta.getY() ); }
+    public Slice translate( Vector2D delta ) { return translate( delta.x, delta.y ); }
 
     public Slice translate( double dx, double dy ) { return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape ); }
 
@@ -32,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
     public Slice angle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
 
-    public Slice tip( ImmutableVector2D tip ) {
+    public Slice tip( Vector2D tip ) {
         if ( Double.isNaN( tip.getX() ) ) {
             throw new RuntimeException( "NANA" );
         }
@@ -41,7 +41,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
     public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
 
-    public ImmutableVector2D center() {return new ImmutableVector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
+    public Vector2D center() {return new Vector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
 
     public Slice stepAnimation() { return stepTranslation().stepRotation(); }
 
@@ -65,7 +65,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
         return angle( newAngle );
     }
 
-    private ImmutableVector2D getVelocity() {return animationTarget.position.minus( position ).getInstanceOfMagnitude( 30 );}
+    private Vector2D getVelocity() {return animationTarget.position.minus( position ).getInstanceOfMagnitude( 30 );}
 
     private Slice checkFinishAnimation() {
         if ( position.distance( animationTarget.position ) < getVelocity().getMagnitude() ) {

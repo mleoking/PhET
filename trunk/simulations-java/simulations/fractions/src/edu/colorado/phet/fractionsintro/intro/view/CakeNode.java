@@ -12,12 +12,12 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.umd.cs.piccolo.PNode;
@@ -202,11 +202,11 @@ public class CakeNode extends PNode {
         }
         Point2D start = pointMap.get( denominator )[piece];
         Point2D end = pointMap.get( denominator )[( piece + 1 ) % denominator];//wrap
-        final ImmutableVector2D v = new ImmutableVector2D( center, start ).times( 1000 );
-        final ImmutableVector2D v2 = new ImmutableVector2D( center, end ).times( 1000 );
+        final Vector2D v = new Vector2D( center, start ).times( 1000 );
+        final Vector2D v2 = new Vector2D( center, end ).times( 1000 );
         return new Area( new DoubleGeneralPath( center ) {{
-            lineTo( v );
-            lineTo( v2 );
+            lineTo( v.toImmutableVector2D() );
+            lineTo( v2.toImmutableVector2D() );
             lineTo( center );
         }}.getGeneralPath() );
     }
