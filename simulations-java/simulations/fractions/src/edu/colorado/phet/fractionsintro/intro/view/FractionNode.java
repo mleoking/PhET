@@ -5,6 +5,7 @@ import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -14,6 +15,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class FractionNode extends PNode {
+
+    public FractionNode( Fraction fraction, double scale ) {
+        this( fraction.numerator, fraction.denominator );
+        setScale( scale );
+    }
 
     //Convenience constructor for a constant FractionNode
     public FractionNode( int numerator, int denominator ) {
