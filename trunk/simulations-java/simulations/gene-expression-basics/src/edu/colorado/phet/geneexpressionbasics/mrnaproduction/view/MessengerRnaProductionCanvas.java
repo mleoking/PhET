@@ -183,11 +183,6 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         floatingClockControlNode.setOffset( middleXOfUnusedSpace - floatingClockControlNode.getFullBoundsReference().width / 2,
                                             negativeFactorEnabledCheckBox.getFullBoundsReference().getMinY() - floatingClockControlNode.getFullBoundsReference().height - 10 );
 
-        // Add any initial molecules.
-        for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
-            topBiomoleculeLayer.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );
-        }
-
         // Watch for and handle comings and goings of biomolecules in the model.
         // Most, but not all, of the biomolecules are handled by this.  Some
         // others are handled as special cases.

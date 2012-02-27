@@ -14,11 +14,9 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
@@ -29,7 +27,6 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Messeng
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Primary model for the manual gene expression tab.
@@ -90,7 +87,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public final ObservableList<MessengerRna> messengerRnaList = new ObservableList<MessengerRna>();
 
     // Properties that control the quantity of transcription factors.
-    public final IntegerProperty positiveTranscriptionFactorCount = new IntegerProperty( 0 ){{
+    public final IntegerProperty positiveTranscriptionFactorCount = new IntegerProperty( 0 ) {{
         addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer count ) {
                 setTranscriptionFactorCount( TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS, count );
@@ -127,17 +124,15 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             }
         } );
 
-        // Add the gene to the DNA molecule.  Only one gene in this model.
+        // Add the gene to the DNA molecule.  There is only one gene in this model.
         gene = new GeneA( dnaMolecule, (int) Math.round( NUM_BASE_PAIRS_ON_DNA_STRAND * 0.45 ) );
         dnaMolecule.addGene( gene );
 
-        // Add the polymerase.  This doesn't come and go, the concentration
-        // of these remains constant in this model.
-        for ( int i = 0; i < RNA_POLYMERASE_COUNT; i++ ){
-            addMobileBiomolecule( new RnaPolymerase( this, generateInitialLocation() ), true );
-        }
+        // Set up a node that depicts motion bounds.  This is for debug.
+        moleculeMotionBounds = getMotionBounds(new RnaPolymerase( this, new Point2D.Double( 0, 0 ) ) ).getBounds();
 
-        moleculeMotionBounds = getMotionBounds( mobileBiomoleculeList.get( 0 )).getBounds();
+        // Reset this model in order to set initial state.
+        reset();
     }
 
     //------------------------------------------------------------------------
@@ -239,9 +234,16 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     }
 
     public void reset() {
+        positiveTranscriptionFactorCount.reset();
+        negativeTranscriptionFactorCount.reset();
         mobileBiomoleculeList.clear();
-        messengerRnaList.clear();
         dnaMolecule.reset();
+
+        // Add the polymerase molecules.  These don't come and go, the
+        // concentration of these remains constant in this model.
+        for ( int i = 0; i < RNA_POLYMERASE_COUNT; i++ ) {
+            addMobileBiomolecule( new RnaPolymerase( this, generateInitialLocation() ), true );
+        }
     }
 
     /**
@@ -284,27 +286,27 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         // Count the transcription factors that match this configuration.
         int currentCount = 0;
         for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
-            if ( mobileBiomolecule instanceof TranscriptionFactor ){
-                if (((TranscriptionFactor)mobileBiomolecule).getConfig().equals( tcConfig )){
+            if ( mobileBiomolecule instanceof TranscriptionFactor ) {
+                if ( ( (TranscriptionFactor) mobileBiomolecule ).getConfig().equals( tcConfig ) ) {
                     currentCount++;
                 }
             }
         }
 
-        if ( targetCount > currentCount ){
+        if ( targetCount > currentCount ) {
             // Add some.
-            for ( int i = currentCount; i < targetCount; i++ ){
+            for ( int i = currentCount; i < targetCount; i++ ) {
                 addMobileBiomolecule( new TranscriptionFactor( this, tcConfig, generateInitialLocation() ), true );
             }
         }
-        else if ( targetCount < currentCount ){
+        else if ( targetCount < currentCount ) {
             // Remove some.
             for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
-                if ( mobileBiomolecule instanceof TranscriptionFactor ){
-                    if (((TranscriptionFactor)mobileBiomolecule).getConfig().equals( tcConfig )){
+                if ( mobileBiomolecule instanceof TranscriptionFactor ) {
+                    if ( ( (TranscriptionFactor) mobileBiomolecule ).getConfig().equals( tcConfig ) ) {
                         removeMobileBiomolecule( mobileBiomolecule );
                         currentCount--;
-                        if ( currentCount == targetCount ){
+                        if ( currentCount == targetCount ) {
                             break;
                         }
                     }

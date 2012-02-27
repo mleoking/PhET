@@ -1,3 +1,5 @@
+Got Reset All working on 2nd tab.
+Fixed issues with the motion bounds on the 2nd tab so that mRNA can be produced without getting stuck in the corner.
 # 0.00.16 (61742) Feb 24, 2012
 2/24/12 Publishing version to dev for possible demo
 Added most of the user interface for the 2nd tab.
