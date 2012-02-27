@@ -25,6 +25,9 @@ import edu.umd.cs.piccolo.PNode;
     //Flag to indicate whether the user is dragging the fraction
     public final boolean dragging;
 
+    //The cell where the fraction came from, so it can be animated back there if necessary.
+    public final Cell home;
+
     //Way of creating nodes for rendering and doing bounds/layouts.  This is in the model because object locations, bounds, animation are also in the model.
     //It is a function that creates nodes instead of a single PNode because I am not sure if the same PNode can be used safely in multiple places in a piccolo scene graph
     public transient final F<Fraction, PNode> node;
@@ -32,15 +35,15 @@ import edu.umd.cs.piccolo.PNode;
     //Strategy for moving the fraction over time (e.g. toward the scale or back to its original cell)
     public final F<UpdateArgs, MovableFraction> motion;
 
-    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
-
     public MovableFraction translate( double dx, double dy ) { return position( position.plus( dx, dy ) ); }
 
     public MovableFraction translate( ImmutableVector2D v ) { return translate( v.getX(), v.getY() ); }
 
-    public MovableFraction position( ImmutableVector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
+    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
 
-    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
+    public MovableFraction position( ImmutableVector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
+
+    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
 
     public Fraction fraction() { return new Fraction( numerator, denominator );}
 
