@@ -160,15 +160,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             public void update( Boolean isUserControlled, Boolean wasUserControlled ) {
                 if ( isUserControlled ) {
                     dnaMolecule.activateHints( mobileBiomolecule );
-                    for ( MessengerRna messengerRna : messengerRnaList ) {
-                        messengerRna.activateHints( mobileBiomolecule );
-                    }
                 }
                 else {
                     dnaMolecule.deactivateAllHints();
-                    for ( MessengerRna messengerRna : messengerRnaList ) {
-                        messengerRna.deactivateAllHints();
-                    }
                 }
             }
         } );
@@ -223,6 +217,16 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     public void addMessengerRna( final MessengerRna messengerRna ) {
         messengerRnaList.add( messengerRna );
+        messengerRna.beingSynthesized.addObserver( new edu.colorado.phet.common.phetcommon.model.property.ChangeObserver<Boolean>() {
+            public void update( Boolean isBeingSynthesized, Boolean wasBeingSynthesized ) {
+                if ( !isBeingSynthesized && wasBeingSynthesized ){
+                    // Remove this mRNA from the model, since in this case, we
+                    // don't do anything with it once it has been created.
+                    messengerRnaList.remove( messengerRna );
+                    messengerRna.beingSynthesized.removeObserver( this );
+                }
+            }
+        } );
     }
 
     @Override public void removeMessengerRna( MessengerRna messengerRnaBeingDestroyed ) {
