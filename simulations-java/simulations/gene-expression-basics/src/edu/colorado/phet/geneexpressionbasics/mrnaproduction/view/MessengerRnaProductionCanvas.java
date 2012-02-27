@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.mrnaproduction.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -41,7 +43,10 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimShar
 public class MessengerRnaProductionCanvas extends PhetPCanvas {
 
     // Stage size, based on default screen size.
-    private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
+    private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
+
+    // For debug.
+    private static final boolean SHOW_MOTION_BOUNDS = true;
 
     // Inset for several of the controls.
     private static final double INSET = 15;
@@ -109,6 +114,11 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
             for ( PlacementHint placementHint : gene.getPlacementHints() ) {
                 placementHintLayer.addChild( new PlacementHintNode( mvt, placementHint ) );
             }
+        }
+
+        // Add motion bounds indicator, if turned on.
+        if ( SHOW_MOTION_BOUNDS ){
+            topBiomoleculeLayer.addChild( new PhetPPath( mvt.modelToView( model.moleculeMotionBounds ), new BasicStroke( 2 ), Color.RED ) );
         }
 
         // Add the nodes that allow the user to control the concentrations and
