@@ -14,6 +14,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToRightScale;
+
 /**
  * Decorates a pnode with mouse listeners and sets the position properly
  *
@@ -37,7 +39,7 @@ public class MovableFractionNode extends PNode {
                 final MatchingGameState state = model.get();
                 model.set( state.fractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
                     @Override public MovableFraction f( MovableFraction f ) {
-                        return f.dragging( false );
+                        return f.dragging ? f.dragging( false ).motion( MoveToRightScale ) : f;
                     }
                 } ) ) );
             }
