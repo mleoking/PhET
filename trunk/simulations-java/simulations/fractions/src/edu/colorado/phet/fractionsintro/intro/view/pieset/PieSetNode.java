@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
+import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PClip;
 
@@ -112,7 +113,7 @@ public class PieSetNode extends PNode {
             scale( 0.28 );
         }};
 
-        PNode text = new FractionNode( new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
+        PNode text = new FractionNode( FractionNumberNode.NUMBER_FONT, new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
             scale( 0.2 );
         }};
         PNode iconAndText = new HBox( icon, text );

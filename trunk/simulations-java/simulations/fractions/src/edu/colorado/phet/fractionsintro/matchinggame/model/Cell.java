@@ -12,4 +12,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
  */
 @Data public class Cell {
     public final ImmutableRectangle2D rectangle;
+
+    //Index of the site in the grid, top left is (0,0)
+    public final int i;
+    public final int j;
 }
