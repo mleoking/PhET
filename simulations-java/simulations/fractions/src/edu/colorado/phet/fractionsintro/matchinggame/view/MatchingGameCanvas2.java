@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.matchinggame;
+package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
