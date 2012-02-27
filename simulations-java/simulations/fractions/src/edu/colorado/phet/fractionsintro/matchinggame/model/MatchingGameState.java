@@ -18,6 +18,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.PieNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.VerticalBarsNode;
 import edu.umd.cs.piccolo.PNode;
 
+import static fj.data.List.list;
 import static fj.data.List.range;
 
 /**
@@ -33,8 +34,11 @@ import static fj.data.List.range;
     //Cells where the fractions start
     public final List<Cell> cells;
 
+    public final Scale leftScale = new Scale( 200, 300 );
+    public final Scale rightScale = new Scale( 400, 300 );
+
     public static MatchingGameState initialState() {
-        final List<Cell> cells = createCells( 0, 0, 100, 100, 6, 2 );
+        final List<Cell> cells = createCells( 0, 500, 100, 100, 6, 2 );
 
         //Nodes for filling the cells.
 
@@ -114,4 +118,6 @@ import static fj.data.List.range;
     }
 
     public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells ); }
+
+    public List<Scale> scales() { return list( leftScale, rightScale ); }
 }
