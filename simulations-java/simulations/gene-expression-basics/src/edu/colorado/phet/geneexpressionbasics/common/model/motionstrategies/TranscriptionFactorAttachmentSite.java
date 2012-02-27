@@ -20,7 +20,7 @@ public class TranscriptionFactorAttachmentSite extends AttachmentSite {
      * @param affinity
      */
     public TranscriptionFactorAttachmentSite( Point2D initialLocation, TranscriptionFactorConfig tfConfig, double affinity ) {
-        super( initialLocation, affinity );
+        super( initialLocation );
         this.tfConfig = tfConfig;
     }
 

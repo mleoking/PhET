@@ -144,6 +144,11 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         negativeTranscriptionFactorEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
                 negativeTranscriptionFactorControlPanel.setVisible( enabled );
+                if ( !enabled ){
+                    // When the negative transcription factor control is
+                    // hidden, there should be no negative factors.
+                    model.negativeTranscriptionFactorCount.reset();
+                }
             }
         } );
 

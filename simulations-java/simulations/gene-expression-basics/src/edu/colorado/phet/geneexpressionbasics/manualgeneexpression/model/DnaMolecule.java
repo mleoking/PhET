@@ -627,11 +627,11 @@ public class DnaMolecule {
      * @return
      */
     public AttachmentSite createDefaultAffinityAttachmentSite( double xOffset ) {
-        return new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ), 0.05 );
+        return new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ) );
     }
 
     public AttachmentSite createDefaultAffinityAttachmentSite( int basePairIndex ) {
-        return new AttachmentSite( new Point2D.Double( getBasePairXOffsetByIndex( basePairIndex ), Y_POS ), 0.05 );
+        return new AttachmentSite( new Point2D.Double( getBasePairXOffsetByIndex( basePairIndex ), Y_POS ) );
     }
 
     /**
