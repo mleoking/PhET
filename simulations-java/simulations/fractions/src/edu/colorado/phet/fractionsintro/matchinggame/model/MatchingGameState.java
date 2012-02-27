@@ -90,7 +90,7 @@ import static fj.data.List.range;
     private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node ) {
 
         //Cache nodes as images to improve performance
-        return new MovableFraction( new ImmutableVector2D( cell.rectangle.getCenter() ), numerator, denominator, false,
+        return new MovableFraction( new ImmutableVector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell,
                                     new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
                                         @Override public PNode f( Fraction fraction ) {
                                             return new PImage( node.f( fraction ).toImage() );
