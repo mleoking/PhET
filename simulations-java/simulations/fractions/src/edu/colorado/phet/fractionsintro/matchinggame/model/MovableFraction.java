@@ -8,6 +8,8 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stillness;
+
 /**
  * Immutable class representing a movable fraction in the matching game
  *
@@ -50,9 +52,13 @@ import edu.umd.cs.piccolo.PNode;
     public MovableFraction stepInTime( UpdateArgs args ) { return motion.f( args ); }
 
     public MovableFraction stepTowards( Vector2D position, double dt ) {
-        double velocity = 600 * dt;
-        final MovableFraction result = translate( position.minus( this.position ).getInstanceOfMagnitude( velocity ) );
-        return result.position.distance( position ) <= velocity ? result.motion( new F<UpdateArgs, MovableFraction>() {
+        double velocity = 600;
+        double stepSize = velocity * dt;
+        if ( this.position.distance( position ) < stepSize ) {
+            return this.position( position ).motion( Stillness );
+        }
+        final MovableFraction result = translate( position.minus( this.position ).getInstanceOfMagnitude( stepSize ) );
+        return result.position.distance( position ) <= stepSize ? result.motion( new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
                 return a.fraction;
             }
