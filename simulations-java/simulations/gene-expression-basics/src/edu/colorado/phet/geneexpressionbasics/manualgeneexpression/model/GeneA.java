@@ -44,7 +44,8 @@ public class GeneA extends Gene {
                ID );
 
         // Add transcription factors that are specific to this gene.  Location
-        // is pretty much arbitrary, just meant to look decent.
+        // is withing the regulatory region, and the negative factor should
+        // overlap, and thus block, the positive factor(s).
         addTranscriptionFactor( 5, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS );
         addTranscriptionFactor( 2, TranscriptionFactor.TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG );
     }
