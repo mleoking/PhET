@@ -29,7 +29,7 @@ public abstract class ShapeSegment {
 
     // Attachment point where anything that attached to this segment would
     // attach.  Affinity is arbitrary in this case.
-    public final AttachmentSite attachmentSite = new AttachmentSite( new Point2D.Double(), 1 );
+    public final AttachmentSite attachmentSite = new AttachmentSite( new Point2D.Double() );
 
     // Max length of mRNA that this segment can contain.
     public double capacity = Double.POSITIVE_INFINITY;

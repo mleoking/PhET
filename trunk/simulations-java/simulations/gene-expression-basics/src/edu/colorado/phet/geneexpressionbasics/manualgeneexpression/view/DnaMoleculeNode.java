@@ -51,17 +51,22 @@ public class DnaMoleculeNode extends PNode {
         addChild( dnaBackboneFrontLayer );
 
         // Put the gene backgrounds and labels behind everything.
-        for ( Gene gene : dnaMolecule.getGenes() ) {
-            geneBackgroundLayer.addChild( new GeneNode( mvt, gene, dnaMolecule, showGeneBracketLabels ) );
+        for ( int i = 0; i < dnaMolecule.getGenes().size(); i++ ){
+            // TODO: i18n
+            geneBackgroundLayer.addChild( new GeneNode( mvt, dnaMolecule.getGenes().get( i ), dnaMolecule, "Gene " + i, showGeneBracketLabels ) );
+
         }
+
         // Add the first backbone strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand1Segments() ) {
             addStrand( mvt, dnaStrandSegment, new BasicStroke( backboneStrokeWidth ), STRAND_1_COLOR );
         }
+        
         // Add the other backbone strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2Segments() ) {
             addStrand( mvt, dnaStrandSegment, new BasicStroke( backboneStrokeWidth ), STRAND_2_COLOR );
         }
+        
         // Add the base pairs.
         for ( BasePair basePair : dnaMolecule.getBasePairs() ) {
             basePairLayer.addChild( new PhetPPath( mvt.modelToView( basePair.getShape() ), Color.DARK_GRAY ) );

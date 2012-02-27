@@ -29,7 +29,7 @@ public class GeneNode extends PNode {
     private static final double BRACKET_DEPTH = 20;
     private static final double RECT_ROUNDING = 15;
 
-    public GeneNode( final ModelViewTransform mvt, final Gene gene, DnaMolecule dnaMolecule, boolean showBracketLabel ) {
+    public GeneNode( final ModelViewTransform mvt, final Gene gene, DnaMolecule dnaMolecule, String label, boolean showBracketLabel ) {
         double highlightHeight = -mvt.modelToViewDeltaY( dnaMolecule.getDiameter() * 1.5 );
         double highlightStartY = mvt.modelToViewY( dnaMolecule.getLeftEdgePos().getY() ) - highlightHeight / 2;
 
@@ -75,7 +75,7 @@ public class GeneNode extends PNode {
 
             // And the textual label for the gene.
             // TODO: i18n
-            addChild( new PText( "Gene " + gene.identifier ) {{
+            addChild( new PText( label ) {{
                 setFont( GENE_LABEL_FONT );
                 setOffset( bracketPath.getGeneralPath().getBounds2D().getCenterX() - getFullBoundsReference().width / 2,
                            bracketPath.getGeneralPath().getBounds2D().getMaxY() + 5 );

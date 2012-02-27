@@ -40,8 +40,8 @@ public class GeneC extends Gene {
                new IntegerRange( initialBasePair, initialBasePair + NUM_BASE_PAIRS_IN_REGULATORY_REGION ),
                REGULATORY_REGION_COLOR,
                new IntegerRange( initialBasePair + NUM_BASE_PAIRS_IN_REGULATORY_REGION + 1, initialBasePair + NUM_BASE_PAIRS_IN_REGULATORY_REGION + 1 + NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION ),
-               TRANSCRIBED_REGION_COLOR,
-               ID );
+               TRANSCRIBED_REGION_COLOR
+        );
 
         // Add transcription factors that are specific to this gene.  Location
         // is pretty much arbitrary, just meant to look decent.

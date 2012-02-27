@@ -35,10 +35,6 @@ public abstract class Gene {
     private final IntegerRange transcribedRegion;
     private final AttachmentSite polymeraseAttachmentSite;
 
-    // Each gene has an ID that is used for labeling it in the view and for
-    // determining which transcription factors are associated with it.
-    public final int identifier;
-
     // Placement hint for polymerase.  There is always only one.
     private final PlacementHint rnaPolymerasePlacementHint = new PlacementHint( new RnaPolymerase() );
 
@@ -61,22 +57,20 @@ public abstract class Gene {
      *                               DNA strand, where this region exists.
      * @param regulatoryRegionColor
      * @param transcribedRegion      The range, in terms of base pairs on the
-     *                               DNA strand, where this region exists.
+*                               DNA strand, where this region exists.
      * @param transcribedRegionColor
      */
-    protected Gene( DnaMolecule dnaMolecule, IntegerRange regulatoryRegion, Color regulatoryRegionColor,
-                    IntegerRange transcribedRegion, Color transcribedRegionColor, int identifier ) {
+    protected Gene( edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule dnaMolecule, edu.colorado.phet.common.phetcommon.util.IntegerRange regulatoryRegion, java.awt.Color regulatoryRegionColor,
+                    edu.colorado.phet.common.phetcommon.util.IntegerRange transcribedRegion, java.awt.Color transcribedRegionColor ) {
         this.dnaMolecule = dnaMolecule;
         this.regulatoryRegion = regulatoryRegion;
         this.regulatoryRegionColor = regulatoryRegionColor;
         this.transcribedRegion = transcribedRegion;
         this.transcribedRegionColor = transcribedRegionColor;
-        this.identifier = identifier;
 
         // Create the attachment site for polymerase.  It is always at the end
         // of the regulatory region.
-        polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex(
-                regulatoryRegion.getMax() ), DnaMolecule.Y_POS ), identifier );
+        polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMax() ), DnaMolecule.Y_POS ) );
 
         // Initialize the placement hint for polymerase.
         rnaPolymerasePlacementHint.setPosition( polymeraseAttachmentSite.locationProperty.get() );
@@ -133,7 +127,7 @@ public abstract class Gene {
             // is where the polymerase would begin transcription.
             if ( polymeraseAttachmentSite.attachedOrAttachingMolecule.get() != null || transcriptionFactorsBlockTranscription() ) {
                 // Something is blocking attachment, return a low affinity site.
-                return new AttachmentSite( polymeraseAttachmentSite.locationProperty.get(), 0 );
+                return new AttachmentSite( polymeraseAttachmentSite.locationProperty.get() );
             }
             else if ( transcriptionFactorsSupportTranscription() ) {
                 // Transcription enabled, return high affinity site.
