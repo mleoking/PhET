@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToLeftScale;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static fj.data.List.list;
 import static fj.data.List.range;
 
@@ -96,7 +96,7 @@ import static fj.data.List.range;
                                             return new PImage( node.f( fraction ).toImage() );
                                         }
                                     } ),
-                                    MoveToLeftScale );
+                                    MoveToCell( cell ) );
     }
 
     //Create adjacent cells from which fractions can be dragged
