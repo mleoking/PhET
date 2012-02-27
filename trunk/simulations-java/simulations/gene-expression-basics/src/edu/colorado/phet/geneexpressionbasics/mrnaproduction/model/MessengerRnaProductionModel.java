@@ -18,15 +18,18 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneA;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Primary model for the manual gene expression tab.
@@ -64,7 +67,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 30;
 
     // Number of RNA polymerase molecules present.
-    public static final int RNA_POLYMERASE_COUNT = 20;
+    public static final int RNA_POLYMERASE_COUNT = 5;
 
     // etc.
     private static final Random RAND = new Random();
@@ -97,6 +100,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     public final IntegerProperty negativeTranscriptionFactorCount = new IntegerProperty( 0 );
 
+    // For debug - node that represents molecule motion bounds.
+    public final Shape moleculeMotionBounds;
+
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
@@ -104,6 +110,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // generally populated by the view in order to keep biomolecules from
     // wandering over the tool boxes and such.
     private final List<Shape> offLimitsMotionSpaces = new ArrayList<Shape>();
+
+    // The one gene that is on this DNA strand.
+    private final Gene gene;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -119,13 +128,16 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         } );
 
         // Add the gene to the DNA molecule.  Only one gene in this model.
-        dnaMolecule.addGene( new GeneA( dnaMolecule, (int) Math.round( NUM_BASE_PAIRS_ON_DNA_STRAND * 0.45 ) ) );
+        gene = new GeneA( dnaMolecule, (int) Math.round( NUM_BASE_PAIRS_ON_DNA_STRAND * 0.45 ) );
+        dnaMolecule.addGene( gene );
 
         // Add the polymerase.  This doesn't come and go, the concentration
         // of these remains constant in this model.
         for ( int i = 0; i < RNA_POLYMERASE_COUNT; i++ ){
             addMobileBiomolecule( new RnaPolymerase( this, generateInitialLocation() ), true );
         }
+
+        moleculeMotionBounds = getMotionBounds( mobileBiomoleculeList.get( 0 )).getBounds();
     }
 
     //------------------------------------------------------------------------
@@ -312,13 +324,21 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
         // The bottom of the bounds depends on the size of the biomolecule.  A
         // little bit of margin is added.
-        double bottomYPos = DnaMolecule.Y_POS - mobileBiomolecule.getShape().getBounds2D().getHeight() / 2 * 1.1;
+        double minY = DnaMolecule.Y_POS - mobileBiomolecule.getShape().getBounds2D().getHeight() / 2 * 1.1;
+
+        // The max Y position is set to make it so that molecules can move
+        // outside of the view port, but not way outside.  Its value was
+        // empirically determined.
+        double maxY = minY + 1500;
+
+        // Figure out the X bounds based on the length of the gene.  This
+        // extends a little less in the -x direction than in the +x, since the
+        // beginning of the gene is in the center of the view port.
+        double minX = gene.getStartX() - gene.getTranscribedRegionLength() / 2;
+        double maxX = gene.getEndX() + 200; // Needs to be long enough to allow the polymerase to get to the end.
 
         // Get the nominal bounds.
-        Area bounds = new Area( new Rectangle2D.Double( -BIOMOLECULE_STAGE_WIDTH / 2,
-                                                        bottomYPos,
-                                                        BIOMOLECULE_STAGE_WIDTH,
-                                                        BIOMOLECULE_STAGE_HEIGHT ) );
+        Area bounds = new Area( new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY ) );
 
         // Subtract off any off limits areas.
         for ( Shape offLimitMotionSpace : offLimitsMotionSpaces ) {
