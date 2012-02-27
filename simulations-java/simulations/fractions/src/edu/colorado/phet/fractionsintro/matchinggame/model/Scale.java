@@ -28,4 +28,8 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
     }
 
     public Vector2D center() { return position.plus( scale.getWidth() / 2, scale.getHeight() / 2 ); }
+
+    public Vector2D getAttachmentPoint() {
+        return center().plus( 0, -50 );
+    }
 }

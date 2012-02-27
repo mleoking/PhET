@@ -51,18 +51,20 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
 
     public MovableFraction stepInTime( UpdateArgs args ) { return motion.f( args ); }
 
-    public MovableFraction stepTowards( Vector2D position, double dt ) {
+    public MovableFraction stepTowards( Vector2D target, double dt ) {
         double velocity = 600;
         double stepSize = velocity * dt;
-        if ( this.position.distance( position ) < stepSize ) {
-            return this.position( position ).motion( Stillness );
+        if ( this.position.distance( target ) < stepSize ) {
+            return this.position( target ).motion( Stillness );
         }
-        final MovableFraction result = translate( position.minus( this.position ).getInstanceOfMagnitude( stepSize ) );
-        return result.position.distance( position ) <= stepSize ? result.motion( new F<UpdateArgs, MovableFraction>() {
+        final MovableFraction result = translate( target.minus( this.position ).getInstanceOfMagnitude( stepSize ) );
+        return result.position.distance( target ) <= stepSize ? result.motion( new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
                 return a.fraction;
             }
-        } ) :
+        } ).position( target ) :
                result;
     }
+
+    public double getValue() { return ( (double) numerator ) / denominator;}
 }

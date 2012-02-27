@@ -46,27 +46,47 @@ public class MovableFractionNode extends PNode {
 
             //Set all drag flags to false
             @Override public void mouseReleased( PInputEvent event ) {
-                final MatchingGameState state = model.get();
+                MatchingGameState state = model.get();
+
+                //Find the fraction that the user released:
+                final MovableFraction draggingFraction = state.fractions.find( new F<MovableFraction, Boolean>() {
+                    @Override public Boolean f( MovableFraction m ) {
+                        return m.dragging;
+                    }
+                } ).some();
+
+                //Determine where to animate it
+                final MatchingGameState finalState = state;
+                HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
+                    put( finalState.rightScale.getAttachmentPoint(), MoveToRightScale );
+                    put( finalState.leftScale.getAttachmentPoint(), MoveToLeftScale );
+                    put( draggingFraction.home.position(), MoveToCell( draggingFraction.home ) );
+                }};
+                final Ord<Vector2D> ord = Ord.ord( curry( new F2<Vector2D, Vector2D, Ordering>() {
+                    public Ordering f( final Vector2D u1, final Vector2D u2 ) {
+                        return Ord.<Comparable>comparableOrd().compare( draggingFraction.position.distance( u1 ), draggingFraction.position.distance( u2 ) );
+                    }
+                } ) );
+                final TreeMap<Vector2D, F<UpdateArgs, MovableFraction>> tm = fromMutableMap( ord, map );
+                List<Vector2D> sorted = tm.keys().sort( ord );
+
+                final Vector2D selectedAttachmentPoint = sorted.head();
+
+                //If anything else was at the target, jettison it
+                if ( selectedAttachmentPoint.equals( state.leftScale.getAttachmentPoint() ) ) {
+
+                    //Jettison from the right scale
+                    state = state.jettisonLeftScale();
+                }
 
                 //animate to the closest destination
-                model.set( state.fractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
+                final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
                     @Override public MovableFraction f( final MovableFraction f ) {
-                        HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
-                            put( state.rightScale.center(), MoveToRightScale );
-                            put( state.leftScale.center(), MoveToLeftScale );
-                            put( f.home.position(), MoveToCell( f.home ) );
-                        }};
-                        final Ord<Vector2D> ord = Ord.ord( curry( new F2<Vector2D, Vector2D, Ordering>() {
-                            public Ordering f( final Vector2D u1, final Vector2D u2 ) {
-                                return Ord.<Comparable>comparableOrd().compare( f.position.distance( u1 ), f.position.distance( u2 ) );
-                            }
-                        } ) );
-                        TreeMap<Vector2D, F<UpdateArgs, MovableFraction>> tm = fromMutableMap( ord, map );
-                        List<Vector2D> sorted = tm.keys().sort( ord );
-
-                        return f.dragging ? f.dragging( false ).motion( tm.get( sorted.head() ).some() ) : f;
+                        return f.dragging ? f.dragging( false ).motion( tm.get( selectedAttachmentPoint ).some() ) : f;
                     }
-                } ) ) );
+                } );
+                final MatchingGameState newState = state.fractions( newFractions );
+                model.set( newState );
             }
 
             //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)

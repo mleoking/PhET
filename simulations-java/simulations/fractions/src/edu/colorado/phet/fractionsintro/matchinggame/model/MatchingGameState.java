@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import fj.F;
 import fj.data.List;
+import fj.data.Option;
 import lombok.Data;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -122,5 +123,32 @@ import static fj.data.List.range;
                 return f.stepInTime( new UpdateArgs( f, dt, MatchingGameState.this ) );
             }
         } ) );
+    }
+
+    public Option<MovableFraction> getLeftScaleFraction() {
+        return fractions.find( new F<MovableFraction, Boolean>() {
+            @Override public Boolean f( MovableFraction m ) {
+                return m.position.equals( leftScale.getAttachmentPoint() );
+            }
+        } );
+    }
+
+    public double getLeftScaleValue() {
+        return getLeftScaleFraction().isSome() ? getLeftScaleFraction().some().getValue() : 0.0;
+    }
+
+    public MatchingGameState jettisonLeftScale() {
+        final Option<MovableFraction> leftScaleFraction = getLeftScaleFraction();
+        if ( leftScaleFraction.isSome() ) {
+            return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
+                @Override public MovableFraction f( MovableFraction m ) {
+                    return leftScaleFraction.some().equals( m ) ? m.motion( MoveToCell( m.home ) ) :
+                           m;
+                }
+            } ) );
+        }
+        else {
+            return this;
+        }
     }
 }
