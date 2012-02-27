@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.matchinggame.view;
+package edu.colorado.phet.fractionsintro.matchinggame.view.fractions;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,13 +12,13 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 /**
  * @author Sam Reid
  */
-public class VerticalBarsNode extends RepNode {
-    public VerticalBarsNode( final Fraction fraction, double scale ) {
+public class HorizontalBarsNode extends RepNode {
+    public HorizontalBarsNode( final Fraction fraction, double scale ) {
         this( ModelViewTransform.createIdentity(), fraction );
-        setScale( scale );
+        scale( scale );
     }
 
-    public VerticalBarsNode( ModelViewTransform transform, final Fraction fraction ) {
+    public HorizontalBarsNode( ModelViewTransform transform, final Fraction fraction ) {
         super( transform, fraction );
 
         double width = 75;
@@ -26,9 +26,9 @@ public class VerticalBarsNode extends RepNode {
 
         int numFilledSlices = fraction.numerator;
         int numSlices = fraction.denominator;
-        double sliceWidth = width / numSlices;
+        double sliceHeight = height / numSlices;
         for ( int i = 0; i < numSlices; i++ ) {
-            addChild( new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, height ), i < numFilledSlices ? Color.orange : Color.white, new BasicStroke( 1 ), Color.black ) );
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, i * sliceHeight, width, sliceHeight ), i < numFilledSlices ? Color.orange : Color.white, new BasicStroke( 1 ), Color.black ) );
         }
     }
 }

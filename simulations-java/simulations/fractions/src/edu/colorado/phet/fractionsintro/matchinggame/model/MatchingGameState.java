@@ -13,9 +13,9 @@ import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.HorizontalBarsNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.PieNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.VerticalBarsNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBarsNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -36,8 +36,8 @@ import static fj.data.List.range;
     //Cells where the fractions start
     public final List<Cell> cells;
 
-    public final Scale leftScale = new Scale( 200, 300 );
-    public final Scale rightScale = new Scale( 400, 300 );
+    public final Scale leftScale = new Scale( new ImmutableVector2D( 200, 300 ) );
+    public final Scale rightScale = new Scale( new ImmutableVector2D( 400, 300 ) );
 
     public static MatchingGameState initialState() {
         final List<Cell> cells = createCells( 0, 500, 100, 100, 6, 2 );
@@ -85,13 +85,21 @@ import static fj.data.List.range;
         } ), cells );
     }
 
-    //TODO: Cache nodes as images to improve performance
+    //Create a MovableFraction for the given fraction at the specified cell
     private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node ) {
-        return new MovableFraction( new ImmutableVector2D( cell.rectangle.getCenter() ), numerator, denominator, false, new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
-            @Override public PNode f( Fraction fraction ) {
-                return new PImage( node.f( fraction ).toImage() );
-            }
-        } ) );
+
+        //Cache nodes as images to improve performance
+        return new MovableFraction( new ImmutableVector2D( cell.rectangle.getCenter() ), numerator, denominator, false,
+                                    new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
+                                        @Override public PNode f( Fraction fraction ) {
+                                            return new PImage( node.f( fraction ).toImage() );
+                                        }
+                                    } ),
+                                    new F<UpdateArgs, MovableFraction>() {
+                                        @Override public MovableFraction f( UpdateArgs updateArgs ) {
+                                            return updateArgs.fraction.stepTowards( updateArgs.state.leftScale.position );
+                                        }
+                                    } );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -114,8 +122,7 @@ import static fj.data.List.range;
     public MatchingGameState stepInTime( final double dt ) {
         return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction f ) {
-//                return f.stepInTime( dt );
-                return f;
+                return f.stepInTime( new UpdateArgs( f, dt, MatchingGameState.this ) );
             }
         } ) );
     }

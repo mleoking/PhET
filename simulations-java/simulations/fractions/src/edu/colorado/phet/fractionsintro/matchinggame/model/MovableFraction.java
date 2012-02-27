@@ -29,13 +29,31 @@ import edu.umd.cs.piccolo.PNode;
     //It is a function that creates nodes instead of a single PNode because I am not sure if the same PNode can be used safely in multiple places in a piccolo scene graph
     public transient final F<Fraction, PNode> node;
 
-    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, node );}
+    //Strategy for moving the fraction over time (e.g. toward the scale or back to its original cell)
+    public final F<UpdateArgs, MovableFraction> motion;
+
+    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
 
     public MovableFraction translate( double dx, double dy ) { return position( position.plus( dx, dy ) ); }
 
-    private MovableFraction position( ImmutableVector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, node );}
+    public MovableFraction translate( ImmutableVector2D v ) { return translate( v.getX(), v.getY() ); }
 
-    public Fraction fraction() {
-        return new Fraction( numerator, denominator );
+    private MovableFraction position( ImmutableVector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
+
+    private MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, node, motion );}
+
+    public Fraction fraction() { return new Fraction( numerator, denominator );}
+
+    public MovableFraction stepInTime( UpdateArgs args ) { return motion.f( args ); }
+
+    public MovableFraction stepTowards( ImmutableVector2D position ) {
+        double velocity = 30;
+        final MovableFraction result = translate( position.minus( this.position ).getInstanceOfMagnitude( velocity ) );
+        return result.position.distance( position ) <= velocity ? result.motion( new F<UpdateArgs, MovableFraction>() {
+            @Override public MovableFraction f( UpdateArgs a ) {
+                return a.fraction;
+            }
+        } ) :
+               result;
     }
 }

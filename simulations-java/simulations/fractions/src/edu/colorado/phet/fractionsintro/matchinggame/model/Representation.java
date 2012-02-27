@@ -3,7 +3,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.matchinggame.view.RepNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.RepNode;
 
 /**
  * @author Sam Reid
