@@ -8,8 +8,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 import static edu.colorado.phet.fractionsintro.common.view.Pattern.Direction.*;
 import static fj.data.List.iterableList;
@@ -33,10 +33,10 @@ public class Pattern {
         public static Direction LEFT = new Direction( -1, 0 );
         public static Direction DOWN = new Direction( 0, 1 );
         public static Direction UP = new Direction( 0, -1 );
-        public final ImmutableVector2D vector;
+        public final Vector2D vector;
 
         public Direction( double x, double y ) {
-            this.vector = new ImmutableVector2D( x, y );
+            this.vector = new Vector2D( x, y );
         }
     }
 
@@ -48,7 +48,7 @@ public class Pattern {
 
             private void move( Direction... dir ) {
                 for ( Direction direction : dir ) {
-                    lineToRelative( direction.vector.times( edgeLength ) );
+                    lineToRelative( direction.vector.times( edgeLength ).toImmutableVector2D() );
                 }
             }
         }.getGeneralPath();

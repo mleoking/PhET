@@ -4,7 +4,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 import fj.F;
 import lombok.Data;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 @Data public class MovableFraction {
 
     //The location of the fraction, I haven't decided if this is center or top left
-    public final ImmutableVector2D position;
+    public final Vector2D position;
 
     //Numerator and denominator of the unreduced fraction
     public final int numerator;
@@ -37,11 +37,11 @@ import edu.umd.cs.piccolo.PNode;
 
     public MovableFraction translate( double dx, double dy ) { return position( position.plus( dx, dy ) ); }
 
-    public MovableFraction translate( ImmutableVector2D v ) { return translate( v.getX(), v.getY() ); }
+    public MovableFraction translate( Vector2D v ) { return translate( v.getX(), v.getY() ); }
 
     public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
 
-    public MovableFraction position( ImmutableVector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
+    public MovableFraction position( Vector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
 
     public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
 
@@ -49,7 +49,7 @@ import edu.umd.cs.piccolo.PNode;
 
     public MovableFraction stepInTime( UpdateArgs args ) { return motion.f( args ); }
 
-    public MovableFraction stepTowards( ImmutableVector2D position, double dt ) {
+    public MovableFraction stepTowards( Vector2D position, double dt ) {
         double velocity = 600 * dt;
         final MovableFraction result = translate( position.minus( this.position ).getInstanceOfMagnitude( velocity ) );
         return result.position.distance( position ) <= velocity ? result.motion( new F<UpdateArgs, MovableFraction>() {

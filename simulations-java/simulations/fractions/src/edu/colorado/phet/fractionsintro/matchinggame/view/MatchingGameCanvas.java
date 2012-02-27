@@ -9,13 +9,13 @@ import fj.data.List;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModelOld;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.RepNode;
@@ -66,9 +66,9 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             RepNode node = (RepNode) fractionRepresentation;
 
             if ( node.dropped.get() && !node.dragging.get() && isOverBalancePlatform( node ) && !node.scored.get() ) {
-                ImmutableVector2D acceleration = node.force.times( 1.0 / node.mass );
+                Vector2D acceleration = node.force.times( 1.0 / node.mass );
                 node.velocity.set( node.velocity.get().plus( acceleration.times( dt ) ) );
-                node.setOffset( new ImmutableVector2D( node.getOffset() ).plus( node.velocity.get().times( dt ) ) );
+                node.setOffset( new Vector2D( node.getOffset() ).plus( node.velocity.get().times( dt ) ) );
             }
 
             if ( !node.dragging.get() && node.dropped.get() && !node.scored.get() ) {
@@ -173,7 +173,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     private void updateOnPlatform( RepNode node, double insetY ) {
         if ( node.getOverPlatform() != null ) {
             double deltaY = node.getOverPlatform().getGlobalFullBounds().getMinY() - node.getGlobalFullBounds().getMaxY() - insetY;
-            node.setOffset( new ImmutableVector2D( node.getOffset().getX(), node.getOffset().getY() + deltaY ) );
+            node.setOffset( new Vector2D( node.getOffset().getX(), node.getOffset().getY() + deltaY ) );
         }
     }
 

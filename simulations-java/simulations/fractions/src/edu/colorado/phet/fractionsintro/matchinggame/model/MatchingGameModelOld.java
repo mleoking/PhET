@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -60,8 +60,8 @@ public class MatchingGameModelOld {
         }
     }
 
-    private ImmutableVector2D randomLocation() {
-        return new ImmutableVector2D( random.nextInt( 1000 ), random.nextInt( 600 ) );
+    private Vector2D randomLocation() {
+        return new Vector2D( random.nextInt( 1000 ), random.nextInt( 600 ) );
     }
 
     private Collection<? extends Representation> getRepresentationsForFraction( final Fraction fraction ) {
