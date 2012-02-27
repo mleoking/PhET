@@ -11,12 +11,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.matchinggame.view.FractionRepNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.HorizontalBarsNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.PatternNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.PieNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.RepNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.VerticalBarsNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FractionRepNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.RepNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBarsNode;
 
 import static edu.colorado.phet.fractionsintro.common.view.Pattern.NineGrid;
 import static edu.colorado.phet.fractionsintro.common.view.Pattern.SixPlusSigns;
