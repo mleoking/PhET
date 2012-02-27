@@ -11,6 +11,7 @@ import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
 import edu.umd.cs.piccolo.PNode;
 
 import static java.awt.Color.lightGray;
@@ -22,6 +23,11 @@ import static java.awt.Color.lightGray;
  */
 public class MatchingGameNode extends FNode {
     public MatchingGameNode( final SettableProperty<MatchingGameState> model, final PNode rootNode ) {
+        model.get().scales().map( new F<Scale, PNode>() {
+            @Override public PNode f( Scale s ) {
+                return s.toNode();
+            }
+        } ).foreach( addChild );
         model.get().cells.map( new F<Cell, PNode>() {
             @Override public PNode f( Cell c ) {
                 return new PhetPPath( c.rectangle.toRectangle2D(), new BasicStroke( 1 ), lightGray );
