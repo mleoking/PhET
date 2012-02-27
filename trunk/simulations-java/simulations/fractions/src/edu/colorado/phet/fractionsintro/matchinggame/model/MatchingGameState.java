@@ -44,36 +44,19 @@ import static fj.data.List.range;
 
         //Nodes for filling the cells.
 
-        class SmallFractionNode extends FractionNode {
-            public SmallFractionNode( Fraction fraction ) {
-                this( fraction.numerator, fraction.denominator );
-            }
-
-            public SmallFractionNode( int numerator, int denominator ) {
-                super( numerator, denominator );
-                scale( 0.2 );
-            }
-        }
-
         final F<Fraction, PNode> numericFraction = new F<Fraction, PNode>() {
             @Override public PNode f( Fraction f ) {
-                return new SmallFractionNode( f );
+                return new FractionNode( f, 0.2 );
             }
         };
-
         final F<Fraction, PNode> horizontalBars = new F<Fraction, PNode>() {
             @Override public PNode f( Fraction f ) {
-                return new HorizontalBarsNode( createIdentity(), new Fraction( f.numerator, f.denominator ) ) {{
-                    scale( 0.85 );
-                }};
+                return new HorizontalBarsNode( new Fraction( f.numerator, f.denominator ), 0.85 );
             }
         };
-
         final F<Fraction, PNode> verticalBars = new F<Fraction, PNode>() {
             @Override public PNode f( Fraction f ) {
-                return new VerticalBarsNode( createIdentity(), new Fraction( f.numerator, f.denominator ) ) {{
-                    scale( 0.85 );
-                }};
+                return new VerticalBarsNode( new Fraction( f.numerator, f.denominator ), 0.85 );
             }
         };
 
@@ -127,4 +110,13 @@ import static fj.data.List.range;
     public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells ); }
 
     public List<Scale> scales() { return list( leftScale, rightScale ); }
+
+    public MatchingGameState stepInTime( final double dt ) {
+        return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
+            @Override public MovableFraction f( MovableFraction f ) {
+//                return f.stepInTime( dt );
+                return f;
+            }
+        } ) );
+    }
 }

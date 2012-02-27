@@ -13,6 +13,11 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
  * @author Sam Reid
  */
 public class HorizontalBarsNode extends RepNode {
+    public HorizontalBarsNode( final Fraction fraction, double scale ) {
+        this( ModelViewTransform.createIdentity(), fraction );
+        scale( scale );
+    }
+
     public HorizontalBarsNode( ModelViewTransform transform, final Fraction fraction ) {
         super( transform, fraction );
 
