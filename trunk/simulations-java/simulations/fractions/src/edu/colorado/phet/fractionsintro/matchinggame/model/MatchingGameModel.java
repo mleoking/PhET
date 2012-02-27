@@ -20,7 +20,7 @@ public class MatchingGameModel {
         addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
                 state.set( state.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
-                System.out.println( "Left scale value = " + state.get().getLeftScaleValue() );
+                System.out.println( "Left scale value = " + state.get().getScaleValue( state.get().leftScale ) );
             }
         } );
     }};
