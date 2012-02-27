@@ -46,8 +46,8 @@ import edu.umd.cs.piccolo.PNode;
 
     public MovableFraction stepInTime( UpdateArgs args ) { return motion.f( args ); }
 
-    public MovableFraction stepTowards( ImmutableVector2D position ) {
-        double velocity = 30;
+    public MovableFraction stepTowards( ImmutableVector2D position, double dt ) {
+        double velocity = 600 * dt;
         final MovableFraction result = translate( position.minus( this.position ).getInstanceOfMagnitude( velocity ) );
         return result.position.distance( position ) <= velocity ? result.motion( new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {

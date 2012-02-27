@@ -24,4 +24,6 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
             setOffset( position.getX(), position.getY() );
         }};
     }
+
+    public ImmutableVector2D center() { return position.plus( scale.getWidth() / 2, scale.getHeight() / 2 ); }
 }

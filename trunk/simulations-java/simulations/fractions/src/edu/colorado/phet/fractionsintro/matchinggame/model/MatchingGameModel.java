@@ -16,7 +16,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameSt
  */
 public class MatchingGameModel {
     public final Property<MatchingGameState> state = new Property<MatchingGameState>( initialState() );
-    public Clock clock = new ConstantDtClock() {{
+    public Clock clock = new ConstantDtClock( 60 ) {{
         addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
                 state.set( state.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
