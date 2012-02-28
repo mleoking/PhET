@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
@@ -37,6 +38,11 @@ public class MatchingGameNode extends FNode {
         final MatchingGameState state = model.get();
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
         addChild( scales );
+
+        addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime ) ) {{
+            setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
+        }} );
+
         state.scales().map( new F<Scale, PNode>() {
             @Override public PNode f( Scale s ) {
                 return s.toNode();
@@ -51,14 +57,15 @@ public class MatchingGameNode extends FNode {
             final String string = state.getLeftScaleValue() < state.getRightScaleValue() ? "<" :
                                   state.getLeftScaleValue() > state.getRightScaleValue() ? ">" :
                                   "=";
-            final PNode sign = state.development.outline ? new PhetPPath( new PhetFont( 160, true ).createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), string ).getOutline(), Color.yellow, new BasicStroke( 2 ), Color.black ) :
-                               new PhetPText( string, new PhetFont( 160, true ) );
+            final PhetFont textFont = new PhetFont( 100, true );
+            final PNode sign = state.development.outline ? new PhetPPath( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), string ).getOutline(), Color.yellow, new BasicStroke( 2 ), Color.black ) :
+                               new PhetPText( string, textFont );
             sign.addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
                     model.set( model.get().development( model.get().development.outline( !model.get().development.outline ) ) );
                 }
             } );
-            sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() );
+            sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 20 );
             addChild( sign );
 
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
