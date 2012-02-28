@@ -18,7 +18,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.view.FNode;
+import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Levels;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
@@ -97,5 +99,16 @@ public class MatchingGameNode extends FNode {
                 return new MovableFractionNode( model, f, f.toNode(), rootNode );
             }
         } ).foreach( addChild );
+
+        if ( state.scored == state.scoreCells.length() || true ) {
+            addChild( new HTMLImageButtonNode( "Next", Color.orange ) {{
+                setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
+                addActionListener( new ActionListener() {
+                    @Override public void actionPerformed( ActionEvent e ) {
+                        model.set( MatchingGameState.initialState( state.level + 1, Levels.Levels.get( state.level + 1 ) ) );
+                    }
+                } );
+            }} );
+        }
     }
 }

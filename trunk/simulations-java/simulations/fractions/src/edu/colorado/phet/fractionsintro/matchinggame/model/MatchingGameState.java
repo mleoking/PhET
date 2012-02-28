@@ -9,6 +9,7 @@ import lombok.Data;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Levels.Levels;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Scale;
 import static fj.data.List.list;
@@ -40,12 +41,18 @@ import static fj.data.List.range;
     public final Development development;
 
     //Time (in sim time) of when something was dropped on the scale, for purposes of animating the bar
-    public double leftScaleDropTime;
-    public double rightScaleDropTime;
+    public final double leftScaleDropTime;
+    public final double rightScaleDropTime;
+
+    public final int level;
 
     public static MatchingGameState initialState() {
+        return initialState( 1, Levels.Level1 );
+    }
+
+    public static MatchingGameState initialState( int level, F<List<Cell>, List<MovableFraction>> f ) {
         final List<Cell> cells = createCells( 100, 430, 130, 120, 6, 2, 0, 0 );
-        return new MatchingGameState( new Level1Pool().create( cells ), cells, createCells( 80, 10, 100, 75, 6, 1, 50, 0 ), 0, new Development( true ) );
+        return new MatchingGameState( f.f( cells ), cells, createCells( 80, 10, 100, 75, 6, 1, 50, 0 ), 0, new Development( true ), 0.0, 0.0, level );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -61,11 +68,11 @@ import static fj.data.List.range;
         } );
     }
 
-    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development ); }
+    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development, leftScaleDropTime, rightScaleDropTime, level ); }
 
-    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development ); }
+    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development, leftScaleDropTime, rightScaleDropTime, level ); }
 
-    public MatchingGameState development( Development development ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development ); }
+    public MatchingGameState development( Development development ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development, leftScaleDropTime, rightScaleDropTime, level ); }
 
     public List<Scale> getScales() { return list( leftScale, rightScale ); }
 

@@ -30,7 +30,14 @@ import static fj.data.List.range;
 /**
  * @author Sam Reid
  */
-public class Level1Pool {
+public class Levels {
+
+    public static Levels Levels = new Levels();
+
+    //Singleton, use Levels instance
+    private Levels() {
+    }
+
     //Nodes for filling the cells.
     final F<Fraction, PNode> numeric = new F<Fraction, PNode>() {
         @Override public PNode f( Fraction f ) {
@@ -54,34 +61,7 @@ public class Level1Pool {
         }
     };
 
-    public Level1Pool() {
-    }
-
     public static final Random random = new Random();
-
-    public List<MovableFraction> create( List<Cell> _cells ) {
-        assert _cells.length() % 2 == 0;
-
-        ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( new Fraction[] {
-                new Fraction( 1, 3 ),
-                new Fraction( 2, 3 ),
-                new Fraction( 1, 4 ),
-                new Fraction( 3, 4 ),
-                new Fraction( 1, 2 ),
-                new Fraction( 1, 1 ) } ) );
-
-        ArrayList<MovableFraction> list = new ArrayList<MovableFraction>();
-
-        //Use mutable collection so it can be removed from for drawing without replacement
-        ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
-        while ( list.size() < _cells.length() ) {
-            System.out.println( "cells = " + cells );
-            Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells );
-            list.add( pair._1 );
-            list.add( pair._2 );
-        }
-        return iterableList( list );
-    }
 
     private Pair<MovableFraction, MovableFraction> createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells ) {
 
@@ -126,5 +106,63 @@ public class Level1Pool {
                                         }
                                     } ),
                                     MoveToCell( cell ) );
+    }
+
+    public F<List<Cell>, List<MovableFraction>> Level1 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> _cells ) {
+            assert _cells.length() % 2 == 0;
+
+            ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( new Fraction[] {
+                    new Fraction( 1, 3 ),
+                    new Fraction( 2, 3 ),
+                    new Fraction( 1, 4 ),
+                    new Fraction( 3, 4 ),
+                    new Fraction( 1, 2 ),
+                    new Fraction( 1, 1 ) } ) );
+
+            ArrayList<MovableFraction> list = new ArrayList<MovableFraction>();
+
+            //Use mutable collection so it can be removed from for drawing without replacement
+            ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
+            while ( list.size() < _cells.length() ) {
+                System.out.println( "cells = " + cells );
+                Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells );
+                list.add( pair._1 );
+                list.add( pair._2 );
+            }
+            return iterableList( list );
+        }
+    };
+
+    public F<List<Cell>, List<MovableFraction>> Level2 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> _cells ) {
+            assert _cells.length() % 2 == 0;
+
+            ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( new Fraction[] {
+                    new Fraction( 1, 2 ),
+                    new Fraction( 2, 4 ),
+                    new Fraction( 1, 3 ),
+                    new Fraction( 2, 3 ),
+                    new Fraction( 3, 6 ),
+                    new Fraction( 2, 6 ) } ) );
+
+            ArrayList<MovableFraction> list = new ArrayList<MovableFraction>();
+
+            //Use mutable collection so it can be removed from for drawing without replacement
+            ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
+            while ( list.size() < _cells.length() ) {
+                System.out.println( "cells = " + cells );
+                Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells );
+                list.add( pair._1 );
+                list.add( pair._2 );
+            }
+            return iterableList( list );
+        }
+    };
+
+    public F<List<Cell>, List<MovableFraction>> get( int level ) {
+        return level == 1 ? Level1 :
+               level == 2 ? Level2 :
+               Level1;
     }
 }
