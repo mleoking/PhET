@@ -4,7 +4,12 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 import fj.F;
 import fj.data.List;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
@@ -19,6 +24,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
+import static fj.data.List.iterableList;
 import static fj.data.List.range;
 
 /**
@@ -51,24 +57,62 @@ public class Level1Pool {
     public Level1Pool() {
     }
 
-    public List<MovableFraction> create( List<Cell> cells ) {
-        return cells.map( new F<Cell, MovableFraction>() {
-            @Override public MovableFraction f( Cell c ) {
-                return c.i == 0 && c.j == 0 ? fraction( 2, 3, c, numeric ) :
-                       c.i == 1 && c.j == 0 ? fraction( 3, 4, c, pies ) :
-                       c.i == 2 && c.j == 0 ? fraction( 1, 4, c, numeric ) :
-                       c.i == 3 && c.j == 0 ? fraction( 2, 3, c, horizontalBars ) :
-                       c.i == 4 && c.j == 0 ? fraction( 1, 3, c, pies ) :
-                       c.i == 5 && c.j == 0 ? fraction( 1, 4, c, verticalBars ) :
-                       c.i == 0 && c.j == 1 ? fraction( 2, 3, c, pies ) :
-                       c.i == 1 && c.j == 1 ? fraction( 3, 4, c, numeric ) :
-                       c.i == 2 && c.j == 1 ? fraction( 2, 3, c, verticalBars ) :
-                       c.i == 3 && c.j == 1 ? fraction( 1, 4, c, horizontalBars ) :
-                       c.i == 4 && c.j == 1 ? fraction( 1, 3, c, horizontalBars ) :
-                       c.i == 5 && c.j == 1 ? fraction( 1, 4, c, pies ) :
-                       fraction( 2, 5, c, numeric );
-            }
-        } );
+    public static final Random random = new Random();
+
+    public List<MovableFraction> create( List<Cell> _cells ) {
+        assert _cells.length() % 2 == 0;
+
+        ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( new Fraction[] {
+                new Fraction( 1, 3 ),
+                new Fraction( 2, 3 ),
+                new Fraction( 1, 4 ),
+                new Fraction( 3, 4 ),
+                new Fraction( 1, 2 ),
+                new Fraction( 1, 1 ) } ) );
+
+        ArrayList<MovableFraction> list = new ArrayList<MovableFraction>();
+
+        //Use mutable collection so it can be removed from for drawing without replacement
+        ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
+        while ( list.size() < _cells.length() ) {
+            System.out.println( "cells = " + cells );
+            Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells );
+            list.add( pair._1 );
+            list.add( pair._2 );
+        }
+        return iterableList( list );
+    }
+
+    private Pair<MovableFraction, MovableFraction> createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells ) {
+
+        //choose a fraction
+        Fraction f = fractions.get( random.nextInt( fractions.size() ) );
+
+        //Without replacement, remove the old fraction.
+        fractions.remove( f );
+
+        ArrayList<F<Fraction, PNode>> representations = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+
+        //create 2 representation for it
+        F<Fraction, PNode> representationA = representations.get( random.nextInt( representations.size() ) );
+        final Cell cellA = cells.get( random.nextInt( cells.size() ) );
+        MovableFraction fractionA = fraction( f, cellA, representationA );
+
+        //Don't use the same representation for the 2nd one, and put it in a new cell
+        representations.remove( representationA );
+        cells.remove( cellA );
+
+        final Cell cellB = cells.get( random.nextInt( cells.size() ) );
+        F<Fraction, PNode> representationB = representations.get( random.nextInt( representations.size() ) );
+        MovableFraction fractionB = fraction( f, cellB, representationB );
+
+        cells.remove( cellB );
+
+        return new Pair<MovableFraction, MovableFraction>( fractionA, fractionB );
+    }
+
+    private static MovableFraction fraction( Fraction fraction, Cell cell, final F<Fraction, PNode> node ) {
+        return fraction( fraction.numerator, fraction.denominator, cell, node );
     }
 
     //Create a MovableFraction for the given fraction at the specified cell
