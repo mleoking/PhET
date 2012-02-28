@@ -29,7 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  */
 public class Beam {
 
-    private static final double RIGHT_SEGMENT_WIDTH = 10; // cm, wide enough to be way off the right edge of the play area
+    private static final double RIGHT_SEGMENT_WIDTH = 30; // cm, wide enough to be way off the right edge of the play area
     private static final int MAX_LIGHT_ALPHA = 200; // transparency of light when transmittance is 100%
     private static final int MIN_LIGHT_ALPHA = 20; // min transparency of light when transmittance is non-zero
     private static final Function TRANSMITTANCE_TO_ALPHA = new LinearFunction( 0, 100, MIN_LIGHT_ALPHA, MAX_LIGHT_ALPHA ); // maps %transmittance to transparency
