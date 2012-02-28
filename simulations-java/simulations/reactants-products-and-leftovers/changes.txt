@@ -1,3 +1,4 @@
+2/27/12 #3204, send model message when a new challenge is started in game
 2/27/12 #3204, use plaintext (no html) for substance names in sim-sharing messages, to improve readability
 2/27/12 #3204, sim-sharing for custom radio buttons in Game Settings panel
 2/27/12 #3204, sim-sharing for game buttons
