@@ -89,7 +89,7 @@ import static fj.data.List.range;
                        c.i == 5 && c.j == 1 ? fraction( 5, 9, c, pies ) :
                        fraction( 2, 5, c, numericFraction );
             }
-        } ), cells, createCells( 0, 0, 75, 50, 6, 1, 50, 0 ), new Development( true ) );
+        } ), cells, createCells( 100, 10, 100, 75, 6, 1, 50, 0 ), new Development( true ) );
     }
 
     //Create a MovableFraction for the given fraction at the specified cell
@@ -183,8 +183,9 @@ import static fj.data.List.range;
     public MatchingGameState animateMatchToScoreCell() {
         return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
-                final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( scoreCells.head().rectangle.x, scoreCells.head().rectangle.getCenter().getY() ) );
-                final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( scoreCells.head().rectangle.getMaxX(), scoreCells.head().rectangle.getCenter().getY() ) );
+                double width = m.scale( 0.5 ).toNode().getFullBounds().getWidth();
+                final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( scoreCells.head().rectangle.x + width / 2 + 2, scoreCells.head().rectangle.getCenter().getY() ) );
+                final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( scoreCells.head().rectangle.getMaxX() - width / 2 - 2, scoreCells.head().rectangle.getCenter().getY() ) );
                 final F<UpdateArgs, MovableFraction> shrink = Scale( 0.5 );
                 return isOnScale( leftScale, m ) ? m.motion( composite( moveToLeftSide, shrink ) ) :
                        isOnScale( rightScale, m ) ? m.motion( composite( moveToRightSide, shrink ) ) :
