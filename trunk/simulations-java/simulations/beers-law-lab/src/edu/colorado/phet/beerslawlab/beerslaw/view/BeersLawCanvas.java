@@ -9,6 +9,8 @@ import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.common.view.DebugLocationNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -17,22 +19,25 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BeersLawCanvas extends BLLCanvas {
+public class BeersLawCanvas extends BLLCanvas implements Resettable {
+
+    public static enum LightRepresentation {BEAM, PHOTONS}
+    private final Property<LightRepresentation> lightRepresentation = new Property<LightRepresentation>( LightRepresentation.BEAM );
 
     public BeersLawCanvas( final BeersLawModel model, Frame parentFrame ) {
 
         // Nodes
         PNode lightNode = new LightNode( model.light, model.mvt );
-        PNode lightControlsNode = new LightControlsNode( model.light );
+        PNode lightControlsNode = new LightControlsNode( lightRepresentation );
         PNode solutionControlsNode = new SolutionControlsNode( model.getSolutions(), model.solution );
-        PNode resetAllButtonNode = new ResetAllButtonNode( model, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
+        PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
         PNode rulerNode = new BLLRulerNode( model.ruler, model.mvt );
         PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt, 0.1 /* snapInterval, cm */ );
         PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
         PNode debugLocationNode = new DebugLocationNode( model.mvt );
-        PNode beamNode = new SolidBeamNode( model.beam, model.mvt );
+        PNode beamNode = new SolidBeamNode( model.beam, lightRepresentation, model.mvt );
 
         // Rendering order
         {
@@ -67,5 +72,9 @@ public class BeersLawCanvas extends BLLCanvas {
             debugLocationNode.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - 40,
                                          resetAllButtonNode.getFullBoundsReference().getCenterY() );
         }
+    }
+
+    public void reset() {
+        lightRepresentation.reset();
     }
 }

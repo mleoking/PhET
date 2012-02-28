@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -63,12 +62,12 @@ public class Beam {
         this.centerPaint = new Property<Paint>( Color.WHITE );
         this.rightPaint = new Property<Paint>( Color.WHITE );
 
-        // Make the beam visible when the light is on and set to "beam" view.
+        // Make the beam visible when the light is on.
         visible = new CompositeProperty<Boolean>( new Function0<Boolean>() {
             public Boolean apply() {
-                return light.on.get() && light.representation.get() == LightRepresentation.BEAM;
+                return light.on.get();
             }
-        }, light.on, light.representation );
+        }, light.on );
 
         // update segment shapes
         RichSimpleObserver shapeObserver = new RichSimpleObserver() {

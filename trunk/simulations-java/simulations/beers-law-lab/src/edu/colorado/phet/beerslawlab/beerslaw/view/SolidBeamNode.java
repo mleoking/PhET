@@ -6,8 +6,10 @@ import java.awt.Color;
 import java.awt.Paint;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Beam;
+import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -21,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class SolidBeamNode extends PhetPNode {
 
-    public SolidBeamNode( final Beam beam, ModelViewTransform mvt ) {
+    public SolidBeamNode( final Beam beam, final Property<LightRepresentation> representation, ModelViewTransform mvt ) {
 
         setPickable( false );
         setChildrenPickable( false );
@@ -30,12 +32,13 @@ class SolidBeamNode extends PhetPNode {
         addChild( new SegmentNode( beam.centerShape, beam.centerPaint, mvt ) );
         addChild( new SegmentNode( beam.rightShape, beam.rightPaint, mvt ) );
 
-        // Make this node visible when beam is visible.
-        beam.visible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                setVisible( visible );
+        // Make this node visible when beam is visible and light representation is "beam".
+        RichSimpleObserver observer = new RichSimpleObserver() {
+            @Override public void update() {
+                setVisible( beam.visible.get() && representation.get() == LightRepresentation.BEAM );
             }
-        } );
+        };
+        observer.observe( beam.visible, representation );
     }
 
     // A segment of the beam
