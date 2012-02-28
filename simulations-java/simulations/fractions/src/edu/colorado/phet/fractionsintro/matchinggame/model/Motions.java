@@ -27,12 +27,11 @@ public class Motions {
         }
     };
 
-    public static F<UpdateArgs, MovableFraction> composite( final F<UpdateArgs, MovableFraction>... elements ) {
+    public static F<UpdateArgs, MovableFraction> composite( final F<UpdateArgs, MovableFraction> a, final F<UpdateArgs, MovableFraction> b ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs updateArgs ) {
-                for ( F<UpdateArgs, MovableFraction> element : elements ) {
-                    updateArgs = updateArgs.fraction( element.f( updateArgs ) );
-                }
+                updateArgs = updateArgs.fraction( a.f( updateArgs ) );
+                updateArgs = updateArgs.fraction( b.f( updateArgs ) );
                 return updateArgs.fraction;
             }
         };
