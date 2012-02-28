@@ -222,7 +222,7 @@ function Bucket( initialLocation, color, labelText ) {
     this.height = this.width * 0.5;
 }
 
-Bucket.prototype.draw = function( context ) {
+Bucket.prototype.drawFront = function( context ) {
     var xPos = this.location.x;
     var yPos = this.location.y;
 
@@ -235,7 +235,6 @@ Bucket.prototype.draw = function( context ) {
     context.beginPath();
     context.moveTo( xPos, yPos );
     context.lineTo( xPos + this.width * 0.15, yPos + this.height ); // Left edge.
-//    context.lineTo( xPos + this.width * 0.85, yPos + this.height ); // Bottom.
     context.bezierCurveTo( xPos + this.width * 0.4, yPos + this.height * 1.1, xPos + this.width * 0.6, yPos + this.height * 1.1, xPos + this.width * 0.85, yPos + this.height  ); // Top.
     context.lineTo( xPos + this.width, yPos ); // Right edge.
     context.bezierCurveTo( xPos + this.width * 0.8, yPos + this.height * 0.2, xPos + this.width * 0.2, yPos + this.height * 0.2, xPos, yPos ); // Top.
@@ -250,6 +249,25 @@ Bucket.prototype.draw = function( context ) {
     context.textBaseline = 'middle';
     context.fillText( this.labelText, this.location.x + this.width / 2, this.location.y + this.height / 2 );
 }
+
+Bucket.prototype.drawInterior = function( context ) {
+    var xPos = this.location.x;
+    var yPos = this.location.y;
+
+    // Create the gradient used to portray the interior of the bucket.
+    var gradient = context.createLinearGradient( xPos, yPos, xPos + this.width, yPos );
+    gradient.addColorStop( 0, this.color );
+    gradient.addColorStop( 1, "gray" );
+
+    // Draw the interior of the bucket.
+    context.beginPath();
+    context.moveTo( xPos, yPos );
+    context.bezierCurveTo( xPos + this.width * 0.2, yPos - this.height * 0.2, xPos + this.width * 0.8, yPos - this.height * 0.2, xPos + this.width, yPos  );
+    context.bezierCurveTo( xPos + this.width * 0.8, yPos + this.height * 0.2, xPos + this.width * 0.2, yPos + this.height * 0.2, xPos, yPos  );
+    context.fillStyle = gradient;
+    context.fill();
+}
+
 
 Bucket.prototype.setLocationComponents = function( x, y ) {
     this.location.x = x;
@@ -410,7 +428,8 @@ ResetButton.prototype.containsPoint = function( point ) {
 //-----------------------------------------------------------------------------
 
 
-// Main drawing function.
+// Main drawing function.  This is where the z-ordering, i.e. the layering
+// effect, is created.
 function draw() {
 
     clearBackground();
@@ -425,19 +444,24 @@ function draw() {
     // Draw the reset button.
     resetButton.draw( context );
 
-    // Draw the buckets.
-    neutronBucket.draw( context );
-    protonBucket.draw( context );
-
     // Draw the particles that are in the nucleus.
     for ( var i = 0; i < particlesInNucleus.length; i++ ) {
         particlesInNucleus[i].draw( context );
     }
 
+    // Draw the bucket interiors.  These need to be behind the particles in
+    // the z-order.
+    neutronBucket.drawInterior( context );
+    protonBucket.drawInterior( context );
+
     // Draw particle that is being dragged if there is one.
     if ( particleBeingDragged != null ) {
         particleBeingDragged.draw( context );
     }
+
+    // Draw the fronts of the buckets.
+    neutronBucket.drawFront( context );
+    protonBucket.drawFront( context );
 
     // Draw the nucleus label.
     nucleusLabel.draw( context );
