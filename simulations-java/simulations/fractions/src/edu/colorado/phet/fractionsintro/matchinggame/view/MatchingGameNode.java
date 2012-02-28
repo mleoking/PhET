@@ -82,7 +82,7 @@ public class MatchingGameNode extends FNode {
         } ).foreach( addChild );
         state.fractions.map( new F<MovableFraction, PNode>() {
             @Override public PNode f( final MovableFraction f ) {
-                return new MovableFractionNode( model, f, f.node.f( f.fraction() ), rootNode );
+                return new MovableFractionNode( model, f, f.toNode(), rootNode );
             }
         } ).foreach( addChild );
     }

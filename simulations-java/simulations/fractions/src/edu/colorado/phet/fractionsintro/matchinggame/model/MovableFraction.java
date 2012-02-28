@@ -30,6 +30,9 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
     //The cell where the fraction came from, so it can be animated back there if necessary.
     public final Cell home;
 
+    //Scale for the node, size changes as it animates to the scoring cell
+    public final double scale;
+
     //Way of creating nodes for rendering and doing bounds/layouts.  This is in the model because object locations, bounds, animation are also in the model.
     //It is a function that creates nodes instead of a single PNode because I am not sure if the same PNode can be used safely in multiple places in a piccolo scene graph
     public transient final F<Fraction, PNode> node;
@@ -41,11 +44,13 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
 
     public MovableFraction translate( Vector2D v ) { return translate( v.getX(), v.getY() ); }
 
-    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
+    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion );}
 
-    public MovableFraction position( Vector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
+    public MovableFraction position( Vector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion );}
 
-    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, home, node, motion );}
+    public MovableFraction scale( double scale ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion );}
+
+    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion );}
 
     public Fraction fraction() { return new Fraction( numerator, denominator );}
 
@@ -67,4 +72,18 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
     }
 
     public double getValue() { return ( (double) numerator ) / denominator;}
+
+    public MovableFraction scaleTowards( double scale ) {
+        if ( scale == this.scale ) {
+            return this;
+        }
+        double ds = ( scale - this.scale ) / Math.abs( scale - this.scale ) * 0.01;
+        return scale( this.scale + ds );
+    }
+
+    public PNode toNode() {
+        final PNode node = this.node.f( fraction() );
+        node.setScale( scale );
+        return node;
+    }
 }
