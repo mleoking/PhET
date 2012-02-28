@@ -2,19 +2,26 @@
 package edu.colorado.phet.common.phetcommon.simsharing.components;
 
 import java.awt.AWTEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.changed;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.spinner;
 
 /**
@@ -59,5 +66,34 @@ public class SimSharingJSpinner extends JSpinner {
 
     private void sendUserMessage( ParameterSet parameterSet ) {
         SimSharingManager.sendUserMessage( userComponent, spinner, changed, parameterSet );
+    }
+
+    public static void main( String[] args ) {
+
+        // integer spinner
+        final SimSharingJSpinner spinner = new SimSharingJSpinner( new UserComponent( "testSpinner" ) ) {{
+            setModel( new SpinnerNumberModel( 0, 0, 100, 1 ) );
+            setEditor( new NumberEditor( this ) );
+        }};
+
+        // Test programmatically setting spinner. We don't want this to send a message.
+        final JButton button = new JButton( "set 2" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    spinner.setValue( new Integer(2) );
+                }
+            } );
+        }};
+
+        // frame
+        JFrame frame = new JFrame() {{
+            setContentPane( new JPanel() {{
+                add( spinner );
+                add( button );
+            }} );
+            pack();
+            setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        }};
+        frame.setVisible( true );
     }
 }
