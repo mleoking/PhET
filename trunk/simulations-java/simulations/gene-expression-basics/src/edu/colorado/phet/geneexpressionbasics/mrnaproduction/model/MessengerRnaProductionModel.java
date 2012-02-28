@@ -45,13 +45,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // Class Data
     //------------------------------------------------------------------------
 
-    // Stage size for the mobile biomolecules, which is basically the area in
-    // which the molecules can move.  These are empirically determined such
-    // that the molecules move around primarily in the viewable area, but are
-    // able to move somewhat outside the area too.
-    private static final double BIOMOLECULE_STAGE_WIDTH = 5000; // In picometers.
-    private static final double BIOMOLECULE_STAGE_HEIGHT = 2600; // In picometers.
-
     // Length, in terms of base pairs, of the DNA molecule.
     private static final int NUM_BASE_PAIRS_ON_DNA_STRAND = 500;
 
@@ -252,7 +245,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         // Add the polymerase molecules.  These don't come and go, the
         // concentration of these remains constant in this model.
         for ( int i = 0; i < RNA_POLYMERASE_COUNT; i++ ) {
-            addMobileBiomolecule( new RnaPolymerase( this, generateInitialLocation() ), true );
+            RnaPolymerase rnaPolymerase = new RnaPolymerase( this, new Point2D.Double( 0, 0 ) );
+            rnaPolymerase.setPosition( generateInitialLocation( rnaPolymerase ) );
+            addMobileBiomolecule( rnaPolymerase, true );
         }
     }
 
@@ -286,9 +281,13 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     }
 
     // Generate a random initial location for a biomolecule.
-    private Point2D generateInitialLocation() {
-        double xPos = BIOMOLECULE_STAGE_WIDTH * ( -0.5 + RAND.nextDouble() );
-        double yPos = DnaMolecule.Y_POS + BIOMOLECULE_STAGE_HEIGHT * RAND.nextDouble();
+    private Point2D generateInitialLocation( MobileBiomolecule biomolecule ) {
+        double xMin = moleculeMotionBounds.getBounds2D().getMinX() + biomolecule.getShape().getBounds2D().getWidth() / 2;
+        double yMin = moleculeMotionBounds.getBounds2D().getMinY() + biomolecule.getShape().getBounds2D().getHeight() / 2;
+        double xMax = moleculeMotionBounds.getBounds2D().getMaxX() - biomolecule.getShape().getBounds2D().getWidth() / 2;
+        double yMax = moleculeMotionBounds.getBounds2D().getMaxY() - biomolecule.getShape().getBounds2D().getHeight() / 2;
+        double xPos = xMin + RAND.nextDouble() * (xMax - xMin );
+        double yPos = yMin + RAND.nextDouble() * (yMax - yMin );
         return new Point2D.Double( xPos, yPos );
     }
 
@@ -306,7 +305,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         if ( targetCount > currentCount ) {
             // Add some.
             for ( int i = currentCount; i < targetCount; i++ ) {
-                addMobileBiomolecule( new TranscriptionFactor( this, tcConfig, generateInitialLocation() ), true );
+                TranscriptionFactor transcriptionFactor = new TranscriptionFactor( this, tcConfig, new Point2D.Double( 0, 0 ) );
+                transcriptionFactor.setPosition( generateInitialLocation( transcriptionFactor ) );
+                addMobileBiomolecule( transcriptionFactor, true );
             }
         }
         else if ( targetCount < currentCount ) {
