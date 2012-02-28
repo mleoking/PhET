@@ -1,3 +1,5 @@
+# 1.03.01 (61866) Feb 28, 2012
+2/28/12 #3204, first dev version with data-collection feature
 2/27/12 #3204, add study version to build.properties file
 2/27/12 #3204, sim-sharing message when "invalid value" dialog is opened for spinners
 2/27/12 #3267, sim-sharing fix for spinners
