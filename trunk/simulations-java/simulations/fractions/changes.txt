@@ -1,4 +1,5 @@
-# 0.00.41 (61876) Feb 28, 2012
+Added prototype for matching game
+Buffer audio to avoid mark/reset not supported error
 # 0.00.40 (61737) Feb 24, 2012
 Added special case for half-pies since they should be vertical instead of horizontal (like pies)
 Added bucket/dragging for cake slices
