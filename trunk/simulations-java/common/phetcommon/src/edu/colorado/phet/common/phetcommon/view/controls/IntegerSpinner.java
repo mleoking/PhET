@@ -18,8 +18,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSpinner;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
@@ -90,30 +96,32 @@ public class IntegerSpinner extends SimSharingJSpinner {
             super.commitEdit();
         }
         catch ( ParseException pe ) {
-            handleInvalidValueDelayed();
+            handleInvalidValueDelayed( textField.getText() );
         }
     }
 
     // Workaround for #2218.
-    private void handleInvalidValueDelayed() {
+    private void handleInvalidValueDelayed( final String invalidValue ) {
         Timer t = new Timer( 500, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                handleInvalidValue();
+                handleInvalidValue( invalidValue );
             }
         } );
         t.setRepeats( false );
         t.start();
     }
 
-    private void handleInvalidValue() {
-        textField.setValue( getValue() ); // revert, sync textfield to value
+    private void handleInvalidValue( String invalidValue ) {
+        textField.setValue( getValue() ); // revert, sync text field to value
         Toolkit.getDefaultToolkit().beep();
-        showInvalidValueDialog();
+        showInvalidValueDialog( invalidValue );
     }
 
-    private void showInvalidValueDialog() {
+    private void showInvalidValueDialog( String invalidValue ) {
         Object[] args = { new Integer( range.getMin() ), new Integer( range.getMax() ) };
         String message = MessageFormat.format( PhetCommonResources.getString( "message.valueOutOfRange" ), args );
+        SimSharingManager.sendSystemMessage( SystemComponents.invalidValueDialog, SystemComponentTypes.window, SystemActions.windowOpened,
+                                             ParameterSet.parameterSet( ParameterKeys.value, invalidValue ) );
         PhetOptionPane.showErrorDialog( this, message );
     }
 }
