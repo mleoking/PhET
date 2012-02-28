@@ -37,9 +37,6 @@ import static fj.data.List.range;
     public final Scale leftScale = new Scale( new Vector2D( 220, 300 ) );
     public final Scale rightScale = new Scale( new Vector2D( 570, 300 ) );
 
-    //Flags for development purposes
-    public final Development development;
-
     //Time (in sim time) of when something was dropped on the scale, for purposes of animating the bar
     public final double leftScaleDropTime;
     public final double rightScaleDropTime;
@@ -52,7 +49,7 @@ import static fj.data.List.range;
 
     public static MatchingGameState initialState( int level, F<List<Cell>, List<MovableFraction>> f ) {
         final List<Cell> cells = createCells( 100, 415, 130, 120, 6, 2, 0, 0 );
-        return new MatchingGameState( f.f( cells ), cells, createCells( 80, 10, 100, 75, 6, 1, 50, 0 ), 0, new Development( true ), 0.0, 0.0, level );
+        return new MatchingGameState( f.f( cells ), cells, createCells( 80, 10, 100, 75, 6, 1, 50, 0 ), 0, 0.0, 0.0, level );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -68,11 +65,9 @@ import static fj.data.List.range;
         } );
     }
 
-    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development, leftScaleDropTime, rightScaleDropTime, level ); }
+    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level ); }
 
-    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development, leftScaleDropTime, rightScaleDropTime, level ); }
-
-    public MatchingGameState development( Development development ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development, leftScaleDropTime, rightScaleDropTime, level ); }
+    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level ); }
 
     public List<Scale> getScales() { return list( leftScale, rightScale ); }
 

@@ -25,10 +25,9 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static java.awt.Color.lightGray;
+import static java.awt.Color.yellow;
 
 /**
  * Displays an immutable matching game state
@@ -60,13 +59,7 @@ public class MatchingGameNode extends FNode {
                                   state.getLeftScaleValue() > state.getRightScaleValue() ? ">" :
                                   "=";
             final PhetFont textFont = new PhetFont( 100, true );
-            final PNode sign = state.development.outline ? new PhetPPath( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), string ).getOutline(), Color.yellow, new BasicStroke( 2 ), Color.black ) :
-                               new PhetPText( string, textFont );
-            sign.addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( PInputEvent event ) {
-                    model.set( model.get().development( model.get().development.outline( !model.get().development.outline ) ) );
-                }
-            } );
+            final PNode sign = new PhetPPath( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), string ).getOutline(), yellow, new BasicStroke( 3 ), Color.black );
             sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 10 );
             addChild( sign );
 
