@@ -3,21 +3,16 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.Cuvette;
+import edu.colorado.phet.beerslawlab.beerslaw.model.Beam;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
-import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -33,22 +28,21 @@ class BeamNode extends PhetPNode {
     private static final Function TRANSMITTANCE_TO_ALPHA = new LinearFunction( 0, 100, MIN_LIGHT_ALPHA, MAX_LIGHT_ALPHA ); // maps %transmittance to transparency
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
 
-    public BeamNode( final Light light, Cuvette cuvette, ModelViewTransform mvt, ObservableProperty<Double> percentTransmittance ) {
+    public BeamNode( final Beam beam, ModelViewTransform mvt ) {
 
         setPickable( false );
         setChildrenPickable( false );
 
-        addChild( new LeftSegmentNode( light, cuvette, mvt ) );
-        addChild( new CenterSegmentNode( light, cuvette, mvt, percentTransmittance ) );
-        addChild( new RightSegmentNode( light, cuvette, mvt, percentTransmittance ) );
+        addChild( new LeftSegmentNode( beam, mvt ) );
+        addChild( new CenterSegmentNode( beam, mvt ) );
+        addChild( new RightSegmentNode( beam, mvt ) );
 
-        // Make this node visible when the light is on and type is "beam".
-        final RichSimpleObserver observer = new RichSimpleObserver() {
-            public void update() {
-                setVisible( light.on.get() & light.representation.get() == LightRepresentation.BEAM );
+        // Make this node visible when beam is visible.
+        beam.visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
             }
-        };
-        observer.observe( light.on, light.representation );
+        } );
     }
 
     // Base class for all segments of the beam.
@@ -72,19 +66,19 @@ class BeamNode extends PhetPNode {
     // The left segment, between the light and the left edge of the cuvette.
     private static class LeftSegmentNode extends SegmentNode {
 
-        public LeftSegmentNode( final Light light, Cuvette cuvette, ModelViewTransform mvt ) {
+        public LeftSegmentNode( Beam beam, final ModelViewTransform mvt ) {
 
-            // Distance from light to cuvette is fixed
-            double x = mvt.modelToViewDeltaX( light.location.getX() );
-            double y = mvt.modelToViewDeltaY( light.location.getY() - ( light.lensDiameter / 2 ) );
-            double w = mvt.modelToViewDeltaX( cuvette.location.getX() - light.location.getX() );
-            double h = mvt.modelToViewDeltaY( light.lensDiameter );
-            setPathTo( new Rectangle2D.Double( x, y, w, h ) );
+            // Shape
+            beam.leftShape.addObserver( new VoidFunction1<ImmutableRectangle2D>() {
+                public void apply( ImmutableRectangle2D r ) {
+                    setPathTo( mvt.modelToView( r ).toRectangle2D() );
+                }
+            } );
 
-            // Set the color to match the light's wavelength
-            light.wavelength.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double wavelength ) {
-                    setBeamPaint( ColorUtils.createColor( new VisibleColor( wavelength ), MAX_LIGHT_ALPHA ) );
+            // Paint
+            beam.leftPaint.addObserver( new VoidFunction1<Paint>() {
+                public void apply( Paint paint ) {
+                    setBeamPaint( paint );
                 }
             } );
         }
@@ -93,78 +87,42 @@ class BeamNode extends PhetPNode {
     // The center segment, the portion that passes through the solution in the cuvette.
     private static class CenterSegmentNode extends SegmentNode {
 
-        public CenterSegmentNode( final Light light, final Cuvette cuvette, final ModelViewTransform mvt, final ObservableProperty<Double> percentTransmittance ) {
+        public CenterSegmentNode( Beam beam, final ModelViewTransform mvt ) {
 
-            // resize the beam when the path length (cuvette width) changes
-            cuvette.width.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double width ) {
-                    if ( percentTransmittance.get() == 0 ) {
-                        setPathTo( new Rectangle2D.Double() );
-                    }
-                    else {
-                        double x = mvt.modelToViewDeltaX( cuvette.location.getX() );
-                        double y = mvt.modelToViewDeltaY( light.location.getY() - ( light.lensDiameter / 2 ) );
-                        double w = mvt.modelToViewDeltaX( cuvette.width.get() );
-                        double h = mvt.modelToViewDeltaY( light.lensDiameter );
-                        setPathTo( new Rectangle2D.Double( x, y, w, h ) );
-                    }
+            // Shape
+            beam.centerShape.addObserver( new VoidFunction1<ImmutableRectangle2D>() {
+                public void apply( ImmutableRectangle2D r ) {
+                    setPathTo( mvt.modelToView( r ).toRectangle2D() );
                 }
             } );
 
-            // Set the color to a gradient that corresponds to the wavelength and %transmittance, gradually fading from left-to-right
-            RichSimpleObserver colorUpdater = new RichSimpleObserver() {
-                @Override public void update() {
-                    if ( percentTransmittance.get() == 0 ) {
-                        setBeamPaint( INVISIBLE_COLOR );
-                    }
-                    else {
-                        final double wavelength = light.wavelength.get();
-                        Color leftColor = ColorUtils.createColor( new VisibleColor( wavelength ), MAX_LIGHT_ALPHA );
-                        Color rightColor = ColorUtils.createColor( new VisibleColor( wavelength ), (int) TRANSMITTANCE_TO_ALPHA.evaluate( percentTransmittance.get() ) );
-                        double x = mvt.modelToViewDeltaX( cuvette.location.getX() );
-                        double w = mvt.modelToViewDeltaX( cuvette.width.get() );
-                        setBeamPaint( new GradientPaint( (float) x, 0, leftColor, (float) ( x + w ), 0, rightColor ) );
-                    }
+            // Paint
+            beam.centerPaint.addObserver( new VoidFunction1<Paint>() {
+                public void apply( Paint paint ) {
+                    setBeamPaint( paint );
                 }
-            };
-            colorUpdater.observe( light.wavelength, percentTransmittance, cuvette.width );
+            } );
         }
     }
 
     // The right segment, portion that has passed through the cuvette
     private static class RightSegmentNode extends SegmentNode {
 
-        public RightSegmentNode( final Light light, final Cuvette cuvette, final ModelViewTransform mvt, final ObservableProperty<Double> percentTransmittance ) {
+        public RightSegmentNode( Beam beam, final ModelViewTransform mvt ) {
 
-            // resize the beam when the path length (cuvette width) changes
-            cuvette.width.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double width ) {
-                    if ( percentTransmittance.get() == 0 ) {
-                        setPathTo( new Rectangle2D.Double() );
-                    }
-                    else {
-                        double x = mvt.modelToViewDeltaX( cuvette.location.getX() + cuvette.width.get() );
-                        double y = mvt.modelToViewDeltaY( light.location.getY() - ( light.lensDiameter / 2 ) );
-                        double w = mvt.modelToViewDeltaX( 100 ); // very long, so that the end is way off to the right of the play area
-                        double h = mvt.modelToViewDeltaY( light.lensDiameter );
-                        setPathTo( new Rectangle2D.Double( x, y, w, h ) );
-                    }
+            // Shape
+            beam.rightShape.addObserver( new VoidFunction1<ImmutableRectangle2D>() {
+                public void apply( ImmutableRectangle2D r ) {
+                    setPathTo( mvt.modelToView( r ).toRectangle2D() );
                 }
             } );
 
-            // Set the color to match the wavelength and transmittance.
-            RichSimpleObserver updateColor = new RichSimpleObserver() {
-                @Override public void update() {
-                    if ( percentTransmittance.get() == 0 ) {
-                        setBeamPaint( INVISIBLE_COLOR );
-                    }
-                    else {
-                        Color color = new VisibleColor( light.wavelength.get() );
-                        setBeamPaint( ColorUtils.createColor( color, (int) TRANSMITTANCE_TO_ALPHA.evaluate( percentTransmittance.get() ) ) );
-                    }
+            // Paint
+            beam.rightPaint.addObserver( new VoidFunction1<Paint>() {
+                public void apply( Paint paint ) {
+                    setBeamPaint( paint );
                 }
-            };
-            updateColor.observe( light.wavelength, percentTransmittance );
+            } );
         }
     }
 }

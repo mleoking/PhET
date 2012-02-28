@@ -8,7 +8,6 @@ DESIGN
 
 HIGH
 - Beers: collision detection for probe, don't allow dragging into cuvette
-- Beers: should there be a model of light beam? view only right now
 - Beers: make detector aware of whether it's in beam, and which part of the beam it's in
 - Beers: detector only reads value when entire beam is fully hitting detector
 - Beers: implement photon view, create a believable algorithm for how they are absorbed as they pass through solution (#2620, improve PhotonImageFactory)

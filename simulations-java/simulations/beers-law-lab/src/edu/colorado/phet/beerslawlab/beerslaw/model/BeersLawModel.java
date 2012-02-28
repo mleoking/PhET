@@ -34,6 +34,7 @@ public class BeersLawModel implements Resettable {
     private final ArrayList<BeersLawSolution> solutions; // the supported set of solutions
     public final Property<BeersLawSolution> solution; // the selected solution
     public final Light light;
+    public final Beam beam;
     public final ModelViewTransform mvt;
     public final Cuvette cuvette;
     public final ATDetector detector;
@@ -133,6 +134,8 @@ public class BeersLawModel implements Resettable {
 
         //TODO compute drag bounds to match the stage size
         this.ruler = new Ruler( 2, 0.35, new ImmutableVector2D( 3, 4.9 ), new PBounds( 0, 1, 8, 4.5 ) );
+
+        this.beam = new Beam( light, cuvette, detector, percentTransmittance, mvt );
     }
 
     public void reset() {
