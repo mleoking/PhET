@@ -128,7 +128,6 @@ public class Levels {
         //Use mutable collection so it can be removed from for drawing without replacement
         ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
         while ( list.size() < _cells.length() ) {
-            System.out.println( "cells = " + cells );
             Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells, representations );
             list.add( pair._1 );
             list.add( pair._2 );

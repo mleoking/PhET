@@ -1,3 +1,4 @@
+Show the name of the next level
 Fixed: Shouldn't be able to drag pieces out of the scoreboard
 # 0.00.42 (61921) Feb 28, 2012
 Moved the matching grid up a little to give it more negative space on the bottom

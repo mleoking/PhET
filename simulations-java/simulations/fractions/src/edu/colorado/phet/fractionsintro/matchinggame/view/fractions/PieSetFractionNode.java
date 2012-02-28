@@ -91,17 +91,6 @@ public class PieSetFractionNode extends VisibilityNode {
         }.observe( containerSet );
     }
 
-//    public static void addListener( PNode node, final Property<ContainerState> containerState, final CellPointer cp ) {
-//        node.addInputEventListener( new CursorHandler() );
-//        node.addInputEventListener( new PBasicInputEventHandler() {
-//            @Override public void mouseReleased( PInputEvent event ) {
-//                FractionsIntroModel.setUserToggled( true );
-//                containerState.set( containerState.get().toggle( cp ) );
-//                FractionsIntroModel.setUserToggled( false );
-//            }
-//        } );
-//    }
-
     @Override public CellPointer getClosestOpenCell( final Shape globalShape, final Point2D center2D ) {
         final fj.data.List<CellPointer> emptyCells = containerSet.get().getEmptyCells().filter( new F<CellPointer, Boolean>() {
             @Override public Boolean f( CellPointer cellPointer ) {
@@ -110,7 +99,6 @@ public class PieSetFractionNode extends VisibilityNode {
                 final boolean intersects = !( new Area( pieceShape ) {{
                     intersect( new Area( globalShape ) );
                 }}.isEmpty() );
-                //                System.out.println( "cellPointer = " + cellPointer + ", pieceShape = " + pieceShape.getBounds2D() + ", globalShape = " + globalShape.getBounds2D() + ", intersects = " + intersects );
                 //Only find pieces that overlap
                 return intersects;
             }
