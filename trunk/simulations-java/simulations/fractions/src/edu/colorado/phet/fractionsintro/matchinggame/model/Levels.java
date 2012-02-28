@@ -22,7 +22,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBars
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static fj.data.List.iterableList;
 import static fj.data.List.range;
@@ -54,10 +53,9 @@ public class Levels {
             return new VerticalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9 );
         }
     };
-
     final F<Fraction, PNode> pies = new F<Fraction, PNode>() {
         @Override public PNode f( Fraction fraction ) {
-            return new PieNode( createIdentity(), fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ) );
+            return new PieNode( fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ) );
         }
     };
 
