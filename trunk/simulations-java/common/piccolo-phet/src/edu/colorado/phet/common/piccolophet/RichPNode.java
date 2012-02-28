@@ -14,8 +14,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class RichPNode extends PNode {
-    public RichPNode() {
-        super();
+
+    public RichPNode( PNode... children ) {
+        for ( PNode child : children ) {
+            addChild( child );
+        }
     }
 
     /*

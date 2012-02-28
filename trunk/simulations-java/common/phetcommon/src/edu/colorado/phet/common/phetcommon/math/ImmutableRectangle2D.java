@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.math;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * Immutable Rectangle2D class, suitable for usage in <code>Property<ImmutableRectangle2D></code> pattern, which also adds convenience methods missing from awt's Rectangle2D.
@@ -107,4 +108,6 @@ public class ImmutableRectangle2D {
     }
 
     public ImmutableRectangle2D union( ImmutableRectangle2D immutableRectangle2D1 ) { return new ImmutableRectangle2D( toRectangle2D().createUnion( immutableRectangle2D1.toRectangle2D() ) ); }
+
+    public RoundRectangle2D.Double toRoundedRectangle( double arcW, double arcH ) { return new RoundRectangle2D.Double( x, y, width, height, arcW, arcH ); }
 }
