@@ -235,9 +235,9 @@ Bucket.prototype.drawFront = function( context ) {
     context.beginPath();
     context.moveTo( xPos, yPos );
     context.lineTo( xPos + this.width * 0.15, yPos + this.height ); // Left edge.
-    context.bezierCurveTo( xPos + this.width * 0.4, yPos + this.height * 1.1, xPos + this.width * 0.6, yPos + this.height * 1.1, xPos + this.width * 0.85, yPos + this.height  ); // Top.
+    context.bezierCurveTo( xPos + this.width * 0.4, yPos + this.height * 1.1, xPos + this.width * 0.6, yPos + this.height * 1.1, xPos + this.width * 0.85, yPos + this.height  );
     context.lineTo( xPos + this.width, yPos ); // Right edge.
-    context.bezierCurveTo( xPos + this.width * 0.8, yPos + this.height * 0.2, xPos + this.width * 0.2, yPos + this.height * 0.2, xPos, yPos ); // Top.
+    context.bezierCurveTo( xPos + this.width * 0.9, yPos + this.height * 0.2, xPos + this.width * 0.1, yPos + this.height * 0.2, xPos, yPos ); // Top.
     context.closePath();
     context.fillStyle = gradient;
     context.fill();
@@ -262,8 +262,8 @@ Bucket.prototype.drawInterior = function( context ) {
     // Draw the interior of the bucket.
     context.beginPath();
     context.moveTo( xPos, yPos );
-    context.bezierCurveTo( xPos + this.width * 0.2, yPos - this.height * 0.2, xPos + this.width * 0.8, yPos - this.height * 0.2, xPos + this.width, yPos  );
-    context.bezierCurveTo( xPos + this.width * 0.8, yPos + this.height * 0.2, xPos + this.width * 0.2, yPos + this.height * 0.2, xPos, yPos  );
+    context.bezierCurveTo( xPos + this.width * 0.1, yPos - this.height * 0.2, xPos + this.width * 0.9, yPos - this.height * 0.2, xPos + this.width, yPos  );
+    context.bezierCurveTo( xPos + this.width * 0.9, yPos + this.height * 0.2, xPos + this.width * 0.1, yPos + this.height * 0.2, xPos, yPos  );
     context.fillStyle = gradient;
     context.fill();
 }
