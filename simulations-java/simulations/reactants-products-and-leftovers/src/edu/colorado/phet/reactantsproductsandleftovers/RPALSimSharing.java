@@ -33,11 +33,11 @@ public class RPALSimSharing {
     }
 
     public static enum ModelActions implements IModelAction {
-        newChallenge
+        created
     }
 
     public static enum ParameterKeys implements IParameterKey {
-        formula, coefficients
+        formula, quantities
     }
 
 }
