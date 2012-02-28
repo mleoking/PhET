@@ -14,8 +14,6 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -35,7 +33,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
 public class SimSharingJSpinner extends JSpinner {
 
     private final IUserComponent userComponent;
-    private boolean buttonPressed;
+    private boolean userInteraction;
 
     public SimSharingJSpinner( IUserComponent userComponent, SpinnerModel model ) {
         super( model );
@@ -49,7 +47,7 @@ public class SimSharingJSpinner extends JSpinner {
     }
 
     private void init() {
-        initButtonListener();
+        initListeners();
         enableMouseEvents();
     }
 
@@ -60,10 +58,10 @@ public class SimSharingJSpinner extends JSpinner {
      * method adds a listener that sets buttonPressed=true when one of the buttons
      * is pressed. A message will be sent only if buttonPressed=true in fireStateChanged.
      */
-    private void initButtonListener() {
+    private void initListeners() {
         ActionListener listener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                buttonPressed = true;
+                userInteraction = true;
             }
         };
         for ( Component child : getComponents() ) {
@@ -71,6 +69,7 @@ public class SimSharingJSpinner extends JSpinner {
                 ( (JButton) child ).addActionListener( listener );
             }
         }
+        //TODO how to handle (1) button press-and-hold, and (2) text field commit?
     }
 
     //Make sure processMouseEvent gets called even if no listeners registered.  See http://www.dickbaldwin.com/java/Java102.htm#essential_ingredients_for_extending_exis
@@ -89,10 +88,10 @@ public class SimSharingJSpinner extends JSpinner {
     }
 
     @Override protected void fireStateChanged() {
-        if ( buttonPressed ) {
-        sendUserMessage( parameterSet( value, getValue().toString() ) );
+        if ( userInteraction ) {
+            sendUserMessage( parameterSet( value, getValue().toString() ) );
         }
-        buttonPressed = false;
+        userInteraction = false;
         super.fireStateChanged();
     }
 
