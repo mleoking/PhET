@@ -14,6 +14,7 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumDi
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumPermanganateSolution;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -48,7 +49,7 @@ public class BeersLawModel implements Resettable {
     // % Transmittance model
     public final CompositeProperty<Double> percentTransmittance;
 
-    public BeersLawModel() {
+    public BeersLawModel( IClock clock ) {
 
         // No offset, scale 125x when going from model to view (1cm == 125 pixels)
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 125 );
