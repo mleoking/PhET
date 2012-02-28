@@ -35,6 +35,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library type="flex">
+        <properties id="b1fd9134-21d0-4222-baed-04a5bd71b703" />
         <CLASSES>
           <root url="file://$MODULE_DIR$/../../simulations-flash/common-as3/src" />
         </CLASSES>
