@@ -5,6 +5,8 @@ DEADLINES
 
 DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
+- detector wire gets in the way of cuvette arrow, move arrow to top of cuvette?
+- constrain probe to horizontal movement so that it's always aligned with beam?
 
 HIGH
 - Beers: implement photon view, create a believable algorithm for how they are absorbed as they pass through solution (#2620, improve PhotonImageFactory)
