@@ -20,6 +20,11 @@ public class ATDetector {
 
     public static enum ATDetectorMode {PERCENT_TRANSMITTANCE, ABSORBANCE}
 
+    private final Light light;
+    private final Cuvette cuvette;
+    private final ObservableProperty<Double> absorbance;
+    private final ObservableProperty<Double> percentTransmittance;
+
     public final CompositeProperty<Double> value; // null if no value is detected
     public final Movable body;
     public final Movable probe;
@@ -28,30 +33,24 @@ public class ATDetector {
 
     public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
                        ImmutableVector2D probeLocation, PBounds probeDragBounds,
-                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> percentTransmittance,
-                       final Light light ) {
+                       final Light light, final Cuvette cuvette,
+                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> percentTransmittance ) {
+
+        this.light = light;
+        this.cuvette = cuvette;
+        this.absorbance = absorbance;
+        this.percentTransmittance = percentTransmittance;
 
         this.body = new Movable( bodyLocation, bodyDragBounds );
         this.probe = new Movable( probeLocation, probeDragBounds );
         this.probeDiameter = 0.57; // cm, specific to the probe image file
 
-        //TODO this should also be a function of the detector's probe location
         // update the value that is displayed by the detector
         this.value = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
-                if ( light.on.get() ) {
-                    if ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) {
-                        return percentTransmittance.get();
-                    }
-                    else {
-                        return absorbance.get();
-                    }
-                }
-                else {
-                    return null;
-                }
+                return computeValue();
             }
-        }, absorbance, percentTransmittance, light.on, mode );
+        }, probe.location, cuvette.width, light.on, mode, absorbance, percentTransmittance );
     }
 
     public void reset() {
@@ -60,11 +59,61 @@ public class ATDetector {
         this.mode.reset();
     }
 
-    public double getProbeMinY() {
+    /*
+     * Display:
+     * - A=0 and %T=100 to the left of the cuvette.
+     * - nothing inside the cuvette.
+     * - A and %T to the right of the cuvette.
+     */
+    private Double computeValue() {
+        Double value = null;
+        if ( light.on.get() ) {
+            if ( probeInLeftSegment() ) {
+                value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? 100d : 0d;
+            }
+            else if ( probeInCenterSegment() ) {
+                // display nothing inside the cuvette
+                value = null;
+            }
+            else if ( probeInRightSegment() ) {
+                value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? percentTransmittance.get() : absorbance.get();
+            }
+        }
+        return value;
+    }
+
+    private double getProbeMinY() {
         return probe.location.get().getY() - ( probeDiameter / 2 );
     }
 
-    public double getProbeMaxY() {
+    private double getProbeMaxY() {
         return probe.location.get().getY() + ( probeDiameter / 2 );
+    }
+
+    // Is the probe in the left segment?
+    public boolean probeInLeftSegment() {
+        return probeInBeam() &&
+               ( probe.location.get().getX() > light.location.getX() ) &&
+               ( probe.location.get().getX() < cuvette.location.getX() );
+    }
+
+    // Is the probe in the center segment?
+    public boolean probeInCenterSegment() {
+        return probeInBeam() &&
+               ( probe.location.get().getX() >= cuvette.location.getX() ) &&
+               ( probe.location.get().getX() <= cuvette.location.getX() + cuvette.width.get() );
+
+    }
+
+    // Is the probe in the right segment?
+    public boolean probeInRightSegment() {
+        return probeInBeam() && ( probe.location.get().getX() > cuvette.location.getX() + cuvette.width.get() );
+    }
+
+    // Is the probe in some segment of the beam?
+    private boolean probeInBeam() {
+        return ( getProbeMinY() < light.getMinY() ) &&
+               ( getProbeMaxY() > light.getMaxY() ) &&
+               ( probe.location.get().getX() > light.location.getX() );
     }
 }

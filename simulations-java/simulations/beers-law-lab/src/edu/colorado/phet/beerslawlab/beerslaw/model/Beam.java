@@ -149,7 +149,7 @@ public class Beam {
         final double probeX = detector.probe.location.get().getX();
 
         // left segment
-        if ( probeInLeftSegment() ) {
+        if ( detector.probeInLeftSegment() ) {
             leftShape.set( new ImmutableRectangle2D( lightX, lightMinY, probeX - lightX, lightHeight ) );
         }
         else {
@@ -157,11 +157,11 @@ public class Beam {
         }
 
         // center segment
-        if ( probeInLeftSegment() ) {
+        if ( detector.probeInLeftSegment() ) {
             // this segment doesn't exist
             centerShape.set( new ImmutableRectangle2D( 0, 0 ) );
         }
-        else if ( probeInCenterSegment() ) {
+        else if ( detector.probeInCenterSegment() ) {
             // probe is interacting with this segment
             centerShape.set( new ImmutableRectangle2D( cuvetteMinX, lightMinY, probeX - cuvetteMinX, lightHeight ) );
         }
@@ -171,11 +171,11 @@ public class Beam {
         }
 
         // right segment
-        if ( probeInLeftSegment() || probeInCenterSegment() ) {
+        if ( detector.probeInLeftSegment() || detector.probeInCenterSegment() ) {
             // this segment doesn't exist
             rightShape.set( new ImmutableRectangle2D( 0, 0 ) );
         }
-        else if ( probeInRightSegment() ) {
+        else if ( detector.probeInRightSegment() ) {
             // probe is interacting with this segment
             rightShape.set( new ImmutableRectangle2D( cuvetteMaxX, lightMinY, probeX - cuvetteMaxX, lightHeight ) );
         }
@@ -183,32 +183,5 @@ public class Beam {
             // probe is not interacting with this segment
             rightShape.set( new ImmutableRectangle2D( cuvetteMaxX, lightMinY, RIGHT_SEGMENT_WIDTH, lightHeight ) );
         }
-    }
-
-    // Is the probe in the left segment?
-    private boolean probeInLeftSegment() {
-        return probeInBeam() &&
-               ( detector.probe.location.get().getX() > light.location.getX() ) &&
-               ( detector.probe.location.get().getX() < cuvette.location.getX() );
-    }
-
-    // Is the probe in the center segment?
-    private boolean probeInCenterSegment() {
-        return probeInBeam() &&
-               ( detector.probe.location.get().getX() >= cuvette.location.getX() ) &&
-               ( detector.probe.location.get().getX() <= cuvette.location.getX() + cuvette.width.get() );
-
-    }
-
-    // Is the probe in the right segment?
-    private boolean probeInRightSegment() {
-        return probeInBeam() && ( detector.probe.location.get().getX() > cuvette.location.getX() + cuvette.width.get() );
-    }
-
-    // Is the probe in some segment of the beam?
-    private boolean probeInBeam() {
-        return ( detector.getProbeMinY() < light.getMinY() ) &&
-               ( detector.getProbeMaxY() > light.getMaxY() ) &&
-               ( detector.probe.location.get().getX() > light.location.getX() );
     }
 }

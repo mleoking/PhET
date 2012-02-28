@@ -36,11 +36,11 @@ public class BeersLawCanvas extends BLLCanvas {
 
         // Rendering order
         {
-            addChild( lightNode );
             addChild( lightControlsNode );
             addChild( resetAllButtonNode );
             addChild( cuvetteNode );
             addChild( detectorNode );
+            addChild( lightNode );
             addChild( beamNode );
             addChild( rulerNode );
             addChild( solutionControlsNode );
