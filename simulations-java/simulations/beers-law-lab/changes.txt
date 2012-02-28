@@ -1,3 +1,5 @@
+2/28/12 add stub for photon view
+2/28/12 add clock to Beers model, in preparation for animating photons
 2/28/12 move LightRepresentation property to view
 2/28/12 fix rendering order so that behavior looks plausible when probe is close to light
 2/28/12 display correct value on AT detector based on its location

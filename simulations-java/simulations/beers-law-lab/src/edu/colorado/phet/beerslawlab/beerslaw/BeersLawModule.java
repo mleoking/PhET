@@ -18,6 +18,6 @@ public class BeersLawModule extends BLLModule {
 
     public BeersLawModule( Frame parentFrame ) {
         super( UserComponents.beersLawTab, Strings.TAB_BEERS_LAW );
-        setSimulationPanel( new BeersLawCanvas( new BeersLawModel(), parentFrame ) );
+        setSimulationPanel( new BeersLawCanvas( new BeersLawModel( getClock() ), parentFrame ) );
     }
 }

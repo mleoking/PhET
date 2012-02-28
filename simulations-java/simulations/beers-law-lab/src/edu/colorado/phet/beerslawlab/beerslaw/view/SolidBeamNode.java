@@ -33,12 +33,12 @@ class SolidBeamNode extends PhetPNode {
         addChild( new SegmentNode( beam.rightShape, beam.rightPaint, mvt ) );
 
         // Make this node visible when beam is visible and light representation is "beam".
-        RichSimpleObserver observer = new RichSimpleObserver() {
+        RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
             @Override public void update() {
                 setVisible( beam.visible.get() && representation.get() == LightRepresentation.BEAM );
             }
         };
-        observer.observe( beam.visible, representation );
+        visibilityObserver.observe( beam.visible, representation );
     }
 
     // A segment of the beam
