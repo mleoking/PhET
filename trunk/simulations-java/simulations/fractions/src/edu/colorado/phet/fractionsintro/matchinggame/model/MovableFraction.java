@@ -77,7 +77,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
         if ( scale == this.scale ) {
             return this;
         }
-        double ds = ( scale - this.scale ) / Math.abs( scale - this.scale ) * 0.01;
+        double ds = ( scale - this.scale ) / Math.abs( scale - this.scale ) * 0.02;
         return scale( this.scale + ds );
     }
 
