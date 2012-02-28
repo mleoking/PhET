@@ -2,6 +2,7 @@
 package edu.colorado.phet.beerslawlab.beerslaw.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -12,20 +13,16 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Light {
-
-    public static enum LightRepresentation {BEAM, PHOTONS}
+public class Light implements Resettable {
 
     public final ImmutableVector2D location;
     public final Property<Boolean> on;
-    public final Property<LightRepresentation> representation;
     public final Property<Double> wavelength; // nm
     public final double lensDiameter; // cm
 
-    public Light( ImmutableVector2D location, boolean on, LightRepresentation representation, double lensDiameter, final Property<BeersLawSolution> solution ) {
+    public Light( ImmutableVector2D location, boolean on, double lensDiameter, final Property<BeersLawSolution> solution ) {
         this.location = location;
         this.on = new Property<Boolean>( on );
-        this.representation = new Property<LightRepresentation>( representation );
         this.wavelength = new Property<Double>( solution.get().lambdaMax );
         this.lensDiameter = lensDiameter;
 
@@ -43,5 +40,9 @@ public class Light {
 
     public double getMaxY() {
         return location.getY() + ( lensDiameter / 2 );
+    }
+
+    public void reset() {
+        on.reset();
     }
 }

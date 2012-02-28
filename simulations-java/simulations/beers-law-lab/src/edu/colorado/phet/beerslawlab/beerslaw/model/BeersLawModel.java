@@ -12,7 +12,6 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.NickelIIChl
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumChromateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumDichromateSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumPermanganateSolution;
-import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
@@ -67,7 +66,7 @@ public class BeersLawModel implements Resettable {
         }};
         this.solution = new Property<BeersLawSolution>( solutions.get( 0 ) );
 
-        this.light = new Light( new ImmutableVector2D( 1.5, 2.2 ), false, LightRepresentation.BEAM, 0.45, solution );
+        this.light = new Light( new ImmutableVector2D( 1.5, 2.2 ), false, 0.45, solution );
 
         this.cuvette = new Cuvette( new ImmutableVector2D( light.location.getX() + 1.5, 1.25 ), 1.0, 2.75, new DoubleRange( 0.5, 2.0 ) );
 
@@ -143,6 +142,7 @@ public class BeersLawModel implements Resettable {
             solution.reset();
         }
         solution.reset();
+        light.reset();
         cuvette.reset();
         detector.reset();
         ruler.reset();

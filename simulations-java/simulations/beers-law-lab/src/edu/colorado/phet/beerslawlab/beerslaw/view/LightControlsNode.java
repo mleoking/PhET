@@ -6,11 +6,11 @@ import java.text.MessageFormat;
 
 import javax.swing.JLabel;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
-import edu.colorado.phet.beerslawlab.beerslaw.model.Light.LightRepresentation;
+import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.LightRepresentation;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Control panel for the light.
@@ -29,14 +28,14 @@ class LightControlsNode extends PNode {
 
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
-    public LightControlsNode( Light light ) {
+    public LightControlsNode( Property<LightRepresentation> lightRepresentation ) {
 
         // Beam vs Photons radio buttons
         JLabel lightViewLabel = new JLabel( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.LIGHT_VIEW ) );
         lightViewLabel.setFont( FONT );
-        PropertyRadioButton<LightRepresentation> beamRadioButton = new PropertyRadioButton<LightRepresentation>( UserComponents.beamRadioButton, Strings.BEAM, light.representation, Light.LightRepresentation.BEAM );
+        PropertyRadioButton<LightRepresentation> beamRadioButton = new PropertyRadioButton<LightRepresentation>( UserComponents.beamRadioButton, Strings.BEAM, lightRepresentation, LightRepresentation.BEAM );
         beamRadioButton.setFont( FONT );
-        PropertyRadioButton<LightRepresentation> photonsRadioButton = new PropertyRadioButton<LightRepresentation>( UserComponents.photonsRadioButton, Strings.PHOTONS, light.representation, Light.LightRepresentation.PHOTONS );
+        PropertyRadioButton<LightRepresentation> photonsRadioButton = new PropertyRadioButton<LightRepresentation>( UserComponents.photonsRadioButton, Strings.PHOTONS, lightRepresentation, LightRepresentation.PHOTONS );
         photonsRadioButton.setFont( FONT );
 
         // Panel
