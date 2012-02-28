@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -52,12 +55,25 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                 // See if we have been attached long enough.
                 attachCountdownTime -= dt;
                 if ( attachCountdownTime <= 0 ) {
+
+                    // Get a list of the adjacent attachment sites.
                     List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( (TranscriptionFactor) biomolecule, asm.attachmentSite );
-                    Collections.shuffle( attachmentSites );
+
+                    // Eliminate sites that, if moved to, would put the
+                    // biomolecule out of bounds.
+                    for ( AttachmentSite site : new ArrayList<AttachmentSite>( attachmentSites ) ) {
+                        ImmutableVector2D translationVector = new ImmutableVector2D( site.locationProperty.get().getX() - biomolecule.getPosition().getX(),
+                                                                                     site.locationProperty.get().getY() - biomolecule.getPosition().getY() );
+                        Shape translatedBounds = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( biomolecule.getShape().getBounds2D() );
+                        if ( !biomolecule.motionBoundsProperty.get().inBounds( translatedBounds ) ) {
+                            attachmentSites.remove( site );
+                        }
+                    }
+
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.
                     if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
-                        // Detach.
+                        // Detach completely from the DNA.
                         asm.attachmentSite.attachedOrAttachingMolecule.set( null );
                         asm.attachmentSite = null;
                         asm.setState( unattachedButUnavailableState );
@@ -65,7 +81,11 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                     }
                     else {
 
-                        // Clear the old attachment site.
+                        // Attach to an adjacent base pair.  First, shuffle the
+                        // possible sites in order to get random behavior.
+                        Collections.shuffle( attachmentSites );
+
+                        // Clean the previous attachment site.
                         attachmentSite.attachedOrAttachingMolecule.set( null );
 
                         // Set a new attachment site.
