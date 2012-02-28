@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 
 import javax.sound.sampled.AudioInputStream;
@@ -43,7 +44,10 @@ public class MatchingGameModel {
             //I followed this example: http://www.java2s.com/Code/Java/Development-Class/AnexampleofloadingandplayingasoundusingaClip.htm
             private void playAudioClip( final double value ) {//play a sound
                 try {
-                    AudioInputStream sound = AudioSystem.getAudioInputStream( Thread.currentThread().getContextClassLoader().getResourceAsStream( "fractions/audio/pitchup.wav" ) );
+
+                    //Buffer it to avoid mark/reset not supported error
+                    //See http://stackoverflow.com/questions/5529754/java-io-ioexception-mark-reset-not-supported
+                    AudioInputStream sound = AudioSystem.getAudioInputStream( new BufferedInputStream( Thread.currentThread().getContextClassLoader().getResourceAsStream( "fractions/audio/pitchup.wav" ) ) );
                     // load the sound into memory (a Clip)
                     DataLine.Info info = new DataLine.Info( Clip.class, sound.getFormat() );
                     final Clip clip = (Clip) AudioSystem.getLine( info );
