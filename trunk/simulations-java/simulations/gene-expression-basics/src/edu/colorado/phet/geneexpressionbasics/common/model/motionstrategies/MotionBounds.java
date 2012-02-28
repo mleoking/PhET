@@ -54,10 +54,6 @@ public class MotionBounds {
         return new Area( boundsShape );
     }
 
-    public void setBounds( Shape newBounds ) {
-        boundsShape = new Area( newBounds );
-    }
-
     /**
      * Test whether the given shape will be in or out of the motion bounds if
      * the given motion vector is applied for the given time.

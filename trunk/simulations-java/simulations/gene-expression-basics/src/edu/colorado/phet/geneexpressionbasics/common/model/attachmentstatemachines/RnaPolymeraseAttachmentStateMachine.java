@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -99,7 +102,15 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 attachCountdownTime -= dt;
                 if ( attachCountdownTime <= 0 ) {
                     List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( rnaPolymerase, asm.attachmentSite );
-                    Collections.shuffle( attachmentSites );
+
+                    // Eliminate sites that, if moved to, would put the
+                    // biomolecule out of bounds.
+                    for ( AttachmentSite site : new ArrayList<AttachmentSite>( attachmentSites ) ) {
+                        if ( !biomolecule.motionBoundsProperty.get().testAgainstMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
+                            attachmentSites.remove( site );
+                        }
+                    }
+
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.
                     if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
@@ -110,6 +121,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                         biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
                     }
                     else {
+
+                        // Shuffle the sites to create some randomness.
+                        Collections.shuffle( attachmentSites );
+
                         // Clear the old attachment site.
                         attachmentSite.attachedOrAttachingMolecule.set( null );
 
