@@ -81,7 +81,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             imageNodeLists.add( new ArrayList<SubstanceImageNode>() );
 
             // one quantity control for each reactant
-            IUserComponent userComponent = UserComponentChain.chain( UserComponents.reactantSpinner, new UserComponent( reactant.getName() ) );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.reactantSpinner, new UserComponent( reactant.getPlainTextName() ) );
             QuantityValueNode quantityNode = new QuantityValueNode( userComponent, reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             quantityNode.setEditable( true );
             addChild( quantityNode );
