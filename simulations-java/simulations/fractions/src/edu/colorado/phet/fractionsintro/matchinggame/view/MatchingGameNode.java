@@ -4,6 +4,9 @@ package edu.colorado.phet.fractionsintro.matchinggame.view;
 import fj.F;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -16,6 +19,8 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static java.awt.Color.lightGray;
 
@@ -40,11 +45,18 @@ public class MatchingGameNode extends FNode {
             }
         } ).foreach( addChild );
         if ( state.getScaleValue( state.leftScale ) > 0 && state.getScaleValue( state.rightScale ) > 0 ) {
-            addChild( new PhetPText( state.getLeftScaleValue() < state.getRightScaleValue() ? "<" :
-                                     state.getLeftScaleValue() > state.getRightScaleValue() ? ">" :
-                                     "=", new PhetFont( 180, true ) ) {{
-                centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D() );
-            }} );
+            final String string = state.getLeftScaleValue() < state.getRightScaleValue() ? "<" :
+                                  state.getLeftScaleValue() > state.getRightScaleValue() ? ">" :
+                                  "=";
+            PNode sign = state.development.outline ? new PhetPPath( new PhetFont( 160, true ).createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), string ).getOutline(), Color.yellow, new BasicStroke( 2 ), Color.black ) :
+                         new PhetPText( string, new PhetFont( 160, true ) );
+            sign.addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    model.set( model.get().development( model.get().development.outline( !model.get().development.outline ) ) );
+                }
+            } );
+            sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() );
+            addChild( sign );
         }
 
         //Render the cells, costs about 50% of a CPU--could be optimized
