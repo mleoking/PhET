@@ -197,7 +197,7 @@ public class SimSharingJSpinner extends JSpinner {
                         catch ( ParseException pe ) {
                             pe.printStackTrace();
                         }
-                        System.out.println( "enter pressed, value=" + getValue() ); // in a proper implementation, this should happen after message is sent
+                        System.out.println( "client: enter pressed, value=" + getValue() ); // this should happen after message is sent
                     }
                 }
             } );
@@ -209,20 +209,13 @@ public class SimSharingJSpinner extends JSpinner {
                     catch ( ParseException pe ) {
                         pe.printStackTrace();
                     }
-                    System.out.println( "focus lost, value=" + getValue() ); // in a proper implementation, this should happen after message is sent
+                    System.out.println( "client: focus lost, value=" + getValue() ); // this should happen after message is sent
                 }
             } );
         }};
 
-        // Test programmatically setting spinner. This should not send a message.
-        final int value = 2;
-        final JButton button = new JButton( "set " + value ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    spinner.setValue( new Integer(value) );
-                }
-            } );
-        }};
+        // A button, so we have something else that can get focus.
+        final JButton button = new JButton( "button" );
 
         // frame
         JFrame frame = new JFrame() {{
