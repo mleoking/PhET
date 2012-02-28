@@ -170,4 +170,20 @@ import static fj.data.List.range;
             }
         } );
     }
+
+    public boolean isOnScale( Scale scale, final MovableFraction movableFraction ) {
+        return getScaleFraction( scale ).option( false, new F<MovableFraction, Boolean>() {
+            @Override public Boolean f( MovableFraction m ) {
+                return m.equals( movableFraction );
+            }
+        } );
+    }
+
+    public MatchingGameState animateMatchToScoreCell() {
+        return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
+            @Override public MovableFraction f( MovableFraction m ) {
+                return isOnScale( leftScale, m ) || isOnScale( rightScale, m ) ? m.motion( MoveToCell( scoreCells.head() ) ) : m;
+            }
+        } ) );
+    }
 }

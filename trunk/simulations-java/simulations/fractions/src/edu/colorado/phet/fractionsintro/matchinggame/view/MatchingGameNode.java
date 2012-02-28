@@ -5,12 +5,15 @@ import fj.F;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.fractions.view.FNode;
@@ -44,12 +47,12 @@ public class MatchingGameNode extends FNode {
                 return new PhetPPath( c.rectangle.toRoundedRectangle( 20, 20 ), lightGray );
             }
         } ).foreach( addChild );
-        if ( state.getScaleValue( state.leftScale ) > 0 && state.getScaleValue( state.rightScale ) > 0 ) {
+        if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
             final String string = state.getLeftScaleValue() < state.getRightScaleValue() ? "<" :
                                   state.getLeftScaleValue() > state.getRightScaleValue() ? ">" :
                                   "=";
-            PNode sign = state.development.outline ? new PhetPPath( new PhetFont( 160, true ).createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), string ).getOutline(), Color.yellow, new BasicStroke( 2 ), Color.black ) :
-                         new PhetPText( string, new PhetFont( 160, true ) );
+            final PNode sign = state.development.outline ? new PhetPPath( new PhetFont( 160, true ).createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), string ).getOutline(), Color.yellow, new BasicStroke( 2 ), Color.black ) :
+                               new PhetPText( string, new PhetFont( 160, true ) );
             sign.addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
                     model.set( model.get().development( model.get().development.outline( !model.get().development.outline ) ) );
@@ -57,6 +60,18 @@ public class MatchingGameNode extends FNode {
             } );
             sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() );
             addChild( sign );
+
+            //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
+            if ( state.getLeftScaleValue() == state.getRightScaleValue() ) {
+                addChild( new HTMLImageButtonNode( "Keep", Color.orange ) {{
+                    centerFullBoundsOnPoint( sign.getFullBounds().getCenterX(), sign.getFullBounds().getMaxY() + getFullHeight() / 2 + 10 );
+                    addActionListener( new ActionListener() {
+                        @Override public void actionPerformed( ActionEvent e ) {
+                            model.set( model.get().animateMatchToScoreCell() );
+                        }
+                    } );
+                }} );
+            }
         }
 
         //Render the cells, costs about 50% of a CPU--could be optimized
