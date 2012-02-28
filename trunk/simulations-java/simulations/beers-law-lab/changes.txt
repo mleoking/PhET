@@ -1,3 +1,5 @@
+2/28/12 fix rendering order so that behavior looks plausible when probe is close to light
+2/28/12 display correct value on AT detector based on its location
 2/28/12 update beam only when it's visible
 2/28/12 major simplification of BeamNode
 2/28/12 add model of light beam, detect interaction with detector probe
