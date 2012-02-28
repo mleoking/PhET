@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -39,7 +40,6 @@ public class Beam {
     private final ATDetector detector;
     private final ObservableProperty<Double> percentTransmittance;
     private final ModelViewTransform mvt;
-    //TODO add CompositeProperty<Boolean> visible, derived from light.on
 
     public final Property<ImmutableRectangle2D> leftShape, centerShape, rightShape;
     public final Property<Paint> leftPaint, centerPaint, rightPaint;
@@ -63,10 +63,19 @@ public class Beam {
         this.centerPaint = new Property<Paint>( Color.WHITE );
         this.rightPaint = new Property<Paint>( Color.WHITE );
 
+        // Make the beam visible when the light is on and set to "beam" view.
+        visible = new CompositeProperty<Boolean>( new Function0<Boolean>() {
+            public Boolean apply() {
+                return light.on.get() && light.representation.get() == LightRepresentation.BEAM;
+            }
+        }, light.on, light.representation );
+
         // update segment shapes
         RichSimpleObserver shapeObserver = new RichSimpleObserver() {
             @Override public void update() {
-                updateSegments();
+                if ( visible.get() ) {
+                    updateSegments();
+                }
             }
         };
         shapeObserver.observe( cuvette.width, detector.probe.location );
@@ -74,17 +83,22 @@ public class Beam {
         // update segment colors
         final RichSimpleObserver colorObserver = new RichSimpleObserver() {
             public void update() {
-                updateColors();
+                if ( visible.get() ) {
+                    updateColors();
+                }
             }
         };
         colorObserver.observe( light.wavelength, cuvette.width, percentTransmittance );
 
-        // Make the beam visible when the light is on and set to "beam" view.
-        visible = new CompositeProperty<Boolean>( new Function0<Boolean>() {
-            public Boolean apply() {
-                return light.on.get() && light.representation.get() == LightRepresentation.BEAM;
+        // Update when beam becomes visible
+        visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                if ( visible ) {
+                    updateColors();
+                    updateSegments();
+                }
             }
-        }, light.on, light.representation );
+        } );
     }
 
     // Updates colors of the beam segments
