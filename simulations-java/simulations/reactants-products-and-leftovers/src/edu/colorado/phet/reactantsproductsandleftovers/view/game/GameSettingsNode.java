@@ -12,6 +12,8 @@ import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel;
@@ -61,13 +63,13 @@ public class GameSettingsNode extends PhetPNode {
             // customize the game settings by adding a "hide" control
             JLabel hideLabel = new JLabel( RPALStrings.LABEL_HIDE );
 
-            hideNothingRadioButton = new PropertyRadioButton<ChallengeVisibility>( RPALStrings.RADIO_BUTTON_NOTHING, gameSettings.challengeVisibility, ChallengeVisibility.BOTH );
+            hideNothingRadioButton = new PropertyRadioButton<ChallengeVisibility>( UserComponents.nothingRadioButton, RPALStrings.RADIO_BUTTON_NOTHING, gameSettings.challengeVisibility, ChallengeVisibility.BOTH );
             hideNothingRadioButton.setOpaque( false );
 
-            hideMoleculesRadioButton = new PropertyRadioButton<ChallengeVisibility>( RPALStrings.RADIO_BUTTON_MOLECULES, gameSettings.challengeVisibility, ChallengeVisibility.NUMBERS );
+            hideMoleculesRadioButton = new PropertyRadioButton<ChallengeVisibility>( UserComponents.moleculesRadioButton, RPALStrings.RADIO_BUTTON_MOLECULES, gameSettings.challengeVisibility, ChallengeVisibility.NUMBERS );
             hideMoleculesRadioButton.setOpaque( false );
 
-            hideNumbersRadioButton = new PropertyRadioButton<ChallengeVisibility>( RPALStrings.RADIO_BUTTON_NUMBERS, gameSettings.challengeVisibility, ChallengeVisibility.MOLECULES );
+            hideNumbersRadioButton = new PropertyRadioButton<ChallengeVisibility>( UserComponents.numbersRadioButton, RPALStrings.RADIO_BUTTON_NUMBERS, gameSettings.challengeVisibility, ChallengeVisibility.MOLECULES );
             hideNumbersRadioButton.setOpaque( false );
 
             JPanel hidePanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
