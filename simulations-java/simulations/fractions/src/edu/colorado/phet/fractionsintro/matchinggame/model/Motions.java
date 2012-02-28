@@ -13,12 +13,12 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 public class Motions {
     public static final F<UpdateArgs, MovableFraction> MoveToLeftScale = new F<UpdateArgs, MovableFraction>() {
         @Override public MovableFraction f( UpdateArgs a ) {
-            return a.fraction.stepTowards( a.state.leftScale.getAttachmentPoint(), a.dt );
+            return a.fraction.stepTowards( a.state.leftScale.getAttachmentPoint( a.fraction ), a.dt );
         }
     };
     public static final F<UpdateArgs, MovableFraction> MoveToRightScale = new F<UpdateArgs, MovableFraction>() {
         @Override public MovableFraction f( UpdateArgs a ) {
-            return a.fraction.stepTowards( a.state.rightScale.getAttachmentPoint(), a.dt );
+            return a.fraction.stepTowards( a.state.rightScale.getAttachmentPoint( a.fraction ), a.dt );
         }
     };
     public static final F<UpdateArgs, MovableFraction> Stillness = new F<UpdateArgs, MovableFraction>() {

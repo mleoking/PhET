@@ -27,9 +27,9 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
         }};
     }
 
-    public Vector2D center() { return position.plus( scale.getWidth() / 2, scale.getHeight() / 2 ); }
+    public Vector2D getCenter() { return position.plus( scale.getWidth() / 2, scale.getHeight() / 2 ); }
 
-    public Vector2D getAttachmentPoint() {
-        return center().plus( 0, -50 );
-    }
+    private Vector2D getAttachmentPoint() { return getCenter().plus( 0, -25 ); }
+
+    public Vector2D getAttachmentPoint( MovableFraction fraction ) { return getAttachmentPoint().plus( 0, -fraction.toNode().getFullBounds().getHeight() / 2 ); }
 }

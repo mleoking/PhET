@@ -47,6 +47,8 @@ import static fj.data.List.range;
 
     public final Scale leftScale = new Scale( new Vector2D( 220, 300 ) );
     public final Scale rightScale = new Scale( new Vector2D( 570, 300 ) );
+
+    //Flags for development purposes
     public final Development development;
 
     //Time (in sim time) of when something was dropped on the scale, for purposes of animating the bar
@@ -57,7 +59,6 @@ import static fj.data.List.range;
         final List<Cell> cells = createCells( 100, 430, 130, 120, 6, 2, 0, 0 );
 
         //Nodes for filling the cells.
-
         final F<Fraction, PNode> numeric = new F<Fraction, PNode>() {
             @Override public PNode f( Fraction f ) {
                 return new FractionNode( f, 0.3 );
@@ -131,7 +132,7 @@ import static fj.data.List.range;
 
     public MatchingGameState development( Development development ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development ); }
 
-    public List<Scale> scales() { return list( leftScale, rightScale ); }
+    public List<Scale> getScales() { return list( leftScale, rightScale ); }
 
     public MatchingGameState stepInTime( final double dt ) {
         return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
@@ -144,7 +145,7 @@ import static fj.data.List.range;
     public Option<MovableFraction> getScaleFraction( final Scale scale ) {
         return fractions.find( new F<MovableFraction, Boolean>() {
             @Override public Boolean f( MovableFraction m ) {
-                return m.position.equals( scale.getAttachmentPoint() );
+                return m.position.equals( scale.getAttachmentPoint( m ) );
             }
         } );
     }
@@ -155,7 +156,7 @@ import static fj.data.List.range;
 
     public double getRightScaleValue() { return getScaleValue( rightScale ); }
 
-    private MatchingGameState jettisonFraction( Scale scale ) {
+    public MatchingGameState jettisonFraction( Scale scale ) {
         final Option<MovableFraction> scaleFraction = getScaleFraction( scale );
         return scaleFraction.option( this, new F<MovableFraction, MatchingGameState>() {
             @Override public MatchingGameState f( final MovableFraction match ) {
@@ -164,19 +165,6 @@ import static fj.data.List.range;
                         return match.equals( m ) ? m.motion( MoveToCell( m.home ) ) : m;
                     }
                 } ) );
-            }
-        } );
-    }
-
-    public MatchingGameState jettison( final Vector2D selectedAttachmentPoint ) {
-        Option<Scale> scale = scales().find( new F<Scale, Boolean>() {
-            @Override public Boolean f( Scale scale ) {
-                return scale.getAttachmentPoint().equals( selectedAttachmentPoint );
-            }
-        } );
-        return scale.option( this, new F<Scale, MatchingGameState>() {
-            @Override public MatchingGameState f( Scale s ) {
-                return jettisonFraction( s );
             }
         } );
     }
