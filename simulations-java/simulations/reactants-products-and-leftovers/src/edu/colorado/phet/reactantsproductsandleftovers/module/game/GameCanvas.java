@@ -19,6 +19,8 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
@@ -41,8 +43,6 @@ public class GameCanvas extends RPALCanvas {
     //  Class data
     //---------------------------------------------------------------------------------
 
-    private static final Color BUTTONS_COLOR = new Color( 255, 255, 0, 150 ); // translucent yellow
-    private static final PhetFont BUTTONS_FONT = new PhetFont( Font.BOLD, 30 );
     private static final double BUTTON_X_SPACING = 20;
 
     private static final PDimension BOX_SIZE = RPALConstants.BEFORE_AFTER_BOX_SIZE;
@@ -142,13 +142,13 @@ public class GameCanvas extends RPALCanvas {
         // buttons, all under the same parent, to facilitate moving between Before & After boxes
         buttonsParentNode = new PhetPNode();
         parentNode.addChild( buttonsParentNode );
-        checkButton = new HTMLImageButtonNode( RPALStrings.BUTTON_CHECK, BUTTONS_FONT, BUTTONS_COLOR );
+        checkButton = new GameButtonNode( UserComponents.checkButton, RPALStrings.BUTTON_CHECK  );
         buttonsParentNode.addChild( checkButton );
-        nextButton = new HTMLImageButtonNode( RPALStrings.BUTTON_NEXT, BUTTONS_FONT, BUTTONS_COLOR );
+        nextButton = new GameButtonNode( UserComponents.nextButton, RPALStrings.BUTTON_NEXT );
         buttonsParentNode.addChild( nextButton );
-        tryAgainButton = new HTMLImageButtonNode( RPALStrings.BUTTON_TRY_AGAIN, BUTTONS_FONT, BUTTONS_COLOR );
+        tryAgainButton = new GameButtonNode( UserComponents.tryAgainButton, RPALStrings.BUTTON_TRY_AGAIN );
         buttonsParentNode.addChild( tryAgainButton );
-        showAnswerButton = new HTMLImageButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, BUTTONS_FONT, BUTTONS_COLOR );
+        showAnswerButton = new GameButtonNode( UserComponents.showAnswerButton, RPALStrings.BUTTON_SHOW_ANSWER );
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions

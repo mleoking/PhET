@@ -16,5 +16,6 @@ public class RPALSimSharing {
         sandwichShopTab, realReactionTab, gameTab,
         equationSpinner, reactantSpinner, productSpinner, leftoverSpinner,
         sandwichRadioButton, realReactionRadioButton,
+        checkButton, nextButton, tryAgainButton, showAnswerButton
     }
 }
