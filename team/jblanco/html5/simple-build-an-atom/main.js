@@ -121,7 +121,7 @@ Point2D.prototype.set = function( point2D ) {
 }
 
 //-----------------------------------------------------------------------------
-// Particle class.
+// Nucleon class.
 //-----------------------------------------------------------------------------
 
 function Nucleon( color ) {
@@ -154,6 +154,22 @@ Nucleon.prototype.setLocationComponents = function( x, y ) {
 
 Nucleon.prototype.containsPoint = function( point ) {
     return Math.sqrt( Math.pow( point.x - this.location.x, 2 ) + Math.pow( point.y - this.location.y, 2 ) ) < this.radius;
+}
+
+//-----------------------------------------------------------------------------
+// Proton and Neutron classes.
+//-----------------------------------------------------------------------------
+
+Proton.prototype = new Nucleon();
+
+function Proton(){
+    Nucleon.call( this, "red" );
+}
+
+Neutron.prototype = new Nucleon();
+
+function Neutron(){
+    Nucleon.call( this, "gray" );
 }
 
 //-----------------------------------------------------------------------------
@@ -249,7 +265,8 @@ Bucket.prototype.containsPoint = function( point ) {
 }
 
 //-----------------------------------------------------------------------------
-// Nucleus label class.
+// Nucleus label class.  This is the label that is placed near the nucleus and
+// shows what kind of element has been created and whether it is stable.
 //-----------------------------------------------------------------------------
 
 function NucleusLabel( initialLocation ) {
@@ -535,10 +552,10 @@ function onTouchStart( location ) {
         // See if the touch was on any of the buckets and, if so, create the
         // corresponding particle.
         if ( neutronBucket.containsPoint( location ) ) {
-            particleBeingDragged = new Nucleon( "gray" );
+            particleBeingDragged = new Neutron();
         }
         else if ( protonBucket.containsPoint( location ) ) {
-            particleBeingDragged = new Nucleon( "red" );
+            particleBeingDragged = new Proton();
         }
         // Else see if the button is being touched.
         else if ( resetButton.containsPoint( location ) ) {
