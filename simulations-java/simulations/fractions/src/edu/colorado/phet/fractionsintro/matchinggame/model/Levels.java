@@ -183,10 +183,30 @@ public class Levels {
         }
     };
 
+    /**
+     * Level 3:
+     * Reduced fractions possible on this level.  So, for instance 3/6 and ½  could both be present.  Or a virtual representation of 3/6 could have the numerical of ½ be its only possible match
+     * Still only numbers/representations  ≦ 1 possible
+     * More shapes can be introduced
+     */
+    public F<List<Cell>, List<MovableFraction>> Level4 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> cells ) {
+            return createLevel( cells, new Fraction[] {
+                    new Fraction( 17, 15 ),
+                    new Fraction( 14, 8 ),
+                    new Fraction( 6, 3 ),
+                    new Fraction( 9, 8 ),
+                    new Fraction( 8, 9 ),
+                    new Fraction( 12, 13 ),
+                    new Fraction( 9, 7 ) } );
+        }
+    };
+
     public F<List<Cell>, List<MovableFraction>> get( int level ) {
         return level == 1 ? Level1 :
                level == 2 ? Level2 :
                level == 3 ? Level3 :
-               Level3;
+               level == 4 ? Level4 :
+               Level4;
     }
 }
