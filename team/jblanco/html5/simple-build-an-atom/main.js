@@ -227,9 +227,10 @@ Bucket.prototype.draw = function( context ) {
 
     // Add the label.
     context.fillStyle = '#000';
-    context.font = '28px sans-serif';
-    context.textBaseline = 'top';
-    context.fillText( this.labelText, this.location.x, this.location.y );
+    context.font = '22px sans-serif';
+    context.textAlign = 'center';
+    context.textBaseline = 'middle';
+    context.fillText( this.labelText, this.location.x + this.width / 2, this.location.y + this.height / 2 );
 }
 
 Bucket.prototype.setLocationComponents = function( x, y ) {
