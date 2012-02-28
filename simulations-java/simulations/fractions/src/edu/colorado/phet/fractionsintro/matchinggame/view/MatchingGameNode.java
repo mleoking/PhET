@@ -73,6 +73,11 @@ public class MatchingGameNode extends FNode {
                 }} );
             }
         }
+        state.scoreCells.take( state.scored ).map( new F<Cell, PNode>() {
+            @Override public PNode f( final Cell cell ) {
+                return new PhetPText( "=" ) {{centerFullBoundsOnPoint( cell.rectangle.getCenter() );}};
+            }
+        } ).foreach( addChild );
 
         //Render the cells, costs about 50% of a CPU--could be optimized
         state.cells.map( new F<Cell, PNode>() {
