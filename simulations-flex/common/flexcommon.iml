@@ -7,42 +7,14 @@
     <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
     <option name="VERSION" value="3" />
   </component>
-  <component name="FlexBuildConfigurationManager" active="Unnamed">
-    <configurations>
-      <configuration skip-build="true">
-        <dependencies target-player="9">
-          <entries>
-            <entry library-id="b1fd9134-21d0-4222-baed-04a5bd71b703">
-              <dependency linkage="Merged" />
-            </entry>
-          </entries>
-          <sdk name="flex_sdk_3.4.1.10084" />
-        </dependencies>
-        <compiler-options />
-        <packaging-air-desktop />
-        <packaging-android />
-        <packaging-ios />
-      </configuration>
-    </configurations>
-    <compiler-options />
-  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="flex-sdk-3.4" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library type="flex">
-        <properties id="b1fd9134-21d0-4222-baed-04a5bd71b703" />
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../simulations-flash/common-as3/src" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="module" module-name="common-as3" />
   </component>
 </module>
 

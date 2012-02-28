@@ -8,37 +8,6 @@
     <option name="ADDITIONAL_COMPILER_OPTIONS" value="-use-network" />
     <option name="VERSION" value="3" />
   </component>
-  <component name="FlexBuildConfigurationManager" active="Unnamed">
-    <configurations>
-      <configuration main-class="edu.colorado.phet.densityandbuoyancy.Buoyancy" output-file="buoyancy.swf" output-folder="$MODULE_DIR$/output">
-        <dependencies target-player="9">
-          <entries>
-            <entry library-id="f97dfa24-0595-4f0c-a828-623ef75cef72">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-id="a3dffba4-06e6-42b6-ac13-8d168067e408">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-id="56a9ca6c-334f-4f20-b51a-c647824db593">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-id="cb3210cf-4968-4f5a-8d19-733e4e6099d5">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry library-id="7bcac82a-a590-4a42-9026-c73b0738fad7">
-              <dependency linkage="Merged" />
-            </entry>
-          </entries>
-          <sdk name="flex_sdk_3.4.1.10084" />
-        </dependencies>
-        <compiler-options />
-        <packaging-air-desktop />
-        <packaging-android />
-        <packaging-ios />
-      </configuration>
-    </configurations>
-    <compiler-options />
-  </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/output" />
     <exclude-output />
@@ -46,58 +15,13 @@
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="flex-sdk-3.4" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library type="flex">
-        <properties id="f97dfa24-0595-4f0c-a828-623ef75cef72" />
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../common/src" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library type="flex">
-        <properties id="a3dffba4-06e6-42b6-ac13-8d168067e408" />
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../../simulations-flash/common-as3/src" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library type="flex">
-        <properties id="56a9ca6c-334f-4f20-b51a-c647824db593" />
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../../simulations-flash/contrib/aswing-a3/src" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library type="flex">
-        <properties id="cb3210cf-4968-4f5a-8d19-733e4e6099d5" />
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../../simulations-flash/contrib/away3d/fp9" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library type="flex">
-        <properties id="7bcac82a-a590-4a42-9026-c73b0738fad7" />
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/../../../simulations-flash/contrib/box2d/src" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="module" module-name="flexcommon" />
+    <orderEntry type="module" module-name="box2d" />
+    <orderEntry type="module" module-name="away3d-fp9" />
+    <orderEntry type="module" module-name="common-as3" />
+    <orderEntry type="module" module-name="aswing-a3" />
   </component>
 </module>
 
