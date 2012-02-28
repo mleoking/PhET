@@ -28,6 +28,7 @@ public abstract class SimSharingConfig {
         addConfig( new BalancingActSpring2012() );
         addConfig( new MoleculeShapesFeb2012() );
         addConfig( new LoadTestingConfig() );
+        addConfig( new RPALApril2012() );
     }
 
     public static SimSharingConfig getConfig( String studyName ) {
@@ -200,6 +201,18 @@ public abstract class SimSharingConfig {
     private static class LoadTestingConfig extends SimSharingConfig {
         public LoadTestingConfig() {
             super( "load-testing", false, true, false, false );
+        }
+    }
+
+    /*
+     * Reactants, Products and Leftovers (RPAL) study to be done in April 2012. See #3204.
+     * Principal researcher: Julia Chamberlain
+     * Location: Boulder, CO
+     * Dates: TODO
+     */
+    private static class RPALApril2012 extends SimSharingConfig {
+        public RPALApril2012() {
+            super( "rpal-april-2012", true, false, false, false );
         }
     }
 }
