@@ -51,7 +51,7 @@ import static fj.data.List.range;
     }
 
     public static MatchingGameState initialState( int level, F<List<Cell>, List<MovableFraction>> f ) {
-        final List<Cell> cells = createCells( 100, 430, 130, 120, 6, 2, 0, 0 );
+        final List<Cell> cells = createCells( 100, 415, 130, 120, 6, 2, 0, 0 );
         return new MatchingGameState( f.f( cells ), cells, createCells( 80, 10, 100, 75, 6, 1, 50, 0 ), 0, new Development( true ), 0.0, 0.0, level );
     }
 
