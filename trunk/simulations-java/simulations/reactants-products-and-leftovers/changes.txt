@@ -1,3 +1,4 @@
+2/27/12 #3204, sim-sharing for game buttons
 2/27/12 print reactions for each level via the Developer menu
 2/2/12 sim-sharing: add all of the easy stuff for data collection
 2/2/12 #3204, sim-sharing: replace odd user-component classes with enums and chaining
