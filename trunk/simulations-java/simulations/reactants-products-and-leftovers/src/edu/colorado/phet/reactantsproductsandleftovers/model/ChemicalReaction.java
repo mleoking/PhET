@@ -214,7 +214,7 @@ public class ChemicalReaction {
             s += String.valueOf( reactants[i].getQuantity() );
         }
         // arrow
-        s += " -> ";
+        s += "->";
         // products
         for ( int i = 0; i < products.length; i++ ) {
             if ( i != 0 ) {
