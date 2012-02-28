@@ -62,10 +62,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                     // Eliminate sites that, if moved to, would put the
                     // biomolecule out of bounds.
                     for ( AttachmentSite site : new ArrayList<AttachmentSite>( attachmentSites ) ) {
-                        ImmutableVector2D translationVector = new ImmutableVector2D( site.locationProperty.get().getX() - biomolecule.getPosition().getX(),
-                                                                                     site.locationProperty.get().getY() - biomolecule.getPosition().getY() );
-                        Shape translatedBounds = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( biomolecule.getShape().getBounds2D() );
-                        if ( !biomolecule.motionBoundsProperty.get().inBounds( translatedBounds ) ) {
+                        if ( !biomolecule.motionBoundsProperty.get().testAgainstMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
                             attachmentSites.remove( site );
                         }
                     }
