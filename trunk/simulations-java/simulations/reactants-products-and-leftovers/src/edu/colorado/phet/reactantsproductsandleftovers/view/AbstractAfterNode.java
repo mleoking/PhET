@@ -90,7 +90,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             productImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
 
             // one quantity display for each product
-            IUserComponent userComponent = UserComponentChain.chain( UserComponents.productSpinner, new UserComponent( product.getName() ) );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.productSpinner, new UserComponent( product.getPlainTextName() ) );
             QuantityValueNode quantityNode = new QuantityValueNode( userComponent, product, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( quantityNode );
             productValueNodes.add( quantityNode );
@@ -104,7 +104,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
             leftoverImageNodeLists.add( new ArrayList<SubstanceImageNode>() );
 
             // one quantity display for each leftover
-            IUserComponent userComponent = UserComponentChain.chain( UserComponents.leftoverSpinner, new UserComponent( reactant.getName() ) );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.leftoverSpinner, new UserComponent( reactant.getPlainTextName() ) );
             LeftoversValueNode leftoverNode = new LeftoversValueNode( userComponent, reactant, quantityRange, RPALConstants.HISTOGRAM_IMAGE_SCALE, showSubstanceNames );
             addChild( leftoverNode );
             leftoverValueNodes.add( leftoverNode );

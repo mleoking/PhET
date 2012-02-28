@@ -26,10 +26,6 @@ public abstract class Substance {
         listeners = new EventListenerList();
     }
     
-    /**
-     * @param reactant
-     * @return
-     */
     public boolean equals( Object obj ) {
         if ( ! ( obj instanceof Substance ) ) { return false; }
         Substance substance = (Substance) obj;
@@ -47,6 +43,10 @@ public abstract class Substance {
     
     public String getName() {
         return molecule.getSymbol();
+    }
+
+    public String getPlainTextName() {
+        return getName().replaceAll( "<sub>", "" ).replaceAll( "</sub>", "" );
     }
     
     public Image getImage() {

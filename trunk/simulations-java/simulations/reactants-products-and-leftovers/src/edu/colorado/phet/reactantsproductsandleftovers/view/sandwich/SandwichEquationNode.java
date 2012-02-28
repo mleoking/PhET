@@ -80,7 +80,7 @@ public class SandwichEquationNode extends PhetPNode implements IDynamicNode {
             final Reactant reactant = reactants[i];
 
             // coefficient spinner
-            IUserComponent userComponent = UserComponentChain.chain( UserComponents.equationSpinner, new UserComponent( reactant.getName() ) );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.equationSpinner, new UserComponent( reactant.getPlainTextName() ) );
             final IntegerSpinnerNode spinnerNode = new IntegerSpinnerNode( userComponent, SandwichShopModel.getCoefficientRange() );
             spinnerNode.scale( 2 ); // setting font size would be preferable, but doesn't change size of up/down arrows on Mac
             spinnerNode.setValue( reactant.getCoefficient() );
