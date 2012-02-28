@@ -13,8 +13,10 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 
 /**
- * Level-of-difficulty is based on the number values that the user must solve for.
- * This was used for the first round of interviews on this sim.
+ * Creates challenges where level-of-difficulty is based on the number variables that
+ * we're solving for, and whether the variables are "before" or "after" terms.
+ * This is the strategy that was ultimately used for this simulation.
+ * <p>
  * Behavior is:
  * <ul>
  * <li>Level 1: one or two products random, Before (2 variables)
