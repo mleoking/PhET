@@ -12,8 +12,11 @@ import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 
 /**
- * Level-of-difficulty is based on the number of products.
- * This was used for the first round of interviews on this sim.
+ * Creates challenges where level-of-difficulty is based on the number of products in the reaction,
+ * and whether we're solving for "before" or "after" quantities.
+ * This was the first strategy used, but was not the best (determined via interviews).
+ * It's not used in this sim, but is provided here for historical purposes.
+ * <p>
  * Behavior is: 
  * <ul>
  * <li>Level 1: one product random, After
