@@ -1,3 +1,4 @@
+Added randomization for level 1
 Fixed: make fractions sit on the scale instead of centered on it
 # 0.00.41 (61879) Feb 28, 2012
 Added prototype for matching game
