@@ -6,10 +6,8 @@ import java.awt.Color;
 import java.awt.Paint;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Beam;
-import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
-import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -23,19 +21,14 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class BeamNode extends PhetPNode {
 
-    private static final int MAX_LIGHT_ALPHA = 200; // transparency of light when transmittance is 100%
-    private static final int MIN_LIGHT_ALPHA = 20; // min transparency of light when transmittance is non-zero
-    private static final Function TRANSMITTANCE_TO_ALPHA = new LinearFunction( 0, 100, MIN_LIGHT_ALPHA, MAX_LIGHT_ALPHA ); // maps %transmittance to transparency
-    private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
-
     public BeamNode( final Beam beam, ModelViewTransform mvt ) {
 
         setPickable( false );
         setChildrenPickable( false );
 
-        addChild( new LeftSegmentNode( beam, mvt ) );
-        addChild( new CenterSegmentNode( beam, mvt ) );
-        addChild( new RightSegmentNode( beam, mvt ) );
+        addChild( new SegmentNode( beam.leftShape, beam.leftPaint, mvt ) );
+        addChild( new SegmentNode( beam.centerShape, beam.centerPaint, mvt ) );
+        addChild( new SegmentNode( beam.rightShape, beam.rightPaint, mvt ) );
 
         // Make this node visible when beam is visible.
         beam.visible.addObserver( new VoidFunction1<Boolean>() {
@@ -45,11 +38,25 @@ class BeamNode extends PhetPNode {
         } );
     }
 
-    // Base class for all segments of the beam.
-    private static abstract class SegmentNode extends PPath {
+    // A segment of the beam
+    private static class SegmentNode extends PPath {
 
-        public SegmentNode() {
+        public SegmentNode( Property<ImmutableRectangle2D> shape, Property<Paint> paint, final ModelViewTransform mvt ) {
             setStroke( new BasicStroke( 0.25f ) );
+
+            // Shape
+            shape.addObserver( new VoidFunction1<ImmutableRectangle2D>() {
+                public void apply( ImmutableRectangle2D r ) {
+                    setPathTo( mvt.modelToView( r ).toRectangle2D() );
+                }
+            } );
+
+            // Paint
+            paint.addObserver( new VoidFunction1<Paint>() {
+                public void apply( Paint paint ) {
+                    setBeamPaint( paint );
+                }
+            } );
         }
 
         public void setBeamPaint( Paint paint ) {
@@ -60,69 +67,6 @@ class BeamNode extends PhetPNode {
             else {
                 setStrokePaint( null );
             }
-        }
-    }
-
-    // The left segment, between the light and the left edge of the cuvette.
-    private static class LeftSegmentNode extends SegmentNode {
-
-        public LeftSegmentNode( Beam beam, final ModelViewTransform mvt ) {
-
-            // Shape
-            beam.leftShape.addObserver( new VoidFunction1<ImmutableRectangle2D>() {
-                public void apply( ImmutableRectangle2D r ) {
-                    setPathTo( mvt.modelToView( r ).toRectangle2D() );
-                }
-            } );
-
-            // Paint
-            beam.leftPaint.addObserver( new VoidFunction1<Paint>() {
-                public void apply( Paint paint ) {
-                    setBeamPaint( paint );
-                }
-            } );
-        }
-    }
-
-    // The center segment, the portion that passes through the solution in the cuvette.
-    private static class CenterSegmentNode extends SegmentNode {
-
-        public CenterSegmentNode( Beam beam, final ModelViewTransform mvt ) {
-
-            // Shape
-            beam.centerShape.addObserver( new VoidFunction1<ImmutableRectangle2D>() {
-                public void apply( ImmutableRectangle2D r ) {
-                    setPathTo( mvt.modelToView( r ).toRectangle2D() );
-                }
-            } );
-
-            // Paint
-            beam.centerPaint.addObserver( new VoidFunction1<Paint>() {
-                public void apply( Paint paint ) {
-                    setBeamPaint( paint );
-                }
-            } );
-        }
-    }
-
-    // The right segment, portion that has passed through the cuvette
-    private static class RightSegmentNode extends SegmentNode {
-
-        public RightSegmentNode( Beam beam, final ModelViewTransform mvt ) {
-
-            // Shape
-            beam.rightShape.addObserver( new VoidFunction1<ImmutableRectangle2D>() {
-                public void apply( ImmutableRectangle2D r ) {
-                    setPathTo( mvt.modelToView( r ).toRectangle2D() );
-                }
-            } );
-
-            // Paint
-            beam.rightPaint.addObserver( new VoidFunction1<Paint>() {
-                public void apply( Paint paint ) {
-                    setBeamPaint( paint );
-                }
-            } );
         }
     }
 }
