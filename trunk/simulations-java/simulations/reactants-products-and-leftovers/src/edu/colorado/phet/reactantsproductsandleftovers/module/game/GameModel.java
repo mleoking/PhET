@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelActions;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelComponentTypes;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelComponents;
@@ -245,9 +244,9 @@ public class GameModel extends RPALModel {
         this.challengeNumber = challengeNumber;
         challenge = challenges[challengeNumber];
         challenge.getGuess().addChangeListener( guessChangeListener );
-        SimSharingManager.sendModelMessage( ModelComponents.gameChallenge, ModelComponentTypes.gameChallenge, ModelActions.newChallenge,
+        SimSharingManager.sendModelMessage( ModelComponents.gameChallenge, ModelComponentTypes.gameChallenge, ModelActions.created,
                                             ParameterSet.parameterSet( ParameterKeys.formula, challenge.getReaction().getEquationPlainText() ).
-                                                    add(ParameterKeys.coefficients, challenge.getReaction().getQuantitiesString()  ) );
+                                                    add( ParameterKeys.quantities, challenge.getReaction().getQuantitiesString() ) );
         fireChallengeChanged();
     }
 
