@@ -1,6 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.reactantsproductsandleftovers;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
@@ -19,4 +23,21 @@ public class RPALSimSharing {
         checkButton, nextButton, tryAgainButton, showAnswerButton,
         nothingRadioButton, moleculesRadioButton, numbersRadioButton
     }
+
+    public static enum ModelComponents implements IModelComponent {
+        gameChallenge
+    }
+
+    public static enum ModelComponentTypes implements IModelComponentType {
+        gameChallenge
+    }
+
+    public static enum ModelActions implements IModelAction {
+        newChallenge
+    }
+
+    public static enum ParameterKeys implements IParameterKey {
+        formula, coefficients
+    }
+
 }

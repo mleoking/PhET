@@ -9,8 +9,15 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelActions;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelComponentTypes;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelComponents;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ParameterKeys;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 
@@ -238,6 +245,9 @@ public class GameModel extends RPALModel {
         this.challengeNumber = challengeNumber;
         challenge = challenges[challengeNumber];
         challenge.getGuess().addChangeListener( guessChangeListener );
+        SimSharingManager.sendModelMessage( ModelComponents.gameChallenge, ModelComponentTypes.gameChallenge, ModelActions.newChallenge,
+                                            ParameterSet.parameterSet( ParameterKeys.formula, challenge.getReaction().getEquationPlainText() ).
+                                                    add(ParameterKeys.coefficients, challenge.getReaction().getQuantitiesString()  ) );
         fireChallengeChanged();
     }
 
