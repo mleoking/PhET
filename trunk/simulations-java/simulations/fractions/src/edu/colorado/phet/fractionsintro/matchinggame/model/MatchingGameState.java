@@ -49,6 +49,10 @@ import static fj.data.List.range;
     public final Scale rightScale = new Scale( new Vector2D( 500, 300 ) );
     public final Development development;
 
+    //Time (in sim time) of when something was dropped on the scale, for purposes of animating the bar
+    public double leftScaleDropTime;
+    public double rightScaleDropTime;
+
     public static MatchingGameState initialState() {
         final List<Cell> cells = createCells( 0, 500, 100, 100, 6, 2, 0, 0 );
 
