@@ -23,7 +23,7 @@ public class ATDetector {
     public final CompositeProperty<Double> value; // null if no value is detected
     public final Movable body;
     public final Movable probe;
-    public final double probeDiameter; // diameter of the probe's sensor area, in cm
+    public final double probeDiameter; // diameter of the probe's sensor area, in cm //TODO should be an attribute of the probe
     public Property<ATDetectorMode> mode = new Property<ATDetectorMode>( ATDetectorMode.PERCENT_TRANSMITTANCE );
 
     public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
@@ -58,5 +58,13 @@ public class ATDetector {
         this.body.reset();
         this.probe.reset();
         this.mode.reset();
+    }
+
+    public double getProbeMinY() {
+        return probe.location.get().getY() - ( probeDiameter / 2 );
+    }
+
+    public double getProbeMaxY() {
+        return probe.location.get().getY() + ( probeDiameter / 2 );
     }
 }

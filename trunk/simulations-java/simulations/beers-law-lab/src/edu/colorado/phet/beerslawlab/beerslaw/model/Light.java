@@ -36,4 +36,12 @@ public class Light {
             }
         });
     }
+
+    public double getMinY() {
+        return location.getY() - ( lensDiameter / 2 );
+    }
+
+    public double getMaxY() {
+        return location.getY() + ( lensDiameter / 2 );
+    }
 }
