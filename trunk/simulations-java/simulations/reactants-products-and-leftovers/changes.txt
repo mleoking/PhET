@@ -1,3 +1,5 @@
+2/27/12 print reactions for each level via the Developer menu
+2/2/12 sim-sharing: add all of the easy stuff for data collection
 2/2/12 #3204, sim-sharing: replace odd user-component classes with enums and chaining
 1/3/12 #3202, sim-sharing changes related to Swing controls
 10/20/11 set game "Start" button color to yellow, to be consistent with "attention" color used through game
