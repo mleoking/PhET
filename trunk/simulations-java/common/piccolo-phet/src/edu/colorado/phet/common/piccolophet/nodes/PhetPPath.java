@@ -6,6 +6,7 @@ import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -129,5 +130,9 @@ public class PhetPPath extends PPath {
         else {
             super.paint( paintContext );
         }
+    }
+
+    public void centerFullBoundsOnPoint( Point2D point ) {
+        super.centerFullBoundsOnPoint( point.getX(), point.getY() );
     }
 }

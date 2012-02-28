@@ -43,6 +43,7 @@ import static fj.data.List.range;
 
     public final Scale leftScale = new Scale( new Vector2D( 150, 300 ) );
     public final Scale rightScale = new Scale( new Vector2D( 500, 300 ) );
+    public final Development development;
 
     public static MatchingGameState initialState() {
         final List<Cell> cells = createCells( 0, 500, 100, 100, 6, 2, 0, 0 );
@@ -87,7 +88,7 @@ import static fj.data.List.range;
                        c.i == 5 && c.j == 1 ? fraction( 5, 9, c, pies ) :
                        fraction( 2, 5, c, numericFraction );
             }
-        } ), cells, createCells( 0, 0, 75, 50, 6, 1, 50, 0 ) );
+        } ), cells, createCells( 0, 0, 75, 50, 6, 1, 50, 0 ), new Development( true ) );
     }
 
     //Create a MovableFraction for the given fraction at the specified cell
@@ -116,7 +117,9 @@ import static fj.data.List.range;
         } );
     }
 
-    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells ); }
+    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells, development ); }
+
+    public MatchingGameState development( Development development ) { return new MatchingGameState( fractions, cells, scoreCells, development ); }
 
     public List<Scale> scales() { return list( leftScale, rightScale ); }
 
