@@ -115,7 +115,7 @@ public class SimSharingJSpinner extends JSpinner {
         }
     }
 
-    // Rewire the text field listener
+    // Rewire the text field listeners
     @Override public void setEditor( JComponent editor ) {
         JComponent currentEditor = getEditor();
         // remove listeners from previous text field
@@ -152,6 +152,7 @@ public class SimSharingJSpinner extends JSpinner {
     @Override protected void fireStateChanged() {
         if ( buttonPressed ) {
             sendMessage( UserActions.buttonPressed );
+            // don't change buttonPressed, this will be handled by the MouseListener
         }
         else if ( textFieldCommitted ) {
             sendMessage( UserActions.textFieldCommitted );
