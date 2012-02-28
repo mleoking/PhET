@@ -50,8 +50,8 @@ function init() {
     electronShell = new ElectronShell( new Point2D( 325, 150 ) );
 
     // Add the buckets where nucleons are created and returned.
-    neutronBucket = new Bucket( new Point2D( 100, 300 ), "gray" );
-    protonBucket = new Bucket( new Point2D( 400, 300 ), "red" );
+    neutronBucket = new Bucket( new Point2D( 100, 300 ), "gray", "Neutrons" );
+    protonBucket = new Bucket( new Point2D( 400, 300 ), "red", "Protons" );
 
     // Add the reset button.
     resetButton = new ResetButton( new Point2D( 600, 325 ), "orange" );
@@ -195,20 +195,26 @@ ElectronShell.prototype.containsPoint = function( point ) {
 // Bucket class.
 //-----------------------------------------------------------------------------
 
-function Bucket( initialLocation, color ) {
+function Bucket( initialLocation, color, labelText ) {
     this.location = initialLocation;
+    this.color = color;
+    this.labelText = labelText;
+
+    // Size is fixed, at least for now.
     this.width = 150;
     this.height = this.width * 0.5;
-    this.color = color;
 }
 
 Bucket.prototype.draw = function( context ) {
     var xPos = this.location.x;
     var yPos = this.location.y;
+
+    // Create the gradient used to fill the bucket.
     var gradient = context.createLinearGradient( xPos, yPos, xPos + this.width, yPos );
     gradient.addColorStop( 0, "white" );
     gradient.addColorStop( 1, this.color );
-    context.fillStyle = gradient;
+
+    // Draw the bucket.
     context.beginPath();
     context.moveTo( xPos, yPos );
     context.lineTo( xPos + this.width * 0.15, yPos + this.height );
@@ -216,7 +222,14 @@ Bucket.prototype.draw = function( context ) {
     context.lineTo( xPos + this.width, yPos );
     context.lineTo( xPos, yPos );
     context.closePath();
+    context.fillStyle = gradient;
     context.fill();
+
+    // Add the label.
+    context.fillStyle = '#000';
+    context.font = '28px sans-serif';
+    context.textBaseline = 'top';
+    context.fillText( this.labelText, this.location.x, this.location.y );
 }
 
 Bucket.prototype.setLocationComponents = function( x, y ) {
