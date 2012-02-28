@@ -15,13 +15,13 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * The beam view of the light.
+ * Representation of light as a solid beam.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class BeamNode extends PhetPNode {
+class SolidBeamNode extends PhetPNode {
 
-    public BeamNode( final Beam beam, ModelViewTransform mvt ) {
+    public SolidBeamNode( final Beam beam, ModelViewTransform mvt ) {
 
         setPickable( false );
         setChildrenPickable( false );
