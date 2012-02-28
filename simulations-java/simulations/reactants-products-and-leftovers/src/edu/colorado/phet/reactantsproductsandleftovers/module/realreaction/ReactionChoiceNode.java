@@ -50,7 +50,7 @@ public class ReactionChoiceNode extends PhetPNode {
             final ChemicalReaction reaction = reactions[i];
             
             // radio button
-            IUserComponent userComponent = UserComponentChain.chain( UserComponents.realReactionRadioButton, reaction.getName() );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.realReactionRadioButton, reaction.getInternalName() );
             JRadioButton radioButton = new SimSharingJRadioButton( userComponent, reaction.getName() );
             radioButton.setOpaque( false );
             radioButtons.add( radioButton );

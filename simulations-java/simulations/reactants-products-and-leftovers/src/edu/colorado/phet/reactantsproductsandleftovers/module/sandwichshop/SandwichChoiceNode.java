@@ -49,7 +49,7 @@ public class SandwichChoiceNode extends PhetPNode {
             final SandwichReaction reaction = reactions[i];
             
             // radio button
-            IUserComponent userComponent = UserComponentChain.chain( UserComponents.sandwichRadioButton, new UserComponent( reaction.getName() ) );
+            IUserComponent userComponent = UserComponentChain.chain( UserComponents.sandwichRadioButton, new UserComponent( reaction.getInternalName() ) );
             JRadioButton radioButton = new SimSharingJRadioButton( userComponent, reaction.getName() );
             radioButton.setOpaque( false );
             radioButtons.add( radioButton );
