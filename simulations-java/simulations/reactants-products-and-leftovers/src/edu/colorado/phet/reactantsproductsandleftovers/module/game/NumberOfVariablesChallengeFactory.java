@@ -5,10 +5,48 @@ package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 import java.util.ArrayList;
 
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.AmmoniaReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_2CO_O2__2CO2;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_2C_O2__2CO;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_2N2_O2__2NO2;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_2NO_O2__2NO2;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_2SO2_O2__2SO3;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_C2H2_2H2__C2H6;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_C2H4_H2__C2H6;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_CH2O_H2__CH3OH;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_CO_2H2__CH3OH;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_C_2S__CS2;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_C_CO2__2CO;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_C_O2__CO2;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_H2_Cl2__2HCl;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_H2_F2__2HF;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_N2_O2__2NO;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_P4_10Cl2__4PCl5;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_P4_6Cl2__4PCl3;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_P4_6F2__4PF3;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_P4_6H2__4PH3;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.Reaction_PCl3_Cl2__PCl5;
+import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.WaterReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.*;
-import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.*;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.MethaneReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_2C2H2_5O2__4CO2_2H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_2C2H6_7O2__4CO2_6H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_2C_2H2O__CH4_CO2;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_2F2_H2O__OF2_2HF;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_4NH3_3O2__2N2_6H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_4NH3_5O2__4NO_6H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_4NH3_6NO__5N2_6H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_4NH3_7O2__4NO2_6H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_C2H4_3O2__2CO2_2H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_C2H5OH_3O2__2CO2_3H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_C2H6_Cl2__C2H5Cl_HCl;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_CH4_4S__CS2_2H2S;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_CH4_H2O__3H2_CO;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_CS2_3O2__CO2_2SO2;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_OF2_H2O__O2_2HF;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_SO2_2H2__S_2H2O;
+import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.Reaction_SO2_3H2__H2S_2H2O;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 
@@ -278,14 +316,19 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
      */
     public static void main( String[] args ) {
 
-        int maxQuantity = GameModel.getQuantityRange().getMax();
-
-        // Put all reactions in a container, removing duplicates.
         NumberOfVariablesChallengeFactory factory = new NumberOfVariablesChallengeFactory();
+
+        // Print reactions by level. Put all reactions in a container, removing duplicates.
         ArrayList<Class<? extends ChemicalReaction>> reactionClasses = new ArrayList<Class<? extends ChemicalReaction>>();
         for ( int level = 1; level <= REACTIONS.size(); level++ ) {
+            System.out.println();
+            System.out.println( "Level " + level + " --------------------------------------" );
             for ( int reactionIndex = 0; reactionIndex < factory.getNumberOfReactions( level ); reactionIndex++ ) {
                 Class<? extends ChemicalReaction> reactionClass = factory.getReactionClass( level, reactionIndex );
+                // print the reaction
+                ChemicalReaction reaction = instantiateReaction( reactionClass );
+                System.out.println( reaction.getEquationPlainText() );
+                // add the reaction to the container
                 if ( !reactionClasses.contains( reactionClass ) ) {
                     reactionClasses.add( reactionClass );
                 }
@@ -293,6 +336,7 @@ public class NumberOfVariablesChallengeFactory extends AbstractChallengeFactory 
         }
 
         // Look for reactions with coefficients > maxQuantity, we must have none of these.
+        int maxQuantity = GameModel.getQuantityRange().getMax();
         System.out.println();
         System.out.println( "LOOKING FOR COEFFICIENTS RANGE VIOLATIONS ..." );
         System.out.println();
