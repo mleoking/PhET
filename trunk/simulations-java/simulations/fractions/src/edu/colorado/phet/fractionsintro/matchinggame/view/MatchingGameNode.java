@@ -67,7 +67,7 @@ public class MatchingGameNode extends FNode {
                     model.set( model.get().development( model.get().development.outline( !model.get().development.outline ) ) );
                 }
             } );
-            sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 20 );
+            sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 10 );
             addChild( sign );
 
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
@@ -100,7 +100,7 @@ public class MatchingGameNode extends FNode {
             }
         } ).foreach( addChild );
 
-        if ( state.scored == state.scoreCells.length() || true ) {
+        if ( state.scored == state.scoreCells.length() ) {
             addChild( new HTMLImageButtonNode( "Next", Color.orange ) {{
                 setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
                 addActionListener( new ActionListener() {
