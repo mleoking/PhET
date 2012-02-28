@@ -87,6 +87,7 @@ function drawTitle() {
     context.fillStyle = '#00f';
     context.font = '30px sans-serif';
     context.textBaseline = 'top';
+    context.textAlign = 'left';
     context.fillText( 'Build an Atom', 10, 10 );
 }
 
@@ -233,10 +234,11 @@ Bucket.prototype.draw = function( context ) {
     // Draw the bucket.
     context.beginPath();
     context.moveTo( xPos, yPos );
-    context.lineTo( xPos + this.width * 0.15, yPos + this.height );
-    context.lineTo( xPos + this.width * 0.85, yPos + this.height );
-    context.lineTo( xPos + this.width, yPos );
-    context.lineTo( xPos, yPos );
+    context.lineTo( xPos + this.width * 0.15, yPos + this.height ); // Left edge.
+//    context.lineTo( xPos + this.width * 0.85, yPos + this.height ); // Bottom.
+    context.bezierCurveTo( xPos + this.width * 0.4, yPos + this.height * 1.1, xPos + this.width * 0.6, yPos + this.height * 1.1, xPos + this.width * 0.85, yPos + this.height  ); // Top.
+    context.lineTo( xPos + this.width, yPos ); // Right edge.
+    context.bezierCurveTo( xPos + this.width * 0.8, yPos + this.height * 0.2, xPos + this.width * 0.2, yPos + this.height * 0.2, xPos, yPos ); // Top.
     context.closePath();
     context.fillStyle = gradient;
     context.fill();
@@ -387,6 +389,7 @@ ResetButton.prototype.draw = function( context ) {
     context.fillStyle = '#000';
     context.font = '28px sans-serif';
     context.textBaseline = 'top';
+    context.textAlign = 'left';
     context.fillText( 'Reset', xPos + 5, yPos + 5 );
 }
 
