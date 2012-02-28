@@ -124,13 +124,13 @@ Point2D.prototype.set = function( point2D ) {
 // Particle class.
 //-----------------------------------------------------------------------------
 
-function Particle( color ) {
+function Nucleon( color ) {
     this.location = new Point2D( 0, 0 );
     this.radius = 20;
     this.color = color;
 }
 
-Particle.prototype.draw = function( context ) {
+Nucleon.prototype.draw = function( context ) {
     var xPos = this.location.x;
     var yPos = this.location.y;
     var gradient = context.createRadialGradient( xPos - this.radius / 3, yPos - this.radius / 3, 0, xPos, yPos, this.radius );
@@ -143,16 +143,16 @@ Particle.prototype.draw = function( context ) {
     context.fill();
 }
 
-Particle.prototype.setLocation = function( location ) {
+Nucleon.prototype.setLocation = function( location ) {
     this.setLocationComponents( location.x, location.y );
 }
 
-Particle.prototype.setLocationComponents = function( x, y ) {
+Nucleon.prototype.setLocationComponents = function( x, y ) {
     this.location.x = x;
     this.location.y = y;
 }
 
-Particle.prototype.containsPoint = function( point ) {
+Nucleon.prototype.containsPoint = function( point ) {
     return Math.sqrt( Math.pow( point.x - this.location.x, 2 ) + Math.pow( point.y - this.location.y, 2 ) ) < this.radius;
 }
 
@@ -429,7 +429,7 @@ function removeParticleFromNucleus( particle ) {
 
 // Adjust the positions of the nucleons to look good.
 function adjustNucleonPositions() {
-    var particleRadius = new Particle( "black" ).radius;
+    var particleRadius = new Nucleon( "black" ).radius;
     if ( particlesInNucleus.length == 0 ) {
         return;
     }
@@ -521,10 +521,10 @@ function onTouchStart( location ) {
         // See if the touch was on any of the buckets and, if so, create the
         // corresponding particle.
         if ( neutronBucket.containsPoint( location ) ) {
-            particleBeingDragged = new Particle( "gray" );
+            particleBeingDragged = new Nucleon( "gray" );
         }
         else if ( protonBucket.containsPoint( location ) ) {
-            particleBeingDragged = new Particle( "red" );
+            particleBeingDragged = new Nucleon( "red" );
         }
         // Else see if the button is being touched.
         else if ( resetButton.containsPoint( location ) ) {
