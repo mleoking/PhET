@@ -101,11 +101,11 @@ public class MatchingGameNode extends FNode {
         } ).foreach( addChild );
 
         if ( state.scored == state.scoreCells.length() ) {
-            addChild( new HTMLImageButtonNode( "Next", Color.orange ) {{
+            final int newLevel = state.level + 1;
+            addChild( new HTMLImageButtonNode( "Level " + newLevel, Color.orange ) {{
                 setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
                 addActionListener( new ActionListener() {
                     @Override public void actionPerformed( ActionEvent e ) {
-                        final int newLevel = state.level + 1;
                         model.set( MatchingGameState.initialState( newLevel, Levels.Levels.get( newLevel ) ) );
                     }
                 } );
