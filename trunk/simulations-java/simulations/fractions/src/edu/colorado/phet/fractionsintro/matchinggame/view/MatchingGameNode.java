@@ -43,7 +43,7 @@ public class MatchingGameNode extends FNode {
             setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
         }} );
 
-        state.scales().map( new F<Scale, PNode>() {
+        state.getScales().map( new F<Scale, PNode>() {
             @Override public PNode f( Scale s ) {
                 return s.toNode();
             }

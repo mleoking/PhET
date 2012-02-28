@@ -57,9 +57,11 @@ public class MovableFractionNode extends PNode {
 
                 //Determine where to animate it
                 final MatchingGameState finalState = state;
+                final Vector2D rightScaleAttachmentPoint = finalState.rightScale.getAttachmentPoint( draggingFraction );
+                final Vector2D leftScaleAttachmentPoint = finalState.leftScale.getAttachmentPoint( draggingFraction );
                 HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
-                    put( finalState.rightScale.getAttachmentPoint(), MoveToRightScale );
-                    put( finalState.leftScale.getAttachmentPoint(), MoveToLeftScale );
+                    put( rightScaleAttachmentPoint, MoveToRightScale );
+                    put( leftScaleAttachmentPoint, MoveToLeftScale );
                     put( draggingFraction.home.position(), MoveToCell( draggingFraction.home ) );
                 }};
                 final Ord<Vector2D> ord = Ord.ord( curry( new F2<Vector2D, Vector2D, Ordering>() {
@@ -72,7 +74,8 @@ public class MovableFractionNode extends PNode {
 
                 final Vector2D selectedAttachmentPoint = sorted.head();
 
-                state = state.jettison( selectedAttachmentPoint );
+                if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.rightScale ); }
+                if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.leftScale ); }
 
                 //animate to the closest destination
                 final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
