@@ -1,3 +1,5 @@
+2/27/12 #3204, sim-sharing message when "invalid value" dialog is opened for spinners
+2/27/12 #3267, sim-sharing fix for spinners
 2/27/12 #3204, cleaned up UserComponent for radio buttons in tabs 1 & 2
 2/27/12 #3204, send model message when a new challenge is started in game
 2/27/12 #3204, use plaintext (no html) for substance names in sim-sharing messages, to improve readability
