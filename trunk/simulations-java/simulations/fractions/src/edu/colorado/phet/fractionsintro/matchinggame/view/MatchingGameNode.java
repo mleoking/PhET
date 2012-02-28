@@ -105,7 +105,8 @@ public class MatchingGameNode extends FNode {
                 setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
                 addActionListener( new ActionListener() {
                     @Override public void actionPerformed( ActionEvent e ) {
-                        model.set( MatchingGameState.initialState( state.level + 1, Levels.Levels.get( state.level + 1 ) ) );
+                        final int newLevel = state.level + 1;
+                        model.set( MatchingGameState.initialState( newLevel, Levels.Levels.get( newLevel ) ) );
                     }
                 } );
             }} );
