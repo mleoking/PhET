@@ -3,6 +3,8 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import fj.F;
 
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
+
 /**
  * Motion strategies for moving to various locations (or holding still).
  *
@@ -24,6 +26,33 @@ public class Motions {
             return a.fraction;
         }
     };
+
+    public static F<UpdateArgs, MovableFraction> composite( final F<UpdateArgs, MovableFraction>... elements ) {
+        return new F<UpdateArgs, MovableFraction>() {
+            @Override public MovableFraction f( UpdateArgs updateArgs ) {
+                for ( F<UpdateArgs, MovableFraction> element : elements ) {
+                    updateArgs = updateArgs.fraction( element.f( updateArgs ) );
+                }
+                return updateArgs.fraction;
+            }
+        };
+    }
+
+    public static F<UpdateArgs, MovableFraction> Scale( final double scale ) {
+        return new F<UpdateArgs, MovableFraction>() {
+            @Override public MovableFraction f( UpdateArgs a ) {
+                return a.fraction.scaleTowards( scale );
+            }
+        };
+    }
+
+    public static F<UpdateArgs, MovableFraction> MoveToPosition( final Vector2D position ) {
+        return new F<UpdateArgs, MovableFraction>() {
+            @Override public MovableFraction f( UpdateArgs a ) {
+                return a.fraction.stepTowards( position, a.dt );
+            }
+        };
+    }
 
     public static F<UpdateArgs, MovableFraction> MoveToCell( final Cell cell ) {
         return new F<UpdateArgs, MovableFraction>() {

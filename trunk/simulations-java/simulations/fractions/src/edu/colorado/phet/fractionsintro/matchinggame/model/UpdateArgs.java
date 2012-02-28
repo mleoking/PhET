@@ -12,4 +12,8 @@ import lombok.Data;
     public final MovableFraction fraction;
     public final double dt;
     public final MatchingGameState state;
+
+    public UpdateArgs fraction( MovableFraction fraction ) {
+        return new UpdateArgs( fraction, dt, state );
+    }
 }

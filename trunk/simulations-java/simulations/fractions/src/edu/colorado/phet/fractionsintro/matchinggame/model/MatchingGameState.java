@@ -21,7 +21,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createIdentity;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.*;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Scale;
 import static fj.data.List.list;
 import static fj.data.List.range;
 
@@ -95,7 +96,7 @@ import static fj.data.List.range;
     private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node ) {
 
         //Cache nodes as images to improve performance
-        return new MovableFraction( new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell,
+        return new MovableFraction( new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
                                     new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
                                         @Override public PNode f( Fraction fraction ) {
                                             return new PImage( node.f( fraction ).toImage() );
@@ -182,7 +183,12 @@ import static fj.data.List.range;
     public MatchingGameState animateMatchToScoreCell() {
         return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
-                return isOnScale( leftScale, m ) || isOnScale( rightScale, m ) ? m.motion( MoveToCell( scoreCells.head() ) ) : m;
+                final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( scoreCells.head().rectangle.x, scoreCells.head().rectangle.getCenter().getY() ) );
+                final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( scoreCells.head().rectangle.getMaxX(), scoreCells.head().rectangle.getCenter().getY() ) );
+                final F<UpdateArgs, MovableFraction> shrink = Scale( 0.5 );
+                return isOnScale( leftScale, m ) ? m.motion( composite( moveToLeftSide, shrink ) ) :
+                       isOnScale( rightScale, m ) ? m.motion( composite( moveToRightSide, shrink ) ) :
+                       m;
             }
         } ) );
     }
