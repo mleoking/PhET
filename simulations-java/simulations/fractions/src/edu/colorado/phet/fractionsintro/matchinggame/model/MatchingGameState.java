@@ -42,6 +42,9 @@ import static fj.data.List.range;
     //Cells where the fractions start
     public final List<Cell> scoreCells;
 
+    //Number of times the user scored by getting a fraction into a score cell, used for iterating to the next score cell for animation
+    public final int scored;
+
     public final Scale leftScale = new Scale( new Vector2D( 150, 300 ) );
     public final Scale rightScale = new Scale( new Vector2D( 500, 300 ) );
     public final Development development;
@@ -89,7 +92,7 @@ import static fj.data.List.range;
                        c.i == 5 && c.j == 1 ? fraction( 5, 9, c, pies ) :
                        fraction( 2, 5, c, numericFraction );
             }
-        } ), cells, createCells( 100, 10, 100, 75, 6, 1, 50, 0 ), new Development( true ) );
+        } ), cells, createCells( 100, 10, 100, 75, 6, 1, 50, 0 ), 0, new Development( true ) );
     }
 
     //Create a MovableFraction for the given fraction at the specified cell
@@ -118,9 +121,11 @@ import static fj.data.List.range;
         } );
     }
 
-    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells, development ); }
+    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development ); }
 
-    public MatchingGameState development( Development development ) { return new MatchingGameState( fractions, cells, scoreCells, development ); }
+    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development ); }
+
+    public MatchingGameState development( Development development ) { return new MatchingGameState( fractions, cells, scoreCells, scored, development ); }
 
     public List<Scale> scales() { return list( leftScale, rightScale ); }
 
@@ -184,13 +189,14 @@ import static fj.data.List.range;
         return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
                 double width = m.scale( 0.5 ).toNode().getFullBounds().getWidth();
-                final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( scoreCells.head().rectangle.x + width / 2 + 2, scoreCells.head().rectangle.getCenter().getY() ) );
-                final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( scoreCells.head().rectangle.getMaxX() - width / 2 - 2, scoreCells.head().rectangle.getCenter().getY() ) );
+                final Cell cell = scoreCells.index( scored );
+                final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( cell.rectangle.x + width / 2 + 2, cell.rectangle.getCenter().getY() ) );
+                final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( cell.rectangle.getMaxX() - width / 2 - 2, cell.rectangle.getCenter().getY() ) );
                 final F<UpdateArgs, MovableFraction> shrink = Scale( 0.5 );
                 return isOnScale( leftScale, m ) ? m.motion( composite( moveToLeftSide, shrink ) ) :
                        isOnScale( rightScale, m ) ? m.motion( composite( moveToRightSide, shrink ) ) :
                        m;
             }
-        } ) );
+        } ) ).scored( scored + 1 );
     }
 }
