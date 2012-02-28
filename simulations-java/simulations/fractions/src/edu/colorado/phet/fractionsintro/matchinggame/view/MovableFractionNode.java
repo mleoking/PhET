@@ -35,6 +35,12 @@ public class MovableFractionNode extends PNode {
     public MovableFractionNode( final SettableProperty<MatchingGameState> model, final MovableFraction f, PNode node, final PNode rootNode ) {
         addChild( node );
         centerFullBoundsOnPoint( f.position.getX(), f.position.getY() );
+        if ( !f.scored ) {
+            attachInputHandlers( model, f, rootNode );
+        }
+    }
+
+    private void attachInputHandlers( final SettableProperty<MatchingGameState> model, final MovableFraction f, final PNode rootNode ) {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
 

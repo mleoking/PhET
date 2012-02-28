@@ -40,17 +40,22 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
     //Strategy for moving the fraction over time (e.g. toward the scale or back to its original cell)
     public final F<UpdateArgs, MovableFraction> motion;
 
+    //Flag set to true if the user has scored with this fraction (making it no longer draggable)
+    public final boolean scored;
+
     public MovableFraction translate( double dx, double dy ) { return position( position.plus( dx, dy ) ); }
 
     public MovableFraction translate( Vector2D v ) { return translate( v.getX(), v.getY() ); }
 
-    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion );}
+    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored );}
 
-    public MovableFraction position( Vector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion );}
+    public MovableFraction position( Vector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored );}
 
-    public MovableFraction scale( double scale ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion );}
+    public MovableFraction scale( double scale ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored );}
 
-    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion );}
+    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored );}
+
+    public MovableFraction scored( boolean scored ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored );}
 
     public Fraction fraction() { return new Fraction( numerator, denominator );}
 

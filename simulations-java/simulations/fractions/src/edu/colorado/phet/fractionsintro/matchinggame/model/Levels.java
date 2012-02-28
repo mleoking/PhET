@@ -116,7 +116,7 @@ public class Levels {
                                             return new PImage( node.f( fraction ).toImage() );
                                         }
                                     } ),
-                                    MoveToCell( cell ) );
+                                    MoveToCell( cell ), false );
     }
 
     private List<MovableFraction> createLevel( List<Cell> _cells, Fraction[] a, F<Fraction, ArrayList<F<Fraction, PNode>>> representations ) {
