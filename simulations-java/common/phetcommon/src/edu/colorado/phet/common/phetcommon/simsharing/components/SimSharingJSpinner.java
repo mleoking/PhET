@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.phetcommon.simsharing.components;
 
 import java.awt.AWTEvent;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,6 +14,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -32,16 +35,42 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
 public class SimSharingJSpinner extends JSpinner {
 
     private final IUserComponent userComponent;
+    private boolean buttonPressed;
 
     public SimSharingJSpinner( IUserComponent userComponent, SpinnerModel model ) {
         super( model );
         this.userComponent = userComponent;
-        enableMouseEvents();
+        init();
     }
 
     public SimSharingJSpinner( IUserComponent userComponent ) {
         this.userComponent = userComponent;
+        init();
+    }
+
+    private void init() {
+        initButtonListener();
         enableMouseEvents();
+    }
+
+    /*
+     * Pressing one of the spinner buttons results in a call to fireStateChanged.
+     * In order to differentiate between user interactions and programmatic calls
+     * to setValue, we need to know if a button has been pressed. This initialization
+     * method adds a listener that sets buttonPressed=true when one of the buttons
+     * is pressed. A message will be sent only if buttonPressed=true in fireStateChanged.
+     */
+    private void initButtonListener() {
+        ActionListener listener = new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                buttonPressed = true;
+            }
+        };
+        for ( Component child : getComponents() ) {
+            if ( child instanceof JButton) {
+                ( (JButton) child ).addActionListener( listener );
+            }
+        }
     }
 
     //Make sure processMouseEvent gets called even if no listeners registered.  See http://www.dickbaldwin.com/java/Java102.htm#essential_ingredients_for_extending_exis
@@ -60,7 +89,10 @@ public class SimSharingJSpinner extends JSpinner {
     }
 
     @Override protected void fireStateChanged() {
+        if ( buttonPressed ) {
         sendUserMessage( parameterSet( value, getValue().toString() ) );
+        }
+        buttonPressed = false;
         super.fireStateChanged();
     }
 
