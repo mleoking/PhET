@@ -12,11 +12,14 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractionsintro.common.view.Pattern.NineGrid;
+import edu.colorado.phet.fractionsintro.common.view.Pattern.SixPlusSigns;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBarsNode;
 import edu.umd.cs.piccolo.PNode;
@@ -58,10 +61,20 @@ public class Levels {
             return new PieNode( fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ) );
         }
     };
+    final F<Fraction, PNode> sixPlusses = new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction fraction ) {
+            return new PatternNode( new SixPlusSigns(), fraction, fraction.numerator );
+        }
+    };
+    final F<Fraction, PNode> nineGrid = new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction fraction ) {
+            return new PatternNode( new NineGrid(), fraction, fraction.numerator );
+        }
+    };
 
     public static final Random random = new Random();
 
-    private Pair<MovableFraction, MovableFraction> createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells ) {
+    private Pair<MovableFraction, MovableFraction> createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells, F<Fraction, ArrayList<F<Fraction, PNode>>> _representations ) {
 
         //choose a fraction
         Fraction f = fractions.get( random.nextInt( fractions.size() ) );
@@ -69,7 +82,7 @@ public class Levels {
         //Without replacement, remove the old fraction.
         fractions.remove( f );
 
-        ArrayList<F<Fraction, PNode>> representations = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+        ArrayList<F<Fraction, PNode>> representations = _representations.f( f );
 
         //create 2 representation for it
         F<Fraction, PNode> representationA = representations.get( random.nextInt( representations.size() ) );
@@ -106,7 +119,7 @@ public class Levels {
                                     MoveToCell( cell ) );
     }
 
-    private List<MovableFraction> createLevel( List<Cell> _cells, Fraction[] a ) {
+    private List<MovableFraction> createLevel( List<Cell> _cells, Fraction[] a, F<Fraction, ArrayList<F<Fraction, PNode>>> representations ) {
         assert _cells.length() % 2 == 0;
         ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( a ) );
 
@@ -116,7 +129,7 @@ public class Levels {
         ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
         while ( list.size() < _cells.length() ) {
             System.out.println( "cells = " + cells );
-            Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells );
+            Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells, representations );
             list.add( pair._1 );
             list.add( pair._2 );
         }
@@ -131,7 +144,7 @@ public class Levels {
      * “Easy” shapes on this level (not some of the more abstract representations)
      */
     public F<List<Cell>, List<MovableFraction>> Level1 = new F<List<Cell>, List<MovableFraction>>() {
-        @Override public List<MovableFraction> f( List<Cell> _cells ) {
+        @Override public List<MovableFraction> f( List<Cell> cells ) {
 
             final Fraction[] a = {
                     new Fraction( 1, 3 ),
@@ -140,7 +153,11 @@ public class Levels {
                     new Fraction( 3, 4 ),
                     new Fraction( 1, 2 ),
                     new Fraction( 1, 1 ) };
-            return createLevel( _cells, a );
+            return createLevel( cells, a, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
+                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
+                    return new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                }
+            } );
         }
     };
 
@@ -158,7 +175,18 @@ public class Levels {
                     new Fraction( 1, 3 ),
                     new Fraction( 2, 3 ),
                     new Fraction( 3, 6 ),
-                    new Fraction( 2, 6 ) } );
+                    new Fraction( 2, 6 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
+                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
+                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    if ( fraction.denominator == 6 ) {
+                        list.add( sixPlusses );
+                    }
+                    if ( fraction.denominator == 9 ) {
+                        list.add( nineGrid );
+                    }
+                    return list;
+                }
+            } );
         }
     };
 
@@ -177,7 +205,18 @@ public class Levels {
                     new Fraction( 4, 2 ),
                     new Fraction( 7, 6 ),
                     new Fraction( 4, 5 ),
-                    new Fraction( 3, 4 ) } );
+                    new Fraction( 3, 4 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
+                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
+                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    if ( fraction.denominator == 6 ) {
+                        list.add( sixPlusses );
+                    }
+                    if ( fraction.denominator == 9 ) {
+                        list.add( nineGrid );
+                    }
+                    return list;
+                }
+            } );
         }
     };
 
@@ -194,7 +233,18 @@ public class Levels {
                     new Fraction( 9, 8 ),
                     new Fraction( 8, 9 ),
                     new Fraction( 12, 13 ),
-                    new Fraction( 9, 7 ) } );
+                    new Fraction( 9, 7 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
+                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
+                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    if ( fraction.denominator == 6 ) {
+                        list.add( sixPlusses );
+                    }
+                    if ( fraction.denominator == 9 ) {
+                        list.add( nineGrid );
+                    }
+                    return list;
+                }
+            } );
         }
     };
 
