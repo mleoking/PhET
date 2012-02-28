@@ -1,3 +1,4 @@
+2/27/12 #3204, add study version to build.properties file
 2/27/12 #3204, sim-sharing message when "invalid value" dialog is opened for spinners
 2/27/12 #3267, sim-sharing fix for spinners
 2/27/12 #3204, cleaned up UserComponent for radio buttons in tabs 1 & 2
