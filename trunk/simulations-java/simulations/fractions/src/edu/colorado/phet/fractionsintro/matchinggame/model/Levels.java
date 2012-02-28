@@ -108,61 +108,85 @@ public class Levels {
                                     MoveToCell( cell ) );
     }
 
+    private List<MovableFraction> createLevel( List<Cell> _cells, Fraction[] a ) {
+        assert _cells.length() % 2 == 0;
+        ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( a ) );
+
+        ArrayList<MovableFraction> list = new ArrayList<MovableFraction>();
+
+        //Use mutable collection so it can be removed from for drawing without replacement
+        ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
+        while ( list.size() < _cells.length() ) {
+            System.out.println( "cells = " + cells );
+            Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells );
+            list.add( pair._1 );
+            list.add( pair._2 );
+        }
+        return iterableList( list );
+    }
+
+    /**
+     * Level 1
+     * No mixed numbers
+     * Only “exact” matches will be present.  So for instance if there is a 3/6  and a pie with 6 divisions and 3 shaded slices, there will not be a ½  present .  In other words, the numerical representation on this level will exactly match the virtual manipulative.
+     * Only numbers/representations  ≦ 1 possible on this level
+     * “Easy” shapes on this level (not some of the more abstract representations)
+     */
     public F<List<Cell>, List<MovableFraction>> Level1 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> _cells ) {
-            assert _cells.length() % 2 == 0;
 
-            ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( new Fraction[] {
+            final Fraction[] a = {
                     new Fraction( 1, 3 ),
                     new Fraction( 2, 3 ),
                     new Fraction( 1, 4 ),
                     new Fraction( 3, 4 ),
                     new Fraction( 1, 2 ),
-                    new Fraction( 1, 1 ) } ) );
-
-            ArrayList<MovableFraction> list = new ArrayList<MovableFraction>();
-
-            //Use mutable collection so it can be removed from for drawing without replacement
-            ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
-            while ( list.size() < _cells.length() ) {
-                System.out.println( "cells = " + cells );
-                Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells );
-                list.add( pair._1 );
-                list.add( pair._2 );
-            }
-            return iterableList( list );
+                    new Fraction( 1, 1 ) };
+            return createLevel( _cells, a );
         }
     };
 
+    /**
+     * Level 2
+     * Reduced fractions possible on this level.  So, for instance 3/6 and ½  could both be present.  Or a virtual representation of 3/6 could have the numerical of ½ be its only possible match
+     * Still only numbers/representations  ≦ 1 possible
+     * More shapes can be introduced
+     */
     public F<List<Cell>, List<MovableFraction>> Level2 = new F<List<Cell>, List<MovableFraction>>() {
-        @Override public List<MovableFraction> f( List<Cell> _cells ) {
-            assert _cells.length() % 2 == 0;
-
-            ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( new Fraction[] {
+        @Override public List<MovableFraction> f( List<Cell> cells ) {
+            return createLevel( cells, new Fraction[] {
                     new Fraction( 1, 2 ),
                     new Fraction( 2, 4 ),
                     new Fraction( 1, 3 ),
                     new Fraction( 2, 3 ),
                     new Fraction( 3, 6 ),
-                    new Fraction( 2, 6 ) } ) );
+                    new Fraction( 2, 6 ) } );
+        }
+    };
 
-            ArrayList<MovableFraction> list = new ArrayList<MovableFraction>();
-
-            //Use mutable collection so it can be removed from for drawing without replacement
-            ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
-            while ( list.size() < _cells.length() ) {
-                System.out.println( "cells = " + cells );
-                Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells );
-                list.add( pair._1 );
-                list.add( pair._2 );
-            }
-            return iterableList( list );
+    /**
+     * Level 3:
+     * Reduced fractions possible on this level.  So, for instance 3/6 and ½  could both be present.  Or a virtual representation of 3/6 could have the numerical of ½ be its only possible match
+     * Still only numbers/representations  ≦ 1 possible
+     * More shapes can be introduced
+     */
+    public F<List<Cell>, List<MovableFraction>> Level3 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> cells ) {
+            return createLevel( cells, new Fraction[] {
+                    new Fraction( 3, 2 ),
+                    new Fraction( 4, 3 ),
+                    new Fraction( 6, 3 ),
+                    new Fraction( 4, 2 ),
+                    new Fraction( 7, 6 ),
+                    new Fraction( 4, 5 ),
+                    new Fraction( 3, 4 ) } );
         }
     };
 
     public F<List<Cell>, List<MovableFraction>> get( int level ) {
         return level == 1 ? Level1 :
                level == 2 ? Level2 :
-               Level1;
+               level == 3 ? Level3 :
+               Level3;
     }
 }
