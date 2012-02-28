@@ -5,21 +5,16 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
-public class VerticalBarsNode extends RepNode {
+public class VerticalBarsNode extends PNode {
     public VerticalBarsNode( final Fraction fraction, double scale ) {
-        this( ModelViewTransform.createIdentity(), fraction );
         setScale( scale );
-    }
-
-    public VerticalBarsNode( ModelViewTransform transform, final Fraction fraction ) {
-        super( transform, fraction );
 
         double width = 75;
         double height = 75;
