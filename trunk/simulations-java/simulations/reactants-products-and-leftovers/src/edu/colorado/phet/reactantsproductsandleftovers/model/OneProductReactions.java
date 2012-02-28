@@ -17,7 +17,7 @@ public class OneProductReactions {
     // 2H2 + O2 -> 2H2O
     public static class WaterReaction extends ChemicalReaction {
         public WaterReaction() {
-            super( RPALStrings.RADIO_BUTTON_WATER, 
+            super( RPALStrings.RADIO_BUTTON_WATER, "makeWater",
                    new Reactant[] { new Reactant( 2, new H2() ), new Reactant( 1, new O2() ) },
                     new Product[] { new Product( 2, new H2O() ) } );
         }
@@ -114,7 +114,7 @@ public class OneProductReactions {
     // N2 + 3H2 -> 2NH3
     public static class AmmoniaReaction extends ChemicalReaction {
         public AmmoniaReaction() {
-            super( RPALStrings.RADIO_BUTTON_AMMONIA, 
+            super( RPALStrings.RADIO_BUTTON_AMMONIA, "makeAmmonia",
                     new Reactant[] { new Reactant( 1, new N2() ), new Reactant( 3, new H2() ) }, 
                     new Product[] { new Product( 2, new NH3() ) } );
         }

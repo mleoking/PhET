@@ -35,8 +35,8 @@ public class SandwichShopModel extends RPALModel {
      */
     public static abstract class SandwichReaction extends ChemicalReaction {
         
-        public SandwichReaction( String name, Reactant[] reactants ) {
-            super( name, reactants, new Product[] { new Product( 1, new Sandwich(), DEFAULT_QUANTITY ) } );
+        public SandwichReaction( String name, String internalName, Reactant[] reactants ) {
+            super( name, internalName, reactants, new Product[] { new Product( 1, new Sandwich(), DEFAULT_QUANTITY ) } );
             for ( Reactant reactant : getReactants() ) {
                 reactant.addReactantChangeListener( new ReactantChangeAdapter() {
                     public void coefficientChanged() {
@@ -60,7 +60,7 @@ public class SandwichShopModel extends RPALModel {
     // bread + cheese -> sandwich
     public static class CheeseSandwichReaction extends SandwichReaction {
         public CheeseSandwichReaction() {
-            super( RPALStrings.RADIO_BUTTON_CHEESE_SANDWICH,
+            super( RPALStrings.RADIO_BUTTON_CHEESE_SANDWICH, "cheeseSandwich",
                     new Reactant[] { new Reactant( DEFAULT_COEFFICIENT, new Bread(), DEFAULT_QUANTITY ), new Reactant( DEFAULT_COEFFICIENT, new Cheese(), DEFAULT_QUANTITY ) } );
         }
     }
@@ -68,7 +68,7 @@ public class SandwichShopModel extends RPALModel {
     // bread + meat + cheese -> sandwich
     public static class MeatCheeseSandwich extends SandwichReaction  {
         public MeatCheeseSandwich() {
-            super( RPALStrings.RADIO_BUTTON_MEAT_CHEESE_SANDWICH,
+            super( RPALStrings.RADIO_BUTTON_MEAT_CHEESE_SANDWICH, "meatAndCheeseSandwich",
                     new Reactant[] { new Reactant( DEFAULT_COEFFICIENT, new Bread(), DEFAULT_QUANTITY ), new Reactant( DEFAULT_COEFFICIENT, new Meat(), DEFAULT_QUANTITY ), new Reactant( DEFAULT_COEFFICIENT, new Cheese(), DEFAULT_QUANTITY ) } );
         }
     }

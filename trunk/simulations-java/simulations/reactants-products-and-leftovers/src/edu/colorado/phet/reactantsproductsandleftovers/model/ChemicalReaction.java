@@ -20,7 +20,8 @@ import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant.ReactantCh
  */
 public class ChemicalReaction {
     
-    private final String name;
+    private final String name; // localized name, suitable for display
+    private final String internalName; // used internally for sim-sharing, etc., not localized
     private final Reactant[] reactants;
     private final Product[] products;
     private final EventListenerList listeners;
@@ -30,6 +31,10 @@ public class ChemicalReaction {
     }
 
     public ChemicalReaction( String name, Reactant[] reactants, Product[] products ) {
+        this( name, name, reactants, products );
+    }
+
+    public ChemicalReaction( String name, String internalName, Reactant[] reactants, Product[] products ) {
         
         if ( reactants.length < 2 ) {
             throw new IllegalArgumentException( "a reaction requires at least 2 reactants" );
@@ -39,6 +44,7 @@ public class ChemicalReaction {
         }
         
         this.name = name;
+        this.internalName = internalName;
         this.reactants = reactants;
         this.products = products;
         this.listeners = new EventListenerList();
@@ -60,12 +66,14 @@ public class ChemicalReaction {
         update();
     }
     
-    /**
-     * Gets the localized name of the reaction, suitable for display to the user.
-     * @return
-     */
+    // Gets the localized name of the reaction, suitable for display to the user.
     public String getName() {
         return name;
+    }
+
+    // Gets the internal name of the reaction, suitable for use in debugging, sim-sharing, log output, etc.
+    public String getInternalName() {
+        return internalName;
     }
     
     public Reactant[] getReactants() {

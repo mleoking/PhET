@@ -33,7 +33,7 @@ public class TwoProductReactions {
     // CH4 + 2 O2 -> CO2 + 2 H2O
     public static class MethaneReaction extends ChemicalReaction {
         public MethaneReaction() {
-            super( RPALStrings.RADIO_BUTTON_METHANE, 
+            super( RPALStrings.RADIO_BUTTON_METHANE, "combustMethane",
                     new Reactant[] { new Reactant( 1, new CH4() ), new Reactant( 2, new O2() ) }, 
                     new Product[] { new Product( 1, new CO2() ), new Product( 2, new H2O() ) } );
         }
