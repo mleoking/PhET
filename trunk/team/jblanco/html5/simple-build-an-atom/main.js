@@ -114,7 +114,7 @@ function drawPhetLogo() {
     context.fillText( 'PhET', canvas.width - 70, canvas.height / 2 );
 }
 
-function reset(){
+function reset() {
     // Remove all existing particles.
     removeAllParticlesFromNucleus();
     protonBucket.removeAllParticles();
@@ -544,15 +544,24 @@ function ResetButton( initialLocation, color ) {
     this.width = 90;
     this.height = 40;
     this.color = color;
+    this.pressed = false;
 }
 
 ResetButton.prototype.draw = function( context ) {
     var xPos = this.location.x;
     var yPos = this.location.y;
     var gradient = context.createLinearGradient( xPos, yPos, xPos, yPos + this.height );
-    gradient.addColorStop( 0, "white" );
-    gradient.addColorStop( 1, this.color );
+    if ( !this.pressed ) {
+        gradient.addColorStop( 0, "white" );
+        gradient.addColorStop( 1, this.color );
+    }
+    else {
+        gradient.addColorStop( 0, this.color );
+    }
     // Draw box that defines button outline.
+    context.strokeStyle = '#222'; // Gray
+    context.lineWidth = 1;
+    context.strokeRect( xPos, yPos, this.width, this.height );
     context.fillStyle = gradient;
     context.fillRect( xPos, yPos, this.width, this.height );
     // Put text on the box.
@@ -561,6 +570,15 @@ ResetButton.prototype.draw = function( context ) {
     context.textBaseline = 'top';
     context.textAlign = 'left';
     context.fillText( 'Reset', xPos + 5, yPos + 5 );
+}
+
+ResetButton.prototype.press = function() {
+    this.pressed = true;
+    reset();
+}
+
+ResetButton.prototype.unPress = function( context ) {
+    this.pressed = false;
 }
 
 ResetButton.prototype.setLocationComponents = function( x, y ) {
@@ -768,7 +786,7 @@ function onTouchStart( location ) {
     else {
         // Check if the reset button was pressed.
         if ( resetButton.containsPoint( location ) ) {
-            reset();
+            resetButton.press();
         }
     }
 
@@ -803,5 +821,11 @@ function onTouchEnd() {
         // Always set to null to indicate that no nucleon is being dragged.
         nucleonBeingDragged = null;
     }
+
+    // If reset button was pressed, then release it.
+    if ( resetButton.pressed ) {
+        resetButton.unPress();
+    }
+
     draw();
 }
