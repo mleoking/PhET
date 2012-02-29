@@ -143,7 +143,6 @@ Point2D.prototype.set = function( point2D ) {
 }
 
 Point2D.prototype.equals = function ( point2D ) {
-    console.log( "returning " + ((point2D.x == this.x) && (point2D.y == this.y)) );
     return (point2D.x == this.x) && (point2D.y == this.y);
 }
 
@@ -244,8 +243,8 @@ function Bucket( initialLocation, color, labelText ) {
     this.labelText = labelText;
 
     // Size is fixed, at least for now.
-    this.width = nucleonRadius * 9;
-    this.height = this.width * 0.5;
+    this.width = nucleonRadius * 9; // 4 nucleons and 1.5 radii at edge of bucket = (r * 2 * 3) + (r * 1.5 * 2).
+    this.height = this.width * 0.35;
 
     this.nucleonsInBucket = new Array();
 }
@@ -308,12 +307,33 @@ Bucket.prototype.removeNucleonFromBucket = function ( nucleon ) {
     }
 }
 
+// Algorithm that maps an index to a location in the bucket.  This is limited
+// to a certain number of nucleons, so be careful if reusing.
 Bucket.prototype.getNucleonLocationByIndex = function ( index ) {
+    var location;
     var nucleonRadius = new Nucleon( "black" ).radius;
-    var minX = this.location.x + nucleonRadius * 1.5;
-    var maxXOffset = this.width - 2 * nucleonRadius;
-    var multiplier = Math.random();
-    return new Point2D( minX + index * nucleonRadius * 2, this.location.y );
+    // Assumes 1.5r margin on both sides of the bucket.
+    var numInCenterRow = Math.round( ( this.width - 2 * nucleonRadius ) / ( nucleonRadius * 2 ) );
+    if ( index < numInCenterRow - 1 ) {
+        // In back row, which is populated first.
+        console.log( "back row " );
+        location = new Point2D( this.location.x + nucleonRadius * 2.5 + index * nucleonRadius * 2, this.location.y - nucleonRadius * 0.5 );
+    }
+    else if ( index < 2 * numInCenterRow - 1 ) {
+        // In center row.
+        console.log( "center row " );
+        location = new Point2D( this.location.x + nucleonRadius * 1.5 + (index - numInCenterRow + 1) * nucleonRadius * 2, this.location.y );
+    }
+    else if ( index < 3 * numInCenterRow - 2 ) {
+        // In back row.
+        console.log( "front row " );
+        location = new Point2D( this.location.x + nucleonRadius * 2.5 + (index - numInCenterRow * 2 + 1) * nucleonRadius * 2, this.location.y + nucleonRadius * 0.5 );
+    }
+    else {
+        console.log( "bucket capacity exceeded, using center" );
+        location = new Point2D( this.location.x + this.width / 2, this.location.y );
+    }
+    return location;
 }
 
 Bucket.prototype.getNextOpenNucleonLocation = function () {
@@ -518,13 +538,13 @@ function draw() {
     protonBucket.drawInterior( context );
 
     // Draw the particles.  Some may be in the nucleus, some in buckets.
-    for ( i = 0; i < nucleonsInNucleus.length; i++ ) {
+    for ( var i = 0; i < nucleonsInNucleus.length; i++ ) {
         nucleonsInNucleus[i].draw( context );
     }
-    for ( i = 0; i < protonBucket.nucleonsInBucket.length; i++ ) {
+    for ( var i = 0; i < protonBucket.nucleonsInBucket.length; i++ ) {
         protonBucket.nucleonsInBucket[i].draw( context );
     }
-    for ( i = 0; i < neutronBucket.nucleonsInBucket.length; i++ ) {
+    for ( var i = 0; i < neutronBucket.nucleonsInBucket.length; i++ ) {
         neutronBucket.nucleonsInBucket[i].draw( context );
     }
 
