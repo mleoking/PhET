@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractionsintro.intro.view.FractionControlNode;
+import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode;
 import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
@@ -63,6 +64,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         //For water glasses
         addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode ) ) );
+
+        //Number line
+        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
+            setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
+        }} );
 
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
     }

@@ -41,11 +41,6 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
-        //Number line
-        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
-            setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
-        }} );
-
         //Show the pie set node when pies are selected
         addChild( new RepresentationNode( model.representation, PIE, new PieSetNode( model.pieSet, rootNode ) ) );
 
@@ -66,6 +61,11 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
         //For draggable cakes
         addChild( new RepresentationNode( model.representation, CAKE, new CakeSetNode( model.cakeSet, rootNode ) ) );
+
+        //Number line
+        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
+            setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
+        }} );
 
         //The fraction control node
         addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
