@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.equalitylab.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -19,6 +20,9 @@ public class EqualityLabModel {
     public final SettableProperty<PieSet> pieSet = model.pieSet;
     public final SettableProperty<PieSet> horizontalBarSet = model.horizontalBarSet;
     public final Clock clock = model.clock;
+    public final IntegerProperty numerator = model.numerator;
+    public final IntegerProperty denominator = model.denominator;
+    public final IntegerProperty maximum = model.maximum;
 
     public void resetAll() {
         model.resetAll();
