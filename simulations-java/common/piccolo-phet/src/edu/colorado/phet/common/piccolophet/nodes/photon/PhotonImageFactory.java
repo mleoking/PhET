@@ -28,43 +28,18 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class PhotonImageFactory {
 
-    //----------------------------------------------------------------------------
-    // Debugging
-    //----------------------------------------------------------------------------
-
     /* enable debug output for the image cache */
     private static final boolean DEBUG_CACHE_ENABLED = false;
-
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    private static final int PHOTON_COLOR_ALPHA = 130;
-    private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
-    private static final double CROSSHAIRS_ANGLE = 18; // degrees
-    private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
-
-    private static final Color UV_IR_COLOR = new Color( 160, 160, 160 ); // gray
-    private static final Color UV_CROSSHAIRS_COLOR = VisibleColor.wavelengthToColor( 400, UV_IR_COLOR, UV_IR_COLOR );
-    private static final Color IR_CROSSHAIRS_COLOR = VisibleColor.wavelengthToColor( 715, UV_IR_COLOR, UV_IR_COLOR );
 
     // Image cache
     private static final Integer UV_IMAGE_KEY = new Integer( (int) ( VisibleColor.MIN_WAVELENGTH - 1 ) );
     private static final Integer IR_IMAGE_KEY = new Integer( (int) ( VisibleColor.MAX_WAVELENGTH + 1 ) );
     private static final ImageCache IMAGE_CACHE = new ImageCache();
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
 
     /* not intended for instantiation */
-
     private PhotonImageFactory() {
     }
-
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
 
     /**
      * Gets a photon image from the cache.
@@ -84,95 +59,9 @@ public class PhotonImageFactory {
         return image;
     }
 
-    /**
-     * Creates the image used to represent a photon.
-     * The image is NOT obtained from the cache.
-     * Use this method if you don't care about caching, or need to modify the image.
-     *
-     * @param wavelength
-     * @param diameter
-     * @return Image
-     */
     public static final Image createPhotonImage( double wavelength, double diameter ) {
-        PNode parentNode = new PNode();
-
-        Color photonColor = VisibleColor.wavelengthToColor( wavelength, UV_IR_COLOR, UV_IR_COLOR );
-
-        // Outer transparent ring
-        final double outerDiameter = diameter;
-        Shape outerShape = new Ellipse2D.Double( -outerDiameter / 2, -outerDiameter / 2, outerDiameter, outerDiameter );
-        Color outerColor = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), 0 );
-        Paint outerPaint = new RoundGradientPaint( 0, 0, photonColor, new Point2D.Double( 0.4 * outerDiameter, 0.4 * outerDiameter ), outerColor );
-        PPath outerOrb = new PPath();
-        outerOrb.setPathTo( outerShape );
-        outerOrb.setPaint( outerPaint );
-        outerOrb.setStroke( null );
-        parentNode.addChild( outerOrb );
-
-        // Inner orb, saturated color with hilite in center
-        final double innerDiameter = 0.5 * diameter;
-        Shape innerShape = new Ellipse2D.Double( -innerDiameter / 2, -innerDiameter / 2, innerDiameter, innerDiameter );
-        Color photonColorTransparent = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), PHOTON_COLOR_ALPHA );
-        Paint innerPaint = new RoundGradientPaint( 0, 0, HILITE_COLOR, new Point2D.Double( 0.25 * innerDiameter, 0.25 * innerDiameter ), photonColorTransparent );
-        PPath innerOrb = new PPath();
-        innerOrb.setPathTo( innerShape );
-        innerOrb.setPaint( innerPaint );
-        innerOrb.setStroke( null );
-        parentNode.addChild( innerOrb );
-
-        // Crosshairs
-        PNode crosshairs = new PNode();
-        {
-            PNode bigCrosshair = createCrosshair( wavelength, 1.15 * innerDiameter );
-            PNode smallCrosshair = createCrosshair( wavelength, 0.8 * innerDiameter );
-            smallCrosshair.rotate( Math.toRadians( 45 ) );
-            crosshairs.addChild( smallCrosshair );
-            crosshairs.addChild( bigCrosshair );
-        }
-        crosshairs.rotate( Math.toRadians( CROSSHAIRS_ANGLE ) );
-        parentNode.addChild( crosshairs );
-
-        return parentNode.toImage();
+        return new PhotonNode( wavelength, diameter ).toImage();
     }
-
-    /*
-     * Creates the crosshairs that appear in the center of the image.
-     */
-    private static PNode createCrosshair( double wavelength, double diameter ) {
-
-        Color crosshairsColor = CROSSHAIRS_COLOR;
-        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
-            crosshairsColor = UV_CROSSHAIRS_COLOR;
-        }
-        else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
-            crosshairsColor = IR_CROSSHAIRS_COLOR;
-        }
-
-        final double crosshairWidth = diameter;
-        final double crosshairHeight = 0.15 * crosshairWidth;
-        Shape crosshairShape = new Ellipse2D.Double( -crosshairWidth / 2, -crosshairHeight / 2, crosshairWidth, crosshairHeight );
-
-        PPath horizontalPart = new PPath();
-        horizontalPart.setPathTo( crosshairShape );
-        horizontalPart.setPaint( crosshairsColor );
-        horizontalPart.setStroke( null );
-
-        PPath verticalPart = new PPath();
-        verticalPart.setPathTo( crosshairShape );
-        verticalPart.setPaint( crosshairsColor );
-        verticalPart.setStroke( null );
-        verticalPart.rotate( Math.toRadians( 90 ) );
-
-        PNode crosshairs = new PNode();
-        crosshairs.addChild( horizontalPart );
-        crosshairs.addChild( verticalPart );
-
-        return crosshairs;
-    }
-
-    //----------------------------------------------------------------------------
-    // Image cache
-    //----------------------------------------------------------------------------
 
     /*
     * Cache that maps wavelengths and diameters to images.
@@ -243,7 +132,7 @@ public class PhotonImageFactory {
         * All UV wavelengths map to the same key, ditto for IR.
         */
         private Object wavelengthToKey( double wavelength ) {
-            Object key = null;
+            Object key;
             if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
                 key = UV_IMAGE_KEY;
             }
