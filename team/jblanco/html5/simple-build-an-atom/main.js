@@ -65,20 +65,15 @@ function init() {
     neutronBucket = new Bucket( new Point2D( 100, 300 ), "gray", "Neutrons" );
     protonBucket = new Bucket( new Point2D( 400, 300 ), "red", "Protons" );
 
-    // Add the protons and neutrons.  They are initially in the buckets.
-    for ( i = 0; i < numProtons; i++ ) {
-        protonBucket.addNucleonToBucket( new Proton() );
-    }
-    for ( i = 0; i < numNeutrons; i++ ) {
-        neutronBucket.addNucleonToBucket( new Neutron() );
-    }
-
     // Add the reset button.
     resetButton = new ResetButton( new Point2D( 600, 325 ), "orange" );
 
     // Add the nucleus label.  This gets updated as the nucleus configuration
     // changes.
     nucleusLabel = new NucleusLabel( new Point2D( 450, 80 ) );
+
+    // Add initial particles to buckets by initiating a reset.
+    reset();
 
     // Commenting out, since iPad seems to send these continuously.
 //	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
@@ -117,6 +112,21 @@ function drawPhetLogo() {
     context.font = 'italic 20px sans-serif';
     context.textBaseline = 'top';
     context.fillText( 'PhET', canvas.width - 70, canvas.height / 2 );
+}
+
+function reset(){
+    // Remove all existing particles.
+    removeAllParticlesFromNucleus();
+    protonBucket.removeAllParticles();
+    neutronBucket.removeAllParticles();
+
+    // Add the protons and neutrons.  They are initially in the buckets.
+    for ( i = 0; i < numProtons; i++ ) {
+        protonBucket.addNucleonToBucket( new Proton() );
+    }
+    for ( i = 0; i < numNeutrons; i++ ) {
+        neutronBucket.addNucleonToBucket( new Neutron() );
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -305,6 +315,10 @@ Bucket.prototype.removeNucleonFromBucket = function ( nucleon ) {
     if ( index != -1 ) {
         this.nucleonsInBucket.splice( index, 1 );
     }
+}
+
+Bucket.prototype.removeAllParticles = function () {
+    this.nucleonsInBucket.length = 0;
 }
 
 // Algorithm that maps an index to a location in the bucket.  This is limited
@@ -704,17 +718,7 @@ function onTouchStart( location ) {
     else {
         // Check if the reset button was pressed.
         if ( resetButton.containsPoint( location ) ) {
-            // Perform a reset by moving any particles that are in the nucleus
-            // into their bucket.
-            for ( var i = 0; i < nucleonsInNucleus.length; i++ ) {
-                if ( nucleonsInNucleus[i] instanceof Proton ) {
-                    protonBucket.addNucleonToBucket( nucleonsInNucleus[i] );
-                }
-                else {
-                    neutronBucket.addNucleonToBucket( nucleonsInNucleus[i] );
-                }
-            }
-            removeAllParticlesFromNucleus();
+            reset();
         }
     }
 
