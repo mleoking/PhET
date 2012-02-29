@@ -1,8 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 
-var numProtons = 5;
-var numNeutrons = 5;
+/**
+ * Main JavaScript file for the HTML5 prototype of the Build an Atom
+ * simulation.
+ */
 
+// Constants.
+var numProtons = 10;
+var numNeutrons = 10;
+var nucleonRadius = 20;
+
+// Global variables.
 var canvas;
 var touchInProgress = false;
 var context;
@@ -139,7 +147,7 @@ Point2D.prototype.set = function( point2D ) {
 
 function Nucleon( color ) {
     this.location = new Point2D( 0, 0 );
-    this.radius = 20;
+    this.radius = nucleonRadius;
     this.color = color;
 }
 
@@ -230,7 +238,7 @@ function Bucket( initialLocation, color, labelText ) {
     this.labelText = labelText;
 
     // Size is fixed, at least for now.
-    this.width = 150;
+    this.width = nucleonRadius * 9;
     this.height = this.width * 0.5;
 
     this.nucleonsInBucket = new Array();
@@ -283,8 +291,8 @@ Bucket.prototype.drawInterior = function( context ) {
 }
 
 Bucket.prototype.addNucleonToBucket = function ( nucleon ){
+    nucleon.setLocation( this.getNucleonLocation( this.nucleonsInBucket.length ));
     this.nucleonsInBucket.push( nucleon );
-    this.updateNucleonPositions();
 }
 
 Bucket.prototype.removeNucleonFromBucket = function ( nucleon ){
@@ -292,14 +300,14 @@ Bucket.prototype.removeNucleonFromBucket = function ( nucleon ){
     if ( index != -1 ){
         this.nucleonsInBucket.splice( index, 1 );
     }
-    this.updateNucleonPositions();
 }
 
-Bucket.prototype.updateNucleonPositions = function () {
-    for ( i = 0; i < this.nucleonsInBucket.length; i++ ) {
-        // TODO: For now, just put them all in the center of the bucket.
-        this.nucleonsInBucket[ i ].setLocationComponents( this.location.x + this.width / 2, this.location.y );
-    }
+Bucket.prototype.getNucleonLocation = function ( index ) {
+    var nucleonRadius = new Nucleon( "black" ).radius;
+    var minX = this.location.x + nucleonRadius * 1.5;
+    var maxXOffset = this.width - 2 * nucleonRadius;
+    var multiplier = Math.random();
+    return new Point2D( minX + index * nucleonRadius * 2, this.location.y );
 }
 
 Bucket.prototype.setLocationComponents = function( x, y ) {
