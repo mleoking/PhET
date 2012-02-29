@@ -116,7 +116,7 @@ public class PieSetNode extends PNode {
         PNode text = new FractionNode( FractionNumberNode.NUMBER_FONT, new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
             scale( 0.2 );
         }};
-        PNode iconAndText = new HBox( icon, text );
+        PNode iconAndText = new HBox( 20, icon, text );
 
         addChild( new ZeroOffsetNode( iconAndText ) {{
             centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );
