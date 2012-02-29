@@ -155,7 +155,7 @@ import static fj.data.List.range;
         final Slice bucketSlice = bucketSlices.index( random.nextInt( bucketSlices.length() ) );
 
         final Slice target = sliceFactory.createPieCell( pies.length(), emptyCell.container, emptyCell.cell, denominator );
-        return slices( slices.snoc( bucketSlice.animationTarget( new AnimationTarget( target.position, target.angle ) ) ) );
+        return slices( slices.snoc( bucketSlice.animationTarget( target ) ) );
     }
 
     private List<Slice> getBucketSlices() {
@@ -193,7 +193,7 @@ import static fj.data.List.range;
             @Override public Slice f( Slice m ) {
 
                 //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
-                return m == slice ? m.animationTarget( new AnimationTarget( target.position, target.angle ) ).stepAnimation() : m;
+                return m == slice ? m.animationTarget( target ).stepAnimation() : m;
             }
         } ) );
     }

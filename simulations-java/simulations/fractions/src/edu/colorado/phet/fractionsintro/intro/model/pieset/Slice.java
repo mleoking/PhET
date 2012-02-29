@@ -8,6 +8,8 @@ import java.awt.Shape;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
+import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarget.animateToSlice;
+
 /**
  * A single slice, used for pie cells or draggable pieces.
  *
@@ -39,6 +41,8 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
         return new Slice( tip, angle, dragging, animationTarget, toShape );
     }
 
+    public Slice animationTarget( Slice target ) { return animationTarget( animateToSlice( target ) );}
+
     public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
 
     public Vector2D center() {return new Vector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
@@ -69,7 +73,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
     private Slice checkFinishAnimation() {
         if ( position.distance( animationTarget.position ) < getVelocity().getMagnitude() ) {
-            return tip( animationTarget.position ).animationTarget( null ).angle( animationTarget.angle );
+            return tip( animationTarget.position ).animationTarget( (AnimationTarget) null ).angle( animationTarget.angle );
         }
         return this;
     }
