@@ -20,7 +20,14 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.SliceNodeArgs;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.CakeIcon;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationIcon;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.VerticalBarIcon;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -39,7 +46,14 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
-        final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation ) {{
+        final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation, new RepresentationIcon[] {
+                new PieIcon( model.representation ),
+                new HorizontalBarIcon( model.representation ),
+                new VerticalBarIcon( model.representation ),
+                new WaterGlassIcon( model.representation ),
+                new CakeIcon( model.representation ),
+                new NumberLineIcon( model.representation ),
+        } ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
         }};
         addChild( representationControlPanel );
