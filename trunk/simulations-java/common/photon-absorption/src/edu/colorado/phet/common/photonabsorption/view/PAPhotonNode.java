@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
-import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageCache;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -71,7 +71,7 @@ public class PAPhotonNode extends PNode implements Observer {
                 photonImage = new PImage( PhotonAbsorptionResources.getImage( "microwave-photon.png" ) );
             }
             else {
-                photonImage = new PImage( PhotonImageFactory.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
+                photonImage = new PImage( PhotonImageCache.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
             }
         }
         else {

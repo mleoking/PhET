@@ -8,16 +8,11 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
- * PhotonImageFactory creates images that represent photons.
- * The look is loosely based on examples that Wendy Adams found on a
- * Disney website at http://disney.go.com/fairies/meetfairies.html.
- * <p/>
- * UV photons are rendered as a gray orb with violet crosshairs.
- * IR photos are rendered as a gray orb with red crosshairs.
+ * Caches images that represent photons.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhotonImageFactory {
+public class PhotonImageCache {
 
     /* enable debug output for the image cache */
     private static final boolean DEBUG_CACHE_ENABLED = false;
@@ -29,8 +24,7 @@ public class PhotonImageFactory {
 
 
     /* not intended for instantiation */
-    private PhotonImageFactory() {
-    }
+    private PhotonImageCache() {}
 
     /**
      * Gets a photon image from the cache.
@@ -50,19 +44,29 @@ public class PhotonImageFactory {
         return image;
     }
 
+    /**
+     * Clears the cache.
+     */
+    public static final void clear() {
+        IMAGE_CACHE.clear();
+    }
+
     /*
     * Cache that maps wavelengths and diameters to images.
     * A double mapping is involved.
     * Diameter maps to a HashMap, which then maps wavelength to an Image.
     * Mapping of wavelength is done with integer precision.
     */
-
     private static class ImageCache {
 
         private HashMap _diameterMap; // key=diameter (Double), value=HashMap
 
         public ImageCache() {
             _diameterMap = new HashMap();
+        }
+
+        public void clear() {
+            _diameterMap.clear();
         }
 
         /**

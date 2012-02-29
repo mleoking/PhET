@@ -27,7 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageCache;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Photon;
 
@@ -229,7 +229,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     private static BufferedImage createTwinkleImage( double wavelength ) {
-        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.lookupPhotonImage( wavelength, PHOTON_SIZE ) );
+        return BufferedImageUtils.toBufferedImage( PhotonImageCache.lookupPhotonImage( wavelength, PHOTON_SIZE ) );
 //        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( wavelength, PHOTON_SIZE ) );
     }
 
