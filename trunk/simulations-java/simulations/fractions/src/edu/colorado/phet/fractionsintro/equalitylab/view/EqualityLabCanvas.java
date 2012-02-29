@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
@@ -28,11 +27,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
-        //Area which shows both representations and how they are equal
-        addChild( new ZeroOffsetNode( new RepresentationGridNode( model ) ) {{
-            setOffset( 0, STAGE_SIZE.getHeight() - INSET - getFullBounds().getHeight() );
-        }} );
-
         addChild( new ControlPanelNode( new PropertyCheckBox( "Separate", new BooleanProperty( true ) ) {{
             setFont( CONTROL_FONT );
         }} ) {{
@@ -42,7 +36,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {
                 model.resetAll();
-                resetAll();
             }
         }, this, CONTROL_FONT, Color.black, Color.orange ) {{
             setConfirmationEnabled( false );
@@ -50,9 +43,5 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( resetAllButtonNode );
 
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
-    }
-
-    private void resetAll() {
-
     }
 }
