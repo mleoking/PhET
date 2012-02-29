@@ -1,11 +1,12 @@
-Shrink values >1 more so they will both fit in the score box.
-Added fraction representations for numbers > 1
-Added audio buttons
-Made audio off by default
-Made black outline of "=" sign a bit thicker
-Got rid of solid black "=" sign & click-to-toggle
-Show the name of the next level
-Fixed: Shouldn't be able to drag pieces out of the scoreboard
+Intro: move max to upper right (right side of representation control panel).
+Matching Game: Shrink values >1 more so they will both fit in the score box.
+Matching Game: Added fraction representations for numbers > 1
+Matching Game: Added audio buttons
+Matching Game: Made audio off by default
+Matching Game: Made black outline of "=" sign a bit thicker
+Matching Game: Got rid of solid black "=" sign & click-to-toggle
+Matching Game: Show the name of the next level
+Matching Game: Fixed: Shouldn't be able to drag pieces out of the scoreboard
 # 0.00.42 (61921) Feb 28, 2012
 Moved the matching grid up a little to give it more negative space on the bottom
 Added more levels and randomization
