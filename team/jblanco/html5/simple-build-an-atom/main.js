@@ -537,15 +537,21 @@ function draw() {
     neutronBucket.drawInterior( context );
     protonBucket.drawInterior( context );
 
-    // Draw the particles.  Some may be in the nucleus, some in buckets.
+    // Draw the nucleons.  Some may be in the nucleus, some in buckets.
     for ( var i = 0; i < nucleonsInNucleus.length; i++ ) {
         nucleonsInNucleus[i].draw( context );
     }
-    for ( var i = 0; i < protonBucket.nucleonsInBucket.length; i++ ) {
-        protonBucket.nucleonsInBucket[i].draw( context );
+    var copyOfNucleons = protonBucket.nucleonsInBucket.slice();
+    // Reverse array so that layering on canvas makes first particles in bucket be in front.
+    copyOfNucleons.reverse();
+    for ( var i = 0; i < copyOfNucleons.length; i++ ) {
+        copyOfNucleons[i].draw( context );
     }
-    for ( var i = 0; i < neutronBucket.nucleonsInBucket.length; i++ ) {
-        neutronBucket.nucleonsInBucket[i].draw( context );
+    copyOfNucleons = neutronBucket.nucleonsInBucket.slice();
+    // Reverse array so that layering on canvas makes first particles in bucket be in front.
+    copyOfNucleons.reverse();
+    for ( var i = 0; i < copyOfNucleons.length; i++ ) {
+        copyOfNucleons[i].draw( context );
     }
 
     // Draw particle that is being dragged if there is one.
