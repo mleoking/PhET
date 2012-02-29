@@ -4,18 +4,16 @@ package edu.colorado.phet.hydrogenatom.view.particle;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
