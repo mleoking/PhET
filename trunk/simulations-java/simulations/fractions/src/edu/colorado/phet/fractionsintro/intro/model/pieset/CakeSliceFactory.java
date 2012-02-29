@@ -56,7 +56,7 @@ public class CakeSliceFactory extends AbstractSliceFactory {
     //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
     public Slice createBucketSlice( int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
-        final Vector2D location = new Vector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().getY() - radius / 2 );
+        final Vector2D location = new Vector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().getY() + radius / 4 );
         return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ) );
     }
 
