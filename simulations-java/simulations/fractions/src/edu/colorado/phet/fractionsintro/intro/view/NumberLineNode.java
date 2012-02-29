@@ -1,6 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
+import fj.F2;
+import fj.Ord;
+import fj.Ordering;
+import fj.data.List;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
@@ -9,8 +14,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
@@ -25,6 +28,12 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
+
+import static fj.Function.curry;
+import static fj.Ord.doubleOrd;
+import static fj.Ord.ord;
+import static fj.data.List.iterableList;
+import static java.lang.Math.abs;
 
 /**
  * Shows a number line and a dot on the number line to represent a fraction.
@@ -153,15 +162,15 @@ public class NumberLineNode extends PNode {
     }
 
     private void handleMousePress( PInputEvent event, IntegerProperty numerator ) {
-        final Point2D newPressPoint = event.getPositionRelativeTo( event.getPickedNode().getParent() );
+        final Point2D pt = event.getPositionRelativeTo( event.getPickedNode().getParent() );
 
-        //whichever tick mark is closer, go to that one
-        ArrayList<Pair<Double, Integer>> sorted = new ArrayList<Pair<Double, Integer>>( tickLocations );
-        Collections.sort( sorted, new Comparator<Pair<Double, Integer>>() {
-            public int compare( Pair<Double, Integer> o1, Pair<Double, Integer> o2 ) {
-                return Double.compare( Math.abs( o1._1 - newPressPoint.getX() ), Math.abs( o2._1 - newPressPoint.getX() ) );
+        final Ord<Pair<Double, Integer>> closest = ord( curry( new F2<Pair<Double, Integer>, Pair<Double, Integer>, Ordering>() {
+            @Override public Ordering f( Pair<Double, Integer> o1, Pair<Double, Integer> o2 ) {
+                return doubleOrd.compare( abs( o1._1 - pt.getX() ), abs( o2._1 - pt.getX() ) );
             }
-        } );
-        numerator.set( sorted.get( 0 )._2 );
+        } ) );
+        List<Pair<Double, Integer>> list = iterableList( tickLocations ).sort( closest );
+
+        numerator.set( list.head()._2 );
     }
 }
