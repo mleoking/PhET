@@ -38,7 +38,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 new WaterGlassIcon( model.representation ),
                 new NumberLineIcon( model.representation ),
         } ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, INSET );
+            setOffset( INSET, INSET );
         }};
         addChild( representationControlPanel );
 

@@ -36,7 +36,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
                                new PieSet( maximum, factories.CakeSliceFactory ), 0, 1, Representation.PIE, maximum );
     }
 
-    public static final IntroState IntroState = IntroState( 1, new FactorySet() );
+    public static final IntroState IntroState = IntroState( 1, FactorySet.IntroTab );
 
     public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
