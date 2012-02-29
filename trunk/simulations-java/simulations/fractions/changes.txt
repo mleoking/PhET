@@ -1,3 +1,5 @@
+Added audio buttons
+Made audio off by default
 Made black outline of "=" sign a bit thicker
 Got rid of solid black "=" sign & click-to-toggle
 Show the name of the next level

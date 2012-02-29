@@ -32,10 +32,10 @@ public class MatchingGameModel {
     public final Property<MatchingGameState> state = new Property<MatchingGameState>( initialState() ) {{
         addObserver( new ChangeObserver<MatchingGameState>() {
             @Override public void update( final MatchingGameState newValue, final MatchingGameState oldValue ) {
-                if ( oldValue.getLeftScaleValue() == 0.0 && newValue.getLeftScaleValue() > 0 ) {
+                if ( newValue.audio && oldValue.getLeftScaleValue() == 0.0 && newValue.getLeftScaleValue() > 0 ) {
                     playAudioClip( newValue.getLeftScaleValue() );
                 }
-                if ( oldValue.getRightScaleValue() == 0.0 && newValue.getRightScaleValue() > 0 ) {
+                if ( newValue.audio && oldValue.getRightScaleValue() == 0.0 && newValue.getRightScaleValue() > 0 ) {
                     playAudioClip( newValue.getRightScaleValue() );
                 }
             }

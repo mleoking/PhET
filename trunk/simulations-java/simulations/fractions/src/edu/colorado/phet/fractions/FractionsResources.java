@@ -20,8 +20,6 @@ public class FractionsResources {
 
     //Images
     public static class Images {
-        public static final BufferedImage BALANCE_BASE = RESOURCES.getImage( "balance-base.png" );
-        public static final BufferedImage BALANCE_PLATFORM = RESOURCES.getImage( "balance-platform.png" );
         public static final BufferedImage BEAKER = RESOURCES.getImage( "beaker.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN = RESOURCES.getImage( "round_button_down.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_GRAY = RESOURCES.getImage( "round_button_down_gray.png" );
@@ -30,6 +28,8 @@ public class FractionsResources {
         public static final BufferedImage ROUND_BUTTON_UP_GRAY = RESOURCES.getImage( "round_button_up_gray.png" );
         public static final BufferedImage ROUND_BUTTON_UP_PRESSED = RESOURCES.getImage( "round_button_up_pressed.png" );
         public static final BufferedImage SCALE = RESOURCES.getImage( "scale.png" );
+        public static final BufferedImage SOUND_MAX = RESOURCES.getImage( "sound-max.png" );
+        public static final BufferedImage SOUND_MIN = RESOURCES.getImage( "sound-min.png" );
         public static final BufferedImage WATER_GLASS_BACK = RESOURCES.getImage( "water_glass_back.png" );
         public static final BufferedImage WATER_GLASS_FRONT = RESOURCES.getImage( "water_glass_front.png" );
     }
