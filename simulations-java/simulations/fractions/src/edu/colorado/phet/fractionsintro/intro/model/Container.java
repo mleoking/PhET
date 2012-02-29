@@ -72,18 +72,4 @@ import java.util.HashSet;
             return new Container( numCells, new HashSet<Integer>( filledCells.toCollection() ) {{remove( cell );}} );
         }
     }
-
-    public int getLowestEmptyCell() {
-        for ( int i = 0; i < numCells; i++ ) {
-            if ( isEmpty( i ) ) { return i; }
-        }
-        return -1;
-    }
-
-    public int getHighestFullCell() {
-        for ( int i = numCells - 1; i >= 0; i-- ) {
-            if ( !isEmpty( i ) ) { return i; }
-        }
-        return -1;
-    }
 }

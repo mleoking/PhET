@@ -198,6 +198,4 @@ import static fj.Function.curry;
     }
 
     public ContainerSet maximum( Integer maximum ) { return update( maximum, denominator ); }
-
-    private ContainerSet containers( List<Container> containers ) { return new ContainerSet( denominator, containers ); }
 }

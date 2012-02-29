@@ -1,17 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.matchinggame.view.fractions;
 
-import fj.F;
-import fj.F2;
-import fj.Function;
-import fj.Ord;
-import fj.Ordering;
-
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -91,26 +82,4 @@ public class PieSetFractionNode extends VisibilityNode {
         }.observe( containerSet );
     }
 
-    @Override public CellPointer getClosestOpenCell( final Shape globalShape, final Point2D center2D ) {
-        final fj.data.List<CellPointer> emptyCells = containerSet.get().getEmptyCells().filter( new F<CellPointer, Boolean>() {
-            @Override public Boolean f( CellPointer cellPointer ) {
-                final PieSliceNode pieceNode = map.get( cellPointer );
-                final Shape pieceShape = pieceNode.getLocalToGlobalTransform( null ).createTransformedShape( pieceNode.getShape() );
-                final boolean intersects = !( new Area( pieceShape ) {{
-                    intersect( new Area( globalShape ) );
-                }}.isEmpty() );
-                //Only find pieces that overlap
-                return intersects;
-            }
-        } );
-
-        if ( emptyCells.isEmpty() ) {
-            return null;
-        }
-        return emptyCells.minimum( Ord.ord( Function.curry( new F2<CellPointer, CellPointer, Ordering>() {
-            public Ordering f( final CellPointer u1, final CellPointer u2 ) {
-                return Ord.<Comparable>comparableOrd().compare( map.get( u1 ).getGlobalFullBounds().getCenter2D().distance( center2D ), map.get( u2 ).getGlobalFullBounds().getCenter2D().distance( center2D ) );
-            }
-        } ) ) );
-    }
 }

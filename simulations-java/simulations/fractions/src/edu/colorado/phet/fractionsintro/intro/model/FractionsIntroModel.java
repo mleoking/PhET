@@ -137,24 +137,6 @@ public class FractionsIntroModel {
                                    }
             ).toIntegerProperty();
 
-    public final SettableProperty<ContainerSet> containerSet = new ClientProperty<ContainerSet>(
-            state, new Function1<IntroState, ContainerSet>() {
-        public ContainerSet apply( IntroState s ) {
-            return s.containerSet;
-        }
-    },
-            new Function2<IntroState, ContainerSet, IntroState>() {
-                public IntroState apply( IntroState s, ContainerSet containerSet ) {
-                    return s.containerSet( containerSet ).
-                            pieSet( CircularSliceFactory.fromContainerSetState( containerSet ) ).
-                            waterGlassSet( CircularSliceFactory.fromContainerSetState( containerSet ) ).
-                            cakeSet( CakeSliceFactory.fromContainerSetState( containerSet ) ).
-                            numerator( containerSet.numerator ).
-                            denominator( containerSet.denominator );
-                }
-            }
-    );
-
     //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
     public final SettableProperty<PieSet> pieSet = new ClientProperty<PieSet>(
             state, new Function1<IntroState, PieSet>() {

@@ -1,12 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
-import java.awt.Shape;
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -27,6 +23,4 @@ public abstract class VisibilityNode extends PNode {
             }
         } );
     }
-
-    public abstract CellPointer getClosestOpenCell( Shape globalShape, Point2D center2D );
 }
