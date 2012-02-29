@@ -18,23 +18,28 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * PhET's standard representation of a photon.
  * The look is loosely based on examples that Wendy Adams found on a
  * Disney website at http://disney.go.com/fairies/meetfairies.html.
+ * A round "orb" has an outer "halo" and a whimsical "sparkle" in the middle.
  * Origin is at the upper-left corner of the node's bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PhotonNode extends PImage {
 
-    private static final int PHOTON_COLOR_ALPHA = 130;
-    private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
-    private static final double CROSSHAIRS_ANGLE = 18; // degrees
-    private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
+    // Orb
+    private static final int ORB_ALPHA = 130;
+    private static final Color ORB_CENTER_COLOR = new Color( 255, 255, 255, 180 );
+    private static final Color UV_ORB_COLOR = new Color( 160, 160, 160 ); // gray
+    private static final Color IR_ORB_COLOR = UV_ORB_COLOR;
 
-    private static final Color UV_IR_COLOR = new Color( 160, 160, 160 ); // gray
-    private static final Color UV_CROSSHAIRS_COLOR = VisibleColor.wavelengthToColor( 400, UV_IR_COLOR, UV_IR_COLOR );
-    private static final Color IR_CROSSHAIRS_COLOR = VisibleColor.wavelengthToColor( 715, UV_IR_COLOR, UV_IR_COLOR );
+    // Sparkle
+    private static final double SPARKLE_ANGLE = Math.toRadians( 18 );
+    private static final Color SPARKLE_COLOR = new Color( 255, 255, 255, 100 ); // sparkle color for visible wavelengths
+    private static final Color UV_SPARKLE_COLOR = VisibleColor.wavelengthToColor( 400, UV_ORB_COLOR, UV_ORB_COLOR );
+    private static final Color IR_SPARKLE_COLOR = VisibleColor.wavelengthToColor( 715, UV_ORB_COLOR, UV_ORB_COLOR );
 
     /**
      * Constructs a PhotoNode for the specified wavelength and diameter.
+     * <p>
      * Visible wavelengths are mapped to visible colors.
      * UV photons are rendered as gray orbs with violet crosshairs.
      * IR photos are rendered as gray orbs with red crosshairs.
@@ -43,84 +48,102 @@ public class PhotonNode extends PImage {
      * to the desired color before calling this constructor.
      *
      * @param wavelength
-     * @param diameter
+     * @param diameter diameter of the outer halo
      */
     public PhotonNode( double wavelength, double diameter ) {
 
-        Color photonColor = VisibleColor.wavelengthToColor( wavelength, UV_IR_COLOR, UV_IR_COLOR );
+        // map wavelength to colors
+        final Color orbColor = getOrbColor( wavelength );
+        final Color sparkleColor = getSparkleColor( wavelength );
 
+        // assemble the components of the node
         PNode parentNode = new PNode();
+        parentNode.addChild( new HaloNode( orbColor, diameter ) );
+        parentNode.addChild( new OrbNode( orbColor, 0.5 * diameter ) );
+        parentNode.addChild( new SparkleNode( sparkleColor, 0.575 * diameter, SPARKLE_ANGLE ) );
 
-        // Outer transparent ring
-        final double outerDiameter = diameter;
-        Shape outerShape = new Ellipse2D.Double( -outerDiameter / 2, -outerDiameter / 2, outerDiameter, outerDiameter );
-        Color outerColor = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), 0 );
-        Paint outerPaint = new RoundGradientPaint( 0, 0, photonColor, new Point2D.Double( 0.4 * outerDiameter, 0.4 * outerDiameter ), outerColor );
-        PPath outerOrb = new PPath();
-        outerOrb.setPathTo( outerShape );
-        outerOrb.setPaint( outerPaint );
-        outerOrb.setStroke( null );
-        parentNode.addChild( outerOrb );
-
-        // Inner orb, saturated color with hilite in center
-        final double innerDiameter = 0.5 * diameter;
-        Shape innerShape = new Ellipse2D.Double( -innerDiameter / 2, -innerDiameter / 2, innerDiameter, innerDiameter );
-        Color photonColorTransparent = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), PHOTON_COLOR_ALPHA );
-        Paint innerPaint = new RoundGradientPaint( 0, 0, HILITE_COLOR, new Point2D.Double( 0.25 * innerDiameter, 0.25 * innerDiameter ), photonColorTransparent );
-        PPath innerOrb = new PPath();
-        innerOrb.setPathTo( innerShape );
-        innerOrb.setPaint( innerPaint );
-        innerOrb.setStroke( null );
-        parentNode.addChild( innerOrb );
-
-        // Crosshairs
-        PNode crosshairs = new PNode();
-        {
-            PNode bigCrosshair = createCrosshair( wavelength, 1.15 * innerDiameter );
-            PNode smallCrosshair = createCrosshair( wavelength, 0.8 * innerDiameter );
-            smallCrosshair.rotate( Math.toRadians( 45 ) );
-            crosshairs.addChild( smallCrosshair );
-            crosshairs.addChild( bigCrosshair );
-        }
-        crosshairs.rotate( Math.toRadians( CROSSHAIRS_ANGLE ) );
-        parentNode.addChild( crosshairs );
-
+        // convert to image
         setImage( parentNode.toImage() );
     }
 
-    /*
-    * Creates the crosshairs that appear in the center of the image.
-    */
-    private static PNode createCrosshair( double wavelength, double diameter ) {
+    // The orb that is the main body of the photon. Origin at center.
+    private static class OrbNode extends PPath {
 
-        Color crosshairsColor = CROSSHAIRS_COLOR;
+        public OrbNode( Color color, double diameter ) {
+            Shape shape = new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter );
+            Color outerColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), ORB_ALPHA );
+            Paint paint = new RoundGradientPaint( 0, 0, ORB_CENTER_COLOR, new Point2D.Double( 0.25 * diameter, 0.25 * diameter ), outerColor );
+            setPathTo( shape );
+            setPaint( paint );
+            setStroke( null );
+        }
+    }
+
+    // The halo that surrounds the orb. Origin at center.
+    private static class HaloNode extends PPath {
+
+        public HaloNode( Color color, double diameter ) {
+            Shape shape = new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter );
+            Color outerColor = new Color( color.getRed(), color.getGreen(), color.getBlue(), 0 );
+            Paint paint = new RoundGradientPaint( 0, 0, color, new Point2D.Double( 0.4 * diameter, 0.4 * diameter ), outerColor );
+            setPathTo( shape );
+            setPaint( paint );
+            setStroke( null );
+        }
+    }
+
+    // Sparkle at the center of the photon. Origin at center.
+    private static class SparkleNode extends PNode {
+
+        public SparkleNode( Color color, double diameter, double angle ) {
+            PNode bigCrosshairs = new CrosshairsNode( color, diameter );
+            PNode smallCrosshairs = new CrosshairsNode( color, 0.7 * diameter );
+            smallCrosshairs.rotate( Math.toRadians( 45 ) );
+            addChild( smallCrosshairs );
+            addChild( bigCrosshairs );
+            rotate( angle );
+        }
+    }
+
+    // Crosshairs used to create the sparkle. Origin at center.
+    private static class CrosshairsNode extends PNode {
+
+        public CrosshairsNode( Color color, double diameter ) {
+
+            final double crosshairWidth = diameter;
+            final double crosshairHeight = 0.15 * crosshairWidth;
+            Shape crosshairShape = new Ellipse2D.Double( -crosshairWidth / 2, -crosshairHeight / 2, crosshairWidth, crosshairHeight );
+
+            PPath horizontalPart = new PPath( crosshairShape );
+            horizontalPart.setPaint( color );
+            horizontalPart.setStroke( null );
+
+            PPath verticalPart = new PPath( crosshairShape );
+            verticalPart.setPaint( color );
+            verticalPart.setStroke( null );
+            verticalPart.rotate( Math.toRadians( 90 ) );
+
+            addChild( horizontalPart );
+            addChild( verticalPart );
+        }
+    }
+
+    // Override this if you want a different mapping of wavelength to orb color.
+    protected Color getOrbColor( double wavelength ) {
+       return VisibleColor.wavelengthToColor( wavelength, UV_ORB_COLOR, IR_ORB_COLOR );
+    }
+
+    // Override this if you want a different mapping of wavelength to sparkle color.
+    protected Color getSparkleColor( double wavelength ) {
         if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
-            crosshairsColor = UV_CROSSHAIRS_COLOR;
+            return UV_SPARKLE_COLOR;
         }
         else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
-            crosshairsColor = IR_CROSSHAIRS_COLOR;
+            return IR_SPARKLE_COLOR;
         }
-
-        final double crosshairWidth = diameter;
-        final double crosshairHeight = 0.15 * crosshairWidth;
-        Shape crosshairShape = new Ellipse2D.Double( -crosshairWidth / 2, -crosshairHeight / 2, crosshairWidth, crosshairHeight );
-
-        PPath horizontalPart = new PPath();
-        horizontalPart.setPathTo( crosshairShape );
-        horizontalPart.setPaint( crosshairsColor );
-        horizontalPart.setStroke( null );
-
-        PPath verticalPart = new PPath();
-        verticalPart.setPathTo( crosshairShape );
-        verticalPart.setPaint( crosshairsColor );
-        verticalPart.setStroke( null );
-        verticalPart.rotate( Math.toRadians( 90 ) );
-
-        PNode crosshairs = new PNode();
-        crosshairs.addChild( horizontalPart );
-        crosshairs.addChild( verticalPart );
-
-        return crosshairs;
+        else {
+            return SPARKLE_COLOR;
+        }
     }
 
     // Convenience method for creating photon images
