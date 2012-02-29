@@ -72,7 +72,7 @@ public class FractionsIntroModel {
                                                     public IntroState apply( IntroState s, Representation r ) {
 
                                                         //Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
-                                                        return s.representation( r ).pieSet( CircularSliceFactory.fromContainerSetState( s.containerSet ) );
+                                                        return s.representation( r ).fromContainerSet( s.containerSet );
                                                     }
                                                 }
             );
@@ -126,13 +126,7 @@ public class FractionsIntroModel {
 
                                            //create a new container set
                                            ContainerSet c = s.containerSet.update( s.maximum, denominator );
-                                           return s.pieSet( CircularSliceFactory.fromContainerSetState( c ) ).
-                                                   containerSet( c ).
-                                                   denominator( denominator ).
-                                                   horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( c ) ).
-                                                   verticalBarSet( VerticalSliceFactory.fromContainerSetState( c ) ).
-                                                   waterGlassSet( WaterGlassSetFactory.fromContainerSetState( c ) ).
-                                                   cakeSet( CakeSliceFactory.fromContainerSetState( c ) );
+                                           return s.containerSet( c ).denominator( denominator ).fromContainerSet( c );
                                        }
                                    }
             ).toIntegerProperty();
@@ -146,14 +140,15 @@ public class FractionsIntroModel {
     },
             new Function2<IntroState, PieSet, IntroState>() {
                 public IntroState apply( IntroState s, PieSet pieSet ) {
-                    final ContainerSet cs = pieSet.toContainerSet();
+                    final ContainerSet c = pieSet.toContainerSet();
                     //Update both the pie set and container state to match the user specified pie set
                     return s.pieSet( pieSet ).
-                            containerSet( cs ).
-                            numerator( cs.numerator ).
-                            //TODO: Missing representations
-                                    horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
-                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) );//TODO: should be horizontal
+                            containerSet( c ).
+                            numerator( c.numerator ).
+                            horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( c ) ).
+                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( c ) ).
+                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( c ) ).
+                            cakeSet( CakeSliceFactory.fromContainerSetState( c ) );
                 }
             }
     );
@@ -174,7 +169,8 @@ public class FractionsIntroModel {
                             numerator( cs.numerator ).
                             pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
                             verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
-                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) );
+                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) ).
+                            cakeSet( CakeSliceFactory.fromContainerSetState( cs ) );
                 }
             }
     );
@@ -195,7 +191,8 @@ public class FractionsIntroModel {
                             horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
                             numerator( cs.numerator ).
                             pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) );
+                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) ).
+                            cakeSet( CakeSliceFactory.fromContainerSetState( cs ) );
                 }
             }
     );
@@ -216,7 +213,8 @@ public class FractionsIntroModel {
                             verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
                             horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
                             numerator( cs.numerator ).
-                            pieSet( CircularSliceFactory.fromContainerSetState( cs ) );
+                            pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
+                            cakeSet( CircularSliceFactory.fromContainerSetState( cs ) );
                 }
             }
     );
@@ -252,12 +250,9 @@ public class FractionsIntroModel {
             }, new Function2<IntroState, Integer, IntroState>() {
                 @Override public IntroState apply( final IntroState s, final Integer maximum ) {
                     final ContainerSet c = s.containerSet.maximum( maximum );
-                    IntroState newState = s.maximum( maximum ).containerSet( c ).
-                            pieSet( CircularSliceFactory.fromContainerSetState( c ) ).
-                            horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( c ) ).
-                            verticalBarSet( VerticalSliceFactory.fromContainerSetState( c ) ).
-                            waterGlassSet( WaterGlassSetFactory.fromContainerSetState( c ) ).
-                            cakeSet( CakeSliceFactory.fromContainerSetState( c ) ).
+                    IntroState newState = s.maximum( maximum ).
+                            containerSet( c ).
+                            fromContainerSet( c ).
                             numerator( c.numerator ).
                             denominator( c.denominator );
 
