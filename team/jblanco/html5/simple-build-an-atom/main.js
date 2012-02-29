@@ -483,11 +483,11 @@ function removeParticleFromNucleus( particle ) {
             break;
         }
     }
-    adjustNucleonPositions();
+    adjustNucleusConfiguration();
 }
 
-// Adjust the positions of the nucleons to look good.
-function adjustNucleonPositions() {
+// Adjust the positions of the nucleons in the nucleus to look good.
+function adjustNucleusConfiguration() {
     var particleRadius = new Nucleon( "black" ).radius;
     if ( nucleonsInNucleus.length == 0 ) {
         return;
@@ -568,26 +568,13 @@ function onWindowDeviceOrientation( event ) {
 function onTouchStart( location ) {
     touchInProgress = true;
     nucleonBeingDragged = null;
-    // See if this touch start is on any of the existing particles.
+
+    // See if this event occurred over any of the nucleons in the nucleus.
     for ( i = 0; i < nucleonsInNucleus.length; i++ ) {
         if ( nucleonsInNucleus[i].containsPoint( location ) ) {
             nucleonBeingDragged = nucleonsInNucleus[i];
             removeParticleFromNucleus( nucleonBeingDragged );
             break;
-        }
-    }
-    if ( nucleonBeingDragged == null ) {
-        // See if the touch was on any of the buckets and, if so, create the
-        // corresponding nucleon.
-        if ( neutronBucket.containsPoint( location ) ) {
-            nucleonBeingDragged = new Neutron();
-        }
-        else if ( protonBucket.containsPoint( location ) ) {
-            nucleonBeingDragged = new Proton();
-        }
-        // Else see if the button is being touched.
-        else if ( resetButton.containsPoint( location ) ) {
-            removeAllParticles();
         }
     }
 
@@ -613,7 +600,7 @@ function onTouchEnd() {
         // to the nucleus.
         if ( electronShell.containsPoint( nucleonBeingDragged.location ) ) {
             nucleonsInNucleus.push( nucleonBeingDragged );
-            adjustNucleonPositions();
+            adjustNucleusConfiguration();
         }
         // Always set to null to indicate that no nucleon is being dragged.
         nucleonBeingDragged = null;
