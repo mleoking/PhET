@@ -60,7 +60,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
             else if ( targetAngle < s.angle ) { targetAngle += 2 * Math.PI; }
         }
         double delta = targetAngle - s.angle;
-        final double newAngle = s.angle + delta / 6 * 30 * 1.0 / 30.0;
+        final double newAngle = s.angle + delta / 4.0;//This final term tuned so that pieces are rotated before they reach their destination
 
         return angle( newAngle );
     }
