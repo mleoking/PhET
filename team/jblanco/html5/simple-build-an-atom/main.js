@@ -661,6 +661,15 @@ function onTouchEnd() {
             nucleonsInNucleus.push( nucleonBeingDragged );
             adjustNucleusConfiguration();
         }
+        else {
+            // Return the particle to the appropriate bucket.
+            if ( nucleonBeingDragged instanceof Proton ){
+                protonBucket.addNucleonToBucket( nucleonBeingDragged );
+            }
+            else{
+                neutronBucket.addNucleonToBucket( nucleonBeingDragged );
+            }
+        }
         // Always set to null to indicate that no nucleon is being dragged.
         nucleonBeingDragged = null;
     }
