@@ -37,7 +37,9 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
         double leftEdgeBucketHole = getBucketCenter().getX() - bucket.getHoleShape().getBounds2D().getWidth() / 2 + shape.getBounds2D().getWidth() / 2 + 20;
         double rightEdgeBucketHole = getBucketCenter().getX() + bucket.getHoleShape().getBounds2D().getWidth() / 2 - shape.getBounds2D().getWidth() / 2 - 20;
         double desiredCenter = random.nextDouble() * ( rightEdgeBucketHole - leftEdgeBucketHole ) + leftEdgeBucketHole;
-        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() ) );
+
+        //Stagger vertically in the bucket to make them more distinguishable
+        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * 15 ) );
     }
 
     private static final int NUM_BARS_PER_LINE = 3;
