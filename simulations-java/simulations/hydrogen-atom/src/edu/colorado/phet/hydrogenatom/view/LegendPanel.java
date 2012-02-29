@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonNode;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.view.particle.*;
@@ -69,17 +70,17 @@ public class LegendPanel extends JPanel {
         int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new PhetFont( FONT_STYLE, fontSize );
 
-        JLabel photonImage = toJLabel( PhotonImageFactory.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH, HAPhotonNode.DIAMETER ) );
+        JLabel photonImage = toJLabel( PhotonNode.createImage( HAConstants.PHOTON_ICON_WAVELENGTH, HAPhotonNode.DIAMETER ) );
         JLabel photonText = new JLabel( HAResources.getString( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );
 
-        JLabel uvPhotonImage = toJLabel( PhotonImageFactory.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1, HAPhotonNode.DIAMETER ) );
+        JLabel uvPhotonImage = toJLabel( PhotonNode.createImage( VisibleColor.MIN_WAVELENGTH - 1, HAPhotonNode.DIAMETER ) );
         JLabel uvPhotonText = new JLabel( HAResources.getString( "label.uvPhoton" ) );
         uvPhotonText.setFont( font );
         uvPhotonText.setForeground( LABEL_COLOR );
 
-        JLabel irPhotonImage = toJLabel( PhotonImageFactory.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1, HAPhotonNode.DIAMETER ) );
+        JLabel irPhotonImage = toJLabel( PhotonNode.createImage( VisibleColor.MAX_WAVELENGTH + 1, HAPhotonNode.DIAMETER ) );
         JLabel irPhotonText = new JLabel( HAResources.getString( "label.irPhoton" ) );
         irPhotonText.setFont( font );
         irPhotonText.setForeground( LABEL_COLOR );

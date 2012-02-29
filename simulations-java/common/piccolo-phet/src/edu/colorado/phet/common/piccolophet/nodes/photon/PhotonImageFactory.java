@@ -2,19 +2,10 @@
 
 package edu.colorado.phet.common.piccolophet.nodes.photon;
 
-import java.awt.Color;
 import java.awt.Image;
-import java.awt.Paint;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.util.HashMap;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * PhotonImageFactory creates images that represent photons.
@@ -53,14 +44,10 @@ public class PhotonImageFactory {
     public static final Image lookupPhotonImage( double wavelength, double diameter ) {
         Image image = IMAGE_CACHE.get( wavelength, diameter );
         if ( image == null ) {
-            image = createPhotonImage( wavelength, diameter );
+            image = PhotonNode.createImage( wavelength, diameter );
             IMAGE_CACHE.put( wavelength, diameter, image );
         }
         return image;
-    }
-
-    public static final Image createPhotonImage( double wavelength, double diameter ) {
-        return new PhotonNode( wavelength, diameter ).toImage();
     }
 
     /*

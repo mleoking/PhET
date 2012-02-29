@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.piccolophet.nodes.photon;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
@@ -120,5 +121,10 @@ public class PhotonNode extends PImage {
         crosshairs.addChild( verticalPart );
 
         return crosshairs;
+    }
+
+    // Convenience method for creating photon images
+    public static Image createImage( double wavelength, double diameter ) {
+        return new PhotonNode( wavelength, diameter ).toImage();
     }
 }

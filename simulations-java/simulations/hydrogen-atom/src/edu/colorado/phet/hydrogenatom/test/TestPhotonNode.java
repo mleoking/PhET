@@ -16,10 +16,16 @@ import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonNode;
 
 
 public class TestPhotonNode extends JFrame {
@@ -69,7 +75,7 @@ public class TestPhotonNode extends JFrame {
     }
     
     private static JLabel createLabel( double wavelength ) {
-        Image image = PhotonImageFactory.createPhotonImage( wavelength, 30 /* diameter */ );
+        Image image = PhotonNode.createImage( wavelength, 30 /* diameter */ );
         Icon icon = new ImageIcon( image );
         JLabel label = new JLabel( icon );
         label.setOpaque( false );
