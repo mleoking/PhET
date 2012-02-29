@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
-import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

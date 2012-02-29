@@ -19,7 +19,7 @@ import java.awt.Insets;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
 
 
 public class TestPhotonNode extends JFrame {
