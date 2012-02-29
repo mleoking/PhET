@@ -32,8 +32,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
     public final Representation representation;
     public final int maximum;
 
-    public static IntroState IntroState() {
-        int maximum = 1;
+    public static IntroState IntroState( int maximum ) {
         int denominator = 1;
         return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim(), false, false,
                                new PieSet( maximum, CircularSliceFactory ),
@@ -42,6 +41,8 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
                                new PieSet( maximum, WaterGlassSetFactory ),
                                new PieSet( maximum, CakeSliceFactory ), 0, 1, Representation.PIE, maximum );
     }
+
+    public static final IntroState IntroState = IntroState( 1 );
 
     public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
