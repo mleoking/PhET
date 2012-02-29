@@ -247,11 +247,35 @@ public class Levels {
         }
     };
 
+    public F<List<Cell>, List<MovableFraction>> TestGreaterThan1 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> cells ) {
+            return createLevel( cells, new Fraction[] {
+                    new Fraction( 17, 15 ),
+                    new Fraction( 14, 8 ),
+                    new Fraction( 6, 3 ),
+                    new Fraction( 9, 8 ),
+                    new Fraction( 13, 12 ),
+                    new Fraction( 4, 3 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
+                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
+                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    if ( fraction.denominator == 6 ) {
+                        list.add( sixPlusses );
+                    }
+                    if ( fraction.denominator == 9 ) {
+                        list.add( nineGrid );
+                    }
+                    return list;
+                }
+            } );
+        }
+    };
+
     public F<List<Cell>, List<MovableFraction>> get( int level ) {
-        return level == 1 ? Level1 :
-               level == 2 ? Level2 :
-               level == 3 ? Level3 :
-               level == 4 ? Level4 :
-               Level4;
+        return TestGreaterThan1;
+//        return level == 1 ? Level1 :
+//               level == 2 ? Level2 :
+//               level == 3 ? Level3 :
+//               level == 4 ? Level4 :
+//               Level4;
     }
 }
