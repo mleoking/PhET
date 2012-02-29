@@ -44,11 +44,6 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
-        //Cake set with click-to-toggle (not draggable) cakes
-//        addChild( new CakeSetFractionNode( model.containerSet, model.representation.valueEquals( Representation.CAKE ) ) {{
-//            setOffset( INSET + -10, representationControlPanel.getFullBounds().getMaxY() + 100 - 40 );
-//        }} );
-
         //Number line
         addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
             setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
