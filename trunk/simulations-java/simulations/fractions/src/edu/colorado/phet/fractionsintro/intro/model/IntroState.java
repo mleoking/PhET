@@ -73,4 +73,13 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
                 cakeSet( f.f( cakeSet ) ).
                 containerSet( newPieSet.toContainerSet() );
     }
+
+    //Update all representations from the specified container set
+    public IntroState fromContainerSet( ContainerSet c ) {
+        return pieSet( CircularSliceFactory.fromContainerSetState( c ) ).
+                horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( c ) ).
+                verticalBarSet( VerticalSliceFactory.fromContainerSetState( c ) ).
+                waterGlassSet( WaterGlassSetFactory.fromContainerSetState( c ) ).
+                cakeSet( CakeSliceFactory.fromContainerSetState( c ) );
+    }
 }
