@@ -46,7 +46,7 @@ import static fj.data.List.range;
     public final boolean audio;
 
     public static MatchingGameState initialState() {
-        return initialState( 1, Levels.Level1 );
+        return initialState( 1, Levels.TestGreaterThan1 );
     }
 
     public static MatchingGameState initialState( int level, F<List<Cell>, List<MovableFraction>> f ) {
