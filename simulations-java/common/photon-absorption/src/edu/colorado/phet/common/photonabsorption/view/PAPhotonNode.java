@@ -71,7 +71,7 @@ public class PAPhotonNode extends PNode implements Observer {
                 photonImage = new PImage( PhotonAbsorptionResources.getImage( "microwave-photon.png" ) );
             }
             else {
-                photonImage = new PImage( PhotonImageCache.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
+                photonImage = new PImage( PhotonImageCache.getImage( photon.getWavelength() * 1E9, 35 ) );
             }
         }
         else {
