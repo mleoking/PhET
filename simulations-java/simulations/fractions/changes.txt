@@ -1,3 +1,4 @@
+Added fraction representations for numbers > 1
 Added audio buttons
 Made audio off by default
 Made black outline of "=" sign a bit thicker

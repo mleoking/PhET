@@ -10,6 +10,8 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
+import edu.colorado.phet.common.piccolophet.RichPNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.common.view.Pattern.NineGrid;
@@ -46,31 +48,40 @@ public class Levels {
             return new FractionNode( f, 0.3 );
         }
     };
-    final F<Fraction, PNode> horizontalBars = new F<Fraction, PNode>() {
+    final F<Fraction, PNode> horizontalBars = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction f ) {
             return new HorizontalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9 );
         }
-    };
-    final F<Fraction, PNode> verticalBars = new F<Fraction, PNode>() {
+    } );
+    final F<Fraction, PNode> verticalBars = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction f ) {
             return new VerticalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9 );
         }
-    };
-    final F<Fraction, PNode> pies = new F<Fraction, PNode>() {
+    } );
+    final F<Fraction, PNode> pies = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction fraction ) {
             return new PieNode( fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ) );
         }
-    };
-    final F<Fraction, PNode> sixPlusses = new F<Fraction, PNode>() {
+    } );
+    final F<Fraction, PNode> sixPlusses = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction fraction ) {
             return new PatternNode( new SixPlusSigns(), fraction, fraction.numerator );
         }
-    };
-    final F<Fraction, PNode> nineGrid = new F<Fraction, PNode>() {
+    } );
+    final F<Fraction, PNode> nineGrid = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction fraction ) {
             return new PatternNode( new NineGrid(), fraction, fraction.numerator );
         }
-    };
+    } );
+
+    //Converts primitives (representations for fractions <=1) to composite (representation for fractions >=1)
+    private F<Fraction, PNode> makeComposite( final F<Fraction, PNode> f ) {
+        return new F<Fraction, PNode>() {
+            @Override public PNode f( Fraction fraction ) {
+                return composite( fraction, f );
+            }
+        };
+    }
 
     public static final Random random = new Random();
 
@@ -104,6 +115,27 @@ public class Levels {
 
     private static MovableFraction fraction( Fraction fraction, Cell cell, final F<Fraction, PNode> node ) {
         return fraction( fraction.numerator, fraction.denominator, cell, node );
+    }
+
+    //Converts primitives (representations for fractions <=1) to composite (representation for fractions >=1)
+    public static PNode composite( Fraction fraction, F<Fraction, PNode> node ) {
+        if ( fraction.getValue() <= 1 + 1E-6 ) {
+            return node.f( fraction );
+        }
+        HBox box = new HBox();
+        while ( fraction.getValue() > 0 ) {
+            if ( fraction.numerator >= fraction.denominator ) {
+                box.addChild( node.f( new Fraction( fraction.denominator, fraction.denominator ) ) );
+            }
+            else {
+                box.addChild( node.f( new Fraction( fraction.numerator, fraction.denominator ) ) );
+            }
+            fraction = new Fraction( fraction.numerator - fraction.denominator, fraction.denominator );
+        }
+
+        //Make it smaller or won't fit
+        box.scale( 0.75 );
+        return new RichPNode( box );
     }
 
     //Create a MovableFraction for the given fraction at the specified cell
@@ -271,11 +303,11 @@ public class Levels {
     };
 
     public F<List<Cell>, List<MovableFraction>> get( int level ) {
-        return TestGreaterThan1;
-//        return level == 1 ? Level1 :
-//               level == 2 ? Level2 :
-//               level == 3 ? Level3 :
-//               level == 4 ? Level4 :
-//               Level4;
+//        return TestGreaterThan1;
+        return level == 1 ? Level1 :
+               level == 2 ? Level2 :
+               level == 3 ? Level3 :
+               level == 4 ? Level4 :
+               Level4;
     }
 }
