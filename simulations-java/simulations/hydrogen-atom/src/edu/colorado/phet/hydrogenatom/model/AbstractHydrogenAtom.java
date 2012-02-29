@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
+import edu.colorado.phet.hydrogenatom.view.particle.HAPhotonNode;
 
 /**
  * AbstractHydrogenAtom is the base class for all hydrogen atom models.
@@ -21,7 +21,7 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     //----------------------------------------------------------------------------
     
     /* how close a photon and electron (treated as points) must be for them to collide */
-    public static double COLLISION_CLOSENESS = ( PhotonNode.DIAMETER / 2 ) + ( ElectronNode.DIAMETER / 2 );
+    public static double COLLISION_CLOSENESS = ( HAPhotonNode.DIAMETER / 2 ) + ( ElectronNode.DIAMETER / 2 );
     
     public static final String PROPERTY_ELECTRON_STATE = "electronState";
     public static final String PROPERTY_ELECTRON_OFFSET = "electronOffset";

@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhotonNode extends PhetPNode implements Observer {
+public class HAPhotonNode extends PhetPNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Debug
@@ -56,7 +56,7 @@ public class PhotonNode extends PhetPNode implements Observer {
      * Constructor.
      * @param photon
      */
-    public PhotonNode( Photon photon ) {
+    public HAPhotonNode( Photon photon ) {
         super();
         setPickable( false );
         setChildrenPickable( false );

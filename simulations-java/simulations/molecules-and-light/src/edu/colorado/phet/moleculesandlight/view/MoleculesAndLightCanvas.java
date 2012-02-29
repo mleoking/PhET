@@ -17,7 +17,7 @@ import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.photonabsorption.view.MoleculeNode;
 import edu.colorado.phet.common.photonabsorption.view.PhotonEmitterNode;
-import edu.colorado.phet.common.photonabsorption.view.PhotonNode;
+import edu.colorado.phet.common.photonabsorption.view.PAPhotonNode;
 import edu.colorado.phet.common.photonabsorption.view.VerticalRodNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
@@ -63,7 +63,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
     // Data structures that match model objects to their representations in
     // the view.
-    private final HashMap<Photon, PhotonNode> photonMap = new HashMap<Photon, PhotonNode>();
+    private final HashMap<Photon, PAPhotonNode> photonMap = new HashMap<Photon, PAPhotonNode>();
     private final HashMap<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
 
     // Button for restoring molecules that break apart.
@@ -132,7 +132,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
             @Override
             public void photonAdded( Photon photon ) {
-                PhotonNode photonNode = new PhotonNode( photon, mvt );
+                PAPhotonNode photonNode = new PAPhotonNode( photon, mvt );
                 photonLayer.addChild( photonNode );
                 photonMap.put( photon, photonNode );
             }

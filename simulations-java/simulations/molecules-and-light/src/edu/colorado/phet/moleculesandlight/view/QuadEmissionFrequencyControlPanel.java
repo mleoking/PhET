@@ -18,7 +18,7 @@ import javax.swing.JRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
-import edu.colorado.phet.common.photonabsorption.view.PhotonNode;
+import edu.colorado.phet.common.photonabsorption.view.PAPhotonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -147,7 +147,7 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
             addChild( buttonNode );
 
             // Add an image of a photon.
-            PhotonNode photonNode = new PhotonNode( wavelength );
+            PAPhotonNode photonNode = new PAPhotonNode( wavelength );
             photonNode.addInputEventListener( new PBasicInputEventHandler(){
                 @Override
                 public void mouseClicked( PInputEvent event ) {

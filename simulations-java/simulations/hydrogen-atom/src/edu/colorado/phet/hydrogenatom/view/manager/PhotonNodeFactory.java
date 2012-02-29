@@ -14,7 +14,7 @@ package edu.colorado.phet.hydrogenatom.view.manager;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.view.manager.ModelViewManager.NodeFactory;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
+import edu.colorado.phet.hydrogenatom.view.particle.HAPhotonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -31,6 +31,6 @@ public class PhotonNodeFactory extends NodeFactory {
 
     public PNode createNode( ModelElement modelElement ) {
         assert( modelElement instanceof Photon );
-        return new PhotonNode( (Photon) modelElement );
+        return new HAPhotonNode( (Photon) modelElement );
     }
 }

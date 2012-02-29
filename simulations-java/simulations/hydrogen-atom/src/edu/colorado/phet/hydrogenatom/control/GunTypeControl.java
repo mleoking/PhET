@@ -27,7 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.view.particle.AlphaParticleNode;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
+import edu.colorado.phet.hydrogenatom.view.particle.HAPhotonNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -69,7 +69,7 @@ public class GunTypeControl extends PhetPNode {
         _listenerList = new EventListenerList();
         
         // Photon icon
-        Image photonImage = PhotonImageFactory.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH, PhotonNode.DIAMETER );
+        Image photonImage = PhotonImageFactory.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH, HAPhotonNode.DIAMETER );
         Icon photonIcon = new ImageIcon( photonImage );
         
         // Alpha Particle icon

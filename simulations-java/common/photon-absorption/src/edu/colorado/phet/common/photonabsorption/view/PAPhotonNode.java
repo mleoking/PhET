@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author John Blanco
  */
-public class PhotonNode extends PNode implements Observer {
+public class PAPhotonNode extends PNode implements Observer {
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -49,14 +49,14 @@ public class PhotonNode extends PNode implements Observer {
      * use in places like control panels in the play area, where the node is
      * needed but doesn't really correspond to anything in the model.
      */
-    public PhotonNode( double wavelength ) {
+    public PAPhotonNode( double wavelength ) {
         this( new Photon( wavelength ), new ModelViewTransform2D() );
     }
 
     /**
      * Primary constructor.
      */
-    public PhotonNode( Photon photon, ModelViewTransform2D mvt ) {
+    public PAPhotonNode( Photon photon, ModelViewTransform2D mvt ) {
 
         this.photon = photon;
         this.photon.addObserver( this );
