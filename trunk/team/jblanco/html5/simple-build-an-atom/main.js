@@ -272,6 +272,7 @@ Bucket.prototype.drawInterior = function( context ) {
 
 Bucket.prototype.addNucleonToBucket = function ( nucleon ){
     this.nucleonsInBucket.push( nucleon );
+    this.updateNucleonPositions();
 }
 
 Bucket.prototype.removeNucleonFromBucket = function ( nucleon ){
@@ -279,10 +280,14 @@ Bucket.prototype.removeNucleonFromBucket = function ( nucleon ){
     if ( index != -1 ){
         this.nucleonsInBucket.splice( index, 1 );
     }
+    this.updateNucleonPositions();
 }
 
 Bucket.prototype.updateNucleonPositions = function () {
-    
+    for ( i = 0; i < this.nucleonsInBucket.length; i++ ) {
+        // TODO: For now, just put them all in the center of the bucket.
+        this.nucleonsInBucket[ i ].setLocationComponents( this.location.x + this.width / 2, this.location.y );
+    }
 }
 
 Bucket.prototype.setLocationComponents = function( x, y ) {
