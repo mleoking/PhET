@@ -41,6 +41,8 @@ public class HAPhotonNode extends PhetPNode implements Observer {
 
     // public because it's used by collision detection code in the model
     public static final double DIAMETER = 30;
+
+    private static final PhotonImageCache CACHE = new PhotonImageCache();
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -62,7 +64,7 @@ public class HAPhotonNode extends PhetPNode implements Observer {
         setChildrenPickable( false );
         
         // Get an image from the image cache
-        Image image = PhotonImageCache.getImage( photon.getWavelength(), DIAMETER );
+        Image image = CACHE.getImage( photon.getWavelength(), DIAMETER );
         PImage imageNode = new PImage( image );
         addChild( imageNode );
         

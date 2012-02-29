@@ -41,6 +41,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
                                                                Photon.LeftSystemEventListener,
                                                                Photon.VelocityChangedListener {
 
+    private static final PhotonImageCache CACHE = new PhotonImageCache();
+
     private double theta;
     private Photon photon;
     private Color color;
@@ -229,7 +231,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     private static BufferedImage createTwinkleImage( double wavelength ) {
-        return BufferedImageUtils.toBufferedImage( PhotonImageCache.getImage( wavelength, PHOTON_SIZE ) );
+        return BufferedImageUtils.toBufferedImage( CACHE.getImage( wavelength, PHOTON_SIZE ) );
     }
 
     public void update() {
