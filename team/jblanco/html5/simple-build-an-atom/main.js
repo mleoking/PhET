@@ -318,22 +318,12 @@ Bucket.prototype.getNucleonLocationByIndex = function ( index ) {
 
 Bucket.prototype.getNextOpenNucleonLocation = function () {
     for ( var i = 0; i < maxNucleonsInBucket; i++ ) {
-        console.log( "------------ in loop ---------" )
         var openLocation = this.getNucleonLocationByIndex( i );
         var locationTaken = false;
         for ( var j = 0; j < this.nucleonsInBucket.length; j++ ) {
-            console.log( "------------ About to compare locations ---------" )
-            console.log( "openLocation = " + openLocation );
-            console.log( "nucleon location  = " + this.nucleonsInBucket[j].location );
             if ( this.nucleonsInBucket[j].location.equals( openLocation ) ) {
                 locationTaken = true;
-                console.log( "locations equal" );
-
                 break;
-            }
-            else {
-                console.log( "locations NOT equal" );
-
             }
         }
         if ( !locationTaken ) {
