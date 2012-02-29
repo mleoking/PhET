@@ -20,12 +20,8 @@ public class FactorySet {
     public final VerticalSliceFactory WaterGlassSetFactory;
     public final CakeSliceFactory CakeSliceFactory;
 
-    public FactorySet() {
-        this( new Vector2D( AbstractSliceFactory.stageSize.width / 2, -AbstractSliceFactory.stageSize.height + 200 ) );
-    }
-
-    public FactorySet( Vector2D bucketPosition ) {
-        this( new edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory( bucketPosition ),
+    public FactorySet( Vector2D bucketPosition, int numPerRow, double pieDiameter, double pieX, double pieY ) {
+        this( new edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY ),
               new edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory( bucketPosition ),
               new edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory( 125, 225, false, bucketPosition ),
               new VerticalSliceFactory( 100, 200, true, bucketPosition ),
@@ -39,4 +35,6 @@ public class FactorySet {
         WaterGlassSetFactory = waterGlassSetFactory;
         CakeSliceFactory = cakeSliceFactory;
     }
+
+    public static FactorySet IntroTab = new FactorySet( new Vector2D( AbstractSliceFactory.stageSize.width / 2, -AbstractSliceFactory.stageSize.height + 200 ), 6, 155, 0, 250 );
 }

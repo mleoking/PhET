@@ -18,7 +18,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
  * @author Sam Reid
  */
 public class EqualityLabModel {
-    private final FactorySet factorySet = new FactorySet( new Vector2D( 100, -AbstractSliceFactory.stageSize.height + 200 ) );
+    private final FactorySet factorySet = new FactorySet( new Vector2D( 100, -AbstractSliceFactory.stageSize.height + 200 ), 3, 120, 100, 210 );
     private final FractionsIntroModel model = new FractionsIntroModel( IntroState.IntroState( 6, factorySet ), factorySet );
     public final SettableProperty<Representation> representation = model.representation;
     public final SettableProperty<PieSet> pieSet = model.pieSet;
