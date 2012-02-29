@@ -23,6 +23,7 @@ public class EqualityLabModel {
     public final IntegerProperty numerator = model.numerator;
     public final IntegerProperty denominator = model.denominator;
     public final IntegerProperty maximum = model.maximum;
+    public final SettableProperty<PieSet> waterGlassSet = model.waterGlassSet;
 
     public void resetAll() {
         model.resetAll();

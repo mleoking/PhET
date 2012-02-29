@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractionsintro.intro.view;
 
 import fj.F;
-import fj.data.List;
 import lombok.Data;
 
 import java.awt.Color;
@@ -14,12 +13,8 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.Pie;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.SliceNodeArgs;
-import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.CakeIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
@@ -35,7 +30,6 @@ import static edu.colorado.phet.fractions.FractionsResources.RESOURCES;
 import static edu.colorado.phet.fractions.util.Cache.cache;
 import static edu.colorado.phet.fractionsintro.intro.view.CakeNode.cropSides;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
-import static fj.Ord.doubleOrd;
 
 /**
  * Canvas for "Fractions Intro" sim.
@@ -72,6 +66,12 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         //For vertical bars
         addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode ) ) );
 
+        //For debugging water glasses region management
+//        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode ) ) );
+
+        //For water glasses
+        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode ) ) );
+
         //For debugging cakes
 //        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
 
@@ -98,30 +98,6 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
                 }};
             }
         } ) ) );
-
-        //For debugging water glasses region management
-//        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode ) ) );
-
-        //For water glasses
-        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode, new WaterGlassNodeFactory() ) {
-            @Override protected PNode createEmptyCellsNode( PieSet state ) {
-                PNode node = new PNode();
-                //Show the beakers
-                for ( final Pie pie : state.pies ) {
-                    final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
-                        @Override public Double f( Slice s ) {
-                            return s.shape().getBounds2D().getMinY();
-                        }
-                    } );
-
-                    //TODO: Could read from cache like WaterGlassNodeFactory instead of creating new each time to improve performance
-                    node.addChild( new WaterGlassNode( state.countFilledCells( pie ), state.denominator ) {{
-                        setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
-                    }} );
-                }
-                return node;
-            }
-        } ) );
 
         //The fraction control node
         addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
