@@ -37,7 +37,7 @@ import static fj.Ord.doubleOrd;
  */
 public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection") public FractionsIntroCanvas( final FractionsIntroModel model ) {
+    public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
@@ -135,7 +135,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         MaxSpinner maxSpinner = new MaxSpinner( model.maximum ) {{
 
             //Center above reset all button
-            setOffset( resetAllButtonNode.getFullBounds().getCenterX() - getFullWidth() / 2, resetAllButtonNode.getFullBounds().getY() - getFullHeight() - INSET );
+            setOffset( ( STAGE_SIZE.getWidth() + representationControlPanel.getMaxX() ) / 2 - getFullWidth() / 2, representationControlPanel.getCenterY() - getFullHeight() / 2 );
         }};
         addChild( maxSpinner );
     }
