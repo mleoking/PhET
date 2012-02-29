@@ -32,8 +32,6 @@ public class BeakerNode extends PNode {
     // tick mark properties
     private static final Color MAJOR_TICK_COLOR = Color.BLACK;
     private static final Color MINOR_TICK_COLOR = Color.DARK_GRAY;
-    private static final double MINOR_TICK_SPACING = 0.1; // L
-    private static final int MINOR_TICKS_PER_MAJOR_TICK = 5;
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
 
@@ -41,10 +39,6 @@ public class BeakerNode extends PNode {
     public final LabelNode labelNode;
 
     public BeakerNode( double maxVolume, final double imageScaleX, final double imageScaleY, String labelText, PDimension labelSize, Font labelFont, double MINOR_TICK_SPACING, int MINOR_TICKS_PER_MAJOR_TICK, final BufferedImage image ) {
-
-        // this node is not interactive
-//        setPickable( false );
-//        setChildrenPickable( false );
 
         // the glass beaker
         beakerImageNode = new BeakerImageNode( image ) {{
@@ -96,11 +90,6 @@ public class BeakerNode extends PNode {
         labelNode = new LabelNode( labelText, labelSize, labelFont );
         addChild( labelNode );
         labelNode.setOffset( ( cylinderSize.getWidth() / 2 ), ( 0.25 * cylinderSize.getHeight() ) );
-    }
-
-    // Sets the label text on the beaker
-    public void setLabelText( String text ) {
-        labelNode.setText( text );
     }
 
     public PDimension getCylinderSize() {

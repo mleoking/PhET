@@ -20,7 +20,6 @@ public class FractionsResources {
 
     //Images
     public static class Images {
-        public static final BufferedImage BEAKER = RESOURCES.getImage( "beaker.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN = RESOURCES.getImage( "round_button_down.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_GRAY = RESOURCES.getImage( "round_button_down_gray.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_PRESSED = RESOURCES.getImage( "round_button_down_pressed.png" );

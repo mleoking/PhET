@@ -97,8 +97,6 @@ import static fj.data.List.range;
 
     public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
 
-    public PieSet pies( List<Pie> pies ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
-
     //True if a piece is in the cell, or animating toward the cell
     public boolean cellFilledNowOrSoon( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {

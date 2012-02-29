@@ -19,10 +19,4 @@ public class FNode extends RichPNode {
             addChild( p );
         }
     };
-
-    public void addChildren( PNode... children ) {
-        for ( PNode child : children ) {
-            addChild( child );
-        }
-    }
 }
