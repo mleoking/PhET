@@ -1,3 +1,4 @@
+Increased the bucket size by 35% vertically, downward
 Intro: Stagger vertical and horizontal bars vertically in the buckets to make them more distinguishable
 Intro: Moved the fraction control away from the left edge and closer to the bucket
 Intro: Put more horizontal space between bucket icon and fraction icon on bucket
