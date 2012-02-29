@@ -220,6 +220,8 @@ function Bucket( initialLocation, color, labelText ) {
     // Size is fixed, at least for now.
     this.width = 150;
     this.height = this.width * 0.5;
+
+    this.nucleonsInBucket = new Array();
 }
 
 Bucket.prototype.drawFront = function( context ) {
@@ -268,6 +270,20 @@ Bucket.prototype.drawInterior = function( context ) {
     context.fill();
 }
 
+Bucket.prototype.addNucleonToBucket = function ( nucleon ){
+    this.nucleonsInBucket.push( nucleon );
+}
+
+Bucket.prototype.removeNucleonFromBucket = function ( nucleon ){
+    var index = this.nucleonsInBucket.indexOf( nucleon );
+    if ( index != -1 ){
+        this.nucleonsInBucket.splice( index, 1 );
+    }
+}
+
+Bucket.prototype.updateNucleonPositions = function () {
+    
+}
 
 Bucket.prototype.setLocationComponents = function( x, y ) {
     this.location.x = x;
