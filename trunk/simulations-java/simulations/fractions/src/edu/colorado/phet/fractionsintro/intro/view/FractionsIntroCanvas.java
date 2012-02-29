@@ -50,7 +50,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 //        }} );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ) ) {{
+        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
             setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
         }} );
 

@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
+import fj.F;
 import fj.F2;
 import fj.Ord;
 import fj.Ordering;
@@ -43,12 +44,17 @@ import static java.lang.Math.abs;
  */
 public class NumberLineNode extends PNode {
 
+    //Location -> tick index
     private ArrayList<Pair<Double, Integer>> tickLocations;
 
     //When tick marks change, clear everything except the green circle--it has to be persisted across recreations of the number line because the user interacts with it
     private final PhetPPath greenCircle;
+    private final IntegerProperty denominator;
+    private final IntegerProperty max;
 
-    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<Representation> showing ) {
+    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<Representation> showing, final IntegerProperty max ) {
+        this.denominator = denominator;
+        this.max = max;
         final double scale = 5;
         scale( scale );
         showing.addObserver( new VoidFunction1<Boolean>() {
@@ -169,7 +175,11 @@ public class NumberLineNode extends PNode {
                 return doubleOrd.compare( abs( o1._1 - pt.getX() ), abs( o2._1 - pt.getX() ) );
             }
         } ) );
-        List<Pair<Double, Integer>> list = iterableList( tickLocations ).sort( closest );
+        List<Pair<Double, Integer>> list = iterableList( tickLocations ).filter( new F<Pair<Double, Integer>, Boolean>() {
+            @Override public Boolean f( Pair<Double, Integer> p ) {
+                return p._2 <= max.get() * denominator.get();
+            }
+        } ).sort( closest );
 
         numerator.set( list.head()._2 );
     }

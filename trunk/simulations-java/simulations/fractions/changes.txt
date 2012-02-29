@@ -1,3 +1,4 @@
+Fixed: Number line causes exception when dragging or clicking past the max
 # 0.00.43 (61954) Feb 29, 2012
 Intro: Made it so you cannot drag the bucket icon
 Intro: Increased the bucket size by 35% vertically, downward
