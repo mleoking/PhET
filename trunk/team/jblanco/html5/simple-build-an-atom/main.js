@@ -511,10 +511,6 @@ function draw() {
 // Utility functions
 //-----------------------------------------------------------------------------
 
-function removeAllParticles() {
-    nucleonsInNucleus.length = 0;
-}
-
 function removeParticleFromNucleus( particle ) {
     for ( i = 0; i < nucleonsInNucleus.length; i++ ) {
         if ( nucleonsInNucleus[i] == particle ) {
@@ -523,6 +519,10 @@ function removeParticleFromNucleus( particle ) {
         }
     }
     adjustNucleusConfiguration();
+}
+
+function removeAllParticlesFromNucleus(){
+    nucleonsInNucleus.length = 0;
 }
 
 // Adjust the positions of the nucleons in the nucleus to look good.
@@ -640,6 +640,22 @@ function onTouchStart( location ) {
     // Position the nucleon (if there is one) at the location of this event.
     if ( nucleonBeingDragged != null ) {
         nucleonBeingDragged.setLocation( location );
+    }
+    else{
+        // Check if the reset button was pressed.
+        if ( resetButton.containsPoint( location )){
+            // Perform a reset by moving any particles that are in the nucleus
+            // into their bucket.
+            for ( var i = 0; i < nucleonsInNucleus.length; i++ ) {
+                if ( nucleonsInNucleus[i] instanceof Proton ) {
+                    protonBucket.addNucleonToBucket( nucleonsInNucleus[i] );
+                }
+                else{
+                    neutronBucket.addNucleonToBucket( nucleonsInNucleus[i] );
+                }
+            }
+            removeAllParticlesFromNucleus();
+        }
     }
 
     draw();
