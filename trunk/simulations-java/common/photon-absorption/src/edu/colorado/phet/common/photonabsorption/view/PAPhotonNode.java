@@ -67,7 +67,7 @@ public class PAPhotonNode extends PNode implements Observer {
                 // Special case for microwaves, since PhotonImageFactory makes all
                 // photons with a wavelength longer than visible light look the
                 // same.
-                // TODO: Do we want to change PhotonImageFactory to handle this case?
+                // TODO: Do we want to change PhotonImageFactory to handle this case? see #2620
                 photonImage = new PImage( PhotonAbsorptionResources.getImage( "microwave-photon.png" ) );
             }
             else {
