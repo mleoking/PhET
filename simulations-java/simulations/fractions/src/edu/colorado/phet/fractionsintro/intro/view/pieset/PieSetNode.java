@@ -120,6 +120,10 @@ public class PieSetNode extends PNode {
 
         addChild( new ZeroOffsetNode( iconAndText ) {{
             centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );
+
+            //Make it so the user can't grab the bucket icon
+            setPickable( false );
+            setChildrenPickable( false );
         }} );
     }
 
