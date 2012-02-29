@@ -1,3 +1,4 @@
+Fixed: Cake piece angle sometimes seems buggy
 Fixed: Cake pieces are floating out of the bucket
 Fixed: Cake pieces are too high--too close to the top control panel, move them down a bit
 Fixed: Number line causes exception when dragging or clicking past the max
