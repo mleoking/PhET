@@ -13,18 +13,24 @@ import java.awt.geom.AffineTransform;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Levels;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static java.awt.Color.lightGray;
 import static java.awt.Color.yellow;
@@ -104,5 +110,14 @@ public class MatchingGameNode extends FNode {
                 } );
             }} );
         }
+        addChild( new PImage( state.audio ? Images.SOUND_MAX : Images.SOUND_MIN ) {{
+            setOffset( FractionsIntroCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 30, FractionsIntroCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    model.set( state.audio( !state.audio ) );
+                }
+            } );
+        }} );
     }
 }
