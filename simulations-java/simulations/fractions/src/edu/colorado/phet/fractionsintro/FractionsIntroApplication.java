@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractionsintro.equalitylab.EqualityLabModule;
-import edu.colorado.phet.fractionsintro.fractionmakergame.CreationGameModule;
 import edu.colorado.phet.fractionsintro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractionsintro.matchinggame.MatchingGameModule;
 
@@ -20,7 +19,6 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
         addModule( new FractionsIntroModule() );
         addModule( new EqualityLabModule() );
         addModule( new MatchingGameModule() );
-        addModule( new CreationGameModule() );
     }
 
     public static void main( String[] args ) {
