@@ -34,12 +34,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
 
     public Slice angle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
 
-    public Slice tip( Vector2D tip ) {
-        if ( Double.isNaN( tip.getX() ) ) {
-            throw new RuntimeException( "NANA" );
-        }
-        return new Slice( tip, angle, dragging, animationTarget, toShape );
-    }
+    public Slice tip( Vector2D tip ) { return new Slice( tip, angle, dragging, animationTarget, toShape ); }
 
     public Slice animationTarget( Slice target ) { return animationTarget( animateToSlice( target ) );}
 
