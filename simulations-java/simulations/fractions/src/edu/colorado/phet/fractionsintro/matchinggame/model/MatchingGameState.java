@@ -46,12 +46,12 @@ import static fj.data.List.range;
     public final boolean audio;
 
     public static MatchingGameState initialState() {
-        return initialState( 1, Levels.TestGreaterThan1 );
+        return initialState( 1 );
     }
 
-    public static MatchingGameState initialState( int level, F<List<Cell>, List<MovableFraction>> f ) {
+    public static MatchingGameState initialState( int level ) {
         final List<Cell> cells = createCells( 100, 415, 130, 120, 6, 2, 0, 0 );
-        return new MatchingGameState( f.f( cells ), cells, createCells( 80, 10, 100, 75, 6, 1, 50, 0 ), 0, 0.0, 0.0, level, false );
+        return new MatchingGameState( Levels.get( level ).f( cells ), cells, createCells( 80, 10, 100, 75, 6, 1, 50, 0 ), 0, 0.0, 0.0, level, false );
     }
 
     //Create adjacent cells from which fractions can be dragged

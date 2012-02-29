@@ -23,7 +23,6 @@ import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Levels;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
@@ -105,7 +104,7 @@ public class MatchingGameNode extends FNode {
                 setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
                 addActionListener( new ActionListener() {
                     @Override public void actionPerformed( ActionEvent e ) {
-                        model.set( MatchingGameState.initialState( newLevel, Levels.Levels.get( newLevel ) ) );
+                        model.set( MatchingGameState.initialState( newLevel ) );
                     }
                 } );
             }} );
