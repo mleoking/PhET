@@ -1,5 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 
+var numProtons = 5;
+var numNeutrons = 5;
+
 var canvas;
 var touchInProgress = false;
 var context;
@@ -53,10 +56,19 @@ function init() {
     neutronBucket = new Bucket( new Point2D( 100, 300 ), "gray", "Neutrons" );
     protonBucket = new Bucket( new Point2D( 400, 300 ), "red", "Protons" );
 
+    // Add the protons and neutrons.  They are initially in the buckets.
+    for ( i = 0; i < numProtons; i++ ){
+        protonBucket.addNucleonToBucket( new Proton() );
+    }
+    for ( i = 0; i < numNeutrons; i++ ){
+        neutronBucket.addNucleonToBucket( new Neutron() );
+    }
+
     // Add the reset button.
     resetButton = new ResetButton( new Point2D( 600, 325 ), "orange" );
 
-    // Add the nucleus label.
+    // Add the nucleus label.  This gets updated as the nucleus configuration
+    // changes.
     nucleusLabel = new NucleusLabel( new Point2D( 450, 80 ) );
 
     // Commenting out, since iPad seems to send these continuously.
@@ -466,15 +478,21 @@ function draw() {
     // Draw the reset button.
     resetButton.draw( context );
 
-    // Draw the particles that are in the nucleus.
-    for ( var i = 0; i < nucleonsInNucleus.length; i++ ) {
-        nucleonsInNucleus[i].draw( context );
-    }
-
     // Draw the bucket interiors.  These need to be behind the particles in
     // the z-order.
     neutronBucket.drawInterior( context );
     protonBucket.drawInterior( context );
+
+    // Draw the particles.  Some may be in the nucleus, some in buckets.
+    for ( i = 0; i < nucleonsInNucleus.length; i++ ) {
+        nucleonsInNucleus[i].draw( context );
+    }
+    for ( i = 0; i < protonBucket.nucleonsInBucket.length; i++ ) {
+        protonBucket.nucleonsInBucket[i].draw( context );
+    }
+    for ( i = 0; i < neutronBucket.nucleonsInBucket.length; i++ ) {
+        neutronBucket.nucleonsInBucket[i].draw( context );
+    }
 
     // Draw particle that is being dragged if there is one.
     if ( nucleonBeingDragged != null ) {
