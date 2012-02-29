@@ -5,6 +5,7 @@ import fj.F;
 import fj.F2;
 import fj.Ord;
 import fj.Ordering;
+import fj.P2;
 import fj.data.List;
 import fj.data.Option;
 import lombok.Data;
@@ -92,7 +93,19 @@ import static fj.data.List.range;
                 }
             }
         } );
-        return slices( slices );
+
+        //If a piece reached the bucket, remove it from the model.  This prevents the buckets from overflowing, especially when the user just clicks the bucket pieces repeatedly
+        List<P2<Slice, Slice>> zipped = this.slices.zip( slices );
+        List<Slice> filtered = zipped.filter( new F<P2<Slice, Slice>, Boolean>() {
+            @Override public Boolean f( P2<Slice, Slice> p ) {
+                return !( isInBucket( p._2() ) && !isInBucket( p._1() ) );
+            }
+        } ).map( new F<P2<Slice, Slice>, Slice>() {
+            @Override public Slice f( P2<Slice, Slice> p ) {
+                return p._2();
+            }
+        } );
+        return slices( filtered );
     }
 
     public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
@@ -188,14 +201,14 @@ import static fj.data.List.range;
     }
 
     public PieSet animateSliceToBucket( final Slice slice ) {
-        final Slice target = sliceFactory.createBucketSlice( denominator );
-        return slices( slices.map( new F<Slice, Slice>() {
+        //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
+        final List<Slice> newSlices = slices.map( new F<Slice, Slice>() {
             @Override public Slice f( Slice m ) {
-
-                //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
-                return m == slice ? m.animationTarget( target ).stepAnimation() : m;
+                return m == slice ? m.animationTarget( sliceFactory.createBucketSlice( denominator ) ).stepAnimation() : m;
             }
-        } ) );
+        } );
+
+        return slices( newSlices );
     }
 
     //Find out whether the pie contains a movable slice instead of just empty cells--if so it will be drawn with a thicker darker background
