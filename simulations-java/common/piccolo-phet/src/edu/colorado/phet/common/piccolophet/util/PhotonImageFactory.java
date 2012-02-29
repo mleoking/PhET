@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhotonImageFactory extends PhetPNode {
+public class PhotonImageFactory {
 
     //----------------------------------------------------------------------------
     // Debugging
