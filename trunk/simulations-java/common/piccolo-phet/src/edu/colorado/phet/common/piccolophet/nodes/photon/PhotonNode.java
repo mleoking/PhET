@@ -20,6 +20,17 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * Disney website at http://disney.go.com/fairies/meetfairies.html.
  * A round "orb" has an outer "halo" and a whimsical "sparkle" in the middle.
  * Origin is at the upper-left corner of the node's bounding rectangle.
+ * <p>
+ * By default, the colorscheme is as follows:
+ * <ul>
+ * <li>Visible wavelengths are mapped to visible colors.
+ * <li>UV photons are rendered as gray orbs with violet crosshairs.
+ * <li>IR photos are rendered as gray orbs with red crosshairs.
+ * </ul>
+ * <p>
+ * If a different color mapping is desired, then you have 2 choices:
+ * (1) map your wavelength to a different wavelength before calling this constructor, or
+ * (2) override getPhotonColor and getSparkleColor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -39,27 +50,19 @@ public class PhotonNode extends PImage {
 
     /**
      * Constructs a PhotoNode for the specified wavelength and diameter.
-     * <p>
-     * Visible wavelengths are mapped to visible colors.
-     * UV photons are rendered as gray orbs with violet crosshairs.
-     * IR photos are rendered as gray orbs with red crosshairs.
-     * <p>
-     * If a different color mapping is desired, then map your wavelength
-     * to the desired color before calling this constructor.
-     *
      * @param wavelength
      * @param diameter diameter of the outer halo
      */
     public PhotonNode( double wavelength, double diameter ) {
 
         // map wavelength to colors
-        final Color orbColor = getOrbColor( wavelength );
+        final Color photonColor = getPhotonColor( wavelength );
         final Color sparkleColor = getSparkleColor( wavelength );
 
         // assemble the components of the node
         PNode parentNode = new PNode();
-        parentNode.addChild( new HaloNode( orbColor, diameter ) );
-        parentNode.addChild( new OrbNode( orbColor, 0.5 * diameter ) );
+        parentNode.addChild( new HaloNode( photonColor, diameter ) );
+        parentNode.addChild( new OrbNode( photonColor, 0.5 * diameter ) );
         parentNode.addChild( new SparkleNode( sparkleColor, 0.575 * diameter, SPARKLE_ANGLE ) );
 
         // convert to image
@@ -128,12 +131,19 @@ public class PhotonNode extends PImage {
         }
     }
 
-    // Override this if you want a different mapping of wavelength to orb color.
-    protected Color getOrbColor( double wavelength ) {
+    /*
+     * Override this if you want a different mapping of wavelength to photon color.
+     * Colors for the orb and halo are derived from this color.
+     * Use caution when overriding: this method is called in the constructor.
+     */
+    protected Color getPhotonColor( double wavelength ) {
        return VisibleColor.wavelengthToColor( wavelength, UV_ORB_COLOR, IR_ORB_COLOR );
     }
 
-    // Override this if you want a different mapping of wavelength to sparkle color.
+    /*
+     * Override this if you want a different mapping of wavelength to sparkle color.
+     * Use caution when overriding: this method is called in the constructor.
+     */
     protected Color getSparkleColor( double wavelength ) {
         if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
             return UV_SPARKLE_COLOR;
