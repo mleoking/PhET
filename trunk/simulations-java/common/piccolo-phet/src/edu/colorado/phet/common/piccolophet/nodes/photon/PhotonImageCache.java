@@ -9,6 +9,11 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * Caches images that represent photons.
+ * Wavelengths are rounded to the nearest integer.
+ * All visible wavelengths have a unique color, as defined by VisibleColor.
+ * All UV wavelengths are mapped to one color; ditto for IR.
+ * <p>
+ * To customize this cache, subclass and override createImage.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
