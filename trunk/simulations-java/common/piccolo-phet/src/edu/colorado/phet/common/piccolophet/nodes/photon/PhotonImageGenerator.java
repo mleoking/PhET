@@ -33,7 +33,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * This application can be used to display and save PNG files for photons.
  *
- * @author Sam Reid / Chris Malley
+ * @author Sam Reid
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PhotonImageGenerator extends JFrame {
 
@@ -94,7 +95,7 @@ public class PhotonImageGenerator extends JFrame {
                 // create the image
                 double wavelength = wavelengthControl.getValue();
                 double diameter = diameterControl.getValue();
-                Image image = PhotonImageFactory.createPhotonImage( wavelength, diameter );
+                Image image = PhotonNode.createImage( wavelength, diameter );
 
                 // save the image to a file
                 //TODO - verify that the filename ends with .png
@@ -141,7 +142,7 @@ public class PhotonImageGenerator extends JFrame {
     private void updateImagePreview() {
         double wavelength = wavelengthControl.getValue();
         double diameter = diameterControl.getValue();
-        Image image = PhotonImageFactory.createPhotonImage( wavelength, diameter );
+        Image image = PhotonNode.createImage( wavelength, diameter );
         PImage imageNode = new PImage( image );
         imageNode.setOffset( ( canvas.getWidth() - imageNode.getWidth() ) / 2, ( canvas.getHeight() - imageNode.getHeight() ) / 2 );
         parentNode.removeAllChildren();

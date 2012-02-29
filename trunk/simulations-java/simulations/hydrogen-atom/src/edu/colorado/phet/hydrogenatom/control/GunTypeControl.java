@@ -11,9 +11,18 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.Image;
+import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.SoftBevelBorder;
@@ -23,7 +32,7 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonNode;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.view.particle.AlphaParticleNode;
@@ -69,7 +78,7 @@ public class GunTypeControl extends PhetPNode {
         _listenerList = new EventListenerList();
         
         // Photon icon
-        Image photonImage = PhotonImageFactory.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH, HAPhotonNode.DIAMETER );
+        Image photonImage = PhotonNode.createImage( HAConstants.PHOTON_ICON_WAVELENGTH, HAPhotonNode.DIAMETER );
         Icon photonIcon = new ImageIcon( photonImage );
         
         // Alpha Particle icon
