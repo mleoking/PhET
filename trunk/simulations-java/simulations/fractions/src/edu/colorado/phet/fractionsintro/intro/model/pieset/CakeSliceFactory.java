@@ -23,14 +23,14 @@ import static fj.Ord.ord;
  */
 public class CakeSliceFactory extends AbstractSliceFactory {
 
-    public static final CakeSliceFactory CakeSliceFactory = new CakeSliceFactory();
+//    public static final CakeSliceFactory CakeSliceFactory = new CakeSliceFactory();
 
     public final double diameter = 155;
     public final double radius = diameter / 2;
     public final double spacing = 10;
 
     //Private, require users to use singleton
-    private CakeSliceFactory() {super( 0.0 );}
+    public CakeSliceFactory( Vector2D bucketPosition ) {super( 0.0, bucketPosition );}
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> getShapeFunction( final double extent ) {

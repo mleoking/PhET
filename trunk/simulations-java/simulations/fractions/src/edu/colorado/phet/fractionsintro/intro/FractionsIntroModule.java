@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractionsintro.intro;
 
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
+import edu.colorado.phet.fractionsintro.intro.model.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
@@ -13,7 +14,7 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
  */
 public class FractionsIntroModule extends AbstractFractionsModule {
     public FractionsIntroModule() {
-        this( new FractionsIntroModel( IntroState.IntroState ) );
+        this( new FractionsIntroModel( IntroState.IntroState, new FactorySet() ) );
     }
 
     private FractionsIntroModule( FractionsIntroModel model ) {

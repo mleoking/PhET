@@ -16,14 +16,12 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  */
 public class CircularSliceFactory extends AbstractSliceFactory {
 
-    public static final CircularSliceFactory CircularSliceFactory = new CircularSliceFactory();
-
     public final double diameter = 155;
     public final double radius = diameter / 2;
     public final double spacing = 10;
 
     //Private, require users to use singleton
-    private CircularSliceFactory() {super( 0.0 );}
+    public CircularSliceFactory( Vector2D bucketPosition ) {super( 0.0, bucketPosition );}
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> getShapeFunction( final double extent ) {

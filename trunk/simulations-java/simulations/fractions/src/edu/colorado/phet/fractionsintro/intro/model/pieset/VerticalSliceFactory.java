@@ -15,10 +15,10 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  */
 public class VerticalSliceFactory extends AbstractSliceFactory {
 
-    public static final VerticalSliceFactory VerticalSliceFactory = new VerticalSliceFactory( 125, 225, false );
-
-    //Water glasses are a bit smaller to match up with the graphics exactly
-    public static final VerticalSliceFactory WaterGlassSetFactory = new VerticalSliceFactory( 100, 200, true );
+//    public static final VerticalSliceFactory VerticalSliceFactory = new VerticalSliceFactory( 125, 225, false );
+//
+//    //Water glasses are a bit smaller to match up with the graphics exactly
+//    public static final VerticalSliceFactory WaterGlassSetFactory = new VerticalSliceFactory( 100, 200, true );
 
     public final double barWidth;
     public final double barHeight;
@@ -27,8 +27,8 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
     private final boolean fullBars;
 
     //Private, require users to use singleton
-    private VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars ) {
-        super( 15.0 );
+    public VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition ) {
+        super( 15.0, bucketPosition );
         this.barWidth = barWidth;
         this.barHeight = barHeight;
         this.fullBars = fullBars;

@@ -15,10 +15,10 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  */
 public class HorizontalSliceFactory extends AbstractSliceFactory {
 
-    public static final HorizontalSliceFactory HorizontalSliceFactory = new HorizontalSliceFactory();
+//    public static final HorizontalSliceFactory HorizontalSliceFactory = new HorizontalSliceFactory();
 
     //Private, require users to use singleton
-    private HorizontalSliceFactory() {super( 15.0 );}
+    public HorizontalSliceFactory( Vector2D bucketPosition ) {super( 15.0, bucketPosition );}
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> createToShape( final double width ) {

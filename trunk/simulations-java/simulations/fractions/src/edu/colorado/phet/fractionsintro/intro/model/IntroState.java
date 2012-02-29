@@ -7,12 +7,6 @@ import lombok.Data;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory.CakeSliceFactory;
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.WaterGlassSetFactory;
-
 /**
  * Immutable state class representing the state of the model at any given instant.  Managed by FractionsIntroModel.
  *
@@ -32,17 +26,17 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
     public final Representation representation;
     public final int maximum;
 
-    public static IntroState IntroState( int maximum ) {
+    public static IntroState IntroState( int maximum, FactorySet factories ) {
         int denominator = 1;
         return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim(), false, false,
-                               new PieSet( maximum, CircularSliceFactory ),
-                               new PieSet( maximum, HorizontalSliceFactory ),
-                               new PieSet( maximum, VerticalSliceFactory ),
-                               new PieSet( maximum, WaterGlassSetFactory ),
-                               new PieSet( maximum, CakeSliceFactory ), 0, 1, Representation.PIE, maximum );
+                               new PieSet( maximum, factories.CircularSliceFactory ),
+                               new PieSet( maximum, factories.HorizontalSliceFactory ),
+                               new PieSet( maximum, factories.VerticalSliceFactory ),
+                               new PieSet( maximum, factories.WaterGlassSetFactory ),
+                               new PieSet( maximum, factories.CakeSliceFactory ), 0, 1, Representation.PIE, maximum );
     }
 
-    public static final IntroState IntroState = IntroState( 1 );
+    public static final IntroState IntroState = IntroState( 1, new FactorySet() );
 
     public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
@@ -76,11 +70,11 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceF
     }
 
     //Update all representations from the specified container set
-    public IntroState fromContainerSet( ContainerSet c ) {
-        return pieSet( CircularSliceFactory.fromContainerSetState( c ) ).
-                horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( c ) ).
-                verticalBarSet( VerticalSliceFactory.fromContainerSetState( c ) ).
-                waterGlassSet( WaterGlassSetFactory.fromContainerSetState( c ) ).
-                cakeSet( CakeSliceFactory.fromContainerSetState( c ) );
+    public IntroState fromContainerSet( ContainerSet c, FactorySet factorySet ) {
+        return pieSet( factorySet.CircularSliceFactory.fromContainerSetState( c ) ).
+                horizontalBarSet( factorySet.HorizontalSliceFactory.fromContainerSetState( c ) ).
+                verticalBarSet( factorySet.VerticalSliceFactory.fromContainerSetState( c ) ).
+                waterGlassSet( factorySet.WaterGlassSetFactory.fromContainerSetState( c ) ).
+                cakeSet( factorySet.CakeSliceFactory.fromContainerSetState( c ) );
     }
 }

@@ -53,7 +53,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         //The fraction control node
         addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
-            setOffset( 73, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth(), STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 
         //Show the pie set node when pies are selected

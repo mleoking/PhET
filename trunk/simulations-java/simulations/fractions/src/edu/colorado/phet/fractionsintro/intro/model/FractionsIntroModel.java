@@ -12,15 +12,13 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
-
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory.CakeSliceFactory;
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory.CircularSliceFactory;
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory.HorizontalSliceFactory;
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.VerticalSliceFactory;
-import static edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory.WaterGlassSetFactory;
 
 /**
  * Model for the Fractions Intro sim.
@@ -42,23 +40,7 @@ public class FractionsIntroModel {
 
     //Clock for the model.
     //Animate the model when the clock ticks
-    public final Clock clock = new ConstantDtClock() {{
-        addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
-                final IntroState s = state.get();
-                final double dt = clockEvent.getSimulationTimeChange();
-                final IntroState newState = s.updatePieSets( new F<PieSet, PieSet>() {
-                    @Override public PieSet f( PieSet p ) {
-                        return p.stepInTime( dt );
-                    }
-                } );
-
-                //Fix the z-ordering for cake slices
-                final IntroState sorted = newState.cakeSet( CakeSliceFactory.sort( newState.cakeSet ) );
-                state.set( sorted );
-            }
-        } );
-    }};
+    public final Clock clock;
 
     //Observable parts of the model, see docs in main constructor
     public final SettableProperty<Representation> representation;
@@ -72,9 +54,33 @@ public class FractionsIntroModel {
     public final IntegerProperty maximum;
     private final IntroState initialState;//For resetting
 
-    public FractionsIntroModel( IntroState s ) {
+    public FractionsIntroModel( IntroState s, final FactorySet factorySet ) {
+
+        final CakeSliceFactory CakeSliceFactory = factorySet.CakeSliceFactory;
+        final HorizontalSliceFactory HorizontalSliceFactory = factorySet.HorizontalSliceFactory;
+        final VerticalSliceFactory VerticalSliceFactory = factorySet.VerticalSliceFactory;
+        final CircularSliceFactory CircularSliceFactory = factorySet.CircularSliceFactory;
+        final VerticalSliceFactory WaterGlassSetFactory = factorySet.WaterGlassSetFactory;
+
         initialState = s;
         state = new Property<IntroState>( s );
+        clock = new ConstantDtClock() {{
+            addClockListener( new ClockAdapter() {
+                @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                    final IntroState s = state.get();
+                    final double dt = clockEvent.getSimulationTimeChange();
+                    final IntroState newState = s.updatePieSets( new F<PieSet, PieSet>() {
+                        @Override public PieSet f( PieSet p ) {
+                            return p.stepInTime( dt );
+                        }
+                    } );
+
+                    //Fix the z-ordering for cake slices
+                    final IntroState sorted = newState.cakeSet( CakeSliceFactory.sort( newState.cakeSet ) );
+                    state.set( sorted );
+                }
+            } );
+        }};
         representation = new ClientProperty<Representation>( state, new Function1<IntroState, Representation>() {
             public Representation apply( IntroState s ) {
                 return s.representation;
@@ -83,7 +89,7 @@ public class FractionsIntroModel {
             public IntroState apply( IntroState s, Representation r ) {
 
                 //Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
-                return s.representation( r ).fromContainerSet( s.containerSet );
+                return s.representation( r ).fromContainerSet( s.containerSet, factorySet );
             }
         }
         );
@@ -133,7 +139,7 @@ public class FractionsIntroModel {
 
                 //create a new container set
                 ContainerSet c = s.containerSet.update( s.maximum, denominator );
-                return s.containerSet( c ).denominator( denominator ).fromContainerSet( c );
+                return s.containerSet( c ).denominator( denominator ).fromContainerSet( c, factorySet );
             }
         }
         ).toIntegerProperty();
@@ -259,7 +265,7 @@ public class FractionsIntroModel {
                         final ContainerSet c = s.containerSet.maximum( maximum );
                         IntroState newState = s.maximum( maximum ).
                                 containerSet( c ).
-                                fromContainerSet( c ).
+                                fromContainerSet( c, factorySet ).
                                 numerator( c.numerator ).
                                 denominator( c.denominator );
 
