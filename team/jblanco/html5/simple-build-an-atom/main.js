@@ -9,6 +9,7 @@
 var numProtons = 10;
 var numNeutrons = 10;
 var nucleonRadius = 20;
+var maxNucleonsInBucket = 10;
 
 // Global variables.
 var canvas;
@@ -65,10 +66,10 @@ function init() {
     protonBucket = new Bucket( new Point2D( 400, 300 ), "red", "Protons" );
 
     // Add the protons and neutrons.  They are initially in the buckets.
-    for ( i = 0; i < numProtons; i++ ){
+    for ( i = 0; i < numProtons; i++ ) {
         protonBucket.addNucleonToBucket( new Proton() );
     }
-    for ( i = 0; i < numNeutrons; i++ ){
+    for ( i = 0; i < numNeutrons; i++ ) {
         neutronBucket.addNucleonToBucket( new Neutron() );
     }
 
@@ -141,6 +142,11 @@ Point2D.prototype.set = function( point2D ) {
     this.setComponents( point2D.x, point2D.y );
 }
 
+Point2D.prototype.equals = function ( point2D ) {
+    console.log( "returning " + ((point2D.x == this.x) && (point2D.y == this.y)) );
+    return (point2D.x == this.x) && (point2D.y == this.y);
+}
+
 //-----------------------------------------------------------------------------
 // Nucleon class.
 //-----------------------------------------------------------------------------
@@ -183,13 +189,13 @@ Nucleon.prototype.containsPoint = function( point ) {
 
 Proton.prototype = new Nucleon();
 
-function Proton(){
+function Proton() {
     Nucleon.call( this, "red" );
 }
 
 Neutron.prototype = new Nucleon();
 
-function Neutron(){
+function Neutron() {
     Nucleon.call( this, "gray" );
 }
 
@@ -257,7 +263,7 @@ Bucket.prototype.drawFront = function( context ) {
     context.beginPath();
     context.moveTo( xPos, yPos );
     context.lineTo( xPos + this.width * 0.15, yPos + this.height ); // Left edge.
-    context.bezierCurveTo( xPos + this.width * 0.4, yPos + this.height * 1.1, xPos + this.width * 0.6, yPos + this.height * 1.1, xPos + this.width * 0.85, yPos + this.height  );
+    context.bezierCurveTo( xPos + this.width * 0.4, yPos + this.height * 1.1, xPos + this.width * 0.6, yPos + this.height * 1.1, xPos + this.width * 0.85, yPos + this.height );
     context.lineTo( xPos + this.width, yPos ); // Right edge.
     context.bezierCurveTo( xPos + this.width * 0.9, yPos + this.height * 0.2, xPos + this.width * 0.1, yPos + this.height * 0.2, xPos, yPos ); // Top.
     context.closePath();
@@ -284,31 +290,61 @@ Bucket.prototype.drawInterior = function( context ) {
     // Draw the interior of the bucket.
     context.beginPath();
     context.moveTo( xPos, yPos );
-    context.bezierCurveTo( xPos + this.width * 0.1, yPos - this.height * 0.2, xPos + this.width * 0.9, yPos - this.height * 0.2, xPos + this.width, yPos  );
-    context.bezierCurveTo( xPos + this.width * 0.9, yPos + this.height * 0.2, xPos + this.width * 0.1, yPos + this.height * 0.2, xPos, yPos  );
+    context.bezierCurveTo( xPos + this.width * 0.1, yPos - this.height * 0.2, xPos + this.width * 0.9, yPos - this.height * 0.2, xPos + this.width, yPos );
+    context.bezierCurveTo( xPos + this.width * 0.9, yPos + this.height * 0.2, xPos + this.width * 0.1, yPos + this.height * 0.2, xPos, yPos );
     context.fillStyle = gradient;
     context.fill();
 }
 
-Bucket.prototype.addNucleonToBucket = function ( nucleon ){
-    nucleon.setLocation( this.getNucleonLocation( this.nucleonsInBucket.length ));
+Bucket.prototype.addNucleonToBucket = function ( nucleon ) {
+    nucleon.setLocation( this.getNextOpenNucleonLocation() );
     this.nucleonsInBucket.push( nucleon );
 }
 
-Bucket.prototype.removeNucleonFromBucket = function ( nucleon ){
+Bucket.prototype.removeNucleonFromBucket = function ( nucleon ) {
     var index = this.nucleonsInBucket.indexOf( nucleon );
-    if ( index != -1 ){
+    if ( index != -1 ) {
         this.nucleonsInBucket.splice( index, 1 );
     }
 }
 
-Bucket.prototype.getNucleonLocation = function ( index ) {
+Bucket.prototype.getNucleonLocationByIndex = function ( index ) {
     var nucleonRadius = new Nucleon( "black" ).radius;
     var minX = this.location.x + nucleonRadius * 1.5;
     var maxXOffset = this.width - 2 * nucleonRadius;
     var multiplier = Math.random();
     return new Point2D( minX + index * nucleonRadius * 2, this.location.y );
 }
+
+Bucket.prototype.getNextOpenNucleonLocation = function () {
+    for ( var i = 0; i < maxNucleonsInBucket; i++ ) {
+        console.log( "------------ in loop ---------" )
+        var openLocation = this.getNucleonLocationByIndex( i );
+        var locationTaken = false;
+        for ( var j = 0; j < this.nucleonsInBucket.length; j++ ) {
+            console.log( "------------ About to compare locations ---------" )
+            console.log( "openLocation = " + openLocation );
+            console.log( "nucleon location  = " + this.nucleonsInBucket[j].location );
+            if ( this.nucleonsInBucket[j].location.equals( openLocation ) ) {
+                locationTaken = true;
+                console.log( "locations equal" );
+
+                break;
+            }
+            else {
+                console.log( "locations NOT equal" );
+
+            }
+        }
+        if ( !locationTaken ) {
+            // This location is open, so we're done.
+            break;
+        }
+    }
+
+    return openLocation;
+}
+
 
 Bucket.prototype.setLocationComponents = function( x, y ) {
     this.location.x = x;
@@ -529,7 +565,7 @@ function removeParticleFromNucleus( particle ) {
     adjustNucleusConfiguration();
 }
 
-function removeAllParticlesFromNucleus(){
+function removeAllParticlesFromNucleus() {
     nucleonsInNucleus.length = 0;
 }
 
@@ -569,7 +605,7 @@ function adjustNucleusConfiguration() {
         for ( i = nucleonsInNucleus.length - 6; i >= 0; i-- ) {
             var angle = Math.random() * Math.PI * 2;
             nucleonsInNucleus[i].setLocationComponents( electronShell.location.x + placementRadius * Math.cos( angle ),
-                                                         electronShell.location.y + placementRadius * Math.sin( angle ) );
+                                                        electronShell.location.y + placementRadius * Math.sin( angle ) );
         }
     }
 }
@@ -624,7 +660,7 @@ function onTouchStart( location ) {
             break;
         }
     }
-    if ( nucleonBeingDragged == null ){
+    if ( nucleonBeingDragged == null ) {
         // See if touch occurred over a nucleon in the proton bucket.
         for ( var i = 0; i < protonBucket.nucleonsInBucket.length; i++ ) {
             if ( protonBucket.nucleonsInBucket[i].containsPoint( location ) ) {
@@ -634,7 +670,7 @@ function onTouchStart( location ) {
             }
         }
     }
-    if ( nucleonBeingDragged == null ){
+    if ( nucleonBeingDragged == null ) {
         // See if touch occurred over a nucleon in the neutron bucket.
         for ( var i = 0; i < neutronBucket.nucleonsInBucket.length; i++ ) {
             if ( neutronBucket.nucleonsInBucket[i].containsPoint( location ) ) {
@@ -649,16 +685,16 @@ function onTouchStart( location ) {
     if ( nucleonBeingDragged != null ) {
         nucleonBeingDragged.setLocation( location );
     }
-    else{
+    else {
         // Check if the reset button was pressed.
-        if ( resetButton.containsPoint( location )){
+        if ( resetButton.containsPoint( location ) ) {
             // Perform a reset by moving any particles that are in the nucleus
             // into their bucket.
             for ( var i = 0; i < nucleonsInNucleus.length; i++ ) {
                 if ( nucleonsInNucleus[i] instanceof Proton ) {
                     protonBucket.addNucleonToBucket( nucleonsInNucleus[i] );
                 }
-                else{
+                else {
                     neutronBucket.addNucleonToBucket( nucleonsInNucleus[i] );
                 }
             }
@@ -687,10 +723,10 @@ function onTouchEnd() {
         }
         else {
             // Return the particle to the appropriate bucket.
-            if ( nucleonBeingDragged instanceof Proton ){
+            if ( nucleonBeingDragged instanceof Proton ) {
                 protonBucket.addNucleonToBucket( nucleonBeingDragged );
             }
-            else{
+            else {
                 neutronBucket.addNucleonToBucket( nucleonBeingDragged );
             }
         }
