@@ -155,7 +155,7 @@ import static fj.data.List.range;
         final Slice bucketSlice = bucketSlices.index( random.nextInt( bucketSlices.length() ) );
 
         final Slice target = sliceFactory.createPieCell( pies.length(), emptyCell.container, emptyCell.cell, denominator );
-        return slices( slices.cons( bucketSlice.animationTarget( new AnimationTarget( target.position, target.angle ) ) ) );
+        return slices( slices.snoc( bucketSlice.animationTarget( new AnimationTarget( target.position, target.angle ) ) ) );
     }
 
     private List<Slice> getBucketSlices() {
