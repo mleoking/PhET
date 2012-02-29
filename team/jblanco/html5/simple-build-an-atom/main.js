@@ -315,9 +315,9 @@ Bucket.prototype.getNucleonLocationByIndex = function ( index ) {
     // Assumes 1.5r margin on both sides of the bucket.
     var numInCenterRow = Math.round( ( this.width - 2 * nucleonRadius ) / ( nucleonRadius * 2 ) );
     if ( index < numInCenterRow - 1 ) {
-        // In back row, which is populated first.
-        console.log( "back row " );
-        location = new Point2D( this.location.x + nucleonRadius * 2.5 + index * nucleonRadius * 2, this.location.y - nucleonRadius * 0.5 );
+        // In front row, which is populated first.
+        console.log( "front row " );
+        location = new Point2D( this.location.x + nucleonRadius * 2.5 + index * nucleonRadius * 2, this.location.y + nucleonRadius * 0.5 );
     }
     else if ( index < 2 * numInCenterRow - 1 ) {
         // In center row.
@@ -326,8 +326,8 @@ Bucket.prototype.getNucleonLocationByIndex = function ( index ) {
     }
     else if ( index < 3 * numInCenterRow - 2 ) {
         // In back row.
-        console.log( "front row " );
-        location = new Point2D( this.location.x + nucleonRadius * 2.5 + (index - numInCenterRow * 2 + 1) * nucleonRadius * 2, this.location.y + nucleonRadius * 0.5 );
+        console.log( "back row " );
+        location = new Point2D( this.location.x + nucleonRadius * 2.5 + (index - numInCenterRow * 2 + 1) * nucleonRadius * 2, this.location.y - nucleonRadius * 0.5 );
     }
     else {
         console.log( "bucket capacity exceeded, using center" );
