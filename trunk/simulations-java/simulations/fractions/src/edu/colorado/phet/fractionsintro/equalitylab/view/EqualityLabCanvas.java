@@ -5,8 +5,10 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
+import edu.colorado.phet.fractionsintro.intro.view.FractionControlNode;
 import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
@@ -47,6 +49,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             setConfirmationEnabled( false );
         }};
         addChild( resetAllButtonNode );
+
+        //The fraction control node
+        addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
+            setOffset( 73, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }} );
 
         //Show the pie set node when pies are selected
         addChild( new RepresentationNode( model.representation, PIE, new PieSetNode( model.pieSet, rootNode ) ) );
