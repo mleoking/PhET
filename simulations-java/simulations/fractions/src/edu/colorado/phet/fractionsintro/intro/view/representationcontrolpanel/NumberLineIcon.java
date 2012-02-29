@@ -28,6 +28,7 @@ public class NumberLineIcon extends NumberLineRootNode implements Representation
                 chosenRepresentation.set( Representation.NUMBER_LINE );
             }
         } );
+        scale( 1.2 );
     }
 
     public PNode getNode() {
