@@ -575,7 +575,7 @@ function onDocumentMouseDown( event ) {
 }
 
 function onDocumentMouseUp( event ) {
-    onTouchEnd( new Point2D( event.clientX, event.clientY ) );
+    onTouchEnd();
 }
 
 function onDocumentMouseMove( event ) {
@@ -609,11 +609,31 @@ function onTouchStart( location ) {
     nucleonBeingDragged = null;
 
     // See if this event occurred over any of the nucleons in the nucleus.
-    for ( i = 0; i < nucleonsInNucleus.length; i++ ) {
+    for ( var i = 0; i < nucleonsInNucleus.length; i++ ) {
         if ( nucleonsInNucleus[i].containsPoint( location ) ) {
             nucleonBeingDragged = nucleonsInNucleus[i];
             removeParticleFromNucleus( nucleonBeingDragged );
             break;
+        }
+    }
+    if ( nucleonBeingDragged == null ){
+        // See if touch occurred over a nucleon in the proton bucket.
+        for ( var i = 0; i < protonBucket.nucleonsInBucket.length; i++ ) {
+            if ( protonBucket.nucleonsInBucket[i].containsPoint( location ) ) {
+                nucleonBeingDragged = protonBucket.nucleonsInBucket[i];
+                protonBucket.removeNucleonFromBucket( nucleonBeingDragged );
+                break;
+            }
+        }
+    }
+    if ( nucleonBeingDragged == null ){
+        // See if touch occurred over a nucleon in the neutron bucket.
+        for ( var i = 0; i < neutronBucket.nucleonsInBucket.length; i++ ) {
+            if ( neutronBucket.nucleonsInBucket[i].containsPoint( location ) ) {
+                nucleonBeingDragged = neutronBucket.nucleonsInBucket[i];
+                neutronBucket.removeNucleonFromBucket( nucleonBeingDragged );
+                break;
+            }
         }
     }
 
