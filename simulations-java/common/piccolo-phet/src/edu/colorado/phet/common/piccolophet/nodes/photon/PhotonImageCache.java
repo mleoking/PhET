@@ -22,10 +22,6 @@ public class PhotonImageCache {
     private static final Integer IR_IMAGE_KEY = new Integer( (int) ( VisibleColor.MAX_WAVELENGTH + 1 ) );
     private static final ImageCache IMAGE_CACHE = new ImageCache();
 
-
-    /* not intended for instantiation */
-    private PhotonImageCache() {}
-
     /**
      * Gets a photon image from the cache. If we don't have an image for the specified
      * wavelength and diameter, create one and add it to the cache. Use caution not to
@@ -36,10 +32,10 @@ public class PhotonImageCache {
      * @param diameter
      * @return Image
      */
-    public static final Image getImage( double wavelength, double diameter ) {
+    public Image getImage( double wavelength, double diameter ) {
         Image image = IMAGE_CACHE.get( wavelength, diameter );
         if ( image == null ) {
-            image = PhotonNode.createImage( wavelength, diameter );
+            image = createImage( wavelength, diameter );
             IMAGE_CACHE.put( wavelength, diameter, image );
         }
         return image;
@@ -48,8 +44,16 @@ public class PhotonImageCache {
     /**
      * Clears the cache.
      */
-    public static final void clear() {
+    public final void clear() {
         IMAGE_CACHE.clear();
+    }
+
+    /*
+     * Override if you want to change how images are created,
+     * or need to use your own subclass of PhotonNode with a custom colorscheme.
+     */
+    protected Image createImage( double wavelength, double diameter ) {
+        return PhotonNode.createImage( wavelength, diameter );
     }
 
     //TODO change this to use a single map and generics, see #2620
