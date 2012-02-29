@@ -69,17 +69,17 @@ public class LegendPanel extends JPanel {
         int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new PhetFont( FONT_STYLE, fontSize );
 
-        JLabel photonImage = toJLabel( PhotonImageFactory.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH, PhotonNode.DIAMETER ) );
+        JLabel photonImage = toJLabel( PhotonImageFactory.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH, HAPhotonNode.DIAMETER ) );
         JLabel photonText = new JLabel( HAResources.getString( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );
 
-        JLabel uvPhotonImage = toJLabel( PhotonImageFactory.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1, PhotonNode.DIAMETER ) );
+        JLabel uvPhotonImage = toJLabel( PhotonImageFactory.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1, HAPhotonNode.DIAMETER ) );
         JLabel uvPhotonText = new JLabel( HAResources.getString( "label.uvPhoton" ) );
         uvPhotonText.setFont( font );
         uvPhotonText.setForeground( LABEL_COLOR );
 
-        JLabel irPhotonImage = toJLabel( PhotonImageFactory.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1, PhotonNode.DIAMETER ) );
+        JLabel irPhotonImage = toJLabel( PhotonImageFactory.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1, HAPhotonNode.DIAMETER ) );
         JLabel irPhotonText = new JLabel( HAResources.getString( "label.irPhoton" ) );
         irPhotonText.setFont( font );
         irPhotonText.setForeground( LABEL_COLOR );
