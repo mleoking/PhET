@@ -10,10 +10,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
-import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageCache;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+//TODO #2620: subclass PhotonNode, override getPhotonColor and getSparkleColor, delete image files
 /**
  * PNode that represents a photon in the view.
  *
@@ -37,9 +37,6 @@ public class PAPhotonNode extends PNode implements Observer {
         put( WavelengthConstants.UV_WAVELENGTH, "photon-100.png" );
     }};
 
-    // For debug and testing.  TODO: Remove this if ultimately not used.
-    private static final boolean USE_PHOTON_FACTORY = false;
-
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -62,22 +59,11 @@ public class PAPhotonNode extends PNode implements Observer {
         this.photon.addObserver( this );
         this.mvt = mvt;
 
-        if ( USE_PHOTON_FACTORY ) {
-            if ( photon.getWavelength() == WavelengthConstants.MICRO_WAVELENGTH ) {
-                // Special case for microwaves, since PhotonImageFactory makes all
-                // photons with a wavelength longer than visible light look the
-                // same.
-                // TODO: Do we want to change PhotonImageFactory to handle this case? see #2620
-                photonImage = new PImage( PhotonAbsorptionResources.getImage( "microwave-photon.png" ) );
-            }
-            else {
-                photonImage = new PImage( PhotonImageCache.getImage( photon.getWavelength() * 1E9, 35 ) );
-            }
-        }
-        else {
-            assert mapWavelengthToImageName.containsKey( photon.getWavelength() );
-            photonImage = new PImage( PhotonAbsorptionResources.getImage( mapWavelengthToImageName.get( photon.getWavelength() ) ) );
-        }
+        // lookup the image file that corresponds to the wavelength
+        assert mapWavelengthToImageName.containsKey( photon.getWavelength() );
+        photonImage = new PImage( PhotonAbsorptionResources.getImage( mapWavelengthToImageName.get( photon.getWavelength() ) ) );
+
+        // center the image
         photonImage.setOffset( -photonImage.getFullBoundsReference().width / 2,
                                -photonImage.getFullBoundsReference().height / 2 );
         addChild( photonImage );
