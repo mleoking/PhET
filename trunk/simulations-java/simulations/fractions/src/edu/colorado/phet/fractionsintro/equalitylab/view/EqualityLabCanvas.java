@@ -7,12 +7,17 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
+import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
+
+import static edu.colorado.phet.fractionsintro.intro.view.Representation.HORIZONTAL_BAR;
+import static edu.colorado.phet.fractionsintro.intro.view.Representation.PIE;
 
 /**
  * Canvas for "Fractions Intro" sim.
@@ -42,6 +47,12 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             setConfirmationEnabled( false );
         }};
         addChild( resetAllButtonNode );
+
+        //Show the pie set node when pies are selected
+        addChild( new RepresentationNode( model.representation, PIE, new PieSetNode( model.pieSet, rootNode ) ) );
+
+        //For horizontal bars
+        addChild( new RepresentationNode( model.representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
 
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
     }
