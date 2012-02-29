@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.nodes.photon.PhotonImageCache;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.colorado.phet.hydrogenatom.view.HAModelViewTransform;
@@ -62,7 +62,7 @@ public class HAPhotonNode extends PhetPNode implements Observer {
         setChildrenPickable( false );
         
         // Get an image from the image cache
-        Image image = PhotonImageFactory.lookupPhotonImage( photon.getWavelength(), DIAMETER );
+        Image image = PhotonImageCache.lookupPhotonImage( photon.getWavelength(), DIAMETER );
         PImage imageNode = new PImage( image );
         addChild( imageNode );
         
