@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -19,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * The look is loosely based on examples that Wendy Adams found on a
  * Disney website at http://disney.go.com/fairies/meetfairies.html.
  * A round "orb" has an outer "halo" and a whimsical "sparkle" in the middle.
- * Origin is at the upper-left corner of the node's bounding rectangle.
+ * Origin is at center of the node's bounding rectangle.
  * <p>
  * By default, the colorscheme is as follows:
  * <ul>
@@ -34,7 +35,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhotonNode extends PImage {
+public class PhotonNode extends PhetPNode {
 
     // Orb
     private static final int ORB_ALPHA = 130;
@@ -65,8 +66,11 @@ public class PhotonNode extends PImage {
         parentNode.addChild( new OrbNode( photonColor, 0.5 * diameter ) );
         parentNode.addChild( new SparkleNode( sparkleColor, 0.575 * diameter, SPARKLE_ANGLE ) );
 
-        // convert to image
-        setImage( parentNode.toImage() );
+        // convert to image, center
+        PImage imageNode = new PImage( parentNode.toImage() );
+        addChild( imageNode );
+        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2,
+                             -imageNode.getFullBoundsReference().getHeight() / 2 );
     }
 
     // The orb that is the main body of the photon. Origin at center.
