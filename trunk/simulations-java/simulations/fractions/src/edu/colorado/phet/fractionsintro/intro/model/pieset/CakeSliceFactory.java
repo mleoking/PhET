@@ -65,7 +65,7 @@ public class CakeSliceFactory extends AbstractSliceFactory {
         double offset = new LinearFunction( 1, 6, diameter * 3 - diameter / 3, 0 ).evaluate( maxPies );
 
         final double anglePerSlice = 2 * Math.PI / denominator;
-        final Vector2D location = new Vector2D( diameter * ( pie + 1 ) + spacing * ( pie + 1 ) - 80 + offset, 250 );
+        final Vector2D location = new Vector2D( diameter * ( pie + 1 ) + spacing * ( pie + 1 ) - 80 + offset, 300 );
         return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ) );
     }
 
