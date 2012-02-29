@@ -86,9 +86,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         } ) ) );
 
         //For debugging water glasses region management
-//        addChild( new RepresentationNode( model.representation, WATER_GLASSES ) {{
-//            addChild( new PieSetNode( model.waterGlassSet, rootNode ) );
-//        }} );
+//        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode ) ) );
 
         //For water glasses
         addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode, new WaterGlassNodeFactory() ) {
