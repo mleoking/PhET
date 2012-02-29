@@ -71,6 +71,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             final int denominator;
         }
 
+        //Cache for performance, to avoid cropping each time
         final Cache<Arg, BufferedImage> cakeImages = cache( new F<Arg, BufferedImage>() {
             @Override public BufferedImage f( Arg a ) {
                 return cropSides( RESOURCES.getImage( "cake/cake_" + a.denominator + "_" + ( a.cell + 1 ) + ".png" ) );
@@ -115,10 +116,10 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             }
         } ) );
 
-        ZeroOffsetNode fractionEqualityPanel = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
-            setOffset( 35, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-        }};
-        addChild( fractionEqualityPanel );
+        //The fraction control node
+        addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
+            setOffset( 73, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }} );
 
         final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {
