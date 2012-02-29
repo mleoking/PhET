@@ -1,3 +1,4 @@
+Intro: Fixed: There is a bug where if you just put the mouse over a piece and click over and over, the bucket continues to fill
 Intro: Fixed: For vertical bars (and all representations), animating pieces should be in front instead of behind.
 Intro: Fixed: Cake piece angle sometimes seems buggy
 Intro: Fixed: Cake pieces are floating out of the bucket
