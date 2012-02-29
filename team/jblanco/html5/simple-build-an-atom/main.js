@@ -470,6 +470,56 @@ NucleusLabel.prototype.updateText = function( protonCount, neutronCount ) {
             }
             break;
 
+        case 6:
+            this.text = "Carbon";
+            if ( neutronCount == 6 || neutronCount == 7 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
+            break;
+
+        case 7:
+            this.text = "Nitrogen";
+            if ( neutronCount == 7 || neutronCount == 8 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
+            break;
+
+        case 8:
+            this.text = "Oxygen";
+            if ( neutronCount == 8 || neutronCount == 9 || neutronCount == 10 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
+            break;
+
+        case 9:
+            this.text = "Fluorine";
+            if ( neutronCount == 10 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
+            break;
+
+        case 10:
+            this.text = "Neon";
+            if ( neutronCount == 10 || neutronCount == 11 || neutronCount == 12 ) {
+                this.text += " (Stable)";
+            }
+            else {
+                this.text += " (Unstable)";
+            }
+            break;
+
         default:
             this.text = "Phetium - " + (protonCount + neutronCount);
             break;
