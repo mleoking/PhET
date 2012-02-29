@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.equalitylab;
+package edu.colorado.phet.fractionsintro.equalitylab.model;
 
 import edu.colorado.phet.fractionsintro.common.model.SingleFractionModel;
 

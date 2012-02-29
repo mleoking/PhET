@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.equalitylab;
+package edu.colorado.phet.fractionsintro.equalitylab.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
