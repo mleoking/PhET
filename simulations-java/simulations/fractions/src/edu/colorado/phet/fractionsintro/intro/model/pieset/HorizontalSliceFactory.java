@@ -18,7 +18,7 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
     public static final HorizontalSliceFactory HorizontalSliceFactory = new HorizontalSliceFactory();
 
     //Private, require users to use singleton
-    private HorizontalSliceFactory() {}
+    private HorizontalSliceFactory() {super( 15.0 );}
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> createToShape( final double width ) {
@@ -39,7 +39,7 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
         double desiredCenter = random.nextDouble() * ( rightEdgeBucketHole - leftEdgeBucketHole ) + leftEdgeBucketHole;
 
         //Stagger vertically in the bucket to make them more distinguishable
-        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * 15 ) );
+        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * yRange ) );
     }
 
     private static final int NUM_BARS_PER_LINE = 3;

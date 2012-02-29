@@ -150,11 +150,7 @@ import static fj.data.List.range;
 
     public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
 
-        final List<Slice> bucketSlices = slices.filter( new F<Slice, Boolean>() {
-            @Override public Boolean f( Slice s ) {
-                return sliceFactory.createBucketSlice( denominator ).position.getY() == s.position.getY();
-            }
-        } );
+        final List<Slice> bucketSlices = getBucketSlices();
 
         //Randomly choose a slice as the prototype for where the slice should come from.
         //But do not actually delete the slice because there must seem to be an "infinite" supply from the bucket.
@@ -162,6 +158,14 @@ import static fj.data.List.range;
 
         final Slice target = sliceFactory.createPieCell( pies.length(), emptyCell.container, emptyCell.cell, denominator );
         return slices( slices.cons( bucketSlice.animationTarget( new AnimationTarget( target.position, target.angle ) ) ) );
+    }
+
+    private List<Slice> getBucketSlices() {
+        return slices.filter( new F<Slice, Boolean>() {
+            @Override public Boolean f( Slice s ) {
+                return isInBucket( s );
+            }
+        } );
     }
 
     public PieSet animateSliceToBucket( CellPointer cell ) {
@@ -214,9 +218,9 @@ import static fj.data.List.range;
         } ).some();
     }
 
-    public boolean isInBucket( Slice slice ) {
-        final Slice target = sliceFactory.createBucketSlice( denominator );
-        return !slice.isDragging() && slice.position.getY() == target.position.getY();
+    //Determine whether a slice is marked as in the bucket.  Not sure why the fudge term is needed, but without it there are bugs.
+    public boolean isInBucket( Slice s ) {
+        return s.animationTarget == null && !s.dragging && s.position.y >= sliceFactory.getBucketCenter().y - 50;
     }
 
     public int countFilledCells( Pie pie ) {

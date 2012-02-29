@@ -26,6 +26,9 @@ public abstract class AbstractSliceFactory {
     public final Color bucketColor = new Color( 136, 177, 240 );//A shade that looks good behind the green objects
     public final Bucket bucket = new Bucket( stageSize.width / 2, -stageSize.height + 200, new Dimension2DDouble( 350, 135 ), bucketColor, "" );
     public final Random random = new Random();
+    public final double yRange;
+
+    protected AbstractSliceFactory( double yRange ) {this.yRange = yRange;}
 
     //Create some cells for the empty pies
     public List<Pie> createEmptyPies( final int numPies, final int denominator ) {

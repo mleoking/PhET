@@ -28,6 +28,7 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
 
     //Private, require users to use singleton
     private VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars ) {
+        super( 15.0 );
         this.barWidth = barWidth;
         this.barHeight = barHeight;
         this.fullBars = fullBars;
@@ -51,7 +52,7 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
         double desiredCenter = random.nextDouble() * ( rightEdgeBucketHole - leftEdgeBucketHole ) + leftEdgeBucketHole;
 
         //Stagger vertically in the bucket to make them more distinguishable
-        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * 15 ) );
+        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * yRange ) );
     }
 
     public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {
