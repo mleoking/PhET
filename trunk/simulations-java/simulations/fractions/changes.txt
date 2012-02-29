@@ -1,8 +1,8 @@
-Fixed: For vertical bars (and all representations), animating pieces should be in front instead of behind.
-Fixed: Cake piece angle sometimes seems buggy
-Fixed: Cake pieces are floating out of the bucket
-Fixed: Cake pieces are too high--too close to the top control panel, move them down a bit
-Fixed: Number line causes exception when dragging or clicking past the max
+Intro: Fixed: For vertical bars (and all representations), animating pieces should be in front instead of behind.
+Intro: Fixed: Cake piece angle sometimes seems buggy
+Intro: Fixed: Cake pieces are floating out of the bucket
+Intro: Fixed: Cake pieces are too high--too close to the top control panel, move them down a bit
+Intro: Fixed: Number line causes exception when dragging or clicking past the max
 # 0.00.43 (61954) Feb 29, 2012
 Intro: Made it so you cannot drag the bucket icon
 Intro: Increased the bucket size by 35% vertically, downward
