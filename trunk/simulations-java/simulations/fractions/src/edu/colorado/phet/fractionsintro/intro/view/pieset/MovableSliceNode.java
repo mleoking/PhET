@@ -9,7 +9,6 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarget;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
@@ -55,7 +54,7 @@ public class MovableSliceNode extends PNode {
                         if ( s.dragging && target != null ) { return s.moveTo( target ); }
                         else if ( s.dragging ) {
                             final Slice destination = model.get().sliceFactory.createBucketSlice( model.get().denominator );
-                            return s.dragging( false ).animationTarget( new AnimationTarget( destination.position, destination.angle ) );
+                            return s.dragging( false ).animationTarget( destination );
                         }
                         else { return s; }
                     }

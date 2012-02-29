@@ -13,4 +13,8 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 @Data public class AnimationTarget {
     public final Vector2D position;
     public final double angle;
+
+    public static AnimationTarget animateToSlice( Slice slice ) {
+        return new AnimationTarget( slice.position, slice.angle );
+    }
 }
