@@ -27,15 +27,16 @@ public class PhotonImageCache {
     private PhotonImageCache() {}
 
     /**
-     * Gets a photon image from the cache.
-     * If we don't have an image for the specified wavelength and diameter,
-     * create one and add it to the cache.
+     * Gets a photon image from the cache. If we don't have an image for the specified
+     * wavelength and diameter, create one and add it to the cache. Use caution not to
+     * modify the returned image; if you need to modify it, make a copy of the image,
+     * or use PhotonNode.createImage.
      *
      * @param wavelength
      * @param diameter
      * @return Image
      */
-    public static final Image lookupPhotonImage( double wavelength, double diameter ) {
+    public static final Image getImage( double wavelength, double diameter ) {
         Image image = IMAGE_CACHE.get( wavelength, diameter );
         if ( image == null ) {
             image = PhotonNode.createImage( wavelength, diameter );
@@ -51,6 +52,7 @@ public class PhotonImageCache {
         IMAGE_CACHE.clear();
     }
 
+    //TODO change this to use a single map and generics, see #2620
     /*
     * Cache that maps wavelengths and diameters to images.
     * A double mapping is involved.

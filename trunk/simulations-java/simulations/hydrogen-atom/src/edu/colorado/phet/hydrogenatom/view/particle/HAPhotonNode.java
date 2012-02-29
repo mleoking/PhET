@@ -62,7 +62,7 @@ public class HAPhotonNode extends PhetPNode implements Observer {
         setChildrenPickable( false );
         
         // Get an image from the image cache
-        Image image = PhotonImageCache.lookupPhotonImage( photon.getWavelength(), DIAMETER );
+        Image image = PhotonImageCache.getImage( photon.getWavelength(), DIAMETER );
         PImage imageNode = new PImage( image );
         addChild( imageNode );
         
