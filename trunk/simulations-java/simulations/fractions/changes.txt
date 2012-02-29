@@ -1,3 +1,4 @@
+# 0.00.43 (61954) Feb 29, 2012
 Intro: Made it so you cannot drag the bucket icon
 Intro: Increased the bucket size by 35% vertically, downward
 Intro: Stagger vertical and horizontal bars vertically in the buckets to make them more distinguishable
