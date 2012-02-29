@@ -23,7 +23,7 @@ public class CircularSliceFactory extends AbstractSliceFactory {
     public final double spacing = 10;
 
     //Private, require users to use singleton
-    private CircularSliceFactory() {}
+    private CircularSliceFactory() {super( 0.0 );}
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> getShapeFunction( final double extent ) {
