@@ -21,7 +21,9 @@ import static edu.colorado.phet.fractionsintro.intro.view.Representation.WATER_G
 public class WaterGlassIcon extends PNode implements RepresentationIcon {
 
     public WaterGlassIcon( final SettableProperty<Representation> selected, Color color ) {
-        addChild( new WaterGlassNode( 1, 1, color, 560 * 0.33, 681 * 0.5 ) );
+        addChild( new WaterGlassNode( 1, 1, color, 560 * 0.33, 681 * 0.5 ) {{
+            scale( 0.67 );
+        }} );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
