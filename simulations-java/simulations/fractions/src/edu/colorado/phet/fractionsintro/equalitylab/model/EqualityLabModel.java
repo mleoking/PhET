@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
@@ -35,7 +36,7 @@ public class EqualityLabModel {
                    s.eq( 1, 2 ) ? new Site( 0, 0 ) :
                    null;
         }
-    } );
+    }, EqualityLabCanvas.LightGreen );
     private final FactorySet mirrorFactorySet = new FactorySet( new Vector2D( 100, -AbstractSliceFactory.stageSize.height + 200 ), 3, 120, 85, 210, new F<Site, Site>() {
         @Override public Site f( final Site s ) {
             return s.eq( 0, 0 ) ? new Site( 1, 0 ) :
@@ -46,7 +47,7 @@ public class EqualityLabModel {
                    s.eq( 1, 2 ) ? new Site( 0, 2 ) :
                    null;
         }
-    } );
+    }, EqualityLabCanvas.lightBlue );
 
     private final FractionsIntroModel model = new FractionsIntroModel( IntroState.IntroState( 6, factorySet ), factorySet );
     public final SettableProperty<PieSet> pieSet = model.pieSet;

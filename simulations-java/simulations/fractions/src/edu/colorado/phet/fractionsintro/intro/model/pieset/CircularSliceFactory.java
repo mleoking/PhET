@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.model.pieset;
 
 import fj.F;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
@@ -27,8 +28,8 @@ public class CircularSliceFactory extends AbstractSliceFactory {
     private final double radius;
 
     //Private, require users to use singleton
-    public CircularSliceFactory( int piesPerRow, Vector2D bucketPosition, double diameter, double x, double y, F<Site, Site> siteMap ) {
-        super( 0.0, bucketPosition );
+    public CircularSliceFactory( int piesPerRow, Vector2D bucketPosition, double diameter, double x, double y, F<Site, Site> siteMap, Color sliceColor ) {
+        super( 0.0, bucketPosition, sliceColor );
         this.piesPerRow = piesPerRow;
         this.diameter = diameter;
         this.x = x;
@@ -56,7 +57,7 @@ public class CircularSliceFactory extends AbstractSliceFactory {
     public Slice createBucketSlice( int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
         final Vector2D location = new Vector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().getY() - radius / 2 );
-        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ) );
+        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ), sliceColor );
     }
 
     public Slice createPieCell( int maxPies, int pie, int cell, int denominator ) {
@@ -70,6 +71,6 @@ public class CircularSliceFactory extends AbstractSliceFactory {
 
         final double anglePerSlice = 2 * Math.PI / denominator;
         final Vector2D location = new Vector2D( x + diameter * ( site.column + 1 ) + spacing * ( site.column + 1 ) - 80 + offset, y + radius * 2 * site.row + spaceBetweenRows * site.row );
-        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ) );
+        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ), sliceColor );
     }
 }

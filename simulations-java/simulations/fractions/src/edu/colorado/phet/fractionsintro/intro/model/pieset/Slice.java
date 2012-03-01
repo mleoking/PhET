@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.model.pieset;
 
 import lombok.Data;
 
+import java.awt.Color;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -25,20 +26,21 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
 
     //Left as a function instead of a field so we don't eagerly compute it until necessary
     public final Function1<Slice, Shape> toShape;
+    public final Color color;
 
     public Slice translate( Vector2D delta ) { return translate( delta.x, delta.y ); }
 
-    public Slice translate( double dx, double dy ) { return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape ); }
+    public Slice translate( double dx, double dy ) { return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice dragging( boolean dragging ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
+    public Slice dragging( boolean dragging ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice angle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
+    public Slice angle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice tip( Vector2D tip ) { return new Slice( tip, angle, dragging, animationTarget, toShape ); }
+    public Slice tip( Vector2D tip ) { return new Slice( tip, angle, dragging, animationTarget, toShape, color ); }
 
     public Slice animationTarget( Slice target ) { return animationTarget( animateToSlice( target ) );}
 
-    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape ); }
+    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
     public Vector2D center() {return new Vector2D( shape().getBounds2D().getCenterX(), shape().getBounds2D().getCenterY() );}
 

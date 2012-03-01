@@ -28,9 +28,13 @@ public abstract class AbstractSliceFactory {
     public final Random random = new Random();
     public final double yRange;
 
-    protected AbstractSliceFactory( double yRange, Vector2D bucketPosition ) {
+    //Slice color, only used for some shapes (not for pre-rendered 3d cakes)
+    public final Color sliceColor;
+
+    protected AbstractSliceFactory( double yRange, Vector2D bucketPosition, Color sliceColor ) {
         this.yRange = yRange;
-        bucket = new Bucket( bucketPosition.x, bucketPosition.y, new Dimension2DDouble( 350, 135 ), bucketColor, "" );
+        this.sliceColor = sliceColor;
+        this.bucket = new Bucket( bucketPosition.x, bucketPosition.y, new Dimension2DDouble( 350, 135 ), bucketColor, "" );
     }
 
     //Create some cells for the empty pies

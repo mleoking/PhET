@@ -29,7 +29,7 @@ public class ShapeIcon extends PNode implements RepresentationIcon {
             addChild( new PhetPPath( shape, Color.white, new BasicStroke( 1 ), Color.gray ) );
         }
         for ( Shape shape : filled ) {
-            addChild( new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 1 ), Color.gray ) );
+            addChild( new PhetPPath( shape, FractionsIntroCanvas.LightGreen, new BasicStroke( 1 ), Color.gray ) );
         }
 
         addInputEventListener( new CursorHandler() );

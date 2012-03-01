@@ -9,7 +9,6 @@ import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
-import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -37,7 +36,7 @@ public class ShapeNode extends PNode {
             addChild( new PhetPPath( origShape, SHADOW_PAINT ) );
         }
 
-        PhetPPath path = new PhetPPath( shape, FractionsIntroCanvas.FILL_COLOR, new BasicStroke( 2 ), Color.black );
+        PhetPPath path = new PhetPPath( shape, slice.color, new BasicStroke( 2 ), Color.black );
         addChild( path );
     }
 }

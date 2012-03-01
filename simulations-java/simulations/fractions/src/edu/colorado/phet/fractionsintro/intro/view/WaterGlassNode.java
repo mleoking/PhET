@@ -46,7 +46,7 @@ public class WaterGlassNode extends RichPNode {
         // Water beaker, with water inside of it
         SolutionNode waterNode = new SolutionNode( cylinderSize, waterBeakerNode.getCylinderEndHeight(), solution, new DoubleRange( 0, 1 ) ) {
             @Override protected Color getColor() {
-                return FractionsIntroCanvas.FILL_COLOR;
+                return FractionsIntroCanvas.LightGreen;
             }
         };
 

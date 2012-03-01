@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class AbstractFractionsCanvas extends PhetPCanvas {
 
     public static final Font CONTROL_FONT = new PhetFont( 20 );
-    public static final Color FILL_COLOR = new Color( 140, 198, 63 );
+    public static final Color LightGreen = new Color( 140, 198, 63 );
 
     //Stage where nodes are added and scaled up and down
     protected final PNode rootNode;
