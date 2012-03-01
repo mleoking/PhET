@@ -6,12 +6,13 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
-import edu.colorado.phet.fractionsintro.intro.view.WaterGlassNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.WATER_GLASSES;
+import static edu.colorado.phet.fractionsintro.intro.view.WaterGlassNode.cachedWaterGlassNode;
 
 /**
  * Representation control panel icon for water glass.
@@ -21,7 +22,7 @@ import static edu.colorado.phet.fractionsintro.intro.view.Representation.WATER_G
 public class WaterGlassIcon extends PNode implements RepresentationIcon {
 
     public WaterGlassIcon( final SettableProperty<Representation> selected, Color color ) {
-        addChild( new WaterGlassNode( 1, 1, color, 560 * 0.33, 681 * 0.5 ) {{
+        addChild( new PImage( cachedWaterGlassNode( 1, 1, color, 560 * 0.33, 681 * 0.5 ) ) {{
             scale( 0.67 );
         }} );
 
