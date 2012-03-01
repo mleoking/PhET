@@ -29,11 +29,11 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
     public static IntroState IntroState( int maximum, FactorySet factories ) {
         int denominator = 1;
         return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim(), false, false,
-                               new PieSet( maximum, factories.CircularSliceFactory ),
-                               new PieSet( maximum, factories.HorizontalSliceFactory ),
-                               new PieSet( maximum, factories.VerticalSliceFactory ),
-                               new PieSet( maximum, factories.WaterGlassSetFactory ),
-                               new PieSet( maximum, factories.CakeSliceFactory ), 0, 1, Representation.PIE, maximum );
+                               new PieSet( maximum, factories.circularSliceFactory ),
+                               new PieSet( maximum, factories.horizontalSliceFactory ),
+                               new PieSet( maximum, factories.verticalSliceFactory ),
+                               new PieSet( maximum, factories.waterGlassSetFactory ),
+                               new PieSet( maximum, factories.cakeSliceFactory ), 0, 1, Representation.PIE, maximum );
     }
 
     public static final IntroState IntroState = IntroState( 1, FactorySet.IntroTab );
@@ -71,10 +71,10 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
     //Update all representations from the specified container set
     public IntroState fromContainerSet( ContainerSet c, FactorySet factorySet ) {
-        return pieSet( factorySet.CircularSliceFactory.fromContainerSetState( c ) ).
-                horizontalBarSet( factorySet.HorizontalSliceFactory.fromContainerSetState( c ) ).
-                verticalBarSet( factorySet.VerticalSliceFactory.fromContainerSetState( c ) ).
-                waterGlassSet( factorySet.WaterGlassSetFactory.fromContainerSetState( c ) ).
-                cakeSet( factorySet.CakeSliceFactory.fromContainerSetState( c ) );
+        return pieSet( factorySet.circularSliceFactory.fromContainerSetState( c ) ).
+                horizontalBarSet( factorySet.horizontalSliceFactory.fromContainerSetState( c ) ).
+                verticalBarSet( factorySet.verticalSliceFactory.fromContainerSetState( c ) ).
+                waterGlassSet( factorySet.waterGlassSetFactory.fromContainerSetState( c ) ).
+                cakeSet( factorySet.cakeSliceFactory.fromContainerSetState( c ) );
     }
 }
