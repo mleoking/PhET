@@ -134,9 +134,6 @@ class ATDetectorNode extends PhetPNode {
                 }
             };
             observer.observe( detector.value, detector.mode );
-
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new MovableDragHandler( UserComponents.detectorBody, detector.body, this, mvt ) );
         }
     }
 
