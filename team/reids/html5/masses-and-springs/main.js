@@ -96,6 +96,11 @@ function imageNode( string, x, y ) {
     return that;
 }
 
+function mass( string, _x, _y, _mass ) {
+    var that = {x:_x, y:_y, imageName:string, mass:_mass};
+    return that;
+}
+
 function vbox( args ) {
     var that = compositeNode( args.children );
     that.x = args.x;
@@ -284,6 +289,14 @@ function init() {
     globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
     globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
 
+    globals.masses = new Array( mass( "resources/red-mass.png", 114, 496, 3 ),
+                                mass( "resources/green-mass.png", 210, 577, 4 ),
+                                mass( "resources/gold-mass.png", 276, 541, 5 ),
+                                mass( "resources/gram-50.png", 577, 590, 6 ),
+                                mass( "resources/gram-100.png", 392, 562, 7 ),
+                                mass( "resources/gram-250.png", 465, 513, 8 ),
+                                mass( "resources/ruler.png", 12, 51, 9 ) )
+
     function labeledCheckBox( label ) {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
     }
@@ -291,28 +304,17 @@ function init() {
 //    var stopwatchCheckBox = labeledCheckBox( "Stopwatch" );
 //    var soundCheckBox = labeledCheckBox( "Sound" );
     var frictionSlider = vbox00( textNode( "friction" ), slider() );
-    var resetButton = new ResetButton( new Point2D( 650+180-25, 700-40 ), "orange" );
+    var resetButton = new ResetButton( new Point2D( 650 + 180 - 25, 700 - 40 ), "orange" );
 
 //    var oneTwoThree = hbox00( labeledCheckBox( "1" ), labeledCheckBox( "2" ), labeledCheckBox( "3" ) );
 //    var showEnergyBox = vbox00( textNode( "Show Energy of" ), oneTwoThree, labeledCheckBox( "No show" ) );
 
-    var rootNodeComponents = new Array(
-            imageNode( "resources/red-mass.png", 114, 496 ),
-            imageNode( "resources/green-mass.png", 210, 577 ),
-            imageNode( "resources/gold-mass.png", 276, 541 ),
-            imageNode( "resources/gram-50.png", 577, 590 ),
-            imageNode( "resources/gram-100.png", 392, 562 ),
-            imageNode( "resources/gram-250.png", 465, 513 ),
-            imageNode( "resources/ruler.png", 12, 51 ),
-//            slider(),
-//            imageNode( "resources/bonniemsliderthumb.png", 100, 100 ),
-//            sliderTrack(),
-////            fillRectNode( 200, 200, "rgb(10, 30, 200)" ),
-////            textNode( "hello" ),
-////            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} ),
-//            hbox( {children:new Array( checkbox( 0, 0 ), checkbox( 0, 0 ), checkbox( 0, 0 ) ), x:600, y:0} ),
-            vbox( {children:new Array( frictionSlider ), x:700, y:100} ),
-            resetButton );
+    var rootNodeComponents = new Array();
+    for ( var i = 0; i < globals.masses.length; i++ ) {
+        rootNodeComponents.push( imageNode( globals.masses[i].imageName, globals.masses[i].x, globals.masses[i].y ) )
+    }
+    rootNodeComponents.push( vbox( {children:new Array( frictionSlider ), x:700, y:100} ) );
+    rootNodeComponents.push( resetButton );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -409,8 +411,13 @@ function animate() {
     //http://animaljoy.com/?p=254
     // insert your code to update your animation here
 
-    for ( i = 0; i < globals.springs.length; i++ ) {
-        globals.springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
+//    for ( i = 0; i < globals.springs.length; i++ ) {
+//        globals.springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
+//    }
+
+    for ( var i = 0; i < globals.masses.length; i++ ) {
+        var obj = globals.masses[i];
+
     }
     count++;
     requestAnimationFrame( animate );
@@ -675,6 +682,9 @@ ResetButton.prototype.onTouchStart = function ( pt ) {
 }
 
 ResetButton.prototype.onTouchEnd = function ( pt ) {
+    this.pressed = false;
+}
+ResetButton.prototype.onTouchMove= function ( pt ) {
     this.pressed = false;
 }
 
