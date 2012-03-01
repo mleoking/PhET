@@ -110,6 +110,8 @@ import static fj.data.List.range;
 
     public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
 
+    public PieSet pies( List<Pie> pies ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
+
     //True if a piece is in the cell, or animating toward the cell
     public boolean cellFilledNowOrSoon( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
@@ -248,5 +250,31 @@ import static fj.data.List.range;
 
     public boolean isInContainer( Slice slice ) {
         return !isInBucket( slice ) && !slice.dragging && slice.animationTarget == null;
+    }
+
+    //Moves everything to the side, for use in multiple representations
+    public PieSet mirror( final double dx, final double dy ) {
+        return slices( slices.filter( new F<Slice, Boolean>() {
+            @Override public Boolean f( Slice s ) {
+                return sliceSittingInCell( s );
+            }
+        } ).map( new F<Slice, Slice>() {
+            @Override public Slice f( Slice s ) {
+                return s.translate( dx, dy );
+            }
+        } ) ).pies( pies.map( new F<Pie, Pie>() {
+            @Override public Pie f( Pie pie ) {
+                return pie.translate( dx, dy );
+            }
+        } ) );
+    }
+
+    //TODO: this doesn't seem to be working properly
+    private Boolean sliceSittingInCell( final Slice s ) {
+        return cells.exists( new F<Slice, Boolean>() {
+            @Override public Boolean f( Slice cell ) {
+                return cell.positionAndAngleEquals( s );
+            }
+        } );
     }
 }
