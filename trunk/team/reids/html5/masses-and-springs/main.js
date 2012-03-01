@@ -484,7 +484,7 @@ function spring( name, x ) {
         context.font = textHeight + "px sans-serif";
         const defaultTextAlign = context.textAlign;
         context.textAlign = "center";
-        context.fillText( this.name, this.anchor.x, this.anchor.y - 10, 1000 );
+        context.fillText( this.name, this.anchor.x, this.anchor.y - 40, 1000 );
         context.textAlign = defaultTextAlign;
     }
     return that;

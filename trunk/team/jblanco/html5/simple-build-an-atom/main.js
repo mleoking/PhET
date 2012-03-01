@@ -39,7 +39,7 @@ function resizer() {
     draw();
 }
 
-// Initialize the canvas, context,
+// Initialize the canvas and context.
 function init() {
 
     // Initialize references to the HTML5 canvas and its context.
@@ -76,7 +76,7 @@ function init() {
     reset();
 
     // Commenting out, since iPad seems to send these continuously.
-//	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
+	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
 
     // Disable elastic scrolling.  This is specific to iOS.
     document.addEventListener(
@@ -743,7 +743,7 @@ function onDocumentTouchEnd( event ) {
 }
 
 function onWindowDeviceOrientation( event ) {
-    console.log( "onWindowDeviceOrientation" );
+    console.log( "onWindowDeviceOrientation, alpha = " + event.alpha + ", beta = " + event.beta + ", gamma = " + event.gamma );
 }
 
 function onTouchStart( location ) {
