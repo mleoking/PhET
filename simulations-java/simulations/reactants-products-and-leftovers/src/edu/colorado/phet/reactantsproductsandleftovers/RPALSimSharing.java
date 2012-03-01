@@ -3,11 +3,8 @@ package edu.colorado.phet.reactantsproductsandleftovers;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 
 /**
  * Sim-sharing enums that are specific to this sim.
@@ -35,5 +32,4 @@ public class RPALSimSharing {
     public static enum ParameterKeys implements IParameterKey {
         formula, quantities
     }
-
 }
