@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas;
@@ -102,7 +103,29 @@ public class EqualityLabModel {
     public final IntegerProperty maximum = model.maximum;
     public final SettableProperty<PieSet> waterGlassSet = model.waterGlassSet;
     public final SettableProperty<Representation> leftRepresentation = model.representation;
-    public final Property<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() );
+    public final Property<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() ) {{
+        addObserver( new VoidFunction1<Representation>() {
+            @Override public void apply( final Representation representation ) {
+                if ( locked.get() ) {
+                    leftRepresentation.set( representation );
+                }
+            }
+        } );
+        leftRepresentation.addObserver( new VoidFunction1<Representation>() {
+            @Override public void apply( final Representation representation ) {
+                if ( locked.get() ) {
+                    set( representation );
+                }
+            }
+        } );
+        locked.addObserver( new VoidFunction1<Boolean>() {
+            @Override public void apply( final Boolean locked ) {
+                if ( locked ) {
+                    set( leftRepresentation.get() );
+                }
+            }
+        } );
+    }};
     public final IntegerProperty scale = new IntegerProperty( 2 );
     public final SettableProperty<PieSet> rightPieSet = new Property<PieSet>( pieSet.get() ) {{
         final SimpleObserver observer = new SimpleObserver() {
