@@ -57,10 +57,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( resetAllButtonNode );
 
-        //The fraction control node
-        addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth(), STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-        }} );
         addPrimaryRepresentationNodes( model, leftRepresentation, leftControl, model.pieSet );
 
         //Show the pie set node when pies are selected for the right-side
@@ -75,6 +71,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} ) );
 
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
+
+        //The fraction control node.  In front so the user doesn't accidentally press a flying pie slice when they are trying to toggle the spinner
+        addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth(), STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }} );
     }
 
     //Add representations for the left side
