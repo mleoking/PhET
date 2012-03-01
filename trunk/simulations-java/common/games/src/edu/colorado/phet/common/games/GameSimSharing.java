@@ -28,6 +28,6 @@ public class GameSimSharing {
     }
 
     public static enum ParameterKeys implements IParameterKey {
-        score, perfectScore, time, bestTime, isNewBestTime, timerVisible, level
+        score, perfectScore, time, bestTime, isNewBestTime, timerVisible, level, correct, attempts
     }
 }

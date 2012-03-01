@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
@@ -11,22 +11,33 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.games.GameSimSharing.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeType;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModel.GameAdapter;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RPALCanvas;
 import edu.colorado.phet.reactantsproductsandleftovers.view.RightArrowNode;
-import edu.colorado.phet.reactantsproductsandleftovers.view.game.*;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.DevAnswerNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameAfterNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameBeforeNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameMessageNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameRewardNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.GameSettingsNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.NodeVisibilityManager;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.PointsDeltaNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.RPALGameOverNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.RPALScoreboardNode;
+import edu.colorado.phet.reactantsproductsandleftovers.view.game.ReactionNumberLabelNode;
 import edu.colorado.phet.reactantsproductsandleftovers.view.realreaction.RealReactionEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -142,7 +153,14 @@ public class GameCanvas extends RPALCanvas {
         // buttons, all under the same parent, to facilitate moving between Before & After boxes
         buttonsParentNode = new PhetPNode();
         parentNode.addChild( buttonsParentNode );
-        checkButton = new GameButtonNode( UserComponents.checkButton, RPALStrings.BUTTON_CHECK  );
+        checkButton = new GameButtonNode( UserComponents.checkButton, RPALStrings.BUTTON_CHECK  ) {{
+            setParameters( new Function0<ParameterSet>() {
+                public ParameterSet apply() {
+                    return ParameterSet.parameterSet( ParameterKeys.correct, model.getChallenge().isCorrect() ).
+                            add( ParameterKeys.attempts, model.getAttempts() + 1 );
+                }
+            } );
+        }};
         buttonsParentNode.addChild( checkButton );
         nextButton = new GameButtonNode( UserComponents.nextButton, RPALStrings.BUTTON_NEXT );
         buttonsParentNode.addChild( nextButton );
@@ -345,11 +363,12 @@ public class GameCanvas extends RPALCanvas {
     */
     private void checkButtonPressed() {
         showGuess( false );
-        boolean correct = model.checkGuess();
+        final boolean correct = model.checkGuess();
+        final int attempts = model.getAttempts();
         if ( correct ) {
             audioPlayer.correctAnswer();
             faceNode.smile();
-            if ( model.getAttempts() == 1 ) {
+            if ( attempts == 1 ) {
                 visibilityManager.setVisibility( FIRST_ATTEMPT_CORRECT_STATE );
             }
             else {
@@ -360,7 +379,7 @@ public class GameCanvas extends RPALCanvas {
         else {
             audioPlayer.wrongAnswer();
             faceNode.frown();
-            if ( model.getAttempts() == 1 ) {
+            if ( attempts == 1 ) {
                 visibilityManager.setVisibility( FIRST_ATTEMPT_WRONG_STATE );
             }
             else {
