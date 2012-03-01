@@ -270,7 +270,7 @@ import static fj.data.List.range;
     }
 
     //Moves everything to the side, for use in multiple representations
-    public PieSet mirror( final double dx, final double dy ) {
+    public PieSet translate( final double dx, final double dy ) {
         return slices( slices.filter( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice s ) {
                 return sliceSittingInCell( s );

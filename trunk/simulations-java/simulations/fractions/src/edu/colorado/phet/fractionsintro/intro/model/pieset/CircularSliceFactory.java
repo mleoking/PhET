@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model.pieset;
 
+import fj.F;
+
 import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
@@ -19,17 +21,19 @@ public class CircularSliceFactory extends AbstractSliceFactory {
     public final double diameter;
     private final double x;
     private final double y;
+    private final F<Site, Site> siteMap;
     public final double spacing = 10;
     private final int piesPerRow;
     private final double radius;
 
     //Private, require users to use singleton
-    public CircularSliceFactory( int piesPerRow, Vector2D bucketPosition, double diameter, double x, double y ) {
+    public CircularSliceFactory( int piesPerRow, Vector2D bucketPosition, double diameter, double x, double y, F<Site, Site> siteMap ) {
         super( 0.0, bucketPosition );
         this.piesPerRow = piesPerRow;
         this.diameter = diameter;
         this.x = x;
         this.y = y;
+        this.siteMap = siteMap;
         this.radius = diameter / 2;
     }
 
@@ -59,12 +63,13 @@ public class CircularSliceFactory extends AbstractSliceFactory {
         //Center
         double offset = new LinearFunction( 1, 6, diameter * 3 - diameter / 3, 0 ).evaluate( maxPies );
 
-        int row = pie / piesPerRow;
-        int column = pie % piesPerRow;
+        //See if there are just supposed to be 2 rows, if so, they layout is different
+        Site site = siteMap.f( new Site( pie / piesPerRow, pie % piesPerRow ) );
+
         double spaceBetweenRows = 15;
 
         final double anglePerSlice = 2 * Math.PI / denominator;
-        final Vector2D location = new Vector2D( x + diameter * ( column + 1 ) + spacing * ( column + 1 ) - 80 + offset, y + radius * 2 * row + spaceBetweenRows * row );
+        final Vector2D location = new Vector2D( x + diameter * ( site.column + 1 ) + spacing * ( site.column + 1 ) - 80 + offset, y + radius * 2 * site.row + spaceBetweenRows * site.row );
         return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ) );
     }
 }
