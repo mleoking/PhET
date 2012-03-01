@@ -1,3 +1,5 @@
+# 0.00.17 (62049) Mar 1, 2012
+3/1/12 Deploying to dev for review with consulting biologist.
 Got Reset All working on 2nd tab.
 Fixed issues with the motion bounds on the 2nd tab so that mRNA can be produced without getting stuck in the corner.
 # 0.00.16 (61742) Feb 24, 2012
