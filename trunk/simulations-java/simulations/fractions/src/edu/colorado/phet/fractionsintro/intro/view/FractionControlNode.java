@@ -11,13 +11,13 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
  * @author Sam Reid
  */
 public class FractionControlNode extends RichPNode {
-    public FractionControlNode( final IntegerProperty numerator, final IntegerProperty denominator, final IntegerProperty max ) {
+    public FractionControlNode( final IntegerProperty numerator, final IntegerProperty denominator, final IntegerProperty max, final int maxDenominator ) {
         final RoundedDivisorLine line = new RoundedDivisorLine();
         addChild( line );
         addChild( new NumeratorWithSpinner( numerator, denominator, max ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
-        addChild( new DenominatorWithSpinner( numerator, denominator ) {{
+        addChild( new DenominatorWithSpinner( numerator, denominator, maxDenominator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() );
         }} );
     }

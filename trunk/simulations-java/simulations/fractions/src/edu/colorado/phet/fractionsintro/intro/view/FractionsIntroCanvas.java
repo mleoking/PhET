@@ -68,7 +68,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }} );
 
         //The fraction control node
-        addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
+        addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum, 8 ) ) {{
             setOffset( 73, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 

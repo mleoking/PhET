@@ -20,8 +20,8 @@ public class SpinnerButtonPanelHBox extends HBox {
 
     public SpinnerButtonPanelHBox( int size, VoidFunction0 up, ObservableProperty<Boolean> upEnabled, VoidFunction0 down, ObservableProperty<Boolean> downEnabled ) {
         super( 2,
-               new SpinnerButtonNode( multiscale( ROUND_BUTTON_UP, size ), multiscale( ROUND_BUTTON_UP_PRESSED, size ), multiscale( ROUND_BUTTON_UP_GRAY, size ), up, upEnabled ),
-               new SpinnerButtonNode( multiscale( ROUND_BUTTON_DOWN, size ), multiscale( ROUND_BUTTON_DOWN_PRESSED, size ), multiscale( ROUND_BUTTON_DOWN_GRAY, size ), down, downEnabled ) );
+               new SpinnerButtonNode( multiscale( ROUND_BUTTON_DOWN, size ), multiscale( ROUND_BUTTON_DOWN_PRESSED, size ), multiscale( ROUND_BUTTON_DOWN_GRAY, size ), down, downEnabled ),
+               new SpinnerButtonNode( multiscale( ROUND_BUTTON_UP, size ), multiscale( ROUND_BUTTON_UP_PRESSED, size ), multiscale( ROUND_BUTTON_UP_GRAY, size ), up, upEnabled ) );
     }
 
     private static BufferedImage multiscale( BufferedImage im, int size ) {
