@@ -1,19 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.equalitylab.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -35,6 +37,9 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScale;
+import static edu.colorado.phet.fractions.FractionsResources.Images.LOCKED;
+import static edu.colorado.phet.fractions.FractionsResources.Images.UNLOCKED;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 
 /**
@@ -51,17 +56,29 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         final SettableProperty<Representation> leftRepresentation = model.leftRepresentation;
         final SettableProperty<Representation> rightRepresentation = model.rightRepresentation;
         final RepresentationControlPanel leftControl = new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LightGreen ) ) {{ setOffset( INSET * 3, INSET ); }};
-        addChild( leftControl );
 
         final RepresentationControlPanel rightControl = new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, lightBlue ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - INSET * 3, INSET );
         }};
-        addChild( rightControl );
 
-        addChild( new PImage( BufferedImageUtils.multiScale( Images.LOCKED, 0.4 ) ) {{
+        //Bridge for the lock to sit on
+        final int g = 250;
+        addChild( new ZeroOffsetNode( new ControlPanelNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 200, 30 ), null, null, null ), new Color( g, g, g ), new BasicStroke( 1 ), Color.lightGray ) ) {{
+            setOffset( ( leftControl.getCenterX() + rightControl.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftControl.getCenterY() - getFullBounds().getHeight() / 2 );
             model.locked.addObserver( new VoidFunction1<Boolean>() {
                 @Override public void apply( final Boolean locked ) {
-                    setImage( BufferedImageUtils.multiScale( locked ? Images.LOCKED : Images.UNLOCKED, 0.4 ) );
+                    setVisible( locked );
+                }
+            } );
+        }} );
+        addChild( leftControl );
+        addChild( rightControl );
+
+        //Toggle to lock/unlock representations
+        addChild( new PImage( multiScale( LOCKED, 0.4 ) ) {{
+            model.locked.addObserver( new VoidFunction1<Boolean>() {
+                @Override public void apply( final Boolean locked ) {
+                    setImage( multiScale( locked ? LOCKED : UNLOCKED, 0.4 ) );
                 }
             } );
             addInputEventListener( new CursorHandler() );
