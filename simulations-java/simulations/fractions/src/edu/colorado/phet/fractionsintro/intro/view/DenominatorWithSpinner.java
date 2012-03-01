@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.LessThan;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
+import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
 
 /**
  * Node that shows a single number (numerator or denominator) and a control to change the value within a limiting range.
@@ -31,7 +31,7 @@ public class DenominatorWithSpinner extends FractionNumberNode {
             }
         }, numerator, denominator );
 
-        addChild( new SpinnerButtonPanel( new VoidFunction0() {
+        addChild( new SpinnerButtonPanelVBox( new VoidFunction0() {
             public void apply() {
                 denominator.set( denominator.get() + 1 );
             }

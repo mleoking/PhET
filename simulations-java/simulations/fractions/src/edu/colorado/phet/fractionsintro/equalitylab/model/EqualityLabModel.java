@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.FactorySet;
@@ -59,13 +59,16 @@ public class EqualityLabModel {
     public final SettableProperty<PieSet> waterGlassSet = model.waterGlassSet;
     public final SettableProperty<Representation> leftRepresentation = model.representation;
     public final SettableProperty<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() );
+    public final IntegerProperty scale = new IntegerProperty( 2 );
     public final SettableProperty<PieSet> rightPieSet = new Property<PieSet>( pieSet.get() ) {{
         //TODO: maybe move translate into mirrorFactorySet
-        pieSet.addObserver( new VoidFunction1<PieSet>() {
-            @Override public void apply( PieSet pieSet ) {
-                set( mirrorFactorySet.CircularSliceFactory.fromContainerSetState( pieSet.toLazyContainerSet() ).translate( 475, 0 ) );
+        final SimpleObserver observer = new SimpleObserver() {
+            @Override public void update() {
+                set( mirrorFactorySet.CircularSliceFactory.fromContainerSetState( pieSet.get().toLazyContainerSet().scale( scale.get() ) ).translate( 475, 0 ) );
             }
-        } );
+        };
+        pieSet.addObserver( observer );
+        scale.addObserver( observer );
     }};
 
     public void resetAll() {

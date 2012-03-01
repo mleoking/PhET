@@ -3,7 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
+import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
 
 /**
  * Node that shows a single number (numerator or denominator) and a control to change the value within a limiting range.
@@ -21,7 +21,7 @@ public class NumeratorWithSpinner extends FractionNumberNode {
 //        Max numerator will be a function of the denominator
 //        n / d <= MAX , so n<=MAX * d
         //Limit the numerator based on the denominator so that the entire number is less than or equal to 6
-        addChild( new SpinnerButtonPanel( new VoidFunction0() {
+        addChild( new SpinnerButtonPanelVBox( new VoidFunction0() {
             public void apply() {
                 numerator.set( numerator.get() + 1 );
             }

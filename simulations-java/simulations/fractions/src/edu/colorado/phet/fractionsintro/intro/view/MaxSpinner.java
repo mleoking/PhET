@@ -8,7 +8,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
+import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
 
 /**
  * Spinner that shows and allows the user to change the max value (max number of filled containers) for the sim between 1-6.
@@ -25,7 +25,7 @@ public class MaxSpinner extends RichPNode {
                                         setText( m + "" );
                                     }
                                 } );
-                            }}, new SpinnerButtonPanel( (int) ( 50.0 / 2.0 ), value.increment_(), value.lessThan( 6 ), value.decrement_(), value.greaterThan( 1 ) ) )
+                            }}, new SpinnerButtonPanelVBox( (int) ( 50.0 / 2.0 ), value.increment_(), value.lessThan( 6 ), value.decrement_(), value.greaterThan( 1 ) ) )
         ) );
     }
 }

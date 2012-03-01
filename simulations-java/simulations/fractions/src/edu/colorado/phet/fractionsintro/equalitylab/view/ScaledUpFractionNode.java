@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.view.SpinnerButtonPanel;
+import edu.colorado.phet.fractions.view.SpinnerButtonPanelHBox;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 
 /**
@@ -21,8 +21,7 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
  * @author Sam Reid
  */
 public class ScaledUpFractionNode extends RichPNode {
-    public ScaledUpFractionNode( final IntegerProperty numerator, final IntegerProperty denominator ) {
-        final IntegerProperty scale = new IntegerProperty( 2 );
+    public ScaledUpFractionNode( final IntegerProperty numerator, final IntegerProperty denominator, final IntegerProperty scale ) {
         final Times scaledNumerator = scale.times( numerator );
         final Times scaledDenominator = scale.times( denominator );
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), Color.black );
@@ -34,7 +33,7 @@ public class ScaledUpFractionNode extends RichPNode {
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() );
         }} );
 
-        final ZeroOffsetNode spinnerButtonPanel = new ZeroOffsetNode( new SpinnerButtonPanel( new VoidFunction0() {
+        final ZeroOffsetNode spinnerButtonPanel = new ZeroOffsetNode( new SpinnerButtonPanelHBox( new VoidFunction0() {
             public void apply() {
                 scale.increment();
             }
@@ -45,7 +44,7 @@ public class ScaledUpFractionNode extends RichPNode {
         }, scale.greaterThanOrEqualTo( 2 )
         ) );
 
-        spinnerButtonPanel.setOffset( getMinX() - spinnerButtonPanel.getFullWidth(), getCenterY() / 2 - spinnerButtonPanel.getFullHeight() / 2 );
+        spinnerButtonPanel.setOffset( getMaxX(), getCenterY() / 2 - spinnerButtonPanel.getFullHeight() / 2 );
         addChild( spinnerButtonPanel );
     }
 }
