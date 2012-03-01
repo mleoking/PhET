@@ -1,8 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
+import fj.F;
+import lombok.Data;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -13,6 +17,9 @@ import edu.colorado.phet.fractionsintro.intro.view.beaker.Solute;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.Solution;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.SolutionNode;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
+import static edu.colorado.phet.fractions.util.Cache.cache;
 
 /**
  * Shows a glass possibly with some water in it.
@@ -30,7 +37,27 @@ public class WaterGlassNode extends RichPNode {
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / DILUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / DILUTION_VOLUME_RANGE.getMin() ); // M
 
-    public WaterGlassNode( Integer numerator, Integer denominator, final Color color, double width, double height ) {
+    private static @Data class Args {
+        public final int numerator;
+        public final int denominator;
+        public final Color color;
+        public final double width;
+        public final double height;
+    }
+
+    private static final F<Args, BufferedImage> images = cache( new F<Args, BufferedImage>() {
+        @Override public BufferedImage f( final Args args ) {
+            return toBufferedImage( new WaterGlassNode( args.numerator, args.denominator, args.color, args.width, args.height ).toImage() );
+        }
+    } );
+
+    //Improve application runtime about 20% by caching these images
+    public static BufferedImage cachedWaterGlassNode( Integer numerator, Integer denominator, final Color color, double width, double height ) {
+        return images.f( new Args( numerator, denominator, color, width, height ) );
+    }
+
+    //Private, use the cache to improve performance
+    private WaterGlassNode( Integer numerator, Integer denominator, final Color color, double width, double height ) {
         double sx = width / FractionsResources.Images.WATER_GLASS_FRONT.getWidth();
         double sy = height / FractionsResources.Images.WATER_GLASS_FRONT.getHeight();
 
