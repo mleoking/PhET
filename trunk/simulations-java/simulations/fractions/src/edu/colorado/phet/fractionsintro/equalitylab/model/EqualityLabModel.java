@@ -144,6 +144,15 @@ public class EqualityLabModel {
         horizontalBarSet.addObserver( observer );
         scale.addObserver( observer );
     }};
+    public final SettableProperty<PieSet> rightWaterGlasses = new Property<PieSet>( waterGlassSet.get() ) {{
+        final SimpleObserver observer = new SimpleObserver() {
+            @Override public void update() {
+                set( scaledFactorySet.waterGlassSetFactory.fromContainerSetState( waterGlassSet.get().toLazyContainerSet().scale( scale.get() ) ).createScaledCopy() );
+            }
+        };
+        waterGlassSet.addObserver( observer );
+        scale.addObserver( observer );
+    }};
 
     public void resetAll() {
         model.resetAll();

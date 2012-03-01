@@ -123,6 +123,21 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             } );
         }} ) );
 
+//        final Rectangle2D b = EqualityLabModel.scaledFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
+//                addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen, b.getWidth(), b.getHeight() ) ) );
+
+        //Show the water glasses when selected for the right-side
+        //TODO: Fix this representation
+//        addChild( new RepresentationNode( rightRepresentation, WATER_GLASSES, new PNode() {{
+//            model.rightWaterGlasses.addObserver( new SimpleObserver() {
+//                @Override public void update() {
+//                    removeAllChildren();
+//                    addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightWaterGlasses.get() ) );
+//                    addChild( new MovablePiecesLayer( model.rightWaterGlasses.get(), new WaterGlassNodeFactory(), model.rightWaterGlasses, rootNode, STAGE_SIZE.getHeight() ) );
+//                }
+//            } );
+//        }} ) );
+
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
 
         //The fraction control node.  In front so the user doesn't accidentally press a flying pie slice when they are trying to toggle the spinner
