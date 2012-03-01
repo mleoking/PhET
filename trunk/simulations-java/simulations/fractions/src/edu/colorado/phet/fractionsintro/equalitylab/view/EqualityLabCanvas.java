@@ -73,6 +73,18 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             } );
         }} ) );
 
+        //Show the pie set node when pies are selected for the right-side
+        addChild( new RepresentationNode( rightRepresentation, HORIZONTAL_BAR, new PNode() {{
+            model.rightPieSet.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    removeAllChildren();
+                    addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightHorizontalBars.get() ) );
+                    addChild( new MovablePiecesLayer( model.rightHorizontalBars.get(), PieSetNode.NodeToShape, model.rightHorizontalBars, rootNode, STAGE_SIZE.getHeight() ) );
+                }
+            } );
+        }} ) );
+
+
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
 
         //The fraction control node.  In front so the user doesn't accidentally press a flying pie slice when they are trying to toggle the spinner
