@@ -72,7 +72,7 @@ public class BeersLawModel implements Resettable {
         this.cuvette = new Cuvette( new ImmutableVector2D( light.location.getX() + 1.5, 1.25 ), 1.0, 2.75, new DoubleRange( 0.5, 2.0 ) );
 
         //TODO this is too complicated
-        // absorbance model: A=abC
+        // absorbance model
         {
             // a: molar absorptivity, units=1/(cm*M)
             this.molarAbsorptivity = new CompositeProperty<Double>( new Function0<Double>() {
@@ -112,18 +112,18 @@ public class BeersLawModel implements Resettable {
                 solutionObserver.update( solution.get(), null ); // because ChangeObserver.update is not called on registration
             }
 
-            // A=abC
+            // compute absorbance
             this.absorbance = new CompositeProperty<Double>( new Function0<Double>() {
                 public Double apply() {
-                    return molarAbsorptivity.get() * pathLength.get() * concentration.get();
+                    return getAbsorbance( molarAbsorptivity.get(), pathLength.get(), concentration.get() );
                 }
             }, molarAbsorptivity, pathLength, concentration );
         }
 
-        // percent transmittance model: %T = 100 * 10^(-A)
+        // percent transmittance model
         percentTransmittance = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
-                return 100 * Math.pow( 10, -absorbance.get() );
+                return getPercentTransmittance( absorbance.get() );
             }
         }, absorbance );
 
@@ -136,6 +136,16 @@ public class BeersLawModel implements Resettable {
         this.ruler = new Ruler( 2, 0.35, new ImmutableVector2D( 3, 4.9 ), new PBounds( 0, 1, 8, 4.5 ) );
 
         this.beam = new Beam( light, cuvette, detector, percentTransmittance, mvt );
+    }
+
+    // General model of absorbance (A = abC)
+    public static double getAbsorbance( double molarAbsorptivity, double pathLength, double concentration ) {
+        return molarAbsorptivity * pathLength * concentration;
+    }
+
+    // General model of percent transmittance (T = 100 * 10^A)
+    public static double getPercentTransmittance( double absorbance ) {
+        return 100 * Math.pow( 10, -absorbance );
     }
 
     public void reset() {
