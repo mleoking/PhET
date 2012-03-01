@@ -5,10 +5,6 @@ DEADLINES
 
 DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
-- detector wire gets in the way of cuvette arrow, move arrow to top of cuvette?
-- constrain probe to horizontal movement so that it's always aligned with beam?
-- why can't detector read values inside the cuvette?
-- should detector body be moveable? is so, why is it different from concentration meter?
 
 HIGH
 - bug: concentration slider doesn't show correct initial value
@@ -16,6 +12,10 @@ HIGH
 - Beers: add variable wavelength feature
 - Beers: split detector probe image into foreground and background, so it looks like its passing through solution
 - Beers: make detector work inside cuvette
+- Beers: make detector body non movable
+- Concentration: 3-color range with min/max/center colors and concentration values
+- common: log interpolation of color
+- Concentration: dev controls for color ranges and linear/log color interpolation
 
 MEDIUM
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
