@@ -1,0 +1,2 @@
+get rid of all other controls except for friction slider
+added reset button (not wired up)
