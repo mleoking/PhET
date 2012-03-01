@@ -288,13 +288,13 @@ function init() {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
     }
 
-    var stopwatchCheckBox = labeledCheckBox( "Stopwatch" );
-    var soundCheckBox = labeledCheckBox( "Sound" );
+//    var stopwatchCheckBox = labeledCheckBox( "Stopwatch" );
+//    var soundCheckBox = labeledCheckBox( "Sound" );
     var frictionSlider = vbox00( textNode( "friction" ), slider() );
-    var softnessSlider = vbox00( textNode( "softness spring 3" ), slider() );
+    var resetButton = new ResetButton( new Point2D( 650+180-25, 700-40 ), "orange" );
 
-    var oneTwoThree = hbox00( labeledCheckBox( "1" ), labeledCheckBox( "2" ), labeledCheckBox( "3" ) );
-    var showEnergyBox = vbox00( textNode( "Show Energy of" ), oneTwoThree, labeledCheckBox( "No show" ) );
+//    var oneTwoThree = hbox00( labeledCheckBox( "1" ), labeledCheckBox( "2" ), labeledCheckBox( "3" ) );
+//    var showEnergyBox = vbox00( textNode( "Show Energy of" ), oneTwoThree, labeledCheckBox( "No show" ) );
 
     var rootNodeComponents = new Array(
             imageNode( "resources/red-mass.png", 114, 496 ),
@@ -311,7 +311,8 @@ function init() {
 ////            textNode( "hello" ),
 ////            vbox( {children:new Array( textNode( "label" ), textNode( "bottom" ) ), x:200, y:200} ),
 //            hbox( {children:new Array( checkbox( 0, 0 ), checkbox( 0, 0 ), checkbox( 0, 0 ) ), x:600, y:0} ),
-            vbox( {children:new Array( frictionSlider, spacer(), softnessSlider, spacer(), showEnergyBox, spacer(), hbox00( stopwatchCheckBox, soundCheckBox ) ), x:700, y:100} ) );
+            vbox( {children:new Array( frictionSlider ), x:700, y:100} ),
+            resetButton );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -626,4 +627,76 @@ function slider() {
     that.width = track.width;
     that.height = knob.height;
     return that;
+}
+
+
+//-----------------------------------------------------------------------------
+// Reset button class
+//-----------------------------------------------------------------------------
+
+function ResetButton( initialLocation, color ) {
+    this.location = initialLocation;
+    this.width = 90;
+    this.height = 40;
+    this.color = color;
+    this.pressed = false;
+}
+
+ResetButton.prototype.draw = function ( context ) {
+    var xPos = this.location.x;
+    var yPos = this.location.y;
+    var gradient = context.createLinearGradient( xPos, yPos, xPos, yPos + this.height );
+    if ( !this.pressed ) {
+        gradient.addColorStop( 0, "white" );
+        gradient.addColorStop( 1, this.color );
+    }
+    else {
+        gradient.addColorStop( 0, this.color );
+    }
+    // Draw box that defines button outline.
+    context.strokeStyle = '#222'; // Gray
+    context.lineWidth = 1;
+    context.strokeRect( xPos, yPos, this.width, this.height );
+    context.fillStyle = gradient;
+    context.fillRect( xPos, yPos, this.width, this.height );
+    // Put text on the box.
+    context.fillStyle = '#000';
+    context.font = '28px sans-serif';
+    context.textBaseline = 'top';
+    context.textAlign = 'left';
+    context.fillText( 'Reset', xPos + 5, yPos + 5 );
+}
+
+ResetButton.prototype.onTouchStart = function ( pt ) {
+    if ( this.containsPoint( pt ) ) {
+        this.pressed = true;
+//        reset();
+    }
+}
+
+ResetButton.prototype.onTouchEnd = function ( pt ) {
+    this.pressed = false;
+}
+
+ResetButton.prototype.press = function () {
+    this.pressed = true;
+    reset();
+}
+
+ResetButton.prototype.unPress = function ( context ) {
+    this.pressed = false;
+}
+
+ResetButton.prototype.setLocationComponents = function ( x, y ) {
+    this.location.x = x;
+    this.location.y = y;
+}
+
+ResetButton.prototype.setLocation = function ( location ) {
+    this.setLocationComponents( location.x, location.y );
+}
+
+ResetButton.prototype.containsPoint = function ( point ) {
+    return point.x > this.location.x && point.x < this.location.x + this.width &&
+           point.y > this.location.y && point.y < this.location.y + this.height;
 }
