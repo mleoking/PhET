@@ -18,6 +18,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.games.GameSimSharing.ModelActions;
+import edu.colorado.phet.common.games.GameSimSharing.ModelComponents;
+import edu.colorado.phet.common.games.GameSimSharing.ParameterKeys;
 import edu.colorado.phet.common.games.GameSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -31,8 +34,6 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import static edu.colorado.phet.common.games.SimSharing.*;
 
 /**
  * Upon completion of a Game, this node is used to display a summary of the user's game results.
@@ -90,15 +91,18 @@ public class GameOverNode extends PhetPNode {
     public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat, long time, long bestTime, boolean isNewBestTime, boolean timerVisible ) {
         super();
 
-        //Report on the game over, assumes that this node is only created at the end of a game (a safe assumption because the constructor args are only available at end of game)
-        SimSharingManager.sendModelMessage( Components.game, ModelComponentTypes.feature, Actions.ended,
-                                            ParameterSet.parameterSet( Parameters.level, level ).
-                                                    add( Parameters.score, score ).
-                                                    add( Parameters.perfectScore, perfectScore ).
-                                                    add( Parameters.time, time ).
-                                                    add( Parameters.bestTime, bestTime ).
-                                                    add( Parameters.isNewBestTime, isNewBestTime ).
-                                                    add( Parameters.timerVisible, timerVisible ) );
+        /*
+         * Report on the game completed, assumes that this node is only created when the game is completed
+         * (a safe assumption because the constructor args are only available at end of game)
+         */
+        SimSharingManager.sendModelMessage( ModelComponents.game, ModelComponentTypes.feature, ModelActions.completed,
+                                            ParameterSet.parameterSet( ParameterKeys.level, level ).
+                                                    add( ParameterKeys.score, score ).
+                                                    add( ParameterKeys.perfectScore, perfectScore ).
+                                                    add( ParameterKeys.time, time ).
+                                                    add( ParameterKeys.bestTime, bestTime ).
+                                                    add( ParameterKeys.isNewBestTime, isNewBestTime ).
+                                                    add( ParameterKeys.timerVisible, timerVisible ) );
 
         this.scoreFormat = scoreFormat;
         this.listeners = new EventListenerList();

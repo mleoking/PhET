@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.games;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
@@ -14,5 +17,17 @@ public class GameSimSharing {
         startGameButton, newGameButton,
         newGameYesButton, newGameNoButton,
         levelRadioButton, timerOnRadioButton, timerOffRadioButton, soundOnRadioButton, soundOffRadioButton
+    }
+
+    public static enum ModelComponents implements IModelComponent {
+        game
+    }
+
+    public static enum ModelActions implements IModelAction {
+        completed
+    }
+
+    public static enum ParameterKeys implements IParameterKey {
+        score, perfectScore, time, bestTime, isNewBestTime, timerVisible, level
     }
 }
