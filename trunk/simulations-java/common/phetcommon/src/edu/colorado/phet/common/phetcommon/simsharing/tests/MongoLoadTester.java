@@ -104,7 +104,7 @@ public class MongoLoadTester {
         try {
             threadPool.shutdown();
             threadPool.awaitTermination( (long) ( runTime * 10 ), TimeUnit.SECONDS );
-            Thread.sleep( 100 ); // If we don't wait a little bit, the last message if often not get counted.
+            Thread.sleep( 100 ); // If we don't wait a little bit, the last message is often not counted.
             System.out.println( "All threads terminated." );
             long finalMessageCount = collection.getCount();
             // Total up the sent messages.
