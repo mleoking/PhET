@@ -26,18 +26,21 @@ public class ScaledUpFractionNode extends RichPNode {
         final Times scaledDenominator = scale.times( denominator );
         final PhetPPath line = new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ), new BasicStroke( 12, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), Color.black );
         addChild( line );
+
+        //Center them over the fraction line
+        final int offset = 20;
         addChild( new FractionNumberNode( scaledNumerator ) {{
-            setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() - getFullBounds().getHeight() );
+            setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2 - offset, line.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
         addChild( new FractionNumberNode( scaledDenominator ) {{
-            setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() );
+            setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2 - offset, line.getFullBounds().getY() );
         }} );
 
         final ZeroOffsetNode spinnerButtonPanel = new ZeroOffsetNode( new SpinnerButtonPanelHBox( new VoidFunction0() {
             public void apply() {
                 scale.increment();
             }
-        }, scale.lessThanOrEqualTo( 3 ), new VoidFunction0() {
+        }, scale.lessThanOrEqualTo( 2 ), new VoidFunction0() {
             public void apply() {
                 scale.decrement();
             }

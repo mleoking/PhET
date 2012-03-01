@@ -76,7 +76,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
 
         //The fraction control node.  In front so the user doesn't accidentally press a flying pie slice when they are trying to toggle the spinner
-        final ZeroOffsetNode fractionControl = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) {{
+        final ZeroOffsetNode fractionControl = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum, 6 ) {{
             setScale( 0.75 );
         }} ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() - 50, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );

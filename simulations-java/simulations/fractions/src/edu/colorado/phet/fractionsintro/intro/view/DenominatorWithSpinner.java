@@ -15,9 +15,7 @@ import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
  */
 public class DenominatorWithSpinner extends FractionNumberNode {
 
-    private static final int MAX_DENOMINATOR = 8;
-
-    public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator ) {
+    public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator, int maxDenominator ) {
         super( denominator );
 
         //        n / d <= 6 , so n<=6d
@@ -35,7 +33,7 @@ public class DenominatorWithSpinner extends FractionNumberNode {
             public void apply() {
                 denominator.set( denominator.get() + 1 );
             }
-        }, new LessThan( denominator, MAX_DENOMINATOR ), new VoidFunction0() {
+        }, new LessThan( denominator, maxDenominator ), new VoidFunction0() {
             public void apply() {
                 denominator.set( denominator.get() - 1 );
             }
