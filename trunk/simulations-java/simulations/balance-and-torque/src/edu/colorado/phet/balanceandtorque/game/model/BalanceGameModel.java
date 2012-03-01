@@ -16,7 +16,7 @@ import edu.colorado.phet.balanceandtorque.common.model.Plank;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.TiltSupportColumn;
 import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.games.SimSharing;
+import edu.colorado.phet.common.games.GameSimSharing;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -288,7 +288,7 @@ public class BalanceGameModel {
      * @param pointsEarned
      */
     private void sendAnswerCheckResult( IModelComponentType modelComponentType, boolean isCorrect, int pointsEarned ) {
-        SimSharingManager.sendModelMessage( SimSharing.Components.game,
+        SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
                                             modelComponentType,
                                             isCorrect ? correctAnswerSubmitted : incorrectAnswerSubmitted,
                                             new ParameterSet( new Parameter( BalanceAndTorqueSimSharing.ParameterKeys.pointsEarned, pointsEarned ) ) );
@@ -412,7 +412,7 @@ public class BalanceGameModel {
 
         // Send up a sim sharing message that indicates the type of challenge
         // that is now being presented to the user.
-        SimSharingManager.sendModelMessage( SimSharing.Components.game, balanceChallenge.getModelComponentType(), challengePresented );
+        SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game, balanceChallenge.getModelComponentType(), challengePresented );
     }
 
     /**

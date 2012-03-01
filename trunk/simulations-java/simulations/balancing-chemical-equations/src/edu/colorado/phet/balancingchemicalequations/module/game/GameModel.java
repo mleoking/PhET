@@ -11,6 +11,7 @@ import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.view.game.IBalancedRepresentationStrategy;
 import edu.colorado.phet.common.games.GameSettings;
+import edu.colorado.phet.common.games.GameSimSharing;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
@@ -18,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 import static edu.colorado.phet.balancingchemicalequations.BCESimSharing.Actions.guessChecked;
 import static edu.colorado.phet.balancingchemicalequations.BCESimSharing.Parameters;
-import static edu.colorado.phet.common.games.SimSharing.Components.game;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 
 /**
@@ -114,7 +114,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterS
      */
     public void check() {
         attempts++;
-        SimSharingManager.sendModelMessage( game, ModelComponentTypes.feature, guessChecked,
+        SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game, ModelComponentTypes.feature, guessChecked,
                                             parameterSet( Parameters.equation, currentEquation.get().getName() ).
                                                     add( Parameters.attempts, attempts ).
                                                     add( Parameters.isBalancedAndSimplified, currentEquation.get().isBalancedAndSimplified() ).
