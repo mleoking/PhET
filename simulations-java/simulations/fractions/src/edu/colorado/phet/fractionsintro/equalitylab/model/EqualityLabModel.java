@@ -73,5 +73,6 @@ public class EqualityLabModel {
 
     public void resetAll() {
         model.resetAll();
+        scale.reset();
     }
 }
