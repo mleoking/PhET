@@ -37,7 +37,7 @@ public class ScaledUpFractionNode extends RichPNode {
             public void apply() {
                 scale.increment();
             }
-        }, scale.lessThanOrEqualTo( 9 ), new VoidFunction0() {
+        }, scale.lessThanOrEqualTo( 3 ), new VoidFunction0() {
             public void apply() {
                 scale.decrement();
             }
