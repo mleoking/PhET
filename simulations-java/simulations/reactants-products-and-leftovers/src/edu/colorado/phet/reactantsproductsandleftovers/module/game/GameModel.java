@@ -8,13 +8,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.games.GameSimSharing;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelActions;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelComponentTypes;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ModelComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.ParameterKeys;
 import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
@@ -244,7 +245,7 @@ public class GameModel extends RPALModel {
         this.challengeNumber = challengeNumber;
         challenge = challenges[challengeNumber];
         challenge.getGuess().addChangeListener( guessChangeListener );
-        SimSharingManager.sendModelMessage( ModelComponents.gameChallenge, ModelComponentTypes.gameChallenge, ModelActions.created,
+        SimSharingManager.sendModelMessage( ModelComponents.gameChallenge, ModelComponentTypes.modelElement, ModelActions.created,
                                             ParameterSet.parameterSet( ParameterKeys.formula, challenge.getReaction().getEquationPlainText() ).
                                                     add( ParameterKeys.quantities, challenge.getReaction().getQuantitiesString() ) );
         fireChallengeChanged();
@@ -474,6 +475,9 @@ public class GameModel extends RPALModel {
     }
 
     private void fireGameAborted() {
+        SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
+                                            edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.feature,
+                                            ModelActions.aborted );
         firePrintDebug( "fireGameAborted" );
         for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.gameAborted();

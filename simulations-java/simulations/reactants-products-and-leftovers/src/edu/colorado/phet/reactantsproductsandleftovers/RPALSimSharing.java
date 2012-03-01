@@ -28,12 +28,8 @@ public class RPALSimSharing {
         gameChallenge
     }
 
-    public static enum ModelComponentTypes implements IModelComponentType {
-        gameChallenge
-    }
-
     public static enum ModelActions implements IModelAction {
-        created
+        created, aborted
     }
 
     public static enum ParameterKeys implements IParameterKey {
