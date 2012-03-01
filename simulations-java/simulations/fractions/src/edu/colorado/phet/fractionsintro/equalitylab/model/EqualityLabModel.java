@@ -34,7 +34,7 @@ public class EqualityLabModel {
     public final SettableProperty<PieSet> rightPieSet = new Property<PieSet>( pieSet.get() ) {{
         pieSet.addObserver( new VoidFunction1<PieSet>() {
             @Override public void apply( PieSet pieSet ) {
-                set( factorySet.CircularSliceFactory.fromContainerSetState( pieSet.toContainerSet() ).mirror( 475, 0 ) );
+                set( factorySet.CircularSliceFactory.fromContainerSetState( pieSet.toLazyContainerSet() ).mirror( 475, 0 ) );
             }
         } );
     }};
