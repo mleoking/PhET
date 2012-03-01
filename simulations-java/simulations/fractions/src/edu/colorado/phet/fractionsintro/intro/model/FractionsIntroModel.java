@@ -56,11 +56,11 @@ public class FractionsIntroModel {
 
     public FractionsIntroModel( IntroState s, final FactorySet factorySet ) {
 
-        final CakeSliceFactory CakeSliceFactory = factorySet.CakeSliceFactory;
-        final HorizontalSliceFactory HorizontalSliceFactory = factorySet.HorizontalSliceFactory;
-        final VerticalSliceFactory VerticalSliceFactory = factorySet.VerticalSliceFactory;
-        final CircularSliceFactory CircularSliceFactory = factorySet.CircularSliceFactory;
-        final VerticalSliceFactory WaterGlassSetFactory = factorySet.WaterGlassSetFactory;
+        final CakeSliceFactory CakeSliceFactory = factorySet.cakeSliceFactory;
+        final HorizontalSliceFactory HorizontalSliceFactory = factorySet.horizontalSliceFactory;
+        final VerticalSliceFactory VerticalSliceFactory = factorySet.verticalSliceFactory;
+        final CircularSliceFactory CircularSliceFactory = factorySet.circularSliceFactory;
+        final VerticalSliceFactory WaterGlassSetFactory = factorySet.waterGlassSetFactory;
 
         initialState = s;
         state = new Property<IntroState>( s );
