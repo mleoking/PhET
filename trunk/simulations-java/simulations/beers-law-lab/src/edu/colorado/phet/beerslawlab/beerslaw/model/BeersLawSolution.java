@@ -91,7 +91,7 @@ public class BeersLawSolution implements Resettable {
     public static class DrinkMixSolution extends BeersLawSolution {
         public DrinkMixSolution() {
             super( Strings.DRINK_MIX, BLLSymbols.DRINK_MIX,
-                   new DoubleRange( 0, 0.400 ), -3,
+                   new DoubleRange( 0, 0.400, 0.100 ), -3,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ), Color.RED,
                    511, 5.08 );
         }
@@ -105,7 +105,7 @@ public class BeersLawSolution implements Resettable {
     public static class CobaltIINitrateSolution extends BeersLawSolution {
         public CobaltIINitrateSolution() {
             super( Strings.COBALT_II_NITRATE, BLLSymbols.COBALT_II_NITRATE,
-                   new DoubleRange( 0, 0.400 ), -3,
+                   new DoubleRange( 0, 0.400, 0.100 ), -3,
                    new ColorRange( new Color( 255, 225, 225 ), Color.RED ), Color.RED,
                    550, 4.72 );
         }
@@ -114,7 +114,7 @@ public class BeersLawSolution implements Resettable {
     public static class CobaltChlorideSolution extends BeersLawSolution {
         public CobaltChlorideSolution() {
             super( Strings.COBALT_CHLORIDE, BLLSymbols.COBALT_CHLORIDE,
-                   new DoubleRange( 0, 0.250 ), -3,
+                   new DoubleRange( 0, 0.250, 0.100 ), -3,
                    new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) ), new Color( 0xFF6A6A ),
                    549, 7.23 );
         }
@@ -123,7 +123,7 @@ public class BeersLawSolution implements Resettable {
     public static class PotassiumDichromateSolution extends BeersLawSolution {
         public PotassiumDichromateSolution() {
             super( Strings.POTASSIUM_DICHROMATE, BLLSymbols.POTASSIUM_DICHROMATE,
-                   new DoubleRange( 0, 0.000500 ), -6,
+                   new DoubleRange( 0, 0.000500, 0.000100 ), -6,
                    new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) ), new Color( 0xFF7F00 ),
                    394, 3696.53 );
         }
@@ -132,7 +132,7 @@ public class BeersLawSolution implements Resettable {
     public static class PotassiumChromateSolution extends BeersLawSolution {
         public PotassiumChromateSolution() {
             super( Strings.POTASSIUM_CHROMATE, BLLSymbols.POTASSIUM_CHROMATE,
-                   new DoubleRange( 0, 0.000400 ), -6, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), Color.YELLOW,
+                   new DoubleRange( 0, 0.000400, 0.000100 ), -6, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), Color.YELLOW,
                    413, 4770.07 );
         }
     }
@@ -140,7 +140,7 @@ public class BeersLawSolution implements Resettable {
     public static class NickelIIChlorideSolution extends BeersLawSolution {
         public NickelIIChlorideSolution() {
             super( Strings.NICKEL_II_CHLORIDE, BLLSymbols.NICKEL_II_CHLORIDE,
-                   new DoubleRange( 0, 0.350 ), -3, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), new Color( 0x008000 ),
+                   new DoubleRange( 0, 0.350, 0.100 ), -3, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), new Color( 0x008000 ),
                    435, 5.31 );
         }
     }
@@ -148,7 +148,7 @@ public class BeersLawSolution implements Resettable {
     public static class CopperSulfateSolution extends BeersLawSolution {
         public CopperSulfateSolution() {
             super( Strings.COPPER_SULFATE, BLLSymbols.COPPER_SULFATE,
-                   new DoubleRange( 0, 0.200 ), -3, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), new Color( 0x1E90FF ),
+                   new DoubleRange( 0, 0.200, 0.100 ), -3, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), new Color( 0x1E90FF ),
                    780, 9.67 );
         }
     }
@@ -156,7 +156,7 @@ public class BeersLawSolution implements Resettable {
     public static class PotassiumPermanganateSolution extends BeersLawSolution {
         public PotassiumPermanganateSolution() {
             super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE,
-                   new DoubleRange( 0, 0.000800 ), -6,
+                   new DoubleRange( 0, 0.000800, 0.000100 ), -6,
                    new ColorRange( new Color( 255, 235, 255 ), new Color( 255, 0, 255 ) ), new Color( 0x8B008B ),
                    566, 2389.61 );
         }
