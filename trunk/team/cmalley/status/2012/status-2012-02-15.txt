@@ -1,26 +1,49 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: Feb 9-15, 2011
-
-Beer's Law Lab
-- more progress on 2nd tab (Beer's Law)
+PERIOD: Feb 16-29, 2011
 
 Molarity
-- several dev versions to experiment with alternative ranges for solute, volume and concentration (0.00.19-21)
+- discussed at Chem meeting
+- completed misc change requests
+- published 1.00
+- minor fix for sliders, #3263
+- published 1.01
+
+Concentration
+- misc change requests
+- completed tasks on pre-release checklist (model description, screenshot, implementation notes, doc,...)
+- published release candidate:
+  http://www.colorado.edu/physics/phet/dev/beers-law-lab/0.00.13/concentration_en-production.jnlp
+- waiting for feedback or go-ahead to publish 1.00
+
+Beer's Law Lab
+- discussed at Chem meeting
+- discussions with JC
+- completed misc change requests
+- lots of progress on 2nd tab (Beer's Law), close to "feature complete"
+- latest: http://www.colorado.edu/physics/phet/dev/beers-law-lab/0.00.14/beers-law-lab_en-production.jnlp
+- will there be a 3rd tab?
+
+Reactants, Products and Leftovers
+- completed data-collection instrumentation for April study, #3204
+- waiting for feedback and further requirements
 
 Common Code
-- fixes and fiddling with Piccolo sliders (HSliderNode/VSliderNode, #3255)
+- generalization of PhotonImageFactory, #2620 (used in Beer's and several other sims)
 
 Data Collection
-- created text field with data collection (SimSharingJTextField, #3258)
+- added data collection to Swing JTextField, #3258 (needed for Beer's)
+- fixed issues with Swing JSpinner, #3267 (used in RPAL)
 
-Dev
-- discussion about lumbok, JDK6 requirement, etc.
-- SR's discussion about how to synchronization multiple data representations
+Help
+- #3262, Kathy D's JNLP problem
 
-Build
-- identified why "Generate Licence Info" feature was broken
+iPad
+- tested OnLive! app at SR's request (not impressed)
+
+Unfuddle
+- created, verified and closed misc tickets
 
 Administrative
 - status meeting
@@ -28,10 +51,10 @@ Administrative
 
 WHAT'S NEXT:
 
-- Beer's Law Lab: 2nd tab
-- Molarity: publish 1.00
-- Reactants, Products and Leftovers: add data collection feature
-- Data Collection: feedback and help with changes
+- Concentration: publish 1.00
+- Beer's Law Lab: complete 2nd tab, 3rd tab?
+- Reactants, Products and Leftovers: add anything additional needed for study
+- Line Graphing sim: design
 
 ISSUES:
 
@@ -39,8 +62,7 @@ ISSUES:
 
 DATES UNAVAILABLE:
 
-- Feb 24-26 (not working)
-- April 16 - May 8 (bike trip some portion of that time, not working)
+- April 23 - May 12 (bike trip, not working)
 - July 5-11 (CT, working)
 - August 6-19 (vacation, not working)
 - October 10-23 (CT, working)
