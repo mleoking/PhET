@@ -6,6 +6,8 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -74,8 +76,15 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
 
         //The fraction control node.  In front so the user doesn't accidentally press a flying pie slice when they are trying to toggle the spinner
-        addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth(), STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        final ZeroOffsetNode fractionControl = new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) {{
+            setScale( 0.75 );
+        }} ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() - 50, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }};
+        addChild( fractionControl );
+
+        addChild( new PhetPText( "=", new PhetFont( 120 ) ) {{
+            setOffset( fractionControl.getMaxX() + 10, fractionControl.getCenterY() - getFullHeight() / 2 );
         }} );
     }
 
