@@ -198,4 +198,13 @@ import static fj.Function.curry;
     }
 
     public ContainerSet maximum( Integer maximum ) { return update( maximum, denominator ); }
+
+    //For the equality lab tab, create an equivalent representation where the numerator and denominator are scaled by the same value
+    public ContainerSet scale( final int scale ) {
+        return new ContainerSet( denominator * scale, containers.map( new F<Container, Container>() {
+            @Override public Container f( final Container container ) {
+                return container.scale( scale );
+            }
+        } ) );
+    }
 }

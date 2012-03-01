@@ -5,16 +5,17 @@ import fj.F;
 import fj.data.List;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
 /**
  * Model for one container which holds some number of slices.
- * Do not mutate, other code relies on this class being immutable.
+ * Do not make mutable, other code relies on this class being immutable.
  *
  * @author Sam Reid
  */
-@Data public class Container {
+@Data public final class Container {
     public final int numCells;
     public final List<Integer> filledCells;
 
@@ -71,5 +72,15 @@ import java.util.HashSet;
         else {
             return new Container( numCells, new HashSet<Integer>( filledCells.toCollection() ) {{remove( cell );}} );
         }
+    }
+
+    public Container scale( final int scale ) {
+        return new Container( numCells * scale, List.iterableList( new ArrayList<Integer>() {{
+            for ( Integer filledCell : filledCells ) {
+                for ( int i = 0; i < scale; i++ ) {
+                    add( filledCell * scale + i );
+                }
+            }
+        }} ) );
     }
 }

@@ -83,8 +83,13 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( fractionControl );
 
-        addChild( new PhetPText( "=", new PhetFont( 120 ) ) {{
+        final PhetPText equalsSign = new PhetPText( "=", new PhetFont( 120 ) ) {{
             setOffset( fractionControl.getMaxX() + 10, fractionControl.getCenterY() - getFullHeight() / 2 );
+        }};
+        addChild( equalsSign );
+
+        addChild( new ZeroOffsetNode( new ScaledUpFractionNode( model.numerator, model.denominator, model.scale ) {{setScale( 0.75 );}} ) {{
+            setOffset( equalsSign.getMaxX() + 10, equalsSign.getCenterY() - getFullHeight() / 2 );
         }} );
     }
 
