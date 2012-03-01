@@ -21,24 +21,26 @@ import static fj.Ord.doubleOrd;
  */
 public class WaterGlassSetNode extends PieSetNode {
     public WaterGlassSetNode( SettableProperty<PieSet> model, PNode rootNode ) {
-        super( model, rootNode, new WaterGlassNodeFactory() );
+        super( model, rootNode, new WaterGlassNodeFactory(), createEmptyCellsNode );
     }
 
-    @Override protected PNode createEmptyCellsNode( PieSet state ) {
-        PNode node = new PNode();
-        //Show the beakers
-        for ( final Pie pie : state.pies ) {
-            final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
-                @Override public Double f( Slice s ) {
-                    return s.shape().getBounds2D().getMinY();
-                }
-            } );
+    public static final F<PieSet, PNode> createEmptyCellsNode = new F<PieSet, PNode>() {
+        @Override public PNode f( final PieSet state ) {
+            PNode node = new PNode();
+            //Show the beakers
+            for ( final Pie pie : state.pies ) {
+                final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
+                    @Override public Double f( Slice s ) {
+                        return s.shape().getBounds2D().getMinY();
+                    }
+                } );
 
-            //TODO: Could read from cache like WaterGlassNodeFactory instead of creating new each time to improve performance
-            node.addChild( new WaterGlassNode( state.countFilledCells( pie ), state.denominator ) {{
-                setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
-            }} );
+                //TODO: Could read from cache like WaterGlassNodeFactory instead of creating new each time to improve performance
+                node.addChild( new WaterGlassNode( state.countFilledCells( pie ), state.denominator ) {{
+                    setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
+                }} );
+            }
+            return node;
         }
-        return node;
-    }
+    };
 }
