@@ -38,7 +38,7 @@ public class WaterGlassSetNode extends PieSetNode {
 
     public static F<Args, Image> nodeMaker = new F<Args, Image>() {
         @Override public Image f( final Args args ) {
-            return new WaterGlassNode( args.numFilled, args.denominator, args.color ).toImage();
+            return new WaterGlassNode( args.numFilled, args.denominator, args.color, 560 * 0.33, 681 * 0.5 ).toImage();
         }
     };
 

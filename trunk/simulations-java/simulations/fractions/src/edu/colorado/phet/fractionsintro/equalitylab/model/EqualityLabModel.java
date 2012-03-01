@@ -62,7 +62,7 @@ public class EqualityLabModel {
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
                                new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125, 25, false ),
                                new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
-                               new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
+                               new VerticalSliceFactory( 50, 200, true, bucketPosition, sliceColor ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
     }
 

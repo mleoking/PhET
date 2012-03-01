@@ -22,8 +22,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class WaterGlassNode extends RichPNode {
 
     // properties common to all 3 beakers
-    private static final double BEAKER_SCALE_X = 0.33;
-    private static final double BEAKER_SCALE_Y = 0.50;
     private static final PhetFont BEAKER_LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PDimension BEAKER_LABEL_SIZE = new PDimension( 100, 50 );
 
@@ -32,12 +30,11 @@ public class WaterGlassNode extends RichPNode {
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / DILUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / DILUTION_VOLUME_RANGE.getMin() ); // M
 
-    public WaterGlassNode( Integer numerator, Integer denominator, final Color color ) {
+    public WaterGlassNode( Integer numerator, Integer denominator, final Color color, double width, double height ) {
+        double sx = width / FractionsResources.Images.WATER_GLASS_FRONT.getWidth();
+        double sy = height / FractionsResources.Images.WATER_GLASS_FRONT.getHeight();
 
-        final boolean full = numerator.equals( denominator );
-        final boolean empty = numerator == 0;
-
-        final BeakerNode waterBeakerNode = new BeakerNode( 1, BEAKER_SCALE_X, BEAKER_SCALE_Y, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2, FractionsResources.Images.WATER_GLASS_FRONT );
+        final BeakerNode waterBeakerNode = new BeakerNode( 1, sx, sy, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2, FractionsResources.Images.WATER_GLASS_FRONT );
         waterBeakerNode.setLabelVisible( false );
         final PDimension cylinderSize = waterBeakerNode.getCylinderSize();
 
@@ -50,7 +47,7 @@ public class WaterGlassNode extends RichPNode {
             }
         };
 
-        BeakerNode waterBeakerBackgroundNode = new BeakerNode( 1, BEAKER_SCALE_X, BEAKER_SCALE_Y, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2, FractionsResources.Images.WATER_GLASS_BACK );
+        BeakerNode waterBeakerBackgroundNode = new BeakerNode( 1, sx, sy, null, BEAKER_LABEL_SIZE, BEAKER_LABEL_FONT, 1.0 / denominator, 2, FractionsResources.Images.WATER_GLASS_BACK );
         waterBeakerBackgroundNode.setLabelVisible( false );
 
         //Show a background layer so that the water appears between the layers (for showing the surface of the water)
