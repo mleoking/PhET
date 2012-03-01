@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
@@ -18,8 +20,8 @@ import static edu.colorado.phet.fractionsintro.intro.view.Representation.WATER_G
  */
 public class WaterGlassIcon extends PNode implements RepresentationIcon {
 
-    public WaterGlassIcon( final SettableProperty<Representation> selected ) {
-        addChild( new WaterGlassNode( 1, 1 ) );
+    public WaterGlassIcon( final SettableProperty<Representation> selected, Color color ) {
+        addChild( new WaterGlassNode( 1, 1, color ) );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {

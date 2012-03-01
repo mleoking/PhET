@@ -41,10 +41,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Control panel for choosing different representations, can be split into separate controls for each display
         final SettableProperty<Representation> leftRepresentation = model.leftRepresentation;
         final SettableProperty<Representation> rightRepresentation = model.rightRepresentation;
-        final RepresentationControlPanel leftControl = new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation ) ) {{ setOffset( INSET * 3, INSET ); }};
+        final RepresentationControlPanel leftControl = new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LightGreen ) ) {{ setOffset( INSET * 3, INSET ); }};
         addChild( leftControl );
 
-        final RepresentationControlPanel rightControl = new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation ) ) {{
+        final RepresentationControlPanel rightControl = new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, lightBlue ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - INSET * 3, INSET );
         }};
         addChild( rightControl );
@@ -91,7 +91,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
 
         //For water glasses
-        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode ) ) );
+        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen ) ) );
 
         //Number line
         addChild( new NumberLineNode( model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
@@ -99,11 +99,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} );
     }
 
-    private RepresentationIcon[] getRepresentations( SettableProperty<Representation> representation ) {
+    private RepresentationIcon[] getRepresentations( SettableProperty<Representation> representation, Color color ) {
         return new RepresentationIcon[] {
-                new PieIcon( representation ),
-                new HorizontalBarIcon( representation ),
-                new WaterGlassIcon( representation ),
+                new PieIcon( representation, color ),
+                new HorizontalBarIcon( representation, color ),
+                new WaterGlassIcon( representation, color ),
                 new NumberLineIcon( representation ),
         };
     }

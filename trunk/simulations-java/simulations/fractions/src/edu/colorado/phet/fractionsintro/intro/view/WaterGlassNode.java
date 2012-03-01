@@ -32,7 +32,7 @@ public class WaterGlassNode extends RichPNode {
     private static final DoubleRange CONCENTRATION_RANGE = new DoubleRange( SOLUTE_AMOUNT_RANGE.getMin() / DILUTION_VOLUME_RANGE.getMax(),
                                                                             SOLUTE_AMOUNT_RANGE.getMax() / DILUTION_VOLUME_RANGE.getMin() ); // M
 
-    public WaterGlassNode( Integer numerator, Integer denominator ) {
+    public WaterGlassNode( Integer numerator, Integer denominator, final Color color ) {
 
         final boolean full = numerator.equals( denominator );
         final boolean empty = numerator == 0;
@@ -46,7 +46,7 @@ public class WaterGlassNode extends RichPNode {
         // Water beaker, with water inside of it
         SolutionNode waterNode = new SolutionNode( cylinderSize, waterBeakerNode.getCylinderEndHeight(), solution, new DoubleRange( 0, 1 ) ) {
             @Override protected Color getColor() {
-                return FractionsIntroCanvas.LightGreen;
+                return color;
             }
         };
 
@@ -68,4 +68,6 @@ public class WaterGlassNode extends RichPNode {
         waterBeakerBackgroundNode.setPickable( true );
         waterBeakerBackgroundNode.setChildrenPickable( true );
     }
+
+
 }

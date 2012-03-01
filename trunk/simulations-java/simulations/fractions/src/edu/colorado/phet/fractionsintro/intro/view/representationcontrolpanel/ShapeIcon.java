@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -23,13 +22,13 @@ public class ShapeIcon extends PNode implements RepresentationIcon {
     public static double DIM = 20;
     public final Representation representation;
 
-    public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final SettableProperty<Representation> chosenRepresentation, final Representation representation ) {
+    public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final SettableProperty<Representation> chosenRepresentation, final Representation representation, Color color ) {
         this.representation = representation;
         for ( Shape shape : unfilled ) {
             addChild( new PhetPPath( shape, Color.white, new BasicStroke( 1 ), Color.gray ) );
         }
         for ( Shape shape : filled ) {
-            addChild( new PhetPPath( shape, FractionsIntroCanvas.LightGreen, new BasicStroke( 1 ), Color.gray ) );
+            addChild( new PhetPPath( shape, color, new BasicStroke( 1 ), Color.gray ) );
         }
 
         addInputEventListener( new CursorHandler() );

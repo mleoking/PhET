@@ -30,10 +30,10 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation, new RepresentationIcon[] {
-                new PieIcon( model.representation ),
-                new HorizontalBarIcon( model.representation ),
-                new VerticalBarIcon( model.representation ),
-                new WaterGlassIcon( model.representation ),
+                new PieIcon( model.representation, LightGreen ),
+                new HorizontalBarIcon( model.representation, LightGreen ),
+                new VerticalBarIcon( model.representation, LightGreen ),
+                new WaterGlassIcon( model.representation, LightGreen ),
                 new CakeIcon( model.representation ),
                 new NumberLineIcon( model.representation ),
         } ) {{
@@ -54,7 +54,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 //        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode ) ) );
 
         //For water glasses
-        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode ) ) );
+        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen ) ) );
 
         //For debugging cakes
 //        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );

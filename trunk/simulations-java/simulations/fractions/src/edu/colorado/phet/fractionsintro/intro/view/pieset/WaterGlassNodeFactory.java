@@ -26,11 +26,16 @@ public class WaterGlassNodeFactory extends F<SliceNodeArgs, PNode> {
     //Fix performance by cashing images to avoid calling the WaterGlassNode constructor too many times
     private static final Hashtable<Pair<Integer, Integer>, BufferedImage> nodes = new Hashtable<Pair<Integer, Integer>, BufferedImage>();
     private static final boolean debugDragRegion = false;
+    private final Color color;
+
+    public WaterGlassNodeFactory( Color color ) {
+        this.color = color;
+    }
 
     @Override public PNode f( final SliceNodeArgs args ) {
         final Pair<Integer, Integer> key = new Pair<Integer, Integer>( 1, args.denominator );
         if ( !nodes.containsKey( key ) ) {
-            WaterGlassNode node = new WaterGlassNode( 1, args.denominator );
+            WaterGlassNode node = new WaterGlassNode( 1, args.denominator, color );
             nodes.put( key, BufferedImageUtils.toBufferedImage( node.toImage() ) );
         }
 
