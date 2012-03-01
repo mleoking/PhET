@@ -27,15 +27,7 @@ public class FactorySet {
     public final SliceFactory waterGlassSetFactory;
     public final SliceFactory cakeSliceFactory;
 
-    public FactorySet( Vector2D bucketPosition, int numPerRow, double pieDiameter, double pieX, double pieY, F<Site, Site> siteMap, Color sliceColor ) {
-        this( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-              new HorizontalSliceFactory( bucketPosition, sliceColor ),
-              new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
-              new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
-              new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
-    }
-
-    public FactorySet( CircularSliceFactory circularSliceFactory, HorizontalSliceFactory horizontalSliceFactory, VerticalSliceFactory verticalSliceFactory, VerticalSliceFactory waterGlassSetFactory, CakeSliceFactory cakeSliceFactory ) {
+    public FactorySet( SliceFactory circularSliceFactory, SliceFactory horizontalSliceFactory, SliceFactory verticalSliceFactory, SliceFactory waterGlassSetFactory, SliceFactory cakeSliceFactory ) {
         this.circularSliceFactory = circularSliceFactory;
         this.horizontalSliceFactory = horizontalSliceFactory;
         this.verticalSliceFactory = verticalSliceFactory;

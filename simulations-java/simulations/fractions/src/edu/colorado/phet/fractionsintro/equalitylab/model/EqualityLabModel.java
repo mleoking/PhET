@@ -18,10 +18,10 @@ import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Site;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.SliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.StackedHorizontalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
@@ -56,7 +56,7 @@ public class EqualityLabModel {
         final Color sliceColor = AbstractFractionsCanvas.LightGreen;
 
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new HorizontalSliceFactory( bucketPosition, sliceColor ),
+                               new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 75, 25 ),
                                new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
                                new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
@@ -68,7 +68,8 @@ public class EqualityLabModel {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
         int numPerRow = 3;
         double pieDiameter = 120;
-        double pieX = 85 + 475;
+        final int mirrorTranslateX = 475;
+        double pieX = 85 + mirrorTranslateX;
         double pieY = 210;
 
         final F<Site, Site> siteMap = new F<Site, Site>() {
@@ -85,7 +86,7 @@ public class EqualityLabModel {
         final Color sliceColor = EqualityLabCanvas.lightBlue;
 
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new HorizontalSliceFactory( bucketPosition, sliceColor ),
+                               new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 75 + mirrorTranslateX, 25 ),
                                new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
                                new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
@@ -109,6 +110,15 @@ public class EqualityLabModel {
             }
         };
         pieSet.addObserver( observer );
+        scale.addObserver( observer );
+    }};
+    public final SettableProperty<PieSet> rightHorizontalBars = new Property<PieSet>( horizontalBarSet.get() ) {{
+        final SimpleObserver observer = new SimpleObserver() {
+            @Override public void update() {
+                set( scaledFactorySet.horizontalSliceFactory.fromContainerSetState( horizontalBarSet.get().toLazyContainerSet().scale( scale.get() ) ).createScaledCopy() );
+            }
+        };
+        horizontalBarSet.addObserver( observer );
         scale.addObserver( observer );
     }};
 
