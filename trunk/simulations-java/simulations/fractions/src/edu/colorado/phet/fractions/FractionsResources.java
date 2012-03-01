@@ -20,6 +20,7 @@ public class FractionsResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage LOCKED = RESOURCES.getImage( "locked.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN = RESOURCES.getImage( "round_button_down.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_GRAY = RESOURCES.getImage( "round_button_down_gray.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_PRESSED = RESOURCES.getImage( "round_button_down_pressed.png" );
@@ -29,6 +30,7 @@ public class FractionsResources {
         public static final BufferedImage SCALE = RESOURCES.getImage( "scale.png" );
         public static final BufferedImage SOUND_MAX = RESOURCES.getImage( "sound-max.png" );
         public static final BufferedImage SOUND_MIN = RESOURCES.getImage( "sound-min.png" );
+        public static final BufferedImage UNLOCKED = RESOURCES.getImage( "unlocked.png" );
         public static final BufferedImage WATER_GLASS_BACK = RESOURCES.getImage( "water_glass_back.png" );
         public static final BufferedImage WATER_GLASS_FRONT = RESOURCES.getImage( "water_glass_front.png" );
     }
