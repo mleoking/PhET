@@ -37,7 +37,7 @@ public class EqualityLabModel {
                    null;
         }
     }, EqualityLabCanvas.LightGreen );
-    private final FactorySet mirrorFactorySet = new FactorySet( new Vector2D( 100, -AbstractSliceFactory.stageSize.height + 200 ), 3, 120, 85, 210, new F<Site, Site>() {
+    private final FactorySet scaledFactorySet = new FactorySet( new Vector2D( 100, -AbstractSliceFactory.stageSize.height + 200 ), 3, 120, 85 + 475, 210, new F<Site, Site>() {
         @Override public Site f( final Site s ) {
             return s.eq( 0, 0 ) ? new Site( 1, 0 ) :
                    s.eq( 0, 1 ) ? new Site( 0, 0 ) :
@@ -58,13 +58,12 @@ public class EqualityLabModel {
     public final IntegerProperty maximum = model.maximum;
     public final SettableProperty<PieSet> waterGlassSet = model.waterGlassSet;
     public final SettableProperty<Representation> leftRepresentation = model.representation;
-    public final SettableProperty<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() );
+    public final Property<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() );
     public final IntegerProperty scale = new IntegerProperty( 2 );
     public final SettableProperty<PieSet> rightPieSet = new Property<PieSet>( pieSet.get() ) {{
-        //TODO: maybe move translate into mirrorFactorySet
         final SimpleObserver observer = new SimpleObserver() {
             @Override public void update() {
-                set( mirrorFactorySet.CircularSliceFactory.fromContainerSetState( pieSet.get().toLazyContainerSet().scale( scale.get() ) ).translate( 475, 0 ) );
+                set( scaledFactorySet.CircularSliceFactory.fromContainerSetState( pieSet.get().toLazyContainerSet().scale( scale.get() ) ).createScaledCopy() );
             }
         };
         pieSet.addObserver( observer );
@@ -74,5 +73,6 @@ public class EqualityLabModel {
     public void resetAll() {
         model.resetAll();
         scale.reset();
+        rightRepresentation.reset();
     }
 }

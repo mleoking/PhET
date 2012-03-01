@@ -269,24 +269,15 @@ import static fj.data.List.range;
         return !isInBucket( slice ) && !slice.dragging && slice.animationTarget == null;
     }
 
-    //Moves everything to the side, for use in multiple representations
-    public PieSet translate( final double dx, final double dy ) {
+    //Only keep pieces sitting in the cell, for the scaled representation in Equality Lab
+    public PieSet createScaledCopy() {
         return slices( slices.filter( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice s ) {
                 return sliceSittingInCell( s );
             }
-        } ).map( new F<Slice, Slice>() {
-            @Override public Slice f( Slice s ) {
-                return s.translate( dx, dy );
-            }
-        } ) ).pies( pies.map( new F<Pie, Pie>() {
-            @Override public Pie f( Pie pie ) {
-                return pie.translate( dx, dy );
-            }
         } ) );
     }
 
-    //TODO: this doesn't seem to be working properly
     private Boolean sliceSittingInCell( final Slice s ) {
         return cells.exists( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice cell ) {
