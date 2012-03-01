@@ -37,13 +37,14 @@ public class EqualityLabModel {
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, and the design doc shows the pies filling up to the left before going to the upper row.  What about filling up next instead of to the left?  It would keep the left and right representations closer together longer and matches with the "more is up" sense in the game tab.
     private final FactorySet factorySet = Primary();
     public final BooleanProperty locked = new BooleanProperty( true );
+    public static double pieY = 225;
+    public static double pieDiameter = 135;
 
     public static FactorySet Primary() {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
         int numPerRow = 3;
-        double pieDiameter = 120;
-        double pieX = 85;
-        double pieY = 210;
+
+        double pieX = 70 - 36;
 
         final F<Site, Site> siteMap = new F<Site, Site>() {
             @Override public Site f( final Site s ) {
@@ -70,9 +71,7 @@ public class EqualityLabModel {
     public static FactorySet Scaled() {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
         int numPerRow = 3;
-        double pieDiameter = 120;
         double pieX = 85 + 475;
-        double pieY = 210;
 
         final F<Site, Site> siteMap = new F<Site, Site>() {
             @Override public Site f( final Site s ) {
