@@ -12,7 +12,6 @@ HIGH
 - Beers: add variable wavelength feature
 - Beers: split detector probe image into foreground and background, so it looks like its passing through solution
 - Beers: make detector work inside cuvette
-- Beers: make detector body non movable
 - Concentration: 3-color range with min/max/center colors and concentration values
 - common: log interpolation of color
 - Concentration: dev controls for color ranges and linear/log color interpolation
