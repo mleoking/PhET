@@ -159,6 +159,23 @@ import static fj.data.List.range;
         } ) );
     }
 
+    private Container pieToContainerLazy( final Pie pie ) {
+        return new Container( pie.cells.length(), range( 0, pie.cells.length() ).filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( Integer i ) {
+                return cellCurrentlyFilled( pie.cells.index( i ) );
+            }
+        } ) );
+    }
+
+    //When managing a mirror as for Equality lab, don't mark a cell as occupied until the animating piece has reached it.
+    public ContainerSet toLazyContainerSet() {
+        return new ContainerSet( denominator, pies.map( new F<Pie, Container>() {
+            @Override public Container f( Pie p ) {
+                return pieToContainerLazy( p );
+            }
+        } ) );
+    }
+
     private static final Random random = new Random();
 
     public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
