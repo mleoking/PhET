@@ -56,7 +56,7 @@ public class EqualityLabModel {
         final Color sliceColor = AbstractFractionsCanvas.LightGreen;
 
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 75, 25 ),
+                               new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125, 25, false ),
                                new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
                                new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
@@ -68,8 +68,7 @@ public class EqualityLabModel {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
         int numPerRow = 3;
         double pieDiameter = 120;
-        final int mirrorTranslateX = 475;
-        double pieX = 85 + mirrorTranslateX;
+        double pieX = 85 + 475;
         double pieY = 210;
 
         final F<Site, Site> siteMap = new F<Site, Site>() {
@@ -86,7 +85,7 @@ public class EqualityLabModel {
         final Color sliceColor = EqualityLabCanvas.lightBlue;
 
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 75 + mirrorTranslateX, 25 ),
+                               new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125 + 445, 25, true ),
                                new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
                                new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );

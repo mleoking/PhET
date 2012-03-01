@@ -17,11 +17,13 @@ public class StackedHorizontalSliceFactory extends SliceFactory {
 
     private final double x;
     private final double y;
+    private final boolean backwards;
 
-    public StackedHorizontalSliceFactory( Vector2D bucketPosition, Color sliceColor, double x, double y ) {
+    public StackedHorizontalSliceFactory( Vector2D bucketPosition, Color sliceColor, double x, double y, final boolean backwards ) {
         super( 15.0, bucketPosition, sliceColor );
         this.x = x;
         this.y = y;
+        this.backwards = backwards;
     }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
@@ -52,6 +54,9 @@ public class StackedHorizontalSliceFactory extends SliceFactory {
 
     public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {
 
+        if ( backwards ) {
+            cell = denominator - cell - 1;
+        }
         int row = pie;
 
         final double cellWidth = oneBarWidth / denominator;
