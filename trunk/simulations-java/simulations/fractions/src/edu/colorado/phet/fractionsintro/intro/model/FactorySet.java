@@ -43,5 +43,20 @@ public class FactorySet {
         this.cakeSliceFactory = cakeSliceFactory;
     }
 
-    public static FactorySet IntroTab = new FactorySet( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), 6, 155, 0, 250, Function.<Site>identity(), AbstractFractionsCanvas.LightGreen );
+    public static FactorySet IntroTab() {
+        final Vector2D bucketPosition = new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 );
+        int numPerRow = 6;
+        double pieDiameter = 155;
+        double pieX = 0;
+        double pieY = 250;
+
+        final F<Site, Site> siteMap = Function.identity();
+        final Color sliceColor = AbstractFractionsCanvas.LightGreen;
+
+        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
+                               new HorizontalSliceFactory( bucketPosition, sliceColor ),
+                               new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
+                               new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
+                               new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
+    }
 }
