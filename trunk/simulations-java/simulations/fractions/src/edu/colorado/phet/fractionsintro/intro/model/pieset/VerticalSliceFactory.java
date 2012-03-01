@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model.pieset;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
@@ -27,8 +28,8 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
     private final boolean fullBars;
 
     //Private, require users to use singleton
-    public VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition ) {
-        super( 15.0, bucketPosition );
+    public VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Color sliceColor ) {
+        super( 15.0, bucketPosition, sliceColor );
         this.barWidth = barWidth;
         this.barHeight = barHeight;
         this.fullBars = fullBars;
@@ -67,6 +68,6 @@ public class VerticalSliceFactory extends AbstractSliceFactory {
 
         //Account for offset, determined empirically: den=1 => offset = 0, den = 2 => offset = -cellHeight/2
         LinearFunction linearFunction = new LinearFunction( 1, 2, -barHeight, -barHeight + cellHeight / 2 );
-        return new Slice( new Vector2D( barX + offset, 265 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ) );
+        return new Slice( new Vector2D( barX + offset, 265 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ), sliceColor );
     }
 }

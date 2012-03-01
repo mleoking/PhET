@@ -30,7 +30,7 @@ public class CakeSliceFactory extends AbstractSliceFactory {
     public final double spacing = 10;
 
     //Private, require users to use singleton
-    public CakeSliceFactory( Vector2D bucketPosition ) {super( 0.0, bucketPosition );}
+    public CakeSliceFactory( Vector2D bucketPosition ) {super( 0.0, bucketPosition, null );}
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> getShapeFunction( final double extent ) {
@@ -57,7 +57,7 @@ public class CakeSliceFactory extends AbstractSliceFactory {
     public Slice createBucketSlice( int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
         final Vector2D location = new Vector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().getY() + radius / 4 );
-        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ) );
+        return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ), null );
     }
 
     public Slice createPieCell( int maxPies, int pie, int cell, int denominator ) {
@@ -66,7 +66,7 @@ public class CakeSliceFactory extends AbstractSliceFactory {
 
         final double anglePerSlice = 2 * Math.PI / denominator;
         final Vector2D location = new Vector2D( diameter * ( pie + 1 ) + spacing * ( pie + 1 ) - 80 + offset, 300 );
-        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ) );
+        return new Slice( location, anglePerSlice * cell, false, null, getShapeFunction( anglePerSlice ), null );
     }
 
     //Find which should appear before/after others in z-ordering.  Must be back to front.

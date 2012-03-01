@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model.pieset;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
@@ -15,10 +16,9 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  */
 public class HorizontalSliceFactory extends AbstractSliceFactory {
 
-//    public static final HorizontalSliceFactory HorizontalSliceFactory = new HorizontalSliceFactory();
-
-    //Private, require users to use singleton
-    public HorizontalSliceFactory( Vector2D bucketPosition ) {super( 15.0, bucketPosition );}
+    public HorizontalSliceFactory( Vector2D bucketPosition, Color sliceColor ) {
+        super( 15.0, bucketPosition, sliceColor );
+    }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> createToShape( final double width ) {
@@ -67,6 +67,6 @@ public class HorizontalSliceFactory extends AbstractSliceFactory {
         final double distanceInBar = cellWidth * cell;
         final double cellCenterX = barX + distanceInBar + cellWidth / 2;
 
-        return new Slice( new Vector2D( cellCenterX + offset, center.getY() ), Math.PI, false, null, createToShape( oneBarWidth / denominator ) );
+        return new Slice( new Vector2D( cellCenterX + offset, center.getY() ), Math.PI, false, null, createToShape( oneBarWidth / denominator ), sliceColor );
     }
 }

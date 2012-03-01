@@ -4,7 +4,10 @@ package edu.colorado.phet.fractionsintro.intro.model;
 import fj.F;
 import fj.Function;
 
+import java.awt.Color;
+
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.AbstractSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory;
@@ -24,11 +27,11 @@ public class FactorySet {
     public final VerticalSliceFactory WaterGlassSetFactory;
     public final CakeSliceFactory CakeSliceFactory;
 
-    public FactorySet( Vector2D bucketPosition, int numPerRow, double pieDiameter, double pieX, double pieY, F<Site, Site> siteMap ) {
-        this( new edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap ),
-              new edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory( bucketPosition ),
-              new edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory( 125, 225, false, bucketPosition ),
-              new VerticalSliceFactory( 100, 200, true, bucketPosition ),
+    public FactorySet( Vector2D bucketPosition, int numPerRow, double pieDiameter, double pieX, double pieY, F<Site, Site> siteMap, Color sliceColor ) {
+        this( new edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
+              new edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory( bucketPosition, sliceColor ),
+              new edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
+              new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
               new edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory( new Vector2D( AbstractSliceFactory.stageSize.width / 2, -AbstractSliceFactory.stageSize.height + 200 ) ) );
     }
 
@@ -40,5 +43,5 @@ public class FactorySet {
         CakeSliceFactory = cakeSliceFactory;
     }
 
-    public static FactorySet IntroTab = new FactorySet( new Vector2D( AbstractSliceFactory.stageSize.width / 2, -AbstractSliceFactory.stageSize.height + 200 ), 6, 155, 0, 250, Function.<Site>identity() );
+    public static FactorySet IntroTab = new FactorySet( new Vector2D( AbstractSliceFactory.stageSize.width / 2, -AbstractSliceFactory.stageSize.height + 200 ), 6, 155, 0, 250, Function.<Site>identity(), AbstractFractionsCanvas.LightGreen );
 }

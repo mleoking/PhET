@@ -54,12 +54,12 @@ public class PieSetFractionNode extends VisibilityNode {
                         final CellPointer cp = new CellPointer( i, j );
                         double degreesPerSlice = 360.0 / numSlices;
                         boolean empty = state.getContainer( cp.container ).isEmpty();
-                        final PieSliceNode pieSliceNode = new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white,
+                        final PieSliceNode pieSliceNode = new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.LightGreen : Color.white,
                                                                             empty ? Color.lightGray : Color.black,
                                                                             empty ? 1 : 2 );
 
                         if ( !empty ) {
-                            pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.FILL_COLOR : Color.white,
+                            pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.LightGreen : Color.white,
                                                             !empty ? Color.lightGray : Color.black,
                                                             !empty ? 1 : 2 ) );
 
