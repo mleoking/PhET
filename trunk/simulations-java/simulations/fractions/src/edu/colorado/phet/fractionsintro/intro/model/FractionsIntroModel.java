@@ -51,8 +51,10 @@ public class FractionsIntroModel {
     public final SettableProperty<PieSet> cakeSet;
     public final IntegerProperty maximum;
     private final IntroState initialState;//For resetting
+    public final FactorySet factorySet;
 
     public FractionsIntroModel( IntroState s, final FactorySet factorySet ) {
+        this.factorySet = factorySet;
 
         final SliceFactory cakeSliceFactory = factorySet.cakeSliceFactory;
         final SliceFactory HorizontalSliceFactory = factorySet.horizontalSliceFactory;

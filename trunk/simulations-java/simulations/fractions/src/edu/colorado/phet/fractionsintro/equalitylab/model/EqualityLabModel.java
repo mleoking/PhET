@@ -35,7 +35,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
 public class EqualityLabModel {
 
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, and the design doc shows the pies filling up to the left before going to the upper row.  What about filling up next instead of to the left?  It would keep the left and right representations closer together longer and matches with the "more is up" sense in the game tab.
-    private final FactorySet factorySet = Primary();
+    public final FactorySet factorySet = Primary();
     public final BooleanProperty locked = new BooleanProperty( true );
     public static double pieY = 225;
     public static double pieDiameter = 135;
@@ -62,7 +62,7 @@ public class EqualityLabModel {
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
                                new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125, 25, false ),
                                new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
-                               new VerticalSliceFactory( 50, 200, true, bucketPosition, sliceColor ),
+                               new VerticalSliceFactory( 60, 120, true, bucketPosition, sliceColor ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
     }
 

@@ -55,8 +55,6 @@ public class WaterGlassNode extends RichPNode {
         addChild( waterNode );
         addChild( waterBeakerNode );
 
-        scale( 0.67 );
-
         // this node not interactive
         // make pickable here instead of in BeakerNode to maintain compatibility with dilutions implementation.
         waterBeakerNode.setPickable( false );
