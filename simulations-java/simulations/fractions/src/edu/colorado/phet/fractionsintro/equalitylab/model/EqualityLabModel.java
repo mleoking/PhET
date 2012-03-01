@@ -6,6 +6,7 @@ import fj.F;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
@@ -34,6 +35,7 @@ public class EqualityLabModel {
 
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, and the design doc shows the pies filling up to the left before going to the upper row.  What about filling up next instead of to the left?  It would keep the left and right representations closer together longer and matches with the "more is up" sense in the game tab.
     private final FactorySet factorySet = Primary();
+    public final BooleanProperty locked = new BooleanProperty( true );
 
     public static FactorySet Primary() {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
@@ -125,5 +127,6 @@ public class EqualityLabModel {
         model.resetAll();
         scale.reset();
         rightRepresentation.reset();
+        locked.reset();
     }
 }

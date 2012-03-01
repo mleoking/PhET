@@ -6,10 +6,14 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -27,6 +31,9 @@ import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.Re
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 
@@ -50,6 +57,21 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - INSET * 3, INSET );
         }};
         addChild( rightControl );
+
+        addChild( new PImage( BufferedImageUtils.multiScale( Images.LOCKED, 0.4 ) ) {{
+            model.locked.addObserver( new VoidFunction1<Boolean>() {
+                @Override public void apply( final Boolean locked ) {
+                    setImage( BufferedImageUtils.multiScale( locked ? Images.LOCKED : Images.UNLOCKED, 0.4 ) );
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+                    model.locked.set( !model.locked.get() );
+                }
+            } );
+            setOffset( ( leftControl.getCenterX() + rightControl.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftControl.getCenterY() - getFullBounds().getHeight() / 2 );
+        }} );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {

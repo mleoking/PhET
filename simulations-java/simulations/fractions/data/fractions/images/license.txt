@@ -2,3 +2,5 @@ balance-base.png source=http://www.openclipart.org/detail/128839/balance--scale-
 balance-platform.png source=http://www.openclipart.org/detail/128839/balance--scale-by-lmproulx author=lmproulx license=public domain notes=split by sam reid
 scale.png source=PhET author=Ariel
 water_glass.png source=phet author=noah P
+locked.png source=tango
+unlocked.png source=tango
