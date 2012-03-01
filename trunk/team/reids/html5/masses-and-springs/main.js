@@ -96,8 +96,11 @@ function imageNode( string, x, y ) {
     return that;
 }
 
-function mass( string, _x, _y, _mass ) {
-    var that = {x:_x, y:_y, imageName:string, mass:_mass};
+function massNode( string, _x, _y, _mass ) {
+    var that = imageNode( string, _x, _y );
+    that.initX = _x;
+    that.initY = _y;
+    that.mass = _mass;
     return that;
 }
 
@@ -289,13 +292,12 @@ function init() {
     globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
     globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
 
-    globals.masses = new Array( mass( "resources/red-mass.png", 114, 496, 3 ),
-                                mass( "resources/green-mass.png", 210, 577, 4 ),
-                                mass( "resources/gold-mass.png", 276, 541, 5 ),
-                                mass( "resources/gram-50.png", 577, 590, 6 ),
-                                mass( "resources/gram-100.png", 392, 562, 7 ),
-                                mass( "resources/gram-250.png", 465, 513, 8 ),
-                                mass( "resources/ruler.png", 12, 51, 9 ) )
+    globals.masses = new Array( massNode( "resources/red-mass.png", 114, 496, 3 ),
+                                massNode( "resources/green-mass.png", 210, 577, 4 ),
+                                massNode( "resources/gold-mass.png", 276, 541, 5 ),
+                                massNode( "resources/gram-50.png", 577, 590, 6 ),
+                                massNode( "resources/gram-100.png", 392, 562, 7 ),
+                                massNode( "resources/gram-250.png", 465, 513, 8 ) )
 
     function labeledCheckBox( label ) {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
@@ -311,10 +313,11 @@ function init() {
 
     var rootNodeComponents = new Array();
     for ( var i = 0; i < globals.masses.length; i++ ) {
-        rootNodeComponents.push( imageNode( globals.masses[i].imageName, globals.masses[i].x, globals.masses[i].y ) )
+        rootNodeComponents.push( globals.masses[i] );
     }
     rootNodeComponents.push( vbox( {children:new Array( frictionSlider ), x:700, y:100} ) );
     rootNodeComponents.push( resetButton );
+    rootNodeComponents.push( imageNode( "resources/ruler.png", 12, 51 ) );
 
     //Add to the nodes for rendering
     for ( var i = 0; i < globals.springs.length; i++ ) {
@@ -416,7 +419,15 @@ function animate() {
 //    }
 
     for ( var i = 0; i < globals.masses.length; i++ ) {
-        var obj = globals.masses[i];
+        var mass = globals.masses[i];
+        if ( !mass.selected ) {
+            if ( mass.y <= mass.initY ) {
+                mass.y += 10;
+            }
+            if ( mass.y > mass.initY ) {
+                mass.y = mass.initY;
+            }
+        }
 
     }
     count++;
@@ -684,7 +695,7 @@ ResetButton.prototype.onTouchStart = function ( pt ) {
 ResetButton.prototype.onTouchEnd = function ( pt ) {
     this.pressed = false;
 }
-ResetButton.prototype.onTouchMove= function ( pt ) {
+ResetButton.prototype.onTouchMove = function ( pt ) {
     this.pressed = false;
 }
 
