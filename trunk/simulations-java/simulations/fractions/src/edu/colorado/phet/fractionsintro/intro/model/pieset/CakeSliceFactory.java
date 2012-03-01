@@ -21,7 +21,7 @@ import static fj.Ord.ord;
  *
  * @author Sam Reid
  */
-public class CakeSliceFactory extends AbstractSliceFactory {
+public class CakeSliceFactory extends SliceFactory {
 
 //    public static final CakeSliceFactory CakeSliceFactory = new CakeSliceFactory();
 
@@ -84,9 +84,8 @@ public class CakeSliceFactory extends AbstractSliceFactory {
 //        put( 12, new int[] { 3, 4, 5, 2, 6, 1, 7, 12, 8, 11, 9, 10 } );
     }};
 
-
     //Fix the z-ordering for cake slices
-    public PieSet sort( final PieSet p ) {
+    public static PieSet sort( final PieSet p ) {
         final int[] renderOrder = _renderOrder.get( p.denominator );
         final ArrayList<Integer> list = new ArrayList<Integer>() {{
             for ( int e : renderOrder ) {

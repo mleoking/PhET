@@ -13,9 +13,9 @@ import edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.AbstractSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Site;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.SliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
@@ -26,7 +26,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
 public class EqualityLabModel {
 
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, and the design doc shows the pies filling up to the left before going to the upper row.  What about filling up next instead of to the left?  It would keep the left and right representations closer together longer and matches with the "more is up" sense in the game tab.
-    private final FactorySet factorySet = new FactorySet( new Vector2D( 100, -AbstractSliceFactory.stageSize.height + 200 ), 3, 120, 85, 210, new F<Site, Site>() {
+    private final FactorySet factorySet = new FactorySet( new Vector2D( 100, -SliceFactory.stageSize.height + 200 ), 3, 120, 85, 210, new F<Site, Site>() {
         @Override public Site f( final Site s ) {
             return s.eq( 0, 0 ) ? new Site( 1, 2 ) :
                    s.eq( 0, 1 ) ? new Site( 0, 2 ) :
@@ -37,7 +37,7 @@ public class EqualityLabModel {
                    null;
         }
     }, EqualityLabCanvas.LightGreen );
-    private final FactorySet scaledFactorySet = new FactorySet( new Vector2D( 100, -AbstractSliceFactory.stageSize.height + 200 ), 3, 120, 85 + 475, 210, new F<Site, Site>() {
+    private final FactorySet scaledFactorySet = new FactorySet( new Vector2D( 100, -SliceFactory.stageSize.height + 200 ), 3, 120, 85 + 475, 210, new F<Site, Site>() {
         @Override public Site f( final Site s ) {
             return s.eq( 0, 0 ) ? new Site( 1, 0 ) :
                    s.eq( 0, 1 ) ? new Site( 0, 0 ) :

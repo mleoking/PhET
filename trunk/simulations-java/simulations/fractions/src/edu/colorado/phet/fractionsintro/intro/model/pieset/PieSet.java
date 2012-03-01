@@ -31,13 +31,13 @@ import static fj.data.List.range;
     public final List<Pie> pies;
     public final List<Slice> slices;
     public final List<Slice> cells;              //The list of all cells
-    public final AbstractSliceFactory sliceFactory;
+    public final SliceFactory sliceFactory;
 
-    public PieSet( int numPies, AbstractSliceFactory sliceFactory ) {
+    public PieSet( int numPies, SliceFactory sliceFactory ) {
         this( 1, sliceFactory.createEmptyPies( numPies, 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
     }
 
-    public PieSet( int denominator, List<Pie> pies, List<Slice> slices, AbstractSliceFactory sliceFactory ) {
+    public PieSet( int denominator, List<Pie> pies, List<Slice> slices, SliceFactory sliceFactory ) {
         this.denominator = denominator;
         this.pies = pies;
         this.slices = slices;
