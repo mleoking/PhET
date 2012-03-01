@@ -41,12 +41,17 @@ public class CakeSetNode extends PieSetNode {
         super( cakeSet, rootNode, new F<SliceNodeArgs, PNode>() {
             @Override public PNode f( final SliceNodeArgs a ) {
                 int cell = a.slice.cell( a.denominator );
-                return new PImage( cakeImages.f( new Arg( cell, a.denominator ) ) ) {{
-                    //Center on the slice tip because each image is padded to the amount of a full cake
-                    double fudgeY = getFullBounds().getHeight() / 4;
-                    setOffset( a.slice.position.getX() - getFullBounds().getWidth() / 2, a.slice.position.getY() - getFullBounds().getHeight() / 2 - fudgeY );
-                }};
+                return new MyImage( cell, a );
             }
         }, CreateEmptyCellsNode );
+    }
+
+    static class MyImage extends PImage {
+        MyImage( final int cell, final SliceNodeArgs a ) {
+            //Center on the slice tip because each image is padded to the amount of a full cake
+            super( cakeImages.f( new Arg( cell, a.denominator ) ) );
+            double fudgeY = getFullBounds().getHeight() / 4;
+            setOffset( a.slice.position.getX() - getFullBounds().getWidth() / 2, a.slice.position.getY() - getFullBounds().getHeight() / 2 - fudgeY );
+        }
     }
 }
