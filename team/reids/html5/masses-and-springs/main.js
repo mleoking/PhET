@@ -101,6 +101,40 @@ function massNode( string, _x, _y, _mass ) {
     that.initX = _x;
     that.initY = _y;
     that.mass = _mass;
+    that.attachedToSpring = false;
+
+    // Override onTouchStart.
+    var superOnTouchStart = that.onTouchStart;
+    that.onTouchStart = function ( point ) {
+        superOnTouchStart.apply( that, new Array( point ) );
+        if ( that.selected ) {
+            that.attachedToSpring = false;
+        }
+    }
+
+    // Override onTouchStart.
+    var superOnTouchEnd = that.onTouchEnd;
+    that.onTouchEnd = function ( point ) {
+        if ( that.selected ) {
+            superOnTouchEnd.apply( that, new Array( point ) );
+            var centerX = that.x + that.width / 2;
+            for ( var i = 0; i < globals.springs.length; i++ ) {
+                var spring = globals.springs[i];
+                if ( new Point2D( centerX, that.y ).distance( spring.attachmentPoint ) < 50 ) {
+                    // Attach to this spring.
+                    that.attachToPoint( spring.attachmentPoint );
+                    that.attachedToSpring = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    that.attachToPoint = function( point ){
+        that.x = point.x - that.width / 2;
+        that.y = point.y - 5; // Tweak alert - this is about the width of the hook on each mass.
+    }
+
     return that;
 }
 
@@ -420,7 +454,7 @@ function animate() {
 
     for ( var i = 0; i < globals.masses.length; i++ ) {
         var mass = globals.masses[i];
-        if ( !mass.selected ) {
+        if ( !mass.selected && !mass.attachedToSpring ) {
             if ( mass.y <= mass.initY ) {
                 mass.y += 10;
             }
@@ -458,10 +492,10 @@ function spring( name, x ) {
     that.name = name;
     that.anchor = new Point2D( x, 50 );
     that.attachmentPoint = new Point2D( x, 250 );
+    that.color = '#f00';
     that.draw = function ( context ) {
         context.beginPath();
-        context.fillStyle = '#00f';
-        context.strokeStyle = '#f00';
+        context.strokeStyle = that.color;
         context.lineWidth = 4;
         context.beginPath();
         context.moveTo( this.anchor.x, this.anchor.y );
@@ -516,6 +550,11 @@ Point2D.prototype.minus = function ( pt ) {
 Point2D.prototype.set = function ( point2D ) {
     this.setComponents( point2D.x, point2D.y );
 }
+
+Point2D.prototype.distance = function ( point2D ) {
+    return ( Math.sqrt( Math.pow( this.x - point2D.x, 2 ) + Math.pow( this.y - point2D.y, 2 ) ) );
+}
+
 
 function sliderTrack() {
     var that = rectangularNode( 250, 5 );
