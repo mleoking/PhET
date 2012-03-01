@@ -17,7 +17,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  *
  * @author Sam Reid
  */
-public class CircularSliceFactory extends AbstractSliceFactory {
+public class CircularSliceFactory extends SliceFactory {
 
     public final double diameter;
     private final double x;

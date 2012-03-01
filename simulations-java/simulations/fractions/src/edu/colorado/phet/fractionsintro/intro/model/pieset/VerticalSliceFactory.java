@@ -14,7 +14,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  *
  * @author Sam Reid
  */
-public class VerticalSliceFactory extends AbstractSliceFactory {
+public class VerticalSliceFactory extends SliceFactory {
 
 //    public static final VerticalSliceFactory VerticalSliceFactory = new VerticalSliceFactory( 125, 225, false );
 //

@@ -13,11 +13,9 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.HorizontalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.SliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
@@ -56,11 +54,11 @@ public class FractionsIntroModel {
 
     public FractionsIntroModel( IntroState s, final FactorySet factorySet ) {
 
-        final CakeSliceFactory CakeSliceFactory = factorySet.cakeSliceFactory;
-        final HorizontalSliceFactory HorizontalSliceFactory = factorySet.horizontalSliceFactory;
-        final VerticalSliceFactory VerticalSliceFactory = factorySet.verticalSliceFactory;
-        final CircularSliceFactory CircularSliceFactory = factorySet.circularSliceFactory;
-        final VerticalSliceFactory WaterGlassSetFactory = factorySet.waterGlassSetFactory;
+        final SliceFactory cakeSliceFactory = factorySet.cakeSliceFactory;
+        final SliceFactory HorizontalSliceFactory = factorySet.horizontalSliceFactory;
+        final SliceFactory VerticalSliceFactory = factorySet.verticalSliceFactory;
+        final SliceFactory CircularSliceFactory = factorySet.circularSliceFactory;
+        final SliceFactory WaterGlassSetFactory = factorySet.waterGlassSetFactory;
 
         initialState = s;
         state = new Property<IntroState>( s );
@@ -161,7 +159,7 @@ public class FractionsIntroModel {
                                 horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( c ) ).
                                 verticalBarSet( VerticalSliceFactory.fromContainerSetState( c ) ).
                                 waterGlassSet( WaterGlassSetFactory.fromContainerSetState( c ) ).
-                                cakeSet( CakeSliceFactory.fromContainerSetState( c ) );
+                                cakeSet( cakeSliceFactory.fromContainerSetState( c ) );
                     }
                 }
         );
@@ -183,7 +181,7 @@ public class FractionsIntroModel {
                                 pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
                                 verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
                                 waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) ).
-                                cakeSet( CakeSliceFactory.fromContainerSetState( cs ) );
+                                cakeSet( cakeSliceFactory.fromContainerSetState( cs ) );
                     }
                 }
         );
@@ -205,7 +203,7 @@ public class FractionsIntroModel {
                                 numerator( cs.numerator ).
                                 pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
                                 waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) ).
-                                cakeSet( CakeSliceFactory.fromContainerSetState( cs ) );
+                                cakeSet( cakeSliceFactory.fromContainerSetState( cs ) );
                     }
                 }
         );
@@ -296,7 +294,7 @@ public class FractionsIntroModel {
                                 final Slice newWaterSlice = WaterGlassSetFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
                                 newState = newState.waterGlassSet( newState.waterGlassSet.slices( newState.waterGlassSet.slices.cons( newWaterSlice ) ).animateSliceToBucket( newWaterSlice ) );
 
-                                final Slice newCakeSlice = CakeSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
+                                final Slice newCakeSlice = cakeSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
                                 newState = newState.cakeSet( newState.cakeSet.slices( newState.cakeSet.slices.cons( newCakeSlice ) ).animateSliceToBucket( newCakeSlice ) );
 
                                 csx = csx.toggle( cp );

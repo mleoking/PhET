@@ -16,11 +16,11 @@ import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import static fj.data.List.iterableList;
 
 /**
- * Immutable factory class for creating slices.  Abstract class, subclasses provide specific behavior/shapes/layout for that kind of object.
+ * Immutable abstract factory class for creating slices, subclasses provide specific behavior/shapes/layout for that kind of object.
  *
  * @author Sam Reid
  */
-public abstract class AbstractSliceFactory {
+public abstract class SliceFactory {
 
     public static final Dimension2DDouble stageSize = new Dimension2DDouble( 1024, 768 );
     public final Color bucketColor = new Color( 136, 177, 240 );//A shade that looks good behind the green objects
@@ -31,7 +31,7 @@ public abstract class AbstractSliceFactory {
     //Slice color, only used for some shapes (not for pre-rendered 3d cakes)
     public final Color sliceColor;
 
-    protected AbstractSliceFactory( double yRange, Vector2D bucketPosition, Color sliceColor ) {
+    protected SliceFactory( double yRange, Vector2D bucketPosition, Color sliceColor ) {
         this.yRange = yRange;
         this.sliceColor = sliceColor;
         this.bucket = new Bucket( bucketPosition.x, bucketPosition.y, new Dimension2DDouble( 350, 135 ), bucketColor, "" );

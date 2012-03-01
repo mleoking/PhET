@@ -14,7 +14,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  *
  * @author Sam Reid
  */
-public class HorizontalSliceFactory extends AbstractSliceFactory {
+public class HorizontalSliceFactory extends SliceFactory {
 
     public HorizontalSliceFactory( Vector2D bucketPosition, Color sliceColor ) {
         super( 15.0, bucketPosition, sliceColor );
