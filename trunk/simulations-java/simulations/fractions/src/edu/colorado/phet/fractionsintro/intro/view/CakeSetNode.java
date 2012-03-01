@@ -47,6 +47,6 @@ public class CakeSetNode extends PieSetNode {
                     setOffset( a.slice.position.getX() - getFullBounds().getWidth() / 2, a.slice.position.getY() - getFullBounds().getHeight() / 2 - fudgeY );
                 }};
             }
-        } );
+        }, CreateEmptyCellsNode );
     }
 }

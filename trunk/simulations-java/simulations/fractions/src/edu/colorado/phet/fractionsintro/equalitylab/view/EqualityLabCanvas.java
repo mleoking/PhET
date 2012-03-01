@@ -5,6 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -15,6 +16,7 @@ import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassSetNode;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.MovablePiecesLayer;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
@@ -22,6 +24,7 @@ import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.Pi
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
+import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 
@@ -58,16 +61,27 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth(), STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
-        addRepresentationNodes( model, leftRepresentation, leftControl, model.pieSet );
-        addRepresentationNodes( model, rightRepresentation, rightControl, model.rightPieSet );
+        addPrimaryRepresentationNodes( model, leftRepresentation, leftControl, model.pieSet );
+
+        //Show the pie set node when pies are selected for the right-side
+        addChild( new RepresentationNode( rightRepresentation, PIE, new PNode() {{
+            model.rightPieSet.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    removeAllChildren();
+                    addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightPieSet.get() ) );
+                    addChild( new MovablePiecesLayer( model.rightPieSet.get(), PieSetNode.NodeToShape, model.rightPieSet, rootNode, STAGE_SIZE.getHeight() ) );
+                }
+            } );
+        }} ) );
 
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
     }
 
-    private void addRepresentationNodes( final EqualityLabModel model,
-                                         final SettableProperty<Representation> representation,
-                                         final RepresentationControlPanel control,
-                                         SettableProperty<PieSet> pieSet ) {
+    //Add representations for the left side
+    private void addPrimaryRepresentationNodes( final EqualityLabModel model,
+                                                final SettableProperty<Representation> representation,
+                                                final RepresentationControlPanel control,
+                                                SettableProperty<PieSet> pieSet ) {
         //Show the pie set node when pies are selected
         addChild( new RepresentationNode( representation, PIE, new PieSetNode( pieSet, rootNode ) ) );
 
