@@ -62,7 +62,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         addPrimaryRepresentationNodes( model, leftRepresentation, leftControl, model.pieSet );
 
-        //Show the pie set node when pies are selected for the right-side
+        //Show the pie set node when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, PIE, new PNode() {{
             model.rightPieSet.addObserver( new SimpleObserver() {
                 @Override public void update() {
@@ -73,9 +73,9 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             } );
         }} ) );
 
-        //Show the pie set node when pies are selected for the right-side
+        //Show the horizontal bar set node when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, HORIZONTAL_BAR, new PNode() {{
-            model.rightPieSet.addObserver( new SimpleObserver() {
+            model.rightHorizontalBars.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
                     addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightHorizontalBars.get() ) );
@@ -83,7 +83,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 }
             } );
         }} ) );
-
 
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
 
