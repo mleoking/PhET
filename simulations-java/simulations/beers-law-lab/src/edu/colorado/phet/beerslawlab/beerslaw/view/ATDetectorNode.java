@@ -156,7 +156,7 @@ class ATDetectorNode extends PhetPNode {
                 addChild( originNode );
                 addChild( new PPath() {{
                     setStrokePaint( Color.RED );
-                    double viewDiameter = mvt.modelToViewY( detector.probeDiameter );
+                    double viewDiameter = mvt.modelToViewY( detector.probe.sensorDiameter );
                     setPathTo( new Line2D.Double( 0, -viewDiameter / 2, 0, viewDiameter / 2 ) );
                 }} );
             }

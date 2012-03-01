@@ -27,9 +27,18 @@ public class ATDetector {
 
     public final CompositeProperty<Double> value; // null if no value is detected
     public final Movable body;
-    public final Movable probe;
-    public final double probeDiameter; // diameter of the probe's sensor area, in cm //TODO should be an attribute of the probe
+    public final Probe probe;
     public Property<ATDetectorMode> mode = new Property<ATDetectorMode>( ATDetectorMode.PERCENT_TRANSMITTANCE );
+
+    public static class Probe extends Movable {
+
+        public final double sensorDiameter; // diameter of the probe's sensor area, in cm
+
+        public Probe( ImmutableVector2D probeLocation, PBounds probeDragBounds, double sensorDiameter ) {
+            super( probeLocation, probeDragBounds );
+            this.sensorDiameter = sensorDiameter;
+        }
+    }
 
     public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
                        ImmutableVector2D probeLocation, PBounds probeDragBounds,
@@ -42,8 +51,7 @@ public class ATDetector {
         this.percentTransmittance = percentTransmittance;
 
         this.body = new Movable( bodyLocation, bodyDragBounds );
-        this.probe = new Movable( probeLocation, probeDragBounds );
-        this.probeDiameter = 0.57; // cm, specific to the probe image file
+        this.probe = new Probe( probeLocation, probeDragBounds, 0.57 );
 
         // update the value that is displayed by the detector
         this.value = new CompositeProperty<Double>( new Function0<Double>() {
@@ -83,11 +91,11 @@ public class ATDetector {
     }
 
     private double getProbeMinY() {
-        return probe.location.get().getY() - ( probeDiameter / 2 );
+        return probe.location.get().getY() - ( probe.sensorDiameter / 2 );
     }
 
     private double getProbeMaxY() {
-        return probe.location.get().getY() + ( probeDiameter / 2 );
+        return probe.location.get().getY() + ( probe.sensorDiameter / 2 );
     }
 
     // Is the probe in the left segment?
