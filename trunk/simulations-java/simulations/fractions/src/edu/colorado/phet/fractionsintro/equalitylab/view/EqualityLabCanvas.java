@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionControlNode;
 import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
@@ -34,13 +35,15 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
     public EqualityLabCanvas( final EqualityLabModel model ) {
 
         //Control panel for choosing different representations, can be split into separate controls for each display
-        final RepresentationControlPanel leftRepresentation = new RepresentationControlPanel( model.leftRepresentation, getRepresentations( model.leftRepresentation ) ) {{ setOffset( INSET, INSET ); }};
-        addChild( leftRepresentation );
+        final SettableProperty<Representation> leftRepresentation = model.leftRepresentation;
+        final SettableProperty<Representation> rightRepresentation = model.rightRepresentation;
+        final RepresentationControlPanel leftControl = new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation ) ) {{ setOffset( INSET * 3, INSET ); }};
+        addChild( leftControl );
 
-        final RepresentationControlPanel rightRepresentation = new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation ) ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullWidth() - INSET, INSET );
+        final RepresentationControlPanel rightControl = new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation ) ) {{
+            setOffset( STAGE_SIZE.getWidth() - getFullWidth() - INSET * 3, INSET );
         }};
-        addChild( rightRepresentation );
+        addChild( rightControl );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {
@@ -55,22 +58,29 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new ZeroOffsetNode( new FractionControlNode( model.numerator, model.denominator, model.maximum ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth(), STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
-
-        //Show the pie set node when pies are selected
-        addChild( new RepresentationNode( model.leftRepresentation, PIE, new PieSetNode( model.pieSet, rootNode ) ) );
-
-        //For horizontal bars
-        addChild( new RepresentationNode( model.leftRepresentation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
-
-        //For water glasses
-        addChild( new RepresentationNode( model.leftRepresentation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode ) ) );
-
-        //Number line
-        addChild( new NumberLineNode( model.numerator, model.denominator, model.leftRepresentation.valueEquals( NUMBER_LINE ), model.maximum ) {{
-            setOffset( INSET + 10, leftRepresentation.getFullBounds().getMaxY() + 100 + 15 );
-        }} );
+        addRepresentationNodes( model, leftRepresentation, leftControl, model.pieSet );
+        addRepresentationNodes( model, rightRepresentation, rightControl, model.rightPieSet );
 
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
+    }
+
+    private void addRepresentationNodes( final EqualityLabModel model,
+                                         final SettableProperty<Representation> representation,
+                                         final RepresentationControlPanel control,
+                                         SettableProperty<PieSet> pieSet ) {
+        //Show the pie set node when pies are selected
+        addChild( new RepresentationNode( representation, PIE, new PieSetNode( pieSet, rootNode ) ) );
+
+        //For horizontal bars
+        addChild( new RepresentationNode( representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
+
+        //For water glasses
+        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode ) ) );
+
+        //Number line
+        addChild( new NumberLineNode( model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
+            setOffset( INSET + 10, control.getFullBounds().getMaxY() + 100 + 15 );
+        }} );
     }
 
     private RepresentationIcon[] getRepresentations( SettableProperty<Representation> representation ) {
