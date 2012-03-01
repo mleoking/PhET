@@ -1,3 +1,4 @@
+3/1/12 Beers: start with 100 units of concentration for each solution
 3/1/12 static methods for A and %T models
 3/1/12 make sensor diameter an attribute of the detector probe
 # 0.00.14 (62016) Feb 29, 2012
