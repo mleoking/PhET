@@ -55,11 +55,20 @@ public class MatchingGameNode extends FNode {
                 return s.toNode();
             }
         } ).foreach( addChild );
-        state.scoreCells.map( new F<Cell, PNode>() {
-            @Override public PNode f( Cell c ) {
-                return new PhetPPath( c.rectangle.toRoundedRectangle( 20, 20 ), lightGray );
-            }
-        } ).foreach( addChild );
+
+        final FNode scoreCellsLayer = new FNode() {{
+            state.scoreCells.map( new F<Cell, PNode>() {
+                @Override public PNode f( Cell c ) {
+                    return new PhetPPath( c.rectangle.toRoundedRectangle( 20, 20 ), lightGray );
+                }
+            } ).foreach( addChild );
+        }};
+        addChild( scoreCellsLayer );
+
+        addChild( new PhetPText( "My matches", new PhetFont( 18, true ) ) {{
+            setOffset( scoreCellsLayer.getFullBounds().getX(), scoreCellsLayer.getMaxY() );
+        }} );
+
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
             final String string = state.getLeftScaleValue() < state.getRightScaleValue() ? "<" :
                                   state.getLeftScaleValue() > state.getRightScaleValue() ? ">" :
