@@ -450,7 +450,12 @@ function onTouchEnd( point ) {
 }
 
 var count = 0;
+var prevTime = new Date().getTime();;
 function animate() {
+
+    var currentTime = new Date().getTime();
+    var timeStep = currentTime - prevTime;
+    prevTime = currentTime;
 
     //http://animaljoy.com/?p=254
     // insert your code to update your animation here
@@ -469,7 +474,6 @@ function animate() {
                 mass.y = mass.initY;
             }
         }
-
     }
     count++;
     requestAnimationFrame( animate );
