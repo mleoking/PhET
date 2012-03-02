@@ -40,8 +40,7 @@ public class CakeSetNode extends PieSetNode {
     public CakeSetNode( SettableProperty<PieSet> cakeSet, PNode rootNode ) {
         super( cakeSet, rootNode, new F<SliceNodeArgs, PNode>() {
             @Override public PNode f( final SliceNodeArgs a ) {
-                int cell = a.slice.cell( a.denominator );
-                return new MyImage( cell, a );
+                return new MyImage( a.slice.cell( a.denominator ), a );
             }
         }, CreateEmptyCellsNode );
     }

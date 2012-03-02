@@ -1,3 +1,4 @@
+Intro: Fixed cake image angles
 Intro: Moved up bucket 20px
 # 0.00.46 (62047) Mar 1, 2012
 # 0.00.45 (62028) Feb 29, 2012

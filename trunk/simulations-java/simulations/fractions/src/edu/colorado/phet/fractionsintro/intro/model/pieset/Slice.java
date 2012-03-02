@@ -84,7 +84,9 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
     //Determine which cell would be occupied based on the angle, used to rotate the cake slice images
     public int cell( int denominator ) {
         double anglePerSlice = Math.PI * 2 / denominator;
-        return (int) ( canonical( angle ) / anglePerSlice );
+        long cell = Math.round( canonical( angle ) / anglePerSlice );
+        final int intCell = (int) cell;
+        return intCell % denominator;
     }
 
     //Make sure the angle lies between 0 and 2PI
