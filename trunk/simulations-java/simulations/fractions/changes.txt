@@ -1,3 +1,4 @@
+# 0.00.47 (62116) Mar 2, 2012
 Equality Lab: Made it so you can't drag the blue representation
 Equality Lab: Center representations vertically
 Equality Lab: Made representation control panels 20% smaller
