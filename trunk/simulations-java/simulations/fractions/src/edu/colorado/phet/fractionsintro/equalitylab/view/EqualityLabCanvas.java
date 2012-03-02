@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -57,10 +58,15 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Control panel for choosing different representations, can be split into separate controls for each display
         final SettableProperty<Representation> leftRepresentation = model.leftRepresentation;
         final SettableProperty<Representation> rightRepresentation = model.rightRepresentation;
-        final RepresentationControlPanel leftControl = new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LightGreen ) ) {{ setOffset( INSET * 3, INSET ); }};
 
-        final RepresentationControlPanel rightControl = new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, lightBlue ) ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullWidth() - INSET * 3, INSET );
+        //Make the control panels a little smaller in this one so that we have more vertical space for representations
+        final double representationControlPanelScale = 0.80;
+        final RichPNode leftControl = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LightGreen ) ) {{ scale( representationControlPanelScale ); }} ) {{
+            setOffset( 114, INSET );
+        }};
+
+        final RichPNode rightControl = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, lightBlue ) ) {{scale( representationControlPanelScale );}} ) {{
+            setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
         }};
 
         //Bridge for the lock to sit on
@@ -101,7 +107,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( resetAllButtonNode );
 
-        addPrimaryRepresentationNodes( model, leftRepresentation, leftControl, model.pieSet );
+        addPrimaryRepresentationNodes( model, leftRepresentation, model.pieSet );
 
         //Show the pie set node when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, PIE, new PNode() {{
@@ -172,7 +178,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
     //Add representations for the left side
     private void addPrimaryRepresentationNodes( final EqualityLabModel model,
                                                 final SettableProperty<Representation> representation,
-                                                final RepresentationControlPanel control,
                                                 SettableProperty<PieSet> pieSet ) {
         //Show the pie set node when pies are selected
         addChild( new RepresentationNode( representation, PIE, new PieSetNode( pieSet, rootNode ) ) );
