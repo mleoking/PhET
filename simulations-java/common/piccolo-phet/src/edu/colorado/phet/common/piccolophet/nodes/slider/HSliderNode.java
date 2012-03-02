@@ -168,8 +168,8 @@ public class HSliderNode extends SliderNode {
         label.setOffset( getViewX( value ) - label.getFullBounds().getWidth() / 2, knobNode.getFullBounds().getMaxY() );
 
         //At discussion on 10/6/2011 we decided every label should have a tick mark that extends to the track but is also visible when the knob is over it
-        float tickStroke = 1.5f;
-        final PhetPPath tickMark = new PhetPPath( new Line2D.Double( getViewX( value ), 0, getViewX( value ), knobNode.getFullBounds().getHeight() / 2 + 6 ), new BasicStroke( tickStroke ), Color.darkGray );
+        float tickStrokeWidth = 1.5f;
+        final PhetPPath tickMark = new PhetPPath( new Line2D.Double( getViewX( value ), 0, getViewX( value ), knobNode.getFullBounds().getHeight() / 2 + 6 ), new BasicStroke( tickStrokeWidth ), Color.darkGray );
         rootNode.addChild( tickMark );
 
         rootNode.addChild( label );
