@@ -209,7 +209,6 @@ class ConcentrationSliderNode extends PhetPNode {
             // move the slider thumb to reflect the concentration value
             final VoidFunction1<Double> concentrationObserver = new VoidFunction1<Double>() {
                 public void apply( Double value ) {
-                    System.out.println( "value = " + value + " offset=" + modelToView.evaluate( value ) );
                     setOffset( modelToView.evaluate( value ), getYOffset() );
                 }
             };
