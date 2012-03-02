@@ -121,7 +121,7 @@ public class Beam {
             centerPaint.set( new GradientPaint( (float) x, 0, leftColor, (float) ( x + w ), 0, rightColor ) );
         }
 
-        // right is a solid color
+        // right is whatever color was the right edge of the center gradient
         if ( transmittance.get() == 0 ) {
             rightPaint.set( INVISIBLE_COLOR );
         }
