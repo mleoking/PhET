@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -100,13 +101,21 @@ public class MatchingGameNode extends FNode {
 
         if ( state.scored == state.scoreCells.length() ) {
             final int newLevel = state.level + 1;
-            addChild( new HTMLImageButtonNode( "Level " + newLevel, Color.orange ) {{
-                setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
+            addChild( new VBox( new HTMLImageButtonNode( "Play again", Color.orange ) {{
+                addActionListener( new ActionListener() {
+                    @Override public void actionPerformed( ActionEvent e ) {
+                        model.set( MatchingGameState.initialState( state.level ) );
+                    }
+                } );
+            }}, new HTMLImageButtonNode( "Level " + newLevel, Color.green ) {{
                 addActionListener( new ActionListener() {
                     @Override public void actionPerformed( ActionEvent e ) {
                         model.set( MatchingGameState.initialState( newLevel ) );
                     }
                 } );
+            }}
+            ) {{
+                setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
             }} );
         }
         addChild( new PImage( state.audio ? Images.SOUND_MAX : Images.SOUND_MIN ) {{
