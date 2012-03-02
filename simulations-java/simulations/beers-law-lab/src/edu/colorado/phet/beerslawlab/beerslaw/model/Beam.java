@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -149,7 +148,7 @@ public class Beam {
         final double probeX = detector.probe.location.get().getX();
 
         // left segment
-        if ( detector.probeInLeftSegment() ) {
+        if ( probeInLeftSegment() ) {
             leftShape.set( new ImmutableRectangle2D( lightX, lightMinY, probeX - lightX, lightHeight ) );
         }
         else {
@@ -157,11 +156,11 @@ public class Beam {
         }
 
         // center segment
-        if ( detector.probeInLeftSegment() ) {
+        if ( probeInLeftSegment() ) {
             // this segment doesn't exist
             centerShape.set( new ImmutableRectangle2D( 0, 0 ) );
         }
-        else if ( detector.probeInCenterSegment() ) {
+        else if ( probeInCenterSegment() ) {
             // probe is interacting with this segment
             centerShape.set( new ImmutableRectangle2D( cuvetteMinX, lightMinY, probeX - cuvetteMinX, lightHeight ) );
         }
@@ -171,11 +170,11 @@ public class Beam {
         }
 
         // right segment
-        if ( detector.probeInLeftSegment() || detector.probeInCenterSegment() ) {
+        if ( probeInLeftSegment() || probeInCenterSegment() ) {
             // this segment doesn't exist
             rightShape.set( new ImmutableRectangle2D( 0, 0 ) );
         }
-        else if ( detector.probeInRightSegment() ) {
+        else if ( probeInRightSegment() ) {
             // probe is interacting with this segment
             rightShape.set( new ImmutableRectangle2D( cuvetteMaxX, lightMinY, probeX - cuvetteMaxX, lightHeight ) );
         }
@@ -183,5 +182,25 @@ public class Beam {
             // probe is not interacting with this segment
             rightShape.set( new ImmutableRectangle2D( cuvetteMaxX, lightMinY, RIGHT_SEGMENT_WIDTH, lightHeight ) );
         }
+    }
+
+    // Is the probe in the left segment?
+    public boolean probeInLeftSegment() {
+        return detector.probeInBeam() &&
+               ( detector.probe.location.get().getX() > light.location.getX() ) &&
+               ( detector.probe.location.get().getX() < cuvette.location.getX() );
+    }
+
+    // Is the probe in the center segment?
+    public boolean probeInCenterSegment() {
+        return detector.probeInBeam() &&
+               ( detector.probe.location.get().getX() >= cuvette.location.getX() ) &&
+               ( detector.probe.location.get().getX() <= cuvette.location.getX() + cuvette.width.get() );
+
+    }
+
+    // Is the probe in the right segment?
+    public boolean probeInRightSegment() {
+        return detector.probeInBeam() && ( detector.probe.location.get().getX() > cuvette.location.getX() + cuvette.width.get() );
     }
 }
