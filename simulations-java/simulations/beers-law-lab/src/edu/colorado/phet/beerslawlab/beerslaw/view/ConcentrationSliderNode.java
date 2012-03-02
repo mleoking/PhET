@@ -93,7 +93,7 @@ class ConcentrationSliderNode extends PhetPNode {
             // max label at right end of track
             maxNode.setOffset( TRACK_SIZE.getWidth(), trackNode.getFullBoundsReference().getMaxY() );
             // thumb vertically centered in track
-            thumbNode.setOffset( trackNode.getXOffset(), trackNode.getFullBoundsReference().getCenterY() );
+            thumbNode.setOffset( thumbNode.getXOffset(), trackNode.getFullBoundsReference().getCenterY() );
         }
 
         // update the tick marks to match the solution
@@ -209,6 +209,7 @@ class ConcentrationSliderNode extends PhetPNode {
             // move the slider thumb to reflect the concentration value
             final VoidFunction1<Double> concentrationObserver = new VoidFunction1<Double>() {
                 public void apply( Double value ) {
+                    System.out.println( "value = " + value + " offset=" + modelToView.evaluate( value ) );
                     setOffset( modelToView.evaluate( value ), getYOffset() );
                 }
             };
