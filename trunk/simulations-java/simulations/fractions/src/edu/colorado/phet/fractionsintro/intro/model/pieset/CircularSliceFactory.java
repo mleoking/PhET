@@ -10,6 +10,7 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
@@ -28,8 +29,8 @@ public class CircularSliceFactory extends SliceFactory {
     private final double radius;
 
     //Private, require users to use singleton
-    public CircularSliceFactory( int piesPerRow, Vector2D bucketPosition, double diameter, double x, double y, F<Site, Site> siteMap, Color sliceColor ) {
-        super( 0.0, bucketPosition, sliceColor );
+    public CircularSliceFactory( int piesPerRow, Vector2D bucketPosition, Dimension2D bucketSize, double diameter, double x, double y, F<Site, Site> siteMap, Color sliceColor ) {
+        super( 0.0, bucketPosition, bucketSize, sliceColor );
         this.piesPerRow = piesPerRow;
         this.diameter = diameter;
         this.x = x;

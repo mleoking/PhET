@@ -11,6 +11,7 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -27,7 +28,7 @@ public class TestPieSetNode {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame() {{
-                    final PieSet state = new PieSet( 6, new CakeSliceFactory( new Vector2D( 100, 100 ) ) );
+                    final PieSet state = new PieSet( 6, new CakeSliceFactory( new Vector2D( 100, 100 ), new Dimension2D( 250, 100 ) ) );
                     final Property<PieSet> model = new Property<PieSet>( state );
 
                     //Any piece that is dragging should align with the closest open cell

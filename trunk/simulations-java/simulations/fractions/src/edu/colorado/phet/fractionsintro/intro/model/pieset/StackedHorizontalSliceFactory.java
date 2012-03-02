@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
@@ -19,8 +20,8 @@ public class StackedHorizontalSliceFactory extends SliceFactory {
     private final double y;
     private final boolean backwards;
 
-    public StackedHorizontalSliceFactory( Vector2D bucketPosition, Color sliceColor, double x, double y, final boolean backwards ) {
-        super( 15.0, bucketPosition, sliceColor );
+    public StackedHorizontalSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor, double x, double y, final boolean backwards ) {
+        super( 15.0, bucketPosition, bucketSize, sliceColor );
         this.x = x;
         this.y = y;
         this.backwards = backwards;

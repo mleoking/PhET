@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
@@ -16,8 +17,8 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  */
 public class HorizontalSliceFactory extends SliceFactory {
 
-    public HorizontalSliceFactory( Vector2D bucketPosition, Color sliceColor ) {
-        super( 15.0, bucketPosition, sliceColor );
+    public HorizontalSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor ) {
+        super( 15.0, bucketPosition, bucketSize, sliceColor );
     }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.

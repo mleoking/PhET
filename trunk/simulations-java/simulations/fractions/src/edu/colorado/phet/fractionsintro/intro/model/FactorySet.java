@@ -6,6 +6,7 @@ import fj.Function;
 
 import java.awt.Color;
 
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
@@ -46,10 +47,11 @@ public class FactorySet {
         final Color sliceColor = AbstractFractionsCanvas.LightGreen;
 
         final double distanceBetweenBars = 20;
-        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new HorizontalSliceFactory( bucketPosition, sliceColor ),
-                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new VerticalSliceFactory( 0, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new CakeSliceFactory( bucketPosition ) );
+        Dimension2D bucketSize = new Dimension2D( 350, 135 );
+        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, bucketSize, pieDiameter, pieX, pieY, siteMap, sliceColor ),
+                               new HorizontalSliceFactory( bucketPosition, bucketSize, sliceColor ),
+                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, bucketSize, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( 0, 100, 200, true, bucketPosition, bucketSize, sliceColor, distanceBetweenBars ),
+                               new CakeSliceFactory( bucketPosition, bucketSize ) );
     }
 }

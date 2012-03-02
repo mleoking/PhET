@@ -9,6 +9,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
@@ -31,10 +32,10 @@ public abstract class SliceFactory {
     //Slice color, only used for some shapes (not for pre-rendered 3d cakes)
     public final Color sliceColor;
 
-    protected SliceFactory( double yRange, Vector2D bucketPosition, Color sliceColor ) {
+    protected SliceFactory( double yRange, Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor ) {
         this.yRange = yRange;
         this.sliceColor = sliceColor;
-        this.bucket = new Bucket( bucketPosition.x, bucketPosition.y, new Dimension2DDouble( 350, 135 ), bucketColor, "" );
+        this.bucket = new Bucket( bucketPosition.x + 50, bucketPosition.y, bucketSize.toDimension2DDouble(), bucketColor, "" );
     }
 
     //Create some cells for the empty pies
