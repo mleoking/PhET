@@ -44,9 +44,11 @@ class CuvetteNode extends PNode {
 
         // nodes
         final PPath cuvetteNode = new PPath() {{
+            setPickable( false ); // so that things behind the cuvette can be manipulated
             setStroke( new BasicStroke( 1.5f ) );
         }};
         final PPath solutionNode = new PPath() {{
+            setPickable( false ); // so that things behind the solution can be manipulated
             setStroke( BLLConstants.FLUID_STROKE );
         }};
         final DoubleArrowNode widthHandleNode = new DoubleArrowNode( new Point2D.Double( -ARROW_WIDTH / 2, 0 ), new Double( ARROW_WIDTH / 2, 0 ), 25, 30, 15 ) {{
@@ -95,8 +97,6 @@ class CuvetteNode extends PNode {
         setOffset( mvt.modelToView( cuvette.location.toPoint2D() ) );
 
         // Event handlers
-        cuvetteNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.cuvette ) );
-        solutionNode.addInputEventListener( new NonInteractiveEventHandler( UserComponents.solution ) );
         widthHandleNode.addInputEventListener( new CursorHandler() );
         widthHandleNode.addInputEventListener( new PaintHighlightHandler( widthHandleNode, ARROW_FILL, ARROW_FILL.brighter() ) );
         widthHandleNode.addInputEventListener( new WidthDragHandler( this, cuvette, mvt, snapInterval ) );
