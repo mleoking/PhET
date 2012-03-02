@@ -7,9 +7,9 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
-- Beers: implement photon view, create a believable algorithm for how they are absorbed as they pass through solution (#2620, improve PhotonImageFactory)
 - Beers: make detector work inside cuvette
 - Beers: split detector probe image into foreground and background, so it looks like its passing through solution
+- Beers: implement photon view, create a believable algorithm for how they are absorbed as they pass through solution (#2620, improve PhotonImageFactory)
 
 MEDIUM
 - Beers: add variable wavelength feature
