@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
+import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode.Horizontal;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.CakeIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
@@ -65,7 +66,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 //        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
+        addChild( new NumberLineNode( model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum, new Horizontal() ) {{
             setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
         }} );
 

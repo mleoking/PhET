@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.util.immutable;
 import lombok.Data;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -51,4 +52,10 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     }
 
     public Vector2D plus( Dimension2D delta ) { return new Vector2D( x + delta.getWidth(), y + delta.getHeight() ); }
+
+    public Line2D.Double lineTo( final double x, final double y ) { return new Line2D.Double( this.x, this.y, x, y ); }
+
+    public Line2D.Double lineTo( final Vector2D end ) { return lineTo( end.x, end.y ); }
+
+    public Point2D toPoint2D() { return new Point2D.Double( x, y ); }
 }

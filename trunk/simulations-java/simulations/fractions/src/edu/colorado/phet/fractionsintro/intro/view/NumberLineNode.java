@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -51,10 +52,44 @@ public class NumberLineNode extends PNode {
     private final PhetPPath greenCircle;
     private final IntegerProperty denominator;
     private final IntegerProperty max;
+    private final Orientation orientation;
 
-    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<Representation> showing, final IntegerProperty max ) {
+    public static abstract class Orientation {
+        public abstract Vector2D get( final double x, final double y );
+
+        public Line2D.Double line( double x0, double y0, double x1, double y1 ) { return get( x0, y0 ).lineTo( get( x1, y1 ) ); }
+
+        public abstract Vector2D fromUserSpace( final double x, final double y );
+
+        public abstract Point2D getPositionForPText( PNode path, final PNode node );
+    }
+
+    public static class Horizontal extends Orientation {
+        @Override public Vector2D get( final double x, final double y ) { return new Vector2D( x, y ); }
+
+        @Override public Vector2D fromUserSpace( final double x, final double y ) { return new Vector2D( x, y ); }
+
+        //Put the text below the tick mark
+        @Override public Point2D getPositionForPText( PNode path, final PNode node ) {
+            return new Point2D.Double( path.getFullBounds().getCenterX() - node.getFullBounds().getWidth() / 2, path.getFullBounds().getMaxY() );
+        }
+    }
+
+    public static class Vertical extends Orientation {
+        @Override public Vector2D get( final double x, final double y ) { return new Vector2D( y, -x ); }
+
+        @Override public Vector2D fromUserSpace( final double x, final double y ) { return new Vector2D( -y, x ); }
+
+        //Put the text to the right of the tick mark
+        @Override public Point2D getPositionForPText( final PNode path, final PNode node ) {
+            return new Point2D.Double( path.getFullBounds().getMaxX(), path.getFullBounds().getCenterY() - node.getFullBounds().getHeight() / 2 );
+        }
+    }
+
+    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation ) {
         this.denominator = denominator;
         this.max = max;
+        this.orientation = orientation;
         final double scale = 5;
         scale( scale );
         showing.addObserver( new VoidFunction1<Boolean>() {
@@ -74,12 +109,12 @@ public class NumberLineNode extends PNode {
                 double dx = distanceBetweenTicks / divisionsBetweenTicks;
 
                 //The number line itself
-                addChild( new PhetPPath( new Line2D.Double( 0, 0, dx * 6 * divisionsBetweenTicks, 0 ) ) );
+                addChild( new PhetPPath( orientation.line( 0, 0, dx * max.get() * divisionsBetweenTicks, 0 ) ) );
 
                 //For snapping
                 tickLocations = new ArrayList<Pair<Double, Integer>>();
 
-                for ( int i = 0; i <= divisionsBetweenTicks * 6; i++ ) {
+                for ( int i = 0; i <= divisionsBetweenTicks * max.get(); i++ ) {
 
                     final int finalI = i;
 
@@ -89,8 +124,8 @@ public class NumberLineNode extends PNode {
                         final int mod = div % 2;
                         double height = mod == 0 ? 8 : 8;
                         final BasicStroke stroke = mod == 0 ? new BasicStroke( 1 ) : new BasicStroke( 0.5f );
-                        final PhetPPath path = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), stroke, Color.black );
-                        final PhetPPath highlightPath = new PhetPPath( new Line2D.Double( i * dx, -height, i * dx, height ), new BasicStroke( 4 ), Color.yellow );
+                        final PhetPPath path = new PhetPPath( orientation.line( i * dx, -height, i * dx, height ), stroke, Color.black );
+                        final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -height, i * dx, height ), new BasicStroke( 4 ), Color.yellow );
 
                         new RichSimpleObserver() {
                             @Override public void update() {
@@ -102,7 +137,7 @@ public class NumberLineNode extends PNode {
                         addChild( highlightPath );
                         addChild( path );
                         addChild( new PhetPText( div + "", new PhetFont( 8 ) ) {{
-                            setOffset( path.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, path.getFullBounds().getMaxY() );
+                            setOffset( orientation.getPositionForPText( path, this ) );
                         }} );
 
                         //make it so the green handle can snap to this site
@@ -112,7 +147,7 @@ public class NumberLineNode extends PNode {
                     //Minor ticks
                     else {
 
-                        final PhetPPath highlightPath = new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 4 ), Color.yellow );
+                        final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -4, i * dx, 4 ), new BasicStroke( 4 ), Color.yellow );
 
                         new RichSimpleObserver() {
                             @Override public void update() {
@@ -122,13 +157,12 @@ public class NumberLineNode extends PNode {
                         addChild( highlightPath );
 
                         //minor ticks between the integers
-                        addChild( new PhetPPath( new Line2D.Double( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) );
+                        addChild( new PhetPPath( orientation.line( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) );
 
                         //make it so the green handle can snap to this site
                         tickLocations.add( new Pair<Double, Integer>( i * dx, i ) );
                     }
                 }
-
 
                 //Allow the user to click anywhere in the area to set the numerator value
                 //Have to subtract out the offset of this node (set in RepresentationControlPanel) or everything is off by a little bit.  I don't know why!
@@ -144,11 +178,11 @@ public class NumberLineNode extends PNode {
                 }} );
 
                 if ( greenCircle != null ) {
-                    greenCircle.setOffset( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 );
+                    greenCircle.setOffset( orientation.get( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 ).toPoint2D() );
                     addChild( greenCircle );
                 }
             }
-        }.observe( numerator, denominator );
+        }.observe( numerator, denominator, max );
 
         //Green circle in the middle of it all
         final double w = 5;
@@ -168,7 +202,8 @@ public class NumberLineNode extends PNode {
     }
 
     private void handleMousePress( PInputEvent event, IntegerProperty numerator ) {
-        final Point2D pt = event.getPositionRelativeTo( event.getPickedNode().getParent() );
+        final Point2D d = event.getPositionRelativeTo( event.getPickedNode().getParent() );
+        final Vector2D pt = orientation.fromUserSpace( d.getX(), d.getY() );
 
         final Ord<Pair<Double, Integer>> closest = ord( curry( new F2<Pair<Double, Integer>, Pair<Double, Integer>, Ordering>() {
             @Override public Ordering f( Pair<Double, Integer> o1, Pair<Double, Integer> o2 ) {
