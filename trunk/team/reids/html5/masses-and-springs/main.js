@@ -139,7 +139,7 @@ function massNode( string, _x, _y, _mass ) {
     }
 
     // Set the position so that the "hook" on the weight is at the given location.
-    that.attachToPoint = function( point ) {
+    that.attachToPoint = function ( point ) {
         that.x = point.x - that.width / 2;
         that.y = point.y - 5; // Tweak alert - this is about the width of the hook on each mass.
     }
@@ -335,12 +335,12 @@ function init() {
     globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
     globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
 
-    globals.masses = new Array( massNode( "resources/red-mass.png", 114, 496, 3 ),
-                                massNode( "resources/green-mass.png", 210, 577, 4 ),
-                                massNode( "resources/gold-mass.png", 276, 541, 5 ),
-                                massNode( "resources/gram-50.png", 577, 590, 6 ),
-                                massNode( "resources/gram-100.png", 392, 562, 7 ),
-                                massNode( "resources/gram-250.png", 465, 513, 8 ) )
+    globals.masses = new Array( massNode( "resources/red-mass.png", 114, 496, 200 ),
+                                massNode( "resources/green-mass.png", 210, 577, 500 ),
+                                massNode( "resources/gold-mass.png", 276, 541, 50 ),
+                                massNode( "resources/gram-50.png", 577, 590, 50),
+                                massNode( "resources/gram-100.png", 392, 562, 100 ),
+                                massNode( "resources/gram-250.png", 465, 513, 250 ) )
 
     function labeledCheckBox( label ) {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
@@ -478,10 +478,19 @@ function animate() {
                     mass.y = mass.initY;
                 }
             }
-            else{
+            else {
                 // Mass is attached to spring, so update its velocity and position.
-                mass.velocity = mass.velocity + 9.8 * dt;
+                var delta = mass.mass*9.8/mass.spring.k;
+                //console.log("delta: "+delta);
+                var equilibriumPoint = mass.spring.initialLength + (delta);
+                var displacement = mass.y - equilibriumPoint;
+                var springForce = -mass.spring.k * displacement;
+//                console.log("spring force: "+springForce+" displacement = "+displacement)
+                var gravityForce = 9.8 * 100;
+                var totalForce = springForce + gravityForce;
+                mass.velocity = mass.velocity + totalForce * dt;
                 mass.y = mass.y + mass.velocity * dt;
+                mass.spring.attachmentPoint.y = mass.y;
             }
         }
     }
@@ -510,9 +519,11 @@ if ( !window.requestAnimationFrame ) {
 
 function spring( name, x ) {
     var that = rectangularNode( 0, 0 );
+    that.initialLength = 250;
+    that.k = 10;
     that.name = name;
     that.anchor = new Point2D( x, 50 );
-    that.attachmentPoint = new Point2D( x, 250 );
+    that.attachmentPoint = new Point2D( x, that.initialLength );
     that.color = '#f00';
     that.mass = null;
     that.draw = function ( context ) {
