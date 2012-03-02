@@ -23,7 +23,7 @@ public class ATDetector {
     private final Light light;
     private final Cuvette cuvette;
     private final ObservableProperty<Double> absorbance;
-    private final ObservableProperty<Double> percentTransmittance;
+    private final ObservableProperty<Double> transmittance;
 
     public final CompositeProperty<Double> value; // null if no value is detected
     public final Movable body;
@@ -43,12 +43,12 @@ public class ATDetector {
     public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
                        ImmutableVector2D probeLocation, PBounds probeDragBounds,
                        final Light light, final Cuvette cuvette,
-                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> percentTransmittance ) {
+                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> transmittance ) {
 
         this.light = light;
         this.cuvette = cuvette;
         this.absorbance = absorbance;
-        this.percentTransmittance = percentTransmittance;
+        this.transmittance = transmittance;
 
         this.body = new Movable( bodyLocation, bodyDragBounds );
         this.probe = new Probe( probeLocation, probeDragBounds, 0.57 );
@@ -58,7 +58,7 @@ public class ATDetector {
             public Double apply() {
                 return computeValue();
             }
-        }, probe.location, cuvette.width, light.on, mode, absorbance, percentTransmittance );
+        }, probe.location, cuvette.width, light.on, mode, absorbance, transmittance );
     }
 
     public void reset() {
@@ -84,7 +84,7 @@ public class ATDetector {
                 value = null;
             }
             else if ( probeInRightSegment() ) {
-                value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? percentTransmittance.get() : absorbance.get();
+                value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? ( 100 * transmittance.get() ) : absorbance.get();
             }
         }
         return value;

@@ -29,27 +29,27 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 public class Beam {
 
     private static final double RIGHT_SEGMENT_WIDTH = 30; // cm, wide enough to be way off the right edge of the play area
-    private static final int MAX_LIGHT_ALPHA = 200; // transparency of light when transmittance is 100%
+    private static final int MAX_LIGHT_ALPHA = 200; // transparency of light when transmittance is 1.0
     private static final int MIN_LIGHT_ALPHA = 20; // min transparency of light when transmittance is non-zero
-    private static final Function TRANSMITTANCE_TO_ALPHA = new LinearFunction( 0, 100, MIN_LIGHT_ALPHA, MAX_LIGHT_ALPHA ); // maps %transmittance to transparency
+    private static final Function TRANSMITTANCE_TO_ALPHA = new LinearFunction( 0, 1, MIN_LIGHT_ALPHA, MAX_LIGHT_ALPHA ); // maps transmittance to transparency
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
 
     private final Light light;
     private final Cuvette cuvette;
     private final ATDetector detector;
-    private final ObservableProperty<Double> percentTransmittance;
+    private final ObservableProperty<Double> transmittance;
     private final ModelViewTransform mvt;
 
     public final Property<ImmutableRectangle2D> leftShape, centerShape, rightShape;
     public final Property<Paint> leftPaint, centerPaint, rightPaint;
     public final CompositeProperty<Boolean> visible;
 
-    public Beam( final Light light, Cuvette cuvette, ATDetector detector, ObservableProperty<Double> percentTransmittance, ModelViewTransform mvt ) {
+    public Beam( final Light light, Cuvette cuvette, ATDetector detector, ObservableProperty<Double> transmittance, ModelViewTransform mvt ) {
 
         this.light = light;
         this.cuvette = cuvette;
         this.detector = detector;
-        this.percentTransmittance = percentTransmittance;
+        this.transmittance = transmittance;
         this.mvt = mvt;
 
         // Proper values will be set when observers are registered
@@ -87,7 +87,7 @@ public class Beam {
                 }
             }
         };
-        colorObserver.observe( light.wavelength, cuvette.width, percentTransmittance );
+        colorObserver.observe( light.wavelength, cuvette.width, transmittance );
 
         // Update when beam becomes visible
         visible.addObserver( new VoidFunction1<Boolean>() {
@@ -109,25 +109,25 @@ public class Beam {
         leftPaint.set( ColorUtils.createColor( new VisibleColor( wavelength ), MAX_LIGHT_ALPHA ) );
 
         // center is a gradient
-        if ( percentTransmittance.get() == 0 ) {
+        if ( transmittance.get() == 0 ) {
             centerPaint.set( INVISIBLE_COLOR );
         }
         else {
             // This gradient is in view coordinates.
             Color leftColor = ColorUtils.createColor( new VisibleColor( wavelength ), MAX_LIGHT_ALPHA );
-            Color rightColor = ColorUtils.createColor( new VisibleColor( wavelength ), (int) TRANSMITTANCE_TO_ALPHA.evaluate( percentTransmittance.get() ) );
+            Color rightColor = ColorUtils.createColor( new VisibleColor( wavelength ), (int) TRANSMITTANCE_TO_ALPHA.evaluate( transmittance.get() ) );
             double x = mvt.modelToViewDeltaX( cuvette.location.getX() );
             double w = mvt.modelToViewDeltaX( cuvette.width.get() );
             centerPaint.set( new GradientPaint( (float) x, 0, leftColor, (float) ( x + w ), 0, rightColor ) );
         }
 
         // right is a solid color
-        if ( percentTransmittance.get() == 0 ) {
+        if ( transmittance.get() == 0 ) {
             rightPaint.set( INVISIBLE_COLOR );
         }
         else {
             Color color = new VisibleColor( light.wavelength.get() );
-            rightPaint.set( ColorUtils.createColor( color, (int) TRANSMITTANCE_TO_ALPHA.evaluate( percentTransmittance.get() ) ) );
+            rightPaint.set( ColorUtils.createColor( color, (int) TRANSMITTANCE_TO_ALPHA.evaluate( transmittance.get() ) ) );
         }
     }
 

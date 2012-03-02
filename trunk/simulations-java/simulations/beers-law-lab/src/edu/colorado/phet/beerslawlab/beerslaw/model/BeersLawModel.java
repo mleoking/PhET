@@ -46,8 +46,8 @@ public class BeersLawModel implements Resettable {
     private final CompositeProperty<Double> pathLength; // b
     private final Property<Double> concentration; // C
 
-    // % Transmittance model
-    private final CompositeProperty<Double> percentTransmittance;
+    // Transmittance model
+    private final CompositeProperty<Double> transmittance; // 1=fully transmitted, 0=fully absorbed
 
     public BeersLawModel( IClock clock ) {
 
@@ -121,21 +121,21 @@ public class BeersLawModel implements Resettable {
         }
 
         // percent transmittance model
-        percentTransmittance = new CompositeProperty<Double>( new Function0<Double>() {
+        transmittance = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
-                return getPercentTransmittance( absorbance.get() );
+                return getTransmittance( absorbance.get() );
             }
         }, absorbance );
 
         //TODO compute drag bounds to match the stage size
         this.detector = new ATDetector( new ImmutableVector2D( 6, 3.70 ), new PBounds( 0, 0, 7.9, 5.25 ),
                                         new ImmutableVector2D( 6, light.location.getY() ), new PBounds( 0, 0, 7.9, 5.25 ),
-                                        light, cuvette, absorbance, percentTransmittance );
+                                        light, cuvette, absorbance, transmittance );
 
         //TODO compute drag bounds to match the stage size
         this.ruler = new Ruler( 2, 0.35, new ImmutableVector2D( 3, 4.9 ), new PBounds( 0, 1, 8, 4.5 ) );
 
-        this.beam = new Beam( light, cuvette, detector, percentTransmittance, mvt );
+        this.beam = new Beam( light, cuvette, detector, transmittance, mvt );
     }
 
     // General model of absorbance (A = abC)
@@ -143,9 +143,9 @@ public class BeersLawModel implements Resettable {
         return molarAbsorptivity * pathLength * concentration;
     }
 
-    // General model of percent transmittance (T = 100 * 10^A)
-    public static double getPercentTransmittance( double absorbance ) {
-        return 100 * Math.pow( 10, -absorbance );
+    // General model of transmittance (T = 10^A)
+    public static double getTransmittance( double absorbance ) {
+        return Math.pow( 10, -absorbance );
     }
 
     public void reset() {
