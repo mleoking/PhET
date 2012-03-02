@@ -385,6 +385,18 @@ function resizer() {
     draw();
 }
 
+// Reset the sim to the initial state.
+function reset(){
+    for ( var i = 0; i < globals.masses.length; i++ ) {
+        var mass = globals.masses[i];
+        mass.spring = null;
+    }
+    for ( var i = 0; i < globals.springs.length; i++ ) {
+        var spring = globals.springs[i];
+        spring.mass = null;
+    }
+}
+
 function clearBackground() {
     context.save();
     context.globalCompositeOperation = "source-over";
@@ -767,7 +779,7 @@ ResetButton.prototype.draw = function ( context ) {
 ResetButton.prototype.onTouchStart = function ( pt ) {
     if ( this.containsPoint( pt ) ) {
         this.pressed = true;
-//        reset();
+        reset();
     }
 }
 
