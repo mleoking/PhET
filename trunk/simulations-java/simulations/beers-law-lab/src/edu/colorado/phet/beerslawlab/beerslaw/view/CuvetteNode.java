@@ -38,7 +38,7 @@ class CuvetteNode extends PNode {
     private static final double PERCENT_FULL = 0.85;
     private static final double ARROW_WIDTH = 80;
     private static final Color ARROW_FILL = Color.ORANGE;
-    private static final int SOLUTION_ALPHA = 200;
+    private static final int SOLUTION_ALPHA = 150;
 
     public CuvetteNode( final Cuvette cuvette, final Property<BeersLawSolution> solution, final ModelViewTransform mvt, double snapInterval ) {
 
