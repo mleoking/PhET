@@ -116,6 +116,7 @@ public class GameModel extends RPALModel {
 
         // initialize a default game, many parts of the view depend on it
         initGame();
+        setChallenge( 0, false );
     }
 
     //---------------------------------------------------------------------------------
@@ -143,6 +144,7 @@ public class GameModel extends RPALModel {
      */
     public void startGame() {
         initGame();
+        setChallenge( 0, true );
         timer.start();
         fireGameStarted();
     }
@@ -151,7 +153,10 @@ public class GameModel extends RPALModel {
      * Initializes a new game.
      */
     private void initGame() {
-        setChallenges( challengeFactory.createChallenges( CHALLENGES_PER_GAME, getLevel(), getQuantityRange().getMax(), getChallengeVisibility() ) );
+        this.challenges = challengeFactory.createChallenges( CHALLENGES_PER_GAME, getLevel(), getQuantityRange().getMax(), getChallengeVisibility() );
+        gameCompleted = false;
+        isNewBestTime = false;
+        setPoints( 0 );
     }
 
     /**
@@ -164,7 +169,7 @@ public class GameModel extends RPALModel {
             fireGameCompleted();
         }
         else {
-            setChallenge( challengeNumber + 1 );
+            setChallenge( challengeNumber + 1, true );
         }
     }
 
@@ -224,20 +229,9 @@ public class GameModel extends RPALModel {
     //---------------------------------------------------------------------------------
 
     /*
-     * Sets the challenges for the game.
-     */
-    private void setChallenges( GameChallenge[] challenges ) {
-        this.challenges = challenges;
-        gameCompleted = false;
-        isNewBestTime = false;
-        setPoints( 0 );
-        setChallenge( 0 );
-    }
-
-    /*
      * Sets the current challenge.
      */
-    private void setChallenge( int challengeNumber ) {
+    private void setChallenge( int challengeNumber, boolean sendModelMessage ) {
         if ( challenge != null ) {
             challenge.getGuess().removeChangeListener( guessChangeListener );
         }
@@ -245,9 +239,11 @@ public class GameModel extends RPALModel {
         this.challengeNumber = challengeNumber;
         challenge = challenges[challengeNumber];
         challenge.getGuess().addChangeListener( guessChangeListener );
-        SimSharingManager.sendModelMessage( ModelComponents.gameChallenge, ModelComponentTypes.modelElement, ModelActions.created,
-                                            ParameterSet.parameterSet( ParameterKeys.formula, challenge.getReaction().getEquationPlainText() ).
-                                                    add( ParameterKeys.quantities, challenge.getReaction().getQuantitiesString() ) );
+        if ( sendModelMessage ) {
+            SimSharingManager.sendModelMessage( ModelComponents.gameChallenge, ModelComponentTypes.modelElement, ModelActions.created,
+                                                ParameterSet.parameterSet( ParameterKeys.formula, challenge.getReaction().getEquationPlainText() ).
+                                                        add( ParameterKeys.quantities, challenge.getReaction().getQuantitiesString() ) );
+        }
         fireChallengeChanged();
     }
 
