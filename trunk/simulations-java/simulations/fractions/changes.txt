@@ -1,3 +1,4 @@
+Equality Lab: Added scaled number line representation
 Intro: Fixed: Number line should respect the user-selected max
 Equality Lab: Added scaled water glasses representation
 Equality Lab: Align the right side of the water glasses with the right edge of the representation control panel
