@@ -118,5 +118,13 @@ public class MatchingGameNode extends FNode {
                 }
             } );
         }} );
+
+        addChild( new HTMLImageButtonNode( "Reset" ) {{
+            addActionListener( new ActionListener() {
+                @Override public void actionPerformed( final ActionEvent e ) {
+                    model.set( MatchingGameState.initialState() );
+                }
+            } );
+        }} );
     }
 }

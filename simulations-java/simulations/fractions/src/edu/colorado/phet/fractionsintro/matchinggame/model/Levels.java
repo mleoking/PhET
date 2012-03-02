@@ -65,12 +65,12 @@ public class Levels {
     } );
     final F<Fraction, PNode> sixPlusses = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction fraction ) {
-            return new PatternNode( new SixPlusSigns(), fraction, fraction.numerator );
+            return new PatternNode( new SixPlusSigns(), fraction.numerator );
         }
     } );
     final F<Fraction, PNode> nineGrid = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction fraction ) {
-            return new PatternNode( new NineGrid(), fraction, fraction.numerator );
+            return new PatternNode( new NineGrid(), fraction.numerator );
         }
     } );
 
