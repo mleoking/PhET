@@ -337,12 +337,12 @@ function init() {
     globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
     globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
 
-    globals.masses = new Array( massNode( "resources/red-mass.png", 114, 496, 300 ),
-                                massNode( "resources/green-mass.png", 210, 577, 70 ),
-                                massNode( "resources/gold-mass.png", 276, 541, 160 ),
-                                massNode( "resources/gram-50.png", 577, 590, 50),
-                                massNode( "resources/gram-100.png", 392, 562, 100 ),
-                                massNode( "resources/gram-250.png", 465, 513, 250 ) )
+    globals.masses = new Array( massNode( "resources/red-mass.png", 134, 396, 300 ),
+                                massNode( "resources/green-mass.png", 240, 477, 70 ),
+                                massNode( "resources/gold-mass.png", 306, 441, 160 ),
+                                massNode( "resources/gram-50.png", 607, 490, 50),
+                                massNode( "resources/gram-100.png", 422, 462, 100 ),
+                                massNode( "resources/gram-250.png", 495, 413, 250 ) )
 
     function labeledCheckBox( label ) {
         return hbox00( checkbox( 0, 0 ), textNode( label ) );
