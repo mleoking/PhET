@@ -101,14 +101,18 @@ function massNode( string, _x, _y, _mass ) {
     that.initX = _x;
     that.initY = _y;
     that.mass = _mass;
-    that.attachedToSpring = false;
+    that.spring = null;
 
     // Override onTouchStart.
     var superOnTouchStart = that.onTouchStart;
     that.onTouchStart = function ( point ) {
         superOnTouchStart.apply( that, new Array( point ) );
         if ( that.selected ) {
-            that.attachedToSpring = false;
+            if ( that.spring != null ){
+                // Detach from the spring.
+                that.spring.mass = null;
+                that.spring = null;
+            }
         }
     }
 
@@ -122,14 +126,18 @@ function massNode( string, _x, _y, _mass ) {
                 var spring = globals.springs[i];
                 if ( new Point2D( centerX, that.y ).distance( spring.attachmentPoint ) < 50 ) {
                     // Attach to this spring.
-                    that.attachToPoint( spring.attachmentPoint );
-                    that.attachedToSpring = true;
-                    break;
+                    if ( spring.mass == null ){
+                        that.attachToPoint( spring.attachmentPoint );
+                        that.spring = spring;
+                        spring.mass = that;
+                        break;
+                    }
                 }
             }
         }
     }
 
+    // Set the position so that the "hook" on the weight is at the given location.
     that.attachToPoint = function( point ){
         that.x = point.x - that.width / 2;
         that.y = point.y - 5; // Tweak alert - this is about the width of the hook on each mass.
@@ -453,7 +461,7 @@ function animate() {
 
     for ( var i = 0; i < globals.masses.length; i++ ) {
         var mass = globals.masses[i];
-        if ( !mass.selected && !mass.attachedToSpring ) {
+        if ( !mass.selected && mass.spring == null ) {
             if ( mass.y <= mass.initY ) {
                 mass.y += 10;
             }
@@ -492,6 +500,7 @@ function spring( name, x ) {
     that.anchor = new Point2D( x, 50 );
     that.attachmentPoint = new Point2D( x, 250 );
     that.color = '#f00';
+    that.mass = null;
     that.draw = function ( context ) {
         context.beginPath();
         context.strokeStyle = that.color;
