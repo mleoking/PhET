@@ -39,9 +39,10 @@ public class EqualityLabModel {
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, and the design doc shows the pies filling up to the left before going to the upper row.  What about filling up next instead of to the left?  It would keep the left and right representations closer together longer and matches with the "more is up" sense in the game tab.
     public final FactorySet factorySet = Primary();
     public final BooleanProperty locked = new BooleanProperty( true );
-    public static double pieY = 225;
+    public static double pieY = 225 - 12.5;
     public static double pieDiameter = 135;
     public static double distanceBetweenBars = 5;
+    public static final double horizontalSliceY = 25 - 41.5 - 15;
 
     public static FactorySet Primary() {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
@@ -66,7 +67,7 @@ public class EqualityLabModel {
         Dimension2D littleBucket = new Dimension2D( 250, 100 );
         Dimension2D bigBucket = new Dimension2D( 350, 100 );
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, sliceColor, 125, 25, false ),
+                               new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, sliceColor, 125, horizontalSliceY, false ),
                                new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, sliceColor, distanceBetweenBars ),
 
                                //Align the right side of the water glasses with the right edge of the representation control panel
@@ -100,7 +101,7 @@ public class EqualityLabModel {
         Dimension2D bigBucket = new Dimension2D( 350, 100 );
 
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, sliceColor, 125 + 445, 25, true ),
+                               new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, sliceColor, 125 + 445, horizontalSliceY, true ),
                                new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, sliceColor, distanceBetweenBars ),
 
                                //Align the left side of the water glasses with the left edge of the right representation control panel
