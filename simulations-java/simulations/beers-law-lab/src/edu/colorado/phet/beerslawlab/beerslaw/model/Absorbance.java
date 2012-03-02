@@ -73,6 +73,10 @@ public class Absorbance {
         }, molarAbsorptivity, pathLength, concentration );
     }
 
+    public double getAbsorbanceAt( double pathLength ) {
+        return getAbsorbance( molarAbsorptivity.get(), pathLength, concentration.get() );
+    }
+
     // General model of absorbance: A = abC
     public static double getAbsorbance( double molarAbsorptivity, double pathLength, double concentration ) {
         return molarAbsorptivity * pathLength * concentration;
