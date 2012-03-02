@@ -3,7 +3,9 @@ var canvas;
 var context;
 
 var rootNode = null;
-var globals = {};
+var globals = {
+    MAX_FRICTION:1.5, friction:0
+};
 
 function loadImage( string ) {
     var image = new Image();
@@ -487,7 +489,8 @@ function animate() {
                 var springForce = -mass.spring.k * displacement;
 //                console.log("spring force: "+springForce+" displacement = "+displacement)
                 var gravityForce = 9.8 * 100;
-                var totalForce = springForce + gravityForce;
+                var frictionForce = -mass.velocity * globals.friction;
+                var totalForce = springForce + gravityForce + frictionForce;
                 mass.velocity = mass.velocity + totalForce * dt;
                 mass.y = mass.y + mass.velocity * dt;
                 mass.spring.attachmentPoint.y = mass.y;
@@ -709,6 +712,8 @@ function slider() {
         if ( knob.selected ) {
             knob.x = clamp( 0, point.x + knob.objectTouchPoint.x - knob.initTouchPoint.x, track.width );
             track.knobX = knob.x;
+            globals.friction = knob.x*globals.MAX_FRICTION/250;
+            console.log("friction: "+globals.friction);
         }
     };
 
