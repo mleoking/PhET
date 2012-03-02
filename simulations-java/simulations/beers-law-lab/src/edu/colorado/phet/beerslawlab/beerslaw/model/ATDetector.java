@@ -22,8 +22,8 @@ public class ATDetector {
 
     private final Light light;
     private final Cuvette cuvette;
-    private final ObservableProperty<Double> absorbance;
-    private final ObservableProperty<Double> transmittance;
+    private final Absorbance absorbance;
+    private final Transmittance transmittance;
 
     public final CompositeProperty<Double> value; // null if no value is detected
     public final Movable body;
@@ -43,7 +43,7 @@ public class ATDetector {
     public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
                        ImmutableVector2D probeLocation, PBounds probeDragBounds,
                        final Light light, final Cuvette cuvette,
-                       final ObservableProperty<Double> absorbance, final ObservableProperty<Double> transmittance ) {
+                       final Absorbance absorbance, final Transmittance transmittance ) {
 
         this.light = light;
         this.cuvette = cuvette;
@@ -58,7 +58,7 @@ public class ATDetector {
             public Double apply() {
                 return computeValue();
             }
-        }, probe.location, cuvette.width, light.on, mode, absorbance, transmittance );
+        }, probe.location, cuvette.width, light.on, mode, absorbance.value, transmittance.value );
     }
 
     public void reset() {
@@ -84,7 +84,7 @@ public class ATDetector {
                 value = null;
             }
             else if ( probeInRightSegment() ) {
-                value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? ( 100 * transmittance.get() ) : absorbance.get();
+                value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? ( 100 * transmittance.value.get() ) : absorbance.value.get();
             }
         }
         return value;

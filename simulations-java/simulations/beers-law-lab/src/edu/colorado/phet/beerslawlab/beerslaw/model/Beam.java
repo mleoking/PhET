@@ -37,14 +37,14 @@ public class Beam {
     private final Light light;
     private final Cuvette cuvette;
     private final ATDetector detector;
-    private final ObservableProperty<Double> transmittance;
+    private final Transmittance transmittance;
     private final ModelViewTransform mvt;
 
     public final Property<ImmutableRectangle2D> leftShape, centerShape, rightShape;
     public final Property<Paint> leftPaint, centerPaint, rightPaint;
     public final CompositeProperty<Boolean> visible;
 
-    public Beam( final Light light, Cuvette cuvette, ATDetector detector, ObservableProperty<Double> transmittance, ModelViewTransform mvt ) {
+    public Beam( final Light light, Cuvette cuvette, ATDetector detector, Transmittance transmittance, ModelViewTransform mvt ) {
 
         this.light = light;
         this.cuvette = cuvette;
@@ -87,7 +87,7 @@ public class Beam {
                 }
             }
         };
-        colorObserver.observe( light.wavelength, cuvette.width, transmittance );
+        colorObserver.observe( light.wavelength, cuvette.width, transmittance.value );
 
         // Update when beam becomes visible
         visible.addObserver( new VoidFunction1<Boolean>() {
@@ -109,25 +109,26 @@ public class Beam {
         leftPaint.set( ColorUtils.createColor( new VisibleColor( wavelength ), MAX_LIGHT_ALPHA ) );
 
         // center is a gradient
-        if ( transmittance.get() == 0 ) {
+        final Double transmittance = this.transmittance.value.get();
+        if ( transmittance == 0 ) {
             centerPaint.set( INVISIBLE_COLOR );
         }
         else {
             // This gradient is in view coordinates.
             Color leftColor = ColorUtils.createColor( new VisibleColor( wavelength ), MAX_LIGHT_ALPHA );
-            Color rightColor = ColorUtils.createColor( new VisibleColor( wavelength ), (int) TRANSMITTANCE_TO_ALPHA.evaluate( transmittance.get() ) );
+            Color rightColor = ColorUtils.createColor( new VisibleColor( wavelength ), (int) TRANSMITTANCE_TO_ALPHA.evaluate( transmittance ) );
             double x = mvt.modelToViewDeltaX( cuvette.location.getX() );
             double w = mvt.modelToViewDeltaX( cuvette.width.get() );
             centerPaint.set( new GradientPaint( (float) x, 0, leftColor, (float) ( x + w ), 0, rightColor ) );
         }
 
         // right is whatever color was the right edge of the center gradient
-        if ( transmittance.get() == 0 ) {
+        if ( transmittance == 0 ) {
             rightPaint.set( INVISIBLE_COLOR );
         }
         else {
             Color color = new VisibleColor( light.wavelength.get() );
-            rightPaint.set( ColorUtils.createColor( color, (int) TRANSMITTANCE_TO_ALPHA.evaluate( transmittance.get() ) ) );
+            rightPaint.set( ColorUtils.createColor( color, (int) TRANSMITTANCE_TO_ALPHA.evaluate( transmittance ) ) );
         }
     }
 
