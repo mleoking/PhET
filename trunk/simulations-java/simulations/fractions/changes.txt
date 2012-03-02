@@ -1,3 +1,4 @@
+Equality Lab: Made it so you can't drag the blue representation
 Equality Lab: Center representations vertically
 Equality Lab: Made representation control panels 20% smaller
 Equality Lab: Added scaled number line representation

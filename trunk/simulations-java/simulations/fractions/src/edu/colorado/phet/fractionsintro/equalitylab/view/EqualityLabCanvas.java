@@ -118,6 +118,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                     addChild( new MovablePiecesLayer( model.rightPieSet.get(), PieSetNode.NodeToShape, model.rightPieSet, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
+            setChildrenPickable( false );
         }} ) );
 
         //Show the horizontal bar set node when selected for the right-side
@@ -129,6 +130,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                     addChild( new MovablePiecesLayer( model.rightHorizontalBars.get(), PieSetNode.NodeToShape, model.rightHorizontalBars, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
+            setChildrenPickable( false );
         }} ) );
 
 //        final Rectangle2D b = EqualityLabModel.scaledFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
@@ -144,6 +146,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 //                    addChild( new MovablePiecesLayer( model.rightWaterGlasses.get(), new WaterGlassNodeFactory(), model.rightWaterGlasses, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
+            setChildrenPickable( false );
         }} ) );
 
         //Number line
