@@ -369,7 +369,6 @@ function init() {
 
 // Handler for window resize events.
 function resizer() {
-    console.log( "resize received" );
     canvas.width = $( window ).width();
     canvas.height = $( window ).height();
     draw();
@@ -673,7 +672,6 @@ function slider() {
     var that = compositeNode( new Array( track, knob ) );
 
     knob.onTouchMove = function ( point ) {
-        console.log( "touchmove in slider knob" );
         if ( knob.selected ) {
             knob.x = clamp( 0, point.x + knob.objectTouchPoint.x - knob.initTouchPoint.x, track.width );
             track.knobX = knob.x;
