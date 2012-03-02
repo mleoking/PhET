@@ -86,28 +86,8 @@ public class ATDetector {
         return probe.location.get().getY() + ( probe.sensorDiameter / 2 );
     }
 
-    // Is the probe in the left segment?
-    public boolean probeInLeftSegment() {
-        return probeInBeam() &&
-               ( probe.location.get().getX() > light.location.getX() ) &&
-               ( probe.location.get().getX() < cuvette.location.getX() );
-    }
-
-    // Is the probe in the center segment?
-    public boolean probeInCenterSegment() {
-        return probeInBeam() &&
-               ( probe.location.get().getX() >= cuvette.location.getX() ) &&
-               ( probe.location.get().getX() <= cuvette.location.getX() + cuvette.width.get() );
-
-    }
-
-    // Is the probe in the right segment?
-    public boolean probeInRightSegment() {
-        return probeInBeam() && ( probe.location.get().getX() > cuvette.location.getX() + cuvette.width.get() );
-    }
-
     // Is the probe in some segment of the beam?
-    private boolean probeInBeam() {
+    public boolean probeInBeam() {
         return ( getProbeMinY() < light.getMinY() ) &&
                ( getProbeMaxY() > light.getMaxY() ) &&
                ( probe.location.get().getX() > light.location.getX() );
