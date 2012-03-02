@@ -1,3 +1,4 @@
+3/2/12 setPickable(false) on cuvette components, so that probe can be manipulated when it's inside the cuvette
 3/2/12 make entire probe look like it's passing through the cuvette
 # 0.00.15 (62131) Mar 2, 2012
 3/2/12 first pass at making probe look like it's passing through the cuvette (half in, half out)

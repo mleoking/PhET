@@ -19,7 +19,6 @@ public class BLLSimSharing {
         concentrationMeterBody, concentrationMeterProbe,
         soluteComboBox,
         evaporationSlider,
-        cuvette,
         lightHousing, lightButton,
         ruler,
         cuvetteWidthHandle,
