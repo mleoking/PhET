@@ -36,7 +36,7 @@ public class FactorySet {
     }
 
     public static FactorySet IntroTab() {
-        final Vector2D bucketPosition = new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 );
+        final Vector2D bucketPosition = new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 + 20 );
         int numPerRow = 6;
         double pieDiameter = 155;
         double pieX = 0;
@@ -50,6 +50,6 @@ public class FactorySet {
                                new HorizontalSliceFactory( bucketPosition, sliceColor ),
                                new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
                                new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
+                               new CakeSliceFactory( bucketPosition ) );
     }
 }
