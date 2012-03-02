@@ -2,7 +2,6 @@
 package edu.colorado.phet.beerslawlab.beerslaw.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
