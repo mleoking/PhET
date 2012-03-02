@@ -374,14 +374,15 @@ function init() {
     // Do the initial drawing, events will cause subsequent updates.
     resizer();
 
-    // Start the game loop
+    // Start the animation loop
     animate();
 }
 
 // Handler for window resize events.
 function resizer() {
-    canvas.width = $( window ).width();
-    canvas.height = $( window ).height();
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight ? window.innerHeight : $(window).height();
+    console.log("resize event, width = " + canvas.width + ", height = " + canvas.height );
     draw();
 }
 
