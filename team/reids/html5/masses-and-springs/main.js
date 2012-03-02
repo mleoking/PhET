@@ -390,6 +390,8 @@ function reset(){
     for ( var i = 0; i < globals.masses.length; i++ ) {
         var mass = globals.masses[i];
         mass.spring = null;
+        mass.x = mass.initX;
+        mass.y = mass.initY;
     }
     for ( var i = 0; i < globals.springs.length; i++ ) {
         var spring = globals.springs[i];
