@@ -134,6 +134,7 @@ public class MatchingGameNode extends FNode {
                     model.set( MatchingGameState.initialState() );
                 }
             } );
+            setOffset( 0, 200 );
         }} );
     }
 }
