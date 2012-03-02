@@ -19,12 +19,10 @@ MEDIUM
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 
 LOW
-- Beers: collision detection for probe, don't allow dragging into cuvette
 - Concentration: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
 - common: objects flicker/tear excessively while dragging (dropper, shaker, probes, cuvette, ...)
 - Concentration: shaker dispenses more than the max amount of solute, model doesn't keep track of solute falling from shaker
 - Concentration: use CompositeProperty for Shaker.dispensingRate?
-- Beers: add toolbox?
 - common: meter bodies may run off right side of stage if text is too long
 
 SIM-SHARING
