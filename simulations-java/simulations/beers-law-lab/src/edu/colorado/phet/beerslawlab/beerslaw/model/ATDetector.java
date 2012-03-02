@@ -65,7 +65,7 @@ public class ATDetector {
     // Computes the displayed value, null if the light is off or the probe is outside the beam.
     private Double computeValue() {
         Double value = null;
-        if ( light.on.get() && probeInBeam() ) {
+        if ( probeInBeam() ) {
             // path length is between 0 and cuvette width
             final double pathLength = Math.min( Math.max( 0, probe.location.get().getX() - cuvette.location.getX() ), cuvette.width.get() );
             if ( mode.get() == ATDetectorMode.ABSORBANCE ) {
@@ -88,7 +88,8 @@ public class ATDetector {
 
     // Is the probe in some segment of the beam?
     public boolean probeInBeam() {
-        return ( getProbeMinY() < light.getMinY() ) &&
+        return light.on.get() &&
+               ( getProbeMinY() < light.getMinY() ) &&
                ( getProbeMaxY() > light.getMaxY() ) &&
                ( probe.location.get().getX() > light.location.getX() );
     }
