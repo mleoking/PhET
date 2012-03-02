@@ -38,10 +38,6 @@ $( window ).resize( resizer );
 // Handler for window resize events.
 function resizer() {
     updateViewport();
-    console.log( "resize received" );
-    canvas.width = $( window ).width();
-    canvas.height = $( window ).height();
-    draw();
 }
 
 // Initialize the canvas and context.
@@ -62,9 +58,6 @@ function init() {
     document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
     document.addEventListener( 'touchend', onDocumentTouchEnd, false );
-
-    // Initialize the view port size.
-    updateViewport();
 
     // Add the electron shell.
     electronShell = new ElectronShell( new Point2D( 325, 150 ) );
@@ -103,8 +96,6 @@ function clearBackground() {
     context.save();
     context.globalCompositeOperation = "source-over";
     context.fillStyle = "rgb(255, 255, 153)";
-//    context.fillRect( 0, 0, maxDetectedViewportWidth, maxDetectedViewportHeight );
-//    context.fillRect( 0, 0, canvas.width, canvas.height );
     // Draw the background to be big enough in pretty much every case.
     context.fillRect( 0, 0, Math.max( 2000, maxDetectedViewportWidth ), Math.max( 2000, maxDetectedViewportHeight ) );
     context.restore();
@@ -122,7 +113,7 @@ function drawPhetLogo() {
     context.fillStyle = '#f80';
     context.font = 'italic 20px sans-serif';
     context.textBaseline = 'top';
-    context.fillText( 'PhET', viewportWidth - 70, viewportHeight / 2 );
+    context.fillText( 'PhET', viewportWidth - 70, viewportHeight - 30 );
 }
 
 function reset() {
@@ -606,9 +597,11 @@ ResetButton.prototype.containsPoint = function( point ) {
 //-----------------------------------------------------------------------------
 
 var updateViewport = function() {
-    if ( window.innerWidth != viewportWidth ) {
+    if ( window.innerWidth != viewportWidth || window.innerHeight != viewportHeight ) {
         viewportWidth = window.innerWidth;
+        canvas.width = viewportWidth;
         viewportHeight = window.innerHeight ? window.innerHeight : $( window ).height();
+        canvas.height = viewportHeight;
         window.scrollTo( 0, 0 );
         if ( viewportWidth > maxDetectedViewportWidth ){
             maxDetectedViewportWidth = viewportWidth;
@@ -616,6 +609,7 @@ var updateViewport = function() {
         if ( viewportHeight > maxDetectedViewportHeight ){
             maxDetectedViewportHeight = viewportHeight;
         }
+        draw();
     }
 };
 
