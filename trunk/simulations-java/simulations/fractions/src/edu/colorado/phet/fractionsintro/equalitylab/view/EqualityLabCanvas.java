@@ -176,8 +176,8 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen, b.getWidth(), b.getHeight() ) ) );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical() ) {{
-            setOffset( INSET + 10, control.getFullBounds().getMaxY() + 100 + 15 );
+        addChild( new NumberLineNode( model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15 ) {{
+            setOffset( 385, 445 );
         }} );
     }
 

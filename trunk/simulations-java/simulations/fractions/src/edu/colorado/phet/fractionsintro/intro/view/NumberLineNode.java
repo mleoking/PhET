@@ -86,7 +86,7 @@ public class NumberLineNode extends PNode {
         }
     }
 
-    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation ) {
+    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation, final double distanceBetweenTicks ) {
         this.denominator = denominator;
         this.max = max;
         this.orientation = orientation;
@@ -103,7 +103,6 @@ public class NumberLineNode extends PNode {
                 removeAllChildren();
 
                 //always go the same distance to whole numbers
-                final double distanceBetweenTicks = 32;
                 int divisionsBetweenTicks = denominator.get();
 
                 double dx = distanceBetweenTicks / divisionsBetweenTicks;
