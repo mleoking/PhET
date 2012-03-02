@@ -16,6 +16,8 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.ATDetector.ATDetectorMode;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.Parameters;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
@@ -168,7 +170,7 @@ class ATDetectorNode extends PhetPNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new MovableDragHandler( UserComponents.detectorProbe, detector.probe, this, mvt ) {
                 @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return super.getParametersForAllEvents( event ); //TODO add parameter for whether the probe is in the beam
+                    return super.getParametersForAllEvents( event ).add( Parameters.inBeam, detector.probeInBeam() );
                 }
             } );
         }

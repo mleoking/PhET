@@ -31,6 +31,6 @@ public class BLLSimSharing {
     }
 
     public static enum Parameters implements IParameterKey {
-        isInSolution, locationX, locationY
+        isInSolution, locationX, locationY, inBeam
     }
 }

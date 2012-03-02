@@ -1,3 +1,4 @@
+3/2/12 sim-sharing: indicate whether probe is in beam when dragging probe
 3/2/12 Beers: add transparency to solution in cuvette, so that detector will be visible as it passes through
 3/2/12 move probe/beam intersection tests to beam model
 3/2/12 Beers: make detector work inside cuvette
