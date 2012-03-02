@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
  * Immutable vector 2D.  Provides a convenient and consistent way of accessing x & y, for use in the immutable models in this sim.
+ * Uses Lombok to generate equals/hash code for use in other immutable objects.
  *
  * @author Sam Reid
  */
