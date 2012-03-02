@@ -1,3 +1,5 @@
+# 1.03.02 (62081) Mar 2, 2012
+3/2/12 dev version with data-collection change requests
 3/1/12 #3204, sim-sharing: eliminate spurious "gameChallenge created" message on startup
 3/1/12 #3204, sim-sharing: when Check button is pressed, indicate whether the answer is correct, and how many attempts
 3/1/12 #3204, sim-sharing: reuse enums from phetcommon and game packages
