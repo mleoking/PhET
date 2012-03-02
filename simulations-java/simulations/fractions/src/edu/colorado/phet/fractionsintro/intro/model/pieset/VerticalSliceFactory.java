@@ -27,12 +27,15 @@ public class VerticalSliceFactory extends SliceFactory {
     //For water glasses, bucket slices should have the full height (since they look like water glasses), so that bounds intersection will
     private final boolean fullBars;
 
+    private final double distanceBetweenBars;
+
     //Private, require users to use singleton
-    public VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Color sliceColor ) {
+    public VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Color sliceColor, final double distanceBetweenBars ) {
         super( 15.0, bucketPosition, sliceColor );
         this.barWidth = barWidth;
         this.barHeight = barHeight;
         this.fullBars = fullBars;
+        this.distanceBetweenBars = distanceBetweenBars;
     }
 
     //Returns the shape for the slice
@@ -62,7 +65,6 @@ public class VerticalSliceFactory extends SliceFactory {
 
     private Slice createPieCell( int numPies, int pie, int cell, int denominator, double cellHeight ) {
         double offset = new LinearFunction( 1, 6, barWidth * 3 - barWidth / 3, 0 ).evaluate( numPies );
-        int distanceBetweenBars = 20;
         double delta = barWidth + distanceBetweenBars;
         final double barX = delta + pie * delta;
 

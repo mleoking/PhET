@@ -45,10 +45,11 @@ public class FactorySet {
         final F<Site, Site> siteMap = Function.identity();
         final Color sliceColor = AbstractFractionsCanvas.LightGreen;
 
+        final double distanceBetweenBars = 20;
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
                                new HorizontalSliceFactory( bucketPosition, sliceColor ),
-                               new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor ),
-                               new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor ),
+                               new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
     }
 }
