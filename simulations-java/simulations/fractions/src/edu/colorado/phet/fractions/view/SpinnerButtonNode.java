@@ -36,14 +36,14 @@ public class SpinnerButtonNode extends PNode {
     private Timer timer = new Timer( 200, new ActionListener() {
         public void actionPerformed( ActionEvent e ) {
             if ( enabled.get() ) {
-                autospinning = true;
+                autoSpinning = true;
                 callback.apply();
             }
         }
     } ) {{
         setInitialDelay( 500 );
     }};
-    private boolean autospinning = false;
+    private boolean autoSpinning = false;
 
     public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction0 callback ) {
         this( unpressedImage, pressedImage, disabledImage, callback, new BooleanProperty( true ) );
@@ -71,16 +71,17 @@ public class SpinnerButtonNode extends PNode {
             }
         }.observe( this.enabled, pressed );
 
+
         imageNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( SpinnerButtonNode.this.enabled.get() && entered.get() && pressed.get() ) {
 
                     //Only fire the release event if the user didn't hold it down long enough to start autospin
-                    if ( !autospinning ) {
+                    if ( !autoSpinning ) {
                         callback.apply();
                     }
                     pressed.set( false );
-                    autospinning = false;
+                    autoSpinning = false;
                 }
                 timer.stop();
             }

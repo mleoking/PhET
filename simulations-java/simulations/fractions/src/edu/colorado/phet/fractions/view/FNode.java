@@ -7,7 +7,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Piccolo PNode that adds some functionality for interoperation with functionaljava
+ * Piccolo PNode that adds some functionality for improved interoperability with functionaljava
  *
  * @author Sam Reid
  */
