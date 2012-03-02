@@ -4,7 +4,7 @@ package edu.colorado.phet.beerslawlab.common.view;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.beerslawlab.common.BLLSimSharing.Parameters;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.model.Movable;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -55,7 +55,7 @@ public class MovableDragHandler extends SimSharingDragHandler {
     }
 
     @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-        return super.getParametersForAllEvents( event ).add( Parameters.locationX, (int) movable.location.get().getX() ).add( Parameters.locationY, (int) movable.location.get().getY() );
+        return super.getParametersForAllEvents( event ).add( ParameterKeys.locationX, (int) movable.location.get().getX() ).add( ParameterKeys.locationY, (int) movable.location.get().getY() );
     }
 
     // Constrains xy coordinates to be within the specified bounds.

@@ -30,7 +30,7 @@ public class BLLSimSharing {
         beamRadioButton, photonsRadioButton
     }
 
-    public static enum Parameters implements IParameterKey {
+    public static enum ParameterKeys implements IParameterKey {
         isInSolution, locationX, locationY, inBeam
     }
 }

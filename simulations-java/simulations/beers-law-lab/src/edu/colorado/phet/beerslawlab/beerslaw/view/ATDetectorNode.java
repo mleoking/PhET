@@ -17,7 +17,7 @@ import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
-import edu.colorado.phet.beerslawlab.common.BLLSimSharing.Parameters;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
@@ -34,6 +34,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -136,6 +137,8 @@ class ATDetectorNode extends PhetPNode {
                 }
             };
             observer.observe( detector.value, detector.mode );
+
+            addInputEventListener( new NonInteractiveEventHandler( UserComponents.detectorBody ) );
         }
     }
 
@@ -170,7 +173,7 @@ class ATDetectorNode extends PhetPNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new MovableDragHandler( UserComponents.detectorProbe, detector.probe, this, mvt ) {
                 @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return super.getParametersForAllEvents( event ).add( Parameters.inBeam, detector.probeInBeam() );
+                    return super.getParametersForAllEvents( event ).add( ParameterKeys.inBeam, detector.probeInBeam() );
                 }
             } );
         }
