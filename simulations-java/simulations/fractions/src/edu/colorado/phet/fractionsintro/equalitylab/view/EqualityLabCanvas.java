@@ -22,6 +22,7 @@ import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionControlNode;
 import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode;
+import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode.Vertical;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassSetNode;
@@ -175,7 +176,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen, b.getWidth(), b.getHeight() ) ) );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum ) {{
+        addChild( new NumberLineNode( model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical() ) {{
             setOffset( INSET + 10, control.getFullBounds().getMaxY() + 100 + 15 );
         }} );
     }
