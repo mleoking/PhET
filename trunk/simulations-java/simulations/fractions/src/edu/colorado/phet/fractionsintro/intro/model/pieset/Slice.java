@@ -86,7 +86,13 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
         double anglePerSlice = Math.PI * 2 / denominator;
         long cell = Math.round( canonical( angle ) / anglePerSlice );
         final int intCell = (int) cell;
-        return intCell % denominator;
+        final int result = intCell % denominator;
+
+        //Unlike circular pies, cake is horizontal (vertical split) for d=2, so have to switch pieces
+        if ( denominator == 2 ) {
+            return ( result + 1 ) % 2;
+        }
+        return result;
     }
 
     //Make sure the angle lies between 0 and 2PI
