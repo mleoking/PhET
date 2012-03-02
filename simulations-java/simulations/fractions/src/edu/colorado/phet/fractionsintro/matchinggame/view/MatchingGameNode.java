@@ -70,7 +70,7 @@ public class MatchingGameNode extends FNode {
 
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
             if ( state.getLeftScaleValue() == state.getRightScaleValue() ) {
-                addChild( new HTMLImageButtonNode( "Keep", Color.orange ) {{
+                addChild( new HTMLImageButtonNode( "Keep<br>Match", new PhetFont( 16, true ), Color.orange ) {{
                     centerFullBoundsOnPoint( sign.getFullBounds().getCenterX(), sign.getFullBounds().getMaxY() + getFullHeight() / 2 + 10 );
                     addActionListener( new ActionListener() {
                         @Override public void actionPerformed( ActionEvent e ) {
