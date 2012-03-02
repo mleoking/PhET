@@ -94,7 +94,8 @@ public class EqualityLabModel {
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
     }
 
-    private final FractionsIntroModel model = new FractionsIntroModel( IntroState.IntroState( 6, factorySet ), factorySet );
+    //The max number of filled containers in this tab is 4.
+    private final FractionsIntroModel model = new FractionsIntroModel( IntroState.IntroState( 4, factorySet ), factorySet );
     public final SettableProperty<PieSet> pieSet = model.pieSet;
     public final SettableProperty<PieSet> horizontalBarSet = model.horizontalBarSet;
     public final Clock clock = model.clock;
