@@ -48,8 +48,8 @@ public class FactorySet {
         final double distanceBetweenBars = 20;
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
                                new HorizontalSliceFactory( bucketPosition, sliceColor ),
-                               new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( 0, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
                                new CakeSliceFactory( bucketPosition ) );
     }
 }

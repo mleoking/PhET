@@ -62,8 +62,10 @@ public class EqualityLabModel {
 
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
                                new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125, 25, false ),
-                               new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new VerticalSliceFactory( 75, 150, true, bucketPosition, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
+
+                               //Align the right side of the water glasses with the right edge of the representation control panel
+                               new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
     }
 
@@ -89,8 +91,8 @@ public class EqualityLabModel {
 
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
                                new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125 + 445, 25, true ),
-                               new VerticalSliceFactory( 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new VerticalSliceFactory( 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( 0, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
     }
 

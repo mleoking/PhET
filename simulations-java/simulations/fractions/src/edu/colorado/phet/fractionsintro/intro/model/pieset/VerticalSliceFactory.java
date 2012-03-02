@@ -28,14 +28,16 @@ public class VerticalSliceFactory extends SliceFactory {
     private final boolean fullBars;
 
     private final double distanceBetweenBars;
+    private double x;
 
     //Private, require users to use singleton
-    public VerticalSliceFactory( double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Color sliceColor, final double distanceBetweenBars ) {
+    public VerticalSliceFactory( double x, double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Color sliceColor, final double distanceBetweenBars ) {
         super( 15.0, bucketPosition, sliceColor );
         this.barWidth = barWidth;
         this.barHeight = barHeight;
         this.fullBars = fullBars;
         this.distanceBetweenBars = distanceBetweenBars;
+        this.x = x;
     }
 
     //Returns the shape for the slice
@@ -70,6 +72,6 @@ public class VerticalSliceFactory extends SliceFactory {
 
         //Account for offset, determined empirically: den=1 => offset = 0, den = 2 => offset = -cellHeight/2
         LinearFunction linearFunction = new LinearFunction( 1, 2, -barHeight, -barHeight + cellHeight / 2 );
-        return new Slice( new Vector2D( barX + offset, 265 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ), sliceColor );
+        return new Slice( new Vector2D( x + barX + offset, 265 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ), sliceColor );
     }
 }
