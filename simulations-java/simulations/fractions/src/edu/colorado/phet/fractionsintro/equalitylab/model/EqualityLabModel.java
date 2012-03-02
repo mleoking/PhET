@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Times;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas;
@@ -61,13 +62,16 @@ public class EqualityLabModel {
         };
         final Color sliceColor = AbstractFractionsCanvas.LightGreen;
 
-        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125, 25, false ),
-                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
+        //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
+        Dimension2D littleBucket = new Dimension2D( 250, 100 );
+        Dimension2D bigBucket = new Dimension2D( 350, 100 );
+        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, sliceColor ),
+                               new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, sliceColor, 125, 25, false ),
+                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, sliceColor, distanceBetweenBars ),
 
                                //Align the right side of the water glasses with the right edge of the representation control panel
-                               new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
+                               new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, sliceColor, distanceBetweenBars ),
+                               new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
     }
 
     public static FactorySet scaledFactorySet = Scaled();
@@ -90,13 +94,18 @@ public class EqualityLabModel {
         };
         final Color sliceColor = EqualityLabCanvas.lightBlue;
 
-        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125 + 445, 25, true ),
-                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
+        //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
+        //Bucket positions irrelevant for scaled factory, though (since not shown)
+        Dimension2D littleBucket = new Dimension2D( 250, 100 );
+        Dimension2D bigBucket = new Dimension2D( 350, 100 );
+
+        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, sliceColor ),
+                               new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, sliceColor, 125 + 445, 25, true ),
+                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, sliceColor, distanceBetweenBars ),
 
                                //Align the left side of the water glasses with the left edge of the right representation control panel
-                               new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
+                               new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, sliceColor, distanceBetweenBars ),
+                               new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
     }
 
     //The max number of filled containers in this tab is 4.

@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
@@ -31,8 +32,8 @@ public class VerticalSliceFactory extends SliceFactory {
     private double x;
 
     //Private, require users to use singleton
-    public VerticalSliceFactory( double x, double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Color sliceColor, final double distanceBetweenBars ) {
-        super( 15.0, bucketPosition, sliceColor );
+    public VerticalSliceFactory( double x, double barWidth, double barHeight, boolean fullBars, Vector2D bucketPosition, Dimension2D bucketSize, Color sliceColor, final double distanceBetweenBars ) {
+        super( 15.0, bucketPosition, bucketSize, sliceColor );
         this.barWidth = barWidth;
         this.barHeight = barHeight;
         this.fullBars = fullBars;

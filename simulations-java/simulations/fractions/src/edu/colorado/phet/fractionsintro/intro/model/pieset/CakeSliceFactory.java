@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 import static fj.Ord.ord;
@@ -30,7 +31,7 @@ public class CakeSliceFactory extends SliceFactory {
     public final double spacing = 10;
 
     //Private, require users to use singleton
-    public CakeSliceFactory( Vector2D bucketPosition ) {super( 0.0, bucketPosition, null );}
+    public CakeSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize ) {super( 0.0, bucketPosition, bucketSize, null );}
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final Function1<Slice, Shape> getShapeFunction( final double extent ) {
