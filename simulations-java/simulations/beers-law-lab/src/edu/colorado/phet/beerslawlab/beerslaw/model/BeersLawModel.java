@@ -47,7 +47,7 @@ public class BeersLawModel implements Resettable {
     private final Property<Double> concentration; // C
 
     // % Transmittance model
-    public final CompositeProperty<Double> percentTransmittance;
+    private final CompositeProperty<Double> percentTransmittance;
 
     public BeersLawModel( IClock clock ) {
 
