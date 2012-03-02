@@ -7,7 +7,6 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
-- bug: concentration slider doesn't show correct initial value
 - Beers: implement photon view, create a believable algorithm for how they are absorbed as they pass through solution (#2620, improve PhotonImageFactory)
 - Beers: add variable wavelength feature
 - Beers: split detector probe image into foreground and background, so it looks like its passing through solution
