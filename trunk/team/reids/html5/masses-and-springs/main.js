@@ -337,9 +337,9 @@ function init() {
     globals.springs.push( spring( "2", springOffset + springSpacing * 1 ) );
     globals.springs.push( spring( "3", springOffset + springSpacing * 2 ) );
 
-    globals.masses = new Array( massNode( "resources/red-mass.png", 114, 496, 200 ),
-                                massNode( "resources/green-mass.png", 210, 577, 500 ),
-                                massNode( "resources/gold-mass.png", 276, 541, 50 ),
+    globals.masses = new Array( massNode( "resources/red-mass.png", 114, 496, 300 ),
+                                massNode( "resources/green-mass.png", 210, 577, 70 ),
+                                massNode( "resources/gold-mass.png", 276, 541, 160 ),
                                 massNode( "resources/gram-50.png", 577, 590, 50),
                                 massNode( "resources/gram-100.png", 392, 562, 100 ),
                                 massNode( "resources/gram-250.png", 465, 513, 250 ) )
@@ -454,7 +454,7 @@ function onTouchEnd( point ) {
 
 var count = 0;
 var prevTime = new Date().getTime();
-;
+
 function animate() {
 
     var currentTime = new Date().getTime();
@@ -464,9 +464,12 @@ function animate() {
     //http://animaljoy.com/?p=254
     // insert your code to update your animation here
 
-//    for ( i = 0; i < globals.springs.length; i++ ) {
+    for ( i = 0; i < globals.springs.length; i++ ) {
+        if (globals.springs[i].mass==null){
+            globals.springs[i].attachmentPoint.y = globals.springs[i].initialLength;
+        }
 //        globals.springs[i].attachmentPoint.y = 300 + 100 * Math.sin( 6 * count / 100.0 );
-//    }
+    }
 
     for ( var i = 0; i < globals.masses.length; i++ ) {
         var mass = globals.masses[i];
@@ -523,7 +526,7 @@ if ( !window.requestAnimationFrame ) {
 function spring( name, x ) {
     var that = rectangularNode( 0, 0 );
     that.initialLength = 250;
-    that.k = 10;
+    that.k = 100;
     that.name = name;
     that.anchor = new Point2D( x, 50 );
     that.attachmentPoint = new Point2D( x, that.initialLength );
