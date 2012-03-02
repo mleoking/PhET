@@ -36,7 +36,7 @@ public class ShapeNode extends PNode {
             addChild( new PhetPPath( origShape, SHADOW_PAINT ) );
         }
 
-        PhetPPath path = new PhetPPath( shape, slice.color, new BasicStroke( 2 ), Color.black );
+        PhetPPath path = new PhetPPath( shape, slice.color, new BasicStroke( 1 ), Color.black );
         addChild( path );
     }
 }
