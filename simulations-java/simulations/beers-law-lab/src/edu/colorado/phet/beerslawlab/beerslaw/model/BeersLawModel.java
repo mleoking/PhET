@@ -36,7 +36,6 @@ public class BeersLawModel implements Resettable {
     public final ATDetector detector;
     public final Ruler ruler;
     public final Absorbance absorbance;
-    public final Transmittance transmittance;
 
     public BeersLawModel( IClock clock ) {
 
@@ -65,14 +64,12 @@ public class BeersLawModel implements Resettable {
 
         this.absorbance = new Absorbance( solution, cuvette );
 
-        this.transmittance = new Transmittance( absorbance );
-
         //TODO compute drag bounds to match the stage size
         this.detector = new ATDetector( new ImmutableVector2D( 6, 3.70 ), new PBounds( 0, 0, 7.9, 5.25 ),
                                         new ImmutableVector2D( 6, light.location.getY() ), new PBounds( 0, 0, 7.9, 5.25 ),
-                                        light, cuvette, absorbance, transmittance );
+                                        light, cuvette, absorbance );
 
-        this.beam = new Beam( light, cuvette, detector, transmittance, mvt );
+        this.beam = new Beam( light, cuvette, detector, absorbance, mvt );
     }
 
     public void reset() {

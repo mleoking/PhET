@@ -37,19 +37,19 @@ public class Beam {
     private final Light light;
     private final Cuvette cuvette;
     private final ATDetector detector;
-    private final Transmittance transmittance;
+    private final Absorbance absorbance;
     private final ModelViewTransform mvt;
 
     public final Property<ImmutableRectangle2D> leftShape, centerShape, rightShape;
     public final Property<Paint> leftPaint, centerPaint, rightPaint;
     public final CompositeProperty<Boolean> visible;
 
-    public Beam( final Light light, Cuvette cuvette, ATDetector detector, Transmittance transmittance, ModelViewTransform mvt ) {
+    public Beam( final Light light, Cuvette cuvette, ATDetector detector, Absorbance absorbance, ModelViewTransform mvt ) {
 
         this.light = light;
         this.cuvette = cuvette;
         this.detector = detector;
-        this.transmittance = transmittance;
+        this.absorbance = absorbance;
         this.mvt = mvt;
 
         // Proper values will be set when observers are registered
@@ -87,7 +87,7 @@ public class Beam {
                 }
             }
         };
-        colorObserver.observe( light.wavelength, cuvette.width, transmittance.value );
+        colorObserver.observe( light.wavelength, cuvette.width, absorbance.value );
 
         // Update when beam becomes visible
         visible.addObserver( new VoidFunction1<Boolean>() {
@@ -109,7 +109,7 @@ public class Beam {
         leftPaint.set( ColorUtils.createColor( new VisibleColor( wavelength ), MAX_LIGHT_ALPHA ) );
 
         // center is a gradient
-        final Double transmittance = this.transmittance.value.get();
+        final Double transmittance = absorbance.getTransmittance();
         if ( transmittance == 0 ) {
             centerPaint.set( INVISIBLE_COLOR );
         }
