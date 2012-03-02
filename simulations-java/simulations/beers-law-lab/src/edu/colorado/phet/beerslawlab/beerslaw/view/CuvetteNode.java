@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
@@ -37,6 +38,7 @@ class CuvetteNode extends PNode {
     private static final double PERCENT_FULL = 0.85;
     private static final double ARROW_WIDTH = 80;
     private static final Color ARROW_FILL = Color.ORANGE;
+    private static final int SOLUTION_ALPHA = 200;
 
     public CuvetteNode( final Cuvette cuvette, final Property<BeersLawSolution> solution, final ModelViewTransform mvt, double snapInterval ) {
 
@@ -101,7 +103,7 @@ class CuvetteNode extends PNode {
     }
 
     private void updateColor( PPath node, Color color ) {
-        node.setPaint( color );
+        node.setPaint( ColorUtils.createColor( color, SOLUTION_ALPHA ) );
         node.setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
     }
 
