@@ -51,7 +51,7 @@ import static fj.data.List.range;
 
     public static MatchingGameState initialState( int level ) {
         final List<Cell> cells = createCells( 100, 415, 130, 120, 6, 2, 0, 0 );
-        return new MatchingGameState( Levels.get( level ).f( cells ), cells, createCells( 80, 10, 100, 75, 6, 1, 50, 0 ), 0, 0.0, 0.0, level, false );
+        return new MatchingGameState( Levels.get( level ).f( cells ), cells, createCells( 100, 5, 135, 90, 6, 1, 10, 0 ), 0, 0.0, 0.0, level, false );
     }
 
     //Create adjacent cells from which fractions can be dragged

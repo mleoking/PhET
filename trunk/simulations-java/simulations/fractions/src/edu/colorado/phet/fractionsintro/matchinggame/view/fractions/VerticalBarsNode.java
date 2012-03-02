@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
@@ -23,7 +24,7 @@ public class VerticalBarsNode extends PNode {
         int numSlices = fraction.denominator;
         double sliceWidth = width / numSlices;
         for ( int i = 0; i < numSlices; i++ ) {
-            addChild( new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, height ), i < numFilledSlices ? Color.orange : Color.white, new BasicStroke( 1 ), Color.black ) );
+            addChild( new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, height ), i < numFilledSlices ? EqualityLabCanvas.lightBlue : Color.white, new BasicStroke( 1 ), Color.black ) );
         }
     }
 }
