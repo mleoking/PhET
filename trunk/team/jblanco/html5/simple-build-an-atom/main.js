@@ -22,6 +22,10 @@ var nucleonBeingDragged = null;
 var resetButton;
 var electronShell;
 var nucleusLabel;
+var viewportWidth = 0;
+var viewportHeight = 0;
+var maxDetectedViewportWidth = 0.0;
+var maxDetectedViewportHeight = 0.0;
 
 // Hook up the initialization function.
 $( document ).ready( function() {
@@ -33,6 +37,7 @@ $( window ).resize( resizer );
 
 // Handler for window resize events.
 function resizer() {
+    updateViewport();
     console.log( "resize received" );
     canvas.width = $( window ).width();
     canvas.height = $( window ).height();
@@ -58,6 +63,9 @@ function init() {
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
     document.addEventListener( 'touchend', onDocumentTouchEnd, false );
 
+    // Initialize the view port size.
+    updateViewport();
+
     // Add the electron shell.
     electronShell = new ElectronShell( new Point2D( 325, 150 ) );
 
@@ -76,7 +84,7 @@ function init() {
     reset();
 
     // Commenting out, since iPad seems to send these continuously.
-	window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
+    window.addEventListener( 'deviceorientation', onWindowDeviceOrientation, false );
 
     // Disable elastic scrolling.  This is specific to iOS.
     document.addEventListener(
@@ -95,7 +103,10 @@ function clearBackground() {
     context.save();
     context.globalCompositeOperation = "source-over";
     context.fillStyle = "rgb(255, 255, 153)";
-    context.fillRect( 0, 0, canvas.width, canvas.height );
+//    context.fillRect( 0, 0, maxDetectedViewportWidth, maxDetectedViewportHeight );
+//    context.fillRect( 0, 0, canvas.width, canvas.height );
+    // Draw the background to be big enough in pretty much every case.
+    context.fillRect( 0, 0, Math.max( 2000, maxDetectedViewportWidth ), Math.max( 2000, maxDetectedViewportHeight ) );
     context.restore();
 }
 
@@ -111,7 +122,7 @@ function drawPhetLogo() {
     context.fillStyle = '#f80';
     context.font = 'italic 20px sans-serif';
     context.textBaseline = 'top';
-    context.fillText( 'PhET', canvas.width - 70, canvas.height / 2 );
+    context.fillText( 'PhET', viewportWidth - 70, viewportHeight / 2 );
 }
 
 function reset() {
@@ -330,17 +341,14 @@ Bucket.prototype.getNucleonLocationByIndex = function ( index ) {
     var numInCenterRow = Math.round( ( this.width - 2 * nucleonRadius ) / ( nucleonRadius * 2 ) );
     if ( index < numInCenterRow - 1 ) {
         // In front row, which is populated first.
-        console.log( "front row " );
         location = new Point2D( this.location.x + nucleonRadius * 2.5 + index * nucleonRadius * 2, this.location.y + nucleonRadius * 0.5 );
     }
     else if ( index < 2 * numInCenterRow - 1 ) {
         // In center row.
-        console.log( "center row " );
         location = new Point2D( this.location.x + nucleonRadius * 1.5 + (index - numInCenterRow + 1) * nucleonRadius * 2, this.location.y );
     }
     else if ( index < 3 * numInCenterRow - 2 ) {
         // In back row.
-        console.log( "back row " );
         location = new Point2D( this.location.x + nucleonRadius * 2.5 + (index - numInCenterRow * 2 + 1) * nucleonRadius * 2, this.location.y - nucleonRadius * 0.5 );
     }
     else {
@@ -597,6 +605,21 @@ ResetButton.prototype.containsPoint = function( point ) {
 
 //-----------------------------------------------------------------------------
 
+var updateViewport = function() {
+    if ( window.innerWidth != viewportWidth ) {
+        viewportWidth = window.innerWidth;
+        viewportHeight = window.innerHeight ? window.innerHeight : $( window ).height();
+        window.scrollTo( 0, 0 );
+        if ( viewportWidth > maxDetectedViewportWidth ){
+            maxDetectedViewportWidth = viewportWidth;
+        }
+        if ( viewportHeight > maxDetectedViewportHeight ){
+            maxDetectedViewportHeight = viewportHeight;
+        }
+    }
+};
+
+setInterval( updateViewport, 400 );
 
 // Main drawing function.  This is where the z-ordering, i.e. the layering
 // effect, is created.
@@ -743,7 +766,7 @@ function onDocumentTouchEnd( event ) {
 }
 
 function onWindowDeviceOrientation( event ) {
-    console.log( "onWindowDeviceOrientation, alpha = " + event.alpha + ", beta = " + event.beta + ", gamma = " + event.gamma );
+//    console.log( "onWindowDeviceOrientation, alpha = " + event.alpha + ", beta = " + event.beta + ", gamma = " + event.gamma );
 }
 
 function onTouchStart( location ) {
