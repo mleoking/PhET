@@ -12,7 +12,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.common.BLLSimSharing.Parameters;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.common.view.TiledBackgroundNode;
@@ -227,7 +227,7 @@ class ConcentrationMeterNode extends PhetPNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new MovableDragHandler( UserComponents.concentrationMeterProbe, meter.probe, this ) {
                 @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return super.getParametersForAllEvents( event ).add( Parameters.isInSolution, isInSolution() );
+                    return super.getParametersForAllEvents( event ).add( ParameterKeys.isInSolution, isInSolution() );
                 }
             } );
         }
