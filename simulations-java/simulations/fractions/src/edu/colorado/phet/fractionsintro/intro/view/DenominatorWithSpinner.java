@@ -15,19 +15,19 @@ import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
  */
 public class DenominatorWithSpinner extends FractionNumberNode {
 
-    public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator, int maxDenominator ) {
+    public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator, int maxDenominator, final IntegerProperty maxValue ) {
         super( denominator );
 
-        //        n / d <= 6 , so n<=6d
+        //n / d <= 6 , so n<=6d
         //or d >= n/6
 
         CompositeBooleanProperty decrementAllowed = new CompositeBooleanProperty( new Function0<Boolean>() {
             public Boolean apply() {
                 final double newDenominator = denominator.get() - 1.0;
                 final double newValue = numerator.get() / newDenominator;
-                return newValue <= 6 && newDenominator > 0;
+                return newValue <= maxValue.get() && newDenominator > 0;
             }
-        }, numerator, denominator );
+        }, numerator, denominator, maxValue );
 
         addChild( new SpinnerButtonPanelVBox( new VoidFunction0() {
             public void apply() {

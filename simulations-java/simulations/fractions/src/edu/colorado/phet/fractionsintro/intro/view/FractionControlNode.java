@@ -17,7 +17,7 @@ public class FractionControlNode extends RichPNode {
         addChild( new NumeratorWithSpinner( numerator, denominator, max ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
-        addChild( new DenominatorWithSpinner( numerator, denominator, maxDenominator ) {{
+        addChild( new DenominatorWithSpinner( numerator, denominator, maxDenominator, max ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() );
         }} );
     }
