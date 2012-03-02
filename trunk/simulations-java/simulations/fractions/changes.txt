@@ -1,3 +1,4 @@
+Equality Lab: Align the right side of the water glasses with the right edge of the representation control panel
 Equality Lab: Changed max number of filled containers to 4
 Intro: Fixed: Account for max value when changing the denominator enabled/disabled
 Intro: Fixed cake image angles for denominator = 2
