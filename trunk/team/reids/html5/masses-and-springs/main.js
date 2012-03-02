@@ -102,13 +102,14 @@ function massNode( string, _x, _y, _mass ) {
     that.initY = _y;
     that.mass = _mass;
     that.spring = null;
+    that.velocity = 0;
 
     // Override onTouchStart.
     var superOnTouchStart = that.onTouchStart;
     that.onTouchStart = function ( point ) {
         superOnTouchStart.apply( that, new Array( point ) );
         if ( that.selected ) {
-            if ( that.spring != null ){
+            if ( that.spring != null ) {
                 // Detach from the spring.
                 that.spring.mass = null;
                 that.spring = null;
@@ -126,7 +127,7 @@ function massNode( string, _x, _y, _mass ) {
                 var spring = globals.springs[i];
                 if ( new Point2D( centerX, that.y ).distance( spring.attachmentPoint ) < 50 ) {
                     // Attach to this spring.
-                    if ( spring.mass == null ){
+                    if ( spring.mass == null ) {
                         that.attachToPoint( spring.attachmentPoint );
                         that.spring = spring;
                         spring.mass = that;
@@ -138,7 +139,7 @@ function massNode( string, _x, _y, _mass ) {
     }
 
     // Set the position so that the "hook" on the weight is at the given location.
-    that.attachToPoint = function( point ){
+    that.attachToPoint = function( point ) {
         that.x = point.x - that.width / 2;
         that.y = point.y - 5; // Tweak alert - this is about the width of the hook on each mass.
     }
@@ -450,11 +451,12 @@ function onTouchEnd( point ) {
 }
 
 var count = 0;
-var prevTime = new Date().getTime();;
+var prevTime = new Date().getTime();
+;
 function animate() {
 
     var currentTime = new Date().getTime();
-    var timeStep = currentTime - prevTime;
+    var dt = ( currentTime - prevTime ) / 1000.0; // Delta time in seconds.
     prevTime = currentTime;
 
     //http://animaljoy.com/?p=254
@@ -466,12 +468,20 @@ function animate() {
 
     for ( var i = 0; i < globals.masses.length; i++ ) {
         var mass = globals.masses[i];
-        if ( !mass.selected && mass.spring == null ) {
-            if ( mass.y <= mass.initY ) {
-                mass.y += 10;
+        if ( !mass.selected ) {
+            if ( mass.spring == null ) {
+                // If mass is above the ground, it should fall.
+                if ( mass.y <= mass.initY ) {
+                    mass.y += 10;
+                }
+                if ( mass.y > mass.initY ) {
+                    mass.y = mass.initY;
+                }
             }
-            if ( mass.y > mass.initY ) {
-                mass.y = mass.initY;
+            else{
+                // Mass is attached to spring, so update its velocity and position.
+                mass.velocity = mass.velocity + 9.8 * dt;
+                mass.y = mass.y + mass.velocity * dt;
             }
         }
     }
