@@ -16,6 +16,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.Pair;
@@ -49,8 +51,10 @@ public class NumberLineNode extends PNode {
     private ArrayList<Pair<Double, Integer>> tickLocations;
 
     //When tick marks change, clear everything except the green circle--it has to be persisted across recreations of the number line because the user interacts with it
-    private final PhetPPath greenCircle;
-    private final IntegerProperty denominator;
+    private final PhetPPath circle;
+    private final ObservableProperty<Integer> numerator;
+    private final SettableProperty<Integer> settableNumerator;
+    private final ObservableProperty<Integer> denominator;
     private final IntegerProperty max;
     private final Orientation orientation;
 
@@ -86,7 +90,9 @@ public class NumberLineNode extends PNode {
         }
     }
 
-    public NumberLineNode( final IntegerProperty numerator, final IntegerProperty denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation, final double distanceBetweenTicks ) {
+    public NumberLineNode( final ObservableProperty<Integer> numerator, final SettableProperty<Integer> settableNumerator, final ObservableProperty<Integer> denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation, final double distanceBetweenTicks, Color color ) {
+        this.numerator = numerator;
+        this.settableNumerator = settableNumerator;
         this.denominator = denominator;
         this.max = max;
         this.orientation = orientation;
@@ -171,14 +177,14 @@ public class NumberLineNode extends PNode {
                     addInputEventListener( new CursorHandler() );
                     addInputEventListener( new PBasicInputEventHandler() {
                         @Override public void mousePressed( PInputEvent event ) {
-                            handleMousePress( event, numerator );
+                            handleMousePress( event );
                         }
                     } );
                 }} );
 
-                if ( greenCircle != null ) {
-                    greenCircle.setOffset( orientation.get( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 ).toPoint2D() );
-                    addChild( greenCircle );
+                if ( circle != null ) {
+                    circle.setOffset( orientation.get( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 ).toPoint2D() );
+                    addChild( circle );
                 }
             }
         }.observe( numerator, denominator, max );
@@ -186,21 +192,21 @@ public class NumberLineNode extends PNode {
         //Green circle in the middle of it all
         final double w = 5;
         final double w2 = 0;
-        greenCircle = new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
+        circle = new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
             subtract( new Area( new Ellipse2D.Double( -w2 / 2, -w2 / 2, w2, w2 ) ) );
-        }}, FractionsIntroCanvas.LightGreen, new BasicStroke( 0.6f ), Color.black ) {{
+        }}, color, new BasicStroke( 0.6f ), Color.black ) {{
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseDragged( PInputEvent event ) {
-                    handleMousePress( event, numerator );
+                    handleMousePress( event );
                 }
             } );
         }};
-        addChild( greenCircle );
+        addChild( circle );
     }
 
-    private void handleMousePress( PInputEvent event, IntegerProperty numerator ) {
+    protected void handleMousePress( PInputEvent event ) {
         final Point2D d = event.getPositionRelativeTo( event.getPickedNode().getParent() );
         final Vector2D pt = orientation.fromUserSpace( d.getX(), d.getY() );
 
@@ -215,6 +221,8 @@ public class NumberLineNode extends PNode {
             }
         } ).sort( closest );
 
-        numerator.set( list.head()._2 );
+        if ( settableNumerator != null ) {
+            settableNumerator.set( list.head()._2 );
+        }
     }
 }

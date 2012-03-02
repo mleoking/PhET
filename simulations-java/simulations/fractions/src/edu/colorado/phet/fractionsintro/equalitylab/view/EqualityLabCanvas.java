@@ -140,6 +140,15 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             } );
         }} ) );
 
+        //Number line
+        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, lightBlue ) {{
+            setOffset( 385 + 200, 445 );
+
+            //Can't interact with right-side representations
+            setPickable( false );
+            setChildrenPickable( false );
+        }} );
+
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
 
         //The fraction control node.  In front so the user doesn't accidentally press a flying pie slice when they are trying to toggle the spinner
@@ -176,7 +185,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen, b.getWidth(), b.getHeight() ) ) );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15 ) {{
+        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, LightGreen ) {{
             setOffset( 385, 445 );
         }} );
     }

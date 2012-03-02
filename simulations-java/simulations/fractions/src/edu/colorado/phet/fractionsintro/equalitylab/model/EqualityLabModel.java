@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Times;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
@@ -105,6 +106,9 @@ public class EqualityLabModel {
     public final Clock clock = model.clock;
     public final IntegerProperty numerator = model.numerator;
     public final IntegerProperty denominator = model.denominator;
+    public final IntegerProperty scale = new IntegerProperty( 2 );
+    public final Times scaledNumerator = model.numerator.times( scale );
+    public final Times scaledDenominator = model.denominator.times( scale );
     public final IntegerProperty maximum = model.maximum;
     public final SettableProperty<PieSet> waterGlassSet = model.waterGlassSet;
     public final SettableProperty<Representation> leftRepresentation = model.representation;
@@ -131,7 +135,6 @@ public class EqualityLabModel {
             }
         } );
     }};
-    public final IntegerProperty scale = new IntegerProperty( 2 );
     public final SettableProperty<PieSet> rightPieSet = new Property<PieSet>( pieSet.get() ) {{
         final SimpleObserver observer = new SimpleObserver() {
             @Override public void update() {
