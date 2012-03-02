@@ -1,3 +1,4 @@
+Intro: Fixed: Account for max value when changing the denominator enabled/disabled
 Intro: Fixed cake image angles for denominator = 2
 Intro: Fixed cake image angles
 Intro: Moved up bucket 20px
