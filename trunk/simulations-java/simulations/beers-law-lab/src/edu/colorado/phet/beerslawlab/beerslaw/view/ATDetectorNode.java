@@ -148,9 +148,9 @@ class ATDetectorNode extends PhetPNode {
 
         public ProbeNode( final ATDetector detector, final ModelViewTransform mvt ) {
 
-            PImage imageNode = new PImage( Images.AT_DETECTOR_PROBE_RIGHT );
+            PImage imageNode = new PImage( Images.AT_DETECTOR_PROBE );
             addChild( imageNode );
-            imageNode.setOffset( 0, -PROBE_CENTER_Y_OFFSET );
+            imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth()/2, -PROBE_CENTER_Y_OFFSET );
 
             // show origin and vertical "diameter" line, for debugging PROBE_CENTER_OFFSET
             PNode originNode = new DebugOriginNode();
@@ -181,12 +181,8 @@ class ATDetectorNode extends PhetPNode {
 
     // Wire that connects the probe to the body of the detector.
     public class WireNode extends PPath {
-
-        private static final int WIRE_WIDTH = 8;
-
         public WireNode( final PNode bodyNode, final PNode probeNode ) {
-
-            setStroke( new BasicStroke( WIRE_WIDTH, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ) );
+            setStroke( new BasicStroke( 8, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ) );
             setStrokePaint( Color.GRAY );
 
             // Update when bounds of the body or probe change
@@ -198,7 +194,7 @@ class ATDetectorNode extends PhetPNode {
                     final double bodyConnectionY = bodyNode.getFullBounds().getCenterY();
 
                     // connect to bottom center of probe
-                    final double probeConnectionX = probeNode.getFullBoundsReference().getMinX() + WIRE_WIDTH;
+                    final double probeConnectionX = probeNode.getFullBoundsReference().getCenterX();
                     final double probeConnectionY = probeNode.getFullBoundsReference().getMaxY();
 
                     // cubic curve
