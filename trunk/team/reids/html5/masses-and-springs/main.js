@@ -409,11 +409,20 @@ function clearBackground() {
 }
 // Main drawing function.
 function draw() {
+    updateCanvasSize();
     clearBackground();
     if ( rootNode != null ) {
         rootNode.draw( context );
     }
 }
+
+var updateCanvasSize = function() {
+    if ( window.innerWidth != canvas.width || window.innerHeight != canvas.height ) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight ? window.innerHeight : $( window ).height(); // Workaround for iPad issues.
+        window.scrollTo( 0, 0 );
+    }
+};
 
 function onDocumentMouseDown( event ) {
     onTouchStart( {x:event.clientX, y:event.clientY} );
