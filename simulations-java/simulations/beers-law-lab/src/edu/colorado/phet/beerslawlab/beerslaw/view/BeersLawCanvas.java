@@ -36,6 +36,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
         PNode rulerNode = new BLLRulerNode( model.ruler, model.mvt );
         PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt, 0.1 /* snapInterval, cm */ );
         PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
+        PNode probeBackgroundNode = new ATProbeBackgroundNode( model.detector, model.mvt );
         PNode debugLocationNode = new DebugLocationNode( model.mvt );
         PNode solidBeamNode = new SolidBeamNode( model.beam, lightRepresentation, model.mvt );
         PNode photonBeamNode = new PhotonBeamNode( model.solution, model.beam, lightRepresentation, model.mvt );
@@ -44,6 +45,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
         {
             addChild( lightControlsNode );
             addChild( resetAllButtonNode );
+            addChild( probeBackgroundNode );
             addChild( cuvetteNode );
             addChild( detectorNode );
             addChild( lightNode );
