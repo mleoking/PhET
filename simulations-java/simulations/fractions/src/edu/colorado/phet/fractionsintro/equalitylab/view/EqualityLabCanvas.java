@@ -26,6 +26,7 @@ import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.MovablePiecesLayer;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
@@ -127,16 +128,15 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 //                addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen, b.getWidth(), b.getHeight() ) ) );
 
         //Show the water glasses when selected for the right-side
-        //TODO: Fix this representation
-//        addChild( new RepresentationNode( rightRepresentation, WATER_GLASSES, new PNode() {{
-//            model.rightWaterGlasses.addObserver( new SimpleObserver() {
-//                @Override public void update() {
-//                    removeAllChildren();
-//                    addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightWaterGlasses.get() ) );
-//                    addChild( new MovablePiecesLayer( model.rightWaterGlasses.get(), new WaterGlassNodeFactory(), model.rightWaterGlasses, rootNode, STAGE_SIZE.getHeight() ) );
-//                }
-//            } );
-//        }} ) );
+        addChild( new RepresentationNode( rightRepresentation, WATER_GLASSES, new PNode() {{
+            model.rightWaterGlasses.addObserver( new SimpleObserver() {
+                @Override public void update() {
+                    removeAllChildren();
+                    addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightWaterGlasses.get() ) );
+                    addChild( new MovablePiecesLayer( model.rightWaterGlasses.get(), new WaterGlassNodeFactory(), model.rightWaterGlasses, rootNode, STAGE_SIZE.getHeight() ) );
+                }
+            } );
+        }} ) );
 
         resetAllButtonNode.setOffset( STAGE_SIZE.getWidth() - resetAllButtonNode.getFullBounds().getWidth(), STAGE_SIZE.getHeight() - resetAllButtonNode.getFullBounds().getHeight() );
 
