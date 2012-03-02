@@ -45,7 +45,7 @@ public class EqualityLabModel {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
         int numPerRow = 3;
 
-        double pieX = 70 - 36;
+        double pieX = 70 - 36 - 146;
 
         final F<Site, Site> siteMap = new F<Site, Site>() {
             @Override public Site f( final Site s ) {
@@ -74,7 +74,7 @@ public class EqualityLabModel {
     public static FactorySet Scaled() {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
         int numPerRow = 3;
-        double pieX = 85 + 475;
+        double pieX = 85 + 475 - 146;
 
         final F<Site, Site> siteMap = new F<Site, Site>() {
             @Override public Site f( final Site s ) {
@@ -92,7 +92,9 @@ public class EqualityLabModel {
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, pieDiameter, pieX, pieY, siteMap, sliceColor ),
                                new StackedHorizontalSliceFactory( bucketPosition, sliceColor, 125 + 445, 25, true ),
                                new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
-                               new VerticalSliceFactory( 0, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
+
+                               //Align the left side of the water glasses with the left edge of the right representation control panel
+                               new VerticalSliceFactory( 400, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
     }
 
