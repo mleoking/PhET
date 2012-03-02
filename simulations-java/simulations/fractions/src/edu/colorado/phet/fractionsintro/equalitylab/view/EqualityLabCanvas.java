@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.equalitylab.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -26,7 +27,6 @@ import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.MovablePiecesLayer;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
-import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
@@ -132,8 +132,9 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             model.rightWaterGlasses.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
-                    addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightWaterGlasses.get() ) );
-                    addChild( new MovablePiecesLayer( model.rightWaterGlasses.get(), new WaterGlassNodeFactory(), model.rightWaterGlasses, rootNode, STAGE_SIZE.getHeight() ) );
+                    final Shape shape = EqualityLabModel.scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1 ).head().shape();
+                    addChild( WaterGlassSetNode.createEmptyCellsNode( lightBlue, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
+//                    addChild( new MovablePiecesLayer( model.rightWaterGlasses.get(), new WaterGlassNodeFactory(), model.rightWaterGlasses, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
         }} ) );

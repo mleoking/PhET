@@ -94,7 +94,7 @@ public class EqualityLabModel {
                                new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, sliceColor, distanceBetweenBars ),
 
                                //Align the left side of the water glasses with the left edge of the right representation control panel
-                               new VerticalSliceFactory( 400, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, sliceColor, distanceBetweenBars ),
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ) ) );
     }
 
