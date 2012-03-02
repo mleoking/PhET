@@ -80,8 +80,8 @@ public class ATDetector {
                 value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? 100d : 0d;
             }
             else if ( probeInCenterSegment() ) {
-                // display nothing inside the cuvette
-                value = null;
+                double A = absorbance.getAbsorbanceAt( probe.location.get().getX() - cuvette.location.getX() );
+                value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? ( 100 * Transmittance.getTransmittance( A ) ) : A;
             }
             else if ( probeInRightSegment() ) {
                 value = ( mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) ? ( 100 * transmittance.value.get() ) : absorbance.value.get();
