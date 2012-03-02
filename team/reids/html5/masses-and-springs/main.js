@@ -351,7 +351,7 @@ function init() {
 //    var stopwatchCheckBox = labeledCheckBox( "Stopwatch" );
 //    var soundCheckBox = labeledCheckBox( "Sound" );
     var frictionSlider = vbox00( textNode( "friction" ), slider() );
-    var resetButton = new ResetButton( new Point2D( 650 + 180 - 25, 700 - 40 ), "orange" );
+    var resetButton = new ResetButton( new Point2D( 740, 530 ), "orange" );
 
 //    var oneTwoThree = hbox00( labeledCheckBox( "1" ), labeledCheckBox( "2" ), labeledCheckBox( "3" ) );
 //    var showEnergyBox = vbox00( textNode( "Show Energy of" ), oneTwoThree, labeledCheckBox( "No show" ) );
