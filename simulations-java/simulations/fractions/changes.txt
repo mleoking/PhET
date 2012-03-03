@@ -1,3 +1,4 @@
+Matching Game: Moved "keep match" button to the side of the scale
 Matching Game: Added "My Matches" text under the score cells
 Matching Game: Added "play again" button above "next level" button.
 Matching Game: Made the score cells bigger
