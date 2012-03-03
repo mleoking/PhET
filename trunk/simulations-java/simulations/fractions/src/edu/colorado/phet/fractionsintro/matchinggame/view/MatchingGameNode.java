@@ -50,11 +50,14 @@ public class MatchingGameNode extends FNode {
             setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
         }} );
 
-        state.getScales().map( new F<Scale, PNode>() {
-            @Override public PNode f( Scale s ) {
-                return s.toNode();
-            }
-        } ).foreach( addChild );
+        final FNode scalesNode = new FNode() {{
+            state.getScales().map( new F<Scale, PNode>() {
+                @Override public PNode f( Scale s ) {
+                    return s.toNode();
+                }
+            } ).foreach( addChild );
+        }};
+        addChild( scalesNode );
 
         final FNode scoreCellsLayer = new FNode() {{
             state.scoreCells.map( new F<Cell, PNode>() {
@@ -81,7 +84,8 @@ public class MatchingGameNode extends FNode {
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
             if ( state.getLeftScaleValue() == state.getRightScaleValue() ) {
                 addChild( new HTMLImageButtonNode( "Keep<br>Match", new PhetFont( 16, true ), Color.orange ) {{
-                    centerFullBoundsOnPoint( sign.getFullBounds().getCenterX(), sign.getFullBounds().getMaxY() + getFullHeight() / 2 + 10 );
+                    centerFullBoundsOnPoint( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 :
+                                             scalesNode.getFullBounds().getX() - getFullBounds().getWidth(), scalesNode.getFullBounds().getCenterY() );
                     addActionListener( new ActionListener() {
                         @Override public void actionPerformed( ActionEvent e ) {
                             model.set( model.get().animateMatchToScoreCell() );

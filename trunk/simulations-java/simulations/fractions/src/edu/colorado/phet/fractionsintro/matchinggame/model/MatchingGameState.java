@@ -38,8 +38,8 @@ import static fj.data.List.range;
     public final Scale rightScale = new Scale( new Vector2D( 570, 300 ) );
 
     //Time (in sim time) of when something was dropped on the scale, for purposes of animating the bar
-    public final double leftScaleDropTime;
-    public final double rightScaleDropTime;
+    public final long leftScaleDropTime;
+    public final long rightScaleDropTime;
 
     public final int level;
 
@@ -52,7 +52,7 @@ import static fj.data.List.range;
     public static MatchingGameState initialState( int level ) {
         final List<Cell> cells = createCells( 100, 415, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 5, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0.0, 0.0, level, false );
+        return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0, 0, level, false );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -73,6 +73,10 @@ import static fj.data.List.range;
     public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
 
     public MatchingGameState audio( boolean audio ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+
+    public MatchingGameState leftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+
+    public MatchingGameState rightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
 
     public List<Scale> getScales() { return list( leftScale, rightScale ); }
 
@@ -135,4 +139,6 @@ import static fj.data.List.range;
             }
         } ) ).scored( scored + 1 );
     }
+
+    public boolean getLastDroppedScaleRight() { return rightScaleDropTime > leftScaleDropTime; }
 }

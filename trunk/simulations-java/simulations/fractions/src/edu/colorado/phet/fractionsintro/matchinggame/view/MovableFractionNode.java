@@ -80,8 +80,8 @@ public class MovableFractionNode extends PNode {
 
                 final Vector2D selectedAttachmentPoint = sorted.head();
 
-                if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.rightScale ); }
-                if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.leftScale ); }
+                if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.rightScale ).rightScaleDropTime( System.currentTimeMillis() ); }
+                if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.leftScale ).leftScaleDropTime( System.currentTimeMillis() ); }
 
                 //animate to the closest destination
                 final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
