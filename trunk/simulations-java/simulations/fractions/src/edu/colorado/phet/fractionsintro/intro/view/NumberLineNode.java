@@ -48,7 +48,6 @@ public class NumberLineNode extends PNode {
 
     //When tick marks change, clear everything except the green circle--it has to be persisted across recreations of the number line because the user interacts with it
     private final PhetPPath circle;
-    private final ObservableProperty<Integer> numerator;
     private final SettableProperty<Integer> settableNumerator;
     private final ObservableProperty<Integer> denominator;
     private final IntegerProperty max;
@@ -87,7 +86,6 @@ public class NumberLineNode extends PNode {
     }
 
     public NumberLineNode( final ObservableProperty<Integer> numerator, final SettableProperty<Integer> settableNumerator, final ObservableProperty<Integer> denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation, final double distanceBetweenTicks, Color color ) {
-        this.numerator = numerator;
         this.settableNumerator = settableNumerator;
         this.denominator = denominator;
         this.max = max;

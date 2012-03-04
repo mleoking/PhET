@@ -3,7 +3,6 @@ package edu.colorado.phet.fractionsintro.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Paint;
-import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
@@ -31,9 +30,5 @@ public class PieSliceNode extends PComposite {
         shape = fullCircle ? ellipse : arc;
         PhetPPath path = new PhetPPath( shape, color, new BasicStroke( stroke ), strokePaint );
         addChild( path );
-    }
-
-    public Shape getShape() {
-        return shape;
     }
 }
