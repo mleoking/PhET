@@ -3,9 +3,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import fj.Equal;
 import fj.F;
-import fj.F2;
 import fj.Ord;
-import fj.Ordering;
 import fj.data.List;
 import fj.data.TreeMap;
 
@@ -22,8 +20,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.*;
-import static fj.Function.curry;
 import static fj.data.TreeMap.fromMutableMap;
 
 /**
@@ -70,11 +68,12 @@ public class MovableFractionNode extends PNode {
                     put( leftScaleAttachmentPoint, MoveToLeftScale );
                     put( draggingFraction.home.position(), MoveToCell( draggingFraction.home ) );
                 }};
-                final Ord<Vector2D> ord = Ord.ord( curry( new F2<Vector2D, Vector2D, Ordering>() {
-                    public Ordering f( final Vector2D u1, final Vector2D u2 ) {
-                        return Ord.<Comparable>comparableOrd().compare( draggingFraction.position.distance( u1 ), draggingFraction.position.distance( u2 ) );
+
+                final Ord<Vector2D> ord = ord( new F<Vector2D, Double>() {
+                    @Override public Double f( final Vector2D u ) {
+                        return draggingFraction.position.distance( u );
                     }
-                } ) );
+                } );
                 final TreeMap<Vector2D, F<UpdateArgs, MovableFraction>> tm = fromMutableMap( ord, map );
                 List<Vector2D> sorted = tm.keys().sort( ord );
 

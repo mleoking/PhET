@@ -3,8 +3,6 @@ package edu.colorado.phet.fractionsintro.intro.model.pieset;
 
 import fj.F;
 import fj.F2;
-import fj.Ord;
-import fj.Ordering;
 import fj.P2;
 import fj.data.List;
 import fj.data.Option;
@@ -17,8 +15,7 @@ import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 
-import static fj.Function.curry;
-import static fj.Ord.ord;
+import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.data.List.range;
 
 /**
@@ -72,13 +69,11 @@ import static fj.data.List.range;
                 if ( s.dragging ) {
 
                     if ( getEmptyCells().length() > 0 ) {
-                        //TODO: make this minimum function a bit cleaner please?
-                        Slice closest = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
-                            public Ordering f( final Slice u1, final Slice u2 ) {
-                                return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
+                        Slice closest = getEmptyCells().minimum( ord( new F<Slice, Double>() {
+                            @Override public Double f( final Slice slice ) {
+                                return slice.center().distance( s.center() );
                             }
-                        } ) ) );
-
+                        } ) );
                         final Slice rotated = s.rotateTowardTarget( closest.angle );
 
                         //Keep the center in the same place
@@ -133,11 +128,11 @@ import static fj.data.List.range;
     //Find which cell a slice should get dropped into 
     public Slice getDropTarget( final Slice s ) {
         if ( getEmptyCells().length() == 0 ) { return null; }
-        final Slice closestCell = getEmptyCells().minimum( ord( curry( new F2<Slice, Slice, Ordering>() {
-            public Ordering f( final Slice u1, final Slice u2 ) {
-                return Ord.<Comparable>comparableOrd().compare( u1.center().distance( s.center() ), u2.center().distance( s.center() ) );
+        final Slice closestCell = getEmptyCells().minimum( ord( new F<Slice, Double>() {
+            @Override public Double f( final Slice slice ) {
+                return slice.center().distance( s.center() );
             }
-        } ) ) );
+        } ) );
 
         //Only allow it if the shapes actually overlapped
         return closestCell != null && !( new Area( closestCell.shape() ) {{intersect( new Area( s.shape() ) );}}.isEmpty() ) ? closestCell : null;
