@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.view;
 
 import fj.Effect;
+import fj.data.List;
 
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -12,6 +13,13 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class FNode extends RichPNode {
+    public FNode() {
+        this( List.<PNode>nil() );
+    }
+
+    public FNode( final List<? extends PNode> children ) {
+        super( children.toCollection() );
+    }
 
     //Function for adding children to this node
     public final Effect<PNode> addChild = new Effect<PNode>() {
