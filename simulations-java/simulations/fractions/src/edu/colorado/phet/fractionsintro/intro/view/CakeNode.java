@@ -14,15 +14,11 @@ import java.util.Hashtable;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -110,61 +106,10 @@ public class CakeNode extends PNode {
             images[i] = cropSides( FractionsResources.RESOURCES.getImage( "cake/cake_" + denominator + "_" + pieces[i] + ".png" ) );
         }
 
-
-        final PBasicInputEventHandler sharedMouseListener = new PBasicInputEventHandler() {
-            @Override public void mousePressed( PInputEvent event ) {
-
-                //Find the color of the pixel hit by the mouse.  If white or transparent in the image, subtract a piece because the user clicked the background
-                //Otherwise add a piece
-                Point2D position = event.getPositionRelativeTo( CakeNode.this );
-
-                //Chain of responsibility sort of thing to see which cake slice gets to handle it.
-                for ( int i = images.length - 1; i >= 0; i-- ) {
-                    BufferedImage image = images[i];
-                    int pixel = image.getRGB( (int) position.getX(), (int) position.getY() );
-                    Color color = new Color( pixel, true );
-                    if ( color.getRed() > 0 || color.getGreen() > 0 || color.getBlue() > 0 ) {
-                        //Clicked on a piece of cake, turning it off...
-                        //System.out.println( "//Clicked on a piece of cake, turning it off..." );
-                        int piece = pieces[i] - 1;
-
-                        //I do not know why pieces are backwards for the d=2 case, but they are.  So un-backwards them with the next line:
-                        if ( denominator == 2 ) { piece = ( piece + 1 ) % denominator; }
-                        containerSetProperty.set( containerSetProperty.get().toggle( new CellPointer( container, piece ) ) );
-                        return;
-                    }
-                }
-
-                //Clicked in a blank area, turning on an empty cell.
-                //System.out.println( "//Clicked in a blank area, turning on an empty cell." );
-
-                //See which blank cell they may have clicked in, if any
-                for ( int i = 0; i < denominator; i++ ) {
-                    final Area shape = createShape( i, denominator );
-                    if ( shape.contains( position ) ) {
-                        int piece = sliceOrder[i] - 1;
-
-                        //For unknown reasons, the slice indices are off by 1 for denominator 4 and 5.  I determined this experimentally and do not know the cause.  Maybe a flaw in the original sliceOrder array?
-                        if ( denominator == 5 || denominator == 4 ) {
-                            piece = ( piece + 1 ) % denominator;
-                        }
-                        containerSetProperty.set( containerSetProperty.get().toggle( new CellPointer( container, piece ) ) );
-                        return;
-                    }
-                }
-            }
-        };
-
-        addChild( new PImage( cropSides( FractionsResources.RESOURCES.getImage( "cake/cake_grid_" + denominator + ".png" ) ) ) {{
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( sharedMouseListener );
-        }} );
+        addChild( new PImage( cropSides( FractionsResources.RESOURCES.getImage( "cake/cake_grid_" + denominator + ".png" ) ) ) );
 
         for ( int i = 0; i < pieces.length; i++ ) {
-            addChild( new PImage( images[i] ) {{
-                addInputEventListener( new CursorHandler() );
-                addInputEventListener( sharedMouseListener );
-            }} );
+            addChild( new PImage( images[i] ) );
         }
 
         if ( debugPieceLocations ) {
