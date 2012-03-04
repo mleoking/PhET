@@ -51,7 +51,6 @@ import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
  * @author Sam Reid
  */
 public class EqualityLabCanvas extends AbstractFractionsCanvas {
-    public static final Color LIGHT_BLUE = new Color( 87, 182, 221 );
 
     public EqualityLabCanvas( final EqualityLabModel model ) {
 

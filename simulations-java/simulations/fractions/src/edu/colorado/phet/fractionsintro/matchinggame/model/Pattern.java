@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.common.view;
+package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import fj.data.List;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
-import static edu.colorado.phet.fractionsintro.common.view.Pattern.Direction.*;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Direction.*;
 import static fj.data.List.iterableList;
 
 /**
