@@ -55,6 +55,7 @@ public class PieSetNode extends FNode {
         } );
     }
 
+    //Creates a shape for showing the empty cells
     public static final F<PieSet, PNode> CreateEmptyCellsNode = new F<PieSet, PNode>() {
         @Override public PNode f( PieSet state ) {
             PNode node = new PNode();

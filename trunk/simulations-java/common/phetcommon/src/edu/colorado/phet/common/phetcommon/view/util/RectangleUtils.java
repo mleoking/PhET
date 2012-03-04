@@ -15,6 +15,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * RectangleUtils
@@ -124,6 +125,24 @@ public class RectangleUtils {
             if ( r != null ) {
                 // WORKAROUND: the list sometimes contains null objects
                 union = union.union( (Rectangle) r );
+            }
+        }
+        return union;
+    }
+
+    public static Rectangle2D.Double union( Collection<Rectangle2D> rectangles ) {
+        if ( rectangles.size() == 0 ) {
+            return null;
+        }
+        Rectangle2D.Double union = null;//new Rectangle( rectangles[0] );
+        for ( Rectangle2D rectangle : rectangles ) {
+            if ( rectangle != null ) {
+                if ( union == null ) {
+                    union = new Rectangle2D.Double( rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight() );
+                }
+                else {
+                    Rectangle2D.union( union, rectangle, union );
+                }
             }
         }
         return union;

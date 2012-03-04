@@ -3,6 +3,7 @@ package edu.colorado.phet.common.piccolophet;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.umd.cs.piccolo.PNode;
@@ -16,6 +17,12 @@ import edu.umd.cs.piccolo.PNode;
 public class RichPNode extends PNode {
 
     public RichPNode( PNode... children ) {
+        for ( PNode child : children ) {
+            addChild( child );
+        }
+    }
+
+    public RichPNode( final Collection<? extends PNode> children ) {
         for ( PNode child : children ) {
             addChild( child );
         }
