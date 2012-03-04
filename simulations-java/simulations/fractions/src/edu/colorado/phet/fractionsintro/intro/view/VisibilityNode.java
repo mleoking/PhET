@@ -11,10 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public abstract class VisibilityNode extends PNode {
-    public final ObservableProperty<Boolean> visible;
-
     public VisibilityNode( final ObservableProperty<Boolean> visible ) {
-        this.visible = visible;
         visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );

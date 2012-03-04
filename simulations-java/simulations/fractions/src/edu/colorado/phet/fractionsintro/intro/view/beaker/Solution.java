@@ -54,20 +54,12 @@ public class Solution implements Resettable {
         return solute.get().saturatedConcentration;
     }
 
-    public boolean isSaturated() {
-        return ( getSoluteAmount() / getVolume() ) > getSaturatedConcentration();
-    }
-
     public double getConcentration() {
         return concentration.get();
     }
 
     public void addConcentrationObserver( SimpleObserver observer ) {
         concentration.addObserver( observer );
-    }
-
-    public double getPrecipitateAmount() {
-        return precipitateAmount.get();
     }
 
     public void addPrecipitateAmountObserver( SimpleObserver observer ) {

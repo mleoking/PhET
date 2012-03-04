@@ -3,7 +3,6 @@ package edu.colorado.phet.fractionsintro.matchinggame.view.fractions;
 
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -26,8 +25,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class PieSetFractionNode extends VisibilityNode {
-    private final HashMap<CellPointer, PieSliceNode> map = new HashMap<CellPointer, PieSliceNode>();
-    private final Property<ContainerSet> containerSet;
 
     //6 pies fit on the screen
     public static final int INSET_BETWEEN_PIES = 10;
@@ -36,7 +33,6 @@ public class PieSetFractionNode extends VisibilityNode {
 
     public PieSetFractionNode( final Property<ContainerSet> containerSet, ObservableProperty<Boolean> enabled, final Color color ) {
         super( enabled );
-        this.containerSet = containerSet;
         new RichSimpleObserver() {
             public void update() {
 
@@ -45,7 +41,6 @@ public class PieSetFractionNode extends VisibilityNode {
                 removeAllChildren();
                 SpacedHBox box = new SpacedHBox( DIAMETER + INSET_BETWEEN_PIES );
 
-                map.clear();
                 final ContainerSet state = containerSet.get();
                 for ( int i = 0; i < state.containers.length(); i++ ) {
                     int numSlices = state.denominator;
@@ -73,7 +68,6 @@ public class PieSetFractionNode extends VisibilityNode {
                             } );
                         }
                         pie.addChild( pieSliceNode );
-                        map.put( cp, pieSliceNode );
                     }
                     box.addChild( pie );
                 }
