@@ -35,10 +35,6 @@ public class SolutionNode extends PComposite {
 
     public SolutionNode( PDimension cylinderSize, double cylinderEndHeight, Solution solution, DoubleRange volumeRange ) {
 
-        // this node is not interactive
-//        setPickable( false );
-//        setChildrenPickable( false );
-
         this.cylinderSize = cylinderSize;
         this.cylinderEndHeight = cylinderEndHeight;
         this.solution = solution;
@@ -51,7 +47,6 @@ public class SolutionNode extends PComposite {
         }};
         surfaceNode = new PPath() {{
             setStroke( new BasicStroke( 0.9f ) );
-//            setStrokePaint( new Color( 0, 0, 0, 85 ) );
             setStrokePaint( Color.black );
         }};
 

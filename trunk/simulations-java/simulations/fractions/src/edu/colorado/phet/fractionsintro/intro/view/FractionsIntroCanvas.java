@@ -29,6 +29,9 @@ import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
  */
 public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
+    //Flag to enable debugging water glasses and cake representations
+    private static final boolean debugRepresentations = false;
+
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation, new RepresentationIcon[] {
@@ -53,7 +56,9 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode ) ) );
 
         //For debugging water glasses region management
-//        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode ) ) );
+        if ( debugRepresentations ) {
+            addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode ) ) );
+        }
 
         //For water glasses
         final Rectangle2D b = model.factorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
@@ -63,7 +68,9 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( model.representation, CAKE, new CakeSetNode( model.cakeSet, rootNode ) ) );
 
         //For debugging cakes
-//        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
+        if ( debugRepresentations ) {
+            addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
+        }
 
         //Number line
         addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum, new Horizontal(), 32, LIGHT_GREEN ) {{

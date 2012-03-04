@@ -74,7 +74,6 @@ public abstract class SliceFactory {
                 all.add( emptyPies.index( i ).cells.index( cell ) );
             }
         }
-//        final int numSlicesForBucket = containerSetState.getEmptyCells().length();
         final int numSlicesForBucket = 10;
         return iterableList( all ).append( createSlicesForBucket( containerSet.denominator, numSlicesForBucket ) );
     }

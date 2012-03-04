@@ -154,11 +154,11 @@ public class Levels {
 
     //Converts primitives (representations for fractions <=1) to composite (representation for fractions >=1)
     public static PNode composite( Fraction fraction, F<Fraction, PNode> node ) {
-        if ( fraction.getValue() <= 1 + 1E-6 ) {
+        if ( fraction.toDouble() <= 1 + 1E-6 ) {
             return node.f( fraction );
         }
         HBox box = new HBox();
-        while ( fraction.getValue() > 0 ) {
+        while ( fraction.toDouble() > 0 ) {
             if ( fraction.numerator >= fraction.denominator ) {
                 box.addChild( node.f( new Fraction( fraction.denominator, fraction.denominator ) ) );
             }

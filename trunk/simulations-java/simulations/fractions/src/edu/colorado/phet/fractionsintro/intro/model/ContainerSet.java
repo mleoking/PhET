@@ -145,7 +145,7 @@ import static fj.Function.curry;
         return containers.index( container );
     }
 
-    //When converting denominator, try to keep pieces close to where they were.  This requires computing the closest unoccupied
+    //When converting denominator, try to keep pieces close to where they were.  This requires computing the closest unoccupied space
     public CellPointer getClosestUnoccupiedLocation( final CellPointer cellPointer ) {
         List<CellPointer> emptyCells = getEmptyCells();
         if ( emptyCells.isEmpty() ) {
@@ -174,6 +174,7 @@ import static fj.Function.curry;
         } );
     }
 
+    //Handle a change in the number of containers as well as the denominator
     public ContainerSet update( final int numContainers, final Integer denominator ) {
         ContainerSet newState = new ContainerSet( denominator, List.iterableList( new ArrayList<Container>() {{
             for ( int i = 0; i < numContainers; i++ ) {
