@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractionsintro.common.view.Pattern;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.umd.cs.piccolo.PNode;
 
 /**
