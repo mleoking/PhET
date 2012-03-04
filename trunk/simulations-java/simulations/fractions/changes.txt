@@ -1,3 +1,4 @@
+Matching Game: Reduced pitch by an octave
 Matching Game: Change all representations to be blue and green
 Matching Game: Moved "keep match" button to the side of the scale
 Matching Game: Added "My Matches" text under the score cells
