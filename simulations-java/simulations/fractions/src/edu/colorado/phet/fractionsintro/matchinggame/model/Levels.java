@@ -32,6 +32,8 @@ import static fj.data.List.iterableList;
 import static fj.data.List.range;
 
 /**
+ * Levels for the matching game.
+ *
  * @author Sam Reid
  */
 public class Levels {
