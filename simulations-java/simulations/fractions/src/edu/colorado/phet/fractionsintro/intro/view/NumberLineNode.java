@@ -2,9 +2,7 @@
 package edu.colorado.phet.fractionsintro.intro.view;
 
 import fj.F;
-import fj.F2;
 import fj.Ord;
-import fj.Ordering;
 import fj.data.List;
 
 import java.awt.BasicStroke;
@@ -33,9 +31,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static fj.Function.curry;
-import static fj.Ord.doubleOrd;
-import static fj.Ord.ord;
+import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.data.List.iterableList;
 import static java.lang.Math.abs;
 
@@ -210,12 +206,12 @@ public class NumberLineNode extends PNode {
         final Point2D d = event.getPositionRelativeTo( event.getPickedNode().getParent() );
         final Vector2D pt = orientation.fromUserSpace( d.getX(), d.getY() );
 
-        final Ord<Pair<Double, Integer>> closest = ord( curry( new F2<Pair<Double, Integer>, Pair<Double, Integer>, Ordering>() {
-            @Override public Ordering f( Pair<Double, Integer> o1, Pair<Double, Integer> o2 ) {
-                return doubleOrd.compare( abs( o1._1 - pt.getX() ), abs( o2._1 - pt.getX() ) );
+        final Ord<Pair<Double, Integer>> closest = ord( new F<Pair<Double, Integer>, Double>() {
+            @Override public Double f( final Pair<Double, Integer> p ) {
+                return abs( p._1 - pt.getX() );
             }
-        } ) );
-        List<Pair<Double, Integer>> list = iterableList( tickLocations ).filter( new F<Pair<Double, Integer>, Boolean>() {
+        } );
+        final List<Pair<Double, Integer>> list = iterableList( tickLocations ).filter( new F<Pair<Double, Integer>, Boolean>() {
             @Override public Boolean f( Pair<Double, Integer> p ) {
                 return p._2 <= max.get() * denominator.get();
             }
