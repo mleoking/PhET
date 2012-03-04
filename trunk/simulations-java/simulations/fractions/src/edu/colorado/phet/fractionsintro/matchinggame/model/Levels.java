@@ -42,6 +42,12 @@ public class Levels {
 
     public static Levels Levels = new Levels();
 
+    private final F<Fraction, ArrayList<F<Fraction, PNode>>> representationFunction = new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
+        @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
+            return createRepresentations( fraction );
+        }
+    };
+
     //Singleton, use Levels instance
     private Levels() {
     }
@@ -213,13 +219,31 @@ public class Levels {
                     new Fraction( 3, 4 ),
                     new Fraction( 1, 2 ),
                     new Fraction( 1, 1 ) };
-            return createLevel( cells, a, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
-                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    return new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
-                }
-            } );
+            return createLevel( cells, a, representationFunction );
         }
     };
+
+    //Create the default representations that will be used in all levels
+    private ArrayList<F<Fraction, PNode>> createRepresentations( Fraction fraction ) {
+        final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
+
+        //Adds any representations specific to the fraction's denominator (i.e. that don't work for other denominators)
+        if ( fraction.denominator == 6 ) {
+            list.add( sixPlussesGreen );
+            list.add( sixPlussesBlue );
+        }
+        if ( fraction.denominator == 9 ) {
+            list.add( nineGridGreen );
+            list.add( nineGridBlue );
+        }
+
+        //Add one "numerical" representation for each graphical one, so that on average there will be about 50% numerical
+        final int listSize = list.size();
+        for ( int i = 0; i < listSize; i++ ) {
+            list.add( numeric );
+        }
+        return list;
+    }
 
     /**
      * Level 2
@@ -235,20 +259,7 @@ public class Levels {
                     new Fraction( 1, 3 ),
                     new Fraction( 2, 3 ),
                     new Fraction( 3, 6 ),
-                    new Fraction( 2, 6 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
-                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
-                    if ( fraction.denominator == 6 ) {
-                        list.add( sixPlussesGreen );
-                        list.add( sixPlussesBlue );
-                    }
-                    if ( fraction.denominator == 9 ) {
-                        list.add( nineGridGreen );
-                        list.add( nineGridBlue );
-                    }
-                    return list;
-                }
-            } );
+                    new Fraction( 2, 6 ) }, representationFunction );
         }
     };
 
@@ -267,20 +278,7 @@ public class Levels {
                     new Fraction( 4, 2 ),
                     new Fraction( 7, 6 ),
                     new Fraction( 4, 5 ),
-                    new Fraction( 3, 4 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
-                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
-                    if ( fraction.denominator == 6 ) {
-                        list.add( sixPlussesGreen );
-                        list.add( sixPlussesBlue );
-                    }
-                    if ( fraction.denominator == 9 ) {
-                        list.add( nineGridGreen );
-                        list.add( nineGridBlue );
-                    }
-                    return list;
-                }
-            } );
+                    new Fraction( 3, 4 ) }, representationFunction );
         }
     };
 
@@ -297,20 +295,7 @@ public class Levels {
                     new Fraction( 9, 8 ),
                     new Fraction( 8, 9 ),
                     new Fraction( 12, 13 ),
-                    new Fraction( 9, 7 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
-                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
-                    if ( fraction.denominator == 6 ) {
-                        list.add( sixPlussesGreen );
-                        list.add( sixPlussesBlue );
-                    }
-                    if ( fraction.denominator == 9 ) {
-                        list.add( nineGridGreen );
-                        list.add( nineGridBlue );
-                    }
-                    return list;
-                }
-            } );
+                    new Fraction( 9, 7 ) }, representationFunction );
         }
     };
 
@@ -322,20 +307,7 @@ public class Levels {
                     new Fraction( 6, 3 ),
                     new Fraction( 9, 8 ),
                     new Fraction( 13, 12 ),
-                    new Fraction( 4, 3 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
-                @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
-                    if ( fraction.denominator == 6 ) {
-                        list.add( sixPlussesGreen );
-                        list.add( sixPlussesBlue );
-                    }
-                    if ( fraction.denominator == 9 ) {
-                        list.add( nineGridGreen );
-                        list.add( nineGridBlue );
-                    }
-                    return list;
-                }
-            } );
+                    new Fraction( 4, 3 ) }, representationFunction );
         }
     };
 
