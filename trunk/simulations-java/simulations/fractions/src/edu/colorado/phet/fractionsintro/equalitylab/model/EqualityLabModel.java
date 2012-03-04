@@ -61,7 +61,7 @@ public class EqualityLabModel {
                        null;
             }
         };
-        final Color sliceColor = AbstractFractionsCanvas.LightGreen;
+        final Color sliceColor = AbstractFractionsCanvas.LIGHT_GREEN;
 
         //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
         Dimension2D littleBucket = new Dimension2D( 250, 100 );
@@ -93,7 +93,7 @@ public class EqualityLabModel {
                        null;
             }
         };
-        final Color sliceColor = EqualityLabCanvas.lightBlue;
+        final Color sliceColor = EqualityLabCanvas.LIGHT_BLUE;
 
         //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
         //Bucket positions irrelevant for scaled factory, though (since not shown)

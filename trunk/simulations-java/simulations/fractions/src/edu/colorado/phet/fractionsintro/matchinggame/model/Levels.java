@@ -27,6 +27,8 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBars
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.LIGHT_GREEN;
+import static edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static fj.data.List.iterableList;
 import static fj.data.List.range;
@@ -50,29 +52,54 @@ public class Levels {
             return new FractionNode( f, 0.3 );
         }
     };
-    final F<Fraction, PNode> horizontalBars = makeComposite( new F<Fraction, PNode>() {
+    final F<Fraction, PNode> horizontalBarsGreen = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction f ) {
-            return new HorizontalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9 );
+            return new HorizontalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9, LIGHT_GREEN );
         }
     } );
-    final F<Fraction, PNode> verticalBars = makeComposite( new F<Fraction, PNode>() {
+    final F<Fraction, PNode> horizontalBarsBlue = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction f ) {
-            return new VerticalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9 );
+            return new HorizontalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9, LIGHT_BLUE );
         }
     } );
-    final F<Fraction, PNode> pies = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction fraction ) {
-            return new PieNode( fraction, new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ) );
+    final F<Fraction, PNode> verticalBarsGreen = makeComposite( new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction f ) {
+            return new VerticalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9, LIGHT_GREEN );
         }
     } );
-    final F<Fraction, PNode> sixPlusses = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction fraction ) {
-            return new PatternNode( new SixPlusSigns(), fraction.numerator );
+    final F<Fraction, PNode> verticalBarsBlue = makeComposite( new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction f ) {
+            return new VerticalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9, LIGHT_BLUE );
         }
     } );
-    final F<Fraction, PNode> nineGrid = makeComposite( new F<Fraction, PNode>() {
+    final F<Fraction, PNode> greenPies = makeComposite( new F<Fraction, PNode>() {
         @Override public PNode f( Fraction fraction ) {
-            return new PatternNode( new NineGrid(), fraction.numerator );
+            return new PieNode( new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ), LIGHT_GREEN );
+        }
+    } );
+    final F<Fraction, PNode> bluePies = makeComposite( new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction fraction ) {
+            return new PieNode( new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ), LIGHT_BLUE );
+        }
+    } );
+    final F<Fraction, PNode> sixPlussesGreen = makeComposite( new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction fraction ) {
+            return new PatternNode( new SixPlusSigns(), fraction.numerator, LIGHT_GREEN );
+        }
+    } );
+    final F<Fraction, PNode> sixPlussesBlue = makeComposite( new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction fraction ) {
+            return new PatternNode( new SixPlusSigns(), fraction.numerator, LIGHT_BLUE );
+        }
+    } );
+    final F<Fraction, PNode> nineGridGreen = makeComposite( new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction fraction ) {
+            return new PatternNode( new NineGrid(), fraction.numerator, LIGHT_GREEN );
+        }
+    } );
+    final F<Fraction, PNode> nineGridBlue = makeComposite( new F<Fraction, PNode>() {
+        @Override public PNode f( Fraction fraction ) {
+            return new PatternNode( new NineGrid(), fraction.numerator, LIGHT_BLUE );
         }
     } );
 
@@ -188,7 +215,7 @@ public class Levels {
                     new Fraction( 1, 1 ) };
             return createLevel( cells, a, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
                 @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    return new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    return new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
                 }
             } );
         }
@@ -210,12 +237,14 @@ public class Levels {
                     new Fraction( 3, 6 ),
                     new Fraction( 2, 6 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
                 @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
                     if ( fraction.denominator == 6 ) {
-                        list.add( sixPlusses );
+                        list.add( sixPlussesGreen );
+                        list.add( sixPlussesBlue );
                     }
                     if ( fraction.denominator == 9 ) {
-                        list.add( nineGrid );
+                        list.add( nineGridGreen );
+                        list.add( nineGridBlue );
                     }
                     return list;
                 }
@@ -240,12 +269,14 @@ public class Levels {
                     new Fraction( 4, 5 ),
                     new Fraction( 3, 4 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
                 @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
                     if ( fraction.denominator == 6 ) {
-                        list.add( sixPlusses );
+                        list.add( sixPlussesGreen );
+                        list.add( sixPlussesBlue );
                     }
                     if ( fraction.denominator == 9 ) {
-                        list.add( nineGrid );
+                        list.add( nineGridGreen );
+                        list.add( nineGridBlue );
                     }
                     return list;
                 }
@@ -268,12 +299,14 @@ public class Levels {
                     new Fraction( 12, 13 ),
                     new Fraction( 9, 7 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
                 @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
                     if ( fraction.denominator == 6 ) {
-                        list.add( sixPlusses );
+                        list.add( sixPlussesGreen );
+                        list.add( sixPlussesBlue );
                     }
                     if ( fraction.denominator == 9 ) {
-                        list.add( nineGrid );
+                        list.add( nineGridGreen );
+                        list.add( nineGridBlue );
                     }
                     return list;
                 }
@@ -291,12 +324,14 @@ public class Levels {
                     new Fraction( 13, 12 ),
                     new Fraction( 4, 3 ) }, new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
                 @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
-                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, pies, horizontalBars, verticalBars ) );
+                    final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( numeric, greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
                     if ( fraction.denominator == 6 ) {
-                        list.add( sixPlusses );
+                        list.add( sixPlussesGreen );
+                        list.add( sixPlussesBlue );
                     }
                     if ( fraction.denominator == 9 ) {
-                        list.add( nineGrid );
+                        list.add( nineGridGreen );
+                        list.add( nineGridBlue );
                     }
                     return list;
                 }
