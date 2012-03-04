@@ -5,6 +5,7 @@ import fj.F;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
@@ -41,6 +42,10 @@ import static java.awt.Color.yellow;
  * @author Sam Reid
  */
 public class MatchingGameNode extends FNode {
+
+    //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
+    public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
+
     public MatchingGameNode( final SettableProperty<MatchingGameState> model, final PNode rootNode ) {
         final MatchingGameState state = model.get();
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
@@ -73,11 +78,18 @@ public class MatchingGameNode extends FNode {
         }} );
 
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
-            final String string = state.getLeftScaleValue() < state.getRightScaleValue() ? "<" :
-                                  state.getLeftScaleValue() > state.getRightScaleValue() ? ">" :
-                                  "=";
-            final PhetFont textFont = new PhetFont( 100, true );
-            final PNode sign = new PhetPPath( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), string ).getOutline(), yellow, new BasicStroke( 3 ), Color.black );
+
+            class TextSign extends PNode {
+                TextSign( String text ) {
+                    final PhetFont textFont = new PhetFont( 100, true );
+                    final PNode sign = createSignNode( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), text ).getOutline() );
+                    addChild( sign );
+                }
+            }
+
+            final PNode sign = state.getLeftScaleValue() < state.getRightScaleValue() ? new TextSign( "<" ) :
+                               state.getLeftScaleValue() > state.getRightScaleValue() ? new TextSign( ">" ) :
+                               new EqualsSignNode();
             sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 10 );
             addChild( sign );
 
