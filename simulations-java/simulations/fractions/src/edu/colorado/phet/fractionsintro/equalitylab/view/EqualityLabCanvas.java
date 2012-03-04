@@ -132,9 +132,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             setChildrenPickable( false );
         }} ) );
 
-//        final Rectangle2D b = EqualityLabModel.scaledFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
-//                addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen, b.getWidth(), b.getHeight() ) ) );
-
         //Show the water glasses when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, WATER_GLASSES, new PNode() {{
             model.rightWaterGlasses.addObserver( new SimpleObserver() {
@@ -142,7 +139,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                     removeAllChildren();
                     final Shape shape = EqualityLabModel.scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1 ).head().shape();
                     addChild( WaterGlassSetNode.createEmptyCellsNode( LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
-//                    addChild( new MovablePiecesLayer( model.rightWaterGlasses.get(), new WaterGlassNodeFactory(), model.rightWaterGlasses, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
             setChildrenPickable( false );

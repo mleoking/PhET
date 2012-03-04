@@ -25,7 +25,6 @@ public class WaterGlassNodeFactory extends F<SliceNodeArgs, PNode> {
 
     //Create images for the full-sized draggable water glasses
     @Override public PNode f( final SliceNodeArgs args ) {
-
         final Rectangle2D bounds = args.slice.shape().getBounds2D();
 
         BufferedImage image = cachedWaterGlassNode( 1, args.denominator, args.slice.color, args.slice.shape().getBounds2D().getWidth(), args.slice.shape().getBounds2D().getHeight() );

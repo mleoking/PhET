@@ -10,13 +10,14 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
+ * Shows an ellipse (pie) icon
+ *
  * @author Sam Reid
  */
 public class PieIcon extends ShapeIcon {
     public PieIcon( SettableProperty<Representation> chosenRepresentation, Color color ) {
         super( new ArrayList<Shape>(),
                new ArrayList<Shape>() {{
-//                   add( new Arc2D.Double( 0, 0, DIM * 2, DIM * 2, 0, 360, Arc2D.PIE ) );
                    add( new Ellipse2D.Double( 0, 0, DIM * 2, DIM * 2 ) );
                }}, chosenRepresentation, Representation.PIE, color
         );

@@ -148,30 +148,4 @@ public class BeakerNode extends PNode {
             htmlNode.setOffset( -htmlNode.getFullBoundsReference().getWidth() / 2, -htmlNode.getFullBoundsReference().getHeight() / 2 );
         }
     }
-
-    // test
-    public static void main( String[] args ) {
-        // beaker
-//        final BeakerNode beakerNode = new BeakerNode( 1, 0.75, 0.75, "Rat Poison", new PDimension( 180, 70 ), new PhetFont( Font.BOLD, 28 ) ) {{
-//            setOffset( 200, 200 );
-//        }};
-//        // red dot at beaker cylinder's origin
-//        final PPath originNode = new PPath( new Ellipse2D.Double( -3, -3, 6, 6 ) ) {{
-//            setPaint( Color.RED );
-//            setOffset( beakerNode.getOffset() );
-//        }};
-//        // canvas
-//        final PCanvas canvas = new PCanvas() {{
-//            getLayer().addChild( beakerNode );
-//            getLayer().addChild( originNode );
-//            setPreferredSize( new Dimension( 600, 600 ) );
-//        }};
-//        // frame
-//        JFrame frame = new JFrame() {{
-//            setContentPane( canvas );
-//            pack();
-//            setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-//        }};
-//        frame.setVisible( true );
-    }
 }

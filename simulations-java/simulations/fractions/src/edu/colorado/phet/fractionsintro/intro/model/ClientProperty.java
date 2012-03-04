@@ -41,7 +41,7 @@ public class ClientProperty<T> extends SettableProperty<T> {
         return get.apply( state.get() );
     }
 
-    //    Wire up to Property to use its richer interface like add, greaterThan, etc.
+    //Wire up to Property to use its richer interface like add, greaterThan, etc.
     public Property<T> toProperty() {
         final Property<T> p = createProperty();
         addObserver( new VoidFunction1<T>() {

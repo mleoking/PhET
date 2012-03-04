@@ -24,7 +24,6 @@ import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
  */
 public class TestPieSetNode {
     public static void main( String[] args ) {
-//        PDebug.debugRegionManagement=true;
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new JFrame() {{

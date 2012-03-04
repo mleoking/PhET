@@ -18,26 +18,7 @@ import lombok.Data;
         this.denominator = denominator;
     }
 
-    public static Fraction reduced( int num, int den ) {
-        int value = num;
-        if ( num > den ) { value = gcd( num, den ); }
-        else if ( num < den ) { value = gcd( den, num ); }
-
-        // set result based on common factor derived from gcd
-        return new Fraction( num / value, den / value );
-    }
-
-    public static int gcd( int a, int b ) {
-        int factor;
-        while ( b != 0 ) {
-            factor = b;
-            b = a % b;
-            a = factor;
-        }
-        return a;
-    }
-
-    public double getValue() {
+    public double toDouble() {
         return (double) numerator / denominator;
     }
 }
