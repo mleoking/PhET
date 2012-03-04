@@ -46,7 +46,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.UNLOCKED;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 
 /**
- * Canvas for "Fractions Intro" sim.
+ * Canvas for "Equality Lab" tab.
  *
  * @author Sam Reid
  */

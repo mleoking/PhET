@@ -30,21 +30,23 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
- * Model for the Equality Lab tab
+ * Model for the Equality Lab tab.  Reuses lots of code from the Intro tab for displaying and allowing interaction with the representations.
  *
  * @author Sam Reid
  */
 public class EqualityLabModel {
 
-    //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, and the design doc shows the pies filling up to the left before going to the upper row.  What about filling up next instead of to the left?  It would keep the left and right representations closer together longer and matches with the "more is up" sense in the game tab.
-    public final FactorySet factorySet = Primary();
+    //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first,
+    //and the design doc shows the pies filling up to the left before going to the upper row.  What about filling up next instead of to the left?
+    //It would keep the left and right representations closer together longer and matches with the "more is up" sense in the game tab.
+    public final FactorySet factorySet = PrimaryFactorySet();
     public final BooleanProperty locked = new BooleanProperty( true );
     public static double pieY = 225 - 12.5;
     public static double pieDiameter = 135;
     public static double distanceBetweenBars = 5;
     public static final double horizontalSliceY = 25 - 41.5 - 15;
 
-    public static FactorySet Primary() {
+    private static FactorySet PrimaryFactorySet() {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
         int numPerRow = 3;
 
@@ -75,9 +77,9 @@ public class EqualityLabModel {
                                new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
     }
 
-    public static FactorySet scaledFactorySet = Scaled();
+    public static FactorySet scaledFactorySet = ScaledFactorySet();
 
-    public static FactorySet Scaled() {
+    private static FactorySet ScaledFactorySet() {
         final Vector2D bucketPosition = new Vector2D( 100, -SliceFactory.stageSize.height + 200 );
         int numPerRow = 3;
         double pieX = 85 + 475 - 146;
