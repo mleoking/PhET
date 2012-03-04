@@ -32,10 +32,10 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation, new RepresentationIcon[] {
-                new PieIcon( model.representation, LightGreen ),
-                new HorizontalBarIcon( model.representation, LightGreen ),
-                new VerticalBarIcon( model.representation, LightGreen ),
-                new WaterGlassIcon( model.representation, LightGreen ),
+                new PieIcon( model.representation, LIGHT_GREEN ),
+                new HorizontalBarIcon( model.representation, LIGHT_GREEN ),
+                new VerticalBarIcon( model.representation, LIGHT_GREEN ),
+                new WaterGlassIcon( model.representation, LIGHT_GREEN ),
                 new CakeIcon( model.representation ),
                 new NumberLineIcon( model.representation ),
         } ) {{
@@ -57,7 +57,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
         //For water glasses
         final Rectangle2D b = model.factorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
-        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen, b.getWidth(), b.getHeight() ) ) );
+        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight() ) ) );
 
         //For draggable cakes
         addChild( new RepresentationNode( model.representation, CAKE, new CakeSetNode( model.cakeSet, rootNode ) ) );
@@ -66,7 +66,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 //        addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum, new Horizontal(), 32, LightGreen ) {{
+        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum, new Horizontal(), 32, LIGHT_GREEN ) {{
             setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
         }} );
 

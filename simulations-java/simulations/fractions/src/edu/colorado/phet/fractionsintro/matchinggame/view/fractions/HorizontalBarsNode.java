@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
@@ -14,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class HorizontalBarsNode extends PNode {
-    public HorizontalBarsNode( final Fraction fraction, double scale ) {
+    public HorizontalBarsNode( final Fraction fraction, double scale, Color color ) {
         scale( scale );
         double width = 75;
         double height = 75;
@@ -23,7 +22,7 @@ public class HorizontalBarsNode extends PNode {
         int numSlices = fraction.denominator;
         double sliceHeight = height / numSlices;
         for ( int i = 0; i < numSlices; i++ ) {
-            addChild( new PhetPPath( new Rectangle2D.Double( 0, i * sliceHeight, width, sliceHeight ), i < numFilledSlices ? EqualityLabCanvas.lightBlue : Color.white, new BasicStroke( 1 ), Color.black ) );
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, i * sliceHeight, width, sliceHeight ), i < numFilledSlices ? color : Color.white, new BasicStroke( 1 ), Color.black ) );
         }
     }
 }

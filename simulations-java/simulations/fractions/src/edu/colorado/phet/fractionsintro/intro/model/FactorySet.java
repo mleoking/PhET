@@ -44,7 +44,7 @@ public class FactorySet {
         double pieY = 250;
 
         final F<Site, Site> siteMap = Function.identity();
-        final Color sliceColor = AbstractFractionsCanvas.LightGreen;
+        final Color sliceColor = AbstractFractionsCanvas.LIGHT_GREEN;
 
         final double distanceBetweenBars = 20;
         Dimension2D bucketSize = new Dimension2D( 350, 135 );

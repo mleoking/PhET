@@ -34,7 +34,7 @@ public class PieSetFractionNode extends VisibilityNode {
     public static final double SPACE_FOR_PIES = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - INSET_BETWEEN_PIES * 5;
     public static final double DIAMETER = SPACE_FOR_PIES / 6;
 
-    public PieSetFractionNode( final Property<ContainerSet> containerSet, ObservableProperty<Boolean> enabled ) {
+    public PieSetFractionNode( final Property<ContainerSet> containerSet, ObservableProperty<Boolean> enabled, final Color color ) {
         super( enabled );
         this.containerSet = containerSet;
         new RichSimpleObserver() {
@@ -54,12 +54,12 @@ public class PieSetFractionNode extends VisibilityNode {
                         final CellPointer cp = new CellPointer( i, j );
                         double degreesPerSlice = 360.0 / numSlices;
                         boolean empty = state.getContainer( cp.container ).isEmpty();
-                        final PieSliceNode pieSliceNode = new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.LightGreen : Color.white,
+                        final PieSliceNode pieSliceNode = new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? color : Color.white,
                                                                             empty ? Color.lightGray : Color.black,
                                                                             empty ? 1 : 2 );
 
                         if ( !empty ) {
-                            pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? FractionsIntroCanvas.LightGreen : Color.white,
+                            pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? color : Color.white,
                                                             !empty ? Color.lightGray : Color.black,
                                                             !empty ? 1 : 2 ) );
 

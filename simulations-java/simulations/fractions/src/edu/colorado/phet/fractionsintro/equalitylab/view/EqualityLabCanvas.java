@@ -51,7 +51,7 @@ import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
  * @author Sam Reid
  */
 public class EqualityLabCanvas extends AbstractFractionsCanvas {
-    public static final Color lightBlue = new Color( 87, 182, 221 );
+    public static final Color LIGHT_BLUE = new Color( 87, 182, 221 );
 
     public EqualityLabCanvas( final EqualityLabModel model ) {
 
@@ -61,11 +61,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
         final double representationControlPanelScale = 0.80;
-        final RichPNode leftControl = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LightGreen ) ) {{ scale( representationControlPanelScale ); }} ) {{
+        final RichPNode leftControl = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LIGHT_GREEN ) ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightControl = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, lightBlue ) ) {{scale( representationControlPanelScale );}} ) {{
+        final RichPNode rightControl = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, LIGHT_BLUE ) ) {{scale( representationControlPanelScale );}} ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
         }};
 
@@ -142,7 +142,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 @Override public void update() {
                     removeAllChildren();
                     final Shape shape = EqualityLabModel.scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1 ).head().shape();
-                    addChild( WaterGlassSetNode.createEmptyCellsNode( lightBlue, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
+                    addChild( WaterGlassSetNode.createEmptyCellsNode( LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
 //                    addChild( new MovablePiecesLayer( model.rightWaterGlasses.get(), new WaterGlassNodeFactory(), model.rightWaterGlasses, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
@@ -150,7 +150,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} ) );
 
         //Number line
-        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, lightBlue ) {{
+        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, LIGHT_BLUE ) {{
             setOffset( 385 + 200, 445 );
 
             //Can't interact with right-side representations
@@ -190,10 +190,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         //For water glasses
         final Rectangle2D b = model.factorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
-        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LightGreen, b.getWidth(), b.getHeight() ) ) );
+        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight() ) ) );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, LightGreen ) {{
+        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, LIGHT_GREEN ) {{
             setOffset( 385, 445 );
         }} );
     }
