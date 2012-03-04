@@ -1,3 +1,4 @@
+Matching Game: Rounded edges of the equals sign and tuned its size and stroke thickness
 Matching Game: Reduced pitch by an octave
 Matching Game: Change all representations to be blue and green
 Matching Game: Moved "keep match" button to the side of the scale
