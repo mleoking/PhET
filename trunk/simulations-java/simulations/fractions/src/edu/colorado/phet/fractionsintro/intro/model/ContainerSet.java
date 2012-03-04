@@ -4,8 +4,6 @@ package edu.colorado.phet.fractionsintro.intro.model;
 import fj.Equal;
 import fj.F;
 import fj.F2;
-import fj.Ord;
-import fj.Ordering;
 import fj.data.List;
 import lombok.Data;
 
@@ -14,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
+import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.Function.curry;
 
 /**
@@ -152,11 +151,11 @@ import static fj.Function.curry;
         if ( emptyCells.isEmpty() ) {
             return null;
         }
-        return emptyCells.minimum( Ord.ord( curry( new F2<CellPointer, CellPointer, Ordering>() {
-            public Ordering f( final CellPointer u1, final CellPointer u2 ) {
-                return Ord.<Comparable>comparableOrd().compare( cellPointer.distance( u1 ), cellPointer.distance( u2 ) );
+        return emptyCells.minimum( ord( new F<CellPointer, Double>() {
+            @Override public Double f( final CellPointer u ) {
+                return cellPointer.distance( u );
             }
-        } ) ) );
+        } ) );
     }
 
     public List<CellPointer> getFilledCells() {
