@@ -83,6 +83,7 @@ public class FractionsIntroModel {
             public Representation apply( IntroState s ) {
                 return s.representation;
             }
+
         }, new Function2<IntroState, Representation, IntroState>() {
             public IntroState apply( IntroState s, Representation r ) {
 
