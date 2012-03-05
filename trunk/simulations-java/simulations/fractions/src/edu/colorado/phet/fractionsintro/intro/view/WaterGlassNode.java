@@ -22,7 +22,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.t
 import static edu.colorado.phet.fractions.util.Cache.cache;
 
 /**
- * Shows a glass possibly with some water in it.
+ * Shows a single glass possibly with some water in it.
  *
  * @author Sam Reid
  */
