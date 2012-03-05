@@ -61,8 +61,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private static final double MIN_ZOOM = 0.005;
     private static final double MAX_ZOOM = 1;
 
-    // Time for animated zoom in/out operations.
+    // Time for animations.
     private static final long ZOOM_ANIMATION_TIME = 2000; // In milliseconds.
+    private static final long GENE_TO_GENE_ANIMATION_TIME = 1000; // In milliseconds.
 
     // Inset for several of the controls.
     private static final double INSET = 15;
@@ -299,8 +300,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
                 // Perform an animation that will put the selected gene in
                 // the center of the view port.
-                backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                final PTransformActivity animateToActiveGene = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, GENE_TO_GENE_ANIMATION_TIME );
+                final PTransformActivity animateToActiveGene =
+                        modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, GENE_TO_GENE_ANIMATION_TIME );
                 animateToActiveGene.setDelegate( new PActivityDelegateAdapter() {
                     @Override public void activityFinished( PActivity activity ) {
                         // Update the position of the protein capture area in
