@@ -1770,20 +1770,40 @@ public abstract class List<A> implements Iterable<A> {
 
     //Methods added by PhET 2/11/2012, see #3252
 
-    @Override public boolean equals( Object obj ) {
-        if (obj==null || !(obj instanceof List) )return false;
-        return Equal.listEqual( Equal.<A>anyEqual() ).eq( this, (List) obj );
+    /**
+     * Perform an equality test on this list according to the Equal.anyEqual() test, which delegates to Equal.listEqual() which uses .equals() methods on the members.
+     * Suppress the warning for cast to <code>List<A></code> because the type is checked in the previous line.
+     *
+     * @param obj the other object to check for equality against.
+     * @return true if this list is equal to the provided argument
+     */
+    @SuppressWarnings({ "unchecked" })
+    @Override public boolean equals( final Object obj ) {
+        if ( obj == null || !( obj instanceof List ) ) { return false; }
+        return Equal.listEqual( Equal.<A>anyEqual() ).eq( this, (List<A>) obj );
     }
 
+    /**
+     * Compute the hash code from this list as a function of the hash codes of the contents.
+     * Delegates to Hash.listHash, using the anyHash() rule, which uses the hash codes of the contents.
+     *
+     * @return the hash code for this list.
+     */
     @Override public int hashCode() {
         return Hash.listHash( Hash.<A>anyHash() ).hash( this );
     }
 
+    /**
+     * Obtain a string representation of this list using the toString implementations of the members.  Uses Show.listShow with F2 argument and may
+     * not be very performant.
+     *
+     * @return the String representation of the list
+     */
     @Override public String toString() {
         return Show.listShow( Show.<A>anyShow() ).show( this ).foldLeft( new F2<String, Character, String>() {
-            @Override public String f( String s, Character c ) {
-                return s+c;
+            @Override public String f( final String s, final Character c ) {
+                return s + c;
             }
-        },"" );
+        }, "" );
     }
 }
