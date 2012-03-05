@@ -5,7 +5,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Icons used in the representation control panel
+ * Icons used in the representation control panel.
  *
  * @author Sam Reid
  */

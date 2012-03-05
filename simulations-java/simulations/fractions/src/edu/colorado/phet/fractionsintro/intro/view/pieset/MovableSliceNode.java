@@ -16,8 +16,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Node used in PieSetNode for showing user-draggable pieces.  This matches with the immutable model and so has some quirky implementation because there is
- * an impedance mismatch with Piccolo.
+ * Node used in PieSetNode for showing user-draggable pieces.  This matches with the immutable model and so has
+ * some quirky implementation (see comments below) because there is an impedance mismatch with Piccolo.
  *
  * @author Sam Reid
  */

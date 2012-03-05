@@ -20,16 +20,19 @@ public class NumeratorWithSpinner extends FractionNumberNode {
 //        Max amount of things will be MAX
 //        Max numerator will be a function of the denominator
 //        n / d <= MAX , so n<=MAX * d
+
         //Limit the numerator based on the denominator so that the entire number is less than or equal to 6
-        addChild( new SpinnerButtonPanelVBox( new VoidFunction0() {
+        final VoidFunction0 increment = new VoidFunction0() {
             public void apply() {
                 numerator.set( numerator.get() + 1 );
             }
-        }, numerator.lessThan( denominator.times( max ) ), new VoidFunction0() {
+        };
+        final VoidFunction0 decrement = new VoidFunction0() {
             public void apply() {
                 numerator.set( numerator.get() - 1 );
             }
-        }, numerator.greaterThanOrEqualTo( MIN_VALUE + 1 )
+        };
+        addChild( new SpinnerButtonPanelVBox( increment, numerator.lessThan( denominator.times( max ) ), decrement, numerator.greaterThanOrEqualTo( MIN_VALUE + 1 )
         ) {{
             setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth(), biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );

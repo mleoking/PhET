@@ -29,7 +29,7 @@ import static edu.colorado.phet.fractions.util.Cache.cache;
  */
 public class CakeSetNode extends PieSetNode {
 
-    static @Data class Arg {
+    public static @Data class Arg {
         final int cell;
         final int denominator;
     }

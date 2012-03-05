@@ -13,13 +13,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Single slice for a pie.
+ *
+ * @author Sam Reid
  */
 public class PieSliceNode extends PComposite {
 
     public PieSliceNode( double startDegrees, double extentDegrees,
 
                          //The area which the entire pie should take up
-                         Rectangle2D area, Paint color, Paint strokePaint, float stroke ) {
+                         Rectangle2D area,
+                         Paint color, Paint strokePaint, float stroke ) {
 
         final boolean fullCircle = extentDegrees >= 360 - 1E-6;
 

@@ -3,7 +3,6 @@ package edu.colorado.phet.fractionsintro.intro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
-import edu.colorado.phet.common.phetcommon.model.property.integerproperty.LessThan;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
@@ -29,16 +28,17 @@ public class DenominatorWithSpinner extends FractionNumberNode {
             }
         }, numerator, denominator, maxValue );
 
-        addChild( new SpinnerButtonPanelVBox( new VoidFunction0() {
+        final VoidFunction0 increment = new VoidFunction0() {
             public void apply() {
                 denominator.set( denominator.get() + 1 );
             }
-        }, new LessThan( denominator, maxDenominator ), new VoidFunction0() {
+        };
+        final VoidFunction0 decrement = new VoidFunction0() {
             public void apply() {
                 denominator.set( denominator.get() - 1 );
             }
-        }, decrementAllowed
-        ) {{
+        };
+        addChild( new SpinnerButtonPanelVBox( increment, denominator.lessThan( maxDenominator ), decrement, decrementAllowed ) {{
             setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth(), biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
