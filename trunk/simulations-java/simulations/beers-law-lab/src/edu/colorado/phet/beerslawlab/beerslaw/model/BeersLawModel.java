@@ -30,7 +30,7 @@ public class BeersLawModel implements Resettable {
     private final ArrayList<BeersLawSolution> solutions; // the supported set of solutions
     public final Property<BeersLawSolution> solution; // the selected solution
     public final Light light;
-    public final Beam beam;
+    public final SolidBeam solidBeam;
     public final ModelViewTransform mvt;
     public final Cuvette cuvette;
     public final ATDetector detector;
@@ -69,7 +69,7 @@ public class BeersLawModel implements Resettable {
                                         new ImmutableVector2D( 6, light.location.getY() ), new PBounds( 0, 0, 7.9, 5.25 ),
                                         light, cuvette, absorbance );
 
-        this.beam = new Beam( light, cuvette, detector, absorbance, mvt );
+        this.solidBeam = new SolidBeam( light, cuvette, detector, absorbance, mvt );
     }
 
     public void reset() {

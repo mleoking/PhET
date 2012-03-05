@@ -1,3 +1,4 @@
+3/2/12 rename Beam to SolidBeam
 3/2/12 Beers: make solutions more transparent so that it's easier to see probe inside solution
 3/2/12 setPickable(false) on cuvette components, so that probe can be manipulated when it's inside the cuvette
 3/2/12 make entire probe look like it's passing through the cuvette
