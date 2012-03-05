@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.model.pieset;
+package edu.colorado.phet.fractionsintro.intro.model.pieset.factories;
 
 import fj.data.List;
 
@@ -13,6 +13,9 @@ import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.Pie;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 
 import static fj.data.List.iterableList;
 

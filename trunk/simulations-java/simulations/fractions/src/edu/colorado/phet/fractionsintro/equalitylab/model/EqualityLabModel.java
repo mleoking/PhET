@@ -17,13 +17,13 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.CircularSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Site;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.SliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.StackedHorizontalSliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CircularSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.StackedHorizontalSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.VerticalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.LIGHT_BLUE;

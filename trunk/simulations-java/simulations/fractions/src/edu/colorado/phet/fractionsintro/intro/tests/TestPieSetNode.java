@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 
 /**
@@ -33,7 +33,7 @@ public class TestPieSetNode {
                     //Any piece that is dragging should align with the closest open cell
                     new Timer( 30, new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.set( model.get().stepInTime( 1.0 ) );
+                            model.set( model.get().stepInTime() );
                         }
                     } ).start();
 
