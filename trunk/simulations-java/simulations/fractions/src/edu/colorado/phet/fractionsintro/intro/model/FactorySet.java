@@ -17,7 +17,7 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.SliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.VerticalSliceFactory;
 
 /**
- * Manages factories for all representations for one tab.
+ * Manages factories for all representations for one set.
  *
  * @author Sam Reid
  */

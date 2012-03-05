@@ -18,7 +18,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import static fj.Ord.ord;
 
 /**
- * Factory pattern for creating cakes.  Even though cakes are images, use an underlying shape representation to efficiently re-use code for other representations.
+ * Factory pattern for creating pieces of cakes.  Even though cake slices are images, use an underlying shape representation to efficiently re-use code for other representations.
  *
  * @author Sam Reid
  */
@@ -60,7 +60,7 @@ public class CakeSliceFactory extends SliceFactory {
     }
 
     public Slice createPieCell( int maxPies, int pie, int cell, int denominator ) {
-        //Center
+        //Center the pie cell
         double offset = new LinearFunction( 1, 6, diameter * 3 - diameter / 3, 0 ).evaluate( maxPies );
 
         final double anglePerSlice = 2 * Math.PI / denominator;
@@ -80,7 +80,7 @@ public class CakeSliceFactory extends SliceFactory {
         put( 8, new int[] { 2, 3, 1, 4, 5, 8, 6, 7 } );
     }};
 
-    //Fix the z-ordering for cake slices
+    //Fix the z-ordering for cake slices.  This is done in the model since it applies to any possible view
     public static PieSet sort( final PieSet p ) {
         final int[] renderOrder = _renderOrder.get( p.denominator );
         final ArrayList<Integer> list = new ArrayList<Integer>() {{
