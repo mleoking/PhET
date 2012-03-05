@@ -15,6 +15,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
+ * Shows a shape as one of the selectable representations in the representation control panel.
+ *
  * @author Sam Reid
  */
 public class ShapeIcon extends PNode implements RepresentationIcon {

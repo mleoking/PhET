@@ -17,6 +17,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
+ * Shows the icon on the representation control panel for the number line.
+ *
  * @author Sam Reid
  */
 public class NumberLineIcon extends RichPNode implements RepresentationIcon {
