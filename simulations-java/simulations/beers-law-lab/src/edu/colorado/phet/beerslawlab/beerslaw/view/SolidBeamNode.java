@@ -5,7 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.Beam;
+import edu.colorado.phet.beerslawlab.beerslaw.model.SolidBeam;
 import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class SolidBeamNode extends PhetPNode {
 
-    public SolidBeamNode( final Beam beam, final Property<LightRepresentation> representation, ModelViewTransform mvt ) {
+    public SolidBeamNode( final SolidBeam beam, final Property<LightRepresentation> representation, ModelViewTransform mvt ) {
 
         setPickable( false );
         setChildrenPickable( false );

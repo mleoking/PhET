@@ -18,14 +18,15 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
- * Model of the light beam.
+ * Model of the light as a solid beam.
+ * Changes in wavelength affect the entire beam instantaneously.
  * Consists of 3 segments: left (between light and cuvette), center (inside cuvette), and right (to right of cuvette).
  * Beam may be intercepted at any point by the Absorbance-Transmittance detector.
  * The beam is in the probe if the entire beam is in contact with the probe lens.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Beam {
+public class SolidBeam {
 
     private static final double RIGHT_SEGMENT_WIDTH = 30; // cm, wide enough to be way off the right edge of the play area
     private static final int MAX_LIGHT_ALPHA = 200; // transparency of light when transmittance is 1.0
@@ -43,7 +44,7 @@ public class Beam {
     public final Property<Paint> leftPaint, centerPaint, rightPaint;
     public final CompositeProperty<Boolean> visible;
 
-    public Beam( final Light light, Cuvette cuvette, ATDetector detector, Absorbance absorbance, ModelViewTransform mvt ) {
+    public SolidBeam( final Light light, Cuvette cuvette, ATDetector detector, Absorbance absorbance, ModelViewTransform mvt ) {
 
         this.light = light;
         this.cuvette = cuvette;

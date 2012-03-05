@@ -5,7 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Area;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.Beam;
+import edu.colorado.phet.beerslawlab.beerslaw.model.SolidBeam;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -23,11 +23,11 @@ import edu.umd.cs.piccolox.nodes.PClip;
  */
 public class PhotonBeamNode extends PhetPNode {
 
-    private final Beam beam;
+    private final SolidBeam beam;
     private final ModelViewTransform mvt;
     private final PClip clippingPath;
 
-    public PhotonBeamNode( Property<BeersLawSolution> solution, final Beam beam, final Property<LightRepresentation> representation, ModelViewTransform mvt ) {
+    public PhotonBeamNode( Property<BeersLawSolution> solution, final SolidBeam beam, final Property<LightRepresentation> representation, ModelViewTransform mvt ) {
         setPickable( false );
         setChildrenPickable( false );
 
