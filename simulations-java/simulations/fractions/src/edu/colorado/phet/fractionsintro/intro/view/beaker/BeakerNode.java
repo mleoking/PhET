@@ -51,8 +51,7 @@ public class BeakerNode extends PNode {
 
         // inside bottom line
         PPath bottomNode = new PPath() {{
-            setPathTo( new Arc2D.Double( 0, cylinderSize.getHeight() - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight,
-                                         5, 170, Arc2D.OPEN ) );
+            setPathTo( new Arc2D.Double( 0, cylinderSize.getHeight() - ( cylinderEndHeight / 2 ), cylinderSize.getWidth(), cylinderEndHeight, 5, 170, Arc2D.OPEN ) );
             setStroke( new BasicStroke( 2f ) );
             setStrokePaint( new Color( 150, 150, 150, 100 ) );
         }};
