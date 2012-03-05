@@ -52,7 +52,7 @@ public class StackedHorizontalSliceFactory extends SliceFactory {
 
     public final double barHeight = 40;
 
-    private final double oneBarWidth = 310;
+    private final double oneBarWidth = 200;//Make it fit in the small bucket
 
     public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {
 
