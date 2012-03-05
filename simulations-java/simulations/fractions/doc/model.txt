@@ -1,0 +1,5 @@
+Intro tab:
+The maximum number of pieces allowed on the screen is 6--this cannot be exceeded by increasing the numerator or by decreasing the denominator.
+
+Equality lab:
+The maximum number of pieces allowed on the screen is 4--this cannot be exceeded by increasing the numerator or by decreasing the denominator.

@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
-import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.colorado.phet.fractionsintro.intro.view.PieSliceNode;
 import edu.colorado.phet.fractionsintro.intro.view.SpacedHBox;
 import edu.colorado.phet.fractionsintro.intro.view.VisibilityNode;
@@ -18,6 +17,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 
 /**
  * Shows a fraction as a set of pies.
@@ -28,7 +30,7 @@ public class PieSetFractionNode extends VisibilityNode {
 
     //6 pies fit on the screen
     public static final int INSET_BETWEEN_PIES = 10;
-    public static final double SPACE_FOR_PIES = FractionsIntroCanvas.WIDTH_FOR_REPRESENTATION - INSET_BETWEEN_PIES * 5;
+    public static final double SPACE_FOR_PIES = ( STAGE_SIZE.getWidth() - INSET * 2 ) - INSET_BETWEEN_PIES * 5;
     public static final double DIAMETER = SPACE_FOR_PIES / 6;
 
     public PieSetFractionNode( final Property<ContainerSet> containerSet, ObservableProperty<Boolean> enabled, final Color color ) {
@@ -75,5 +77,4 @@ public class PieSetFractionNode extends VisibilityNode {
             }
         }.observe( containerSet );
     }
-
 }

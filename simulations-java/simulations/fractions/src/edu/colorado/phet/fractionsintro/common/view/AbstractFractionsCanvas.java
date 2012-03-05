@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Canvas for "Fractions Intro" sim.
+ * Canvas for "Fractions Intro" sim, used in each of the tabs.
  *
  * @author Sam Reid
  */
@@ -28,13 +28,13 @@ public class AbstractFractionsCanvas extends PhetPCanvas {
     //Size for the stage, should have the right aspect ratio since it will always be visible
     //The dimension was determined by running on Windows and inspecting the dimension of the canvas after menubar and tabs are added
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
-    public static final double INSET = 10;
 
-    public static final double WIDTH_FOR_REPRESENTATION = STAGE_SIZE.getWidth() - INSET * 2;
+    //Default inset between edges, etc.
+    public static final double INSET = 10;
 
     public AbstractFractionsCanvas() {
 
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
+        setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
 
         // Root of our scene graph
         rootNode = new PNode();
@@ -45,5 +45,11 @@ public class AbstractFractionsCanvas extends PhetPCanvas {
 
     protected void addChild( PNode node ) {
         rootNode.addChild( node );
+    }
+
+    protected void addChildren( PNode... nodes ) {
+        for ( PNode node : nodes ) {
+            addChild( node );
+        }
     }
 }

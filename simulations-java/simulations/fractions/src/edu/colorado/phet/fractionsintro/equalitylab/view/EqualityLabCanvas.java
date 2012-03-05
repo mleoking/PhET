@@ -43,7 +43,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScale;
 import static edu.colorado.phet.fractions.FractionsResources.Images.LOCKED;
 import static edu.colorado.phet.fractions.FractionsResources.Images.UNLOCKED;
+import static edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
+import static edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode.CreateEmptyCellsNode;
+import static edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode.NodeToShape;
+import static java.awt.Color.black;
+import static java.awt.Color.orange;
 
 /**
  * Canvas for "Equality Lab" tab.
@@ -54,32 +59,32 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
     public EqualityLabCanvas( final EqualityLabModel model ) {
 
-        //Control panel for choosing different representations, can be split into separate controls for each display
         final SettableProperty<Representation> leftRepresentation = model.leftRepresentation;
         final SettableProperty<Representation> rightRepresentation = model.rightRepresentation;
 
+        //Control panel for choosing different representations, can be split into separate controls for each display
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
         final double representationControlPanelScale = 0.80;
-        final RichPNode leftControl = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LIGHT_GREEN ) ) {{ scale( representationControlPanelScale ); }} ) {{
+        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LIGHT_GREEN ) ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightControl = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, LIGHT_BLUE ) ) {{scale( representationControlPanelScale );}} ) {{
+        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, LIGHT_BLUE ) ) {{scale( representationControlPanelScale );}} ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
         }};
 
         //Bridge for the lock to sit on
         final int g = 250;
         addChild( new ZeroOffsetNode( new ControlPanelNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 200, 30 ), null, null, null ), new Color( g, g, g ), new BasicStroke( 1 ), Color.lightGray ) ) {{
-            setOffset( ( leftControl.getCenterX() + rightControl.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftControl.getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( ( leftRepresentationControlPanel.getCenterX() + rightRepresentationControlPanel.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
             model.locked.addObserver( new VoidFunction1<Boolean>() {
                 @Override public void apply( final Boolean locked ) {
                     setVisible( locked );
                 }
             } );
         }} );
-        addChild( leftControl );
-        addChild( rightControl );
+
+        addChildren( leftRepresentationControlPanel, rightRepresentationControlPanel );
 
         //Toggle to lock/unlock representations
         addChild( new PImage( multiScale( LOCKED, 0.4 ) ) {{
@@ -94,14 +99,14 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                     model.locked.set( !model.locked.get() );
                 }
             } );
-            setOffset( ( leftControl.getCenterX() + rightControl.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftControl.getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( ( leftRepresentationControlPanel.getCenterX() + rightRepresentationControlPanel.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {
                 model.resetAll();
             }
-        }, this, CONTROL_FONT, Color.black, Color.orange ) {{
+        }, this, CONTROL_FONT, black, orange ) {{
             setConfirmationEnabled( false );
         }};
         addChild( resetAllButtonNode );
@@ -113,8 +118,8 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             model.rightPieSet.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
-                    addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightPieSet.get() ) );
-                    addChild( new MovablePiecesLayer( model.rightPieSet.get(), PieSetNode.NodeToShape, model.rightPieSet, rootNode, STAGE_SIZE.getHeight() ) );
+                    addChild( CreateEmptyCellsNode.f( model.rightPieSet.get() ) );
+                    addChild( new MovablePiecesLayer( model.rightPieSet.get(), NodeToShape, model.rightPieSet, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
             setChildrenPickable( false );
@@ -125,8 +130,8 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             model.rightHorizontalBars.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
-                    addChild( PieSetNode.CreateEmptyCellsNode.f( model.rightHorizontalBars.get() ) );
-                    addChild( new MovablePiecesLayer( model.rightHorizontalBars.get(), PieSetNode.NodeToShape, model.rightHorizontalBars, rootNode, STAGE_SIZE.getHeight() ) );
+                    addChild( CreateEmptyCellsNode.f( model.rightHorizontalBars.get() ) );
+                    addChild( new MovablePiecesLayer( model.rightHorizontalBars.get(), NodeToShape, model.rightHorizontalBars, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
             setChildrenPickable( false );
@@ -137,7 +142,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             model.rightWaterGlasses.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
-                    final Shape shape = EqualityLabModel.scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1 ).head().shape();
+                    final Shape shape = scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1 ).head().shape();
                     addChild( WaterGlassSetNode.createEmptyCellsNode( LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
                 }
             } );
@@ -184,7 +189,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
 
         //For water glasses
-        final Rectangle2D b = model.factorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
+        final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight() ) ) );
 
         //Number line

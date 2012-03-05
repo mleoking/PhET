@@ -16,7 +16,9 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 
 /**
  * Node that shows a fraction (numerator and denominator and dividing line) as a multiple of another fraction.
- * Layout is not normalized (top left is not 0,0)
+ * Layout is not normalized (top left is not 0,0).
+ * <p/>
+ * This class is very similar to FractionControlNode
  *
  * @author Sam Reid
  */
