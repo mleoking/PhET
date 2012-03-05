@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.model;
+package edu.colorado.phet.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
 import fj.Function;
@@ -10,11 +10,6 @@ import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Site;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CircularSliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.HorizontalSliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.VerticalSliceFactory;
 
 /**
  * Manages factories for all representations for one set.

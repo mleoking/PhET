@@ -37,13 +37,13 @@ public class WaterGlassSetNode extends PieSetNode {
                 for ( final Pie pie : state.pies ) {
                     final List<Double> centers = pie.cells.map( new F<Slice, Double>() {
                         @Override public Double f( Slice s ) {
-                            return s.shape().getBounds2D().getMinY();
+                            return s.getShape().getBounds2D().getMinY();
                         }
                     } );
 
                     //Read from cache like WaterGlassNodeFactory instead of creating new each time to improve performance
                     node.addChild( new PImage( cachedWaterGlassNode( state.countFilledCells( pie ), state.denominator, color, width, height ) ) {{
-                        setOffset( pie.cells.index( 0 ).shape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
+                        setOffset( pie.cells.index( 0 ).getShape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
                     }} );
                 }
                 return node;

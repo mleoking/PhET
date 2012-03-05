@@ -24,7 +24,7 @@ public class ShapeNode extends PNode {
         //A piece should have a shadow if it is being dragged or animating to a location
         boolean showShadow = slice.dragging || slice.animationTarget != null;
 
-        final Shape origShape = slice.shape();
+        final Shape origShape = slice.getShape();
         Shape shape = showShadow ? AffineTransform.getTranslateInstance( -5, -5 ).createTransformedShape( origShape ) : origShape;
         if ( Double.isNaN( shape.getBounds2D().getX() ) || Double.isNaN( shape.getBounds2D().getY() ) ) {
             //TODO: Find and prevent the NaNs in the first place

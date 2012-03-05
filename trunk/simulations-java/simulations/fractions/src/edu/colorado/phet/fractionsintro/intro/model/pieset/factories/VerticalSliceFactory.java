@@ -49,13 +49,13 @@ public class VerticalSliceFactory extends SliceFactory {
     //Put the pieces right in the center of the bucket hole.
     public Slice createBucketSlice( int denominator ) {
         final Slice cell = createPieCell( 6, 0, 0, denominator, fullBars ? barHeight : barHeight / denominator );
-        final Shape shape = cell.shape();
+        final Shape shape = cell.getShape();
         double leftEdgeBucketHole = getBucketCenter().getX() - bucket.getHoleShape().getBounds2D().getWidth() / 2 + shape.getBounds2D().getWidth() / 2 + 20;
         double rightEdgeBucketHole = getBucketCenter().getX() + bucket.getHoleShape().getBounds2D().getWidth() / 2 - shape.getBounds2D().getWidth() / 2 - 20;
         double desiredCenter = random.nextDouble() * ( rightEdgeBucketHole - leftEdgeBucketHole ) + leftEdgeBucketHole;
 
         //Stagger vertically in the bucket to make them more distinguishable
-        return cell.tip( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * yRange ) );
+        return cell.position( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * yRange ) );
     }
 
     public Slice createPieCell( int numPies, int pie, int cell, int denominator ) {

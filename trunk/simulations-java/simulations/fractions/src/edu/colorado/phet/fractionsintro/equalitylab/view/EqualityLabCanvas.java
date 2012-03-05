@@ -142,7 +142,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             model.rightWaterGlasses.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
-                    final Shape shape = scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1 ).head().shape();
+                    final Shape shape = scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1 ).head().getShape();
                     addChild( WaterGlassSetNode.createEmptyCellsNode( LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
                 }
             } );
@@ -189,7 +189,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
 
         //For water glasses
-        final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().shape().getBounds2D();
+        final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight() ) ) );
 
         //Number line

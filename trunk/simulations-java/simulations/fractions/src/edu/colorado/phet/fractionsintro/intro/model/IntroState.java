@@ -4,7 +4,10 @@ package edu.colorado.phet.fractionsintro.intro.model;
 import fj.F;
 import lombok.Data;
 
+import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
@@ -26,6 +29,9 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
     public final Representation representation;
     public final int maximum;
 
+    //Initial state
+    public static final IntroState INTRO_STATE = IntroState( 1, FactorySet.IntroTab() );
+
     public static IntroState IntroState( int maximum, FactorySet factories ) {
         int denominator = 1;
         return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim(), false, false,
@@ -36,8 +42,7 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
                                new PieSet( maximum, factories.cakeSliceFactory ), 0, 1, Representation.PIE, maximum );
     }
 
-    public static final IntroState IntroState = IntroState( 1, FactorySet.IntroTab() );
-
+    //Copy methods
     public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
 
     public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum ); }
