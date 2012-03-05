@@ -43,6 +43,8 @@ import static java.awt.Color.yellow;
  */
 public class MatchingGameNode extends FNode {
 
+    private static final boolean addResetButtonForDebugging = false;
+
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
 
@@ -153,13 +155,15 @@ public class MatchingGameNode extends FNode {
             } );
         }} );
 
-        addChild( new HTMLImageButtonNode( "Reset" ) {{
-            addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
-                    model.set( MatchingGameState.initialState() );
-                }
-            } );
-            setOffset( 0, 200 );
-        }} );
+        if ( addResetButtonForDebugging ) {
+            addChild( new HTMLImageButtonNode( "Reset" ) {{
+                addActionListener( new ActionListener() {
+                    @Override public void actionPerformed( final ActionEvent e ) {
+                        model.set( MatchingGameState.initialState() );
+                    }
+                } );
+                setOffset( 0, 200 );
+            }} );
+        }
     }
 }
