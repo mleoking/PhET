@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 
 /**
- * The model contains a sequence of immutable states.
+ * The model is the container for the immutable state.
  *
  * @author Sam Reid
  */

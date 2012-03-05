@@ -10,6 +10,8 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Shows a fraction as a set of horizontal bars
+ *
  * @author Sam Reid
  */
 public class HorizontalBarsNode extends PNode {

@@ -22,7 +22,7 @@ import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanv
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 
 /**
- * Shows a fraction as a set of pies.
+ * Shows a fraction as a set of circular pies.
  *
  * @author Sam Reid
  */

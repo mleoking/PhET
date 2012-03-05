@@ -34,7 +34,7 @@ import static fj.data.List.iterableList;
 import static fj.data.List.range;
 
 /**
- * Levels for the matching game.
+ * Levels for the matching game, declared as functions below that return the MovableFraction instances (and hence their representations) in a level.
  *
  * @author Sam Reid
  */

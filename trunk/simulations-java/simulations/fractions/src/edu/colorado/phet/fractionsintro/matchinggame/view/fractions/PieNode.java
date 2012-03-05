@@ -9,7 +9,7 @@ import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Graphic for one pie
+ * Graphic for one pie, which is a set of cells
  *
  * @author Sam Reid
  */
