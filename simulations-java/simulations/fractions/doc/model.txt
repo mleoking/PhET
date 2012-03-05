@@ -13,3 +13,5 @@ or
 
 Equality lab:
 The maximum number of pieces allowed on the screen is 4--this cannot be exceeded by increasing the numerator or by decreasing the denominator.
+
+These constraints were added to productively constrain the user to a reasonable range of values.
