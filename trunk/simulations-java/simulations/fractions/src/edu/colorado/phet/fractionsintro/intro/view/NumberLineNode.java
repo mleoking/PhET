@@ -113,19 +113,22 @@ public class NumberLineNode extends PNode {
                 //For snapping
                 tickLocations = new ArrayList<Pair<Double, Integer>>();
 
+                ArrayList<PNode> highlights = new ArrayList<PNode>();
+
                 for ( int i = 0; i <= divisionsBetweenTicks * max.get(); i++ ) {
 
                     final int finalI = i;
 
                     //Major ticks at each integer
+                    final BasicStroke highlightStroke = new BasicStroke( 4 );
                     if ( i % divisionsBetweenTicks == 0 ) {
                         int div = i / divisionsBetweenTicks;
                         final int mod = div % 2;
                         double height = mod == 0 ? 8 : 8;
                         final BasicStroke stroke = mod == 0 ? new BasicStroke( 1 ) : new BasicStroke( 0.5f );
                         final PhetPPath path = new PhetPPath( orientation.line( i * dx, -height, i * dx, height ), stroke, Color.black );
-                        final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -height, i * dx, height ), new BasicStroke( 4 ), Color.yellow );
-
+                        final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -height, i * dx, height ), highlightStroke, Color.yellow );
+                        highlights.add( highlightPath );
                         new RichSimpleObserver() {
                             @Override public void update() {
                                 final boolean visible = numerator.get().equals( finalI );
@@ -146,8 +149,8 @@ public class NumberLineNode extends PNode {
                     //Minor ticks
                     else {
 
-                        final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -4, i * dx, 4 ), new BasicStroke( 4 ), Color.yellow );
-
+                        final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -4, i * dx, 4 ), highlightStroke, Color.yellow );
+                        highlights.add( highlightPath );
                         new RichSimpleObserver() {
                             @Override public void update() {
                                 highlightPath.setVisible( numerator.get().equals( finalI ) );
@@ -161,6 +164,9 @@ public class NumberLineNode extends PNode {
                         //make it so the green handle can snap to this site
                         tickLocations.add( new Pair<Double, Integer>( i * dx, i ) );
                     }
+                }
+                for ( PNode highlight : highlights ) {
+                    highlight.moveToBack();
                 }
 
                 //Allow the user to click anywhere in the area to set the numerator value
