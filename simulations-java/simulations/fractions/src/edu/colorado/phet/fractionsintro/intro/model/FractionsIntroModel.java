@@ -12,10 +12,10 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.SliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
@@ -71,7 +71,7 @@ public class FractionsIntroModel {
                     final double dt = clockEvent.getSimulationTimeChange();
                     final IntroState newState = s.updatePieSets( new F<PieSet, PieSet>() {
                         @Override public PieSet f( PieSet p ) {
-                            return p.stepInTime( dt );
+                            return p.stepInTime();
                         }
                     } );
 

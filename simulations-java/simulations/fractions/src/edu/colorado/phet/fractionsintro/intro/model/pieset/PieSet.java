@@ -14,6 +14,7 @@ import java.util.Random;
 import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.Container;
 import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
 
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.data.List.range;
@@ -24,11 +25,23 @@ import static fj.data.List.range;
  * @author Sam Reid
  */
 @Data public class PieSet {
+
+    //The denominator for this model
     public final int denominator;
+
+    //The list of pies, which enumerates all of the (possibly empty) cells
     public final List<Pie> pies;
+
+    //The movable slices
     public final List<Slice> slices;
-    public final List<Slice> cells;              //The list of all cells
+
+    //The list of all cells, determined from the list of pies
+    public final List<Slice> cells;
+
+    //The factory, which is used to get locations for animating pieces to bucket and cells
     public final SliceFactory sliceFactory;
+
+    private static final Random random = new Random();
 
     public PieSet( int numPies, SliceFactory sliceFactory ) {
         this( 1, sliceFactory.createEmptyPies( numPies, 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
@@ -63,7 +76,8 @@ import static fj.data.List.range;
         } );
     }
 
-    public PieSet stepInTime( final double simulationTimeChange ) {
+    //Update the model by stepping in time, and creating a new one
+    public PieSet stepInTime() {
         final List<Slice> slices = this.slices.map( new F<Slice, Slice>() {
             public Slice f( final Slice s ) {
                 if ( s.dragging ) {
@@ -168,8 +182,6 @@ import static fj.data.List.range;
             }
         } ) );
     }
-
-    private static final Random random = new Random();
 
     public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
 

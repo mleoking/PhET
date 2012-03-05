@@ -12,7 +12,7 @@ public @Data class Site {
     public final int row;
     public final int column;
 
-    //Can't be named equals or lombok skips generating the real one
+    //Can't be named equals or lombok skips generating the one with Object arg
     public final boolean eq( int r, int c ) {
         return equals( new Site( r, c ) );
     }

@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.model.pieset;
+package edu.colorado.phet.fractionsintro.intro.model.pieset.factories;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 
 /**
  * Factory pattern for creating stacked horizontal bars for equality lab.  Copied from HorizontalSliceFactory.  Maybe they could be joined in the future.
