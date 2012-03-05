@@ -1,3 +1,4 @@
+Made Reset All button not visible when zoomed out.
 Set to be initially zoomed out on first tab.
 # 0.00.17 (62049) Mar 1, 2012
 3/1/12 Deploying to dev for review with consulting biologist.

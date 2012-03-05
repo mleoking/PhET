@@ -285,10 +285,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         controlsRootNode.addChild( previousGeneButton );
 
         // Add the Reset All button.
-        controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
-        }} );
+        }};
+        controlsRootNode.addChild( resetAllButton );
 
         // Monitor the active gene and move the view port to be centered on it
         // whenever it changes.
@@ -373,6 +374,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                     previousGeneButton.setVisible( zoomedIn );
                     nextGeneButton.setVisible( zoomedIn );
                     zoomOutButton.setVisible( zoomedIn );
+                    resetAllButton.setVisible( zoomedIn );
 
                     // Set the visibility of the controls that aren't shown
                     // unless we are zoomed all the way out.
