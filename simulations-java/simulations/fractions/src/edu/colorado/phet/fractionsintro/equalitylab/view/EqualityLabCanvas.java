@@ -150,7 +150,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} ) );
 
         //Number line
-        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, LIGHT_BLUE ) {{
+
+        //Experiment with making semi-transparent
+//        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, new Color( LIGHT_BLUE.getRed(), LIGHT_BLUE.getGreen(), LIGHT_BLUE.getBlue(), 200 ) ) {{
+        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, new Color( LIGHT_BLUE.getRed(), LIGHT_BLUE.getGreen(), LIGHT_BLUE.getBlue(), 200 ) ) {{
             setOffset( 385 + 200, 445 );
 
             //Can't interact with right-side representations
