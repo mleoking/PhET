@@ -1,3 +1,4 @@
+Fixed gene labels to start at 1 instead of 0.
 Made Reset All button not visible when zoomed out.
 Set to be initially zoomed out on first tab.
 # 0.00.17 (62049) Mar 1, 2012
