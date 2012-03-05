@@ -1,5 +1,15 @@
 Intro tab:
 The maximum number of pieces allowed on the screen is 6--this cannot be exceeded by increasing the numerator or by decreasing the denominator.
+So as the user adjusts the numerator, then numerator's max is a function of the (fixed) denominator:
+
+    n / d <= MAX , so n<=MAX * d
+
+Similarly, when the user adjusts the denominator, the minimum of the denominator is a function of the (fixed) numerator:
+    n / d <= MAX
+so
+    n<=MAXd
+or
+    d >= n/MAX
 
 Equality lab:
 The maximum number of pieces allowed on the screen is 4--this cannot be exceeded by increasing the numerator or by decreasing the denominator.
