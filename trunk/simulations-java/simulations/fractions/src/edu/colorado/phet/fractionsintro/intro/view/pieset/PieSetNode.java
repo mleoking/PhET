@@ -25,8 +25,6 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 /**
  * Renders the pie set node from the given model.  Unconventional way of using piccolo, where the scene graph is recreated any time the model changes.
  * Done to support immutable model and still get efficient reuse of piccolo.
- * <p/>
- * TODO: Rename to ShapeSetNode?
  *
  * @author Sam Reid
  */
@@ -80,7 +78,6 @@ public class PieSetNode extends FNode {
             for ( Slice cell : state.cells ) {
                 boolean anythingInPie = state.pieContainsSliceForCell( cell );
 
-                //TODO: Fix inner stroke width
                 node.addChild( new PhetPPath( cell.getShape(), new BasicStroke( 1 ), anythingInPie ? Color.black : Color.lightGray ) );
 
                 if ( debugCenter ) {
