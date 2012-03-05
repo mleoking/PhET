@@ -111,7 +111,7 @@ public class EqualityLabModel {
     }.f( Unit.unit() );
 
     //The max number of filled containers in this tab is 4.
-    private final FractionsIntroModel model = new FractionsIntroModel( IntroState.IntroState( 4, primaryFactorySet ), primaryFactorySet );
+    private final FractionsIntroModel model = new FractionsIntroModel( IntroState.newState( 4, primaryFactorySet ), primaryFactorySet );
     public final SettableProperty<PieSet> pieSet = model.pieSet;
     public final SettableProperty<PieSet> horizontalBarSet = model.horizontalBarSet;
     public final Clock clock = model.clock;

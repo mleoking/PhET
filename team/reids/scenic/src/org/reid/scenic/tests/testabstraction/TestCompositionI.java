@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.tests.testabstraction;
+package org.reid.scenic.tests.testabstraction;
 
 /**
  * @author Sam Reid
