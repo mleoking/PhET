@@ -217,8 +217,8 @@ import static fj.data.List.range;
         } );
 
         final Slice slice = sliceOption.isSome() ? sliceOption.some() : slices.find( new F<Slice, Boolean>() {
-            @Override public Boolean f( Slice _ ) {
-                return _.position.getY() == prototype.position.getY();
+            @Override public Boolean f( Slice s ) {
+                return s.position.getY() == prototype.position.getY();
             }
         } ).some();
 

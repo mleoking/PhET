@@ -1,11 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import fj.F;
+import fj.F2;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -15,13 +16,13 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class ClientProperty<T> extends SettableProperty<T> {
     private final Property<IntroState> state;
-    private final Function1<IntroState, T> get;
-    private final Function2<IntroState, T, IntroState> change;
+    private final F<IntroState, T> get;
+    private final F2<IntroState, T, IntroState> change;
 
     public ClientProperty( final Property<IntroState> state,
-                           final Function1<IntroState, T> get,
-                           final Function2<IntroState, T, IntroState> change ) {
-        super( get.apply( state.get() ) );
+                           final F<IntroState, T> get,
+                           final F2<IntroState, T, IntroState> change ) {
+        super( get.f( state.get() ) );
         this.state = state;
         this.get = get;
         this.change = change;
@@ -33,12 +34,12 @@ public class ClientProperty<T> extends SettableProperty<T> {
     }
 
     @Override public void set( T value ) {
-        state.set( change.apply( state.get(), value ) );
+        state.set( change.f( state.get(), value ) );
         notifyIfChanged();
     }
 
     @Override public T get() {
-        return get.apply( state.get() );
+        return get.f( state.get() );
     }
 
     //Wire up to Property to use its richer interface like add, greaterThan, etc.

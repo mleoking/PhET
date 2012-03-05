@@ -35,5 +35,9 @@ edu/colorado/phet/fractionsintro: "Fractions Intro" sim
 
 Closures:
 This sim was designed with many closures, and is intended to be read in an IDE with "closure-folding" feature enabled.
+Also, closure variables are abbreviated to improve readability, for example, using:
+F(SliceNodeArgs s) {return new ShapeNode(s.slice);}
+instead of the more verbose:
+F(SliceNodeArgs sliceNodeArgs) {return new ShapeNode(sliceNodeArgs.slice);}
 
 This sim uses single-line methods elsewhere ("simple methods in one line" in IntelliJ) to improve readability for short methods
