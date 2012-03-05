@@ -81,11 +81,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
 
-    // List of currently active transform activities.  This is maintained in
-    // order to manage the interactions between the different animation
-    // transforms that are used.
-    private List<PTransformActivity> transformActivities = new ArrayList<PTransformActivity>();
-
     // PNodes that are used as layers and that are involved in the zoom
     // functionality.
     private PNode backgroundCellLayer;
@@ -299,19 +294,20 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // whenever it changes.
         model.activeGene.addObserver( new VoidFunction1<Gene>() {
             public void apply( Gene gene ) {
-                if ( !transformActivities.isEmpty() ) {
-                    terminateAnyRunningActivities();
-                }
+                terminateAnyRunningActivities();
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
                 // Perform an animation that will put the selected gene in
                 // the center of the view port.
-                backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                PTransformActivity animateToActiveGene = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                PActivity temp = backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                System.out.println( "temp = " + temp );
+                final PTransformActivity animateToActiveGene = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
+                System.out.println( "animateToActiveGene = " + animateToActiveGene );
                 animateToActiveGene.setDelegate( new PActivityDelegateAdapter() {
                     @Override public void activityFinished( PActivity activity ) {
                         // Update the position of the protein capture area in
                         // the model, since a transformation of the model-to-
                         // view relationship just occurred.
+                        System.out.println( "activityFinished" );
                         PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
                         Rectangle2D boundsAfterTransform;
                         try {
@@ -327,7 +323,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                         model.addOffLimitsMotionSpace( boundsInModel );
                     }
                 } );
-                transformActivities.add( animateToActiveGene );
             }
         } );
 
@@ -427,10 +422,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     }
 
     private void zoomIn( long duration ) {
+        System.out.println( "Zoom in called" );
         zoomInOnNodes( duration, backgroundCellLayer, modelRootNode );
     }
 
-    private void zoomOut(long duration ) {
+    private void zoomOut( long duration ) {
         zoomOutFromNodes( duration, backgroundCellLayer, modelRootNode );
     }
 
@@ -448,18 +444,14 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
     }
 
-    private void setZoomInstantly( double zoomFactor, PNode... nodes ){
-        terminateAnyRunningActivities();
-        for ( PNode node : nodes ) {
-            node.setScale( zoomFactor );
-        }
-    }
-
     private void terminateAnyRunningActivities() {
-        for ( PTransformActivity transformActivity : transformActivities ) {
-            transformActivity.terminate( PActivity.TERMINATE_AND_FINISH );
+        System.out.println("Waiting");
+        getRoot().waitForActivities();
+        System.out.println("Done Waiting");
+        for ( Object activity : getRoot().getActivityScheduler().getActivitiesReference() ) {
+            System.out.println( "terminating activity = " + activity );
+            ( (PActivity) activity ).terminate( PActivity.TERMINATE_AND_FINISH );
         }
-        transformActivities.clear();
     }
 
     // Convenience function for checking if an item is contained in an array.
@@ -496,14 +488,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
         }
-        try {
-            Thread.sleep( 3000 );
-        }
-        catch ( InterruptedException e ) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
         if ( isZoomedIn() ) {
-            setZoomInstantly( MIN_ZOOM, backgroundCellLayer, modelRootNode );
+            zoomOut( 0 );
         }
     }
 
