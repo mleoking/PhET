@@ -16,8 +16,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class PieSliceNode extends PComposite {
 
-    private final RectangularShape shape;
-
     public PieSliceNode( double startDegrees, double extentDegrees,
 
                          //The area which the entire pie should take up
@@ -27,7 +25,7 @@ public class PieSliceNode extends PComposite {
 
         final Arc2D.Double arc = new Arc2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight(), startDegrees, extentDegrees, Arc2D.Double.PIE );
         final Ellipse2D.Double ellipse = new Ellipse2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight() );
-        shape = fullCircle ? ellipse : arc;
+        final RectangularShape shape = fullCircle ? ellipse : arc;
         PhetPPath path = new PhetPPath( shape, color, new BasicStroke( stroke ), strokePaint );
         addChild( path );
     }
