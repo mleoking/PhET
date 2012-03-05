@@ -25,7 +25,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
     public final AnimationTarget animationTarget;
 
     //Left as a function instead of a field so we don't eagerly compute it until necessary
-    public final Function1<Slice, Shape> toShape;
+    private final Function1<Slice, Shape> toShape;
     public final Color color;
 
     //Copy methods:

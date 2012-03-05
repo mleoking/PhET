@@ -2,16 +2,19 @@
 package edu.colorado.phet.fractionsintro.intro.view.pieset;
 
 import fj.F;
+import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
@@ -55,18 +58,39 @@ public class PieSetNode extends FNode {
         } );
     }
 
+    //Construct the exterior to show the pie cells border with a bigger stroke than the individual cells
+    //Cache to save on performance, otherwise drops frame rate to <5fps
+    //Still reduced performance a bit due to runtime rendering, but could be rewritten if necessary to add explicit getBorderShape function for each pie
+    public static final Cache<List<Slice>, Area> cache = new Cache<List<Slice>, Area>( new F<List<Slice>, Area>() {
+        @Override public Area f( final List<Slice> cells ) {
+            return new Area() {{
+                for ( Slice cell : cells ) {
+                    //Enlarge a bit to cover up "seams" in the horizontal bars
+                    add( new Area( cell.getShape() ) );
+                    add( new Area( new BasicStroke( 2 ).createStrokedShape( cell.getShape() ) ) );
+                }
+            }};
+        }
+    } );
+
     //Creates a shape for showing the empty cells
     public static final F<PieSet, PNode> CreateEmptyCellsNode = new F<PieSet, PNode>() {
-        @Override public PNode f( PieSet state ) {
-            PNode node = new PNode();
+        @Override public PNode f( final PieSet state ) {
+            final PNode node = new PNode();
             for ( Slice cell : state.cells ) {
                 boolean anythingInPie = state.pieContainsSliceForCell( cell );
-                node.addChild( new PhetPPath( cell.getShape(), new BasicStroke( anythingInPie ? 2 : 1 ), anythingInPie ? Color.black : Color.lightGray ) );
+
+                //TODO: Fix inner stroke width
+                node.addChild( new PhetPPath( cell.getShape(), new BasicStroke( 1 ), anythingInPie ? Color.black : Color.lightGray ) );
 
                 if ( debugCenter ) {
                     node.addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
                 }
             }
+
+            //Show the outline in a thicker (2.0f) stroke
+            Area area = cache.f( state.cells );
+            node.addChild( new PhetPPath( area, new BasicStroke( 2.0f ), Color.black ) );
             return node;
         }
     };
