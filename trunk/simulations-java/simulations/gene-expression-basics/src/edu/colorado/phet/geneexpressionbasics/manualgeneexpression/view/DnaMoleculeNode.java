@@ -53,7 +53,7 @@ public class DnaMoleculeNode extends PNode {
         // Put the gene backgrounds and labels behind everything.
         for ( int i = 0; i < dnaMolecule.getGenes().size(); i++ ){
             // TODO: i18n
-            geneBackgroundLayer.addChild( new GeneNode( mvt, dnaMolecule.getGenes().get( i ), dnaMolecule, "Gene " + i, showGeneBracketLabels ) );
+            geneBackgroundLayer.addChild( new GeneNode( mvt, dnaMolecule.getGenes().get( i ), dnaMolecule, "Gene " + (i + 1), showGeneBracketLabels ) );
 
         }
 
