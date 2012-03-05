@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.umd.cs.piccolo.PNode;
 
 /**

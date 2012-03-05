@@ -61,10 +61,10 @@ public class PieSetNode extends FNode {
             PNode node = new PNode();
             for ( Slice cell : state.cells ) {
                 boolean anythingInPie = state.pieContainsSliceForCell( cell );
-                node.addChild( new PhetPPath( cell.shape(), new BasicStroke( anythingInPie ? 2 : 1 ), anythingInPie ? Color.black : Color.lightGray ) );
+                node.addChild( new PhetPPath( cell.getShape(), new BasicStroke( anythingInPie ? 2 : 1 ), anythingInPie ? Color.black : Color.lightGray ) );
 
                 if ( debugCenter ) {
-                    node.addChild( new PhetPPath( new Rectangle2D.Double( cell.center().getX(), cell.center().getY(), 2, 2 ) ) );
+                    node.addChild( new PhetPPath( new Rectangle2D.Double( cell.getCenter().getX(), cell.getCenter().getY(), 2, 2 ) ) );
                 }
             }
             return node;

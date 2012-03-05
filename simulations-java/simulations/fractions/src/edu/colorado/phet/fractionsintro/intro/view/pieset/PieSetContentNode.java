@@ -42,7 +42,7 @@ public class PieSetContentNode extends PNode {
             final int denominator = model.get().denominator;
             for ( int i = 0; i < denominator; i++ ) {
                 Slice cell = model.get().sliceFactory.createPieCell( model.get().pies.length(), 0, i, denominator );
-                addChild( new PhetPPath( cell.shape(), Color.white, new BasicStroke( 3 ), Color.black ) );
+                addChild( new PhetPPath( cell.getShape(), Color.white, new BasicStroke( 3 ), Color.black ) );
             }
 
             Slice slice = model.get().sliceFactory.createPieCell( model.get().pies.length(), 0, 0, denominator );

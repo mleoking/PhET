@@ -12,24 +12,22 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.CellPointer;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
- * Model for the Fractions Intro sim.
+ * Model for the Fractions Intro sim.  This is the most complicated class in the sim, because it has to manage several different ways of changing
+ * multiple different representations.  It provides a <code>Property<T></code> interface for clients which enables them to (a) observe changes to a desired
+ * component of the model and (b) to make a change to the model by changing that property.  When changing that property, the entire model will be
+ * updated to reflect the new value.  See implementation-notes.txt for more details.
  * <p/>
  * Property is a convenient interface for clients, but causes problems when mapping between multiple representations.
- * I should create an isolated case of this, because trivial cases seem like they should work.
- * One solution would be to have the Property.set() methods only be called from the user side, not from the model side.
- * When any of the client interface methods are called, the rest of the state should update to reflect the new state.
- * This means that all handlers in this class should call to the state itself, not to any of the derived properties.
- * <p/>
- * New style:
- * 1. No way to forget to call reset() on some representation instances
- * 2. Interface setters are all focused on "update the entire state to match the given request"
  *
  * @author Sam Reid
  */

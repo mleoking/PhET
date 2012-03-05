@@ -23,7 +23,7 @@ public class IntClientProperty extends ClientProperty<Integer> {
         return new IntegerProperty( get() );
     }
 
-    //TODO: get rid of cast, could do so with generics gymnastics
+    //TODO: get rid of cast, could do so with generics gymnastics or by duplicating code.  To the reviewer--should we take care of this?
     public IntegerProperty toIntegerProperty() {
         return (IntegerProperty) toProperty();
     }

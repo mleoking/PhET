@@ -3,11 +3,11 @@ package edu.colorado.phet.fractionsintro.intro.tests;
 
 import junit.framework.TestCase;
 
-import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.Container;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
-import edu.colorado.phet.fractionsintro.intro.model.FactorySet;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.CellPointer;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
 
 /**
  * @author Sam Reid

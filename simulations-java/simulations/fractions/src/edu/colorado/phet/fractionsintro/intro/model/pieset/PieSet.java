@@ -11,16 +11,16 @@ import lombok.Data;
 import java.awt.geom.Area;
 import java.util.Random;
 
-import edu.colorado.phet.fractionsintro.intro.model.CellPointer;
-import edu.colorado.phet.fractionsintro.intro.model.Container;
-import edu.colorado.phet.fractionsintro.intro.model.ContainerSet;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.CellPointer;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
 
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.data.List.range;
 
 /**
- * Immutable model representing the entire state at one instant, including the number and location of slices
+ * Immutable model representing the entire state at one instant, including the number and location of slices.  Note that pies can be square, circular, etc.
  *
  * @author Sam Reid
  */
@@ -60,6 +60,10 @@ import static fj.data.List.range;
         } );
     }
 
+    //Copy methods
+    public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
+
+    //Find which cells are empty
     public List<Slice> getEmptyCells() {
         return pies.bind( new F<Pie, List<Slice>>() {
             @Override public List<Slice> f( Pie pie ) {
@@ -85,13 +89,13 @@ import static fj.data.List.range;
                     if ( getEmptyCells().length() > 0 ) {
                         Slice closest = getEmptyCells().minimum( ord( new F<Slice, Double>() {
                             @Override public Double f( final Slice slice ) {
-                                return slice.center().distance( s.center() );
+                                return slice.getCenter().distance( s.getCenter() );
                             }
                         } ) );
                         final Slice rotated = s.rotateTowardTarget( closest.angle );
 
                         //Keep the center in the same place
-                        return rotated.translate( s.center().minus( rotated.center() ) );
+                        return rotated.translate( s.getCenter().minus( rotated.getCenter() ) );
                     }
                     else {
                         return s;
@@ -117,8 +121,6 @@ import static fj.data.List.range;
         return slices( filtered );
     }
 
-    public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
-
     //True if a piece is in the cell, or animating toward the cell
     public boolean cellFilledNowOrSoon( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
@@ -142,12 +144,12 @@ import static fj.data.List.range;
         if ( getEmptyCells().length() == 0 ) { return null; }
         final Slice closestCell = getEmptyCells().minimum( ord( new F<Slice, Double>() {
             @Override public Double f( final Slice slice ) {
-                return slice.center().distance( s.center() );
+                return slice.getCenter().distance( s.getCenter() );
             }
         } ) );
 
         //Only allow it if the shapes actually overlapped
-        return closestCell != null && !( new Area( closestCell.shape() ) {{intersect( new Area( s.shape() ) );}}.isEmpty() ) ? closestCell : null;
+        return closestCell != null && !( new Area( closestCell.getShape() ) {{intersect( new Area( s.getShape() ) );}}.isEmpty() ) ? closestCell : null;
     }
 
     public ContainerSet toContainerSet() {
