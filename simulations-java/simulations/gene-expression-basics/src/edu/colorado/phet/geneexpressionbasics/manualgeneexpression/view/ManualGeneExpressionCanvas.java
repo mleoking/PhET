@@ -298,16 +298,13 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
                 // Perform an animation that will put the selected gene in
                 // the center of the view port.
-                PActivity temp = backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                System.out.println( "temp = " + temp );
+                backgroundCellLayer.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
                 final PTransformActivity animateToActiveGene = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
-                System.out.println( "animateToActiveGene = " + animateToActiveGene );
                 animateToActiveGene.setDelegate( new PActivityDelegateAdapter() {
                     @Override public void activityFinished( PActivity activity ) {
                         // Update the position of the protein capture area in
                         // the model, since a transformation of the model-to-
                         // view relationship just occurred.
-                        System.out.println( "activityFinished" );
                         PBounds boundsInControlNode = proteinCollectionNode.getFullBounds();
                         Rectangle2D boundsAfterTransform;
                         try {
@@ -422,7 +419,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     }
 
     private void zoomIn( long duration ) {
-        System.out.println( "Zoom in called" );
         zoomInOnNodes( duration, backgroundCellLayer, modelRootNode );
     }
 
@@ -445,11 +441,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     }
 
     private void terminateAnyRunningActivities() {
-        System.out.println("Waiting");
-        getRoot().waitForActivities();
-        System.out.println("Done Waiting");
-        for ( Object activity : getRoot().getActivityScheduler().getActivitiesReference() ) {
-            System.out.println( "terminating activity = " + activity );
+        for ( Object activity : new ArrayList( getRoot().getActivityScheduler().getActivitiesReference() ) ) {
             ( (PActivity) activity ).terminate( PActivity.TERMINATE_AND_FINISH );
         }
     }
