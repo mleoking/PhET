@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 /**
+ * Shows the icon on the representation control panel for the horizontal bars.
+ *
  * @author Sam Reid
  */
 public class VerticalBarIcon extends ShapeIcon {
