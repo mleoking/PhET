@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.tests;
+package org.reid.scenic.tests;
 
 import fj.data.List;
 
