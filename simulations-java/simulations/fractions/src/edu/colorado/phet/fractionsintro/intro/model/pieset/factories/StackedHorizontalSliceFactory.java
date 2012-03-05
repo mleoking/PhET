@@ -1,11 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model.pieset.factories;
 
+import fj.F;
+
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
@@ -29,9 +30,9 @@ public class StackedHorizontalSliceFactory extends SliceFactory {
     }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
-    public final Function1<Slice, Shape> createToShape( final double width ) {
-        return new Function1<Slice, Shape>() {
-            @Override public Shape apply( Slice slice ) {
+    public final F<Slice, Shape> createToShape( final double width ) {
+        return new F<Slice, Shape>() {
+            @Override public Shape f( Slice slice ) {
                 Vector2D tip = slice.position;
                 return new Rectangle2D.Double( tip.getX() - width / 2, tip.getY() - barHeight / 2, width, barHeight );
             }

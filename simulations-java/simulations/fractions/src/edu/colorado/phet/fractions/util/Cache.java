@@ -15,13 +15,19 @@ public class Cache<T, U> extends F<T, U> {
     private final F<T, U> f;
     private final HashMap<T, U> map = new HashMap<T, U>();
 
+    private static final boolean debugMisses = false;
+
     public Cache( F<T, U> f ) {
         this.f = f;
     }
 
     @Override public U f( T t ) {
         if ( !map.containsKey( t ) ) {
+            if ( debugMisses ) { System.out.println( "cache miss for key = " + t ); }
             map.put( t, f.f( t ) );
+        }
+        else {
+            if ( debugMisses ) { System.out.println( "cache hit for key = " + t ); }
         }
         return map.get( t );
     }

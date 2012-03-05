@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model.pieset;
 
+import fj.F;
 import lombok.Data;
 
 import java.awt.Color;
 import java.awt.Shape;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarget.animateToSlice;
@@ -25,7 +25,8 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
     public final AnimationTarget animationTarget;
 
     //Left as a function instead of a field so we don't eagerly compute it until necessary
-    private final Function1<Slice, Shape> toShape;
+    //Also transient so that it doesn't appear in Lombok equals--necessary because slices are put as keys in a map
+    private transient final F<Slice, Shape> toShape;
     public final Color color;
 
     //Copy methods:
@@ -49,7 +50,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
 
     public Slice stepAnimation() { return stepTranslation().stepRotation(); }
 
-    public Shape getShape() { return toShape.apply( this ); }
+    public Shape getShape() { return toShape.f( this ); }
 
     private Slice stepTranslation() { return animationTarget == null ? this : translate( getVelocity() ).checkFinishAnimation();}
 
