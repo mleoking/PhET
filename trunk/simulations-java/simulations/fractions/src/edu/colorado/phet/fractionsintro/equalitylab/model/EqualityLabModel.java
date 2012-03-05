@@ -65,9 +65,8 @@ public class EqualityLabModel {
 
             //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
-            Dimension2D bigBucket = new Dimension2D( 350, 100 );
             return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, LIGHT_GREEN ),
-                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_GREEN, 125, horizontalSliceY, false ),
+                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, LIGHT_GREEN, 125 + 114, horizontalSliceY, false ),
                                    new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, LIGHT_GREEN, distanceBetweenBars ),
 
                                    //Align the right side of the water glasses with the right edge of the representation control panel
