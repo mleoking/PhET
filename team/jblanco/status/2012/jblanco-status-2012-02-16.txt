@@ -45,6 +45,5 @@ Meetings, Email, and Other Administrative Overhead - 7.0 hrs
 
 -	Weekly status meeting.
 -	Weekly status report.
--	Logged January hours in spreadsheet, filled out vacation and sick leave form.
 -	Review, prioritization, and updating of Unfuddle issues.
 -	Normal email and administrative overhead.
