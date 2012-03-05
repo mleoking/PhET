@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
-import edu.colorado.phet.fractionsintro.intro.view.PieSliceNode;
+import edu.colorado.phet.fractionsintro.intro.view.CircularPieSliceNode;
 import edu.colorado.phet.fractionsintro.intro.view.SpacedHBox;
 import edu.colorado.phet.fractionsintro.intro.view.VisibilityNode;
 import edu.umd.cs.piccolo.PNode;
@@ -51,14 +51,14 @@ public class PieSetFractionNode extends VisibilityNode {
                         final CellPointer cp = new CellPointer( i, j );
                         double degreesPerSlice = 360.0 / numSlices;
                         boolean empty = state.getContainer( cp.container ).isEmpty();
-                        final PieSliceNode pieSliceNode = new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? color : Color.white,
-                                                                            empty ? Color.lightGray : Color.black,
-                                                                            empty ? 1 : 2 );
+                        final CircularPieSliceNode pieSliceNode = new CircularPieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? color : Color.white,
+                                                                                            empty ? Color.lightGray : Color.black,
+                                                                                            empty ? 1 : 2 );
 
                         if ( !empty ) {
-                            pie.addChild( new PieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? color : Color.white,
-                                                            !empty ? Color.lightGray : Color.black,
-                                                            !empty ? 1 : 2 ) );
+                            pie.addChild( new CircularPieSliceNode( degreesPerSlice * j, degreesPerSlice, PIE_SIZE, state.isFilled( cp ) ? color : Color.white,
+                                                                    !empty ? Color.lightGray : Color.black,
+                                                                    !empty ? 1 : 2 ) );
 
                             pieSliceNode.addInputEventListener( new CursorHandler() );
                             pieSliceNode.addInputEventListener( new PBasicInputEventHandler() {
