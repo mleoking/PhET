@@ -10,6 +10,8 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Shows a fraction using a Pattern (see Pattern class)
+ *
  * @author Sam Reid
  */
 public class PatternNode extends PNode {

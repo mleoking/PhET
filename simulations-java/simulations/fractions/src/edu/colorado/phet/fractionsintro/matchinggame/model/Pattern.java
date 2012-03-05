@@ -15,6 +15,8 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Direct
 import static fj.data.List.iterableList;
 
 /**
+ * An abstraction over shape-based representations for fractions, such as a grid of cells, or a pyramid of triangles.
+ *
  * @author Sam Reid
  */
 public class Pattern {
