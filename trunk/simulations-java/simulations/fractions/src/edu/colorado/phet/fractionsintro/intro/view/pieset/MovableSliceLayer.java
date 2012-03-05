@@ -18,8 +18,8 @@ import edu.umd.cs.piccolox.nodes.PClip;
  *
  * @author Sam Reid
  */
-public class MovablePiecesLayer extends PNode {
-    public MovablePiecesLayer( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode, final SettableProperty<PieSet> model, final PNode rootNode, final double clipY ) {
+public class MovableSliceLayer extends PNode {
+    public MovableSliceLayer( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode, final SettableProperty<PieSet> model, final PNode rootNode, final double clipY ) {
 
         //Show graphics for the movable cells.  Put in a clip so that long bars will look like they sink through a "bottomless" bucket since they are too big at full size
         PClip movablePiecesLayer = new PClip() {{

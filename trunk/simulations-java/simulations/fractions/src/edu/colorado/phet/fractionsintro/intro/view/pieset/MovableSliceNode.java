@@ -34,12 +34,16 @@ public class MovableSliceNode extends PNode {
             @Override public void mousePressed( PInputEvent event ) {
                 PieSet state = model.get();
 
-                //If dragging from the bucket, do not delete the old piece (since bucket should always look like it has an infinite supply)
-                if ( state.isInBucket( slice ) ) {
-                    model.set( state.slices( state.slices.snoc( slice.dragging( true ) ) ) );
-                }
-                else {
-                    model.set( state.slices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) ) );
+                //Do not allow the user to grab a piece that is animating to a target, it causes the representations to get out of sync
+                if ( slice.animationTarget == null ) {
+
+                    //If dragging from the bucket, do not delete the old piece (since bucket should always look like it has an infinite supply)
+                    if ( state.isInBucket( slice ) ) {
+                        model.set( state.slices( state.slices.snoc( slice.dragging( true ) ) ) );
+                    }
+                    else {
+                        model.set( state.slices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) ) );
+                    }
                 }
             }
 

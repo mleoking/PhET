@@ -1,3 +1,4 @@
+First 2 tabs: Fixed: Clicking on an in-flight pie piece causes numerator to get out of sync, by making it so you can't drag an animating piece
 Equality Lab: Fixed a bug that caused the highlight to cover up tick marks on the scaled number line
 Equality Lab: Reduced the width of the horizontal bars, and reduced its bucket width to match the others
 Fractions Intro: Changed all inner stroke widths to 1.0 while leaving the exterior stroke width thick

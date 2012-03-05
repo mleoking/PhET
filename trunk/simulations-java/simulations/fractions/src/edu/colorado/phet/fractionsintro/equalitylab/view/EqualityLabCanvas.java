@@ -27,7 +27,7 @@ import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode.Vertical;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassSetNode;
-import edu.colorado.phet.fractionsintro.intro.view.pieset.MovablePiecesLayer;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.MovableSliceLayer;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
@@ -119,7 +119,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 @Override public void update() {
                     removeAllChildren();
                     addChild( CreateEmptyCellsNode.f( model.rightPieSet.get() ) );
-                    addChild( new MovablePiecesLayer( model.rightPieSet.get(), NodeToShape, model.rightPieSet, rootNode, STAGE_SIZE.getHeight() ) );
+                    addChild( new MovableSliceLayer( model.rightPieSet.get(), NodeToShape, model.rightPieSet, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
             setChildrenPickable( false );
@@ -131,7 +131,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 @Override public void update() {
                     removeAllChildren();
                     addChild( CreateEmptyCellsNode.f( model.rightHorizontalBars.get() ) );
-                    addChild( new MovablePiecesLayer( model.rightHorizontalBars.get(), NodeToShape, model.rightHorizontalBars, rootNode, STAGE_SIZE.getHeight() ) );
+                    addChild( new MovableSliceLayer( model.rightHorizontalBars.get(), NodeToShape, model.rightHorizontalBars, rootNode, STAGE_SIZE.getHeight() ) );
                 }
             } );
             setChildrenPickable( false );

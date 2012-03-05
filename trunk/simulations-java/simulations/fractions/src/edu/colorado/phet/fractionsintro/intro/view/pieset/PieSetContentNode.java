@@ -33,7 +33,7 @@ public class PieSetContentNode extends PNode {
 
         //Show graphics for the empty cells
         addChild( createEmptyCellsNode.f( state ) );
-        addChild( new MovablePiecesLayer( state, createSliceNode, model, rootNode, bucketHoleNode.getFullBoundsReference().getMaxY() ) );
+        addChild( new MovableSliceLayer( state, createSliceNode, model, rootNode, bucketHoleNode.getFullBoundsReference().getMaxY() ) );
 
         addChild( bucketView.getFrontNode() );
 
