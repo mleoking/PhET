@@ -41,6 +41,9 @@ public class MonthlyReportFilter {
         allList.add( "acid-base-solutions-study" );
         allList.add( "energy-skate-park-basics-study" );
 
+        //As of 3/5/2012, we are supposed to put all sim research study support in this category
+        allList.add( "sim-data-analysis-research-support" );
+
         allList.add( "leave:sick:family" );
         allList.add( "leave:sick:personal" );
         allList.add( "leave:sick" );
