@@ -24,6 +24,7 @@ public class EqualityLabModule extends AbstractFractionsModule {
         setSimulationPanel( new EqualityLabCanvas( model ) );
     }
 
+    //Test main for launching this module in an application by itself for testing
     public static void main( String[] args ) {
         final ApplicationConstructor constructor = new ApplicationConstructor() {
             @Override public PhetApplication getApplication( PhetApplicationConfig c ) {
