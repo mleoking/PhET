@@ -1,3 +1,4 @@
+Equality Lab: Fixed a bug that caused the highlight to cover up tick marks on the scaled number line
 Equality Lab: Reduced the width of the horizontal bars, and reduced its bucket width to match the others
 Fractions Intro: Changed all inner stroke widths to 1.0 while leaving the exterior stroke width thick
 Fractions Intro: Removed unused cake code
