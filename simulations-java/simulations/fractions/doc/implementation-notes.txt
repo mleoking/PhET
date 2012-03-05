@@ -7,7 +7,8 @@ For a nice book on functional programming in Java, please see http://www.amazon.
 For historical reasons, the different tabs have different ways of representing the views.
 The Intro tab and Equality Lab tab map the immutable model into Property<T> instances which are used to sync with the model.
 For the matching game (and for the shape graphics in the other 2 tabs), the entire scene graph is reconstructed and redrawn whenever the model changes.
-This does not seem to have a significantly negative impact on the performance.
+This does not seem to have a significantly negative impact on the performance.  For future work, I would recommend the "matching game" strategy, if it is feasible
+for scenes that are more expensive to paint.
 
 The immutable model objects are updated using copy methods.  The convention that I used for this sim is to give the copy method the name of the variable being set,
 and to only provide one argument to each copy method.  Convention for copy methods is to use method of the name of the variable and to call the constructor with the
