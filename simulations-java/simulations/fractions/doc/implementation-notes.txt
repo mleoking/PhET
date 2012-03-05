@@ -41,3 +41,6 @@ instead of the more verbose:
 F(SliceNodeArgs sliceNodeArgs) {return new ShapeNode(sliceNodeArgs.slice);}
 
 This sim uses single-line methods elsewhere ("simple methods in one line" in IntelliJ) to improve readability for short methods
+
+The animation is implemented in the model instead of piccolo because it is (a) conceptually natural (that the location of objects is in the model and not just how they look),
+(b) so that if we port it to another platform (such as Android), the model will still work properly and (c) it led to easy and uniform code

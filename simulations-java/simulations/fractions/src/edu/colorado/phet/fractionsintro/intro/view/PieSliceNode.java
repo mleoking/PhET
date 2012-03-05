@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Single slice for a pie.
+ * Piccolo node for a single slice for a pie.
  *
  * @author Sam Reid
  */
