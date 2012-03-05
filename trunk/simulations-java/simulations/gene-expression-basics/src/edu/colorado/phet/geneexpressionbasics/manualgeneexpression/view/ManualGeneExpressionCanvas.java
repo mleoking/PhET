@@ -61,6 +61,9 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private static final double MIN_ZOOM = 0.005;
     private static final double MAX_ZOOM = 1;
 
+    // Time for animated zoom in/out operations.
+    private static final long ZOOM_ANIMATION_TIME = 2000; // In milliseconds.
+
     // Inset for several of the controls.
     private static final double INSET = 15;
 
@@ -151,7 +154,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         backgroundCell.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseClicked( PInputEvent event ) {
                 if ( isZoomedOut() ) {
-                    zoomIn();
+                    zoomIn( ZOOM_ANIMATION_TIME );
                 }
             }
         } );
@@ -344,7 +347,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    zoomIn();
+                    zoomIn( ZOOM_ANIMATION_TIME );
                 }
             } );
         }};
@@ -353,13 +356,13 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    zoomOut();
+                    zoomOut( ZOOM_ANIMATION_TIME );
                 }
             } );
         }};
         controlsRootNode.addChild( zoomOutButton );
 
-        // Monitor the zoom
+        // Monitor the zoom and set the visibility of various controls.
         modelRootNode.addPropertyChangeListener( new PropertyChangeListener() {
 
             private final CursorHandler handCursor = new CursorHandler( CursorHandler.HAND );
@@ -423,25 +426,32 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
     }
 
-    private void zoomIn() {
-        zoomInOnNodes( backgroundCellLayer, modelRootNode );
+    private void zoomIn( long duration ) {
+        zoomInOnNodes( duration, backgroundCellLayer, modelRootNode );
     }
 
-    private void zoomOut() {
-        zoomOutFromNodes( backgroundCellLayer, modelRootNode );
+    private void zoomOut(long duration ) {
+        zoomOutFromNodes( duration, backgroundCellLayer, modelRootNode );
     }
 
-    private void zoomInOnNodes( PNode... nodesToZoom ) {
+    private void zoomInOnNodes( long duration, PNode... nodesToZoom ) {
         terminateAnyRunningActivities();
         for ( PNode node : nodesToZoom ) {
-            node.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, 2000 );
+            node.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, duration );
         }
     }
 
-    private void zoomOutFromNodes( PNode... nodesToZoom ) {
+    private void zoomOutFromNodes( long duration, PNode... nodesToZoom ) {
         terminateAnyRunningActivities();
         for ( PNode node : nodesToZoom ) {
-            node.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, 2000 );
+            node.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, duration );
+        }
+    }
+
+    private void setZoomInstantly( double zoomFactor, PNode... nodes ){
+        terminateAnyRunningActivities();
+        for ( PNode node : nodes ) {
+            node.setScale( zoomFactor );
         }
     }
 
@@ -486,8 +496,14 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
         }
-        if ( !isZoomedIn() ) {
-            zoomIn();
+        try {
+            Thread.sleep( 3000 );
+        }
+        catch ( InterruptedException e ) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        if ( isZoomedIn() ) {
+            setZoomInstantly( MIN_ZOOM, backgroundCellLayer, modelRootNode );
         }
     }
 
