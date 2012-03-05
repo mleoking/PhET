@@ -12,17 +12,17 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Piccolo node for a single slice for a pie.
+ * Piccolo node for a single slice (filled arc in a circular pie).
  *
  * @author Sam Reid
  */
-public class PieSliceNode extends PComposite {
+public class CircularPieSliceNode extends PComposite {
 
-    public PieSliceNode( double startDegrees, double extentDegrees,
+    public CircularPieSliceNode( double startDegrees, double extentDegrees,
 
-                         //The area which the entire pie should take up
-                         Rectangle2D area,
-                         Paint color, Paint strokePaint, float stroke ) {
+                                 //The area which the entire (filled) pie would take up
+                                 Rectangle2D area,
+                                 Paint color, Paint strokePaint, float stroke ) {
 
         final boolean fullCircle = extentDegrees >= 360 - 1E-6;
 
