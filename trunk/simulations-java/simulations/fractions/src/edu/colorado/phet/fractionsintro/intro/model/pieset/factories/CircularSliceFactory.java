@@ -9,7 +9,6 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Site;
@@ -42,9 +41,9 @@ public class CircularSliceFactory extends SliceFactory {
     }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
-    public final Function1<Slice, Shape> getShapeFunction( final double extent ) {
-        return new Function1<Slice, Shape>() {
-            @Override public Shape apply( Slice slice ) {
+    public final F<Slice, Shape> getShapeFunction( final double extent ) {
+        return new F<Slice, Shape>() {
+            @Override public Shape f( Slice slice ) {
                 double epsilon = 1E-6;
                 Vector2D tip = slice.position;
                 double angle = slice.angle;
