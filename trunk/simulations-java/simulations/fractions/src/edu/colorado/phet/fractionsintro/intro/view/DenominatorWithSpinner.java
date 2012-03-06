@@ -39,7 +39,7 @@ public class DenominatorWithSpinner extends FractionNumberNode {
             }
         };
         addChild( new SpinnerButtonPanelVBox( increment, denominator.lessThan( maxDenominator ), decrement, decrementAllowed ) {{
-            setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth(), biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth() - 5, biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
 }
