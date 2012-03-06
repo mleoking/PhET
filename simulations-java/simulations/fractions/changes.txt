@@ -1,3 +1,4 @@
+Intro: Increased the font size for the max number text
 Intro: Vertically center the pie representations in the negative space between the icon bar and the top of the fraction
 Equality Lab: Added an arrow pointing to the number line location because the ticks can get too close together to distinguish between them
 Equality Lab: Increased vertical space between horizontal bars
