@@ -34,7 +34,7 @@ public class NumeratorWithSpinner extends FractionNumberNode {
         };
         addChild( new SpinnerButtonPanelVBox( increment, numerator.lessThan( denominator.times( max ) ), decrement, numerator.greaterThanOrEqualTo( MIN_VALUE + 1 )
         ) {{
-            setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth() - 5, biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth() - DenominatorWithSpinner.OFFSET, biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
 }
