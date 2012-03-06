@@ -110,7 +110,7 @@ public class MatchingGameNode extends FNode {
         }
         state.scoreCells.take( state.scored ).map( new F<Cell, PNode>() {
             @Override public PNode f( final Cell cell ) {
-                return new PhetPText( "=" ) {{centerFullBoundsOnPoint( cell.rectangle.getCenter() );}};
+                return new PhetPText( "=", new PhetFont( 22 ) ) {{centerFullBoundsOnPoint( cell.rectangle.getCenter() );}};
             }
         } ).foreach( addChild );
 

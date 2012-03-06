@@ -1,3 +1,4 @@
+Matching Game: Made the equals sign in score cells larger
 Matching Game: Made yellow bars in equals sign thicker
 Matching Game: Changed "My matches" to "My Matches"
 Equality Lab: Fixed: The numbers do not look quite centered over the fraction dividing line
