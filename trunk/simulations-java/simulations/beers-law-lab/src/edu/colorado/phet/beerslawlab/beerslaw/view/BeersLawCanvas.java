@@ -38,7 +38,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
         PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
         PNode debugLocationNode = new DebugLocationNode( model.mvt );
         PNode solidBeamNode = new SolidBeamNode( model.solidBeam, lightRepresentation, model.mvt );
-        PNode photonBeamNode = new PhotonBeamNode( model.solution, model.solidBeam, lightRepresentation, model.mvt );
+        PNode photonBeamNode = new PhotonBeamNode( model.solution, model.photonBeam, lightRepresentation, model.mvt );
 
         // Rendering order
         {
@@ -46,9 +46,9 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
             addChild( resetAllButtonNode );
             addChild( detectorNode );
             addChild( cuvetteNode );
-            addChild( lightNode );
             addChild( solidBeamNode );
             addChild( photonBeamNode );
+            addChild( lightNode );
             addChild( rulerNode );
             addChild( solutionControlsNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
