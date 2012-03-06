@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -17,9 +19,10 @@ import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
  */
 public class MaxSpinner extends RichPNode {
     public MaxSpinner( final IntegerProperty value ) {
-        final PhetFont font = new PhetFont( 24 );
-        addChild( new VBox( 0, new PhetPText( "Max", font ),
-                            new HBox( new PhetPText( font ) {{
+        final PhetFont maxTextFont = new PhetFont( 32 );
+        final PhetFont maxNumberFont = new PhetFont( 36 );
+        addChild( new VBox( 0, new PhetPText( "Max", maxTextFont, Color.black ),
+                            new HBox( new PhetPText( maxNumberFont ) {{
                                 value.addObserver( new VoidFunction1<Integer>() {
                                     @Override public void apply( Integer m ) {
                                         setText( m + "" );
