@@ -18,7 +18,7 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
  */
 public class FractionsIntroModule extends AbstractFractionsModule {
     public FractionsIntroModule() {
-        this( new FractionsIntroModel( IntroState.INTRO_STATE, FactorySet.IntroTab() ) );
+        this( new FractionsIntroModel( IntroState.INTRO_STATE, FactorySet.introTab() ) );
     }
 
     private FractionsIntroModule( FractionsIntroModel model ) {
