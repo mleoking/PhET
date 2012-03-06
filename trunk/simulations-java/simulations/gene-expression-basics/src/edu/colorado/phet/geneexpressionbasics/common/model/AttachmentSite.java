@@ -4,7 +4,6 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
  * A site to which one biomolecule may attach to another.  Typically one
@@ -20,9 +19,9 @@ public class AttachmentSite {
     // moving.
     public Property<Point2D> locationProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
 
-    // A value between 0 and 1 that represents the strength of the affinity
-    // for this attachment.
-    protected double affinity;
+    // Property that can be used to change the affinity of the attachment site.
+    // Valid values are from 0 to 1;
+    public final Property<Double> affinityProperty;
 
     // A property that tracks which if any biomolecule is attached to or moving
     // towards attachment with this site.
@@ -32,20 +31,19 @@ public class AttachmentSite {
      * Constructor.
      *
      * @param initialLocation
-     *
      */
-    public AttachmentSite( Point2D initialLocation, double affinity ) {
+    public AttachmentSite( Point2D initialLocation, double initialAffinity ) {
         this.locationProperty.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
-        this.affinity = affinity;
+        affinityProperty = new Property<Double>( initialAffinity );
     }
 
     public double getAffinity() {
-        return affinity;
+        return affinityProperty.get();
     }
 
     public void setAffinity( double affinity ) {
-        assert affinity >= 0 && affinity <= 1;
-        this.affinity = affinity;
+        assert affinity >= 0 && affinity <= 1; // Bounds checking.
+        affinityProperty.set( affinity );
     }
 
     @Override public boolean equals( Object obj ) {
@@ -55,9 +53,8 @@ public class AttachmentSite {
 
         AttachmentSite otherAttachmentSite = (AttachmentSite) obj;
 
-        return this.affinity == otherAttachmentSite.affinity &&
+        return this.affinityProperty.get() == otherAttachmentSite.affinityProperty.get() &&
                this.locationProperty.get().getX() == otherAttachmentSite.locationProperty.get().getX() &&
                this.locationProperty.get().getY() == otherAttachmentSite.locationProperty.get().getY();
-
     }
 }

@@ -121,20 +121,24 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
             topBiomoleculeLayer.addChild( new PhetPPath( mvt.modelToView( model.moleculeMotionBounds ), new BasicStroke( 2 ), Color.RED ) );
         }
 
+        // Get a reference to the gene being controlled.
+        Gene gene = model.getDnaMolecule().getGenes().get( 0 );
+
         // Add the nodes that allow the user to control the concentrations and
         // affinities.
         TranscriptionFactorControlPanel positiveTranscriptionFactorControlPanel =
                 new TranscriptionFactorControlPanel( model,
                                                      model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
-                                                     model.getDnaMolecule().getGenes().get( 0 ).getTranscriptionFactorAffinityProperty( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
+                                                     gene.getTranscriptionFactorAffinityProperty( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
         controlsRootNode.addChild( positiveTranscriptionFactorControlPanel );
         PolymeraseAffinityControlPanel polymeraseAffinityControlPanel = new PolymeraseAffinityControlPanel( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
-                                                                                                            positiveTranscriptionFactorControlPanel.getFullBoundsReference().height );
+                                                                                                            positiveTranscriptionFactorControlPanel.getFullBoundsReference().height,
+                                                                                                            gene.getPolymeraseAffinityProperty() );
         controlsRootNode.addChild( polymeraseAffinityControlPanel );
         final TranscriptionFactorControlPanel negativeTranscriptionFactorControlPanel =
                 new TranscriptionFactorControlPanel( model,
                                                      model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG,
-                                                     model.getDnaMolecule().getGenes().get( 0 ).getTranscriptionFactorAffinityProperty( model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
+                                                     gene.getTranscriptionFactorAffinityProperty( model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
         controlsRootNode.addChild( negativeTranscriptionFactorControlPanel );
 
         // Add the check box for showing/hiding the control panel for the

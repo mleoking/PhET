@@ -24,9 +24,6 @@ public class TranscriptionFactorAttachmentSite extends AttachmentSite {
     // Configuration of TF that attaches to this site.
     private final TranscriptionFactorConfig tfConfig;
 
-    // Property that can be used to change the affinity of the attachment site.
-    public final Property<Double> affinityProperty;
-
     /**
      * Constructor.
      *
@@ -36,17 +33,6 @@ public class TranscriptionFactorAttachmentSite extends AttachmentSite {
     public TranscriptionFactorAttachmentSite( Point2D initialLocation, TranscriptionFactorConfig tfConfig, double initialAffinity ) {
         super( initialLocation, initialAffinity );
         this.tfConfig = tfConfig;
-        affinityProperty = new Property<Double>( initialAffinity );
-        // Link the property to the affinity in the base class.
-        affinityProperty.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double affinity ) {
-                TranscriptionFactorAttachmentSite.this.affinity = affinity;
-            }
-        } );
-    }
-
-    @Override public void setAffinity( double affinity ) {
-        affinityProperty.set( affinity );
     }
 
     public boolean configurationMatches( TranscriptionFactorConfig tfConfig ){

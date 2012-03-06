@@ -45,7 +45,7 @@ public class PolymeraseAffinityControlPanel extends PNode {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public PolymeraseAffinityControlPanel( TranscriptionFactorConfig tfConfig, double minHeight ) {
+    public PolymeraseAffinityControlPanel( TranscriptionFactorConfig tfConfig, double minHeight, Property<Double> polymeraseAffinityProperty ) {
 
         // Create the title.
         PNode title = new PText( "RNA Polymerase" ) {{
@@ -69,7 +69,7 @@ public class PolymeraseAffinityControlPanel extends PNode {
                 20,
                 title,
                 topSpacer,
-                new AffinityController( polymeraseNode, dnaFragmentNode, new Property<Double>( 0.0 ) ), // TODO: Need to hook up to actual model.
+                new AffinityController( polymeraseNode, dnaFragmentNode, new Property<Double>( 0.0 ) ),
                 bottomSpacer
         );
 
@@ -84,7 +84,7 @@ public class PolymeraseAffinityControlPanel extends PNode {
                 20,
                 title,
                 topSpacer,
-                new AffinityController( polymeraseNode, dnaFragmentNode, new Property<Double>( 0.0 ) ), // TODO: Need to hook up to actual model.
+                new AffinityController( polymeraseNode, dnaFragmentNode, polymeraseAffinityProperty ),
                 bottomSpacer
         );
 

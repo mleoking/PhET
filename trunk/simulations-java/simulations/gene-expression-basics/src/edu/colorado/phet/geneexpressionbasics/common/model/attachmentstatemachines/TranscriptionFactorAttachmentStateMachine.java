@@ -56,6 +56,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
 
             // TODO: For now, transcription factors stay attached to a max affinity site forever.  This will probably need to change.
             if ( attachmentSite.getAffinity() < 1 ) {
+                System.out.println( "attachmentSite.getAffinity() = " + attachmentSite.getAffinity() );
                 // See if we have been attached long enough.
                 attachCountdownTime -= dt;
                 if ( attachCountdownTime <= 0 ) {
