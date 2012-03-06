@@ -63,7 +63,7 @@ abstract class ParticleNode extends PPath {
         }
 
         public void cleanup() {
-            particle.location.removeObserver(    locationObserver );
+            particle.location.removeObserver( locationObserver );
         }
     }
 }
