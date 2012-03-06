@@ -9,11 +9,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.SliceNodeArgs;
 import edu.umd.cs.piccolo.PNode;
@@ -32,12 +34,13 @@ public class CakeSetNode extends PieSetNode {
     public static @Data class Arg {
         final int cell;
         final int denominator;
+        final Slice slice;
     }
 
     //Cache for performance, to avoid cropping each time
     static final Cache<Arg, BufferedImage> cakeImages = cache( new F<Arg, BufferedImage>() {
         @Override public BufferedImage f( Arg a ) {
-            return cropSides( RESOURCES.getImage( "cake/cake_" + a.denominator + "_" + ( a.cell + 1 ) + ".png" ) );
+            return cropAndTrim( RESOURCES.getImage( "cake/cake_" + a.denominator + "_" + ( a.cell + 1 ) + ".png" ) );
         }
     } );
 
@@ -57,7 +60,7 @@ public class CakeSetNode extends PieSetNode {
                 }
             } ).nub().map( new F<Vector2D, PNode>() {
                 @Override public PNode f( final Vector2D vector2D ) {
-                    return new PImage( RESOURCES.getImage( "cake/cake_grid_" + state.denominator + ".png" ) ) {{
+                    return new PImage( cropAndTrim( RESOURCES.getImage( "cake/cake_grid_" + state.denominator + ".png" ) ) ) {{
                         setOffset( vector2D.x - getFullBounds().getWidth() / 2, vector2D.y - getFullBounds().getHeight() / 2 - 40 );
                     }};
                 }
@@ -69,7 +72,7 @@ public class CakeSetNode extends PieSetNode {
     static class SliceImage extends PImage {
         SliceImage( final int cell, final SliceNodeArgs a ) {
             //Center on the slice tip because each image is padded to the amount of a full cake
-            super( cakeImages.f( new Arg( cell, a.denominator ) ) );
+            super( cakeImages.f( new Arg( cell, a.denominator, a.slice ) ) );
             double fudgeY = getFullBounds().getHeight() / 4;
             setOffset( a.slice.position.getX() - getFullBounds().getWidth() / 2, a.slice.position.getY() - getFullBounds().getHeight() / 2 - fudgeY );
         }
@@ -77,12 +80,12 @@ public class CakeSetNode extends PieSetNode {
 
     //trim whitespace on the sides of the image so cakes don't overlap (or else space out the cakes more)
     //Trim the sides since there is too much alpha left over in the images and it causes them to overlap so that mouse presses are caught by adjacent cakes instead of the desired cake
-    private static BufferedImage cropSides( BufferedImage image ) {
+    private static BufferedImage cropAndTrim( BufferedImage image ) {
         final int TRIM = 24;
         BufferedImage im = new BufferedImage( image.getWidth() - TRIM * 2, image.getHeight(), image.getType() );
         Graphics2D g2 = im.createGraphics();
         g2.drawRenderedImage( image, AffineTransform.getTranslateInstance( -TRIM, 0 ) );
         g2.dispose();
-        return im;
+        return BufferedImageUtils.multiScaleToWidth( im, (int) ( im.getWidth() * CakeSliceFactory.CAKE_SIZE_SCALE ) );
     }
 }

@@ -25,12 +25,13 @@ import static fj.Ord.ord;
  */
 public class CakeSliceFactory extends SliceFactory {
 
-    public final double diameter = 155;
+    public static final double CAKE_SIZE_SCALE = 0.93;
+    public final double diameter = 155 * CAKE_SIZE_SCALE;
     public final double radius = diameter / 2;
-    public final double spacing = 10;
+    public final double spacing = 22;
 
     //Private, require users to use singleton
-    public CakeSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize ) {super( 0.0, bucketPosition, bucketSize, null );}
+    public CakeSliceFactory( Vector2D bucketPosition, Dimension2D bucketSize ) {super( 0.0, bucketPosition, bucketSize, null ); }
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final F<Slice, Shape> getShapeFunction( final double extent ) {
@@ -39,7 +40,7 @@ public class CakeSliceFactory extends SliceFactory {
                 double epsilon = 1E-6;
                 Vector2D tip = slice.position;
                 double angle = slice.angle;
-                final Ellipse2D.Double boundingEllipse = new Ellipse2D.Double( tip.getX() - radius, tip.getY() - radius, radius * 2, radius * 2 - radius * 0.65 );
+                final Ellipse2D.Double boundingEllipse = new Ellipse2D.Double( tip.x - radius, tip.y - radius, radius * 2, radius * 2 - radius * 0.65 );
 
                 //Special case for half-pies since they should be vertical instead of horizontal (like pies)
                 if ( Math.abs( extent - Math.PI ) < epsilon ) {
@@ -56,7 +57,7 @@ public class CakeSliceFactory extends SliceFactory {
     //They are pointing up so that when they rotate to align with the closest targets (the bottom ones) they don't have far to rotate, since the bottom targets are also pointing up
     public Slice createBucketSlice( int denominator ) {
         final double anglePerSlice = 2 * Math.PI / denominator;
-        final Vector2D location = new Vector2D( getBucketCenter().getX() + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().getY() + radius / 4 );
+        final Vector2D location = new Vector2D( getBucketCenter().x + ( random.nextDouble() * 2 - 1 ) * radius, getBucketCenter().y + radius / 4 );
         return new Slice( location, 3 * Math.PI / 2 - anglePerSlice / 2, false, null, getShapeFunction( anglePerSlice ), null );
     }
 
