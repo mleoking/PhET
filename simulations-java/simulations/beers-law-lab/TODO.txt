@@ -14,6 +14,7 @@ MEDIUM
 - Beers: add variable wavelength feature
 - common: add log interpolation of color to ColorUtils
 - Concentration: 3-color range with min/max/center colors and concentration values
+- Concentration: use KMnO4 colorscheme RGB=[255,235,255], RGB=[255,0,255], RGB=[139,0,130 ]
 - Concentration: dev controls for color ranges and linear/log color interpolation
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 
