@@ -49,7 +49,7 @@ public class ScaledUpFractionNode extends RichPNode {
         }, scale.greaterThanOrEqualTo( 2 )
         ) );
 
-        spinnerButtonPanel.setOffset( getMaxX(), getCenterY() / 2 - spinnerButtonPanel.getFullHeight() / 2 );
+        spinnerButtonPanel.setOffset( getMaxX() + 12, getCenterY() / 2 - spinnerButtonPanel.getFullHeight() / 2 );
         addChild( spinnerButtonPanel );
     }
 }
