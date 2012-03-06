@@ -75,7 +75,7 @@ public class MatchingGameNode extends FNode {
         }};
         addChild( scoreCellsLayer );
 
-        addChild( new PhetPText( "My matches", new PhetFont( 18, true ) ) {{
+        addChild( new PhetPText( "My Matches", new PhetFont( 18, true ) ) {{
             setOffset( scoreCellsLayer.getFullBounds().getX(), scoreCellsLayer.getMaxY() );
         }} );
 
