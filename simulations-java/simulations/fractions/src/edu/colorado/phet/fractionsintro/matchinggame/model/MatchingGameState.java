@@ -128,8 +128,9 @@ import static fj.data.List.range;
             @Override public MovableFraction f( MovableFraction m ) {
                 double width = m.scale( 0.5 ).toNode().getFullBounds().getWidth();
                 final Cell cell = scoreCells.index( scored );
-                final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( cell.rectangle.x + width / 2 + 2, cell.rectangle.getCenter().getY() ) );
-                final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( cell.rectangle.getMaxX() - width / 2 - 2, cell.rectangle.getCenter().getY() ) );
+                final int offset = 15;
+                final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( cell.rectangle.getCenter().getX() - width / 2 - offset, cell.rectangle.getCenter().getY() ) );
+                final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( cell.rectangle.getCenter().getX() + width / 2 + offset, cell.rectangle.getCenter().getY() ) );
 
                 //Shrink values >1 more so they will both fit in the score box.  Not perfect, will have to be fine-tuned.
                 final F<UpdateArgs, MovableFraction> shrink = Scale( m.getValue() > 1 ? 0.25 : 0.5 );
