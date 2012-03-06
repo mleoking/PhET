@@ -7,9 +7,11 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
+- memory leak in photon view? starts acting strangely after running for awhile
 - Beers: implement photon view
 
 MEDIUM
+- Beers: outline solid light beam, ala fluid in first tab
 - Beers: add variable wavelength feature
 - common: add log interpolation of color to ColorUtils
 - Concentration: 3-color range with min/max/center colors and concentration values
@@ -17,6 +19,7 @@ MEDIUM
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 
 LOW
+- make ruler snap to 1cm increments, and/or remove some spacing on ruler ends?
 - Concentration: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
 - common: objects flicker/tear excessively while dragging (dropper, shaker, probes, cuvette, ...)
 - Concentration: shaker dispenses more than the max amount of solute, model doesn't keep track of solute falling from shaker
