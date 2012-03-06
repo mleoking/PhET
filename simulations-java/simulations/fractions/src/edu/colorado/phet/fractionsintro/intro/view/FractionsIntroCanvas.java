@@ -41,7 +41,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
                 new WaterGlassIcon( model.representation, LIGHT_GREEN ),
                 new CakeIcon( model.representation ),
                 new NumberLineIcon( model.representation ),
-        } ) {{
+        }, 0 ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
         }};
         addChild( representationControlPanel );

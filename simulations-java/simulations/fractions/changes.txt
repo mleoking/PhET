@@ -1,3 +1,5 @@
+Equality Lab: Fixed: The "icons" for both the horizontal bar and water cups should be shrunk slightly to fit better in the buttons
+Fixed: The the representation control panel icons should be square
 Equality Lab: Fixed: The Reset All button should have the same position as in tab 1, it is currently tucked more in the corner.
 Intro: Fixed: Thicker borders should be grayed out when nothing in the pie
 Intro: Increased spacing between the cakes
