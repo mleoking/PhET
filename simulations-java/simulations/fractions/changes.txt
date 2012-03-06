@@ -1,3 +1,4 @@
+Intro: Increased spacing between the cakes
 Intro: Shrink the cup "icon" 10 percent or so to fit better in the icon button
 Intro: Fixed: The cups are not centered in the display area
 Intro: Shrink the vertical bar "icon" in the vertical direction and give it an aspect ratio more similar to the representation

@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 
 /**
@@ -18,7 +17,7 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
  */
 public class FractionsIntroModule extends AbstractFractionsModule {
     public FractionsIntroModule() {
-        this( new FractionsIntroModel( IntroState.INTRO_STATE, FactorySet.introTab() ) );
+        this( new FractionsIntroModel( IntroState.INTRO_STATE, IntroState.createFactorySet() ) );
     }
 
     private FractionsIntroModule( FractionsIntroModel model ) {
