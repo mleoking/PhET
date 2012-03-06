@@ -11,7 +11,6 @@ HIGH
 - Beers: implement photon view
 
 MEDIUM
-- Beers: outline solid light beam, ala fluid in first tab
 - Beers: add variable wavelength feature
 - common: add log interpolation of color to ColorUtils
 - Concentration: 3-color range with min/max/center colors and concentration values
