@@ -144,7 +144,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                         // Update the detachment threshold.  It gets lower over
                         // time to increase the probability of detachment.
                         // Tweak as needed.
-                        detachFromDnaThreshold = detachFromDnaThreshold * Math.pow( 0.9, DEFAULT_ATTACH_TIME );
+                        detachFromDnaThreshold = detachFromDnaThreshold * Math.pow( 0.5, DEFAULT_ATTACH_TIME );
                     }
                 }
             }
