@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -39,6 +40,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScale;
 import static edu.colorado.phet.fractions.FractionsResources.Images.LOCKED;
@@ -65,11 +67,12 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Control panel for choosing different representations, can be split into separate controls for each display
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
         final double representationControlPanelScale = 0.80;
-        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getRepresentations( leftRepresentation, LIGHT_GREEN ) ) {{ scale( representationControlPanelScale ); }} ) {{
+        final int padding = 7;
+        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getIcons( leftRepresentation, LIGHT_GREEN ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getRepresentations( model.rightRepresentation, LIGHT_BLUE ) ) {{scale( representationControlPanelScale );}} ) {{
+        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getIcons( model.rightRepresentation, LIGHT_BLUE ), padding ) {{scale( representationControlPanelScale );}} ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
         }};
 
@@ -200,12 +203,22 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} );
     }
 
-    private RepresentationIcon[] getRepresentations( SettableProperty<Representation> representation, Color color ) {
+    private RepresentationIcon[] getIcons( SettableProperty<Representation> representation, Color color ) {
         return new RepresentationIcon[] {
                 new PieIcon( representation, color ),
-                new HorizontalBarIcon( representation, color ),
-                new WaterGlassIcon( representation, color ),
+                new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}},
+                new WaterGlassIcon( representation, color ) {{scale( 0.8 );}},
                 new NumberLineIcon( representation ),
         };
+    }
+
+    static class PaddedNode extends PNode {
+        public PaddedNode( PNode node ) {
+            addChild( node );
+        }
+
+        @Override public PBounds computeFullBounds( PBounds dstBounds ) {
+            return new PBounds( RectangleUtils.expand( super.computeFullBounds( dstBounds ), 3, 3 ) );
+        }
     }
 }

@@ -22,12 +22,12 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class RepresentationControlPanel extends ControlPanelNode {
-    public RepresentationControlPanel( SettableProperty<Representation> chosenRepresentation, RepresentationIcon[] elements ) {
-        super( new RepresentationControlPanelContentNode( chosenRepresentation, elements ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
+    public RepresentationControlPanel( SettableProperty<Representation> chosenRepresentation, RepresentationIcon[] elements, int padding ) {
+        super( new RepresentationControlPanelContentNode( chosenRepresentation, elements, padding ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
     }
 
     private static class RepresentationControlPanelContentNode extends PNode {
-        private RepresentationControlPanelContentNode( final SettableProperty<Representation> selected, final RepresentationIcon[] elements ) {
+        private RepresentationControlPanelContentNode( final SettableProperty<Representation> selected, final RepresentationIcon[] elements, int padding ) {
 
             double maxWidth = 0;
             double maxHeight = 0;
@@ -42,8 +42,8 @@ public class RepresentationControlPanel extends ControlPanelNode {
                 }
             }
 
-            final double finalMaxHeight = maxHeight;
-            final double finalMaxWidth = maxWidth;
+            final double finalMaxHeight = Math.max( maxWidth, maxHeight ) + padding;
+            final double finalMaxWidth = finalMaxHeight;
             final HBox representationLayer = new HBox( 10 ) {{
                 for ( final RepresentationIcon element : elements ) {
 

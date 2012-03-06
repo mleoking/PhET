@@ -16,12 +16,11 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
  */
 public class HorizontalBarIcon extends ShapeIcon {
     public HorizontalBarIcon( SettableProperty<Representation> chosenRepresentation, Color color ) {
-        super(
-                new ArrayList<Shape>(),
-                new ArrayList<Shape>() {{
-                    add( new Rectangle2D.Double( DIM, 0, DIM * 4, DIM ) );
-                }},
-                chosenRepresentation, Representation.HORIZONTAL_BAR, color
+        super( new ArrayList<Shape>(),
+               new ArrayList<Shape>() {{
+                   add( new Rectangle2D.Double( DIM, 0, DIM * 4, DIM ) );
+               }},
+               chosenRepresentation, Representation.HORIZONTAL_BAR, color
         );
     }
 }
