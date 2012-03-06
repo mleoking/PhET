@@ -1,3 +1,4 @@
+3/6/12 center ruler under cuvette
 3/6/12 tweak size and velocity of photons, use image caching to improve performance
 3/6/12 put a gray outline around the beam, so that lighter colors are still visible
 3/6/12 add ruler insets to model, start with ruler aligned with left edge of cuvette
