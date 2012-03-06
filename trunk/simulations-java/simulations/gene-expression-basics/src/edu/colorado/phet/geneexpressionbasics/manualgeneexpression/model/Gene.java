@@ -49,7 +49,7 @@ public abstract class Gene {
 
     // Map of transcription factors that interact with this gene to the
     // location, in terms of base pair offset, where the TF attaches.
-    private final Map<Integer, TFConfigAndProperty> transcriptionFactorMap = new HashMap<Integer, TFConfigAndProperty>();
+    private final Map<Integer, TranscriptionFactor> transcriptionFactorMap = new HashMap<Integer, TranscriptionFactor>();
 
     /**
      * Constructor.
@@ -156,7 +156,7 @@ public abstract class Gene {
      * @param tfConfig
      */
     protected void addTranscriptionFactor( int basePairOffset, TranscriptionFactorConfig tfConfig ) {
-        transcriptionFactorMap.put( basePairOffset, new TFConfigAndProperty( tfConfig ) );
+        transcriptionFactorMap.put( basePairOffset, new TranscriptionFactor( tfConfig ) );
         Point2D position = new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( basePairOffset + regulatoryRegion.getMin() ), DnaMolecule.Y_POS );
         transcriptionFactorPlacementHints.add( new TranscriptionFactorPlacementHint( new TranscriptionFactor( new StubGeneExpressionModel(), tfConfig, position ) ) );
         transcriptionFactorAttachmentSites.add( new TranscriptionFactorAttachmentSite( position, tfConfig, 1 ) );
@@ -178,8 +178,8 @@ public abstract class Gene {
         // Count the number of positive transcription factors needed to enable
         // transcription.
         int numPositiveTranscriptionFactorsNeeded = 0;
-        for ( TFConfigAndProperty tfConfigAndProperty : transcriptionFactorMap.values() ) {
-            if ( tfConfigAndProperty.tfConfig.isPositive ) {
+        for ( TranscriptionFactor transcriptionFactor : transcriptionFactorMap.values() ) {
+            if ( transcriptionFactor.getConfig().isPositive ) {
                 numPositiveTranscriptionFactorsNeeded++;
             }
         }
@@ -246,6 +246,23 @@ public abstract class Gene {
         }
 
         return attachmentSite;
+    }
+
+    /**
+     * Get a property that can be used to vary the affinity of the attachment
+     * site associated with the specified transcription factor.
+     * 
+     * @param tfConfig
+     * @return
+     */
+    public Property<Double> getTranscriptionFactorAffinityProperty( TranscriptionFactorConfig tfConfig ){
+        Property<Double> affinityProperty = null;
+        for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
+            if ( transcriptionFactorAttachmentSite.configurationMatches( tfConfig )){
+                affinityProperty = transcriptionFactorAttachmentSite.affinityProperty;
+            }
+        }
+        return affinityProperty;
     }
 
     public boolean containsBasePair( int basePairIndex ) {
@@ -332,8 +349,8 @@ public abstract class Gene {
      */
     public List<TranscriptionFactorConfig> getTranscriptionFactorConfigs() {
         List<TranscriptionFactorConfig> configList = new ArrayList<TranscriptionFactorConfig>();
-        for ( TFConfigAndProperty tfConfigAndProperty : transcriptionFactorMap.values() ) {
-            configList.add( tfConfigAndProperty.tfConfig );
+        for ( TranscriptionFactor transcriptionFactor : transcriptionFactorMap.values() ) {
+            configList.add( transcriptionFactor.getConfig() );
         }
         return configList;
     }
@@ -342,26 +359,26 @@ public abstract class Gene {
      * Convenience class that combines a transcript factor configuration with
      * a property that controls the affinity for that transcription factor.
      */
-    private class TFConfigAndProperty {
-        public static final double MIN_AFFINITY = DnaMolecule.DEFAULT_AFFINITY;
-        public static final double MAX_AFFINITY = 1;
-
-        public final TranscriptionFactorConfig tfConfig;
-        public final Property<Double> tfAffinity = new Property<Double>( MIN_AFFINITY );
-
-        private TFConfigAndProperty( TranscriptionFactorConfig tfConfig ) {
-            this.tfConfig = tfConfig;
-
-            // Watch for any attempts to go out of range for the affinity.
-            tfAffinity.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double aDouble ) {
-                    if ( aDouble < MIN_AFFINITY || aDouble > MAX_AFFINITY ){
-                        System.out.println( "Error: Attempt to set invalid affinity for transcription factor, value = " + aDouble );
-                        assert false;
-                        tfAffinity.set( MathUtil.clamp( MIN_AFFINITY, aDouble, MAX_AFFINITY ) );
-                    }
-                }
-            } );
-        }
-    }
+//    private class TFConfigAndProperty {
+//        public static final double MIN_AFFINITY = DnaMolecule.DEFAULT_AFFINITY;
+//        public static final double MAX_AFFINITY = 1;
+//
+//        public final TranscriptionFactorConfig tfConfig;
+//        public final Property<Double> tfAffinity = new Property<Double>( MIN_AFFINITY );
+//
+//        private TFConfigAndProperty( TranscriptionFactorConfig tfConfig ) {
+//            this.tfConfig = tfConfig;
+//
+//            // Watch for any attempts to go out of range for the affinity.
+//            tfAffinity.addObserver( new VoidFunction1<Double>() {
+//                public void apply( Double aDouble ) {
+//                    if ( aDouble < MIN_AFFINITY || aDouble > MAX_AFFINITY ){
+//                        System.out.println( "Error: Attempt to set invalid affinity for transcription factor, value = " + aDouble );
+//                        assert false;
+//                        tfAffinity.set( MathUtil.clamp( MIN_AFFINITY, aDouble, MAX_AFFINITY ) );
+//                    }
+//                }
+//            } );
+//        }
+//    }
 }
