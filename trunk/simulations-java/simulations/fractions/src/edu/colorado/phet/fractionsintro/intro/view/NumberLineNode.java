@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -183,8 +184,8 @@ public class NumberLineNode extends PNode {
                     addChild( circle );
                 }
 
-                if ( arrowPath != null ) {
-                    arrowPath.setPathTo( createArrowShape( scale, highlights ).getShape() );
+                if ( arrowPath != null && highlights.size() > 0 ) {
+                    arrowPath.setPathTo( createArrowShape( scale, highlights ) );
                     arrowPath.setVisible( arrowPathVisible );
                     addChild( arrowPath );
                 }
@@ -216,11 +217,11 @@ public class NumberLineNode extends PNode {
         mainObserver.update();
     }
 
-    private static Arrow createArrowShape( final double scale, final ArrayList<PNode> highlights ) {
+    private static GeneralPath createArrowShape( final double scale, final ArrayList<PNode> highlights ) {
         final PBounds highlightBounds = highlights.get( 0 ).getFullBounds();
         Vector2D tickA = new Vector2D( highlightBounds.getX() + 1, highlightBounds.getCenterY() );
         double headWidth = 10.0 / scale;
-        return new Arrow( tickA.plus( -5, 0 ).toPoint2D(), tickA.toPoint2D(), headWidth, headWidth, headWidth / 2.0 );
+        return new Arrow( tickA.plus( -5, 0 ).toPoint2D(), tickA.toPoint2D(), headWidth, headWidth, headWidth / 2.0 ).getShape();
     }
 
     protected void handleMousePress( PInputEvent event ) {
