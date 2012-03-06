@@ -300,7 +300,7 @@ public class Levels {
     };
 
     public F<List<Cell>, List<MovableFraction>> get( int level ) {
-        return Level2;
+        return Level4;
 //        return level == 1 ? Level1 :
 //               level == 2 ? Level2 :
 //               level == 3 ? Level3 :

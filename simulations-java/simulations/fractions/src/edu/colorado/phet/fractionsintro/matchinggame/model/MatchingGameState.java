@@ -132,8 +132,8 @@ import static fj.data.List.range;
                 final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( cell.rectangle.getCenter().getX() - width / 2 - offset, cell.rectangle.getCenter().getY() ) );
                 final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( cell.rectangle.getCenter().getX() + width / 2 + offset, cell.rectangle.getCenter().getY() ) );
 
-                //Shrink values >1 more so they will both fit in the score box.  Not perfect, will have to be fine-tuned.
-                final F<UpdateArgs, MovableFraction> shrink = Scale( m.getValue() > 1 ? 0.25 : 0.5 );
+                //Could shrink values >1 more so they will both fit in the score box using m.getValue() > 1 ? 0.5 : 0.5.  Not perfect, will have to be fine-tuned.
+                final F<UpdateArgs, MovableFraction> shrink = Scale( 0.5 );
                 return isOnScale( leftScale, m ) ? m.motion( composite( moveToLeftSide, shrink ) ).scored( true ) :
                        isOnScale( rightScale, m ) ? m.motion( composite( moveToRightSide, shrink ) ).scored( true ) :
                        m;
