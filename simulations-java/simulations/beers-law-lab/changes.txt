@@ -1,3 +1,4 @@
+3/6/12 change label "% Transmittance" to "Transmittance" on detector
 3/5/12 first pass at photon beam (model and view), does not interact with solution or detector
 3/5/12 rename Beam to SolidBeam
 3/2/12 Beers: make solutions more transparent so that it's easier to see probe inside solution

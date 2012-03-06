@@ -16,7 +16,6 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.ATDetector.ATDetectorMode;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
@@ -77,7 +76,7 @@ class ATDetectorNode extends PhetPNode {
         public BodyNode( final ATDetector detector, final ModelViewTransform mvt ) {
 
             // buttons for changing the detector "mode"
-            PNode transmittanceButton = new ModeButton( UserComponents.transmittanceRadioButton, Strings.PERCENT_TRANSMITTANCE, detector.mode, ATDetectorMode.PERCENT_TRANSMITTANCE );
+            PNode transmittanceButton = new ModeButton( UserComponents.transmittanceRadioButton, Strings.TRANSMITTANCE, detector.mode, ATDetectorMode.TRANSMITTANCE );
             PNode absorbanceButton = new ModeButton( UserComponents.absorbanceRadioButton, Strings.ABSORBANCE, detector.mode, ATDetectorMode.ABSORBANCE );
 
             // group the radio buttons
@@ -123,7 +122,7 @@ class ATDetectorNode extends PhetPNode {
                     }
                     else {
                         String text;
-                        if ( detector.mode.get() == ATDetectorMode.PERCENT_TRANSMITTANCE ) {
+                        if ( detector.mode.get() == ATDetectorMode.TRANSMITTANCE ) {
                            text = MessageFormat.format( Strings.PATTERN_0PERCENT, TRANSMITTANCE_FORMAT.format( value ) );
                         }
                         else {

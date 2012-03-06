@@ -35,7 +35,6 @@ public class BLLResources {
         public static final String PATTERN_PARENTHESES_0TEXT = RESOURCES.getLocalizedString( "pattern.parentheses.0text" );
         public static final String PATTERN_0PERCENT = RESOURCES.getLocalizedString( "pattern.0percent" );
         public static final String PATTERN_0FORMULA_1NAME = RESOURCES.getLocalizedString( "pattern.0formula.1name" );
-        public static final String PERCENT_TRANSMITTANCE = RESOURCES.getLocalizedString( "percentTransmittance" );
         public static final String PHOTONS = RESOURCES.getLocalizedString( "photons" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
@@ -48,6 +47,7 @@ public class BLLResources {
         public static final String TAB_BEERS_LAW = RESOURCES.getLocalizedString( "tab.beersLaw" );
         public static final String TAB_CONCENTRATION = RESOURCES.getLocalizedString( "tab.concentration" );
         public static final String UNITS_CENTIMETERS = RESOURCES.getLocalizedString( "units.centimeters" );
+        public static final String TRANSMITTANCE = RESOURCES.getLocalizedString( "transmittance" );
         public static final String UNITS_LITERS = RESOURCES.getLocalizedString( "units.liters" );
         public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
         public static final String UNITS_M = RESOURCES.getLocalizedString( "units.M" );
