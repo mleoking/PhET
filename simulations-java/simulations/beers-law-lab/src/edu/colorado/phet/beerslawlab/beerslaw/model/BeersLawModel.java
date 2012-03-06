@@ -94,6 +94,7 @@ public class BeersLawModel implements Resettable {
         cuvette.reset();
         detector.reset();
         ruler.reset();
+        photonBeam.reset();
     }
 
     public ArrayList<BeersLawSolution> getSolutions() {

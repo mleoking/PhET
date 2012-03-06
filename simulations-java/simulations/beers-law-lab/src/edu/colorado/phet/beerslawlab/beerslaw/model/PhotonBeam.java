@@ -4,6 +4,7 @@ package edu.colorado.phet.beerslawlab.beerslaw.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 /**
  * Model of a light beam as a collection of photons.
@@ -14,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhotonBeam {
+public class PhotonBeam implements Resettable {
 
     private static final int PHOTONS_EMITTED_PER_CLOCK_TICK = 10;
     private static final double PHOTON_VELOCITY = 0.75; // cm/sec
@@ -37,6 +38,10 @@ public class PhotonBeam {
         this.light = light;
         this.photons = new ArrayList<Photon>();
         this.listeners = new ArrayList<PhotonBeamChangeListener>();
+    }
+
+    public void reset() {
+        removeAllPhotons();
     }
 
     private void addPhoton( Photon photon ) {
