@@ -8,15 +8,9 @@ import lombok.Data;
  *
  * @author Sam Reid
  */
-@Data public class Fraction {
+public @Data class Fraction {
     public final int numerator;
     public final int denominator;
-
-    //Reduces a fraction
-    public Fraction( int numerator, int denominator ) {
-        this.numerator = numerator;
-        this.denominator = denominator;
-    }
 
     public double toDouble() {
         return (double) numerator / denominator;

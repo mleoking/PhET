@@ -3,13 +3,13 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import fj.F;
 import fj.data.List;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.util.Cache;
@@ -120,32 +120,55 @@ public class Levels {
 
     public static final Random random = new Random();
 
-    private Pair<MovableFraction, MovableFraction> createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells, F<Fraction, ArrayList<F<Fraction, PNode>>> _representations ) {
+    private ResultPair createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells, F<Fraction, ArrayList<F<Fraction, PNode>>> representationPool, final List<ResultPair> alreadySelected ) {
 
         //choose a fraction
-        Fraction f = fractions.get( random.nextInt( fractions.size() ) );
+        final Fraction fraction = fractions.get( random.nextInt( fractions.size() ) );
 
-        //Without replacement, remove the old fraction.
-        fractions.remove( f );
+        //Sampling is without replacement, so remove the old fraction.
+        fractions.remove( fraction );
+        ArrayList<F<Fraction, PNode>> representations = representationPool.f( fraction );
 
-        ArrayList<F<Fraction, PNode>> representations = _representations.f( f );
+        //Don't allow duplicate representations for fractions
+        //Find all representations for the given fraction
+        List<Result> previouslySelected = alreadySelected.map( new F<ResultPair, Result>() {
+            @Override public Result f( final ResultPair r ) {
+                return r.a;
+            }
+        } ).append( alreadySelected.map( new F<ResultPair, Result>() {
+            @Override public Result f( final ResultPair r ) {
+                return r.b;
+            }
+        } ) );
+        List<Result> same = previouslySelected.filter( new F<Result, Boolean>() {
+            @Override public Boolean f( final Result r ) {
+                return r.fraction.fraction().equals( fraction ) && r.representation == numeric;
+            }
+        } );
+        representations.removeAll( same.map( new F<Result, F<Fraction, PNode>>() {
+            @Override public F<Fraction, PNode> f( final Result result ) {
+                return result.representation;
+            }
+        } ).toCollection() );
 
         //create 2 representation for it
         F<Fraction, PNode> representationA = representations.get( random.nextInt( representations.size() ) );
         final Cell cellA = cells.get( random.nextInt( cells.size() ) );
-        MovableFraction fractionA = fraction( f, cellA, representationA );
+        MovableFraction fractionA = fraction( fraction, cellA, representationA );
 
         //Don't use the same representation for the 2nd one, and put it in a new cell
-        representations.remove( representationA );
+        while ( representations.contains( representationA ) ) {
+            representations.remove( representationA );
+        }
         cells.remove( cellA );
 
         final Cell cellB = cells.get( random.nextInt( cells.size() ) );
         F<Fraction, PNode> representationB = representations.get( random.nextInt( representations.size() ) );
-        MovableFraction fractionB = fraction( f, cellB, representationB );
+        MovableFraction fractionB = fraction( fraction, cellB, representationB );
 
         cells.remove( cellB );
 
-        return new Pair<MovableFraction, MovableFraction>( fractionA, fractionB );
+        return new ResultPair( new Result( fractionA, representationA ), new Result( fractionB, representationB ) );
     }
 
     private static MovableFraction fraction( Fraction fraction, Cell cell, final F<Fraction, PNode> node ) {
@@ -194,12 +217,26 @@ public class Levels {
 
         //Use mutable collection so it can be removed from for drawing without replacement
         ArrayList<Cell> cells = new ArrayList<Cell>( _cells.toCollection() );
+
+        //Keep track of all so that we don't replicate representations
+        ArrayList<ResultPair> all = new ArrayList<ResultPair>();
         while ( list.size() < _cells.length() ) {
-            Pair<MovableFraction, MovableFraction> pair = createPair( fractions, cells, representations );
-            list.add( pair._1 );
-            list.add( pair._2 );
+            ResultPair pair = createPair( fractions, cells, representations, iterableList( all ) );
+            all.add( pair );
+            list.add( pair.a.fraction );
+            list.add( pair.b.fraction );
         }
         return iterableList( list );
+    }
+
+    public static final @Data class Result {
+        public final MovableFraction fraction;
+        public final F<Fraction, PNode> representation;
+    }
+
+    public static final @Data class ResultPair {
+        public final Result a;
+        public final Result b;
     }
 
     /**
@@ -300,11 +337,10 @@ public class Levels {
     };
 
     public F<List<Cell>, List<MovableFraction>> get( int level ) {
-        return Level4;
-//        return level == 1 ? Level1 :
-//               level == 2 ? Level2 :
-//               level == 3 ? Level3 :
-//               level == 4 ? Level4 :
-//               Level4;
+        return level == 1 ? Level1 :
+               level == 2 ? Level2 :
+               level == 3 ? Level3 :
+               level == 4 ? Level4 :
+               Level4;
     }
 }
