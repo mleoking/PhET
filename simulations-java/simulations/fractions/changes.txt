@@ -1,3 +1,4 @@
+Matching Game: Fixed: Audio turns off after each level
 Matching Game: Added delay time to the pitch playback so that low sounds don't end too quickly
 Matching Game: Avoid matching numerical representations
 Matching Game: Fixed: With numbers larger than 1, the representations shrink a bit too much when in the containers
