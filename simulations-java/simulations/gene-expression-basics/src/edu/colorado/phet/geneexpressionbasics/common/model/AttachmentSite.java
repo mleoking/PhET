@@ -22,7 +22,7 @@ public class AttachmentSite {
 
     // A value between 0 and 1 that represents the strength of the affinity
     // for this attachment.
-    private double affinity;
+    protected double affinity;
 
     // A property that tracks which if any biomolecule is attached to or moving
     // towards attachment with this site.
