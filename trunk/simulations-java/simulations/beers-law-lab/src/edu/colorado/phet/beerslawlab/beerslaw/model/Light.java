@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  */
 public class Light implements Resettable {
 
-    public final ImmutableVector2D location;
+    public final ImmutableVector2D location; // cm
     public final Property<Boolean> on;
     public final Property<Double> wavelength; // nm
     public final double lensDiameter; // cm

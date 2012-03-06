@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class Photon {
 
     public final Property<ImmutableVector2D> location; // cm
-    public final double wavelength;
+    public final double wavelength; // nm
     public final double diameter; // cm
 
     public Photon( ImmutableVector2D location, double wavelength, double diameter ) {

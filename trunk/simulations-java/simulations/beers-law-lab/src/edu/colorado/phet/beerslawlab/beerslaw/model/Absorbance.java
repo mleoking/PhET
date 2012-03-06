@@ -27,29 +27,29 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class Absorbance {
 
-    private final CompositeProperty<Double> molarAbsorptivity; // a
-    private final CompositeProperty<Double> pathLength; // b
-    private final Property<Double> concentration; // C
+    private final CompositeProperty<Double> molarAbsorptivity; // a, units=1/(cm*M)
+    private final CompositeProperty<Double> pathLength; // b, units=cm
+    private final Property<Double> concentration; // C, units=M
 
     public final CompositeProperty<Double> value;
 
     public Absorbance( final Property<BeersLawSolution> solution, final Cuvette cuvette ) {
 
-        // a: molar absorptivity, units=1/(cm*M)
+        // a: molar absorptivity
         this.molarAbsorptivity = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
                 return solution.get().molarAbsorptionMax;
             }
         }, solution );
 
-        // b: path length, synonymous with cuvette width, units=cm
+        // b: path length, synonymous with cuvette width
         this.pathLength = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
                 return cuvette.width.get();
             }
         }, cuvette.width );
 
-        // C: concentration, units=M
+        // C: concentration
         {
             this.concentration = new Property<Double>( solution.get().concentration.get() );
 
