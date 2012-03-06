@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.view.FNode;
+import edu.colorado.phet.fractionsintro.intro.model.pieset.Pie;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
@@ -57,8 +58,8 @@ public class PieSetNode extends FNode {
     }
 
     //Construct the exterior to show the pie cells border with a bigger stroke than the individual cells
-    //Cache to save on performance, otherwise drops frame rate to <5fps
-    //Still reduced performance a bit due to runtime rendering, but could be rewritten if necessary to add explicit getBorderShape function for each pie
+    //Cache to save on performance, otherwise drops frame rate to < 5 fps
+    //Still reduced performance a bit due to runtime rendering, could be rewritten if necessary to add explicit getBorderShape function for each pie
     public static final Cache<List<Slice>, Area> cache = new Cache<List<Slice>, Area>( new F<List<Slice>, Area>() {
         @Override public Area f( final List<Slice> cells ) {
             return new Area() {{
@@ -74,7 +75,7 @@ public class PieSetNode extends FNode {
     //Creates a shape for showing the empty cells
     public static final F<PieSet, PNode> CreateEmptyCellsNode = new F<PieSet, PNode>() {
         @Override public PNode f( final PieSet state ) {
-            final PNode node = new PNode();
+            final FNode node = new FNode();
             for ( Slice cell : state.cells ) {
                 boolean anythingInPie = state.pieContainsSliceForCell( cell );
 
@@ -86,8 +87,17 @@ public class PieSetNode extends FNode {
             }
 
             //Show the outline in a thicker (2.0f) stroke
-            Area area = cache.f( state.cells );
-            node.addChild( new PhetPPath( area, new BasicStroke( 2.0f ), Color.black ) );
+            state.pies.map( new F<Pie, PNode>() {
+                @Override public PNode f( final Pie pie ) {
+                    boolean filled = pie.cells.exists( new F<Slice, Boolean>() {
+                        @Override public Boolean f( final Slice cell ) {
+                            return state.cellFilledNowOrSoon( cell );
+                        }
+                    } );
+                    return new PhetPPath( cache.f( pie.cells ), new BasicStroke( 2.0f ), filled ? Color.black : Color.lightGray );
+                }
+            } ).foreach( node.addChild );
+
             return node;
         }
     };
