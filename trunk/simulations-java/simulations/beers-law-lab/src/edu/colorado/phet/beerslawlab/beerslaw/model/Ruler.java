@@ -13,11 +13,13 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class Ruler extends Movable {
 
     public final int length; // cm, must be integer units
+    public final double insets; // cm, the horizontal insets at the ends of the ruler
     public final double height; //cm
 
-    public Ruler( int length, double height, ImmutableVector2D location, PBounds dragBounds ) {
+    public Ruler( int length, double insets, double height, ImmutableVector2D location, PBounds dragBounds ) {
         super( location, dragBounds );
         this.length = length;
+        this.insets = insets;
         this.height = height;
     }
 }
