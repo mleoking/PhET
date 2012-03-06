@@ -1,3 +1,4 @@
+Matching Game: Avoid matching numerical representations
 Matching Game: Fixed: With numbers larger than 1, the representations shrink a bit too much when in the containers
 Matching Game: Fixed: With the "+" representation, several edges seem to get cut off
 Matching Game: When a match is kept, have the matches in the containers be each closer to the equal sign instead of pushed to the edge of the match "container"

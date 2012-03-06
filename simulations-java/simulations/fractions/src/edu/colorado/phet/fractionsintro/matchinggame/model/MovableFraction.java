@@ -38,7 +38,8 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
     public transient final F<Fraction, PNode> node;
 
     //Strategy for moving the fraction over time (e.g. toward the scale or back to its original cell)
-    public final F<UpdateArgs, MovableFraction> motion;
+    //Marked as transient so won't be considered for equality
+    public transient final F<UpdateArgs, MovableFraction> motion;
 
     //Flag set to true if the user has scored with this fraction (making it no longer draggable)
     public final boolean scored;
