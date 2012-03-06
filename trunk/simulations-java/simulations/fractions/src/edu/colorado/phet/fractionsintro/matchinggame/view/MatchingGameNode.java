@@ -43,7 +43,7 @@ import static java.awt.Color.yellow;
  */
 public class MatchingGameNode extends FNode {
 
-    private static final boolean addResetButtonForDebugging = false;
+    private static final boolean addResetButtonForDebugging = true;
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }

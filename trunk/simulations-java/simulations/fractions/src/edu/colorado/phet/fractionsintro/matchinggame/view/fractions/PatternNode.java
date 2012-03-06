@@ -18,7 +18,9 @@ public class PatternNode extends PNode {
     public PatternNode( final Pattern representation, int numFilled, Color color ) {
         int count = 0;
         for ( Shape o : representation.shapes ) {
-            addChild( new PhetPPath( o, count < numFilled ? color : Color.white, new BasicStroke( 1 ), Color.black ) );
+
+            //Using a stroke more than 1 here prevents the right side from getting trimmed off during toImage
+            addChild( new PhetPPath( o, count < numFilled ? color : Color.white, new BasicStroke( 1.2f ), Color.black ) );
             count++;
         }
     }
