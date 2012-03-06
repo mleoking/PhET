@@ -18,7 +18,6 @@ MEDIUM
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 
 LOW
-- make ruler snap to 1cm increments, and/or remove some spacing on ruler ends?
 - Concentration: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
 - common: objects flicker/tear excessively while dragging (dropper, shaker, probes, cuvette, ...)
 - Concentration: shaker dispenses more than the max amount of solute, model doesn't keep track of solute falling from shaker
