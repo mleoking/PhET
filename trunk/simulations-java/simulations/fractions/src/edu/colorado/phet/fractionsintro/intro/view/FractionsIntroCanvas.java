@@ -88,10 +88,9 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
             }
         }, this, CONTROL_FONT, Color.black, Color.orange ) {{
             setConfirmationEnabled( false );
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
         }};
         addChild( resetAllButtonNode );
-
-        resetAllButtonNode.setOffset( STAGE_SIZE.width - resetAllButtonNode.getFullBounds().getWidth() - INSET, STAGE_SIZE.height - resetAllButtonNode.getFullBounds().getHeight() - INSET );
 
         //Spinner to change the maximum allowed value
         MaxSpinner maxSpinner = new MaxSpinner( model.maximum ) {{
