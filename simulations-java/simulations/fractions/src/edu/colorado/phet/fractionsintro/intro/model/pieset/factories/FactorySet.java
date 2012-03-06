@@ -41,11 +41,11 @@ public class FactorySet {
         final F<Site, Site> siteMap = Function.identity();
         final Color sliceColor = AbstractFractionsCanvas.LIGHT_GREEN;
 
-        final double distanceBetweenBars = 20;
+        final double distanceBetweenBars = 20 * 1.3;
         Dimension2D bucketSize = new Dimension2D( 350, 135 );
         return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, bucketSize, pieDiameter, pieX, pieY, siteMap, sliceColor ),
                                new HorizontalSliceFactory( bucketPosition, bucketSize, sliceColor ),
-                               new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, bucketSize, sliceColor, distanceBetweenBars ),
+                               new VerticalSliceFactory( -35.5, 125, 200, false, bucketPosition, bucketSize, sliceColor, distanceBetweenBars ),
                                new VerticalSliceFactory( 0, 100, 200, true, bucketPosition, bucketSize, sliceColor, distanceBetweenBars ),
                                new CakeSliceFactory( bucketPosition, bucketSize ) );
     }
