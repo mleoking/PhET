@@ -54,6 +54,9 @@ public class DnaMolecule {
     // Distance within which RNA polymerase may attach.
     private static final double RNA_POLYMERASE_ATTACHMENT_DISTANCE = 400;
 
+    // Default affinity for any given biomolecule.
+    public static final double DEFAULT_AFFINITY = 0.05;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -627,11 +630,11 @@ public class DnaMolecule {
      * @return
      */
     public AttachmentSite createDefaultAffinityAttachmentSite( double xOffset ) {
-        return new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ), 0.05 );
+        return new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ), DEFAULT_AFFINITY );
     }
 
     public AttachmentSite createDefaultAffinityAttachmentSite( int basePairIndex ) {
-        return new AttachmentSite( new Point2D.Double( getBasePairXOffsetByIndex( basePairIndex ), Y_POS ), 0.05 );
+        return new AttachmentSite( new Point2D.Double( getBasePairXOffsetByIndex( basePairIndex ), Y_POS ), DEFAULT_AFFINITY );
     }
 
     /**
