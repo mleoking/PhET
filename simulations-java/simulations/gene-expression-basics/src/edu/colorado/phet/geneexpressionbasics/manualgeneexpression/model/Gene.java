@@ -134,8 +134,7 @@ public abstract class Gene {
                 return new AttachmentSite( polymeraseAttachmentSite.locationProperty.get(), 0 );
             }
             else if ( transcriptionFactorsSupportTranscription() ) {
-                // Transcription enabled, return high affinity site.
-                polymeraseAttachmentSite.setAffinity( 1 );
+                // Transcription enabled, return polyerase-specific affinity site.
                 return polymeraseAttachmentSite;
             }
         }
@@ -216,8 +215,9 @@ public abstract class Gene {
     /**
      * Get the attachment site for a location that is contained within this
      * gene.  In many cases, the affinity of the attachment site will be the
-     * same as the default for any DNA, but in some cases it may be especially
-     * strong.
+     * same as the default for any base pair on the DNA, but if the specified
+     * base pair matches the location of the high-affinity site for this
+     * transcription factory, it will generally be higher than the default.
      *
      * @param basePairIndex - Index of the base pair on the DNA strand, NOT the
      *                      index within this gene.  In the real world,
@@ -260,9 +260,21 @@ public abstract class Gene {
         for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
             if ( transcriptionFactorAttachmentSite.configurationMatches( tfConfig )){
                 affinityProperty = transcriptionFactorAttachmentSite.affinityProperty;
+                // Built-in assumption here: Only one site for given TF config.
+                break;
             }
         }
         return affinityProperty;
+    }
+
+    /**
+     * Get the property that controls the affinity of the site where polymerase
+     * binds when initiating transcription.
+     *
+     * @return
+     */
+    public Property<Double> getPolymeraseAffinityProperty(){
+        return polymeraseAttachmentSite.affinityProperty;
     }
 
     public boolean containsBasePair( int basePairIndex ) {

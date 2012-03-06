@@ -93,6 +93,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             assert asm.attachmentSite != null;
             assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
 
+            System.out.println( "attachmentSite.getAffinity() = " + attachmentSite.getAffinity() );
             if ( attachmentSite.getAffinity() == 1 ) {
                 // Attached to a max affinity site, which means that it is time
                 // to transcribe the DNA into mRNA.
