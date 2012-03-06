@@ -117,18 +117,24 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         }
 
         // Add motion bounds indicator, if turned on.
-        if ( SHOW_MOTION_BOUNDS ){
+        if ( SHOW_MOTION_BOUNDS ) {
             topBiomoleculeLayer.addChild( new PhetPPath( mvt.modelToView( model.moleculeMotionBounds ), new BasicStroke( 2 ), Color.RED ) );
         }
 
         // Add the nodes that allow the user to control the concentrations and
         // affinities.
-        TranscriptionFactorControlPanel positiveTranscriptionFactorControlPanel = new TranscriptionFactorControlPanel( model, true );
+        TranscriptionFactorControlPanel positiveTranscriptionFactorControlPanel =
+                new TranscriptionFactorControlPanel( model,
+                                                     model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
+                                                     model.getDnaMolecule().getGenes().get( 0 ).getTranscriptionFactorAffinityProperty( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
         controlsRootNode.addChild( positiveTranscriptionFactorControlPanel );
         PolymeraseAffinityControlPanel polymeraseAffinityControlPanel = new PolymeraseAffinityControlPanel( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
                                                                                                             positiveTranscriptionFactorControlPanel.getFullBoundsReference().height );
         controlsRootNode.addChild( polymeraseAffinityControlPanel );
-        final TranscriptionFactorControlPanel negativeTranscriptionFactorControlPanel = new TranscriptionFactorControlPanel( model, false );
+        final TranscriptionFactorControlPanel negativeTranscriptionFactorControlPanel =
+                new TranscriptionFactorControlPanel( model,
+                                                     model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG,
+                                                     model.getDnaMolecule().getGenes().get( 0 ).getTranscriptionFactorAffinityProperty( model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
         controlsRootNode.addChild( negativeTranscriptionFactorControlPanel );
 
         // Add the check box for showing/hiding the control panel for the
@@ -144,7 +150,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         negativeTranscriptionFactorEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
                 negativeTranscriptionFactorControlPanel.setVisible( enabled );
-                if ( !enabled ){
+                if ( !enabled ) {
                     // When the negative transcription factor control is
                     // hidden, there should be no negative factors.
                     model.negativeTranscriptionFactorCount.reset();

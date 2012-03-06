@@ -45,16 +45,12 @@ public class TranscriptionFactorControlPanel extends PNode {
 
     /**
      * Constructor.
-     *
-     * @param model
-     * @param positive
      */
-    public TranscriptionFactorControlPanel( MessengerRnaProductionModel model, boolean positive ) {
+    public TranscriptionFactorControlPanel( MessengerRnaProductionModel model, TranscriptionFactorConfig transcriptionFactorConfig, Property<Double> affinityProperty  ) {
 
-        final TranscriptionFactorConfig transcriptionFactorConfig;
         final String titleText;
         final IntegerProperty tfLevelProperty;
-        if ( positive ) {
+        if ( transcriptionFactorConfig.isPositive ) {
             transcriptionFactorConfig = model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG;
             titleText = "<center>Positive<br>Transcription Factor</center>";
             tfLevelProperty = model.positiveTranscriptionFactorCount;
@@ -75,7 +71,7 @@ public class TranscriptionFactorControlPanel extends PNode {
                 20,
                 title,
                 new ConcentrationController( transcriptionFactorConfig, tfLevelProperty, 0, model.MAX_TRANSCRIPTION_FACTOR_COUNT ),
-                new AffinityController( transcriptionFactorNode, dnaFragmentNode, new Property<Double>( 0.0 ) ) // TODO: Need to hook up to actual model.
+                new AffinityController( transcriptionFactorNode, dnaFragmentNode, affinityProperty )
         );
 
         addChild( new ControlPanelNode( contents ) );
