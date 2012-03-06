@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +30,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
     private static final Random RAND = new Random();
 
-    private AttachmentState attachedAndWanderingState = new AttachedAndDoing1DWalkState();
+    private AttachmentState attachedAndWanderingState = new AttachedToLowAffinitySite();
     private AttachmentState attachedAndConformingState = new AttachedAndConformingState();
     private AttachmentState attachedAndTranscribingState = new AttachedAndTranscribingState();
     private AttachmentState attachedAndDeconformingState = new AttachedAndDeconformingState();
@@ -49,6 +47,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // a lot easier than trying to move to each and every base pair in the DNA
     // strand.
     private final AttachmentSite transcribingAttachmentSite = new AttachmentSite( new Point2D.Double( 0, 0 ), 1 );
+
+    // Threshold for the detachment algorithm, used in deciding whether or not
+    // to detach completely from the DNA at a given time step.
+    private double detachFromDnaThreshold = 1;
 
     /**
      * Constructor.
@@ -67,13 +69,13 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         dnaStrandSeparation = new DnaSeparation( rnaPolymerase.getPosition().getX(), rnaPolymerase.getShape().getBounds2D().getHeight() * 0.9 );
 
         // Initialize the attachment site used when transcribing.
-        transcribingAttachmentSite.attachedOrAttachingMolecule.set(rnaPolymerase );
+        transcribingAttachmentSite.attachedOrAttachingMolecule.set( rnaPolymerase );
     }
 
     // Subclass of the "attached" state for polymerase when it is attached to
     // the DNA but is not transcribing.  In this state, it is doing a 1D
     // random walk on the DNA strand.
-    protected class AttachedAndDoing1DWalkState extends AttachmentState {
+    protected class AttachedToLowAffinitySite extends AttachmentState {
 
         // Scalar velocity when moving between attachment points on the DNA.
         private static final double VELOCITY_ON_DNA = 200;
@@ -96,6 +98,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 // to transcribe the DNA into mRNA.
                 attachedState = attachedAndConformingState;
                 setState( attachedState );
+                detachFromDnaThreshold = 1; // Reset this threshold.
             }
             else {
                 // See if we have been attached long enough.
@@ -113,15 +116,15 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.
-                    if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
-                        // Detach.
+                    if ( RAND.nextDouble() > detachFromDnaThreshold || attachmentSites.size() == 0 ) {
+                        // Detach completely from the DNA molecule.
                         asm.attachmentSite.attachedOrAttachingMolecule.set( null );
                         asm.attachmentSite = null;
                         asm.setState( unattachedButUnavailableState );
                         biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
+                        detachFromDnaThreshold = 1; // Reset this threshold.
                     }
                     else {
-
                         // Shuffle the sites to create some randomness.
                         Collections.shuffle( attachmentSites );
 
@@ -138,6 +141,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                                                                                                     biomolecule.motionBoundsProperty,
                                                                                                     new ImmutableVector2D( 0, 0 ),
                                                                                                     VELOCITY_ON_DNA ) );
+                        // Update the detachment threshold.  It gets lower over
+                        // time to increase the probability of detachment.
+                        // Tweak as needed.
+                        detachFromDnaThreshold = detachFromDnaThreshold * Math.pow( 0.9, DEFAULT_ATTACH_TIME );
                     }
                 }
             }
