@@ -30,6 +30,10 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
     // Scalar velocity when moving between attachment points on the DNA.
     private static final double VELOCITY_ON_DNA = 200;
 
+    // Threshold for the detachment algorithm, used in deciding whether or not
+    // to detach completely from the DNA at a given time step.
+    private double detachFromDnaThreshold = 1;
+
     public TranscriptionFactorAttachmentStateMachine( MobileBiomolecule biomolecule ) {
         super( biomolecule );
 
@@ -69,15 +73,15 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
 
                     // Decide whether to completely detach from the DNA strand or
                     // move to an adjacent attachment point.
-                    if ( RAND.nextDouble() > 0.8 || attachmentSites.size() == 0 ) {
+                    if ( RAND.nextDouble() > detachFromDnaThreshold || attachmentSites.size() == 0 ) {
                         // Detach completely from the DNA.
                         asm.attachmentSite.attachedOrAttachingMolecule.set( null );
                         asm.attachmentSite = null;
                         asm.setState( unattachedButUnavailableState );
                         biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
+                        detachFromDnaThreshold = 1; // Reset this threshold.
                     }
                     else {
-
                         // Attach to an adjacent base pair.  First, shuffle the
                         // possible sites in order to get random behavior.
                         Collections.shuffle( attachmentSites );
@@ -95,6 +99,10 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                                                                                                     biomolecule.motionBoundsProperty,
                                                                                                     new ImmutableVector2D( 0, 0 ),
                                                                                                     VELOCITY_ON_DNA ) );
+                        // Update the detachment threshold.  It gets lower over
+                        // time to increase the probability of detachment.
+                        // Tweak as needed.
+                        detachFromDnaThreshold = detachFromDnaThreshold * Math.pow( 0.5, DEFAULT_ATTACH_TIME );
                     }
                 }
             }
