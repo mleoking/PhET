@@ -21,7 +21,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  */
 class PhotonBeamNode extends PhetPNode {
 
-
     public PhotonBeamNode( Property<BeersLawSolution> solution, final PhotonBeam photonBeam,
                            final Property<LightRepresentation> representation, final ModelViewTransform mvt ) {
         setPickable( false );
