@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class ATDetector {
 
-    public static enum ATDetectorMode {PERCENT_TRANSMITTANCE, ABSORBANCE}
+    public static enum ATDetectorMode {TRANSMITTANCE, ABSORBANCE}
 
     private final Light light;
     private final Cuvette cuvette;
@@ -25,7 +25,7 @@ public class ATDetector {
     public final CompositeProperty<Double> value; // value displayed by the detector, null if no value is detected
     public final Movable body;
     public final Probe probe;
-    public Property<ATDetectorMode> mode = new Property<ATDetectorMode>( ATDetectorMode.PERCENT_TRANSMITTANCE );
+    public Property<ATDetectorMode> mode = new Property<ATDetectorMode>( ATDetectorMode.TRANSMITTANCE );
 
     public static class Probe extends Movable {
 
