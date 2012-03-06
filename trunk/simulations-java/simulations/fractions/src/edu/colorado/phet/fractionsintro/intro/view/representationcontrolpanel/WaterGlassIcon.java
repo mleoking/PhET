@@ -32,7 +32,7 @@ public class WaterGlassIcon extends PNode implements RepresentationIcon {
                 selected.set( getRepresentation() );
             }
         } );
-        scale( 0.4 );
+        scale( 0.32 );
     }
 
     public PNode getNode() {
