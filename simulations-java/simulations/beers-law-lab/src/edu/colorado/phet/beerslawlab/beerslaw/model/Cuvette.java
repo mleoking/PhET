@@ -22,7 +22,7 @@ public class Cuvette implements Resettable {
     public final ImmutableVector2D location; // fixed location, cm
     public final Property<Double> width; // variable width, cm
     public final double height; // fixed height, cm
-    public final DoubleRange widthRange;
+    public final DoubleRange widthRange; // cm
 
     public Cuvette( ImmutableVector2D location, double width, double height, DoubleRange widthRange ) {
         this.location = location;
