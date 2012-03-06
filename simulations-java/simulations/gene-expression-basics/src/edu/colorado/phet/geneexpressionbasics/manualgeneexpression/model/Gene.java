@@ -366,31 +366,4 @@ public abstract class Gene {
         }
         return configList;
     }
-
-    /**
-     * Convenience class that combines a transcript factor configuration with
-     * a property that controls the affinity for that transcription factor.
-     */
-//    private class TFConfigAndProperty {
-//        public static final double MIN_AFFINITY = DnaMolecule.DEFAULT_AFFINITY;
-//        public static final double MAX_AFFINITY = 1;
-//
-//        public final TranscriptionFactorConfig tfConfig;
-//        public final Property<Double> tfAffinity = new Property<Double>( MIN_AFFINITY );
-//
-//        private TFConfigAndProperty( TranscriptionFactorConfig tfConfig ) {
-//            this.tfConfig = tfConfig;
-//
-//            // Watch for any attempts to go out of range for the affinity.
-//            tfAffinity.addObserver( new VoidFunction1<Double>() {
-//                public void apply( Double aDouble ) {
-//                    if ( aDouble < MIN_AFFINITY || aDouble > MAX_AFFINITY ){
-//                        System.out.println( "Error: Attempt to set invalid affinity for transcription factor, value = " + aDouble );
-//                        assert false;
-//                        tfAffinity.set( MathUtil.clamp( MIN_AFFINITY, aDouble, MAX_AFFINITY ) );
-//                    }
-//                }
-//            } );
-//        }
-//    }
 }
