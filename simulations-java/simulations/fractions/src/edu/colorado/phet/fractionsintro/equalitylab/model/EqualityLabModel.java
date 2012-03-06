@@ -40,7 +40,7 @@ public class EqualityLabModel {
     public static final double pieY = 225 - 12.5;
     public static final double pieDiameter = 135;
     public static final double distanceBetweenBars = 5;
-    public static final double horizontalSliceY = 25 - 41.5 - 15;
+    public static final double horizontalSliceY = 25 - 41.5 - 15 + 30;
 
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, then it goes up
     //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)

@@ -52,6 +52,7 @@ public class StackedHorizontalSliceFactory extends SliceFactory {
     }
 
     public final double barHeight = 40;
+    public final double distanceBetweenBars = 30;
 
     private final double oneBarWidth = 200;//Make it fit in the small bucket
 
@@ -64,7 +65,6 @@ public class StackedHorizontalSliceFactory extends SliceFactory {
 
         final double cellWidth = oneBarWidth / denominator;
 
-        final double distanceBetweenBars = 10;
         double rowHeight = barHeight + distanceBetweenBars;
 
         final Vector2D barCenter = new Vector2D( oneBarWidth / 2, 400 - row * rowHeight );
