@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -52,6 +53,7 @@ public class NumberLineNode extends PNode {
     private final ObservableProperty<Integer> denominator;
     private final IntegerProperty max;
     private final Orientation orientation;
+    private final PhetPPath arrowPath;
 
     public static abstract class Orientation {
         public abstract Vector2D get( final double x, final double y );
@@ -85,7 +87,7 @@ public class NumberLineNode extends PNode {
         }
     }
 
-    public NumberLineNode( final ObservableProperty<Integer> numerator, final SettableProperty<Integer> settableNumerator, final ObservableProperty<Integer> denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation, final double distanceBetweenTicks, Color color ) {
+    public NumberLineNode( final ObservableProperty<Integer> numerator, final SettableProperty<Integer> settableNumerator, final ObservableProperty<Integer> denominator, ValueEquals<Representation> showing, final IntegerProperty max, final Orientation orientation, final double distanceBetweenTicks, Color color, final boolean arrowPathVisible ) {
         this.settableNumerator = settableNumerator;
         this.denominator = denominator;
         this.max = max;
@@ -98,8 +100,9 @@ public class NumberLineNode extends PNode {
             }
         } );
 
-        new RichSimpleObserver() {
+        final RichSimpleObserver mainObserver = new RichSimpleObserver() {
             @Override public void update() {
+                final ArrayList<PNode> highlights = new ArrayList<PNode>();
                 removeAllChildren();
 
                 //always go the same distance to whole numbers
@@ -113,11 +116,7 @@ public class NumberLineNode extends PNode {
                 //For snapping
                 tickLocations = new ArrayList<Pair<Double, Integer>>();
 
-                ArrayList<PNode> highlights = new ArrayList<PNode>();
-
                 for ( int i = 0; i <= divisionsBetweenTicks * max.get(); i++ ) {
-
-                    final int finalI = i;
 
                     //Major ticks at each integer
                     final BasicStroke highlightStroke = new BasicStroke( 4 );
@@ -127,16 +126,15 @@ public class NumberLineNode extends PNode {
                         double height = mod == 0 ? 8 : 8;
                         final BasicStroke stroke = mod == 0 ? new BasicStroke( 1 ) : new BasicStroke( 0.5f );
                         final PhetPPath path = new PhetPPath( orientation.line( i * dx, -height, i * dx, height ), stroke, Color.black );
-                        final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -height, i * dx, height ), highlightStroke, Color.yellow );
-                        highlights.add( highlightPath );
-                        new RichSimpleObserver() {
-                            @Override public void update() {
-                                final boolean visible = numerator.get().equals( finalI );
-                                highlightPath.setVisible( visible );
-                                highlightPath.setPickable( visible );
-                            }
-                        }.observe( numerator, denominator );
-                        addChild( highlightPath );
+
+                        final boolean highlightVisible = numerator.get().equals( i );
+                        if ( highlightVisible ) {
+                            final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -height, i * dx, height ), highlightStroke, Color.yellow );
+                            highlightPath.setVisible( highlightVisible );
+                            highlightPath.setPickable( highlightVisible );
+                            addChild( highlightPath );
+                            highlights.add( highlightPath );
+                        }
                         addChild( path );
                         addChild( new PhetPText( div + "", new PhetFont( 8 ) ) {{
                             setOffset( orientation.getPositionForPText( path, this ) );
@@ -149,14 +147,12 @@ public class NumberLineNode extends PNode {
                     //Minor ticks
                     else {
 
-                        final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -4, i * dx, 4 ), highlightStroke, Color.yellow );
-                        highlights.add( highlightPath );
-                        new RichSimpleObserver() {
-                            @Override public void update() {
-                                highlightPath.setVisible( numerator.get().equals( finalI ) );
-                            }
-                        }.observe( numerator, denominator );
-                        addChild( highlightPath );
+                        final boolean highlightVisible = numerator.get().equals( i );
+                        if ( highlightVisible ) {
+                            final PhetPPath highlightPath = new PhetPPath( orientation.line( i * dx, -4, i * dx, 4 ), highlightStroke, Color.yellow );
+                            highlights.add( highlightPath );
+                            addChild( highlightPath );
+                        }
 
                         //minor ticks between the integers
                         addChild( new PhetPPath( orientation.line( i * dx, -4, i * dx, 4 ), new BasicStroke( 0.25f ), Color.black ) );
@@ -186,15 +182,23 @@ public class NumberLineNode extends PNode {
                     circle.setOffset( orientation.get( (double) numerator.get() / denominator.get() * distanceBetweenTicks, 0 ).toPoint2D() );
                     addChild( circle );
                 }
+
+                if ( arrowPath != null ) {
+                    arrowPath.setPathTo( createArrowShape( scale, highlights ).getShape() );
+                    arrowPath.setVisible( arrowPathVisible );
+                    addChild( arrowPath );
+                }
             }
-        }.observe( numerator, denominator, max );
+        };
+        mainObserver.observe( numerator, denominator, max );
 
         //Green circle in the middle of it all
         final double w = 5;
         final double w2 = 0;
+        final BasicStroke borderStroke = new BasicStroke( 0.6f );
         circle = new PhetPPath( new Area( new Ellipse2D.Double( -w / 2, -w / 2, w, w ) ) {{
             subtract( new Area( new Ellipse2D.Double( -w2 / 2, -w2 / 2, w2, w2 ) ) );
-        }}, color, new BasicStroke( 0.6f ), Color.black ) {{
+        }}, color, borderStroke, Color.black ) {{
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
@@ -204,6 +208,19 @@ public class NumberLineNode extends PNode {
             } );
         }};
         addChild( circle );
+
+        //Arrow pointing to the location (for when tick marks get dense)
+        arrowPath = new PhetPPath( color, new BasicStroke( borderStroke.getLineWidth() / 2f ), Color.black );
+        addChild( arrowPath );
+
+        mainObserver.update();
+    }
+
+    private static Arrow createArrowShape( final double scale, final ArrayList<PNode> highlights ) {
+        final PBounds highlightBounds = highlights.get( 0 ).getFullBounds();
+        Vector2D tickA = new Vector2D( highlightBounds.getX() + 1, highlightBounds.getCenterY() );
+        double headWidth = 10.0 / scale;
+        return new Arrow( tickA.plus( -5, 0 ).toPoint2D(), tickA.toPoint2D(), headWidth, headWidth, headWidth / 2.0 );
     }
 
     protected void handleMousePress( PInputEvent event ) {
