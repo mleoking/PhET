@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
-    protected static final double DEFAULT_VELOCITY = 1500;  // In picometers per second
+    protected static final double DEFAULT_VELOCITY = 500;  // In picometers per second
 
     private final Vector2D velocityVector = new Vector2D( 0, 0 );
 
