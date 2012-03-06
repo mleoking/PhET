@@ -9,6 +9,8 @@ import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationModel;
 import edu.colorado.phet.beerslawlab.concentration.view.BeakerNode.TicksLocation;
+import edu.colorado.phet.beerslawlab.concentration.view.ColorSchemeEditorDialog.ColorSchemeEditorButton;
+import edu.colorado.phet.beerslawlab.concentration.view.ConcentrationModelDialog.ConcentrationModelButton;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -56,6 +58,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             setConfirmationEnabled( false );
         }};
         PNode modelButton = new PSwing( new ConcentrationModelButton( parentFrame, model ) );
+        PNode colorSchemeEditorButton = new PSwing( new ColorSchemeEditorButton( model ) );
 
         // rendering order
         {
@@ -76,6 +79,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             addChild( resetAllButtonNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( modelButton );
+                addChild( colorSchemeEditorButton );
             }
             addChild( concentrationMeterNode );
             addChild( soluteControlNode );
@@ -107,6 +111,9 @@ public class ConcentrationCanvas extends BLLCanvas {
             // right-justified below solute control panel
             modelButton.setOffset( soluteControlNode.getFullBoundsReference().getMaxX() - modelButton.getFullBoundsReference().getWidth(),
                                    soluteControlNode.getFullBoundsReference().getMaxY() + 5 );
+            // to the left of the model button
+            colorSchemeEditorButton.setOffset( modelButton.getFullBoundsReference().getMinX() - colorSchemeEditorButton.getFullBoundsReference().getWidth() - 5,
+                                               modelButton.getYOffset() );
         }
     }
 }

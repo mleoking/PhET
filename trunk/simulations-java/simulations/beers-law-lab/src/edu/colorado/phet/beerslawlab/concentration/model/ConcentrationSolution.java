@@ -70,7 +70,7 @@ public class ConcentrationSolution implements IFluid, Resettable {
             public Color apply() {
                 return createColor( solvent, ConcentrationSolution.this.solute.get(), concentration.get() );
             }
-        }, this.solute, this.concentration );
+        }, this.solute, this.concentration ); //TODO fluidColor needs to update when solution.colorScheme changes
     }
 
     // Convenience method
@@ -111,8 +111,7 @@ public class ConcentrationSolution implements IFluid, Resettable {
     public static final Color createColor( Solvent solvent, Solute solute, double concentration ) {
         Color color = solvent.color;
         if ( concentration > 0 ) {
-            LinearFunction f = new LinearFunction( 0, solute.saturatedConcentration, 0, 1 );
-            color = solute.solutionColorRange.interpolateLinear( f.evaluate( concentration ) );
+            color = solute.colorScheme.get().interpolateLinear( concentration );
         }
         return color;
     }
