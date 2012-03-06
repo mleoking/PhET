@@ -14,6 +14,8 @@ import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
  */
 public class DenominatorWithSpinner extends FractionNumberNode {
 
+    public static final int OFFSET = 5;
+
     public DenominatorWithSpinner( final IntegerProperty numerator, final IntegerProperty denominator, int maxDenominator, final IntegerProperty maxValue ) {
         super( denominator );
 
@@ -39,7 +41,7 @@ public class DenominatorWithSpinner extends FractionNumberNode {
             }
         };
         addChild( new SpinnerButtonPanelVBox( increment, denominator.lessThan( maxDenominator ), decrement, decrementAllowed ) {{
-            setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth() - 5, biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( biggestNumber.getFullBounds().getMinX() - getFullBounds().getWidth() - OFFSET, biggestNumber.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
 }
