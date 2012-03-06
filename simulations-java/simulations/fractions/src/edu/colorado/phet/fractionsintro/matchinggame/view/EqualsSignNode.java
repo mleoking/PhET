@@ -22,5 +22,5 @@ public class EqualsSignNode extends RichPNode {
         addChild( createPath( 22 ) );
     }
 
-    private PhetPPath createPath( double y ) { return createSignNode( new BasicStroke( 9, CAP_ROUND, JOIN_MITER ).createStrokedShape( new Line2D.Double( 0, y, 60, y ) ) ); }
+    private PhetPPath createPath( double y ) { return createSignNode( new BasicStroke( 11, CAP_ROUND, JOIN_MITER ).createStrokedShape( new Line2D.Double( 0, y, 60, y ) ) ); }
 }
