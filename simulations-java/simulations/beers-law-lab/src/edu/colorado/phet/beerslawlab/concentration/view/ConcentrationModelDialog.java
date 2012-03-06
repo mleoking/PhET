@@ -27,38 +27,40 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class ConcentrationModelButton extends JButton {
+public class ConcentrationModelDialog extends JDialog {
 
     private static final String TITLE = "Model Properties (dev)";
-    private JDialog dialog;
-
-    // Button that opens the dialog
-    public ConcentrationModelButton( final Frame owner, final ConcentrationModel model ) {
-        super( TITLE );
-        addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                if ( dialog == null ) {
-                    dialog = new ConcentrationModelDialog( owner, model );
-                    SwingUtils.centerInParent( dialog );
-                }
-                if ( !dialog.isVisible() ) {
-                    dialog.setVisible( true );
-                }
-            }
-        } );
-    }
 
     // Dialog that displays the model panel
-    private static class ConcentrationModelDialog extends JDialog {
-        public ConcentrationModelDialog( Frame owner, ConcentrationModel model ) {
-            super( owner, TITLE );
-            setResizable( false );
-            setContentPane( new ConcentrationModelPanel( model ) );
-            pack();
+    public ConcentrationModelDialog( Frame owner, ConcentrationModel model ) {
+        super( owner, TITLE );
+        setResizable( false );
+        setContentPane( new ConcentrationModelPanel( model ) );
+        pack();
+    }
+
+    // Button that opens the dialog
+    public static class ConcentrationModelButton extends JButton {
+
+        private JDialog dialog;
+
+        public ConcentrationModelButton( final Frame owner, final ConcentrationModel model ) {
+            super( TITLE );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if ( dialog == null ) {
+                        dialog = new ConcentrationModelDialog( owner, model );
+                        SwingUtils.centerInParent( dialog );
+                    }
+                    if ( !dialog.isVisible() ) {
+                        dialog.setVisible( true );
+                    }
+                }
+            } );
         }
     }
 
-    // Heading for related properties
+    // Heading for related properties, used in the panel
     private static class HeadingLabel extends JLabel {
         public HeadingLabel( String text ) {
             super( text );
@@ -68,7 +70,6 @@ class ConcentrationModelButton extends JButton {
 
     // Panel that displays the model properties
     private static class ConcentrationModelPanel extends VerticalLayoutPanel {
-
         public ConcentrationModelPanel( final ConcentrationModel model ) {
             setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
             setInsets( new Insets( 2, 2, 2, 2 ) );

@@ -62,6 +62,7 @@ public class BLLResources {
         public static final Image AT_DETECTOR_BODY_CENTER = RESOURCES.getImage( "at-detector-body-center.png" );
         public static final Image AT_DETECTOR_BODY_RIGHT = RESOURCES.getImage( "at-detector-body-right.png" );
         public static final Image AT_DETECTOR_PROBE = RESOURCES.getImage( "at-detector-probe.png" );
+        public static final Image COLOR_SCHEME_EDITOR_ICON = RESOURCES.getImage( "color-scheme-editor-icon.png" );
         public static final Image CONCENTRATION_METER_BODY_LEFT = RESOURCES.getImage( "concentration-meter-body-left.png" );
         public static final Image CONCENTRATION_METER_BODY_CENTER = RESOURCES.getImage( "concentration-meter-body-center.png" );
         public static final Image CONCENTRATION_METER_BODY_RIGHT = RESOURCES.getImage( "concentration-meter-body-right.png" );
