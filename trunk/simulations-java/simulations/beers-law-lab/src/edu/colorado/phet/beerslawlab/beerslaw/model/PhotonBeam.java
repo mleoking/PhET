@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class PhotonBeam {
 
-    private static final int PHOTONS_EMITTED_PER_CLOCK_TICK = 5;
+    private static final int PHOTONS_EMITTED_PER_CLOCK_TICK = 10;
     private static final double PHOTON_VELOCITY = 1.65; // cm/sec
     private static final double PHOTON_DIAMETER = 0.125; // cm
 
