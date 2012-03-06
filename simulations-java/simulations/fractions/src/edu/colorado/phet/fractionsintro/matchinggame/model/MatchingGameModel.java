@@ -63,7 +63,9 @@ public class MatchingGameModel {
                         }
                     } ) {{
                         setRepeats( false );
-                        final int delay = (int) ( 1000 * value );
+
+                        //Add some constant to the delay so low sounds don't end too fast
+                        final int delay = (int) ( 1000 * value ) + 200;
 //                            System.out.println( "delay = " + delay );
                         setInitialDelay( delay );
                     }}.start();
