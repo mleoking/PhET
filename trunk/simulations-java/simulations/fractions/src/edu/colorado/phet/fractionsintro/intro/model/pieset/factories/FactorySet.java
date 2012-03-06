@@ -36,7 +36,7 @@ public class FactorySet {
         int numPerRow = 6;
         double pieDiameter = 155;
         double pieX = 0;
-        double pieY = 250;
+        double pieY = 250 + 20;
 
         final F<Site, Site> siteMap = Function.identity();
         final Color sliceColor = AbstractFractionsCanvas.LIGHT_GREEN;
