@@ -1,3 +1,4 @@
+Equality Lab: Added an arrow pointing to the number line location because the ticks can get too close together to distinguish between them
 Equality Lab: Increased vertical space between horizontal bars
 # 0.00.49 (62179) Mar 5, 2012
 First 2 tabs: Fixed: Clicking on an in-flight pie piece causes numerator to get out of sync, by making it so you can't drag an animating piece
