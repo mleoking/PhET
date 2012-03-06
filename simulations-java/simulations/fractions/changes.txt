@@ -1,3 +1,4 @@
+Matching Game: Changed "My matches" to "My Matches"
 Equality Lab: Fixed: The numbers do not look quite centered over the fraction dividing line
 Equality Lab: Move the "right side" spinners over to the right (currently very tight to the fraction line on the equivalent fraction)
 Equality Lab: Fixed: The icon for the horizontal bar on the bucket appears to have the right most edge cut off
