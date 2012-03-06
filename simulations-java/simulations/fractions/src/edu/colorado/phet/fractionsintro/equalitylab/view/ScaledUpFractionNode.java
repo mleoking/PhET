@@ -30,7 +30,7 @@ public class ScaledUpFractionNode extends RichPNode {
         addChild( line );
 
         //Center them over the fraction line
-        final int offset = 20;
+        final int offset = 34;
         addChild( new FractionNumberNode( scaledNumerator ) {{
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2 - offset, line.getFullBounds().getY() - getFullBounds().getHeight() );
         }} );
