@@ -33,7 +33,13 @@ class BLLRulerNode extends PNode {
         }
 
         // Use ruler node from common framework
-        addChild( new RulerNode( mvt.modelToViewDeltaX( ruler.length ), mvt.modelToViewDeltaY( ruler.height ), majorTicks, Strings.UNITS_CENTIMETERS, 4, 18 ) );
+        final RulerNode rulerNode = new RulerNode( mvt.modelToViewDeltaX( ruler.length ), mvt.modelToViewDeltaY( ruler.height ), majorTicks, Strings.UNITS_CENTIMETERS, 4, 18 ) {{
+            setInsetWidth( mvt.modelToViewDeltaX( ruler.insets ) );
+        }};
+        addChild( rulerNode );
+
+        // shift ruler so that origin is a "0" tick mark
+        rulerNode.setOffset( -mvt.modelToViewDeltaX( ruler.insets ), 0 );
 
         // interactivity
         addInputEventListener( new CursorHandler() );

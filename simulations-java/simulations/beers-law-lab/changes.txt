@@ -1,3 +1,4 @@
+3/6/12 add ruler insets to model, start with ruler aligned with left edge of cuvette
 3/6/12 change label "% Transmittance" to "Transmittance" on detector
 3/5/12 first pass at photon beam (model and view), does not interact with solution or detector
 3/5/12 rename Beam to SolidBeam

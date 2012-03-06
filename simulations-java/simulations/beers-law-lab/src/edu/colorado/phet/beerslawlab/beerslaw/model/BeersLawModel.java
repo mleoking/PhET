@@ -64,12 +64,14 @@ public class BeersLawModel implements Resettable {
         }};
         this.solution = new Property<BeersLawSolution>( solutions.get( 0 ) );
 
-        //TODO compute drag bounds to match the stage size
-        this.ruler = new Ruler( 2, 0.35, new ImmutableVector2D( 3, 4.9 ), new PBounds( 0, 1, 8, 4.5 ) );
-
         this.light = new Light( new ImmutableVector2D( 1.5, 2.2 ), false, 0.45, solution );
 
         this.cuvette = new Cuvette( new ImmutableVector2D( light.location.getX() + 1.5, 1.25 ), 1.0, 2.75, new DoubleRange( 0.5, 2.0 ) );
+
+        //TODO compute drag bounds to match the stage size
+        this.ruler = new Ruler( 2, 0.1, 0.35,
+                                new ImmutableVector2D( cuvette.location.getX(), cuvette.location.getY() + cuvette.height + 0.1 ),
+                                new PBounds( 0, 1, 8, 4.5 ) );
 
         this.absorbance = new Absorbance( solution, cuvette );
 
