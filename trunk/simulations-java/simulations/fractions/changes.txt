@@ -1,3 +1,4 @@
+Intro: Shrink the vertical bar "icon" in the vertical direction and give it an aspect ratio more similar to the representation
 Intro: Shrink the vertical bars somewhat vertically
 Intro: Space the vertical bars a bit more horizontally
 Intro: Increased the font size for the max number text

@@ -37,7 +37,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation, new RepresentationIcon[] {
                 new PieIcon( model.representation, LIGHT_GREEN ),
                 new HorizontalBarIcon( model.representation, LIGHT_GREEN ),
-                new VerticalBarIcon( model.representation, LIGHT_GREEN ),
+                new VerticalBarIcon( model.factorySet.verticalSliceFactory ),
                 new WaterGlassIcon( model.representation, LIGHT_GREEN ),
                 new CakeIcon( model.representation ),
                 new NumberLineIcon( model.representation ),
