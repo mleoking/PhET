@@ -4,6 +4,8 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.SolidBeam;
 import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.LightRepresentation;
@@ -14,7 +16,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.nodes.PComposite;
+
+import com.sun.org.apache.xerces.internal.dom.ParentNode;
 
 /**
  * Representation of light as a solid beam.
@@ -28,9 +34,11 @@ class SolidBeamNode extends PhetPNode {
         setPickable( false );
         setChildrenPickable( false );
 
-        addChild( new SegmentNode( beam.leftShape, beam.leftPaint, mvt ) );
-        addChild( new SegmentNode( beam.centerShape, beam.centerPaint, mvt ) );
-        addChild( new SegmentNode( beam.rightShape, beam.rightPaint, mvt ) );
+        final PNode parentNode = new PComposite();
+        addChild( parentNode );
+        parentNode.addChild( new SegmentNode( beam.leftShape, beam.leftPaint, mvt ) );
+        parentNode.addChild( new SegmentNode( beam.centerShape, beam.centerPaint, mvt ) );
+        parentNode.addChild( new SegmentNode( beam.rightShape, beam.rightPaint, mvt ) );
 
         // Make this node visible when beam is visible and light representation is "beam".
         RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
@@ -39,6 +47,18 @@ class SolidBeamNode extends PhetPNode {
             }
         };
         visibilityObserver.observe( beam.visible, representation );
+
+        // put a gray outline around the beam, so that lighter colors are still visible
+        PPath outlineNode = new PPath() {{
+            setStroke( new BasicStroke( 0.25f ) );
+            setStrokePaint( ColorUtils.createColor( Color.LIGHT_GRAY, 200 ) );
+            parentNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    setPathTo( parentNode.getFullBoundsReference() );
+                }
+            } );
+        }};
+        addChild( outlineNode );
     }
 
     // A segment of the beam
