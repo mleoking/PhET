@@ -124,7 +124,7 @@ class ColorSchemeEditorDialog extends JDialog {
                 public void actionPerformed( ActionEvent e ) {
                     System.out.println( model.solution.solvent.name + "," + solventColorProperty.get() );
                     for ( Solute solute : solutes ) {
-                        System.out.println( solute.name + "," + solute.colorScheme.toString() );
+                        System.out.println( solute.name + "," + solute.colorScheme.get().toString() );
                     }
                 }
             } );

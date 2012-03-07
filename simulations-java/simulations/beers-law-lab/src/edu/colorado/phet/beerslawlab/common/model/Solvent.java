@@ -21,8 +21,11 @@ public class Solvent implements IFluid {
      * But that seems a bit precarious; if it's ever changed to mutable, it could make for some odd/difficult bugs.
      */
     public static class Water extends Solvent {
+
+        public static final Color COLOR = new Color( 224, 255, 255 );
+
         public Water() {
-            super( Strings.WATER, BLLSymbols.WATER, new Color( 224, 255, 255 ) );
+            super( Strings.WATER, BLLSymbols.WATER, COLOR );
         }
     }
 

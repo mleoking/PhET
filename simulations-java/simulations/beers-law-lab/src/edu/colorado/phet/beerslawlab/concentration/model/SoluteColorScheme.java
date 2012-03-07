@@ -3,6 +3,7 @@ package edu.colorado.phet.beerslawlab.concentration.model;
 
 import java.awt.Color;
 
+import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
 /**
@@ -40,71 +41,72 @@ public class SoluteColorScheme {
     }
 
     @Override public String toString() {
+        //TODO use number format for concentration, 2 decimal places, get this elsewhere?
         return minConcentration + "," + minColor + "," + midConcentration + "," + midColor + "," + maxConcentration + "," + maxColor;
     }
 
     //TODO saturated concentration values are duplicated here and in Solute (eg, 5.96) for all solutes and color schemes
     public static class DrinkMixColorScheme extends SoluteColorScheme {
         public DrinkMixColorScheme() {
-            super( 0, Color.WHITE,
-                   0.1, new Color( 255, 225, 225 ),
-                   5.96, Color.RED );
+            super( 0, Water.COLOR,
+                   0.05, new Color( 255, 225, 225 ),
+                   5.96, new Color( 255, 0, 0 ) );
         }
     }
 
     public static class CobaltIINitrateColorScheme extends SoluteColorScheme {
         public CobaltIINitrateColorScheme() {
-            super( 0, Color.WHITE,
-                   0.1, new Color( 255, 225, 225 ),
-                   5.64, Color.RED );
+            super( 0, Water.COLOR,
+                   0.05, new Color( 255, 225, 225 ),
+                   5.64, new Color( 255, 0, 0 ) );
         }
     }
 
     public static class CobaltChlorideColorScheme extends SoluteColorScheme {
         public CobaltChlorideColorScheme() {
-            super( 0, Color.WHITE,
-                   0.1, new Color( 255, 242, 242 ),
+            super( 0, Water.COLOR,
+                   0.05, new Color( 255, 242, 242 ),
                    4.33, new Color( 255, 106, 106 ) );
         }
     }
 
     public static class PotassiumDichromateColorScheme extends SoluteColorScheme {
         public PotassiumDichromateColorScheme() {
-            super( 0, Color.WHITE,
-                   0.1, new Color( 255, 232, 210 ),
+            super( 0, Water.COLOR,
+                   0.01, new Color( 255, 204, 153 ),
                    0.51, new Color( 255, 127, 0 ) );
         }
     }
 
     public static class PotassiumChromateColorScheme extends SoluteColorScheme {
         public PotassiumChromateColorScheme() {
-            super( 0, Color.WHITE,
-                   0.1, new Color( 255, 255, 199 ),
-                   3.35, Color.YELLOW );
+            super( 0, Water.COLOR,
+                   0.05, new Color( 255, 255, 153 ),
+                   3.35, new Color( 255, 255, 0 ) );
         }
     }
 
     public static class NickelIIChlorideColorScheme extends SoluteColorScheme {
         public NickelIIChlorideColorScheme() {
-            super( 0, Color.WHITE,
-                   0.1, new Color( 234, 244, 234 ),
+            super( 0, Water.COLOR,
+                   0.2, new Color( 170, 255, 170 ),
                    5.21, new Color( 0, 128, 0 ) );
         }
     }
 
     public static class CopperSulfateColorScheme extends SoluteColorScheme {
         public CopperSulfateColorScheme() {
-            super( 0, Color.WHITE,
-                   0.1, new Color( 222, 238, 255 ),
+            super( 0, Water.COLOR,
+                   0.2, new Color( 200, 225, 255 ),
                    1.38, new Color( 30, 144, 255 ) );
         }
     }
 
     public static class PotassiumPermanganateColorScheme extends SoluteColorScheme {
         public PotassiumPermanganateColorScheme() {
-            super( 0, new Color( 255, 235, 255 ),
-                   0.2, new Color( 255, 0, 255 ),
-                   0.48, new Color( 139, 0, 130 ) );
+            super( 0, Water.COLOR,
+                   0.01, new Color( 255, 0, 255 ),
+                   0.48, new Color( 80, 0, 120 ) );
         }
     }
 }
