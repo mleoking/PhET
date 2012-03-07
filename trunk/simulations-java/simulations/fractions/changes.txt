@@ -1,3 +1,4 @@
+Matching Game: Center "my matches" under the top left cell
 Intro & Equality Lab: Fixed: If you change the denominator then click on glass then it creates a cup of the incorrect height
 Intro & Equality Lab: Fixed: When clicking on water glasses (or maybe others), it leaves one behind and doesn't update the numerator right away
 Intro & Equality Lab: Fixed: Double clicking causes problems for bars, makes things go out of sync
