@@ -207,7 +207,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
                                             negativeFactorEnabledCheckBox.getFullBoundsReference().getMinY() - floatingClockControlNode.getFullBoundsReference().height - 10 );
 
         // Watch for and handle comings and goings of biomolecules in the model.
-        // Most, but not all, of the biomolecules are handled by this.  Some
+        // Most, but not all, of the biomolecules are handled by this.  A few
         // others are handled as special cases.
         model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
             public void apply( final MobileBiomolecule addedBiomolecule ) {
