@@ -1,3 +1,4 @@
+Changed the algorithm that defines the way that transcription factors detach and reattach to the DNA to pay attention to different site affinities.
 Made polymerase go to back of its layer when it attaches to the DNA so that it goes behind any transcription factors.  This looks better when collisions occur.
 Halved the max concentration of the transcription factors on the 2nd tab.
 Set model-view transform for 2nd tab to be slightly more zoomed out.
