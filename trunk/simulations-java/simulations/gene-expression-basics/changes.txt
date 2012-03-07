@@ -1,3 +1,4 @@
+Halved the max concentration of the transcription factors on the 2nd tab.
 Set model-view transform for 2nd tab to be slightly more zoomed out.
 Changed the random 1D walk on the DNA for the transcription factors to stay a bit longer and detach more consistently.
 Changed the random 1D walk on the DNA for RNA polymerase to stay a bit longer and detach more consistently.
