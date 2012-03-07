@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Control panel for wavelength.
+ * Control for wavelength.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
