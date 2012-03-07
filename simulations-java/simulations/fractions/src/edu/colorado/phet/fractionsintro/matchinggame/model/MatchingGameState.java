@@ -34,8 +34,8 @@ import static fj.data.List.range;
     //Number of times the user scored by getting a fraction into a score cell, used for iterating to the next score cell for animation
     public final int scored;
 
-    public final Scale leftScale = new Scale( new Vector2D( 220, 300 ) );
-    public final Scale rightScale = new Scale( new Vector2D( 570, 300 ) );
+    public final Scale leftScale = new Scale( new Vector2D( 220, 320 ) );
+    public final Scale rightScale = new Scale( new Vector2D( 570, 320 ) );
 
     //Time (in sim time) of when something was dropped on the scale, for purposes of animating the bar
     public final long leftScaleDropTime;
@@ -45,12 +45,10 @@ import static fj.data.List.range;
 
     public final boolean audio;
 
-    public static MatchingGameState initialState() {
-        return initialState( 1 );
-    }
+    public static MatchingGameState initialState() { return initialState( 1 ); }
 
     public static MatchingGameState initialState( int level ) {
-        final List<Cell> cells = createCells( 100, 415, 130, 120, 6, 2, 0, 0 );
+        final List<Cell> cells = createCells( 100, 415 + 12, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
         return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0, 0, level, false );
     }
