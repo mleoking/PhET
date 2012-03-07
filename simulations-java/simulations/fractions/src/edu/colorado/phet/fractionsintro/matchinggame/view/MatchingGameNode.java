@@ -167,6 +167,13 @@ public class MatchingGameNode extends FNode {
                             }
                         } );
                     }},
+                    new HTMLImageButtonNode( "Resample" ) {{
+                        addActionListener( new ActionListener() {
+                            @Override public void actionPerformed( final ActionEvent e ) {
+                                model.set( MatchingGameState.initialState( model.get().level ) );
+                            }
+                        } );
+                    }},
                     new HTMLImageButtonNode( "Skip to level " + newLevel ) {{
                         addActionListener( nextLevel );
                     }}
