@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
 import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.WavelengthType;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
@@ -41,7 +42,7 @@ class WavelengthControlNode extends PNode {
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
     private static final Dimension WAVELENGTH_CONTROL_TRACK_SIZE = new Dimension( 150, 30 );
 
-    public WavelengthControlNode( Light light, Property<WavelengthType> wavelengthType ) {
+    public WavelengthControlNode( final Property<BeersLawSolution> solution, final Light light, Property<WavelengthType> wavelengthType ) {
 
         JLabel wavelengthLabel = new JLabel( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.WAVELENGTH ) );
         wavelengthLabel.setFont( FONT );
@@ -113,6 +114,7 @@ class WavelengthControlNode extends PNode {
                 }
                 else {
                     parentNode.removeChild( wavelengthWrapperNode );
+                    light.wavelength.set( solution.get().lambdaMax );
                 }
             }
         } );
