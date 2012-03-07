@@ -2,6 +2,7 @@ at-detector-body-center.png author=PhET notes=copied and hacked intensity_meter_
 at-detector-body-left.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
 at-detector-body-right.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
 at-detector-probe.png author=PhET notes=copied intensity_meter_probe.png from bending-light
+color-scheme-edit-icon.png author=PhET notes=screenshot of a generic color wheel
 concentration-meter-body-center.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
 concentration-meter-body-left.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
 concentration-meter-body-right.png author=PhET notes=copied and hacked intensity_meter_box.png from bending-light
