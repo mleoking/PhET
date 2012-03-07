@@ -140,7 +140,9 @@ public class EqualityLabModel {
             }
         } );
     }};
-    public final SettableProperty<PieSet> rightPieSet = new Property<PieSet>( pieSet.get() ) {{
+
+    //Optionally scaled pies shown on the right
+    public final SettableProperty<PieSet> scaledPieSet = new Property<PieSet>( pieSet.get() ) {{
         final SimpleObserver observer = new SimpleObserver() {
             @Override public void update() {
                 set( scaledFactorySet.circularSliceFactory.fromContainerSetState( pieSet.get().toLazyContainerSet().scale( scale.get() ) ).createScaledCopy() );

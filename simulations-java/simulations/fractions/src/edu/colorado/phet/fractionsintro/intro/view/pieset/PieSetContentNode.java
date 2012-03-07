@@ -33,8 +33,7 @@ public class PieSetContentNode extends PNode {
 
         //Show graphics for the empty cells
         addChild( createEmptyCellsNode.f( state ) );
-        addChild( new MovableSliceLayer( state, createSliceNode, model, rootNode, bucketHoleNode.getFullBoundsReference().getMaxY() ) );
-
+        addChild( new MovableSliceLayer( state, createSliceNode, model, rootNode, bucketView ) );
         addChild( bucketView.getFrontNode() );
 
         //Show an icon label on the bucket so the user knows what is in the bucket

@@ -119,11 +119,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         //Show the pie set node when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, PIE, new PNode() {{
-            model.rightPieSet.addObserver( new SimpleObserver() {
+            model.scaledPieSet.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
-                    addChild( CreateEmptyCellsNode.f( model.rightPieSet.get() ) );
-                    addChild( new MovableSliceLayer( model.rightPieSet.get(), NodeToShape, model.rightPieSet, rootNode, STAGE_SIZE.getHeight() ) );
+                    addChild( CreateEmptyCellsNode.f( model.scaledPieSet.get() ) );
+                    addChild( new MovableSliceLayer( model.scaledPieSet.get(), NodeToShape, model.scaledPieSet, rootNode, null ) );
                 }
             } );
             setChildrenPickable( false );
@@ -135,7 +135,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 @Override public void update() {
                     removeAllChildren();
                     addChild( CreateEmptyCellsNode.f( model.rightHorizontalBars.get() ) );
-                    addChild( new MovableSliceLayer( model.rightHorizontalBars.get(), NodeToShape, model.rightHorizontalBars, rootNode, STAGE_SIZE.getHeight() ) );
+                    addChild( new MovableSliceLayer( model.rightHorizontalBars.get(), NodeToShape, model.rightHorizontalBars, rootNode, null ) );
                 }
             } );
             setChildrenPickable( false );

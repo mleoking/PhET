@@ -31,7 +31,7 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  */
 public class PieSetNode extends FNode {
 
-    private final BucketView bucketView;
+    public final BucketView bucketView;
 
     //Flag for showing the center of a shape.  This can help debug pie piece rotation.
     private static final boolean debugCenter = false;
@@ -58,7 +58,6 @@ public class PieSetNode extends FNode {
             }
 
             Slice slice = state.sliceFactory.createPieCell( state.pies.length(), 0, 0, denominator );
-            //            Slice slice = state.sliceFactory.createBucketSlice( denominator );
 
             //Create the slice.  Wrap the state in a dummy Property to facilitate reuse of MovableSliceNode code.
             //Could be improved by generalizing MovableSliceNode to not require
