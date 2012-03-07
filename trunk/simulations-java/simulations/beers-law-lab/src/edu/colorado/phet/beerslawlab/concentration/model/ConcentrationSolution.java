@@ -109,7 +109,7 @@ public class ConcentrationSolution implements IFluid, Resettable {
 
     // Creates a color that corresponds to the solution's concentration.
     public static final Color createColor( Solvent solvent, Solute solute, double concentration ) {
-        Color color = solvent.color;
+        Color color = solvent.color.get();
         if ( concentration > 0 ) {
             color = solute.colorScheme.get().interpolateLinear( concentration );
         }

@@ -9,15 +9,16 @@ DESIGN
 HIGH
 - memory leak in photon view? starts acting strangely after running for awhile
 - Beers: implement photon view
-- color schemes: observe solute.colorScheme to update ConcentrationSolution.fluidColor
-- color schemes: observe changes to water color and update view
+- color schemes: update ConcentrationSolution.fluidColor
+- color schemes: update water color (beaker & faucets)
+- color schemes: update color of precipitate particles
+- color schemes: update color of shaker particles
+- color schemes: update color of stock solution
+- color schemes: update colors in Solute combo box
+- color schemes: linear vs log interpolation choice
 
 MEDIUM
 - Beers: add variable wavelength feature
-- common: add log interpolation of color to ColorUtils
-- Concentration: 3-color range with min/max/center colors and concentration values
-- Concentration: use KMnO4 colorscheme RGB=[255,235,255], RGB=[255,0,255], RGB=[139,0,130 ]
-- Concentration: dev controls for color ranges and linear/log color interpolation
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 
 LOW
