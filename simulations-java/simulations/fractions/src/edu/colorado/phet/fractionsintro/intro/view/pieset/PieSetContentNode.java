@@ -3,17 +3,12 @@ package edu.colorado.phet.fractionsintro.intro.view.pieset;
 
 import fj.F;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +22,9 @@ public class PieSetContentNode extends PNode {
     public PieSetContentNode( final BucketView bucketView,
                               final SettableProperty<PieSet> model,
                               final F<SliceNodeArgs, PNode> createSliceNode,
-                              final PNode rootNode, F<PieSet, PNode> createEmptyCellsNode ) {
+                              final PNode rootNode,
+                              final F<PieSet, PNode> createEmptyCellsNode,
+                              final F<PieSet, PNode> createBucketIcon ) {
 
         final PNode bucketHoleNode = bucketView.getHoleNode();
         addChild( bucketHoleNode );
@@ -41,7 +38,7 @@ public class PieSetContentNode extends PNode {
         addChild( bucketView.getFrontNode() );
 
         //Show an icon label on the bucket so the user knows what is in the bucket
-        PNode icon = createIcon( model.get(), createSliceNode );
+        PNode icon = createBucketIcon.f( model.get() );
 
         PNode text = new FractionNode( FractionNumberNode.NUMBER_FONT, new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
             scale( 0.2 );
@@ -55,28 +52,5 @@ public class PieSetContentNode extends PNode {
             setPickable( false );
             setChildrenPickable( false );
         }} );
-    }
-
-    private PNode createIcon( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode ) {
-        return new PNode() {{
-            final int denominator = state.denominator;
-            for ( int i = 0; i < denominator; i++ ) {
-                Slice cell = state.sliceFactory.createPieCell( state.pies.length(), 0, i, denominator );
-                addChild( new PhetPPath( cell.getShape(), Color.white, new BasicStroke( 3 ), Color.black ) );
-            }
-
-            Slice slice = state.sliceFactory.createPieCell( state.pies.length(), 0, 0, denominator );
-//            Slice slice = state.sliceFactory.createBucketSlice( denominator );
-
-            //Create the slice.  Wrap the state in a dummy Property to facilitate reuse of MovableSliceNode code.
-            //Could be improved by generalizing MovableSliceNode to not require
-            final PNode node = createSliceNode.f( new SliceNodeArgs( slice, state.denominator, false ) );
-            node.setPickable( false );
-            node.setChildPaintInvalid( false );
-            addChild( node );
-
-            //Make as large as possible, but small enough that tall representations (like vertical bars) fit
-            scale( 0.28 );
-        }};
     }
 }

@@ -45,12 +45,19 @@ public class CakeSetNode extends PieSetNode {
     } );
 
     public CakeSetNode( SettableProperty<PieSet> cakeSet, PNode rootNode ) {
-        super( cakeSet, rootNode, new F<SliceNodeArgs, PNode>() {
-            @Override public PNode f( final SliceNodeArgs a ) {
-                return new SliceImage( a.slice.cell( a.denominator ), a );
+        super( cakeSet, rootNode, createSliceNode, CreateEmptyCellsNode, new F<PieSet, PNode>() {
+            @Override public PNode f( final PieSet pieSet ) {
+                return PieSetNode.createIcon( pieSet, createSliceNode );
             }
-        }, CreateEmptyCellsNode );
+        }
+        );
     }
+
+    public static F<SliceNodeArgs, PNode> createSliceNode = new F<SliceNodeArgs, PNode>() {
+        @Override public PNode f( final SliceNodeArgs a ) {
+            return new SliceImage( a.slice.cell( a.denominator ), a );
+        }
+    };
 
     public static final F<PieSet, PNode> CreateEmptyCellsNode = new F<PieSet, PNode>() {
         @Override public PNode f( final PieSet state ) {

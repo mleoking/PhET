@@ -11,6 +11,7 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.Pie;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
+import edu.colorado.phet.fractionsintro.intro.view.pieset.SliceNodeArgs;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.WaterGlassNodeFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -25,7 +26,28 @@ import static fj.Ord.doubleOrd;
  */
 public class WaterGlassSetNode extends PieSetNode {
     public WaterGlassSetNode( SettableProperty<PieSet> model, PNode rootNode, Color color, double width, double height ) {
-        super( model, rootNode, new WaterGlassNodeFactory(), createEmptyCellsNode( color, width, height ) );
+        super( model, rootNode, new WaterGlassNodeFactory(), createEmptyCellsNode( color, width, height ), new F<PieSet, PNode>() {
+            @Override public PNode f( final PieSet pieSet ) {
+                return createIcon( pieSet, new WaterGlassNodeFactory() );
+            }
+        } );
+    }
+
+    //The water glass icon has to use bucket slice since it doesn't have an empty background like the other bucket icon nodes
+    public static PNode createIcon( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode ) {
+        return new PNode() {{
+            Slice slice = state.sliceFactory.createBucketSlice( state.denominator );
+
+            //Create the slice.  Wrap the state in a dummy Property to facilitate reuse of MovableSliceNode code.
+            //Could be improved by generalizing MovableSliceNode to not require
+            final PNode node = createSliceNode.f( new SliceNodeArgs( slice, state.denominator, false ) );
+            node.setPickable( false );
+            node.setChildPaintInvalid( false );
+            addChild( node );
+
+            //Make as large as possible, but small enough that tall representations (like vertical bars) fit
+            scale( 0.28 );
+        }};
     }
 
     //Show the empty beakers

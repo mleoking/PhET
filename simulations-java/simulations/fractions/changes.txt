@@ -1,3 +1,4 @@
+Matching Game & Intro: Fixed: The image of the "cup" on the Equality Lab bucket isn't right (it shows the vertical boxes).
 Matching Game: Fixed: Some edges appear to get cut off in the matching game when the matches are put in the containers
 # 0.00.50 (62249) Mar 6, 2012
 Matching Game: Fixed: Audio turns off after each level
