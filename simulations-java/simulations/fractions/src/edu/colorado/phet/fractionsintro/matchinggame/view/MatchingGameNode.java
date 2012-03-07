@@ -44,12 +44,10 @@ import static java.awt.Color.yellow;
  */
 public class MatchingGameNode extends FNode {
 
-    private static final boolean showDeveloperControls = true;
-
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
 
-    public MatchingGameNode( final SettableProperty<MatchingGameState> model, final PNode rootNode ) {
+    public MatchingGameNode( final boolean showDeveloperControls, final SettableProperty<MatchingGameState> model, final PNode rootNode ) {
         final MatchingGameState state = model.get();
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
         addChild( scales );
