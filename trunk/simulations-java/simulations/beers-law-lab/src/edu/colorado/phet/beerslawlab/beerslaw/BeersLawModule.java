@@ -3,11 +3,11 @@ package edu.colorado.phet.beerslawlab.beerslaw;
 
 import java.awt.Frame;
 
+import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
+import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas;
 import edu.colorado.phet.beerslawlab.common.BLLModule;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas;
-import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawModel;
 
 /**
  * The "Beer's Law" module.
@@ -18,6 +18,6 @@ public class BeersLawModule extends BLLModule {
 
     public BeersLawModule( Frame parentFrame ) {
         super( UserComponents.beersLawTab, Strings.TAB_BEERS_LAW );
-        setSimulationPanel( new BeersLawCanvas( new BeersLawModel( getClock() ), parentFrame ) );
+        setSimulationPanel( new BeersLawCanvas( new BeersLawModel(), parentFrame ) );
     }
 }
