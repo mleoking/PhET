@@ -121,11 +121,11 @@ import static fj.data.List.range;
         return slices( filtered );
     }
 
-    //True if a piece is in the cell, or animating toward the cell
+    //True if a piece is in the cell, or animating toward the cell, but not if the user is dragging it (since it should not contribute to the sum if the user is dragging it)
     public boolean cellFilledNowOrSoon( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
             public Boolean f( Slice m ) {
-                return m.movingToward( cell ) || m.positionAndAngleEquals( cell );
+                return m.movingToward( cell ) || m.positionAndAngleEquals( cell ) && !m.dragging;
             }
         } );
     }

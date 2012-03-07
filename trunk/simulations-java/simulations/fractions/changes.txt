@@ -1,3 +1,5 @@
+Matching Game & Intro: Fixed: When clicking on water glasses (or maybe others), it leaves one behind and doesn't update the numerator right away
+Matching Game & Intro: Fixed: Double clicking causes problems for bars, makes things go out of sync
 Matching Game & Intro: Fixed: Put the clipping region just below the bucket
 Matching Game & Intro: Fixed: The image of the "cup" on the Equality Lab bucket isn't right (it shows the vertical boxes).
 Matching Game: Fixed: Some edges appear to get cut off in the matching game when the matches are put in the containers
