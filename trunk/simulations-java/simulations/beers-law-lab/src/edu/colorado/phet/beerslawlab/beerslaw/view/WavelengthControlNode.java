@@ -106,15 +106,17 @@ class WavelengthControlNode extends PNode {
         // wrap the whole thing in a Piccolo control panel
         addChild( new ControlPanelNode( parentNode ) );
 
-        // Put the wavelength control in the scenegraph only when "variable" is selected. This causes the control panel to resize.
+        // When the radio button selection changes...
         wavelengthType.addObserver( new VoidFunction1<WavelengthType>() {
             public void apply( WavelengthType wavelengthType ) {
-                if ( wavelengthType == WavelengthType.VARIABLE ) {
-                    parentNode.addChild( wavelengthWrapperNode );
+                if ( wavelengthType == WavelengthType.LAMBDA_MAX ) {
+                    // Remove the wavelength control from the scenegraph. This causes the control panel to resize.
+                    parentNode.removeChild( wavelengthWrapperNode );
+                    // Set the light to the current solution's lambdaMax wavelength.
+                    light.wavelength.set( solution.get().lambdaMax );
                 }
                 else {
-                    parentNode.removeChild( wavelengthWrapperNode );
-                    light.wavelength.set( solution.get().lambdaMax );
+                    parentNode.addChild( wavelengthWrapperNode );
                 }
             }
         } );

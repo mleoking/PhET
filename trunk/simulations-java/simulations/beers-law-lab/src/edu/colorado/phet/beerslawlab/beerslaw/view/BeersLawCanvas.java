@@ -79,5 +79,6 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
 
     public void reset() {
         lightRepresentation.reset();
+        wavelengthType.reset();
     }
 }
