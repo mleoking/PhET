@@ -26,6 +26,7 @@ public class BLLResources {
         public static final String COPPER_SULFATE = RESOURCES.getLocalizedString( "copperSulfate" );
         public static final String DRINK_MIX = RESOURCES.getLocalizedString( "drinkMix" );
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
+        public static final String LAMBDA_MAX = RESOURCES.getLocalizedString( "lambdaMax" );
         public static final String LIGHT_VIEW = RESOURCES.getLocalizedString( "lightView" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
@@ -53,7 +54,9 @@ public class BLLResources {
         public static final String UNITS_M = RESOURCES.getLocalizedString( "units.M" );
         public static final String UNITS_mM = RESOURCES.getLocalizedString( "units.mM" );
         public static final String UNITS_uM = RESOURCES.getLocalizedString( "units.uM" );
+        public static final String VARIABLE = RESOURCES.getLocalizedString( "variable" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
+        public static final String WAVELENGTH = RESOURCES.getLocalizedString( "wavelength" );
     }
 
     // Images

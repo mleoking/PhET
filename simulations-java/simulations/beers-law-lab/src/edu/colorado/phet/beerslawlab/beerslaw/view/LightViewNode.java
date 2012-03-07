@@ -24,11 +24,11 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class LightControlsNode extends PNode {
+class LightViewNode extends PNode {
 
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
 
-    public LightControlsNode( Property<LightRepresentation> lightRepresentation ) {
+    public LightViewNode( Property<LightRepresentation> lightRepresentation ) {
 
         // Beam vs Photons radio buttons
         JLabel lightViewLabel = new JLabel( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.LIGHT_VIEW ) );
