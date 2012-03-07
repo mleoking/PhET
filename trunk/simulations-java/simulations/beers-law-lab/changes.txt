@@ -1,3 +1,4 @@
+# 0.00.17 (62294) Mar 7, 2012
 3/7/12 Concentration: new color scheme from JC
 3/7/12 restore wavelength control
 3/7/12 cleanup uses of ChangeObserver (used mainly to rewire view components to mutable model properties)
