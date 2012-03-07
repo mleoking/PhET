@@ -1,3 +1,5 @@
+3/7/12 render ruler after Reset All button, so that Reset All button doesn't get obscured
+3/7/12 move model-view location debugger to upper-right
 3/7/12 simplify wavelength control, replace enum with boolean
 3/7/12 when lambdaMax radio button is selected, set light wavelength to current solution's lambdaMax
 3/7/12 Beers: rename "solid beam" to "beam" throughout, since there's only one representation now
