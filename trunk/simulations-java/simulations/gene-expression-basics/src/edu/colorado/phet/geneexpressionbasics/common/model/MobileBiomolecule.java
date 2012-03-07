@@ -155,17 +155,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     }
 
     /**
-     * Get a boolean value indicating whether or not this biomolecule is
-     * attached to the DNA strand.
-     *
-     * @return - true if currently attached to DNA, false if not.
-     */
-    public boolean isAttachedToDna() {
-        // Override for molecules that attach to DNA.
-        return false;
-    }
-
-    /**
      * Force this biomolecule to detach from anything to which it is
      * currently attached.
      */
