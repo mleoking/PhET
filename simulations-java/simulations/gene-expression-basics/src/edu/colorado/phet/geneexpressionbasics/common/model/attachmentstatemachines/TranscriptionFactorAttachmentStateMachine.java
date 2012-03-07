@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,59 +52,65 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
             assert asm.attachmentSite != null;
             assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
 
-            // TODO: For now, transcription factors stay attached to a max affinity site forever.  This will probably need to change.
-            if ( attachmentSite.getAffinity() < 1 ) {
-                System.out.println( "attachmentSite.getAffinity() = " + attachmentSite.getAffinity() );
-                // See if we have been attached long enough.
-                attachCountdownTime -= dt;
-                if ( attachCountdownTime <= 0 ) {
+            // Decide whether or not it is time to detach.
+            if ( RAND.nextDouble() > (1 - calculateProbabilityOfDetachment( attachmentSite.getAffinity(), dt )))
 
-                    // Get a list of the adjacent attachment sites.
-                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( (TranscriptionFactor) biomolecule, asm.attachmentSite );
+            // See if we have been attached long enough to reevaluate the attachment.
+            attachCountdownTime -= dt;
+            if ( attachCountdownTime <= 0 ) {
+                // Indeed we have. Get a list of the adjacent attachment sites.
+                List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( (TranscriptionFactor) biomolecule, asm.attachmentSite );
 
-                    // Eliminate sites that, if moved to, would put the
-                    // biomolecule out of bounds.
-                    for ( AttachmentSite site : new ArrayList<AttachmentSite>( attachmentSites ) ) {
-                        if ( !biomolecule.motionBoundsProperty.get().testAgainstMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
-                            attachmentSites.remove( site );
-                        }
-                    }
-
-                    // Decide whether to completely detach from the DNA strand or
-                    // move to an adjacent attachment point.
-                    if ( RAND.nextDouble() > detachFromDnaThreshold || attachmentSites.size() == 0 ) {
-                        // Detach completely from the DNA.
-                        asm.attachmentSite.attachedOrAttachingMolecule.set( null );
-                        asm.attachmentSite = null;
-                        asm.setState( unattachedButUnavailableState );
-                        biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
-                        detachFromDnaThreshold = 1; // Reset this threshold.
-                    }
-                    else {
-                        // Attach to an adjacent base pair.  First, shuffle the
-                        // possible sites in order to get random behavior.
-                        Collections.shuffle( attachmentSites );
-
-                        // Clean the previous attachment site.
-                        attachmentSite.attachedOrAttachingMolecule.set( null );
-
-                        // Set a new attachment site.
-                        attachmentSite = attachmentSites.get( 0 );
-                        attachmentSite.attachedOrAttachingMolecule.set( biomolecule );
-
-                        // Set up the state to move to the new attachment site.
-                        setState( movingTowardsAttachmentState );
-                        biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
-                                                                                                    biomolecule.motionBoundsProperty,
-                                                                                                    new ImmutableVector2D( 0, 0 ),
-                                                                                                    VELOCITY_ON_DNA ) );
-                        // Update the detachment threshold.  It gets lower over
-                        // time to increase the probability of detachment.
-                        // Tweak as needed.
-                        detachFromDnaThreshold = detachFromDnaThreshold * Math.pow( 0.5, DEFAULT_ATTACH_TIME );
+                // Eliminate sites that, if moved to, would put the
+                // biomolecule out of bounds.
+                for ( AttachmentSite site : new ArrayList<AttachmentSite>( attachmentSites ) ) {
+                    if ( !biomolecule.motionBoundsProperty.get().testAgainstMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
+                        attachmentSites.remove( site );
                     }
                 }
+
+                // Decide whether to completely detach from the DNA strand or
+                // move to an adjacent attachment point.
+                if ( RAND.nextDouble() > detachFromDnaThreshold || attachmentSites.size() == 0 ) {
+                    // Detach completely from the DNA.
+                    asm.attachmentSite.attachedOrAttachingMolecule.set( null );
+                    asm.attachmentSite = null;
+                    asm.setState( unattachedButUnavailableState );
+                    biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
+                    detachFromDnaThreshold = 1; // Reset this threshold.
+                }
+                else {
+                    // Attach to an adjacent base pair.  First, shuffle the
+                    // possible sites in order to get random behavior.
+                    Collections.shuffle( attachmentSites );
+
+                    // Clean the previous attachment site.
+                    attachmentSite.attachedOrAttachingMolecule.set( null );
+
+                    // Set a new attachment site.
+                    attachmentSite = attachmentSites.get( 0 );
+                    attachmentSite.attachedOrAttachingMolecule.set( biomolecule );
+
+                    // Set up the state to move to the new attachment site.
+                    setState( movingTowardsAttachmentState );
+                    biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
+                                                                                                biomolecule.motionBoundsProperty,
+                                                                                                new ImmutableVector2D( 0, 0 ),
+                                                                                                VELOCITY_ON_DNA ) );
+                    // Update the detachment threshold.  It gets lower over
+                    // time to increase the probability of detachment.
+                    // Tweak as needed.
+                    detachFromDnaThreshold = detachFromDnaThreshold * Math.pow( 0.5, DEFAULT_ATTACH_TIME );
+                }
             }
+        }
+
+        private double calculateProbabilityOfDetachment( double affinity, double dt ) {
+            // Map affinity to a half life.  This can be tweaked as needed.
+            double halfLife = affinity / (1 - affinity);
+
+            // Use standard half-life formula to decide on probability of detachment.
+            return 1 / Math.pow( 2, dt / halfLife );
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
