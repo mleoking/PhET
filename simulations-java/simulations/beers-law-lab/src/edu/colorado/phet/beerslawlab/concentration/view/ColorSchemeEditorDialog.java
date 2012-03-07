@@ -61,6 +61,8 @@ class ColorSchemeEditorDialog extends JDialog {
 
         public ColorSchemeEditorButton( final Frame parentFrame, final ConcentrationModel model ) {
             super( "dev", new ImageIcon( Images.COLOR_SCHEME_EDITOR_ICON ));
+
+            // Open the dialog when the button is pressed
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( dialog == null ) {
@@ -93,18 +95,19 @@ class ColorSchemeEditorDialog extends JDialog {
             headerNode.setOffset( 30, 10 );
             addChild( headerNode );
 
-            // Solutes
+            // Solute color schemes
             PNode previousNode = headerNode;
             final ArrayList<Solute> solutes = model.getSolutes();
             for ( Solute solute : solutes ) {
                 PNode colorSchemeNode = new SoluteColorSchemeNode( parentFrame, solute );
                 addChild( colorSchemeNode );
+                // right justified
                 colorSchemeNode.setOffset( CANVAS_SIZE.getWidth() - colorSchemeNode.getFullBoundsReference().getWidth() - xMargin,
                                            previousNode.getFullBoundsReference().getMaxY() + ySpacing);
                 previousNode = colorSchemeNode;
             }
 
-            // Water color
+            // Water color scheme
             final Property<Color> solventColorProperty = model.solution.solvent.color;
             final ColorControlNode waterColorNode = new ColorControlNode( parentFrame, "Water:", solventColorProperty.get() );
             addChild( waterColorNode );
@@ -116,21 +119,19 @@ class ColorSchemeEditorDialog extends JDialog {
             } );
 
             // Print button
-            {
-                TextButtonNode printButtonNode = new TextButtonNode( "Print to Java Console", new PhetFont( 12 ), Color.ORANGE );
-                printButtonNode.addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        System.out.println( model.solution.solvent.name + "," + solventColorProperty.get() );
-                        for ( Solute solute : solutes ) {
-                            System.out.println( solute.name + "," + solute.colorScheme.toString() );
-                        }
+            TextButtonNode printButtonNode = new TextButtonNode( "Print to Java Console", new PhetFont( 12 ), Color.ORANGE );
+            printButtonNode.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    System.out.println( model.solution.solvent.name + "," + solventColorProperty.get() );
+                    for ( Solute solute : solutes ) {
+                        System.out.println( solute.name + "," + solute.colorScheme.toString() );
                     }
-                } );
-                addChild( printButtonNode );
-                // lower-right corner
-                printButtonNode.setOffset( CANVAS_SIZE.getWidth() - printButtonNode.getFullBoundsReference().getWidth() - xMargin,
-                                           CANVAS_SIZE.getHeight() - printButtonNode.getFullBoundsReference().getHeight() - 10 );
-            }
+                }
+            } );
+            addChild( printButtonNode );
+            // lower-right corner
+            printButtonNode.setOffset( CANVAS_SIZE.getWidth() - printButtonNode.getFullBoundsReference().getWidth() - xMargin,
+                                       CANVAS_SIZE.getHeight() - printButtonNode.getFullBoundsReference().getHeight() - 10 );
         }
 
         public void addChild( PNode node ) {
@@ -138,7 +139,7 @@ class ColorSchemeEditorDialog extends JDialog {
         }
     }
 
-    // Node wrapper for a color control
+    // Piccolo wrapper for a Swing color control
     private static class ColorControlNode extends PNode {
 
         private final ColorControl colorControl;
@@ -147,10 +148,6 @@ class ColorSchemeEditorDialog extends JDialog {
             colorControl = new ColorControl( parentFrame, label, color );
             colorControl.setOpaque( false );
             addChild( new PSwing( colorControl ) );
-        }
-
-        public void setColor( Color color ) {
-            colorControl.setColor( color );
         }
 
         public Color getColor() {
@@ -167,6 +164,7 @@ class ColorSchemeEditorDialog extends JDialog {
 
         public SoluteColorSchemeNode( Frame parentFrame, final Solute solute ) {
 
+            // nodes
             HTMLNode soluteNameNode = new HTMLNode( solute.formula + ":", Color.BLACK, new PhetFont( 12 ) );
             final ColorControlNode minColorNode = new ColorControlNode( parentFrame, String.valueOf( solute.colorScheme.get().minConcentration ) + "=", solute.colorScheme.get().minColor );
             final ColorControlNode midColorNode = new ColorControlNode( parentFrame, "=", solute.colorScheme.get().midColor );
@@ -176,7 +174,7 @@ class ColorSchemeEditorDialog extends JDialog {
                                                                        0.01, "0.00", new Dimension( 60, 20 ));
             PSwing midConcentrationNode = new PSwing( midConcentrationSpinner );
             PText arrowTextNode = new PText( "-->" );
-            PNode gradientNode = new GradientNode( solute );
+            PNode gradientNode = new GradientNode( solute.colorScheme );
 
             // rendering order
             {
@@ -202,6 +200,7 @@ class ColorSchemeEditorDialog extends JDialog {
                                         maxColorNode.getFullBoundsReference().getCenterY() - ( gradientNode.getFullBoundsReference().getHeight() / 2 ) );
             }
 
+            // updates a solute's color scheme
             final VoidFunction0 updateColorScheme = new VoidFunction0() {
                 public void apply() {
                     SoluteColorScheme oldScheme = solute.colorScheme.get();
@@ -212,14 +211,14 @@ class ColorSchemeEditorDialog extends JDialog {
                 }
             };
 
-            // concentration mid-point changes
+            // Observe changes to concentration mid-point
             midConcentrationSpinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     updateColorScheme.apply();
                 }
             } );
 
-            // color control changes
+            // Observe color changes
             ChangeListener colorChangeListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     updateColorScheme.apply();
@@ -231,11 +230,12 @@ class ColorSchemeEditorDialog extends JDialog {
         }
     }
 
+    // Shows the gradient produced by a color scheme
     private static class GradientNode extends PComposite {
 
         private static final Dimension GRADIENT_SIZE = new Dimension( 200, 25 );
 
-        public GradientNode( Solute solute ) {
+        public GradientNode( Property<SoluteColorScheme> colorScheme ) {
 
             final PPath leftNode = new PPath();
             leftNode.setStroke( null );
@@ -247,16 +247,17 @@ class ColorSchemeEditorDialog extends JDialog {
             addChild( rightNode );
             addChild( outlineNode );
 
-            solute.colorScheme.addObserver( new VoidFunction1<SoluteColorScheme>() {
-                public void apply( SoluteColorScheme soluteColorScheme ) {
+            // Update the gradient to match the color scheme
+            colorScheme.addObserver( new VoidFunction1<SoluteColorScheme>() {
+                public void apply( SoluteColorScheme colorScheme ) {
                     // shapes
-                    double leftWidth = GRADIENT_SIZE.width * ( soluteColorScheme.midConcentration - soluteColorScheme.minConcentration ) / ( soluteColorScheme.maxConcentration - soluteColorScheme.minConcentration );
+                    double leftWidth = GRADIENT_SIZE.width * ( colorScheme.midConcentration - colorScheme.minConcentration ) / ( colorScheme.maxConcentration - colorScheme.minConcentration );
                     double rightWidth = GRADIENT_SIZE.width - leftWidth;
                     leftNode.setPathTo( new Rectangle2D.Double( 0, 0, leftWidth, GRADIENT_SIZE.height ) );
                     rightNode.setPathTo( new Rectangle2D.Double( leftWidth, 0, rightWidth, GRADIENT_SIZE.height ) );
                     // paints
-                    leftNode.setPaint( new GradientPaint( 0f, 0f, soluteColorScheme.minColor, (float)leftWidth, 0f, soluteColorScheme.midColor ) );
-                    rightNode.setPaint( new GradientPaint( (float)leftWidth, 0f, soluteColorScheme.midColor, (float)( leftWidth + rightWidth ), 0f, soluteColorScheme.maxColor ) );
+                    leftNode.setPaint( new GradientPaint( 0f, 0f, colorScheme.minColor, (float)leftWidth, 0f, colorScheme.midColor ) );
+                    rightNode.setPaint( new GradientPaint( (float)leftWidth, 0f, colorScheme.midColor, (float)( leftWidth + rightWidth ), 0f, colorScheme.maxColor ) );
                 }
             } );
         }
