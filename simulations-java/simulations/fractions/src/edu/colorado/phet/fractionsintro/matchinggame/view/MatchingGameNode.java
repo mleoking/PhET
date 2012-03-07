@@ -128,19 +128,18 @@ public class MatchingGameNode extends FNode {
 
         if ( state.scored == state.scoreCells.length() ) {
             final int newLevel = state.level + 1;
-            addChild( new VBox( new HTMLImageButtonNode( "Play again", Color.orange ) {{
-                addActionListener( new ActionListener() {
-                    @Override public void actionPerformed( ActionEvent e ) {
-                        model.set( MatchingGameState.initialState( state.level ).audio( state.audio ) );
-                    }
-                } );
-            }}, new HTMLImageButtonNode( "Level " + newLevel, Color.green ) {{
-                addActionListener( new ActionListener() {
-                    @Override public void actionPerformed( ActionEvent e ) {
-                        model.set( MatchingGameState.initialState( newLevel ).audio( state.audio ) );
-                    }
-                } );
-            }}
+            final ActionListener playAgain = new ActionListener() {
+                @Override public void actionPerformed( ActionEvent e ) {
+                    model.set( MatchingGameState.initialState( state.level ).audio( state.audio ) );
+                }
+            };
+            final ActionListener nextLevel = new ActionListener() {
+                @Override public void actionPerformed( ActionEvent e ) {
+                    model.set( MatchingGameState.initialState( newLevel ).audio( state.audio ) );
+                }
+            };
+            addChild( new VBox( new HTMLImageButtonNode( "Play again", Color.orange ) {{ addActionListener( playAgain ); }},
+                                new HTMLImageButtonNode( "Level " + newLevel, Color.green ) {{ addActionListener( nextLevel ); }}
             ) {{
                 setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
             }} );
