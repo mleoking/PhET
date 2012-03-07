@@ -53,24 +53,21 @@ public class Absorbance {
         {
             this.concentration = new Property<Double>( solution.get().concentration.get() );
 
-            // This will be attached to the concentration property of the current solution.
+            // Observe the concentration property of the current solution.
             final VoidFunction1<Double> concentrationObserver = new VoidFunction1<Double>() {
                 public void apply( Double concentration ) {
                     Absorbance.this.concentration.set( concentration );
                 }
             };
+            solution.get().concentration.addObserver( concentrationObserver );
 
             // Rewire the concentration observer when the solution changes.
-            ChangeObserver<BeersLawSolution> solutionObserver = new ChangeObserver<BeersLawSolution>() {
-                public void update( BeersLawSolution newValue, BeersLawSolution oldValue ) {
-                    if ( oldValue != null ) {
-                        oldValue.concentration.removeObserver( concentrationObserver );
-                    }
-                    newValue.concentration.addObserver( concentrationObserver );
+            solution.addObserver( new ChangeObserver<BeersLawSolution>() {
+                public void update( BeersLawSolution newSolution, BeersLawSolution oldSolution ) {
+                    oldSolution.concentration.removeObserver( concentrationObserver );
+                    newSolution.concentration.addObserver( concentrationObserver );
                 }
-            };
-            solution.addObserver( solutionObserver );
-            solutionObserver.update( solution.get(), null ); // because ChangeObserver.update is not called on registration
+            } );
         }
 
         // compute absorbance: A = abC

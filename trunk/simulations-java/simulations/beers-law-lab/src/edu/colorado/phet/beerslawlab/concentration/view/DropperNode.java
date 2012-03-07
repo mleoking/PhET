@@ -126,11 +126,9 @@ class DropperNode extends PhetPNode {
 
         // rewire to a different color scheme when the solute changes
         solute.addObserver( new ChangeObserver<Solute>() {
-            public void update( Solute newValue, Solute oldValue ) {
-                if ( oldValue != null ) {
-                    oldValue.colorScheme.removeObserver( observer );
-                }
-                newValue.colorScheme.addObserver( observer );
+            public void update( Solute newSolute, Solute oldSolute ) {
+                oldSolute.colorScheme.removeObserver( observer );
+                newSolute.colorScheme.addObserver( observer );
             }
         } );
 

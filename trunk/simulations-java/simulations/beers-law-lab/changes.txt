@@ -1,3 +1,4 @@
+3/7/12 cleanup uses of ChangeObserver (used mainly to rewire view components to mutable model properties)
 # 0.00.16 (62265) Mar 6, 2012
 3/6/12 dev version with Color Scheme Editor
 3/6/12 update view when color scheme changes (everything except precipitate that already exists)
