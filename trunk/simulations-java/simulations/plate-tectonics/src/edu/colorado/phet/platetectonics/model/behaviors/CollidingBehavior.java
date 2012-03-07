@@ -117,7 +117,21 @@ public class CollidingBehavior extends PlateBehavior {
 //        getPlate().fullSyncTerrain();
     }
 
+    // we actually slow the continental speed down logarithmically, only starting at 3cm/year
+    private float timeFormula( float time ) {
+        float howFastToSlow = 10;
+        return (float) ( howFastToSlow * Math.log( time / howFastToSlow + 1 ) );
+    }
+
+    private float timeModification( float millionsOfYears ) {
+        float before = timeElapsed - millionsOfYears;
+        float after = timeElapsed;
+
+        return timeFormula( after ) - timeFormula( before );
+    }
+
     private float computeNewX( float millionsOfYears, float sign, float currentX ) {
+        millionsOfYears = timeModification( millionsOfYears );
         assert !Float.isNaN( millionsOfYears );
         final int exponentialFactor = 45;
         float newX = (float) ( currentX * Math.exp( -Math.pow( millionsOfYears, 2 ) / exponentialFactor ) );

@@ -57,4 +57,9 @@ public class Boundary {
     public Sample getEdgeSample( Side side ) {
         return side.getEnd( samples );
     }
+
+    public Sample getEdgeSample( Side side, int offset ) {
+        return side.getFromEnd( samples, offset );
+    }
+
 }

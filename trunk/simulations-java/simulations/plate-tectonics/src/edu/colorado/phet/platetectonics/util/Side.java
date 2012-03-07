@@ -46,6 +46,11 @@ public enum Side {
         return list.get( getIndex( list ) );
     }
 
+    // get an item offset from one end of the list
+    public <T> T getFromEnd( List<T> list, int index ) {
+        return list.get( getIndex( list ) - index * getSign() ); // inverse sign, so our index is correct
+    }
+
     // returns true of A is to the <side> side of B
     public boolean isToSideOf( float a, float b ) {
         switch( this ) {
