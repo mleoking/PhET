@@ -8,7 +8,7 @@ DESIGN
 
 HIGH
 - memory leak in photon view? starts acting strangely after running for awhile
-- Beers: implement photon view
+- Beers: implement photon view (drop this feature?)
 
 MEDIUM
 - Beers: add variable wavelength feature
@@ -21,7 +21,7 @@ LOW
 - Concentration: use CompositeProperty for Shaker.dispensingRate?
 - common: meter bodies may run off right side of stage if text is too long
 - color schemes: update color of precipitate particles that already exist (difficult)
-- color schemes: linear vs log interpolation choice (how is log useful?)
+- color schemes: linear vs log interpolation choice (is log useful?)
 
 SIM-SHARING
 - add sim-sharing to WavelengthControl (if I use it)
