@@ -25,7 +25,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBarsNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas.LIGHT_BLUE;
@@ -200,10 +200,11 @@ public class Levels {
     private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node ) {
 
         //Cache nodes as images to improve performance
+        //TODO: could this put the same node at 2 places in the scene graph?  If so, what problems would that cause?
         return new MovableFraction( new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
                                     new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
-                                        @Override public PNode f( Fraction fraction ) {
-                                            return new PImage( node.f( fraction ).toImage() );
+                                        @Override public PNode f( final Fraction fraction ) {
+                                            return new PComposite() {{ addChild( node.f( fraction ) ); }};
                                         }
                                     } ),
                                     MoveToCell( cell ), false );

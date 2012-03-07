@@ -44,7 +44,7 @@ import static java.awt.Color.yellow;
  */
 public class MatchingGameNode extends FNode {
 
-    private static final boolean addResetButtonForDebugging = false;
+    private static final boolean showDeveloperControls = true;
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
@@ -127,18 +127,21 @@ public class MatchingGameNode extends FNode {
             }
         } ).foreach( addChild );
 
+        final int newLevel = state.level + 1;
+        final ActionListener nextLevel = new ActionListener() {
+            @Override public void actionPerformed( ActionEvent e ) {
+                model.set( MatchingGameState.initialState( newLevel ).audio( state.audio ) );
+            }
+        };
+
         if ( state.scored == state.scoreCells.length() ) {
-            final int newLevel = state.level + 1;
+
             final ActionListener playAgain = new ActionListener() {
                 @Override public void actionPerformed( ActionEvent e ) {
                     model.set( MatchingGameState.initialState( state.level ).audio( state.audio ) );
                 }
             };
-            final ActionListener nextLevel = new ActionListener() {
-                @Override public void actionPerformed( ActionEvent e ) {
-                    model.set( MatchingGameState.initialState( newLevel ).audio( state.audio ) );
-                }
-            };
+
             addChild( new VBox( new HTMLImageButtonNode( "Play again", Color.orange ) {{ addActionListener( playAgain ); }},
                                 new HTMLImageButtonNode( "Level " + newLevel, Color.green ) {{ addActionListener( nextLevel ); }}
             ) {{
@@ -155,15 +158,19 @@ public class MatchingGameNode extends FNode {
             } );
         }} );
 
-        if ( addResetButtonForDebugging ) {
-            addChild( new HTMLImageButtonNode( "Reset" ) {{
-                addActionListener( new ActionListener() {
-                    @Override public void actionPerformed( final ActionEvent e ) {
-                        model.set( MatchingGameState.initialState() );
-                    }
-                } );
-                setOffset( 0, 200 );
-            }} );
+        if ( showDeveloperControls ) {
+            addChild( new VBox(
+                    new HTMLImageButtonNode( "Reset" ) {{
+                        addActionListener( new ActionListener() {
+                            @Override public void actionPerformed( final ActionEvent e ) {
+                                model.set( MatchingGameState.initialState() );
+                            }
+                        } );
+                    }},
+                    new HTMLImageButtonNode( "Skip to level " + newLevel ) {{
+                        addActionListener( nextLevel );
+                    }}
+            ) {{setOffset( 0, 200 );}} );
         }
     }
 }

@@ -1,3 +1,4 @@
+Matching Game: Fixed: Some edges appear to get cut off in the matching game when the matches are put in the containers
 # 0.00.50 (62249) Mar 6, 2012
 Matching Game: Fixed: Audio turns off after each level
 Matching Game: Added delay time to the pitch playback so that low sounds don't end too quickly
