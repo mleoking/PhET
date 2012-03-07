@@ -55,10 +55,9 @@ public class MovableSliceNode extends PNode {
                 final List<Slice> newSlices = state.slices.map( new F<Slice, Slice>() {
                     public Slice f( Slice s ) {
                         Slice target = state.getDropTarget( s );
-
-                        if ( s.dragging && target != null ) { return s.moveTo( target ); }
-                        else if ( s.dragging ) { return s.dragging( false ).animationTarget( model.get().sliceFactory.createBucketSlice( model.get().denominator ) ); }
-                        else { return s; }
+                        return s.dragging && target != null ? s.moveTo( target ) :
+                               s.dragging ? s.dragging( false ).animationTarget( model.get().sliceFactory.createBucketSlice( model.get().denominator ) ) :
+                               s;
                     }
                 } );
                 final PieSet newState = state.slices( newSlices );
