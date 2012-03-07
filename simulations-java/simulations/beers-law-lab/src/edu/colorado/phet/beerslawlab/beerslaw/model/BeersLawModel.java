@@ -14,9 +14,6 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumDi
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution.PotassiumPermanganateSolution;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -33,20 +30,13 @@ public class BeersLawModel implements Resettable {
     public final Property<BeersLawSolution> solution; // the selected solution
     public final Light light;
     public final SolidBeam solidBeam;
-    public final PhotonBeam photonBeam;
     public final ModelViewTransform mvt;
     public final Cuvette cuvette;
     public final ATDetector detector;
     public final Ruler ruler;
     public final Absorbance absorbance;
 
-    public BeersLawModel( IClock clock ) {
-
-        clock.addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                stepInTime( clockEvent.getWallTimeChange() / 1000d );
-            }
-        } );
+    public BeersLawModel() {
 
         // No offset, scale 125x when going from model to view (1cm == 125 pixels)
         this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 125 );
@@ -82,7 +72,6 @@ public class BeersLawModel implements Resettable {
                                         light, cuvette, absorbance );
 
         this.solidBeam = new SolidBeam( light, cuvette, detector, absorbance, mvt );
-        this.photonBeam = new PhotonBeam( light );
     }
 
     public void reset() {
@@ -94,14 +83,9 @@ public class BeersLawModel implements Resettable {
         cuvette.reset();
         detector.reset();
         ruler.reset();
-        photonBeam.reset();
     }
 
     public ArrayList<BeersLawSolution> getSolutions() {
         return new ArrayList<BeersLawSolution>( solutions );
-    }
-
-    private void stepInTime( double deltaSeconds ) {
-        photonBeam.stepInTime( deltaSeconds );
     }
 }
