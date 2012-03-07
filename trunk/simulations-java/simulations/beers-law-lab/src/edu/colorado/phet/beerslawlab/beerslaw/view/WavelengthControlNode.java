@@ -4,10 +4,11 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.*;
 import java.text.MessageFormat;
 
 import javax.swing.JLabel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
 import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.WavelengthType;
@@ -23,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -34,7 +36,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WavelengthControlNode extends PNode {
+class WavelengthControlNode extends PNode {
 
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
     private static final Dimension WAVELENGTH_CONTROL_TRACK_SIZE = new Dimension( 150, 30 );
@@ -114,5 +116,27 @@ public class WavelengthControlNode extends PNode {
                 }
             }
         } );
+    }
+
+    // Specialization of wave length control that works with Property<Double>
+    private static class BLLWavelengthControl extends WavelengthControl {
+
+        public BLLWavelengthControl( Dimension trackSize, final Property<Double> wavelength ) {
+            super( trackSize.width, trackSize.height );
+
+            // set the model value when the control is changed
+            addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    wavelength.set( getWavelength() );
+                }
+            } );
+
+            // set the control value when the model is changed
+            wavelength.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double wavelength ) {
+                    setWavelength( wavelength );
+                }
+            } );
+        }
     }
 }

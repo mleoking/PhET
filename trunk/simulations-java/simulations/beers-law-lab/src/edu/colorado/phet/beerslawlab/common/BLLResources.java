@@ -19,7 +19,6 @@ public class BLLResources {
     // Localized strings
     public static class Strings {
         public static final String ABSORBANCE = RESOURCES.getLocalizedString( "absorbance" );
-        public static final String BEAM = RESOURCES.getLocalizedString( "beam" );
         public static final String COBALT_II_NITRATE = RESOURCES.getLocalizedString( "cobaltIINitrate" );
         public static final String COBALT_CHLORIDE = RESOURCES.getLocalizedString( "cobaltChloride" );
         public static final String CONCENTRATION = RESOURCES.getLocalizedString( "concentration" );
@@ -27,7 +26,6 @@ public class BLLResources {
         public static final String DRINK_MIX = RESOURCES.getLocalizedString( "drinkMix" );
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
         public static final String LAMBDA_MAX = RESOURCES.getLocalizedString( "lambdaMax" );
-        public static final String LIGHT_VIEW = RESOURCES.getLocalizedString( "lightView" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String NICKEL_II_CHLORIDE = RESOURCES.getLocalizedString( "nickelIIChloride" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
@@ -36,7 +34,6 @@ public class BLLResources {
         public static final String PATTERN_PARENTHESES_0TEXT = RESOURCES.getLocalizedString( "pattern.parentheses.0text" );
         public static final String PATTERN_0PERCENT = RESOURCES.getLocalizedString( "pattern.0percent" );
         public static final String PATTERN_0FORMULA_1NAME = RESOURCES.getLocalizedString( "pattern.0formula.1name" );
-        public static final String PHOTONS = RESOURCES.getLocalizedString( "photons" );
         public static final String POTASSIUM_CHROMATE = RESOURCES.getLocalizedString( "potassiumChromate" );
         public static final String POTASSIUM_DICHROMATE = RESOURCES.getLocalizedString( "potassiumDichromate" );
         public static final String POTASSIUM_PERMANGANATE = RESOURCES.getLocalizedString( "potassiumPermanganate" );

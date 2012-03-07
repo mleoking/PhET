@@ -31,7 +31,6 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
 
         // Nodes
         PNode lightNode = new LightNode( model.light, model.mvt );
-        PNode lightViewNode = new LightViewNode( lightRepresentation );
         PNode wavelengthNode = new WavelengthControlNode( model.light, wavelengthType );
         PNode solutionControlsNode = new SolutionControlsNode( model.getSolutions(), model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
@@ -42,17 +41,14 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
         PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
         PNode debugLocationNode = new DebugLocationNode( model.mvt );
         PNode solidBeamNode = new SolidBeamNode( model.solidBeam, lightRepresentation, model.mvt );
-        PNode photonBeamNode = new PhotonBeamNode( model.solution, model.photonBeam, lightRepresentation, model.mvt );
 
         // Rendering order
         {
-            addChild( lightViewNode );
             addChild( wavelengthNode );
             addChild( resetAllButtonNode );
             addChild( detectorNode );
             addChild( cuvetteNode );
             addChild( solidBeamNode );
-            addChild( photonBeamNode );
             addChild( lightNode );
             addChild( rulerNode );
             addChild( solutionControlsNode );
@@ -67,11 +63,8 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
             final double xMargin = 20;
             final double yMargin = 20;
             // below the light
-            lightViewNode.setOffset( lightNode.getFullBoundsReference().getMinX(),
+            wavelengthNode.setOffset( lightNode.getFullBoundsReference().getMinX(),
                                      lightNode.getFullBoundsReference().getMaxY() + 20 );
-            // below "light view" controls
-            wavelengthNode.setOffset( lightViewNode.getXOffset(),
-                                      lightViewNode.getFullBoundsReference().getMaxY() + 10 );
             // solution combo box at top center
             solutionControlsNode.setOffset( ( getStageSize().getWidth() - solutionControlsNode.getFullBoundsReference().getWidth() ) / 2,
                                             yMargin );
