@@ -9,6 +9,7 @@ import edu.colorado.phet.beerslawlab.concentration.ConcentrationModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * Main class for the "Beer's Law Lab" application.

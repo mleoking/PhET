@@ -7,6 +7,7 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
+- why does wavelength slider get stuck at 630 when you start by trying to drag it to the right?
 - memory leak in photon view? starts acting strangely after running for awhile
 - Beers: implement photon view (drop this feature?)
 

@@ -24,11 +24,15 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
     public static enum LightRepresentation {BEAM, PHOTONS}
     private final Property<LightRepresentation> lightRepresentation = new Property<LightRepresentation>( LightRepresentation.BEAM );
 
+    public enum WavelengthType {LAMBDA_MAX, VARIABLE}
+    private final Property<WavelengthType> wavelengthType = new Property<WavelengthType>( WavelengthType.LAMBDA_MAX );
+
     public BeersLawCanvas( final BeersLawModel model, Frame parentFrame ) {
 
         // Nodes
         PNode lightNode = new LightNode( model.light, model.mvt );
-        PNode lightControlsNode = new LightControlsNode( lightRepresentation );
+        PNode lightViewNode = new LightViewNode( lightRepresentation );
+        PNode wavelengthNode = new WavelengthControlNode( model.light, wavelengthType );
         PNode solutionControlsNode = new SolutionControlsNode( model.getSolutions(), model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
@@ -42,7 +46,8 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
 
         // Rendering order
         {
-            addChild( lightControlsNode );
+            addChild( lightViewNode );
+            addChild( wavelengthNode );
             addChild( resetAllButtonNode );
             addChild( detectorNode );
             addChild( cuvetteNode );
@@ -62,12 +67,15 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
             final double xMargin = 20;
             final double yMargin = 20;
             // below the light
-            lightControlsNode.setOffset( lightNode.getFullBoundsReference().getMinX(),
-                                         lightNode.getFullBoundsReference().getMaxY() + 20 );
+            lightViewNode.setOffset( lightNode.getFullBoundsReference().getMinX(),
+                                     lightNode.getFullBoundsReference().getMaxY() + 20 );
+            // below "light view" controls
+            wavelengthNode.setOffset( lightViewNode.getXOffset(),
+                                      lightViewNode.getFullBoundsReference().getMaxY() + 10 );
             // solution combo box at top center
             solutionControlsNode.setOffset( ( getStageSize().getWidth() - solutionControlsNode.getFullBoundsReference().getWidth() ) / 2,
-                                        yMargin );
-             // lower right
+                                            yMargin );
+            // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
             // location debugger left of Reset All button
