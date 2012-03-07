@@ -5,13 +5,12 @@ import fj.F;
 import fj.data.List;
 import lombok.Data;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -30,6 +29,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.singleRepresentation;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.twoComposites;
 import static fj.data.List.iterableList;
 import static fj.data.List.range;
 
@@ -40,10 +41,8 @@ import static fj.data.List.range;
  */
 public class Levels {
 
-    public static Levels Levels = new Levels();
-
-    private final F<Fraction, ArrayList<F<Fraction, PNode>>> representationFunction = new F<Fraction, ArrayList<F<Fraction, PNode>>>() {
-        @Override public ArrayList<F<Fraction, PNode>> f( Fraction fraction ) {
+    private final F<Fraction, ArrayList<RepresentationType>> representationFunction = new F<Fraction, ArrayList<RepresentationType>>() {
+        @Override public ArrayList<RepresentationType> f( Fraction fraction ) {
             return createRepresentations( fraction );
         }
     };
@@ -52,82 +51,112 @@ public class Levels {
     private Levels() {
     }
 
-    //Nodes for filling the cells.
-    final F<Fraction, PNode> numeric = new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new FractionNode( f, 0.3 );
+    public static final F<Fraction, Boolean> all = new F<Fraction, Boolean>() {
+        @Override public Boolean f( final Fraction fraction ) {
+            return true;
         }
     };
-    final F<Fraction, PNode> horizontalBarsGreen = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new HorizontalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9, LIGHT_GREEN );
-        }
-    } );
-    final F<Fraction, PNode> horizontalBarsBlue = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new HorizontalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9, LIGHT_BLUE );
-        }
-    } );
-    final F<Fraction, PNode> verticalBarsGreen = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new VerticalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9, LIGHT_GREEN );
-        }
-    } );
-    final F<Fraction, PNode> verticalBarsBlue = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new VerticalBarsNode( new Fraction( f.numerator, f.denominator ), 0.9, LIGHT_BLUE );
-        }
-    } );
-    final F<Fraction, PNode> greenPies = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new PieNode( new Property<ContainerSet>( new ContainerSet( f.denominator, new Container[] { new Container( f.denominator, range( 0, f.numerator ) ) } ) ), LIGHT_GREEN );
-        }
-    } );
-    final F<Fraction, PNode> bluePies = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new PieNode( new Property<ContainerSet>( new ContainerSet( f.denominator, new Container[] { new Container( f.denominator, range( 0, f.numerator ) ) } ) ), LIGHT_BLUE );
-        }
-    } );
-    final F<Fraction, PNode> sixPlussesGreen = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new PatternNode( new SixPlusSigns(), f.numerator, LIGHT_GREEN );
-        }
-    } );
-    final F<Fraction, PNode> sixPlussesBlue = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new PatternNode( new SixPlusSigns(), f.numerator, LIGHT_BLUE );
-        }
-    } );
-    final F<Fraction, PNode> nineGridGreen = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new PatternNode( new NineGrid(), f.numerator, LIGHT_GREEN );
-        }
-    } );
-    final F<Fraction, PNode> nineGridBlue = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction f ) {
-            return new PatternNode( new NineGrid(), f.numerator, LIGHT_BLUE );
-        }
-    } );
 
-    //Converts primitives (representations for fractions <=1) to composite (representation for fractions >=1)
-    private F<Fraction, PNode> makeComposite( final F<Fraction, PNode> f ) {
-        return new F<Fraction, PNode>() {
-            @Override public PNode f( Fraction fraction ) {
-                return composite( fraction, f );
-            }
-        };
+    static {
+        System.out.println( "all = " + all );
+    }
+
+    final RepresentationType numeric = singleRepresentation( all,
+                                                             new F<Fraction, PNode>() {
+                                                                 @Override public PNode f( Fraction f ) {
+                                                                     return new FractionNode( f, 0.3 );
+                                                                 }
+                                                             } );
+    final RepresentationType horizontalBars = twoComposites( all,
+                                                             new F<Fraction, PNode>() {
+                                                                 @Override public PNode f( Fraction f ) {
+                                                                     return new HorizontalBarsNode( f, 0.9, LIGHT_GREEN );
+                                                                 }
+                                                             },
+                                                             new F<Fraction, PNode>() {
+                                                                 @Override public PNode f( Fraction f ) {
+                                                                     return new HorizontalBarsNode( f, 0.9, LIGHT_BLUE );
+                                                                 }
+                                                             }
+    );
+    final RepresentationType verticalBars = twoComposites( all,
+                                                           new F<Fraction, PNode>() {
+                                                               @Override public PNode f( Fraction f ) {
+                                                                   return new VerticalBarsNode( f, 0.9, LIGHT_GREEN );
+                                                               }
+                                                           },
+                                                           new F<Fraction, PNode>() {
+                                                               @Override public PNode f( Fraction f ) {
+                                                                   return new VerticalBarsNode( f, 0.9, LIGHT_BLUE );
+                                                               }
+                                                           }
+    );
+    final RepresentationType pies = twoComposites( all,
+                                                   new F<Fraction, PNode>() {
+                                                       @Override public PNode f( Fraction f ) {
+                                                           return myPieNode( f, LIGHT_GREEN );
+                                                       }
+                                                   },
+                                                   new F<Fraction, PNode>() {
+                                                       @Override public PNode f( Fraction f ) {
+                                                           return myPieNode( f, LIGHT_BLUE );
+                                                       }
+                                                   }
+    );
+    final RepresentationType sixPlusses = twoComposites( new F<Fraction, Boolean>() {
+                                                             @Override public Boolean f( final Fraction fraction ) {
+                                                                 return fraction.denominator == 6;
+                                                             }
+                                                         },
+                                                         new F<Fraction, PNode>() {
+                                                             @Override public PNode f( Fraction f ) {
+                                                                 return new PatternNode( new SixPlusSigns(), f.numerator, LIGHT_GREEN );
+                                                             }
+                                                         },
+                                                         new F<Fraction, PNode>() {
+                                                             @Override public PNode f( Fraction f ) {
+                                                                 return new PatternNode( new SixPlusSigns(), f.numerator, LIGHT_BLUE );
+                                                             }
+                                                         }
+    );
+
+    final RepresentationType nineGrid = twoComposites( new F<Fraction, Boolean>() {
+                                                           @Override public Boolean f( final Fraction fraction ) {
+                                                               return fraction.denominator == 9;
+                                                           }
+                                                       },
+                                                       new F<Fraction, PNode>() {
+                                                           @Override public PNode f( Fraction f ) {
+                                                               return new PatternNode( new NineGrid(), f.numerator, LIGHT_GREEN );
+                                                           }
+                                                       },
+                                                       new F<Fraction, PNode>() {
+                                                           @Override public PNode f( Fraction f ) {
+                                                               return new PatternNode( new NineGrid(), f.numerator, LIGHT_BLUE );
+                                                           }
+                                                       }
+    );
+
+    public static Levels Levels = new Levels();
+
+    @SuppressWarnings("unchecked")
+    final List<RepresentationType> allRepresentations = iterableList( Arrays.asList( numeric, horizontalBars, verticalBars, pies, sixPlusses, nineGrid ) );
+
+    //Convenience Wrapper to create PieNodes
+    private PNode myPieNode( final Fraction f, final Color color ) {
+        return new PieNode( new Property<ContainerSet>( new ContainerSet( f.denominator, new Container[] { new Container( f.denominator, range( 0, f.numerator ) ) } ) ), color );
     }
 
     public static final Random random = new Random();
 
-    private ResultPair createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells, F<Fraction, ArrayList<F<Fraction, PNode>>> representationPool, final List<ResultPair> alreadySelected ) {
+    private ResultPair createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells, F<Fraction, ArrayList<RepresentationType>> representationPool, final List<ResultPair> alreadySelected ) {
 
         //choose a fraction
         final Fraction fraction = fractions.get( random.nextInt( fractions.size() ) );
 
         //Sampling is without replacement, so remove the old fraction.
         fractions.remove( fraction );
-        ArrayList<F<Fraction, PNode>> representations = representationPool.f( fraction );
+        ArrayList<RepresentationType> representations = representationPool.f( fraction );
 
         //Don't allow duplicate representations for fractions
         //Find all representations for the given fraction
@@ -142,7 +171,7 @@ public class Levels {
         } ) );
         List<Result> same = previouslySelected.filter( new F<Result, Boolean>() {
             @Override public Boolean f( final Result r ) {
-                return r.fraction.fraction().equals( fraction ) && r.representation == numeric;
+                return r.fraction.fraction().equals( fraction ) && numeric.contains( r.representation );
             }
         } );
         representations.removeAll( same.map( new F<Result, F<Fraction, PNode>>() {
@@ -152,48 +181,29 @@ public class Levels {
         } ).toCollection() );
 
         //create 2 representation for it
-        F<Fraction, PNode> representationA = representations.get( random.nextInt( representations.size() ) );
+        RepresentationType representationSetA = representations.get( random.nextInt( representations.size() ) );
         final Cell cellA = cells.get( random.nextInt( cells.size() ) );
+        final F<Fraction, PNode> representationA = representationSetA.chooseOne();
         MovableFraction fractionA = fraction( fraction, cellA, representationA );
 
         //Don't use the same representation for the 2nd one, and put it in a new cell
-        while ( representations.contains( representationA ) ) {
-            representations.remove( representationA );
+        while ( representations.contains( representationSetA ) ) {
+            representations.remove( representationSetA );
         }
         cells.remove( cellA );
 
         final Cell cellB = cells.get( random.nextInt( cells.size() ) );
-        F<Fraction, PNode> representationB = representations.get( random.nextInt( representations.size() ) );
+        RepresentationType representationSetB = representations.get( random.nextInt( representations.size() ) );
+        final F<Fraction, PNode> representationB = representationSetB.chooseOne();
         MovableFraction fractionB = fraction( fraction, cellB, representationB );
 
         cells.remove( cellB );
 
-        return new ResultPair( new Result( fractionA, representationA ), new Result( fractionB, representationB ) );
+        return new ResultPair( new Result( fractionA, representationSetA, representationA ), new Result( fractionB, representationSetB, representationB ) );
     }
 
     private static MovableFraction fraction( Fraction fraction, Cell cell, final F<Fraction, PNode> node ) {
         return fraction( fraction.numerator, fraction.denominator, cell, node );
-    }
-
-    //Converts primitives (representations for fractions <=1) to composite (representation for fractions >=1)
-    public static PNode composite( Fraction fraction, F<Fraction, PNode> node ) {
-        if ( fraction.toDouble() <= 1 + 1E-6 ) {
-            return node.f( fraction );
-        }
-        HBox box = new HBox();
-        while ( fraction.toDouble() > 0 ) {
-            if ( fraction.numerator >= fraction.denominator ) {
-                box.addChild( node.f( new Fraction( fraction.denominator, fraction.denominator ) ) );
-            }
-            else {
-                box.addChild( node.f( new Fraction( fraction.numerator, fraction.denominator ) ) );
-            }
-            fraction = new Fraction( fraction.numerator - fraction.denominator, fraction.denominator );
-        }
-
-        //Make it smaller or won't fit
-        box.scale( 0.75 );
-        return new RichPNode( box );
     }
 
     //Create a MovableFraction for the given fraction at the specified cell
@@ -212,7 +222,7 @@ public class Levels {
 
     private List<MovableFraction> createLevel( List<Cell> _cells, Fraction[] a ) {
 
-        F<Fraction, ArrayList<F<Fraction, PNode>>> representations = representationFunction;
+        F<Fraction, ArrayList<RepresentationType>> representations = representationFunction;
         assert _cells.length() % 2 == 0;
         ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( a ) );
 
@@ -234,6 +244,7 @@ public class Levels {
 
     public static final @Data class Result {
         public final MovableFraction fraction;
+        public final RepresentationType representationSet;
         public final F<Fraction, PNode> representation;
     }
 
@@ -264,26 +275,35 @@ public class Levels {
     };
 
     //Create the default representations that will be used in all levels
-    @SuppressWarnings("unchecked")
-    private ArrayList<F<Fraction, PNode>> createRepresentations( Fraction fraction ) {
-        final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
+    private ArrayList<RepresentationType> createRepresentations( final Fraction fraction ) {
 
-        //Adds any representations specific to the fraction's denominator (i.e. that don't work for other denominators)
-        if ( fraction.denominator == 6 ) {
-            list.add( sixPlussesGreen );
-            list.add( sixPlussesBlue );
-        }
-        if ( fraction.denominator == 9 ) {
-            list.add( nineGridGreen );
-            list.add( nineGridBlue );
-        }
+        //Find the representations that could be used to show the given fraction
+        List<RepresentationType> applicableRepresentations = allRepresentations.filter( new F<RepresentationType, Boolean>() {
+            @Override public Boolean f( final RepresentationType r ) {
+                return r.appliesTo.f( fraction );
+            }
+        } );
+
+        //Count the non-numeric representations
+        int nonNumeric = applicableRepresentations.filter( new F<RepresentationType, Boolean>() {
+            @Override public Boolean f( final RepresentationType representationSet ) {
+                return representationSet != numeric;
+            }
+        } ).length();
+
+        //Count the numeric representations
+        int n = applicableRepresentations.filter( new F<RepresentationType, Boolean>() {
+            @Override public Boolean f( final RepresentationType representationSet ) {
+                return representationSet == numeric;
+            }
+        } ).length();
 
         //Add one "numerical" representation for each graphical one, so that on average there will be about 50% numerical
-        final int listSize = list.size();
-        for ( int i = 0; i < listSize; i++ ) {
-            list.add( numeric );
+        int numToAdd = nonNumeric - n;
+        if ( numToAdd > 0 ) {
+            applicableRepresentations = applicableRepresentations.cons( this.numeric );
         }
-        return list;
+        return new ArrayList<RepresentationType>( applicableRepresentations.toCollection() );
     }
 
     /**
