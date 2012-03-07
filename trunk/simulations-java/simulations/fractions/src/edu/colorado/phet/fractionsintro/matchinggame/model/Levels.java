@@ -79,33 +79,33 @@ public class Levels {
         }
     } );
     final F<Fraction, PNode> greenPies = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction fraction ) {
-            return new PieNode( new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ), LIGHT_GREEN );
+        @Override public PNode f( Fraction f ) {
+            return new PieNode( new Property<ContainerSet>( new ContainerSet( f.denominator, new Container[] { new Container( f.denominator, range( 0, f.numerator ) ) } ) ), LIGHT_GREEN );
         }
     } );
     final F<Fraction, PNode> bluePies = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction fraction ) {
-            return new PieNode( new Property<ContainerSet>( new ContainerSet( fraction.denominator, new Container[] { new Container( fraction.denominator, range( 0, fraction.numerator ) ) } ) ), LIGHT_BLUE );
+        @Override public PNode f( Fraction f ) {
+            return new PieNode( new Property<ContainerSet>( new ContainerSet( f.denominator, new Container[] { new Container( f.denominator, range( 0, f.numerator ) ) } ) ), LIGHT_BLUE );
         }
     } );
     final F<Fraction, PNode> sixPlussesGreen = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction fraction ) {
-            return new PatternNode( new SixPlusSigns(), fraction.numerator, LIGHT_GREEN );
+        @Override public PNode f( Fraction f ) {
+            return new PatternNode( new SixPlusSigns(), f.numerator, LIGHT_GREEN );
         }
     } );
     final F<Fraction, PNode> sixPlussesBlue = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction fraction ) {
-            return new PatternNode( new SixPlusSigns(), fraction.numerator, LIGHT_BLUE );
+        @Override public PNode f( Fraction f ) {
+            return new PatternNode( new SixPlusSigns(), f.numerator, LIGHT_BLUE );
         }
     } );
     final F<Fraction, PNode> nineGridGreen = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction fraction ) {
-            return new PatternNode( new NineGrid(), fraction.numerator, LIGHT_GREEN );
+        @Override public PNode f( Fraction f ) {
+            return new PatternNode( new NineGrid(), f.numerator, LIGHT_GREEN );
         }
     } );
     final F<Fraction, PNode> nineGridBlue = makeComposite( new F<Fraction, PNode>() {
-        @Override public PNode f( Fraction fraction ) {
-            return new PatternNode( new NineGrid(), fraction.numerator, LIGHT_BLUE );
+        @Override public PNode f( Fraction f ) {
+            return new PatternNode( new NineGrid(), f.numerator, LIGHT_BLUE );
         }
     } );
 
