@@ -12,12 +12,12 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
-    public MatchingGameCanvas( final MatchingGameModel model ) {
+    public MatchingGameCanvas( final boolean showDeveloperControls, final MatchingGameModel model ) {
         addChild( new PNode() {{
             model.state.addObserver( new SimpleObserver() {
                 @Override public void update() {
                     removeAllChildren();
-                    addChild( new MatchingGameNode( model.state, rootNode ) );
+                    addChild( new MatchingGameNode( showDeveloperControls, model.state, rootNode ) );
                 }
             } );
         }} );

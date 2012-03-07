@@ -1,3 +1,4 @@
+Matching Game: Added developer controls
 Matching Game: Fixed: scales + number line should be centered vertically between cells at top and bottom
 Matching Game: Moved scales and starting cell areas down a little bit
 Matching Game: Added some vertical padding to the top of the cells

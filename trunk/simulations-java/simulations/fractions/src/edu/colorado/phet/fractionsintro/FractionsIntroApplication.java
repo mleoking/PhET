@@ -18,7 +18,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
         super( config );
         addModule( new FractionsIntroModule() );
         addModule( new EqualityLabModule() );
-        addModule( new MatchingGameModule() );
+        addModule( new MatchingGameModule( config.isDev() ) );
     }
 
     public static void main( String[] args ) {

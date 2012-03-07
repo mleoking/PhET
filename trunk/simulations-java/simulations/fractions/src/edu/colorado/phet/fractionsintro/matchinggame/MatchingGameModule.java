@@ -13,20 +13,20 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
  * @author Sam Reid
  */
 public class MatchingGameModule extends AbstractFractionsModule {
-    public MatchingGameModule() {
-        this( new MatchingGameModel() );
+    public MatchingGameModule( boolean dev ) {
+        this( dev, new MatchingGameModel() );
     }
 
-    public MatchingGameModule( MatchingGameModel model ) {
+    public MatchingGameModule( boolean dev, MatchingGameModel model ) {
         super( "Matching Game", model.clock );
-        setSimulationPanel( new MatchingGameCanvas( model ) );
+        setSimulationPanel( new MatchingGameCanvas( dev, model ) );
     }
 
     //Test main for launching this module in an application by itself for testing
     public static void main( String[] args ) {
         final ApplicationConstructor constructor = new ApplicationConstructor() {
             @Override public PhetApplication getApplication( PhetApplicationConfig c ) {
-                return new PhetApplication( c ) {{addModule( new MatchingGameModule() );}};
+                return new PhetApplication( c ) {{addModule( new MatchingGameModule( true ) );}};
             }
         };
         new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", constructor );
