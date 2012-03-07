@@ -182,6 +182,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Indicate attachment to DNA.
             asm.biomolecule.attachedToDna.set( true );
+
+            // Update externally visible state information.
+            asm.biomolecule.attachedToDna.set( true ); // Update externally visible state indication.
         }
     }
 

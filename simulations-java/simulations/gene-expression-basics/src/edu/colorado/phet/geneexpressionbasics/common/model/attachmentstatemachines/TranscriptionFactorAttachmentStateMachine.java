@@ -110,6 +110,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
 
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             enclosingStateMachine.biomolecule.setMotionStrategy( new FollowAttachmentSite( enclosingStateMachine.attachmentSite ) );
+            enclosingStateMachine.biomolecule.attachedToDna.set( true ); // Update externally visible state indication.
         }
 
         private void detachFromDnaMolecule( AttachmentStateMachine asm ) {
