@@ -823,13 +823,13 @@ public class MultipleParticleModel implements Resettable {
                 initializeDiatomic( m_currentMolecule, phase );
                 break;
             case StatesOfMatterConstants.NEON:
-                initializeMonotomic( m_currentMolecule, phase );
+                initializeMonatomic( m_currentMolecule, phase );
                 break;
             case StatesOfMatterConstants.ARGON:
-                initializeMonotomic( m_currentMolecule, phase );
+                initializeMonatomic( m_currentMolecule, phase );
                 break;
             case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
-                initializeMonotomic( m_currentMolecule, phase );
+                initializeMonatomic( m_currentMolecule, phase );
                 break;
             case StatesOfMatterConstants.WATER:
                 initializeTriatomic( m_currentMolecule, phase );
@@ -1026,7 +1026,7 @@ public class MultipleParticleModel implements Resettable {
      *
      * @param moleculeID
      */
-    private void initializeMonotomic( int moleculeID, int phase ) {
+    private void initializeMonatomic( int moleculeID, int phase ) {
 
         // Verify that a valid molecule ID was provided.
         assert ( moleculeID == StatesOfMatterConstants.NEON ) ||
