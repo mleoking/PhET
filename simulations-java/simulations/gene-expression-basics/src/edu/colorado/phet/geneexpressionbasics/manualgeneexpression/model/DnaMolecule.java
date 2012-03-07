@@ -500,7 +500,7 @@ public class DnaMolecule {
             AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
             Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
             for ( MobileBiomolecule mobileBiomolecule : model.getOverlappingBiomolecules( translatedShape ) ) {
-                if ( mobileBiomolecule.isAttachedToDna() && mobileBiomolecule != biomolecule ) {
+                if ( mobileBiomolecule.attachedToDna.get() && mobileBiomolecule != biomolecule ) {
                     // Eliminate this attachment site, since attaching to it
                     // would cause overlap with molecules already there.
                     potentialAttachmentSites.remove( potentialAttachmentSite );

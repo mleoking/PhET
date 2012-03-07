@@ -139,7 +139,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
         // clear the you can't have two transcription factors in the same
         // place on the DNA.
         for ( MobileBiomolecule biomolecule : model.getOverlappingBiomolecules( this.getShape() ) ) {
-            if ( biomolecule.isAttachedToDna() ) {
+            if ( biomolecule.attachedToDna.get() ) {
                 attachmentStateMachine.forceImmediateUnattachedButUnavailable();
                 break;
             }
@@ -181,12 +181,6 @@ public class TranscriptionFactor extends MobileBiomolecule {
     @Override public AttachmentSite proposeAttachments() {
         // Transcription factors only attach to DNA.
         return model.getDnaMolecule().considerProposalFrom( this );
-    }
-
-    @Override public boolean isAttachedToDna() {
-        // Since DNA is the only thing that this attaches to, if it is
-        // attached to anything, it is DNA.
-        return attachmentStateMachine.isAttachedOrAttaching();
     }
 
     public TranscriptionFactorConfig getConfig() {

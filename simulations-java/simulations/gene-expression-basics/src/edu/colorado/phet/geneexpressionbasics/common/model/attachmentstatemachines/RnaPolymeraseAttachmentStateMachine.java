@@ -219,7 +219,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Check for molecules that are in the way.
             for ( MobileBiomolecule molecule : asm.biomolecule.getModel().getOverlappingBiomolecules( asm.biomolecule.getShape() ) ) {
-                if ( molecule.getPosition().getX() > asm.biomolecule.getPosition().getX() && molecule.isAttachedToDna() ) {
+                if ( molecule.getPosition().getX() > asm.biomolecule.getPosition().getX() && molecule.attachedToDna.get() ) {
                     // This molecule is blocking transcription, so bump it off
                     // of the DNA strand.
                     molecule.forceDetach();
