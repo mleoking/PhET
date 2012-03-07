@@ -5,14 +5,14 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
-import edu.colorado.phet.beerslawlab.concentration.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.concentration.model.Beaker;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -46,11 +46,22 @@ class StockSolutionNode extends PPath {
         observer.observe( dropper.location, dropper.on, dropper.empty );
 
         // set color to match solute
-        solute.addObserver( new SimpleObserver() {
+        final RichSimpleObserver colorObserver = new RichSimpleObserver() {
             public void update() {
                 Color color = ConcentrationSolution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
                 setPaint( color );
                 setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
+            }
+        };
+        colorObserver.observe( solute, solute.get().colorScheme );
+
+        // rewire to a different color scheme when the solute changes
+        solute.addObserver( new ChangeObserver<Solute>() {
+            public void update( Solute newValue, Solute oldValue ) {
+                if ( oldValue != null ) {
+                    oldValue.colorScheme.removeObserver( colorObserver );
+                }
+                newValue.colorScheme.addObserver( colorObserver );
             }
         } );
 

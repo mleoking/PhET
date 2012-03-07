@@ -14,7 +14,7 @@ import edu.colorado.phet.beerslawlab.concentration.model.SoluteColorScheme.Potas
 import edu.colorado.phet.beerslawlab.concentration.model.SoluteColorScheme.PotassiumDichromateColorScheme;
 import edu.colorado.phet.beerslawlab.concentration.model.SoluteColorScheme.PotassiumPermanganateColorScheme;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.ColorRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model of a solute, an immutable data structure.
@@ -36,18 +36,13 @@ public class Solute {
     public final String formula; // chemical formula, not localized
     public final double saturatedConcentration; // M, in beaker
     public final double stockSolutionConcentration; // M, stock solution in dropper
-    public final Property<SoluteColorScheme> colorScheme; // color scheme for mapping concentration to color
-    public final Color particleColor; // color of solid particles
+    public final Property<SoluteColorScheme> colorScheme; // color scheme for mapping concentration to color (mutable for dev experimentation with colors)
+    private Color particleColor; // color of solid particles
     public final double particleSize; // solid particles are square, this is the length of one side
     public final int particlesPerMole; // number of particles to show per mol of solute
 
-    // For most solutes, particles are the same as the color as the saturated solution.
-    public Solute( String name, String formula, double saturatedConcentration, double stockSolutionConcentration, SoluteColorScheme colorScheme, double particleSize, int particlesPerMole ) {
-        this( name, formula, saturatedConcentration, stockSolutionConcentration, colorScheme, colorScheme.maxColor, particleSize, particlesPerMole );
-    }
-
     public Solute( String name, String formula, double saturatedConcentration, double stockSolutionConcentration,
-                   SoluteColorScheme colorScheme, Color particleColor, double particleSize, int particlesPerMole ) {
+                   SoluteColorScheme colorScheme, double particleSize, int particlesPerMole ) {
 
         assert( colorScheme.midConcentration <= saturatedConcentration );
         this.name = name;
@@ -55,17 +50,32 @@ public class Solute {
         this.saturatedConcentration = saturatedConcentration;
         this.stockSolutionConcentration = stockSolutionConcentration;
         this.colorScheme = new Property<SoluteColorScheme>( colorScheme );
-        this.particleColor = particleColor;
+        this.particleColor = colorScheme.maxColor;
         this.particleSize = particleSize;
         this.particlesPerMole = particlesPerMole;
+
+        this.colorScheme.addObserver( new SimpleObserver() {
+            public void update() {
+                updateParticleColor();
+            }
+        } );
+    }
+
+    // Override this for solutes that don't use the saturated color as the particle color.
+    protected void updateParticleColor() {
+        particleColor = colorScheme.get().maxColor;
     }
 
     public String getDisplayName() {
         return name;
     }
 
-    public Color getSaturatedColor() {
-        return colorScheme.get().maxColor;
+    public Color getParticleColor() {
+        return particleColor;
+    }
+
+    protected void setParticleColor( Color color ) {
+        particleColor = color;
     }
 
     public static class DrinkMix extends Solute {
@@ -112,8 +122,14 @@ public class Solute {
 
     // Potassium permanganate has different colors for solution and particles.
     public static class PotassiumPermanganate extends Solute {
+
         public PotassiumPermanganate() {
             super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE, 0.48, 0.4, new PotassiumPermanganateColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            setParticleColor( Color.BLACK );
+        }
+
+        @Override protected void updateParticleColor() {
+            // do nothing, particle color is constant
         }
     }
 }

@@ -9,13 +9,15 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.concentration.model.Solute;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -98,7 +100,7 @@ class DropperNode extends PhetPNode {
         }
 
         // Change the label and fluid color when the solute changes.
-        dropper.solute.addObserver( new SimpleObserver() {
+        final RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
 
                 // label, centered in the dropper's glass
@@ -118,6 +120,17 @@ class DropperNode extends PhetPNode {
                 Color color = ConcentrationSolution.createColor( solvent, solute.get(), solute.get().stockSolutionConcentration );
                 fluidNode.setPaint( color );
                 fluidNode.setStrokePaint( BLLConstants.createFluidStrokeColor( color ) );
+            }
+        };
+        observer.observe( dropper.solute, dropper.solute.get().colorScheme );
+
+        // rewire to a different color scheme when the solute changes
+        solute.addObserver( new ChangeObserver<Solute>() {
+            public void update( Solute newValue, Solute oldValue ) {
+                if ( oldValue != null ) {
+                    oldValue.colorScheme.removeObserver( observer );
+                }
+                newValue.colorScheme.addObserver( observer );
             }
         } );
 

@@ -9,12 +9,7 @@ DESIGN
 HIGH
 - memory leak in photon view? starts acting strangely after running for awhile
 - Beers: implement photon view
-- color schemes: update ConcentrationSolution.fluidColor
-- color schemes: update water color (beaker & faucets)
 - color schemes: update color of precipitate particles
-- color schemes: update color of shaker particles
-- color schemes: update color of stock solution
-- color schemes: update colors in Solute combo box
 - color schemes: linear vs log interpolation choice
 
 MEDIUM

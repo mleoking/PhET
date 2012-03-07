@@ -48,7 +48,7 @@ class SolutionNode extends PPath {
     private void updateNode() {
 
         // update the color of the solution, accounting for saturation
-        Color solutionColor = solution.fluidColor.get();
+        Color solutionColor = solution.getFluidColor();
         setPaint( solutionColor );
         setStrokePaint( BLLConstants.createFluidStrokeColor( solutionColor ) );
 
