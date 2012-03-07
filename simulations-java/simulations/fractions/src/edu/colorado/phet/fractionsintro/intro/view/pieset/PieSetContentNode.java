@@ -24,7 +24,10 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class PieSetContentNode extends PNode {
-    public PieSetContentNode( final BucketView bucketView, final SettableProperty<PieSet> model, final F<SliceNodeArgs, PNode> createSliceNode, final PNode rootNode, F<PieSet, PNode> createEmptyCellsNode ) {
+    public PieSetContentNode( final BucketView bucketView,
+                              final SettableProperty<PieSet> model,
+                              final F<SliceNodeArgs, PNode> createSliceNode,
+                              final PNode rootNode, F<PieSet, PNode> createEmptyCellsNode ) {
 
         final PNode bucketHoleNode = bucketView.getHoleNode();
         addChild( bucketHoleNode );
@@ -38,22 +41,7 @@ public class PieSetContentNode extends PNode {
         addChild( bucketView.getFrontNode() );
 
         //Show an icon label on the bucket so the user knows what is in the bucket
-        PNode icon = new PNode() {{
-            final int denominator = model.get().denominator;
-            for ( int i = 0; i < denominator; i++ ) {
-                Slice cell = model.get().sliceFactory.createPieCell( model.get().pies.length(), 0, i, denominator );
-                addChild( new PhetPPath( cell.getShape(), Color.white, new BasicStroke( 3 ), Color.black ) );
-            }
-
-            Slice slice = model.get().sliceFactory.createPieCell( model.get().pies.length(), 0, 0, denominator );
-            PNode node = new MovableSliceNode( createSliceNode.f( new SliceNodeArgs( slice, model.get().denominator, false ) ), rootNode, model, slice );
-            node.setPickable( false );
-            node.setChildPaintInvalid( false );
-            addChild( node );
-
-            //Make as large as possible, but small enough that tall representations (like vertical bars) fit
-            scale( 0.28 );
-        }};
+        PNode icon = createIcon( model.get(), createSliceNode );
 
         PNode text = new FractionNode( FractionNumberNode.NUMBER_FONT, new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
             scale( 0.2 );
@@ -67,5 +55,28 @@ public class PieSetContentNode extends PNode {
             setPickable( false );
             setChildrenPickable( false );
         }} );
+    }
+
+    private PNode createIcon( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode ) {
+        return new PNode() {{
+            final int denominator = state.denominator;
+            for ( int i = 0; i < denominator; i++ ) {
+                Slice cell = state.sliceFactory.createPieCell( state.pies.length(), 0, i, denominator );
+                addChild( new PhetPPath( cell.getShape(), Color.white, new BasicStroke( 3 ), Color.black ) );
+            }
+
+            Slice slice = state.sliceFactory.createPieCell( state.pies.length(), 0, 0, denominator );
+//            Slice slice = state.sliceFactory.createBucketSlice( denominator );
+
+            //Create the slice.  Wrap the state in a dummy Property to facilitate reuse of MovableSliceNode code.
+            //Could be improved by generalizing MovableSliceNode to not require
+            final PNode node = createSliceNode.f( new SliceNodeArgs( slice, state.denominator, false ) );
+            node.setPickable( false );
+            node.setChildPaintInvalid( false );
+            addChild( node );
+
+            //Make as large as possible, but small enough that tall representations (like vertical bars) fit
+            scale( 0.28 );
+        }};
     }
 }
