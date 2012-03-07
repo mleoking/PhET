@@ -62,7 +62,7 @@ public class WaterGlassSetNode extends PieSetNode {
                         }
                     } );
 
-                    //Read from cache like WaterGlassNodeFactory instead of creating new each time to improve performance
+                    //Read from cache instead of creating new each time to improve performance because these graphics are expensive to make
                     node.addChild( new PImage( cachedWaterGlassNode( state.countFilledCells( pie ), state.denominator, color, width, height ) ) {{
                         setOffset( pie.cells.index( 0 ).getShape().getBounds2D().getX(), centers.minimum( doubleOrd ) );
                     }} );

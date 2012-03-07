@@ -1,3 +1,4 @@
+Matching Game & Intro: Fixed: If you change the denominator then click on glass then it creates a cup of the incorrect height
 Matching Game & Intro: Fixed: When clicking on water glasses (or maybe others), it leaves one behind and doesn't update the numerator right away
 Matching Game & Intro: Fixed: Double clicking causes problems for bars, makes things go out of sync
 Matching Game & Intro: Fixed: Put the clipping region just below the bucket
