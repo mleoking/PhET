@@ -12,10 +12,10 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
-import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.WavelengthType;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -37,22 +37,24 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class WavelengthControlNode extends PNode {
+class WavelengthControlNode extends PNode implements Resettable {
 
     private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
     private static final Dimension WAVELENGTH_CONTROL_TRACK_SIZE = new Dimension( 150, 30 );
 
-    public WavelengthControlNode( final Property<BeersLawSolution> solution, final Light light, Property<WavelengthType> wavelengthType ) {
+    private final Property<Boolean> variableWavelength = new Property<Boolean>( false ); // is the wavelength variable or fixed?
+
+    public WavelengthControlNode( final Property<BeersLawSolution> solution, final Light light ) {
 
         JLabel wavelengthLabel = new JLabel( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.WAVELENGTH ) );
         wavelengthLabel.setFont( FONT );
 
-        PropertyRadioButton<WavelengthType> lambdaMaxRadioButton =
-                new PropertyRadioButton<WavelengthType>( UserComponents.lambdaMaxRadioButton, Strings.LAMBDA_MAX, wavelengthType, WavelengthType.LAMBDA_MAX );
+        PropertyRadioButton<Boolean> lambdaMaxRadioButton =
+                new PropertyRadioButton<Boolean>( UserComponents.lambdaMaxRadioButton, Strings.LAMBDA_MAX, variableWavelength, false );
         lambdaMaxRadioButton.setFont( FONT );
 
-        PropertyRadioButton<WavelengthType> variableRadioButton =
-                new PropertyRadioButton<WavelengthType>( UserComponents.variableRadioButton, Strings.VARIABLE, wavelengthType, WavelengthType.VARIABLE );
+        PropertyRadioButton<Boolean> variableRadioButton =
+                new PropertyRadioButton<Boolean>( UserComponents.variableRadioButton, Strings.VARIABLE, variableWavelength, true );
         variableRadioButton.setFont( FONT );
 
         // Panel
@@ -107,19 +109,23 @@ class WavelengthControlNode extends PNode {
         addChild( new ControlPanelNode( parentNode ) );
 
         // When the radio button selection changes...
-        wavelengthType.addObserver( new VoidFunction1<WavelengthType>() {
-            public void apply( WavelengthType wavelengthType ) {
-                if ( wavelengthType == WavelengthType.LAMBDA_MAX ) {
+        variableWavelength.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean isVariable ) {
+                if ( isVariable ) {
+                    parentNode.addChild( wavelengthWrapperNode );
+                }
+                else {
                     // Remove the wavelength control from the scenegraph. This causes the control panel to resize.
                     parentNode.removeChild( wavelengthWrapperNode );
                     // Set the light to the current solution's lambdaMax wavelength.
                     light.wavelength.set( solution.get().lambdaMax );
                 }
-                else {
-                    parentNode.addChild( wavelengthWrapperNode );
-                }
             }
         } );
+    }
+
+    public void reset() {
+        variableWavelength.reset();
     }
 
     // Specialization of wave length control that works with Property<Double>

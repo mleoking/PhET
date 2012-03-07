@@ -10,7 +10,6 @@ import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.common.view.DebugLocationNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -21,14 +20,13 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BeersLawCanvas extends BLLCanvas implements Resettable {
 
-    public enum WavelengthType {LAMBDA_MAX, VARIABLE}
-    private final Property<WavelengthType> wavelengthType = new Property<WavelengthType>( WavelengthType.LAMBDA_MAX );
+    private final WavelengthControlNode wavelengthControlNode;
 
     public BeersLawCanvas( final BeersLawModel model, Frame parentFrame ) {
 
         // Nodes
         PNode lightNode = new LightNode( model.light, model.mvt );
-        PNode wavelengthNode = new WavelengthControlNode( model.solution, model.light, wavelengthType );
+        wavelengthControlNode = new WavelengthControlNode( model.solution, model.light );
         PNode solutionControlsNode = new SolutionControlsNode( model.getSolutions(), model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
@@ -41,7 +39,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
 
         // Rendering order
         {
-            addChild( wavelengthNode );
+            addChild( wavelengthControlNode );
             addChild( resetAllButtonNode );
             addChild( detectorNode );
             addChild( cuvetteNode );
@@ -60,7 +58,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
             final double xMargin = 20;
             final double yMargin = 20;
             // below the light
-            wavelengthNode.setOffset( lightNode.getFullBoundsReference().getMinX(),
+            wavelengthControlNode.setOffset( lightNode.getFullBoundsReference().getMinX(),
                                      lightNode.getFullBoundsReference().getMaxY() + 20 );
             // solution combo box at top center
             solutionControlsNode.setOffset( ( getStageSize().getWidth() - solutionControlsNode.getFullBoundsReference().getWidth() ) / 2,
@@ -75,6 +73,6 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
     }
 
     public void reset() {
-        wavelengthType.reset();
+        wavelengthControlNode.reset();
     }
 }
