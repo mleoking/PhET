@@ -6,10 +6,11 @@ import java.awt.Color;
 import edu.colorado.phet.beerslawlab.common.model.IFluid;
 import edu.colorado.phet.beerslawlab.common.model.Solvent;
 import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
@@ -28,7 +29,7 @@ public class ConcentrationSolution implements IFluid, Resettable {
     public final Property<Double> volume; // L
     public final CompositeProperty<Double> concentration; // M (derived property)
     public final CompositeProperty<Double> precipitateAmount; // moles (derived property)
-    public final CompositeProperty<Color> fluidColor; // derived from solute color and concentration
+    private final Property<Color> fluidColor; // derived from solute color and concentration
 
     public ConcentrationSolution( Property<Solute> solute, double soluteAmount, double volume ) {
 
@@ -36,6 +37,7 @@ public class ConcentrationSolution implements IFluid, Resettable {
         this.solute = solute;
         this.soluteAmount = new Property<Double>( soluteAmount );
         this.volume = new Property<Double>( volume );
+        this.fluidColor = new Property<Color>( Color.WHITE ); // will be set to proper value below
 
         // derive concentration
         this.concentration = new CompositeProperty<Double>( new Function0<Double>() {
@@ -66,11 +68,26 @@ public class ConcentrationSolution implements IFluid, Resettable {
         }, this.solute, this.soluteAmount, this.volume );
 
         // derive the solution color
-        this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
-            public Color apply() {
-                return createColor( solvent, ConcentrationSolution.this.solute.get(), concentration.get() );
+        final RichSimpleObserver colorObserver = new RichSimpleObserver() {
+            @Override public void update() {
+                updateFluidColor();
             }
-        }, this.solute, this.concentration ); //TODO fluidColor needs to update when solution.colorScheme changes
+        };
+        colorObserver.observe( solvent.color, this.solute, this.concentration, solute.get().colorScheme );
+
+        // when the solute changes, rewire colorObserver to the new colorScheme
+        solute.addObserver( new ChangeObserver<Solute>() {
+            public void update( Solute newValue, Solute oldValue ) {
+                if ( oldValue != null ) {
+                    oldValue.colorScheme.removeObserver( colorObserver );
+                }
+                newValue.colorScheme.addObserver( colorObserver );
+            }
+        } );
+    }
+
+    private void updateFluidColor() {
+        fluidColor.set( createColor( solvent, ConcentrationSolution.this.solute.get(), concentration.get() ) );
     }
 
     // Convenience method

@@ -22,7 +22,7 @@ public class Solvent implements IFluid {
      */
     public static class Water extends Solvent {
         public Water() {
-            super( Strings.WATER, BLLSymbols.WATER, new Color( 0xE0FFFF ) );
+            super( Strings.WATER, BLLSymbols.WATER, new Color( 224, 255, 255 ) );
         }
     }
 
@@ -41,6 +41,6 @@ public class Solvent implements IFluid {
     }
 
     public void addFluidColorObserver( SimpleObserver observer ) {
-        observer.update();
+        color.addObserver( observer );
     }
 }

@@ -1,14 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.view;
 
-import sun.jvm.hotspot.debugger.ppc.PPCThreadContext;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GradientPaint;
-import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -17,8 +14,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -39,7 +34,6 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.nodes.PTextTest;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

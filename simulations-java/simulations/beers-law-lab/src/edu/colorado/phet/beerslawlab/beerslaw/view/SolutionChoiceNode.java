@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
+import java.awt.Color;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ class SolutionChoiceNode extends PhetPNode {
                    solutions, selectedSolution,
                    new Function1<BeersLawSolution, PNode>() {
                        public PNode apply( final BeersLawSolution solution ) {
-                           return new SoluteItemNode( solution.saturatedColor, solution.getDisplayName() );
+                           return new SoluteItemNode( new Property<Color>( solution.saturatedColor ), solution.getDisplayName() );
                        }
                    }
             );

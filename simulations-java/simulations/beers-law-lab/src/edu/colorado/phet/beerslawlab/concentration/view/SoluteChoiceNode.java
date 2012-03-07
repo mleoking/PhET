@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.view;
 
+import java.awt.Color;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -8,8 +9,9 @@ import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
-import edu.colorado.phet.beerslawlab.concentration.model.Solute;
 import edu.colorado.phet.beerslawlab.common.view.SoluteItemNode;
+import edu.colorado.phet.beerslawlab.concentration.model.Solute;
+import edu.colorado.phet.beerslawlab.concentration.model.SoluteColorScheme;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -72,7 +74,14 @@ class SoluteChoiceNode extends PhetPNode {
                    solutes, selectedSolute,
                    new Function1<Solute, PNode>() {
                        public PNode apply( final Solute solute ) {
-                           return new SoluteItemNode( solute.getSaturatedColor(), solute.getDisplayName() );
+                           // Keep the color chip synchronized with the solute's color scheme.
+                           final Property<Color> color = new Property<Color>( solute.colorScheme.get().maxColor );
+                           solute.colorScheme.addObserver( new VoidFunction1<SoluteColorScheme>() {
+                               public void apply( SoluteColorScheme soluteColorScheme ) {
+                                   color.set( solute.colorScheme.get().maxColor );
+                               }
+                           } );
+                           return new SoluteItemNode( color, solute.getDisplayName() );
                        }
                    }
             );

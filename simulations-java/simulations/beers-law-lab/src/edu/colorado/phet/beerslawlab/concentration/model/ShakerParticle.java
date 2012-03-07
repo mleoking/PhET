@@ -18,7 +18,7 @@ public class ShakerParticle extends SoluteParticle {
     private ImmutableVector2D acceleration;
 
     public ShakerParticle( Solute solute, ImmutableVector2D location, double orientation, ImmutableVector2D initialVelocity, ImmutableVector2D acceleration ) {
-        super( solute.particleColor, solute.particleSize, location, orientation );
+        super( solute.getParticleColor(), solute.particleSize, location, orientation );
         this.solute = solute;
         this.velocity = initialVelocity;
         this.acceleration = acceleration;

@@ -1,3 +1,4 @@
+3/6/12 update view when color scheme changes (everything except precipitate that already exists)
 3/6/12 user interface completed for color scheme editor (not everything is updating properly yet, since colors were never intended to be mutable)
 3/6/12 Concentration: add color schemes to model, stub button for opening editor
 3/6/12 reorganize class for dev model properties, rename ConcentrationModelDialog
