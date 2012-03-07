@@ -38,7 +38,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
     private static final Random RAND = new Random();
 
-    private AttachmentState attachedAndWanderingState = new AttachedToLowAffinitySite();
+    private AttachmentState attachedAndWanderingState = new AttachedToBasePair();
     private AttachmentState attachedAndConformingState = new AttachedAndConformingState();
     private AttachmentState attachedAndTranscribingState = new AttachedAndTranscribingState();
     private AttachmentState attachedAndDeconformingState = new AttachedAndDeconformingState();
@@ -83,7 +83,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // Subclass of the "attached" state for polymerase when it is attached to
     // the DNA but is not transcribing.  In this state, it is doing a 1D
     // random walk on the DNA strand.
-    protected class AttachedToLowAffinitySite extends AttachmentState {
+    protected class AttachedToBasePair extends AttachmentState {
 
         // Scalar velocity when moving between attachment points on the DNA.
         private static final double VELOCITY_ON_DNA = 200;
@@ -91,8 +91,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         // Time for attachment to a site on the DNA.
         private static final double DEFAULT_ATTACH_TIME = 0.15; // In seconds.
 
-        // Time of attachment to the current attachment site.
-        private double attachmentTime;
+        // Flag that is set upon entry that determines whether transcription occurs.
+        private boolean transcribe = false;
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
@@ -102,7 +102,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Decide whether to transcribe the DNA.  The decision is based on
             // the affinity of the site and the time of attachment.
-            if ( asm.attachmentSite.getAffinity() > DnaMolecule.DEFAULT_AFFINITY && attachmentTime > TRANSCRIPTION_INITIATION_TIME ) {
+            if ( transcribe ) {
                 // Begin transcription.
                 attachedState = attachedAndConformingState;
                 setState( attachedState );
@@ -160,7 +160,6 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             }
             else {
                 // Just stay attached to the current site.
-                attachmentTime += dt;
             }
         }
 
@@ -174,7 +173,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
-            attachmentTime = 0;
+
+            // Decide right away whether or not to transcribe.
+            transcribe = attachmentSite.getAffinity() > DnaMolecule.DEFAULT_AFFINITY && RAND.nextDouble() < attachmentSite.getAffinity();
 
             // Allow user interaction.
             asm.biomolecule.movableByUser.set( true );
