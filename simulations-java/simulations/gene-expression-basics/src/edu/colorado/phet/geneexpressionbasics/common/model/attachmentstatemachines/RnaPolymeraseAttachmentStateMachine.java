@@ -124,6 +124,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                         asm.setState( unattachedButUnavailableState );
                         biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
                         detachFromDnaThreshold = 1; // Reset this threshold.
+                        asm.biomolecule.attachedToDna.set( false ); // Update externally visible state indication.
                     }
                     else {
                         // Shuffle the sites to create some randomness.
@@ -156,6 +157,9 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             // Allow user interaction.
             asm.biomolecule.movableByUser.set( true );
+
+            // Indicate attachment to DNA.
+            asm.biomolecule.attachedToDna.set( true );
         }
     }
 
@@ -276,12 +280,15 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             biomolecule.changeConformation( conformationalChangeAmount );
             dnaStrandSeparation.setProportionOfTargetAmount( conformationalChangeAmount );
             if ( conformationalChangeAmount == 0 ) {
-                // Conformational change complete, time to detach.
+                // Change back to original conformation complete, time to detach.
                 asm.detach();
                 asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
 
                 // Remove the DNA separator, which makes the DNA close back up.
                 rnaPolymerase.getModel().getDnaMolecule().removeSeparation( dnaStrandSeparation );
+
+                // Update externally visible state indication.
+                asm.biomolecule.attachedToDna.set( false );
 
                 // Make sure that we enter the correct initial state upon the
                 // next attachment.

@@ -70,6 +70,11 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // around.
     public final BooleanProperty movableByUser = new BooleanProperty( true );
 
+    // Property that indicates whether or not this biomolecule is attached to
+    // the DNA strand.  Some biomolecules never attach to DNA, so it will
+    // never become true.  This should only be set by subclasses.
+    public final BooleanProperty attachedToDna = new BooleanProperty( false );
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------

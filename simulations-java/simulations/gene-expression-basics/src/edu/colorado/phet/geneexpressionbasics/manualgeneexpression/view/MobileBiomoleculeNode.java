@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCellNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -63,6 +64,17 @@ public class MobileBiomoleculeNode extends PNode {
             mobileBiomolecule.existenceStrength.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double existenceStrength ) {
                     setTransparency( existenceStrength.floatValue() );
+                }
+            } );
+
+            // If a polymerase molecule attaches to the DNA strand, move it to
+            // the back of its current layer so that nothing can go between it
+            // and the DNA molecule.  Otherwise odd-looking things can happen.
+            mobileBiomolecule.attachedToDna.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean attachedToDna ) {
+                    if ( mobileBiomolecule instanceof RnaPolymerase && attachedToDna ) {
+                        moveToBack();
+                    }
                 }
             } );
 
