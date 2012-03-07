@@ -58,7 +58,7 @@ public class ConcentrationCanvas extends BLLCanvas {
             setConfirmationEnabled( false );
         }};
         PNode modelButton = new PSwing( new ConcentrationModelButton( parentFrame, model ) );
-        PNode colorSchemeEditorButton = new PSwing( new ColorSchemeEditorButton( model ) );
+        PNode colorSchemeEditorButton = new PSwing( new ColorSchemeEditorButton( parentFrame, model ) );
 
         // rendering order
         {

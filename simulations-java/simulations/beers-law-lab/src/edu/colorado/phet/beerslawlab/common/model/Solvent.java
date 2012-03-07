@@ -5,6 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSymbols;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -27,16 +28,16 @@ public class Solvent implements IFluid {
 
     public final String name;
     public final String formula;
-    public final Color color;
+    public final Property<Color> color; // mutable only so that we can experiment with colors via developer controls
 
     public Solvent( String name, String formula, Color color ) {
         this.name = name;
         this.formula = formula;
-        this.color = color;
+        this.color = new Property<Color>( color );
     }
 
     public Color getFluidColor() {
-        return color;
+        return color.get();
     }
 
     public void addFluidColorObserver( SimpleObserver observer ) {

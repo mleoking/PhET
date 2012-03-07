@@ -39,11 +39,15 @@ public class SoluteColorScheme {
         }
     }
 
+    @Override public String toString() {
+        return minConcentration + "," + minColor + "," + midConcentration + "," + midColor + "," + maxConcentration + "," + maxColor;
+    }
+
     //TODO saturated concentration values are duplicated here and in Solute (eg, 5.96) for all solutes and color schemes
     public static class DrinkMixColorScheme extends SoluteColorScheme {
         public DrinkMixColorScheme() {
             super( 0, Color.WHITE,
-                   1, new Color( 255, 225, 225 ),
+                   0.1, new Color( 255, 225, 225 ),
                    5.96, Color.RED );
         }
     }
@@ -51,7 +55,7 @@ public class SoluteColorScheme {
     public static class CobaltIINitrateColorScheme extends SoluteColorScheme {
         public CobaltIINitrateColorScheme() {
             super( 0, Color.WHITE,
-                   1, new Color( 255, 225, 225 ),
+                   0.1, new Color( 255, 225, 225 ),
                    5.64, Color.RED );
         }
     }
@@ -59,8 +63,8 @@ public class SoluteColorScheme {
     public static class CobaltChlorideColorScheme extends SoluteColorScheme {
         public CobaltChlorideColorScheme() {
             super( 0, Color.WHITE,
-                   1, new Color( 255, 242, 242 ),
-                   4.33, new Color( 0xFF6A6A ) );
+                   0.1, new Color( 255, 242, 242 ),
+                   4.33, new Color( 255, 106, 106 ) );
         }
     }
 
@@ -68,14 +72,14 @@ public class SoluteColorScheme {
         public PotassiumDichromateColorScheme() {
             super( 0, Color.WHITE,
                    0.1, new Color( 255, 232, 210 ),
-                   0.51, new Color( 0xFF7F00 ) );
+                   0.51, new Color( 255, 127, 0 ) );
         }
     }
 
     public static class PotassiumChromateColorScheme extends SoluteColorScheme {
         public PotassiumChromateColorScheme() {
             super( 0, Color.WHITE,
-                   1, new Color( 255, 255, 199 ),
+                   0.1, new Color( 255, 255, 199 ),
                    3.35, Color.YELLOW );
         }
     }
@@ -83,16 +87,16 @@ public class SoluteColorScheme {
     public static class NickelIIChlorideColorScheme extends SoluteColorScheme {
         public NickelIIChlorideColorScheme() {
             super( 0, Color.WHITE,
-                   1, new Color( 234, 244, 234 ),
-                   5.21, new Color( 0x008000 ) );
+                   0.1, new Color( 234, 244, 234 ),
+                   5.21, new Color( 0, 128, 0 ) );
         }
     }
 
     public static class CopperSulfateColorScheme extends SoluteColorScheme {
         public CopperSulfateColorScheme() {
             super( 0, Color.WHITE,
-                   1, new Color( 222, 238, 255 ),
-                   1.38, new Color( 0x1E90FF ) );
+                   0.1, new Color( 222, 238, 255 ),
+                   1.38, new Color( 30, 144, 255 ) );
         }
     }
 

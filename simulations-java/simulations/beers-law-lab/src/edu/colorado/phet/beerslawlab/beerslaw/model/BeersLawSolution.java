@@ -79,7 +79,7 @@ public class BeersLawSolution implements Resettable {
 
     // Creates a color that corresponds to the solution's concentration.
     private static final Color createColor( double concentration, DoubleRange concentrationRange, ColorRange colorRange, Solvent solvent ) {
-        Color color = solvent.color;
+        Color color = solvent.color.get();
         if ( concentration > 0 ) {
             LinearFunction f = new LinearFunction( concentrationRange.getMin(), concentrationRange.getMax(), 0, 1 );
             color = colorRange.interpolateLinear( f.evaluate( concentration ) );
