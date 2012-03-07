@@ -7,7 +7,7 @@ import java.awt.Paint;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.beerslawlab.beerslaw.model.SolidBeam;
+import edu.colorado.phet.beerslawlab.beerslaw.model.Beam;
 import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -20,16 +20,14 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import com.sun.org.apache.xerces.internal.dom.ParentNode;
-
 /**
- * Representation of light as a solid beam.
+ * Representation of light as a beam.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SolidBeamNode extends PhetPNode {
+class BeamNode extends PhetPNode {
 
-    public SolidBeamNode( final SolidBeam beam, final Property<LightRepresentation> representation, ModelViewTransform mvt ) {
+    public BeamNode( final Beam beam, final Property<LightRepresentation> representation, ModelViewTransform mvt ) {
 
         setPickable( false );
         setChildrenPickable( false );
