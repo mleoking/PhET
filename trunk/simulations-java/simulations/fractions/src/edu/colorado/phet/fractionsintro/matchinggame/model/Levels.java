@@ -264,6 +264,7 @@ public class Levels {
     };
 
     //Create the default representations that will be used in all levels
+    @SuppressWarnings("unchecked")
     private ArrayList<F<Fraction, PNode>> createRepresentations( Fraction fraction ) {
         final ArrayList<F<Fraction, PNode>> list = new ArrayList<F<Fraction, PNode>>( Arrays.asList( greenPies, bluePies, horizontalBarsGreen, horizontalBarsBlue, verticalBarsGreen, verticalBarsBlue ) );
 
