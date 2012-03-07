@@ -31,7 +31,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
 
         // Nodes
         PNode lightNode = new LightNode( model.light, model.mvt );
-        PNode wavelengthNode = new WavelengthControlNode( model.light, wavelengthType );
+        PNode wavelengthNode = new WavelengthControlNode( model.solution, model.light, wavelengthType );
         PNode solutionControlsNode = new SolutionControlsNode( model.getSolutions(), model.solution );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, parentFrame, BLLConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );

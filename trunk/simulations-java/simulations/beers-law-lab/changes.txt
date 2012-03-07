@@ -1,3 +1,4 @@
+3/7/12 when lambdaMax radio button is selected, set light wavelength to current solution's lambdaMax
 3/7/12 Beers: rename "solid beam" to "beam" throughout, since there's only one representation now
 3/7/12 Beers: delete "photon view" feature, representation can't handle the range [62302], [62303]
 # 0.00.17 (62294) Mar 7, 2012
