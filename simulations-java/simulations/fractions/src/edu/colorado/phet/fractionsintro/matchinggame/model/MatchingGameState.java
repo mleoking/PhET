@@ -51,7 +51,7 @@ import static fj.data.List.range;
 
     public static MatchingGameState initialState( int level ) {
         final List<Cell> cells = createCells( 100, 415, 130, 120, 6, 2, 0, 0 );
-        final List<Cell> scoreCells = createCells( 10, 5, 155, 90, 6, 1, 10, 0 );
+        final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
         return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0, 0, level, false );
     }
 
