@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SolidBeam {
+public class Beam {
 
     private static final double RIGHT_SEGMENT_WIDTH = 30; // cm, wide enough to be way off the right edge of the play area
     private static final int MAX_LIGHT_ALPHA = 200; // transparency of light when transmittance is 1.0
@@ -44,7 +44,7 @@ public class SolidBeam {
     public final Property<Paint> leftPaint, centerPaint, rightPaint;
     public final CompositeProperty<Boolean> visible;
 
-    public SolidBeam( final Light light, Cuvette cuvette, ATDetector detector, Absorbance absorbance, ModelViewTransform mvt ) {
+    public Beam( final Light light, Cuvette cuvette, ATDetector detector, Absorbance absorbance, ModelViewTransform mvt ) {
 
         this.light = light;
         this.cuvette = cuvette;
