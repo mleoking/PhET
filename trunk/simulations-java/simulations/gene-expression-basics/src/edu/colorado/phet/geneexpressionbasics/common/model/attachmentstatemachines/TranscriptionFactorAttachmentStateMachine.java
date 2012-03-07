@@ -12,6 +12,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.FollowAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 
 /**
@@ -28,6 +29,9 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
 
     // Scalar velocity when moving between attachment points on the DNA.
     private static final double VELOCITY_ON_DNA = 200;
+
+    // Half-life of attachment to a site with affinity of 0.5.
+    private static final double HALF_LIFE_FOR_HALF_AFFINITY = 1.5; // In seconds.
 
     // Threshold for the detachment algorithm, used in deciding whether or not
     // to detach completely from the DNA at a given time step.
@@ -82,7 +86,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                         detachFromDnaMolecule( asm );
                     }
                     else {
-                        // Clean the previous attachment site.
+                        // Clear the previous attachment site.
                         attachmentSite.attachedOrAttachingMolecule.set( null );
 
                         // Set a new attachment site.
@@ -133,7 +137,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
             // longer or shorter.  However, zero affinity should always map to
             // zero half life, and an affinity of one should always map to an
             // infinite half life.
-            double halfLife = affinity / ( 1 - affinity );
+            double halfLife = HALF_LIFE_FOR_HALF_AFFINITY * ( affinity / ( 1 - affinity ) );
 
             // Use standard half-life formula to decide on probability of detachment.
             return 1 - Math.exp( -0.693 * dt / halfLife );

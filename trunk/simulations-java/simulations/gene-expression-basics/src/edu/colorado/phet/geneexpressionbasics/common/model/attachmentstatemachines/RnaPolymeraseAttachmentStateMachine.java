@@ -28,6 +28,14 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPoly
  */
 public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateMachine {
 
+    // Half-life of attachment to a site with affinity of 0.5.
+    private static final double HALF_LIFE_FOR_HALF_AFFINITY = 1.5; // In seconds.
+
+    // Time of attachment needed before transcription can start.  This is set
+    // up so that at an affinity value of 0.5 there is a 50% chance of
+    // transcription, 0% at 0 affinity, 100% at affinity = 1.
+    private static final double TRANSCRIPTION_INITIATION_TIME = calculateHalfLifeFromAffinity( 0.5 );
+
     private static final Random RAND = new Random();
 
     private AttachmentState attachedAndWanderingState = new AttachedToLowAffinitySite();
@@ -83,29 +91,36 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         // Time for attachment to a site on the DNA.
         private static final double DEFAULT_ATTACH_TIME = 0.15; // In seconds.
 
-        // Countdown timer for the amount of time that the polymerase is
-        // attached to a single attachment site.
-        private double attachCountdownTime;
+        // Time of attachment to the current attachment site.
+        private double attachmentTime;
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
 
             // Verify that state is consistent.
             assert asm.attachmentSite != null;
-            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == biomolecule;
+            assert asm.attachmentSite.attachedOrAttachingMolecule.get() == asm.biomolecule;
 
-            System.out.println( "attachmentSite.getAffinity() = " + attachmentSite.getAffinity() );
-            if ( attachmentSite.getAffinity() == 1 ) {
-                // Attached to a max affinity site, which means that it is time
-                // to transcribe the DNA into mRNA.
+            // Decide whether to transcribe the DNA.  The decision is based on
+            // the affinity of the site and the time of attachment.
+            if ( asm.attachmentSite.getAffinity() > DnaMolecule.DEFAULT_AFFINITY && attachmentTime > TRANSCRIPTION_INITIATION_TIME ) {
+                // Begin transcription.
                 attachedState = attachedAndConformingState;
                 setState( attachedState );
                 detachFromDnaThreshold = 1; // Reset this threshold.
             }
-            else {
-                // See if we have been attached long enough.
-                attachCountdownTime -= dt;
-                if ( attachCountdownTime <= 0 ) {
-                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( rnaPolymerase, asm.attachmentSite );
+            else if ( RAND.nextDouble() > ( 1 - calculateProbabilityOfDetachment( attachmentSite.getAffinity(), dt ) ) ) {
+
+                // The decision has been made to detach.  Next, decide whether
+                // to detach completely from the DNA strand or just jump to an
+                // adjacent base pair.
+                if ( RAND.nextDouble() > detachFromDnaThreshold ) {
+                    // Detach completely from the DNA.
+                    detachFromDnaMolecule( asm );
+                }
+                else {
+                    // Move to an adjacent base pair.  Start by making a list
+                    // of candidate base pairs.
+                    List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( (RnaPolymerase) biomolecule, asm.attachmentSite );
 
                     // Eliminate sites that, if moved to, would put the
                     // biomolecule out of bounds.
@@ -115,22 +130,15 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                         }
                     }
 
-                    // Decide whether to completely detach from the DNA strand or
-                    // move to an adjacent attachment point.
-                    if ( RAND.nextDouble() > detachFromDnaThreshold || attachmentSites.size() == 0 ) {
-                        // Detach completely from the DNA molecule.
-                        asm.attachmentSite.attachedOrAttachingMolecule.set( null );
-                        asm.attachmentSite = null;
-                        asm.setState( unattachedButUnavailableState );
-                        biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
-                        detachFromDnaThreshold = 1; // Reset this threshold.
-                        asm.biomolecule.attachedToDna.set( false ); // Update externally visible state indication.
+                    // Shuffle in order to produce ramdom-ish behavior.
+                    Collections.shuffle( attachmentSites );
+
+                    if ( attachmentSites.size() == 0 ) {
+                        // No valid adjacent sites, so detach completely.
+                        detachFromDnaMolecule( asm );
                     }
                     else {
-                        // Shuffle the sites to create some randomness.
-                        Collections.shuffle( attachmentSites );
-
-                        // Clear the old attachment site.
+                        // Clear the previous attachment site.
                         attachmentSite.attachedOrAttachingMolecule.set( null );
 
                         // Set a new attachment site.
@@ -150,10 +158,23 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                     }
                 }
             }
+            else {
+                // Just stay attached to the current site.
+                attachmentTime += dt;
+            }
+        }
+
+        private void detachFromDnaMolecule( AttachmentStateMachine asm ) {
+            asm.attachmentSite.attachedOrAttachingMolecule.set( null );
+            asm.attachmentSite = null;
+            asm.setState( unattachedButUnavailableState );
+            biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
+            detachFromDnaThreshold = 1; // Reset this threshold.
+            asm.biomolecule.attachedToDna.set( false ); // Update externally visible state indication.
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
-            attachCountdownTime = DEFAULT_ATTACH_TIME;
+            attachmentTime = 0;
 
             // Allow user interaction.
             asm.biomolecule.movableByUser.set( true );
@@ -302,5 +323,27 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
             conformationalChangeAmount = 1;
         }
+    }
+
+    /**
+     * Calculate the probability of detachment from the current base pair
+     * during the provided time interval.  This uses the same mathematics
+     * as is used for calculating probabilities of decay for radioactive
+     * atomic nuclei.
+     *
+     * @param affinity
+     * @param dt
+     * @return
+     */
+    private static double calculateProbabilityOfDetachment( double affinity, double dt ) {
+        // Map affinity to a half life.  Units are in seconds.
+
+        // Use standard half-life formula to decide on probability of detachment.
+        return 1 - Math.exp( -0.693 * dt / calculateHalfLifeFromAffinity( affinity ) );
+    }
+
+    // Map an affinity value to a half life of attachment.
+    private static double calculateHalfLifeFromAffinity( double affinity ) {
+        return HALF_LIFE_FOR_HALF_AFFINITY * ( affinity / ( 1 - affinity ) );
     }
 }
