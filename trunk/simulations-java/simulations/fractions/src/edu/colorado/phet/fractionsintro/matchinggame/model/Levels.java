@@ -210,7 +210,9 @@ public class Levels {
                                     MoveToCell( cell ), false );
     }
 
-    private List<MovableFraction> createLevel( List<Cell> _cells, Fraction[] a, F<Fraction, ArrayList<F<Fraction, PNode>>> representations ) {
+    private List<MovableFraction> createLevel( List<Cell> _cells, Fraction[] a ) {
+
+        F<Fraction, ArrayList<F<Fraction, PNode>>> representations = representationFunction;
         assert _cells.length() % 2 == 0;
         ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( a ) );
 
@@ -257,7 +259,7 @@ public class Levels {
                     new Fraction( 3, 4 ),
                     new Fraction( 1, 2 ),
                     new Fraction( 1, 1 ) };
-            return createLevel( cells, a, representationFunction );
+            return createLevel( cells, a );
         }
     };
 
@@ -297,7 +299,7 @@ public class Levels {
                     new Fraction( 1, 3 ),
                     new Fraction( 2, 3 ),
                     new Fraction( 3, 6 ),
-                    new Fraction( 2, 6 ) }, representationFunction );
+                    new Fraction( 2, 6 ) } );
         }
     };
 
@@ -316,7 +318,7 @@ public class Levels {
                     new Fraction( 4, 2 ),
                     new Fraction( 7, 6 ),
                     new Fraction( 4, 5 ),
-                    new Fraction( 3, 4 ) }, representationFunction );
+                    new Fraction( 3, 4 ) } );
         }
     };
 
@@ -333,7 +335,7 @@ public class Levels {
                     new Fraction( 9, 8 ),
                     new Fraction( 8, 9 ),
                     new Fraction( 12, 13 ),
-                    new Fraction( 9, 7 ) }, representationFunction );
+                    new Fraction( 9, 7 ) } );
         }
     };
 
