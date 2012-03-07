@@ -80,18 +80,15 @@ class CuvetteNode extends PNode {
                 updateColor( solutionNode, color );
             }
         };
+        solution.get().fluidColor.addObserver( colorObserver );
 
         // when the solution changes, rewire the color observer
-        final ChangeObserver<BeersLawSolution> solutionObserver = new ChangeObserver<BeersLawSolution>() {
-            public void update( BeersLawSolution newValue, BeersLawSolution oldValue ) {
-                if ( oldValue != null ) {
-                    oldValue.fluidColor.removeObserver( colorObserver );
-                }
-                newValue.fluidColor.addObserver( colorObserver );
+        solution.addObserver( new ChangeObserver<BeersLawSolution>() {
+            public void update( BeersLawSolution newSolution, BeersLawSolution oldSolution ) {
+                oldSolution.fluidColor.removeObserver( colorObserver );
+                newSolution.fluidColor.addObserver( colorObserver );
             }
-        };
-        solution.addObserver( solutionObserver );
-        solutionObserver.update( solution.get(), null ); // because ChangeObserver.update is not called on registration
+        } );
 
         // location of the cuvette
         setOffset( mvt.modelToView( cuvette.location.toPoint2D() ) );

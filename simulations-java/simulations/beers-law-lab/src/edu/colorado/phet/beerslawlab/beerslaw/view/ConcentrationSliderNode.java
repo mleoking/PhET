@@ -206,35 +206,39 @@ class ConcentrationSliderNode extends PhetPNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( bodyNode, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
 
+            // configure for a specific solution
+            final VoidFunction1<BeersLawSolution> setSolution = new VoidFunction1<BeersLawSolution>() {
+                public void apply( BeersLawSolution solution ) {
+
+                    // drag handler with solution's concentration range
+                    if ( dragHandler != null ) {
+                        removeInputEventListener( dragHandler );
+                    }
+                    dragHandler = new ThumbDragHandler( userComponent, relativeNode, trackNode, ThumbNode.this, solution.concentrationRange, solution.concentration );
+                    addInputEventListener( dragHandler );
+
+                    // model-to-view function with solution's concentration range
+                    modelToView = new LinearFunction( solution.concentrationRange.getMin(), solution.concentrationRange.getMax(), 0, trackSize.getWidth() );
+                }
+            };
+            setSolution.apply( solution.get() );
+
             // move the slider thumb to reflect the concentration value
             final VoidFunction1<Double> concentrationObserver = new VoidFunction1<Double>() {
                 public void apply( Double value ) {
                     setOffset( modelToView.evaluate( value ), getYOffset() );
                 }
             };
+            solution.get().concentration.addObserver( concentrationObserver );
 
-            final ChangeObserver<BeersLawSolution> solutionObserver = new ChangeObserver<BeersLawSolution>() {
+            // when the solution changes, wire up to the current solution
+            solution.addObserver( new ChangeObserver<BeersLawSolution>() {
                 public void update( BeersLawSolution newSolution, BeersLawSolution oldSolution ) {
-
-                    // attach a new drag handler with correct ranges and solution's concentration property
-                    if ( dragHandler != null ) {
-                        removeInputEventListener( dragHandler );
-                    }
-                    dragHandler = new ThumbDragHandler( userComponent, relativeNode, trackNode, ThumbNode.this, newSolution.concentrationRange, newSolution.concentration );
-                    addInputEventListener( dragHandler );
-
-                    // create a new model-to-view function
-                    modelToView = new LinearFunction( newSolution.concentrationRange.getMin(), newSolution.concentrationRange.getMax(), 0, trackSize.getWidth() );
-
-                    // wire up concentration observer to new solution
-                    if ( oldSolution != null ) {
-                        oldSolution.concentration.removeObserver( concentrationObserver );
-                    }
+                    setSolution.apply( newSolution );
+                    oldSolution.concentration.removeObserver( concentrationObserver );
                     newSolution.concentration.addObserver( concentrationObserver );
                 }
-            };
-            solution.addObserver( solutionObserver );
-            solutionObserver.update( solution.get(), null ); // because ChangeObserver.update is not called on registration
+            } );
         }
     }
 

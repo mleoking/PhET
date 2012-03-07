@@ -57,11 +57,9 @@ class StockSolutionNode extends PPath {
 
         // rewire to a different color scheme when the solute changes
         solute.addObserver( new ChangeObserver<Solute>() {
-            public void update( Solute newValue, Solute oldValue ) {
-                if ( oldValue != null ) {
-                    oldValue.colorScheme.removeObserver( colorObserver );
-                }
-                newValue.colorScheme.addObserver( colorObserver );
+            public void update( Solute newSolute, Solute oldSolute ) {
+                oldSolute.colorScheme.removeObserver( colorObserver );
+                newSolute.colorScheme.addObserver( colorObserver );
             }
         } );
 
