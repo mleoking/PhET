@@ -8,7 +8,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Beam;
-import edu.colorado.phet.beerslawlab.beerslaw.view.BeersLawCanvas.LightRepresentation;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -27,7 +26,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class BeamNode extends PhetPNode {
 
-    public BeamNode( final Beam beam, final Property<LightRepresentation> representation, ModelViewTransform mvt ) {
+    public BeamNode( final Beam beam, ModelViewTransform mvt ) {
 
         setPickable( false );
         setChildrenPickable( false );
@@ -38,13 +37,13 @@ class BeamNode extends PhetPNode {
         parentNode.addChild( new SegmentNode( beam.centerShape, beam.centerPaint, mvt ) );
         parentNode.addChild( new SegmentNode( beam.rightShape, beam.rightPaint, mvt ) );
 
-        // Make this node visible when beam is visible and light representation is "beam".
+        // Make this node visible when beam is visible.
         RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
             @Override public void update() {
-                setVisible( beam.visible.get() && representation.get() == LightRepresentation.BEAM );
+                setVisible( beam.visible.get() );
             }
         };
-        visibilityObserver.observe( beam.visible, representation );
+        visibilityObserver.observe( beam.visible );
 
         // put a gray outline around the beam, so that lighter colors are still visible
         PPath outlineNode = new PPath() {{

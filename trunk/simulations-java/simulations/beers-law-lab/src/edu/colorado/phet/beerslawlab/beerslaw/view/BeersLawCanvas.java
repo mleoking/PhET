@@ -21,9 +21,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BeersLawCanvas extends BLLCanvas implements Resettable {
 
-    public static enum LightRepresentation {BEAM, PHOTONS}
-    private final Property<LightRepresentation> lightRepresentation = new Property<LightRepresentation>( LightRepresentation.BEAM );
-
     public enum WavelengthType {LAMBDA_MAX, VARIABLE}
     private final Property<WavelengthType> wavelengthType = new Property<WavelengthType>( WavelengthType.LAMBDA_MAX );
 
@@ -40,7 +37,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
         PNode cuvetteNode = new CuvetteNode( model.cuvette, model.solution, model.mvt, 0.1 /* snapInterval, cm */ );
         PNode detectorNode = new ATDetectorNode( model.detector, model.mvt );
         PNode debugLocationNode = new DebugLocationNode( model.mvt );
-        PNode beamNode = new BeamNode( model.beam, lightRepresentation, model.mvt );
+        PNode beamNode = new BeamNode( model.beam, model.mvt );
 
         // Rendering order
         {
@@ -78,7 +75,6 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
     }
 
     public void reset() {
-        lightRepresentation.reset();
         wavelengthType.reset();
     }
 }
