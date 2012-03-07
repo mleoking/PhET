@@ -33,6 +33,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static java.awt.Color.lightGray;
 import static java.awt.Color.yellow;
 
@@ -145,7 +146,7 @@ public class MatchingGameNode extends FNode {
             }} );
         }
         addChild( new PImage( state.audio ? Images.SOUND_MAX : Images.SOUND_MIN ) {{
-            setOffset( FractionsIntroCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 30, FractionsIntroCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            setOffset( FractionsIntroCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, FractionsIntroCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
