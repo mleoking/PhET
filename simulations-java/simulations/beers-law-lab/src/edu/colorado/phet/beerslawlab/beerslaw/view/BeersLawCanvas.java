@@ -40,12 +40,12 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
         // Rendering order
         {
             addChild( wavelengthControlNode );
-            addChild( resetAllButtonNode );
             addChild( detectorNode );
             addChild( cuvetteNode );
             addChild( beamNode );
             addChild( lightNode );
             addChild( rulerNode );
+            addChild( resetAllButtonNode );
             addChild( solutionControlsNode );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( debugLocationNode );
@@ -66,9 +66,8 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
-            // location debugger left of Reset All button
-            debugLocationNode.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - 40,
-                                         resetAllButtonNode.getFullBoundsReference().getCenterY() );
+            // upper right
+            debugLocationNode.setOffset( 950, 50 );
         }
     }
 
