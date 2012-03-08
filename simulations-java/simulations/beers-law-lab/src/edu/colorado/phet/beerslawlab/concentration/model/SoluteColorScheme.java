@@ -43,11 +43,9 @@ public class SoluteColorScheme {
     }
 
     @Override public String toString() {
-        //TODO use number format for concentration, 2 decimal places, get this elsewhere?
         return minConcentration + "," + minColor + "," + midConcentration + "," + midColor + "," + maxConcentration + "," + maxColor;
     }
 
-    //TODO saturated concentration values are duplicated here and in Solute (eg, 5.96) for all solutes and color schemes
     public static class DrinkMixColorScheme extends SoluteColorScheme {
         public DrinkMixColorScheme() {
             super( 0, Water.COLOR,
