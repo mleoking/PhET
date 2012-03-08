@@ -1,0 +1,51 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: March 1-7, 2011
+
+Concentration
+- Chem meeting
+- added "color schemes" for mapping concentration to solution color
+- create "Color Scheme Editor" for experimenting with mappings
+- latest: http://www.colorado.edu/physics/phet/dev/beers-law-lab/0.00.17/concentration_en.jnlp
+
+Beer's Law Lab
+- met with Julia
+- misc change requests
+- added misc data-collection instrumentation
+- ran into representational problems with "photon view", dropped this feature
+- restored wavelength control
+- converted Julia's "wavelength to molar absorptivity" spreadsheets to a format usable by Java
+- latest: http://www.colorado.edu/physics/phet/dev/beers-law-lab/0.00.17/beers-law-lab_en-production.jnlp
+
+Reactants, Products and Leftovers
+- met with Julia
+- added additional messages that were requested, #3204
+- latest: http://www.colorado.edu/physics/phet/dev/reactants-products-and-leftovers/1.03.02/rpal-april-2012_en-production.jnlp
+
+iPad
+- discovered CU presence on iTunes U
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Concentration: publish 1.00
+- Beer's Law Lab: complete 2nd tab, 3rd tab?
+- Reactants, Products and Leftovers: add anything additional needed for study
+- Line Graphing sim: design
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- April 23 - May 12 (bike trip, not working)
+- July 5-11 (CT, working)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working)
+
+--
