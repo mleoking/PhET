@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.matchinggame.model;
 
+import fj.Equal;
 import fj.F;
 import fj.data.List;
 import lombok.Data;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
@@ -31,8 +33,7 @@ import static edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanva
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.singleRepresentation;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.twoComposites;
-import static fj.data.List.iterableList;
-import static fj.data.List.range;
+import static fj.data.List.*;
 
 /**
  * Levels for the matching game, declared as functions below that return the MovableFraction instances (and hence their representations) in a level.
@@ -46,6 +47,7 @@ public class Levels {
             return createRepresentations( fraction );
         }
     };
+    private F<RepresentationType, Object> name;
 
     //Singleton, use Levels instance
     private Levels() {
@@ -61,13 +63,13 @@ public class Levels {
         System.out.println( "all = " + all );
     }
 
-    final RepresentationType numeric = singleRepresentation( all,
+    final RepresentationType numeric = singleRepresentation( "numeric", all,
                                                              new F<Fraction, PNode>() {
                                                                  @Override public PNode f( Fraction f ) {
                                                                      return new FractionNode( f, 0.3 );
                                                                  }
                                                              } );
-    final RepresentationType horizontalBars = twoComposites( all,
+    final RepresentationType horizontalBars = twoComposites( "horizontal bars", all,
                                                              new F<Fraction, PNode>() {
                                                                  @Override public PNode f( Fraction f ) {
                                                                      return new HorizontalBarsNode( f, 0.9, LIGHT_GREEN );
@@ -79,7 +81,7 @@ public class Levels {
                                                                  }
                                                              }
     );
-    final RepresentationType verticalBars = twoComposites( all,
+    final RepresentationType verticalBars = twoComposites( "vertical bars", all,
                                                            new F<Fraction, PNode>() {
                                                                @Override public PNode f( Fraction f ) {
                                                                    return new VerticalBarsNode( f, 0.9, LIGHT_GREEN );
@@ -91,7 +93,7 @@ public class Levels {
                                                                }
                                                            }
     );
-    final RepresentationType pies = twoComposites( all,
+    final RepresentationType pies = twoComposites( "pies", all,
                                                    new F<Fraction, PNode>() {
                                                        @Override public PNode f( Fraction f ) {
                                                            return myPieNode( f, LIGHT_GREEN );
@@ -103,7 +105,7 @@ public class Levels {
                                                        }
                                                    }
     );
-    final RepresentationType sixPlusses = twoComposites( new F<Fraction, Boolean>() {
+    final RepresentationType sixPlusses = twoComposites( "six plusses", new F<Fraction, Boolean>() {
                                                              @Override public Boolean f( final Fraction fraction ) {
                                                                  return fraction.denominator == 6;
                                                              }
@@ -120,7 +122,7 @@ public class Levels {
                                                          }
     );
 
-    final RepresentationType nineGrid = twoComposites( new F<Fraction, Boolean>() {
+    final RepresentationType nineGrid = twoComposites( "nine grid", new F<Fraction, Boolean>() {
                                                            @Override public Boolean f( final Fraction fraction ) {
                                                                return fraction.denominator == 9;
                                                            }
@@ -239,12 +241,51 @@ public class Levels {
             list.add( pair.a.fraction );
             list.add( pair.b.fraction );
         }
+
+        //make sure no representation type used twice
+        makeSureNoRepresentationTypeUsedTwiceForTheSameFraction( iterableList( all ) );
+
         return iterableList( list );
+    }
+
+    private void makeSureNoRepresentationTypeUsedTwiceForTheSameFraction( final List<ResultPair> all ) {
+        List<Fraction> fractions = all.bind( new F<ResultPair, List<Fraction>>() {
+            @Override public List<Fraction> f( final ResultPair resultPair ) {
+                return single( resultPair.a.fraction.fraction() ).snoc( resultPair.b.fraction.fraction() );
+            }
+        } );
+        for ( final Fraction fraction : fractions ) {
+            List<Result> allResultsForFraction = all.bind( new F<ResultPair, List<Result>>() {
+                @Override public List<Result> f( final ResultPair resultPair ) {
+                    return single( resultPair.a ).snoc( resultPair.b );
+                }
+            } ).filter( new F<Result, Boolean>() {
+                @Override public Boolean f( final Result result ) {
+                    return result.fraction.fraction().equals( fraction );
+                }
+            } );
+            List<RepresentationType> types = allResultsForFraction.map( new F<Result, RepresentationType>() {
+                @Override public RepresentationType f( final Result result ) {
+                    return result.representationType;
+                }
+            } );
+            List<RepresentationType> unique = types.nub();
+            System.out.println( "types.length() = " + types.length() + ", unique.length = " + unique.length() );
+            if ( types.length() != unique.length() ) {
+                name = new F<RepresentationType, Object>() {
+                    @Override public Object f( final RepresentationType representationType ) {
+                        return representationType.name;
+                    }
+                };
+                System.out.println( "unique = " + unique.map( name ) + ", list = " + types.map( name ) );
+            }
+            assert types.length() == unique.length();
+        }
     }
 
     public static final @Data class Result {
         public final MovableFraction fraction;
-        public final RepresentationType representationSet;
+        public final RepresentationType representationType;
         public final F<Fraction, PNode> representation;
     }
 
@@ -366,5 +407,39 @@ public class Levels {
                level == 3 ? Level3 :
                level == 4 ? Level4 :
                Level4;
+    }
+
+    public static void main( String[] args ) {
+        for ( int i = 0; i < 1000; i++ ) {
+            testLevel( 1 );
+        }
+        for ( int i = 0; i < 1000; i++ ) {
+            testLevel( 2 );
+        }
+        for ( int i = 0; i < 1000; i++ ) {
+            testLevel( 3 );
+        }
+        for ( int i = 0; i < 1000; i++ ) {
+            testLevel( 4 );
+        }
+    }
+
+    private static void testLevel( int level ) {
+        Levels levels = Levels;
+        List<MovableFraction> fractions = levels.get( level ).f( range( 1, 7 ).map( new F<Integer, Cell>() {
+            @Override public Cell f( final Integer i ) {
+                return new Cell( new ImmutableRectangle2D( i * 100, i * 100, 100, 100 ), i, i );
+            }
+        } ) );
+
+        //Make sure no two from the same group
+        List<F<Fraction, PNode>> representation = fractions.map( new F<MovableFraction, F<Fraction, PNode>>() {
+            @Override public F<Fraction, PNode> f( final MovableFraction movableFraction ) {
+                return movableFraction.node;
+            }
+        } );
+        for ( F<Fraction, PNode> f : representation ) {
+            List<F<Fraction, PNode>> g = representation.delete( f, Equal.<F<Fraction, PNode>>anyEqual() );
+        }
     }
 }
