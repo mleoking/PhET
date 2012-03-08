@@ -54,7 +54,7 @@ public class PolymeraseAffinityControlPanel extends PNode {
 
         // Create the affinity control node.
         PNode polymeraseNode = new MobileBiomoleculeNode( POLYMERASE_MVT, new RnaPolymerase() );
-        PNode dnaFragmentNode = new DnaMoleculeNode( new DnaMolecule( DnaMolecule.BASE_PAIRS_PER_TWIST * 2 + 1, 0.0 ), DNA_AND_TF_MVT, 2, false );
+        PNode dnaFragmentNode = new DnaMoleculeNode( new DnaMolecule( DnaMolecule.BASE_PAIRS_PER_TWIST * 2 + 1, 0.0, true ), DNA_AND_TF_MVT, 2, false );
         PNode transcriptionFactorNode = new MobileBiomoleculeNode( DNA_AND_TF_MVT, new TranscriptionFactor( tfConfig ) );
         transcriptionFactorNode.setOffset( 25, 0 ); // Set position to be on top of the dna, values empirically determined.
         dnaFragmentNode.addChild( transcriptionFactorNode );
