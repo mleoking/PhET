@@ -334,8 +334,6 @@ public class WavelengthControl extends PhetPNode {
     /**
      * Sets the foreground and background colors of the
      * text field used to display the current value.
-     *
-     * @param color
      */
     public void setTextFieldColors( Color foreground, Color background ) {
         _valueDisplay.getFormattedTextField().setForeground( foreground );
@@ -548,6 +546,7 @@ public class WavelengthControl extends PhetPNode {
         _cursor.setOffset( knobX, 0 );
     }
 
+    //TODO #3267, eliminate this hack by ditching ConstrainedDragHandler
     /**
      * Updates drag bounds for the knob.
      * <p/>
