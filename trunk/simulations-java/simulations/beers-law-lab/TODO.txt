@@ -7,8 +7,9 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
+- add wavelength and absorptivity properties to BeersLawSolution
+- implement wavelength-to-absorptivity functions, using JC's experimental data
 - why does wavelength slider get stuck at 630 when you start by trying to drag it to the right?
-- Beers: add variable wavelength feature
 
 MEDIUM
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
