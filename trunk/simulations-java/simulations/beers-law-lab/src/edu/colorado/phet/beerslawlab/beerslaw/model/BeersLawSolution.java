@@ -147,7 +147,7 @@ public class BeersLawSolution implements Resettable {
         public PotassiumChromateSolution() {
             super( Strings.POTASSIUM_CHROMATE, BLLSymbols.POTASSIUM_CHROMATE,
                    new DoubleRange( 0, 0.000400, 0.000100 ), 1000000,
-                   new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ),
+                   new ColorRange( new Color( 255, 255, 199 ), new Color( 255, 255, 0 ) ),
                    new PotassiumChromateData() );
         }
     }
@@ -175,7 +175,7 @@ public class BeersLawSolution implements Resettable {
         public PotassiumPermanganateSolution() {
             super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE,
                    new DoubleRange( 0, 0.000800, 0.000100 ), 1000000,
-                   new ColorRange( new Color( 255, 235, 255 ), new Color( 255, 0, 255 ) ), new Color( 130, 0, 139 ),
+                   new ColorRange( new Color( 255, 235, 255 ), new Color( 255, 0, 255 ) ), new Color( 80, 0, 120 ),
                    new PotassiumPermanganateData() );
         }
     }
