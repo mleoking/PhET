@@ -106,10 +106,9 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
         // Establish the starting position, which will be the lower left corner
         // of the "cube".  The molecules will all be rotated so that they are
         // lying down.
-        double crystalWidth = moleculesPerLayer * ( 2.0 - 0.3 ); // Final term is a fudge factor that can be adjusted
-        // to center the cube.
+        double crystalWidth = moleculesPerLayer * ( 2.0 - 0.3 ); // Final term is a fudge factor that can be adjusted to center the cube.
         double startingPosX = ( m_model.getNormalizedContainerWidth() / 2 ) - ( crystalWidth / 2 );
-        double startingPosY = 1.0 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL;
+        double startingPosY = 1.2 + DISTANCE_BETWEEN_PARTICLES_IN_CRYSTAL; // Multiplier can be tweaked to minimize initial "bounce".
 
         // Place the molecules by placing their centers of mass.
 
