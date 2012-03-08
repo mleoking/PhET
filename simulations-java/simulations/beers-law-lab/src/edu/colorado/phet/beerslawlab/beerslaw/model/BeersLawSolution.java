@@ -18,11 +18,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * Solution model for the Beer's Law module.
- * This module has a set of selectable solutions.
- * Concentration is directly settable, solvent and solute are immutable.
  * <p>
  * The numeric values for specific solutions were arrived at by running lab experiments,
  * and are documented in doc/Beers-Law-Lab-design.pdf and doc/BeersLawLabData.xlsx.
+ * <p>
+ * Note that this model does not use the Solute model from the Concentration module, because
+ * we have very different needs wrt color scheme, properties, etc.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -33,14 +34,21 @@ public class BeersLawSolution implements Resettable {
     public final String formula;
     public final Property<Double> concentration; // M
     public final DoubleRange concentrationRange; // M
-    public final ConcentrationTransform concentrationTransform;
-    public final ColorRange colorRange;
+    public final ConcentrationTransform concentrationTransform; // transform between M and other units (eg, mM, uM)
+    public final ColorRange colorRange; // colors for the range of values that we're interested in. colorRange.maxColor is not necessarily the saturated color
     public final Color saturatedColor;
     public final CompositeProperty<Color> fluidColor; // derived
     public final double lambdaMax; // wavelength for maximum absorbance, nm
     public final double molarAbsorptionMax; // corresponds to lambdaMax, 1/(cm*M)
 
-    // Most solutions have a molarConversionFactor of 1.
+    // Constructor for solutions whose colorRange.maxColor is the same as the saturated color.
+    public BeersLawSolution( String name, String formula,
+                             DoubleRange concentrationRange, int concentrationViewExponent,
+                             ColorRange colorRange,
+                             double lambdaMax, double molarAbsorptionMax ) {
+        this( name, formula, concentrationRange, concentrationViewExponent, colorRange, colorRange.getMax(), lambdaMax, molarAbsorptionMax );
+    }
+
     public BeersLawSolution( String name, String formula,
                              DoubleRange concentrationRange, int concentrationViewExponent,
                              ColorRange colorRange, Color saturatedColor,
@@ -92,7 +100,7 @@ public class BeersLawSolution implements Resettable {
         public DrinkMixSolution() {
             super( Strings.DRINK_MIX, BLLSymbols.DRINK_MIX,
                    new DoubleRange( 0, 0.400, 0.100 ), -3,
-                   new ColorRange( new Color( 255, 225, 225 ), Color.RED ), Color.RED,
+                   new ColorRange( new Color( 255, 225, 225 ), Color.RED ),
                    511, 5.08 );
         }
 
@@ -106,7 +114,7 @@ public class BeersLawSolution implements Resettable {
         public CobaltIINitrateSolution() {
             super( Strings.COBALT_II_NITRATE, BLLSymbols.COBALT_II_NITRATE,
                    new DoubleRange( 0, 0.400, 0.100 ), -3,
-                   new ColorRange( new Color( 255, 225, 225 ), Color.RED ), Color.RED,
+                   new ColorRange( new Color( 255, 225, 225 ), Color.RED ),
                    550, 4.72 );
         }
     }
@@ -115,7 +123,7 @@ public class BeersLawSolution implements Resettable {
         public CobaltChlorideSolution() {
             super( Strings.COBALT_CHLORIDE, BLLSymbols.COBALT_CHLORIDE,
                    new DoubleRange( 0, 0.250, 0.100 ), -3,
-                   new ColorRange( new Color( 255, 242, 242 ), new Color( 0xFF6A6A ) ), new Color( 0xFF6A6A ),
+                   new ColorRange( new Color( 255, 242, 242 ), new Color( 255, 106, 106 ) ),
                    549, 7.23 );
         }
     }
@@ -124,7 +132,7 @@ public class BeersLawSolution implements Resettable {
         public PotassiumDichromateSolution() {
             super( Strings.POTASSIUM_DICHROMATE, BLLSymbols.POTASSIUM_DICHROMATE,
                    new DoubleRange( 0, 0.000500, 0.000100 ), -6,
-                   new ColorRange( new Color( 255, 232, 210 ), new Color( 0xFF7F00 ) ), new Color( 0xFF7F00 ),
+                   new ColorRange( new Color( 255, 232, 210 ), new Color( 255, 127, 0 ) ),
                    394, 3696.53 );
         }
     }
@@ -132,7 +140,7 @@ public class BeersLawSolution implements Resettable {
     public static class PotassiumChromateSolution extends BeersLawSolution {
         public PotassiumChromateSolution() {
             super( Strings.POTASSIUM_CHROMATE, BLLSymbols.POTASSIUM_CHROMATE,
-                   new DoubleRange( 0, 0.000400, 0.000100 ), -6, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ), Color.YELLOW,
+                   new DoubleRange( 0, 0.000400, 0.000100 ), -6, new ColorRange( new Color( 255, 255, 199 ), Color.YELLOW ),
                    413, 4770.07 );
         }
     }
@@ -140,7 +148,7 @@ public class BeersLawSolution implements Resettable {
     public static class NickelIIChlorideSolution extends BeersLawSolution {
         public NickelIIChlorideSolution() {
             super( Strings.NICKEL_II_CHLORIDE, BLLSymbols.NICKEL_II_CHLORIDE,
-                   new DoubleRange( 0, 0.350, 0.100 ), -3, new ColorRange( new Color( 234, 244, 234 ), new Color( 0x008000 ) ), new Color( 0x008000 ),
+                   new DoubleRange( 0, 0.350, 0.100 ), -3, new ColorRange( new Color( 234, 244, 234 ), new Color( 0, 128, 0 ) ),
                    435, 5.31 );
         }
     }
@@ -148,11 +156,12 @@ public class BeersLawSolution implements Resettable {
     public static class CopperSulfateSolution extends BeersLawSolution {
         public CopperSulfateSolution() {
             super( Strings.COPPER_SULFATE, BLLSymbols.COPPER_SULFATE,
-                   new DoubleRange( 0, 0.200, 0.100 ), -3, new ColorRange( new Color( 222, 238, 255 ), new Color( 0x1E90FF ) ), new Color( 0x1E90FF ),
+                   new DoubleRange( 0, 0.200, 0.100 ), -3, new ColorRange( new Color( 222, 238, 255 ), new Color( 30, 144, 255 ) ),
                    780, 9.67 );
         }
     }
 
+    // Color range does not extend to the saturated color.
     public static class PotassiumPermanganateSolution extends BeersLawSolution {
         public PotassiumPermanganateSolution() {
             super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE,
