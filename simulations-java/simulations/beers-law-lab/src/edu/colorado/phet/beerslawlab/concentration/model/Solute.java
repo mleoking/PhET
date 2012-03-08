@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Model of a solute, an immutable data structure.
+ * Model of a solute.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -34,22 +34,24 @@ public class Solute {
 
     public final String name; // localized name
     public final String formula; // chemical formula, not localized
-    public final double saturatedConcentration; // M, in beaker
-    public final double stockSolutionConcentration; // M, stock solution in dropper
     public final Property<SoluteColorScheme> colorScheme; // color scheme for mapping concentration to color (mutable for dev experimentation with colors)
+    public final double stockSolutionConcentration; // M, stock solution in dropper
     private Color particleColor; // color of solid particles
     public final double particleSize; // solid particles are square, this is the length of one side
-    public final int particlesPerMole; // number of particles to show per mol of solute
+    public final int particlesPerMole; // number of particles to show per mole of solute
 
-    public Solute( String name, String formula, double saturatedConcentration, double stockSolutionConcentration,
-                   SoluteColorScheme colorScheme, double particleSize, int particlesPerMole ) {
+    // Solute with standard particle size and particles per mole.
+    public Solute( String name, String formula, SoluteColorScheme colorScheme, double stockSolutionConcentration ) {
+        this( name, formula, colorScheme, stockSolutionConcentration, PARTICLE_SIZE, PARTICLES_PER_MOLE );
+    }
 
-        assert( colorScheme.midConcentration <= saturatedConcentration );
+    public Solute( String name, String formula, SoluteColorScheme colorScheme,
+                   double stockSolutionConcentration, double particleSize, int particlesPerMole ) {
+
         this.name = name;
         this.formula = formula;
-        this.saturatedConcentration = saturatedConcentration;
-        this.stockSolutionConcentration = stockSolutionConcentration;
         this.colorScheme = new Property<SoluteColorScheme>( colorScheme );
+        this.stockSolutionConcentration = stockSolutionConcentration;
         this.particleColor = colorScheme.maxColor;
         this.particleSize = particleSize;
         this.particlesPerMole = particlesPerMole;
@@ -61,7 +63,11 @@ public class Solute {
         } );
     }
 
-    // Override this for solutes that don't use the saturated color as the particle color.
+    /*
+     * Particle color is typically the same as the color of the saturated solution,
+     * and changing the color scheme updates the particle color.
+     * Override this where different behavior is desired.
+     */
     protected void updateParticleColor() {
         particleColor = colorScheme.get().maxColor;
     }
@@ -78,45 +84,49 @@ public class Solute {
         particleColor = color;
     }
 
+    public double getSaturatedConcentration() {
+        return colorScheme.get().maxConcentration;
+    }
+
     public static class DrinkMix extends Solute {
         public DrinkMix() {
-            super( Strings.DRINK_MIX, BLLSymbols.DRINK_MIX, 5.96, 5.50, new DrinkMixColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            super( Strings.DRINK_MIX, BLLSymbols.DRINK_MIX, new DrinkMixColorScheme(), 5.50 );
         }
     }
 
     public static class CobaltIINitrate extends Solute {
         public CobaltIINitrate() {
-            super( Strings.COBALT_II_NITRATE, BLLSymbols.COBALT_II_NITRATE, 5.64, 5.0, new CobaltIINitrateColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            super( Strings.COBALT_II_NITRATE, BLLSymbols.COBALT_II_NITRATE, new CobaltIINitrateColorScheme(), 5.0 );
         }
     }
 
     public static class CobaltChloride extends Solute {
         public CobaltChloride() {
-            super( Strings.COBALT_CHLORIDE, BLLSymbols.COBALT_CHLORIDE, 4.33, 4.0, new CobaltChlorideColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            super( Strings.COBALT_CHLORIDE, BLLSymbols.COBALT_CHLORIDE, new CobaltChlorideColorScheme(), 4.0 );
         }
     }
 
     public static class PotassiumDichromate extends Solute {
         public PotassiumDichromate() {
-            super( Strings.POTASSIUM_DICHROMATE, BLLSymbols.POTASSIUM_DICHROMATE, 0.51, 0.50, new PotassiumDichromateColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            super( Strings.POTASSIUM_DICHROMATE, BLLSymbols.POTASSIUM_DICHROMATE, new PotassiumDichromateColorScheme(), 0.50 );
         }
     }
 
     public static class PotassiumChromate extends Solute {
         public PotassiumChromate() {
-            super( Strings.POTASSIUM_CHROMATE, BLLSymbols.POTASSIUM_CHROMATE, 3.35, 3.0, new PotassiumChromateColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            super( Strings.POTASSIUM_CHROMATE, BLLSymbols.POTASSIUM_CHROMATE, new PotassiumChromateColorScheme(), 3.0 );
         }
     }
 
     public static class NickelIIChloride extends Solute {
         public NickelIIChloride() {
-            super( Strings.NICKEL_II_CHLORIDE, BLLSymbols.NICKEL_II_CHLORIDE, 5.21, 5.0, new NickelIIChlorideColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            super( Strings.NICKEL_II_CHLORIDE, BLLSymbols.NICKEL_II_CHLORIDE, new NickelIIChlorideColorScheme(), 5.0 );
         }
     }
 
     public static class CopperSulfate extends Solute {
         public CopperSulfate() {
-            super( Strings.COPPER_SULFATE, BLLSymbols.COPPER_SULFATE, 1.38, 1.0, new CopperSulfateColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            super( Strings.COPPER_SULFATE, BLLSymbols.COPPER_SULFATE, new CopperSulfateColorScheme(), 1.0 );
         }
     }
 
@@ -124,12 +134,12 @@ public class Solute {
     public static class PotassiumPermanganate extends Solute {
 
         public PotassiumPermanganate() {
-            super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE, 0.48, 0.4, new PotassiumPermanganateColorScheme(), PARTICLE_SIZE, PARTICLES_PER_MOLE );
+            super( Strings.POTASSIUM_PERMANGANATE, BLLSymbols.POTASSIUM_PERMANGANATE, new PotassiumPermanganateColorScheme(), 0.4 );
             setParticleColor( Color.BLACK );
         }
 
         @Override protected void updateParticleColor() {
-            // do nothing, particle color is constant
+            // Do nothing, particle color is constant and unrelated to color scheme.
         }
     }
 }
