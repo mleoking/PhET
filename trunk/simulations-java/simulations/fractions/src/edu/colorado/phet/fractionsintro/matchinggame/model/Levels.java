@@ -46,6 +46,7 @@ public class Levels {
             return createRepresentations( fraction );
         }
     };
+    private static final boolean debug = false;
 
     //Singleton, use Levels instance
     private Levels() {
@@ -266,7 +267,9 @@ public class Levels {
         }
 
         //make sure no representation type used twice
-        makeSureNoRepresentationTypeUsedTwiceForTheSameFraction( iterableList( all ) );
+        if ( debug ) {
+            makeSureNoRepresentationTypeUsedTwiceForTheSameFraction( iterableList( all ) );
+        }
 
         return iterableList( list );
     }
