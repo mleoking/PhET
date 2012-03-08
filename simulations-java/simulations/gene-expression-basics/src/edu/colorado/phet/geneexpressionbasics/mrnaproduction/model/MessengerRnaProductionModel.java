@@ -70,7 +70,8 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // its transcription, and where a lot of the action takes place.
     protected final DnaMolecule dnaMolecule = new DnaMolecule( this,
                                                                NUM_BASE_PAIRS_ON_DNA_STRAND,
-                                                               -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 2 );
+                                                               -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 2,
+                                                               true );
 
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
