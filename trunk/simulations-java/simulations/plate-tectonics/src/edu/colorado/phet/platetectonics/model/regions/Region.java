@@ -7,7 +7,10 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.TextureStrategy;
 import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.flatten;
@@ -56,6 +59,32 @@ public class Region {
 
         for ( CrossSectionStrip strip : strips ) {
             strip.removePatch( side );
+        }
+    }
+
+    public float getTopElevation( int columnIndex ) {
+        return getTopBoundary().samples.get( columnIndex ).getPosition().y;
+    }
+
+    public float getBottomElevation( int columnIndex ) {
+        return getBottomBoundary().samples.get( columnIndex ).getPosition().y;
+    }
+
+    // re-spaces the heights in a column evenly between top and bottom
+    // TODO: stop having to pass in this strategy everywhere!
+    public void layoutColumn( int columnIndex, float top, float bottom, TextureStrategy textureStrategy, boolean updateTextures ) {
+        for ( int i = 0; i < boundaries.size(); i++ ) {
+            final Sample sample = boundaries.get( i ).samples.get( columnIndex );
+            final ImmutableVector3F oldPosition = sample.getPosition();
+            float ratio = ( (float) i ) / ( (float) ( boundaries.size() - 1 ) );
+            final float oldY = oldPosition.y;
+            final float newY = ( 1 - ratio ) * top + ( ratio ) * bottom;
+            sample.setPosition( new ImmutableVector3F( oldPosition.x,
+                                                       newY,
+                                                       oldPosition.z ) );
+            if ( updateTextures ) {
+                sample.setTextureCoordinates( sample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new ImmutableVector2F( 0, newY - oldY ) ) ) );
+            }
         }
     }
 

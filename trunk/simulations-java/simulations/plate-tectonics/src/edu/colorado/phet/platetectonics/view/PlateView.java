@@ -88,7 +88,7 @@ public class PlateView extends GLNode {
 
     public void addTerrain( final Terrain terrain ) {
         addWrappedChild( terrain, new GLNode() {{
-            final TerrainStripNode terrainNode = new TerrainStripNode( terrain, tab.getModelViewTransform() );
+            final TerrainNode terrainNode = new TerrainNode( terrain, tab.getModelViewTransform() );
             addChild( terrainNode );
 
             if ( terrain.hasWater() ) {

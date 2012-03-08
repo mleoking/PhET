@@ -49,11 +49,11 @@ public class PlateMotionPlate extends Plate {
 
     public void droppedCrust( final PlateType type ) {
         plateType = type;
-        final float crustTopY = getFreshCrustTop( type );
-        final float crustBottomY = getFreshCrustBottom( type );
-        final float lithosphereBottomY = getFreshLithosphereBottom( type );
+        final float crustTopY = type.getCrustTopY();
+        final float crustBottomY = type.getCrustBottomY();
+        final float lithosphereBottomY = type.getLithosphereBottomY();
 
-        final float crustDensity = getFreshDensity( type );
+        final float crustDensity = type.getDensity();
 
         addLithosphere( new Region( LITHOSPHERE_VERTICAL_STRIPS, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
@@ -102,12 +102,12 @@ public class PlateMotionPlate extends Plate {
         return model.getStartingX( LEFT, 1 ) - model.getStartingX( LEFT, 0 );
     }
 
-    public void addSection( final Side side ) {
+    public void addSection( final Side side, final PlateType type ) {
         final float width = model.getStartingX( side, 1 ) - model.getStartingX( side, 0 );
         final float xOffset = width * side.getSign();
-        final float crustTopY = getFreshCrustTop( plateType );
-        final float crustMantleBoundaryY = getFreshCrustBottom( plateType );
-        final float lithosphereBottomY = getFreshLithosphereBottom( plateType );
+        final float crustTopY = type.getCrustTopY();
+        final float crustMantleBoundaryY = type.getCrustBottomY();
+        final float lithosphereBottomY = type.getLithosphereBottomY();
 
         final float x = getCrust().getTopBoundary().getEdgeSample( side ).getPosition().x + xOffset;
 
@@ -123,7 +123,7 @@ public class PlateMotionPlate extends Plate {
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
                 final float x = mySample.getPosition().x + xOffset;
-                add( new Sample( new ImmutableVector3F( x, y, 0 ), temp, getFreshDensity( plateType ),
+                add( new Sample( new ImmutableVector3F( x, y, 0 ), temp, type.getDensity(),
                                  mySample.getTextureCoordinates().plus( textureStrategy.mapFrontDelta( new ImmutableVector2F( xOffset, 0 ) ) ) ) );
             }
         }} );
@@ -276,7 +276,15 @@ public class PlateMotionPlate extends Plate {
         return side;
     }
 
+    public int getSign() {
+        return side.getSign();
+    }
+
     public TextureStrategy getTextureStrategy() {
         return textureStrategy;
+    }
+
+    public PlateType getPlateType() {
+        return plateType;
     }
 }

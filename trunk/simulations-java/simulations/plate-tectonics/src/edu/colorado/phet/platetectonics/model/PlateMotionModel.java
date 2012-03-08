@@ -24,15 +24,27 @@ public class PlateMotionModel extends PlateModel {
     private final TectonicsClock clock;
 
     public static enum PlateType {
-        CONTINENTAL( true, false ),
-        YOUNG_OCEANIC( false, true ),
-        OLD_OCEANIC( false, true );
-        private boolean continental;
-        private boolean oceanic;
+        CONTINENTAL( true, false, 2750,
+                     5000, -40000, 70000 ),
+        YOUNG_OCEANIC( false, true, 3000,
+                       -3000, -10000, 30000 ),
+        OLD_OCEANIC( false, true, 3070,
+                     -3000, -10000, 40000 ); // old oceanic lithosphere is thicker
+        private final boolean continental;
+        private final boolean oceanic;
+        private final float density;
+        private final float crustTopY;
+        private final float crustBottomY;
+        private final float mantleLithosphereThickness;
 
-        PlateType( boolean isContinental, boolean isOceanic ) {
+        PlateType( boolean isContinental, boolean isOceanic, float density,
+                   float crustTopY, float crustBottomY, float mantleLithosphereThickness ) {
             continental = isContinental;
             oceanic = isOceanic;
+            this.density = density;
+            this.crustTopY = crustTopY;
+            this.crustBottomY = crustBottomY;
+            this.mantleLithosphereThickness = mantleLithosphereThickness;
         }
 
         public boolean isContinental() {
@@ -41,6 +53,34 @@ public class PlateMotionModel extends PlateModel {
 
         public boolean isOceanic() {
             return oceanic;
+        }
+
+        public float getDensity() {
+            return density;
+        }
+
+        public float getCrustTopY() {
+            return crustTopY;
+        }
+
+        public float getCrustBottomY() {
+            return crustBottomY;
+        }
+
+        public float getMantleLithosphereThickness() {
+            return mantleLithosphereThickness;
+        }
+
+        public float getLithosphereBottomY() {
+            return getCrustBottomY() - getMantleLithosphereThickness();
+        }
+
+        public float getCrustThickness() {
+            return getCrustTopY() - getCrustBottomY();
+        }
+
+        public float getLithosphereThickness() {
+            return getCrustTopY() - getLithosphereBottomY();
         }
     }
 
@@ -291,58 +331,6 @@ public class PlateMotionModel extends PlateModel {
         terrainConnector.update();
     }
 
-    public static float getFreshDensity( PlateType type ) {
-        switch( type ) {
-            case CONTINENTAL:
-                return 2750;
-            case YOUNG_OCEANIC:
-                return 3000;
-            case OLD_OCEANIC:
-                return 3070;
-            default:
-                throw new RuntimeException( "unknown type: " + type );
-        }
-    }
-
-    public static float getFreshCrustBottom( PlateType type ) {
-        switch( type ) {
-            case CONTINENTAL:
-                return -40000;
-            case YOUNG_OCEANIC:
-                return -10000;
-            case OLD_OCEANIC:
-                return -10000;
-            default:
-                throw new RuntimeException( "unknown type: " + type );
-        }
-    }
-
-    public static float getFreshCrustTop( PlateType type ) {
-        switch( type ) {
-            case CONTINENTAL:
-                return 5000;
-            case YOUNG_OCEANIC:
-                return -3000;
-            case OLD_OCEANIC:
-                return -3000;
-            default:
-                throw new RuntimeException( "unknown type: " + type );
-        }
-    }
-
-    public static float getFreshLithosphereBottom( PlateType type ) {
-        switch( type ) {
-            case CONTINENTAL:
-                return getFreshCrustBottom( type ) - 100000;
-            case YOUNG_OCEANIC:
-                return getFreshCrustBottom( type ) - 30000;
-            case OLD_OCEANIC:
-                return getFreshCrustBottom( type ) - 40000; // old oceanic lithosphere is thicker
-            default:
-                throw new RuntimeException( "unknown type: " + type );
-        }
-    }
-
     public boolean hasLeftPlate() {
         return leftPlateType.get() != null;
     }
@@ -480,7 +468,13 @@ public class PlateMotionModel extends PlateModel {
     }
 
     public boolean allowsDivergentMotion() {
-        return hasLeftPlate() && hasRightPlate();
+        // disallow oceanic-continental for divergent motion
+        return hasLeftPlate() && hasRightPlate() && ( leftPlateType.get().isContinental() == rightPlateType.get().isContinental() );
+    }
+
+    public boolean allowsTransformMotion() {
+        // disallow oceanic-continental for transform motion
+        return hasLeftPlate() && hasRightPlate() && ( leftPlateType.get().isContinental() == rightPlateType.get().isContinental() );
     }
 
     public boolean allowsConvergentMotion() {

@@ -37,7 +37,7 @@ public abstract class PlateBehavior {
         while ( getSide().opposite().isToSideOf(
                 getPlate().getCrust().getTopBoundary().getEdgeSample( getSide() ).getPosition().x,
                 PlateBehavior.PLATE_X_LIMIT * getSide().getSign() ) ) {
-            getPlate().addSection( getSide() );
+            getPlate().addSection( getSide(), plate.getPlateType() );
         }
     }
 

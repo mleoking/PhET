@@ -40,6 +40,7 @@ public class MotionTypeChooserPanel extends PNode {
 
         boolean showDivergent = plateModel.allowsDivergentMotion();
         boolean showConvergent = plateModel.allowsConvergentMotion();
+        boolean showTransform = plateModel.allowsTransformMotion();
 
         PSwing convergentButton = new PSwing( new MotionTypeChooserRadioButton( "Convergent", MotionType.CONVERGENT ) );
         PSwing divergentButton = new PSwing( new MotionTypeChooserRadioButton( "Divergent", MotionType.DIVERGENT ) );
@@ -87,21 +88,23 @@ public class MotionTypeChooserPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * transform
         *----------------------------------------------------------------------------*/
-        transformButton.setOffset( x.get() + ( ICON_WIDTH - transformButton.getFullBounds().getWidth() ) / 2, ICON_HEIGHT + 10 );
-        addChild( transformButton );
-        addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) );
-        double transformX = x.get() + ICON_WIDTH / 2;
-        final float shearFactor = -0.6f;
-        final AffineTransform shearMatrix = new AffineTransform( 1, 0, shearFactor, 1, -shearFactor * ( ICON_HEIGHT / 2 ), 0 );
-        addChild( new IconArrow( new Point2D.Double( transformX, ICON_HEIGHT / 2 - 5 ), new Point2D.Double( transformX, 2 ), 8 ) {{
-            setPaint( PlateTectonicsConstants.ARROW_TRANSFORM_FILL );
-            setTransform( shearMatrix );
-        }} );
-        addChild( new IconArrow( new Point2D.Double( transformX, ICON_HEIGHT / 2 + 5 ), new Point2D.Double( transformX, ICON_HEIGHT - 2 ), 8 ) {{
-            setPaint( PlateTectonicsConstants.ARROW_TRANSFORM_FILL );
-            setTransform( shearMatrix );
-        }} );
-        x.set( x.get() + ICON_WIDTH + SPACING );
+        if ( showTransform ) {
+            transformButton.setOffset( x.get() + ( ICON_WIDTH - transformButton.getFullBounds().getWidth() ) / 2, ICON_HEIGHT + 10 );
+            addChild( transformButton );
+            addChild( new Spacer( x.get(), 0, ICON_WIDTH, ICON_HEIGHT ) );
+            double transformX = x.get() + ICON_WIDTH / 2;
+            final float shearFactor = -0.6f;
+            final AffineTransform shearMatrix = new AffineTransform( 1, 0, shearFactor, 1, -shearFactor * ( ICON_HEIGHT / 2 ), 0 );
+            addChild( new IconArrow( new Point2D.Double( transformX, ICON_HEIGHT / 2 - 5 ), new Point2D.Double( transformX, 2 ), 8 ) {{
+                setPaint( PlateTectonicsConstants.ARROW_TRANSFORM_FILL );
+                setTransform( shearMatrix );
+            }} );
+            addChild( new IconArrow( new Point2D.Double( transformX, ICON_HEIGHT / 2 + 5 ), new Point2D.Double( transformX, ICON_HEIGHT - 2 ), 8 ) {{
+                setPaint( PlateTectonicsConstants.ARROW_TRANSFORM_FILL );
+                setTransform( shearMatrix );
+            }} );
+            x.set( x.get() + ICON_WIDTH + SPACING );
+        }
     }
 
     private static class IconArrow extends ArrowNode {
