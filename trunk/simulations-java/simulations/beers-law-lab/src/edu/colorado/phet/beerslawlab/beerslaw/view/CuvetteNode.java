@@ -19,10 +19,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
-import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -45,7 +45,7 @@ class CuvetteNode extends PNode {
         // nodes
         final PPath cuvetteNode = new PPath() {{
             setPickable( false ); // so that things behind the cuvette can be manipulated
-            setStroke( new BasicStroke( 1.5f ) );
+            setStroke( new BasicStroke( 3f ) );
         }};
         final PPath solutionNode = new PPath() {{
             setPickable( false ); // so that things behind the solution can be manipulated
@@ -65,7 +65,13 @@ class CuvetteNode extends PNode {
             public void update() {
                 final double width = mvt.modelToViewDeltaX( cuvette.width.get() );
                 final double height = mvt.modelToViewDeltaY( cuvette.height );
-                cuvetteNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) );
+//                cuvetteNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) ); //TODO delete if we leave the top open
+                cuvetteNode.setPathTo( new DoubleGeneralPath() {{
+                    moveTo( 0, 0 );
+                    lineTo( 0, height );
+                    lineTo( width, height );
+                    lineTo( width, 0 );
+                }}.getGeneralPath() );
                 solutionNode.setPathTo( new Rectangle2D.Double( 0, 0, width, PERCENT_FULL * height ) );
                 solutionNode.setOffset( cuvetteNode.getXOffset(),
                                         cuvetteNode.getFullBoundsReference().getMaxY() - solutionNode.getFullBoundsReference().getHeight() );
