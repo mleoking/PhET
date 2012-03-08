@@ -1,3 +1,4 @@
+3/7/12 convert JC's spreadsheet to something that can be used by Java (CSV format, swap rows and columns)
 3/7/12 add workaround for #3267, problem with wavelength slider
 3/7/12 BeersLawSolution: doc, eliminate duplication of colors, convert colors from hex to RGB
 3/7/12 eliminate duplication of saturated concentration values
