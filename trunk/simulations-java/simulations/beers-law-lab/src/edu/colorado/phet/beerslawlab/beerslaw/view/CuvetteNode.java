@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class CuvetteNode extends PNode {
 
-    private static final double PERCENT_FULL = 0.85;
+    private static final double PERCENT_FULL = 0.92;
     private static final double ARROW_WIDTH = 80;
     private static final Color ARROW_FILL = Color.ORANGE;
     private static final int SOLUTION_ALPHA = 150;
@@ -65,7 +65,6 @@ class CuvetteNode extends PNode {
             public void update() {
                 final double width = mvt.modelToViewDeltaX( cuvette.width.get() );
                 final double height = mvt.modelToViewDeltaY( cuvette.height );
-//                cuvetteNode.setPathTo( new Rectangle2D.Double( 0, 0, width, height ) ); //TODO delete if we leave the top open
                 cuvetteNode.setPathTo( new DoubleGeneralPath() {{
                     moveTo( 0, 0 );
                     lineTo( 0, height );
