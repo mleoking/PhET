@@ -99,29 +99,36 @@ public class DnaMolecule {
     /**
      * Constructor that doesn't specify a model, so a stub model is created.
      * This is primarily for use in creating DNA likenesses on control panels.
+     *
+     * @param numBasePairs - number of base pairs in the strand
+     * @param leftEdgeXOffset - x position in model space of the left side of
+     * the molecule.  Y position is assumed to be zero.
+     * @param pursueAttachments - flag that controls whether the DNA strand
+     * actively pulls in transcription factors and polymerase, or just lets
+     * them drift into place.
      */
-    public DnaMolecule( int numBasePairs, double leftEdgeXOffset ) {
+    public DnaMolecule( int numBasePairs, double leftEdgeXOffset, boolean pursueAttachments ) {
         this( new StubGeneExpressionModel(), numBasePairs, leftEdgeXOffset );
     }
 
     /**
      * Constructor.
      *
-     * @param model - The gene expression model within which this DNA strand
-     * exists.  Needed for evaluation of biomolecule interaction.
-     * @param numBasePairs - The number of base pairs on the DNA strand.  This
-     * defines the length of the strand.
+     * @param model           - The gene expression model within which this DNA strand
+     *                        exists.  Needed for evaluation of biomolecule interaction.
+     * @param numBasePairs    - The number of base pairs on the DNA strand.  This
+     *                        defines the length of the strand.
      * @param leftEdgeXOffset - Offset of the left edge of the DNA strand in
-     * model space.  This is needed to allow the DNA strand to be initially
-     * shifted such that a gene is visible to the user when the view is first
-     * shown.
+     *                        model space.  This is needed to allow the DNA strand to be initially
+     *                        shifted such that a gene is visible to the user when the view is first
+     *                        shown.
      */
     public DnaMolecule( GeneExpressionModel model, int numBasePairs, double leftEdgeXOffset ) {
         this.model = model;
         this.numBasePairs = numBasePairs;
         this.leftEdgeXOffset = leftEdgeXOffset;
 
-        moleculeLength = (double)numBasePairs * DISTANCE_BETWEEN_BASE_PAIRS;
+        moleculeLength = (double) numBasePairs * DISTANCE_BETWEEN_BASE_PAIRS;
         numberOfTwists = moleculeLength / LENGTH_PER_TWIST;
 
         // Add the initial set of shape-defining points for each of the two
@@ -163,7 +170,7 @@ public class DnaMolecule {
         updateStrandSegments();
     }
 
-    public double getLength(){
+    public double getLength() {
         return moleculeLength;
     }
 
@@ -174,7 +181,7 @@ public class DnaMolecule {
      *
      * @param geneToAdd
      */
-    public void addGene( Gene geneToAdd ){
+    public void addGene( Gene geneToAdd ) {
         genes.add( geneToAdd );
     }
 
@@ -432,6 +439,18 @@ public class DnaMolecule {
             }
         }
 
+        // If there aren't any potential attachment sites, and there is a gene
+        // with an open high-affinity site for this transcription factor, put
+        // it on the list.
+        if ( potentialAttachmentSites.size() == 0 ) {
+            for ( Gene gene : genes ) {
+                AttachmentSite matchingSite = gene.getMatchingSite( transcriptionFactor.getConfig() );
+                if ( matchingSite != null && matchingSite.attachedOrAttachingMolecule.get() == null ){
+                    potentialAttachmentSites.add( matchingSite );
+                }
+            }
+        }
+
         // Eliminate any attachment site where attaching would cause overlap
         // with other biomolecules that are already on the DNA strand.
         eliminateOverlappedAttachmentSites( transcriptionFactor, potentialAttachmentSites );
@@ -462,7 +481,7 @@ public class DnaMolecule {
             if ( attachmentSiteLocation.distance( rnaPolymerase.getPosition() ) <= RNA_POLYMERASE_ATTACHMENT_DISTANCE ) {
                 // In range.  Add it to the list if it is available.
                 AttachmentSite potentialAttachmentSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( i );
-                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get()== null ) {
+                if ( potentialAttachmentSite.attachedOrAttachingMolecule.get() == null ) {
                     potentialAttachmentSites.add( potentialAttachmentSite );
                 }
             }
@@ -489,10 +508,10 @@ public class DnaMolecule {
      * given molecule attaches, it would end up overlapping with another
      * biomolecule that is already attached to the DNA strand.
      *
-     * @param biomolecule - the biomolecule that is potentially going to
-     * attach to the provided list of attachment sites.
+     * @param biomolecule              - the biomolecule that is potentially going to
+     *                                 attach to the provided list of attachment sites.
      * @param potentialAttachmentSites - attachment sites where the given
-     * biomolecule could attach.
+     *                                 biomolecule could attach.
      */
     private void eliminateOverlappedAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
         for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
@@ -566,7 +585,6 @@ public class DnaMolecule {
      * one, i.e. the one before it on the DNA strand and the one after it.  If
      * at one end of the strand, only one site will be returned.
      *
-     *
      * @param attachmentSite
      * @return
      */
@@ -579,7 +597,7 @@ public class DnaMolecule {
         if ( basePairIndex != basePairs.size() - 1 ) {
             attachmentSites.add( getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
         }
-        
+
         // Eliminate any sites that, if attached to, would cause overlapping
         // biomolecules on the same strand.
         eliminateOverlappedAttachmentSites( rnaPolymerase, attachmentSites );

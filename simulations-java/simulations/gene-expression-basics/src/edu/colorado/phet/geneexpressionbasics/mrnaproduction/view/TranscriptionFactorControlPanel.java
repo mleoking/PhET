@@ -3,7 +3,6 @@ package edu.colorado.phet.geneexpressionbasics.mrnaproduction.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
@@ -66,7 +65,7 @@ public class TranscriptionFactorControlPanel extends PNode {
         }};
 
         PNode transcriptionFactorNode = new MobileBiomoleculeNode( TRANSCRIPTION_FACTOR_MVT, new TranscriptionFactor( transcriptionFactorConfig ) );
-        PNode dnaFragmentNode = new DnaMoleculeNode( new DnaMolecule( DnaMolecule.BASE_PAIRS_PER_TWIST + 1, 0.0 ), DNA_MVT, 2, false );
+        PNode dnaFragmentNode = new DnaMoleculeNode( new DnaMolecule( DnaMolecule.BASE_PAIRS_PER_TWIST + 1, 0.0, true ), DNA_MVT, 2, false );
         PNode contents = new VBox(
                 20,
                 title,

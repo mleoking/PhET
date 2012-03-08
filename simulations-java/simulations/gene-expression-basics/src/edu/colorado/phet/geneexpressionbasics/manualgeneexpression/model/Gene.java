@@ -247,6 +247,25 @@ public abstract class Gene {
     }
 
     /**
+     * Get the attachment site that is specific to the given transcription
+     * factor configuration, if one exists.
+     *
+     * NOTE: This assumes a max of one site per TF config.  This will need to
+     * change if multiple identical configs are supported on a single gene.
+     *
+     * @param transcriptionFactorConfig
+     * @return attachment site for the config if present on the gene, null if not.
+     */
+    public AttachmentSite getMatchingSite( TranscriptionFactorConfig transcriptionFactorConfig ){
+        for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
+            if ( transcriptionFactorAttachmentSite.configurationMatches( transcriptionFactorConfig )){
+                return transcriptionFactorAttachmentSite;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Get a property that can be used to vary the affinity of the attachment
      * site associated with the specified transcription factor.
      * 
