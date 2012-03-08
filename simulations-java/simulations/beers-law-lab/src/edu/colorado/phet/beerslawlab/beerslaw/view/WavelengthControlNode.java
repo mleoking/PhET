@@ -4,6 +4,8 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;
 
 import javax.swing.JLabel;
@@ -120,6 +122,14 @@ class WavelengthControlNode extends PNode implements Resettable {
                     // Set the light to the current solution's lambdaMax wavelength.
                     light.wavelength.set( solution.get().lambdaMax );
                 }
+            }
+        } );
+
+        //TODO delete this workaround when #3267 is fixed
+        // Workaround for coordinate frame problems in WavelengthControl, see WavelengthControl.updateDragBounds
+        addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS,  new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                wavelengthControl.updateDragBounds();
             }
         } );
     }
