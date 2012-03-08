@@ -128,7 +128,7 @@ class WavelengthControlNode extends PNode implements Resettable {
         variableWavelength.reset();
     }
 
-    // Specialization of wave length control that works with Property<Double>
+    // Specialization of wave length control that synchronizes with a Property<Double>
     private static class BLLWavelengthControl extends WavelengthControl {
 
         public BLLWavelengthControl( Dimension trackSize, final Property<Double> wavelength ) {
