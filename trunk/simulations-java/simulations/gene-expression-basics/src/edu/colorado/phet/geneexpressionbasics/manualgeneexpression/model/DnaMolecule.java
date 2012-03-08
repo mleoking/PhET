@@ -84,13 +84,16 @@ public class DnaMolecule {
     private final List<DnaStrandSegment> strand2Segments = new ArrayList<DnaStrandSegment>();
 
     // Base pairs within the DNA strand.
-    private ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
+    private final ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
 
     // Genes on this strand of DNA.
-    private ArrayList<Gene> genes = new ArrayList<Gene>();
+    private final ArrayList<Gene> genes = new ArrayList<Gene>();
 
     // List of forced separations between the two strands.
-    private List<DnaSeparation> separations = new ArrayList<DnaSeparation>();
+    private final List<DnaSeparation> separations = new ArrayList<DnaSeparation>();
+
+    // Flag that controls active pursual of transcription factors and polymerase.
+    private final boolean pursueAttachments;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -108,7 +111,7 @@ public class DnaMolecule {
      * them drift into place.
      */
     public DnaMolecule( int numBasePairs, double leftEdgeXOffset, boolean pursueAttachments ) {
-        this( new StubGeneExpressionModel(), numBasePairs, leftEdgeXOffset );
+        this( new StubGeneExpressionModel(), numBasePairs, leftEdgeXOffset, pursueAttachments );
     }
 
     /**
@@ -123,10 +126,11 @@ public class DnaMolecule {
      *                        shifted such that a gene is visible to the user when the view is first
      *                        shown.
      */
-    public DnaMolecule( GeneExpressionModel model, int numBasePairs, double leftEdgeXOffset ) {
+    public DnaMolecule( GeneExpressionModel model, int numBasePairs, double leftEdgeXOffset, boolean pursueAttachments ) {
         this.model = model;
         this.numBasePairs = numBasePairs;
         this.leftEdgeXOffset = leftEdgeXOffset;
+        this.pursueAttachments = pursueAttachments;
 
         moleculeLength = (double) numBasePairs * DISTANCE_BETWEEN_BASE_PAIRS;
         numberOfTwists = moleculeLength / LENGTH_PER_TWIST;
@@ -442,7 +446,7 @@ public class DnaMolecule {
         // If there aren't any potential attachment sites, and there is a gene
         // with an open high-affinity site for this transcription factor, put
         // it on the list.
-        if ( potentialAttachmentSites.size() == 0 ) {
+        if ( potentialAttachmentSites.size() == 0 && pursueAttachments ) {
             for ( Gene gene : genes ) {
                 AttachmentSite matchingSite = gene.getMatchingSite( transcriptionFactor.getConfig() );
                 if ( matchingSite != null && matchingSite.attachedOrAttachingMolecule.get() == null ){
