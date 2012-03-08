@@ -7,6 +7,7 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
+- molar absorptivity data for Drink Mix
 
 MEDIUM
 - common: meter bodies may run off right side of stage if text is too long
