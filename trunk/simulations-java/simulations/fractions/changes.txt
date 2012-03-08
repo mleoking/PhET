@@ -1,3 +1,4 @@
+Matching Game: Added plus sign representations for denominator 2-6
 Matching Game: Added a developer control for resampling the current level
 Matching Game: Added developer controls
 Matching Game: Fixed: scales + number line should be centered vertically between cells at top and bottom

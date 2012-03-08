@@ -23,6 +23,13 @@ public @Data class RepresentationType {
     public final F<Fraction, Boolean> appliesTo;
     public final List<F<Fraction, PNode>> representations;
 
+    //Function wrappers for use in collections
+    public static F<RepresentationType, String> _name = new F<RepresentationType, String>() {
+        @Override public String f( final RepresentationType representationType ) {
+            return representationType.name;
+        }
+    };
+
     public static RepresentationType singleRepresentation( String name, F<Fraction, Boolean> appliesTo, F<Fraction, PNode> r ) {
         return new RepresentationType( name, appliesTo, single( r ) );
     }
