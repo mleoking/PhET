@@ -1,3 +1,4 @@
+3/8/12 Beers: change KMnO4 color chip to match first tab, RGB=[80,0,120]
 3/8/12 try making top of cuvette look open
 3/8/12 double width of cuvette stroke (1.5 to 3)
 # 0.00.19 (62349) Mar 8, 2012
