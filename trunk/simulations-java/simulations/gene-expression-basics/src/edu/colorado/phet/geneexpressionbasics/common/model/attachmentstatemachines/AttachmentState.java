@@ -4,10 +4,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachi
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.FollowAttachmentSite;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MeanderToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 
@@ -42,9 +40,12 @@ public abstract class AttachmentState {
             if ( gsm.attachmentSite != null ) {
                 // An attachment proposal was accepted, so start heading towards
                 // the attachment site.
-                gsm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
-                                                                                                gsm.biomolecule.motionBoundsProperty,
-                                                                                                gsm.destinationOffset ) );
+//                gsm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
+//                                                                                                gsm.biomolecule.motionBoundsProperty,
+//                                                                                                gsm.destinationOffset ) );
+                gsm.biomolecule.setMotionStrategy( new MeanderToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
+                                                                                           gsm.biomolecule.motionBoundsProperty,
+                                                                                           gsm.destinationOffset ) );
                 gsm.setState( gsm.movingTowardsAttachmentState );
 
                 // Mark the attachment site as being in use.
