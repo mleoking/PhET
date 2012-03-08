@@ -115,7 +115,7 @@ public class MultipleParticleModel implements Resettable {
 
     // Values used for converting from model temperature to the temperature
     // for a given particle.
-    public static final double TRIPLE_POINT_MODEL_TEMPERATURE = 0.4;    // Empirically determined.
+    public static final double TRIPLE_POINT_MODEL_TEMPERATURE = 0.26;    // Empirically determined.
     public static final double CRITICAL_POINT_MODEL_TEMPERATURE = 0.8;  // Empirically determined.
     private static final double NEON_TRIPLE_POINT_IN_KELVIN = 25;
     private static final double NEON_CRITICAL_POINT_IN_KELVIN = 44;
@@ -123,7 +123,7 @@ public class MultipleParticleModel implements Resettable {
     private static final double ARGON_CRITICAL_POINT_IN_KELVIN = 151;
     private static final double O2_TRIPLE_POINT_IN_KELVIN = 54;
     private static final double O2_CRITICAL_POINT_IN_KELVIN = 155;
-    private static final double WATER_TRIPLE_POINT_IN_KELVIN = 273;
+    private static final double WATER_TRIPLE_POINT_IN_KELVIN = 273;  // Not the real triple point - tweaked to get water to appear frozen when we want it.
     private static final double WATER_CRITICAL_POINT_IN_KELVIN = 647;
 
     // The following values are used for temperature conversion for the
