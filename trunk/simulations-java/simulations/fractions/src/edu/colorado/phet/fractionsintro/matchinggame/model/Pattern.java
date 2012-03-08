@@ -57,12 +57,12 @@ public class Pattern {
         }.getGeneralPath();
     }
 
-    public static class NineGrid extends Pattern {
-        public NineGrid() {
+    public static class Grid extends Pattern {
+        public Grid( final int sideLength ) {
             super( iterableList( new ArrayList<Shape>() {{
                 double length = 20;
-                for ( int i = 0; i < 3; i++ ) {
-                    for ( int j = 0; j < 3; j++ ) {
+                for ( int i = 0; i < sideLength; i++ ) {
+                    for ( int j = 0; j < sideLength; j++ ) {
                         add( square( i * length, j * length, length ) );
                     }
                 }
