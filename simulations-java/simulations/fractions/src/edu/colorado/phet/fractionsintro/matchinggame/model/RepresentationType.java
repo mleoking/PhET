@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import fj.F;
 import fj.data.List;
+import lombok.Data;
 
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -17,22 +18,17 @@ import static fj.data.List.single;
  *
  * @author Sam Reid
  */
-public class RepresentationType {
+public @Data class RepresentationType {
+    public final String name;
     public final F<Fraction, Boolean> appliesTo;
     public final List<F<Fraction, PNode>> representations;
 
-    public RepresentationType( final F<Fraction, Boolean> appliesTo, final List<F<Fraction, PNode>> representations ) {
-        this.appliesTo = appliesTo;
-        assert ( appliesTo != null );
-        this.representations = representations;
+    public static RepresentationType singleRepresentation( String name, F<Fraction, Boolean> appliesTo, F<Fraction, PNode> r ) {
+        return new RepresentationType( name, appliesTo, single( r ) );
     }
 
-    public static RepresentationType singleRepresentation( F<Fraction, Boolean> appliesTo, F<Fraction, PNode> r ) {
-        return new RepresentationType( appliesTo, single( r ) );
-    }
-
-    public static RepresentationType twoComposites( final F<Fraction, Boolean> appliesTo, final F<Fraction, PNode> a, final F<Fraction, PNode> b ) {
-        return new RepresentationType( appliesTo, single( makeComposite( a ) ).snoc( makeComposite( b ) ) );
+    public static RepresentationType twoComposites( String name, final F<Fraction, Boolean> appliesTo, final F<Fraction, PNode> a, final F<Fraction, PNode> b ) {
+        return new RepresentationType( name, appliesTo, single( makeComposite( a ) ).snoc( makeComposite( b ) ) );
     }
 
     public boolean contains( final F<Fraction, PNode> representation ) {
