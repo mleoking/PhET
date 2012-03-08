@@ -12,46 +12,50 @@ import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
  */
 public class ConcentrationTransform {
 
-    private final double viewScale;
-    private final String viewUnits;
+    private final double scale;
+    private final String units;
 
     /*
      * Constructor.
-     * @param viewExponent is the power of 10 that is used to convert model units (M) to view units. Eg, 10^-3 for mM.
+     * @param scale scale factor used to convert model units (M) to view units
+     * @throws IllegalArgumentException if scale is not a power of 10
      */
-    public ConcentrationTransform( int viewExponent ) {
-        viewScale = 1 / Math.pow( 10, viewExponent );
-        viewUnits = exponentToUnits( viewExponent );
+    public ConcentrationTransform( int scale ) {
+        if ( scale % 10 != 0 ) {
+            throw new IllegalArgumentException( "scale must be a power of 10: " + scale );
+        }
+        this.scale = scale;
+        this.units = scaleToUnits( scale );
     }
 
     // Gets the units to be display in the view.
-    public String getViewUnits() {
-        return viewUnits;
+    public String getUnits() {
+        return units;
     }
 
     // Converts from model (M) to view (solution specific).
     public double modelToView( double modelConcentration ) {
-        return modelConcentration * viewScale;
+        return modelConcentration * scale;
     }
 
     // Converts from view (solution specific) to model (M).
     public double viewToModel( double viewConcentration ) {
-        return viewConcentration / viewScale;
+        return viewConcentration / scale;
     }
 
-    // Maps an exponent to units.
-    private static String exponentToUnits( int exponent ) {
-        if ( exponent == 1 ) {
+    // Maps a scale to units.
+    private static String scaleToUnits( int scale ) {
+        if ( scale == 1 ) {
             return Strings.UNITS_M;
         }
-        else if ( exponent == -3 ) {
+        else if ( scale == 1000 ) {
             return Strings.UNITS_mM;
         }
-        else if ( exponent == -6 ) {
+        else if ( scale == 1000000 ) {
             return Strings.UNITS_uM;
         }
         else {
-            throw new IllegalArgumentException( "unsupported exponent=" + exponent );
+            throw new IllegalArgumentException( "unsupported scale=" + scale );
         }
     }
 }
