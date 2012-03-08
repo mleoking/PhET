@@ -8,6 +8,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
@@ -58,11 +59,12 @@ public class Pattern {
     }
 
     public static class Grid extends Pattern {
-        public Grid( final int sideLength ) {
+        public static final double length = 20;
+
+        public Grid( final int edgeCount ) {
             super( iterableList( new ArrayList<Shape>() {{
-                double length = 20;
-                for ( int i = 0; i < sideLength; i++ ) {
-                    for ( int j = 0; j < sideLength; j++ ) {
+                for ( int i = 0; i < edgeCount; i++ ) {
+                    for ( int j = 0; j < edgeCount; j++ ) {
                         add( square( i * length, j * length, length ) );
                     }
                 }
@@ -71,15 +73,15 @@ public class Pattern {
     }
 
     public static class PlusSigns extends Pattern {
-        public static final double edgeLength = 20 / 2;
+        public static final LinearFunction fun = new LinearFunction( 1, 6, 20, 10 );
 
         public PlusSigns( int numberPlusSigns ) {
-            super( list( plusSign( 1, 0, edgeLength ),
-                         plusSign( 0, 2, edgeLength ),
-                         plusSign( 3, 1, edgeLength ),
-                         plusSign( 2, 3, edgeLength ),
-                         plusSign( 5, 2, edgeLength ),
-                         plusSign( 4, 4, edgeLength )
+            super( list( plusSign( 1, 0, fun.evaluate( numberPlusSigns ) ),
+                         plusSign( 0, 2, fun.evaluate( numberPlusSigns ) ),
+                         plusSign( 3, 1, fun.evaluate( numberPlusSigns ) ),
+                         plusSign( 2, 3, fun.evaluate( numberPlusSigns ) ),
+                         plusSign( 5, 2, fun.evaluate( numberPlusSigns ) ),
+                         plusSign( 4, 4, fun.evaluate( numberPlusSigns ) )
             ).take( numberPlusSigns ) );
         }
     }
