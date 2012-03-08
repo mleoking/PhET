@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
 /**
  * Color scheme for relating concentration to color.
+ * The scheme also defines the concentration range for the solute, where maxConcentration is synonymous with "saturated".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -25,6 +26,7 @@ public class SoluteColorScheme {
         this.maxConcentration = maxConcentration;
     }
 
+    // Converts a concentration value (in M) to a Color, using a linear interpolation of RGB colors.
     public Color interpolateLinear( double concentration ) {
         if ( concentration >= maxConcentration ) {
             return maxColor;
