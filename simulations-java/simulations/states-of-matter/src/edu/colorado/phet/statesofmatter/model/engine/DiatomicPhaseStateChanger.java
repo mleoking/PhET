@@ -50,15 +50,19 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
     //----------------------------------------------------------------------------
 
     public void setPhase( int phaseID ) {
+        int postChangeModelSteps = 0;
         switch( phaseID ) {
             case PhaseStateChanger.PHASE_SOLID:
                 setPhaseSolid();
+                postChangeModelSteps = 0;
                 break;
             case PhaseStateChanger.PHASE_LIQUID:
                 setPhaseLiquid();
+                postChangeModelSteps = 200;
                 break;
             case PhaseStateChanger.PHASE_GAS:
                 setPhaseGas();
+                postChangeModelSteps = 0;
                 break;
         }
 
@@ -70,6 +74,13 @@ public class DiatomicPhaseStateChanger extends AbstractPhaseStateChanger {
 
         // Sync up the atom positions with the molecule positions.
         m_positionUpdater.updateAtomPositions( moleculeDataSet );
+
+        // Step the model a number of times in order to prevent the particles
+        // from looking too organized.  The number of steps was empirically
+        // determined.
+        for ( int i = 0; i < postChangeModelSteps; i++ ){
+            m_model.step();
+        }
     }
 
     /**
