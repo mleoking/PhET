@@ -42,10 +42,6 @@ public class SoluteColorScheme {
         }
     }
 
-    @Override public String toString() {
-        return minConcentration + "," + minColor + "," + midConcentration + "," + midColor + "," + maxConcentration + "," + maxColor;
-    }
-
     public static class DrinkMixColorScheme extends SoluteColorScheme {
         public DrinkMixColorScheme() {
             super( 0, Water.COLOR,

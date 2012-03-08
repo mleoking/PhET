@@ -18,6 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
+import edu.colorado.phet.beerslawlab.common.model.Solvent.Water;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationModel;
 import edu.colorado.phet.beerslawlab.concentration.model.Solute;
 import edu.colorado.phet.beerslawlab.concentration.model.SoluteColorScheme;
@@ -124,7 +125,7 @@ class ColorSchemeEditorDialog extends JDialog {
                 public void actionPerformed( ActionEvent e ) {
                     System.out.println( model.solution.solvent.name + "," + solventColorProperty.get() );
                     for ( Solute solute : solutes ) {
-                        System.out.println( solute.name + "," + solute.colorScheme.get().toString() );
+                        System.out.println( solute.name + ": " + ColorSchemeEditorDialog.toString( solute.colorScheme.get() ) );
                     }
                 }
             } );
@@ -136,6 +137,22 @@ class ColorSchemeEditorDialog extends JDialog {
 
         public void addChild( PNode node ) {
             getLayer().addChild( node );
+        }
+    }
+
+    // Formatted so that the output can be pasted back into the SoluteColorScheme subclasses as constructor args.
+    private static String toString( SoluteColorScheme colorScheme ) {
+        return colorScheme.minConcentration + ", " + toString( colorScheme.minColor ) + ", " +
+               colorScheme.midConcentration + ", " + toString( colorScheme.midColor ) + ", " +
+               colorScheme.maxConcentration + ", " + toString( colorScheme.maxColor );
+    }
+
+    private static String toString( Color color ) {
+        if ( color.equals( Water.COLOR ) ) {
+            return "Water.COLOR";
+        }
+        else {
+            return "new Color( " + color.getRed() + ", " + color.getGreen() + ", " + color.getBlue() + " )";
         }
     }
 
