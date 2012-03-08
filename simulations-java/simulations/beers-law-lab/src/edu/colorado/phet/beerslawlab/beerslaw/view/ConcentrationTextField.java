@@ -32,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 class ConcentrationTextField extends SimSharingJTextField {
 
-    private static final int COLUMNS = 5;
+    private static final int COLUMNS = 3;
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private Property<BeersLawSolution> solutionProperty;
