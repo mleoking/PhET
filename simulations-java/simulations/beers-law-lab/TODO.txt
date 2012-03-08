@@ -7,26 +7,23 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
-- add wavelength and absorptivity properties to BeersLawSolution
-- implement wavelength-to-absorptivity functions, using JC's experimental data
 
 MEDIUM
+- common: meter bodies may run off right side of stage if text is too long
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
+- common: #3277, add sim-sharing to WavelengthControl
+- common: #3276, fix coordinate frame problem in WavelengthControl
+- Concentration: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
 
 LOW
-- Concentration: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
 - common: objects flicker/tear excessively while dragging (dropper, shaker, probes, cuvette, ...)
 - Concentration: shaker dispenses more than the max amount of solute, model doesn't keep track of solute falling from shaker
 - Concentration: use CompositeProperty for Shaker.dispensingRate?
-- common: meter bodies may run off right side of stage if text is too long
-- color schemes: update color of precipitate particles that already exist (difficult)
-- color schemes: linear vs log interpolation choice (is log useful?)
 
 SIM-SHARING
-- add sim-sharing to WavelengthControl (if I use it)
 
 MIGRATE TO COMMON
 - MomentaryButtonNode to piccolo-phet
 - ToggleButtonNode to piccolo-phet
 - TiledBackgroundNode to piccolo-phet
-- BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>) - or delete if not used
+- BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>)
