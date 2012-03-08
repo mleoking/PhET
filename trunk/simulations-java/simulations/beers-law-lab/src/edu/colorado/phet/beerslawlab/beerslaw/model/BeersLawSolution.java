@@ -46,9 +46,7 @@ public class BeersLawSolution implements Resettable {
     public final ColorRange colorRange; // colors for the range of values that we're interested in. colorRange.maxColor is not necessarily the saturated color
     public final Color saturatedColor;
     public final CompositeProperty<Color> fluidColor; // derived
-    public final MolarAbsorptivityData molarAbsorptivityData; // experiement data that maps wavelength to molar absorptivity
-    public final double lambdaMax; // wavelength for maximum absorbance, nm  //TODO delete
-    public final double molarAbsorptionMax; // corresponds to lambdaMax, 1/(cm*M) //TODO delete
+    public final MolarAbsorptivityData molarAbsorptivityData; // experimental data that maps wavelength to molar absorptivity
 
     // Constructor for solutions whose colorRange.maxColor is the same as the saturated color.
     public BeersLawSolution( String name, String formula,
@@ -72,8 +70,6 @@ public class BeersLawSolution implements Resettable {
         this.colorRange = colorRange;
         this.saturatedColor = saturatedColor;
         this.molarAbsorptivityData = molarAbsorptivityData;
-        this.lambdaMax = molarAbsorptivityData.getLambdaMax();
-        this.molarAbsorptionMax = molarAbsorptivityData.wavelengthToMolarAbsorptivity( lambdaMax );
 
         // derive the solution color
         this.fluidColor = new CompositeProperty<Color>( new Function0<Color>() {
