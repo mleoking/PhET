@@ -12,6 +12,11 @@ public class TerrainSample {
         this.textureCoordinates = textureCoordinates;
     }
 
+    public void shiftWithTexture( ImmutableVector2F offset, TextureStrategy textureStrategy ) {
+        setElevation( getElevation() + offset.y );
+        setTextureCoordinates( getTextureCoordinates().plus( textureStrategy.mapTopDelta( offset ) ) );
+    }
+
     public float getElevation() {
         return elevation;
     }

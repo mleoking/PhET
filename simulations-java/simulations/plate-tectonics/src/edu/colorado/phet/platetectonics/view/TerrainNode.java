@@ -21,7 +21,7 @@ import static org.lwjgl.opengl.GL11.*;
  * <p/>
  * TODO: don't render if we don't have at least 2 columns
  */
-public class TerrainStripNode extends GridStripNode {
+public class TerrainNode extends GridStripNode {
     private final Terrain terrainStrip;
 
     private boolean textureRefreshNeeded = true;
@@ -30,7 +30,7 @@ public class TerrainStripNode extends GridStripNode {
     private FloatBuffer colorBuffer;
 
 
-    public TerrainStripNode( final Terrain terrainStrip, final LWJGLTransform modelViewTransform ) {
+    public TerrainNode( final Terrain terrainStrip, final LWJGLTransform modelViewTransform ) {
         super( modelViewTransform );
         this.terrainStrip = terrainStrip;
 

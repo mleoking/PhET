@@ -120,7 +120,7 @@ public class HandleNode extends GLNode {
 
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
-                    setVisible( ( motionType.get() == null ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW() ) );
+                    setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsTransformMotion() ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW() ) );
                 }
             };
             tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
@@ -189,7 +189,7 @@ public class HandleNode extends GLNode {
 
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
-                    setVisible( ( motionType.get() == null ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle != model.isTransformMotionCCW() ) );
+                    setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsTransformMotion() ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle != model.isTransformMotionCCW() ) );
                 }
             };
             tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );
@@ -232,9 +232,8 @@ public class HandleNode extends GLNode {
             if ( xyDelta.magnitude() > 5 ) {
                 float rightStrength = xyDelta.dot( ImmutableVector3F.X_UNIT );
                 float verticalStrength = Math.abs( xyDelta.dot( Y_UNIT ) );
-                if ( verticalStrength > Math.abs( rightStrength ) ) {
+                if ( model.allowsTransformMotion() && verticalStrength > Math.abs( rightStrength ) ) {
                     // starting transform
-                    System.out.println( "transform movement" );
                     model.setTransformMotionCCW( !isRightHandle );
                     model.motionType.set( MotionType.TRANSFORM );
                 }
@@ -242,11 +241,9 @@ public class HandleNode extends GLNode {
                     boolean pullingLeft = xyDelta.x < 0;
                     if ( model.allowsDivergentMotion() && ( pullingLeft != isRightHandle ) ) {
                         model.motionType.set( MotionType.DIVERGENT );
-                        System.out.println( "divergent movement" );
                     }
                     else if ( pullingLeft == isRightHandle ) {
                         model.motionType.set( MotionType.CONVERGENT );
-                        System.out.println( "convergent movement" );
                     }
                     else {
                         return;

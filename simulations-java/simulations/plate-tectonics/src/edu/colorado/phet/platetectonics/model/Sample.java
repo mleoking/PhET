@@ -20,6 +20,16 @@ public class Sample {
         this.textureCoordinates = textureCoordinates;
     }
 
+    // moves both the position AND the texture coordinates, using the offset to modify both
+    public void shiftWithTexture( ImmutableVector3F offset, TextureStrategy textureStrategy ) {
+        // change the position
+        setPosition( getPosition().plus( offset ) );
+
+        // and the relevant texture coordinates
+        setTextureCoordinates( getTextureCoordinates().plus(
+                textureStrategy.mapFrontDelta( new ImmutableVector2F( offset.x, offset.y ) ) ) );
+    }
+
     public ImmutableVector3F getPosition() {
         return position;
     }
