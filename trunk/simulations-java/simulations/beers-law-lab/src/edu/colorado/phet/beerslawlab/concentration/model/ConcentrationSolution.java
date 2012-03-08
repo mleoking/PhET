@@ -90,7 +90,7 @@ public class ConcentrationSolution implements IFluid, Resettable {
 
     // Convenience method
     public double getSaturatedConcentration() {
-        return solute.get().saturatedConcentration;
+        return solute.get().getSaturatedConcentration();
     }
 
     public boolean isSaturated() {

@@ -156,7 +156,7 @@ public class ConcentrationModelDialog extends JDialog {
             model.solute.addObserver( new SimpleObserver() {
                 public void update() {
                     soluteFormula.setText( HTMLUtils.toHTMLString( "formula = " + model.solute.get().formula ) );
-                    soluteSaturatedConcentration.setText( "saturated concentration = " + concentrationFormat.format( model.solute.get().saturatedConcentration ) + " M" );
+                    soluteSaturatedConcentration.setText( "saturated concentration = " + concentrationFormat.format( model.solute.get().getSaturatedConcentration() ) + " M" );
                     soluteStockConcentration.setText( "stock concentration = " + concentrationFormat.format( model.solute.get().stockSolutionConcentration ) + " M" );
                 }
             } );
