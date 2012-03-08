@@ -7,7 +7,6 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
-- JC: concentration probe flickers up to a location above where it really is when I drag it across either beaker wall
 - why does wavelength slider get stuck at 630 when you start by trying to drag it to the right?
 - Beers: add variable wavelength feature
 
