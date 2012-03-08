@@ -97,6 +97,12 @@ public class Terrain {
         }
     }
 
+    public void shiftColumnElevation( int columnIndex, float offset ) {
+        for ( TerrainSample sample : getColumn( columnIndex ) ) {
+            sample.setElevation( sample.getElevation() + offset );
+        }
+    }
+
     public void shiftZ( float offset ) {
         for ( int i = 0; i < zPositions.size(); i++ ) {
             zPositions.set( i, zPositions.get( i ) + offset );
