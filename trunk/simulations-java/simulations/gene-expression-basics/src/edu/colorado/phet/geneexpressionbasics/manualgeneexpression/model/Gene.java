@@ -8,15 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactorAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactorPlacementHint;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.TranscriptionFactorAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 /**
