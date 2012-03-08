@@ -1,3 +1,4 @@
+Matching Game: Added a 2x2 grid
 Matching Game: Added plus sign representations for denominator 2-6
 Matching Game: Added a developer control for resampling the current level
 Matching Game: Added developer controls

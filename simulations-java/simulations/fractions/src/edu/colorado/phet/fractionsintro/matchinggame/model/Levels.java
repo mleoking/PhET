@@ -19,7 +19,7 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.NineGrid;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
@@ -128,6 +128,23 @@ public class Levels {
         );
     }
 
+    final RepresentationType fourGrid = twoComposites( "nine grid", new F<Fraction, Boolean>() {
+                                                           @Override public Boolean f( final Fraction fraction ) {
+                                                               return fraction.denominator == 4;
+                                                           }
+                                                       },
+                                                       new F<Fraction, PNode>() {
+                                                           @Override public PNode f( Fraction f ) {
+                                                               return new PatternNode( new Grid( 2 ), f.numerator, LIGHT_GREEN );
+                                                           }
+                                                       },
+                                                       new F<Fraction, PNode>() {
+                                                           @Override public PNode f( Fraction f ) {
+                                                               return new PatternNode( new Grid( 2 ), f.numerator, LIGHT_BLUE );
+                                                           }
+                                                       }
+    );
+
     final RepresentationType nineGrid = twoComposites( "nine grid", new F<Fraction, Boolean>() {
                                                            @Override public Boolean f( final Fraction fraction ) {
                                                                return fraction.denominator == 9;
@@ -135,12 +152,12 @@ public class Levels {
                                                        },
                                                        new F<Fraction, PNode>() {
                                                            @Override public PNode f( Fraction f ) {
-                                                               return new PatternNode( new NineGrid(), f.numerator, LIGHT_GREEN );
+                                                               return new PatternNode( new Grid( 3 ), f.numerator, LIGHT_GREEN );
                                                            }
                                                        },
                                                        new F<Fraction, PNode>() {
                                                            @Override public PNode f( Fraction f ) {
-                                                               return new PatternNode( new NineGrid(), f.numerator, LIGHT_BLUE );
+                                                               return new PatternNode( new Grid( 3 ), f.numerator, LIGHT_BLUE );
                                                            }
                                                        }
     );
@@ -148,7 +165,7 @@ public class Levels {
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> allRepresentations = iterableList( Arrays.asList( numeric, horizontalBars, verticalBars, pies, twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, nineGrid ) );
+    final List<RepresentationType> allRepresentations = iterableList( Arrays.asList( numeric, horizontalBars, verticalBars, pies, twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid ) );
 
     //Convenience Wrapper to create PieNodes
     private PNode myPieNode( final Fraction f, final Color color ) {
