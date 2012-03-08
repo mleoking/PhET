@@ -1,3 +1,4 @@
+3/8/12 change "lambdaMax" label to "fixed" on wavelength radio button
 3/8/12 format Color Scheme Editor output so that it can be directly pasted back into Java code
 3/8/12 convert JC's spreadsheet to something that can be used by Java (CSV format, swap rows and columns)
 3/7/12 add workaround for #3267, problem with wavelength slider
