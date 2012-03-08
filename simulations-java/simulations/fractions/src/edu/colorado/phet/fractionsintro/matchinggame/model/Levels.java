@@ -20,7 +20,7 @@ import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.NineGrid;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.SixPlusSigns;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
@@ -31,8 +31,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.singleRepresentation;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.twoComposites;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
 import static fj.data.List.*;
 
 /**
@@ -47,7 +46,6 @@ public class Levels {
             return createRepresentations( fraction );
         }
     };
-    private F<RepresentationType, Object> name;
 
     //Singleton, use Levels instance
     private Levels() {
@@ -105,22 +103,30 @@ public class Levels {
                                                        }
                                                    }
     );
-    final RepresentationType sixPlusses = twoComposites( "six plusses", new F<Fraction, Boolean>() {
-                                                             @Override public Boolean f( final Fraction fraction ) {
-                                                                 return fraction.denominator == 6;
-                                                             }
-                                                         },
-                                                         new F<Fraction, PNode>() {
-                                                             @Override public PNode f( Fraction f ) {
-                                                                 return new PatternNode( new SixPlusSigns(), f.numerator, LIGHT_GREEN );
-                                                             }
-                                                         },
-                                                         new F<Fraction, PNode>() {
-                                                             @Override public PNode f( Fraction f ) {
-                                                                 return new PatternNode( new SixPlusSigns(), f.numerator, LIGHT_BLUE );
-                                                             }
-                                                         }
-    );
+    final RepresentationType twoPlusses = makePlusses( 2 );
+    final RepresentationType threePlusses = makePlusses( 3 );
+    final RepresentationType fourPlusses = makePlusses( 4 );
+    final RepresentationType fivePlusses = makePlusses( 5 );
+    final RepresentationType sixPlusses = makePlusses( 6 );
+
+    private RepresentationType makePlusses( final int numPlusses ) {
+        return twoComposites( "six plusses", new F<Fraction, Boolean>() {
+                                  @Override public Boolean f( final Fraction fraction ) {
+                                      return fraction.denominator == numPlusses;
+                                  }
+                              },
+                              new F<Fraction, PNode>() {
+                                  @Override public PNode f( Fraction f ) {
+                                      return new PatternNode( new PlusSigns( numPlusses ), f.numerator, LIGHT_GREEN );
+                                  }
+                              },
+                              new F<Fraction, PNode>() {
+                                  @Override public PNode f( Fraction f ) {
+                                      return new PatternNode( new PlusSigns( numPlusses ), f.numerator, LIGHT_BLUE );
+                                  }
+                              }
+        );
+    }
 
     final RepresentationType nineGrid = twoComposites( "nine grid", new F<Fraction, Boolean>() {
                                                            @Override public Boolean f( final Fraction fraction ) {
@@ -142,7 +148,7 @@ public class Levels {
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> allRepresentations = iterableList( Arrays.asList( numeric, horizontalBars, verticalBars, pies, sixPlusses, nineGrid ) );
+    final List<RepresentationType> allRepresentations = iterableList( Arrays.asList( numeric, horizontalBars, verticalBars, pies, twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, nineGrid ) );
 
     //Convenience Wrapper to create PieNodes
     private PNode myPieNode( final Fraction f, final Color color ) {
@@ -272,12 +278,7 @@ public class Levels {
             List<RepresentationType> unique = types.nub();
             System.out.println( "types.length() = " + types.length() + ", unique.length = " + unique.length() );
             if ( types.length() != unique.length() ) {
-                name = new F<RepresentationType, Object>() {
-                    @Override public Object f( final RepresentationType representationType ) {
-                        return representationType.name;
-                    }
-                };
-                System.out.println( "unique = " + unique.map( name ) + ", list = " + types.map( name ) );
+                System.out.println( "unique = " + unique.map( _name ) + ", list = " + types.map( _name ) );
             }
             assert types.length() == unique.length();
         }

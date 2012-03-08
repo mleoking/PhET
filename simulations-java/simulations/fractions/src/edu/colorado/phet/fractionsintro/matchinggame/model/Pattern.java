@@ -13,6 +13,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Direction.*;
 import static fj.data.List.iterableList;
+import static fj.data.List.list;
 
 /**
  * An abstraction over shape-based representations for fractions, such as a grid of cells, or a pyramid of triangles.
@@ -69,17 +70,17 @@ public class Pattern {
         }
     }
 
-    public static class SixPlusSigns extends Pattern {
-        public SixPlusSigns() {
-            super( iterableList( new ArrayList<Shape>() {{
-                final double edgeLength = 20 / 2;
-                add( plusSign( 1, 0, edgeLength ) );
-                add( plusSign( 3, 1, edgeLength ) );
-                add( plusSign( 5, 2, edgeLength ) );
-                add( plusSign( 0, 2, edgeLength ) );
-                add( plusSign( 2, 3, edgeLength ) );
-                add( plusSign( 4, 4, edgeLength ) );
-            }} ) );
+    public static class PlusSigns extends Pattern {
+        public static final double edgeLength = 20 / 2;
+
+        public PlusSigns( int numberPlusSigns ) {
+            super( list( plusSign( 1, 0, edgeLength ),
+                         plusSign( 0, 2, edgeLength ),
+                         plusSign( 3, 1, edgeLength ),
+                         plusSign( 2, 3, edgeLength ),
+                         plusSign( 5, 2, edgeLength ),
+                         plusSign( 4, 4, edgeLength )
+            ).take( numberPlusSigns ) );
         }
     }
 }
