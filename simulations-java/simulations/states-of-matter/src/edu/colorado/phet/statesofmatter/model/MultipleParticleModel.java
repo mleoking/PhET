@@ -192,7 +192,7 @@ public class MultipleParticleModel implements Resettable {
         clock.addClockListener( new ClockAdapter() {
 
             public void clockTicked( ClockEvent clockEvent ) {
-                handleClockTicked( clockEvent );
+                step();
             }
 
             public void simulationTimeReset( ClockEvent clockEvent ) {
@@ -870,9 +870,10 @@ public class MultipleParticleModel implements Resettable {
     }
 
     /**
-     * @param clockEvent
+     * Step the model.  There is no time step used, as a fixed internal time
+     * step is assumed.
      */
-    private void handleClockTicked( ClockEvent clockEvent ) {
+    public void step() {
 
         if ( !m_isExploded ) {
             // Adjust the particle container height if needed.

@@ -71,6 +71,13 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
 
         // Sync up the atom positions with the molecule positions.
         m_positionUpdater.updateAtomPositions( moleculeDataSet );
+
+        // Step the model a number of times in order to prevent the particles
+        // from looking too organized.  The number of steps was empirically
+        // determined.
+        for ( int i = 0; i < 100; i++ ){
+            m_model.step();
+        }
     }
 
     /**
