@@ -48,7 +48,7 @@ class BeamNode extends PhetPNode {
         // put a gray outline around the beam, so that lighter colors are still visible
         PPath outlineNode = new PPath() {{
             setStroke( new BasicStroke( 0.25f ) );
-            setStrokePaint( ColorUtils.createColor( Color.LIGHT_GRAY, 200 ) );
+            setStrokePaint( ColorUtils.createColor( Color.LIGHT_GRAY, 210 ) );
             parentNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     setPathTo( parentNode.getFullBoundsReference() );
@@ -62,7 +62,7 @@ class BeamNode extends PhetPNode {
     private static class SegmentNode extends PPath {
 
         public SegmentNode( Property<ImmutableRectangle2D> shape, Property<Paint> paint, final ModelViewTransform mvt ) {
-            setStroke( new BasicStroke( 0.25f ) );
+            setStroke( null );
 
             // Shape
             shape.addObserver( new VoidFunction1<ImmutableRectangle2D>() {
@@ -74,19 +74,9 @@ class BeamNode extends PhetPNode {
             // Paint
             paint.addObserver( new VoidFunction1<Paint>() {
                 public void apply( Paint paint ) {
-                    setBeamPaint( paint );
+                    setPaint( paint );
                 }
             } );
-        }
-
-        public void setBeamPaint( Paint paint ) {
-            setPaint( paint );
-            if ( paint instanceof Color ) {
-                setStrokePaint( ColorUtils.darkerColor( (Color)paint, 0.5 ) ); // use a darker color for Color strokes, preserve alpha
-            }
-            else {
-                setStrokePaint( null );
-            }
         }
     }
 }
