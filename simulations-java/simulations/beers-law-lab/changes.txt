@@ -1,3 +1,5 @@
+3/8/12 try making top of cuvette look open
+3/8/12 double width of cuvette stroke (1.5 to 3)
 # 0.00.19 (62349) Mar 8, 2012
 3/8/12 Beers: first dev version that uses experimental data to map wavelength to molar aborptivity
 3/8/12 remove duplicate stroking of light beam
