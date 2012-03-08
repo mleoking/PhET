@@ -23,13 +23,13 @@ public class Light implements Resettable {
     public Light( ImmutableVector2D location, boolean on, double lensDiameter, final Property<BeersLawSolution> solution ) {
         this.location = location;
         this.on = new Property<Boolean>( on );
-        this.wavelength = new Property<Double>( solution.get().lambdaMax );
+        this.wavelength = new Property<Double>( solution.get().molarAbsorptivityData.getLambdaMax() );
         this.lensDiameter = lensDiameter;
 
         // when the solution changes, set the light to the solution's lambdaMax wavelength
         solution.addObserver( new VoidFunction1<BeersLawSolution>() {
             public void apply( BeersLawSolution solution ) {
-                Light.this.wavelength.set( solution.lambdaMax );
+                Light.this.wavelength.set( solution.molarAbsorptivityData.getLambdaMax() );
             }
         });
     }

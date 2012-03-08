@@ -1,3 +1,4 @@
+3/8/12 hook up experimental data to absorbance model
 3/8/12 clean up concentration value view transform
 3/8/12 add JC's experimental data to lookup tables for mapping wavelength to molar absorptivity
 # 0.00.18 (62340) Mar 8, 2012

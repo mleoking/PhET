@@ -64,7 +64,7 @@ public class BeersLawModel implements Resettable {
                                 new ImmutableVector2D( cuvette.location.getX() + ( cuvette.width.get() / 2 ) - ( rulerWidth / 2.0 ), 4.9 ), // centered under cuvette
                                 new PBounds( 0, 1, 8, 4.5 ) );
 
-        this.absorbance = new Absorbance( solution, cuvette );
+        this.absorbance = new Absorbance( solution, light, cuvette );
 
         //TODO compute drag bounds to match the stage size
         this.detector = new ATDetector( new ImmutableVector2D( 6, 3.70 ), new PBounds( 0, 0, 7.9, 5.25 ),

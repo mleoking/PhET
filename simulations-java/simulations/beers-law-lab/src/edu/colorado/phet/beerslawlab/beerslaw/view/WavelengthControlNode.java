@@ -120,7 +120,7 @@ class WavelengthControlNode extends PNode implements Resettable {
                     // Remove the wavelength control from the scenegraph. This causes the control panel to resize.
                     parentNode.removeChild( wavelengthWrapperNode );
                     // Set the light to the current solution's lambdaMax wavelength.
-                    light.wavelength.set( solution.get().lambdaMax );
+                    light.wavelength.set( solution.get().molarAbsorptivityData.getLambdaMax() );
                 }
             }
         } );

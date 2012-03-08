@@ -19,7 +19,7 @@ public abstract class MolarAbsorptivityData {
     private static final int MAX_WAVELENGTH = (int) VisibleColor.MAX_WAVELENGTH;
 
     private final double[] molarAbsorptivity;
-    private final int lambdaMax; // wavelength with the maximum molar absorptivity
+    private final double lambdaMax; // wavelength with the maximum molar absorptivity
 
     /**
      * Constructor
@@ -32,7 +32,7 @@ public abstract class MolarAbsorptivityData {
         this.lambdaMax = getLambdaMax( molarAbsorptivity );
     }
 
-    public int getLambdaMax() {
+    public double getLambdaMax() {
         return lambdaMax;
     }
 

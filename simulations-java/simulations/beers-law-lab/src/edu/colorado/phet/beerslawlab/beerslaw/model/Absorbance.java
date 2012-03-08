@@ -33,14 +33,14 @@ public class Absorbance {
 
     public final CompositeProperty<Double> value;
 
-    public Absorbance( final Property<BeersLawSolution> solution, final Cuvette cuvette ) {
+    public Absorbance( final Property<BeersLawSolution> solution, final Light light, final Cuvette cuvette ) {
 
         // a: molar absorptivity
         this.molarAbsorptivity = new CompositeProperty<Double>( new Function0<Double>() {
             public Double apply() {
-                return solution.get().molarAbsorptionMax;
+                return solution.get().molarAbsorptivityData.wavelengthToMolarAbsorptivity( light.wavelength.get() );
             }
-        }, solution );
+        }, solution, light.wavelength );
 
         // b: path length, synonymous with cuvette width
         this.pathLength = new CompositeProperty<Double>( new Function0<Double>() {
