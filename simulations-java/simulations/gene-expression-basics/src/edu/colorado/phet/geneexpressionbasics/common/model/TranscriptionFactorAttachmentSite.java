@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
+package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 
