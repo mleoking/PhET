@@ -51,9 +51,9 @@ class WavelengthControlNode extends PNode implements Resettable {
         JLabel wavelengthLabel = new JLabel( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.WAVELENGTH ) );
         wavelengthLabel.setFont( FONT );
 
-        PropertyRadioButton<Boolean> lambdaMaxRadioButton =
-                new PropertyRadioButton<Boolean>( UserComponents.lambdaMaxRadioButton, Strings.LAMBDA_MAX, variableWavelength, false );
-        lambdaMaxRadioButton.setFont( FONT );
+        PropertyRadioButton<Boolean> fixedRadioButton =
+                new PropertyRadioButton<Boolean>( UserComponents.lambdaMaxRadioButton, Strings.FIXED, variableWavelength, false );
+        fixedRadioButton.setFont( FONT );
 
         PropertyRadioButton<Boolean> variableRadioButton =
                 new PropertyRadioButton<Boolean>( UserComponents.variableRadioButton, Strings.VARIABLE, variableWavelength, true );
@@ -68,7 +68,7 @@ class WavelengthControlNode extends PNode implements Resettable {
         panel.setAnchor( Anchor.WEST );
         panel.setFill( Fill.HORIZONTAL );
         panel.add( wavelengthLabel, 0, 0, 2, 1 );
-        panel.add( lambdaMaxRadioButton, 1, 0 );
+        panel.add( fixedRadioButton, 1, 0 );
         panel.add( variableRadioButton, 1, 1 );
         PSwing panelNode = new PSwing( panel );
 
