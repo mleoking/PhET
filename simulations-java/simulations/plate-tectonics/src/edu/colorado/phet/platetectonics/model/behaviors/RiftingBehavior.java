@@ -25,6 +25,7 @@ public class RiftingBehavior extends PlateBehavior {
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
+        plate.getLithosphere().moveToFront();
         plate.getCrust().moveToFront();
     }
 
@@ -87,8 +88,8 @@ public class RiftingBehavior extends PlateBehavior {
         /*---------------------------------------------------------------------------*
         * add fresh crust
         *----------------------------------------------------------------------------*/
+        final Side zeroSide = plate.getSide().opposite();
         while ( getSampleFromCenter( plate.getCrust().getTopBoundary(), 0 ).getPosition().x * plate.getSide().getSign() > 0.0001 ) {
-            final Side zeroSide = plate.getSide().opposite();
             plate.addSection( zeroSide, PlateType.YOUNG_OCEANIC );
             { // update the new section positions
                 // re-layout that section
@@ -127,8 +128,129 @@ public class RiftingBehavior extends PlateBehavior {
         /*---------------------------------------------------------------------------*
         * handle oceanic crust changes
         *----------------------------------------------------------------------------*/
+        {
+            float topY = RIDGE_TOP_Y;
+            float bottomY = PlateType.OLD_OCEANIC.getCrustTopY();
 
+            for ( int columnIndex = 0; columnIndex < plate.getCrust().getTopBoundary().samples.size(); columnIndex++ ) {
+                Sample topSample = plate.getCrust().getTopBoundary().samples.get( columnIndex );
+                if ( topSample.getDensity() == PlateType.CONTINENTAL.getDensity() ) {
+                    /*---------------------------------------------------------------------------*
+                    * continental modifications
+                    *----------------------------------------------------------------------------*/
 
+                    // blending crust sizes here (and preferably lithosphere too?)
+                    float fakeNeighborhoodY = topSample.getPosition().y;
+                    int count = 1;
+                    if ( columnIndex > 0 ) {
+                        fakeNeighborhoodY += plate.getCrust().getTopBoundary().samples.get( columnIndex - 1 ).getPosition().y;
+                        count += 1;
+                    }
+                    if ( columnIndex < plate.getCrust().getTopBoundary().samples.size() - 1 ) {
+                        fakeNeighborhoodY += plate.getCrust().getTopBoundary().samples.get( columnIndex + 1 ).getPosition().y;
+                        count += 1;
+                    }
+                    fakeNeighborhoodY /= count;
+
+                    float currentCrustTop = plate.getCrust().getTopElevation( columnIndex );
+                    float currentCrustBottom = plate.getCrust().getBottomElevation( columnIndex );
+                    float currentLithosphereBottom = plate.getLithosphere().getBottomElevation( columnIndex );
+                    float currentCrustWidth = currentCrustTop - currentCrustBottom;
+
+                    // try subtracting off top and bottom, and see how much all of this would change
+                    float resizeFactor = ( currentCrustWidth - 2 * ( currentCrustTop - fakeNeighborhoodY ) ) / currentCrustWidth;
+
+                    // don't ever grow the crust height
+                    if ( resizeFactor > 1 ) {
+                        resizeFactor = 1;
+                    }
+                    resizeFactor = (float) Math.pow( resizeFactor, 2 * millionsOfYears );
+                    float center = ( currentCrustTop + currentCrustBottom ) / 2;
+
+                    final float newCrustTop = ( currentCrustTop - center ) * resizeFactor + center;
+
+                    // x^2 the resizing factor for the bottoms so they shrink faster
+                    final float newCrustBottom = ( currentCrustBottom - center ) * resizeFactor * resizeFactor + center;
+                    final float newLithosphereBottom = ( currentLithosphereBottom - center ) * resizeFactor * resizeFactor + center;
+                    plate.getCrust().layoutColumn( columnIndex,
+                                                   newCrustTop,
+                                                   newCrustBottom,
+                                                   plate.getTextureStrategy(), true );
+                    plate.getLithosphere().layoutColumn( columnIndex,
+                                                         newCrustBottom,
+                                                         newLithosphereBottom,
+                                                         plate.getTextureStrategy(), true );
+                    plate.getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
+                    // TODO: change the lithosphere!
+                }
+                else {
+                    /*---------------------------------------------------------------------------*
+                    * oceanic modifications
+                    *----------------------------------------------------------------------------*/
+
+                    // sink the crust, advancing us along an arctangent-sloped curve
+                    if ( topSample.getPosition().x != 0 ) {
+                        {
+                            /*---------------------------------------------------------------------------*
+                            * sink the plate as it moves out
+                            *----------------------------------------------------------------------------*/
+
+                            final float magicConstant1 = 4;
+
+                            float currentTopY = plate.getCrust().getTopElevation( columnIndex );
+                            float currentRatio = ( currentTopY - topY ) / ( bottomY - topY );
+
+                            // invert arctanget, offset, then apply normally
+                            float currentT = (float) Math.tan( currentRatio * ( Math.PI / 2 ) );
+                            float newT = currentT + millionsOfYears * magicConstant1;
+                            float newRatio = (float) ( Math.atan( newT ) / ( Math.PI / 2 ) );
+
+                            // some necessary assertions for any future debugging
+                            assert currentRatio >= 0;
+                            assert currentRatio <= 1;
+                            assert currentT >= 0;
+                            assert newRatio >= 0;
+                            assert newRatio <= 1;
+
+                            float newTopY = ( 1 - newRatio ) * topY + ( newRatio ) * bottomY;
+                            float offsetY = newTopY - currentTopY;
+                            for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
+                                for ( Boundary boundary : region.getBoundaries() ) {
+                                    final Sample sample = boundary.samples.get( columnIndex );
+                                    sample.setPosition( sample.getPosition().plus( ImmutableVector3F.Y_UNIT.times( offsetY ) ) );
+                                }
+                            }
+                            plate.getTerrain().shiftColumnElevation( columnIndex, offsetY );
+                        }
+
+                        {
+                            /*---------------------------------------------------------------------------*
+                            * accrue more lithosphere here
+                            *----------------------------------------------------------------------------*/
+                            float currentMantleTop = plate.getLithosphere().getTopElevation( columnIndex );
+                            float currentLithosphereBottom = plate.getLithosphere().getBottomElevation( columnIndex );
+
+                            float magicConstant2 = 1;
+
+                            // 0 = thinnest, 1 = thickest
+                            final float maxThickness = PlateType.YOUNG_OCEANIC.getMantleLithosphereThickness();
+                            float currentRatio = ( currentMantleTop - currentLithosphereBottom ) / maxThickness;
+
+                            // invert arctanget, offset, then apply normally
+                            float currentT = (float) Math.tan( currentRatio * ( Math.PI / 2 ) );
+                            float newT = currentT + millionsOfYears * magicConstant2;
+                            float newRatio = (float) ( Math.atan( newT ) / ( Math.PI / 2 ) );
+
+                            float newLithosphereBottom = currentMantleTop - maxThickness * newRatio;
+                            plate.getLithosphere().layoutColumn( columnIndex,
+                                                                 currentMantleTop,
+                                                                 newLithosphereBottom,
+                                                                 plate.getTextureStrategy(), true );
+                        }
+                    }
+                }
+            }
+        }
 
         riftPostProcess();
     }
