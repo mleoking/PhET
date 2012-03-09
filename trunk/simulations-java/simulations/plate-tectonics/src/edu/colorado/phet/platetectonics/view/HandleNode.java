@@ -21,7 +21,7 @@ import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
-import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
+import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 

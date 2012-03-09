@@ -23,67 +23,6 @@ public class PlateMotionModel extends PlateModel {
     private PlateMotionPlate rightPlate;
     private final TectonicsClock clock;
 
-    public static enum PlateType {
-        CONTINENTAL( true, false, 2750,
-                     5000, -40000, 70000 ),
-        YOUNG_OCEANIC( false, true, 3000,
-                       -3000, -10000, 30000 ),
-        OLD_OCEANIC( false, true, 3070,
-                     -3000, -10000, 40000 ); // old oceanic lithosphere is thicker
-        private final boolean continental;
-        private final boolean oceanic;
-        private final float density;
-        private final float crustTopY;
-        private final float crustBottomY;
-        private final float mantleLithosphereThickness;
-
-        PlateType( boolean isContinental, boolean isOceanic, float density,
-                   float crustTopY, float crustBottomY, float mantleLithosphereThickness ) {
-            continental = isContinental;
-            oceanic = isOceanic;
-            this.density = density;
-            this.crustTopY = crustTopY;
-            this.crustBottomY = crustBottomY;
-            this.mantleLithosphereThickness = mantleLithosphereThickness;
-        }
-
-        public boolean isContinental() {
-            return continental;
-        }
-
-        public boolean isOceanic() {
-            return oceanic;
-        }
-
-        public float getDensity() {
-            return density;
-        }
-
-        public float getCrustTopY() {
-            return crustTopY;
-        }
-
-        public float getCrustBottomY() {
-            return crustBottomY;
-        }
-
-        public float getMantleLithosphereThickness() {
-            return mantleLithosphereThickness;
-        }
-
-        public float getLithosphereBottomY() {
-            return getCrustBottomY() - getMantleLithosphereThickness();
-        }
-
-        public float getCrustThickness() {
-            return getCrustTopY() - getCrustBottomY();
-        }
-
-        public float getLithosphereThickness() {
-            return getCrustTopY() - getLithosphereBottomY();
-        }
-    }
-
     public static enum MotionType {
         CONVERGENT,
         DIVERGENT,
@@ -102,7 +41,7 @@ public class PlateMotionModel extends PlateModel {
     public static final float SIMPLE_CRUST_TOP_TEMP = ZERO_CELSIUS;
     public static final float SIMPLE_CRUST_BOTTOM_TEMP = ZERO_CELSIUS + 450;
 
-    public static final float SIMPLE_MAGMA_TEMP = ZERO_CELSIUS + 1000; // TODO: should this be warmer the farther down we are?
+    public static final float SIMPLE_MAGMA_TEMP = ZERO_CELSIUS + 1300; // TODO: should this be warmer the farther down we are?
     public static final float SIMPLE_MAGMA_DENSITY = 2000f;
 
     public static final int MANTLE_VERTICAL_STRIPS = 6;

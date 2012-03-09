@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
-import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
+import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.umd.cs.piccolo.PNode;
 
 /**
