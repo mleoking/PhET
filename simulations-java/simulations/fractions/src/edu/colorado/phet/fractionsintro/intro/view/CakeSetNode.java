@@ -47,7 +47,7 @@ public class CakeSetNode extends PieSetNode {
     public CakeSetNode( SettableProperty<PieSet> cakeSet, PNode rootNode ) {
         super( cakeSet, rootNode, createSliceNode, CreateEmptyCellsNode, new F<PieSet, PNode>() {
             @Override public PNode f( final PieSet pieSet ) {
-                return PieSetNode.createIcon( pieSet, createSliceNode );
+                return PieSetNode.createBucketIcon( pieSet, createSliceNode );
             }
         }
         );

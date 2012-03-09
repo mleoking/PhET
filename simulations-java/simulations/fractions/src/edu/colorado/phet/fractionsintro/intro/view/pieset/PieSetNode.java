@@ -44,31 +44,9 @@ public class PieSetNode extends FNode {
     public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
         this( model, rootNode, NodeToShape, CreateEmptyCellsNode, new F<PieSet, PNode>() {
             @Override public PNode f( final PieSet pieSet ) {
-                return createIcon( pieSet, NodeToShape );
+                return createBucketIcon( pieSet, NodeToShape );
             }
         } );
-    }
-
-    public static PNode createIcon( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode ) {
-        return new PNode() {{
-            final int denominator = state.denominator;
-            for ( int i = 0; i < denominator; i++ ) {
-                Slice cell = state.sliceFactory.createPieCell( state.pies.length(), 0, i, denominator );
-                addChild( new PhetPPath( cell.getShape(), Color.white, new BasicStroke( 3 ), Color.black ) );
-            }
-
-            Slice slice = state.sliceFactory.createPieCell( state.pies.length(), 0, 0, denominator );
-
-            //Create the slice.  Wrap the state in a dummy Property to facilitate reuse of MovableSliceNode code.
-            //Could be improved by generalizing MovableSliceNode to not require
-            final PNode node = createSliceNode.f( new SliceNodeArgs( slice, state.denominator, false ) );
-            node.setPickable( false );
-            node.setChildPaintInvalid( false );
-            addChild( node );
-
-            //Make as large as possible, but small enough that tall representations (like vertical bars) fit
-            scale( 0.28 );
-        }};
     }
 
     //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
@@ -127,4 +105,27 @@ public class PieSetNode extends FNode {
             return node;
         }
     };
+
+    //Create the icon for the bucket
+    public static PNode createBucketIcon( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode ) {
+        return new PNode() {{
+            final int denominator = state.denominator;
+            for ( int i = 0; i < denominator; i++ ) {
+                Slice cell = state.sliceFactory.createPieCell( state.pies.length(), 0, i, denominator );
+                addChild( new PhetPPath( cell.getShape(), Color.white, new BasicStroke( 3 ), Color.black ) );
+            }
+
+            Slice slice = state.sliceFactory.createPieCell( state.pies.length(), 0, 0, denominator );
+
+            //Create the slice.  Wrap the state in a dummy Property to facilitate reuse of MovableSliceNode code.
+            //Could be improved by generalizing MovableSliceNode to not require
+            final PNode node = createSliceNode.f( new SliceNodeArgs( slice, state.denominator, false ) );
+            node.setPickable( false );
+            node.setChildPaintInvalid( false );
+            addChild( node );
+
+            //Make as large as possible, but small enough that tall representations (like vertical bars) fit
+            scale( 0.28 );
+        }};
+    }
 }
