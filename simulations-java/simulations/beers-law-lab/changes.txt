@@ -1,3 +1,5 @@
+# 1.00.00 (62368) Mar 9, 2012
+3/9/12 Concentration 1.00 release
 3/8/12 fill more of the cuvette with solution (92% vs 85%)
 3/8/12 Beers: change KMnO4 color chip to match first tab, RGB=[80,0,120]
 3/8/12 try making top of cuvette look open
