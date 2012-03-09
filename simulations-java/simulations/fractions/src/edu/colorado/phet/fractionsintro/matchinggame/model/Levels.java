@@ -21,6 +21,7 @@ import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
@@ -163,10 +164,46 @@ public class Levels {
                                                        }
     );
 
+    //TODO: Could factor out other patterns using this style
+    final RepresentationType onePyramid = createPyramids( "one pyramid", 1, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return Pyramid.single( length );
+        }
+    } );
+    final RepresentationType fourPyramid = createPyramids( "four pyramid", 4, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return Pyramid.four( length );
+        }
+    } );
+    final RepresentationType ninePyramid = createPyramids( "nine pyramid", 9, 30, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return Pyramid.nine( length );
+        }
+    } );
+
+    private RepresentationType createPyramids( String name, final int count, final int length, final F<Integer, Pattern> pyramid ) {
+        return twoComposites( name, new F<Fraction, Boolean>() {
+                                  @Override public Boolean f( final Fraction fraction ) {
+                                      return fraction.denominator == count;
+                                  }
+                              },
+                              new F<Fraction, PNode>() {
+                                  @Override public PNode f( Fraction f ) {
+                                      return new PatternNode( pyramid.f( length ), f.numerator, LIGHT_GREEN );
+                                  }
+                              },
+                              new F<Fraction, PNode>() {
+                                  @Override public PNode f( Fraction f ) {
+                                      return new PatternNode( pyramid.f( length ), f.numerator, LIGHT_BLUE );
+                                  }
+                              }
+        );
+    }
+
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> allRepresentations = iterableList( Arrays.asList( numeric, horizontalBars, verticalBars, pies, twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid ) );
+    final List<RepresentationType> allRepresentations = iterableList( Arrays.asList( numeric, horizontalBars, verticalBars, pies, twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid, onePyramid, fourPyramid, ninePyramid ) );
 
     //Convenience Wrapper to create PieNodes
     private PNode myPieNode( final Fraction f, final Color color ) {
