@@ -111,7 +111,7 @@ public abstract class PlateBehavior {
         }
     }
 
-    public void rewind() {
+    public void dispose() {
 
     }
 }
