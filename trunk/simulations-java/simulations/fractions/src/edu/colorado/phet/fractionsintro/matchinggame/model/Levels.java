@@ -389,6 +389,7 @@ public class Levels {
             return createLevel( getRepresentationPool( 2 ), cells, new Fraction[] {
                     new Fraction( 1, 2 ),
                     new Fraction( 2, 4 ),
+                    new Fraction( 3, 4 ),
                     new Fraction( 1, 3 ),
                     new Fraction( 2, 3 ),
                     new Fraction( 3, 6 ),
@@ -411,6 +412,9 @@ public class Levels {
                     new Fraction( 4, 2 ),
                     new Fraction( 7, 6 ),
                     new Fraction( 4, 5 ),
+                    new Fraction( 7, 4 ),
+                    new Fraction( 5, 4 ),
+                    new Fraction( 6, 4 ),
                     new Fraction( 3, 4 ) } );
         }
     };
@@ -427,6 +431,10 @@ public class Levels {
                     new Fraction( 6, 3 ),
                     new Fraction( 9, 8 ),
                     new Fraction( 8, 9 ),
+                    new Fraction( 6, 9 ),
+                    new Fraction( 4, 9 ),
+                    new Fraction( 3, 9 ),
+                    new Fraction( 2, 9 ),
                     new Fraction( 12, 13 ),
                     new Fraction( 9, 7 ) } );
         }
