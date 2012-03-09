@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -40,7 +39,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScale;
 import static edu.colorado.phet.fractions.FractionsResources.Images.LOCKED;
@@ -210,15 +208,5 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 new WaterGlassIcon( representation, color ) {{scale( 0.8 );}},
                 new NumberLineIcon( representation ),
         };
-    }
-
-    static class PaddedNode extends PNode {
-        public PaddedNode( PNode node ) {
-            addChild( node );
-        }
-
-        @Override public PBounds computeFullBounds( PBounds dstBounds ) {
-            return new PBounds( RectangleUtils.expand( super.computeFullBounds( dstBounds ), 3, 3 ) );
-        }
     }
 }
