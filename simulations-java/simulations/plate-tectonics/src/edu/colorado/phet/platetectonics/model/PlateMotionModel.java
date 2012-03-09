@@ -143,6 +143,7 @@ public class PlateMotionModel extends PlateModel {
                 }
                 break;
             case DIVERGENT:
+                clock.setTimeLimit( 35 );
                 leftPlate.setBehavior( new RiftingBehavior( leftPlate, rightPlate ) );
                 rightPlate.setBehavior( new RiftingBehavior( rightPlate, leftPlate ) );
                 break;
