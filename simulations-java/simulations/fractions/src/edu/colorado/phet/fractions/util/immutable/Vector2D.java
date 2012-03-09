@@ -9,6 +9,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
 /**
  * Immutable vector 2D.  Provides a convenient and consistent way of accessing x & y, for use in the immutable models in this sim.
  * Uses Lombok to generate equals/hash code for use in other immutable objects.
@@ -24,6 +27,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
         this.x = x;
         this.y = y;
     }
+
+    public Vector2D( Vector2D v ) {this( v.x, v.y );}
 
     public Vector2D( Point2D p ) { this( p.getX(), p.getY() ); }
 
@@ -58,4 +63,26 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
     public Line2D.Double lineTo( final Vector2D end ) { return lineTo( end.x, end.y ); }
 
     public Point2D toPoint2D() { return new Point2D.Double( x, y ); }
+
+    public UnitVector2D normalize() { return new UnitVector2D( this ); }
+
+    public Vector2D rotate( final double angle ) { return polar( getMagnitude(), getAngle() + angle ); }
+
+    //Returns the angle of the vector. The angle will be between -pi and pi.
+    public double getAngle() { return Math.atan2( y, x ); }
+
+    public static Vector2D polar( double radius, double angle ) { return new Vector2D( cos( angle ) * radius, sin( angle ) * radius ); }
+
+    //A unit vector
+    public static final class UnitVector2D extends Vector2D {
+
+        //Private so we can guaranteed that it is only constructed as a unit vector
+        public UnitVector2D( Vector2D vector2D ) {
+            super( vector2D.getInstanceOfMagnitude( 1.0 ) );
+        }
+
+        public UnitVector2D( final double x, final double y ) {
+            this( new Vector2D( x, y ) );
+        }
+    }
 }
