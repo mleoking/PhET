@@ -12,7 +12,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.FollowAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 
 /**
@@ -73,7 +72,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                     // Eliminate sites that, if moved to, would put the
                     // biomolecule out of bounds.
                     for ( AttachmentSite site : new ArrayList<AttachmentSite>( attachmentSites ) ) {
-                        if ( !biomolecule.motionBoundsProperty.get().testAgainstMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
+                        if ( !biomolecule.motionBoundsProperty.get().testIfInMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
                             attachmentSites.remove( site );
                         }
                     }
