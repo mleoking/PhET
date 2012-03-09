@@ -7,11 +7,12 @@ import java.util.Set;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
-import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
+import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
+import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
@@ -29,6 +30,14 @@ public class RiftingBehavior extends PlateBehavior {
 
         plate.getLithosphere().moveToFront();
         plate.getCrust().moveToFront();
+
+        MagmaRegion magmaChamber = new MagmaRegion( plate.getTextureStrategy(), PlateType.YOUNG_OCEANIC.getCrustThickness() / 3f, (float) ( Math.PI / 2 ), 16 ) {{
+            for ( Sample sample : getSamples() ) {
+                sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, RIDGE_TOP_Y, 0 ) ) );
+            }
+        }};
+        plate.regions.add( magmaChamber );
+        magmaChamber.moveToFront();
     }
 
     @Override public void stepInTime( float millionsOfYears ) {

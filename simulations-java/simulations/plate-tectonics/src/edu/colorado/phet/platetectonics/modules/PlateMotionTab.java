@@ -33,7 +33,7 @@ import edu.colorado.phet.platetectonics.control.ResetPanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
 import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
-import edu.colorado.phet.platetectonics.model.PlateMotionModel.PlateType;
+import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
