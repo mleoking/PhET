@@ -144,6 +144,19 @@ public abstract class Gene {
 
 
     /**
+     * Get the attachment site where RNA polymerase would start transcribing
+     * the DNA.  This is assumes that there is only one such site on the
+     * gene.
+     *
+     * @return
+     */
+    public AttachmentSite getPolymeraseAttachmentSite() {
+        return polymeraseAttachmentSite;
+    }
+
+    ;
+
+    /**
      * Method used by descendant classes to add locations where transcription
      * factors go on the gene.  Generally this is only used during
      * construction.
@@ -249,16 +262,16 @@ public abstract class Gene {
     /**
      * Get the attachment site that is specific to the given transcription
      * factor configuration, if one exists.
-     *
+     * <p/>
      * NOTE: This assumes a max of one site per TF config.  This will need to
      * change if multiple identical configs are supported on a single gene.
      *
      * @param transcriptionFactorConfig
      * @return attachment site for the config if present on the gene, null if not.
      */
-    public AttachmentSite getMatchingSite( TranscriptionFactorConfig transcriptionFactorConfig ){
+    public AttachmentSite getMatchingSite( TranscriptionFactorConfig transcriptionFactorConfig ) {
         for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
-            if ( transcriptionFactorAttachmentSite.configurationMatches( transcriptionFactorConfig )){
+            if ( transcriptionFactorAttachmentSite.configurationMatches( transcriptionFactorConfig ) ) {
                 return transcriptionFactorAttachmentSite;
             }
         }
@@ -268,14 +281,14 @@ public abstract class Gene {
     /**
      * Get a property that can be used to vary the affinity of the attachment
      * site associated with the specified transcription factor.
-     * 
+     *
      * @param tfConfig
      * @return
      */
-    public Property<Double> getTranscriptionFactorAffinityProperty( TranscriptionFactorConfig tfConfig ){
+    public Property<Double> getTranscriptionFactorAffinityProperty( TranscriptionFactorConfig tfConfig ) {
         Property<Double> affinityProperty = null;
         for ( TranscriptionFactorAttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
-            if ( transcriptionFactorAttachmentSite.configurationMatches( tfConfig )){
+            if ( transcriptionFactorAttachmentSite.configurationMatches( tfConfig ) ) {
                 affinityProperty = transcriptionFactorAttachmentSite.affinityProperty;
                 // Built-in assumption here: Only one site for given TF config.
                 break;
@@ -290,7 +303,7 @@ public abstract class Gene {
      *
      * @return
      */
-    public Property<Double> getPolymeraseAffinityProperty(){
+    public Property<Double> getPolymeraseAffinityProperty() {
         return polymeraseAttachmentSite.affinityProperty;
     }
 
