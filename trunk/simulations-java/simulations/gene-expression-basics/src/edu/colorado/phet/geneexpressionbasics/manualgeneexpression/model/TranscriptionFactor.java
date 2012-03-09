@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +74,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
 
     /**
      * Constructor for a TF that doesn't need to interact with a real model.
-     * 
+     *
      * @param config
      */
     public TranscriptionFactor( TranscriptionFactorConfig config ) {
@@ -94,7 +93,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
 
     /**
      * Primary constructor.
-     * 
+     *
      * @param model
      * @param config
      * @param initialPosition
@@ -139,7 +138,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
         // clear the you can't have two transcription factors in the same
         // place on the DNA.
         for ( MobileBiomolecule biomolecule : model.getOverlappingBiomolecules( this.getShape() ) ) {
-            if ( biomolecule.attachedToDna.get() ) {
+            if ( biomolecule != this && biomolecule.attachedToDna.get() ) {
                 attachmentStateMachine.forceImmediateUnattachedButUnavailable();
                 break;
             }
@@ -166,8 +165,8 @@ public class TranscriptionFactor extends MobileBiomolecule {
             }
         }
         // Make it clear that there is a problem if no configuration is found.
-        if ( config == null ){
-            System.out.println("No config found temp debug.");
+        if ( config == null ) {
+            System.out.println( "No config found temp debug." );
         }
         assert config != null;
         if ( config == null ) {
