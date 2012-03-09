@@ -49,7 +49,7 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 
         // Make sure that current motion will not cause the model element to
         // move outside of the motion bounds.
-        if ( !motionBounds.testMotionAgainstBounds( shape, currentMotionVector, dt ) ) {
+        if ( !motionBounds.testIfInMotionBounds( shape, currentMotionVector, dt ) ) {
             // The current motion vector would take this element out of bounds,
             // so it needs to "bounce".
             currentMotionVector = getMotionVectorForBounce( shape, currentMotionVector, dt, MAX_VELOCITY );

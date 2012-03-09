@@ -57,7 +57,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 15;
 
     // Number of RNA polymerase molecules present.
-    public static final int RNA_POLYMERASE_COUNT = 5;
+    public static final int RNA_POLYMERASE_COUNT = 1;
 
     // etc.
     private static final Random RAND = new Random();
@@ -129,7 +129,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         dnaMolecule.addGene( gene );
 
         // Set up a node that depicts motion bounds.  This is for debug.
-        moleculeMotionBounds = getMotionBounds(new RnaPolymerase( this, new Point2D.Double( 0, 0 ) ) ).getBounds();
+        moleculeMotionBounds = getMotionBounds( new RnaPolymerase( this, new Point2D.Double( 0, 0 ) ) ).getBounds();
 
         // Reset this model in order to set initial state.
         reset();
@@ -219,7 +219,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         messengerRnaList.add( messengerRna );
         messengerRna.beingSynthesized.addObserver( new edu.colorado.phet.common.phetcommon.model.property.ChangeObserver<Boolean>() {
             public void update( Boolean isBeingSynthesized, Boolean wasBeingSynthesized ) {
-                if ( !isBeingSynthesized && wasBeingSynthesized ){
+                if ( !isBeingSynthesized && wasBeingSynthesized ) {
                     // Remove this mRNA from the model, since in this case, we
                     // don't do anything with it once it has been created.
                     messengerRnaList.remove( messengerRna );
@@ -287,8 +287,8 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         double yMin = moleculeMotionBounds.getBounds2D().getMinY() + biomolecule.getShape().getBounds2D().getHeight() / 2;
         double xMax = moleculeMotionBounds.getBounds2D().getMaxX() - biomolecule.getShape().getBounds2D().getWidth() / 2;
         double yMax = moleculeMotionBounds.getBounds2D().getMaxY() - biomolecule.getShape().getBounds2D().getHeight() / 2;
-        double xPos = xMin + RAND.nextDouble() * (xMax - xMin );
-        double yPos = yMin + RAND.nextDouble() * (yMax - yMin );
+        double xPos = xMin + RAND.nextDouble() * ( xMax - xMin );
+        double yPos = yMin + RAND.nextDouble() * ( yMax - yMin );
         return new Point2D.Double( xPos, yPos );
     }
 

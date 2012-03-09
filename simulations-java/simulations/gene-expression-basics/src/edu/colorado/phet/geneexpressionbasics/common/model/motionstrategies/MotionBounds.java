@@ -63,7 +63,7 @@ public class MotionBounds {
      * @param dt           - delta time, i.e. amount of time, in seconds.
      * @return
      */
-    public boolean testMotionAgainstBounds( Shape shape, ImmutableVector2D motionVector, double dt ) {
+    public boolean testIfInMotionBounds( Shape shape, ImmutableVector2D motionVector, double dt ) {
         AffineTransform motionTransform = AffineTransform.getTranslateInstance( motionVector.getX() * dt, motionVector.getY() * dt );
         return inBounds( motionTransform.createTransformedShape( shape ) );
     }
@@ -72,11 +72,11 @@ public class MotionBounds {
      * Test whether the given shape will be within the motion bounds if it is
      * translated such that its center is at the given point.
      *
-     * @param shape - Test shape.
+     * @param shape            - Test shape.
      * @param proposedLocation - Proposed location of the shape's center.
      * @return - True is in bounds, false if not.
      */
-    public boolean testAgainstMotionBounds( Shape shape, Point2D proposedLocation ){
+    public boolean testIfInMotionBounds( Shape shape, Point2D proposedLocation ) {
         ImmutableVector2D shapeCenter = new ImmutableVector2D( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
         ImmutableVector2D translationVector = new ImmutableVector2D( proposedLocation ).getSubtractedInstance( shapeCenter );
         Shape translatedBounds = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( shape );

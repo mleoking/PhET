@@ -61,7 +61,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
         // Make sure that current motion will not cause the model element to
         // move outside of the motion bounds.
-        if ( !motionBounds.testMotionAgainstBounds( shape, velocityVector, dt ) ) {
+        if ( !motionBounds.testIfInMotionBounds( shape, velocityVector, dt ) ) {
             // The current motion vector would take this element out of bounds,
             // so it needs to "bounce".
             velocityVector.setValue( getMotionVectorForBounce( shape, velocityVector, dt, scalarVelocity ) );

@@ -120,7 +120,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                     // Eliminate sites that, if moved to, would put the
                     // biomolecule out of bounds.
                     for ( AttachmentSite site : new ArrayList<AttachmentSite>( attachmentSites ) ) {
-                        if ( !biomolecule.motionBoundsProperty.get().testAgainstMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
+                        if ( !biomolecule.motionBoundsProperty.get().testIfInMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
                             attachmentSites.remove( site );
                         }
                     }
