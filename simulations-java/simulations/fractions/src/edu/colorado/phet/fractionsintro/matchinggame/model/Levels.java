@@ -112,79 +112,45 @@ public class Levels {
     final RepresentationType sixPlusses = makePlusses( 6 );
 
     private RepresentationType makePlusses( final int numPlusses ) {
-        return twoComposites( "six plusses", new F<Fraction, Boolean>() {
-                                  @Override public Boolean f( final Fraction fraction ) {
-                                      return fraction.denominator == numPlusses;
-                                  }
-                              },
-                              new F<Fraction, PNode>() {
-                                  @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( new PlusSigns( numPlusses ), f.numerator, LIGHT_GREEN );
-                                  }
-                              },
-                              new F<Fraction, PNode>() {
-                                  @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( new PlusSigns( numPlusses ), f.numerator, LIGHT_BLUE );
-                                  }
-                              }
-        );
+        return createPatterns( numPlusses + " plusses", numPlusses, 10, new F<Integer, Pattern>() {
+            @Override public Pattern f( final Integer integer ) {
+                return new PlusSigns( numPlusses );
+            }
+        } );
     }
 
-    final RepresentationType fourGrid = twoComposites( "nine grid", new F<Fraction, Boolean>() {
-                                                           @Override public Boolean f( final Fraction fraction ) {
-                                                               return fraction.denominator == 4;
-                                                           }
-                                                       },
-                                                       new F<Fraction, PNode>() {
-                                                           @Override public PNode f( Fraction f ) {
-                                                               return new PatternNode( new Grid( 2 ), f.numerator, LIGHT_GREEN );
-                                                           }
-                                                       },
-                                                       new F<Fraction, PNode>() {
-                                                           @Override public PNode f( Fraction f ) {
-                                                               return new PatternNode( new Grid( 2 ), f.numerator, LIGHT_BLUE );
-                                                           }
-                                                       }
-    );
-
-    final RepresentationType nineGrid = twoComposites( "nine grid", new F<Fraction, Boolean>() {
-                                                           @Override public Boolean f( final Fraction fraction ) {
-                                                               return fraction.denominator == 9;
-                                                           }
-                                                       },
-                                                       new F<Fraction, PNode>() {
-                                                           @Override public PNode f( Fraction f ) {
-                                                               return new PatternNode( new Grid( 3 ), f.numerator, LIGHT_GREEN );
-                                                           }
-                                                       },
-                                                       new F<Fraction, PNode>() {
-                                                           @Override public PNode f( Fraction f ) {
-                                                               return new PatternNode( new Grid( 3 ), f.numerator, LIGHT_BLUE );
-                                                           }
-                                                       }
-    );
+    final RepresentationType fourGrid = createPatterns( "four grid", 1, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return new Grid( 2 );
+        }
+    } );
+    final RepresentationType nineGrid = createPatterns( "nine grid", 4, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return new Grid( 3 );
+        }
+    } );
 
     //TODO: Could factor out other patterns using this style
-    final RepresentationType onePyramid = createPyramids( "one pyramid", 1, 100, new F<Integer, Pattern>() {
+    final RepresentationType onePyramid = createPatterns( "one pyramid", 1, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.single( length );
         }
     } );
-    final RepresentationType fourPyramid = createPyramids( "four pyramid", 4, 50, new F<Integer, Pattern>() {
+    final RepresentationType fourPyramid = createPatterns( "four pyramid", 4, 50, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.four( length );
         }
     } );
-    final RepresentationType ninePyramid = createPyramids( "nine pyramid", 9, 30, new F<Integer, Pattern>() {
+    final RepresentationType ninePyramid = createPatterns( "nine pyramid", 9, 30, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.nine( length );
         }
     } );
 
-    private RepresentationType createPyramids( String name, final int count, final int length, final F<Integer, Pattern> pyramid ) {
+    private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pyramid ) {
         return twoComposites( name, new F<Fraction, Boolean>() {
                                   @Override public Boolean f( final Fraction fraction ) {
-                                      return fraction.denominator == count;
+                                      return fraction.denominator == max;
                                   }
                               },
                               new F<Fraction, PNode>() {
