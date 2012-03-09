@@ -31,11 +31,6 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // Half-life of attachment to a site with affinity of 0.5.
     private static final double HALF_LIFE_FOR_HALF_AFFINITY = 1.5; // In seconds.
 
-    // Time of attachment needed before transcription can start.  This is set
-    // up so that at an affinity value of 0.5 there is a 50% chance of
-    // transcription, 0% at 0 affinity, 100% at affinity = 1.
-    private static final double TRANSCRIPTION_INITIATION_TIME = calculateHalfLifeFromAffinity( 0.5 );
-
     private static final Random RAND = new Random();
 
     private AttachmentState attachedAndWanderingState = new AttachedToBasePair();
