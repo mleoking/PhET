@@ -110,4 +110,8 @@ public abstract class PlateBehavior {
             }
         }
     }
+
+    public void rewind() {
+
+    }
 }

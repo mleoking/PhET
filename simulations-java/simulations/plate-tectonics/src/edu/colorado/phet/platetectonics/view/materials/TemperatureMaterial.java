@@ -43,9 +43,9 @@ public class TemperatureMaterial implements EarthMaterial {
 //        return new ImmutableVector2F( v, 0.5f );
     }
 
-    public Color getColor( float density, float temperature, ImmutableVector2F position ) {
+    public Color getColor( float density, float temperature, ImmutableVector2F position, float alpha ) {
         float value = temperatureMap( temperature ).x;
-        return new Color( 0.25f + 0.75f * value, 0.25f, 0.25f, 1f );
+        return new Color( 0.25f + 0.75f * value, 0.25f, 0.25f, alpha );
     }
 
     public Color getMinColor() {

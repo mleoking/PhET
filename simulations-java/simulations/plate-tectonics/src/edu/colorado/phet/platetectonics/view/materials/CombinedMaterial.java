@@ -12,7 +12,7 @@ public class CombinedMaterial implements EarthMaterial {
     private static final Color min = new Color( 64, 64, 64 );
     private static final Color max = new Color( 255, 64, 64 );
 
-    public Color getColor( float density, float temperature, ImmutableVector2F position ) {
+    public Color getColor( float density, float temperature, ImmutableVector2F position, float alpha ) {
         float tempValue = TemperatureMaterial.temperatureMap( temperature ).x;
         float densityValue = DensityMaterial.densityMap( density ).x;
 
@@ -25,7 +25,7 @@ public class CombinedMaterial implements EarthMaterial {
 
         float m = value - c;
 
-        return new Color( c + m, m, m, 1f );
+        return new Color( c + m, m, m, alpha );
 
 //        return new Color( 0.25f + 0.75f * value, 0.25f, 0.25f, 1f );
     }
