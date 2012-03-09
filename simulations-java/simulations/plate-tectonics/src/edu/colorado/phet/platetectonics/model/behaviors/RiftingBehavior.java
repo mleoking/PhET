@@ -29,7 +29,7 @@ public class RiftingBehavior extends PlateBehavior {
     public static final float RIFT_PLATE_SPEED = 30000f / 2;
     public static final float BLOB_SPEED = RIFT_PLATE_SPEED;
 
-    public static final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
+    public final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
 
     public static final int BLOB_QUANTITY = 50;
     private MagmaRegion magmaChamber;
@@ -55,12 +55,15 @@ public class RiftingBehavior extends PlateBehavior {
         }
     }
 
-    @Override public void rewind() {
-        super.rewind();
+    @Override public void dispose() {
+        super.dispose();
+
+        // TODO: this entire function should not be needed!
 
         if ( plate.getSide() == Side.LEFT ) {
             for ( MagmaRegion blob : magmaBlobs ) {
                 plate.regions.remove( blob );
+                magmaBlobs.remove( blob );
             }
 
             plate.regions.remove( magmaChamber );
@@ -102,6 +105,7 @@ public class RiftingBehavior extends PlateBehavior {
                 final ImmutableVector2F newPosition = currentPosition.plus( directionToTarget.times( BLOB_SPEED * millionsOfYears ) );
                 if ( newPosition.y > RIDGE_TOP_Y ) {
                     // get rid of blob and create a new one
+                    assert plate.regions.contains( blob );
                     plate.regions.remove( blob );
                     assert !plate.regions.contains( blob );
                     assert !plate.getModel().getRegions().contains( blob );

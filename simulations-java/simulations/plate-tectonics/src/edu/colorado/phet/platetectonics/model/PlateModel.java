@@ -105,13 +105,7 @@ public abstract class PlateModel {
     }
 
     public void removeRegion( Region region ) {
-//        System.out.println( "removing " + region );
-//        new Exception().printStackTrace();
-//        System.out.flush();
-//        assert regions.contains( region );
-        if ( !regions.contains( region ) ) {
-            return; // TODO: fix these multiple-removal issues
-        }
+        assert regions.contains( region );
         regions.remove( region );
         regionRemoved.updateListeners( region );
         for ( CrossSectionStrip strip : region.getStrips() ) {
