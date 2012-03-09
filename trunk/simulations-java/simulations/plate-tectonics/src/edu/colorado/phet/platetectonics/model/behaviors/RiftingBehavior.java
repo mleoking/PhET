@@ -213,11 +213,6 @@ public class RiftingBehavior extends PlateBehavior {
                     * oceanic modifications
                     *----------------------------------------------------------------------------*/
 
-                    // TODO: if multiple crusty parts are created at a time (or FPS isn't constant) this part is off in the middle. FIX
-                    // TODO: if multiple crusty parts are created at a time (or FPS isn't constant) this part is off in the middle. FIX
-                    // TODO: if multiple crusty parts are created at a time (or FPS isn't constant) this part is off in the middle. FIX
-                    // TODO: if multiple crusty parts are created at a time (or FPS isn't constant) this part is off in the middle. FIX
-
                     // sink the crust, advancing us along an arctangent-sloped curve
                     // don't sink the crust on ones that we have already done
                     if ( topSample.getPosition().x != 0 && !elevationColumnsChanged.contains( columnIndex ) ) {
