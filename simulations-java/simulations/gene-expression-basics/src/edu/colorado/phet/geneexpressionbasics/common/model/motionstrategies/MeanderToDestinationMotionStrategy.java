@@ -7,6 +7,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
+ * Motion strategy that moves towards a destination, but it wanders or meanders
+ * a bit on the way to look less directed and, in some cases, more natural.
+ *
  * @author John Blanco
  */
 public class MeanderToDestinationMotionStrategy extends CompositeMotionStrategy {
