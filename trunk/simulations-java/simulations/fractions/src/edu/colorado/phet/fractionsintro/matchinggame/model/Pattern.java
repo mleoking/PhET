@@ -107,25 +107,28 @@ public class Pattern {
     public static class Pyramid {
         public static final UnitVector2D UP = new UnitVector2D( 0, -1 );
         public static final UnitVector2D DOWN = new UnitVector2D( 0, 1 );
-        public static final double length = 100;
-        public static final double h = Math.sqrt( 3 ) / 2.0 * length;
 
-        public static Pattern single() {
+        //The height of an equilateral triangle with side length given
+        private static double getHeight( final double length ) {return Math.sqrt( 3 ) / 2.0 * length;}
+
+        public static Pattern single( double length ) {
             return new Pattern( List.single( triangle( length, new Vector2D( 0, 0 ), UP ) ) );
         }
 
-        public static Pattern four() {
-            return new Pattern( single().shapes.append( list( triangle( length, new Vector2D( -length / 2, h ), UP ),
-                                                              triangle( length, new Vector2D( 0, h * 2 ), DOWN ),
-                                                              triangle( length, new Vector2D( length / 2, h ), UP ) ) ) );
+        public static Pattern four( double length ) {
+            final double h = getHeight( length );
+            return new Pattern( single( length ).shapes.append( list( triangle( length, new Vector2D( -length / 2, h ), UP ),
+                                                                      triangle( length, new Vector2D( 0, h * 2 ), DOWN ),
+                                                                      triangle( length, new Vector2D( length / 2, h ), UP ) ) ) );
         }
 
-        public static Pattern nine() {
-            return new Pattern( four().shapes.append( list( triangle( length, new Vector2D( -length, h * 2 ), UP ),
-                                                            triangle( length, new Vector2D( -length / 2, h * 3 ), DOWN ),
-                                                            triangle( length, new Vector2D( 0, h * 2 ), UP ),
-                                                            triangle( length, new Vector2D( length / 2, h * 3 ), DOWN ),
-                                                            triangle( length, new Vector2D( length, h * 2 ), UP ) ) ) );
+        public static Pattern nine( double length ) {
+            final double h = getHeight( length );
+            return new Pattern( four( length ).shapes.append( list( triangle( length, new Vector2D( -length, h * 2 ), UP ),
+                                                                    triangle( length, new Vector2D( -length / 2, h * 3 ), DOWN ),
+                                                                    triangle( length, new Vector2D( 0, h * 2 ), UP ),
+                                                                    triangle( length, new Vector2D( length / 2, h * 3 ), DOWN ),
+                                                                    triangle( length, new Vector2D( length, h * 2 ), UP ) ) ) );
         }
     }
 
@@ -136,7 +139,7 @@ public class Pattern {
                     setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
                     setSize( 1024, 768 );
                     getCanvas().getLayer().addChild( new FNode() {{
-                        addChild( new PatternNode( Pyramid.nine(), 9, Color.red ) );
+                        addChild( new PatternNode( Pyramid.nine( 100 ), 9, Color.red ) {{translate( 200, 0 );}} );
                     }} );
                 }}.setVisible( true );
             }
