@@ -92,7 +92,8 @@ public class RiftingBehavior extends PlateBehavior {
     @Override public void stepInTime( float millionsOfYears ) {
         timeElapsed += millionsOfYears;
 
-        removeEarthEdges();
+        // TODO: investigate why this is screwing up the water front
+//        removeEarthEdges();
 
         moveSpreading( millionsOfYears );
 
