@@ -45,6 +45,11 @@ public abstract class PlateModel {
             addRegion( region );
         }
     };
+    private final VoidFunction1<Region> regionOnPlateRemovedListener = new VoidFunction1<Region>() {
+        public void apply( Region region ) {
+            removeRegion( region );
+        }
+    };
 
     protected PlateModel( final Bounds3D bounds, TextureStrategy textureStrategy ) {
         this.bounds = bounds;
@@ -72,6 +77,7 @@ public abstract class PlateModel {
     public void addPlate( Plate plate ) {
         plates.add( plate );
         plate.regions.addElementAddedObserver( regionOnPlateAddedListener, false );
+        plate.regions.addElementRemovedObserver( regionOnPlateRemovedListener );
         plateAdded.updateListeners( plate );
         for ( Region region : plate.regions ) {
             addRegion( region );
@@ -82,6 +88,7 @@ public abstract class PlateModel {
     public void removePlate( Plate plate ) {
         plates.remove( plate );
         plate.regions.removeElementAddedObserver( regionOnPlateAddedListener );
+        plate.regions.removeElementRemovedObserver( regionOnPlateRemovedListener );
         plateRemoved.updateListeners( plate );
         for ( Region region : plate.regions ) {
             removeRegion( region );
@@ -98,6 +105,13 @@ public abstract class PlateModel {
     }
 
     public void removeRegion( Region region ) {
+//        System.out.println( "removing " + region );
+//        new Exception().printStackTrace();
+//        System.out.flush();
+//        assert regions.contains( region );
+        if ( !regions.contains( region ) ) {
+            return; // TODO: fix these multiple-removal issues
+        }
         regions.remove( region );
         regionRemoved.updateListeners( region );
         for ( CrossSectionStrip strip : region.getStrips() ) {
@@ -260,5 +274,9 @@ public abstract class PlateModel {
         float phi = (float) Math.PI / 2 - z / EARTH_RADIUS; // dividing by the radius actually gets us the correct angle
         float sinPhi = (float) Math.sin( phi );
         return new ImmutableVector3F( sinPhi, sinPhi, (float) Math.cos( phi ) );
+    }
+
+    public List<Region> getRegions() {
+        return regions;
     }
 }

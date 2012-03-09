@@ -117,4 +117,10 @@ public class Region {
             }
         } ) );
     }
+
+    public void setAllAlphas( float alpha ) {
+        for ( CrossSectionStrip strip : strips ) {
+            strip.alpha.set( alpha );
+        }
+    }
 }

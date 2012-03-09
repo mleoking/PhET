@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.util.Side;
 
@@ -18,7 +20,14 @@ public class CrossSectionStrip {
     // fires when this strip should be moved to the front
     public final ValueNotifier<CrossSectionStrip> moveToFrontNotifier = new ValueNotifier<CrossSectionStrip>( this );
 
+    public final Property<Float> alpha = new Property<Float>( 1f );
+
     public CrossSectionStrip() {
+        alpha.addObserver( new SimpleObserver() {
+            public void update() {
+                changed.updateListeners();
+            }
+        } );
     }
 
     public CrossSectionStrip( List<Sample> topPoints, List<Sample> bottomPoints ) {

@@ -34,12 +34,23 @@ public class CrossSectionStripNode extends GLNode {
     private FloatBuffer colorBuffer;
 
     private boolean checkDepth = true;
+    private boolean transparencyInitialized = false;
 
     // remember CCW order
-    public CrossSectionStripNode( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, CrossSectionStrip strip ) {
+    public CrossSectionStripNode( LWJGLTransform modelViewTransform, Property<ColorMode> colorMode, final CrossSectionStrip strip ) {
         this.modelViewTransform = modelViewTransform;
         this.colorMode = colorMode;
         this.strip = strip;
+
+        strip.alpha.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( !transparencyInitialized && strip.alpha.get() != 1 ) {
+                    transparencyInitialized = true;
+                    requireEnabled( GL_BLEND );
+//                    setRenderPass( RenderPass.TRANSPARENCY );
+                }
+            }
+        } );
 
         strip.changed.addUpdateListener( new UpdateListener() {
                                              public void update() {
@@ -91,7 +102,8 @@ public class CrossSectionStripNode extends GLNode {
     private void addSamplePoint( Sample point ) {
         // calculate point properties
         final Color color = colorMode.get().getMaterial().getColor( point.getDensity(), point.getTemperature(),
-                                                                    new ImmutableVector2F( point.getPosition().x, point.getPosition().y ) );
+                                                                    new ImmutableVector2F( point.getPosition().x, point.getPosition().y ),
+                                                                    strip.alpha.get() );
         final ImmutableVector3F position = modelViewTransform.transformPosition( PlateModel.convertToRadial( point.getPosition() ) );
 
         // fill the three necessary buffers

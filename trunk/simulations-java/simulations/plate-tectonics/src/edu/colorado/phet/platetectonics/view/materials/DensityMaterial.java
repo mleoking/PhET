@@ -36,9 +36,9 @@ public class DensityMaterial implements EarthMaterial {
 //        return new ImmutableVector2F( v, 0.5f );
     }
 
-    public Color getColor( float density, float temperature, ImmutableVector2F position ) {
+    public Color getColor( float density, float temperature, ImmutableVector2F position, float alpha ) {
         float value = densityMap( density ).x;
-        return new Color( value, value, value, 1f );
+        return new Color( value, value, value, alpha );
     }
 
     public Color getMinColor() {

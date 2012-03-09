@@ -1,6 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.model.regions;
 
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -13,9 +16,14 @@ import edu.colorado.phet.platetectonics.model.TextureStrategy;
  */
 public class MagmaRegion extends Region {
 
+    public final Property<Float> alpha = new Property<Float>( 1f );
+    public final Property<ImmutableVector2F> position;
+
     // angle in radians
-    public MagmaRegion( final TextureStrategy textureStrategy, final float scale, final float angle, final int numSamples ) {
+    public MagmaRegion( final TextureStrategy textureStrategy, final float scale, final float angle, final int numSamples, final ImmutableVector2F initialPosition ) {
         super( 1, numSamples, new Function2<Integer, Integer, Sample>() {
+            private ImmutableVector2F textureOffset = new ImmutableVector2F( Math.random(), Math.random() );
+
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 float ratio = ( (float) xIndex ) / ( (float) ( numSamples - 1 ) );
                 float theta = (float) ( yIndex == 0
@@ -25,7 +33,26 @@ public class MagmaRegion extends Region {
                 return new Sample( new ImmutableVector3F( position.x, position.y, 0 ),
                                    PlateMotionModel.SIMPLE_MAGMA_TEMP,
                                    PlateMotionModel.SIMPLE_MAGMA_DENSITY,
-                                   textureStrategy.mapFront( position ) );
+
+                                   // add a texture offset that is random for each region, but consistent
+                                   textureStrategy.mapFront( position ).plus( textureOffset ) );
+            }
+        } );
+        position = new Property<ImmutableVector2F>( initialPosition );
+        for ( Sample sample : getSamples() ) {
+            sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( initialPosition.x, initialPosition.y, 0 ) ) );
+        }
+        position.addObserver( new ChangeObserver<ImmutableVector2F>() {
+            public void update( ImmutableVector2F newValue, ImmutableVector2F oldValue ) {
+                ImmutableVector3F delta = new ImmutableVector3F( newValue.x - oldValue.x, newValue.y - oldValue.y, 0 );
+                for ( Sample sample : getSamples() ) {
+                    sample.setPosition( sample.getPosition().plus( delta ) );
+                }
+            }
+        } );
+        alpha.addObserver( new SimpleObserver() {
+            public void update() {
+                setAllAlphas( alpha.get() );
             }
         } );
     }

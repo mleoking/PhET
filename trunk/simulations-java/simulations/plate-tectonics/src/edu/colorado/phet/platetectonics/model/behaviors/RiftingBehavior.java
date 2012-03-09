@@ -1,10 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model.behaviors;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
@@ -24,6 +27,12 @@ public class RiftingBehavior extends PlateBehavior {
     public static final float SPREAD_START_TIME = 10.0f;
 
     public static final float RIFT_PLATE_SPEED = 30000f / 2;
+    public static final float BLOB_SPEED = RIFT_PLATE_SPEED;
+
+    public static final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
+
+    public static final int BLOB_QUANTITY = 50;
+    private MagmaRegion magmaChamber;
 
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
@@ -31,22 +40,84 @@ public class RiftingBehavior extends PlateBehavior {
         plate.getLithosphere().moveToFront();
         plate.getCrust().moveToFront();
 
-        MagmaRegion magmaChamber = new MagmaRegion( plate.getTextureStrategy(), PlateType.YOUNG_OCEANIC.getCrustThickness() / 3f, (float) ( Math.PI / 2 ), 16 ) {{
-            for ( Sample sample : getSamples() ) {
-                sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, RIDGE_TOP_Y, 0 ) ) );
+        if ( plate.getSide() == Side.LEFT ) {
+            magmaChamber = new MagmaRegion( plate.getTextureStrategy(), PlateType.YOUNG_OCEANIC.getCrustThickness() / 3f, (float) ( Math.PI / 2 ), 16,
+                                            new ImmutableVector2F( 0, RIDGE_TOP_Y ) );
+            plate.regions.add( magmaChamber );
+            magmaChamber.moveToFront();
+
+            // add in the magma blobs
+            FunctionalUtils.repeat( new Runnable() {
+                                        public void run() {
+                                            addMagmaBlob( false );
+                                        }
+                                    }, BLOB_QUANTITY );
+        }
+    }
+
+    @Override public void rewind() {
+        super.rewind();
+
+        if ( plate.getSide() == Side.LEFT ) {
+            for ( MagmaRegion blob : magmaBlobs ) {
+                plate.regions.remove( blob );
             }
-        }};
-        plate.regions.add( magmaChamber );
-        magmaChamber.moveToFront();
+
+            plate.regions.remove( magmaChamber );
+        }
+    }
+
+    public void addMagmaBlob( boolean onlyAtBottom ) {
+        addMagmaBlob( onlyAtBottom, 0 );
+    }
+
+    public void addMagmaBlob( boolean onlyAtBottom, float additionalMagnitude ) {
+        final float spread = 0.5f;
+        final float maxDistance = 100000;
+        float angle = (float) ( Math.PI / 2 + ( Math.random() - 0.5 ) * spread );
+        ImmutableVector2F directionFromEnd = new ImmutableVector2F( Math.cos( angle ), Math.sin( angle ) ).negate();
+        ImmutableVector2F position = new ImmutableVector2F( 0, RIDGE_TOP_Y ).plus( directionFromEnd.times(
+                onlyAtBottom ? maxDistance - additionalMagnitude : (float) ( Math.random() * maxDistance ) ) );
+        MagmaRegion magmaBlob = new MagmaRegion( plate.getTextureStrategy(), 1000, angle, 6, position );
+        magmaBlob.alpha.set( 0f );
+        plate.regions.add( magmaBlob );
+        magmaBlob.moveToFront();
+        magmaChamber.moveToFront(); // keep the chamber in front
+        magmaBlobs.add( magmaBlob );
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
         timeElapsed += millionsOfYears;
 
-        // TODO: why are we having terrain issues with this?
-//        removeEarthEdges();
+        removeEarthEdges();
 
         moveSpreading( millionsOfYears );
+
+        if ( plate.getSide() == Side.LEFT ) {
+            // animate the magma blobs
+            final ImmutableVector2F blobTarget = new ImmutableVector2F( 0, RIDGE_TOP_Y );
+            for ( MagmaRegion blob : new LinkedList<MagmaRegion>( magmaBlobs ) ) {
+                final ImmutableVector2F currentPosition = blob.position.get();
+                final ImmutableVector2F directionToTarget = blobTarget.minus( currentPosition ).normalized();
+                final ImmutableVector2F newPosition = currentPosition.plus( directionToTarget.times( BLOB_SPEED * millionsOfYears ) );
+                if ( newPosition.y > RIDGE_TOP_Y ) {
+                    // get rid of blob and create a new one
+                    plate.regions.remove( blob );
+                    assert !plate.regions.contains( blob );
+                    assert !plate.getModel().getRegions().contains( blob );
+                    magmaBlobs.remove( blob );
+                    addMagmaBlob( true, newPosition.minus( blobTarget ).getMagnitude() );
+                }
+                else {
+                    // TODO: increase alpha!!
+                    final float alphaSpeed = 0.25f;
+                    if ( blob.alpha.get() < 1 ) {
+                        blob.alpha.set( Math.min( 1, blob.alpha.get() + alphaSpeed * millionsOfYears ) );
+                    }
+                    blob.position.set( newPosition );
+                }
+            }
+        }
     }
 
     private void moveSpreading( float millionsOfYears ) {
@@ -158,7 +229,7 @@ public class RiftingBehavior extends PlateBehavior {
                 int newIndex = zeroSide.getIndex( plate.getCrust().getTopBoundary().samples );
 
                 // we can actually compute the "passed" years directly here from our position
-                sinkOceanicCrust( newX / RIFT_PLATE_SPEED, newIndex );
+                sinkOceanicCrust( Math.abs( newX ) / RIFT_PLATE_SPEED, newIndex );
                 elevationColumnsChanged.add( newIndex );
             }
             else {
@@ -226,7 +297,7 @@ public class RiftingBehavior extends PlateBehavior {
                     plate.getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
                     // TODO: change the lithosphere!
                 }
-                else {
+                else if ( topSample.getDensity() == PlateType.YOUNG_OCEANIC.getDensity() ) {
                     /*---------------------------------------------------------------------------*
                     * oceanic modifications
                     *----------------------------------------------------------------------------*/
@@ -261,6 +332,10 @@ public class RiftingBehavior extends PlateBehavior {
             float currentT = (float) Math.tan( currentRatio * ( Math.PI / 2 ) );
             float newT = currentT + millionsOfYears * magicConstant1;
             float newRatio = (float) ( Math.atan( newT ) / ( Math.PI / 2 ) );
+
+            if ( newRatio < 0 ) {
+                System.out.println( "breakpoint" );
+            }
 
             // some necessary assertions for any future debugging
             assert currentRatio >= 0;
