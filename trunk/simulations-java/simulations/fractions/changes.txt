@@ -1,3 +1,4 @@
+Matching Game: Removed plus signs, grids and pyramids from level 1
 # 0.00.51 (62332) Mar 8, 2012
 Matching Game: Made plus signs larger when there are less plus signs
 Matching Game: Added a 2x2 grid

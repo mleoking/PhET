@@ -42,11 +42,14 @@ import static fj.data.List.*;
  */
 public class Levels {
 
-    private final F<Fraction, ArrayList<RepresentationType>> representationFunction = new F<Fraction, ArrayList<RepresentationType>>() {
-        @Override public ArrayList<RepresentationType> f( Fraction fraction ) {
-            return createRepresentations( fraction );
-        }
-    };
+    public static final F<Fraction, ArrayList<RepresentationType>> representationFunction( final List<RepresentationType> r ) {
+        return new F<Fraction, ArrayList<RepresentationType>>() {
+            @Override public ArrayList<RepresentationType> f( Fraction fraction ) {
+                return createRepresentations( fraction, r );
+            }
+        };
+    }
+
     private static final boolean debug = false;
 
     //Singleton, use Levels instance
@@ -63,12 +66,12 @@ public class Levels {
         System.out.println( "all = " + all );
     }
 
-    final RepresentationType numeric = singleRepresentation( "numeric", all,
-                                                             new F<Fraction, PNode>() {
-                                                                 @Override public PNode f( Fraction f ) {
-                                                                     return new FractionNode( f, 0.3 );
-                                                                 }
-                                                             } );
+    final static RepresentationType numeric = singleRepresentation( "numeric", all,
+                                                                    new F<Fraction, PNode>() {
+                                                                        @Override public PNode f( Fraction f ) {
+                                                                            return new FractionNode( f, 0.3 );
+                                                                        }
+                                                                    } );
     final RepresentationType horizontalBars = twoComposites( "horizontal bars", all,
                                                              new F<Fraction, PNode>() {
                                                                  @Override public PNode f( Fraction f ) {
@@ -169,7 +172,8 @@ public class Levels {
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> allRepresentations = iterableList( Arrays.asList( numeric, horizontalBars, verticalBars, pies, twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid, onePyramid, fourPyramid, ninePyramid ) );
+    final List<RepresentationType> levelOneRepresentations = list( numeric, horizontalBars, verticalBars, pies );
+    final List<RepresentationType> allRepresentations = levelOneRepresentations.append( list( twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid, onePyramid, fourPyramid, ninePyramid ) );
 
     //Convenience Wrapper to create PieNodes
     private PNode myPieNode( final Fraction f, final Color color ) {
@@ -249,9 +253,7 @@ public class Levels {
                                     MoveToCell( cell ), false );
     }
 
-    private List<MovableFraction> createLevel( List<Cell> _cells, Fraction[] a ) {
-
-        F<Fraction, ArrayList<RepresentationType>> representations = representationFunction;
+    private List<MovableFraction> createLevel( F<Fraction, ArrayList<RepresentationType>> representations, List<Cell> _cells, Fraction[] a ) {
         assert _cells.length() % 2 == 0;
         ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( a ) );
 
@@ -275,6 +277,11 @@ public class Levels {
         }
 
         return iterableList( list );
+    }
+
+    private F<Fraction, ArrayList<RepresentationType>> getRepresentationPool( final int level ) {
+        return level == 1 ? representationFunction( levelOneRepresentations ) :
+               representationFunction( allRepresentations );
     }
 
     private void makeSureNoRepresentationTypeUsedTwiceForTheSameFraction( final List<ResultPair> all ) {
@@ -335,12 +342,12 @@ public class Levels {
                     new Fraction( 3, 4 ),
                     new Fraction( 1, 2 ),
                     new Fraction( 1, 1 ) };
-            return createLevel( cells, a );
+            return createLevel( getRepresentationPool( 1 ), cells, a );
         }
     };
 
     //Create the default representations that will be used in all levels
-    private ArrayList<RepresentationType> createRepresentations( final Fraction fraction ) {
+    private static ArrayList<RepresentationType> createRepresentations( final Fraction fraction, List<RepresentationType> allRepresentations ) {
 
         //Find the representations that could be used to show the given fraction
         List<RepresentationType> applicableRepresentations = allRepresentations.filter( new F<RepresentationType, Boolean>() {
@@ -366,7 +373,7 @@ public class Levels {
         //Add one "numerical" representation for each graphical one, so that on average there will be about 50% numerical
         int numToAdd = nonNumeric - n;
         if ( numToAdd > 0 ) {
-            applicableRepresentations = applicableRepresentations.cons( this.numeric );
+            applicableRepresentations = applicableRepresentations.cons( numeric );
         }
         return new ArrayList<RepresentationType>( applicableRepresentations.toCollection() );
     }
@@ -379,7 +386,7 @@ public class Levels {
      */
     public F<List<Cell>, List<MovableFraction>> Level2 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
-            return createLevel( cells, new Fraction[] {
+            return createLevel( getRepresentationPool( 2 ), cells, new Fraction[] {
                     new Fraction( 1, 2 ),
                     new Fraction( 2, 4 ),
                     new Fraction( 1, 3 ),
@@ -397,7 +404,7 @@ public class Levels {
      */
     public F<List<Cell>, List<MovableFraction>> Level3 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
-            return createLevel( cells, new Fraction[] {
+            return createLevel( getRepresentationPool( 3 ), cells, new Fraction[] {
                     new Fraction( 3, 2 ),
                     new Fraction( 4, 3 ),
                     new Fraction( 6, 3 ),
@@ -414,7 +421,7 @@ public class Levels {
      */
     public F<List<Cell>, List<MovableFraction>> Level4 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
-            return createLevel( cells, new Fraction[] {
+            return createLevel( getRepresentationPool( 4 ), cells, new Fraction[] {
                     new Fraction( 17, 15 ),
                     new Fraction( 14, 8 ),
                     new Fraction( 6, 3 ),
