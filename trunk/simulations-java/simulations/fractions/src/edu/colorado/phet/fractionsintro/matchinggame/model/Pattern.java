@@ -3,14 +3,22 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import fj.data.List;
 
+import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.util.immutable.Vector2D.UnitVector2D;
+import edu.colorado.phet.fractions.view.FNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
+import edu.umd.cs.piccolox.PFrame;
 
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Direction.*;
 import static fj.data.List.iterableList;
@@ -22,9 +30,9 @@ import static fj.data.List.list;
  * @author Sam Reid
  */
 public class Pattern {
-    public final List<? extends Shape> shapes;
+    public final List<Shape> shapes;
 
-    public Pattern( List<? extends Shape> shapes ) {
+    public Pattern( List<Shape> shapes ) {
         this.shapes = shapes;
     }
 
@@ -44,7 +52,7 @@ public class Pattern {
         }
     }
 
-    public static GeneralPath plusSign( double gridX, double gridY, final double edgeLength ) {
+    public static Shape plusSign( double gridX, double gridY, final double edgeLength ) {
         return new DoubleGeneralPath( gridX * edgeLength + edgeLength, gridY * edgeLength ) {
             {
                 move( RIGHT, DOWN, RIGHT, DOWN, LEFT, DOWN, LEFT, UP, LEFT, UP, RIGHT, UP );
@@ -84,5 +92,54 @@ public class Pattern {
                          plusSign( 4, 4, fun.evaluate( numberPlusSigns ) )
             ).take( numberPlusSigns ) );
         }
+    }
+
+    //Equilateral triangle
+    public static Shape triangle( final double length, final Vector2D tip, final UnitVector2D direction ) {
+        return new DoubleGeneralPath() {{
+            moveTo( tip.toPoint2D() );
+            lineTo( tip.plus( direction.rotate( Math.toRadians( 90 + 60 ) ).times( length ) ).toPoint2D() );
+            lineTo( tip.plus( direction.rotate( Math.toRadians( -90 - 60 ) ).times( length ) ).toPoint2D() );
+            lineTo( tip.toPoint2D() );
+        }}.getGeneralPath();
+    }
+
+    public static class Pyramid {
+        public static final UnitVector2D UP = new UnitVector2D( 0, -1 );
+        public static final UnitVector2D DOWN = new UnitVector2D( 0, 1 );
+        public static final double length = 100;
+        public static final double h = Math.sqrt( 3 ) / 2.0 * length;
+
+        public static Pattern single() {
+            return new Pattern( List.single( triangle( length, new Vector2D( 0, 0 ), UP ) ) );
+        }
+
+        public static Pattern four() {
+            return new Pattern( single().shapes.append( list( triangle( length, new Vector2D( -length / 2, h ), UP ),
+                                                              triangle( length, new Vector2D( 0, h * 2 ), DOWN ),
+                                                              triangle( length, new Vector2D( length / 2, h ), UP ) ) ) );
+        }
+
+        public static Pattern nine() {
+            return new Pattern( four().shapes.append( list( triangle( length, new Vector2D( -length, h * 2 ), UP ),
+                                                            triangle( length, new Vector2D( -length / 2, h * 3 ), DOWN ),
+                                                            triangle( length, new Vector2D( 0, h * 2 ), UP ),
+                                                            triangle( length, new Vector2D( length / 2, h * 3 ), DOWN ),
+                                                            triangle( length, new Vector2D( length, h * 2 ), UP ) ) ) );
+        }
+    }
+
+    public static void main( String[] args ) throws InvocationTargetException, InterruptedException {
+        SwingUtilities.invokeAndWait( new Runnable() {
+            @Override public void run() {
+                new PFrame() {{
+                    setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+                    setSize( 1024, 768 );
+                    getCanvas().getLayer().addChild( new FNode() {{
+                        addChild( new PatternNode( Pyramid.nine(), 9, Color.red ) );
+                    }} );
+                }}.setVisible( true );
+            }
+        } );
     }
 }
