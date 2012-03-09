@@ -35,6 +35,13 @@ public class EarthTexture {
                 data[i + 1] = (byte) ( data[i + 1] & 0x7F | 0x80 );
                 data[i + 2] = (byte) ( data[i + 2] & 0x7F | 0x80 );
                 data[i + 3] = (byte) ( 0xFF );
+
+                /* Used for debugging texture issues. makes the unit texture square be composed of 4 uniquely-identifiable colored quads
+                int idx = i / 4;
+
+                data[i + 1] = (byte) ( idx % ( image.getWidth() ) > 256 ? 0 : 255 );
+                data[i + 2] = (byte) ( idx / ( image.getHeight() ) > 256 ? 0 : 255 );
+                */
             }
             buffer.clear();
             buffer.put( data, 0, data.length );

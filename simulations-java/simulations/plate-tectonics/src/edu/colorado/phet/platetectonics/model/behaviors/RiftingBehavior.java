@@ -126,6 +126,15 @@ public class RiftingBehavior extends PlateBehavior {
                                                      crustBottom, crustBottom,
                                                      plate.getTextureStrategy(), true );
 
+                // correct the Y-texture values that were caused to be somewhat incorrect by the addSection
+                for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
+                    for ( Boundary boundary : region.getBoundaries() ) {
+                        Sample sample = boundary.samples.get( newIndex );
+                        ImmutableVector2F staticTextureCoordinates = plate.getTextureStrategy().mapFront( new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y ) );
+                        sample.setTextureCoordinates( new ImmutableVector2F( sample.getTextureCoordinates().x, staticTextureCoordinates.y ) );
+                    }
+                }
+
                 for ( TerrainSample sample : plate.getTerrain().getColumn( newIndex ) ) {
                     sample.setElevation( RIDGE_TOP_Y );
                 }
@@ -154,7 +163,7 @@ public class RiftingBehavior extends PlateBehavior {
         }
 
         /*---------------------------------------------------------------------------*
-        * handle oceanic crust changes
+        * handle plate changes
         *----------------------------------------------------------------------------*/
         {
             for ( int columnIndex = 0; columnIndex < plate.getCrust().getTopBoundary().samples.size(); columnIndex++ ) {
