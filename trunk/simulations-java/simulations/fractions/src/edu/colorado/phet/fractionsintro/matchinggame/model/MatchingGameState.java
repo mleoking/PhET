@@ -9,6 +9,7 @@ import lombok.Data;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
+import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Levels.Levels;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Scale;
@@ -26,7 +27,7 @@ import static fj.data.List.range;
     public final List<MovableFraction> fractions;
 
     //Cells where the fractions start
-    public final List<Cell> cells;
+    public final List<Cell> startCells;
 
     //Cells where the fractions start
     public final List<Cell> scoreCells;
@@ -66,15 +67,15 @@ import static fj.data.List.range;
         } );
     }
 
-    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
 
-    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
 
-    public MatchingGameState audio( boolean audio ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState audio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
 
-    public MatchingGameState leftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState leftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
 
-    public MatchingGameState rightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, cells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState rightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
 
     public List<Scale> getScales() { return list( leftScale, rightScale ); }
 
@@ -106,7 +107,7 @@ import static fj.data.List.range;
             @Override public MatchingGameState f( final MovableFraction match ) {
                 return fractions( fractions.map( new F<MovableFraction, MovableFraction>() {
                     @Override public MovableFraction f( MovableFraction m ) {
-                        return match.equals( m ) ? m.motion( MoveToCell( m.home ) ) : m;
+                        return match.equals( m ) ? m.motion( MoveToCell( getClosestFreeStartCell( m ) ) ) : m;
                     }
                 } ) );
             }
@@ -140,4 +141,30 @@ import static fj.data.List.range;
     }
 
     public boolean getLastDroppedScaleRight() { return rightScaleDropTime > leftScaleDropTime; }
+
+    public Cell getClosestFreeStartCell( final MovableFraction f ) {
+        return startCells.filter( new F<Cell, Boolean>() {
+            @Override public Boolean f( final Cell cell ) {
+                return isFree( cell );
+            }
+        } ).sort( ord( new F<Cell, Double>() {
+            @Override public Double f( final Cell u ) {
+                return u.position().distance( f.position );
+            }
+        } ) ).head();
+    }
+
+    //Find out if a cell is free for a fraction to move to.  True if no other fraction is there and no other fraction is moving there
+    private boolean isFree( final Cell cell ) {
+        return !isTaken( cell );
+    }
+
+    private boolean isTaken( final Cell cell ) {
+        return fractions.exists( new F<MovableFraction, Boolean>() {
+            @Override public Boolean f( final MovableFraction movableFraction ) {
+                //TODO: Block the cell if any fraction is moving there, otherwise could over-occupy
+                return !movableFraction.dragging && movableFraction.position.equals( cell.position() );// || movableFraction.motion.movingTo( cell.position() );
+            }
+        } );
+    }
 }

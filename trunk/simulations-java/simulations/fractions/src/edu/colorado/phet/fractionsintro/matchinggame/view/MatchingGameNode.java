@@ -116,7 +116,7 @@ public class MatchingGameNode extends FNode {
         } ).foreach( addChild );
 
         //Render the cells, costs about 50% of a CPU--could be optimized
-        state.cells.map( new F<Cell, PNode>() {
+        state.startCells.map( new F<Cell, PNode>() {
             @Override public PNode f( Cell c ) {
                 return new PhetPPath( c.rectangle.toRectangle2D(), new BasicStroke( 1 ), lightGray );
             }
