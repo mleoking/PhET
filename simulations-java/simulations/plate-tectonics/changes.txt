@@ -1,3 +1,7 @@
+Increased ocean-surface coloring contrast to show off mid-oceanic ridge
+Asthenosphere now doesn't move in the 2nd tab
+Changed oceanic lithosphere heights
+Fixed triangles in the "rift" view
 # 0.00.21 (62367) Mar 9, 2012
 Rift boundary changes
 Disallowing divergent/transform behavior between oceanic/continental

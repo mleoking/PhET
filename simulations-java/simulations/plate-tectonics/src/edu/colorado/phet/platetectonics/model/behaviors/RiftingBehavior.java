@@ -53,6 +53,8 @@ public class RiftingBehavior extends PlateBehavior {
                                         }
                                     }, BLOB_QUANTITY );
         }
+
+        moveMantleTopTo( PlateType.OLD_OCEANIC.getCrustTopY() - 1000 );
     }
 
     @Override public void dispose() {
@@ -405,8 +407,8 @@ public class RiftingBehavior extends PlateBehavior {
     private void riftPostProcess() {
         getPlate().getTerrain().elevationChanged.updateListeners();
 
-        glueMantleTopToLithosphere( 1000 );
-        redistributeMantle();
+//        glueMantleTopToLithosphere( 1000 );
+//        redistributeMantle();
     }
 
     private Sample getSampleFromCenter( Boundary boundary, int offsetFromCenter ) {
