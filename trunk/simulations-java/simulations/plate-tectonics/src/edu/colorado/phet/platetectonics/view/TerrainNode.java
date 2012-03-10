@@ -108,7 +108,7 @@ public class TerrainNode extends GridStripNode {
                 float elevation = terrainStrip.getSample( xIndex, zIndex ).getElevation();
 
                 if ( elevation < 0 ) {
-                    float value = (float) MathUtil.clamp( 0, ( elevation + 10000 ) / 20000, 1 );
+                    float value = (float) MathUtil.clamp( 0, ( elevation + 7000 ) / 10000, 1 );
                     colorBuffer.put( new float[] { value, value, value, 1 } );
                 }
                 else {

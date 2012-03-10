@@ -21,6 +21,8 @@ public class CollidingBehavior extends PlateBehavior {
 
         plate.getLithosphere().moveToFront();
         plate.getCrust().moveToFront();
+
+        moveMantleTopTo( 0 );
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
@@ -110,8 +112,8 @@ public class CollidingBehavior extends PlateBehavior {
 
         getPlate().getTerrain().elevationChanged.updateListeners();
 
-        glueMantleTopToLithosphere( 750 );
-        redistributeMantle();
+//        glueMantleTopToLithosphere( 750 );
+//        redistributeMantle();
 
         // TODO: different terrain sync so we can handle height differences
 //        getPlate().fullSyncTerrain();

@@ -49,6 +49,13 @@ public abstract class PlateBehavior {
         }
     }
 
+    protected void moveMantleTopTo( float y ) {
+        for ( Sample sample : getPlate().getMantle().getTopBoundary().samples ) {
+            sample.shiftWithTexture( new ImmutableVector3F( 0, y - sample.getPosition().y, 0 ), plate.getTextureStrategy() );
+        }
+        redistributeMantle();
+    }
+
     protected void glueMantleTopToLithosphere( float verticalPadding ) {
         int xIndex = 0;
         final Boundary lithosphereBottomBoundary = getPlate().getLithosphere().getBottomBoundary();
@@ -104,9 +111,9 @@ public abstract class PlateBehavior {
                 final Sample sample = mantle.getBoundaries().get( yIndex ).samples.get( xIndex );
 
                 // interpolate Y between top and bottom
-                sample.setPosition( new ImmutableVector3F( sample.getPosition().x,
-                                                           topY * ( 1 - ratioToBottom ) + bottomY * ratioToBottom,
-                                                           sample.getPosition().z ) );
+                final float newY = topY * ( 1 - ratioToBottom ) + bottomY * ratioToBottom;
+
+                sample.shiftWithTexture( new ImmutableVector3F( 0, sample.getPosition().y - newY, 0 ), plate.getTextureStrategy() );
             }
         }
     }

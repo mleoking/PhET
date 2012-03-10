@@ -10,6 +10,9 @@ public class SubductingBehavior extends PlateBehavior {
 
     public SubductingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
+
+        plate.getLithosphere().moveToFront();
+        plate.getCrust().moveToFront();
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
