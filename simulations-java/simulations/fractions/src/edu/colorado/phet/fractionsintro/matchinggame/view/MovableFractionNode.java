@@ -13,6 +13,7 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.UpdateArgs;
@@ -66,7 +67,8 @@ public class MovableFractionNode extends PNode {
                 HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
                     put( rightScaleAttachmentPoint, MoveToRightScale );
                     put( leftScaleAttachmentPoint, MoveToLeftScale );
-                    put( draggingFraction.home.position(), MoveToCell( draggingFraction.home ) );
+                    Cell cell = model.get().getClosestFreeStartCell( draggingFraction );
+                    put( cell.position(), MoveToCell( cell ) );
                 }};
 
                 final Ord<Vector2D> ord = ord( new F<Vector2D, Double>() {

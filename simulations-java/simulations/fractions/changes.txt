@@ -1,3 +1,4 @@
+Matching Game: Fractions return to the closest open cell, not just the one from which they originated
 Equality Lab: Fixed: Pies don't fill on Equality lab
 Matching Game: Removed plus signs, grids and pyramids from level 1
 # 0.00.51 (62332) Mar 8, 2012
