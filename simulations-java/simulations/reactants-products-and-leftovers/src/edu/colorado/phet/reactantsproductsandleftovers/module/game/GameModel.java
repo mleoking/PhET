@@ -473,7 +473,8 @@ public class GameModel extends RPALModel {
     private void fireGameAborted() {
         SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game,
                                             edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes.feature,
-                                            ModelActions.aborted );
+                                            ModelActions.aborted,
+                                            ParameterSet.parameterSet( GameSimSharing.ParameterKeys.score, getPoints() ) );
         firePrintDebug( "fireGameAborted" );
         for ( GameListener listener : listeners.getListeners( GameListener.class ) ) {
             listener.gameAborted();

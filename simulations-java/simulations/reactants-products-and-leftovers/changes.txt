@@ -1,3 +1,4 @@
+3/10/12 #3204, add current score to "game aborted" message
 # 1.03.02 (62081) Mar 2, 2012
 3/2/12 dev version with data-collection change requests
 3/1/12 #3204, sim-sharing: eliminate spurious "gameChallenge created" message on startup
