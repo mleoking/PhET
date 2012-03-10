@@ -8,7 +8,6 @@ DESIGN
 - location of wavelength control makes it uninviting to drag probe between light and cuvette
 
 HIGH
-- molar absorptivity data for Drink Mix
 
 MEDIUM
 - Beers: simplify Beam model and view to a single rectangle, instead of 3 segments?
