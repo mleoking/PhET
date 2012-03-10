@@ -88,7 +88,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         setModel( new PlateMotionModel( getClock(), grid.getBounds() ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
-        leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -150, 0, -125 / 2 ) ), this, false ) {{
+        leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -120, 0, -125 / 2 ) ), this, false ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
                     updateTransform( -motionVectorRight.get().getX(), -motionVectorRight.get().getY() );
@@ -96,7 +96,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
             } );
         }};
         sceneLayer.addChild( leftHandle );
-        rightHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 150, 0, -125 / 2 ) ), this, true ) {{
+        rightHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 120, 0, -125 / 2 ) ), this, true ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
                     updateTransform( motionVectorRight.get().getX(), motionVectorRight.get().getY() );
@@ -364,7 +364,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     }
 
     private float mapDragMagnitude( float mag ) {
-        return mag * mag * 10;
+        return mag * mag * 2.5f;
     }
 
     private ImmutableVector2F getCrustOffset( ImmutableVector2F pieceOffset ) {
@@ -464,10 +464,27 @@ public class PlateMotionTab extends PlateTectonicsTab {
         ImmutableMatrix4F regularView = super.getSceneModelViewMatrix();
 
         // calculated this as a debug matrix by camera manipulation, then dumping and inputting here
-        return ImmutableMatrix4F.rowMajor( 0.9939557f, 7.9941313E-4f, -0.109775305f, -58.643387f,
-                                           -0.0018950196f, 0.9999494f, -0.0098764775f, 0.11180614f,
-                                           0.109761804f, 0.010024817f, 0.9939069f, -6.4759464f,
-                                           0.0f, 0.0f, 0.0f, 1.0f ).times( regularView );
+        return ImmutableMatrix4F.rowMajor(
+                0.99994993f, -3.9991664E-4f, -0.009994832f, 0.0f,
+                1.9998333E-4f, 0.9998f, -0.019996665f, 0.0f,
+                0.010000832f, 0.01999366f, 0.99975f, 0.0f,
+                0.0f, 0.0f, 0.0f, 1.0f
+        ).times( ImmutableMatrix4F.rowMajor(
+                0.99955106f, -5.982099E-4f, 0.029960573f, 0,
+                -2.248562E-6f, 0.9997994f, 0.02003758f, 0,
+                -0.029966524f, -0.020028654f, 0.99935055f, 0,
+                0.0f, 0.0f, 0.0f, 1.0f
+        ).times( ImmutableMatrix4F.rowMajor(
+                1, 0, 0, 12,
+                0, 1, 0, 0,
+                0, 0, 1, 78,
+                0, 0, 0, 1
+        ).times( ImmutableMatrix4F.rowMajor(
+                0.9939557f, 7.9941313E-4f, -0.109775305f, -58.643387f,
+                -0.0018950196f, 0.9999494f, -0.0098764775f, 0.11180614f,
+                0.109761804f, 0.010024817f, 0.9939069f, -6.4759464f,
+                0.0f, 0.0f, 0.0f, 1.0f
+        ).times( regularView ) ) ) );
     }
 
     public void rewind() {

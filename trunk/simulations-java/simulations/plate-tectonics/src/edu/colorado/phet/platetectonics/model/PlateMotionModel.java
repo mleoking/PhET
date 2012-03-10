@@ -84,7 +84,7 @@ public class PlateMotionModel extends PlateModel {
 
     // TODO: change bounds to possibly a Z range, or just bake it in
     public PlateMotionModel( final TectonicsClock clock, final Bounds3D bounds ) {
-        super( bounds, new TextureStrategy( 0.000005f ) );
+        super( bounds, new TextureStrategy( 0.000006f ) );
         this.clock = clock;
 
         resetPlates();

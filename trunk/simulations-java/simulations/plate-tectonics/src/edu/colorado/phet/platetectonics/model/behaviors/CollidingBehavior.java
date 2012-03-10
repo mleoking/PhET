@@ -90,7 +90,8 @@ public class CollidingBehavior extends PlateBehavior {
             for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
                 final TerrainSample terrainSample = getPlate().getTerrain().getSample( col, row );
                 float mountainRatio = (float) MathUtil.clamp( 0, ( terrainSample.getElevation() - 6000 ) / ( 13000 - 6000 ), 1 );
-                final float elevationOffset = (float) ( mountainRatio * ( Math.random() * 1000 - 500 ) );
+                float elevationOffset = (float) ( mountainRatio * ( Math.random() * 1000 - 500 ) );
+                elevationOffset /= 2;
                 terrainSample.setElevation( terrainSample.getElevation() + elevationOffset );
                 if ( row == getPlate().getTerrain().getFrontZIndex() ) {
                     final Sample sample = getPlate().getCrust().getTopBoundary().samples.get( col );
@@ -135,7 +136,7 @@ public class CollidingBehavior extends PlateBehavior {
     private float computeNewX( float millionsOfYears, float sign, float currentX ) {
         millionsOfYears = timeModification( millionsOfYears );
         assert !Float.isNaN( millionsOfYears );
-        final int exponentialFactor = 45;
+        final int exponentialFactor = 6;
         float newX = (float) ( currentX * Math.exp( -Math.pow( millionsOfYears, 2 ) / exponentialFactor ) );
         final float maxXDelta = sign * 30000f / 2 * millionsOfYears;
         final float delta = newX - currentX;

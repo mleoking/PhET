@@ -104,7 +104,7 @@ public class HandleNode extends GLNode {
         float arrowHeadWidth = 14;
         float arrowTailWidth = 8;
 
-        final float arrowPaddingAbove = 80;
+        final float arrowPaddingAbove = 60;
 
         final Property<MotionType> motionType = tab.getPlateMotionModel().motionType;
 
@@ -203,9 +203,9 @@ public class HandleNode extends GLNode {
         } );
     }
 
-    private float stickRadius = 5;
-    private float stickHeight = 50;
-    private float ballRadius = 10;
+    private float stickRadius = 4;
+    private float stickHeight = 40;
+    private float ballRadius = 8;
 
     public void updateTransform( float xRotation, float zRotation ) {
         transform.set( ImmutableMatrix4F.rotationZ( -xRotation ).times( ImmutableMatrix4F.rotationX( zRotation ) ) );
