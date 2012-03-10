@@ -1,3 +1,5 @@
+Main view in 2nd tab is zoomed in further to see more detail (grain and continental collision were also slightly adjusted to match)
+Handles in the manual mode drag at 1/4 of the rate
 Increased ocean-surface coloring contrast to show off mid-oceanic ridge
 Asthenosphere now doesn't move in the 2nd tab
 Changed oceanic lithosphere heights
