@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model.behaviors;
 
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
+import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 
@@ -10,18 +12,20 @@ public class OverridingBehavior extends PlateBehavior {
     private MagmaRegion magmaChamber;
     private float magmaCenterX;
 
+    public static final float TOP_MELT_Y = -100000;
+    public static final float BOTTOM_MELT_Y = -150000;
+
+    // melting X positions, determined by commented-out code in SubductingBehavior. update this if the magma chamber isn't centered properly
+    public static final float OLD_MELT_X = 73000;
+    public static final float YOUNG_MELT_X = 129000;
+
     public OverridingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
         getLithosphere().moveToFront();
         getCrust().moveToFront();
 
-        magmaCenterX = 0; // TODO: update with values based on plate type!
-
-//        magmaChamber = new MagmaRegion( plate.getTextureStrategy(), getMagmaChamberScale(), (float) ( Math.PI / 2 ), 16,
-//                                        new ImmutableVector2F( 0, plate.getPlateType().getCrustTopY() ) );
-//        plate.regions.add( magmaChamber );
-//        magmaChamber.moveToFront();
+        magmaCenterX = getSide().getSign() * ( otherPlate.getPlateType() == PlateType.YOUNG_OCEANIC ? YOUNG_MELT_X : OLD_MELT_X );
     }
 
     private float getMagmaChamberScale() {
@@ -34,6 +38,16 @@ public class OverridingBehavior extends PlateBehavior {
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
+
+        // initialize the magma chamber if we haven't already
+        if ( magmaChamber == null ) {
+            magmaChamber = new MagmaRegion( plate.getTextureStrategy(), getMagmaChamberScale(), (float) ( Math.PI / 2 ), 16,
+                                            new ImmutableVector2F( magmaCenterX, plate.getPlateType().getCrustTopY() ) );
+            plate.regions.add( magmaChamber );
+            magmaChamber.moveToFront();
+            magmaChamber.setAllAlphas( 0 );
+        }
+
         // bring the edge down to the other level fairly quickly
         {
             float boundaryElevation = getSubductingBehavior().getBoundaryElevation();
