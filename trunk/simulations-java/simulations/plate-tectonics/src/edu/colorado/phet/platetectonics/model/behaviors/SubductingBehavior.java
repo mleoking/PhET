@@ -26,6 +26,7 @@ public class SubductingBehavior extends PlateBehavior {
     @Override public void stepInTime( float millionsOfYears ) {
 
         timeElapsed += millionsOfYears;
+        createEarthEdges();
 
         final int size = plate.getCrust().getTopBoundary().samples.size();
 
