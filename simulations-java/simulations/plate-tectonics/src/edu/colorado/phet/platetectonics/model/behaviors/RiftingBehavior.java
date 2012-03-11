@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model.behaviors;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,12 +25,8 @@ public class RiftingBehavior extends PlateBehavior {
     public static final float SPREAD_START_TIME = 10.0f;
 
     public static final float RIFT_PLATE_SPEED = 30000f / 2;
-    public static final float BLOB_SPEED = RIFT_PLATE_SPEED;
-
-    public final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
 
     public static final int BLOB_QUANTITY = 50;
-    private MagmaRegion magmaChamber;
 
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
@@ -41,21 +35,15 @@ public class RiftingBehavior extends PlateBehavior {
         getCrust().moveToFront();
 
         moveMantleTopTo( PlateType.OLD_OCEANIC.getCrustTopY() - 1000 );
+
+        magmaTarget = new ImmutableVector2F( 0, RIDGE_TOP_Y );
+        magmaSpeed = RIFT_PLATE_SPEED;
     }
 
-    @Override public void dispose() {
-        super.dispose();
+    @Override protected void onMagmaRemoved( MagmaRegion magma ) {
+        super.onMagmaRemoved( magma );
 
-        // TODO: this entire function should not be needed!
-
-        if ( plate.getSide() == Side.LEFT ) {
-            for ( MagmaRegion blob : magmaBlobs ) {
-                plate.regions.remove( blob );
-                magmaBlobs.remove( blob );
-            }
-
-            plate.regions.remove( magmaChamber );
-        }
+        addMagmaBlob( true, magma.position.get().minus( magmaTarget ).getMagnitude() );
     }
 
     public void addMagmaBlob( boolean onlyAtBottom ) {
@@ -69,12 +57,7 @@ public class RiftingBehavior extends PlateBehavior {
         ImmutableVector2F directionFromEnd = new ImmutableVector2F( Math.cos( angle ), Math.sin( angle ) ).negate();
         ImmutableVector2F position = new ImmutableVector2F( 0, RIDGE_TOP_Y ).plus( directionFromEnd.times(
                 onlyAtBottom ? maxDistance - additionalMagnitude : (float) ( Math.random() * maxDistance ) ) );
-        MagmaRegion magmaBlob = new MagmaRegion( plate.getTextureStrategy(), 1000, angle, 6, position );
-        magmaBlob.alpha.set( 0f );
-        plate.regions.add( magmaBlob );
-        magmaBlob.moveToFront();
-        magmaChamber.moveToFront(); // keep the chamber in front
-        magmaBlobs.add( magmaBlob );
+        addMagma( position );
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
@@ -103,30 +86,7 @@ public class RiftingBehavior extends PlateBehavior {
         moveSpreading( millionsOfYears );
 
         if ( plate.getSide() == Side.LEFT ) {
-            // animate the magma blobs
-            final ImmutableVector2F blobTarget = new ImmutableVector2F( 0, RIDGE_TOP_Y );
-            for ( MagmaRegion blob : new LinkedList<MagmaRegion>( magmaBlobs ) ) {
-                final ImmutableVector2F currentPosition = blob.position.get();
-                final ImmutableVector2F directionToTarget = blobTarget.minus( currentPosition ).normalized();
-                final ImmutableVector2F newPosition = currentPosition.plus( directionToTarget.times( BLOB_SPEED * millionsOfYears ) );
-                if ( newPosition.y > RIDGE_TOP_Y ) {
-                    // get rid of blob and create a new one
-                    assert plate.regions.contains( blob );
-                    plate.regions.remove( blob );
-                    assert !plate.regions.contains( blob );
-                    assert !plate.getModel().getRegions().contains( blob );
-                    magmaBlobs.remove( blob );
-                    addMagmaBlob( true, newPosition.minus( blobTarget ).getMagnitude() );
-                }
-                else {
-                    // TODO: increase alpha!!
-                    final float alphaSpeed = 0.25f;
-                    if ( blob.alpha.get() < 1 ) {
-                        blob.alpha.set( Math.min( 1, blob.alpha.get() + alphaSpeed * millionsOfYears ) );
-                    }
-                    blob.position.set( newPosition );
-                }
-            }
+            animateMagma( millionsOfYears );
         }
     }
 
