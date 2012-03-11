@@ -48,6 +48,10 @@ public class Terrain {
         return samples.get( xIndex ).get( zIndex );
     }
 
+    public TerrainSample getFrontSample( int xIndex ) {
+        return samples.get( xIndex ).get( getFrontZIndex() );
+    }
+
     public int getNumberOfVertices() {
         return getNumColumns() * getNumRows();
     }
