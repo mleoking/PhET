@@ -19,8 +19,8 @@ public class OverridingBehavior extends PlateBehavior {
     public static final float MELT_CHANCE_FACTOR = 0.0002f;
 
     // melting X positions, determined by commented-out code below. update this if the magma chamber isn't centered properly
-    public static final float OLD_MELT_X = 97000;
-    public static final float YOUNG_MELT_X = 156000;
+    public static final float OLD_MELT_X = 92000;
+    public static final float YOUNG_MELT_X = 151000;
 
     private float chamberFullness = 0;
 

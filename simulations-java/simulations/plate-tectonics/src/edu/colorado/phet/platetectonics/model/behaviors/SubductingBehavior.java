@@ -22,7 +22,7 @@ public class SubductingBehavior extends PlateBehavior {
 
     public static final float PLATE_SPEED = 30000f / 2; // meters per millions of years
 
-    public static final float MAX_HORIZONTAL_OFFSET = 40000;
+    public static final float MAX_HORIZONTAL_OFFSET = 35000;
     public static final float OFFSET_RATE = 0.4f;
 
     public static final float BLEND_THRESHOLD_Y = -150000;
