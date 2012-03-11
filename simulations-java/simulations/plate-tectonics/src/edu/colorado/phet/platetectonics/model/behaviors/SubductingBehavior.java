@@ -14,6 +14,8 @@ public class SubductingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
 
+    private int regionToTerrainOffset = 0; // offset added to region column indices to get the corresponding terrain index
+
     public static final float PLATE_SPEED = 30000f / 2; // meters per millions of years
 
     public static final float MAX_HORIZONTAL_OFFSET = 40000;
@@ -42,6 +44,8 @@ public class SubductingBehavior extends PlateBehavior {
             result[i] = computeSubductingPosition( getT( i ), offsetVector );
         }
 
+        // TODO: compute terrain changes here
+
         for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
             boolean isCrust = region == plate.getCrust();
 
@@ -66,6 +70,8 @@ public class SubductingBehavior extends PlateBehavior {
                 }
             }
         }
+
+        getPlate().getTerrain().elevationChanged.updateListeners();
     }
 
     // NOTE: relies on slices not getting removed
@@ -83,7 +89,7 @@ public class SubductingBehavior extends PlateBehavior {
 
     private float getOffsetSize() {
         // the "old" crust is pushed back the fastest
-        float base = timeElapsed * PLATE_SPEED * OFFSET_RATE * ( plate.getPlateType() == PlateType.OLD_OCEANIC ? 2 : 1 );
+        float base = timeElapsed * PLATE_SPEED * OFFSET_RATE * ( plate.getPlateType() == PlateType.OLD_OCEANIC ? 1.7f : 1 );
         if ( base > MAX_HORIZONTAL_OFFSET ) {
             return MAX_HORIZONTAL_OFFSET;
         }
