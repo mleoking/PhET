@@ -2,13 +2,19 @@
 package edu.colorado.phet.platetectonics.model.behaviors;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
+import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.regions.Boundary;
+import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
 public class SubductingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
+
+    public static final float PLATE_SPEED = 30000f / 2; // meters per millions of years
 
     public SubductingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
@@ -21,7 +27,51 @@ public class SubductingBehavior extends PlateBehavior {
 
         timeElapsed += millionsOfYears;
 
+        final int size = plate.getCrust().getTopBoundary().samples.size();
 
+        ColumnResult[] result = new ColumnResult[size];
+        for ( int i = 0; i < size; i++ ) {
+            // TODO: add in offset to have the x=0 boundary at the right place after a certain amount of time
+            result[i] = computeSubductingPosition( getT( i ), new ImmutableVector2F() );
+        }
+
+        for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
+            boolean isCrust = region == plate.getCrust();
+
+            for ( int i = 0; i < size; i++ ) {
+                ImmutableVector2F top = isCrust ? result[i].crustTop : result[i].crustBottom;
+                ImmutableVector2F bottom = isCrust ? result[i].crustBottom : result[i].lithosphereBottom;
+
+                for ( int boundaryIndex = 0; boundaryIndex < region.getBoundaries().size(); boundaryIndex++ ) {
+                    Boundary boundary = region.getBoundaries().get( boundaryIndex );
+
+                    float ratio = ( (float) boundaryIndex ) / ( (float) ( region.getBoundaries().size() - 1 ) );
+
+                    Sample sample = boundary.samples.get( i );
+
+                    ImmutableVector3F newPosition = new ImmutableVector3F(
+                            ( 1 - ratio ) * top.x + ( ratio ) * bottom.x,
+                            ( 1 - ratio ) * top.y + ( ratio ) * bottom.y,
+                            sample.getPosition().z
+                    );
+
+                    sample.setPosition( newPosition );
+                }
+            }
+        }
+    }
+
+    // NOTE: relies on slices not getting removed
+    public float getT( int columnIndex ) {
+        float pieceWidth = plate.getSimpleChunkWidth();
+        float staticT = pieceWidth * ( plate.getSide() == Side.LEFT
+
+                                       // for the left, we want the right-most column to have 0, then descending to the left
+                                       ? -( plate.getCrust().getTopBoundary().samples.size() - 1 - columnIndex )
+
+                                       // simplier for the right
+                                       : -columnIndex );
+        return staticT + timeElapsed * PLATE_SPEED;
     }
 
     /*---------------------------------------------------------------------------*
