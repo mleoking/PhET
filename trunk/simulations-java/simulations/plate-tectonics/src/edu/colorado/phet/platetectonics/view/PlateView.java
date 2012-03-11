@@ -10,7 +10,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
+import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
@@ -67,6 +69,17 @@ public class PlateView extends GLNode {
             public void apply( Terrain terrain ) {
                 removeChild( nodeMap.get( terrain ) );
                 nodeMap.remove( terrain );
+            }
+        } );
+
+        // add a marker when debugPing is notified
+        model.debugPing.addListener( new VoidFunction1<ImmutableVector3F>() {
+            public void apply( final ImmutableVector3F location ) {
+                addChild( new UnitMarker() {{
+                    ImmutableVector3F viewLocation = tab.getModelViewTransform().transformPosition( PlateModel.convertToRadial( location ) );
+                    translate( viewLocation.x, viewLocation.y, viewLocation.z );
+                    scale( 3 );
+                }} );
             }
         } );
     }

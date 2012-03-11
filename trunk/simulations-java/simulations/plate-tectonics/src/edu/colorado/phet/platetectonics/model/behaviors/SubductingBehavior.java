@@ -2,11 +2,13 @@
 package edu.colorado.phet.platetectonics.model.behaviors;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
-import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.PlateType;
+import edu.colorado.phet.platetectonics.util.Side;
 
 public class SubductingBehavior extends PlateBehavior {
+
+    private float timeElapsed = 0;
 
     public SubductingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
@@ -16,102 +18,158 @@ public class SubductingBehavior extends PlateBehavior {
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
-        for ( Sample sample : plate.getCrust().getSamples() ) {
-            final int sign = -getPlate().getSide().getSign();
-            final float shearFactor = 1;
 
-            ImmutableVector3F preShearedPosition = sample.getPosition();
-            ImmutableVector3F postShearedPosition = new ImmutableVector3F( preShearedPosition.x + preShearedPosition.y * sign * shearFactor,
-                                                                           preShearedPosition.y,
-                                                                           preShearedPosition.z );
-            ImmutableVector3F transformedPosition = transformedSamplePosition( postShearedPosition, millionsOfYears );
-            ImmutableVector3F unshearedPosition = new ImmutableVector3F( transformedPosition.x - transformedPosition.y * sign * shearFactor,
-                                                                         transformedPosition.y,
-                                                                         transformedPosition.z );
-
-            sample.setPosition( unshearedPosition );
+        timeElapsed += millionsOfYears;
 
 
-//            final ImmutableVector3F offsetVector = new ImmutableVector3F( millionsOfYears * 10000 * sign, 0, 0 );
-//            final float pushFactor = sample.getPosition().x * sign;
-//            if ( ( getPlate().isLeftPlate() && offsetVector.x > 0 )
-//                 || ( !getPlate().isLeftPlate() && offsetVector.x < 0 ) ) {
-//                offsetVector = offsetVector.plus( new ImmutableVector3F( 0, 0, ) )
-//            }
-//            sample.setPosition( sample.getPosition().plus( offsetVector ) );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * new method of computing the subducting crust's position
+    * see shapes.nb in the assets directory for more information and graphics
+    *----------------------------------------------------------------------------*/
+
+    public static class ColumnResult {
+        public final ImmutableVector2F crustTop;
+        public final ImmutableVector2F crustBottom;
+        public final ImmutableVector2F lithosphereBottom;
+        public final ImmutableVector2F lithosphereCenter;
+
+        public ColumnResult( ImmutableVector2F crustTop, ImmutableVector2F crustBottom, ImmutableVector2F lithosphereBottom, ImmutableVector2F lithosphereCenter ) {
+            this.crustTop = crustTop;
+            this.crustBottom = crustBottom;
+            this.lithosphereBottom = lithosphereBottom;
+            this.lithosphereCenter = lithosphereCenter;
         }
     }
 
-    public static ImmutableVector3F transformedSamplePosition( ImmutableVector3F position, float timeElapsed ) {
-        ImmutableVector2F origin = new ImmutableVector2F( 0, 5005 );
-        ImmutableVector2F toDir = ImmutableVector2F.Y_UNIT.negate();
-        ImmutableVector2F fromDir = ImmutableVector2F.X_UNIT;
+    private final float y0 = plate.getPlateType().getCrustTopY() - plate.getPlateType().getLithosphereThickness() / 2;
+    private final float m = plate.getPlateType().getLithosphereThickness() / 2;
+    private final float cb = plate.getPlateType().getLithosphereThickness() / 2 - plate.getPlateType().getCrustThickness();
+    private final float totalAngle = (float) ( ( Math.PI / 4 ) * ( plate.getPlateType() == PlateType.OLD_OCEANIC ? 1.2 : 0.8 ) );
 
-        ImmutableVector2F pos = new ImmutableVector2F( position.x, position.y ).minus( origin );
+    private final float theta0 = totalAngle * 0.25f;
+    private final float theta1 = totalAngle * 0.5f;
+    private final float theta2 = totalAngle * 0.25f;
 
-        // flip the "from" direction if we are on the other side of the "to" direction
-        if ( fromDir.dot( toDir ) > fromDir.dot( pos.normalized() ) ) {
-            fromDir = ImmutableVector2F.X_UNIT.negate();
+    private final float radius0 = 90000;
+    private final float radius1 = 40000;
+    private final float radius2 = 90000;
+
+    private final float t0 = 0;
+    private final float t1 = theta0 * radius0;
+    private final float t2 = t1 + theta1 * radius1;
+    private final float t3 = t2 + theta2 * radius2;
+
+    private final ImmutableVector2F center0 = new ImmutableVector2F( 0, y0 - radius0 );
+
+    private ImmutableVector2F p0( float t ) {
+        return new ImmutableVector2F( -t, y0 );
+    }
+
+    private static final ImmutableVector2F value_pd0 = new ImmutableVector2F( -1, 0 );
+
+    // TODO: refactor
+    private ImmutableVector2F pd0( float t ) {
+        return value_pd0;
+    }
+
+    private ImmutableVector2F p1( float t ) {
+        float theta = (float) ( Math.PI / 2 + ( t - t0 ) / radius0 );
+        return center0.plus( vectorFromAngle( theta ).times( radius0 ) );
+    }
+
+    private ImmutableVector2F pd1( float t ) {
+        return bottomFromTangent( p1( t ).minus( center0 ).normalized() );
+    }
+
+    private final ImmutableVector2F center1 = p1( t1 ).plus( center0.minus( p1( t1 ) ).normalized().times( radius1 ) );
+
+    private ImmutableVector2F p2( float t ) {
+        float theta = (float) ( Math.PI / 2 + theta0 + ( t - t1 ) / radius1 );
+        return center1.plus( vectorFromAngle( theta ).times( radius1 ) );
+    }
+
+    private ImmutableVector2F pd2( float t ) {
+        return bottomFromTangent( p2( t ).minus( center1 ).normalized() );
+    }
+
+    private final ImmutableVector2F center2 = p2( t2 ).plus( center1.minus( p2( t2 ) ).normalized().times( radius2 ) );
+
+    private ImmutableVector2F p3( float t ) {
+        float theta = (float) ( Math.PI / 2 + theta0 + theta1 + ( t - t2 ) / radius2 );
+        return center2.plus( vectorFromAngle( theta ).times( radius2 ) );
+    }
+
+    private ImmutableVector2F pd3( float t ) {
+        return bottomFromTangent( p3( t ).minus( center2 ).normalized() );
+    }
+
+    private final ImmutableVector2F dir4 = vectorFromAngle( (float) ( totalAngle + Math.PI ) );
+
+    private final ImmutableVector2F p3oft3 = p3( t3 );
+
+    private ImmutableVector2F p4( float t ) {
+        return p3oft3.plus( dir4.times( t - t3 ) );
+    }
+
+    private ImmutableVector2F pd4( float t ) {
+        return dir4;
+    }
+
+    public ColumnResult computeSubductingPosition( float t, ImmutableVector2F offset ) {
+        ImmutableVector2F position;
+        ImmutableVector2F derivative;
+
+        if ( t < t0 ) {
+            position = p0( t );
+            derivative = pd0( t );
+        }
+        else if ( t < t1 ) {
+            position = p1( t );
+            derivative = pd1( t );
+        }
+        else if ( t < t2 ) {
+            position = p2( t );
+            derivative = pd2( t );
+        }
+        else if ( t < t3 ) {
+            position = p3( t );
+            derivative = pd3( t );
+        }
+        else {
+            position = p4( t );
+            derivative = pd4( t );
         }
 
-        ImmutableVector2F medianDir = fromDir.plus( toDir ).normalized();
-        ImmutableVector2F motionDir = new ImmutableVector2F( Math.signum( medianDir.x ) * medianDir.y, -Math.abs( medianDir.x ) );
+        ImmutableVector2F tangent = topFromTangent( derivative );
 
-        float value = toDir.dot( pos ) * fromDir.dot( pos );
-        float currentProgress = motionDir.dot( pos );
-        float newProgress = currentProgress + timeElapsed * 5000;
+        // add in the offset
+        position = position.plus( offset );
 
-        ImmutableVector2F highSolution;
-        ImmutableVector2F lowSolution;
-        {
-            // vector a == fromDir
-            float ax = fromDir.x;
-            float ay = fromDir.y;
-            // vector b == toDir
-            float bx = toDir.x;
-            float by = toDir.y;
-            // vector d = motionDir
-            float dx = motionDir.x;
-            float dy = motionDir.y;
-
-            float c = value;
-            float p = newProgress;
-
-            // we want to solve where
-            // p = dot( d, x ) and
-            // c = dot( a, x ) * dot( b, x )
-            // this was solved by hand into these quadratic coefficients, and we can solve for both "possible" solutions
-            // polyA * x^2 + polyB * x + polyC = 0
-            float polyA = ax * bx - ( ax * by + ay * bx ) * ( dx / dy ) + ay * by * ( dx / dy ) * ( dx / dy );
-            float polyB = ( ax * by + ay * bx ) * ( p / dy ) - ay * by * 2 * p * ( dx / ( dy * dy ) );
-            float polyC = ay * by * p * p / ( dy * dy ) - c;
-
-            // solve for x using the quadratic equation.
-            float discriminant = polyB * polyB - 4 * polyA * polyC;
-            if ( discriminant < 0 ) {
-                System.out.println( "toDir = " + toDir );
-                System.out.println( "fromDir = " + fromDir );
-                System.out.println( "motionDir = " + motionDir );
-                System.out.println( "sample.position = " + position );
-                System.out.println( "pos = " + pos );
-                System.out.println( "currentProgress = " + currentProgress );
-                System.out.println( "newProgress = " + newProgress );
-                System.out.println( "value = " + value );
-                throw new RuntimeException( "discriminant < 0" );
-            }
-            float largeX = (float) ( ( -polyB + Math.sqrt( discriminant ) ) / ( 2 * polyA ) );
-            float smallX = (float) ( ( -polyB - Math.sqrt( discriminant ) ) / ( 2 * polyA ) );
-
-            // solve for y based on the "progress" formula y=(p-x*dx)/dy
-            float largeY = ( p - largeX * dx ) / dy;
-            float smallY = ( p - smallX * dx ) / dy;
-
-            highSolution = new ImmutableVector2F( largeX, largeY );
-            lowSolution = new ImmutableVector2F( smallX, smallY );
+        // if the plate is the left side, we actually switch it here
+        if ( plate.getSide() == Side.LEFT ) {
+            position = new ImmutableVector2F( -position.x, position.y );
+            tangent = new ImmutableVector2F( -tangent.x, tangent.y );
         }
 
-        // pick the solution that has a smaller y for now TODO: make sure this is right
-        final ImmutableVector2F p = ( lowSolution.y < highSolution.y ? lowSolution : highSolution ).plus( origin );
-        return new ImmutableVector3F( p.x, p.y, position.z );
+        return new ColumnResult(
+                position.plus( tangent.times( m ) ),
+                position.plus( tangent.times( cb ) ),
+                position.plus( tangent.times( -m ) ),
+                position
+        );
+    }
+
+    private static ImmutableVector2F topFromTangent( ImmutableVector2F v ) {
+        return new ImmutableVector2F( v.y, -v.x );
+    }
+
+    private static ImmutableVector2F bottomFromTangent( ImmutableVector2F v ) {
+        return topFromTangent( v ).negate();
+    }
+
+    private static ImmutableVector2F vectorFromAngle( float angle ) {
+        return new ImmutableVector2F( Math.cos( angle ), Math.sin( angle ) );
     }
 }

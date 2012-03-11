@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
