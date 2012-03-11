@@ -191,7 +191,7 @@ import static fj.Function.curry;
                 newState = newState.toggle( cp );
             }
             else {
-                System.out.println( "Null CP!" );
+                //No unoccupied location, so don't modify the state
             }
         }
         return newState;
