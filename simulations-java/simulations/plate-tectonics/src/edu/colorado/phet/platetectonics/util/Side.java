@@ -18,6 +18,11 @@ public enum Side {
         return this == LEFT ? 0 : size - 1;
     }
 
+    // like getIndex, but with an offset to the other side
+    public int getFromIndex( int size, int offset ) {
+        return this == LEFT ? offset : size - 1 - offset;
+    }
+
     public <T> int getIndex( Collection<T> collection ) {
         return getIndex( collection.size() );
     }
