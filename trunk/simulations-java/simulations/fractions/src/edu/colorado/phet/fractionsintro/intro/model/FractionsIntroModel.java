@@ -297,7 +297,6 @@ public class FractionsIntroModel {
                         newState = newState.cakeSet( newState.cakeSet.slices( newState.cakeSet.slices.cons( newCakeSlice ) ).animateSliceToBucket( newCakeSlice ) );
 
                         csx = csx.toggle( cp );
-                        System.out.println( "Toggling cp = " + cp );
                     }
                 }
                 return newState;
