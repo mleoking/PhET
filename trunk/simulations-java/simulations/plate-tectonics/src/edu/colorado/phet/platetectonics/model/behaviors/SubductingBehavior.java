@@ -16,6 +16,9 @@ public class SubductingBehavior extends PlateBehavior {
 
     public static final float PLATE_SPEED = 30000f / 2; // meters per millions of years
 
+    public static final float MAX_HORIZONTAL_OFFSET = 40000;
+    public static final float OFFSET_RATE = 0.4f;
+
     public SubductingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
@@ -32,8 +35,11 @@ public class SubductingBehavior extends PlateBehavior {
 
         ColumnResult[] result = new ColumnResult[size];
         for ( int i = 0; i < size; i++ ) {
-            // TODO: add in offset to have the x=0 boundary at the right place after a certain amount of time
-            result[i] = computeSubductingPosition( getT( i ), new ImmutableVector2F() );
+            final ImmutableVector2F offsetVector = new ImmutableVector2F(
+                    getOffsetSize(),
+                    0
+            );
+            result[i] = computeSubductingPosition( getT( i ), offsetVector );
         }
 
         for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
@@ -72,7 +78,21 @@ public class SubductingBehavior extends PlateBehavior {
 
                                        // simplier for the right
                                        : -columnIndex );
-        return staticT + timeElapsed * PLATE_SPEED;
+        return staticT + timeElapsed * PLATE_SPEED + getOffsetSize();
+    }
+
+    private float getOffsetSize() {
+        // the "old" crust is pushed back the fastest
+        float base = timeElapsed * PLATE_SPEED * OFFSET_RATE * ( plate.getPlateType() == PlateType.OLD_OCEANIC ? 2 : 1 );
+        if ( base > MAX_HORIZONTAL_OFFSET ) {
+            return MAX_HORIZONTAL_OFFSET;
+        }
+        else {
+            // add a quadratic blend from 0 to max over the first amount of time
+            float ratioBefore = base / MAX_HORIZONTAL_OFFSET;
+            float ratioAfter = -ratioBefore * ratioBefore + 2 * ratioBefore;
+            return ratioAfter * MAX_HORIZONTAL_OFFSET;
+        }
     }
 
     /*---------------------------------------------------------------------------*
