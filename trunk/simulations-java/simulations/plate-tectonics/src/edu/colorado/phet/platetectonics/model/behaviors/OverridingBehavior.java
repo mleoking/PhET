@@ -3,11 +3,29 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 
 public class OverridingBehavior extends PlateBehavior {
 
+    private MagmaRegion magmaChamber;
+    private float magmaCenterX;
+
     public OverridingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
+
+        getLithosphere().moveToFront();
+        getCrust().moveToFront();
+
+        magmaCenterX = 0; // TODO: update with values based on plate type!
+
+//        magmaChamber = new MagmaRegion( plate.getTextureStrategy(), getMagmaChamberScale(), (float) ( Math.PI / 2 ), 16,
+//                                        new ImmutableVector2F( 0, plate.getPlateType().getCrustTopY() ) );
+//        plate.regions.add( magmaChamber );
+//        magmaChamber.moveToFront();
+    }
+
+    private float getMagmaChamberScale() {
+        return plate.getPlateType().getCrustThickness() / ( plate.getPlateType().isOceanic() ? 3f : 6f );
     }
 
     private SubductingBehavior getSubductingBehavior() {
@@ -29,7 +47,7 @@ public class OverridingBehavior extends PlateBehavior {
             final int columnIndex = getOppositeSide().getIndex( getNumCrustXSamples() );
             getCrust().layoutColumn( columnIndex,
                                      currentElevation + delta,
-                                     getCrust().getBottomElevation( columnIndex ),
+                                     getCrust().getBottomElevation( columnIndex ) + delta,
                                      plate.getTextureStrategy(), true );
             getTerrain().shiftColumnElevation( columnIndex, delta );
         }
@@ -72,9 +90,12 @@ public class OverridingBehavior extends PlateBehavior {
 
             final float newCrustTop = ( currentCrustTop - center ) * resizeFactor + center;
 
+            // compute new bottom with the same delta
+            final float newCrustBottom = currentCrustBottom + ( newCrustTop - currentCrustTop );
+
             getCrust().layoutColumn( columnIndex,
                                      newCrustTop,
-                                     currentCrustBottom,
+                                     newCrustBottom,
                                      plate.getTextureStrategy(), true );
             getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
         }

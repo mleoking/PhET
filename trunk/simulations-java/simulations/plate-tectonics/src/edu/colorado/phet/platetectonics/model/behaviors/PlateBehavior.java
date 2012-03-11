@@ -20,6 +20,11 @@ public abstract class PlateBehavior {
         this.otherPlate = otherPlate;
     }
 
+    // called after both behaviors have initialized
+    public void afterConstructionInit() {
+
+    }
+
     public abstract void stepInTime( float millionsOfYears );
 
     public PlateMotionPlate getOtherPlate() {

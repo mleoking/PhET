@@ -148,6 +148,9 @@ public class PlateMotionModel extends PlateModel {
                 rightPlate.setBehavior( new RiftingBehavior( rightPlate, leftPlate ) );
                 break;
         }
+
+        leftPlate.getBehavior().afterConstructionInit();
+        rightPlate.getBehavior().afterConstructionInit();
     }
 
     private void resetPlates() {

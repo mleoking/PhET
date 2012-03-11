@@ -19,12 +19,19 @@ public class SubductingBehavior extends PlateBehavior {
 
     public static final float PLATE_SPEED = 30000f / 2; // meters per millions of years
 
+    public static final float BLOB_SPEED = PLATE_SPEED;
+
     public static final float MAX_HORIZONTAL_OFFSET = 40000;
     public static final float OFFSET_RATE = 0.4f;
 
     public SubductingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
+    }
 
+    @Override public void afterConstructionInit() {
+        super.afterConstructionInit();
+
+        // placed here so it happens for sure after the overriding behavior's constructor executes
         getLithosphere().moveToFront();
         getCrust().moveToFront();
     }
