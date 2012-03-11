@@ -51,6 +51,8 @@ public abstract class PlateModel {
         }
     };
 
+    public final Notifier<ImmutableVector3F> debugPing = new Notifier<ImmutableVector3F>();
+
     protected PlateModel( final Bounds3D bounds, TextureStrategy textureStrategy ) {
         this.bounds = bounds;
         this.textureStrategy = textureStrategy;
