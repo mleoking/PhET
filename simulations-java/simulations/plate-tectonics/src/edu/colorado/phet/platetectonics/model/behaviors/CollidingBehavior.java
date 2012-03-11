@@ -19,8 +19,8 @@ public class CollidingBehavior extends PlateBehavior {
     public CollidingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
-        plate.getLithosphere().moveToFront();
-        plate.getCrust().moveToFront();
+        getLithosphere().moveToFront();
+        getCrust().moveToFront();
 
         moveMantleTopTo( 0 );
     }

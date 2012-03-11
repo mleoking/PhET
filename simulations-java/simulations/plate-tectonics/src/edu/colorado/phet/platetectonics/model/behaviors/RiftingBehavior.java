@@ -37,8 +37,8 @@ public class RiftingBehavior extends PlateBehavior {
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
-        plate.getLithosphere().moveToFront();
-        plate.getCrust().moveToFront();
+        getLithosphere().moveToFront();
+        getCrust().moveToFront();
 
         if ( plate.getSide() == Side.LEFT ) {
             magmaChamber = new MagmaRegion( plate.getTextureStrategy(), PlateType.YOUNG_OCEANIC.getCrustThickness() / 3f, (float) ( Math.PI / 2 ), 16,
@@ -161,8 +161,8 @@ public class RiftingBehavior extends PlateBehavior {
 
         // if our "shortened" segment needs to be updated, then we update it
         {
-            final Sample centerTopSample = getSampleFromCenter( plate.getCrust().getTopBoundary(), 0 );
-            final Sample nextSample = getSampleFromCenter( plate.getCrust().getTopBoundary(), 1 );
+            final Sample centerTopSample = getSampleFromCenter( getCrust().getTopBoundary(), 0 );
+            final Sample nextSample = getSampleFromCenter( getCrust().getTopBoundary(), 1 );
             final float currentWidth = Math.abs( nextSample.getPosition().x - centerTopSample.getPosition().x );
             if ( currentWidth < idealChunkWidth * 1.001 ) {
                 float currentPosition = centerTopSample.getPosition().x;
@@ -173,10 +173,10 @@ public class RiftingBehavior extends PlateBehavior {
                 }
 
                 final float offset = idealPosition - currentPosition;
-                final int index = plate.getSide().opposite().getIndex( plate.getCrust().getTopBoundary().samples );
+                final int index = plate.getSide().opposite().getIndex( getCrust().getTopBoundary().samples );
                 shiftColumn( index, offset );
 
-                if ( idealPosition != 0 && plate.getCrust().getTopBoundary().samples.get( index ).getDensity() == PlateType.YOUNG_OCEANIC.getDensity() ) {
+                if ( idealPosition != 0 && getCrust().getTopBoundary().samples.get( index ).getDensity() == PlateType.YOUNG_OCEANIC.getDensity() ) {
                     sinkOceanicCrust( Math.abs( idealPosition ) / RIFT_PLATE_SPEED, index );
                     elevationColumnsChanged.add( index );
                 }
@@ -187,7 +187,7 @@ public class RiftingBehavior extends PlateBehavior {
         * add fresh crust
         *----------------------------------------------------------------------------*/
         final Side zeroSide = plate.getSide().opposite();
-        while ( getSampleFromCenter( plate.getCrust().getTopBoundary(), 0 ).getPosition().x * plate.getSide().getSign() > 0.0001 ) {
+        while ( getSampleFromCenter( getCrust().getTopBoundary(), 0 ).getPosition().x * plate.getSide().getSign() > 0.0001 ) {
             plate.addSection( zeroSide, PlateType.YOUNG_OCEANIC );
 
             // if we add to the left, we need to update all of our "already elevation changed" indices
@@ -201,20 +201,20 @@ public class RiftingBehavior extends PlateBehavior {
 
             { // update the new section positions
                 // re-layout that section
-                final int newIndex = zeroSide.getIndex( plate.getCrust().getTopBoundary().samples );
+                final int newIndex = zeroSide.getIndex( getCrust().getTopBoundary().samples );
                 final float crustBottom = RIDGE_TOP_Y - PlateType.YOUNG_OCEANIC.getCrustThickness();
-                plate.getCrust().layoutColumn( newIndex,
-                                               RIDGE_TOP_Y,
-                                               crustBottom,
-                                               plate.getTextureStrategy(), true ); // essentially reset the textures
+                getCrust().layoutColumn( newIndex,
+                                         RIDGE_TOP_Y,
+                                         crustBottom,
+                                         plate.getTextureStrategy(), true ); // essentially reset the textures
 
                 // make the mantle part of the lithosphere have zero thickness here
-                plate.getLithosphere().layoutColumn( newIndex,
-                                                     crustBottom, crustBottom,
-                                                     plate.getTextureStrategy(), true );
+                getLithosphere().layoutColumn( newIndex,
+                                               crustBottom, crustBottom,
+                                               plate.getTextureStrategy(), true );
 
                 // correct the Y-texture values that were caused to be somewhat incorrect by the addSection
-                for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
+                for ( Region region : getLithosphereRegions() ) {
                     for ( Boundary boundary : region.getBoundaries() ) {
                         Sample sample = boundary.samples.get( newIndex );
                         ImmutableVector2F staticTextureCoordinates = plate.getTextureStrategy().mapFront( new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y ) );
@@ -222,18 +222,18 @@ public class RiftingBehavior extends PlateBehavior {
                     }
                 }
 
-                for ( TerrainSample sample : plate.getTerrain().getColumn( newIndex ) ) {
+                for ( TerrainSample sample : getTerrain().getColumn( newIndex ) ) {
                     sample.setElevation( RIDGE_TOP_Y );
                 }
             }
 
             // this will reference the newly created section top are on the same side, then we need to process the heights like normal
-            final float newX = getSampleFromCenter( plate.getCrust().getTopBoundary(), 0 ).getPosition().x;
+            final float newX = getSampleFromCenter( getCrust().getTopBoundary(), 0 ).getPosition().x;
             if ( newX * plate.getSide().getSign() > 0 ) {
                 // our created column is on the correct side (there was a lot of room)
                 // we need to compensate for how much time should have passed
 
-                int newIndex = zeroSide.getIndex( plate.getCrust().getTopBoundary().samples );
+                int newIndex = zeroSide.getIndex( getCrust().getTopBoundary().samples );
 
                 // we can actually compute the "passed" years directly here from our position
                 sinkOceanicCrust( Math.abs( newX ) / RIFT_PLATE_SPEED, newIndex );
@@ -241,7 +241,7 @@ public class RiftingBehavior extends PlateBehavior {
             }
             else {
                 // our column needs to be put in the exact center (x=0)
-                final List<Sample> topSamples = plate.getCrust().getTopBoundary().samples;
+                final List<Sample> topSamples = getCrust().getTopBoundary().samples;
                 final int index = zeroSide.getIndex( topSamples );
 
                 // shift over the entire column
@@ -253,8 +253,8 @@ public class RiftingBehavior extends PlateBehavior {
         * handle plate changes
         *----------------------------------------------------------------------------*/
         {
-            for ( int columnIndex = 0; columnIndex < plate.getCrust().getTopBoundary().samples.size(); columnIndex++ ) {
-                Sample topSample = plate.getCrust().getTopBoundary().samples.get( columnIndex );
+            for ( int columnIndex = 0; columnIndex < getNumCrustXSamples(); columnIndex++ ) {
+                Sample topSample = getCrust().getTopBoundary().samples.get( columnIndex );
                 if ( topSample.getDensity() == PlateType.CONTINENTAL.getDensity() ) {
                     /*---------------------------------------------------------------------------*
                     * continental modifications
@@ -264,18 +264,18 @@ public class RiftingBehavior extends PlateBehavior {
                     float fakeNeighborhoodY = topSample.getPosition().y;
                     int count = 1;
                     if ( columnIndex > 0 ) {
-                        fakeNeighborhoodY += plate.getCrust().getTopBoundary().samples.get( columnIndex - 1 ).getPosition().y;
+                        fakeNeighborhoodY += getCrust().getTopBoundary().samples.get( columnIndex - 1 ).getPosition().y;
                         count += 1;
                     }
-                    if ( columnIndex < plate.getCrust().getTopBoundary().samples.size() - 1 ) {
-                        fakeNeighborhoodY += plate.getCrust().getTopBoundary().samples.get( columnIndex + 1 ).getPosition().y;
+                    if ( columnIndex < getNumCrustXSamples() - 1 ) {
+                        fakeNeighborhoodY += getCrust().getTopBoundary().samples.get( columnIndex + 1 ).getPosition().y;
                         count += 1;
                     }
                     fakeNeighborhoodY /= count;
 
-                    float currentCrustTop = plate.getCrust().getTopElevation( columnIndex );
-                    float currentCrustBottom = plate.getCrust().getBottomElevation( columnIndex );
-                    float currentLithosphereBottom = plate.getLithosphere().getBottomElevation( columnIndex );
+                    float currentCrustTop = getCrust().getTopElevation( columnIndex );
+                    float currentCrustBottom = getCrust().getBottomElevation( columnIndex );
+                    float currentLithosphereBottom = getLithosphere().getBottomElevation( columnIndex );
                     float currentCrustWidth = currentCrustTop - currentCrustBottom;
 
                     // try subtracting off top and bottom, and see how much all of this would change
@@ -293,15 +293,15 @@ public class RiftingBehavior extends PlateBehavior {
                     // x^2 the resizing factor for the bottoms so they shrink faster
                     final float newCrustBottom = ( currentCrustBottom - center ) * resizeFactor * resizeFactor + center;
                     final float newLithosphereBottom = ( currentLithosphereBottom - center ) * resizeFactor * resizeFactor + center;
-                    plate.getCrust().layoutColumn( columnIndex,
-                                                   newCrustTop,
+                    getCrust().layoutColumn( columnIndex,
+                                             newCrustTop,
+                                             newCrustBottom,
+                                             plate.getTextureStrategy(), true );
+                    getLithosphere().layoutColumn( columnIndex,
                                                    newCrustBottom,
+                                                   newLithosphereBottom,
                                                    plate.getTextureStrategy(), true );
-                    plate.getLithosphere().layoutColumn( columnIndex,
-                                                         newCrustBottom,
-                                                         newLithosphereBottom,
-                                                         plate.getTextureStrategy(), true );
-                    plate.getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
+                    getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
                     // TODO: change the lithosphere!
                 }
                 else if ( topSample.getDensity() == PlateType.YOUNG_OCEANIC.getDensity() ) {
@@ -332,7 +332,7 @@ public class RiftingBehavior extends PlateBehavior {
 
             final float magicConstant1 = 4;
 
-            float currentTopY = plate.getCrust().getTopElevation( columnIndex );
+            float currentTopY = getCrust().getTopElevation( columnIndex );
             float currentRatio = ( currentTopY - topY ) / ( bottomY - topY );
 
             // invert arctanget, offset, then apply normally
@@ -353,13 +353,13 @@ public class RiftingBehavior extends PlateBehavior {
 
             float newTopY = ( 1 - newRatio ) * topY + ( newRatio ) * bottomY;
             float offsetY = newTopY - currentTopY;
-            for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
+            for ( Region region : getLithosphereRegions() ) {
                 for ( Boundary boundary : region.getBoundaries() ) {
                     final Sample sample = boundary.samples.get( columnIndex );
                     sample.setPosition( sample.getPosition().plus( ImmutableVector3F.Y_UNIT.times( offsetY ) ) );
                 }
             }
-            plate.getTerrain().shiftColumnElevation( columnIndex, offsetY );
+            getTerrain().shiftColumnElevation( columnIndex, offsetY );
         }
 
         {
@@ -389,20 +389,14 @@ public class RiftingBehavior extends PlateBehavior {
     }
 
     private void shiftColumn( int columnIndex, float xOffset ) {
-        for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
+        for ( Region region : getLithosphereRegions() ) {
             for ( Boundary boundary : region.getBoundaries() ) {
                 boundary.samples.get( columnIndex ).shiftWithTexture( new ImmutableVector3F( xOffset, 0, 0 ), plate.getTextureStrategy() );
             }
         }
 
-        plate.getTerrain().shiftColumnXWithTexture( plate.getTextureStrategy(), columnIndex, xOffset );
-//        plate.getTerrain().xPositions.set( columnIndex, plate.getTerrain().xPositions.get( columnIndex ) + xOffset );
-//        final ImmutableVector2F offset2D = new ImmutableVector2F( xOffset, 0 );
-//
-//        for ( TerrainSample sample : plate.getTerrain().getColumn( columnIndex ) ) {
-//            sample.shiftWithTexture( offset2D, plate.getTextureStrategy() );
-//        }
-        plate.getTerrain().columnsModified.updateListeners();
+        getTerrain().shiftColumnXWithTexture( plate.getTextureStrategy(), columnIndex, xOffset );
+        getTerrain().columnsModified.updateListeners();
     }
 
     private void riftPostProcess() {
