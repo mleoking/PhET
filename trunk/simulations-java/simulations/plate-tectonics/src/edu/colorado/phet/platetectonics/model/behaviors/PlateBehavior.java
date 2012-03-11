@@ -1,11 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model.behaviors;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
+import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
@@ -14,6 +20,11 @@ public abstract class PlateBehavior {
     public final PlateMotionPlate otherPlate;
 
     public static final float PLATE_X_LIMIT = 700000;
+
+    protected final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
+    protected ImmutableVector2F magmaTarget;
+    protected MagmaRegion magmaChamber;
+    protected float magmaSpeed;
 
     public PlateBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         this.plate = plate;
@@ -156,7 +167,51 @@ public abstract class PlateBehavior {
         }
     }
 
-    public void dispose() {
+    // override if we want to do something when this is removed
+    protected void onMagmaRemoved( MagmaRegion magma ) {
 
+    }
+
+    public void addMagma( ImmutableVector2F position, float initialAlpha ) {
+        ImmutableVector2F dirToTarget = magmaTarget.minus( position ).normalized();
+        float angle = (float) Math.atan2( dirToTarget.y, dirToTarget.x );
+
+        MagmaRegion magmaBlob = new MagmaRegion( plate.getTextureStrategy(), 1000, angle, 6, position );
+        magmaBlob.alpha.set( initialAlpha );
+        plate.regions.add( magmaBlob );
+        magmaBlob.moveToFront();
+        magmaChamber.moveToFront(); // keep the chamber in front
+        magmaBlobs.add( magmaBlob );
+    }
+
+    public void addMagma( ImmutableVector2F position ) {
+        addMagma( position, 0 );
+    }
+
+    protected void animateMagma( float millionsOfYears ) {
+        // animate the magma blobs
+        for ( MagmaRegion blob : new LinkedList<MagmaRegion>( magmaBlobs ) ) {
+            final ImmutableVector2F currentPosition = blob.position.get();
+            final ImmutableVector2F directionToTarget = magmaTarget.minus( currentPosition ).normalized();
+            final ImmutableVector2F newPosition = currentPosition.plus( directionToTarget.times( magmaSpeed * millionsOfYears ) );
+            if ( newPosition.y > magmaTarget.y ) {
+                // get rid of blob and create a new one
+                assert plate.regions.contains( blob );
+                plate.regions.remove( blob );
+                assert !plate.regions.contains( blob );
+                assert !plate.getModel().getRegions().contains( blob );
+                magmaBlobs.remove( blob );
+                blob.position.set( newPosition );
+                onMagmaRemoved( blob );
+            }
+            else {
+                // TODO: increase alpha!!
+                final float alphaSpeed = 0.25f;
+                if ( blob.alpha.get() < 1 ) {
+                    blob.alpha.set( Math.min( 1, blob.alpha.get() + alphaSpeed * millionsOfYears ) );
+                }
+                blob.position.set( newPosition );
+            }
+        }
     }
 }

@@ -269,9 +269,6 @@ public class PlateMotionPlate extends Plate {
     }
 
     public void setBehavior( PlateBehavior behavior ) {
-        if ( this.behavior != null ) {
-            this.behavior.dispose();
-        }
         this.behavior = behavior;
     }
 

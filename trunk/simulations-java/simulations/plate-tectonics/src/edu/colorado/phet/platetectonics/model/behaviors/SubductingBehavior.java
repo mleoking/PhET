@@ -11,8 +11,7 @@ import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
-import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.BOTTOM_MELT_Y;
-import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.TOP_MELT_Y;
+import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.*;
 
 public class SubductingBehavior extends PlateBehavior {
 
@@ -21,8 +20,6 @@ public class SubductingBehavior extends PlateBehavior {
     private int regionToTerrainOffset = 0; // offset added to region column indices to get the corresponding terrain index
 
     public static final float PLATE_SPEED = 30000f / 2; // meters per millions of years
-
-    public static final float BLOB_SPEED = PLATE_SPEED;
 
     public static final float MAX_HORIZONTAL_OFFSET = 40000;
     public static final float OFFSET_RATE = 0.4f;
@@ -150,6 +147,37 @@ public class SubductingBehavior extends PlateBehavior {
 
 
         getPlate().getTerrain().elevationChanged.updateListeners();
+    }
+
+    // NOTE: will return null if there is no point
+    public ImmutableVector2F getLowestMeltingLocation() {
+        float bestY = Float.MAX_VALUE;
+        ImmutableVector2F location = null;
+        for ( Sample sample : getTopCrustBoundary().samples ) {
+            float y = sample.getPosition().y;
+
+            // melt padding added so we don't start creating melt from a single point, but only across an area
+            if ( y < TOP_MELT_Y - MELT_PADDING_Y && y > BOTTOM_MELT_Y && y < bestY ) {
+                bestY = y;
+                location = new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y );
+            }
+        }
+        return location;
+    }
+
+    // NOTE: will return null if there is no point
+    public ImmutableVector2F getHighestMeltingLocation() {
+        float bestY = -Float.MAX_VALUE;
+        ImmutableVector2F location = null;
+        for ( Sample sample : getTopCrustBoundary().samples ) {
+            float y = sample.getPosition().y;
+
+            if ( y < TOP_MELT_Y && y > BOTTOM_MELT_Y && y > bestY ) {
+                bestY = y;
+                location = new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y );
+            }
+        }
+        return location;
     }
 
     private int getCenterTerrainIndex( int offset ) {

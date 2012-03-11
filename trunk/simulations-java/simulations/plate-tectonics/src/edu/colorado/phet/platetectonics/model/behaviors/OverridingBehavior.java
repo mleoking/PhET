@@ -9,15 +9,20 @@ import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 
 public class OverridingBehavior extends PlateBehavior {
 
-    private MagmaRegion magmaChamber;
     private float magmaCenterX;
 
     public static final float TOP_MELT_Y = -100000;
     public static final float BOTTOM_MELT_Y = -150000;
+    public static final float MELT_PADDING_Y = 10000;
 
-    // melting X positions, determined by commented-out code in SubductingBehavior. update this if the magma chamber isn't centered properly
-    public static final float OLD_MELT_X = 73000;
-    public static final float YOUNG_MELT_X = 129000;
+    public static final float MELT_SPEED = 10000f; // pretty slow. like 3mm/year
+    public static final float MELT_CHANCE_FACTOR = 0.0002f;
+
+    // melting X positions, determined by commented-out code below. update this if the magma chamber isn't centered properly
+    public static final float OLD_MELT_X = 97000;
+    public static final float YOUNG_MELT_X = 156000;
+
+    private float chamberFullness = 0;
 
     public OverridingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
@@ -26,6 +31,9 @@ public class OverridingBehavior extends PlateBehavior {
         getCrust().moveToFront();
 
         magmaCenterX = getSide().getSign() * ( otherPlate.getPlateType() == PlateType.YOUNG_OCEANIC ? YOUNG_MELT_X : OLD_MELT_X );
+
+        magmaTarget = getMagmaChamberTop();
+        magmaSpeed = MELT_SPEED;
     }
 
     private float getMagmaChamberScale() {
@@ -42,11 +50,13 @@ public class OverridingBehavior extends PlateBehavior {
         // initialize the magma chamber if we haven't already
         if ( magmaChamber == null ) {
             magmaChamber = new MagmaRegion( plate.getTextureStrategy(), getMagmaChamberScale(), (float) ( Math.PI / 2 ), 16,
-                                            new ImmutableVector2F( magmaCenterX, plate.getPlateType().getCrustTopY() ) );
+                                            getMagmaChamberTop() );
             plate.regions.add( magmaChamber );
             magmaChamber.moveToFront();
             magmaChamber.setAllAlphas( 0 );
         }
+
+        animateMagma( millionsOfYears );
 
         // bring the edge down to the other level fairly quickly
         {
@@ -115,5 +125,40 @@ public class OverridingBehavior extends PlateBehavior {
         }
 
         getTerrain().elevationChanged.updateListeners();
+
+        /*---------------------------------------------------------------------------*
+        * handle melt
+        *----------------------------------------------------------------------------*/
+
+        ImmutableVector2F lowMeltPoint = getSubductingBehavior().getLowestMeltingLocation();
+        ImmutableVector2F highMeltPoint = getSubductingBehavior().getHighestMeltingLocation();
+
+        if ( lowMeltPoint != null && highMeltPoint != null ) {
+            // melting can start over this region
+            float chanceOfMelting = (float) ( 1 - Math.exp( -millionsOfYears * MELT_CHANCE_FACTOR * ( highMeltPoint.y - lowMeltPoint.y ) ) );
+
+            boolean shouldCreateMelt = ( Math.random() < chanceOfMelting );
+
+//            System.out.println( "center: " + lowMeltPoint.plus( highMeltPoint ).times( 0.5f ) );
+
+            if ( shouldCreateMelt ) {
+                // randomly pick a location on the available span
+                ImmutableVector2F location = lowMeltPoint.plus( highMeltPoint.minus( lowMeltPoint ).times( (float) Math.random() ) );
+
+                addMagma( location, 0.7f );
+            }
+        }
+    }
+
+    private ImmutableVector2F getMagmaChamberTop() {
+        return new ImmutableVector2F( magmaCenterX, plate.getPlateType().getCrustTopY() );
+    }
+
+    @Override protected void onMagmaRemoved( MagmaRegion magma ) {
+        super.onMagmaRemoved( magma );
+
+        chamberFullness = Math.min( 1, chamberFullness + ( plate.getPlateType().isContinental() ? 0.05f : 0.25f ) );
+
+        magmaChamber.setAllAlphas( chamberFullness );
     }
 }
