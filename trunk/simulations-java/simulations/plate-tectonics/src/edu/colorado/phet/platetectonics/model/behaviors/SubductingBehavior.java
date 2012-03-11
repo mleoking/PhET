@@ -11,6 +11,9 @@ import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
+import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.BOTTOM_MELT_Y;
+import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.TOP_MELT_Y;
+
 public class SubductingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
@@ -40,6 +43,10 @@ public class SubductingBehavior extends PlateBehavior {
 
         timeElapsed += millionsOfYears;
         createEarthEdges();
+
+        // for determining middle X values for subduction. even though it's not actively used during runtime, leave it so we can recalculate if necessary
+        float summedMeltingPositions = 0;
+        int quantityOfMeltingPositions = 0;
 
         /*---------------------------------------------------------------------------*
         * compute positions for the subducting crust
@@ -121,9 +128,17 @@ public class SubductingBehavior extends PlateBehavior {
                     );
 
                     sample.setPosition( newPosition );
+
+                    if ( newPosition.y < TOP_MELT_Y && newPosition.y > BOTTOM_MELT_Y ) {
+                        summedMeltingPositions += newPosition.x;
+                        quantityOfMeltingPositions++;
+                    }
                 }
             }
         }
+
+        // print out melting X positions for use in OverridingBehavior
+//        System.out.println( plate.getPlateType() + " => " + ( summedMeltingPositions / quantityOfMeltingPositions ) );
 
         /*---------------------------------------------------------------------------*
         * fix boundary elevation (now that cross-section samples are correct

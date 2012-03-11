@@ -40,20 +40,6 @@ public class RiftingBehavior extends PlateBehavior {
         getLithosphere().moveToFront();
         getCrust().moveToFront();
 
-        if ( plate.getSide() == Side.LEFT ) {
-            magmaChamber = new MagmaRegion( plate.getTextureStrategy(), PlateType.YOUNG_OCEANIC.getCrustThickness() / 3f, (float) ( Math.PI / 2 ), 16,
-                                            new ImmutableVector2F( 0, RIDGE_TOP_Y ) );
-            plate.regions.add( magmaChamber );
-            magmaChamber.moveToFront();
-
-            // add in the magma blobs
-            FunctionalUtils.repeat( new Runnable() {
-                                        public void run() {
-                                            addMagmaBlob( false );
-                                        }
-                                    }, BLOB_QUANTITY );
-        }
-
         moveMantleTopTo( PlateType.OLD_OCEANIC.getCrustTopY() - 1000 );
     }
 
@@ -94,8 +80,25 @@ public class RiftingBehavior extends PlateBehavior {
     @Override public void stepInTime( float millionsOfYears ) {
         timeElapsed += millionsOfYears;
 
-        // TODO: investigate why this is screwing up the water front
+        // trim away things that are outside of our view (performance)
         removeEarthEdges();
+
+        // show the magma chamber once we start animating
+        if ( plate.getSide() == Side.LEFT && magmaChamber == null ) {
+            if ( plate.getSide() == Side.LEFT ) {
+                magmaChamber = new MagmaRegion( plate.getTextureStrategy(), PlateType.YOUNG_OCEANIC.getCrustThickness() / 3f, (float) ( Math.PI / 2 ), 16,
+                                                new ImmutableVector2F( 0, RIDGE_TOP_Y ) );
+                plate.regions.add( magmaChamber );
+                magmaChamber.moveToFront();
+
+                // add in the magma blobs
+                FunctionalUtils.repeat( new Runnable() {
+                                            public void run() {
+                                                addMagmaBlob( false );
+                                            }
+                                        }, BLOB_QUANTITY );
+            }
+        }
 
         moveSpreading( millionsOfYears );
 
