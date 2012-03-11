@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
@@ -23,6 +24,9 @@ public class SubductingBehavior extends PlateBehavior {
 
     public static final float MAX_HORIZONTAL_OFFSET = 40000;
     public static final float OFFSET_RATE = 0.4f;
+
+    public static final float BLEND_THRESHOLD_Y = -150000;
+    public static final float BLEND_RATE_FACTOR = 0.08f;
 
     public SubductingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
@@ -128,6 +132,22 @@ public class SubductingBehavior extends PlateBehavior {
                     if ( newPosition.y < TOP_MELT_Y && newPosition.y > BOTTOM_MELT_Y ) {
                         summedMeltingPositions += newPosition.x;
                         quantityOfMeltingPositions++;
+                    }
+
+                    /*---------------------------------------------------------------------------*
+                    * blend the temp/density with surrounding rock
+                    *----------------------------------------------------------------------------*/
+
+                    if ( newPosition.y < BLEND_THRESHOLD_Y ) {
+                        float currentTemp = sample.getTemperature();
+                        float currentDensity = sample.getDensity();
+
+                        float targetTemp = PlateMotionModel.SIMPLE_MANTLE_BOTTOM_TEMP;
+                        float targetDensity = PlateMotionModel.SIMPLE_MANTLE_DENSITY;
+
+                        float blendRatio = (float) ( 1 - Math.exp( -millionsOfYears * BLEND_RATE_FACTOR ) );
+                        sample.setDensity( currentDensity * ( 1 - blendRatio ) + targetDensity * blendRatio );
+                        sample.setTemperature( currentTemp * ( 1 - blendRatio ) + targetTemp * blendRatio );
                     }
                 }
             }
