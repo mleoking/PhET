@@ -85,7 +85,6 @@ public class SubductingBehavior extends PlateBehavior {
         /*---------------------------------------------------------------------------*
         * handle the terrain changes at the boundary
         *----------------------------------------------------------------------------*/
-        // TODO: refactor out getSide() and getOppositeSide() for PlateBehavior classes
         while ( getOppositeSide().isToSideOf( getTerrain().xPositions.get( getCenterTerrainIndex( 0 ) ), 0 ) ) {
             if ( getOppositeSide().isToSideOf( getTerrain().xPositions.get( getCenterTerrainIndex( 1 ) ), 0 ) ) {
                 // remove the section of terrain
