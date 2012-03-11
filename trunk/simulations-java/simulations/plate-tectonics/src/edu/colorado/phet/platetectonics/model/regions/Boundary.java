@@ -18,6 +18,10 @@ public class Boundary {
         side.removeFromList( samples );
     }
 
+    public Sample getSample( int index ) {
+        return samples.get( index );
+    }
+
     public void borrowPosition( Boundary other ) {
         assert other.samples.size() == samples.size();
 

@@ -30,8 +30,8 @@ public class CollidingBehavior extends PlateBehavior {
         createEarthEdges();
 
         float sign = -plate.getSide().getSign();
-        final List<Sample> topSamples = getPlate().getCrust().getTopBoundary().samples;
-        final Boundary lithosphereBottomBoundary = getPlate().getLithosphere().getBottomBoundary();
+        final List<Sample> topSamples = getTopCrustBoundary().samples;
+        final Boundary lithosphereBottomBoundary = getLithosphere().getBottomBoundary();
         final List<Sample> bottomSamples = lithosphereBottomBoundary.samples;
         float[] oldXes = new float[topSamples.size()];
         float[] newXes = new float[topSamples.size()];
@@ -56,10 +56,10 @@ public class CollidingBehavior extends PlateBehavior {
             float rightScale = ( newXes[i + 1] - newXes[i] ) / ( oldXes[i + 1] - oldXes[i] );
             scales[i] = ( leftScale + rightScale ) / 2;
         }
-        for ( Region region : new Region[] { getPlate().getLithosphere(), getPlate().getCrust() } ) {
-            for ( int i = 0; i < getPlate().getCrust().getTopBoundary().samples.size(); i++ ) {
-                float centerY = ( getPlate().getCrust().getTopBoundary().samples.get( i ).getPosition().y
-                                  + getPlate().getCrust().getBottomBoundary().samples.get( i ).getPosition().y ) / 2;
+        for ( Region region : new Region[] { getLithosphere(), getPlate().getCrust() } ) {
+            for ( int i = 0; i < getCrust().getTopBoundary().samples.size(); i++ ) {
+                float centerY = ( getCrust().getTopBoundary().samples.get( i ).getPosition().y
+                                  + getCrust().getBottomBoundary().samples.get( i ).getPosition().y ) / 2;
                 for ( Boundary boundary : region.getBoundaries() ) {
 
                     Sample sample = boundary.samples.get( i );
@@ -74,9 +74,9 @@ public class CollidingBehavior extends PlateBehavior {
                     sample.setPosition( currentPosition.plus( offset3d ) );
 
                     // kind of a weird hack, but it helps us store less amounts of massive information
-                    if ( boundary == getPlate().getCrust().getTopBoundary() ) {
-                        getPlate().getTerrain().xPositions.set( i, newX );
-                        for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
+                    if ( boundary == getCrust().getTopBoundary() ) {
+                        getTerrain().xPositions.set( i, newX );
+                        for ( int row = 0; row < getTerrain().getNumRows(); row++ ) {
                             final TerrainSample terrainSample = getPlate().getTerrain().getSample( i, row );
                             terrainSample.setElevation( terrainSample.getElevation() + yOffset );
                         }
@@ -86,25 +86,25 @@ public class CollidingBehavior extends PlateBehavior {
         }
 
         // create some mountains!
-        for ( int col = 0; col < getPlate().getCrust().getTopBoundary().samples.size(); col++ ) {
-            for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
+        for ( int col = 0; col < getCrust().getTopBoundary().samples.size(); col++ ) {
+            for ( int row = 0; row < getTerrain().getNumRows(); row++ ) {
                 final TerrainSample terrainSample = getPlate().getTerrain().getSample( col, row );
                 float mountainRatio = (float) MathUtil.clamp( 0, ( terrainSample.getElevation() - 6000 ) / ( 13000 - 6000 ), 1 );
                 float elevationOffset = (float) ( mountainRatio * ( Math.random() * 1000 - 500 ) );
                 elevationOffset /= 2;
                 terrainSample.setElevation( terrainSample.getElevation() + elevationOffset );
                 if ( row == getPlate().getTerrain().getFrontZIndex() ) {
-                    final Sample sample = getPlate().getCrust().getTopBoundary().samples.get( col );
+                    final Sample sample = getCrust().getTopBoundary().samples.get( col );
                     sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, elevationOffset, 0 ) ) );
                 }
             }
         }
 
         // copy elevation from left plate to right plate on the center line
-        if ( getPlate().getSide() == Side.RIGHT ) {
+        if ( getSide() == Side.RIGHT ) {
             for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
                 final float elevation = getOtherPlate().getTerrain().getSample( getOtherPlate().getTerrain().getNumColumns() - 1, row ).getElevation();
-                getPlate().getTerrain().getSample( 0, row ).setElevation(
+                getTerrain().getSample( 0, row ).setElevation(
                         elevation );
                 final Sample sample = getPlate().getCrust().getTopBoundary().samples.get( 0 );
                 sample.setPosition( new ImmutableVector3F( sample.getPosition().x, elevation, sample.getPosition().z ) );
