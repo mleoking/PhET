@@ -95,7 +95,7 @@ public class RiftingBehavior extends PlateBehavior {
         timeElapsed += millionsOfYears;
 
         // TODO: investigate why this is screwing up the water front
-//        removeEarthEdges();
+        removeEarthEdges();
 
         moveSpreading( millionsOfYears );
 
