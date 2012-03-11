@@ -62,6 +62,10 @@ public abstract class PlateBehavior {
         return new Region[] { getCrust(), getLithosphere() };
     }
 
+    public Boundary getTopCrustBoundary() {
+        return getCrust().getTopBoundary();
+    }
+
     protected void createEarthEdges() {
         while ( getSide().opposite().isToSideOf(
                 getPlate().getCrust().getTopBoundary().getEdgeSample( getSide() ).getPosition().x,

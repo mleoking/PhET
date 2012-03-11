@@ -302,7 +302,6 @@ public class RiftingBehavior extends PlateBehavior {
                                                    newLithosphereBottom,
                                                    plate.getTextureStrategy(), true );
                     getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
-                    // TODO: change the lithosphere!
                 }
                 else if ( topSample.getDensity() == PlateType.YOUNG_OCEANIC.getDensity() ) {
                     /*---------------------------------------------------------------------------*
@@ -318,7 +317,7 @@ public class RiftingBehavior extends PlateBehavior {
             }
         }
 
-        riftPostProcess();
+        getPlate().getTerrain().elevationChanged.updateListeners();
     }
 
     private void sinkOceanicCrust( float millionsOfYears, int columnIndex ) {
@@ -397,13 +396,6 @@ public class RiftingBehavior extends PlateBehavior {
 
         getTerrain().shiftColumnXWithTexture( plate.getTextureStrategy(), columnIndex, xOffset );
         getTerrain().columnsModified.updateListeners();
-    }
-
-    private void riftPostProcess() {
-        getPlate().getTerrain().elevationChanged.updateListeners();
-
-//        glueMantleTopToLithosphere( 1000 );
-//        redistributeMantle();
     }
 
     private Sample getSampleFromCenter( Boundary boundary, int offsetFromCenter ) {
