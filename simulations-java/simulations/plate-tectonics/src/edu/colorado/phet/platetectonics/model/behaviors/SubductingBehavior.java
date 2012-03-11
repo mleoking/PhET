@@ -34,8 +34,8 @@ public class SubductingBehavior extends PlateBehavior {
         timeElapsed += millionsOfYears;
         createEarthEdges();
 
-        final int regionSize = plate.getCrust().getTopBoundary().samples.size();
-        final int terrainSize = plate.getTerrain().getNumColumns();
+        final int regionSize = getNumCrustXSamples();
+        final int terrainSize = getNumTerrainXSamples();
 
         ColumnResult[] result = new ColumnResult[regionSize];
         for ( int i = 0; i < regionSize; i++ ) {
@@ -46,7 +46,9 @@ public class SubductingBehavior extends PlateBehavior {
             result[i] = computeSubductingPosition( getT( i ), offsetVector );
         }
 
-        // TODO: compute terrain changes here
+        /*---------------------------------------------------------------------------*
+        * synchronizing terrain
+        *----------------------------------------------------------------------------*/
         for ( int i = 0; i < regionSize; i++ ) {
             int regionIndex = i;
             int terrainIndex = i + regionToTerrainOffset;
@@ -60,16 +62,16 @@ public class SubductingBehavior extends PlateBehavior {
             // in x-y, how we need to move
             ImmutableVector2F delta = newPosition.minus( currentPosition );
 
-            // TODO: handle boundary case and removals
             plate.getTerrain().xPositions.set( terrainIndex, newPosition.x );
 
             for ( TerrainSample terrainSample : plate.getTerrain().getColumn( terrainIndex ) ) {
                 terrainSample.setElevation( terrainSample.getElevation() + delta.y );
             }
-
-            // TODO: at boundary, strictly enforce consistent elevation
         }
 
+        /*---------------------------------------------------------------------------*
+        * handle the terrain changes at the boundary
+        *----------------------------------------------------------------------------*/
         if ( plate.getSide() == Side.RIGHT ) {
             while ( plate.getTerrain().xPositions.get( 0 ) < 0 ) {
                 if ( plate.getTerrain().xPositions.get( 1 ) < 0 ) {
@@ -78,17 +80,24 @@ public class SubductingBehavior extends PlateBehavior {
                     regionToTerrainOffset -= 1;
                 }
                 else {
-                    // TODO: calculate the intercept and shift all samples there. set all elevations to front sample
-//                    ImmutableVector2F offset = new ImmutableVector2F(
-//                            -plate.getTerrain().xPositions.get( 0 ),
-//
-//                            );
+                    final float xOffset = -plate.getTerrain().xPositions.get( 0 );
+                    plate.getTerrain().shiftColumnXWithTexture( plate.getTextureStrategy(), 0, xOffset );
                     break;
                 }
             }
         }
         else {
-            // TODO: code refactoring for simplicity
+            while ( plate.getTerrain().xPositions.get( getNumTerrainXSamples() - 1 ) > 0 ) {
+                if ( plate.getTerrain().xPositions.get( getNumTerrainXSamples() - 2 ) > 0 ) {
+                    // remove the section of terrain
+                    plate.getTerrain().removeColumn( Side.RIGHT );
+                }
+                else {
+                    final float xOffset = -plate.getTerrain().xPositions.get( getNumTerrainXSamples() - 1 );
+                    plate.getTerrain().shiftColumnXWithTexture( plate.getTextureStrategy(), getNumTerrainXSamples() - 1, xOffset );
+                    break;
+                }
+            }
         }
 
         for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
@@ -116,7 +125,52 @@ public class SubductingBehavior extends PlateBehavior {
             }
         }
 
+        /*---------------------------------------------------------------------------*
+        * fix boundary elevation (now that cross-section samples are correct
+        *----------------------------------------------------------------------------*/
+        {
+            final float boundaryElevation = getBoundaryElevation();
+            final int columnIndex = plate.getSide().opposite().getIndex( plate.getTerrain().getNumColumns() );
+            plate.getTerrain().setColumnElevation( columnIndex, boundaryElevation );
+        }
+
+
         getPlate().getTerrain().elevationChanged.updateListeners();
+    }
+
+    // TODO: bump these up a level and make extensive use of them!
+    private int getNumCrustXSamples() {
+        return plate.getCrust().getTopBoundary().samples.size();
+    }
+
+    private int getNumTerrainXSamples() {
+        return plate.getTerrain().getNumColumns();
+    }
+
+    public float getBoundaryElevation() {
+        Sample lastSample = null;
+        for ( Sample sample : plate.getCrust().getTopBoundary().samples ) {
+            // if we hit the boundary head-on, just return the elevation (prevents degenerate cases later on)
+            if ( sample.getPosition().x == 0 ) {
+                return sample.getPosition().y;
+            }
+
+            if ( lastSample != null ) {
+                if ( sample.getPosition().x * lastSample.getPosition().x < 0 ) {
+                    // sign change detected
+                    return yInterceptAtX0BetweenPoints( sample.getPosition(), lastSample.getPosition() );
+                }
+            }
+            lastSample = sample;
+        }
+
+        // bail with the default case of nothing has happened yet: return the inner-most sample's Y value
+        System.out.println( "WARNING: using overridden y-intercept value for boundary elevation in subduction case" );
+        return plate.getSide().opposite().getEnd( plate.getCrust().getTopBoundary().samples ).getPosition().y;
+    }
+
+    private static float yInterceptAtX0BetweenPoints( ImmutableVector3F a, ImmutableVector3F b ) {
+        return a.y - a.x * ( b.y - a.y ) / ( b.x - a.x );
     }
 
     // NOTE: relies on slices not getting removed
@@ -125,7 +179,7 @@ public class SubductingBehavior extends PlateBehavior {
         float staticT = pieceWidth * ( plate.getSide() == Side.LEFT
 
                                        // for the left, we want the right-most column to have 0, then descending to the left
-                                       ? -( plate.getCrust().getTopBoundary().samples.size() - 1 - columnIndex )
+                                       ? -( getNumCrustXSamples() - 1 - columnIndex )
 
                                        // simplier for the right
                                        : -columnIndex );
