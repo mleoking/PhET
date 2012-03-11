@@ -395,12 +395,13 @@ public class RiftingBehavior extends PlateBehavior {
             }
         }
 
-        plate.getTerrain().xPositions.set( columnIndex, plate.getTerrain().xPositions.get( columnIndex ) + xOffset );
-        final ImmutableVector2F offset2D = new ImmutableVector2F( xOffset, 0 );
-
-        for ( TerrainSample sample : plate.getTerrain().getColumn( columnIndex ) ) {
-            sample.shiftWithTexture( offset2D, plate.getTextureStrategy() );
-        }
+        plate.getTerrain().shiftColumnXWithTexture( plate.getTextureStrategy(), columnIndex, xOffset );
+//        plate.getTerrain().xPositions.set( columnIndex, plate.getTerrain().xPositions.get( columnIndex ) + xOffset );
+//        final ImmutableVector2F offset2D = new ImmutableVector2F( xOffset, 0 );
+//
+//        for ( TerrainSample sample : plate.getTerrain().getColumn( columnIndex ) ) {
+//            sample.shiftWithTexture( offset2D, plate.getTextureStrategy() );
+//        }
         plate.getTerrain().columnsModified.updateListeners();
     }
 

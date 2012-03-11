@@ -101,9 +101,19 @@ public class Terrain {
         }
     }
 
-    public void shiftColumnElevation( int columnIndex, float offset ) {
+    public void shiftColumnElevation( int columnIndex, float yOffset ) {
         for ( TerrainSample sample : getColumn( columnIndex ) ) {
-            sample.setElevation( sample.getElevation() + offset );
+            sample.setElevation( sample.getElevation() + yOffset );
+        }
+    }
+
+    public void shiftColumnXWithTexture( TextureStrategy textureStrategy, int columnIndex, float xOffset ) {
+        // shift the actual positions
+        xPositions.set( columnIndex, xPositions.get( columnIndex ) + xOffset );
+
+        for ( TerrainSample sample : getColumn( columnIndex ) ) {
+            // only change the X part of the texture, not the Z portion
+            sample.setTextureCoordinates( sample.getTextureCoordinates().plus( textureStrategy.mapTopDelta( new ImmutableVector2F( xOffset, 0 ) ) ) );
         }
     }
 
@@ -113,4 +123,9 @@ public class Terrain {
         }
     }
 
+    public void setColumnElevation( int columnIndex, float elevation ) {
+        for ( TerrainSample sample : getColumn( columnIndex ) ) {
+            sample.setElevation( elevation );
+        }
+    }
 }
