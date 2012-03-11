@@ -134,7 +134,7 @@ import static fj.data.List.range;
     public boolean cellCurrentlyFilled( final Slice cell ) {
         return slices.exists( new F<Slice, Boolean>() {
             public Boolean f( Slice m ) {
-                return m.positionAndAngleEquals( cell );
+                return m.positionAndAngleEquals( cell ) && !m.dragging;
             }
         } );
     }
