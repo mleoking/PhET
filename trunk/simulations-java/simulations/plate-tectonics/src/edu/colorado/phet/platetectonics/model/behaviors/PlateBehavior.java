@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -31,6 +32,34 @@ public abstract class PlateBehavior {
 
     public Side getSide() {
         return getPlate().getSide();
+    }
+
+    public Side getOppositeSide() {
+        return getSide().opposite();
+    }
+
+    public int getNumCrustXSamples() {
+        return getCrust().getTopBoundary().samples.size();
+    }
+
+    public int getNumTerrainXSamples() {
+        return getTerrain().getNumColumns();
+    }
+
+    public Terrain getTerrain() {
+        return plate.getTerrain();
+    }
+
+    public Region getCrust() {
+        return plate.getCrust();
+    }
+
+    public Region getLithosphere() {
+        return plate.getLithosphere();
+    }
+
+    public Region[] getLithosphereRegions() {
+        return new Region[] { getCrust(), getLithosphere() };
     }
 
     protected void createEarthEdges() {
