@@ -48,7 +48,7 @@ public class WaterStripNode extends GLNode {
                                                         }, true );
         }} );
 
-        // render the top of the water. dynamically changes as a strip mesh based on what terrain is above or below sea level
+        // render the front of the water. dynamically changes as a strip mesh based on what terrain is above or below sea level
         addChild( new WaterFrontMesh() {{
             setMaterial( new ColorMaterial( 0.1f, 0.3f, 0.7f, 0.5f ) );
             setRenderPass( RenderPass.TRANSPARENCY );

@@ -173,6 +173,8 @@ public abstract class GridStripNode extends GLNode {
     private void updateIndexBuffer( int numXSamples, int numZSamples ) {
         indexBuffer.clear();
 
+        int limit = 0;
+
         // NOTE: index allocation somewhat copied from GridMesh. look there for inspiration
 
         // create the index information so OpenGL knows how to walk our position indices
@@ -183,14 +185,18 @@ public abstract class GridStripNode extends GLNode {
                 // add in two points that create volume-less triangles (won't render) and keep the winding number the same for the start
                 indexBuffer.put( stripOffset + numXSamples - 1 ); // add the last-added point
                 indexBuffer.put( stripOffset );
+                limit += 2;
             }
 
             // each quad is walked over by hitting (in order) upper-left, lower-left, upper-right, lower-right.
             for ( int offset = 0; offset < numXSamples; offset++ ) {
                 indexBuffer.put( stripOffset + offset );
                 indexBuffer.put( stripOffset + numXSamples + offset ); // down a row
+                limit += 2;
             }
         }
+
+        indexBuffer.limit( limit );
     }
 
     // TODO: better handling for the enabling/disabling of lighting
