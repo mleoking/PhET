@@ -1,3 +1,4 @@
+Added initial version for "subduction" animation
 # 0.00.22 (62388) Mar 9, 2012
 Main view in 2nd tab is zoomed in further to see more detail (grain and continental collision were also slightly adjusted to match)
 Handles in the manual mode drag at 1/4 of the rate
