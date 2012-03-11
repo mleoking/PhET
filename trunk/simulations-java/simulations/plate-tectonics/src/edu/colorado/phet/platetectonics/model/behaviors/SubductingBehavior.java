@@ -6,6 +6,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -33,10 +34,11 @@ public class SubductingBehavior extends PlateBehavior {
         timeElapsed += millionsOfYears;
         createEarthEdges();
 
-        final int size = plate.getCrust().getTopBoundary().samples.size();
+        final int regionSize = plate.getCrust().getTopBoundary().samples.size();
+        final int terrainSize = plate.getTerrain().getNumColumns();
 
-        ColumnResult[] result = new ColumnResult[size];
-        for ( int i = 0; i < size; i++ ) {
+        ColumnResult[] result = new ColumnResult[regionSize];
+        for ( int i = 0; i < regionSize; i++ ) {
             final ImmutableVector2F offsetVector = new ImmutableVector2F(
                     getOffsetSize(),
                     0
@@ -45,11 +47,54 @@ public class SubductingBehavior extends PlateBehavior {
         }
 
         // TODO: compute terrain changes here
+        for ( int i = 0; i < regionSize; i++ ) {
+            int regionIndex = i;
+            int terrainIndex = i + regionToTerrainOffset;
+            if ( terrainIndex < 0 || terrainIndex >= terrainSize ) {
+                continue;
+            }
+            Sample sample = plate.getCrust().getTopBoundary().samples.get( i );
+            ImmutableVector2F currentPosition = new ImmutableVector2F( sample.getPosition().x, sample.getPosition().y );
+            ImmutableVector2F newPosition = result[i].crustTop;
+
+            // in x-y, how we need to move
+            ImmutableVector2F delta = newPosition.minus( currentPosition );
+
+            // TODO: handle boundary case and removals
+            plate.getTerrain().xPositions.set( terrainIndex, newPosition.x );
+
+            for ( TerrainSample terrainSample : plate.getTerrain().getColumn( terrainIndex ) ) {
+                terrainSample.setElevation( terrainSample.getElevation() + delta.y );
+            }
+
+            // TODO: at boundary, strictly enforce consistent elevation
+        }
+
+        if ( plate.getSide() == Side.RIGHT ) {
+            while ( plate.getTerrain().xPositions.get( 0 ) < 0 ) {
+                if ( plate.getTerrain().xPositions.get( 1 ) < 0 ) {
+                    // remove the section of terrain
+                    plate.getTerrain().removeColumn( Side.LEFT );
+                    regionToTerrainOffset -= 1;
+                }
+                else {
+                    // TODO: calculate the intercept and shift all samples there. set all elevations to front sample
+//                    ImmutableVector2F offset = new ImmutableVector2F(
+//                            -plate.getTerrain().xPositions.get( 0 ),
+//
+//                            );
+                    break;
+                }
+            }
+        }
+        else {
+            // TODO: code refactoring for simplicity
+        }
 
         for ( Region region : new Region[] { plate.getCrust(), plate.getLithosphere() } ) {
             boolean isCrust = region == plate.getCrust();
 
-            for ( int i = 0; i < size; i++ ) {
+            for ( int i = 0; i < regionSize; i++ ) {
                 ImmutableVector2F top = isCrust ? result[i].crustTop : result[i].crustBottom;
                 ImmutableVector2F bottom = isCrust ? result[i].crustBottom : result[i].lithosphereBottom;
 
