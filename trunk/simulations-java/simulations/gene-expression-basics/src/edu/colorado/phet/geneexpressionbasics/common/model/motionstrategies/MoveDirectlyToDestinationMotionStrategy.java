@@ -61,10 +61,11 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
         // Make sure that current motion will not cause the model element to
         // move outside of the motion bounds.
-        if ( !motionBounds.testIfInMotionBounds( shape, velocityVector, dt ) ) {
-            // The current motion vector would take this element out of bounds,
-            // so it needs to "bounce".
-            velocityVector.setValue( getMotionVectorForBounce( shape, velocityVector, dt, scalarVelocity ) );
+        if ( motionBounds.inBounds( shape ) && !motionBounds.testIfInMotionBounds( shape, velocityVector, dt ) ) {
+            // Not sure what to do in this case, where the destination causes
+            // some portion of the shape to go out of bounds.  For now, just
+            // issue a warning an allow it to happen.
+            System.out.println( getClass().getName() + " - Warning: Destination is causing some portion of shape to move out of bounds." );
         }
 
         // Make sure that the current motion won't move the model element past
@@ -80,6 +81,11 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
     }
 
     private void updateVelocityVector( Point2D currentLocation, Point2D destination, double velocity ) {
-        velocityVector.setValue( new ImmutableVector2D( currentLocation, destination ).getInstanceOfMagnitude( velocity ) );
+        if ( currentLocation.distance( destination ) == 0 ) {
+            velocityVector.setComponents( 0, 0 );
+        }
+        else {
+            velocityVector.setValue( new ImmutableVector2D( currentLocation, destination ).getInstanceOfMagnitude( velocity ) );
+        }
     }
 }

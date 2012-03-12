@@ -338,7 +338,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
         // The bottom of the bounds depends on the size of the biomolecule.  A
         // little bit of margin is added.
-        double minY = DnaMolecule.Y_POS - mobileBiomolecule.getShape().getBounds2D().getHeight() / 2 * 1.1;
+        double minY = DnaMolecule.Y_POS - mobileBiomolecule.getShape().getBounds2D().getHeight() / 2 * 1.4;
 
         // The max Y position is set to make it so that molecules can move
         // outside of the view port, but not way outside.  Its value was
@@ -349,7 +349,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         // extends a little less in the -x direction than in the +x, since the
         // beginning of the gene is in the center of the view port.
         double minX = gene.getStartX() - gene.getTranscribedRegionLength() / 2;
-        double maxX = gene.getEndX() + 200; // Needs to be long enough to allow the polymerase to get to the end.
+        double maxX = gene.getEndX() + 400; // Needs to be long enough to allow the polymerase to get to the end.
 
         // Get the nominal bounds.
         Area bounds = new Area( new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY ) );
