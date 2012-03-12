@@ -1,13 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Cursor;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -15,7 +20,9 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
+import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Displays a ruler in the 3D play area space
@@ -37,7 +44,9 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     public ThermometerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
-        super( new ThermometerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) );
+        super( new ThermometerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) {{
+            scale( scaleMultiplier( tab ) );
+        }} );
         this.modelViewTransform = modelViewTransform;
         this.tab = tab;
         this.model = model;
@@ -80,7 +89,7 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     }
 
     private ImmutableVector3F getSensorModelPosition() {
-        return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( 0, sensorVerticalOffset / PICCOLO_PIXELS_TO_VIEW_UNIT, 0 ) ) );
+        return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( 0, sensorVerticalOffset / PICCOLO_PIXELS_TO_VIEW_UNIT * scaleMultiplier( tab ), 0 ) ) );
     }
 
     public Property<Boolean> getInsideToolboxProperty( ToolboxState toolboxState ) {
@@ -95,4 +104,41 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         getParent().removeChild( this );
     }
 
+    private static int scaleMultiplier( PlateTectonicsTab tab ) {
+        return ( tab instanceof PlateMotionTab ) ? 3 : 1;
+    }
+
+    /**
+     * @author Sam Reid
+     */
+    public static class ThermometerNode2D extends LiquidExpansionThermometerNode {
+
+        // TODO: change this to a 2D offset
+        public final double sensorVerticalOffset;
+
+        /**
+         * @param kmToViewUnit Number of view units (in 3D JME) that correspond to 1 km in the model. Extracted into
+         *                     a parameter so that we can add a 2D version to the toolbox that is unaffected by future
+         *                     model-view-transform size changes.
+         */
+        public ThermometerNode2D( float kmToViewUnit ) {
+            super( new PDimension( 50 * 0.8, 150 * 0.8 ) );
+
+            // add in an arrow to show where we are sensing the temperature
+            final double sensorHeight = getFullBounds().getHeight() - getBulbDiameter() / 2;
+            addChild( new PhetPPath( new DoubleGeneralPath( -8, sensorHeight ) {{
+                lineToRelative( 5, 5 );
+                lineToRelative( 0, -10 );
+                lineToRelative( -5, 5 );
+            }}.getGeneralPath(), Color.RED, new BasicStroke( 1 ), Color.BLACK ) );
+
+            // scale it so that we achieve adherence to the model scale
+            scale( PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / PIXEL_SCALE );
+
+            sensorVerticalOffset = getBulbDiameter() / 2 * getScale();
+
+            // give it the "Hand" cursor
+            addInputEventListener( new LWJGLCursorHandler() );
+        }
+    }
 }
