@@ -1,3 +1,4 @@
+Temporarily removing "Show Labels" on 2nd tab until those labels are implemented
 Sensors now read out correct values in 2nd tab (point-intersection model working)
 Fixed Rewind button "enabled" refreshing state
 Fixed window resizing bug
