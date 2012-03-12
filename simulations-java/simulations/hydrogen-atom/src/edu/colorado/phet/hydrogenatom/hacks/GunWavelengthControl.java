@@ -9,6 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
+import edu.colorado.phet.hydrogenatom.HASimSharing;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -79,7 +80,7 @@ public class GunWavelengthControl extends WavelengthControl {
      * Constructor.
      */
     public GunWavelengthControl( double minWavelength, double maxWavelength, Color uvTrackColor, Color uvLabelColor, Color irTrackColor, Color irLabelColor ) {
-        super( TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
+        super( HASimSharing.UserComponents.gunWavelengthControl, TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
 
         /* 
          * Change the cursor color, so that it doesn't obscure the transition marks.
