@@ -48,6 +48,10 @@ public abstract class AttachmentState {
                                                                                            gsm.destinationOffset ) );
                 gsm.setState( gsm.movingTowardsAttachmentState );
 
+                if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != null ) {
+                    System.out.println( "About to overwrite." );
+                }
+
                 // Mark the attachment site as being in use.
                 gsm.attachmentSite.attachedOrAttachingMolecule.set( gsm.biomolecule );
             }
@@ -69,7 +73,7 @@ public abstract class AttachmentState {
             // Verify that state is consistent.
             assert gsm.attachmentSite != null;
             if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != gsm.biomolecule ) {
-                System.out.println( "We got us some trouble." );
+                System.out.println( "Inconsistent attachment state." );
             }
             assert gsm.attachmentSite.attachedOrAttachingMolecule.get() == gsm.biomolecule;
 
