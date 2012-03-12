@@ -191,7 +191,7 @@ public class OverridingBehavior extends PlateBehavior {
             maxElevationInTimestep = -Float.MAX_VALUE;
             for ( Sample sample : getTopCrustBoundary().samples ) {
                 if ( sample.getPosition().y > maxElevationInTimestep ) {
-                    System.out.println( sample.getPosition().x );
+//                    System.out.println( sample.getPosition().x );
                 }
                 minElevationInTimestep = Math.min( minElevationInTimestep, sample.getPosition().y );
                 maxElevationInTimestep = Math.max( maxElevationInTimestep, sample.getPosition().y );
@@ -225,14 +225,23 @@ public class OverridingBehavior extends PlateBehavior {
         for ( int columnIndex = 0; columnIndex < getNumTerrainXSamples(); columnIndex++ ) {
             float x = getTerrain().xPositions.get( columnIndex );
 
-            float delta = (float) Math.exp( -Math.abs( x - magmaCenterX ) / 10000 ) * 400 * millionsOfYears;
-            float bottomDelta = (float) Math.exp( -Math.abs( x - magmaCenterX ) / 30000 ) * 500 * millionsOfYears;
-
             // TODO: for performance, add in a threshold for how large |x-center| can be
             for ( int rowIndex = 0; rowIndex < getTerrain().getNumRows(); rowIndex++ ) {
+                final float theta = getTerrain().zPositions.get( rowIndex ) / 10000;
+                final float upDownFactor = (float) ( Math.cos( theta ) + 1 ) / 2;
+
+                float periodicOffset = (float) Math.abs( theta / Math.PI );
+
+                int integerOffset = ( (int) ( periodicOffset + 0.5f ) % 3 ); // add in 0.5 since we want to switch at valleys
+
+                // add in offset for mountains
+                float myX = x + ( integerOffset == 0 ? 0 : -plate.getSign() * 10000 * ( integerOffset == 1 ? 1 : -1 ) );
+
+                float delta = (float) Math.exp( -Math.abs( myX - magmaCenterX ) / 10000 ) * 400 * millionsOfYears;
+                float bottomDelta = (float) Math.exp( -Math.abs( myX - magmaCenterX ) / 30000 ) * 500 * millionsOfYears;
+
                 final TerrainSample terrainSample = getTerrain().getSample( columnIndex, rowIndex );
 
-                final float upDownFactor = (float) ( Math.cos( getTerrain().zPositions.get( rowIndex ) / 10000 ) + 1 ) / 2;
                 float myDelta = delta * upDownFactor * upDownFactor * upDownFactor;
 
                 terrainSample.setElevation( terrainSample.getElevation() + myDelta );
