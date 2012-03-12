@@ -57,7 +57,7 @@ public class AttachmentSite {
      *         molecule is on its way but not yet at the site, false is returned.
      */
     public boolean isMoleculeAttached() {
-        return attachedOrAttachingMolecule != null && locationProperty.get().distance( attachedOrAttachingMolecule.get().getPosition() ) < ATTACHED_THRESHOLD;
+        return attachedOrAttachingMolecule.get() != null && locationProperty.get().distance( attachedOrAttachingMolecule.get().getPosition() ) < ATTACHED_THRESHOLD;
     }
 
     @Override public boolean equals( Object obj ) {

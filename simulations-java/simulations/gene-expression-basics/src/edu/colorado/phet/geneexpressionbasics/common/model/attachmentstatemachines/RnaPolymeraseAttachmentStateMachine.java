@@ -117,10 +117,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                     // of candidate base pairs.
                     List<AttachmentSite> attachmentSites = biomolecule.getModel().getDnaMolecule().getAdjacentAttachmentSites( (RnaPolymerase) biomolecule, asm.attachmentSite );
 
-                    // Eliminate sites that, if moved to, would put the
-                    // biomolecule out of bounds.
+                    // Eliminate sites that are in use or that, if moved to,
+                    // would put the biomolecule out of bounds.
                     for ( AttachmentSite site : new ArrayList<AttachmentSite>( attachmentSites ) ) {
-                        if ( !biomolecule.motionBoundsProperty.get().testIfInMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
+                        if ( site.isMoleculeAttached() || !biomolecule.motionBoundsProperty.get().testIfInMotionBounds( biomolecule.getShape(), site.locationProperty.get() ) ) {
                             attachmentSites.remove( site );
                         }
                     }

@@ -68,6 +68,9 @@ public abstract class AttachmentState {
 
             // Verify that state is consistent.
             assert gsm.attachmentSite != null;
+            if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != gsm.biomolecule ) {
+                System.out.println( "We got us some trouble." );
+            }
             assert gsm.attachmentSite.attachedOrAttachingMolecule.get() == gsm.biomolecule;
 
             // Calculate the location where this biomolecule must be in order
