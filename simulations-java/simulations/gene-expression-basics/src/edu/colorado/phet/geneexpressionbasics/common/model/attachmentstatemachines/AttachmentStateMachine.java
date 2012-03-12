@@ -66,7 +66,18 @@ public abstract class AttachmentStateMachine {
      * @return true if attached to something, false if not.
      */
     public boolean isAttached() {
-        return !( attachmentSite == null );
+        return attachmentSite != null && attachmentSite.isMoleculeAttached();
+    }
+
+    /**
+     * Find out if the biomolecule using this state machine is currently moving
+     * towards attachment with another molecule.
+     *
+     * @return true if moving towards attachment, false if already attached or
+     *         if no attachment is pending.
+     */
+    public boolean isMovingTowardAttachment() {
+        return attachmentSite != null && !attachmentSite.isMoleculeAttached();
     }
 
     /**
@@ -103,16 +114,6 @@ public abstract class AttachmentStateMachine {
     public void setState( AttachmentState attachmentState ) {
         this.attachmentState = attachmentState;
         this.attachmentState.entered( this );
-    }
-
-    /**
-     * Attachment test.
-     *
-     * @return - True if this molecule is currently attached to something or
-     *         moving towards and attachment, otherwise returns false.
-     */
-    public boolean isAttachedOrAttaching() {
-        return !( attachmentSite == null );
     }
 
     protected void setDestinationOffset( double x, double y ) {
