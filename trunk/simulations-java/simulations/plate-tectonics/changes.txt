@@ -1,3 +1,4 @@
+Added subduction mountain generation
 Reduced subduction trench depth
 # 0.00.23 (62415) Mar 11, 2012
 Added initial version for "subduction" animation

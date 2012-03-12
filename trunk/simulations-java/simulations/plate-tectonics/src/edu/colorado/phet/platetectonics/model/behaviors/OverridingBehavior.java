@@ -5,6 +5,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 
 public class OverridingBehavior extends PlateBehavior {
@@ -19,8 +20,8 @@ public class OverridingBehavior extends PlateBehavior {
     public static final float MELT_CHANCE_FACTOR = 0.0002f;
 
     // melting X positions, determined by commented-out code below. update this if the magma chamber isn't centered properly
-    public static final float OLD_MELT_X = 92000;
-    public static final float YOUNG_MELT_X = 151000;
+    public static final float OLD_MELT_X = 89500;
+    public static final float YOUNG_MELT_X = 148500;
 
     private float chamberFullness = 0;
 
@@ -57,6 +58,10 @@ public class OverridingBehavior extends PlateBehavior {
         }
 
         animateMagma( millionsOfYears );
+
+        if ( chamberFullness >= 1 ) {
+            animateMountains( millionsOfYears );
+        }
 
         // bring the edge down to the other level fairly quickly
         {
@@ -109,6 +114,13 @@ public class OverridingBehavior extends PlateBehavior {
             if ( resizeFactor > 1 ) {
                 resizeFactor = 1;
             }
+
+            { // blend the resizeFactor to 1 the farther we get from the boundary, so we don't affect the mountains
+                final float THRESHOLD_X_DIFFERENCE = 50000;
+                final float ratio = Math.min( 1, Math.abs( topSample.getPosition().x ) / THRESHOLD_X_DIFFERENCE );
+                resizeFactor = ratio + ( 1 - ratio ) * resizeFactor;
+            }
+
             resizeFactor = (float) Math.pow( resizeFactor, millionsOfYears );
             float center = ( currentCrustTop + currentCrustBottom ) / 2;
 
@@ -146,6 +158,49 @@ public class OverridingBehavior extends PlateBehavior {
                 ImmutableVector2F location = lowMeltPoint.plus( highMeltPoint.minus( lowMeltPoint ).times( (float) Math.random() ) );
 
                 addMagma( location, 0.7f );
+            }
+        }
+
+        {
+            // min, max elevations
+            float min = Float.MAX_VALUE;
+            float max = -Float.MAX_VALUE;
+            for ( Sample sample : getTopCrustBoundary().samples ) {
+                min = Math.min( min, sample.getPosition().y );
+                max = Math.max( max, sample.getPosition().y );
+            }
+            System.out.println( "elevation range: [" + min + ", " + max + "]" );
+        }
+    }
+
+    private void animateMountains( float millionsOfYears ) {
+        assert getNumCrustXSamples() == getNumTerrainXSamples();
+        for ( int columnIndex = 0; columnIndex < getNumTerrainXSamples(); columnIndex++ ) {
+            float x = getTerrain().xPositions.get( columnIndex );
+
+            float delta = (float) Math.exp( -Math.abs( x - magmaCenterX ) / 10000 ) * 400 * millionsOfYears;
+            float bottomDelta = (float) Math.exp( -Math.abs( x - magmaCenterX ) / 30000 ) * 500 * millionsOfYears;
+
+            // TODO: for performance, add in a threshold for how large |x-center| can be
+            for ( int rowIndex = 0; rowIndex < getTerrain().getNumRows(); rowIndex++ ) {
+                final TerrainSample terrainSample = getTerrain().getSample( columnIndex, rowIndex );
+
+                final float upDownFactor = (float) ( Math.cos( getTerrain().zPositions.get( rowIndex ) / 10000 ) + 1 ) / 2;
+                float myDelta = delta * upDownFactor * upDownFactor * upDownFactor;
+
+                terrainSample.setElevation( terrainSample.getElevation() + myDelta );
+
+                if ( rowIndex == getTerrain().getFrontZIndex() ) {
+                    float newCrustTop = getCrust().getTopElevation( columnIndex ) + myDelta;
+                    float newCrustBottom = getCrust().getBottomElevation( columnIndex ) - bottomDelta;
+                    float newLithosphereBottom = getLithosphere().getBottomElevation( columnIndex ) - bottomDelta * 2;
+                    getCrust().layoutColumn( columnIndex,
+                                             newCrustTop, newCrustBottom,
+                                             plate.getTextureStrategy(), true );
+                    getLithosphere().layoutColumn( columnIndex,
+                                                   newCrustBottom, newLithosphereBottom,
+                                                   plate.getTextureStrategy(), true );
+                }
             }
         }
     }
