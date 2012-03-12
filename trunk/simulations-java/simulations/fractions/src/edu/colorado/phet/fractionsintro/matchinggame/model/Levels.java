@@ -118,12 +118,12 @@ public class Levels {
         } );
     }
 
-    final RepresentationType fourGrid = createPatterns( "four grid", 1, 100, new F<Integer, Pattern>() {
+    final RepresentationType fourGrid = createPatterns( "four grid", 4, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 2 );
         }
     } );
-    final RepresentationType nineGrid = createPatterns( "nine grid", 4, 50, new F<Integer, Pattern>() {
+    final RepresentationType nineGrid = createPatterns( "nine grid", 9, 50, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 3 );
         }
