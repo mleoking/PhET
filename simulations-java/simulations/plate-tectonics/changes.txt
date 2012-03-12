@@ -1,3 +1,4 @@
+On reset, tools are put back in toolbox
 Fixed time speed control reset
 Fixed crust piece dragging with resized window bug
 Temporarily removing "Show Labels" on 2nd tab until those labels are implemented
