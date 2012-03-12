@@ -1,3 +1,4 @@
+Fixed Rewind button "enabled" refreshing state
 Fixed window resizing bug
 Fixed Mac slider bugs by switching to new time slider style
 # 0.00.24 (62430) Mar 11, 2012
