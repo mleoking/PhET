@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
@@ -57,7 +58,7 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
     private final ArrayList<QuantityValueNode> productValueNodes; // quantity displays for products
     private final ArrayList<LeftoversValueNode> leftoverValueNodes; // leftover displays for reactants
     private final ImageLayoutNode imageLayoutNode;
-    private final PNode productsLabelNode, leftoversLabelNode;
+    private final BracketedLabelNode productsLabelNode, leftoversLabelNode;
 
     public AbstractAfterNode( String title, PDimension boxSize, final ChemicalReaction reaction, IntegerRange quantityRange, boolean showSubstanceNames, ImageLayoutNode imageLayoutNode ) {
         super();
@@ -165,6 +166,14 @@ public abstract class AbstractAfterNode extends PhetPNode implements IDynamicNod
 
         // adjust products bracket so that it's never higher than leftovers bracket
         updateProductsLabelOffset();
+
+        // update color of brackets
+        RPALColors.COLOR_SCHEME.addObserver( new SimpleObserver() {
+            public void update() {
+                productsLabelNode.setBracketStrokePaint( RPALColors.COLOR_SCHEME.get().bracketColor );
+                leftoversLabelNode.setBracketStrokePaint( RPALColors.COLOR_SCHEME.get().bracketColor );
+            }
+        } );
 
         update();
     }

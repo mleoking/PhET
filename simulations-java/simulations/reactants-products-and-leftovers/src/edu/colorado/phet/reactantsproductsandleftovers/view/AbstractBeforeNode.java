@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
@@ -24,7 +25,6 @@ import edu.colorado.phet.reactantsproductsandleftovers.controls.QuantityValueNod
 import edu.colorado.phet.reactantsproductsandleftovers.controls.ValueNode;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -106,7 +106,7 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
         double startX = reactantValueNodes.get( 0 ).getFullBoundsReference().getMinX();
         double endX = reactantValueNodes.get( reactantValueNodes.size() - 1 ).getFullBoundsReference().getMaxX();
         double width = endX - startX;
-        PNode reactantsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
+        final BracketedLabelNode reactantsLabelNode = new BracketedLabelNode( RPALStrings.LABEL_REACTANTS, width, BRACKET_FONT, BRACKET_TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
         addChild( reactantsLabelNode );
         x = startX;
         y = 0;
@@ -114,6 +114,13 @@ public abstract class AbstractBeforeNode extends PhetPNode implements IDynamicNo
             y = Math.max( y, node.getFullBoundsReference().getMaxY() + BRACKET_Y_SPACING );
         }
         reactantsLabelNode.setOffset( x, y );
+
+        // update color of brackets
+        RPALColors.COLOR_SCHEME.addObserver( new SimpleObserver() {
+            public void update() {
+                reactantsLabelNode.setBracketStrokePaint( RPALColors.COLOR_SCHEME.get().bracketColor );
+            }
+        } );
 
         updateImages();
     }

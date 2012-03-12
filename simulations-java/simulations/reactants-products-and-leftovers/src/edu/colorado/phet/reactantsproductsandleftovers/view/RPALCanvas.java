@@ -4,6 +4,7 @@ package edu.colorado.phet.reactantsproductsandleftovers.view;
 
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
@@ -32,7 +33,11 @@ public class RPALCanvas extends PhetPCanvas {
     public RPALCanvas() {
         super( RPALConstants.CANVAS_RENDERING_SIZE );
 
-        setBackground( RPALColors.COLOR_SCHEME.get().canvasBackground );
+        RPALColors.COLOR_SCHEME.addObserver( new SimpleObserver() {
+            public void update() {
+                setBackground( RPALColors.COLOR_SCHEME.get().canvasBackground );
+            }
+        } );
 
         // Root of our scene graph
         rootNode = new PNode();

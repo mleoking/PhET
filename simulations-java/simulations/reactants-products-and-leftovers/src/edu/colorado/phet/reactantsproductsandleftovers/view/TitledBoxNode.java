@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
@@ -25,8 +26,7 @@ public class TitledBoxNode extends PhetPNode {
     
     private static final Stroke BOX_STROKE = new BasicStroke( 1f );
     private static final Color BOX_STROKE_COLOR= Color.BLACK;
-    private static final Color BOX_FILL_COLOR = RPALColors.COLOR_SCHEME.get().beforeAfterBoxColor;
-    
+
     private static final Font TITLE_FONT = new PhetFont( 20 );
     private static final Color TITLE_COLOR = Color.BLACK;
     private static final double TITLE_Y_SPACING = 10;
@@ -68,9 +68,14 @@ public class TitledBoxNode extends PhetPNode {
         public BoxNode( PDimension size ) {
             super();
             setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
-            setPaint( BOX_FILL_COLOR );
             setStrokePaint( BOX_STROKE_COLOR );
             setStroke( BOX_STROKE );
+
+            RPALColors.COLOR_SCHEME.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPaint( RPALColors.COLOR_SCHEME.get().beforeAfterBoxColor );
+                }
+            } );
         }
     }
 }
