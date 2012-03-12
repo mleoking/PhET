@@ -18,7 +18,8 @@ public class RPALSimSharing {
         equationSpinner, reactantSpinner, productSpinner, leftoverSpinner,
         sandwichRadioButton, realReactionRadioButton,
         checkButton, nextButton, tryAgainButton, showAnswerButton,
-        nothingRadioButton, moleculesRadioButton, numbersRadioButton
+        nothingRadioButton, moleculesRadioButton, numbersRadioButton,
+        worksheetColorsMenuItem
     }
 
     public static enum ModelComponents implements IModelComponent {

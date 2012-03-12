@@ -46,6 +46,9 @@ public class RPALStrings {
     public static final String MESSAGE_MOLECULES_HIDDEN = RPALResources.getString( "message.moleculesHidden" );
     public static final String MESSAGE_NUMBERS_HIDDEN = RPALResources.getString( "message.numbersHidden" );
 
+    // menu items
+    public static final String MENU_WORKSHEET_COLORS = RPALResources.getString( "menu.worksheetColors" );
+
     // questions
     public static final String QUESTION_HOW_MANY_PRODUCTS_AND_LEFTOVERS = RPALResources.getString( "question.howManyProductsAndLeftovers" );
     public static final String QUESTION_HOW_MANY_REACTANTS = RPALResources.getString( "question.howManyReactants" );
