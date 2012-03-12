@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -185,7 +186,7 @@ public class PlateMotionPlate extends Plate {
     }
 
     // only for the transform boundary, so we can simplify a few things here
-    public void addMiddleSide( Plate otherPlate ) {
+    public void addMiddleSide( final Plate otherPlate ) {
         assert getCrust() != null && getMantle() != null;
 
         /*---------------------------------------------------------------------------*
@@ -234,15 +235,49 @@ public class PlateMotionPlate extends Plate {
         * crust
         *----------------------------------------------------------------------------*/
 
-        // do a few calculations so we don't cover up the exposed-to-air part of the earth
-        final float myTopY = getCrust().getTopBoundary().samples.get( 0 ).getPosition().y;
+        final int myTerrainIndex = getSide().opposite().getIndex( getTerrain().getNumColumns() );
+        final int otherTerrainIndex = getSide().getIndex( getTerrain().getNumColumns() );
         final float myBottomY = getCrust().getBottomBoundary().samples.get( 0 ).getPosition().y;
-        final float otherTopY = otherPlate.getCrust().getTopBoundary().samples.get( 0 ).getPosition().y;
-        float topEarthY = Math.min( myTopY, otherTopY );
-        final float ratioSpread = ( topEarthY - myBottomY ) / ( myTopY - myBottomY );
-        System.out.println( "ratioSpread = " + ratioSpread );
-        regions.add( new Region( CRUST_VERTICAL_STRIPS, getTerrain().getNumRows(), new Function2<Integer, Integer, Sample>() {
+
+        // do a few calculations so we don't cover up the exposed-to-air part of the earth
+        regions.add( new Region( CRUST_VERTICAL_STRIPS, getTerrain().getNumRows(), createMiddleCrustSampleFactory( otherPlate ) ) {{
+
+            // update heights whenever the model changes in this mode
+            model.modelChanged.addUpdateListener(
+                    new UpdateListener() {
+                        public void update() {
+                            final Function2<Integer, Integer, Sample> factory = createMiddleCrustSampleFactory( otherPlate );
+                            for ( int yIndex = 0; yIndex < getBoundaries().size(); yIndex++ ) {
+                                Boundary boundary = getBoundaries().get( yIndex );
+                                for ( int xIndex = 0; xIndex < getTopBoundary().samples.size(); xIndex++ ) {
+                                    Sample sample = boundary.getSample( xIndex );
+                                    Sample recomputedSample = factory.apply( yIndex, xIndex );
+                                    sample.setPosition( new ImmutableVector3F( sample.getPosition().x,
+                                                                               recomputedSample.getPosition().y,
+                                                                               sample.getPosition().z ) );
+                                }
+                            }
+                        }
+                    }, false );
+        }} );
+    }
+
+    public Function2<Integer, Integer, Sample> createMiddleCrustSampleFactory( final Plate otherPlate ) {
+        final int myTerrainIndex = getSide().opposite().getIndex( getTerrain().getNumColumns() );
+        final int otherTerrainIndex = getSide().getIndex( getTerrain().getNumColumns() );
+        final float myBottomY = getCrust().getBottomBoundary().samples.get( 0 ).getPosition().y;
+
+        return new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
+
+                int mappedZIndex = getSide().getFromIndex( getTerrain().getNumRows(), xIndex );
+
+                final float myTopY = getTerrain().getSample( myTerrainIndex, mappedZIndex ).getElevation();
+                final float otherTopY = otherPlate.getTerrain().getSample( otherTerrainIndex, mappedZIndex ).getElevation();
+
+                float topEarthY = Math.min( myTopY, otherTopY );
+                final float ratioSpread = ( topEarthY - myBottomY ) / ( myTopY - myBottomY );
+
                 // we're in the center exactly
                 float x = 0;
 
@@ -254,14 +289,14 @@ public class PlateMotionPlate extends Plate {
                 float y = myTopY + ( myBottomY - myTopY ) * yRatio;
 
                 // grab the Z from the terrain. we also reverse the index for the side of the left plate, so the sidedness is correct
-                float z = getTerrain().zPositions.get( side == LEFT ? getTerrain().getNumRows() - xIndex - 1 : xIndex );
+                float z = getTerrain().zPositions.get( mappedZIndex );
 
                 float temp = getCrustTemperatureFromYRatio( yRatio );
                 // sample copied from other one. we reverse texture coordinates also for the left plate, so it wraps over the edge nicely
                 return new Sample( new ImmutableVector3F( x, y, z ), temp, sample.getDensity(),
                                    textureStrategy.mapFront( new ImmutableVector2F( z * side.getSign(), y ) ) );
             }
-        } ) );
+        };
     }
 
     public PlateBehavior getBehavior() {

@@ -48,12 +48,22 @@ public class Piccolo3DCanvas extends PSwingCanvas {
         updateSize();
     }
 
+    // this keeps the updateSize() from being called by its own change callbacks
+    private boolean alreadyInLoop = false;
+
     // called when the PNode changes full bounds. triggers (under the hood) a transfer to a new texture
     public void updateSize() {
+        if ( alreadyInLoop ) {
+//            return;
+        }
+        alreadyInLoop = true;
+
         PBounds bounds = node.getFullBounds();
 
         // make extra-sure our canvas size changes
         setPreferredSize( new Dimension( (int) bounds.width, (int) bounds.height ) );
         setSize( getPreferredSize() );
+
+        alreadyInLoop = false;
     }
 }

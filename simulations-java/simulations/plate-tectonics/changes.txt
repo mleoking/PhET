@@ -1,3 +1,4 @@
+Added fault valley for transform motion
 Added random terrain variations in 2nd tab
 Added subduction mountain generation
 Reduced subduction trench depth
