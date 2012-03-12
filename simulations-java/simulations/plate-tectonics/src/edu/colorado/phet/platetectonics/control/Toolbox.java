@@ -51,7 +51,7 @@ public class Toolbox extends OrthoPiccoloNode {
 
             addChild( rulerNode2D ); // approximate scaling to get the size right
 
-            final PNode thermometer = new ZeroOffsetNode( new ThermometerNode2D( kmToViewUnit ) ) {{
+            final PNode thermometer = new ZeroOffsetNode( new edu.colorado.phet.platetectonics.control.ThermometerNode3D.ThermometerNode2D( kmToViewUnit ) ) {{
 
                 //Move it to the right of the ruler
                 setOffset( rulerNode2D.getFullBounds().getWidth() + INSET, rulerNode2D.getFullBounds().getMaxY() - getFullBounds().getHeight() );
