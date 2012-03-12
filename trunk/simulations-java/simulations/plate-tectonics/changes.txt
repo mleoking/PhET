@@ -1,3 +1,4 @@
+Fixed time speed control reset
 Fixed crust piece dragging with resized window bug
 Temporarily removing "Show Labels" on 2nd tab until those labels are implemented
 Sensors now read out correct values in 2nd tab (point-intersection model working)

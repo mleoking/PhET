@@ -16,6 +16,9 @@ import edu.colorado.phet.platetectonics.model.TectonicsClock;
 import edu.umd.cs.piccolo.nodes.PText;
 
 public class TectonicsTimeControl extends PiccoloClockControlPanel {
+
+    private Property<Double> speedProperty = new Property<Double>( 1.0 );
+
     public TectonicsTimeControl( final TectonicsClock clock, final Property<Boolean> isAutoMode ) {
         super( clock );
 
@@ -28,7 +31,6 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
         double min = 0.1;
         double max = 10;
 
-        final Property<Double> speedProperty = new Property<Double>( 1.0 );
         Piccolo3DCanvas timeSliderCanvas = new Piccolo3DCanvas( new HSliderNode( UserComponents.timeSpeedSlider,
                                                                                  min, max, 100, 5,
                                                                                  speedProperty, new Property<Boolean>( true ) ) {{
@@ -65,4 +67,7 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
         } );
     }
 
+    public void resetAll() {
+        speedProperty.reset();
+    }
 }
