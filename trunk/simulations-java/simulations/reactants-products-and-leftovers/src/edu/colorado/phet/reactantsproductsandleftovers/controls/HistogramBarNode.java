@@ -8,7 +8,7 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -29,7 +29,7 @@ public class HistogramBarNode extends PNode {
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
     private static final Color BACKGROUND_COLOR = Color.WHITE;
-    private static final Color FILL_COLOR = RPALConstants.HISTOGRAM_BAR_COLOR;
+    private static final Color FILL_COLOR = RPALColors.HISTOGRAM_BAR_COLOR;
     
     //----------------------------------------------------------------------------
     // Instance data

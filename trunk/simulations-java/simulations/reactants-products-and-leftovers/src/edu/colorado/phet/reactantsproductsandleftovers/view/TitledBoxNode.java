@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -25,7 +25,7 @@ public class TitledBoxNode extends PhetPNode {
     
     private static final Stroke BOX_STROKE = new BasicStroke( 1f );
     private static final Color BOX_STROKE_COLOR= Color.BLACK;
-    private static final Color BOX_FILL_COLOR = RPALConstants.BEFORE_AFTER_BOX_COLOR;
+    private static final Color BOX_FILL_COLOR = RPALColors.BEFORE_AFTER_BOX_COLOR;
     
     private static final Font TITLE_FONT = new PhetFont( 20 );
     private static final Color TITLE_COLOR = Color.BLACK;
