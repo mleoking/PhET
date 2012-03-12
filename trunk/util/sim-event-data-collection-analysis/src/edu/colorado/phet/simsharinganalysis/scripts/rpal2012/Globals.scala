@@ -19,4 +19,5 @@ object Globals {
 
   val initialTab0 = Tab0("dummy")
   val initialTab1 = Tab1("BF3", "real", "KITTY")
+  val initialTab2 = Tab2("BF3", "real", "KITTY")
 }

@@ -6,16 +6,21 @@ import edu.colorado.phet.simsharinganalysis.Entry
 import Globals._
 
 object SimState {
-  def apply(time: Long): SimState = SimState(0, initialTab0, initialTab1, time)
+  def apply(time: Long): SimState = SimState(0, initialTab0, initialTab1, initialTab2, time)
 }
 
-case class SimState(tab: Int, tab0: Tab0, tab1: Tab1, time: Long) {
-  def getSelectedTab = if ( tab == 0 ) tab0 else tab1
+case class SimState(tab: Int, tab0: Tab0, tab1: Tab1, tab2: Tab2, time: Long) {
+  def getSelectedTab = tab match {
+    case 0 => tab0
+    case 1 => tab1
+    case 2 => tab2
+    case _ => throw new RuntimeException("tab not found")
+  }
 }
 
 case class Molecule(electronGeometry: String, moleculeGeometry: String)
 
-trait MSTab
+trait Tab
 
 //Factored out state that is shared between all tabs, since case classes do not inherit well.
 case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolean) {
@@ -46,7 +51,7 @@ case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolea
 }
 
 //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
-case class Tab0(dummy: String) extends MSTab {
+case class Tab0(dummy: String) extends Tab {
 
   def next(e: Entry): Tab0 = {
 
@@ -67,7 +72,7 @@ case class Tab0(dummy: String) extends MSTab {
   }
 }
 
-case class Tab1(molecule: String, view: String, kit: String) extends MSTab {
+case class Tab1(molecule: String, view: String, kit: String) extends Tab {
 
   def next(e: Entry): Tab1 = {
 
@@ -82,6 +87,32 @@ case class Tab1(molecule: String, view: String, kit: String) extends MSTab {
 
       //Handle reset all presses
       case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab1
+
+      case Entry(_, "model", "molecule", "moleculeModel", "realMoleculeChanged", _) => copy(molecule = e("realMolecule"))
+
+      //Nothing happened to change the state
+      case _ => this
+    }
+    updated
+    //    updated.copy(viewAndTestState = viewAndTestState.next(e))
+  }
+}
+
+case class Tab2(molecule: String, view: String, kit: String) extends Tab {
+
+  def next(e: Entry): Tab2 = {
+
+    val updated = e match {
+
+      //If clicking on something disabled, then do not change the state, see #3218
+      case x: Entry if x.enabled == false => this
+
+      //Watch which solution the user selects
+      case Entry(_, "user", "modelViewCheckBox", _, "pressed", _) => copy(view = "model")
+      case Entry(_, "user", "realViewCheckBox", _, "pressed", _) => copy(view = "real")
+
+      //Handle reset all presses
+      case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab2
 
       case Entry(_, "model", "molecule", "moleculeModel", "realMoleculeChanged", _) => copy(molecule = e("realMolecule"))
 
