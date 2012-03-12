@@ -1,11 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.behaviors.CollidingBehavior;
@@ -52,6 +55,8 @@ public class PlateMotionModel extends PlateModel {
     public static final int TERRAIN_DEPTH_SAMPLES = 32;
 
     private boolean transformMotionCCW = true;
+
+    private final StripTracker stripTracker = new StripTracker();
 
     // TODO: better handling for this. ugly
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
@@ -377,15 +382,36 @@ public class PlateMotionModel extends PlateModel {
     }
 
     @Override public double getElevation( double x, double z ) {
+        // NOTE: OK to not fill in here, not ever used. TODO: redesign so we don't have this
         return 0;
     }
 
     @Override public double getDensity( double x, double y ) {
-        return 0; // TODO
+        ImmutableVector3F point = new ImmutableVector3F( (float) x, (float) y, 0 );
+        HitResult hitResult = firstStripIntersection( point );
+        if ( hitResult != null ) {
+            return hitResult.density;
+        }
+        else if ( y < 0 ) {
+            return PlateModel.getWaterDensity( y );
+        }
+        else {
+            return PlateModel.getAirDensity( y );
+        }
     }
 
     @Override public double getTemperature( double x, double y ) {
-        return 0; // TODO
+        ImmutableVector3F point = new ImmutableVector3F( (float) x, (float) y, 0 );
+        HitResult hitResult = firstStripIntersection( point );
+        if ( hitResult != null ) {
+            return hitResult.temperature;
+        }
+        else if ( y < 0 ) {
+            return PlateModel.getWaterTemperature( y );
+        }
+        else {
+            return PlateModel.getAirTemperature( y );
+        }
     }
 
     public static double getSimplifiedMantleTemperature( double y ) {
@@ -435,6 +461,106 @@ public class PlateMotionModel extends PlateModel {
     public void setTransformMotionCCW( boolean transformMotionCCW ) {
         System.out.println( "transformMotionCCW = " + transformMotionCCW );
         this.transformMotionCCW = transformMotionCCW;
+    }
+
+    public List<CrossSectionStrip> getStripsInOrder() {
+        return stripTracker.getStripsInOrder();
+    }
+
+    // keeps track of the stacking order of cross-section strips so we can accurately get intersection information even with overlapping strips
+    private class StripTracker {
+        private final List<CrossSectionStrip> strips = new ArrayList<CrossSectionStrip>();
+
+        private StripTracker() {
+            final VoidFunction1<CrossSectionStrip> moveToFrontCallback = new VoidFunction1<CrossSectionStrip>() {
+                public void apply( CrossSectionStrip strip ) {
+                    strips.remove( strip );
+                    strips.add( strip );
+                }
+            };
+
+            crossSectionStripAdded.addListener( new VoidFunction1<CrossSectionStrip>() {
+                public void apply( CrossSectionStrip strip ) {
+                    strip.moveToFrontNotifier.addListener( moveToFrontCallback );
+                    strips.add( strip );
+                }
+            } );
+
+            crossSectionStripRemoved.addListener( new VoidFunction1<CrossSectionStrip>() {
+                public void apply( CrossSectionStrip strip ) {
+                    strip.moveToFrontNotifier.removeListener( moveToFrontCallback );
+                    strips.remove( strip );
+                }
+            } );
+        }
+
+        // returns the front-most strips first (reversed from the actual display rendering order)
+        public List<CrossSectionStrip> getStripsInOrder() {
+            List<CrossSectionStrip> result = new ArrayList<CrossSectionStrip>( strips );
+            Collections.reverse( result );
+            return result;
+        }
+    }
+
+    private static class HitResult {
+        public final float density;
+        public final float temperature;
+
+        private HitResult( float density, float temperature ) {
+            this.density = density;
+            this.temperature = temperature;
+        }
+    }
+
+    private HitResult firstStripIntersection( ImmutableVector3F point ) {
+        final List<CrossSectionStrip> strips = getStripsInOrder();
+        for ( CrossSectionStrip strip : strips ) {
+            for ( int i = 0; i < strip.getLength() - 1; i++ ) {
+                HitResult hitTopLeft = triangleXYIntersection(
+                        strip.topPoints.get( i ),
+                        strip.bottomPoints.get( i ),
+                        strip.topPoints.get( i + 1 ),
+                        point
+                );
+                if ( hitTopLeft != null ) {
+                    return hitTopLeft;
+                }
+                HitResult hitBottomRight = triangleXYIntersection(
+                        strip.bottomPoints.get( i ),
+                        strip.topPoints.get( i + 1 ),
+                        strip.bottomPoints.get( i + 1 ),
+                        point
+                );
+                if ( hitBottomRight != null ) {
+                    return hitBottomRight;
+                }
+            }
+        }
+        return null;
+    }
+
+    // not the most numerically accurate way, but that doesn't matter in this scenario
+    private static HitResult triangleXYIntersection( Sample a, Sample b, Sample c, ImmutableVector3F point ) {
+        float areaA = triangleXYArea( point, b.getPosition(), c.getPosition() );
+        float areaB = triangleXYArea( point, c.getPosition(), a.getPosition() );
+        float areaC = triangleXYArea( point, a.getPosition(), b.getPosition() );
+        float insideArea = triangleXYArea( a.getPosition(), b.getPosition(), c.getPosition() );
+
+        // some area must be "outside" the main triangle (just needs to be close)
+        if ( areaA + areaB + areaC > insideArea * 1.02 ) {
+            return null;
+        }
+        else {
+            // results based on relative triangle areas
+            return new HitResult(
+                    ( areaA / insideArea ) * a.getDensity() + ( areaB / insideArea ) * b.getDensity() + ( areaC / insideArea ) * c.getDensity(),
+                    ( areaA / insideArea ) * a.getTemperature() + ( areaB / insideArea ) * b.getTemperature() + ( areaC / insideArea ) * c.getTemperature()
+            );
+        }
+    }
+
+    private static float triangleXYArea( ImmutableVector3F a, ImmutableVector3F b, ImmutableVector3F c ) {
+        return Math.abs( ( ( a.x - c.x ) * ( b.y - c.y ) - ( b.x - c.x ) * ( a.y - c.y ) ) / 2.0f );
     }
 
 }
