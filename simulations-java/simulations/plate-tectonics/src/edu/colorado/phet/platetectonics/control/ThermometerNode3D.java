@@ -29,6 +29,7 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     public static final float PIXEL_SCALE = 3f;
 
     private final LWJGLTransform modelViewTransform;
+    private final PlateTectonicsTab tab;
     private final PlateModel model;
 
     private final float sensorVerticalOffset;
@@ -38,6 +39,7 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         //TODO: rewrite with composition instead of inheritance
         super( new ThermometerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ) ) );
         this.modelViewTransform = modelViewTransform;
+        this.tab = tab;
         this.model = model;
 
         sensorVerticalOffset = (float) ( (ThermometerNode2D) getNode() ).sensorVerticalOffset;
@@ -63,18 +65,22 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
 
     public void dragDelta( ImmutableVector2F delta ) {
         this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
-
         updateLiquidHeight();
+//        tab.getModel().debugPing.updateListeners( getSensorModelPosition() );
     }
 
     private void updateLiquidHeight() {
         // get model coordinates
         // TODO: improve model/view and listening for sensor location
-        ImmutableVector3F modelSensorPosition = modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( 0, sensorVerticalOffset / PICCOLO_PIXELS_TO_VIEW_UNIT, 0 ) ) );
+        ImmutableVector3F modelSensorPosition = getSensorModelPosition();
         final Double temp = model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
         double liquidHeight = MathUtil.clamp( 0.2, new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp ), 1 );
         ( (LiquidExpansionThermometerNode) getNode() ).setLiquidHeight( liquidHeight );
         repaint();
+    }
+
+    private ImmutableVector3F getSensorModelPosition() {
+        return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( 0, sensorVerticalOffset / PICCOLO_PIXELS_TO_VIEW_UNIT, 0 ) ) );
     }
 
     public Property<Boolean> getInsideToolboxProperty( ToolboxState toolboxState ) {

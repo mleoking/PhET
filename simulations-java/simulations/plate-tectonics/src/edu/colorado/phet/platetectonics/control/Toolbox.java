@@ -76,7 +76,7 @@ public class Toolbox extends OrthoPiccoloNode {
             }};
             addChild( thermometer );
 
-            final PNode densitySensor = new ZeroOffsetNode( new DensitySensorNode2D( kmToViewUnit ) ) {{
+            final PNode densitySensor = new ZeroOffsetNode( new edu.colorado.phet.platetectonics.control.DensitySensorNode3D.DensitySensorNode2D( kmToViewUnit, tab ) ) {{
                 setOffset( thermometer.getFullBounds().getMaxX() + INSET, rulerNode2D.getFullBounds().getMaxY() - getFullBounds().getHeight() );
 
                 // make it visible when it is in the toolbox
