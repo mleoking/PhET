@@ -44,12 +44,12 @@ public class CakeSetNode extends PieSetNode {
         }
     } );
 
-    public CakeSetNode( SettableProperty<PieSet> cakeSet, PNode rootNode ) {
+    public CakeSetNode( SettableProperty<PieSet> cakeSet, PNode rootNode, boolean iconTextOnTheRight ) {
         super( cakeSet, rootNode, createSliceNode, CreateEmptyCellsNode, new F<PieSet, PNode>() {
             @Override public PNode f( final PieSet pieSet ) {
                 return PieSetNode.createBucketIcon( pieSet, createSliceNode );
             }
-        }
+        }, iconTextOnTheRight
         );
     }
 
