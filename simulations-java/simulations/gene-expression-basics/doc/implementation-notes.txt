@@ -11,8 +11,12 @@ At each step in time, a biomolecule first moves based on its current motion
 strategy.  After this, it looks at its attachment state and decides whether
 to seek out any new attachments.  If it is available for attachments, it will
 poll other molecules that it could potentially attach to in order to see if
-there are attachment sites that are open and are close enough to attach to.  If
-so, the biomolecule will start moving towards one of these sites.
+there are attachment sites that are open and are close enough. It does this by
+"proposing an attachment" to the other biomolecule(s).  The convention for this
+is that each biomolecule has a method called "considerProposalFrom", and the
+type signature specifies the proposer.  If a proposal is accepted, an
+attachment site is returned, and the proposing biomolecule will start moving
+toward that site.
 
 Biomolecules propose attachments to other biomolecules.  If the biomolecule
 that receives the proposal has an attachment site that is close enough and is
