@@ -13,7 +13,7 @@ object RPALRealTimeAnalysis extends App {
     ( RPALAnalysis toReport log ).toString + "\n" +
     "Tab " + states.last.end.tab + "\n" +
     "Tab 1 View " + states.last.end.tab1.view + "\n" +
-    "Tab 1 molecule: " + states.last.end.tab1.molecule + "\n" +
+    "Tab 0 sandwich: " + states.last.end.tab1.sandwich + "\n" +
     "\nLast 5 events (most recent at the top):\n" +
     states.map(_.entry).takeRight(5).reverse.mkString("\n")
   }).main(args)
