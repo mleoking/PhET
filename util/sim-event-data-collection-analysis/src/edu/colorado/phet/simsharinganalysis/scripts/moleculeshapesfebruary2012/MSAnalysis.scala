@@ -15,13 +15,6 @@ import java.text.DecimalFormat
 object MSAnalysis extends StateMachine[SimState] {
   def toReport(log: Log) = new Report(log)
 
-  //create a list of pairs (1,2) (2,3) ...
-  def pairs[T](x: List[T]) = {
-    val a = x.tail
-    val b = a.reverse.tail.reverse
-    ( b zip a ).toList
-  }
-
   /**
    * Consolidate the important information that was needed from a single log
    * of entries.

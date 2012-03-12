@@ -13,6 +13,13 @@ trait StateMachine[T <: {def time : Long}] {
 
   def nextState(currentState: T, entry: Entry): T
 
+  //create a list of pairs (1,2) (2,3) ...
+  def pairs(x: List[T]) = {
+    val a = x.tail
+    val b = a.reverse.tail.reverse
+    ( b zip a ).toList
+  }
+
   //Find the sequence of states of the sim
   //The list will contain one state per event, indicating the state of the sim after the event.
   def getStates(log: Log) = {

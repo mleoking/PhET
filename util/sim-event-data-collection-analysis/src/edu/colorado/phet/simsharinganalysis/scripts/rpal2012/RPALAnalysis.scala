@@ -2,7 +2,6 @@
 package edu.colorado.phet.simsharinganalysis.scripts.rpal2012
 
 import edu.colorado.phet.simsharinganalysis.scripts.StateMachine
-import edu.colorado.phet.simsharinganalysis.scripts.moleculeshapesfebruary2012.SimState
 import edu.colorado.phet.simsharinganalysis.{phet, Entry, Log}
 import java.io.File
 import java.text.DecimalFormat
@@ -13,13 +12,6 @@ import java.text.DecimalFormat
 
 object RPALAnalysis extends StateMachine[SimState] {
   def toReport(log: Log) = new Report(log)
-
-  //create a list of pairs (1,2) (2,3) ...
-  def pairs[T](x: List[T]) = {
-    val a = x.tail
-    val b = a.reverse.tail.reverse
-    ( b zip a ).toList
-  }
 
   /**
    * Consolidate the important information that was needed from a single log
@@ -45,6 +37,7 @@ object RPALAnalysis extends StateMachine[SimState] {
 
     override def toString = "minutes in tab 0: " + minutesInTab(0) + "\n" +
                             "minutes in tab 1: " + minutesInTab(1) + "\n" +
+                            "minutes in tab 2: " + minutesInTab(2) + "\n" +
                             "minutes on real in tab 1: " + timeInTab1State("real") + "\n" +
                             "minutes on model in tab 1: " + timeInTab1State("model") + "\n" +
                             "tab transitions: " + tabTransitions + "\n" +
@@ -61,9 +54,14 @@ object RPALAnalysis extends StateMachine[SimState] {
     //When the sim gets reset, go back to the first state
     if ( e.messageType == "system" && e.component == "application" && e.action == "exited" ) SimState(e.time)
     else if ( e.enabled == false ) state.copy(time = e.time)
-    else if ( e.componentType == "tab" ) state.copy(tab = if ( e.component == "moleculeShapesTab" ) 0 else 1, time = e.time)
+    else if ( e.componentType == "tab" ) state.copy(tab = e.component match {
+      case "sandwichShopTab" => 0
+      case "realReactionTab" => 1
+      case "gameTab" => 2
+    }, time = e.time)
     else if ( state.tab == 0 ) state.copy(tab0 = state.tab0.next(e), time = e.time)
     else if ( state.tab == 1 ) state.copy(tab1 = state.tab1.next(e), time = e.time)
+    else if ( state.tab == 2 ) state.copy(tab2 = state.tab2.next(e), time = e.time)
     else state.copy(tab1 = state.tab1.next(e), time = e.time)
   }
 
