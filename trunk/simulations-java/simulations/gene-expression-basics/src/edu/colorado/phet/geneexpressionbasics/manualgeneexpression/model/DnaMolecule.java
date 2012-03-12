@@ -172,6 +172,9 @@ public class DnaMolecule {
 
     public void stepInTime( double dt ) {
         updateStrandSegments();
+        for ( Gene gene : genes ) {
+            gene.stepInTime( dt );
+        }
     }
 
     public double getLength() {

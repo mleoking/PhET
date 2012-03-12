@@ -49,6 +49,10 @@ public abstract class Gene {
     // location, in terms of base pair offset, where the TF attaches.
     private final Map<Integer, TranscriptionFactor> transcriptionFactorMap = new HashMap<Integer, TranscriptionFactor>();
 
+    // Property that determines the affinity of the site where polymerase
+    // attaches when the transcription factors support transcription.
+    private Property<Double> polymeraseAffinityProperty = new Property<Double>( 1.0 );
+
     /**
      * Constructor.
      *
@@ -127,14 +131,7 @@ public abstract class Gene {
         if ( basePairIndex == regulatoryRegion.getMax() ) {
             // This is the last base pair within the regulatory region, which
             // is where the polymerase would begin transcription.
-            if ( polymeraseAttachmentSite.attachedOrAttachingMolecule.get() != null || transcriptionFactorsBlockTranscription() ) {
-                // Something is blocking attachment, return a low affinity site.
-                return new AttachmentSite( polymeraseAttachmentSite.locationProperty.get(), 0 );
-            }
-            else if ( transcriptionFactorsSupportTranscription() ) {
-                // Transcription enabled, return polyerase-specific affinity site.
-                return polymeraseAttachmentSite;
-            }
+            return polymeraseAttachmentSite;
         }
 
         // There is currently nothing special about this site, so return a
@@ -154,7 +151,16 @@ public abstract class Gene {
         return polymeraseAttachmentSite;
     }
 
-    ;
+    public void stepInTime( double dt ) {
+        // Update the affinity of the polymerase attachment site based upon the
+        // state of the transcription factors.
+        if ( transcriptionFactorsSupportTranscription() ) {
+            polymeraseAttachmentSite.affinityProperty.set( polymeraseAffinityProperty.get() );
+        }
+        else {
+            polymeraseAttachmentSite.affinityProperty.set( DnaMolecule.DEFAULT_AFFINITY );
+        }
+    }
 
     /**
      * Method used by descendant classes to add locations where transcription
@@ -177,7 +183,7 @@ public abstract class Gene {
      * no negative ones are attached, which indicates that transcription is
      * essentially enabled.
      */
-    private boolean transcriptionFactorsSupportTranscription() {
+    public boolean transcriptionFactorsSupportTranscription() {
 
         // In this sim, blocking factors overrule positive factors, so test for
         // those first.
@@ -198,7 +204,8 @@ public abstract class Gene {
         int numPositiveTranscriptionFactorsAttached = 0;
         for ( AttachmentSite transcriptionFactorAttachmentSite : transcriptionFactorAttachmentSites ) {
             if ( transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() != null ) {
-                if ( ( (TranscriptionFactor) transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get() ).isPositive() ) {
+                TranscriptionFactor tf = (TranscriptionFactor) transcriptionFactorAttachmentSite.attachedOrAttachingMolecule.get();
+                if ( tf.getPosition().distance( transcriptionFactorAttachmentSite.locationProperty.get() ) == 0 && tf.isPositive() ) {
                     numPositiveTranscriptionFactorsAttached++;
                 }
             }
@@ -304,7 +311,7 @@ public abstract class Gene {
      * @return
      */
     public Property<Double> getPolymeraseAffinityProperty() {
-        return polymeraseAttachmentSite.affinityProperty;
+        return polymeraseAffinityProperty;
     }
 
     public boolean containsBasePair( int basePairIndex ) {
