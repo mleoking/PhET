@@ -1,12 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model.behaviors;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
+import edu.colorado.phet.platetectonics.model.regions.Region;
 
 public class OverridingBehavior extends PlateBehavior {
 
@@ -20,13 +24,17 @@ public class OverridingBehavior extends PlateBehavior {
     public static final float MELT_CHANCE_FACTOR = 0.0002f;
 
     // melting X positions, determined by commented-out code below. update this if the magma chamber isn't centered properly
-    public static final float OLD_MELT_X = 89500;
-    public static final float YOUNG_MELT_X = 148500;
+    public static final float OLD_MELT_X = 88421.06f;
+    public static final float YOUNG_MELT_X = 147368.44f;
+
+    public static final float MAGMA_TUBE_WIDTH = 1000;
 
     private float chamberFullness = 0;
 
     private float minElevationInTimestep;
     private float maxElevationInTimestep;
+
+    private Region magmaTube;
 
     public OverridingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
@@ -58,6 +66,19 @@ public class OverridingBehavior extends PlateBehavior {
             plate.regions.add( magmaChamber );
             magmaChamber.moveToFront();
             magmaChamber.setAllAlphas( 0 );
+
+            magmaTube = new Region( 1, 2, new Function2<Integer, Integer, Sample>() {
+                public Sample apply( Integer yIndex, Integer xIndex ) {
+                    final float x = magmaCenterX + ( xIndex == 0 ? -0.5f : 0.5f ) * MAGMA_TUBE_WIDTH;
+                    final float y = getMagmaChamberTop().y - 500;
+                    return new Sample( new ImmutableVector3F( x, y, 0 ),
+                                       PlateMotionModel.SIMPLE_MAGMA_TEMP, PlateMotionModel.SIMPLE_MAGMA_DENSITY,
+                                       plate.getTextureStrategy().mapFront( new ImmutableVector2F( x, y ) ) );
+                }
+            } );
+            plate.regions.add( magmaTube );
+            magmaTube.moveToFront();
+            magmaTube.setAllAlphas( 0 );
         }
 
         animateMagma( millionsOfYears );
@@ -169,8 +190,32 @@ public class OverridingBehavior extends PlateBehavior {
             minElevationInTimestep = Float.MAX_VALUE;
             maxElevationInTimestep = -Float.MAX_VALUE;
             for ( Sample sample : getTopCrustBoundary().samples ) {
+                if ( sample.getPosition().y > maxElevationInTimestep ) {
+                    System.out.println( sample.getPosition().x );
+                }
                 minElevationInTimestep = Math.min( minElevationInTimestep, sample.getPosition().y );
                 maxElevationInTimestep = Math.max( maxElevationInTimestep, sample.getPosition().y );
+            }
+        }
+
+        /*---------------------------------------------------------------------------*
+        * magma tube animation
+        *----------------------------------------------------------------------------*/
+
+        magmaTube.setAllAlphas( chamberFullness );
+        if ( chamberFullness >= 1 ) {
+            // 250m offset down so it doesn't go quite to the top
+            float topDelta = maxElevationInTimestep - 250 - magmaTube.getTopElevation( 0 );
+            for ( Sample sample : magmaTube.getTopBoundary().samples ) {
+                sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, topDelta, 0 ) ) );
+                sample.setTextureCoordinates( sample.getTextureCoordinates().plus(
+                        plate.getTextureStrategy().mapFrontDelta( new ImmutableVector2F( 0, topDelta ) ) ) );
+            }
+
+            float textureDelta = MELT_SPEED * millionsOfYears;
+            for ( Sample sample : magmaTube.getSamples() ) {
+                sample.setTextureCoordinates( sample.getTextureCoordinates().plus(
+                        plate.getTextureStrategy().mapFrontDelta( new ImmutableVector2F( 0, -textureDelta ) ) ) );
             }
         }
     }
