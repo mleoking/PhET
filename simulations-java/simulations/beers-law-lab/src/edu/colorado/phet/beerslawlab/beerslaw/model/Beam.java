@@ -186,14 +186,14 @@ public class Beam {
     }
 
     // Is the probe in the left segment?
-    public boolean probeInLeftSegment() {
+    private boolean probeInLeftSegment() {
         return detector.probeInBeam() &&
                ( detector.probe.location.get().getX() > light.location.getX() ) &&
                ( detector.probe.location.get().getX() < cuvette.location.getX() );
     }
 
     // Is the probe in the center segment?
-    public boolean probeInCenterSegment() {
+    private boolean probeInCenterSegment() {
         return detector.probeInBeam() &&
                ( detector.probe.location.get().getX() >= cuvette.location.getX() ) &&
                ( detector.probe.location.get().getX() <= cuvette.location.getX() + cuvette.width.get() );
@@ -201,7 +201,7 @@ public class Beam {
     }
 
     // Is the probe in the right segment?
-    public boolean probeInRightSegment() {
+    private boolean probeInRightSegment() {
         return detector.probeInBeam() && ( detector.probe.location.get().getX() > cuvette.location.getX() + cuvette.width.get() );
     }
 }
