@@ -250,9 +250,7 @@ public class PlateMotionPlate extends Plate {
                 final Sample sample = getCrust().getBoundaries().get( yIndex ).samples.get( 0 );
 
                 float yRatio = ( (float) yIndex ) / ( (float) CRUST_VERTICAL_STRIPS );
-                System.out.println( "yRatio before = " + yRatio );
                 yRatio = ( yRatio * ratioSpread + ( 1 - ratioSpread ) ); // compensate for the difference
-                System.out.println( "yRatio after  = " + yRatio );
                 float y = myTopY + ( myBottomY - myTopY ) * yRatio;
 
                 // grab the Z from the terrain. we also reverse the index for the side of the left plate, so the sidedness is correct
@@ -303,6 +301,7 @@ public class PlateMotionPlate extends Plate {
         }
 
         float hillMagnitude = getPlateType().isContinental() ? 2000 : 500;
+        float hillOffset = getPlateType().isContinental() ? -1000 : 0; // raise and lower continental crust, but NEVER lower oceanic crust
         for ( int columnIndex = 0; columnIndex < getTerrain().getNumColumns(); columnIndex++ ) {
             float x = getTerrain().xPositions.get( columnIndex );
 
@@ -312,7 +311,7 @@ public class PlateMotionPlate extends Plate {
                 float z = getTerrain().zPositions.get( rowIndex );
 
                 final float randomValue = isBoundaryColumn ? boundaryValues[rowIndex] : rand.nextFloat();
-                float delta = ( randomValue - 0.5f ) * hillMagnitude;
+                float delta = ( randomValue ) * hillMagnitude + hillOffset;
                 final TerrainSample terrainSample = getTerrain().getSample( columnIndex, rowIndex );
                 terrainSample.setElevation( terrainSample.getElevation() + delta );
 

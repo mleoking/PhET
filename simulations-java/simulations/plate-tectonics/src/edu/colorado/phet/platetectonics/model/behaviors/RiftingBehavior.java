@@ -342,6 +342,14 @@ public class RiftingBehavior extends PlateBehavior {
             final float maxThickness = PlateType.YOUNG_OCEANIC.getMantleLithosphereThickness();
             float currentRatio = ( currentMantleTop - currentLithosphereBottom ) / maxThickness;
 
+            // due to randomness of oceanic terrain heights, this is needed. for some reason
+            if ( currentRatio > 1 ) {
+                currentRatio = 1;
+            }
+            if ( currentRatio < 0 ) {
+                currentRatio = 0;
+            }
+
             // invert arctanget, offset, then apply normally
             float currentT = (float) Math.tan( currentRatio * ( Math.PI / 2 ) );
             float newT = currentT + millionsOfYears * magicConstant2;

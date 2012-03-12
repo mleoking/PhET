@@ -191,7 +191,7 @@ public class OverridingBehavior extends PlateBehavior {
             maxElevationInTimestep = -Float.MAX_VALUE;
             for ( Sample sample : getTopCrustBoundary().samples ) {
                 if ( sample.getPosition().y > maxElevationInTimestep ) {
-                    System.out.println( "max elevation at: " + sample.getPosition().x );
+//                    System.out.println( "max elevation at: " + sample.getPosition().x );
                 }
                 minElevationInTimestep = Math.min( minElevationInTimestep, sample.getPosition().y );
                 maxElevationInTimestep = Math.max( maxElevationInTimestep, sample.getPosition().y );
