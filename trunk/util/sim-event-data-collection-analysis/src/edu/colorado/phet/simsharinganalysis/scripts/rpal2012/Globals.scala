@@ -18,6 +18,6 @@ object Globals {
   val conductivityTester = "conductivityTester"
 
   val initialTab0 = Tab0("cheese")
-  val initialTab1 = Tab1("cheese", "real", "KITTY")
+  val initialTab1 = Tab1("water", "real", "KITTY")
   val initialTab2 = Tab2("BF3", "real", "KITTY")
 }
