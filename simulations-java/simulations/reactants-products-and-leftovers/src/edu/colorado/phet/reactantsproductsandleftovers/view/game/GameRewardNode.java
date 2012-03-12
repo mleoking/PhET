@@ -11,7 +11,12 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -27,6 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALImages;
 import edu.colorado.phet.reactantsproductsandleftovers.model.Product;
@@ -507,7 +513,7 @@ public class GameRewardNode extends PhetPNode {
                 }
             }
         };
-        canvas.setBackground( RPALConstants.CANVAS_BACKGROUND );
+        canvas.setBackground( RPALColors.CANVAS_BACKGROUND );
         canvas.addWorldChild( rewardNode );
 
         final IMotionStrategy jitteryMotionStrategy = new JitteryMotionStrategy();

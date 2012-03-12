@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -31,7 +32,7 @@ public class RPALCanvas extends PhetPCanvas {
     public RPALCanvas() {
         super( RPALConstants.CANVAS_RENDERING_SIZE );
 
-        setBackground( RPALConstants.CANVAS_BACKGROUND );
+        setBackground( RPALColors.CANVAS_BACKGROUND );
 
         // Root of our scene graph
         rootNode = new PNode();

@@ -45,19 +45,4 @@ public class RPALConstants {
     public static final double BEFORE_AFTER_BOX_IMAGE_SCALE = 1;
     // scaling for images that appear below histogram bars
     public static final double HISTOGRAM_IMAGE_SCALE = 1;
-    
-    //----------------------------------------------------------------------------
-    // Paints
-    //----------------------------------------------------------------------------
-
-    private static final Color DARK_BLUE = new Color( 46, 107, 178 );
-    private static final Color LIGHT_PURPLE = new Color( 210, 210, 255 );
-
-    public static final Color CANVAS_BACKGROUND = LIGHT_PURPLE;
-    public static final Color BEFORE_AFTER_BOX_COLOR = DARK_BLUE;
-    public static final Color BRACKET_COLOR = DARK_BLUE;
-    public static final Color PLUS_SIGN_COLOR = DARK_BLUE;
-    public static final Color ARROW_COLOR = DARK_BLUE;
-    public static final Color HISTOGRAM_BAR_COLOR = DARK_BLUE;
-    public static final Color GAME_INSTRUCTIONS_COLOR = Color.YELLOW;
 }

@@ -8,7 +8,7 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
 
 /**
  * A fancy arrow node, points to the right, for use in formulas.
@@ -25,7 +25,7 @@ public class RightArrowNode extends ArrowNode {
 
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_PAINT = Color.BLACK;
-    private static final Color FILL_PAINT = RPALConstants.ARROW_COLOR;
+    private static final Color FILL_PAINT = RPALColors.ARROW_COLOR;
 
     public RightArrowNode() {
         super( TAIL_LOCATION, TIP_LOCATION, HEAD_HEIGHT, HEAD_WIDTH, TAIL_WIDTH );

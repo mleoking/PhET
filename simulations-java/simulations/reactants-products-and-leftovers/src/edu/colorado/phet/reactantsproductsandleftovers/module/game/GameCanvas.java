@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.reactantsproductsandleftovers.RPALColors;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALConstants;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALSimSharing.UserComponents;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
@@ -170,7 +171,7 @@ public class GameCanvas extends RPALCanvas {
         buttonsParentNode.addChild( showAnswerButton );
 
         // instructions
-        instructionsNode = new GameMessageNode( "?", RPALConstants.GAME_INSTRUCTIONS_COLOR, 32 ); // text will be set based on challenge type
+        instructionsNode = new GameMessageNode( "?", RPALColors.GAME_INSTRUCTIONS_COLOR, 32 ); // text will be set based on challenge type
         parentNode.addChild( instructionsNode );
 
         // dev nodes
