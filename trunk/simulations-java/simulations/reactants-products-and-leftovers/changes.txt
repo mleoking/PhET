@@ -1,3 +1,4 @@
+3/12/12 #3204, ugly conditional test to use "Make ammonia" as the default real reaction for study
 3/12/12 #3204, add "Teacher->Worksheet colors" feature, changes color scheme so that screenshots can be photo copied
 3/10/12 #3204, add current score to "game aborted" message
 # 1.03.02 (62081) Mar 2, 2012
