@@ -1,3 +1,4 @@
+# 0.00.24 (62430) Mar 11, 2012
 Density meter updated to speedometer-style (by SR)
 Added fault valley for transform motion
 Added random terrain variations in 2nd tab
