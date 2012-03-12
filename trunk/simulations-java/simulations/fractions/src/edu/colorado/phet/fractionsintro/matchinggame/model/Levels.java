@@ -328,18 +328,16 @@ public class Levels {
      * Only numbers/representations  ≦ 1 possible on this level
      * “Easy” shapes on this level (not some of the more abstract representations)
      */
-    public F<List<Cell>, List<MovableFraction>> Level1 = new F<List<Cell>, List<MovableFraction>>() {
-        @Override public List<MovableFraction> f( List<Cell> cells ) {
 
-            final Fraction[] a = {
-                    new Fraction( 1, 3 ),
-                    new Fraction( 2, 3 ),
-                    new Fraction( 1, 4 ),
-                    new Fraction( 3, 4 ),
-                    new Fraction( 1, 2 ),
-                    new Fraction( 1, 1 ) };
-            return createLevel( getRepresentationPool( 1 ), cells, a );
-        }
+    final Fraction[] level1Fractions = {
+            new Fraction( 1, 3 ),
+            new Fraction( 2, 3 ),
+            new Fraction( 1, 4 ),
+            new Fraction( 3, 4 ),
+            new Fraction( 1, 2 ),
+            new Fraction( 1, 1 ) };
+    public F<List<Cell>, List<MovableFraction>> Level1 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> cells ) { return createLevel( getRepresentationPool( 1 ), cells, level1Fractions ); }
     };
 
     //Create the default representations that will be used in all levels
@@ -380,16 +378,17 @@ public class Levels {
      * Still only numbers/representations  ≦ 1 possible
      * More shapes can be introduced
      */
+    final Fraction[] level2Fractions = {
+            new Fraction( 1, 2 ),
+            new Fraction( 2, 4 ),
+            new Fraction( 3, 4 ),
+            new Fraction( 1, 3 ),
+            new Fraction( 2, 3 ),
+            new Fraction( 3, 6 ),
+            new Fraction( 2, 6 ) };
     public F<List<Cell>, List<MovableFraction>> Level2 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
-            return createLevel( getRepresentationPool( 2 ), cells, new Fraction[] {
-                    new Fraction( 1, 2 ),
-                    new Fraction( 2, 4 ),
-                    new Fraction( 3, 4 ),
-                    new Fraction( 1, 3 ),
-                    new Fraction( 2, 3 ),
-                    new Fraction( 3, 6 ),
-                    new Fraction( 2, 6 ) } );
+            return createLevel( getRepresentationPool( 2 ), cells, level2Fractions );
         }
     };
 
@@ -399,19 +398,20 @@ public class Levels {
      * Still only numbers/representations  ≦ 1 possible
      * More shapes can be introduced
      */
+    final Fraction[] level3Fractions = {
+            new Fraction( 3, 2 ),
+            new Fraction( 4, 3 ),
+            new Fraction( 6, 3 ),
+            new Fraction( 4, 2 ),
+            new Fraction( 7, 6 ),
+            new Fraction( 4, 5 ),
+            new Fraction( 7, 4 ),
+            new Fraction( 5, 4 ),
+            new Fraction( 6, 4 ),
+            new Fraction( 3, 4 ) };
     public F<List<Cell>, List<MovableFraction>> Level3 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
-            return createLevel( getRepresentationPool( 3 ), cells, new Fraction[] {
-                    new Fraction( 3, 2 ),
-                    new Fraction( 4, 3 ),
-                    new Fraction( 6, 3 ),
-                    new Fraction( 4, 2 ),
-                    new Fraction( 7, 6 ),
-                    new Fraction( 4, 5 ),
-                    new Fraction( 7, 4 ),
-                    new Fraction( 5, 4 ),
-                    new Fraction( 6, 4 ),
-                    new Fraction( 3, 4 ) } );
+            return createLevel( getRepresentationPool( 3 ), cells, level3Fractions );
         }
     };
 
@@ -419,21 +419,22 @@ public class Levels {
      * Level 4:
      * All representations possible as well as complicated mixed/improper numbers
      */
+    final Fraction[] level4Fractions = {
+            new Fraction( 13, 7 ),
+            new Fraction( 13, 7 ),
+            new Fraction( 14, 8 ),
+            new Fraction( 9, 5 ),
+            new Fraction( 6, 3 ),
+            new Fraction( 9, 8 ),
+            new Fraction( 8, 9 ),
+            new Fraction( 6, 9 ),
+            new Fraction( 4, 9 ),
+            new Fraction( 3, 9 ),
+            new Fraction( 2, 9 ),
+            new Fraction( 9, 7 ) };
     public F<List<Cell>, List<MovableFraction>> Level4 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
-            return createLevel( getRepresentationPool( 4 ), cells, new Fraction[] {
-                    new Fraction( 13, 7 ),
-                    new Fraction( 13, 7 ),
-                    new Fraction( 14, 8 ),
-                    new Fraction( 14, 5 ),
-                    new Fraction( 6, 3 ),
-                    new Fraction( 9, 8 ),
-                    new Fraction( 8, 9 ),
-                    new Fraction( 6, 9 ),
-                    new Fraction( 4, 9 ),
-                    new Fraction( 3, 9 ),
-                    new Fraction( 2, 9 ),
-                    new Fraction( 9, 7 ) } );
+            return createLevel( getRepresentationPool( 4 ), cells, level4Fractions );
         }
     };
 
@@ -446,6 +447,15 @@ public class Levels {
     }
 
     public static void main( String[] args ) {
+        //Make sure no fractions above 2.0
+        for ( Fraction[] fractions : list( Levels.level1Fractions, Levels.level2Fractions, Levels.level3Fractions, Levels.level4Fractions ) ) {
+            for ( Fraction fraction : fractions ) {
+                if ( fraction.toDouble() > 2.0 ) {
+                    System.out.println( "fraction = " + fraction );
+                }
+            }
+        }
+
         for ( int i = 0; i < 1000; i++ ) {
             testLevel( 1 );
         }
