@@ -271,14 +271,6 @@ public class GunControlPanel extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
 
     /**
-     * Forces an update of the wavelength control's drag bounds.
-     * This is a workaround for a problem with the wavelength control's ConstrainedDragHandler.
-     */
-    public void updateWavelengthControlDragBounds() {
-        _wavelengthControl.updateDragBounds();
-    }
-
-    /**
      * Sets the transition wavelengths for the wavelength control.
      *
      * @param transitionWavelengths possibly null

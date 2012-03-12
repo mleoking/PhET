@@ -1,4 +1,5 @@
-3/12/12 #3277 add sim-sharing to WavelengthControl
+3/12/12 #3276, fixed coordinate frame problem in WavelengthControl
+3/12/12 #3277 add sim-sharing to WavelengthControl (first pass)
 2/29/12 #2920 changes to PhotonImageFactory (now PhotonImageChange and PhotonNode)
 2/14/12 #3255, initial attempt to make the interfaces for HSlider and VSlider more similar
 2/3/12 #3245, Fixed knob and tick locations

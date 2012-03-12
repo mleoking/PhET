@@ -125,14 +125,6 @@ class WavelengthControlNode extends PNode implements Resettable {
                 }
             }
         } );
-
-        //TODO delete this workaround when #3267 is fixed
-        // Workaround for coordinate frame problems in WavelengthControl, see WavelengthControl.updateDragBounds
-        addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS,  new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                wavelengthControl.updateDragBounds();
-            }
-        } );
     }
 
     public void reset() {

@@ -20,8 +20,6 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 
@@ -45,13 +43,16 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterValues;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.LinearSpectrumImageFactory;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.ConstrainedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler;
+import edu.colorado.phet.common.piccolophet.event.SliderThumbDragHandler.Orientation;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -121,8 +122,6 @@ public class WavelengthControl extends PhetPNode {
     private final ValueDisplay _valueDisplay;
     // cursor that appears in the track, directly above the knob
     private final Cursor _cursor;
-    // handles dragging of the knob
-    private ConstrainedDragHandler _dragHandler;
     // for notification of listeners
     private final EventListenerList _listenerList;
     // the current wavelength value displayed by this control
@@ -238,38 +237,13 @@ public class WavelengthControl extends PhetPNode {
 
         // Knob interactivity
         {
-            _dragHandler = new ConstrainedDragHandler() {
-
-                @Override public void mousePressed( PInputEvent event ) {
-                    sliderStartDrag();
-                    super.mousePressed( event );
-                }
-
-                @Override public void mouseDragged( PInputEvent event ) {
-                    sliderDrag();
-                    super.mouseDragged( event );
-                    handleKnobDrag();
-                }
-
-                @Override public void mouseReleased( PInputEvent event ) {
-                    sliderEndDrag();
-                    super.mouseReleased( event );
-                }
-            };
-            _dragHandler.setVerticalLockEnabled( true );
-            _dragHandler.setTreatAsPointEnabled( true );
-            updateDragBounds();
-            _knob.addInputEventListener( _dragHandler );
             _knob.addInputEventListener( new CursorHandler() );
-
-            // Adjust the knob's drag bounds if this control's bounds are changed.
-            addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent event ) {
-                    if ( PNode.PROPERTY_FULL_BOUNDS.equals( event.getPropertyName() ) ) {
-                        updateDragBounds();
-                    }
-                }
-            } );
+            _knob.addInputEventListener( new SliderThumbDragHandler( Orientation.HORIZONTAL, this, _track, _knob, new DoubleRange( minWavelength, maxWavelength ),
+                                                                     new VoidFunction1<Double>() {
+                                                                         public void apply( Double wavelength ) {
+                                                                             setWavelength( wavelength );
+                                                                         }
+                                                                     } ) );
         }
 
         // Value Display interactivity
@@ -551,8 +525,6 @@ public class WavelengthControl extends PhetPNode {
         final double bandwidth = _maxWavelength - _minWavelength;
 
         PBounds trackBounds = _track.getFullBounds();
-        final double knobWidth = _knob.getFullBounds().getWidth();
-        final double cursorWidth = _cursor.getFullBounds().getWidth();
         final double valueDisplayWidth = _valueDisplay.getFullBounds().getWidth();
         final double valueDisplayHeight = _valueDisplay.getFullBounds().getHeight();
 
@@ -575,23 +547,6 @@ public class WavelengthControl extends PhetPNode {
 
         // Cursor position: inside the track, centered above the knob
         _cursor.setOffset( knobX, 0 );
-    }
-
-    //TODO #3267, eliminate this hack by ditching ConstrainedDragHandler
-    /**
-     * Updates drag bounds for the knob.
-     * <p/>
-     * HACK: This is public because of a problem with ConstrainedDragHandler.
-     * ConstrainedDragHandler works in global coordinates, but WavelengthControl
-     * has no way of knowing when its global position has changed.
-     * So you will need to call this method explicitly if you do something
-     * to change the global position (eg, call setOffset on some ancestor node).
-     */
-    public void updateDragBounds() {
-        PBounds trackGFB = _track.getGlobalFullBounds();
-        PBounds knobGFB = _knob.getGlobalFullBounds();
-        Rectangle2D dragBounds = new Rectangle2D.Double( trackGFB.getX() - ( knobGFB.getWidth() / 2 ), trackGFB.getY(), trackGFB.getWidth(), trackGFB.getHeight() );
-        _dragHandler.setDragBounds( dragBounds );
     }
 
     /*
@@ -929,7 +884,7 @@ public class WavelengthControl extends PhetPNode {
     // User does something to commit the text field.
     protected void textFieldCommitted( IParameterValue commitAction, double value ) {
         SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.textField, UserActions.textFieldCommitted,
-                                           ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).add( ParameterKeys.value, getWavelength() ) );
+                                           ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).add( ParameterKeys.value, value ) );
     }
 
     // Invalid input is encountered and corrected in the text field.

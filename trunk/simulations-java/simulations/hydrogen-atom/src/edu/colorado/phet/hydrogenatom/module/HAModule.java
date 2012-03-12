@@ -35,17 +35,39 @@ import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.HAResources;
-import edu.colorado.phet.hydrogenatom.control.*;
+import edu.colorado.phet.hydrogenatom.control.AtomicModelSelector;
+import edu.colorado.phet.hydrogenatom.control.DeBroglieViewControl;
+import edu.colorado.phet.hydrogenatom.control.GunControlPanel;
+import edu.colorado.phet.hydrogenatom.control.HAClockControlPanel;
+import edu.colorado.phet.hydrogenatom.control.ModeSwitch;
 import edu.colorado.phet.hydrogenatom.energydiagrams.BohrEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.DeBroglieEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
-import edu.colorado.phet.hydrogenatom.model.*;
-import edu.colorado.phet.hydrogenatom.view.*;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
+import edu.colorado.phet.hydrogenatom.model.BilliardBallModel;
+import edu.colorado.phet.hydrogenatom.model.BohrModel;
+import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
+import edu.colorado.phet.hydrogenatom.model.ExperimentModel;
+import edu.colorado.phet.hydrogenatom.model.Gun;
+import edu.colorado.phet.hydrogenatom.model.HAClock;
+import edu.colorado.phet.hydrogenatom.model.HAModel;
+import edu.colorado.phet.hydrogenatom.model.PlumPuddingModel;
+import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
+import edu.colorado.phet.hydrogenatom.model.SolarSystemModel;
+import edu.colorado.phet.hydrogenatom.model.Space;
+import edu.colorado.phet.hydrogenatom.view.AnimationBoxNode;
+import edu.colorado.phet.hydrogenatom.view.BeamNode;
+import edu.colorado.phet.hydrogenatom.view.BoxOfHydrogenNode;
+import edu.colorado.phet.hydrogenatom.view.GunNode;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
+import edu.colorado.phet.hydrogenatom.view.NotToScaleNode;
+import edu.colorado.phet.hydrogenatom.view.SpectrometerNode;
 import edu.colorado.phet.hydrogenatom.view.SpectrometerNode.SpectrometerSnapshotNode;
+import edu.colorado.phet.hydrogenatom.view.TracesNode;
+import edu.colorado.phet.hydrogenatom.view.ZoomIndicatorNode;
 import edu.colorado.phet.hydrogenatom.view.manager.HAModelViewManager;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -570,23 +592,6 @@ public class HAModule extends PiccoloModule {
         }
         
         initWiggleMe();
-        
-        applyLayoutHacks();
-    }
-    
-    /*
-     * Various hacks that should be addressed in better ways.
-     */
-    private void applyLayoutHacks() {
-        /*
-         * For the drag bounds of the WavelengthControl to be updated.
-         * WavelengthControl uses a ConstrainedDragHandler which works in screen coordinates.
-         * When the screen position of the WavelengthControl is changed, it has no way of telling.
-         * So its ConstrainedDragHandler doesn't get its drag bounds updated.
-         * This should be addressed by making ConstrainedDragHandler work in the local 
-         * coordinates of the node that its constraining. (I think...)
-         */
-        _gunControlPanel.updateWavelengthControlDragBounds();
     }
     
     //----------------------------------------------------------------------------
