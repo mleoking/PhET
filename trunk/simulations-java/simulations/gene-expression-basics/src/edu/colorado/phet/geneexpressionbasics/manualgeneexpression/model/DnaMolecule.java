@@ -494,14 +494,31 @@ public class DnaMolecule {
             }
         }
 
-        // If there aren't any potential attachment sites, and there is a gene
-        // with an open high-affinity site for this transcription factor, put
-        // it on the list.
+        // If there aren't any potential attachment sites in range, check for
+        // a particular set of conditions under which the DNA provides an
+        // attachment site anyways.
         if ( potentialAttachmentSites.size() == 0 && pursueAttachments ) {
             for ( Gene gene : genes ) {
                 AttachmentSite matchingSite = gene.getPolymeraseAttachmentSite();
-                if ( matchingSite != null && matchingSite.attachedOrAttachingMolecule.get() == null ) {
-                    potentialAttachmentSites.add( matchingSite );
+                if ( matchingSite != null ) {
+                    // Found a matching site on a gene.
+                    if ( matchingSite.attachedOrAttachingMolecule.get() == null ) {
+                        // The site is unoccupied, so add it to the list of
+                        // potential sites.
+                        potentialAttachmentSites.add( matchingSite );
+                    }
+                    else if ( !matchingSite.isMoleculeAttached() ) {
+                        double thisDistance = rnaPolymerase.getPosition().distance( matchingSite.locationProperty.get() );
+                        double thatDistance = matchingSite.attachedOrAttachingMolecule.get().getPosition().distance( matchingSite.locationProperty.get() );
+                        if ( thisDistance < thatDistance ) {
+                            // The other molecule is not yet attached, and this
+                            // one is closer, so force the other molecule to
+                            // abort its pending attachment.
+                            matchingSite.attachedOrAttachingMolecule.get().forceAbortPendingAttachment();
+                            // Add this site to the list of potential sites.
+                            potentialAttachmentSites.add( matchingSite );
+                        }
+                    }
                 }
             }
         }

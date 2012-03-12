@@ -165,6 +165,19 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     }
 
     /**
+     * Force this molecule to abort any pending attachment.  This will NOT
+     * cause an attachment that is already consummated to be broken.
+     */
+    public void forceAbortPendingAttachment() {
+        if ( attachmentStateMachine.isMovingTowardAttachment() ) {
+            attachmentStateMachine.forceImmediateUnattachedAndAvailable();
+        }
+        else {
+            System.out.println( getClass().getName() + " - Warning: Commanded to abort attachment when attachment not pending." );
+        }
+    }
+
+    /**
      * Command the biomolecule to changes its conformation, which, for the
      * purposes of this simulation, means that both the color and the shape may
      * change.  This functionality is needed by some of the biomolecules, mostly

@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 
@@ -44,6 +43,10 @@ public class GenericAttachmentStateMachine extends AttachmentStateMachine {
     }
 
     @Override public void forceImmediateUnattachedButUnavailable() {
+        if ( attachmentSite != null ) {
+            attachmentSite.attachedOrAttachingMolecule.set( null );
+        }
+        attachmentSite = null;
         biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( detachDirection, biomolecule.motionBoundsProperty ) );
         setState( unattachedButUnavailableState );
     }
