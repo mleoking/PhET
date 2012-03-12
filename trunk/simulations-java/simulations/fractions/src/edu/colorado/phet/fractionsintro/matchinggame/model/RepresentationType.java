@@ -73,8 +73,10 @@ public @Data class RepresentationType {
             fraction = new Fraction( fraction.numerator - fraction.denominator, fraction.denominator );
         }
 
-        //Make it smaller or won't fit
-        box.scale( 0.75 );
+        double size = box.getFullWidth();
+
+        //Scale to a size of 110 so it will be a good fit for the starting cells and score cells
+        box.scale( 110 / size );
         return new RichPNode( box );
     }
 }
