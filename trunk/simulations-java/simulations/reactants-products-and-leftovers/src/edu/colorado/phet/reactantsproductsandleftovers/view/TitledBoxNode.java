@@ -25,7 +25,7 @@ public class TitledBoxNode extends PhetPNode {
     
     private static final Stroke BOX_STROKE = new BasicStroke( 1f );
     private static final Color BOX_STROKE_COLOR= Color.BLACK;
-    private static final Color BOX_FILL_COLOR = RPALColors.BEFORE_AFTER_BOX_COLOR;
+    private static final Color BOX_FILL_COLOR = RPALColors.COLOR_SCHEME.get().beforeAfterBoxColor;
     
     private static final Font TITLE_FONT = new PhetFont( 20 );
     private static final Color TITLE_COLOR = Color.BLACK;
