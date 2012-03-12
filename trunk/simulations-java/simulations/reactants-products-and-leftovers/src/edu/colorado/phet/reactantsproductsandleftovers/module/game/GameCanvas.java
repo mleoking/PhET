@@ -15,6 +15,7 @@ import edu.colorado.phet.common.games.GameSimSharing.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -173,6 +174,11 @@ public class GameCanvas extends RPALCanvas {
         // instructions
         instructionsNode = new GameMessageNode( "?", RPALColors.COLOR_SCHEME.get().gameInstructionsColor, 32 ); // text will be set based on challenge type
         parentNode.addChild( instructionsNode );
+        RPALColors.COLOR_SCHEME.addObserver( new SimpleObserver() {
+            public void update() {
+                instructionsNode.setColor( RPALColors.COLOR_SCHEME.get().gameInstructionsColor );
+            }
+        } );
 
         // dev nodes
         devAnswerNode = new DevAnswerNode( model );

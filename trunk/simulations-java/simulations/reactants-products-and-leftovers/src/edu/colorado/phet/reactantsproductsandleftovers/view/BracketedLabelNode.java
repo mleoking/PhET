@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
@@ -25,19 +24,11 @@ public class BracketedLabelNode extends PComposite {
     private static final double BRACKET_END_HEIGHT = 5;
     private static final double BRACKET_TIP_WIDTH = 6;
     private static final double BRACKET_TIP_HEIGHT = 6;
-    private static final Stroke BRACKET_STROKE = new BasicStroke( 1f );
-    private static final Color BRACKET_COLOR = Color.BLACK;
-    
+
     private static final double TEXT_Y_SPACING = 2;
-    private static final Color TEXT_COLOR = Color.BLACK;
-    private static final PhetFont TEXT_FONT = new PhetFont( 12 );
 
     private final BracketNode bracketNode;
     private final PText textNode;
-    
-    public BracketedLabelNode( String label, double width ) {
-        this( label, width, TEXT_FONT, TEXT_COLOR, BRACKET_COLOR, BRACKET_STROKE );
-    }
     
     public BracketedLabelNode( String label, double width, PhetFont font, Color textColor, Color bracketColor, Stroke bracketStroke ) {
         super();
@@ -72,28 +63,12 @@ public class BracketedLabelNode extends PComposite {
         textNode.setOffset( x, y ); 
     }
     
-    public void setBracketStroke( Stroke stroke ) {
-        bracketNode.setStroke( stroke );
-    }
-    
     public void setBracketStrokePaint( Paint paint ) {
         bracketNode.setStrokePaint( paint );
     }
     
-    public void setText( String text ) {
-        textNode.setText( text );
-    }
-    
-    public void setTextFont( PhetFont font ) {
-        textNode.setFont( font );
-    }
-    
-    public void setTextPaint( Paint paint ) {
-        textNode.setTextPaint( paint );
-    }
-    
     private static class BracketNode extends PPath {
-        
+
         public BracketNode( double width, Paint paint, Stroke stroke ) {
             super();
             setStroke( stroke );

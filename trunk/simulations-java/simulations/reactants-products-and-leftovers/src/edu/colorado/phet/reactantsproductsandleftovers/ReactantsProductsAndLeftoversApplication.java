@@ -30,9 +30,12 @@ public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplica
         addModule( new RealReactionModule( parentFrame ) );
         addModule( new GameModule( parentFrame ) );
         
-        // menu items
+        // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new DevTestReactionsMenuItem() );
+
+        // Teacher menu
+        getPhetFrame().addMenu( new RPALTeacherMenu() );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

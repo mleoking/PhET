@@ -31,4 +31,7 @@ public class GameMessageNode extends PhetPNode {
         htmlNode.setHTML( HTMLUtils.toHTMLString( message ) );
     }
 
+    public void setColor( Color color ) {
+        htmlNode.setHTMLColor( color );
+    }
 }
