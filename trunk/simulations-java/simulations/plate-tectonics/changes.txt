@@ -1,3 +1,4 @@
+Added random terrain variations in 2nd tab
 Added subduction mountain generation
 Reduced subduction trench depth
 # 0.00.23 (62415) Mar 11, 2012

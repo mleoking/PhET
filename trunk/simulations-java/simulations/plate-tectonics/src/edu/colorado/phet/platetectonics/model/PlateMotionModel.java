@@ -192,15 +192,6 @@ public class PlateMotionModel extends PlateModel {
         dropRightCrust( rightPlateType.get() );
         rewinding = false;
 
-        updateStrips();
-
-        // needed since our animation is started
-        leftPlate.fullSyncTerrain();
-        rightPlate.fullSyncTerrain();
-        updateTerrain();
-
-        modelChanged.updateListeners();
-
         initializeBehaviors();
     }
 
@@ -243,22 +234,24 @@ public class PlateMotionModel extends PlateModel {
         leftPlate.droppedCrust( type );
         leftPlateType.set( type );
 
-        if ( !rewinding ) {
-            updateStrips();
-            updateTerrain();
-            modelChanged.updateListeners();
-        }
+        updateStrips();
+        leftPlate.fullSyncTerrain();
+        leftPlate.randomizeTerrain();
+        updateTerrain();
+        updateStrips();
+        modelChanged.updateListeners();
     }
 
     public void dropRightCrust( final PlateType type ) {
         rightPlate.droppedCrust( type );
         rightPlateType.set( type );
 
-        if ( !rewinding ) {
-            updateStrips();
-            updateTerrain();
-            modelChanged.updateListeners();
-        }
+        updateStrips();
+        rightPlate.fullSyncTerrain();
+        rightPlate.randomizeTerrain();
+        updateTerrain();
+        updateStrips();
+        modelChanged.updateListeners();
     }
 
     private void updateStrips() {
@@ -269,10 +262,10 @@ public class PlateMotionModel extends PlateModel {
 
     private void updateTerrain() {
         // behaviors will take care of this terrain update on their own once the animation has started
-        if ( !animationStarted.get() ) {
-            leftPlate.fullSyncTerrain();
-            rightPlate.fullSyncTerrain();
-        }
+//        if ( !animationStarted.get() ) {
+//            leftPlate.fullSyncTerrain();
+//            rightPlate.fullSyncTerrain();
+//        }
         terrainConnector.update();
     }
 
@@ -443,6 +436,5 @@ public class PlateMotionModel extends PlateModel {
         System.out.println( "transformMotionCCW = " + transformMotionCCW );
         this.transformMotionCCW = transformMotionCCW;
     }
-
 
 }

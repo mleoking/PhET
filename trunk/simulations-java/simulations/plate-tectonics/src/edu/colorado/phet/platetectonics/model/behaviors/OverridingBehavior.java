@@ -24,8 +24,8 @@ public class OverridingBehavior extends PlateBehavior {
     public static final float MELT_CHANCE_FACTOR = 0.0002f;
 
     // melting X positions, determined by commented-out code below. update this if the magma chamber isn't centered properly
-    public static final float OLD_MELT_X = 88421.06f;
-    public static final float YOUNG_MELT_X = 147368.44f;
+    public static final float OLD_MELT_X = 103157.875f;
+    public static final float YOUNG_MELT_X = 162105.25f;
 
     public static final float MAGMA_TUBE_WIDTH = 1000;
 
@@ -175,7 +175,7 @@ public class OverridingBehavior extends PlateBehavior {
 
             boolean shouldCreateMelt = ( Math.random() < chanceOfMelting );
 
-//            System.out.println( "center: " + lowMeltPoint.plus( highMeltPoint ).times( 0.5f ) );
+            System.out.println( "center melt x: " + lowMeltPoint.plus( highMeltPoint ).times( 0.5f ).x );
 
             if ( shouldCreateMelt ) {
                 // randomly pick a location on the available span
@@ -191,7 +191,7 @@ public class OverridingBehavior extends PlateBehavior {
             maxElevationInTimestep = -Float.MAX_VALUE;
             for ( Sample sample : getTopCrustBoundary().samples ) {
                 if ( sample.getPosition().y > maxElevationInTimestep ) {
-//                    System.out.println( sample.getPosition().x );
+                    System.out.println( "max elevation at: " + sample.getPosition().x );
                 }
                 minElevationInTimestep = Math.min( minElevationInTimestep, sample.getPosition().y );
                 maxElevationInTimestep = Math.max( maxElevationInTimestep, sample.getPosition().y );
