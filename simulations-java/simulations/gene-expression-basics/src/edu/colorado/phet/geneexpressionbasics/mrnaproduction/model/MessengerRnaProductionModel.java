@@ -294,31 +294,29 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     private void setTranscriptionFactorCount( TranscriptionFactorConfig tcConfig, int targetCount ) {
         // Count the transcription factors that match this configuration.
-        int currentCount = 0;
+        int currentLevel = 0;
         for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
-            if ( mobileBiomolecule instanceof TranscriptionFactor ) {
-                if ( ( (TranscriptionFactor) mobileBiomolecule ).getConfig().equals( tcConfig ) ) {
-                    currentCount++;
-                }
+            if ( mobileBiomolecule instanceof TranscriptionFactor && ( (TranscriptionFactor) mobileBiomolecule ).getConfig().equals( tcConfig ) ) {
+                currentLevel++;
             }
         }
 
-        if ( targetCount > currentCount ) {
+        if ( targetCount > currentLevel ) {
             // Add some.
-            for ( int i = currentCount; i < targetCount; i++ ) {
+            for ( int i = currentLevel; i < targetCount; i++ ) {
                 TranscriptionFactor transcriptionFactor = new TranscriptionFactor( this, tcConfig, new Point2D.Double( 0, 0 ) );
                 transcriptionFactor.setPosition( generateInitialLocation( transcriptionFactor ) );
                 addMobileBiomolecule( transcriptionFactor, true );
             }
         }
-        else if ( targetCount < currentCount ) {
+        else if ( targetCount < currentLevel ) {
             // Remove some.
             for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
                 if ( mobileBiomolecule instanceof TranscriptionFactor ) {
                     if ( ( (TranscriptionFactor) mobileBiomolecule ).getConfig().equals( tcConfig ) ) {
                         removeMobileBiomolecule( mobileBiomolecule );
-                        currentCount--;
-                        if ( currentCount == targetCount ) {
+                        currentLevel--;
+                        if ( currentLevel == targetCount ) {
                             break;
                         }
                     }
