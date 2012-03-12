@@ -169,7 +169,6 @@ public class OverridingBehavior extends PlateBehavior {
                 min = Math.min( min, sample.getPosition().y );
                 max = Math.max( max, sample.getPosition().y );
             }
-            System.out.println( "elevation range: [" + min + ", " + max + "]" );
         }
     }
 

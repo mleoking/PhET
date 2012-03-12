@@ -205,7 +205,8 @@ public class WaterStripNode extends GLNode {
         }
 
         private void checkSize() {
-            final int maxVertexCount = terrain.getNumColumns() * 2;
+            // very pessimistic bound for now, because I don't want to worry about it
+            final int maxVertexCount = terrain.getNumColumns() * 3;
             if ( capacity < maxVertexCount ) {
                 capacity = maxVertexCount;
                 positionBuffer = BufferUtils.createFloatBuffer( maxVertexCount * 3 );
