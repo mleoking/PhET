@@ -863,24 +863,6 @@ public class WavelengthControl extends PhetPNode {
     // Data collection
     //----------------------------------------------------------------------------
 
-    // User starts slider drag sequence.
-    protected void sliderStartDrag() {
-        SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.slider, UserActions.startDrag,
-                                           ParameterSet.parameterSet( ParameterKeys.value, getWavelength() ) );
-    }
-
-    // User ends slider drag sequence.
-    protected void sliderEndDrag() {
-        SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.slider, UserActions.endDrag,
-                                           ParameterSet.parameterSet( ParameterKeys.value, getWavelength() ) );
-    }
-
-    // User is dragging the slider.
-    protected void sliderDrag() {
-        SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.slider, UserActions.drag,
-                                           ParameterSet.parameterSet( ParameterKeys.value, getWavelength() ) );
-    }
-
     // User does something to commit the text field.
     protected void textFieldCommitted( IParameterValue commitAction, double value ) {
         SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.textField, UserActions.textFieldCommitted,
