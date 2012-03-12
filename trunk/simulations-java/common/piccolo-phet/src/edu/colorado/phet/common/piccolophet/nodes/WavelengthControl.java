@@ -36,6 +36,15 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterValues;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.LinearSpectrumImageFactory;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -53,6 +62,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.textFieldCorrected;
 
 /**
  * WavelengthControl is a slider-like control used for setting wavelength.
@@ -114,6 +127,8 @@ public class WavelengthControl extends PhetPNode {
     private final EventListenerList _listenerList;
     // the current wavelength value displayed by this control
     private double _wavelength;
+    // sim-sharing user component
+    private final IUserComponent _userComponent;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -125,8 +140,8 @@ public class WavelengthControl extends PhetPNode {
      * @param trackWidth
      * @param trackHeight
      */
-    public WavelengthControl( int trackWidth, int trackHeight ) {
-        this( trackWidth, trackHeight,
+    public WavelengthControl( IUserComponent userComponent, int trackWidth, int trackHeight ) {
+        this( userComponent, trackWidth, trackHeight,
               VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
               UV_TRACK_COLOR, UV_LABEL_COLOR,
               IR_TRACK_COLOR, IR_LABEL_COLOR );
@@ -136,14 +151,15 @@ public class WavelengthControl extends PhetPNode {
      * Creates a wavelength control for a specified range of wavelengths.
      * Default colors are used for UV and IR ranges.
      *
+     * @param userComponent
      * @param trackWidth
      * @param trackHeight
      * @param minWavelength minimum wavelength, in nanometers
      * @param maxWavelength maximum wavelength, in nanometers
      */
-    public WavelengthControl( int trackWidth, int trackHeight,
+    public WavelengthControl( IUserComponent userComponent, int trackWidth, int trackHeight,
                               double minWavelength, double maxWavelength ) {
-        this( trackWidth, trackHeight,
+        this( userComponent, trackWidth, trackHeight,
               minWavelength, maxWavelength,
               UV_TRACK_COLOR, UV_LABEL_COLOR,
               IR_TRACK_COLOR, IR_LABEL_COLOR );
@@ -153,6 +169,7 @@ public class WavelengthControl extends PhetPNode {
      * Creates a wavelength control for a specified range of wavelengths.
      * Specified colors are used for UV and IR ranges.
      *
+     * @param userComponent
      * @param trackWidth
      * @param trackHeight
      * @param minWavelength minimum wavelength, in nanometers
@@ -163,7 +180,7 @@ public class WavelengthControl extends PhetPNode {
      * @param irLabelColor  color used for IR track
      * @throws IllegalArgumentException if minWavelength >= maxWavelength
      */
-    public WavelengthControl( int trackWidth, int trackHeight,
+    public WavelengthControl( IUserComponent userComponent, int trackWidth, int trackHeight,
                               double minWavelength, double maxWavelength,
                               Color uvTrackColor, Color uvLabelColor,
                               Color irTrackColor, Color irLabelColor ) {
@@ -173,6 +190,7 @@ public class WavelengthControl extends PhetPNode {
             throw new IllegalArgumentException( "have you reversed the minWavelength and maxWavelength args?" );
         }
 
+        _userComponent = userComponent;
         _minWavelength = minWavelength;
         _maxWavelength = maxWavelength;
         _wavelength = _minWavelength - 1; // any value outside the range
@@ -221,10 +239,21 @@ public class WavelengthControl extends PhetPNode {
         // Knob interactivity
         {
             _dragHandler = new ConstrainedDragHandler() {
-                @Override
-                public void mouseDragged( PInputEvent event ) {
+
+                @Override public void mousePressed( PInputEvent event ) {
+                    sliderStartDrag();
+                    super.mousePressed( event );
+                }
+
+                @Override public void mouseDragged( PInputEvent event ) {
+                    sliderDrag();
                     super.mouseDragged( event );
                     handleKnobDrag();
+                }
+
+                @Override public void mouseReleased( PInputEvent event ) {
+                    sliderEndDrag();
+                    super.mouseReleased( event );
                 }
             };
             _dragHandler.setVerticalLockEnabled( true );
@@ -490,12 +519,14 @@ public class WavelengthControl extends PhetPNode {
     /*
      * Handles entry of values in the text field.
      */
-    private void handleTextEntry() {
+    private void handleTextEntry( IParameterValue commitAction ) {
         final double wavelength = _valueDisplay.getValue();
         if ( wavelength >= _minWavelength && wavelength <= _maxWavelength ) {
+            textFieldCommitted( commitAction, getWavelength() );
             setWavelength( wavelength );
         }
         else {
+            textFieldCorrected( ParameterValues.rangeError, String.valueOf( wavelength ), _wavelength );
             warnUser();
             _valueDisplay.setValue( _wavelength ); // revert
             _valueDisplay.selectAll();
@@ -696,7 +727,7 @@ public class WavelengthControl extends PhetPNode {
             // text entry
             _formattedTextField.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
-                    handleTextEntry();
+                    handleTextEntry( ParameterValues.enterKey );
                 }
             } );
 
@@ -711,9 +742,10 @@ public class WavelengthControl extends PhetPNode {
                 public void focusLost( FocusEvent e ) {
                     try {
                         _formattedTextField.commitEdit();
-                        handleTextEntry();
+                        handleTextEntry( ParameterValues.focusLost );
                     }
                     catch ( ParseException pe ) {
+                        textFieldCorrected( ParameterValues.parseError, _formattedTextField.getText(), _wavelength );
                         warnUser();
                         setValue( _wavelength ); // revert
                     }
@@ -725,18 +757,24 @@ public class WavelengthControl extends PhetPNode {
                 @Override
                 public void keyPressed( KeyEvent event ) {
                     if ( event.getKeyCode() == KeyEvent.VK_UP ) {
-                        if ( _wavelength + 1 <= _maxWavelength ) {
-                            setWavelength( _wavelength + 1 );
+                        final double newWavelength = _wavelength + 1;
+                        if ( newWavelength <= _maxWavelength ) {
+                            textFieldCommitted( ParameterValues.upKey, newWavelength );
+                            setWavelength( newWavelength );
                         }
                         else {
+                            textFieldCorrected( ParameterValues.rangeError, String.valueOf( newWavelength ), _wavelength );
                             warnUser();
                         }
                     }
                     else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
-                        if ( _wavelength - 1 >= _minWavelength ) {
-                            setWavelength( _wavelength - 1 );
+                        final double newWavelength = _wavelength - 1;
+                        if ( newWavelength >= _minWavelength ) {
+                            textFieldCommitted( ParameterValues.downKey, newWavelength );
+                            setWavelength( newWavelength );
                         }
                         else {
+                            textFieldCorrected( ParameterValues.rangeError, String.valueOf( newWavelength ), _wavelength );
                             warnUser();
                         }
                     }
@@ -859,10 +897,44 @@ public class WavelengthControl extends PhetPNode {
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                getLayer().addChild( new WavelengthControl( 200, 50 ) {{setOffset( 100, 100 );}} );
+                getLayer().addChild( new WavelengthControl( new UserComponent( "wavelengthControl" ), 200, 50 ) {{setOffset( 100, 100 );}} );
             }} );
             setDefaultCloseOperation( EXIT_ON_CLOSE );
             setSize( 500, 500 );
         }}.setVisible( true );
+    }
+
+    //----------------------------------------------------------------------------
+    // Data collection
+    //----------------------------------------------------------------------------
+
+    // User starts slider drag sequence.
+    protected void sliderStartDrag() {
+        SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.slider, UserActions.startDrag,
+                                           ParameterSet.parameterSet( ParameterKeys.value, getWavelength() ) );
+    }
+
+    // User ends slider drag sequence.
+    protected void sliderEndDrag() {
+        SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.slider, UserActions.endDrag,
+                                           ParameterSet.parameterSet( ParameterKeys.value, getWavelength() ) );
+    }
+
+    // User is dragging the slider.
+    protected void sliderDrag() {
+        SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.slider, UserActions.drag,
+                                           ParameterSet.parameterSet( ParameterKeys.value, getWavelength() ) );
+    }
+
+    // User does something to commit the text field.
+    protected void textFieldCommitted( IParameterValue commitAction, double value ) {
+        SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.textField, UserActions.textFieldCommitted,
+                                           ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).add( ParameterKeys.value, getWavelength() ) );
+    }
+
+    // Invalid input is encountered and corrected in the text field.
+    protected void textFieldCorrected( IParameterValue errorType, String value, double correctedValue ) {
+        sendUserMessage( _userComponent, UserComponentTypes.textField, textFieldCorrected,
+                         parameterSet( ParameterKeys.errorType, errorType ).add( ParameterKeys.value, value ).add( ParameterKeys.correctedValue, correctedValue ) );
     }
 }

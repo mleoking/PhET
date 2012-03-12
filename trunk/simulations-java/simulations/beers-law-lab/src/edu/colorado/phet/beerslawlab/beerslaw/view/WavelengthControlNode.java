@@ -16,6 +16,7 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
+import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -142,7 +143,7 @@ class WavelengthControlNode extends PNode implements Resettable {
     private static class BLLWavelengthControl extends WavelengthControl {
 
         public BLLWavelengthControl( Dimension trackSize, final Property<Double> wavelength ) {
-            super( trackSize.width, trackSize.height );
+            super( UserComponents.wavelengthControl, trackSize.width, trackSize.height );
 
             // set the model value when the control is changed
             addChangeListener( new ChangeListener() {
