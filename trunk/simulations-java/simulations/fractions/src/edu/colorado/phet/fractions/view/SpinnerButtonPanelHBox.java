@@ -20,7 +20,7 @@ public class SpinnerButtonPanelHBox extends HBox {
 
     public SpinnerButtonPanelHBox( int size, VoidFunction0 up, ObservableProperty<Boolean> upEnabled, VoidFunction0 down, ObservableProperty<Boolean> downEnabled ) {
         super( 2,
-               new SpinnerButtonNode( multiScaleToHeight( ROUND_BUTTON_DOWN, size ), multiScaleToHeight( ROUND_BUTTON_DOWN_PRESSED, size ), multiScaleToHeight( ROUND_BUTTON_DOWN_GRAY, size ), down, downEnabled ),
-               new SpinnerButtonNode( multiScaleToHeight( ROUND_BUTTON_UP, size ), multiScaleToHeight( ROUND_BUTTON_UP_PRESSED, size ), multiScaleToHeight( ROUND_BUTTON_UP_GRAY, size ), up, upEnabled ) );
+               new SpinnerButtonNode( multiScaleToHeight( LEFT_BUTTON_UP, size ), multiScaleToHeight( LEFT_BUTTON_PRESSED, size ), multiScaleToHeight( LEFT_BUTTON_GRAY, size ), down, downEnabled ),
+               new SpinnerButtonNode( multiScaleToHeight( RIGHT_BUTTON_UP, size ), multiScaleToHeight( RIGHT_BUTTON_PRESSED, size ), multiScaleToHeight( RIGHT_BUTTON_GRAY, size ), up, upEnabled ) );
     }
 }

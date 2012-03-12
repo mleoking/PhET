@@ -62,10 +62,6 @@ public class Levels {
         }
     };
 
-    static {
-        System.out.println( "all = " + all );
-    }
-
     final static RepresentationType numeric = singleRepresentation( "numeric", all,
                                                                     new F<Fraction, PNode>() {
                                                                         @Override public PNode f( Fraction f ) {

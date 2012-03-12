@@ -20,7 +20,13 @@ public class FractionsResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage LEFT_BUTTON_GRAY = RESOURCES.getImage( "left_button_gray.png" );
+        public static final BufferedImage LEFT_BUTTON_PRESSED = RESOURCES.getImage( "left_button_pressed.png" );
+        public static final BufferedImage LEFT_BUTTON_UP = RESOURCES.getImage( "left_button_up.png" );
         public static final BufferedImage LOCKED = RESOURCES.getImage( "locked.png" );
+        public static final BufferedImage RIGHT_BUTTON_GRAY = RESOURCES.getImage( "right_button_gray.png" );
+        public static final BufferedImage RIGHT_BUTTON_PRESSED = RESOURCES.getImage( "right_button_pressed.png" );
+        public static final BufferedImage RIGHT_BUTTON_UP = RESOURCES.getImage( "right_button_up.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN = RESOURCES.getImage( "round_button_down.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_GRAY = RESOURCES.getImage( "round_button_down_gray.png" );
         public static final BufferedImage ROUND_BUTTON_DOWN_PRESSED = RESOURCES.getImage( "round_button_down_pressed.png" );
