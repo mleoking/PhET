@@ -782,6 +782,18 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         debugCameraTransform.set( ImmutableMatrix4F.IDENTITY );
         model.resetAll();
         colorMode.reset();
+
+        // return any tools that are out
+        for ( GLNode glNode : getToolNodes() ) {
+            DraggableTool2D tool = (DraggableTool2D) glNode;
+
+            if ( !tool.getInsideToolboxProperty( toolboxState ).get() ) {
+                tool.recycle();
+
+                // mark the toolbox as having the tool again
+                tool.getInsideToolboxProperty( toolboxState ).set( true );
+            }
+        }
     }
 
     public TectonicsClock getClock() {
