@@ -516,8 +516,8 @@ public class DnaMolecule {
         // attachment site anyways.
         if ( potentialAttachmentSites.size() == 0 && pursueAttachments ) {
             for ( Gene gene : genes ) {
-                AttachmentSite matchingSite = gene.getPolymeraseAttachmentSite();
-                if ( matchingSite != null ) {
+                if ( gene.transcriptionFactorsSupportTranscription() ) {
+                    AttachmentSite matchingSite = gene.getPolymeraseAttachmentSite();
                     // Found a matching site on a gene.
                     if ( matchingSite.attachedOrAttachingMolecule.get() == null ) {
                         // The site is unoccupied, so add it to the list of
