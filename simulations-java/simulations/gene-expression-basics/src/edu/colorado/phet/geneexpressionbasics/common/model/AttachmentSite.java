@@ -6,21 +6,24 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * A site to which one biomolecule may attach to another.  Typically one
- * biomolecule (e.g. a DnaMolecule) owns the attachment site, so if the
- * biomolecule that owns it moves, the attachment site moves with it.
+ * An attachment site is a single point in model space to which a biomolecule
+ * may attach.  Typically, one biomolecule (e.g. a DnaMolecule) owns the
+ * attachment site, so if the biomolecule that owns it moves, the attachment
+ * site should move with it.
  *
  * @author John Blanco
  */
 public class AttachmentSite {
+
+    // Threshold used to decide whether or not a biomolecule is attached.
+    private static final double ATTACHED_THRESHOLD = 10; // picometers
 
     // Location of this attachment site.  It is a property so that it can be
     // followed in the event that the biomolecule upon which it exists is
     // moving.
     public Property<Point2D> locationProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
 
-    // Property that can be used to change the affinity of the attachment site.
-    // Valid values are from 0 to 1;
+    // Property that represents the affinity of the attachment site.
     public final Property<Double> affinityProperty;
 
     // A property that tracks which if any biomolecule is attached to or moving
@@ -44,6 +47,17 @@ public class AttachmentSite {
     public void setAffinity( double affinity ) {
         assert affinity >= 0 && affinity <= 1; // Bounds checking.
         affinityProperty.set( affinity );
+    }
+
+    /**
+     * Indicates whether or not a biomolecules is currently attached to this
+     * site.
+     *
+     * @return - true if a biomolecule is fully attached, false if not.  If a
+     *         molecule is on its way but not yet at the site, false is returned.
+     */
+    public boolean isMoleculeAttached() {
+        return attachedOrAttachingMolecule != null && locationProperty.get().distance( attachedOrAttachingMolecule.get().getPosition() ) < ATTACHED_THRESHOLD;
     }
 
     @Override public boolean equals( Object obj ) {
