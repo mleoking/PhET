@@ -1,19 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.text.DecimalFormat;
-
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
-import edu.colorado.phet.common.piccolophet.nodes.SensorNode;
+import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 
 /**
  * @author Sam Reid
  */
-public class DensitySensorNode2D extends SensorNode<Double> {
+public class DensitySensorNode2D extends SpeedometerSensorNode {
 
     // TODO: change this to a 2D offset
     public final double horizontalSensorOffset;
@@ -24,11 +20,7 @@ public class DensitySensorNode2D extends SensorNode<Double> {
      *                     model-view-transform size changes.
      */
     public DensitySensorNode2D( float kmToViewUnit ) {
-        super( ModelViewTransform.createIdentity(), new PointSensor<Double>( 0, 0 ), new Property<Function1<Double, String>>( new Function1<Double, String>() {
-            public String apply( Double aDouble ) {
-                return new DecimalFormat( "0.00" ).format( aDouble );
-            }
-        } ), "Density (kg/m^3)" );
+        super( ModelViewTransform.createIdentity(), new PointSensor<Double>( 0, 0 ), "Density (kg/m^3)" );
 
         // scale it so that we achieve adherence to the model scale
         scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
