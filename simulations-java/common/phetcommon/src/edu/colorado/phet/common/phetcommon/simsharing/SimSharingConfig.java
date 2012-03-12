@@ -212,7 +212,7 @@ public abstract class SimSharingConfig {
      */
     private static class RPALApril2012 extends SimSharingConfig {
         public RPALApril2012() {
-            super( "rpal-april-2012", true, false, false, false );
+            super( "rpal-april-2012", true, true, false, false );
         }
     }
 }
