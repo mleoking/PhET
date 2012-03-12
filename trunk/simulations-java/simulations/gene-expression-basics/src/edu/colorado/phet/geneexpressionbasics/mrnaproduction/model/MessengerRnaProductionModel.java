@@ -314,6 +314,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
                 if ( mobileBiomolecule instanceof TranscriptionFactor ) {
                     if ( ( (TranscriptionFactor) mobileBiomolecule ).getConfig().equals( tcConfig ) ) {
+                        // Remove this one.
                         mobileBiomolecule.forceDetach();
                         removeMobileBiomolecule( mobileBiomolecule );
                         currentLevel--;

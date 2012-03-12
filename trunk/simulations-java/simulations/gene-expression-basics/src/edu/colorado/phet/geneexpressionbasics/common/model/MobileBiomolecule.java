@@ -156,11 +156,14 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
     /**
      * Force this biomolecule to detach from anything to which it is
-     * currently attached.
+     * currently attached or to abort any pending attachments.
      */
     public void forceDetach() {
         if ( attachmentStateMachine.isAttached() ) {
             attachmentStateMachine.detach();
+        }
+        else if ( attachmentStateMachine.isMovingTowardAttachment() ) {
+            attachmentStateMachine.forceImmediateUnattachedAndAvailable();
         }
     }
 
