@@ -35,9 +35,11 @@ object RPALAnalysis extends StateMachine[SimState] {
 
     def timeInTab1State(state: String): Double = userStates.filter(_.start.tab == 1).filter(_.start.tab1.view == state).map(_.time).sum / 1000.0 / 60.0
 
-    override def toString = "minutes in tab 0: " + minutesInTab(0) + "\n" +
+    override def toString = "General:\n" +
+                            "minutes in tab 0: " + minutesInTab(0) + "\n" +
                             "minutes in tab 1: " + minutesInTab(1) + "\n" +
                             "minutes in tab 2: " + minutesInTab(2) + "\n" +
+                            "transitions between tabs: " + states.count(e => e.start.tab != e.end.tab) + "\n" +
                             "minutes on real in tab 1: " + timeInTab1State("real") + "\n" +
                             "minutes on model in tab 1: " + timeInTab1State("model") + "\n" +
                             "tab transitions: " + tabTransitions + "\n" +
