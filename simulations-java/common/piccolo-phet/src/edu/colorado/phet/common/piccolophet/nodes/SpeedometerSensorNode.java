@@ -54,15 +54,15 @@ public class SpeedometerSensorNode extends ToolNode {
 
         //Show a triangular tip that points to the hot spot of the sensor, i.e. where the values are read from
         velocityPoint = RESOURCES.getImage( "speedometer_point.png" );
-        velocityPointNode = new PImage( velocityPoint ) {{
-            final PropertyChangeListener updatePosition = new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getMaxY() - 10 );
-                }
-            };
-            bodyNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updatePosition );
-            updatePosition.propertyChange( null );
-        }};
+        velocityPointNode = new PImage( velocityPoint );
+        final PropertyChangeListener updatePosition = new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                velocityPointNode.setOffset( bodyNode.getFullBounds().getCenterX() - velocityPointNode.getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getMaxY() - 10 );
+            }
+        };
+
+//        bodyNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updatePosition );
+        updatePosition.propertyChange( null );
         addChild( velocityPointNode );
         addChild( bodyNode );
 
@@ -70,7 +70,8 @@ public class SpeedometerSensorNode extends ToolNode {
         pointSensor.position.addObserver( new SimpleObserver() {
             public void update() {
                 final Point2D.Double viewPoint = transform.modelToView( pointSensor.position.get() ).toPoint2D();
-                setOffset( viewPoint.getX() - bodyNode.getFullBounds().getWidth() / 2, viewPoint.getY() - bodyNode.getFullBounds().getHeight() - velocityPoint.getHeight() );
+                setOffset( viewPoint.getX() - bodyNode.getFullBounds().getWidth() / 2, viewPoint.getY() - bodyNode.getFullBounds().getHeight() - velocityPoint.getHeight() + 10 );
+                updatePosition.propertyChange( null );
             }
         } );
     }
