@@ -14,6 +14,7 @@ public class TransformBehavior extends PlateBehavior {
 
     @Override public void stepInTime( float millionsOfYears ) {
         getPlate().shiftZ( 30000f / 2 * ( towardsFront ? millionsOfYears : -millionsOfYears ) );
+        // TODO: remove this so we can keep terrain variation
         getPlate().fullSyncTerrain();
     }
 }

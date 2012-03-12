@@ -224,17 +224,22 @@ public class RiftingBehavior extends PlateBehavior {
                     *----------------------------------------------------------------------------*/
 
                     // blending crust sizes here (and preferably lithosphere too?)
-                    float fakeNeighborhoodY = topSample.getPosition().y;
+                    float fakeNeighborhoodY = topSample.getPosition().y - topSample.getRandomTerrainOffset();
                     int count = 1;
                     if ( columnIndex > 0 ) {
-                        fakeNeighborhoodY += getCrust().getTopBoundary().samples.get( columnIndex - 1 ).getPosition().y;
+                        final Sample neighborSample = getCrust().getTopBoundary().samples.get( columnIndex - 1 );
+                        fakeNeighborhoodY += neighborSample.getPosition().y - neighborSample.getRandomTerrainOffset();
                         count += 1;
                     }
                     if ( columnIndex < getNumCrustXSamples() - 1 ) {
-                        fakeNeighborhoodY += getCrust().getTopBoundary().samples.get( columnIndex + 1 ).getPosition().y;
+                        final Sample neighborSample = getCrust().getTopBoundary().samples.get( columnIndex + 1 );
+                        fakeNeighborhoodY += neighborSample.getPosition().y - neighborSample.getRandomTerrainOffset();
                         count += 1;
                     }
                     fakeNeighborhoodY /= count;
+
+                    // this means any further accesses are relative to the actual position (thus it's a fake neighborhood)
+                    fakeNeighborhoodY += topSample.getRandomTerrainOffset();
 
                     float currentCrustTop = getCrust().getTopElevation( columnIndex );
                     float currentCrustBottom = getCrust().getBottomElevation( columnIndex );

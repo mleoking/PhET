@@ -13,6 +13,9 @@ public class Sample {
     private float density;
     private ImmutableVector2F textureCoordinates;
 
+    // records the random elevation offset that was used at this point
+    private float randomTerrainOffset = 0;
+
     public Sample( ImmutableVector3F position, float temperature, float density, ImmutableVector2F textureCoordinates ) {
         this.position = position;
         this.temperature = temperature;
@@ -60,5 +63,13 @@ public class Sample {
 
     public void setTextureCoordinates( ImmutableVector2F textureCoordinates ) {
         this.textureCoordinates = textureCoordinates;
+    }
+
+    public float getRandomTerrainOffset() {
+        return randomTerrainOffset;
+    }
+
+    public void setRandomTerrainOffset( float randomTerrainOffset ) {
+        this.randomTerrainOffset = randomTerrainOffset;
     }
 }

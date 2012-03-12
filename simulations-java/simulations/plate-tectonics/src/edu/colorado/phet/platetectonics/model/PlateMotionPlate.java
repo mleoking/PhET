@@ -2,6 +2,7 @@
 package edu.colorado.phet.platetectonics.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
@@ -62,6 +63,7 @@ public class PlateMotionPlate extends Plate {
                                            SIMPLE_MANTLE_TOP_TEMP, SIMPLE_LITHOSPHERE_BOUNDARY_TEMP );
             }
         } ) );
+
         addCrust( new Region( CRUST_VERTICAL_STRIPS, HORIZONTAL_SAMPLES, new Function2<Integer, Integer, Sample>() {
             public Sample apply( Integer yIndex, Integer xIndex ) {
                 // start with top first
@@ -290,5 +292,41 @@ public class PlateMotionPlate extends Plate {
 
     public PlateMotionModel getModel() {
         return model;
+    }
+
+    public void randomizeTerrain() {
+        // always the same seed, allows us to have seamless random elevations across different plates
+        Random rand = new Random( 0 );
+        float[] boundaryValues = new float[getTerrain().getNumRows()];
+        for ( int i = 0; i < getTerrain().getNumRows(); i++ ) {
+            boundaryValues[i] = rand.nextFloat();
+        }
+
+        float hillMagnitude = getPlateType().isContinental() ? 2000 : 500;
+        for ( int columnIndex = 0; columnIndex < getTerrain().getNumColumns(); columnIndex++ ) {
+            float x = getTerrain().xPositions.get( columnIndex );
+
+            boolean isBoundaryColumn = columnIndex == getSide().opposite().getIndex( getTerrain().getNumColumns() );
+
+            for ( int rowIndex = 0; rowIndex < getTerrain().getNumRows(); rowIndex++ ) {
+                float z = getTerrain().zPositions.get( rowIndex );
+
+                final float randomValue = isBoundaryColumn ? boundaryValues[rowIndex] : rand.nextFloat();
+                float delta = ( randomValue - 0.5f ) * hillMagnitude;
+                final TerrainSample terrainSample = getTerrain().getSample( columnIndex, rowIndex );
+                terrainSample.setElevation( terrainSample.getElevation() + delta );
+
+                // if at the front, update the crust
+                if ( rowIndex == getTerrain().getFrontZIndex() ) {
+                    float newCrustTop = getCrust().getTopElevation( columnIndex ) + delta;
+                    getCrust().getTopBoundary().samples.get( columnIndex ).setRandomTerrainOffset( delta );
+                    getCrust().layoutColumn( columnIndex,
+                                             newCrustTop, getCrust().getBottomElevation( columnIndex ),
+                                             getTextureStrategy(), true );
+                }
+            }
+        }
+
+        getTerrain().elevationChanged.updateListeners();
     }
 }
