@@ -210,7 +210,7 @@ public abstract class SimSharingConfig {
      * Location: Boulder, CO
      * Dates: TODO
      */
-    private static class RPALApril2012 extends SimSharingConfig {
+    public static class RPALApril2012 extends SimSharingConfig {
         public RPALApril2012() {
             super( "rpal-april-2012", true, true, false, false );
         }

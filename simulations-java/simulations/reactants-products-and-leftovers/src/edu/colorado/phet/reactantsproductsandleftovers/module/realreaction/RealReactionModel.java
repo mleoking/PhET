@@ -6,11 +6,13 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.RPALApril2012;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.reactantsproductsandleftovers.model.ChemicalReaction;
-import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
-import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.AmmoniaReaction;
 import edu.colorado.phet.reactantsproductsandleftovers.model.OneProductReactions.WaterReaction;
+import edu.colorado.phet.reactantsproductsandleftovers.model.RPALModel;
+import edu.colorado.phet.reactantsproductsandleftovers.model.Reactant;
 import edu.colorado.phet.reactantsproductsandleftovers.model.TwoProductReactions.MethaneReaction;
 
 /**
@@ -23,20 +25,22 @@ public class RealReactionModel extends RPALModel {
     private final EventListenerList listeners;
     private final ChemicalReaction[] reactions;
     private ChemicalReaction reaction;
+    private final ChemicalReaction defaultReaction;
     
     public RealReactionModel() {
         reactions = new ChemicalReaction[] { new WaterReaction(), new AmmoniaReaction(), new MethaneReaction() };
-        this.reaction = reactions[0];
+        defaultReaction = ( new RPALApril2012().studyName.equals( SimSharingManager.getInstance().getStudyName() ) ? reactions[1] : reactions[0] );
+        reaction = defaultReaction;
         listeners = new EventListenerList();
     }
-    
+
     public void reset() {
         for ( ChemicalReaction reaction : reactions ) {
             for ( Reactant reactant : reaction.getReactants() ) {
                 reactant.setQuantity( getQuantityRange().getDefault() );
             }
         }
-        setReaction( reactions[0] );
+        setReaction( defaultReaction );
     }
     
     public ChemicalReaction[] getReactions() {
