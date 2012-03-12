@@ -6,18 +6,15 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN;
 import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
 
 /**
@@ -29,73 +26,45 @@ import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOUR
 public class SpeedometerSensorNode extends ToolNode {
     public final ModelViewTransform transform;
     public final PointSensor<Double> pointSensor;
-    public final ThreeImageNode bodyNode;
+    public final PNode bodyNode;
     public final PImage velocityPointNode;
     public final BufferedImage velocityPoint;
-    private final String title;
-
-    public SpeedometerSensorNode( final ModelViewTransform transform, final PointSensor<Double> sensor, final ObservableProperty<Function1<Double, String>> formatter, String title ) {
-        this( transform, sensor, formatter, PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN, title );
-    }
 
     public SpeedometerSensorNode( final ModelViewTransform transform,
                                   final PointSensor<Double> pointSensor,
-                                  final ObservableProperty<Function1<Double, String>> formatter,
 
                                   //Text to display when the value is None
-                                  final String unknownDisplayString, String title ) {
+                                  String title ) {
         this.transform = transform;
         this.pointSensor = pointSensor;
-        this.title = title;
-        final int titleOffsetY = 7;
-        final int readoutOffsetY = 38;
 
-        //Add the body of the sensor, which is composed of 3 images
-        bodyNode = new ThreeImageNode( RESOURCES.getImage( "velocity_left.png" ), RESOURCES.getImage( "velocity_center.png" ), RESOURCES.getImage( "velocity_right.png" ) );
-        addChild( bodyNode );
+        final Property<Double> speed = new Property<Double>( 0.0 );
+        pointSensor.value.addObserver( new VoidFunction1<Option<Double>>() {
+            @Override public void apply( final Option<Double> doubles ) {
+                if ( doubles.isSome() ) {
+                    speed.set( doubles.get() );
+                }
+                else {
+                    speed.set( 0.0 );
+                }
+            }
+        } );
 
-        //Add the title of the sensor, which remains centered in the top of the body
-        final PText titleNode = new PText( SpeedometerSensorNode.this.title ) {{
-            setFont( new PhetFont( 22 ) );
-            bodyNode.addCenterWidthObserver( new SimpleObserver() {
-                public void update() {
-                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, titleOffsetY );
-                }
-            } );
-        }};
-        addChild( titleNode );
-
-        //Add the text readout in the body of the sensor, which reads out the value of the VelocitySensor
-        addChild( new PText() {{
-            setFont( new PhetFont( 26 ) );
-            final SimpleObserver updateTextLocation = new SimpleObserver() {
-                public void update() {
-                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutOffsetY );
-                }
-            };
-            bodyNode.addCenterWidthObserver( updateTextLocation );
-            new RichSimpleObserver() {
-                public void update() {
-                    final Option<Double> value = pointSensor.value.get();
-                    setText( ( value.isNone() ) ? unknownDisplayString : formatter.get().apply( value.get() ) );
-                    bodyNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
-                    updateTextLocation.update();
-                }
-            }.observe( formatter, pointSensor.value );
-        }} );
+        bodyNode = new SpeedometerNode( "Density", 100, speed, 3500 );
 
         //Show a triangular tip that points to the hot spot of the sensor, i.e. where the values are read from
-        velocityPoint = RESOURCES.getImage( "velocity_point.png" );
+        velocityPoint = RESOURCES.getImage( "speedometer_point.png" );
         velocityPointNode = new PImage( velocityPoint ) {{
             final PropertyChangeListener updatePosition = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getMaxY() );
+                    setOffset( bodyNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getMaxY() - 10 );
                 }
             };
             bodyNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updatePosition );
             updatePosition.propertyChange( null );
         }};
         addChild( velocityPointNode );
+        addChild( bodyNode );
 
         //Update the entire location of this node based on the location of the model ViewSensor, keeping the hot spot at the specified location.
         pointSensor.position.addObserver( new SimpleObserver() {
@@ -109,10 +78,5 @@ public class SpeedometerSensorNode extends ToolNode {
     //Drags all components of the velocity sensor--there is only one component, so it just translates the entire node
     @Override public void dragAll( PDimension delta ) {
         pointSensor.translate( transform.viewToModelDelta( delta ) );
-    }
-
-    //Gets the PNode for the main body of the sensor, for intersection with the toolbox
-    public ThreeImageNode getBodyNode() {
-        return bodyNode;
     }
 }
