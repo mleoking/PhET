@@ -6,7 +6,7 @@ package edu.colorado.phet.platetectonics.model;
  */
 public enum PlateType {
     CONTINENTAL( true, false, 2750,
-                 5000, -40000, 70000 ),
+                 3500, -40000, 70000 ),
     YOUNG_OCEANIC( false, true, 3000,
                    -3000, -10000, 45000 ),
     OLD_OCEANIC( false, true, 3070,

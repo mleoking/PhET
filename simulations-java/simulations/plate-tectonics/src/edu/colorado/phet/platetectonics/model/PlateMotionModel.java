@@ -123,12 +123,14 @@ public class PlateMotionModel extends PlateModel {
                 }
                 // otherwise test for the heavier plate, which will subduct
                 else if ( leftPlateType.get().isContinental() || rightPlateType.get() == PlateType.OLD_OCEANIC ) {
+                    clock.setTimeLimit( 50 );
                     // right plate subducts
                     leftPlate.setBehavior( new OverridingBehavior( leftPlate, rightPlate ) );
                     rightPlate.setBehavior( new SubductingBehavior( rightPlate, leftPlate ) );
                     rightPlate.getCrust().moveToFront();
                 }
                 else if ( rightPlateType.get().isContinental() || leftPlateType.get() == PlateType.OLD_OCEANIC ) {
+                    clock.setTimeLimit( 50 );
                     // left plate subducts
                     leftPlate.setBehavior( new SubductingBehavior( leftPlate, rightPlate ) );
                     rightPlate.setBehavior( new OverridingBehavior( rightPlate, leftPlate ) );
