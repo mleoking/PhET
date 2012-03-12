@@ -269,8 +269,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                             // ok, not a button press event
 
                             if ( draggedCrustPiece != null ) {
+                                // scaleX and scaleY should be identical in this case
+                                float s = (float) getCanvasTransform().transform.get().getScaleX();
                                 draggedCrustPiece.position.set( draggedCrustPiece.position.get().plus(
-                                        new ImmutableVector2D( Mouse.getEventDX(), -Mouse.getEventDY() ) ) );
+                                        new ImmutableVector2D( Mouse.getEventDX() / s, -Mouse.getEventDY() / s ) ) );
                                 movedCrustPiece( draggedCrustPiece );
                             }
                             else {
