@@ -204,6 +204,7 @@ public class PlateMotionModel extends PlateModel {
         super.resetAll();
 
         clock.resetTimeLimit();
+        clock.setTimeMultiplier( 1 ); // TODO: refactor so this is easier to reset (maybe property-based?)
 
         leftPlateType.reset();
         rightPlateType.reset();

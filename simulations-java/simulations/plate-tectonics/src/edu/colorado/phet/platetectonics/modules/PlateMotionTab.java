@@ -65,6 +65,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     public final Property<ImmutableVector2F> motionVectorRight = new Property<ImmutableVector2F>( new ImmutableVector2F() );
     private HandleNode leftHandle;
     private HandleNode rightHandle;
+    private TectonicsTimeControl tectonicsTimeControl;
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
@@ -255,7 +256,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * time control
         *----------------------------------------------------------------------------*/
-        final OrthoComponentNode timeControlPanelNode = new OrthoComponentNode( new TectonicsTimeControl( getClock(), isAutoMode ),
+        tectonicsTimeControl = new TectonicsTimeControl( getClock(), isAutoMode );
+        final OrthoComponentNode timeControlPanelNode = new OrthoComponentNode( tectonicsTimeControl,
                                                                                 this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
                                                                                 mouseEventNotifier ) {{
             onResize.addUpdateListener( new UpdateListener() {
@@ -444,6 +446,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         getClock().pause();
         getClock().resetTimeLimit();
         getClock().resetSimulationTime();
+        tectonicsTimeControl.resetAll();
 
         for ( OrthoPiccoloNode placedPiece : placedPieces ) {
             // add in to the front
