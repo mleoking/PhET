@@ -1,3 +1,4 @@
+Matching Game: Removed values for denominator > 10
 Matching Game: Scale representations to a width of 110 so it will be a good fit for the starting cells and score cells
 Equality Lab: Put the fraction that is on the bucket on the left hand side, to help students visually parse.
 Intro: Moved the vertical bars down to center them between icon bar and top of fraction

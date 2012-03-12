@@ -426,8 +426,10 @@ public class Levels {
     public F<List<Cell>, List<MovableFraction>> Level4 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
             return createLevel( getRepresentationPool( 4 ), cells, new Fraction[] {
-                    new Fraction( 17, 15 ),
+                    new Fraction( 13, 7 ),
+                    new Fraction( 13, 7 ),
                     new Fraction( 14, 8 ),
+                    new Fraction( 14, 5 ),
                     new Fraction( 6, 3 ),
                     new Fraction( 9, 8 ),
                     new Fraction( 8, 9 ),
@@ -435,7 +437,6 @@ public class Levels {
                     new Fraction( 4, 9 ),
                     new Fraction( 3, 9 ),
                     new Fraction( 2, 9 ),
-                    new Fraction( 12, 13 ),
                     new Fraction( 9, 7 ) } );
         }
     };
