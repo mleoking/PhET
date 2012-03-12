@@ -17,7 +17,7 @@ object Globals {
   val phPaper = "phPaper"
   val conductivityTester = "conductivityTester"
 
-  val initialTab0 = Tab0("dummy")
-  val initialTab1 = Tab1("BF3", "real", "KITTY")
+  val initialTab0 = Tab0("cheese")
+  val initialTab1 = Tab1("cheese", "real", "KITTY")
   val initialTab2 = Tab2("BF3", "real", "KITTY")
 }

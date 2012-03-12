@@ -28,23 +28,30 @@ object RPALAnalysis extends StateMachine[SimState] {
     //Count the number of transitions that the user made.
     val kitTransitions = log.entries.filter(entry => List("kitSelectionNode.previousButton", "kitSelectionNode.nextButton").contains(entry.component)).length
     val tabTransitions = states.filter(entry => entry.start.tab != entry.end.tab).length
-    val moleculeTransitions = states.filter(entry => entry.start.tab1.molecule != entry.end.tab1.molecule).length
+    val sandwichTransitions = states.filter(entry => entry.start.tab1.sandwich != entry.end.tab1.sandwich).length
     val viewTransitions = states.filter(entry => entry.start.tab1.view != entry.end.tab1.view).length
 
     def minutesInTab(tab: Int): Double = userStates.filter(_.start.tab == tab).map(_.time).sum / 1000.0 / 60.0
 
     def timeInTab1State(state: String): Double = userStates.filter(_.start.tab == 1).filter(_.start.tab1.view == state).map(_.time).sum / 1000.0 / 60.0
 
+    def timeInTab0Sandwich(state: String): Double = userStates.filter(_.start.tab == 0).filter(_.start.tab0.sandwich == state).map(_.time).sum / 1000.0 / 60.0
+
     override def toString = "General:\n" +
                             "minutes in tab 0: " + minutesInTab(0) + "\n" +
                             "minutes in tab 1: " + minutesInTab(1) + "\n" +
                             "minutes in tab 2: " + minutesInTab(2) + "\n" +
-                            "transitions between tabs: " + states.count(e => e.start.tab != e.end.tab) + "\n" +
+                            "transitions between tabs: " + userStates.count(e => e.start.tab != e.end.tab) + "\n\n" +
+                            "Tab 1:\n" +
+                            "minutes on cheese sandwich: " + timeInTab0Sandwich("cheese") + "\n" +
+                            "minutes on meat & cheese sandwich : " + timeInTab0Sandwich("meatAndCheese") + "\n" +
+                            "sandwich transitions: " + userStates.count(e => e.start.tab0.sandwich != e.end.tab0.sandwich) + "\n" +
+                            "Tab 2:\n" +
                             "minutes on real in tab 1: " + timeInTab1State("real") + "\n" +
                             "minutes on model in tab 1: " + timeInTab1State("model") + "\n" +
                             "tab transitions: " + tabTransitions + "\n" +
                             "kit transitions: " + kitTransitions + "\n" +
-                            "molecule transitions: " + moleculeTransitions + "\n" +
+                            "molecule transitions: " + sandwichTransitions + "\n" +
                             "view transitions: " + viewTransitions
   }
 
@@ -89,7 +96,7 @@ object RPALAnalysis extends StateMachine[SimState] {
                                  format(r.timeInTab1State("model")) + "\t" +
                                  r.tabTransitions + "\t" +
                                  r.kitTransitions + "\t" +
-                                 r.moleculeTransitions + "\t" +
+                                 r.sandwichTransitions + "\t" +
                                  r.viewTransitions))
   }
 }

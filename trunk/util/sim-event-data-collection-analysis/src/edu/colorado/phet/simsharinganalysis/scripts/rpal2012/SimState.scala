@@ -51,7 +51,7 @@ case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolea
 }
 
 //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
-case class Tab0(dummy: String) extends Tab {
+case class Tab0(sandwich: String) extends Tab {
 
   def next(e: Entry): Tab0 = {
 
@@ -59,6 +59,10 @@ case class Tab0(dummy: String) extends Tab {
 
       //If clicking on something disabled, then do not change the state, see #3218
       case x: Entry if x.enabled == false => this
+
+      //Watch which solution the user selects
+      case Entry(_, "user", "sandwichRadioButton.meatAndCheeseSandwich", _, "pressed", _) => copy(sandwich = "meatAndCheese")
+      case Entry(_, "user", "sandwichRadioButton.cheeseSandwich", _, "pressed", _) => copy(sandwich = "cheese")
 
       //Handle reset all presses
       case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab0
@@ -72,7 +76,7 @@ case class Tab0(dummy: String) extends Tab {
   }
 }
 
-case class Tab1(molecule: String, view: String, kit: String) extends Tab {
+case class Tab1(sandwich: String, view: String, kit: String) extends Tab {
 
   def next(e: Entry): Tab1 = {
 
@@ -82,13 +86,11 @@ case class Tab1(molecule: String, view: String, kit: String) extends Tab {
       case x: Entry if x.enabled == false => this
 
       //Watch which solution the user selects
-      case Entry(_, "user", "modelViewCheckBox", _, "pressed", _) => copy(view = "model")
-      case Entry(_, "user", "realViewCheckBox", _, "pressed", _) => copy(view = "real")
+      case Entry(_, "user", "sandwichRadioButton.meatAndCheeseSandwich", _, "pressed", _) => copy(sandwich = "meatAndCheese")
+      case Entry(_, "user", "sandwichRadioButton.cheeseSandwich", _, "pressed", _) => copy(sandwich = "cheese")
 
       //Handle reset all presses
       case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab1
-
-      case Entry(_, "model", "molecule", "moleculeModel", "realMoleculeChanged", _) => copy(molecule = e("realMolecule"))
 
       //Nothing happened to change the state
       case _ => this
