@@ -26,8 +26,7 @@ public class RPALConstants {
     public static final String PROJECT_NAME = "reactants-products-and-leftovers";
     
     public static final String FLAVOR_RPAL = "reactants-products-and-leftovers";
-    public static final String FLAVOR_RPAL_RESEARCH = "rpal-research";
-    
+
     //----------------------------------------------------------------------------
     // Dimensions
     //----------------------------------------------------------------------------
