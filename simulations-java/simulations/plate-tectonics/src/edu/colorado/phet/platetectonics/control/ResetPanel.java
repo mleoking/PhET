@@ -35,6 +35,7 @@ public class ResetPanel extends PNode {
                 ( (PlateMotionTab) tab ).getPlateMotionModel().animationStarted.addObserver( new SimpleObserver() {
                     public void update() {
                         setEnabled( ( (PlateMotionTab) tab ).getPlateMotionModel().animationStarted.get() );
+                        repaint();
                     }
                 } );
                 addActionListener( new ActionListener() {
