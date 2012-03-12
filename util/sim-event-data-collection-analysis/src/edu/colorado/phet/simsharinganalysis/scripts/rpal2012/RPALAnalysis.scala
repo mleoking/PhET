@@ -36,21 +36,48 @@ object RPALAnalysis extends StateMachine[SimState] {
 
     def timeInTab0Sandwich(state: String): Double = userStates.filter(_.start.tab == 0).filter(_.start.tab0.sandwich == state).map(_.time).sum / 1000.0 / 60.0
 
+
+    /*
+   How many clicks do students make in each "reaction" scenario (in tabs 1 & 2)?
+     > What do you want to count as clicks here?  Spinners/radio buttons/reset all?  What about clicking in the play area even though it doesn't do anything?
+     JC: This question is mainly to provide a quantitative gauge of interaction.  I think that students will very quickly learn which parts of the sim can be interacted with, so it is fine to only count "productive" clicks for this question.  Also, we did not include "unproductive" click messages for this sim, so that data isn't there anyhow (and, it's not needed). Since the radio buttons change the "reaction" scenario, this question would be answered by how many spinner and reset-all clicks a student makes.
+    */
+    def clicksWhileInTab0Sandwich(state: String): Double = userStates.filter(_.start.tab == 0).filter(_.start.tab0.sandwich == state).map(e =>
+                                                                                                                                            e.entry match {
+                                                                                                                                              case Entry(_, "user", _, _, "pressed", _) => 1
+                                                                                                                                              case Entry(_, "user", _, _, "buttonPressed", _) => 1
+                                                                                                                                              case _ => 0
+                                                                                                                                            }).sum
+
+    def clicksWhileInTab1Reaction(state: String): Double = userStates.filter(_.start.tab == 1).filter(_.start.tab1.reaction == state).map(e =>
+                                                                                                                                            e.entry match {
+                                                                                                                                              case Entry(_, "user", _, _, "pressed", _) => 1
+                                                                                                                                              case Entry(_, "user", _, _, "buttonPressed", _) => 1
+                                                                                                                                              case _ => 0
+                                                                                                                                            }).sum
+
     override def toString = "General:\n" +
-                            "minutes in tab 0: " + minutesInTab(0) + "\n" +
-                            "minutes in tab 1: " + minutesInTab(1) + "\n" +
-                            "minutes in tab 2: " + minutesInTab(2) + "\n" +
-                            "transitions between tabs: " + userStates.count(e => e.start.tab != e.end.tab) + "\n\n" +
-                            "Tab 1:\n" +
+                            "minutes in tab 1: " + minutesInTab(0) + "\n" +
+                            "minutes in tab 2: " + minutesInTab(1) + "\n" +
+                            "minutes in tab 3: " + minutesInTab(2) + "\n" +
+                            "transitions between tabs: " + userStates.count(e => e.start.tab != e.end.tab) + "\n" +
+                            "\nTab 1:\n" +
                             "minutes on cheese sandwich: " + timeInTab0Sandwich("cheese") + "\n" +
+                            "clicks while in cheese sandwich: " + clicksWhileInTab0Sandwich("cheese") + "\n" +
                             "minutes on meat & cheese sandwich : " + timeInTab0Sandwich("meatAndCheese") + "\n" +
+                            "clicks while in meat & cheese sandwich: " + clicksWhileInTab0Sandwich("meatAndCheese") + "\n" +
                             "sandwich transitions: " + userStates.count(e => e.start.tab0.sandwich != e.end.tab0.sandwich) + "\n" +
-                            "Tab 2:\n" +
+                            "\nTab 2:\n" +
                             "minutes on water: " + timeInTab1Reaction("water") + "\n" +
+                            "clicks while on water: " + clicksWhileInTab1Reaction("water") + "\n" +
                             "minutes on ammonia: " + timeInTab1Reaction("ammonia") + "\n" +
+                            "clicks while on ammonia: " + clicksWhileInTab1Reaction("ammonia") + "\n" +
                             "minutes on methane: " + timeInTab1Reaction("methane") + "\n" +
+                            "clicks while on methane: " + clicksWhileInTab1Reaction("methane") + "\n" +
                             "reaction transitions: " + userStates.count(e => e.start.tab1.reaction != e.end.tab1.reaction) + "\n" +
-                            "Tab 3:\n" +
+                            "\nTab 3:\n" +
+                            "Number times started new game: " + userStates.count(_.entry.matches("startGameButton", "pressed")) + "\n" +
+                            "Number times game completed: " + userStates.count(_.entry.matches("game", "completed")) + "\n" +
                             "tab transitions: " + tabTransitions + "\n" +
                             "kit transitions: " + kitTransitions + "\n" +
                             "view transitions: " + viewTransitions

@@ -22,34 +22,6 @@ case class Molecule(electronGeometry: String, moleculeGeometry: String)
 
 trait Tab
 
-//Factored out state that is shared between all tabs, since case classes do not inherit well.
-case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolean) {
-  assert(view != null)
-  assert(test != null)
-
-  def next(e: Entry) = {
-
-    e match {
-
-      //If clicking on something disabled, then do not change the state, see #3218
-      case x: Entry if x.enabled == false => this
-
-      //Watch which view the user selects
-      case Entry(_, "user", c, _, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon") contains c => copy(view = molecules)
-      case Entry(_, "user", c, _, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon") contains c => copy(view = barGraph)
-      case Entry(_, "user", c, _, "pressed", _) if List("liquidRadioButton", "liquidIcon") contains c => copy(view = liquid)
-
-      //See if the user changed tests
-      case Entry(_, "user", c, _, "pressed", _) if List("phMeterRadioButton", "phMeterIcon").contains(c) => copy(test = phMeter)
-      case Entry(_, "user", c, _, "pressed", _) if List("phPaperRadioButton", "phPaperIcon").contains(c) => copy(test = phPaper)
-      case Entry(_, "user", c, _, "pressed", _) if List("conductivityTesterRadioButton", "conductivityTesterIcon").contains(c) => copy(test = conductivityTester)
-
-      //Nothing happened to change the state
-      case _ => this
-    }
-  }
-}
-
 //ShowSolvent indicates that the check box is checked, but solvent only showing if view is also "molecules"
 case class Tab0(sandwich: String) extends Tab {
 
