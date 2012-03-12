@@ -513,7 +513,7 @@ public class GameRewardNode extends PhetPNode {
                 }
             }
         };
-        canvas.setBackground( RPALColors.CANVAS_BACKGROUND );
+        canvas.setBackground( RPALColors.COLOR_SCHEME.get().canvasBackground );
         canvas.addWorldChild( rewardNode );
 
         final IMotionStrategy jitteryMotionStrategy = new JitteryMotionStrategy();

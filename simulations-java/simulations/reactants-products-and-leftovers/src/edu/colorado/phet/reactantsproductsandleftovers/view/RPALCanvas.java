@@ -32,7 +32,7 @@ public class RPALCanvas extends PhetPCanvas {
     public RPALCanvas() {
         super( RPALConstants.CANVAS_RENDERING_SIZE );
 
-        setBackground( RPALColors.CANVAS_BACKGROUND );
+        setBackground( RPALColors.COLOR_SCHEME.get().canvasBackground );
 
         // Root of our scene graph
         rootNode = new PNode();
