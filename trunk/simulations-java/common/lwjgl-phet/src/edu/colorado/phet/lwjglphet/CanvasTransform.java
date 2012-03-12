@@ -17,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public abstract class CanvasTransform {
     public final Property<AffineTransform> transform = new Property<AffineTransform>( null );
 
+    public abstract float getFieldOfViewYFactor();
+
     public Rectangle2D getTransformedBounds( Rectangle2D bounds ) {
         return transform.get().createTransformedShape( bounds ).getBounds2D();
     }
@@ -33,6 +35,10 @@ public abstract class CanvasTransform {
     public static class IdentityCanvasTransform extends CanvasTransform {
         public IdentityCanvasTransform() {
             transform.set( new AffineTransform() );
+        }
+
+        @Override public float getFieldOfViewYFactor() {
+            return 1;
         }
     }
 
@@ -58,6 +64,19 @@ public abstract class CanvasTransform {
         public Dimension getStageSize() {
             return stageSize;
         }
+
+        @Override public float getFieldOfViewYFactor() {
+            return getStageCenteringFieldOfViewYFactor( canvasSize.get(), stageSize );
+        }
+    }
+
+    public static float getStageCenteringFieldOfViewYFactor( Dimension canvasSize, Dimension stageSize ) {
+        double sx = canvasSize.getWidth() / stageSize.getWidth();
+        double sy = canvasSize.getHeight() / stageSize.getHeight();
+        if ( sx == 0 || sy == 0 ) {
+            return 1;
+        }
+        return sy > sx ? (float) ( sy / sx ) : 1;
     }
 
     public static AffineTransform getStageCenteringTransform( Dimension canvasSize, Dimension stageSize ) {

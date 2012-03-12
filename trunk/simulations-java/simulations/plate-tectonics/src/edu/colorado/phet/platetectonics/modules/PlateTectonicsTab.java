@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.geom.AffineTransform;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -82,7 +81,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     private static final float DENSITY_SENSOR_Z = 2;
 
     // frustum properties
-    public static final float fieldOfViewDegrees = 40;
+    public static final float fieldOfViewDegrees = 20;
     public static final float nearPlane = 1;
     public static final float farPlane = 21000;
 
@@ -530,17 +529,21 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     public ImmutableMatrix4F getSceneProjectionMatrix() {
-        AffineTransform affineCanvasTransform = canvasTransform.transform.get();
+        // NOTE: keep for reference, however the stage centering in this case is being done (for now) exclusively by using the fieldOfViewYFactor
+//        AffineTransform affineCanvasTransform = canvasTransform.transform.get();
+//
+//        ImmutableMatrix4F scalingMatrix = ImmutableMatrix4F.scaling(
+//                (float) affineCanvasTransform.getScaleX(),
+//                (float) affineCanvasTransform.getScaleY(),
+//                1 );
 
-        ImmutableMatrix4F scalingMatrix = ImmutableMatrix4F.scaling(
-                (float) affineCanvasTransform.getScaleX(),
-                (float) affineCanvasTransform.getScaleY(),
-                1 );
+        float fieldOfViewRadians = (float) ( fieldOfViewDegrees / 180f * Math.PI );
+        float correctedFieldOfViewRadians = (float) Math.atan( canvasTransform.getFieldOfViewYFactor() * Math.tan( fieldOfViewRadians ) );
 
-        ImmutableMatrix4F perspectiveMatrix = getGluPerspective( fieldOfViewDegrees,
+        ImmutableMatrix4F perspectiveMatrix = getGluPerspective( correctedFieldOfViewRadians,
                                                                  (float) canvasSize.get().width / (float) canvasSize.get().height,
                                                                  nearPlane, farPlane );
-        return scalingMatrix.times( perspectiveMatrix );
+        return perspectiveMatrix;
     }
 
     protected float getSceneDistanceZoomFactor() {
@@ -572,9 +575,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return r * r;
     }
 
-    public static ImmutableMatrix4F getGluPerspective( float fovy, float aspect, float zNear, float zFar ) {
-        float fovAngle = (float) ( fovy / 2 * Math.PI / 180 );
-        float cotangent = (float) Math.cos( fovAngle ) / (float) Math.sin( fovAngle );
+    public ImmutableMatrix4F getGluPerspective( float fovYRadians, float aspect, float zNear, float zFar ) {
+        float cotangent = (float) Math.cos( fovYRadians ) / (float) Math.sin( fovYRadians );
 
         return ImmutableMatrix4F.rowMajor( cotangent / aspect, 0, 0, 0,
                                            0, cotangent, 0, 0,
