@@ -113,7 +113,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }};
         addChild( resetAllButtonNode );
 
-        addPrimaryRepresentationNodes( model, leftRepresentation, model.pieSet );
+        //Show the icon text on the left so that it will be far from the main fraction display in the play area
+        boolean iconTextOnTheRight = false;
+
+        addPrimaryRepresentationNodes( model, leftRepresentation, model.pieSet, iconTextOnTheRight );
 
         //Show the pie set node when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, PIE, new PNode() {{
@@ -184,16 +187,16 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
     //Add representations for the left side
     private void addPrimaryRepresentationNodes( final EqualityLabModel model,
                                                 final SettableProperty<Representation> representation,
-                                                SettableProperty<PieSet> pieSet ) {
+                                                SettableProperty<PieSet> pieSet, boolean iconTextOnTheRight ) {
         //Show the pie set node when pies are selected
-        addChild( new RepresentationNode( representation, PIE, new PieSetNode( pieSet, rootNode ) ) );
+        addChild( new RepresentationNode( representation, PIE, new PieSetNode( pieSet, rootNode, iconTextOnTheRight ) ) );
 
         //For horizontal bars
-        addChild( new RepresentationNode( representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
+        addChild( new RepresentationNode( representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode, iconTextOnTheRight ) ) );
 
         //For water glasses
         final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
-        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight() ) ) );
+        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
 
         //Number line
         addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, LIGHT_GREEN, true ) {{

@@ -41,22 +41,22 @@ public class PieSetNode extends FNode {
         }
     };
 
-    public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode ) {
+    public PieSetNode( final SettableProperty<PieSet> model, PNode rootNode, boolean iconTextOnTheRight ) {
         this( model, rootNode, NodeToShape, CreateEmptyCellsNode, new F<PieSet, PNode>() {
             @Override public PNode f( final PieSet pieSet ) {
                 return createBucketIcon( pieSet, NodeToShape );
             }
-        } );
+        }, iconTextOnTheRight );
     }
 
     //Create a PieSetNode, have to pass in the root node since the scene graph tree is reconstructed each time and you cannot use getDeltaRelativeTo(getParent) since the node may no longer be in the tree
-    public PieSetNode( final SettableProperty<PieSet> model, final PNode rootNode, final F<SliceNodeArgs, PNode> createSliceNode, final F<PieSet, PNode> createEmptyCellsNode, final F<PieSet, PNode> createBucketIcon ) {
+    public PieSetNode( final SettableProperty<PieSet> model, final PNode rootNode, final F<SliceNodeArgs, PNode> createSliceNode, final F<PieSet, PNode> createEmptyCellsNode, final F<PieSet, PNode> createBucketIcon, final boolean iconTextOnTheRight ) {
         bucketView = new BucketView( model.get().sliceFactory.bucket, createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
 
         model.addObserver( new SimpleObserver() {
             public void update() {
                 removeAllChildren();
-                addChild( new PieSetContentNode( bucketView, model, createSliceNode, rootNode, createEmptyCellsNode, createBucketIcon ) );
+                addChild( new PieSetContentNode( bucketView, model, createSliceNode, rootNode, createEmptyCellsNode, createBucketIcon, iconTextOnTheRight ) );
             }
         } );
     }

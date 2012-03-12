@@ -24,7 +24,8 @@ public class PieSetContentNode extends PNode {
                               final F<SliceNodeArgs, PNode> createSliceNode,
                               final PNode rootNode,
                               final F<PieSet, PNode> createEmptyCellsNode,
-                              final F<PieSet, PNode> createBucketIcon ) {
+                              final F<PieSet, PNode> createBucketIcon,
+                              boolean iconTextOnTheRight ) {
 
         final PNode bucketHoleNode = bucketView.getHoleNode();
         addChild( bucketHoleNode );
@@ -42,7 +43,7 @@ public class PieSetContentNode extends PNode {
         PNode text = new FractionNode( FractionNumberNode.NUMBER_FONT, new Property<Integer>( 1 ), new Property<Integer>( model.get().denominator ) ) {{
             scale( 0.2 );
         }};
-        PNode iconAndText = new HBox( 20, icon, text );
+        PNode iconAndText = iconTextOnTheRight ? new HBox( 20, icon, text ) : new HBox( 20, text, icon );
 
         addChild( new ZeroOffsetNode( iconAndText ) {{
             centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );

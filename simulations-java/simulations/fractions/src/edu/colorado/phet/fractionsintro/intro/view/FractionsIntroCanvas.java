@@ -46,30 +46,33 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }};
         addChild( representationControlPanel );
 
+        //Show the fraction text icon on the right to keep it far away from the spinner fraction (which is to the left)
+        boolean iconTextOnTheRight = true;
+
         //Show the pie set node when pies are selected
-        addChild( new RepresentationNode( model.representation, PIE, new PieSetNode( model.pieSet, rootNode ) ) );
+        addChild( new RepresentationNode( model.representation, PIE, new PieSetNode( model.pieSet, rootNode, iconTextOnTheRight ) ) );
 
         //For horizontal bars
-        addChild( new RepresentationNode( model.representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode ) ) );
+        addChild( new RepresentationNode( model.representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode, iconTextOnTheRight ) ) );
 
         //For vertical bars
-        addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode ) ) );
+        addChild( new RepresentationNode( model.representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode, iconTextOnTheRight ) ) );
 
         //For debugging water glasses region management
         if ( debugRepresentations ) {
-            addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode ) ) );
+            addChild( new RepresentationNode( model.representation, WATER_GLASSES, new PieSetNode( model.waterGlassSet, rootNode, iconTextOnTheRight ) ) );
         }
 
         //For water glasses
         final Rectangle2D b = model.factorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
-        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight() ) ) );
+        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
 
         //For draggable cakes
-        addChild( new RepresentationNode( model.representation, CAKE, new CakeSetNode( model.cakeSet, rootNode ) ) );
+        addChild( new RepresentationNode( model.representation, CAKE, new CakeSetNode( model.cakeSet, rootNode, iconTextOnTheRight ) ) );
 
         //For debugging cakes
         if ( debugRepresentations ) {
-            addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode ) ) );
+            addChild( new RepresentationNode( model.representation, CAKE, new PieSetNode( model.cakeSet, rootNode, iconTextOnTheRight ) ) );
         }
 
         //Number line

@@ -24,12 +24,12 @@ import static fj.Ord.doubleOrd;
  * @author Sam Reid
  */
 public class WaterGlassSetNode extends PieSetNode {
-    public WaterGlassSetNode( SettableProperty<PieSet> model, PNode rootNode, Color color, double width, double height ) {
+    public WaterGlassSetNode( SettableProperty<PieSet> model, PNode rootNode, Color color, double width, double height, boolean iconTextOnTheRight ) {
         super( model, rootNode, new WaterGlassNodeFactory(), createEmptyCellsNode( color, width, height ), new F<PieSet, PNode>() {
             @Override public PNode f( final PieSet pieSet ) {
                 return createIcon( pieSet, new WaterGlassNodeFactory() );
             }
-        } );
+        }, iconTextOnTheRight );
     }
 
     //The water glass icon has to use bucket slice since it doesn't have an empty background like the other bucket icon nodes
