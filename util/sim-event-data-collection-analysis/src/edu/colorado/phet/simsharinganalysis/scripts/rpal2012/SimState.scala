@@ -76,7 +76,7 @@ case class Tab0(sandwich: String) extends Tab {
   }
 }
 
-case class Tab1(sandwich: String, view: String, kit: String) extends Tab {
+case class Tab1(reaction: String, view: String, kit: String) extends Tab {
 
   def next(e: Entry): Tab1 = {
 
@@ -86,8 +86,9 @@ case class Tab1(sandwich: String, view: String, kit: String) extends Tab {
       case x: Entry if x.enabled == false => this
 
       //Watch which solution the user selects
-      case Entry(_, "user", "sandwichRadioButton.meatAndCheeseSandwich", _, "pressed", _) => copy(sandwich = "meatAndCheese")
-      case Entry(_, "user", "sandwichRadioButton.cheeseSandwich", _, "pressed", _) => copy(sandwich = "cheese")
+      case Entry(_, "user", "realReactionRadioButton.makeWater", _, "pressed", _) => copy(reaction = "water")
+      case Entry(_, "user", "realReactionRadioButton.makeAmmonia", _, "pressed", _) => copy(reaction = "ammonia")
+      case Entry(_, "user", "realReactionRadioButton.combustMethane", _, "pressed", _) => copy(reaction = "methane")
 
       //Handle reset all presses
       case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab1
