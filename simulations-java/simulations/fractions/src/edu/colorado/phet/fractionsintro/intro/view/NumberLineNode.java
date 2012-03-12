@@ -211,7 +211,14 @@ public class NumberLineNode extends PNode {
         addChild( circle );
 
         //Arrow pointing to the location (for when tick marks get dense)
-        arrowPath = new PhetPPath( color, new BasicStroke( borderStroke.getLineWidth() / 2f ), Color.black );
+        arrowPath = new PhetPPath( color, new BasicStroke( borderStroke.getLineWidth() / 2f ), Color.black ) {{
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseDragged( PInputEvent event ) {
+                    handleMousePress( event );
+                }
+            } );
+        }};
         addChild( arrowPath );
 
         mainObserver.update();
