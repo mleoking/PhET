@@ -25,6 +25,9 @@ public class OverridingBehavior extends PlateBehavior {
 
     private float chamberFullness = 0;
 
+    private float minElevationInTimestep;
+    private float maxElevationInTimestep;
+
     public OverridingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
@@ -162,12 +165,12 @@ public class OverridingBehavior extends PlateBehavior {
         }
 
         {
-            // min, max elevations
-            float min = Float.MAX_VALUE;
-            float max = -Float.MAX_VALUE;
+            // min, max elevation computations
+            minElevationInTimestep = Float.MAX_VALUE;
+            maxElevationInTimestep = -Float.MAX_VALUE;
             for ( Sample sample : getTopCrustBoundary().samples ) {
-                min = Math.min( min, sample.getPosition().y );
-                max = Math.max( max, sample.getPosition().y );
+                minElevationInTimestep = Math.min( minElevationInTimestep, sample.getPosition().y );
+                maxElevationInTimestep = Math.max( maxElevationInTimestep, sample.getPosition().y );
             }
         }
     }

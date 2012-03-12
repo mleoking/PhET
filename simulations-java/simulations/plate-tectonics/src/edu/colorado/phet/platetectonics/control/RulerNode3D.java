@@ -25,7 +25,7 @@ import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
 
     // how much we subsample the piccolo ruler in texture construction
-    private static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
+    private static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 4;
 
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     private static final float RULER_PIXEL_SCALE = 3f;
