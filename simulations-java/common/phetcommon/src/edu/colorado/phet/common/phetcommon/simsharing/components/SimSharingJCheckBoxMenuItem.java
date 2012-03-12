@@ -11,16 +11,12 @@ import javax.swing.JCheckBoxMenuItem;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.enabled;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
 
 /**
  * CheckBoxMenuItem used in phetcommon for transmitting data on student usage of menus, see #3144
@@ -87,7 +83,7 @@ public class SimSharingJCheckBoxMenuItem extends JCheckBoxMenuItem {
     }
 
     @Override protected void fireActionPerformed( ActionEvent event ) {
-        sendUserMessage( new ParameterSet() );
+        sendUserMessage( ParameterSet.parameterSet( isSelected, isSelected() ) );
         super.fireActionPerformed( event );
     }
 
