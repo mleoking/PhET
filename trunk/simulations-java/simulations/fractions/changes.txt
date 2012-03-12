@@ -1,3 +1,4 @@
+Intro: Moved the vertical bars down to center them between icon bar and top of fraction
 # 0.00.52 (62396) Mar 10, 2012
 Intro & Equality Lab: Fixed: When clicking on a water glass, the dragged amount doesn't subtract from the original amount (just during press--it updates on drag)
 Matching Game: Fractions return to the closest open cell, not just the one from which they originated

@@ -70,6 +70,6 @@ public class VerticalSliceFactory extends SliceFactory {
 
         //Account for offset, determined empirically: den=1 => offset = 0, den = 2 => offset = -cellHeight/2
         LinearFunction linearFunction = new LinearFunction( 1, 2, -barHeight, -barHeight + cellHeight / 2 );
-        return new Slice( new Vector2D( x + barX + offset, 270 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ), sliceColor );
+        return new Slice( new Vector2D( x + barX + offset, 282 + cellHeight * ( denominator - cell ) + linearFunction.evaluate( denominator ) ), 0, false, null, createToShape( cellHeight ), sliceColor );
     }
 }
