@@ -175,7 +175,7 @@ public class OverridingBehavior extends PlateBehavior {
 
             boolean shouldCreateMelt = ( Math.random() < chanceOfMelting );
 
-            System.out.println( "center melt x: " + lowMeltPoint.plus( highMeltPoint ).times( 0.5f ).x );
+//            System.out.println( "center melt x: " + lowMeltPoint.plus( highMeltPoint ).times( 0.5f ).x );
 
             if ( shouldCreateMelt ) {
                 // randomly pick a location on the available span
