@@ -5,5 +5,5 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  * @author Sam Reid
  */
 public enum ParameterValues implements IParameterValue {
-    focusLost, enterKey, downKey, upKey, parseError, rangeError
+    focusLost, enterKey, downKey, upKey, parseError, rangeError, numberFormatException
 }

@@ -21,7 +21,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
@@ -234,20 +233,10 @@ public class WavelengthControl extends PhetPNode {
     // Mutators
     //----------------------------------------------------------------------------
 
-    /**
-     * Gets the min wavelength for the control's range.
-     *
-     * @return double
-     */
     public double getMinWavelength() {
         return minWavelength;
     }
 
-    /**
-     * Gets the max wavelength for the control's range.
-     *
-     * @return double
-     */
     public double getMaxWavelength() {
         return maxWavelength;
     }
@@ -271,11 +260,6 @@ public class WavelengthControl extends PhetPNode {
         }
     }
 
-    /**
-     * Gets the wavelength.
-     *
-     * @return wavelength in nanometers
-     */
     public double getWavelength() {
         return wavelength;
     }
@@ -287,7 +271,7 @@ public class WavelengthControl extends PhetPNode {
      * @return Color
      */
     public Color getWavelengthColor( double wavelength ) {
-        Color color = null;
+        Color color;
         if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
             color = uvColor;
         }
@@ -314,8 +298,8 @@ public class WavelengthControl extends PhetPNode {
      * text field used to display the current value.
      */
     public void setTextFieldColors( Color foreground, Color background ) {
-        valueDisplay.getFormattedTextField().setForeground( foreground );
-        valueDisplay.getFormattedTextField().setBackground( background );
+        valueDisplay.formattedTextField.setForeground( foreground );
+        valueDisplay.formattedTextField.setBackground( background );
     }
 
     /**
@@ -324,7 +308,7 @@ public class WavelengthControl extends PhetPNode {
      * @param font
      */
     public void setTextFieldFont( Font font ) {
-        valueDisplay.getFormattedTextField().setFont( font );
+        valueDisplay.formattedTextField.setFont( font );
         valueDisplay.computeBounds();
         updateUI();
     }
@@ -335,7 +319,7 @@ public class WavelengthControl extends PhetPNode {
      * @param columns
      */
     public void setTextFieldColumns( int columns ) {
-        valueDisplay.getFormattedTextField().setColumns( columns );
+        valueDisplay.formattedTextField.setColumns( columns );
         valueDisplay.computeBounds();
         updateUI();
     }
@@ -348,7 +332,7 @@ public class WavelengthControl extends PhetPNode {
      * @param color
      */
     public void setUnitsForeground( Color color ) {
-        valueDisplay.getUnitsLabel().setForeground( color );
+        valueDisplay.unitsLabel.setForeground( color );
     }
 
     /**
@@ -358,7 +342,7 @@ public class WavelengthControl extends PhetPNode {
      * @param font
      */
     public void setUnitsFont( Font font ) {
-        valueDisplay.getUnitsLabel().setFont( font );
+        valueDisplay.unitsLabel.setFont( font );
         valueDisplay.computeBounds();
         updateUI();
     }
@@ -442,27 +426,39 @@ public class WavelengthControl extends PhetPNode {
     // Private methods
     //----------------------------------------------------------------------------
 
-    // Handles entry of values in the text field.
-    private void handleTextEntry( IParameterValue commitAction ) {
-        final double wavelength = valueDisplay.getValue();
-        if ( wavelength >= minWavelength && wavelength <= maxWavelength ) {
-            textFieldCommitted( commitAction, getWavelength() );
-            setWavelength( wavelength );
-        }
-        else {
-            textFieldCorrected( ParameterValues.rangeError, String.valueOf( wavelength ), this.wavelength );
-            warnUser();
-            valueDisplay.setValue( this.wavelength ); // revert
-            valueDisplay.selectAll();
-        }
-    }
-
     // Handles a mouse click on the track.
     private void handleTrackClick( Point2D trackPoint ) {
         final double bandwidth = maxWavelength - minWavelength;
         final double trackWidth = track.getFullBounds().getWidth();
         final double wavelength = minWavelength + ( ( trackPoint.getX() / trackWidth ) * bandwidth );
         setWavelength( wavelength );
+    }
+
+    // Commits the text field by validating the user's input, reverting if the input is bogus.
+    private void commitTextField( IParameterValue commitAction ) {
+        String text = valueDisplay.getText();
+        try {
+            final double wavelength = Double.valueOf( text );
+            if ( wavelength >= minWavelength && wavelength <= maxWavelength ) {
+                sendCommittedMessage( commitAction, wavelength );
+                setWavelength( wavelength );
+            }
+            else {
+                // Input was a number, but it was out of range
+                revertTextField( ParameterValues.rangeError, text );
+            }
+        }
+        catch ( NumberFormatException nfe ) {
+            // input was not a number
+            revertTextField( ParameterValues.numberFormatException, text );
+        }
+    }
+
+    // Reverts the text field when it contains bogus input
+    private void revertTextField( IParameterValue errorType, String bogusValue ) {
+        sendCorrectedMessage( errorType, bogusValue, wavelength );
+        badInput();
+        valueDisplay.setValue( wavelength );
     }
 
     // Updates the UI to match a the current wavelength.
@@ -495,10 +491,8 @@ public class WavelengthControl extends PhetPNode {
         cursor.setOffset( thumbX, 0 );
     }
 
-    /*
-     * Produces an audible beep, used to indicate invalid text entry.
-     */
-    private void warnUser() {
+    // Produces an audible beep, used to indicate invalid text entry.
+    private void badInput() {
         Toolkit.getDefaultToolkit().beep();
     }
 
@@ -542,9 +536,9 @@ public class WavelengthControl extends PhetPNode {
 
             final double totalBandwidth = maxWavelength - minWavelength;
             final double uvBandwidth = VisibleColor.MIN_WAVELENGTH - minWavelength;
-            final double irBandwith = maxWavelength - VisibleColor.MAX_WAVELENGTH;
+            final double irBandwidth = maxWavelength - VisibleColor.MAX_WAVELENGTH;
             final double uvTrackWidth = ( uvBandwidth / totalBandwidth ) * trackWidth;
-            final double irTrackWidth = ( irBandwith / totalBandwidth ) * trackWidth;
+            final double irTrackWidth = ( irBandwidth / totalBandwidth ) * trackWidth;
 
             // Track image for the entire spectrum
             Image trackImage = new LinearSpectrumImageFactory().createHorizontalSpectrum( trackWidth, trackHeight, minWavelength, maxWavelength, uvTrackColor, irTrackColor );
@@ -594,13 +588,11 @@ public class WavelengthControl extends PhetPNode {
         }
     }
 
-    /*
-     * Displays and edits the wavelength value as text.
-     */
+    // Displays and edits the wavelength value as text.
     private class ValueDisplay extends PNode {
 
-        private final JFormattedTextField formattedTextField;
-        private final JLabel unitsLabel;
+        public final JFormattedTextField formattedTextField;
+        public final JLabel unitsLabel;
         private final PSwing pswing;
 
         // Constructor
@@ -618,7 +610,7 @@ public class WavelengthControl extends PhetPNode {
             // text entry
             formattedTextField.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
-                    handleTextEntry( ParameterValues.enterKey );
+                    commitTextField( ParameterValues.enterKey );
                 }
             } );
 
@@ -631,15 +623,7 @@ public class WavelengthControl extends PhetPNode {
 
                 // Processes the text field when it loses focus.
                 public void focusLost( FocusEvent e ) {
-                    try {
-                        formattedTextField.commitEdit();
-                        handleTextEntry( ParameterValues.focusLost );
-                    }
-                    catch ( ParseException pe ) {
-                        textFieldCorrected( ParameterValues.parseError, formattedTextField.getText(), wavelength );
-                        warnUser();
-                        setValue( wavelength ); // revert
-                    }
+                    commitTextField( ParameterValues.focusLost );
                 }
             } );
 
@@ -650,23 +634,23 @@ public class WavelengthControl extends PhetPNode {
                     if ( event.getKeyCode() == KeyEvent.VK_UP ) {
                         final double newWavelength = wavelength + 1;
                         if ( newWavelength <= maxWavelength ) {
-                            textFieldCommitted( ParameterValues.upKey, newWavelength );
+                            sendCommittedMessage( ParameterValues.upKey, newWavelength );
                             setWavelength( newWavelength );
                         }
                         else {
-                            textFieldCorrected( ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
-                            warnUser();
+                            sendCorrectedMessage( ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
+                            badInput();
                         }
                     }
                     else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
                         final double newWavelength = wavelength - 1;
                         if ( newWavelength >= minWavelength ) {
-                            textFieldCommitted( ParameterValues.downKey, newWavelength );
+                            sendCommittedMessage( ParameterValues.downKey, newWavelength );
                             setWavelength( newWavelength );
                         }
                         else {
-                            textFieldCorrected( ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
-                            warnUser();
+                            sendCorrectedMessage( ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
+                            badInput();
                         }
                     }
                 }
@@ -698,43 +682,17 @@ public class WavelengthControl extends PhetPNode {
             formattedTextField.setText( s );
         }
 
-        // Gets the value displayed by the text field.
-        public double getValue() {
-            String text = formattedTextField.getText().toLowerCase();
-            double wavelength = 0;
-            try {
-                wavelength = Double.parseDouble( text );
-            }
-            catch ( NumberFormatException nfe ) {
-                warnUser();
-                wavelength = WavelengthControl.this.wavelength;
-                this.setValue( wavelength );
-            }
-            return wavelength;
+        public String getText() {
+            return formattedTextField.getText().toLowerCase();
         }
 
-        // Gets a reference to the units JLabel, for setting its properties.
-        public JLabel getUnitsLabel() {
-            return unitsLabel;
-        }
-
-        // Gets a reference to the formatted text field, for setting its properties.
-        public JFormattedTextField getFormattedTextField() {
-            return formattedTextField;
-        }
-
-        // Selects the entire text field
-        public void selectAll() {
-            formattedTextField.selectAll();
-        }
-
-        // Call this after doing something that changes the size of a Swing component
+        // WORKAROUND: Call this after doing something that changes the size of a Swing component
         public void computeBounds() {
             pswing.updateBounds();
         }
     }
 
-    // Rectangular "cursor" that appears in the track directly above the thumb. Origin (0,0) is at top center of cursor.
+    // Rectangular "cursor" that appears in the track directly above the thumb. Origin is at top center of cursor.
     private static class Cursor extends PPath {
 
         // Constructor
@@ -772,15 +730,15 @@ public class WavelengthControl extends PhetPNode {
     //----------------------------------------------------------------------------
 
     // User does something to commit the text field.
-    protected void textFieldCommitted( IParameterValue commitAction, double value ) {
+    protected void sendCommittedMessage( IParameterValue commitAction, double value ) {
         SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.textField, UserActions.textFieldCommitted,
                                            ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).add( ParameterKeys.value, value ) );
     }
 
     // Invalid input is encountered and corrected in the text field.
-    protected void textFieldCorrected( IParameterValue errorType, String value, double correctedValue ) {
+    protected void sendCorrectedMessage( IParameterValue errorType, String bogusValue, double correctedValue ) {
         sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCorrected,
-                         parameterSet( ParameterKeys.errorType, errorType ).add( ParameterKeys.value, value ).add( ParameterKeys.correctedValue, correctedValue ) );
+                         parameterSet( ParameterKeys.errorType, errorType ).add( ParameterKeys.value, bogusValue ).add( ParameterKeys.correctedValue, correctedValue ) );
     }
 
     // Simple test, see TestWavelengthControl for a more extensive test.
