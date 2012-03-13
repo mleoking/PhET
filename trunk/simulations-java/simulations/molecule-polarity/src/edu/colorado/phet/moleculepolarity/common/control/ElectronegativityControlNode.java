@@ -278,7 +278,7 @@ public class ElectronegativityControlNode extends PhetPNode {
 
         // see superclass for constructor params
         public ThumbDragHandler( IUserComponent userComponent, Molecule2D molecule, final Atom atom, PNode relativeNode, PNode trackNode, PNode thumbNode, DoubleRange range, double snapInterval ) {
-            super( userComponent, Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range,
+            super( userComponent, false, Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range,
                    new VoidFunction1<Double>() {
                        public void apply( Double value ) {
                            atom.electronegativity.set( value );

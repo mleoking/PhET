@@ -238,7 +238,7 @@ public class WavelengthControl extends PhetPNode {
         // Knob interactivity
         {
             _knob.addInputEventListener( new CursorHandler() );
-            _knob.addInputEventListener( new SliderThumbDragHandler( Orientation.HORIZONTAL, this, _track, _knob, new DoubleRange( minWavelength, maxWavelength ),
+            _knob.addInputEventListener( new SliderThumbDragHandler( _userComponent, true, Orientation.HORIZONTAL, this, _track, _knob, new DoubleRange( minWavelength, maxWavelength ),
                                                                      new VoidFunction1<Double>() {
                                                                          public void apply( Double wavelength ) {
                                                                              setWavelength( wavelength );

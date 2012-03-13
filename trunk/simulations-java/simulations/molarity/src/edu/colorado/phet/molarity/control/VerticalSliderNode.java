@@ -245,7 +245,7 @@ public class VerticalSliderNode extends PhetPNode {
 
         public ThumbDragHandler( IUserComponent userComponent, PNode relativeNode, PNode trackNode, PNode thumbNode,
                                  DoubleRange range, final Property<Double> modelValue ) {
-            super( userComponent, Orientation.VERTICAL, relativeNode, trackNode, thumbNode, range,
+            super( userComponent, false, Orientation.VERTICAL, relativeNode, trackNode, thumbNode, range,
                    new VoidFunction1<Double>() {
                        public void apply( Double value ) {
                            // limit precision so that student calculations are correct

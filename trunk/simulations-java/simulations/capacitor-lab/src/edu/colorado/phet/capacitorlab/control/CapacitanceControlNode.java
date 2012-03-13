@@ -14,6 +14,8 @@ import java.text.NumberFormat;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
+import edu.colorado.phet.capacitorlab.CLSimSharing;
+import edu.colorado.phet.capacitorlab.CLSimSharing.UserComponents;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
@@ -211,7 +213,7 @@ public class CapacitanceControlNode extends PhetPNode {
 
         // see superclass for constructor params
         public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
-            super( Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
+            super( UserComponents.capacitanceSlider, false, Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapInterval = snapInterval;
         }
 
