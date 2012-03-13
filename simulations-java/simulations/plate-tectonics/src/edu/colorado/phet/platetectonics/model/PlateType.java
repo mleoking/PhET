@@ -8,9 +8,9 @@ public enum PlateType {
     CONTINENTAL( true, false, 2750,
                  3500, -40000, 70000 ),
     YOUNG_OCEANIC( false, true, 3000,
-                   -3000, -10000, 45000 ),
+                   -4000, -10000, 45000 ),
     OLD_OCEANIC( false, true, 3070,
-                 -3000, -10000, 55000 ); // old oceanic lithosphere is thicker
+                 -4000, -10000, 55000 ); // old oceanic lithosphere is thicker
     private final boolean continental;
     private final boolean oceanic;
     private final float density;

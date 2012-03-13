@@ -1,3 +1,4 @@
+Exaggerated sea-floor spreading ridge
 # 0.00.25 (62442) Mar 12, 2012
 On reset, tools are put back in toolbox
 Fixed time speed control reset
