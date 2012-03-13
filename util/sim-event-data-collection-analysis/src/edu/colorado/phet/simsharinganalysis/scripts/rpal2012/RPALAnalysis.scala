@@ -5,6 +5,7 @@ import edu.colorado.phet.simsharinganalysis.scripts.StateMachine
 import edu.colorado.phet.simsharinganalysis.{phet, Entry, Log}
 import java.io.File
 import java.text.DecimalFormat
+import collection.mutable.ArrayBuffer
 
 /**
  * @author Sam Reid
@@ -56,13 +57,29 @@ object RPALAnalysis extends StateMachine[SimState] {
                                                                                                                                               case _ => 0
                                                                                                                                             }).sum
 
-    case class GameResult(time: Long, level: Int, score: Double, finished: Boolean) {
+    import Hiding._
 
+    case class GameResult(time: Long, level: Int, score: Double, finished: Boolean, hiding: Hiding, checks: List[Check]) {
+      def points = {
+        val buffer = new ArrayBuffer[Int]
+        for ( e <- checks ) {
+
+          if ( e.correct ) {
+            if ( e.attempts == 1 ) buffer += 2
+            else if ( e.attempts == 2 ) buffer += 1
+            else throw new RuntimeException("?")
+          }
+          else if ( !e.correct && e.attempts == 2 ) {
+            buffer += 0
+          }
+        }
+        buffer.toList
+      }
     }
 
     def gameResults: List[GameResult] = {
-      ( for ( state <- userStates if state.entry.matches("game", "aborted") ) yield {
-        GameResult(123, state.end.tab2.level, state.entry("score").toDouble, false)
+      ( for ( state <- userStates if state.entry.matches("game", "aborted") || state.entry.matches("game", "completed") ) yield {
+        GameResult(state.entry.time - state.start.tab2.gameStartTime, state.end.tab2.level, state.entry("score").toDouble, state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
       } ).toList
     }
 
@@ -90,7 +107,15 @@ object RPALAnalysis extends StateMachine[SimState] {
                             "\nTab 3:\n" +
                             "Number times started new game: " + userStates.count(_.entry.matches("startGameButton", "pressed")) + "\n" +
                             "Number times game completed: " + userStates.count(_.entry.matches("game", "completed")) + "\n" +
-                            0.until(gameResults.length).map(i => "Time spent in game " + i + ": " + gameResults(i).time).mkString("\n") + "\n" +
+                            "Number times game aborted: " + userStates.count(_.entry.matches("game", "aborted")) + "\n" +
+                            0.until(gameResults.length).map(i => "Game " + i + ":" + "\n" +
+                                                                 "\tlevel: " + gameResults(i).level + "\n" +
+                                                                 "\tHiding: " + gameResults(i).hiding + "\n" +
+                                                                 "\ttime: " + gameResults(i).time / 1000.0 / 60.0 + " minutes\n" +
+                                                                 "\tscore: " + gameResults(i).score + "\n" +
+                                                                 "\tfinished: " + gameResults(i).finished + "\n" +
+                                                                 "\tchecks: " + gameResults(i).checks + "\n" +
+                                                                 "\tpoints: " + gameResults(i).points).mkString("\n") + "\n" +
                             1.to(3).map(i => "Scores on level " + i + ": " + gameResults.filter(_.level == i).map(_.score)).mkString("\n") + "\n"
 
     0.until(unfinishedGames.length).map(i => "Score in unfinished game " + i + ": " + unfinishedGames(i).score + "\n")

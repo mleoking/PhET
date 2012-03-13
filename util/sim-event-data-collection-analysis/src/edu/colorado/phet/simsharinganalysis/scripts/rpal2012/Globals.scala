@@ -9,5 +9,5 @@ object Globals {
 
   val initialTab0 = Tab0("cheese")
   val initialTab1 = Tab1("water", "real", "KITTY")
-  val initialTab2 = Tab2(1, true, true, Hiding.nothing)
+  val initialTab2 = Tab2(1, true, true, Hiding.nothing, -1, Nil)
 }
