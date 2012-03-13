@@ -46,7 +46,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
     private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
     // For debug.
-    private static final boolean SHOW_MOTION_BOUNDS = true;
+    private static final boolean SHOW_MOTION_BOUNDS = false;
 
     // Inset for several of the controls.
     private static final double INSET = 15;
