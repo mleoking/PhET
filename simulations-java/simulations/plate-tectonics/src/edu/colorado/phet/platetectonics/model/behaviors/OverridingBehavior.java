@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.model.behaviors;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -8,6 +10,7 @@ import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
+import edu.colorado.phet.platetectonics.model.SmokePuff;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
@@ -28,6 +31,9 @@ public class OverridingBehavior extends PlateBehavior {
     public static final float YOUNG_MELT_X = 162105.25f;
 
     public static final float MAGMA_TUBE_WIDTH = 1000;
+
+    public static final float MOUNTAIN_X_OFFSET = 10000;
+    public static final float MOUNTAIN_Z_PERIOD_FACTOR = 10000;
 
     private float chamberFullness = 0;
 
@@ -199,6 +205,52 @@ public class OverridingBehavior extends PlateBehavior {
         }
 
         /*---------------------------------------------------------------------------*
+        * smoke animation
+        *----------------------------------------------------------------------------*/
+        if ( chamberFullness >= 1 ) {
+            float zStep = (float) ( 2 * Math.PI * MOUNTAIN_Z_PERIOD_FACTOR );
+            // TODO: remove this. copy/paste helped in a jam
+            createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep, 0 ), millionsOfYears );
+            createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -zStep ), millionsOfYears );
+            createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -2 * zStep ), millionsOfYears );
+
+            createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep - 2000, -3 * zStep ), millionsOfYears );
+            createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 4000, -4 * zStep ), millionsOfYears );
+            createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 4000, -5 * zStep ), millionsOfYears );
+
+            createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep - 4000, -6 * zStep ), millionsOfYears );
+            createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 6000, -7 * zStep ), millionsOfYears );
+            createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 6000, -8 * zStep ), millionsOfYears );
+
+            createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep - 6000, -9 * zStep ), millionsOfYears );
+            createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 8000, -10 * zStep ), millionsOfYears );
+            createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 8000, -11 * zStep ), millionsOfYears );
+
+            for ( SmokePuff puff : new ArrayList<SmokePuff>( plate.getModel().smokePuffs ) ) {
+                puff.age += millionsOfYears;
+
+                float alpha = ( -puff.age * puff.age / 4 + puff.age );
+                if ( alpha < 0 ) {
+                    plate.getModel().smokePuffs.remove( puff );
+                }
+                else {
+                    puff.scale.set( (float) Math.sqrt( puff.age ) );
+                    puff.alpha.set( alpha / 15 );
+                    final ImmutableVector3F heightChange = new ImmutableVector3F( 0, millionsOfYears * 2000f, 0 );
+
+                    // TODO: the adding randoms together actually causes less variation with smaller timesteps
+                    final ImmutableVector3F randomness = new ImmutableVector3F(
+                            (float) ( puff.age * ( Math.random() - 0.5 ) * 400 ),
+                            (float) ( puff.age * ( Math.random() - 0.5 ) * 100 ),
+                            0
+                    ).times( millionsOfYears * 15 );
+                    puff.position.set( puff.position.get().plus( heightChange.plus( randomness )
+                    ) );
+                }
+            }
+        }
+
+        /*---------------------------------------------------------------------------*
         * magma tube animation
         *----------------------------------------------------------------------------*/
 
@@ -220,6 +272,25 @@ public class OverridingBehavior extends PlateBehavior {
         }
     }
 
+    private void createSmokeAt( final ImmutableVector3F location, float millionsOfYears ) {
+        if ( maxElevationInTimestep < 0 ) {
+            return;
+        }
+        //            float chance = (float) ( 1 - Math.exp( -millionsOfYears * 10 ) );
+        float chance = millionsOfYears / 0.16f / 1.5f;
+        System.out.println( millionsOfYears );
+
+        boolean shouldSmoke = ( Math.random() < chance );
+
+        if ( shouldSmoke ) {
+            plate.getModel().smokePuffs.add( new SmokePuff() {{
+                position.set( location );
+                scale.set( 0.1f );
+                alpha.set( 0f );
+            }} );
+        }
+    }
+
     private void animateMountains( float millionsOfYears ) {
         assert getNumCrustXSamples() == getNumTerrainXSamples();
         for ( int columnIndex = 0; columnIndex < getNumTerrainXSamples(); columnIndex++ ) {
@@ -227,7 +298,7 @@ public class OverridingBehavior extends PlateBehavior {
 
             // TODO: for performance, add in a threshold for how large |x-center| can be
             for ( int rowIndex = 0; rowIndex < getTerrain().getNumRows(); rowIndex++ ) {
-                final float theta = getTerrain().zPositions.get( rowIndex ) / 10000;
+                final float theta = getTerrain().zPositions.get( rowIndex ) / MOUNTAIN_Z_PERIOD_FACTOR;
                 final float upDownFactor = (float) ( Math.cos( theta ) + 1 ) / 2;
 
                 float periodicOffset = (float) Math.abs( theta / Math.PI );
@@ -235,7 +306,7 @@ public class OverridingBehavior extends PlateBehavior {
                 int integerOffset = ( (int) ( periodicOffset + 0.5f ) % 3 ); // add in 0.5 since we want to switch at valleys
 
                 // add in offset for mountains
-                float myX = x + ( integerOffset == 0 ? 0 : -plate.getSign() * 10000 * ( integerOffset == 1 ? 1 : -1 ) );
+                float myX = x + ( integerOffset == 0 ? 0 : -plate.getSign() * MOUNTAIN_X_OFFSET * ( integerOffset == 1 ? 1 : -1 ) );
 
                 float delta = (float) Math.exp( -Math.abs( myX - magmaCenterX ) / 10000 ) * 400 * millionsOfYears;
                 float bottomDelta = (float) Math.exp( -Math.abs( myX - magmaCenterX ) / 30000 ) * 500 * millionsOfYears;

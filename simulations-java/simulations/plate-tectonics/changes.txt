@@ -1,3 +1,4 @@
+Added smoke to volcanoes
 # 0.00.26 (62495) Mar 12, 2012
 Improved transform fault valley
 Exaggerated sea-floor spreading ridge
