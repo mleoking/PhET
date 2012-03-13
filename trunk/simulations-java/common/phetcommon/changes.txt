@@ -1,3 +1,4 @@
+3/13/12 add Parameter(IParameterKey, IParameterValue) constructor
 3/12/12 add "isSelected" parameter to SimSharingJCheckBoxMenuItem user messages
 2/28/12 #3267, address sim-sharing problems in SimSharingJSpinner
 2/15/12 #3258, created SimSharingJTextField

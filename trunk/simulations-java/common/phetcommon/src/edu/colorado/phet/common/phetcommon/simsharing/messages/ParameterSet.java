@@ -42,7 +42,7 @@ public class ParameterSet implements Iterable<Parameter> {
     }
 
     public static ParameterSet parameterSet( IParameterKey name, IParameterValue value ) {
-        return new ParameterSet( new Parameter( name, value.toString() ) );
+        return new ParameterSet( new Parameter( name, value ) );
     }
 
     public static ParameterSet parameterSet( IParameterKey name, boolean value ) {
@@ -93,6 +93,10 @@ public class ParameterSet implements Iterable<Parameter> {
                 add( parameter );
             }} );
         }
+    }
+
+    public ParameterSet add( IParameterKey name, IParameterValue value ) {
+        return add( new Parameter( name, value ) );
     }
 
     public ParameterSet add( IParameterKey name, boolean value ) {

@@ -15,6 +15,10 @@ public class Parameter {
     //Values can be anything, so just use plain string class and do not try to constrain or make it easy to identify
     public final String value;
 
+    public Parameter( IParameterKey name, IParameterValue value ) {
+        this( name, value.toString() );
+    }
+
     public Parameter( IParameterKey name, boolean value ) {
         this( name, value + "" );
     }
