@@ -364,7 +364,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             private final CursorHandler defaultCursor = new CursorHandler( CursorHandler.DEFAULT );
 
             public void propertyChange( PropertyChangeEvent evt ) {
-                if ( evt.getPropertyName() == "transform" ) {
+                if ( evt.getPropertyName().equals( "transform" ) ) {
                     double scaleFactor = ( (AffineTransform) evt.getNewValue() ).getScaleX();
                     boolean zoomedOut = scaleFactor < MIN_ZOOM + SCALE_COMPARISON_FACTOR;
                     boolean zoomedIn = scaleFactor > MAX_ZOOM - SCALE_COMPARISON_FACTOR;
