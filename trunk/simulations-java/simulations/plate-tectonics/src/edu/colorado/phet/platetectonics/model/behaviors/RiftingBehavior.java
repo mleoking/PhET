@@ -21,7 +21,7 @@ public class RiftingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
 
-    public static final float RIDGE_TOP_Y = -1500;
+    public static final float RIDGE_TOP_Y = -500;
     public static final float SPREAD_START_TIME = 10.0f;
 
     public static final float RIFT_PLATE_SPEED = 30000f / 2;
