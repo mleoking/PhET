@@ -73,7 +73,14 @@ case class Tab1(reaction: String, view: String, kit: String) extends Tab {
   }
 }
 
-case class Tab2(molecule: String, view: String, kit: String) extends Tab {
+object Hiding extends Enumeration {
+  type Hiding = Value
+  val nothing, molecules, numbers = Value
+}
+
+import Hiding._
+
+case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding) extends Tab {
 
   def next(e: Entry): Tab2 = {
 
@@ -82,14 +89,17 @@ case class Tab2(molecule: String, view: String, kit: String) extends Tab {
       //If clicking on something disabled, then do not change the state, see #3218
       case x: Entry if x.enabled == false => this
 
-      //Watch which solution the user selects
-      case Entry(_, "user", "modelViewCheckBox", _, "pressed", _) => copy(view = "model")
-      case Entry(_, "user", "realViewCheckBox", _, "pressed", _) => copy(view = "real")
-
-      //Handle reset all presses
-      case Entry(_, "user", "resetAllConfirmationDialogYesButton", _, "pressed", _) => initialTab2
-
-      case Entry(_, "model", "molecule", "moleculeModel", "realMoleculeChanged", _) => copy(molecule = e("realMolecule"))
+      //Game Settings
+      case Entry(_, "user", "levelRadioButton.1", _, "pressed", _) => copy(level = 1)
+      case Entry(_, "user", "levelRadioButton.2", _, "pressed", _) => copy(level = 2)
+      case Entry(_, "user", "levelRadioButton.3", _, "pressed", _) => copy(level = 3)
+      case Entry(_, "user", "timerOnRadioButton", _, "pressed", _) => copy(timer = true)
+      case Entry(_, "user", "timerOffRadioButton", _, "pressed", _) => copy(timer = false)
+      case Entry(_, "user", "soundOnRadioButton", _, "pressed", _) => copy(timer = true)
+      case Entry(_, "user", "soundOffRadioButton", _, "pressed", _) => copy(timer = false)
+      case Entry(_, "user", "nothingRadioButton", _, "pressed", _) => copy(hide = nothing)
+      case Entry(_, "user", "moleculesRadioButton", _, "pressed", _) => copy(hide = molecules)
+      case Entry(_, "user", "numbersRadioButton", _, "pressed", _) => copy(hide = numbers)
 
       //Nothing happened to change the state
       case _ => this

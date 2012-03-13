@@ -7,17 +7,7 @@ object Globals {
   //TODO: Instead of hardcoding these strings, could make a new project that depends on ABS and use toString on those enums.
   //Right now we are keeping this project integrated with the sim-event-data-collection-analysis-project for expedience, so haven't done that yet.
 
-  //Views
-  val molecules = "molecules"
-  val barGraph = "barGraph"
-  val liquid = "liquid"
-
-  //Tests
-  val phMeter = "phMeter"
-  val phPaper = "phPaper"
-  val conductivityTester = "conductivityTester"
-
   val initialTab0 = Tab0("cheese")
   val initialTab1 = Tab1("water", "real", "KITTY")
-  val initialTab2 = Tab2("BF3", "real", "KITTY")
+  val initialTab2 = Tab2(1, true, true, Hiding.nothing)
 }
