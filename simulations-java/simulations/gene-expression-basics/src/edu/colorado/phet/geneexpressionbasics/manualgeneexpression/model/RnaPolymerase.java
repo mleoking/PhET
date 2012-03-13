@@ -87,10 +87,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Methods
     //-------------------------------------------------------------------------
 
-    @Override public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-    }
-
     // Overridden to provide attachment behavior that is unique to polymerase.
     @Override protected AttachmentStateMachine createAttachmentStateMachine() {
         return new RnaPolymeraseAttachmentStateMachine( this );
@@ -107,6 +103,7 @@ public class RnaPolymerase extends MobileBiomolecule {
         // Propose attachment to the DNA.
         return model.getDnaMolecule().considerProposalFrom( this );
     }
+
 
     private static Shape createShape() {
         // Shape is meant to look like illustrations in "The Machinery of
