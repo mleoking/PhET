@@ -599,44 +599,44 @@ public class WavelengthControl extends PhetPNode {
      */
     private class ValueDisplay extends PNode {
 
-        private final JFormattedTextField _formattedTextField;
-        private final JLabel _unitsLabel;
-        private final PSwing _pswing;
+        private final JFormattedTextField formattedTextField;
+        private final JLabel unitsLabel;
+        private final PSwing pswing;
 
         // Constructor
         public ValueDisplay() {
             super();
 
             // units label, appears to the right of the text field
-            _unitsLabel = new JLabel( UNITS_LABEL );
+            unitsLabel = new JLabel( UNITS_LABEL );
 
             // editable text field
-            _formattedTextField = new JFormattedTextField();
-            _formattedTextField.setColumns( TEXT_FIELD_COLUMNS );
-            _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
+            formattedTextField = new JFormattedTextField();
+            formattedTextField.setColumns( TEXT_FIELD_COLUMNS );
+            formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
 
             // text entry
-            _formattedTextField.addActionListener( new ActionListener() {
+            formattedTextField.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     handleTextEntry( ParameterValues.enterKey );
                 }
             } );
 
             // focus
-            _formattedTextField.addFocusListener( new FocusListener() {
+            formattedTextField.addFocusListener( new FocusListener() {
                 // Selects the entire value text field when it gains focus.
                 public void focusGained( FocusEvent e ) {
-                    _formattedTextField.selectAll();
+                    formattedTextField.selectAll();
                 }
 
                 // Processes the text field when it loses focus.
                 public void focusLost( FocusEvent e ) {
                     try {
-                        _formattedTextField.commitEdit();
+                        formattedTextField.commitEdit();
                         handleTextEntry( ParameterValues.focusLost );
                     }
                     catch ( ParseException pe ) {
-                        textFieldCorrected( ParameterValues.parseError, _formattedTextField.getText(), wavelength );
+                        textFieldCorrected( ParameterValues.parseError, formattedTextField.getText(), wavelength );
                         warnUser();
                         setValue( wavelength ); // revert
                     }
@@ -644,7 +644,7 @@ public class WavelengthControl extends PhetPNode {
             } );
 
             // up/down arrow keys
-            _formattedTextField.addKeyListener( new KeyAdapter() {
+            formattedTextField.addKeyListener( new KeyAdapter() {
                 @Override
                 public void keyPressed( KeyEvent event ) {
                     if ( event.getKeyCode() == KeyEvent.VK_UP ) {
@@ -680,27 +680,27 @@ public class WavelengthControl extends PhetPNode {
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
             int col = 0;
-            layout.addComponent( _formattedTextField, row, col++ );
-            layout.addComponent( _unitsLabel, row, col );
+            layout.addComponent( formattedTextField, row, col++ );
+            layout.addComponent( unitsLabel, row, col );
 
             // Opacity
             panel.setOpaque( false );
-            _unitsLabel.setOpaque( false );
+            unitsLabel.setOpaque( false );
 
             // Piccolo wrapper
-            _pswing = new PSwing( panel );
-            addChild( _pswing );
+            pswing = new PSwing( panel );
+            addChild( pswing );
         }
 
         // Sets the value displayed by the text field.
         public void setValue( double wavelength ) {
             String s = VALUE_FORMAT.format( wavelength );
-            _formattedTextField.setText( s );
+            formattedTextField.setText( s );
         }
 
         // Gets the value displayed by the text field.
         public double getValue() {
-            String text = _formattedTextField.getText().toLowerCase();
+            String text = formattedTextField.getText().toLowerCase();
             double wavelength = 0;
             try {
                 wavelength = Double.parseDouble( text );
@@ -715,22 +715,22 @@ public class WavelengthControl extends PhetPNode {
 
         // Gets a reference to the units JLabel, for setting its properties.
         public JLabel getUnitsLabel() {
-            return _unitsLabel;
+            return unitsLabel;
         }
 
         // Gets a reference to the formatted text field, for setting its properties.
         public JFormattedTextField getFormattedTextField() {
-            return _formattedTextField;
+            return formattedTextField;
         }
 
         // Selects the entire text field
         public void selectAll() {
-            _formattedTextField.selectAll();
+            formattedTextField.selectAll();
         }
 
         // Call this after doing something that changes the size of a Swing component
         public void computeBounds() {
-            _pswing.updateBounds();
+            pswing.updateBounds();
         }
     }
 
