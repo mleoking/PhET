@@ -56,6 +56,16 @@ object RPALAnalysis extends StateMachine[SimState] {
                                                                                                                                               case _ => 0
                                                                                                                                             }).sum
 
+    case class GameResult(time: Long, level: Int, score: Int, finished: Boolean) {
+
+    }
+
+    def gameResults: List[GameResult] = {
+      Nil
+    }
+
+    val unfinishedGames = gameResults.filter(_.finished == false)
+
     override def toString = "General:\n" +
                             "minutes in tab 1: " + minutesInTab(0) + "\n" +
                             "minutes in tab 2: " + minutesInTab(1) + "\n" +
@@ -78,9 +88,10 @@ object RPALAnalysis extends StateMachine[SimState] {
                             "\nTab 3:\n" +
                             "Number times started new game: " + userStates.count(_.entry.matches("startGameButton", "pressed")) + "\n" +
                             "Number times game completed: " + userStates.count(_.entry.matches("game", "completed")) + "\n" +
-                            "tab transitions: " + tabTransitions + "\n" +
-                            "kit transitions: " + kitTransitions + "\n" +
-                            "view transitions: " + viewTransitions
+                            0.until(gameResults.length).map(i => "Time spent in game " + i + ": " + gameResults(i).time + "\n") +
+                            1.to(3).map(i => "Scores on level " + i + ": " + gameResults.filter(_.level == i).map(_.score)).mkString("\n") + "\n"
+
+    0.until(unfinishedGames.length).map(i => "Score in unfinished game " + i + ": " + unfinishedGames(i).score + "\n")
   }
 
   //Given the current state and an entry, compute the next state
