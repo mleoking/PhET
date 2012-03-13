@@ -3,8 +3,6 @@ package edu.colorado.phet.common.phetcommon.simsharing.components;
 
 import java.awt.AWTEvent;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -29,7 +27,9 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterValues;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 
@@ -45,7 +45,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
 public class SimSharingJSpinner extends JSpinner {
 
     private final IUserComponent userComponent;
-    private boolean buttonPressed, textFieldCommitted, focusLost;
+    private boolean buttonPressed, enterPressed, focusLost, upPressed, downPressed;
     private KeyListener keyListener;
     private FocusListener focusListener;
 
@@ -96,7 +96,13 @@ public class SimSharingJSpinner extends JSpinner {
             keyListener = new KeyAdapter() {
                 @Override public void keyPressed( KeyEvent e ) {
                     if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
-                        textFieldCommitted = true;
+                        enterPressed = true;
+                    }
+                    else if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+                        upPressed = true;
+                    }
+                    else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                        downPressed = true;
                     }
                 }
             };
@@ -154,29 +160,37 @@ public class SimSharingJSpinner extends JSpinner {
             sendMessage( UserActions.buttonPressed );
             // don't change buttonPressed, this will be handled by the MouseListener
         }
-        else if ( textFieldCommitted ) {
-            sendMessage( UserActions.textFieldCommitted );
-            textFieldCommitted = false;
+        else if ( enterPressed ) {
+            sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, ParameterValues.enterKey ).add( getCommonParameters() ) );
+            enterPressed = false;
         }
         else if ( focusLost ) {
-            sendMessage( UserActions.focusLost );
+            sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, ParameterValues.focusLost ).add( getCommonParameters() ) );
             focusLost = false;
+        }
+        else if ( upPressed ) {
+            sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, ParameterValues.upKey ).add( getCommonParameters() ) );
+            upPressed = false;
+        }
+        else if ( downPressed ) {
+            sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, ParameterValues.downKey ).add( getCommonParameters() ) );
+            downPressed = false;
         }
         super.fireStateChanged();
     }
 
     // Parameters that are common to all messages.
-    private ParameterSet getCommonParameters() {
+    protected ParameterSet getCommonParameters() {
        return parameterSet( value, getValue().toString() );
     }
 
     // Sends a message with common parameters.
-    private void sendMessage( IUserAction action ) {
+    protected void sendMessage( IUserAction action ) {
        sendMessage( action, getCommonParameters() );
     }
 
     // Sends a message with custom parameters.
-    private void sendMessage( IUserAction action, ParameterSet parameterSet ) {
+    protected void sendMessage( IUserAction action, ParameterSet parameterSet ) {
         SimSharingManager.sendUserMessage( userComponent, spinner, action, parameterSet );
     }
 
