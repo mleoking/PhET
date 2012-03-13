@@ -79,9 +79,9 @@ public class WavelengthControl extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final Dimension KNOB_SIZE = new Dimension( 20, 20 );
-    private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
-    private static final Color KNOB_STROKE_COLOR = Color.WHITE;
+    private static final Dimension THUMB_SIZE = new Dimension( 20, 20 );
+    private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
+    private static final Color THUMB_STROKE_COLOR = Color.WHITE;
 
     private static final DecimalFormat VALUE_FORMAT = new DecimalFormat( "0" );
     private static final double VALUE_Y_OFFSET = 2;
@@ -109,11 +109,11 @@ public class WavelengthControl extends PhetPNode {
 
     private final double minWavelength, maxWavelength; // range, in nanometers
     private final Color uvColor, irColor; // colors used to represent UV and IR wavelengths
-    private final Knob knob; // slider knob, what the user drags
-    private final Track track; // track that the knob moves along
+    private final Thumb thumb; // slider thumb, what the user drags
+    private final Track track; // track that the thumb moves along
     private final PPath trackBorder; // black border around the track, can be augmented by subclasses
     private final ValueDisplay valueDisplay; // editable value displayed above the track
-    private final Cursor cursor; // cursor that appears in the track, directly above the knob
+    private final Cursor cursor; // cursor that appears in the track, directly above the thumb
     private final EventListenerList listenerList; // for notification of listeners
     private double wavelength; // the current wavelength value displayed by this control
     private final IUserComponent userComponent; // sim-sharing user component
@@ -176,7 +176,7 @@ public class WavelengthControl extends PhetPNode {
         irColor = irTrackColor;
         listenerList = new EventListenerList();
 
-        knob = new Knob( KNOB_SIZE.width, KNOB_SIZE.height );
+        thumb = new Thumb( THUMB_SIZE.width, THUMB_SIZE.height );
         track = new Track( trackWidth, trackHeight, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
         valueDisplay = new ValueDisplay();
         cursor = new Cursor( CURSOR_WIDTH, track.getFullBounds().getHeight() );
@@ -197,7 +197,7 @@ public class WavelengthControl extends PhetPNode {
         addChild( trackBorder );
         addChild( valueDisplay );
         addChild( cursor );
-        addChild( knob );
+        addChild( thumb );
 
         // Track position never changes and defines the origin.
         track.setOffset( 0, 0 );
@@ -216,9 +216,9 @@ public class WavelengthControl extends PhetPNode {
 
         // Knob interactivity
         {
-            knob.addInputEventListener( new CursorHandler() );
-            knob.addInputEventListener( new SliderThumbDragHandler( this.userComponent, sendDragMessages,
-                                                                     Orientation.HORIZONTAL, this, track, knob, new DoubleRange( minWavelength, maxWavelength ),
+            thumb.addInputEventListener( new CursorHandler() );
+            thumb.addInputEventListener( new SliderThumbDragHandler( this.userComponent, sendDragMessages,
+                                                                     Orientation.HORIZONTAL, this, track, thumb, new DoubleRange( minWavelength, maxWavelength ),
                                                                      new VoidFunction1<Double>() {
                                                                          public void apply( Double wavelength ) {
                                                                              setWavelength( wavelength );
@@ -369,7 +369,7 @@ public class WavelengthControl extends PhetPNode {
     }
 
     /**
-     * Sets the color of the cursor that appears above the slider knob.
+     * Sets the color of the cursor that appears above the slider thumb.
      *
      * @param color
      */
@@ -378,45 +378,45 @@ public class WavelengthControl extends PhetPNode {
     }
 
     /**
-     * Sets the size of the slider knob.
+     * Sets the size of the slider thumb.
      *
      * @param width
      * @param height
      */
-    public void setKnobSize( float width, float height ) {
-        knob.setSize( width, height );
+    public void setThumbSize( float width, float height ) {
+        thumb.setSize( width, height );
     }
 
     /**
-     * Sets the stroke used to outline the slider knob.
+     * Sets the stroke used to outline the slider thumb.
      *
      * @return
      */
-    public void setKnobStroke( Stroke stroke ) {
-        knob.setStroke( stroke );
+    public void setThumbStroke( Stroke stroke ) {
+        thumb.setStroke( stroke );
     }
 
     /**
-     * Sets the color used to stroke the slider knob.
+     * Sets the color used to stroke the slider thumb.
      *
      * @return
      */
-    public void setKnobStrokeColor( Color strokeColor ) {
-        knob.setStrokePaint( strokeColor );
+    public void setThumbStrokeColor( Color strokeColor ) {
+        thumb.setStrokePaint( strokeColor );
     }
 
     /**
-     * Adds a listener to the knob, so we tell when we're dragging it.
+     * Adds a listener to the thumb, so we tell when we're dragging it.
      *
      * @param listener
      */
-    public void addKnobListener( PInputEventListener listener ) {
-        knob.addInputEventListener( listener );
+    public void addThumbListener( PInputEventListener listener ) {
+        thumb.addInputEventListener( listener );
     }
 
     /**
-     * Controls visibilty of the cursor, the small rectable that moves in
-     * the track to indicate where the knob is pointing.
+     * Controls visibility of the cursor, the small rectangle that moves in
+     * the track to indicate where the thumb is pointing.
      *
      * @param visible true or false
      */
@@ -447,9 +447,7 @@ public class WavelengthControl extends PhetPNode {
     // Private methods
     //----------------------------------------------------------------------------
 
-    /*
-     * Handles entry of values in the text field.
-     */
+    // Handles entry of values in the text field.
     private void handleTextEntry( IParameterValue commitAction ) {
         final double wavelength = valueDisplay.getValue();
         if ( wavelength >= minWavelength && wavelength <= maxWavelength ) {
@@ -464,9 +462,7 @@ public class WavelengthControl extends PhetPNode {
         }
     }
 
-    /*
-     * Handles a mouse click on the track.
-     */
+    // Handles a mouse click on the track.
     private void handleTrackClick( Point2D trackPoint ) {
         final double bandwidth = maxWavelength - minWavelength;
         final double trackWidth = track.getFullBounds().getWidth();
@@ -474,9 +470,7 @@ public class WavelengthControl extends PhetPNode {
         setWavelength( wavelength );
     }
 
-    /*
-     * Updates the UI to match a the current wavelength.
-     */
+    // Updates the UI to match a the current wavelength.
     private void updateUI() {
 
         final double bandwidth = maxWavelength - minWavelength;
@@ -487,23 +481,23 @@ public class WavelengthControl extends PhetPNode {
 
         // Knob color
         Color wavelengthColor = getWavelengthColor();
-        knob.setPaint( wavelengthColor );
+        thumb.setPaint( wavelengthColor );
 
         // Knob position: below the track with tip positioned at wavelength
         final double trackX = trackBounds.getX();
         final double trackWidth = trackBounds.getWidth();
-        final double knobX = trackX + ( trackWidth * ( ( wavelength - minWavelength ) / bandwidth ) );
-        final double knobY = trackBounds.getHeight();
-        knob.setOffset( knobX, knobY );
+        final double thumbX = trackX + ( trackWidth * ( ( wavelength - minWavelength ) / bandwidth ) );
+        final double thumbY = trackBounds.getHeight();
+        thumb.setOffset( thumbX, thumbY );
 
-        // Value display: above the track, centered above the knob
+        // Value display: above the track, centered above the thumb
         valueDisplay.setValue( wavelength );
-        final double valueX = knobX - ( valueDisplayWidth / 2 );
+        final double valueX = thumbX - ( valueDisplayWidth / 2 );
         final double valueY = -( valueDisplayHeight + VALUE_Y_OFFSET );
         valueDisplay.setOffset( valueX, valueY );
 
-        // Cursor position: inside the track, centered above the knob
-        cursor.setOffset( knobX, 0 );
+        // Cursor position: inside the track, centered above the thumb
+        cursor.setOffset( thumbX, 0 );
     }
 
     /*
@@ -517,29 +511,21 @@ public class WavelengthControl extends PhetPNode {
     // Inner classes
     //----------------------------------------------------------------------------
 
-    /*
-     * The slider knob.
-     */
-    private static class Knob extends PPath {
+    // The slider thumb (aka knob).
+    private static class Thumb extends PPath {
 
-        /* Constructor */
-        public Knob( float width, float height ) {
+        // Constructor
+        public Thumb( float width, float height ) {
             super();
-            setStroke( KNOB_STROKE );
-            setPaint( KNOB_STROKE_COLOR );
+            setStroke( THUMB_STROKE );
+            setPaint( THUMB_STROKE_COLOR );
             setSize( width, height );
         }
 
-        /**
-         * Sets the size of the knob by rebuilding the knob's path.
-         * The origin (0,0) is at tip of the knob.
-         *
-         * @param width
-         * @param height
-         */
+        // Sets the size of the thumb by rebuilding the thumb's path. Origin (0,0) is at tip of the thumb.
         public void setSize( float width, float height ) {
             GeneralPath path = new GeneralPath();
-            path.moveTo( 0f, 0f ); // tip of the knob
+            path.moveTo( 0f, 0f ); // tip of the thumb
             path.lineTo( 0.5f * width, 0.3f * height );
             path.lineTo( 0.5f * width, 1f * height );
             path.lineTo( -0.5f * width, 1f * height );
@@ -549,12 +535,10 @@ public class WavelengthControl extends PhetPNode {
         }
     }
 
-    /*
-     * The track that the slider knob moves in.
-     */
+    // The track that the slider thumb moves in.
     private static class Track extends PComposite {
 
-        /* Constructor */
+        // Constructor
         public Track( int trackWidth, int trackHeight,
                       double minWavelength, double maxWavelength,
                       Color uvTrackColor, Color uvLabelColor,
@@ -624,14 +608,14 @@ public class WavelengthControl extends PhetPNode {
         private final JLabel _unitsLabel;
         private final PSwing _pswing;
 
-        /* Constructor */
+        // Constructor
         public ValueDisplay() {
             super();
 
-            /* units label, appears to the right of the text field */
+            // units label, appears to the right of the text field
             _unitsLabel = new JLabel( UNITS_LABEL );
 
-            /* editable text field */
+            // editable text field
             _formattedTextField = new JFormattedTextField();
             _formattedTextField.setColumns( TEXT_FIELD_COLUMNS );
             _formattedTextField.setHorizontalAlignment( JTextField.RIGHT );
@@ -645,12 +629,12 @@ public class WavelengthControl extends PhetPNode {
 
             // focus
             _formattedTextField.addFocusListener( new FocusListener() {
-                /* Selects the entire value text field when it gains focus. */
+                // Selects the entire value text field when it gains focus.
                 public void focusGained( FocusEvent e ) {
                     _formattedTextField.selectAll();
                 }
 
-                /* Processes the text field when it loses focus. */
+                // Processes the text field when it loses focus.
                 public void focusLost( FocusEvent e ) {
                     try {
                         _formattedTextField.commitEdit();
@@ -713,13 +697,13 @@ public class WavelengthControl extends PhetPNode {
             addChild( _pswing );
         }
 
-        /* Sets the value displayed by the text field. */
+        // Sets the value displayed by the text field.
         public void setValue( double wavelength ) {
             String s = VALUE_FORMAT.format( wavelength );
             _formattedTextField.setText( s );
         }
 
-        /* Gets the value displayed by the text field. */
+        // Gets the value displayed by the text field.
         public double getValue() {
             String text = _formattedTextField.getText().toLowerCase();
             double wavelength = 0;
@@ -734,34 +718,31 @@ public class WavelengthControl extends PhetPNode {
             return wavelength;
         }
 
-        /* Gets a reference to the units JLabel, for setting its properties. */
+        // Gets a reference to the units JLabel, for setting its properties.
         public JLabel getUnitsLabel() {
             return _unitsLabel;
         }
 
-        /* Gets a reference to the formatted text field, for setting its properties. */
+        // Gets a reference to the formatted text field, for setting its properties.
         public JFormattedTextField getFormattedTextField() {
             return _formattedTextField;
         }
 
-        /* Selects the entire text field */
+        // Selects the entire text field
         public void selectAll() {
             _formattedTextField.selectAll();
         }
 
-        /* Call this after doing something that changes the size of a Swing component */
+        // Call this after doing something that changes the size of a Swing component
         public void computeBounds() {
             _pswing.updateBounds();
         }
     }
 
-    /*
-     * Rectangular "cursor" that appears in the track directly above the knob.
-     * Origin (0,0) is at top center of cursor.
-     */
+    // Rectangular "cursor" that appears in the track directly above the thumb. Origin (0,0) is at top center of cursor.
     private static class Cursor extends PPath {
 
-        /* Constructor */
+        // Constructor
         public Cursor( double width, double height ) {
             super();
             setPathTo( new Rectangle2D.Double( -width / 2, 0, width, height ) );
@@ -774,29 +755,14 @@ public class WavelengthControl extends PhetPNode {
     // Event handling
     //----------------------------------------------------------------------------
 
-    /**
-     * Adds a ChangeListener.
-     *
-     * @param listener the listener
-     */
     public void addChangeListener( ChangeListener listener ) {
         listenerList.add( ChangeListener.class, listener );
     }
 
-    /**
-     * Removes a ChangeListener.
-     *
-     * @param listener the listener
-     */
     public void removeChangeListener( ChangeListener listener ) {
         listenerList.remove( ChangeListener.class, listener );
     }
 
-    /**
-     * Fires a ChangeEvent.
-     *
-     * @param event the event
-     */
     private void fireChangeEvent( ChangeEvent event ) {
         Object[] listeners = listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i += 2 ) {

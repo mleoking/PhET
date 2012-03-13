@@ -11,7 +11,6 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -51,12 +50,12 @@ public class TestWavelengthControl extends JFrame {
                 WavelengthControl c = (WavelengthControl) e.getSource();
                 double wavelength = c.getWavelength();
                 if ( wavelength > 500 && wavelength < 600 ) {
-                    c.setKnobStroke( new BasicStroke( 3f ) );
-                    c.setKnobStrokeColor( Color.RED );
+                    c.setThumbStroke( new BasicStroke( 3f ) );
+                    c.setThumbStrokeColor( Color.RED );
                 }
                 else {
-                    c.setKnobStroke( new BasicStroke( 1f ) );
-                    c.setKnobStrokeColor( Color.BLACK );
+                    c.setThumbStroke( new BasicStroke( 1f ) );
+                    c.setThumbStrokeColor( Color.BLACK );
                 }
             }
         } );
@@ -107,7 +106,7 @@ public class TestWavelengthControl extends JFrame {
         c7.setTextFieldFont( new PhetFont( Font.PLAIN, 20 ) );
         c7.setUnitsFont( new PhetFont( Font.ITALIC, 14 ) );
         c7.setTextFieldColumns( 5 );
-        c7.setKnobSize( 15, 15 );
+        c7.setThumbSize( 15, 15 );
         canvas.getLayer().addChild( c7 );
         c7.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
