@@ -32,7 +32,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
@@ -109,25 +108,25 @@ public class WavelengthControl extends PhetPNode {
     //----------------------------------------------------------------------------
 
     // control's range, in nanometers
-    private final double _minWavelength, _maxWavelength;
+    private final double minWavelength, maxWavelength;
     // colors used to represent UV and IR wavelengths
-    private final Color _uvColor, _irColor;
+    private final Color uvColor, irColor;
     // slider knob, what the user drags
-    private final Knob _knob;
+    private final Knob knob;
     // track that the knob moves along
-    private final Track _track;
+    private final Track track;
     // black border around the track, can be augmented by subclasses
-    private final PPath _trackBorder;
+    private final PPath trackBorder;
     // editable value displayed above the track
-    private final ValueDisplay _valueDisplay;
+    private final ValueDisplay valueDisplay;
     // cursor that appears in the track, directly above the knob
-    private final Cursor _cursor;
+    private final Cursor cursor;
     // for notification of listeners
-    private final EventListenerList _listenerList;
+    private final EventListenerList listenerList;
     // the current wavelength value displayed by this control
-    private double _wavelength;
+    private double wavelength;
     // sim-sharing user component
-    private final IUserComponent _userComponent;
+    private final IUserComponent userComponent;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -179,18 +178,18 @@ public class WavelengthControl extends PhetPNode {
             throw new IllegalArgumentException( "have you reversed the minWavelength and maxWavelength args?" );
         }
 
-        _userComponent = userComponent;
-        _minWavelength = minWavelength;
-        _maxWavelength = maxWavelength;
-        _wavelength = _minWavelength - 1; // any value outside the range
-        _uvColor = uvTrackColor;
-        _irColor = irTrackColor;
-        _listenerList = new EventListenerList();
+        this.userComponent = userComponent;
+        this.minWavelength = minWavelength;
+        this.maxWavelength = maxWavelength;
+        this.wavelength = this.minWavelength - 1; // any value outside the range
+        uvColor = uvTrackColor;
+        irColor = irTrackColor;
+        listenerList = new EventListenerList();
 
-        _knob = new Knob( KNOB_SIZE.width, KNOB_SIZE.height );
-        _track = new Track( trackWidth, trackHeight, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
-        _valueDisplay = new ValueDisplay();
-        _cursor = new Cursor( CURSOR_WIDTH, _track.getFullBounds().getHeight() );
+        knob = new Knob( KNOB_SIZE.width, KNOB_SIZE.height );
+        track = new Track( trackWidth, trackHeight, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
+        valueDisplay = new ValueDisplay();
+        cursor = new Cursor( CURSOR_WIDTH, track.getFullBounds().getHeight() );
 
         /*
          * Put a border around the track.
@@ -199,37 +198,37 @@ public class WavelengthControl extends PhetPNode {
          * Having a separate border also gives subclasses a place to add markings (eg, tick marks)
          * without affecting the track's bounds.
          */
-        _trackBorder = new PPath();
-        _trackBorder.setPathTo( new Rectangle2D.Double( 0, 0, _track.getFullBounds().getWidth(), _track.getFullBounds().getHeight() ) );
-        _trackBorder.setStroke( new BasicStroke( 1f ) );
-        _trackBorder.setStrokePaint( Color.BLACK );
+        trackBorder = new PPath();
+        trackBorder.setPathTo( new Rectangle2D.Double( 0, 0, track.getFullBounds().getWidth(), track.getFullBounds().getHeight() ) );
+        trackBorder.setStroke( new BasicStroke( 1f ) );
+        trackBorder.setStrokePaint( Color.BLACK );
 
-        addChild( _track );
-        addChild( _trackBorder );
-        addChild( _valueDisplay );
-        addChild( _cursor );
-        addChild( _knob );
+        addChild( track );
+        addChild( trackBorder );
+        addChild( valueDisplay );
+        addChild( cursor );
+        addChild( knob );
 
         // Track position never changes and defines the origin.
-        _track.setOffset( 0, 0 );
+        track.setOffset( 0, 0 );
 
         // Track interactivity
         {
-            _track.addInputEventListener( new CursorHandler() );
-            _track.addInputEventListener( new PBasicInputEventHandler() {
+            track.addInputEventListener( new CursorHandler() );
+            track.addInputEventListener( new PBasicInputEventHandler() {
 
                 @Override
                 public void mousePressed( PInputEvent event ) {
-                    handleTrackClick( event.getPositionRelativeTo( _track ) );
+                    handleTrackClick( event.getPositionRelativeTo( track ) );
                 }
             } );
         }
 
         // Knob interactivity
         {
-            _knob.addInputEventListener( new CursorHandler() );
-            _knob.addInputEventListener( new SliderThumbDragHandler( _userComponent, sendDragMessages,
-                                                                     Orientation.HORIZONTAL, this, _track, _knob, new DoubleRange( minWavelength, maxWavelength ),
+            knob.addInputEventListener( new CursorHandler() );
+            knob.addInputEventListener( new SliderThumbDragHandler( this.userComponent, sendDragMessages,
+                                                                     Orientation.HORIZONTAL, this, track, knob, new DoubleRange( minWavelength, maxWavelength ),
                                                                      new VoidFunction1<Double>() {
                                                                          public void apply( Double wavelength ) {
                                                                              setWavelength( wavelength );
@@ -239,11 +238,11 @@ public class WavelengthControl extends PhetPNode {
 
         // Value Display interactivity
         {
-            _valueDisplay.addInputEventListener( new CursorHandler() );
+            valueDisplay.addInputEventListener( new CursorHandler() );
         }
 
         // Default state
-        setWavelength( _minWavelength );
+        setWavelength( this.minWavelength );
     }
 
     //----------------------------------------------------------------------------
@@ -256,7 +255,7 @@ public class WavelengthControl extends PhetPNode {
      * @return double
      */
     public double getMinWavelength() {
-        return _minWavelength;
+        return minWavelength;
     }
 
     /**
@@ -265,7 +264,7 @@ public class WavelengthControl extends PhetPNode {
      * @return double
      */
     public double getMaxWavelength() {
-        return _maxWavelength;
+        return maxWavelength;
     }
 
     /**
@@ -276,12 +275,12 @@ public class WavelengthControl extends PhetPNode {
      */
     public void setWavelength( double wavelength ) {
 
-        if ( wavelength < _minWavelength || wavelength > _maxWavelength ) {
+        if ( wavelength < minWavelength || wavelength > maxWavelength ) {
             throw new IllegalArgumentException( "wavelength out of range: " + wavelength );
         }
 
-        if ( wavelength != _wavelength ) {
-            _wavelength = wavelength;
+        if ( wavelength != this.wavelength ) {
+            this.wavelength = wavelength;
             updateUI();
             fireChangeEvent( new ChangeEvent( this ) );
         }
@@ -293,7 +292,7 @@ public class WavelengthControl extends PhetPNode {
      * @return wavelength in nanometers
      */
     public double getWavelength() {
-        return _wavelength;
+        return wavelength;
     }
 
     /**
@@ -305,10 +304,10 @@ public class WavelengthControl extends PhetPNode {
     public Color getWavelengthColor( double wavelength ) {
         Color color = null;
         if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
-            color = _uvColor;
+            color = uvColor;
         }
         else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
-            color = _irColor;
+            color = irColor;
         }
         else {
             color = VisibleColor.wavelengthToColor( wavelength );
@@ -322,7 +321,7 @@ public class WavelengthControl extends PhetPNode {
      * @return Color
      */
     public Color getWavelengthColor() {
-        return getWavelengthColor( _wavelength );
+        return getWavelengthColor( wavelength );
     }
 
     /**
@@ -330,8 +329,8 @@ public class WavelengthControl extends PhetPNode {
      * text field used to display the current value.
      */
     public void setTextFieldColors( Color foreground, Color background ) {
-        _valueDisplay.getFormattedTextField().setForeground( foreground );
-        _valueDisplay.getFormattedTextField().setBackground( background );
+        valueDisplay.getFormattedTextField().setForeground( foreground );
+        valueDisplay.getFormattedTextField().setBackground( background );
     }
 
     /**
@@ -340,8 +339,8 @@ public class WavelengthControl extends PhetPNode {
      * @param font
      */
     public void setTextFieldFont( Font font ) {
-        _valueDisplay.getFormattedTextField().setFont( font );
-        _valueDisplay.computeBounds();
+        valueDisplay.getFormattedTextField().setFont( font );
+        valueDisplay.computeBounds();
         updateUI();
     }
 
@@ -351,8 +350,8 @@ public class WavelengthControl extends PhetPNode {
      * @param columns
      */
     public void setTextFieldColumns( int columns ) {
-        _valueDisplay.getFormattedTextField().setColumns( columns );
-        _valueDisplay.computeBounds();
+        valueDisplay.getFormattedTextField().setColumns( columns );
+        valueDisplay.computeBounds();
         updateUI();
     }
 
@@ -364,7 +363,7 @@ public class WavelengthControl extends PhetPNode {
      * @param color
      */
     public void setUnitsForeground( Color color ) {
-        _valueDisplay.getUnitsLabel().setForeground( color );
+        valueDisplay.getUnitsLabel().setForeground( color );
     }
 
     /**
@@ -374,8 +373,8 @@ public class WavelengthControl extends PhetPNode {
      * @param font
      */
     public void setUnitsFont( Font font ) {
-        _valueDisplay.getUnitsLabel().setFont( font );
-        _valueDisplay.computeBounds();
+        valueDisplay.getUnitsLabel().setFont( font );
+        valueDisplay.computeBounds();
         updateUI();
     }
 
@@ -385,7 +384,7 @@ public class WavelengthControl extends PhetPNode {
      * @param color
      */
     public void setCursorColor( Color color ) {
-        _cursor.setStrokePaint( color );
+        cursor.setStrokePaint( color );
     }
 
     /**
@@ -395,7 +394,7 @@ public class WavelengthControl extends PhetPNode {
      * @param height
      */
     public void setKnobSize( float width, float height ) {
-        _knob.setSize( width, height );
+        knob.setSize( width, height );
     }
 
     /**
@@ -404,7 +403,7 @@ public class WavelengthControl extends PhetPNode {
      * @return
      */
     public void setKnobStroke( Stroke stroke ) {
-        _knob.setStroke( stroke );
+        knob.setStroke( stroke );
     }
 
     /**
@@ -413,7 +412,7 @@ public class WavelengthControl extends PhetPNode {
      * @return
      */
     public void setKnobStrokeColor( Color strokeColor ) {
-        _knob.setStrokePaint( strokeColor );
+        knob.setStrokePaint( strokeColor );
     }
 
     /**
@@ -422,7 +421,7 @@ public class WavelengthControl extends PhetPNode {
      * @param listener
      */
     public void addKnobListener( PInputEventListener listener ) {
-        _knob.addInputEventListener( listener );
+        knob.addInputEventListener( listener );
     }
 
     /**
@@ -432,7 +431,7 @@ public class WavelengthControl extends PhetPNode {
      * @param visible true or false
      */
     public void setCursorVisible( boolean visible ) {
-        _cursor.setVisible( visible );
+        cursor.setVisible( visible );
     }
 
     /*
@@ -442,7 +441,7 @@ public class WavelengthControl extends PhetPNode {
      * @return PNode
      */
     protected PNode getTrackBorder() {
-        return _trackBorder;
+        return trackBorder;
     }
 
     /*
@@ -451,7 +450,7 @@ public class WavelengthControl extends PhetPNode {
      * @return PBounds
      */
     protected PBounds getTrackFullBounds() {
-        return _track.getFullBounds();
+        return track.getFullBounds();
     }
 
     //----------------------------------------------------------------------------
@@ -462,16 +461,16 @@ public class WavelengthControl extends PhetPNode {
      * Handles entry of values in the text field.
      */
     private void handleTextEntry( IParameterValue commitAction ) {
-        final double wavelength = _valueDisplay.getValue();
-        if ( wavelength >= _minWavelength && wavelength <= _maxWavelength ) {
+        final double wavelength = valueDisplay.getValue();
+        if ( wavelength >= minWavelength && wavelength <= maxWavelength ) {
             textFieldCommitted( commitAction, getWavelength() );
             setWavelength( wavelength );
         }
         else {
-            textFieldCorrected( ParameterValues.rangeError, String.valueOf( wavelength ), _wavelength );
+            textFieldCorrected( ParameterValues.rangeError, String.valueOf( wavelength ), this.wavelength );
             warnUser();
-            _valueDisplay.setValue( _wavelength ); // revert
-            _valueDisplay.selectAll();
+            valueDisplay.setValue( this.wavelength ); // revert
+            valueDisplay.selectAll();
         }
     }
 
@@ -479,9 +478,9 @@ public class WavelengthControl extends PhetPNode {
      * Handles a mouse click on the track.
      */
     private void handleTrackClick( Point2D trackPoint ) {
-        final double bandwidth = _maxWavelength - _minWavelength;
-        final double trackWidth = _track.getFullBounds().getWidth();
-        final double wavelength = _minWavelength + ( ( trackPoint.getX() / trackWidth ) * bandwidth );
+        final double bandwidth = maxWavelength - minWavelength;
+        final double trackWidth = track.getFullBounds().getWidth();
+        final double wavelength = minWavelength + ( ( trackPoint.getX() / trackWidth ) * bandwidth );
         setWavelength( wavelength );
     }
 
@@ -490,31 +489,31 @@ public class WavelengthControl extends PhetPNode {
      */
     private void updateUI() {
 
-        final double bandwidth = _maxWavelength - _minWavelength;
+        final double bandwidth = maxWavelength - minWavelength;
 
-        PBounds trackBounds = _track.getFullBounds();
-        final double valueDisplayWidth = _valueDisplay.getFullBounds().getWidth();
-        final double valueDisplayHeight = _valueDisplay.getFullBounds().getHeight();
+        PBounds trackBounds = track.getFullBounds();
+        final double valueDisplayWidth = valueDisplay.getFullBounds().getWidth();
+        final double valueDisplayHeight = valueDisplay.getFullBounds().getHeight();
 
         // Knob color
         Color wavelengthColor = getWavelengthColor();
-        _knob.setPaint( wavelengthColor );
+        knob.setPaint( wavelengthColor );
 
         // Knob position: below the track with tip positioned at wavelength
         final double trackX = trackBounds.getX();
         final double trackWidth = trackBounds.getWidth();
-        final double knobX = trackX + ( trackWidth * ( ( _wavelength - _minWavelength ) / bandwidth ) );
+        final double knobX = trackX + ( trackWidth * ( ( wavelength - minWavelength ) / bandwidth ) );
         final double knobY = trackBounds.getHeight();
-        _knob.setOffset( knobX, knobY );
+        knob.setOffset( knobX, knobY );
 
         // Value display: above the track, centered above the knob
-        _valueDisplay.setValue( _wavelength );
+        valueDisplay.setValue( wavelength );
         final double valueX = knobX - ( valueDisplayWidth / 2 );
         final double valueY = -( valueDisplayHeight + VALUE_Y_OFFSET );
-        _valueDisplay.setOffset( valueX, valueY );
+        valueDisplay.setOffset( valueX, valueY );
 
         // Cursor position: inside the track, centered above the knob
-        _cursor.setOffset( knobX, 0 );
+        cursor.setOffset( knobX, 0 );
     }
 
     /*
@@ -668,9 +667,9 @@ public class WavelengthControl extends PhetPNode {
                         handleTextEntry( ParameterValues.focusLost );
                     }
                     catch ( ParseException pe ) {
-                        textFieldCorrected( ParameterValues.parseError, _formattedTextField.getText(), _wavelength );
+                        textFieldCorrected( ParameterValues.parseError, _formattedTextField.getText(), wavelength );
                         warnUser();
-                        setValue( _wavelength ); // revert
+                        setValue( wavelength ); // revert
                     }
                 }
             } );
@@ -680,24 +679,24 @@ public class WavelengthControl extends PhetPNode {
                 @Override
                 public void keyPressed( KeyEvent event ) {
                     if ( event.getKeyCode() == KeyEvent.VK_UP ) {
-                        final double newWavelength = _wavelength + 1;
-                        if ( newWavelength <= _maxWavelength ) {
+                        final double newWavelength = wavelength + 1;
+                        if ( newWavelength <= maxWavelength ) {
                             textFieldCommitted( ParameterValues.upKey, newWavelength );
                             setWavelength( newWavelength );
                         }
                         else {
-                            textFieldCorrected( ParameterValues.rangeError, String.valueOf( newWavelength ), _wavelength );
+                            textFieldCorrected( ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
                             warnUser();
                         }
                     }
                     else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
-                        final double newWavelength = _wavelength - 1;
-                        if ( newWavelength >= _minWavelength ) {
+                        final double newWavelength = wavelength - 1;
+                        if ( newWavelength >= minWavelength ) {
                             textFieldCommitted( ParameterValues.downKey, newWavelength );
                             setWavelength( newWavelength );
                         }
                         else {
-                            textFieldCorrected( ParameterValues.rangeError, String.valueOf( newWavelength ), _wavelength );
+                            textFieldCorrected( ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
                             warnUser();
                         }
                     }
@@ -739,7 +738,7 @@ public class WavelengthControl extends PhetPNode {
             }
             catch ( NumberFormatException nfe ) {
                 warnUser();
-                wavelength = _wavelength;
+                wavelength = WavelengthControl.this.wavelength;
                 this.setValue( wavelength );
             }
             return wavelength;
@@ -791,7 +790,7 @@ public class WavelengthControl extends PhetPNode {
      * @param listener the listener
      */
     public void addChangeListener( ChangeListener listener ) {
-        _listenerList.add( ChangeListener.class, listener );
+        listenerList.add( ChangeListener.class, listener );
     }
 
     /**
@@ -800,7 +799,7 @@ public class WavelengthControl extends PhetPNode {
      * @param listener the listener
      */
     public void removeChangeListener( ChangeListener listener ) {
-        _listenerList.remove( ChangeListener.class, listener );
+        listenerList.remove( ChangeListener.class, listener );
     }
 
     /**
@@ -809,7 +808,7 @@ public class WavelengthControl extends PhetPNode {
      * @param event the event
      */
     private void fireChangeEvent( ChangeEvent event ) {
-        Object[] listeners = _listenerList.getListenerList();
+        Object[] listeners = listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i += 2 ) {
             if ( listeners[i] == ChangeListener.class ) {
                 ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
@@ -833,13 +832,13 @@ public class WavelengthControl extends PhetPNode {
 
     // User does something to commit the text field.
     protected void textFieldCommitted( IParameterValue commitAction, double value ) {
-        SimSharingManager.sendUserMessage( _userComponent, UserComponentTypes.textField, UserActions.textFieldCommitted,
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.textField, UserActions.textFieldCommitted,
                                            ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).add( ParameterKeys.value, value ) );
     }
 
     // Invalid input is encountered and corrected in the text field.
     protected void textFieldCorrected( IParameterValue errorType, String value, double correctedValue ) {
-        sendUserMessage( _userComponent, UserComponentTypes.textField, textFieldCorrected,
+        sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCorrected,
                          parameterSet( ParameterKeys.errorType, errorType ).add( ParameterKeys.value, value ).add( ParameterKeys.correctedValue, correctedValue ) );
     }
 }
