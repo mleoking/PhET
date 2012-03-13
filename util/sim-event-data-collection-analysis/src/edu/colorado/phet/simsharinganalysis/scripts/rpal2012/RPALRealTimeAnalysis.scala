@@ -15,7 +15,7 @@ object RPALRealTimeAnalysis extends App {
     "Tab 1 View " + states.last.end.tab1.view + "\n" +
     "Tab 0 sandwich: " + states.last.end.tab0.sandwich + "\n" +
     "Tab 1 reaction: " + states.last.end.tab1.reaction + "\n" +
-    "\nLast 5 events (most recent at the top):\n" +
-    states.map(_.entry).takeRight(5).reverse.mkString("\n")
+    "\nLast 5 events (most recent at the bottom):\n" +
+    states.map(_.entry).takeRight(5).mkString("\n")
   }).main(args)
 }
