@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
@@ -57,6 +58,8 @@ public class PlateMotionModel extends PlateModel {
     private boolean transformMotionCCW = true;
 
     private final StripTracker stripTracker = new StripTracker();
+
+    public ObservableList<SmokePuff> smokePuffs = new ObservableList<SmokePuff>();
 
     // TODO: better handling for this. ugly
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
@@ -198,6 +201,8 @@ public class PlateMotionModel extends PlateModel {
         rewinding = false;
 
         initializeBehaviors();
+
+        smokePuffs.clear();
     }
 
     @Override public void resetAll() {
@@ -220,6 +225,8 @@ public class PlateMotionModel extends PlateModel {
         updateTerrain();
 
         modelChanged.updateListeners();
+
+        smokePuffs.clear();
     }
 
     // xIndex can be from 0 to HORIZONTAL_SAMPLES-1

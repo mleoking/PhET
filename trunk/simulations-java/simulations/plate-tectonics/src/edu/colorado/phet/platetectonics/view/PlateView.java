@@ -16,6 +16,7 @@ import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
+import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
 /**
@@ -82,6 +83,19 @@ public class PlateView extends GLNode {
                 }} );
             }
         } );
+
+        if ( tab instanceof PlateMotionTab ) {
+            final SmokeNode smokeNode = new SmokeNode( tab, ( (PlateMotionTab) tab ).getPlateMotionModel().smokePuffs );
+            addChild( smokeNode );
+
+            // hack way to keep this in front for now
+            model.modelChanged.addListener( new VoidFunction1<Void>() {
+                public void apply( Void aVoid ) {
+                    removeChild( smokeNode );
+                    addChild( smokeNode );
+                }
+            } );
+        }
     }
 
     public void addCrossSectionStrip( final CrossSectionStrip strip ) {
