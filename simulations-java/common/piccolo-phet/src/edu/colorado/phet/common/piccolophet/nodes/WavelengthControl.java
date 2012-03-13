@@ -123,7 +123,8 @@ public class WavelengthControl extends PhetPNode {
     //----------------------------------------------------------------------------
 
     // Creates a wavelength control for the visible spectrum.
-    public WavelengthControl( IUserComponent userComponent, boolean sendDragMessages, int trackWidth, int trackHeight ) {
+    public WavelengthControl( IUserComponent userComponent, boolean sendDragMessages,
+                              int trackWidth, int trackHeight ) {
         this( userComponent, sendDragMessages, trackWidth, trackHeight,
               VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
               UV_TRACK_COLOR, UV_LABEL_COLOR,
@@ -171,7 +172,7 @@ public class WavelengthControl extends PhetPNode {
         this.userComponent = userComponent;
         this.minWavelength = minWavelength;
         this.maxWavelength = maxWavelength;
-        this.wavelength = this.minWavelength - 1; // any value outside the range
+        this.wavelength = this.minWavelength;
         uvColor = uvTrackColor;
         irColor = irTrackColor;
         listenerList = new EventListenerList();
@@ -193,6 +194,7 @@ public class WavelengthControl extends PhetPNode {
         trackBorder.setStroke( new BasicStroke( 1f ) );
         trackBorder.setStrokePaint( Color.BLACK );
 
+        // rendering order
         addChild( track );
         addChild( trackBorder );
         addChild( valueDisplay );
@@ -203,36 +205,29 @@ public class WavelengthControl extends PhetPNode {
         track.setOffset( 0, 0 );
 
         // Track interactivity
-        {
-            track.addInputEventListener( new CursorHandler() );
-            track.addInputEventListener( new PBasicInputEventHandler() {
-
-                @Override
-                public void mousePressed( PInputEvent event ) {
-                    handleTrackClick( event.getPositionRelativeTo( track ) );
-                }
-            } );
-        }
+        track.addInputEventListener( new CursorHandler() );
+        track.addInputEventListener( new PBasicInputEventHandler() {
+            @Override
+            public void mousePressed( PInputEvent event ) {
+                handleTrackClick( event.getPositionRelativeTo( track ) );
+            }
+        } );
 
         // Knob interactivity
-        {
-            thumb.addInputEventListener( new CursorHandler() );
-            thumb.addInputEventListener( new SliderThumbDragHandler( this.userComponent, sendDragMessages,
-                                                                     Orientation.HORIZONTAL, this, track, thumb, new DoubleRange( minWavelength, maxWavelength ),
-                                                                     new VoidFunction1<Double>() {
-                                                                         public void apply( Double wavelength ) {
-                                                                             setWavelength( wavelength );
-                                                                         }
-                                                                     } ) );
-        }
+        thumb.addInputEventListener( new CursorHandler() );
+        thumb.addInputEventListener( new SliderThumbDragHandler( this.userComponent, sendDragMessages,
+                                                                 Orientation.HORIZONTAL, this, track, thumb, new DoubleRange( minWavelength, maxWavelength ),
+                                                                 new VoidFunction1<Double>() {
+                                                                     public void apply( Double wavelength ) {
+                                                                         setWavelength( wavelength );
+                                                                     }
+                                                                 } ) );
 
         // Value Display interactivity
-        {
-            valueDisplay.addInputEventListener( new CursorHandler() );
-        }
+        valueDisplay.addInputEventListener( new CursorHandler() );
 
         // Default state
-        setWavelength( this.minWavelength );
+        updateUI();
     }
 
     //----------------------------------------------------------------------------
