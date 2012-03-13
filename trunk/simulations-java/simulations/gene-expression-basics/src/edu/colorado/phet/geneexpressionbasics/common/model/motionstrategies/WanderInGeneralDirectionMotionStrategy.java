@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -59,6 +60,11 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
         Point2D nextLocation = new Point2D.Double( currentLocation.getX() + currentMotionVector.getX() * dt,
                                                    currentLocation.getY() + currentMotionVector.getY() * dt );
         return nextLocation;
+    }
+
+    @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
+        Point2D nextLocation2D = getNextLocation( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ), shape, dt );
+        return new Point3D.Double( nextLocation2D.getX(), nextLocation2D.getY(), 0 );
     }
 
     private double generateDirectionChangeCountdownValue() {

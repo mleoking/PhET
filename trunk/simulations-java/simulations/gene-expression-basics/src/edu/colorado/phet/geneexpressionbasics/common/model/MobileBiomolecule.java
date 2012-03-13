@@ -66,6 +66,9 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // between 0 (all the way to the front) and -1 (all the way to the back).
     public Property<Double> zPosition = new Property<Double>( 0.0 );
 
+    // Flag that tracks whether motion in Z dimension is enabled.
+    private boolean zMotionEnabled;
+
     // A property that keeps track of this biomolecule's "existence strength",
     // which is used primarily to fade out of existence.  The range for this
     // is 1 (full existence) to 0 (non-existent).
@@ -153,6 +156,17 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      */
     public Point3D getPosition3D() {
         return new Point3D.Double( getPosition().getX(), getPosition().getY(), zPosition.get() );
+    }
+
+    /**
+     * Turn on/off 3D motion.  Turning it on means that biomolecules will move
+     * in the Z dimension, which is depicted in the view in such a way to make
+     * them look closer or further from the viewer.
+     *
+     * @param zMotionEnabled
+     */
+    public void set3DMotionEnabled( boolean zMotionEnabled ) {
+        this.zMotionEnabled = zMotionEnabled;
     }
 
     public GeneExpressionModel getModel() {
