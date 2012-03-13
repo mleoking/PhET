@@ -17,7 +17,7 @@ case class Entry(time: Long, //Time on the client computer when message was crea
 
   lazy val parametersToString = parameters.keys.map(key => "" + key + " = " + parameters(key)).toList.mkString(SimSharingManager.DELIMITER)
 
-  lazy val toPlainText = ( time :: messageType :: component :: action :: parametersToString :: Nil ).mkString(SimSharingManager.DELIMITER)
+  lazy val toPlainText = ( time :: messageType :: component :: componentType :: action :: parametersToString :: Nil ).mkString(SimSharingManager.DELIMITER)
 
   override lazy val toString = toPlainText
 
