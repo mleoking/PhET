@@ -7,6 +7,7 @@ import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -48,15 +49,20 @@ public class MobileBiomoleculeNode extends PNode {
             // Update the shape whenever it changes.
             mobileBiomolecule.addShapeChangeObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
-                    setPathTo( mvt.modelToView( shape ) );
-                    setPaint( createGradientPaint( mvt.modelToView( mobileBiomolecule.getShape() ), mobileBiomolecule.colorProperty.get() ) );
+                    // Create a shape that excludes any offset.
+                    Shape centeredShape = getCenteredShape( mvt.modelToView( shape ) );
+                    setPathTo( centeredShape );
+                    // Account for the offset.
+                    setOffset( mvt.modelToView( mobileBiomolecule.getPosition() ) );
+                    // Set the gradient paint.
+                    setPaint( createGradientPaint( centeredShape, mobileBiomolecule.colorProperty.get() ) );
                 }
             } );
 
             // Update the color whenever it changes.
             mobileBiomolecule.colorProperty.addObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
-                    setPaint( createGradientPaint( mvt.modelToView( mobileBiomolecule.getShape() ), mobileBiomolecule.colorProperty.get() ) );
+                    setPaint( createGradientPaint( getCenteredShape( mvt.modelToView( mobileBiomolecule.getShape() ) ), mobileBiomolecule.colorProperty.get() ) );
                 }
             } );
 
@@ -71,9 +77,14 @@ public class MobileBiomoleculeNode extends PNode {
             // Update the "closeness" whenever it changes.
             mobileBiomolecule.zPosition.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double zPosition ) {
+                    assert zPosition >= -1 && zPosition <= 0; // Parameter checking.
                     // The further back the biomolecule is, the more
                     // transparent it is in order to make it look more distant.
                     setTransparency( (float) Math.min( 1 + zPosition, mobileBiomolecule.existenceStrength.get() ) );
+                    // Also, as it goes further back, this node is scaled down
+                    // a bit, also to make it look further away.
+                    setScale( 1 );
+                    setScale( 1 + 0.15 * zPosition );
                 }
             } );
 
@@ -109,6 +120,19 @@ public class MobileBiomoleculeNode extends PNode {
                 moveToFront();
             }
         } );
+    }
+
+    /**
+     * Get a shape that is positioned such that its center is at point (0, 0).
+     *
+     * @param shape
+     * @return
+     */
+    private static Shape getCenteredShape( Shape shape ) {
+        double xOffset = shape.getBounds2D().getCenterX();
+        double yOffset = shape.getBounds2D().getCenterY();
+        AffineTransform transform = AffineTransform.getTranslateInstance( -xOffset, -yOffset );
+        return transform.createTransformedShape( shape );
     }
 
     /**
