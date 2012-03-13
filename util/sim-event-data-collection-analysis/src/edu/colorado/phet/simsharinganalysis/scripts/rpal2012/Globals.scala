@@ -8,6 +8,6 @@ object Globals {
   //Right now we are keeping this project integrated with the sim-event-data-collection-analysis-project for expedience, so haven't done that yet.
 
   val initialTab0 = Tab0("cheese")
-  val initialTab1 = Tab1("water", "real", "KITTY")
+  val initialTab1 = Tab1("ammonia", "real", "KITTY")
   val initialTab2 = Tab2(1, true, true, Hiding.nothing, -1, Nil)
 }
