@@ -57,7 +57,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 15;
 
     // Number of RNA polymerase molecules present.
-    public static final int RNA_POLYMERASE_COUNT = 8;
+    public static final int RNA_POLYMERASE_COUNT = 6;
 
     // etc.
     private static final Random RAND = new Random();
@@ -241,6 +241,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         positiveTranscriptionFactorCount.reset();
         negativeTranscriptionFactorCount.reset();
         mobileBiomoleculeList.clear();
+        messengerRnaList.clear();
         dnaMolecule.reset();
 
         // Add the polymerase molecules.  These don't come and go, the
