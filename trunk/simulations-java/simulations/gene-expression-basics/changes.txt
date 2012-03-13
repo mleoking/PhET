@@ -1,3 +1,4 @@
+Turned off the feature where the first tab started zoomed out.
 # 0.00.18 (62503) Mar 13, 2012
 3/13/12 Deploying snapshot to dev for review and discussion.
 On the 2nd tab, made the transcription factors and polymerase be somewhat "pulled in" to the appropriate locations on the DNA strand to start transcription.  This increases transcription rates substantially.

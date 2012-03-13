@@ -484,8 +484,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
         }
-        if ( isZoomedIn() ) {
-            zoomOut( 0 );
+        if ( !isZoomedIn() ) {
+            zoomIn( 0 );
         }
     }
 
