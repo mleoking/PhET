@@ -20,9 +20,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * GunWavelengthControl adds behavior to the standard WavelengthControl.
  * <p/>
  * Behavior #1:
- * The knob is hilited when it is dragged "sufficiently close" to a
+ * The thumb (aka knob) is highlighted when it is dragged "sufficiently close" to a
  * value that would cause the atom to undergo a transition from state=1
- * to some other state. If the knob is released while it is hilited,
+ * to some other state. If the thumb is released while it is highlighted,
  * it snaps to the closest transition wavelength.
  * <p/>
  * Behavior #2:
@@ -68,7 +68,7 @@ public class GunWavelengthControl extends WavelengthControl {
     private double[] _transitionWavelengths;
     private double _bestMatch; // the best matching transition wavelength
     private boolean _dragging;
-    private boolean _hiliteTransitionWavelengths; // whether to hilite the knob when it is near a transition wavelength
+    private boolean _hiliteTransitionWavelengths; // whether to highlight the knob when it is near a transition wavelength
     private PNode _transitionMarksNode; // markings in the track at transition wavelengths
     private boolean _transitionMarksVisible;
 
@@ -88,8 +88,8 @@ public class GunWavelengthControl extends WavelengthControl {
          */
         setCursorColor( ALTERNATE_CURSOR_COLOR );
 
-        // Do things when the user starts and stops dragging the knob.
-        addKnobListener( new PBasicInputEventHandler() {
+        // Do things when the user starts and stops dragging the thumb.
+        addThumbListener( new PBasicInputEventHandler() {
 
             public void mousePressed( PInputEvent event ) {
                 startDragging();
@@ -100,7 +100,7 @@ public class GunWavelengthControl extends WavelengthControl {
             }
         } );
 
-        // When the control's value changes, update the knob hiliting.
+        // When the control's value changes, update the thumb highlightinh.
         addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent e ) {
@@ -154,7 +154,7 @@ public class GunWavelengthControl extends WavelengthControl {
     }
 
     /**
-     * Controls whether the knob hilights when we drag "near" a transitions wavelength.
+     * Controls whether the thumb highlights when we drag "near" a transitions wavelength.
      *
      * @param b
      */
@@ -180,16 +180,16 @@ public class GunWavelengthControl extends WavelengthControl {
     //----------------------------------------------------------------------------
 
     /*
-     * Called when we start dragging the slider knob.
+     * Called when we start dragging the slider thumb.
      */
     private void startDragging() {
         _dragging = true;
     }
 
     /*
-     * Called when we stop dragging the slider knob.
-     * Snaps the knob to the closest transition wavelength,
-     * and removes the hilite from the knob.
+     * Called when we stop dragging the slider thumb.
+     * Snaps the thumb to the closest transition wavelength,
+     * and removes the highlighted from the thumb.
      */
     private void stopDragging() {
         _dragging = false;
@@ -209,8 +209,8 @@ public class GunWavelengthControl extends WavelengthControl {
     }
 
     /*
-     * Called while the knob is being dragged.
-     * Hilites the knob whenever the wavelength is sufficiently close to one of the atom's transition wavelengths.
+     * Called while the thumb is being dragged.
+     * Highlights the thumb whenever the wavelength is sufficiently close to one of the atom's transition wavelengths.
      */
     private void updateKnob() {
 
@@ -233,14 +233,14 @@ public class GunWavelengthControl extends WavelengthControl {
             }
         }
 
-        // Set the knob's stroke properties
+        // Set the thumb's stroke properties
         if ( _bestMatch == NO_MATCH ) {
-            setKnobStroke( KNOB_NORMAL_STROKE );
-            setKnobStrokeColor( KNOB_NORMAL_COLOR );
+            setThumbStroke( KNOB_NORMAL_STROKE );
+            setThumbStrokeColor( KNOB_NORMAL_COLOR );
         }
         else {
-            setKnobStroke( KNOB_HILITE_STROKE );
-            setKnobStrokeColor( KNOB_HILITE_COLOR );
+            setThumbStroke( KNOB_HILITE_STROKE );
+            setThumbStrokeColor( KNOB_HILITE_COLOR );
         }
     }
 
