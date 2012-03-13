@@ -107,26 +107,16 @@ public class WavelengthControl extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
 
-    // control's range, in nanometers
-    private final double minWavelength, maxWavelength;
-    // colors used to represent UV and IR wavelengths
-    private final Color uvColor, irColor;
-    // slider knob, what the user drags
-    private final Knob knob;
-    // track that the knob moves along
-    private final Track track;
-    // black border around the track, can be augmented by subclasses
-    private final PPath trackBorder;
-    // editable value displayed above the track
-    private final ValueDisplay valueDisplay;
-    // cursor that appears in the track, directly above the knob
-    private final Cursor cursor;
-    // for notification of listeners
-    private final EventListenerList listenerList;
-    // the current wavelength value displayed by this control
-    private double wavelength;
-    // sim-sharing user component
-    private final IUserComponent userComponent;
+    private final double minWavelength, maxWavelength; // range, in nanometers
+    private final Color uvColor, irColor; // colors used to represent UV and IR wavelengths
+    private final Knob knob; // slider knob, what the user drags
+    private final Track track; // track that the knob moves along
+    private final PPath trackBorder; // black border around the track, can be augmented by subclasses
+    private final ValueDisplay valueDisplay; // editable value displayed above the track
+    private final Cursor cursor; // cursor that appears in the track, directly above the knob
+    private final EventListenerList listenerList; // for notification of listeners
+    private double wavelength; // the current wavelength value displayed by this control
+    private final IUserComponent userComponent; // sim-sharing user component
 
     //----------------------------------------------------------------------------
     // Constructors
