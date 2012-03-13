@@ -70,7 +70,8 @@ public class SimSharingJSpinner extends JSpinner {
     /*
      * User interaction and program calls both result in calls to fireStateChanged.
      * This method registers listeners that will set flags that indicate that various
-     * types of user interactions have been performed.
+     * types of user interactions have been performed. The flags allow us to differentiate
+     * between user and program initiated actions.
      */
     private void initListeners() {
 
