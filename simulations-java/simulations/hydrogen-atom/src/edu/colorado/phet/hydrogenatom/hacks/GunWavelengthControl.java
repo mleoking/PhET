@@ -80,7 +80,7 @@ public class GunWavelengthControl extends WavelengthControl {
      * Constructor.
      */
     public GunWavelengthControl( double minWavelength, double maxWavelength, Color uvTrackColor, Color uvLabelColor, Color irTrackColor, Color irLabelColor ) {
-        super( HASimSharing.UserComponents.gunWavelengthControl, TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
+        super( HASimSharing.UserComponents.gunWavelengthControl, false, TRACK_WIDTH, TRACK_HEIGHT, minWavelength, maxWavelength, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
 
         /* 
          * Change the cursor color, so that it doesn't obscure the transition marks.

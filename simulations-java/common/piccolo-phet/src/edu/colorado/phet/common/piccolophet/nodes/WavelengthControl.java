@@ -133,32 +133,20 @@ public class WavelengthControl extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
 
-    /**
-     * Creates a wavelength control for the visible spectrum.
-     *
-     * @param trackWidth
-     * @param trackHeight
-     */
-    public WavelengthControl( IUserComponent userComponent, int trackWidth, int trackHeight ) {
-        this( userComponent, trackWidth, trackHeight,
+    // Creates a wavelength control for the visible spectrum.
+    public WavelengthControl( IUserComponent userComponent, boolean sendDragMessages, int trackWidth, int trackHeight ) {
+        this( userComponent, sendDragMessages, trackWidth, trackHeight,
               VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
               UV_TRACK_COLOR, UV_LABEL_COLOR,
               IR_TRACK_COLOR, IR_LABEL_COLOR );
     }
 
-    /**
-     * Creates a wavelength control for a specified range of wavelengths.
-     * Default colors are used for UV and IR ranges.
-     *
-     * @param userComponent
-     * @param trackWidth
-     * @param trackHeight
-     * @param minWavelength minimum wavelength, in nanometers
-     * @param maxWavelength maximum wavelength, in nanometers
-     */
-    public WavelengthControl( IUserComponent userComponent, int trackWidth, int trackHeight,
+    // Creates a wavelength control for a specified range of wavelengths.
+    public WavelengthControl( IUserComponent userComponent, boolean sendDragMessages,
+                              int trackWidth, int trackHeight,
                               double minWavelength, double maxWavelength ) {
-        this( userComponent, trackWidth, trackHeight,
+        this( userComponent, sendDragMessages,
+              trackWidth, trackHeight,
               minWavelength, maxWavelength,
               UV_TRACK_COLOR, UV_LABEL_COLOR,
               IR_TRACK_COLOR, IR_LABEL_COLOR );
@@ -169,6 +157,7 @@ public class WavelengthControl extends PhetPNode {
      * Specified colors are used for UV and IR ranges.
      *
      * @param userComponent
+     * @param sendDragMessages
      * @param trackWidth
      * @param trackHeight
      * @param minWavelength minimum wavelength, in nanometers
@@ -179,7 +168,8 @@ public class WavelengthControl extends PhetPNode {
      * @param irLabelColor  color used for IR track
      * @throws IllegalArgumentException if minWavelength >= maxWavelength
      */
-    public WavelengthControl( IUserComponent userComponent, int trackWidth, int trackHeight,
+    public WavelengthControl( IUserComponent userComponent, boolean sendDragMessages,
+                              int trackWidth, int trackHeight,
                               double minWavelength, double maxWavelength,
                               Color uvTrackColor, Color uvLabelColor,
                               Color irTrackColor, Color irLabelColor ) {
@@ -238,7 +228,8 @@ public class WavelengthControl extends PhetPNode {
         // Knob interactivity
         {
             _knob.addInputEventListener( new CursorHandler() );
-            _knob.addInputEventListener( new SliderThumbDragHandler( _userComponent, true, Orientation.HORIZONTAL, this, _track, _knob, new DoubleRange( minWavelength, maxWavelength ),
+            _knob.addInputEventListener( new SliderThumbDragHandler( _userComponent, sendDragMessages,
+                                                                     Orientation.HORIZONTAL, this, _track, _knob, new DoubleRange( minWavelength, maxWavelength ),
                                                                      new VoidFunction1<Double>() {
                                                                          public void apply( Double wavelength ) {
                                                                              setWavelength( wavelength );
@@ -852,7 +843,7 @@ public class WavelengthControl extends PhetPNode {
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                getLayer().addChild( new WavelengthControl( new UserComponent( "wavelengthControl" ), 200, 50 ) {{setOffset( 100, 100 );}} );
+                getLayer().addChild( new WavelengthControl( new UserComponent( "wavelengthControl" ), true, 200, 50 ) {{setOffset( 100, 100 );}} );
             }} );
             setDefaultCloseOperation( EXIT_ON_CLOSE );
             setSize( 500, 500 );
