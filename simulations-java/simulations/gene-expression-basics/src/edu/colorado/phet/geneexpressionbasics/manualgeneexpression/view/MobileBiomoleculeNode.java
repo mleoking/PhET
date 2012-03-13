@@ -63,7 +63,15 @@ public class MobileBiomoleculeNode extends PNode {
             // Update its existence strength (i.e. fade level) whenever it changes.
             mobileBiomolecule.existenceStrength.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double existenceStrength ) {
-                    setTransparency( existenceStrength.floatValue() );
+                    assert existenceStrength >= 0 && existenceStrength <= 1; // Bounds checking.
+                    setTransparency( (float) Math.min( existenceStrength.floatValue(), 1 + mobileBiomolecule.zPosition.get() ) );
+                }
+            } );
+
+            // Update the "closeness" whenever it changes.
+            mobileBiomolecule.zPosition.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double zPosition ) {
+                    setTransparency( (float) Math.min( 1 + zPosition, mobileBiomolecule.existenceStrength.get() ) );
                 }
             } );
 
