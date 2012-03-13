@@ -806,16 +806,6 @@ public class WavelengthControl extends PhetPNode {
         }
     }
 
-    public static void main( String[] args ) {
-        new JFrame() {{
-            setContentPane( new PhetPCanvas() {{
-                getLayer().addChild( new WavelengthControl( new UserComponent( "wavelengthControl" ), true, 200, 50 ) {{setOffset( 100, 100 );}} );
-            }} );
-            setDefaultCloseOperation( EXIT_ON_CLOSE );
-            setSize( 500, 500 );
-        }}.setVisible( true );
-    }
-
     //----------------------------------------------------------------------------
     // Data collection
     //----------------------------------------------------------------------------
@@ -830,5 +820,16 @@ public class WavelengthControl extends PhetPNode {
     protected void textFieldCorrected( IParameterValue errorType, String value, double correctedValue ) {
         sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCorrected,
                          parameterSet( ParameterKeys.errorType, errorType ).add( ParameterKeys.value, value ).add( ParameterKeys.correctedValue, correctedValue ) );
+    }
+
+    // Simple test, see TestWavelengthControl for a more extensive test.
+    public static void main( String[] args ) {
+        new JFrame() {{
+            setContentPane( new PhetPCanvas() {{
+                getLayer().addChild( new WavelengthControl( new UserComponent( "wavelengthControl" ), true, 200, 50 ) {{setOffset( 100, 100 );}} );
+            }} );
+            setDefaultCloseOperation( EXIT_ON_CLOSE );
+            setSize( 500, 500 );
+        }}.setVisible( true );
     }
 }
