@@ -14,6 +14,8 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
+import edu.colorado.phet.capacitorlab.CLSimSharing;
+import edu.colorado.phet.capacitorlab.CLSimSharing.UserComponents;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
@@ -259,7 +261,7 @@ public class PlateChargeControlNode extends PhetPNode {
 
         // see superclass for constructor params
         public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
-            super( Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
+            super( UserComponents.plateChargeSlider, false, Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapThreshold = snapThreshold;
         }
 

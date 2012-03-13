@@ -13,6 +13,8 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
+import edu.colorado.phet.capacitorlab.CLSimSharing;
+import edu.colorado.phet.capacitorlab.CLSimSharing.UserComponents;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -140,7 +142,7 @@ public class VoltageSliderNode extends PhetPNode {
 
         // see superclass for constructor params
         public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
-            super( Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
+            super( UserComponents.voltageSlider, false, Orientation.VERTICAL, relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapThreshold = snapThreshold;
         }
 

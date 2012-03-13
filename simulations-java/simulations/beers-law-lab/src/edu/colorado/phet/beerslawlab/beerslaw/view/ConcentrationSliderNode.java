@@ -249,7 +249,7 @@ class ConcentrationSliderNode extends PhetPNode {
 
         public ThumbDragHandler( IUserComponent userComponent, PNode relativeNode, PNode trackNode, PNode thumbNode,
                                  DoubleRange range, final Property<Double> modelValue ) {
-            super( userComponent, Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range,
+            super( userComponent, false, Orientation.HORIZONTAL, relativeNode, trackNode, thumbNode, range,
                    new VoidFunction1<Double>() {
                        public void apply( Double value ) {
                            modelValue.set( value );
