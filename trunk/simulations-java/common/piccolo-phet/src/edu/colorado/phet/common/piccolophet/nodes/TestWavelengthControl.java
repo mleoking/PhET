@@ -41,7 +41,7 @@ public class TestWavelengthControl extends JFrame {
         final double ySpacing = 100;
 
         // Visible range (default)
-        WavelengthControl c1 = new WavelengthControl( new UserComponent( "c1" ), TRACK_WIDTH, TRACK_HEIGHT );
+        WavelengthControl c1 = new WavelengthControl( new UserComponent( "c1" ), true, TRACK_WIDTH, TRACK_HEIGHT );
         canvas.getLayer().addChild( c1 );
         c1.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
@@ -62,40 +62,40 @@ public class TestWavelengthControl extends JFrame {
         } );
 
         // Visible range (specified)
-        WavelengthControl c2 = new WavelengthControl( new UserComponent( "c2" ), TRACK_WIDTH / 2, TRACK_HEIGHT / 2, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
+        WavelengthControl c2 = new WavelengthControl( new UserComponent( "c2" ), true, TRACK_WIDTH / 2, TRACK_HEIGHT / 2, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
         canvas.getLayer().addChild( c2 );
         c2.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
 
         // UV & IR
-        WavelengthControl c3 = new WavelengthControl( new UserComponent( "c3" ), TRACK_WIDTH, TRACK_HEIGHT, 90, 900 );
+        WavelengthControl c3 = new WavelengthControl( new UserComponent( "c3" ), true, TRACK_WIDTH, TRACK_HEIGHT, 90, 900 );
         c3.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c3 );
         c3.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
 
         // UV only
-        WavelengthControl c4 = new WavelengthControl( new UserComponent( "c4" ), TRACK_WIDTH, TRACK_HEIGHT, 90, VisibleColor.MAX_WAVELENGTH );
+        WavelengthControl c4 = new WavelengthControl( new UserComponent( "c4" ), true, TRACK_WIDTH, TRACK_HEIGHT, 90, VisibleColor.MAX_WAVELENGTH );
         c4.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c4 );
         c4.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
 
         // IR only
-        WavelengthControl c5 = new WavelengthControl( new UserComponent( "c5" ), TRACK_WIDTH, TRACK_HEIGHT, VisibleColor.MIN_WAVELENGTH, 900 );
+        WavelengthControl c5 = new WavelengthControl( new UserComponent( "c5" ), true, TRACK_WIDTH, TRACK_HEIGHT, VisibleColor.MIN_WAVELENGTH, 900 );
         canvas.getLayer().addChild( c5 );
         c5.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
 
         // UV & IR with no room for labels
-        WavelengthControl c6 = new WavelengthControl( new UserComponent( "c6" ), TRACK_WIDTH, TRACK_HEIGHT, VisibleColor.MIN_WAVELENGTH - 15, VisibleColor.MAX_WAVELENGTH + 15 );
+        WavelengthControl c6 = new WavelengthControl( new UserComponent( "c6" ), true, TRACK_WIDTH, TRACK_HEIGHT, VisibleColor.MIN_WAVELENGTH - 15, VisibleColor.MAX_WAVELENGTH + 15 );
         c6.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c6 );
         c6.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
 
         // UV & IR with custom colors, fonts, etc
-        final WavelengthControl c7 = new WavelengthControl( new UserComponent( "c7" ), TRACK_WIDTH, TRACK_HEIGHT, 90, 900, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
+        final WavelengthControl c7 = new WavelengthControl( new UserComponent( "c7" ), true, TRACK_WIDTH, TRACK_HEIGHT, 90, 900, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
         c7.setWavelength( VisibleColor.MIN_WAVELENGTH );
         c7.setTextFieldColors( c7.getWavelengthColor(), Color.BLACK );
         c7.addChangeListener( new ChangeListener() {

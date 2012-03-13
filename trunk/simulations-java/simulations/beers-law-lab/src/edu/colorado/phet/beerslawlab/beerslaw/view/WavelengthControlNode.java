@@ -135,7 +135,7 @@ class WavelengthControlNode extends PNode implements Resettable {
     private static class BLLWavelengthControl extends WavelengthControl {
 
         public BLLWavelengthControl( Dimension trackSize, final Property<Double> wavelength ) {
-            super( UserComponents.wavelengthControl, trackSize.width, trackSize.height );
+            super( UserComponents.wavelengthControl, true, trackSize.width, trackSize.height );
 
             // set the model value when the control is changed
             addChangeListener( new ChangeListener() {
