@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
@@ -20,17 +21,35 @@ public abstract class MotionStrategy {
     protected MotionBounds motionBounds = new MotionBounds();
 
     /**
-     * Get the next location based on the current motion.  If the application of
-     * the current motion causes any part of the provided shape to go outside of
-     * the motion bounds, a "bounce" will occur.
+     * Get the next location given the current position.  State information
+     * contained in the motion strategy instance, such as the current motion
+     * vector, will determine the next position.
      *
      * @param currentLocation
-     * @param shape           - Shape of the controlled item, used in detecting whether
-     *                        the item would go outside of the motion bounds.
+     * @param shape           Shape of the controlled item, used in detecting
+     *                        whether the item would go outside of the motion
+     *                        bounds.
      * @param dt
      * @return
      */
     public abstract Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt );
+
+    /**
+     * Get the next location in three dimensions given the current position.
+     * State information contained in the motion strategy instance, such as the
+     * current motion vector, will determine the next position.
+     *
+     * @param currentLocation
+     * @param shape           Shape of the controlled item, used in detecting
+     *                        whether the item would go outside of the motion
+     *                        bounds.
+     * @param dt
+     * @return
+     */
+    public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
+        Point2D nextLocation2D = getNextLocation( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ), shape, dt );
+        return new Point3D.Double( nextLocation2D.getX(), nextLocation2D.getY(), 0 );
+    }
 
     /**
      * Set a new value for the motion bounds.
