@@ -4,6 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 import java.awt.Color;
 import java.awt.Shape;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -59,6 +60,11 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // other model objects (primarily other biomolecules) in terms of
     // attaching, detaching, etc.
     protected final AttachmentStateMachine attachmentStateMachine;
+
+    // Position on the Z axis.  This is handled much differently than for the
+    // x and y axes, which can be set to any value.  The Z axis only goes
+    // between 0 (all the way to the front) and 1 (all the way to the back).
+    private double zPosition = 0;
 
     // A property that keeps track of this biomolecule's "existence strength",
     // which is used primarily to fade out of existence.  The range for this
@@ -135,6 +141,18 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
             // Update the state of the attachment state machine.
             attachmentStateMachine.stepInTime( dt );
         }
+    }
+
+    /**
+     * Get the position, including a Z component.  True 3D is not fully
+     * supported in this simulation, but a limited Z axis is used in some cases
+     * to make biomolecules look like they are "off in the distance".
+     *
+     * @return - Position in 3D space.  Z values are limited to be from zero to
+     *         one, inclusive.
+     */
+    public Point3D getPosition3D() {
+        return new Point3D.Double( getPosition().getX(), getPosition().getY(), zPosition );
     }
 
     public GeneExpressionModel getModel() {
