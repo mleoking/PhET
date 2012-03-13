@@ -80,7 +80,15 @@ object Hiding extends Enumeration {
 
 import Hiding._
 
-case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding) extends Tab {
+case class Check(attempts: Int, correct: Boolean)
+
+case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding,
+
+                //When the game started for purposes of finding how long it took
+                gameStartTime: Long,
+
+                //accumulated scores so far for a certain problem
+                checks: List[Check]) extends Tab {
 
   def next(e: Entry): Tab2 = {
 
@@ -100,6 +108,9 @@ case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding) extend
       case Entry(_, "user", "nothingRadioButton", _, "pressed", _) => copy(hide = nothing)
       case Entry(_, "user", "moleculesRadioButton", _, "pressed", _) => copy(hide = molecules)
       case Entry(_, "user", "numbersRadioButton", _, "pressed", _) => copy(hide = numbers)
+      case Entry(_, "user", "startGameButton", _, "pressed", _) => copy(gameStartTime = e.time, checks = Nil)
+      case Entry(_, "user", "checkButton", _, "pressed", _) => copy(gameStartTime = e.time, checks = checks ::: ( Check(e("attempts").toInt, e("correct").toBoolean) :: Nil ))
+      //      case Entry(_, "user", "nextButton", _, "pressed", _) => copy(checks = Nil)
 
       //Nothing happened to change the state
       case _ => this
