@@ -10,14 +10,10 @@ import collection.mutable.ArrayBuffer
 /**
  * @author Sam Reid
  */
-
 object RPALAnalysis extends StateMachine[SimState] {
   def toReport(log: Log) = new Report(log)
 
-  /**
-   * Consolidate the important information that was needed from a single log
-   * of entries.
-   */
+  //Consolidate the important information that was needed from a single log of entries.
   class Report(val log: Log) {
 
     //Uses a state machine to compute the states that the simulation went through.
