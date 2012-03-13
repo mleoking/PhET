@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
  */
 public class HASimSharing {
 
-    public enum UserComponents implements IUserComponent {
+    public static enum UserComponents implements IUserComponent {
         gunWavelengthControl
     }
 }
