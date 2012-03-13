@@ -47,6 +47,7 @@ public abstract class MotionStrategy {
      * @return
      */
     public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
+        // Default version does not move in Z direction, override for true 3D motion.
         Point2D nextLocation2D = getNextLocation( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ), shape, dt );
         return new Point3D.Double( nextLocation2D.getX(), nextLocation2D.getY(), 0 );
     }

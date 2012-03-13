@@ -139,7 +139,12 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
             // Set a new position in model space based on the current motion
             // strategy.
-            setPosition( motionStrategy.getNextLocation( getPosition(), getShape(), dt ) );
+            if ( zMotionEnabled ) {
+                setPosition3D( motionStrategy.getNextLocation3D( getPosition3D(), getShape(), dt ) );
+            }
+            else {
+                setPosition( motionStrategy.getNextLocation( getPosition(), getShape(), dt ) );
+            }
 
             // Update the state of the attachment state machine.
             attachmentStateMachine.stepInTime( dt );
@@ -154,8 +159,13 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      * @return Position in 3D space.  Z values are limited to be from zero to
      *         negative one, inclusive.
      */
-    public Point3D getPosition3D() {
+    private Point3D getPosition3D() {
         return new Point3D.Double( getPosition().getX(), getPosition().getY(), zPosition.get() );
+    }
+
+    private void setPosition3D( Point3D position ) {
+        setPosition( position.getX(), position.getY() );
+        zPosition.set( position.getZ() );
     }
 
     /**

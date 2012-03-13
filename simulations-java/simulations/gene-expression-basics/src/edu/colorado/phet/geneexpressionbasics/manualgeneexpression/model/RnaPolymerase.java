@@ -99,16 +99,6 @@ public class RnaPolymerase extends MobileBiomolecule {
         colorProperty.set( ColorUtils.interpolateRBGA( NOMINAL_COLOR, CONFORMED_COLOR, changeFactor ) );
     }
 
-    @Override public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-        double newZPosition = zPosition.get() - dt * 0.1;
-        if ( newZPosition < -1 ) {
-            // reset z position.
-            newZPosition = 0;
-        }
-        zPosition.set( newZPosition );
-    }
-
     @Override public AttachmentSite proposeAttachments() {
         // Propose attachment to the DNA.
         return model.getDnaMolecule().considerProposalFrom( this );

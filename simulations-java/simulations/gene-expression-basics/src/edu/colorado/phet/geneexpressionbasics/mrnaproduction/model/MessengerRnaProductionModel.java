@@ -249,6 +249,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         for ( int i = 0; i < RNA_POLYMERASE_COUNT; i++ ) {
             RnaPolymerase rnaPolymerase = new RnaPolymerase( this, new Point2D.Double( 0, 0 ) );
             rnaPolymerase.setPosition( generateInitialLocation( rnaPolymerase ) );
+            rnaPolymerase.set3DMotionEnabled( true );
             addMobileBiomolecule( rnaPolymerase, true );
         }
     }
@@ -307,6 +308,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             for ( int i = currentLevel; i < targetCount; i++ ) {
                 TranscriptionFactor transcriptionFactor = new TranscriptionFactor( this, tcConfig, new Point2D.Double( 0, 0 ) );
                 transcriptionFactor.setPosition( generateInitialLocation( transcriptionFactor ) );
+                transcriptionFactor.set3DMotionEnabled( true );
                 addMobileBiomolecule( transcriptionFactor, true );
             }
         }
