@@ -22,6 +22,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -431,6 +432,8 @@ public class WavelengthControl extends PhetPNode {
         final double bandwidth = maxWavelength - minWavelength;
         final double trackWidth = track.getFullBounds().getWidth();
         final double wavelength = minWavelength + ( ( trackPoint.getX() / trackWidth ) * bandwidth );
+        SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, UserActions.trackClicked,
+                                           ParameterSet.parameterSet( ParameterKeys.value, wavelength ) );
         setWavelength( wavelength );
     }
 
@@ -440,8 +443,10 @@ public class WavelengthControl extends PhetPNode {
         try {
             final double wavelength = Double.valueOf( text );
             if ( wavelength >= minWavelength && wavelength <= maxWavelength ) {
-                sendCommittedMessage( commitAction, wavelength );
-                setWavelength( wavelength );
+                if ( wavelength != this.wavelength ) {
+                    sendCommittedMessage( commitAction, wavelength );
+                    setWavelength( wavelength );
+                }
             }
             else {
                 // Input was a number, but it was out of range
@@ -745,7 +750,13 @@ public class WavelengthControl extends PhetPNode {
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                getLayer().addChild( new WavelengthControl( new UserComponent( "wavelengthControl" ), true, 200, 50 ) {{setOffset( 100, 100 );}} );
+                getLayer().addChild( new WavelengthControl( new UserComponent( "wavelengthControl" ), true, 200, 50 ) {{
+                    setOffset( 100, 100 );
+                }} );
+                // Another Swing component, for testing focusLost
+                getLayer().addChild( new PSwing( new JButton( "focus" ) ) {{
+                    setOffset( 100, 300 );
+                }} );
             }} );
             setDefaultCloseOperation( EXIT_ON_CLOSE );
             setSize( 500, 500 );
