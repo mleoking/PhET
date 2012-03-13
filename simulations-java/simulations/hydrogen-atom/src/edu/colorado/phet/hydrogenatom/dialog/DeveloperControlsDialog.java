@@ -166,7 +166,7 @@ public class DeveloperControlsDialog extends PaintImmediateDialog implements Col
 
         // Hiliting of transition wavelengths on wavelength control
         {
-            int value = GunWavelengthControl.KNOB_HILITE_THRESHOLD;
+            int value = GunWavelengthControl.THUMB_HIGHLIGHT_THRESHOLD;
             int min = 1;
             int max = 20;
             int stepSize = 1;
@@ -415,7 +415,7 @@ public class DeveloperControlsDialog extends PaintImmediateDialog implements Col
     }
 
     private void handleWavelengthHiliteThresholdSpinner() {
-        GunWavelengthControl.KNOB_HILITE_THRESHOLD = _wavelengthHiliteThreshold.getIntValue();
+        GunWavelengthControl.THUMB_HIGHLIGHT_THRESHOLD = _wavelengthHiliteThreshold.getIntValue();
     }
 
     private void handleAbsorptionEmissionCheckBoxes() {

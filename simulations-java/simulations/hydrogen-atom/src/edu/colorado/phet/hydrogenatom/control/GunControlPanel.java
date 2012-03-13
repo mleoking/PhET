@@ -278,7 +278,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
     public void setTransitionWavelengths( double[] transitionWavelengths ) {
 
         _wavelengthControl.setTransitionWavelengths( transitionWavelengths );
-        _wavelengthControl.setKnobHilitingEnabled( true );
+        _wavelengthControl.setThumbHighlightingEnabled( true );
 
         _transitionMarksControlVisible = ( transitionWavelengths != null );
         if ( _lightTypeControl.isMonochromaticSelected() ) {

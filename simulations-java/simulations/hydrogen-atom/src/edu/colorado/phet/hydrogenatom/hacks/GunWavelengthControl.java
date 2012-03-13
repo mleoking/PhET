@@ -40,7 +40,7 @@ public class GunWavelengthControl extends WavelengthControl {
     // Public class data
     //----------------------------------------------------------------------------
 
-    public static int KNOB_HILITE_THRESHOLD = 3; // nm
+    public static int THUMB_HIGHLIGHT_THRESHOLD = 3; // nm
 
     //----------------------------------------------------------------------------
     // Private class data
@@ -51,10 +51,10 @@ public class GunWavelengthControl extends WavelengthControl {
     private static final int TRACK_WIDTH = 300;
     private static final int TRACK_HEIGHT = 25;
 
-    private static final Stroke KNOB_NORMAL_STROKE = new BasicStroke( 1f );
-    private static final Stroke KNOB_HILITE_STROKE = new BasicStroke( 2f );
-    private static final Color KNOB_NORMAL_COLOR = Color.BLACK;
-    private static final Color KNOB_HILITE_COLOR = Color.WHITE;
+    private static final Stroke THUMB_NORMAL_STROKE = new BasicStroke( 1f );
+    private static final Stroke THUMB_HIGHLIGHT_STROKE = new BasicStroke( 2f );
+    private static final Color THUMB_NORMAL_COLOR = Color.BLACK;
+    private static final Color THUMB_HIGHLIGHT_COLOR = Color.WHITE;
 
     private static final Stroke TRANSITION_MARKS_STROKE = new BasicStroke( 1f );
     private static final Color TRANSITION_MARKS_COLOR = Color.BLACK;
@@ -68,7 +68,7 @@ public class GunWavelengthControl extends WavelengthControl {
     private double[] _transitionWavelengths;
     private double _bestMatch; // the best matching transition wavelength
     private boolean _dragging;
-    private boolean _hiliteTransitionWavelengths; // whether to highlight the knob when it is near a transition wavelength
+    private boolean _highlightTransitionWavelengths; // whether to highlight the thumb when it is near a transition wavelength
     private PNode _transitionMarksNode; // markings in the track at transition wavelengths
     private boolean _transitionMarksVisible;
 
@@ -84,7 +84,7 @@ public class GunWavelengthControl extends WavelengthControl {
 
         /* 
          * Change the cursor color, so that it doesn't obscure the transition marks.
-         * This is not a mouse cursor; it's the rectangle that appears above the tip of the knob.
+         * This is not a mouse cursor; it's the rectangle that appears above the tip of the thumb.
          */
         setCursorColor( ALTERNATE_CURSOR_COLOR );
 
@@ -100,23 +100,23 @@ public class GunWavelengthControl extends WavelengthControl {
             }
         } );
 
-        // When the control's value changes, update the thumb highlightinh.
+        // When the control's value changes, update the thumb highlighting.
         addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent e ) {
-                if ( _hiliteTransitionWavelengths ) {
-                    updateKnob();
+                if ( _highlightTransitionWavelengths ) {
+                    updateThumb();
                 }
             }
         } );
 
         _transitionWavelengths = null;
-        _hiliteTransitionWavelengths = false;
+        _highlightTransitionWavelengths = false;
         _bestMatch = NO_MATCH;
         _dragging = false;
         _transitionMarksVisible = false;
 
-        updateKnob();
+        updateThumb();
     }
 
     //----------------------------------------------------------------------------
@@ -133,7 +133,7 @@ public class GunWavelengthControl extends WavelengthControl {
             printTransitionWavelengths( transitionWavelengths );
         }
         _transitionWavelengths = transitionWavelengths;
-        updateKnob();
+        updateThumb();
         updateTransitionMarks();
     }
 
@@ -158,9 +158,9 @@ public class GunWavelengthControl extends WavelengthControl {
      *
      * @param b
      */
-    public void setKnobHilitingEnabled( boolean b ) {
-        _hiliteTransitionWavelengths = b;
-        updateKnob();
+    public void setThumbHighlightingEnabled( boolean b ) {
+        _highlightTransitionWavelengths = b;
+        updateThumb();
     }
 
     /**
@@ -203,8 +203,8 @@ public class GunWavelengthControl extends WavelengthControl {
      * close to some transition wavelength.
      */
     private boolean isClose( double wavelength, double transitionWavelength ) {
-        double min = transitionWavelength - KNOB_HILITE_THRESHOLD;
-        double max = transitionWavelength + KNOB_HILITE_THRESHOLD;
+        double min = transitionWavelength - THUMB_HIGHLIGHT_THRESHOLD;
+        double max = transitionWavelength + THUMB_HIGHLIGHT_THRESHOLD;
         return ( ( wavelength >= min ) && ( wavelength <= max ) );
     }
 
@@ -212,7 +212,7 @@ public class GunWavelengthControl extends WavelengthControl {
      * Called while the thumb is being dragged.
      * Highlights the thumb whenever the wavelength is sufficiently close to one of the atom's transition wavelengths.
      */
-    private void updateKnob() {
+    private void updateThumb() {
 
         double wavelength = getWavelength();
 
@@ -235,12 +235,12 @@ public class GunWavelengthControl extends WavelengthControl {
 
         // Set the thumb's stroke properties
         if ( _bestMatch == NO_MATCH ) {
-            setThumbStroke( KNOB_NORMAL_STROKE );
-            setThumbStrokeColor( KNOB_NORMAL_COLOR );
+            setThumbStroke( THUMB_NORMAL_STROKE );
+            setThumbStrokeColor( THUMB_NORMAL_COLOR );
         }
         else {
-            setThumbStroke( KNOB_HILITE_STROKE );
-            setThumbStrokeColor( KNOB_HILITE_COLOR );
+            setThumbStroke( THUMB_HIGHLIGHT_STROKE );
+            setThumbStrokeColor( THUMB_HIGHLIGHT_COLOR );
         }
     }
 
