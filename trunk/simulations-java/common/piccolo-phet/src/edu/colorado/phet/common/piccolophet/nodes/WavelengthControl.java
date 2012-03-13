@@ -459,29 +459,6 @@ public class WavelengthControl extends PhetPNode {
     //----------------------------------------------------------------------------
 
     /*
-     * Calculates the wavelength that corresponds to the knob position.
-     */
-    private double calculateWavelength() {
-        final double bandwidth = _maxWavelength - _minWavelength;
-        PBounds trackBounds = _track.getFullBounds();
-        PBounds knobBounds = _knob.getFullBounds();
-        final double trackX = trackBounds.getX();
-        final double trackWidth = trackBounds.getWidth();
-        final double knobTipX = knobBounds.getX() + ( knobBounds.getWidth() / 2 );
-        final double wavelength = _minWavelength + ( ( ( knobTipX - trackX ) / trackWidth ) * bandwidth );
-        return wavelength;
-    }
-
-    /*
-     * Handles dragging of the knob.
-     */
-    private void handleKnobDrag() {
-        double wavelength = calculateWavelength();
-        wavelength = MathUtil.clamp( _minWavelength, wavelength, _maxWavelength );
-        setWavelength( wavelength );
-    }
-
-    /*
      * Handles entry of values in the text field.
      */
     private void handleTextEntry( IParameterValue commitAction ) {
