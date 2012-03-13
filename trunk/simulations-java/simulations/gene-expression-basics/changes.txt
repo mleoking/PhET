@@ -1,3 +1,5 @@
+# 0.00.18 (62503) Mar 13, 2012
+3/13/12 Deploying snapshot to dev for review and discussion.
 On the 2nd tab, made the transcription factors and polymerase be somewhat "pulled in" to the appropriate locations on the DNA strand to start transcription.  This increases transcription rates substantially.
 Changed the algorithm that defines the way that transcription factors detach and reattach to the DNA to pay attention to different site affinities.
 Made polymerase go to back of its layer when it attaches to the DNA so that it goes behind any transcription factors.  This looks better when collisions occur.
