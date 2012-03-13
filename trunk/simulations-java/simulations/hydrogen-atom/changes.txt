@@ -1,4 +1,4 @@
-3/12/12 #3276, fixed coordinate frame problem in WavelengthControl
+3/12/12 #3276, #3277 changes to WavelengthControl
 # 1.11.00 (54048) Jul 13, 2011
 # 1.10.01 (53877) Jul 8, 2011
 7/8/11 > added "Excite Atom" button for getting Schrodinger atom out of the (2,0,0) metastable state
