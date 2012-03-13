@@ -64,7 +64,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // Position on the Z axis.  This is handled much differently than for the
     // x and y axes, which can be set to any value.  The Z axis only goes
     // between 0 (all the way to the front) and 1 (all the way to the back).
-    private double zPosition = 0;
+    private Property<Double> zPosition = new Property<Double>( 0.0 );
 
     // A property that keeps track of this biomolecule's "existence strength",
     // which is used primarily to fade out of existence.  The range for this
@@ -152,7 +152,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      *         one, inclusive.
      */
     public Point3D getPosition3D() {
-        return new Point3D.Double( getPosition().getX(), getPosition().getY(), zPosition );
+        return new Point3D.Double( getPosition().getX(), getPosition().getY(), zPosition.get() );
     }
 
     public GeneExpressionModel getModel() {
