@@ -1,3 +1,4 @@
+Intro & Equality Lab: Fixed: Out of memory exception when adding/subtracting lots of 3d cake slices
 # 0.00.55 (62473) Mar 12, 2012
 Equality Lab: Made the green arrow draggable
 Matching Game: Limit values to <= 2.0 since otherwise it would go off the chart for the number line

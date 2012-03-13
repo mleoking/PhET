@@ -34,7 +34,6 @@ public class CakeSetNode extends PieSetNode {
     public static @Data class Arg {
         final int cell;
         final int denominator;
-        final Slice slice;
     }
 
     //Cache for performance, to avoid cropping each time
@@ -79,7 +78,7 @@ public class CakeSetNode extends PieSetNode {
     static class SliceImage extends PImage {
         SliceImage( final int cell, final SliceNodeArgs a ) {
             //Center on the slice tip because each image is padded to the amount of a full cake
-            super( cakeImages.f( new Arg( cell, a.denominator, a.slice ) ) );
+            super( cakeImages.f( new Arg( cell, a.denominator ) ) );
             double fudgeY = getFullBounds().getHeight() / 4;
             setOffset( a.slice.position.getX() - getFullBounds().getWidth() / 2, a.slice.position.getY() - getFullBounds().getHeight() / 2 - fudgeY );
         }
