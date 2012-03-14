@@ -150,12 +150,12 @@ public class WavelengthControl extends PhetPNode {
      * @param sendDragMessages
      * @param trackWidth
      * @param trackHeight
-     * @param minWavelength minimum wavelength, in nanometers
-     * @param maxWavelength maximum wavelength, in nanometers
-     * @param uvTrackColor  color used for UV label
-     * @param uvLabelColor  color used for UV track
-     * @param irTrackColor  color used for IR label
-     * @param irLabelColor  color used for IR track
+     * @param minWavelength    minimum wavelength, in nanometers
+     * @param maxWavelength    maximum wavelength, in nanometers
+     * @param uvTrackColor     color used for UV label
+     * @param uvLabelColor     color used for UV track
+     * @param irTrackColor     color used for IR label
+     * @param irLabelColor     color used for IR track
      * @throws IllegalArgumentException if minWavelength >= maxWavelength
      */
     public WavelengthControl( IUserComponent userComponent, boolean sendDragMessages,
@@ -163,7 +163,6 @@ public class WavelengthControl extends PhetPNode {
                               double minWavelength, double maxWavelength,
                               Color uvTrackColor, Color uvLabelColor,
                               Color irTrackColor, Color irLabelColor ) {
-        super();
 
         if ( minWavelength >= maxWavelength ) {
             throw new IllegalArgumentException( "have you reversed the minWavelength and maxWavelength args?" );
