@@ -163,7 +163,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         return new Point3D.Double( getPosition().getX(), getPosition().getY(), zPosition.get() );
     }
 
-    private void setPosition3D( Point3D position ) {
+    public void setPosition3D( Point3D position ) {
         setPosition( position.getX(), position.getY() );
         zPosition.set( position.getZ() );
     }

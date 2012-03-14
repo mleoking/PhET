@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -57,7 +58,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 15;
 
     // Number of RNA polymerase molecules present.
-    public static final int RNA_POLYMERASE_COUNT = 1;
+    public static final int RNA_POLYMERASE_COUNT = 8;
 
     // etc.
     private static final Random RAND = new Random();
@@ -248,7 +249,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         // concentration of these remains constant in this model.
         for ( int i = 0; i < RNA_POLYMERASE_COUNT; i++ ) {
             RnaPolymerase rnaPolymerase = new RnaPolymerase( this, new Point2D.Double( 0, 0 ) );
-            rnaPolymerase.setPosition( generateInitialLocation( rnaPolymerase ) );
+            rnaPolymerase.setPosition3D( generateInitialLocation3D( rnaPolymerase ) );
             rnaPolymerase.set3DMotionEnabled( true );
             addMobileBiomolecule( rnaPolymerase, true );
         }
@@ -283,15 +284,16 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         dnaMolecule.stepInTime( dt );
     }
 
-    // Generate a random initial location for a biomolecule.
-    private Point2D generateInitialLocation( MobileBiomolecule biomolecule ) {
+    // Generate a random, valid, initial location, including the Z dimension.
+    private Point3D generateInitialLocation3D( MobileBiomolecule biomolecule ) {
         double xMin = moleculeMotionBounds.getBounds2D().getMinX() + biomolecule.getShape().getBounds2D().getWidth() / 2;
         double yMin = moleculeMotionBounds.getBounds2D().getMinY() + biomolecule.getShape().getBounds2D().getHeight() / 2;
         double xMax = moleculeMotionBounds.getBounds2D().getMaxX() - biomolecule.getShape().getBounds2D().getWidth() / 2;
         double yMax = moleculeMotionBounds.getBounds2D().getMaxY() - biomolecule.getShape().getBounds2D().getHeight() / 2;
         double xPos = xMin + RAND.nextDouble() * ( xMax - xMin );
         double yPos = yMin + RAND.nextDouble() * ( yMax - yMin );
-        return new Point2D.Double( xPos, yPos );
+        double zPos = -RAND.nextDouble(); // Valid z values are from -1 to 0.
+        return new Point3D.Double( xPos, yPos, zPos );
     }
 
     private void setTranscriptionFactorCount( TranscriptionFactorConfig tcConfig, int targetCount ) {
@@ -307,7 +309,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             // Add some.
             for ( int i = currentLevel; i < targetCount; i++ ) {
                 TranscriptionFactor transcriptionFactor = new TranscriptionFactor( this, tcConfig, new Point2D.Double( 0, 0 ) );
-                transcriptionFactor.setPosition( generateInitialLocation( transcriptionFactor ) );
+                transcriptionFactor.setPosition3D( generateInitialLocation3D( transcriptionFactor ) );
                 transcriptionFactor.set3DMotionEnabled( true );
                 addMobileBiomolecule( transcriptionFactor, true );
             }
