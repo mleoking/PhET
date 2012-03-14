@@ -8,7 +8,6 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Foll
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MeanderToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 
 /**
  * Base class for individual attachment states, used by the various attachment
@@ -53,9 +52,6 @@ public abstract class AttachmentState {
                 gsm.attachmentSite.attachedOrAttachingMolecule.set( gsm.biomolecule );
 
                 // Start moving towards the site.
-                if ( gsm.biomolecule instanceof TranscriptionFactor ) {
-                    System.out.println( "TF!" );
-                }
                 gsm.biomolecule.setMotionStrategy( new MeanderToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
                                                                                            gsm.biomolecule.motionBoundsProperty,
                                                                                            gsm.destinationOffset ) );
