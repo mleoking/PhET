@@ -20,17 +20,17 @@ class TimelineNode(states: List[StateEntry[SimState]]) extends PNode {
   val lightBlue = new Color(96, 216, 255)
   val lightGreen = new Color(144, 255, 191)
   for ( i <- 0 until states.length; val state = states(i) ) {
-    val color = state.start.tab match {
-      case 0 => lightRed
-      case 1 => lightGreen
-      case 2 => lightBlue
+    val pair = state.start.tab match {
+      case 0 => (lightRed, 10)
+      case 1 => (lightGreen, 5)
+      case 2 => (lightBlue, 0)
       case _ => throw new RuntimeException("tab not found")
     }
     val t0 = function.evaluate(state.entry.time)
     val t1 = if ( i + 1 <= states.length - 1 ) function.evaluate(states(i + 1).entry.time) else t0
     val width = t1 - t0
-    addChild(new PhetPPath(new Rectangle2D.Double(function.evaluate(state.entry.time), 0, width, 10), color))
-    val tick = new Rectangle2D.Double(function.evaluate(state.entry.time), 0, 1, 10)
+    addChild(new PhetPPath(new Rectangle2D.Double(function.evaluate(state.entry.time), pair._2, width, 10), pair._1))
+    val tick = new Rectangle2D.Double(function.evaluate(state.entry.time), 20, 1, 10)
     addChild(new PhetPPath(tick, Color.black))
     if ( state.entry.matches("checkButton", "pressed") ) {
       val text = new PhetPText(state.entry("attempts"))
@@ -38,7 +38,7 @@ class TimelineNode(states: List[StateEntry[SimState]]) extends PNode {
                                   case true => "+"
                                   case false => "-"
                                 })
-      addChild(new VBox(text, text2) {
+      addChild(new VBox(0, text, text2) {
         setOffset(tick.getCenterX - getFullBounds.getWidth / 2, tick.getMaxY)
       })
     }
