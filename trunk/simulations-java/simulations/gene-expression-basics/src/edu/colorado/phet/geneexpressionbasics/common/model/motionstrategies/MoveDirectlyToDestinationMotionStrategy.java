@@ -80,12 +80,11 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
         // at the same time as the destination in XY space.
         double distanceToDestination2D = currentLocation2D.distance( destinationProperty.get() );
         if ( distanceToDestination2D > 0 ) {
-            zVelocity = Math.max( -currentLocation3D.getZ() / currentLocation2D.distance( destinationProperty.get() ) / scalarVelocity2D, MAX_Z_VELOCITY );
+            zVelocity = Math.min( Math.abs( currentLocation3D.getZ() ) / ( currentLocation2D.distance( destinationProperty.get() ) / scalarVelocity2D ), MAX_Z_VELOCITY );
         }
         else {
             zVelocity = MAX_Z_VELOCITY;
         }
-        System.out.println( "zVelocity = " + zVelocity );
 
         // Make sure that current motion will not cause the model element to
         // move outside of the motion bounds.
