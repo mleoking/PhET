@@ -8,6 +8,8 @@ import java.awt.Color
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction
 import edu.colorado.phet.common.piccolophet.nodes.{PhetPText, PhetPPath}
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox
+import edu.umd.cs.piccolo.nodes.PText
+import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 
 /**
  * @author Sam Reid
@@ -43,4 +45,21 @@ class TimelineNode(states: List[StateEntry[SimState]]) extends PNode {
       })
     }
   }
+
+  addChild(new PText("Export to console") {
+    setOffset(10, 42)
+    addInputEventListener(new PBasicInputEventHandler {
+      override def mousePressed(event: PInputEvent) {
+        println("i\ttime\ttab\tattempts\tcorrect")
+        for ( i <- 0 until states.length; val state = states(i) ) {
+          val attempts = if ( state.entry.matches("checkButton", "pressed") ) state.entry("attempts") else ""
+          val correct = if ( state.entry.matches("checkButton", "pressed") ) state.entry("correct").toBoolean match {
+            case true => "+"
+            case false => "-"
+          } else ""
+          println(i + "\t" + state.entry.time + "\t" + state.start.tab + "\t" + attempts + "\t" + correct)
+        }
+      }
+    })
+  })
 }
