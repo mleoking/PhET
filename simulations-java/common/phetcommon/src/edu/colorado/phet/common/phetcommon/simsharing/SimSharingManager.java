@@ -161,12 +161,20 @@ public class SimSharingManager {
         }
     }
 
-    // Tests to see if we're using a specific SimSharingConfig instance.
+    /*
+     * Tests to see if we're using a specific SimSharingConfig instance.
+     * Calling this method before PhetApplicationLauncher.launchSim is a programming error, and will
+     * result in IllegalStateException. We can't test for a SimSharingConfig until we receive the
+     * PhetApplicationConfig from PhetApplicationLauncher, which contains the name of the study.
+     * And we don't call getInstance herein, because getInstance will happily initialize with a
+     * dummy PhetApplicationConfig.
+     */
     public static boolean usingConfig( SimSharingConfig simSharingConfig ) {
         if ( INSTANCE == null ) {
             throw new IllegalStateException( "attempt to test for SimSharingConfig before sim-sharing has been initialized" );
         }
         else {
+            // Use referential equality, this should be one of the static instances in SimSharingConfig.
             return simSharingConfig == INSTANCE.simSharingConfig;
         }
     }
