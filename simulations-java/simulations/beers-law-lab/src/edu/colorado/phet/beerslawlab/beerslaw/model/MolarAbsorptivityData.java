@@ -61,7 +61,6 @@ public abstract class MolarAbsorptivityData {
         return indexMax + MIN_WAVELENGTH;
     }
 
-    //TODO replace with correct data, use CobaltIINitrateData until JC inputs data for Drink Mix
     public static class DrinkMixData extends MolarAbsorptivityData {
         public DrinkMixData() {
             super( new double[] {
