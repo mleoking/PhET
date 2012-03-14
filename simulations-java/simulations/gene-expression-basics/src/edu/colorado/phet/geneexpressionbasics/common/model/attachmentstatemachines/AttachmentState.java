@@ -43,17 +43,21 @@ public abstract class AttachmentState {
 //                gsm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
 //                                                                                                gsm.biomolecule.motionBoundsProperty,
 //                                                                                                gsm.destinationOffset ) );
-                gsm.biomolecule.setMotionStrategy( new MeanderToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
-                                                                                           gsm.biomolecule.motionBoundsProperty,
-                                                                                           gsm.destinationOffset ) );
-                gsm.setState( gsm.movingTowardsAttachmentState );
-
                 if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != null ) {
                     System.out.println( "About to overwrite." );
                 }
 
                 // Mark the attachment site as being in use.
                 gsm.attachmentSite.attachedOrAttachingMolecule.set( gsm.biomolecule );
+
+                // Start moving towards the site.
+                gsm.biomolecule.setMotionStrategy( new MeanderToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
+                                                                                           gsm.biomolecule.motionBoundsProperty,
+                                                                                           gsm.destinationOffset ) );
+
+                // Update state.
+                gsm.setState( gsm.movingTowardsAttachmentState );
+
             }
         }
 
@@ -73,7 +77,9 @@ public abstract class AttachmentState {
             // Verify that state is consistent.
             assert gsm.attachmentSite != null;
             if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != gsm.biomolecule ) {
-                System.out.println( "Inconsistent attachment state." );
+                System.out.println( "Inconsistent attachment state during time step." );
+                System.out.println( "gsm.biomolecule = " + gsm.biomolecule );
+                System.out.println( "gsm.attachmentSite.attachedOrAttachingMolecule.get() = " + gsm.attachmentSite.attachedOrAttachingMolecule.get() );
             }
             assert gsm.attachmentSite.attachedOrAttachingMolecule.get() == gsm.biomolecule;
 
@@ -93,6 +99,11 @@ public abstract class AttachmentState {
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             // Allow user interaction.
             enclosingStateMachine.biomolecule.movableByUser.set( true );
+            if ( enclosingStateMachine.attachmentSite.attachedOrAttachingMolecule.get() != enclosingStateMachine.biomolecule ) {
+                System.out.println( "Inconsistent attachment state at state entry." );
+                System.out.println( "enclosingStateMachine.biomolecule = " + enclosingStateMachine.biomolecule );
+                System.out.println( "enclosingStateMachine.attachmentSite.attachedOrAttachingMolecule.get() = " + enclosingStateMachine.attachmentSite.attachedOrAttachingMolecule.get() );
+            }
         }
     }
 

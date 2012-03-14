@@ -90,6 +90,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
 
                         // Set a new attachment site.
                         attachmentSite = attachmentSites.get( 0 );
+                        assert attachmentSite.attachedOrAttachingMolecule.get() == null; // Make sure that site is really available.
                         attachmentSite.attachedOrAttachingMolecule.set( biomolecule );
 
                         // Set up the state to move to the new attachment site.

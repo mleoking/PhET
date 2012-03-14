@@ -586,7 +586,7 @@ public class DnaMolecule {
         // See if this base pair is inside a gene.
         Gene gene = getGeneContainingBasePair( i );
         if ( gene != null ) {
-            // Base pair is in a gene.  See if site is available.
+            // Base pair is in a gene, so get it from the gene.
             return gene.getTranscriptionFactorAttachmentSite( i, tfConfig );
         }
         else {
@@ -611,7 +611,8 @@ public class DnaMolecule {
     /**
      * Get the two base pair attachment sites that are next to the provided
      * one, i.e. the one before it on the DNA strand and the one after it.  If
-     * at one end of the strand, only one site will be returned.
+     * at one end of the strand, only one site will be returned.  Occupied
+     * sites are not returned.
      *
      * @param attachmentSite
      * @return
@@ -620,10 +621,16 @@ public class DnaMolecule {
         int basePairIndex = getBasePairIndexFromXOffset( attachmentSite.locationProperty.get().getX() );
         List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
         if ( basePairIndex != 0 ) {
-            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex - 1, transcriptionFactor.getConfig() ) );
+            AttachmentSite potentialSite = getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex - 1, transcriptionFactor.getConfig() );
+            if ( potentialSite.attachedOrAttachingMolecule.get() == null ) {
+                attachmentSites.add( potentialSite );
+            }
         }
         if ( basePairIndex != basePairs.size() - 1 ) {
-            attachmentSites.add( getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex + 1, transcriptionFactor.getConfig() ) );
+            AttachmentSite potentialSite = getTranscriptionFactorAttachmentSiteForBasePairIndex( basePairIndex + 1, transcriptionFactor.getConfig() );
+            if ( potentialSite.attachedOrAttachingMolecule.get() == null ) {
+                attachmentSites.add( potentialSite );
+            }
         }
 
         // Eliminate any sites that, if attached to, would cause overlapping
@@ -636,7 +643,8 @@ public class DnaMolecule {
     /**
      * Get the two base pair attachment sites that are next to the provided
      * one, i.e. the one before it on the DNA strand and the one after it.  If
-     * at one end of the strand, only one site will be returned.
+     * at one end of the strand, only one site will be returned.  Occupied
+     * sites are not returned.
      *
      * @param attachmentSite
      * @return
@@ -645,10 +653,16 @@ public class DnaMolecule {
         int basePairIndex = getBasePairIndexFromXOffset( attachmentSite.locationProperty.get().getX() );
         List<AttachmentSite> attachmentSites = new ArrayList<AttachmentSite>();
         if ( basePairIndex != 0 ) {
-            attachmentSites.add( getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex - 1 ) );
+            AttachmentSite potentialSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex - 1 );
+            if ( potentialSite.attachedOrAttachingMolecule.get() == null ) {
+                attachmentSites.add( attachmentSite );
+            }
         }
         if ( basePairIndex != basePairs.size() - 1 ) {
-            attachmentSites.add( getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex + 1 ) );
+            AttachmentSite potentialSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex + 1 );
+            if ( potentialSite.attachedOrAttachingMolecule.get() == null ) {
+                attachmentSites.add( attachmentSite );
+            }
         }
 
         // Eliminate any sites that, if attached to, would cause overlapping
