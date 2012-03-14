@@ -1,3 +1,5 @@
+# 1.03.04 (62540) Mar 13, 2012
+3/13/12 dev version with study change requests
 3/13/12 #3283, sim-sharing fixes for spinners
 # 1.03.03 (62483) Mar 12, 2012
 3/12/12 dev version with study change requests
