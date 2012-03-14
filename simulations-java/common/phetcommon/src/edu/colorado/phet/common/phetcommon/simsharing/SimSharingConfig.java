@@ -93,7 +93,7 @@ public class SimSharingConfig {
     private static final HashMap<String, SimSharingConfig> CONFIG_MAP = new HashMap<String, SimSharingConfig>();
 
     private static void addConfig( SimSharingConfig config ) {
-        assert ( CONFIG_MAP.get( config.studyName ) == null );
+        assert ( CONFIG_MAP.get( config.studyName ) == null ); // prevent duplicate study names
         CONFIG_MAP.put( config.studyName, config );
     }
 
