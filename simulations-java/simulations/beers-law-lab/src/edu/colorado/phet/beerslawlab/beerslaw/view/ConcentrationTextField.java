@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 
 import javax.swing.SwingConstants;
@@ -13,11 +15,19 @@ import javax.swing.SwingConstants;
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJTextField;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterValues;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
+import com.sun.xml.internal.rngom.digested.DDataPattern.Param;
 
 /**
  * Text field that displays and edits concentration.
@@ -61,6 +71,28 @@ class ConcentrationTextField extends SimSharingJTextField {
             // commit the value when focus is lost
             @Override public void focusLost( FocusEvent e ) {
                 commitValue();
+            }
+        } );
+
+        // support for up/down arrow keys, with data-collection messages
+        addKeyListener( new KeyAdapter() {
+            @Override public void keyPressed( KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_UP ) {
+                    if ( solution.get().concentration.get() < solution.get().concentrationRange.getMax() ) {
+                        final double viewConcentration = solution.get().concentrationTransform.modelToView( solution.get().concentration.get() ) + 1;
+                        SimSharingManager.sendUserMessage( UserComponents.concentrationTextField, UserComponentTypes.textField, UserActions.upArrowPressed,
+                                                           ParameterSet.parameterSet( ParameterKeys.value, solution.get().concentrationTransform.viewToModel( viewConcentration ) ) );
+                        updateModel( viewConcentration );
+                    }
+                }
+                else if ( e.getKeyCode() == KeyEvent.VK_DOWN ) {
+                    if ( solution.get().concentration.get() > solution.get().concentrationRange.getMin() ) {
+                        final double viewConcentration = solution.get().concentrationTransform.modelToView( solution.get().concentration.get() ) + 1;
+                        SimSharingManager.sendUserMessage( UserComponents.concentrationTextField, UserComponentTypes.textField, UserActions.downArrowPressed,
+                                                           ParameterSet.parameterSet( ParameterKeys.value, solution.get().concentrationTransform.viewToModel( viewConcentration ) ) );
+                        updateModel( viewConcentration );
+                    }
+                }
             }
         } );
 
