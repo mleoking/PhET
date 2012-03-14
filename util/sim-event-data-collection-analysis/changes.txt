@@ -1,3 +1,4 @@
+Added a "export to console" button
 Added a flag for game in progress
 Show different tabs on different vertical levels
 # 00.00.30 (62552) Mar 13, 2012
