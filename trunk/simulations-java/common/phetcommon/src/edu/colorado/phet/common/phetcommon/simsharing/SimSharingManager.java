@@ -33,7 +33,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingConfig.getConfig;
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
@@ -102,6 +101,7 @@ public class SimSharingManager {
 
     // These members are initialized only if sim-sharing is enabled.
     private String studyName; // name for the study, as provided on the command line
+    private SimSharingConfig simSharingConfig;
     private String studentId; // student id, as provided by the student
     private String machineCookie; // identifies the client machine
     private int messageCount; // number of delivered events, for cross-checking that no events were dropped
@@ -110,14 +110,15 @@ public class SimSharingManager {
     public final StringLog stringLog = new StringLog();
 
     // Singleton, private constructor
-    private SimSharingManager( final PhetApplicationConfig config, String dbName ) {
+    private SimSharingManager( final PhetApplicationConfig applicationConfig, String dbName ) {
 
-        enabled = config.hasCommandLineArg( COMMAND_LINE_OPTION );
+        enabled = applicationConfig.hasCommandLineArg( COMMAND_LINE_OPTION );
         simStartedTime = System.currentTimeMillis();
         sessionId = generateSessionId();
         if ( enabled ) {
 
-            studyName = config.getOptionArg( COMMAND_LINE_OPTION );
+            studyName = applicationConfig.getOptionArg( COMMAND_LINE_OPTION );
+            simSharingConfig = SimSharingConfig.getConfig( studyName );
             studentId = getStudentId();
 
             // Get the machine cookie from the properties file, create one if it doesn't exist.
@@ -126,12 +127,12 @@ public class SimSharingManager {
 
             logs.add( new ConsoleLog() );
             logs.add( stringLog );
-            if ( getConfig( studyName ).isSendToLogFile() ) {
+            if ( simSharingConfig.sendToLogFile ) {
                 logs.add( new SimSharingFileLogger( machineCookie, sessionId ) );
             }
 
             //If Mongo delivery is enabled, add that log (but if trying to connect to unknown host, print an exception and skip it)
-            if ( getConfig( studyName ).isSendToServer() ) {
+            if ( simSharingConfig.sendToServer ) {
                 try {
                     logs.add( new MongoLog( sessionId, dbName ) );
                 }
@@ -140,7 +141,7 @@ public class SimSharingManager {
                 }
             }
 
-            sendStartupMessage( config );
+            sendStartupMessage( applicationConfig );
 
             //Look up additional external info and report in a separate thread so it doesn't slow down the main thread too much
             new Thread() {
@@ -148,7 +149,7 @@ public class SimSharingManager {
                     if ( WhatIsMountainTime.enabled ) {
                         sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, mountainTimeLookup, parameterSet( mountainTime, whatIsMountainTime() ) );
                     }
-                    if ( getConfig( studyName ).collectIPAddress ) {
+                    if ( simSharingConfig.collectIPAddress ) {
                         sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, ipAddressLookup, parameterSet( ipAddress, whatIsMyIPAddress() ) );
                     }
 
@@ -157,6 +158,16 @@ public class SimSharingManager {
                     }
                 }
             }.start();
+        }
+    }
+
+    // Tests to see if we're using a specific SimSharingConfig instance.
+    public static boolean usingConfig( SimSharingConfig simSharingConfig ) {
+        if ( INSTANCE == null ) {
+            throw new IllegalStateException( "attempt to test for SimSharingConfig before sim-sharing has been initialized" );
+        }
+        else {
+            return simSharingConfig == INSTANCE.simSharingConfig;
         }
     }
 
@@ -239,7 +250,6 @@ public class SimSharingManager {
     // Gets the id entered by the student. Semantics of this id vary from study to study. If the study requires no id, then returns null.
     private String getStudentId() {
         assert ( enabled );
-        SimSharingConfig simSharingConfig = getConfig( studyName );
         String id = null;
         if ( simSharingConfig.requestId ) {
             SimSharingIdDialog dialog = new SimSharingIdDialog( null, simSharingConfig.idPrompt, simSharingConfig.idRequired );
