@@ -77,6 +77,9 @@ public class MobileBiomoleculeNode extends PNode {
             // Update the "closeness" whenever it changes.
             mobileBiomolecule.zPosition.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double zPosition ) {
+                    if ( !( zPosition >= -1 && zPosition <= 0 ) ) {
+                        System.out.println( "Sourness, man" );
+                    }
                     assert zPosition >= -1 && zPosition <= 0; // Parameter checking.
                     // The further back the biomolecule is, the more
                     // transparent it is in order to make it look more distant.
