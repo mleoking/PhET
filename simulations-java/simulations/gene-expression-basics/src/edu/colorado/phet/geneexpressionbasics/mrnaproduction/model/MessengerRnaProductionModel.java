@@ -57,7 +57,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 15;
 
     // Number of RNA polymerase molecules present.
-    public static final int RNA_POLYMERASE_COUNT = 6;
+    public static final int RNA_POLYMERASE_COUNT = 1;
 
     // etc.
     private static final Random RAND = new Random();
