@@ -1,3 +1,4 @@
+3/13/12 Beers: support for up/down arrows in Concentration text field
 3/12/12 #3276, #3277 changes to WavelengthControl
 3/12/12 Beers: simplify Beam model and view to a single rectangle, instead of 3 segments [62487]
 3/10/12 add molar absorptivity data for Drink Mix

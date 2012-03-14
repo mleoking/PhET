@@ -12,5 +12,5 @@ public enum UserActions implements IUserAction {
     windowOpened, windowClosed, windowClosing, popupTriggered,
     focusLost, focusGained, selected, textFieldCommitted, textFieldCorrected,
     enterPressed, keyPressed, buttonPressed, mousePressed,
-    trackClicked
+    trackClicked, upArrowPressed, downArrowPressed
 }
