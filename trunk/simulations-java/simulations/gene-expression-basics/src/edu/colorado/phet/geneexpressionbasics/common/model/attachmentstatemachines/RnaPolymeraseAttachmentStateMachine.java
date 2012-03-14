@@ -125,7 +125,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                         }
                     }
 
-                    // Shuffle in order to produce ramdom-ish behavior.
+                    // Shuffle in order to produce random-ish behavior.
                     Collections.shuffle( attachmentSites );
 
                     if ( attachmentSites.size() == 0 ) {
@@ -138,6 +138,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
                         // Set a new attachment site.
                         attachmentSite = attachmentSites.get( 0 );
+                        if ( attachmentSite.attachedOrAttachingMolecule.get() != null ) {
+                            System.out.println( "Error: Attachment site isn't really available." );
+                        }
+                        assert attachmentSite.attachedOrAttachingMolecule.get() == null; // State checking - Make sure site is really available.
                         attachmentSite.attachedOrAttachingMolecule.set( biomolecule );
 
                         // Set up the state to move to the new attachment site.
