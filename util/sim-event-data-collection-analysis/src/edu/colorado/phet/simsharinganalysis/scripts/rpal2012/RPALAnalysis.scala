@@ -77,11 +77,11 @@ object RPALAnalysis extends StateMachine[SimState] {
 
     def gameResults: List[GameResult] = {
       ( for ( state <- userStates if state.entry.matches("game", "aborted") || state.entry.matches("game", "completed") ) yield {
-        GameResult(state.entry.time - state.start.tab2.gameStartTime, state.end.tab2.level, state.entry("score").toDouble, state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
+        GameResult(state.entry.time - state.start.tab2.gameStartTime.get, state.end.tab2.level, state.entry("score").toDouble, state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
       } ).toList
     }
 
-    val unfinishedGames = gameResults.filter(_.finished == false)
+    val abortedGames = gameResults.filter(_.finished == false)
 
     override def toString = "General:\n" +
                             "minutes in tab 1: " + minutesInTab(0) + "\n" +
@@ -114,9 +114,9 @@ object RPALAnalysis extends StateMachine[SimState] {
                                                                  "\tfinished: " + gameResults(i).finished + "\n" +
                                                                  "\tchecks: " + gameResults(i).checks + "\n" +
                                                                  "\tpoints: " + gameResults(i).points).mkString("\n") + "\n" +
-                            1.to(3).map(i => "Scores on level " + i + ": " + gameResults.filter(_.level == i).map(_.score)).mkString("\n") + "\n"
-
-    0.until(unfinishedGames.length).map(i => "Score in unfinished game " + i + ": " + unfinishedGames(i).score + "\n")
+                            1.to(3).map(i => "Scores on level " + i + ": " + gameResults.filter(_.level == i).map(_.score)).mkString("\n") + "\n" +
+                            0.until(abortedGames.length).map(i => "Score in aborted game " + i + ": " + abortedGames(i).score + "\n") + "\n" +
+                            "Game in progress: " + states.last.end.tab2.gameInProgress
   }
 
   //Given the current state and an entry, compute the next state
