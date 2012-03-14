@@ -16,6 +16,7 @@ MEDIUM
 - common: #3276, fix coordinate frame problem in WavelengthControl
 - common: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
 - compute drag bounds of various movable objects based on stage size
+- Beers: support for up/down arrows in Concentration text field
 
 LOW
 - common: objects flicker/tear while dragging (dropper, shaker, probes, cuvette, ...)
