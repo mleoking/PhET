@@ -85,10 +85,12 @@ case class Check(attempts: Int, correct: Boolean)
 case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding,
 
                 //When the game started for purposes of finding how long it took
-                gameStartTime: Long,
+                gameStartTime: Option[Long],
 
                 //accumulated scores so far for a certain problem
-                checks: List[Check]) extends Tab {
+                checks: List[Check],
+
+                gameInProgress: Boolean) extends Tab {
 
   def next(e: Entry): Tab2 = {
 
@@ -108,8 +110,10 @@ case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding,
       case Entry(_, "user", "nothingRadioButton", _, "pressed", _) => copy(hide = nothing)
       case Entry(_, "user", "moleculesRadioButton", _, "pressed", _) => copy(hide = molecules)
       case Entry(_, "user", "numbersRadioButton", _, "pressed", _) => copy(hide = numbers)
-      case Entry(_, "user", "startGameButton", _, "pressed", _) => copy(gameStartTime = e.time, checks = Nil)
-      case Entry(_, "user", "checkButton", _, "pressed", _) => copy(gameStartTime = e.time, checks = checks ::: ( Check(e("attempts").toInt, e("correct").toBoolean) :: Nil ))
+      case Entry(_, "user", "startGameButton", _, "pressed", _) => copy(gameStartTime = Some(e.time), checks = Nil, gameInProgress = true)
+      case Entry(_, "model", "game", _, "aborted", _) => copy(gameStartTime = Some(e.time), checks = Nil, gameInProgress = false)
+      case Entry(_, "model", "game", _, "completed", _) => copy(gameStartTime = Some(e.time), checks = Nil, gameInProgress = false)
+      case Entry(_, "user", "checkButton", _, "pressed", _) => copy(gameStartTime = Some(e.time), checks = checks ::: ( Check(e("attempts").toInt, e("correct").toBoolean) :: Nil ))
       //      case Entry(_, "user", "nextButton", _, "pressed", _) => copy(checks = Nil)
 
       //Nothing happened to change the state
