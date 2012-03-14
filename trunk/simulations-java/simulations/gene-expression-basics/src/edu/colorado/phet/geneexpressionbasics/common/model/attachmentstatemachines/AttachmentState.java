@@ -8,6 +8,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.Foll
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MeanderToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 
 /**
  * Base class for individual attachment states, used by the various attachment
@@ -43,6 +44,7 @@ public abstract class AttachmentState {
 //                gsm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
 //                                                                                                gsm.biomolecule.motionBoundsProperty,
 //                                                                                                gsm.destinationOffset ) );
+                // TODO: Debug code for tracking down an issue with site ownership.  Problem believed to be solved, delete if problem does not recur.
                 if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != null ) {
                     System.out.println( "About to overwrite." );
                 }
@@ -51,6 +53,9 @@ public abstract class AttachmentState {
                 gsm.attachmentSite.attachedOrAttachingMolecule.set( gsm.biomolecule );
 
                 // Start moving towards the site.
+                if ( gsm.biomolecule instanceof TranscriptionFactor ) {
+                    System.out.println( "TF!" );
+                }
                 gsm.biomolecule.setMotionStrategy( new MeanderToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
                                                                                            gsm.biomolecule.motionBoundsProperty,
                                                                                            gsm.destinationOffset ) );
@@ -76,6 +81,7 @@ public abstract class AttachmentState {
 
             // Verify that state is consistent.
             assert gsm.attachmentSite != null;
+            // TODO: Debug code for tracking down an issue with site ownership.  Problem believed to be solved, delete if problem does not recur.
             if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != gsm.biomolecule ) {
                 System.out.println( "Inconsistent attachment state during time step." );
                 System.out.println( "gsm.biomolecule = " + gsm.biomolecule );
@@ -99,6 +105,7 @@ public abstract class AttachmentState {
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             // Allow user interaction.
             enclosingStateMachine.biomolecule.movableByUser.set( true );
+            // TODO: Debug code for tracking down an issue with site ownership.  Problem believed to be solved, delete if problem does not recur.
             if ( enclosingStateMachine.attachmentSite.attachedOrAttachingMolecule.get() != enclosingStateMachine.biomolecule ) {
                 System.out.println( "Inconsistent attachment state at state entry." );
                 System.out.println( "enclosingStateMachine.biomolecule = " + enclosingStateMachine.biomolecule );
