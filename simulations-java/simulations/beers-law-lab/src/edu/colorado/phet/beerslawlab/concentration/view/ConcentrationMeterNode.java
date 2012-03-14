@@ -249,7 +249,6 @@ class ConcentrationMeterNode extends PhetPNode {
         }
 
         private boolean isInNode( PNode node ) {
-            //TODO ...or should this return true if any part of ProbeNode intersects node?
             return node.getFullBoundsReference().contains( meter.probe.location.get().toPoint2D() );
         }
     }
