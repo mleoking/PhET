@@ -55,7 +55,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     // Maximum number of transcription factor molecules.  The pertains to both
     // positive and negative transcription factors.
-    public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 15;
+    public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 8;
 
     // Number of RNA polymerase molecules present.
     public static final int RNA_POLYMERASE_COUNT = 8;
@@ -275,6 +275,8 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     }
 
     private void stepInTime( double dt ) {
+
+        // Step all the contained biomolecules.
         for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
             mobileBiomolecule.stepInTime( dt );
         }
@@ -282,6 +284,38 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             messengerRna.stepInTime( dt );
         }
         dnaMolecule.stepInTime( dt );
+
+        // The RNA polymerase tends to build up around the end of the gene.
+        // This is to be expected, but it takes too long for it to get back to
+        // the beginning of the gene to keep the rate high.  The following
+        // code checks to see if more than half of the polymerase molecules are
+        // in the right portion of the motion bounds and, if they are,
+        // "teleports" one back to the area near the beginning of the gene.
+        double motionBoundsCenterX = getMotionBounds( new RnaPolymerase() ).getBounds().getBounds2D().getCenterX();
+        int numPolymeraseOnRightSide = 0;
+        RnaPolymerase furthestRightPolymerase = null;
+        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
+            if ( mobileBiomolecule instanceof RnaPolymerase && mobileBiomolecule.getPosition().getX
+                    () > motionBoundsCenterX ) {
+                numPolymeraseOnRightSide++;
+                if ( furthestRightPolymerase == null ) {
+                    if ( !mobileBiomolecule.attachedToDna.get() ) {
+                        furthestRightPolymerase = (RnaPolymerase) mobileBiomolecule;
+                    }
+                }
+                else if ( furthestRightPolymerase.getPosition().getX() < mobileBiomolecule.getPosition().getX() && !mobileBiomolecule.attachedToDna.get() ) {
+                    furthestRightPolymerase = (RnaPolymerase) mobileBiomolecule;
+                }
+            }
+        }
+
+        if ( numPolymeraseOnRightSide > RNA_POLYMERASE_COUNT / 2 && furthestRightPolymerase != null ) {
+            // Teleport the polymerase to a random location near the point
+            // where transcription starts.
+            double xPos = -1000 + RAND.nextDouble() * 900;
+            double yPos = 200 + RAND.nextDouble() * 200;
+            furthestRightPolymerase.setPosition3D( new Point3D.Double( xPos, yPos, -1 ) );
+        }
     }
 
     // Generate a random, valid, initial location, including the Z dimension.
