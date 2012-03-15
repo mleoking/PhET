@@ -1,0 +1,56 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: March 8-14, 2011
+
+Concentration
+- deployed 1.00 to PhET website
+
+Beer's Law Lab
+- Chem meeting
+- change "lambda Max" to "fixed" for wavelength radio button
+- added mapping between wavelength and molar absorptivity
+- converted experimental data spreadsheets into CSV format
+- simplified model and view of light beam
+- adjusted height and location of cuvette
+- added support for up/down arrows in Concentration text field
+- 2nd tab is "feature complete", published dev version for review:
+  http://www.colorado.edu/physics/phet/dev/beers-law-lab/1.00.01/
+
+Reactants, Products and Leftovers
+- email discussions
+- changed default reaction to "Make ammonia" for study
+- added "Teacher->White background" feature for preparing worksheets
+- latest: http://www.colorado.edu/physics/phet/dev/reactants-products-and-leftovers/1.03.04
+
+Data Collection
+- added ability to test whether a specific study configuration is active, #3284
+- added data collection to Wavelength control, #3276
+- fixes to data collection for spinners, #3283
+- added missing constructor for data collection ParameterSet, #3284
+
+Common
+- fixed coordinate frame problems in Wavelength control, #3276
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Beer's Law Lab: complete 2nd tab, 3rd tab?
+- Reactants, Products and Leftovers: add anything additional needed for study
+- Line Graphing sim: design
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- April 23 - May 12 (bike trip, not working)
+- July 5-11 (CT, working)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working)
+
+--
