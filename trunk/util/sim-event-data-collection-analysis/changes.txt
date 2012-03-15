@@ -1,3 +1,4 @@
+Fixed: Time for each game is incorrect
 Added a "export to console" button
 Added a flag for game in progress
 Show different tabs on different vertical levels

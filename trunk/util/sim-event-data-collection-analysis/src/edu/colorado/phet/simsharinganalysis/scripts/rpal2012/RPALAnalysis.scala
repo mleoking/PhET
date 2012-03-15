@@ -115,8 +115,9 @@ object RPALAnalysis extends StateMachine[SimState] {
                                                                  "\tchecks: " + gameResults(i).checks + "\n" +
                                                                  "\tpoints: " + gameResults(i).points).mkString("\n") + "\n" +
                             1.to(3).map(i => "Scores on level " + i + ": " + gameResults.filter(_.level == i).map(_.score)).mkString("\n") + "\n" +
-                            0.until(abortedGames.length).map(i => "Score in aborted game " + i + ": " + abortedGames(i).score + "\n") + "\n" +
-                            "Game in progress: " + states.last.end.tab2.gameInProgress
+                            0.until(abortedGames.length).map(i => "Score in aborted game " + i + ": " + abortedGames(i).score).mkString("\n") + "\n" +
+                            "Game in progress: " + states.last.end.tab2.gameInProgress + "\n" +
+                            "time since game started: " + ( states.last.entry.time - states.last.end.tab2.gameStartTime.getOrElse(0L) )
   }
 
   //Given the current state and an entry, compute the next state
