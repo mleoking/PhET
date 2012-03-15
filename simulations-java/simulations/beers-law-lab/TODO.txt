@@ -5,7 +5,6 @@ DEADLINES
 
 DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
-- location of wavelength control makes it uninviting to drag probe between light and cuvette
 
 HIGH
 - interviews: versions with and without Wavelength control
