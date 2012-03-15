@@ -1,3 +1,4 @@
+# 00.00.31 (62566) Mar 15, 2012
 Fixed: Time for each game is incorrect
 Added a "export to console" button
 Added a flag for game in progress
