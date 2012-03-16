@@ -283,6 +283,10 @@ public class PhotoelectricModel extends DischargeLampModel {
             double retardingVoltage = voltage < 0 ? voltage : 0;
             electronsPerSecondToAnode = getStoppingVoltage() < retardingVoltage ? electronsPerSecondFromTarget : 0;
         }
+        // #3281: Any number of electrons <1 is effectively zero. This presents non-zero current readings when no electrons are reaching the anode.
+        if ( electronsPerSecondToAnode < 1 ) {
+            electronsPerSecondToAnode = 0;
+        }
         return electronsPerSecondToAnode * CURRENT_JIMMY_FACTOR;
     }
 
