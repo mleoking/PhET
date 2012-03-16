@@ -217,14 +217,21 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     }
 
     public void addMessengerRna( final MessengerRna messengerRna ) {
+
         messengerRnaList.add( messengerRna );
-        messengerRna.beingSynthesized.addObserver( new edu.colorado.phet.common.phetcommon.model.property.ChangeObserver<Boolean>() {
-            public void update( Boolean isBeingSynthesized, Boolean wasBeingSynthesized ) {
-                if ( !isBeingSynthesized && wasBeingSynthesized ) {
-                    // Remove this mRNA from the model, since in this case, we
-                    // don't do anything with it once it has been created.
+
+        // Since this will never be translated in this model, make it fade
+        // away once it is formed.
+        messengerRna.setFadeAwayWhenFormed( true );
+
+        // Remove this from the model once its existence strength reaches
+        // zero, which it will do since it is fading out.
+        messengerRna.existenceStrength.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double existenceStrength ) {
+                if ( existenceStrength <= 0 ) {
+                    // It's "gone", so remove it from the model.
                     messengerRnaList.remove( messengerRna );
-                    messengerRna.beingSynthesized.removeObserver( this );
+                    messengerRna.existenceStrength.removeObserver( this );
                 }
             }
         } );
@@ -280,7 +287,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
             mobileBiomolecule.stepInTime( dt );
         }
-        for ( MessengerRna messengerRna : messengerRnaList ) {
+        for ( MessengerRna messengerRna : new ArrayList<MessengerRna>( messengerRnaList ) ) {
             messengerRna.stepInTime( dt );
         }
         dnaMolecule.stepInTime( dt );

@@ -17,6 +17,9 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
     // Local reference of appropriate type.
     private final MessengerRna messengerRna;
 
+    // Flag to control whether the mRNA continues to exist once fully formed.
+    private boolean fadeAwayWhenFormed;
+
     public MessengerRnaAttachmentStateMachine( MessengerRna messengerRna ) {
         super( messengerRna );
         this.messengerRna = messengerRna;
@@ -28,7 +31,12 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
      * detach the mRNA from ribosomes or any other biomolecules.
      */
     @Override public void detach() {
-        setState( new DetachingFromPolymeraseState() );
+        if ( fadeAwayWhenFormed ) {
+            setState( new UnattachedAndFadingState() );
+        }
+        else {
+            setState( new DetachingFromPolymeraseState() );
+        }
     }
 
     @Override public void forceImmediateUnattachedAndAvailable() {
@@ -37,6 +45,10 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
         }
         attachmentSite = null;
         setState( new WanderingAroundCytoplasmState() );
+    }
+
+    public void setFadeAwayWhenFormed( boolean fadeAwayWhenFormed ) {
+        this.fadeAwayWhenFormed = fadeAwayWhenFormed;
     }
 
     /**
@@ -80,16 +92,13 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
             if ( detachingCountdownTimer <= 0 ) {
                 // Done detaching, start wandering.
                 setState( new WanderingAroundCytoplasmState() );
-
             }
-
         }
 
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             // Move upwards, away from the DNA and polymerase.
             enclosingStateMachine.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( -0.5, 1 ),
                                                                                                              enclosingStateMachine.biomolecule.motionBoundsProperty ) );
-
             // Update externally visible state.
             messengerRna.beingSynthesized.set( false );
         }
@@ -119,6 +128,22 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
             // Set a motion strategy that will not move this molecule, since
             // its position will be defined by the destroyer and translators.
             enclosingStateMachine.biomolecule.setMotionStrategy( new StillnessMotionStrategy() );
+        }
+    }
+
+    // State where the mRNA is fading out of existence.
+    protected class UnattachedAndFadingState extends AttachmentState {
+        private static final double FADE_OUT_TIME = 2;
+
+        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+            biomolecule.existenceStrength.set( Math.max( biomolecule.existenceStrength.get() - dt / FADE_OUT_TIME, 0 ) );
+        }
+
+        @Override public void entered( AttachmentStateMachine asm ) {
+            assert biomolecule.existenceStrength.get() == 1.0; // State checking - should be at full strength.
+            // Move upwards, away from the DNA and polymerase.
+            asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( -0.5, 1 ),
+                                                                                           asm.biomolecule.motionBoundsProperty ) );
         }
     }
 }
