@@ -157,6 +157,16 @@ public class MessengerRna extends MobileBiomolecule {
     }
 
     /**
+     * Command this mRNA strand to fade away when it has become fully formed.
+     * This was created for use in the 2nd tab, where mRNA is never translated
+     * once it is produced.
+     */
+    public void setFadeAwayWhenFormed( boolean fadeAwayWhenFormed ) {
+        // Just pass this through to the state machine.
+        mRnaAttachmentStateMachine.setFadeAwayWhenFormed( fadeAwayWhenFormed );
+    }
+
+    /**
      * Get the first shape-defining point enclosed in the provided length range.
      *
      * @param lengthRange
@@ -857,7 +867,7 @@ public class MessengerRna extends MobileBiomolecule {
             // See if the attachment site at the leading edge of the mRNA is
             // available.
             AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
-            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get()== null &&
+            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get() == null &&
                  leadingEdgeAttachmentSite.locationProperty.get().distance( ribosome.getEntranceOfRnaChannelPos().toPoint2D() ) < RIBOSOME_CONNECTION_DISTANCE ) {
                 // This attachment site is in range and available.
                 returnValue = leadingEdgeAttachmentSite;
@@ -880,7 +890,7 @@ public class MessengerRna extends MobileBiomolecule {
             // See if the attachment site at the leading edge of the mRNA is
             // available.
             AttachmentSite leadingEdgeAttachmentSite = shapeSegments.get( 0 ).attachmentSite;
-            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get()== null &&
+            if ( leadingEdgeAttachmentSite.attachedOrAttachingMolecule.get() == null &&
                  leadingEdgeAttachmentSite.locationProperty.get().distance( messengerRnaDestroyer.getPosition() ) < MRNA_DESTROYER_CONNECT_DISTANCE ) {
                 // This attachment site is in range and available.
                 returnValue = leadingEdgeAttachmentSite;
