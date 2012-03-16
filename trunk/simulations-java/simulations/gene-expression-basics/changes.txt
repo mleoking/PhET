@@ -1,4 +1,5 @@
 Made mRNA fade out on 2nd tab when it is fully formed, since it is never translated.
+Increased speed of transcription by polymerase on the DNA strand.
 Turned off the feature where the first tab started zoomed out.
 # 0.00.18 (62503) Mar 13, 2012
 3/13/12 Deploying snapshot to dev for review and discussion.
