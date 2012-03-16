@@ -1,3 +1,4 @@
+Constrained z-direction of biomolecules when near the DNA so that they always appear to be fully opaque when interacting with the DNA.
 Made mRNA fade out on 2nd tab when it is fully formed, since it is never translated.
 Increased speed of transcription by polymerase on the DNA strand.
 Turned off the feature where the first tab started zoomed out.
