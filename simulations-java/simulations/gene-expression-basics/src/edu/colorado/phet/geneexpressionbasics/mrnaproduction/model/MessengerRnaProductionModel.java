@@ -316,7 +316,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             double yPos = 200 + RAND.nextDouble() * 200;
             furthestRightPolymerase.forceDetach();
             furthestRightPolymerase.setPosition3D( new Point3D.Double( xPos, yPos, -1 ) );
-            System.out.println( "----------------- Teleported --------------------" );
         }
     }
 
