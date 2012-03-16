@@ -133,7 +133,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                         detachFromDnaMolecule( asm );
                     }
                     else {
-                        // Clear the previous attachment site.
+                        // Move to an adjacent base pair.  Firs, clear the
+                        // previous attachment site.
                         attachmentSite.attachedOrAttachingMolecule.set( null );
 
                         // Set a new attachment site.
