@@ -3,6 +3,8 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import lombok.Data;
 
+import java.awt.Shape;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
@@ -19,4 +21,6 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
     public final int j;
 
     public Vector2D position() {return new Vector2D( rectangle.getCenter() );}
+
+    public Shape toRoundedRectangle() { return rectangle.toRoundedRectangle( 20, 20 ); }
 }

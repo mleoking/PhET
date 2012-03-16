@@ -65,13 +65,11 @@ public class MatchingGameNode extends FNode {
         }};
         addChild( scalesNode );
 
-        final FNode scoreCellsLayer = new FNode() {{
-            state.scoreCells.map( new F<Cell, PNode>() {
-                @Override public PNode f( Cell c ) {
-                    return new PhetPPath( c.rectangle.toRoundedRectangle( 20, 20 ), lightGray );
-                }
-            } ).foreach( addChild );
-        }};
+        final FNode scoreCellsLayer = new FNode( state.scoreCells.map( new F<Cell, PNode>() {
+            @Override public PNode f( Cell c ) {
+                return new PhetPPath( c.toRoundedRectangle(), lightGray );
+            }
+        } ) );
         addChild( scoreCellsLayer );
 
         addChild( new PhetPText( "My Matches", new PhetFont( 18, true ) ) {{
