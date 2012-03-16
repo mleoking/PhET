@@ -15,7 +15,7 @@ import flash.text.*;
 
 public class TableView extends Sprite {
     public var myTrajectories: Trajectories;  //Sprite showing trajectories (paths) of balls
-    public var CM: CenterOfMass;              //library symbol
+//    public var CM: CenterOfMass;              //library symbol
     public var playButtons: PlayPauseButtons; //class to hold library symbol, contains dynamic text strings
     public var timeRate_slider: Slider;       //adjusts rate at which time passes
     public var ballImage_arr: Array;					//array of ball images
@@ -38,7 +38,7 @@ public class TableView extends Sprite {
     public function TableView( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
         this.myMainView = myMainView;
-        CM = new CenterOfMass();	//library symbol
+//        CM = new CenterOfMass();	//library symbol
         canvas = new Sprite();
         myMainView.addChild( this );
         addChild( this.canvas );
@@ -67,11 +67,11 @@ public class TableView extends Sprite {
         ballLayer = new Sprite();
         canvas.addChild( ballLayer );
         createBallImages();
-        canvas.addChild( CM );
-        CM.mouseEnabled = false;
-        if ( myModel.nbrBalls == 1 ) {
-            CM.visible = false;
-        }
+//        canvas.addChild( CM );
+//        CM.mouseEnabled = false;
+//        if ( myModel.nbrBalls == 1 ) {
+//            CM.visible = false;
+//        }
         Util.makePanelDraggableWithBorder( this, invisibleBorder );
         update();
 
@@ -85,7 +85,7 @@ public class TableView extends Sprite {
         playButtons.resetAllCalled();
         showArrowsOnBallImages( true );
         showPArrowsOnBallImages( false );
-        CM.visible = true;
+//        CM.visible = true;
         myTrajectories.pathsOff();
         timeRate_slider.value = myModel.timeRate;
         for each ( var ball: BallImage in ballImage_arr ) {
@@ -352,8 +352,8 @@ public class TableView extends Sprite {
         timeText.text = getTimeText( myModel.time.toFixed( 2 ) );
         totKEText.text = getKEText( myModel.getTotalKE().toFixed( 2 ) );
 
-        CM.x = CLConstants.PIXELS_PER_METER * myModel.CM.x;
-        CM.y = CLConstants.PIXELS_PER_METER * (yMax - myModel.CM.y);
+//        CM.x = CLConstants.PIXELS_PER_METER * myModel.CM.x;
+//        CM.y = CLConstants.PIXELS_PER_METER * (yMax - myModel.CM.y);
     }
 
     function getKEText( keValue: String ): String {

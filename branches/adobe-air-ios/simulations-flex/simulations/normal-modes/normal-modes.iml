@@ -1,23 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="Flex.Build.Configuration">
-    <option name="DO_BUILD" value="true" />
-    <option name="MAIN_CLASS" value="edu.colorado.phet.normalmodes.NormalModesApplication" />
-    <option name="OUTPUT_FILE_NAME" value="normal-modes.swf" />
-    <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
-    <option name="ADDITIONAL_COMPILER_OPTIONS" value="-use-network" />
-    <option name="VERSION" value="3" />
+  <component name="FlexBuildConfigurationManager" active="normal-modes-mobile">
+    <configurations>
+      <configuration name="normal-modes" main-class="edu.colorado.phet.normalmodes.NormalModesApplication" output-file="normal-modes.swf" output-folder="$MODULE_DIR$/output">
+        <dependencies target-player="9">
+          <entries>
+            <entry module-name="flexcommon" build-configuration-name="flexcommon">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="aswing-a3" build-configuration-name="library">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="common-as3" build-configuration-name="library">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="flex_sdk_3.4.1.10084" />
+        </dependencies>
+        <compiler-options>
+          <option name="additionalOptions" value="-use-network" />
+        </compiler-options>
+        <packaging-air-desktop />
+        <packaging-android />
+        <packaging-ios />
+      </configuration>
+      <configuration name="normal-modes-mobile" target-platform="Mobile" main-class="edu.colorado.phet.normalmodes.NormalModesApplication" output-file="normal-modes-mobile.swf" output-folder="$MODULE_DIR$/output">
+        <dependencies>
+          <entries>
+            <entry module-name="aswing-a3" build-configuration-name="library">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="common-as3" build-configuration-name="library">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="flexcommon" build-configuration-name="flexcommon">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="b7bbbfb2-ea43-4db3-88de-417e6fd8c181">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="7202fd78-47b7-448f-bfbc-fbda2786d7bc">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="flex_sdk_4.6.0.23201B" />
+        </dependencies>
+        <compiler-options>
+          <map>
+            <entry key="compiler.debug.swf" value="false" />
+          </map>
+        </compiler-options>
+        <packaging-air-desktop />
+        <packaging-android package-file-name="normal-modes-mobile" />
+        <packaging-ios enabled="true" package-file-name="normal-modes-mobile">
+          <AirSigningOptions keystore-path="$USER_HOME$/Desktop/phet-ipad-cert.p12" provisioning-profile-path="$USER_HOME$/Downloads/PhET_Prototype_I_Provisioning_Profile.mobileprovision" />
+        </packaging-ios>
+      </configuration>
+    </configurations>
+    <compiler-options />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex-sdk-3.4" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="aswing-a3" />
-    <orderEntry type="module" module-name="common-as3" />
     <orderEntry type="module" module-name="flexcommon" />
+    <orderEntry type="jdk" jdkName="flex_sdk_4.6.0.23201B&#9;flex_sdk_3.4.1.10084" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="module" module-name="common-as3" />
+    <orderEntry type="module" module-name="aswing-a3" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="b7bbbfb2-ea43-4db3-88de-417e6fd8c181" />
+        <CLASSES>
+          <root url="jar://C:/install/flex_sdk_4.6.0.23201B/frameworks/libs/sparkskins.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="7202fd78-47b7-448f-bfbc-fbda2786d7bc" />
+        <CLASSES>
+          <root url="jar://C:/install/flex_sdk_4.6.0.23201B/frameworks/libs/mx/mx.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

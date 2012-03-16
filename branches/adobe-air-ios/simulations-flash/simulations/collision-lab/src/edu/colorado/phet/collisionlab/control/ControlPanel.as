@@ -1,4 +1,4 @@
-package edu.colorado.phet.collisionlab.control {
+﻿package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.collisionlab.view.BallImage;
@@ -92,7 +92,7 @@ public class ControlPanel extends Sprite {
         // hook together the buttons (check boxes in this case) with their labels
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
-        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
+//        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.momentaDiagram", "Momenta Diagram", sub_showMomenta_label, sub_showMomenta_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.kineticEnergy", "Kinetic Energy", kineticEnergyCheckBoxLabel, kineticEnergyCheckBox );
@@ -162,13 +162,13 @@ public class ControlPanel extends Sprite {
 
     public function showCM( visible: Boolean ): void {
         this.showCMOn = visible;
-        this.sub_cmIcon.visible = visible;
-        if ( myModel.nbrBalls > 1 ) {
-            this.myMainView.myTableView.CM.visible = visible;
-        }
-        else {
-            this.myMainView.myTableView.CM.visible = false;
-        }
+       // this.sub_cmIcon.visible = visible;
+        //if ( myModel.nbrBalls > 1 ) {
+         //   this.myMainView.myTableView.CM.visible = visible;
+       // }
+        //else {
+        //    this.myMainView.myTableView.CM.visible = false;
+        //}
         //trace("this.showCMOn: "+this.showCMOn);
     }
 
@@ -230,7 +230,7 @@ public class ControlPanel extends Sprite {
         throw new Error( "abstract" );
     }
 
-    public function get sub_cmIcon(): CenterOfMass {
+    public function get sub_cmIcon(): String {
         throw new Error( "abstract" );
     }
 

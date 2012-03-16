@@ -1,12 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="Flex.Build.Configuration">
-    <option name="DO_BUILD" value="true" />
-    <option name="MAIN_CLASS" value="edu.colorado.phet.densityandbuoyancy.Density" />
-    <option name="OUTPUT_FILE_NAME" value="density.swf" />
-    <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
-    <option name="ADDITIONAL_COMPILER_OPTIONS" value="-use-network" />
-    <option name="VERSION" value="3" />
+  <component name="FlexBuildConfigurationManager" active="mobile">
+    <configurations>
+      <configuration name="mobile" target-platform="Mobile" main-class="edu.colorado.phet.densityandbuoyancy.Density" output-file="mobile.swf" output-folder="$MODULE_DIR$/output">
+        <dependencies>
+          <entries>
+            <entry module-name="box2d" build-configuration-name="library">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="common-as3" build-configuration-name="library">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="flexcommon" build-configuration-name="flexcommon">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="65ebeb89-ed6e-45eb-b49a-c5b6ed9d7d20">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="aswing-a3" build-configuration-name="library">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry module-name="away3d-fp9" build-configuration-name="library">
+              <dependency linkage="Merged" />
+            </entry>
+            <entry library-id="0b7d9670-166b-4391-9fd7-c3744914478c">
+              <dependency linkage="Merged" />
+            </entry>
+          </entries>
+          <sdk name="flex_sdk_4.6.0.23201B" />
+        </dependencies>
+        <compiler-options />
+        <packaging-air-desktop />
+        <packaging-android package-file-name="mobile" />
+        <packaging-ios enabled="true" package-file-name="mobile">
+          <AirSigningOptions keystore-path="$USER_HOME$/Desktop/phet-ipad-cert.p12" provisioning-profile-path="$USER_HOME$/Downloads/PhET_Prototype_I_Provisioning_Profile.mobileprovision" />
+        </packaging-ios>
+      </configuration>
+    </configurations>
+    <compiler-options />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/output" />
@@ -15,13 +46,33 @@
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex-sdk-3.4" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="flexcommon" />
-    <orderEntry type="module" module-name="box2d" />
-    <orderEntry type="module" module-name="away3d-fp9" />
+    <orderEntry type="jdk" jdkName="flex_sdk_4.6.0.23201B" jdkType="__CompositeFlexSdk__" />
     <orderEntry type="module" module-name="common-as3" />
+    <orderEntry type="module" module-name="box2d" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="65ebeb89-ed6e-45eb-b49a-c5b6ed9d7d20" />
+        <CLASSES>
+          <root url="jar://C:/install/flex_sdk_4.6.0.23201B/frameworks/libs/mx/mx.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="away3d-fp9" />
     <orderEntry type="module" module-name="aswing-a3" />
+    <orderEntry type="module-library">
+      <library type="flex">
+        <properties id="0b7d9670-166b-4391-9fd7-c3744914478c" />
+        <CLASSES>
+          <root url="jar://C:/install/flex_sdk_4.6.0.23201B/frameworks/libs/sparkskins.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

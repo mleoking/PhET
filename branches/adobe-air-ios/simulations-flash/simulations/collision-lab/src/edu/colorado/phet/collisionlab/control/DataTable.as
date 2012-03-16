@@ -1,4 +1,4 @@
-package edu.colorado.phet.collisionlab.control {
+﻿package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
@@ -579,12 +579,12 @@ public class DataTable extends Sprite {
     public function checkBallNbrLimits(): void {
         if ( nbrBalls == 1 ) {
             removeBallButton_sp.visible = false;
-            myMainView.myTableView.CM.visible = false;
+//            myMainView.myTableView.CM.visible = false;
         }
         else {
             removeBallButton_sp.visible = true;
             if ( myMainView.controlPanel.showCMOn ) {
-                myMainView.myTableView.CM.visible = true;
+//                myMainView.myTableView.CM.visible = true;
             }
         }
         addBallButton_sp.visible = nbrBalls != CLConstants.MAX_BALLS;
