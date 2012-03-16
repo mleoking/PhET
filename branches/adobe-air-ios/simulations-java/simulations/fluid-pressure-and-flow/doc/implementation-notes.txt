@@ -1,0 +1,19 @@
+Units for this sim are in SI unless noted otherwise.
+This simulation uses Property<T> pattern, properties are public and final and use the property name, e.g:
+public final Property<Double> mass = new Property<Double>(3.0);
+
+Pressure tab:
+Model is trivial, there are no moving parts, see model.txt
+
+Flow tab:
+Particles enter the pipe at the left side and flow to the right, see FluidFlowModel.updateParticle
+The pipe is modeled as a set of splines through each cross section of the pipe, see Pipe and CrossSection
+For the "food coloring" that the user can squirt in, it is modeled as a rectangular perimeter of particles which are propagated according to the same rules as particles
+See model.txt regarding negative pressure in Bernoulli's equation
+
+Water tower tab:
+Water flows in through the top faucet and out through the hole in the water tower (if open), which may connect to a hose
+The speed of the water coming out is sqrt( 2 * g * waterHeight ), see model.txt
+
+Sam Reid
+10-3-2011

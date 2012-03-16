@@ -1,0 +1,33 @@
+barrel.png source=PhET
+blue-bucket.png source=PhET
+boy-sitting.png source=PhET
+boy-standing.png source=PhET
+cinder-block.png source=PhET
+fire-extinguisher.png source=Open Clip Art notes=Modified by jblanco
+fire-hydrant.png source=PhET
+flower-pot.png source=PhET
+girl-sitting.png source=PhET
+girl-standing.png source=PhET
+man-sitting.png source=PhET
+man-standing.png source=PhET
+metal-bucket.png source=PhET
+mystery-object-01.png source=PhET
+mystery-object-02.png source=PhET
+mystery-object-03.png source=PhET
+mystery-object-04.png source=PhET
+mystery-object-05.png source=PhET
+mystery-object-06.png source=PhET
+mystery-object-07.png source=PhET
+mystery-object-08.png source=PhET
+old-television.png source=Open Clip Art notes=Modified by jblanco
+potted-plant.png source=PhET
+rock_1.png source=PhET notes=Reused from Radioactive Dating Game sim
+rock_4.png source=PhET notes=Reused from Radioactive Dating Game sim
+rock_6.png source=PhET notes=Reused from Radioactive Dating Game sim
+soda-bottle.png source=PhET
+tiny-rock.png source=PhET
+tire.png source=PhET
+trash-can.png source=PhET
+woman-sitting.png source=PhET
+woman-standing.png source=PhET
+yellow-bucket.png source=PhET

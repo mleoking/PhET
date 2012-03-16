@@ -1,0 +1,1 @@
+phet-credits lead-design=Kathy Perkins, John Blanco software-development=John Blanco design-team=Michael Dubson, Trish Loeblein, Ariel Paul interviews=Ariel Paul

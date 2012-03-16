@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>19. Troubleshooting</title><link rel="stylesheet" href="docbook-xsl.css" type="text/css" /><meta name="generator" content="DocBook XSL Stylesheets V1.75.2" /><link rel="home" href="index.html" title="BitRock InstallBuilder User Guide 7" /><link rel="up" href="index.html" title="BitRock InstallBuilder User Guide 7" /><link rel="prev" href="ar01s18.html" title="18. Rollback" /><link rel="next" href="ar01s20.html" title="20. Updates" /></head><body><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">19. Troubleshooting</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="ar01s18.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><th width="60%" align="center"> </th><td width="20%" align="right"> <a accesskey="n" href="ar01s20.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr></table><hr /></div><div class="section" title="19. Troubleshooting"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="troubleshooting"></a>19. Troubleshooting</h2></div></div></div><p>InstallBuilder provides a number of features to help you debug failing installations. Installations can fail either because of internal factors (such as faulty logic) or external factors (such as running
+out of disk space)</p><div class="section" title="19.1. Logs"><div class="titlepage"><div><div><h3 class="title"><a id="_logs"></a>19.1. Logs</h3></div></div></div><div class="section" title="Installation Log"><div class="titlepage"><div><div><h4 class="title"><a id="_installation_log"></a>Installation Log</h4></div></div></div><div class="section" title="Where is the Log Located"><div class="titlepage"><div><div><h5 class="title"><a id="_where_is_the_log_located"></a>Where is the Log Located</h5></div></div></div><p>All InstallBuilder installers create an installation log in the system temporary directory.</p><p>The exact location of the log file is stored in the <code class="literal">${installer_installation_log}</code> variable. On Linux, Mac OS X and other Unix systems, this typically means the <code class="literal">/tmp</code> directory. On Windows, the log
+will be created in the user’s local Temp directory, usually <code class="literal">C:\Documents and Settings\username\Local Settings\Temp</code>.</p><p>The default name of the generated log file is <code class="literal">bitrock_installer.log</code> but if the file already exists from a previous installation, the installer will try to create an unique filename trying <code class="literal">bitrock_installer_[pid].log</code> and <code class="literal">bitrock_installer_[pid]_[uid].log</code> where <code class="literal">[pid]</code> is the PID of the process and <code class="literal">[uid]</code> is an unique identifier.</p><div class="note" title="Note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p>The system Temp directory is stored in the built-in variable <code class="literal">${system_temp_directory}</code>. In Unix, if the <code class="literal">/tmp</code> directory is not writable, it will attempt to use <code class="literal">/var/tmp</code>, <code class="literal">/usr/tmp</code> and <code class="literal">~/tmp</code> instead.</p></td></tr></table></div><p>You can use the <a class="link" href="apd.html#installationLogFile"><code class="literal">&lt;installationLogFile&gt;</code></a> and <a class="link" href="apd.html#uninstallationLogFile"><code class="literal">&lt;uninstallationLogFile&gt;</code></a> project properties to specify an alternate location for the log file once the installation has completed. Of course,
+the initial log file is still created in the temporary directory, because the new location specified with that tag probably does not exist when the installer first runs.</p><p><a id="snip4648119"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;!-- Configures the final destination of the installation log --&gt;
+   &lt;installationLogFile&gt;${installdir}/${project.shortName}-installLog.log&lt;/installationLogFile&gt;
+   &lt;!-- Configures the final destination of the uninstallation log --&gt;
+   &lt;uninstallationLogFile&gt;${system_temp_directory}/${project.shortName}-uninstallation.log&lt;/uninstallationLogFile&gt;
+   ...
+&lt;/project&gt;</pre><p>It is possible to also mark a log file for deletion after the installation has completed.</p><p><a id="snip945567"></a></p><pre class="programlisting">&lt;project&gt;
+   ...
+   &lt;removeLogFile&gt;1&lt;/removeLogFile&gt;
+   ...
+&lt;/project&gt;</pre></div><div class="section" title="Verbosity Level"><div class="titlepage"><div><div><h5 class="title"><a id="_verbosity_level"></a>Verbosity Level</h5></div></div></div><p>Most common errors during installation are related to the execution of third party programs or system commands. The installation log will include the stdout and stderr output of the program, as well
+as the exit code:</p><pre class="screen">Executing /home/bitrock/lampstack-1.2-2/php/bin/php -q /home/bitrock/lampstack-1.2-2/php/bin/fixreg.php  /home/bitrock/lampstack-1.2-2/php
+Script exit code: 0
+
+Script output:
+Patching /home/bitrock/lampstack-1.2-2/php/lib/php/.registry/archive_tar.reg
+Patching /home/bitrock/lampstack-1.2-2/php/lib/php/.registry/console_getopt.reg
+Patching /home/bitrock/lampstack-1.2-2/php/lib/php/.registry/pear.reg
+Patching /home/bitrock/lampstack-1.2-2/php/lib/php/.registry/structures_graph.reg
+Patching /home/bitrock/lampstack-1.2-2/php/lib/php/.registry/xml_util.reg
+
+Script stderr:</pre><p>By default, standard streams are always logged independently of whether or not the execution succeed but the debug level can be decreased to just log them after an error:</p><p><a id="snip2144650"></a></p><pre class="programlisting">&lt;project&gt;
+  ...
+  &lt;!-- Levels from 2 to 4 displays the streams --&gt;
+  &lt;debugLevel&gt;0&lt;/debugLevel&gt;
+  ...
+&lt;/project&gt;</pre><p>This will log the standard streams only in case an error occurs. Reducing the debug level also prevents the arguments for the programs being executed from being logged. This can be useful if as part of the installation you are passing sensitive information as command line options and you do not want it stored
+in the log file. A better approach is to add a <a class="link" href="ar01s04.html" title="4. Variables"><code class="literal">.password</code></a> suffix to the variable reference.</p></div><div class="section" title="Logging custom information"><div class="titlepage"><div><div><h5 class="title"><a id="_logging_custom_information"></a>Logging custom information</h5></div></div></div><p>You can add custom information to the log at runtime using the <a class="link" href="apa.html#logMessage"><code class="literal">&lt;logMessage&gt;</code></a> action. It is possible to specify an optional, custom timestamp:</p><p><a id="snip5133539"></a></p><pre class="programlisting">  &lt;logMessage&gt;
+     &lt;text&gt;Uninstalling old installation...&lt;/text&gt;
+     &lt;timeStampFormat&gt;[%H:%M:%S]&lt;/timeStampFormat&gt;
+     &lt;enableTimeStamp&gt;1&lt;/enableTimeStamp&gt;
+  &lt;/logMessage&gt;</pre><p>You could also use <a class="link" href="apa.html#writeFile"><code class="literal">&lt;writeFile&gt;</code></a> and <a class="link" href="apa.html#readFile"><code class="literal">&lt;readFile&gt;</code></a> actions to include important information from other programs log files</p><p><a id="snip9402309"></a></p><pre class="programlisting">&lt;preInstallationActionList&gt;
+  &lt;readFile name="apacheErrorLog" path="${installdir}/apache2/log/error_log"/&gt;
+  &lt;logMessage&gt;
+     &lt;text&gt;Apache Error Log:&lt;/text&gt;
+     &lt;timeStampFormat&gt;[%H:%M:%S]&lt;/timeStampFormat&gt;
+     &lt;enableTimeStamp&gt;1&lt;/enableTimeStamp&gt;
+  &lt;/logMessage&gt;
+  &lt;writeFile text="${apacheErrorLog}" path="${project.installationLogFile}"/&gt;
+&lt;/preInstallationActionList&gt;</pre></div></div><div class="section" title="Debugtrace Log"><div class="titlepage"><div><div><h4 class="title"><a id="_debugtrace_log"></a>Debugtrace Log</h4></div></div></div><p>If you run into issues that are hard to track down, you may be asked to provide a debug trace. This is an internal dump of the inner workings of the installer, serialized as an XML file and
+can help BitRock determine the root cause of the problem.</p><p>Both the Builder and the generated installers are capable of generating the debug file. You just need to use the <code class="literal">--debugtrace</code> flag:</p><pre class="programlisting">$&gt; sample-1.0-linux-installer.run --debugtrace debug.txt
+Debug file written.</pre><p>You can then send the debut.txt file to <code class="literal">support@bitrock.com</code>. Please provide as much context information as possible.</p><div class="note" title="Note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><img alt="[Note]" src="images/icons/note.png" /></td><th align="left"></th></tr><tr><td align="left" valign="top"><p>Take into account that the log is only serialized when the installer exists normally, either completing the installation or crashing with an error, but not if the process is killed by external methods.</p></td></tr></table></div></div></div><div class="section" title="19.2. Other Debugging Methods"><div class="titlepage"><div><div><h3 class="title"><a id="_other_debugging_methods"></a>19.2. Other Debugging Methods</h3></div></div></div><p>As when debugging any program, the most basic (but useful nonetheless) method of debugging is to provide information of what is going on at different points in the process. This
+helps you determine if what is happening is indeed what you were expecting to happen at that particular point in time. You can use a &lt;showInfo&gt; action to display messages during the installation process.</p><p>This technique can for example, help when debugging why an action seems not to be executed:</p><p><a id="snip4614394"></a></p><pre class="programlisting">   &lt;showInfo text="About to run the program" /&gt;
+   &lt;actionGroup&gt;
+     &lt;actionList&gt;
+        &lt;showInfo&gt;
+          &lt;text&gt;Sharing the same rules will check that they are correctly evaluated"&lt;/text&gt;
+        &lt;/showInfo&gt;
+        &lt;runProgram&gt;
+          &lt;program&gt;chown&lt;/program&gt;
+          &lt;programArguments&gt;-R bitrock ${installdir}&lt;/programArguments&gt;
+        &lt;/runProgram&gt;
+     &lt;/actionList&gt;
+     &lt;ruleList&gt;
+        &lt;platformTest type="linu"/&gt;
+     &lt;/ruleList&gt;
+  &lt;/actionGroup&gt;
+  &lt;showInfo text="After executing the program"/&gt;</pre><p>If you run an installer that includes the above code, you will see the first and the third popups so something is wrong with the rule. A closer look make us realize that the type field in the
+platformTest rule has a typo. It reads <code class="literal">linu</code>, when it should be <code class="literal">linux</code>. This particular case will be automatically reported to you by the builder when loading the project but other issues are
+tackled the same way.</p><p>A similar approach can be used to check variables have the expected value:</p><p><a id="snip4131260"></a></p><pre class="programlisting">   &lt;setInstallerVariable name="docLocation" value="${intalldir}/doc"/&gt;
+   ...
+   &lt;renameFile origin="${intalldir}/app/oldDocDirectory" destination="${docLocation}"/&gt;</pre><p>The above code will not work because of a typo (<code class="literal">${intalldir}</code> instead of <code class="literal">{installdir}</code>). Adding a <a class="link" href="apa.html#showInfo"><code class="literal">&lt;showInfo&gt;</code></a> help will help track the issue:</p><p><a id="snip4099017"></a></p><pre class="programlisting">   &lt;setInstallerVariable name="docLocation" value="${intalldir}/doc"/&gt;
+   ...
+   &lt;showInfo text="Documents are stored in ${docLocation}"/&gt;
+   &lt;renameFile origin="${intalldir}/app/oldDocDirectory" destination="${docLocation}"/&gt;</pre><p>It will display: <code class="literal">Documents are stored in ***unknown variable intalldir***/doc</code></p></div></div><div class="navfooter"><hr /><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="ar01s18.html"><img src="images/icons/prev.png" alt="Prev" /></a> </td><td width="20%" align="center"> </td><td width="40%" align="right"> <a accesskey="n" href="ar01s20.html"><img src="images/icons/next.png" alt="Next" /></a></td></tr><tr><td width="40%" align="left" valign="top">18. Rollback </td><td width="20%" align="center"><a accesskey="h" href="index.html"><img src="images/icons/home.png" alt="Home" /></a></td><td width="40%" align="right" valign="top"> 20. Updates</td></tr></table></div></body></html>

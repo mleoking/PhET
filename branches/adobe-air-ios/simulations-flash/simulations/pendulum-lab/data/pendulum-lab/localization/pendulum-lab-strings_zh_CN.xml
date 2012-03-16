@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_zh_CN.xml created Sun May 15 14:07:52 CST 2011 using: pendulum-lab 2.02.00 (37319), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="resetStopwatch" value="重置"/>
+<string key="earth" value="地球"/>
+<string key="showPhotoGateTimer" value="单摆周期"/>
+<string key="planetX" value="行星X"/>
+<string key="acceleration" value="加速度"/>
+<string key="showEnergyOf" value="显示能量"/>
+<string key="PE" value="势能"/>
+<string key="velocity" value="速度"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;&lt;p&gt;&lt;strong&gt;张大红&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt;天铁第二中学&lt;/strong&gt;&lt;/p&gt;&#10;&lt;/html&gt;"/>
+<string key="realTime" value="真实时间"/>
+<string key="length" value="摆长"/>
+<string key="lots" value="大"/>
+<string key="friction" value="阻力"/>
+<string key="showSecondPendulum" value="显示单摆2"/>
+<string key="start" value="开始"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="木星"/>
+<string key="moon" value="月球"/>
+<string key="energyOf" value="能量"/>
+<string key="period" value="时间："/>
+<string key="simStrings" value="单摆实验"/>
+<string key="noneFriction" value="0"/>
+<string key="total" value="总能"/>
+<string key="mass2" value="质量2"/>
+<string key="pendulum" value="单摆"/>
+<string key="startPauseStopwatch" value="开始/暂停"/>
+<string key="show" value="显示"/>
+<string key="length2" value="摆长2"/>
+<string key="photoGateTimer" value="单摆周期"/>
+<string key="thermal" value="热能"/>
+<string key="pausePlay" value="暂停/开始"/>
+<string key="reset" value="重置"/>
+<string key="mass" value="质量"/>
+<string key="quarterTime" value="1/4 时间"/>
+<string key="KE" value="动能"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="0"/>
+<string key="simTitle" value="单摆实验"/>
+<string key="otherTools" value="其它工具"/>
+<string key="angleUnit" value="度"/>
+<string key="paused" value="暂停"/>
+<string key="sixteenthTime" value="1/16 时间"/>
+</SimStrings>

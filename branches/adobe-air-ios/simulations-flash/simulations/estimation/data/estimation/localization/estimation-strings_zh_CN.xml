@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_zh_CN.xml created Thu Feb 16 19:25:32 CST 2012 using: estimation 2.02.00 (51675), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
+<SimStrings>
+<string key="ratioOfAreasIs" value="面积的比例"/>
+<string key="closeEnough" value="相当接近 ! \n准确答案是:"/>
+<string key="levelColon" value="等级:"/>
+<string key="score" value="分数"/>
+<string key="EnterNumber" value="输入数字"/>
+<string key="selectTrainingOrGame" value="选择训练或游戏:"/>
+<string key="percentUnderOver" value="比例 低于/高于:"/>
+<string key="estimation" value="估计"/>
+<string key="next" value="下一步"/>
+<string key="ratioOfLengths" value="线条长度的比例\n方形和圆形面积的比例\n立方体和球体的体积比例"/>
+<string key="exactAnswer" value="准确答案"/>
+<string key="level" value="等级"/>
+<string key="howMany" value="需要几个小的\n填满大的？"/>
+<string key="noCreditIf" value="不得分的情况"/>
+<string key="home" value="首页"/>
+<string key="whatIsRatioOfVolumes" value="体积的比例是？"/>
+<string key="tooFarOff" value="相差太远!\n正确答案是:"/>
+<string key="translation.credits" value="陈江涛  华南师范大学  cjtmw@163.com"/>
+<string key="scorePerTimeColon" value="分数/时间:"/>
+<string key="PleasePickANumber" value="请从1到100000之间挑选一个数字"/>
+<string key="answerIsOutside" value="答案是在这些范围内"/>
+<string key="train" value="训练"/>
+<string key="strategyHelp" value="策略帮助"/>
+<string key="whatIsRatioOfAreas" value="面积的比例是?"/>
+<string key="scorePerTime" value="分数/时间:"/>
+<string key="gameOver" value="游戏结束."/>
+<string key="play" value="游戏"/>
+<string key="fullCreditIf" value="得满分的情况"/>
+<string key="back" value="后退"/>
+<string key="levelOneColon" value="级别1:线条\n级别2:线条和二维物体\n级别3:所有物体"/>
+<string key="yourAnswer" value="你的答案"/>
+<string key="or" value="或2"/>
+<string key="sound" value="声音"/>
+<string key="accuracyIsSmaller" value="精度较小的是:"/>
+<string key="averageAccuracy" value="平均精度:"/>
+<string key="gameRules" value="游戏规则"/>
+<string key="ratioOfVolumesIs" value="体积的比例是"/>
+<string key="time" value="时间（秒）"/>
+<string key="numberEstimates" value="估计的数字:"/>
+<string key="simTitle" value="估计"/>
+<string key="yourAnswerIs" value="你的答案在范围内\n线条是1.3倍,\n二维物体是1.6倍,\n三维物体是2.0倍。"/>
+<string key="enter" value="输入"/>
+<string key="endGame" value="终止游戏"/>
+<string key="nextLowerCase" value="下一步"/>
+</SimStrings>

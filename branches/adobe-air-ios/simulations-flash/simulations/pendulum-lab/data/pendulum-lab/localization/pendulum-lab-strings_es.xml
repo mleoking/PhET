@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--pendulum-lab-strings_es.xml created Tue Oct 28 02:49:24 CET 2008 using: pendulum-lab 1.00.00 (22386), translation-utility 1.05.00 (25607)-->
+<SimStrings>
+<string key="resetStopwatch" value="reiniciar"/>
+<string key="earth" value="Tierra"/>
+<string key="showPhotoGateTimer" value="reloj fotoactivado"/>
+<string key="planetX" value="Planeta X"/>
+<string key="acceleration" value="aceleración"/>
+<string key="showEnergyOf" value="Mostrar energía de:"/>
+<string key="PE" value="Epot"/>
+<string key="velocity" value="velocidad"/>
+<string key="realTime" value="tiempo real"/>
+<string key="length" value="longitud"/>
+<string key="lots" value="mucha"/>
+<string key="friction" value="fricción"/>
+<string key="showSecondPendulum" value="Mostrar 2º péndulo"/>
+<string key="start" value="Comenzar"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Júpiter"/>
+<string key="moon" value="Luna"/>
+<string key="energyOf" value="energía de "/>
+<string key="period" value="periodo:"/>
+<string key="noneFriction" value="ninguna"/>
+<string key="total" value="total"/>
+<string key="mass2" value="masa 2:"/>
+<string key="pendulum" value="Péndulo"/>
+<string key="startPauseStopwatch" value="Comenzar/pausa"/>
+<string key="show" value="Mostrar:"/>
+<string key="length2" value="longitud 2:"/>
+<string key="photoGateTimer" value="reloj fotoactivado"/>
+<string key="thermal" value="calor"/>
+<string key="pausePlay" value="pausa/seguir"/>
+<string key="reset" value="Reiniciar"/>
+<string key="mass" value="masa"/>
+<string key="quarterTime" value="1/4 tiempo"/>
+<string key="KE" value="Ecin"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="ningún"/>
+<string key="otherTools" value="otras herramientas"/>
+<string key="angleUnit" value=" grados"/>
+<string key="paused" value="pausado"/>
+<string key="sixteenthTime" value="1/16 tiempo"/>
+</SimStrings>

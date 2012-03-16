@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_eu.xml created Fri Dec 16 20:22:06 CET 2011 using: geometric-optics 2.05.00 (52650), translation-utility 2.13.00 (59150) dic 8, 2011-->
+<SimStrings>
+<string key="draggableScreen" value="Pantaila mugikorra"/>
+<string key="draggableLens" value="Lente mugikorra"/>
+<string key="screen" value="Pantaila"/>
+<string key="draggableRuler" value="Regla mugikorra"/>
+<string key="simTitle" value="Optika Geometrikoa"/>
+<string key="showHelp" value="Laguntza ikusi"/>
+<string key="moveMe" value="Mugi nazazu!"/>
+<string key="showGuides" value="Gidak ikusi"/>
+<string key="diameter" value="Diametroa(m)"/>
+<string key="ruler" value="Regla"/>
+<string key="focalPoint" value="Fokua"/>
+<string key="curvatureRadius" value="Kurbadura-erradioa(m)"/>
+<string key="changeObject" value="Aldatu Objektua "/>
+<string key="principalRays" value="Izpi nagusiak"/>
+<string key="marginalRays" value="Bazterreko izpiak"/>
+<string key="virtualImage" value="Irudi Birtuala"/>
+<string key="noRays" value="Izpirik ez"/>
+<string key="secondSource" value="2. puntua"/>
+<string key="hideHelp" value="Laguntza ezkutatu"/>
+<string key="refractiveIndex" value="Errefrakzio-indizea"/>
+<string key="manyRays" value="Hainbat izpi"/>
+</SimStrings>

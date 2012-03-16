@@ -1,0 +1,121 @@
+This is an archived copy of the gravity-and-orbits google "to do" doc
+Sam Reid
+4-27-2011
+
+To Do:
+
+##########
+EM Potential Problem: Lack of gravity vectors (sun/moon, moon/earth)
+EM Potential Problem: Older students don't find that they can move objects, middle schoolers find this quickly (double check observations to make sure they weren't prompted, i doubt it)
+
+Facebook request regarding orbit: Replace earth image in satellite mode with  “a picture of the Earth’s surface from the view found in the third image from the top of the link you sent (the sunlight side for example).” http://www.challenger.org/programs/iss/iss.cfm
+
+###############################
+# Internal issues and lower priority:
+
+CM: Why aren’t we using LinearValueControl in BodyMassControl?
+	SR: We should try switching to LinearValueControl, not sure what problems I ran into when using it before.
+
+CM: Why do controls (like MassReadoutNode) know about nodes (like BodyNode), shouldn’t they be communicating exclusively with model?
+	SR: Could change to Body (model element) since the radius info (cartoon/real) has been moved into Body.
+
+CM: Scale (real/cartoon) shouldn’t be visible outside the model and the control that sets it. Should have getScaledX() instead of conditional code like:
+if ( body.getScaleProperty().getValue() == Scale.CARTOON ) {
+//...
+}
+else {
+//...
+}
+	SR: headed in this direction, refactoring not complete.
+
+JB: Sighting: Something is fishy on 2nd replay, to reproduce the problem:
+	Move earth close to sun, press play
+		Earth curves and crashes into sun
+	Replay
+		Earth takes different path to crash into sun
+	Not sure it’s reproducible.
+
+#####y#########
+##Later?
+Is GC a problem during orbits?
+
+Specular highlight on the object is not aligned with the sun.
+
+Why is mouseover highlighting weird on Linux?
+	JO: does this also occur on mac?
+		CM: not occur on mac
+
+#################
+#For discussion with NP
+#################
+Move “Scale” box to the play area?  This could help indicate that things are not to scale by default.
+	SR: we should ask NP first.
+	NP: I think it is good where it is, since I’d rather have students get to this later (i.e., lower in controls). See how it works in interviews.
+
+CM: Add a numerical readout on the force so students can compare between tabs?
+	Or use the words “million, billion, etc.” might make it easier to understand
+	SR: We should ask NP first
+	NP: I’d like to have this, but have to find space for another control to turn readouts on/off. Someone might also want numerical readout for velocity. Already a lot of controls for a MS sim. Ideas?
+	Meeting result: decided against this, since you can use the arrow magnitude to measure
+
+JB: could have planet colors that are a function of mass, e.g. mars mass = red
+	SR: We should ask NP first
+	NP: I like just having mass ~ size. Having redundant indicators of a single quantity may be confusing (i.e., both size and color ~ mass).
+
+NP: Related to planet mass slider: Seems odd that the icon for the slider is the earth, but when you move the slider the planet changes to plain sphere, icon is still the earth. Might be fine, but should entertain alternatives that are simple and seem reasonable. (Maybe have the icon change to plain sphere along with the planet in play area?)
+
+Use clip art or real earth image?
+	Asking team
+	NP: Use real earth/moon images for now.
+
+################
+# For discussion with CM
+#################
+convert to class names Sun, Earth, Moon etc instead of SphereBody, then Earth parent is Sun for increased safety?
+	SR: Wouldn’t this require type arguments and creating a new class that doesn’t have a parent?
+
+##########################
+#Possibly controversial decisions:
+#################
+JO: Should show cartoon velocities in cartoon mode
+NP: Don’t compute and show the cartoon velocity
+
+a parent object causes funny behavior for the child object.  Try moving the earth slightly or significantly in Sun Earth Moon mode.
+	JO: Try a continuous nonlinear function in CartoonPositionMap that yields the cartoonish values when near to the parent, but real values when further away.
+	SR: Sigmoidal sounds like the right shape to me, is it easy to invert?
+		SR: Logit is inverse of sigmoid: http://en.wikipedia.org/wiki/Logit
+	SR: I’m thinking that cartoon should equal a weighted average of the real and (old definition of ) cartoon values.
+	SR: Jon Olson is well informed about this bug and might be the best bet for a low cost solution.
+x = xC*alpha + xR*(1-alpha)
+alpha = sigmoid (d)
+	SR: Jon & I experimented with several techniques to get this working.  The problem with interpolating between real and cartoon coordinates is that it causes the child to move when the parent is dragged.
+
+Desired behavior: child should remain stationary when parent is dragged.
+	SR: but with a linear cartoon mapping function, this will cause the problem that the moon looks like it is nearby the sun when it is not (i.e. it will look like there should be a change in motion on the moon due to the gravitational force of the moon, but this wouldn’t happen).
+
+What about switching to real mode during the drag, then switch back afterwards?  Same problems as above.
+
+Tried implementing a combination of continuous nonlinear interpolation function as well as a way to use it to constrain child motion during parent drag (using a nonlinear approximation to its inverse).  Looks like it might work, but there are some quirks and it will need fine tuning.  It will also need performance testing to make sure it is not too slow.
+
+NP (naively) says: What if you fix the moon position during earth dragging? When earth is grabbed, store moon location and force it back to that location as earth is dragged. Not very elegant, but might be easier than above.
+
+NP: Earth is not centered on grid point in Earth & Moon system
+	SR: We decided to center the grid point on the Earth Moon Barycenter since this is the location of the center of mass of the system.  Should this be moved so the grid is centered on the time-averaged location of the earth?  I’m not sure this matters too much one way or the other since the grid is meant for coarse measurements only.
+
+NP: Probably OK, but need to note: grid spacing is different in different systems. Makes sense to make 1 grid spacing equal to the object of interest (earth, moon, or satellite). Just need to make sure this won't be confusing to users.
+	SR: Agreed, we should watch for confusion during interviews.
+
+NP: In sun/earth/moon system, if you increase earth mass it pulls in and destroys moon. This gives a "return object" button, but when you click the button it puts the moon at it's original location (directly to right of sun). Seems like this is an easy solution, but not sure it is the best. Open to ideas - or we can leave his since it is a minor issue.
+	SR: Back-computing a good location for a body so that it will maintain an orbit for multiple cycles may be an analytically intractable problem since the system is subject to sensitive dependence on initial conditions.  Maybe we could help focus students on using the rewind button to get the moon back to a good situation?  But we should probably wait until interviews to confirm this needs our attention.
+
+##################
+#####Learning goals:#
+##################
+1. To be able to explain that gravity is the force that keeps an object in orbit
+2. Forces are equal and opposite between planet and sun
+3. Force increases with mass
+4. Force increases as objects are closer
+5. Distance from moon to earth much smaller than distance earth to sun
+6. Size of sun and earth really small compared to distance between them
+7. Space station orbits really close to earth
+8. Space station tiny compared to size of earth

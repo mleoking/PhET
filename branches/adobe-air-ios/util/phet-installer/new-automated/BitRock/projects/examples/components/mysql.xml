@@ -1,0 +1,8 @@
+<component>
+	<name>mysql</name>
+	<description>MySQL Database</description>
+	<detailedDescription>Select to include MySQL database</detailedDescription>
+   	<canBeEdited>0</canBeEdited>
+   	<selected>1</selected>
+	<folderList></folderList>
+</component>

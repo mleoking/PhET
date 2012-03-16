@@ -1,0 +1,32 @@
+PhET Progress Report
+John Blanco
+August 27, 2008
+
+States of Matter Sim - 35 hrs
+
+* Implemented the ability to affect temperature by changing the container size.
+* Implemented much of the 3rd and final tab, including the dynamic diagram, movable molecule, and the adjustable atom.
+* Modified the liquid transition to always produce a single blob.
+* Changed from radio buttons to push buttons for setting the state.
+* Tested fragmented container version on Mac and had others do so as well.
+* Add the ability to alter the Lennard-Jones parameter values for the potential graph.
+* Made it possible to lift lid faster than can push down (requested by Paul B).
+* Added code to prevent gradients from being used on Macs, since they were causing crashes.
+* Adjusted the sigma and epsilon parameters used for LJ potential to be more realistic for all molecules.
+* Tried a number of ways of "Hollywooding" the solid state of water to make it more crystalline.
+* Latest version can be found at http://www.colorado.edu/physics/phet/dev/states-of-matter/0.00.36/states-of-matter.jnlp
+
+Nuclear Physics - 0.5 hrs
+
+* Published updated version with button for seeing real reactor core.
+
+Meetings & Email - 3.0 hrs
+
+* Regular weekly status meeting.
+* Various discussions with Noah P, Paul B, Sam R, and Kathy in person and via email.
+
+Tools and Infrastructure - 1.5
+
+* Working with IT group on an issue with my email.
+
+

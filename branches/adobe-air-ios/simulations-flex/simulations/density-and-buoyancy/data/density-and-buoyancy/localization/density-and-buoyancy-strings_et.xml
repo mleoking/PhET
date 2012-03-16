@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_et.xml created Tue Nov 22 19:06:01 CET 2011 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.12.00 (57171) Okt 3, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Sissejuhatus"/>
+<string key="properties.mass" value="Mass"/>
+<string key="controlPanel.showVectorValues" value="Jõudude väärtused"/>
+<string key="forceArrows.contact" value="Kontakt"/>
+<string key="mode.objectsOfSameVolume" value="Sama ruumala"/>
+<string key="mysteryObject.densityColumnHeader" value="Tihedus ({0})"/>
+<string key="material.aluminum" value="Alumiinium"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Õhk"/>
+<string key="material.custom" value="Minu klots"/>
+<string key="material.gasoline" value="Bensiin"/>
+<string key="customObject.material" value="Materjal"/>
+<string key="mode.mysteryObjects" value="Salajane"/>
+<string key="customObject.custom" value="Minu klots"/>
+<string key="material.wood" value="Puit"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="Kaks"/>
+<string key="material.styrofoam" value="Vahtpolüstürool"/>
+<string key="material.honey" value="Mesi"/>
+<string key="material.apple" value="Õun"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Jää"/>
+<string key="translation.credits" value="S. K."/>
+<string key="buoyancy.tab.playground" value="Üleslükkejõu mänguväli"/>
+<string key="fluid.controls.intro.label" value="Vedelik"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Teemant"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Klotsid"/>
+<string key="material.oliveOil" value="Oliiviõli"/>
+<string key="material.lead" value="Plii"/>
+<string key="forceArrows.buoyancy" value="Üleslükkejõud"/>
+<string key="properties.fluidDensity" value="Vedeliku tihedus"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="Omadused"/>
+<string key="forceArrows.gravity" value="Gravitatsioon"/>
+<string key="material.brick" value="Tellis"/>
+<string key="mysteryObject.material" value="Materjal"/>
+<string key="mysteryObject.table.title" value="Erinevate materjalide tihedused"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="Õli"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
+<string key="mode.objectsOfSameDensity" value="Sama tihedus"/>
+<string key="density.simTitle" value="Tihedus"/>
+<string key="controlPanel.readouts" value="Näidud"/>
+<string key="properties.volumeMilliLiterValue" value="{0} mL"/>
+<string key="mode.customObject" value="Ise defineeritud"/>
+<string key="mode.objectsOfSameMass" value="Sama mass"/>
+<string key="application.resetAll" value="Algusesse"/>
+<string key="material.gold" value="Kuld"/>
+<string key="properties.densityValue" value="{0} kg/L"/>
+<string key="forceArrowControlPanelTitle" value="Näita jõudusid"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="nimi"/>
+<string key="controlPanel.showMasses" value="Massid"/>
+<string key="material.water" value="Vesi"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Tihedus"/>
+<string key="material.waterBalloon" value="Veepomm"/>
+<string key="mysteryObject.table.showTable" value="Näita tabelit"/>
+<string key="mode.one" value="Üks"/>
+<string key="properties.volume" value="Ruumala"/>
+<string key="buoyancy.simTitle" value="Üleslükkejõud"/>
+<string key="properties.kilogramPerLiter" value="kg/L"/>
+<string key="properties.volumeLiter" value="L"/>
+</SimStrings>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_de.xml created Fri Feb 24 14:16:02 CET 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.13.00 (59150) Dez 8, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Einführung"/>
+<string key="properties.mass" value="Masse"/>
+<string key="controlPanel.showVectorValues" value="Kräfte"/>
+<string key="forceArrows.contact" value="Normalkraft"/>
+<string key="mode.objectsOfSameVolume" value="Gleiches Volumen"/>
+<string key="mysteryObject.densityColumnHeader" value="Auftrieb ({0})"/>
+<string key="material.aluminum" value="Aluminium"/>
+<string key="material.air" value="Luft"/>
+<string key="material.custom" value="Mein Block"/>
+<string key="material.gasoline" value="Benzin"/>
+<string key="customObject.material" value="Material"/>
+<string key="mode.mysteryObjects" value="Mystery"/>
+<string key="customObject.custom" value="Mein Block"/>
+<string key="material.wood" value="Holz"/>
+<string key="mode.two" value="Zwei"/>
+<string key="material.styrofoam" value="Styropor"/>
+<string key="material.honey" value="Honig"/>
+<string key="material.apple" value="Apfel"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Eis"/>
+<string key="translation.credits" value="Stefan Richtberg, LMU Munich"/>
+<string key="buoyancy.tab.playground" value="Vertiefung"/>
+<string key="fluid.controls.intro.label" value="Flüssigkeit"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Diamand"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Blöcke"/>
+<string key="material.oliveOil" value="Olivenöl"/>
+<string key="material.lead" value="Blei"/>
+<string key="forceArrows.buoyancy" value="Auftrieb"/>
+<string key="properties.fluidDensity" value="Dichte der Flüssigkeit"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
+<string key="customObject.properties" value="Eigenschaften"/>
+<string key="forceArrows.gravity" value="Schwerkraft"/>
+<string key="material.brick" value="Ziegelstein"/>
+<string key="mysteryObject.material" value="Material"/>
+<string key="mysteryObject.table.title" value="Dichte von verschiedenen Materialien"/>
+<string key="material.oil" value="Öl"/>
+<string key="mode.objectsOfSameDensity" value="Gleiche Dichte"/>
+<string key="density.simTitle" value="Dichte"/>
+<string key="controlPanel.readouts" value="Anzeige"/>
+<string key="mode.customObject" value="Selbsterstellt"/>
+<string key="mode.objectsOfSameMass" value="Gleiche Masse"/>
+<string key="application.resetAll" value="Reset"/>
+<string key="material.gold" value="Gold"/>
+<string key="forceArrowControlPanelTitle" value="Kräfte anzeigen"/>
+<string key="customObject.name" value="Name"/>
+<string key="controlPanel.showMasses" value="Massen"/>
+<string key="material.water" value="Wasser"/>
+<string key="properties.density" value="Dichte"/>
+<string key="material.waterBalloon" value="Wasserballon"/>
+<string key="mysteryObject.table.showTable" value="Zeige Tabelle"/>
+<string key="mode.one" value="Einer"/>
+<string key="properties.volume" value="Volumen"/>
+<string key="buoyancy.simTitle" value="Auftrieb"/>
+</SimStrings>

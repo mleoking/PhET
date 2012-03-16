@@ -1,0 +1,10 @@
+carpet.gif author=PhET notes=Noah P. on 4-27-2009
+concrete.gif author=PhET notes=Noah P. on 4-27-2009
+ice.gif author=PhET notes=Noah P. on 4-27-2009
+house.gif author=PhET notes=Noah P. on 4-27-2009
+robot.gif author=PhET notes=Noah P. on 4-27-2009
+truck.gif author=PhET notes=Noah P. on 4-27-2009
+truck_top.gif author=PhET notes=Noah P. on 4-27-2009
+truck_top_back.gif author=PhET notes=Noah P. on 4-27-2009
+truck_top_front.gif author=PhET notes=Noah P. on 4-27-2009
+truck_wheels.gif author=PhET notes=Noah P. on 4-27-2009

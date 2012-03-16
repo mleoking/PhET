@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_es.xml created Tue Jul 26 14:14:25 GMT-03:00 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="ControlPanel.reflectingBorder" value="borde reflectante"/>
+<string key="MomentumView.tipToTail" value="Alineando cola con punta"/>
+<string key="PlayPauseButtons.pause" value="Pausa"/>
+<string key="PlayPauseButtons.rewind" value="Rebobinar"/>
+<string key="PlayPauseButtons.step" value="Avanzar"/>
+<string key="simTitle" value="Laboratorio de Colisiones"/>
+<string key="ControlPanel.momentaDiagram" value="diagrama de momentos"/>
+<string key="DataTable.mass" value="masa"/>
+<string key="DataTable.lessData" value="menos datos"/>
+<string key="DataTable.removeBall" value="sacar bola"/>
+<string key="ControlPanel.1d" value="1 dimensión"/>
+<string key="DataTable.moreData" value="más datos"/>
+<string key="DataTable.ball" value="bola"/>
+<string key="ControlPanel.showMomentumVectors" value="vectores momento"/>
+<string key="TableView.kineticEnergy" value="Energía cinética = {0} J"/>
+<string key="MomentumView.momenta" value="momentos"/>
+<string key="ControlPanel.showPaths" value="Mostrar trayectorias"/>
+<string key="TableView.timeRate" value="Tasa temporal"/>
+<string key="DataTable.addBall" value="agregar bola"/>
+<string key="ControlPanel.elasticity" value="elasticidad"/>
+<string key="PlayPauseButtons.back" value="Retroceder"/>
+<string key="ControlPanel.2d" value="2 dimensiones"/>
+<string key="ControlPanel.showVelocities" value="vectores velocidad"/>
+<string key="ControlPanel.sound" value="sonido"/>
+<string key="ControlPanel.resetAll" value="Reiniciar"/>
+<string key="PlayPauseButtons.play" value="Ejecutar"/>
+<string key="translation.credits" value="Silvina Ponce Dawson"/>
+<string key="TableView.time" value="Tiempo = {0} J"/>
+<string key="ControlPanel.showCenterOfMass" value="centro de masa"/>
+</SimStrings>

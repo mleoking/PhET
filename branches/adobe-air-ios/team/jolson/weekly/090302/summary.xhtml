@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Jonathan's Progress since last meeting</title>
+</head>
+<body>
+
+<h3>Flash-common</h3>
+<ul>
+    <li>Added credits dialog</li>
+    <li>Added installation update UI, consolidated update requests to phet-info.php</li>
+    <li>Removed unused common strings</li>
+    <li>
+        <b>Alpha issues:</b>
+        <ul>
+            <li>Statistics details dialog now unresizable</li>
+            <li>Will not send messages to the server if FlashVars are not specified (someone tries to run SWF directly)</li>
+            <li>Fixed text-area problem with extra space below (changed padding of all dialogs to compensate)</li>
+        </ul>
+    </li>
+</ul>
+
+<h3>Flash-launcher</h3>
+<ul>
+    <li>Fix so that JARs with spaces in their absolute path will run</li>
+    <li>flash-common-strings sim will display a message instead of running, almost identical to java-common-strings</li>
+</ul>
+
+<h3>Statistics-database</h3>
+<ul>
+    <li>Timestamp bug (off by 30 minutes) fixed, was caused by incorrect hellcat clock</li>
+    <li>Changed how messages are passed and how status is returned to be more consistent with the website (this might change before beta!)</li>
+    
+    <li>
+        Stress tests
+        <ol>
+            <li>
+                <b>Endurance test</b><br/>
+                <ul>
+                    <li>Run from 11 different computers for over two and a half hours at 100 times the expected traffic volume.</li>
+                    <li>All 110000 messages successfully received.</li>
+                </ul>
+            </li>
+            <li>
+                <b>Burst test</b><br/>
+                 <ul>
+                    <li>Was running into connections timing out with bursts over 150 messages.</li>
+                    <li>Root cause was the webserver (Apache), not the statistics database. The whole website has a limited number of connections</li>
+                    <li>ITS changed MaxClients to 250 (Apache limits this value to 256)</li>
+                </ul>
+            </li>
+        </ol>
+    </li>
+    <li>Raw logging is now off. If a database error occurs, it will store the entire message that was sent (is this OK?)</li>
+    <li>Secured all reporting scripts against malicious attacks (even if someone has the reporting login and password)</li>
+    <li>Added scripts to manually back up or restore the database (do we want backups to be automatic?)</li>
+    <li>Added estimated number of unique users to the <a href="http://phet.colorado.edu/statistics/report/general-query.php">report script</a></li>
+    <li>
+        <b>Alpha issue:</b>
+        Messages sent with user_installation_timestamp of -1 were temporarily accepted for alpha releases.
+        This showed up in the user data as 0's, and caused rows to be duplicated. (fixed) 
+    </li>
+</ul>
+
+I am running out of work that is necessary to do before IOM, should I start working on sim-specific issues and bug-fixes?<br/>
+There appear to be 11 open tickets for specific Flash simulations.
+
+
+<br/><br/><br/><br/><br/>
+
+</body>
+</html>

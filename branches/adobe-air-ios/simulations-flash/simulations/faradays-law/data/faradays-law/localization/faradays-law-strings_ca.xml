@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_ca.xml created Fri Jul 29 10:26:01 CEST 2011 using: faradays-law 2.02.00 (52648), translation-utility 2.10.00 (48775) feb. 9, 2011-->
+<SimStrings>
+<string key="twoCoils" value="2 bobines"/>
+<string key="n" value="N"/>
+<string key="noSound" value="Sense so"/>
+<string key="showFieldLines" value="Mostra les línies de camp"/>
+<string key="voltage" value="voltatge"/>
+<string key="simTitle" value="Llei de Faraday"/>
+<string key="flipMagnet" value="gira l'imant"/>
+<string key="oneCoil" value="1 bobina"/>
+<string key="moveMe" value="mou me!"/>
+<string key="s" value="S"/>
+</SimStrings>

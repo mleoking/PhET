@@ -1,0 +1,1 @@
+phet-credits lead-design=Heather Houlton software-development=Jon Olson, Sam Reid design-team=Noah Podolefsky, Kathy Perkins, Andrea Bair, Suzanna Loper, Mike Dubson interviews=Noah Podolefsky

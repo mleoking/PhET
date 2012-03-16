@@ -1,0 +1,44 @@
+PhET Weekly Progress Report
+John Blanco
+January 11th, 2012
+
+Time period covered: January 5th through January 11th.
+
+Gene Expression - 22.5 hrs
+
+•	Worked with George E to adjust the model parameters to a range where they have the desired effect on the protein level.
+•	Made the cells change color based on the protein level as a sort of emulation of Green Fluorescent Protein (GFP).
+•	Met with Mike K and George E to review the status of the simulation and plan next steps.  Notes from meeting are in the design document.
+•	Published snapshot of the version reviewed with Mike K.
+•	Moved the parameter controls into a single control panel.
+•	Improved the layout of the multi-cell tab.
+•	Added a parameter for the protein degradation rate to the multi-cell tab (this we recommended by Mike K).
+•	Added a Reset All button to the multi-cell tab.
+•	Fixed some issues with the appearance of the chart at initialization (multi-cell tab).
+•	Added a custom label with a color gradient key to the left side of the protein level chart (multi-cell tab).
+•	Added a picture of cells that are expressing Green Fluorescent Protein (multi-cell tab).
+•	Started adding zoom feature to first tab.
+
+Sim Sharing and Data Collection - 1.0 hrs
+
+•	Participated in email discussion of some issues.
+
+Installers - 2.0 hrs
+
+•	Updated and closed several issues relating to the installers.
+
+Customer Support - 3.5 hrs
+
+•	Worked on an issue with the installers not running on some Linux variants, see #3210.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+•	Weekly status meeting.
+•	Certified my ePER.
+•	Spent some extra time on cleanup of Unfuddle issues.
+•	Normal email and administrative overhead.
+•	Filled out hours tracking spreadsheet and vacation and holiday report.
+
+Vacation, Holiday, and Sick Leave - 4.0 hrs
+
+•	Took 4 hours of sick leave due to illness.

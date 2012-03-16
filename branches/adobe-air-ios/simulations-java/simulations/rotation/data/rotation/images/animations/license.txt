@@ -1,0 +1,20 @@
+###################################
+# License info for rotation
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+pusher-leaning_0001.gif author=PhET 
+pusher-leaning_0002.gif author=PhET 
+pusher-leaning_0003.gif author=PhET 
+pusher-leaning_0004.gif author=PhET 
+pusher-leaning_0005.gif author=PhET 
+pusher-leaning_0006.gif author=PhET 
+pusher-leaning_0007.gif author=PhET 
+pusher-leaning_0008.gif author=PhET 
+pusher-leaning_0009.gif author=PhET 
+pusher-leaning_0010.gif author=PhET 
+pusher-leaning_0011.gif author=PhET 
+pusher-leaning_0012.gif author=PhET 
+pusher-leaning_0013.gif author=PhET 
+pusher-leaning_0014.gif author=PhET 
+pusher-leaning_0015.gif author=PhET 

@@ -1,0 +1,79 @@
+PhET Weekly Progress Report
+John Blanco
+April 20th, 2011
+
+Time period covered: April 14th through April 20th.
+
+Isotopes and Atomic Mass – 17.5 hrs
+
+•	Reviewed comments from Jack B and Loretta J with the Chemistry Group, listed changes, wrote up and circulated notes from meeting.
+•	Removed overrides from the test chamber (internal refactoring and cleanup).
+•	Made the atom size change based on the selected element.
+•	Changed tab titles to "Make Isotopes" and "Mix Isotopes"
+•	Changed caption on abundance indicator in first tab from "Natural Abundance" to "Abundance in Nature".
+•	On 2nd tab, moved everything down a bit for more even spacing around the test chamber.
+•	Made the atom size change based on the selected element.
+•	Briefly reviewed a version with Kelly L prior to an interview.
+•	Removed symbols from all translations, since they are not being used and we have decided not to support translated chemical symbols.
+•	Performed a "dead code" analysis and removed quite a bit of code that was identified as unused.
+•	Cleaned up TODOs and warnings.
+•	Fixed an issue where the "My Isotope" label could overlap with the particle legend.
+•	Fixed an issue with the positioning of the abundance indicator on the first tab.
+•	Published two version for review.  The latest can be seen here: http://www.colorado.edu/physics/phet/dev/build-an-atom/2.03.02/
+
+Gene Machine II: Protein Synthesis - 0.5 hrs
+
+•	Put notes from meeting with people in the biology department into the spec.
+
+Build a Molecule - 3.0 hrs
+
+•	Collaborated with Jonathan O on the implementation of the collection chambers.
+•	Reviewed a version with Emily M and discussed some changes to the specification.
+
+Molecules and Light – 4.0
+
+•	Implemented suggestions made in code review.
+•	Regression tested Molecules and Light as well as Greenhouse (due to dependencies on shared code that was also reviewed).
+
+Build an Atom - 1.0
+
+•	Regression tested and redeployed with a fix for an issue with removing electrons from the electron cloud.
+
+Density and Buoyancy - 3.5 hrs
+
+•	Reviewed code (in collaboration with Chris M).
+
+Bending Light - 0.5
+
+•	Tested on slower Windows XP computers and reported results.
+•	Created a ticket for the code review.
+
+Environment - 3.0
+
+•	Added Jack Barbara to the credits for Atomic Interactions, Build an Atom, and pH Scale.  He was added to both the web credits and the sim (i.e. Help) credits.
+•	Discussed code review process with Kathy.
+•	Updated code on the Big Mac due to a security warning issued by the university.  Only did version 1.6 of the OS.
+•	Helped get Oliver set up to do deployments to dev.
+
+Contacts - 1.0
+
+•	Sent emails to several contacts who may have some connection into private foundations that could provide funding for PhET.
+•	Forwarded information to Kathy D about a grant that was brought to my attention by people at Time Warner Cable.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+•	Weekly PhET status meeting.
+•	Weekly status report.
+•	Vacation and sick leave reporting.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Will be out Monday, May 9th.
+
+What’s Next
+
+•	Continue working on implementation of the Build a Molecule sim.
+•	Code review of Bending Light simulation.
+•	Work on design of Protein Synthesis sim, begin implementation.

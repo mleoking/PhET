@@ -1,0 +1,50 @@
+PhET Weekly Progress Report
+John Blanco
+September 7th, 2011
+
+Time period covered: September 1st through September 7th.
+
+Balance and Torque - 15.0 hrs
+
+•	Met with design team, wrote up and circulated meeting notes.
+•	Fixed bug: Plank would keep moving if supports added back while plank was in motion.
+•	Fixed bug: Very small imbalances would not produce any motion.
+•	Added tick mark highlighting when objects are dropped on to the plank.
+•	Made the mass labels appear over the center of gravity of the masses rather than their optical center.
+•	Created artwork for and added a kit with females.
+•	Created artwork for and added a 2nd set of mystery objects.
+•	Fixed bug: Clicking on an item in the tool box and then immediately releasing it could cause a model object to be added and never removed.
+•	Discussed educational benchmarks that might apply to levers tap with Ariel P.
+•	Fixed some issues with the way that mystery objects are added from the tool box.
+•	Improved layout of kits containing mystery objects.
+
+Gene Expression Basics - 3.0 hrs
+
+•	Finished adding support for motion bounds for the mobile biomolecules, including handling of the toolboxes.
+
+Common Code - 1.5 hrs
+
+•	Made the ability to turn off the ticks on portions of the ruler common (in collaboration with Sam R), see #3052.
+•	Reviewed changes made to CursorHandler in order to allow the cursor to rotate (or otherwise change) when moving something, see #3061.
+
+Customer Support - 1.0 hrs
+
+•	Talked with Kathy P and JO (separately) about how to support Pearson in keeping our simulations up to date.
+
+Meetings, Email, and Other Administrative Overhead - 3.5 hrs
+
+•	Weekly status report.
+•	Certified my ePER.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 16.0 hrs
+
+•	Took September 2nd as a vacation day.
+•	Monday, September 5th, was a holiday (Labor Day).
+
+What’s Next
+
+•	Continue developing Gene Expression simulation.
+•	Continue developing Balance & Torque simulation.
+•	Continue developing States of Matter: Basics.

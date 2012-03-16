@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_sq.xml created Wed Feb 25 14:43:36 CET 2009 using: geometric-optics 1.00.00 (22386), translation-utility 1.11.00 (29003)-->
+<SimStrings>
+<string key="draggableScreen" value="Ekran i lëvizshëm"/>
+<string key="draggableLens" value="Thjerra e lëvizshme"/>
+<string key="screen" value="Ekran"/>
+<string key="draggableRuler" value="Vizore e lëvizshme"/>
+<string key="showHelp" value="Ndihma"/>
+<string key="moveMe" value="Me leviz!"/>
+<string key="showGuides" value="Shfaq guidën"/>
+<string key="diameter" value="Diametri (m)"/>
+<string key="ruler" value="Vizore"/>
+<string key="focalPoint" value="Vatra e lëvizshme"/>
+<string key="curvatureRadius" value="Përkulja e thjerës(m)"/>
+<string key="changeObject" value="Ndrysho objektin"/>
+<string key="principalRays" value="Rrezet kryesore"/>
+<string key="marginalRays" value="Rrezet anësore"/>
+<string key="virtualImage" value="Shëmbëllim virtual"/>
+<string key="noRays" value="Pa rreze"/>
+<string key="secondSource" value="Burim i dytë"/>
+<string key="hideHelp" value="Fshije ndihmën"/>
+<string key="refractiveIndex" value="Treguesi i përthyerjes së mjedisit"/>
+<string key="manyRays" value="Shumë rreze"/>
+</SimStrings>

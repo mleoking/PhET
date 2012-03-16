@@ -1,0 +1,108 @@
+# 0.00.27 (62534) Mar 13, 2012
+Added smoke to volcanoes
+# 0.00.26 (62495) Mar 12, 2012
+Improved transform fault valley
+Exaggerated sea-floor spreading ridge
+# 0.00.25 (62442) Mar 12, 2012
+On reset, tools are put back in toolbox
+Fixed time speed control reset
+Fixed crust piece dragging with resized window bug
+Temporarily removing "Show Labels" on 2nd tab until those labels are implemented
+Sensors now read out correct values in 2nd tab (point-intersection model working)
+Fixed Rewind button "enabled" refreshing state
+Fixed window resizing bug
+Fixed Mac slider bugs by switching to new time slider style
+# 0.00.24 (62430) Mar 11, 2012
+Density meter updated to speedometer-style (by SR)
+Added fault valley for transform motion
+Added random terrain variations in 2nd tab
+Added subduction mountain generation
+Reduced subduction trench depth
+# 0.00.23 (62415) Mar 11, 2012
+Added initial version for "subduction" animation
+# 0.00.22 (62388) Mar 9, 2012
+Main view in 2nd tab is zoomed in further to see more detail (grain and continental collision were also slightly adjusted to match)
+Handles in the manual mode drag at 1/4 of the rate
+Increased ocean-surface coloring contrast to show off mid-oceanic ridge
+Asthenosphere now doesn't move in the 2nd tab
+Changed oceanic lithosphere heights
+Fixed triangles in the "rift" view
+# 0.00.21 (62367) Mar 9, 2012
+Rift boundary changes
+Disallowing divergent/transform behavior between oceanic/continental
+# 0.00.20 (61724) Feb 24, 2012
+Renamed the Options panel to "View", and moved the reset/rewind buttons out of it
+Renamed "combined" coloring to "Both"
+Added magma to rifting behavior
+Increased vertical resolution for cross section, and reduced horizontal resolution.
+# 0.00.19 (61657) Feb 23, 2012
+Initial (rough and blocky) version of the rift boundary
+Added experimental "combined" temperature-density view
+Mountain refinement in collsisions
+# 0.00.18 (61414) Feb 16, 2012
+2/16/12 Experimenting with "mountains" in continental collision
+# 0.00.17 (61306) Feb 13, 2012
+Added ability to limit simulation time on animations
+Added "Rewind" button to the plate motion tab
+Increased the "texture" contrast
+Added approximate continental collision model, crust/terrain changes to accommodate.
+# 0.00.16 (61097) Feb 8, 2012
+# 0.00.15 (61094) Feb 8, 2012
+2/8/12 Texturing on all surfaces, significant model changes, and transform animation
+# 0.00.14 (60935) Feb 1, 2012
+Added texturing to cross sections
+# 0.00.13 (60651) Jan 26, 2012
+Changed the angle and position of the camera in the Crust tab when handling zoom
+# 0.00.12 (60562) Jan 24, 2012
+Density fixes for above-ground levels (water / air) for Crust tab
+More consistent title fonts
+Added in Legend with tentative positioning and styling
+Changed the temperature false-color to range from gray to red
+Better color handling (light/dark) for labels in the Crust tab
+Full hemisphere of earth shown on Crust tab when zoomed out
+Hid FPS readout by default, added developer option to enable it
+Consolidated the time control readout, so now the inner visibility is toggled
+# 0.00.10 (59979) Jan 6, 2012
+Added "Temperature / Density" views on 1st tab
+# 0.00.09 (59977) Jan 6, 2012
+Can now only drag plates by their handles. Handle top matches mouse position as well as possible
+Don't show handle on plate if it is a lighter plate
+Handle rotation based on movement
+Changed handle to stick-and-ball style
+Reduced ruler size in toolbox for more visibility
+Added manual mode time readout
+Ruler drags from the top
+Bugfix for 2nd tab dragging of tools that doesn't trigger the manual mode motion
+# 0.00.08 (59921) Jan 5, 2012
+Added majority of UI for controlling the 2nd tab (manual and auto mode).
+Now allows mode changes after animation has started
+Added simplified handle prototypes
+Added temporary (inaccurate) "divergent" boundary animation (reverse of convergent)
+Added extra continental crust piece for 2nd tab
+Updated 2nd tab view location to a slight side-angle
+Fixed reset "freeze" bug
+Flipped ruler tick mark labels vertically, added a 4x multiplier to the ruler on the 2nd tab
+# 0.00.07 (59864) Jan 3, 2012
+1/3/12 Added UI for 2nd tab "Auto" mode with clock, added inaccurate example "convergence" model
+# 0.00.06 (59809) Jan 2, 2012
+1/2/12 Added start of 2nd tab model (blocky start positions) with drag-drop of crust and initial 2nd tab reset functionality
+# 0.00.05 (59777) Dec 29, 2011
+Added 2nd tab toolbox, mode-control box and crust chooser box with draggable crust pieces
+Added 1st tab labels and redid density gradients (and various internals)
+# 0.00.04 (59661) Dec 23, 2011
+12/23/11 First LWJGL version, + animation, zoom, and other tweaks
+# 0.00.03 (57593) Oct 13, 2011
+10/13/11 Added roundness, heavy refactoring for performance, etc.
+# 0.00.02 (57349) Oct 6, 2011
+Decreased quality of cross-section display and terrain for performance.
+# 0.00.01 (57345) Oct 6, 2011
+Added thermometer
+Moved ruler in front of everything else (other tools will have the same behavior)
+Made ruler draggable
+Changed tab names to "Crust" and "Plate Motion"
+Added ruler to toolbox
+Added in a 3D test version of a ruler
+Internationalized current strings
+Updated strings file
+Fixed build properties so plate-tectonics will build and run with PBG
+Moved textures from jME3-testdata.jar:Textures/Terrain/splat/ to plate-tectonics data directory

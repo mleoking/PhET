@@ -1,0 +1,41 @@
+PhET Progress Report
+John Blanco
+October 15, 2008
+
+States of Matter Sim - 21 hrs
+
+•	Moved pressure gauge to top of container so that it makes more sense.
+•	Changed layout of dial gauge node to make it more readable at low and high pressures, added "Overload" indicator.
+•	Moved digital portion of thermometer readout to be above rather than beside thermometer.
+•	Added a workaround for problem of falling particles being slowed by thermostat.
+•	Worked with Noah P on alternative ways to fix "slow falling particles" problem.
+•	Added changes.txt and todo.txt files in order to conform to new process.
+•	Did a significant amount of refactoring and cleanup in preparation for deployment and moving on to next sim.
+•	Profiled performance for a baseline prior to refactoring.
+
+Nuclear Physics – 4 hrs
+
+•	Worked on translated strings so that they all match up with the English version.
+•	Added changes.txt and todo.txt files in order to conform to new process.
+
+Alpha Decay Tabbed Redesign - 1
+
+•	Started reviewing the spec for this, which is to be my next sim.
+
+Common Code - 5 hrs
+
+•	Create a string comparison utility to see which strings are covered in which languages.
+•	Worked with Marj and then Sam to correct a problem with deploying translations for sims with multiple flavors.
+•	Verifying various changes to the common code.
+
+Installer & Web Site – 4 hrs
+
+•	Researched and found promising solution to issue where IE warns about many PhET pages when running installed version (Unfuddle 184).
+•	Discussed with Dano how to keep the redirects in SVN so that we can better track and manage them.
+•	Changed the frequency of the automated build to once per week.
+
+Meetings & Email - 5 hrs
+
+•	Regular weekly status meeting.
+•	Sim tracking meeting.
+•	Normal email overhead.

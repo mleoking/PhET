@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_iw.xml created Mon Oct 17 14:32:18 MDT 2011 using: arithmetic 2.03.00 (51677), translation-utility 2.12.00 (57171) Oct 3, 2011-->
+<SimStrings>
+<string key="level" value="רמה"/>
+<string key="typeAnswer" value="הקלד תשובה,\nלחץ על enter "/>
+<string key="clickToSelect" value="הקלד לבחירתt \nהריבוע הנכון"/>
+<string key="correct" value="נכון!"/>
+<string key="end" value="סוף"/>
+<string key="isWrong" value="שגוי"/>
+<string key="start" value="התחל"/>
+<string key="simTitle" value="חשבון"/>
+<string key="time" value="(זמן (שניות"/>
+<string key="finalTime" value="זמן סופי:"/>
+<string key="multiply" value="כפל"/>
+<string key="tryAgain" value="נסה שוב"/>
+<string key="sound" value="קול"/>
+<string key="divide" value="חילוק"/>
+<string key="factor" value="מכפלה"/>
+<string key="minute" value="דקה"/>
+<string key="finalScore" value="ניקוד סופי:"/>
+<string key="nbrRight" value="מספר נכון:"/>
+<string key="mustTypeNbr" value="אתה חייב להקליד\nמספר"/>
+<string key="score" value="ניקוד:"/>
+<string key="scorePer" value="ניקוד"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
+<string key="nbrWrong" value="מספר שגוי:"/>
+<string key="reset" value="נקה"/>
+<string key="clock" value="שעון"/>
+<string key="title" value="אימון בחשבון"/>
+</SimStrings>

@@ -1,0 +1,25 @@
+###################################
+# License info for energy-skate-park
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+FastForward16.gif source=java 
+FastForward24.gif source=java 
+Forward16.gif source=java 
+Forward24.gif source=java 
+Movie16.gif source=java 
+Movie24.gif source=java 
+Pause16.gif source=java 
+Pause24.gif source=java 
+Play16.gif source=java 
+Play24.gif source=java 
+Rewind16.gif source=java 
+Rewind24.gif source=java 
+StepBack16.gif source=java 
+StepBack24.gif source=java 
+StepForward16.gif source=java 
+StepForward24.gif source=java 
+Stop16.gif source=java 
+Stop24.gif source=java 
+Volume16.gif source=java 
+Volume24.gif source=java 

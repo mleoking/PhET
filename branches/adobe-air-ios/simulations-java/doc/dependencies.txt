@@ -1,0 +1,789 @@
+PhET Java Software Dependencies
+Tue Aug 05 13:50:32 MDT 2008
+
+balloons:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. balloons/src
+
+battery-voltage:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. battery-voltage/src
+
+bernoulli:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. bernoulli/src
+		1. phetcommon/src
+
+bound-states:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. jfreechart-phet
+		3. piccolo
+		4. jfreechart
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. bound-states/src
+	Licensing info:
+		0. GPL: This PhET project contains a modified version of two files Copyright (C) 1998 Kevin E. Schmidt and Michael A. Lee, under the GPL license.
+
+circuit-construction-kit:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. jfreechart-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+		9. nanoxml.jar
+	Source Dependencies:
+		0. circuit-construction-kit/src
+		1. phetcommon/src
+		2. Jama/src
+
+color-vision:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+		2. piccolo-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. color-vision/src
+		1. phetcommon/src
+
+conductivity:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. conductivity/src
+		1. phetcommon/src
+
+discharge-lamps:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+		2. lasers
+		3. piccolo-phet
+		4. piccolo
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. discharge-lamps/src
+
+distance-ladder:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. jdom.jar
+	Source Dependencies:
+		0. distance-ladder/src
+		1. phetcommon/src
+
+eating-and-exercise:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+		3. motion
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jsci-core.jar
+		8. jcommon.jar
+		9. jfreechart.jar
+	Source Dependencies:
+		0. eating-and-exercise/src
+
+efield:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. efield/src
+
+electric-hockey:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. electric-hockey/src
+
+energy-skate-park:
+	Project Dependencies:
+		0. phetcommon
+		1. jfreechart
+		2. jfreechart-phet
+		3. piccolo
+		4. piccolo-phet
+		5. timeseries
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. jcommon.jar
+		4. jfreechart.jar
+		5. ant.jar
+		6. swt.jar
+		7. piccolo-sax.jar
+		8. svgSalamander-tiny.jar
+	Source Dependencies:
+		0. Jama/src
+		1. energy-skate-park/src
+
+faraday:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+		2. piccolo-phet
+		3. piccolo
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. faraday/src
+
+forces-1d:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. forces-1d/src
+
+fourier:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+		2. charts
+		3. piccolo-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. fourier/src
+
+glaciers:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+		3. jfreechart-phet
+		4. jfreechart
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. glaciers/src
+
+greenhouse:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. greenhouse/src
+		1. phetcommon/src
+
+hydrogen-atom:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+		3. jfreechart-phet
+		4. jfreechart
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. hydrogen-atom/src
+
+ideal-gas:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+		2. mechanics
+		3. collision
+		4. controls
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. ideal-gas/src
+
+lasers:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+		2. quantum
+		3. mechanics
+		4. controls
+		5. piccolo-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. lasers/src
+
+maze-game:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. maze-game/src
+
+microwaves:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+		2. quantum
+		3. mechanics
+		4. controls
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. microwaves/src
+		1. phetcommon/src
+
+motion-2d:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. motion-2d/src
+
+moving-man:
+	Project Dependencies:
+		0. phetcommon
+		1. motion
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. jsci-core.jar
+		4. piccolo-sax.jar
+		5. svgSalamander-tiny.jar
+		6. jcommon.jar
+		7. jfreechart.jar
+		8. ant.jar
+		9. swt.jar
+		10. servlet.jar
+	Source Dependencies:
+		0. moving-man/src
+		1. phetcommon/src
+		2. beanshell/src
+		3. asm/src
+
+mri:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. quantum
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. mri/src
+
+mvc-example:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. mvc-example/src
+
+nuclear-physics:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+		3. jfreechart-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. nuclear-physics/src
+
+ohm-1d:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. ohm-1d/src
+
+optical-quantum-control:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+		2. charts
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. optical-quantum-control/src
+
+optical-tweezers:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+		3. jfreechart-phet
+		4. jfreechart
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. optical-tweezers/src
+
+ph-scale:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. ph-scale/src
+
+phetgraphics-demo:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. phetgraphics-demo/src
+
+photoelectric:
+	Project Dependencies:
+		0. phetcommon
+		1. lasers
+		2. discharge-lamps
+		3. charts
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. photoelectric/src
+
+quantum-tunneling:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+		3. jfreechart-phet
+		4. jfreechart
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. quantum-tunneling/src
+	Licensing info:
+		0. GPL, None Specified: This PhET project uses code that was based on an applet written by John L. Richardson, Copyringht 1996 Silicon Graphics.  It also contains modified code from the Schmidt-Lee implementation of the eigenstate solver (see EigenstateSolver), this code is GPL
+
+quantum-wave-interference:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. jfreechart-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. quantum-wave-interference/src
+
+radio-waves:
+	Project Dependencies:
+		0. phetcommon
+		1. mechanics
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. radio-waves/src
+		1. phetcommon/src
+
+reactions-and-rates:
+	Project Dependencies:
+		0. charts
+		1. collision
+		2. jfreechart-phet
+		3. mechanics
+		4. phetgraphics
+		5. piccolo
+		6. piccolo-phet
+		7. phetcommon
+	JAR Dependencies:
+		0. ant.jar
+		1. swt.jar
+		2. junit.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. jmock.jar
+		6. jnlp.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+		9. commons-collections.jar
+	Source Dependencies:
+		0. reactions-and-rates/src
+
+rotation:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. jfreechart-phet
+		3. timeseries
+		4. motion
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. jsci-core.jar
+		6. ant.jar
+		7. swt.jar
+		8. jcommon.jar
+		9. jfreechart.jar
+	Source Dependencies:
+		0. rotation/src
+
+rutherford-scattering:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. rutherford-scattering/src
+
+self-driven-particle-model:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. jfreechart-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. self-driven-particle-model/src
+
+semiconductor:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. semiconductor/src
+
+signal-circuit:
+	Project Dependencies:
+		0. phetcommon
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. signal-circuit/src
+
+sim-template:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. piccolo
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. sim-template/src
+
+soluble-salts:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. collision
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+	Source Dependencies:
+		0. soluble-salts/src
+
+sound:
+	Project Dependencies:
+		0. phetcommon
+		1. phetgraphics
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+	Source Dependencies:
+		0. sound/src
+		1. phetcommon/src
+
+states-of-matter:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. jfreechart-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+		9. uispec4j.jar
+	Source Dependencies:
+		0. states-of-matter/src
+
+the-ramp:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. jfreechart-phet
+		3. phetgraphics
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. the-ramp/src
+
+travoltage:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+	Source Dependencies:
+		0. travoltage/src
+		1. jade/src
+
+wave-interference:
+	Project Dependencies:
+		0. phetcommon
+		1. piccolo-phet
+		2. jfreechart-phet
+	JAR Dependencies:
+		0. junit.jar
+		1. jmock.jar
+		2. jnlp.jar
+		3. piccolo-sax.jar
+		4. svgSalamander-tiny.jar
+		5. ant.jar
+		6. swt.jar
+		7. jcommon.jar
+		8. jfreechart.jar
+	Source Dependencies:
+		0. wave-interference/src

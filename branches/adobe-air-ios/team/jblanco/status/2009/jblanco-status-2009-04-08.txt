@@ -1,0 +1,40 @@
+PhET Progress Report
+John Blanco
+April 8, 2009
+
+Heterogeneous Interaction Potential (HIP) – 12.0 hrs
+
+•	Reviewed desired oxygen bonding behavior with Noah P.
+•	Added bonding of oxygen, including locking atom into well and vibrating the fixed atom.
+•	Added correct values for epsilon and sigma for the various pairs of atoms.
+
+Installer & Web Site – 8.0 hrs
+
+•	Fixed an issue where the installer builder scripts were not correctly identifying and processing post-IOM sims.
+•	Built and deployed the beta version of the installers.
+•	Tested beta installers on Mac, Windows XP, supported testing by Marj.
+•	Worked on capability to rebuild installers after updating a single sim (Unfuddle #1154).
+
+Common Code – 3.0 hrs
+
+•	Investigated an issue with extraneous characters appearing in license agreement on Macs (Unfuddle #1563).
+•	Tested and verified fixes made by other developers.
+
+Greenhouse - 2.5 hrs
+
+•	Added the ability to control the photon speed, (Unfuddle #1492).
+
+Sound - 0.5 hrs
+
+•	Republished this sim and tested to verify that license changes were correct.
+
+Meetings, Email, etc. - 6.0 hrs
+
+•	Weekly PhET meeting.
+•	Normal email and administrative overhead, including managing Unfuddle tickets.
+•	Filled out Disclosure of External Professional Activities
+
+Time Off - 8.0 hrs
+
+•	Friday April 3rd - Vacation Day
+

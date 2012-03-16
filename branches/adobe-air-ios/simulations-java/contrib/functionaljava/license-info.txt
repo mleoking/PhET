@@ -1,0 +1,1 @@
+functionaljava license=Open Source BSD licensefile=LICENCE name=Functional Java description=The library implements several advanced programming concepts that assist in achieving composition-oriented development. copyright=2008-2009, Tony Morris, Runar Bjarnason, Tom Adams, Brad Clow, Ricky Clarkson website=http://functionaljava.org/

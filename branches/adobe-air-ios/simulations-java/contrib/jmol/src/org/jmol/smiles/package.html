@@ -1,0 +1,835 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+  <head>
+    <!--
+      
+      $RCSfile$
+      $Author: hansonr $
+      $Date: 2011-03-05 15:37:24 -0800 (Sat, 05 Mar 2011) $
+      $Revision: 15241 $
+
+      Copyright (C) 2005  The Jmol Development Team
+
+      Contact: jmol-developers@lists.sf.net
+
+      This library is free software; you can redistribute it and/or
+      modify it under the terms of the GNU Lesser General Public
+      License as published by the Free Software Foundation; either
+      version 2.1 of the License, or (at your option) any later version.
+      
+      This library is distributed in the hope that it will be useful,
+      but WITHOUT ANY WARRANTY; without even the implied warranty of
+      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+      Lesser General Public License for more details.
+      
+      You should have received a copy of the GNU Lesser General Public
+      License along with this library; if not, write to the Free Software
+      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+      02111-1307  USA.
+      
+    -->
+  </head>
+  <body bgcolor="white">
+    
+    <p>
+<h1>Jmol 3D-SEARCH bioSMILES/bioSMARTS</h1>
+<p>Robert M. Hanson<br/>Department of Chemistry<br/>St. Olaf College<br/>5/19/2010</p>
+<p>
+This document describes a specification for an extension of SMILES and SMARTS for use in 
+3D molecular atom search and selection as well as biomolecular sequence and cross-link searching. 
+This specification is implemented in Jmol 12.0. It is really a set of specifications:
+
+<ul><li><b>bioSMILES</b>  An extension of SMILES that incorporates both biomolecular sequence/cross-linking
+information along with more standard molecular or ionic components 
+that utilize an only slightly extended SMILES atom coding. 
+</li>
+<li><b>bioSEQUENCE</b> A component subset of bioSMILES that starts with tilde, "~". The bioSEQUENCE coding allows for extensive searching 
+of biomolecular frameworks. The coding basically substitutes residues for SMILES atoms 
+and cross-linking and base pairing for SMILES "ring" connections. Subsets of bioSEQUENCE include:
+<ul>
+<li><b>~p~</b> protein-only sequence</li>
+<li><b>~n~</b> nucleic-only sequence</li>
+<li><b>~r~</b> rna-only sequence</li>
+<li><b>~d~</b> dna-only sequence</li>
+</ul>
+</li>
+<li><b>bioSMARTS</b> An extension of SMARTS substructure searching that allows searching of both  
+bioSEQUENCE information and standard SMARTS substructure within SMILES string, bioSMILES strings, 
+and 3D molecular models. 
+</li>
+<li><b>3D-SMARTS</b> A subset of bioSMARTS that allows searching of 
+molecular distance, angle, and torsion measurements. 
+</li>
+</ul>
+
+    The <a href=".">org.jmol.smiles</a> package provides extensive functionality for selecting
+    atoms within a three-dimensional model based on SMILES and SMARTS strings. 
+    This package may be used independently
+    of Jmol -- see <a href="../../../JmolSmilesApplet.java">JmolSmilesApplet.java</a>
+    and <a href="http://chemapps.stolaf.edu/jmol/docs/examples-11/JmeToJmol.htm">JmeToJmol.htm</a>.
+    </p>
+<p> Besides a presentation of general considerations, a detailed <a href="#specs">specification</a> for syntax, and 
+the term "aromatic" is <a href="#aromaticity">defined</a>.
+</p>
+ <h3>General Considerations</h3>
+<p>
+<b>format</b>
+<ul>
+</li><li>Allows for searching "pattern1 or pattern2" and for a variable number of occurances of a pattern within a pattern using [$(...)n] or [$(...)min-max].
+<li> 
+Allows any amount of white space -- spaces, tabs, new lines. Prior to parsing, all white space is removed.
+</li>
+<li> 
+Comments in the form //*....*// are allowed anywhere within the string. The following example illustrates the use of comments and white space for the bioSMILES representations of several models:
+<pre>
+$ load 1crn.pdb; print {*}.find("SMILES",true)
+//* Jmol bioSMILES 12.0.RC19_dev  2010-06-06 14:24 1 *//
+~p~TTC:1C:2PSIVARSNFNVC:3RLPGTPEAIC:3ATYTGC:2IIIPGATC:1PGDYAN
+
+$ load 1blu.pdb; print {*}.find("SMILES",true)
+//* Jmol bioSMILES 12.0.RC19_dev  2010-06-06 14:24 1 *//
+~p~ALMITDECINCDVCEPECPNGAISQGDETYVIEPSLCTECVGHYETSQCVEVCPVDCIIKDPSHEETEDELRAK
+  YERITG.
+//* FS4 *//[Fe@@]123[S]4[Fe@@]56[S]7[Fe@]84[S]3[Fe@@]97[S]26.
+  [CYS.SG#16//* 8 *//]8.[CYS.SG#16//* 53 *//]1.[CYS.SG#16//* 14 *//]9.[CYS.SG#16//* 11 *//]5.
+//* FS4 *//[Fe@@]%10%11%12[S]%13[Fe@@]%14%15[S]%16[Fe@]%17%13[S]%12[Fe@@]%18%16[S]%11%15.
+  [CYS.SG#16//* 37 *//]%17.[CYS.SG#16//* 18 *//]%10.[CYS.SG#16//* 49 *//]%18.[CYS.SG#16//* 40 *//]%14.
+//* HOH *//[O]
+
+$ load 1d66.pdb;print {*}.find("SMILES", true)
+//* Jmol bioSMILES 12.0.RC19_dev  2010-06-06 14:24 1 *//
+//* chain D dna *// ~d~CCGGAGGACAGTCCTCCGG.
+//* chain E dna *// ~d~CCGGAGGACTGTCCTCCGG.
+//* chain A protein *// ~p~EQACDICRLKKLKCSKEKPKCAKCLKNNWECRYSPKTKRSPLTRAHLTEV
+  ESRLERL.
+//* chain B protein *// ~p~EQACDICRLKKLKCSKEKPKCAKCLKNNWECRYSPKTKRSPLTRAHLTEV
+  ESRLERL.
+//* CD *//[Cd]1234[Cd]567[CYS.SG#16//* 28:B *//]4.[CYS.SG#16//* 11:B *//]15.
+  [CYS.SG#16//* 31:B *//]2.[CYS.SG#16//* 21:B *//]7.[CYS.SG#16//* 14:B *//]6.[CYS.SG#16//* 38:B *//]3.
+//* CD *//[Cd]89%10%11[Cd]%12%13%14[CYS.SG#16//* 28:A *//]%10.[CYS.SG#16//* 14:A *//]%13.
+  [CYS.SG#16//* 31:A *//]9.[CYS.SG#16//* 21:A *//]%14.[CYS.SG#16//* 11:A *//]8%12.[CYS.SG#16//* 38:A *//]%11.
+//* HOH *//[O]
+
+$ load 1d66.pdb;calculate hbonds;print {*}.find("SMILES", true)
+108 hydrogen bonds
+//* Jmol bioSMILES 12.0.RC19_dev  2010-06-06 14:24 1 *//
+//* chain D dna *// ~d~C:1C:2G:3G:4A:5G:6G:7A:8C:9A:%10G:%11T:%12C:%13C:%14T:%15
+  C:%16C:%17G:%18G:%19.
+//* chain E dna *// ~d~C:%19C:%18G:%17G:%16A:%15G:%14G:%13A:%12C:%11T:%10G:9T:8
+  C:7C:6T:5C:4C:3G:2G:1.
+//* chain A protein *// ~p~E:%20QA:%20C:%21D:%22:%23I:%24C:%25:%26R:%21:%27L:%23
+  K:%24K:%27:%25L:%26KCSK:%28EK:%28PKC:%29A:%30K:%31C:%32:%33L:%29:%34K:%30
+  N:%31N:%34:%32W:%33E:%35CR:%35:%22YSPKTKRSP:%36LT:%36:%37R:%38A:%39H:%40L:%37:%41
+  T:%38:%42E:%39:%43:%44V:%40:%45E:%41:%46S:%43:%42R:%44L:%45:%47:%48E:%46R:%47
+  L:%48.
+//* chain B protein *// ~p~EQAC:%49D:%50:%51I:%52C:%53:%54R:%49:%55L:%51K:%52
+  K:%55:%53L:%54KCSK:%56EK:%56PKC:%57:%58A:%59K:%60C:%57:%61:%62L:%58:%63K:%59
+  N:%60N:%61:%63W:%62ECR:%50YSPKTKRSP:%64LT:%64:%65R:%66A:%67H:%68L:%65:%69
+  T:%66:%70E:%67:%71V:%68:%72E:%69:%73S:%70:%74R:%71L:%72:%75E:%73R:%74L:%75.
+//* CD *//[Cd]%76%77%78%79[Cd]%80%81%82[CYS.SG#16//* 28:B *//]%79.[CYS.SG#16//* 11:B *//]%76%80.
+  [CYS.SG#16//* 31:B *//]%77.[CYS.SG#16//* 21:B *//]%82.[CYS.SG#16//* 14:B *//]%81.[CYS.SG#16//* 38:B *//]%78.
+//* CD *//[Cd]%83%84%85%86[Cd]%87%88%89[CYS.SG#16//* 28:A *//]%85.[CYS.SG#16//* 14:A *//]%88.
+  [CYS.SG#16//* 31:A *//]%84.[CYS.SG#16//* 21:A *//]%89.[CYS.SG#16//* 11:A *//]%83%87.[CYS.SG#16//* 38:A *//]%86.
+//* HOH *//[O]
+</pre>
+</li><li>Jmol recognizes "/..../" at the beginning of a pattern as processing flags. The two flags noAromatic and noStereo are defined. 
+"/noAromatic/" turns off all checks for aromaticity, speeding processing when that is not important or no distinction between
+aromatic and nonaromatic atoms is desired. "/noAromatic,noStereo/" indicates that in addition, no stereochemical checking should be done. 
+</li>
+
+</ul>
+ 
+<b>bioSMILES/bioSMARTS</b>
+
+<ul>
+<li>Jmol 12.0 extends SMILES to biomolecular description and SMARTS and searching of both SMILES 
+and three-dimensional models that involve searching sequence and cross-linking information as well as
+characteristics of molecules such as distance, angle, and torsion ranges. 
+The extension involves only a few simple additions:
+<br /><br />
+<ol>
+<li><b>[residueName.atomName]</b> For selecting specific residue atoms. Wild cards are optional: [ALA.*], [*.*], [*.CA]. The special
+designation "0" for an atom name, as in <b>[GLY.0]</b>, indicates the "lead atom" -- the alpha carbon for proteins or the phosphorus atom in nucleic acids. 
+<br /><br />
+</li><li><b>[residueName.atomName#atomicNumber]</b> The residue/atom specifier may be extended with atomic number information. 
+This allows seasrching a bioSMILES string using SMARTS patterns that only involve standard atom types. In the above example, 
+notice that the connecting atoms to protein chains within the non-bioSEQUENCE component indicates the
+connections to the protein using this extended notation. Thus, both the actual 3D model and the bioSMARTS string for 1d66
+can be searched using the SMARTS search "CdS" as well as the more specific search "Cd[*.SG]". 
+<br /><br />
+</li><li><b>"~"</b>  Tilde indicates a bioSEQUENCE string. 
+Subsets include <b>"~p~"</b> protein-only sequence, 
+<b>"~n~"</b> nucleic-only sequence, 
+<b>"~d~"</b> DNA-only sequence, and 
+<b>"~r~"</b> RNA-only sequence. Generally, the string will be 
+standard single-character group symbols. For example: <b>select search("~d~AG")</b> or <b>select search("~p~A[G,P]")</b>.
+This search returns only the "lead atom" -- the 1-letter code is a stand-in for [XXX.0]. Groups may
+also be indicated in their standard Jmol notation, [XXX], or bioSMILES notation [XXX.YYY]. 
+These may be mixed. So, for example, <b>~p~G[ALA]C[ALA.N]</b>. 
+The bioSEQUENCE tilde must be repeated for each new component in the search (separated by ".").
+<br /><br /></li><li><b>"+" and ":" </b> Jmol's extension adds the + and : bond types for sequences. + indicates "connected groups", and ":" indicates "cross-linked groups". 
+Recognized cross-linking includes hydrogen bonding between the purine N1 and pyrimidine N3 in nucleic acids and cysteine-cysteine disulfide bonds in proteins. 
+Cross-linking can be "one-to-one" or "one-to-many". (In the future this could be expanded to carbohydrates.) The standard SMILES branching notation can also be used to represent cross-linking: 
+In normally hybridized DNA, <b>~C+C+C:G+G+G</b> would be three CG base-pairs (because the two strands are going in opposite direction).
+The default for bioSEQUENCE connections is "+", so this search could also be represented simply as <b>~CCC:GGG</b>. 
+"+" is only necessary when the search is not a bioSEQUENCE. 
+For example,  <b>{[CYS.CA]+[PRO.N]}</b> allows selection of the alpha carbon on one residue and the backbone nitrogen atom on the next.
+<br /><br />
+</li><li><b>branches and rings</b> Jmol's extension still allows for standard SMILES branching notation using parentheses. Within bioSEQUENCES, 
+branching indicates cross-linking. Thus, above CG stretch could be indicated  <b>C(G)C(G)C(G)</b>. 
+An empty branch, <b>C()</b>, indicates "not cross-linked" -- in this case 
+a cysteine without a disulphide bond or a cytidine that is not base-paired. For bioSMILES, which shows all cross-linking explicitly,
+the empty parentheses may be omitted.
+
+Ring notation can also be used: C:1CC(GGG:1) ensures that
+the hybridization is as a true set of CG pairs. 
+
+In order to allow for more than 99 branches (or base pairs), we extend the ring % notation by enclosing the number in parentheses. 
+For example, a section of the large ribosomal unit for PDB code 1FFK reads:
+<pre>
+//* chain 9 rna *// ~r~UUAG:%(792)G:%(793)C:%(794)G:%(795)G:%(796)C:%(797)CAC
+  AG:%(798)C:%(799)G:%(800)G:%(801)U:%(802)G:%(803)G:%(804)G:%(805)GUUGCCUC:%(806)
+  C:%(807)C:%(808)G:%(809)U:%(810)ACCC:%(811)AUCCCG:%(811)AACA:%(810)C:%(809)
+  G:%(808)G:%(807)AAG:%(806)AU:%(812)AA:%(812)GC:%(805)C:%(804)C:%(803)A:%(802)
+  C:%(801)C:%(800)AG:%(799)C:%(798)GUUC:%(813)C:%(814)G:%(815)G:%(816)G:%(817)
+  GAGUAC:%(818)U:%(819)G:%(820)G:%(821)A:%(822)G:%(823)UG:%(824)C:%(825)GCG
+  AG:%(825)C:%(824)C:%(823)U:%(822)C:%(821)U:%(820)G:%(819)G:%(818)GAAAC:%(817)
+  C:%(816)C:%(815)G:%(814)G:%(813)UUCG:%(797)C:%(796)C:%(795)G:%(794)C:%(793)
+  C:%(792)ACC.
+</pre>
+</li><li><b>measurements</b> An additional extension, consisting of a measurement type (d - distance, a - angle, or t - torsion) 
+allows SMARTS searches to target specific ranges of values. 
+<br /><br />
+</li><li><b>processing flags</b> Jmol recognizes "/..../" at the beginning of a pattern as processing flags. 
+Currently the only flags supported are "noAromatic" and "noStereo". "noAromatic" turns off all aromaticity checks.
+It may be desireable when no distinction between
+aromatic and nonaromatic atoms is desired. For large biomolecules /noAromatic/ can 
+dramatically improve processing speed when no check for aromaticity is necessary. All atoms are then considered NOT aromatic.
+"noStereo" turns off all stereochemical checking.
+
+</li></ol>
+
+
+</li>
+
+</ul>
+
+
+<b>aromaticity</b>
+ 
+<ul>
+<li>Jmol 3D-SEARCH defines "aromatic" unambiguously and strictly geometrically. 
+    see <a href="#aromaticity">below</a>.
+
+</li><li>Note that "aromatic" is not restricted to any specific subset of elements.
+</li><li>For large biomolecule searches, the search for aromatic rings can be time consuming and unnecessary.
+Adding the flag "/noAromatic/" at the beginning of the search pattern will turn off all checks for aromaticity
+and may dramatically increase processing speed.
+</li></ul>
+  
+</p>     
+ <h3>Comparision to <a target="_blank" href="http://www.daylight.com/dayhtml/doc/theory/theory.smiles.html">Daylight SMILES</a></h3>
+<p>     
+ All single-component aspects of Daylight SMILES are implemented, including
+    aromaticity and atom- and bond-based stereochemistry ("chirality").
+</p>     
+
+
+ <h3>Comparision to <a target="_blank" href="http://www.daylight.com/dayhtml/doc/theory/theory.smarts.html">Daylight SMARTS</a></h3>
+<p>     
+<ul>
+<li>[H1] interpreted as [*H1] -- "an atom with one connected H atom".
+
+</li><li>Allows definition of [$XXX] variables:
+<pre>
+      Var x = '$R1="[CH3,NH2]";$R2="[OH]"; {a}[$R1]' // select aromatic atoms attached to CH3 or NH2  
+      select within(SMARTS,@x)
+</pre> 
+Note that these variables are any string whatsoever, not just atom sets. The syntax is simply:
+<ul><li>Each variable definition takes the form $ [name] =" [definition] " [comments] ;
+</li><li>[name] can be any characters except '$', '=', and ']' and must not start with '('. 
+It is recommended they be restricted to the set A-Z, a-z, and 0-9.
+</li><li>[definition] can be any valid SMARTS characters. 
+</li><li>[comments] can be any characters other than ';'. 
+</li><li>The actual pattern starts after the last variable definition.
+</li><li>Nested variables are allowed, but note that this may require using the recursion syntax, $(...): 
+<pre>
+      Var x = '$R1="[CH3,NH2]";$R2="[$($R1),OH]"; {a}[$R1]' // select aromatic atoms attached to CH3, NH2, or OH  
+      select within(SMARTS,@x)
+</pre> 
+</li><li>For $xxx="yyyy", all occurrances of the string "[$xxx]" are replaced within the pattern prior to parsing. 
+</li></ul>
+<br/>
+
+</li><li>Implements nested ("recursive") SMARTS: 
+<pre> 
+      Var x = '$R1="[CH3,NH2]";$R2="[OH]";  {a}[$([$R1]),$([$R2])]' // aromatic attached to CH3, NH2, or OH
+      select within(SMARTS,@x)
+</pre>
+    Note that $(...) need not be within [...], and 
+    wherever it is, it always means "just the first atom".
+</ul>
+
+<b>primitives</b>
+
+<ul>
+<li>All Daylight SMARTS primitives are implemented. These include:
+<br/>
+<table border="1" cellpadding="5" width="500">
+<tr><td>[Element]</td><td>capitalized - standard notation Na, Si, etc. -- specific non-aromatic atom</td></tr>
+<tr><td>[element]</td><td>uncapitalized - specific aromatic atom (as for standard notation, no limitations)</td></tr>
+<tr><td>*</td><td>any atom</td></tr>
+<tr><td>A</td><td>any non-aromatic atom</td></tr>
+<tr><td>a</td><td>any aromatic atom</td></tr>
+<tr><td>#</td><td>atomic number</td></tr>
+<tr><td>(integer)</td><td>mass number -- Note, however, that [H1] is [*H1], "any atom with one attached hydrogen", not unlabeled hydrogen, [1H].</td></tr>
+<tr><td>D</td><td>degree - total number of connections</td></tr>
+<tr><td>H</td><td>exact hydrogen count</td></tr>
+<tr><td>h</td><td>"implicit" hydrogen count (atoms are not in structure)</td></tr>
+<tr><td>R</td><td>in the specified number of rings</td></tr>
+<tr><td>r</td><td>in ring of a given size</td></tr>
+<tr><td>v</td><td>valence (total bond order)</td></tr>
+<tr><td>X</td><td>calculated connectivity, including implicit hydrogens</td></tr>
+<tr><td>x</td><td>number of ring bonds</td></tr>
+<tr><td>@</td><td>stereochemistry</td></tr>
+</table>
+<br/>
+In addition, Jmol 3D-SMARTS adds the following primitives and options:
+<br/>
+<br/>
+<table border="1" cellpadding="5" width="500">
+<tr><td>d</td><td>non-hydrogen degree -- number of non-hydrogen connections</td></tr>
+<tr><td>=</td><td>Jmol atom index, for example: [=23]</td></tr>
+<tr><td>[number]?</td><td>mass number or undefined (so, for example, [C12?] means any carbon that isn't explicitly C13 or C14</td></tr>
+<tr><td>[$(pattern)n]</td><td>A specific number of occurances of <b>pattern</b>. For example, <b>C[$(C=C)3]C</b> is synonymous with <b>CC=CC=CC=CC</b>.</td></tr>
+<tr><td>[$(pattern)min-max]</td><td>A variable number of occurances of <b>pattern</b>. 
+For example: <b>A[$(C:G)0-2]A</b> is synonymous with <b>AA</b> or <b>AC(:G)A</b> or <b>AC(:G)C(:G)A</b>.</td></tr>
+<tr><td>pattern1 || pattern2</td><td> "||" indicates "or" and allows searching for multiple patterns, which may overlap.
+For example: <b>select search("c{O} || c{C}")</b>. Note that the "||" syntax is an alternative to using "[,]", 
+in this case being equivalent to (and slightly slower than) <b>select search("c{[O,C]}")</b>.</td></tr>
+<tr><td valign="top">(.measure)</td><td>The extension capitalizes on the fact that in a standard SMARTS string, period "." cannot
+ever appear immediately following an open parenthesis "(". Using this fact, the format involves the following:
+<pre>
+  "(." [single character type - "d" (distance), "a" (angle), or "t" (torsion)] [optional numeric identifier] 
+           ":" [optional "!" (not)] [minimum value] { "," | "-" } [maximum value] ")"
+</pre>
+This extension must appear immediately following an element symbol or a bracketed atom expression.  
+The separators "," or "-" between minimum and maximum values are equivalent.
+For example, the following will find all aliphatic carbon-carbon bonds that are between 1.5 and 1.6 angstroms long. 
+<pre>
+select search("C(.d:1.5-1.6)C")
+</pre>
+The following will select for all trans-diaxial methyl groups on a cyclohexane ring, finding all torsions that are outside
+the range -160 to 160 degrees:
+<pre>
+select search("[CH3](.t:!-160,160)CC[CH3]")
+</pre>
+The default in terms of specifying which atoms are involved is simply "the next N-1 atoms," where N is 2, 3, or 4. 
+For more complicated patterns, one can designate the specific atoms in the measurement using a numeric 
+identifier after the measurement type. The following will
+target the bond angle across the carbonyl group in the backbone of a peptide:
+<pre>
+select search("[*.CA](.a1:105-110)C(.a1)(=O)N(.a1)")
+</pre> 
+Designations can overlap; one simply adds whatever (.xn) designation is wanted after the desired atoms:
+<pre>
+select search("C(.a1:105,108)C(.a1)(.a2:110,130)C(.a1)(.a2)C(.a2)")
+</pre> 
+In Jmol, this capability is extended to the <b>measure</b> command for easy access to SMARTS-based measurements:
+<pre>
+select *
+measure search("C(.a1:110,130)C(.a1)(=O)C(.a1)")
+</pre> 
+Note that the atoms in no way have to be connected. The only restriction is that the three markers for an angle
+or the four markers for a torsion will be identified in order from left to right within the SMARTS string. The following,
+for example, will find all carbonyl oxygen atoms that are within 5 angstroms of each other:
+<pre>
+select search("{O}(.d1:0,5)=C.{O}(.d1)=C")
+</pre>
+The "." here indicating "not bonded." {O} specifies that although we want to find the entire set, we only
+want to <i>select</i> the oxygen atoms. The close of the selection brace may appear before or after the (.x) designation.
+</td></tr>
+</table>  
+<br/>
+<br/>
+Jmol bioSMILES adds the following primitives and options:
+<br/>
+<br/>
+<table border="1" cellpadding="5" width="500">
+<tr><td>[residue.atomName#atomicNumber]</td><td>residue and atom name, with optional atomic number, for example [CYS.SG#16] or [ALA.CA]. 
+"0" for atomName indicates the "lead" atom -- for nucleic acids the phosphorus atom (or in some cases a terminal oxygen or hydrogen atom),
+and for proteins the alpha carbon. 
+and  .</td></tr>
+<tr><td>~...~...</td><td>bioSEQUENCE using single-letter or [RES] codes.</td></tr>
+<tr><td>%(n)</td><td>ring branching where n may be larger than 99.</td></tr>
+</table>  
+<br/>
+<br/>
+Jmol bioSMARTS adds the following primitives and options:
+<br/>
+<br/>
+<table border="1" cellpadding="5" width="500">
+<tr><td>[*.ATOMNAME], [RESIDUE.*], [*.*]</td><td>Wildcards for residues and atom names</td></tr>
+<tr><td>[RES.ATOMNAME]+[RES.ATOMNAME]</td><td>atoms in adjacent residues, for example [ALA.CA]+[GLY.N]</td></tr>
+<tr><td>[RES.ATOMNAME]:[RES.ATOMNAME]</td><td>atoms in cross-linked residues, for example [CYS.CA]:[CYS.CA]</td></tr>
+<tr><td>~...~...</td><td>bioSEQUENCE notation using single-letter or [RES] codes, including logic: <b>select search("~A:[C,T]")</b></td></tr>
+</table>  
+<br/>
+</li><li>All primitives that are not element names, <b>*</b>, <b>A</b>, or <b>a</b> must be 
+    enclosed in brackets. In addition, the following elements must be enclosed in brackets
+    because their two-letter combination Xy implies the non-aromatic element X attached 
+    to the aromatic element y: Ac, Ba, Ca, Na, Pa, and Sc.
+    
+</li><li>Allows any order of bracketed primitives: [H2C13] same as [13CH2].
+ 
+</li><li>All atom and bond logic implemented: [X,!X,X&X,X&X&X;X&X]-,=X
+ 
+</li><li>"&" is optional: [13CH2] same as [13&C&H2]
+    except in cases of ambiguity with element symbols: [Rh] is rhodium, not [R&h].
+ 
+</li><li>Jmol 3D-SEARCH does NOT implement:
+<ul><li> "zero-level parentheses", since the match is 
+    always only within a given model (but note that you can still use "." 
+    to indicate that the two search sections are not connected.
+</li><li>"?" in atom stereochemistry ("chirality") because 
+    3D structures are always defined stereochemically.
+ 
+</li><li>"?" for bond stereochemistry, as 3D structures
+    are always defined stereochemically
+</li></ul>
+
+</li></ul>
+
+<b>Jmol atom selection</b>
+
+<ul>
+<li>Then general way within Jmol to select atoms based on SMARTS searches is to use <b>select search("...")</b>. 
+To assign variables to the results of a search, use the find() command.
+</li><li>To select one or more atoms within the found pattern, simply enclose the desired atoms in { }: 
+ <b>select search("{C}C=O")</b>, for example, returns all alpha carbons, 
+ and <b>select search("~d~G{C}A")</b> returns all DNA cytidines that are in GCA sequences.
+
+</li<li>For SMILES searches, all hydrogen atoms -- as in HCCC or [CH2] -- are selected. This includes all hydrogens needed to complete the
+"normal" valence of an unbracketed atom such that "CCC" is the same as "[CH3][CH2][CH2]".
+
+</li><li>For SMARTS searches, no valence calculation is done to add any additional hydrogens to unbracketed 
+atoms. "CCC" is the same as "[C][C][C]". only unbracketed or bracketed hydrogen atoms such as H[C]C or [H] 
+or [2H] are selected; connected hydrogen atoms as in [CH3] are not selected.
+
+</li><li>For bioSMARTS searches, bioSEQUENCE single-letter codes match the lead atom only for each residue,
+thus giving a count of the groups found. If it is desired to select all atoms in the selected groups, use <b>select within("group",search("..."))</b>.
+
+</li></ul>
+
+<b>implicit hydrogen count</b>
+
+<ul><li>
+
+The primitives <b>h</b> (implicit hydrogen count) and <b>X</b> (total connections, including implicit hydrogens)
+require analysis of bonding around a model atom to determine the number of missing ("implicit") hydrogen atoms based on a "target valence." 
+Models that specify only "aromatic" or "partial" bonding may produce ambiguous results, and for that reason, 
+primitives <b>X</b> and <b>h</b> are not recommended for use. Other primitives, such as <b>D</b>, <b>d</b>, and <b>v</b> should be more useful.
+The analysis Jmol uses here is the same as for how Jmol calculates the number of hydrogens to add for the <b>calculate hydrogens</b> command and 
+includes:
+ <ol style="list-style-type: lower-alpha;"><li>Assign the target valence <b>TV</b> as follows:
+  <ul><li>For C and Si, <b>TV</b> = 4.
+  </li><li>For B, N, and P, <b>TV</b> = 3.
+  </li><li>For O and S, <b>TV</b> = 2.
+  </li><li>For F, Cl, Br, and I, <b>TV</b> = 1.
+  </li><li>For all other atoms, <b>TV</b> = 0.
+  </li></ul>
+ </li><li>Obtain the formal charge on the atom, <b>C</b>.
+ </li><li>Group IV elements such as carbon are unique, in that their cations are valence-poor, not valence-rich. 
+ So for carbon and silicon, subtract the ABSOLUTE VALUE of <b>C</b> from the target valence.
+ In all other cases, let <b>TV</b> = <b>TV</b> + <b>C</b>.
+ </li><li>Determine the overall valence of the atom, <b>OV</b>. This is calculated by adding up all the bond orders to the atom.
+ </li><li>Subtract <b>OV</b> from <b>TV</b> to get the number of implicit hydrogen atoms. If this number is less than zero, assign zero.
+ </ol>
+</li><li>Thus, the implicit hydrogen count is:
+ <ul><li> 0 for all atoms other than {B,C,N,O,P,Si,S}
+  </li><li>0 for BR3
+  </li><li>0 for CR4, 1 for CR3, 2 for CR2, 3 for CR
+  </li><li>0 for CR3(+), 0 for CR3(-)
+  </li><li>0 for R=CR2, 1 for R=CR, 2 for R=C, 1 for C#R (triple bond)
+  </li><li>0 for NR3, 1 for NR2, 2 for NR
+  </li><li>0 for RN=R, 1 for R=N
+  </li><li>1 for NR3(+), 1 for R=NR(+), 1 for RN(-)
+  </li><li>0 for OR2, 0 for O=R, 1 for OR
+  </li><li>0 for RO(-), 2 for RO(+)
+  </li></ul>
+</li></ul>  
+  
+
+</p>     
+<a name="smilesspecs"><h3>Detailed Jmol SMILES/bioSMILES Specification</h3></a>
+<p>
+<pre> 
+      # note: prior to parsing, all white space is removed
+       
+   [smilesDef] == [preface] [smiles]
+   [preface] == { [flagDefs] | NULL } 
+   [flagDefs] == { [flagDef] || [flagDef] [flagDefs] }
+   [flagDef] == "/" [processingFlags] "/"
+   [processingFlags] == { [processingFlag] | [processingFlag] [processingFlags] }
+   [processingFlag] == { "noAromatic" | "noStereo" } (case-insensitive)
+      # note: the noAromatic flag indicates to not distinguish between
+      #       aromatic/aliphatic searches -- "C" and "c"
+      # note: the noStereo flag turns off all stereochemical testing
+      # note: thus, both "/noAromatic//noStereo/" and "/noAromatic noStereo/" are valid 
+   [smiles] == { [entity] | [entity] "." [entity] }
+   [entity] == { [bioSequence] | [molecularSequence] }
+   [molecularSequence] = [node][connections] 
+   [node] == { [atomExpression] | [connectionPointer] }
+
+   [atomExpression] = { [unbracketedAtomType] 
+                             | "[" [bracketedExpression] "]" }
+   
+   [unbracketedAtomType] == [atomType] 
+                                 & ! { "Ac" | "Ba" | "Ca" | "Na" | "Pa" | "Sc"
+                                     | "ac" | "ba" | "ca" | "na" | "pa" | "sc" }
+      # note: Brackets are required for these elements: [Na], [Ca], etc.
+      #       These elements Xy are instead interpreted as "X" "y", a single-letter
+      #       element followed by an aromatic atom. 
+      
+   [atomType] == { [validElementSymbol] | [aromaticType] }
+   [validElementSymbol] == (see <a href="../util/Elements.java">Elements.java</a>; 
+                            including Xx and only through element 109)
+   [aromaticType] == { [validElementSymbol].toLowerCase() }
+       
+   [bracketedExpression] == { "[" [atomPrimitives] "]" } 
+   
+   [atomPrimitives] == { [atom] | [atom] [atomModifiers] }
+   [atom] == { [isotope] [atomType] | [atomType] } 
+   [isotope] == [digits]
+       # note -- isotope mass must come before the element symbol. 
+   [digits] == { [digit] | [digit] [digits] }
+   [digit] == { "0" | "1" | "2" | "3" | "4" | "5" | "6" | 7" | "8" | "9" }
+   [atomModifiers] == { [atomModifier] | [atomModifier] [atomModifiers] }
+   [atomModifier] == { [charge] | [stereochemistry] | [H_Prop] }
+   [charge] == { "-" [digits] | "+" [digits] | [plusSet] | [minusSet] }
+   [plusSet] == { "+" | "+" [plusSet] }
+   [minusSet] == { "-" | "-" [minusSet] }
+   [stereochemistry] == { "@"           # anticlockwise
+                              | "@@"    # clockwise
+                              | "@" [stereochemistryDescriptor] 
+                              | "@@" [stereochemistryDescriptor] }
+   [stereochemistryDescriptor] == [stereoClass] [stereoOrder]
+   [stereoClass] == { "AL" | "TH" | "SP" | "TP" | "OH" }
+   [stereoOrder] == [digits]
+   
+   [connectionPointer] == { "%" [digit][digit] | [digit] | "%(" [digits] ")"}
+      # note: all connectionPointers must have a second matching connectionPointer 
+      #       and must be preceded by an atomExpression for the 
+      #       first occurance and either an atomExpression or a bond
+      #       for the second occurance
+      # note: Jmol bioSMARTS extends the possible number of rings to > 100 by 
+      #       allowing %(n)
+
+   [connections] == [connection] | NULL }
+   [connection] == { [branch] | [bond] [node] } [connections]
+   [branch] == { "(" { [smiles] | [bond] [smiles] } ")" | "()" }
+      # note: empty parentheses "()" are ignored in SMILES and bioSMILES
+   [bond] == { "-" | "=" | "#" | "." | "/" | "\\" | ":" | NULL
+      # note: Jmol will not match two totally independent molecular pieces. For example,
+      #       Jmol will not math [Na+].[Cl-]. However, "." can be used to clarify a
+      #       structure that has "ring" bond notation:
+      #       CC1CCC.C1CC   is a valid structure.
+      # note: bioSEQUENCE uses ":" to indicate "cross-linked", which is the default for branches
+
+   [bioSequence] == [bioCode] [bioNode] [connections]
+   [bioCode] == { "~" | "~" [bioType] "~" }
+      # note: The "~" must be the first character in a component and must be repeated 
+      #       for each component (separated by ".")
+   [bioType] == { "p" | "n" | "r" | "d" }
+      # note: protein, nucleic, RNA, DNA
+   [bioNode] == { "[" [bioResidueName] "." [bioAtomName] "]" 
+                 | "[" [bioResidueName] "." [bioAtomName] "#" [atomicNumber] "]" 
+                 | [bioResidueCode] } 
+   [atomicNumber] == [digits]
+   [bioResidueName] == { "ARG" | "GLY" ... } (case-insensitive) 
+   [bioAtomName] == {"C" | "CA" | "N" ... } (case-insensitive)
+   [bioResidueCode] == { "A" | "R" | "G" ... } (case-sensitive)
+      # note: In a BioSEQUENCE, residues are designated using standard 1-letter-code group names
+      #       or bracketed residues [xxx] with optional atoms specified: [ARG], [CYS.SG]. 
+</pre>
+</p>
+
+<a name="specs"><h3>Detailed Jmol 3D-SMARTS/bioSMARTS Specification</h3></a>
+<p>
+<pre> 
+
+ ######## GENERAL ########
+
+      # note: prior to parsing, all white space is removed
+
+   [smartDef] == [preface] [smartsSet]
+   [preface] == { [flagDefs] [variableDefs] | [variableDefs] | NULL } 
+   [flagDefs] == { [flagDef] || [flagDef] [flagDefs] }
+   [flagDef] == "/" [processingFlags] "/"
+   [processingFlags] == { [processingFlag] | [processingFlag] [processingFlags] }
+   [processingFlag] == { "noAromatic" | "noStereo" } (case-insensitive)
+      # note: the noAromatic flag indicates to not distinguish between
+      #       aromatic/aliphatic searches -- "C" and "c"
+      # note: the noStereo flag turns off all stereochemical testing
+      # note: thus, both "/noAromatic//noStereo/" and "/noAromatic noStereo/" are valid 
+   [variableDefs] == [variableDef] | [variableDef] [variableDefs]
+   [variableDef] ==  "$" [label] "=" "\"" [smarts] "\"" [comments] ";"
+   [label] == [any characters other than "=" and "$", and not starting with "("]
+   [comments] == [any characters other than ";"]
+      # note: Variable definitions must be parsed first. 
+      #       After that, all variable references [$XXXX] are replaced
+      
+   [smartsSet] == { [smarts] | [smarts] "||" [smartsSet] }
+      # note: Jmol adds the "or" operation "||", for example: "C=O || C=N"
+      #       which, in this case, could also be written as "C=[O,N]"
+      #       Jmol preprocesses these sets, evaluates them independently, and then
+      #       combines them.
+      
+   [smarts] == { [node3D] [connections] | [bioSequence] } 
+   [connections] == [connection] | NULL }
+   [connection] == { [branch] | [bondExpression] [node3D] } [connections]
+   [branch] == { "(" { [smarts] | [bondExpression] [smarts] } ")" | "()" }
+      # note: Default bonding for a branch is single for SMARTS or cross-linked (:) for bioSEQUENCE
+      # note: "()" is ignored in SMARTS and indicates "not cross-linked" in bioSEQUENCE
+   
+ ######## ATOMS ########
+    
+   [node3D] == { [atomExpression] | [atomExpression] "(." [measure] ")" | [connectionPointer] }
+   [atomExpression] = { [unbracketedAtomType]
+                             | [bracketedExpression] 
+                             | [multipleExpression]
+                             | [nestedExpression] }
+   
+   
+   [unbracketedAtomType] == [atomType] 
+                                 & ! { "Ac" | "Ba" | "Ca" | "Na" | "Pa" | "Sc"
+                                     | "ac" | "ba" | "ca" | "na" | "pa" | "sc" }
+      # note: Brackets are required for these elements: [Na], [Ca], etc.
+      #       These elements Xy are instead interpreted as "X" "y", a single-letter
+      #       element followed by an aromatic atom. 
+      # note: in a bioSEQUENCE, all atom types are 1-letter code group names
+      
+   [atomType] == { [validElementSymbol] | "A" | [aromaticType] | "*" }
+   [validElementSymbol] == (see <a href="../util/Elements.java">Elements.java</a>; 
+                            including Xx and only through element 109)
+   [aromaticType] == { "a" | [validElementSymbol].toLowerCase() }
+       
+   [bracketedExpression] == "[" { [atomOrSet] | [atomOrSet] ";" [atomAndSet] } "]" 
+   
+   [atomOrSet] == { [atomAndSet] | [atomAndSet] "," [atomAndSet] }
+   [atomAndSet] == { [atomPrimitives] | [atomPrimitives] "&" [atomAndSet]
+                              | "!" [atomPrimitive] 
+                              | "!" [atomPrimitive] "&" [atomAndSet] }
+                              
+ ######## ATOM PRIMITIVES ########
+
+   [atomPrimitives] == { [atomPrimitive] | [atomPrimitive] [atomPrimitives] }
+       # note -- if & is not used, certain combinations of primitiveDescritors
+       #         are not allowed. Specifically, combinations that together
+       #         form the symbol for an element will be read as the element (Ar, Rh, etc.)
+       #         when NOT followed by a digit and no element has already been defined 
+       #         So, for example, [Ar] is argon, [Ar3] is [A&r3], [ORh] is [O&R&h],  
+       #         but [Ard2] is [Ar&d2] -- "argon with two non-hydrogen connections"
+       #         Also, "!" may not be use with implied "&". 
+       #         Thus, [!a], [!a&!h2], and [h2&!a] are all valid, but [!ah2] is invalid.             
+   [atomPrimitive] == { [isotope] | [atomType] | [charge] | [stereochemistry]
+                              | [a_Prop] | [A_Prop] | [D_Prop] | [H_Prop] | [h_Prop] 
+                              | [R_Prop] | [r_Prop] | [v_Prop] | [X_Prop]
+                              | [x_Prop] | [nestedExpression] }
+   [isotope] == [digits] | [digits] "?"
+       # note -- isotope mass may come before or after element symbol, 
+       #         EXCEPT "H1" which must be parsed as "an atom with a single H" 
+   [digits] == { [digit] | [digit] [digits] }
+   [digit] == { "0" | "1" | "2" | "3" | "4" | "5" | "6" | 7" | "8" | "9" }
+   [charge] == { "-" [digits] | "+" [digits] | [plusSet] | [minusSet] }
+   [plusSet] == { "+" | "+" [plusSet] }
+   [minusSet] == { "-" | "-" [minusSet] }
+   [stereochemistry] == { "@"           # anticlockwise
+                              | "@@"    # clockwise
+                              | "@" [stereochemistryDescriptor] 
+                              | "@@" [stereochemistryDescriptor] }
+   [stereochemistryDescriptor] == [stereoClass] [stereoOrder]
+   [stereoClass] == { "AL" | "TH" | "SP" | "TP" | "OH" }
+   [stereoOrder] == [digits]
+       # note -- "?" here (unspecified) is not relevant in 3D-SEARCH 
+   
+   [A_Prop] == "#" [digits]           # elemental atomic number
+   [a_Prop] == "=" [digits]           # atom index (starts with 0)
+   [D_Prop] == { "D" [digits] | "D" } # degree -- total number of connections 
+                                      #   excludes implicit H atoms; default 1
+   [d_Prop] == { "d" [digits] | "d" } # degree -- non-hydrogen connections
+                                      #   default 1 
+   [H_Prop] == { "H" [digits] | "H" } # exact hydrogen count 
+                                      #   excludes implicit H atoms
+   [h_Prop] == { "h" [digits] | "h" } # implicit hydrogens -- "h" indicates "at least one"
+                                      #   (see note below)
+   [R_Prop] == { "R" [digits] | "R" } # ring membership; e.g. "R2" indicates "in two rings"
+                                      #   "R" indicates "in a ring" 
+                                      #   !R" or "R0" indicates "not in any ring"
+   [r_Prop] == { "r" [digits] | "r" } # in ring of size [digits]; "r" indicates "in a ring"
+   [v_Prop] == { "v" [digits] | "v" } # valence -- total bond order (counting double as 2, e.g.)
+   [X_Prop] == { "X" [digits] | "X" } # connectivity -- total number of connections
+                                      #   includes implicit H atoms
+   [x_Prop] == { "x" [digits] | "x" } # ring connectivity -- total ring connections
+   
+ ######## Nested and Multiple Expressions ########
+ 
+   [nestedExpression] == "$(" [atomExpression] ")"
+      # note: nestedExpressions return only the first atom as a match, 
+      #       not all atoms in the expression.
+
+   [multipleExpression] == { "[$(" [orExpression] ")" [nTimes] "]" 
+                             | "[$(" [orExpression] ")" [nMinimum] "-" [nMaximum] "]" 
+                             | "[$(" [orExpression] "|" [orExpression] "]" 
+                             | "[$(" [orExpression] "||" [orExpression] "]" }
+   [orExpression] = { [atomExpression] 
+                       | [atomExpression "|" [orExpression] 
+                       | [atomExpression "||" [orExpression] }
+      # note: "|" and "||" are synonymous in this inner context; "|" is preferred simply
+      #       for readability (whereas "||" is required for the [smartsSet] context). 
+      # note: This syntax is carefully written to exclude [$(xxx)] by itself, which
+      #       is a nestedExpression, not a multipleExpression. The difference is that
+      #       the nestedExpression only returns the first atom, while the multipleExpression
+      #       returns all atoms. To return only the first atom within this context 
+      #       it is necessary to use a nested expression within the multiple expression.
+      #       For example: "CC[$( $(C=O) | $(C=N) )2]"
+      #       is the same as "CC$(C=[O,N])$(C=[O,N])", although Jmol preprocesses it as
+      #          "CC$(C=O)$(C=O)||CC$(C=O)$(C=N)||CC$(C=N)$(C=O)||CC$(C=N)$(C=N)"
+      
+   [nTimes] == [digits]
+   [nMinimum] == [digits]
+   [nMaximum] == [digits]
+      # note: multipleExpressions allow for searching a given number of expressions or 
+      #       a variable number of expressions (including 0, perhaps)
+      #       Jmol pre-processes these expressions and turns them into a set:
+      #       pattern1 || pattern2 || pattern3....
+
+ ######## BioSEQUENCE ########
+
+   [bioSequence] == [bioCode] [bioNode] [connections]
+   [bioCode] == { "~" | "~" [bioType] "~" }
+      # note: The "~" must be the first character in a component and must be repeated 
+      #       for each component (separated by ".")
+   [bioType] == { "p" | "n" | "r" | "d" }
+      # note: protein, nucleic, RNA, DNA
+   [bioNode] == { "[" [bioResidueName] "]" 
+                 | "[" [bioResidueName] "." [bioAtomName] "]" 
+                 | "[" [bioResidueName] "." [bioAtomName] [A_Prop] "]" 
+                 | [bioResidueCode] } 
+   [bioResidueName] == { "*" | "ARG" | "GLY" ... } (case-insensitive) 
+   [bioAtomName] == { "*" | "0" | "C" | "CA" | "N" ... } (case-insensitive)
+      # note: "0" indicates the "lead atom":
+      #   nucleic: P if present, or H5T if present, or O5'/O5*
+      #   protein: CA
+      #   carbohydrate: the first atom of the group listed in the model file
+   [bioResidueCode] == { "*" | "A" | "R" | "G" ... } (case-sensitive)
+      # note: wildcard or standard group 1-letter-code
+      #       or, in the case of RNA or DNA:
+      #         "N" (any residue; same as "*"), 
+      #         "R" (any purine -- A or G)
+      #         "Y" (any pyrimidine -- C or T or U)
+
+ ######## CONNECTIONS (aka "rings") ########
+
+   [connectionPointer] == { [digit] | "%" [digit][digit] | "%(" [digits] ")" }
+      # note: All connectionPointers must have a second matching connectionPointer 
+      #       and must be preceded by an atomExpression for the 
+      #       first occurance and either an atomExpression or a bondExpression
+      #       for the second occurance. The matching connectionPointers may be
+      #       in different "components" (separated by "."), in which case they
+      #       represent general connections and not necessarily rings.
+
+ ######## BONDS ########
+
+   [bondExpression] == { [bondOrSet] | [bondOrSet] ";" [bondAndSet] } 
+   
+   [bondOrSet] == { [bondAndSet] | [bondAndSet] "," [bondAndSet] }
+   [bondAndSet] == { [bondPrimitives] | [bondPrimitives] "&" [bondAndSet]
+                              | "!" [bondPrimitive] 
+                              | "!" [bondPrimitive] "&" [bondAndSet] }
+                                              
+ ######## BOND PRIMITIVES ########
+                              
+   [bondPrimitives] == { [bondPrimitive] | [bondPrimitive] [bondPrimitives] }       
+   [bond] == { "-" | "=" | "#" | "." | "/" | "\\" | ":" | "~" | "@" | "+" | "^" | NULL
+      # note: All bondExpressions are not valid. Stereochemistry should not 
+      #       be mixed with the others, as it represents a single bond always.
+      #       In addition, "." ("no bond") cannot be mixed with any bond type.
+      #       Nothing would be retrieved by "-&=", as a bond cannot be both single
+      #       and double. However, "-@" is potentially very useful -- "ring single-bonds"
+      #       or "=&!@" -- "doubly-bonded atoms where the double bond is not in a ring"
+      # note: Jmol will not match two totally independent molecular pieces. For example,
+      #       Jmol will not math [Na+].[Cl-]
+      # note: "+" indicates "adjacent biomolecular groups in a chain"
+      # note: a bioSEQUENCE ends with "." or the end of the string. A new bioSEQUENCE
+      #       can continue with "~" immediately following this "." 
+      # note: For a SMARTS search, "." indicates the start of a new subset, not necessarily a
+      #       new component.
+      # note: "^" indicates atropisomer bond with positive dihedral angle
+      
+ ######## MEASURES ########
+   
+   [measure] == { [measureId] | [measureId] ":" [range] | [measureId] ":!" [range] }
+   [measureId] == { [measureCode] | [measureCode] [digits] }
+   [measureCode == { "d" | "a" | "t" }
+   [range] == [minimumValue] { "," | "-" } [maximumValue]
+   [minimumValue] == [decimalNumber]
+   [maximumValue] == [decimalNumber]
+
+</pre>
+</p>
+
+<a name="aromaticity"><h3>Jmol 3D-SEARCH Definition of "aromatic"</h3></a>
+
+<p>
+
+We define "aromatic" here strictly in terms of geometry - a flat ring with trigonal planar geometry for all atoms in the ring. 
+No consideration of bond order is used, because for the sorts of models that can be loaded into Jmol, many do not
+assume a bonding scheme (PDB, GAUSSIAN, etc.).
+</p>
+<p>
+    Given a ring of N atoms...
+    
+<pre>
+                  1
+                /   \
+               2     6 -- 6a
+               |     |
+         5a -- 5     4
+                \   /
+                  3  
+</pre>
+    
+    with arbitrary order and up to N substituents...
+
+<ol>
+<li>    
+    Check to see if all ring atoms have no more than 3 connections.
+       Note: An alternative definition might include "and no substituent
+       is explicitly double-bonded to its ring atom, as in quinone.
+       Here we opt to allow the atoms of quinone to be called "aromatic."
+</li><li> Select a cutoff value close to zero. We use 0.01 here. 
+</li><li> Generate a set of normals as follows:
+<ol style="list-style-type: lower-alpha;"><li> For each ring atom, construct the normal associated with the plane
+          formed by that ring atom and its two nearest ring-atom neighbors.
+</li><li> For each ring atom with a substituent, construct a normal 
+          associated with the plane formed by its connecting substituent
+          atom and the two nearest ring-atom neighbors.
+</li><li> If this is the first normal, assign vMean to it. 
+</li><li> If this is not the first normal, check vNorm.dot.vMean. If this
+          value is less than zero, scale vNorm by -1.
+</li><li> Add vNorm to vMean. 
+</ol>
+</li><li>Calculate the standard deviation of the dot products of the 
+       individual vNorms with the normalized vMean. 
+</li><li>The ring is deemed flat if this standard deviation is less 
+       than the selected cutoff value. 
+</li></ol>
+       
+</p>
+
+<p>
+ -- <a href="mailto:hansonr@stolaf.edu">Bob Hanson</a>  last updated 6/12/2010
+ </p>
+</body>
+</html>

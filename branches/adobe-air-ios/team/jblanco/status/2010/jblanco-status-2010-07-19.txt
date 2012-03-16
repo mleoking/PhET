@@ -1,0 +1,49 @@
+PhET Weekly Progress Report
+John Blanco
+July 19, 2010
+
+Greenhouse - 29.0 hrs
+
+•	Added the ability to select the different molecules.
+•	Made the atom colors match those used in PhET for greater consistency.
+•	Implement initial oscillation modes for all molecules that capture photons.
+•	Made reset work for returning to default settings in the model.
+•	Resolved issue with upside-down molecules on control panel.
+•	Made the control panel evenly spaced for all molecules.
+•	Fixed issues with the operation of the control panel.
+•	Published a version and solicited feedback on the first cut of vibrational modes.
+•	Created different images (a flashlight and a heat lamp) to distinguish between the different types of photons being emitted.
+•	Fixed bond structure for N2O based on feedback from Robert P.
+•	Fixed bond structure for N2 and O2 based on feedback from Kelly L.
+•	Created and incorporated icons for Earth and Venus.
+
+Common Code - 3.0 hrs
+
+•	Worked on issue where images are clipped, see Unfuddle #558.
+
+Investigated JMOL - 2.0 hrs
+
+•	Collaborated with Sam to download the code, integrate it with Piccolo, and get a simple app working that puts a molecule on a canvas.
+
+Environment - 1.0
+
+•	Installed Intellij and got it configured.  This was done to aid in collaborating with Sam and so I can become somewhat familiar with it.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Weekly PhET meeting
+•	Annual performance review meeting
+•	Set up better filtering for email messages.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Upcoming vacation from July 29 - August 10
+
+What’s Next
+
+•	Determine if air should be implemented for Greenhouse and, if so, clarify the behavior and implement.
+•	Support student interviews on Neuron.
+•	Continue port to Piccolo of existing tabs in Greenhouse.
+•	Continue work on Membrane Diffusion sim.

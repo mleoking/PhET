@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--faradays-law-strings_es.xml created Tue Oct 28 05:23:28 CET 2008 using: faradays-law 1.00.00 (22498), translation-utility 1.05.00 (25607)-->
+<SimStrings>
+<string key="twoCoils" value="2 espirales"/>
+<string key="n" value="N"/>
+<string key="noSound" value="Sin sonido"/>
+<string key="showFieldLines" value="Mostrar líneas de campo"/>
+<string key="voltage" value="voltaje"/>
+<string key="flipMagnet" value="Invertir imán"/>
+<string key="oneCoil" value="1 espiral"/>
+<string key="moveMe" value="¡Muéveme!"/>
+<string key="s" value="S"/>
+</SimStrings>

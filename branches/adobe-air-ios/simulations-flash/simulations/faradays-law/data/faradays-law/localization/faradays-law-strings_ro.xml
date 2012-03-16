@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_ro.xml created Fri Mar 27 12:52:10 EET 2009 using: faradays-law 1.00.04 (29927), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="twoCoils" value="2 Serpentine"/>
+<string key="n" value="N"/>
+<string key="noSound" value="Fara sunet"/>
+<string key="showFieldLines" value="Arata liniile campului"/>
+<string key="voltage" value="voltaj"/>
+<string key="simTitle" value="Legea lui Faraday"/>
+<string key="flipMagnet" value="Suceste magnet"/>
+<string key="oneCoil" value="1 Serpentina"/>
+<string key="moveMe" value="Misca-ma!"/>
+<string key="s" value="S"/>
+</SimStrings>

@@ -1,0 +1,6 @@
+###################################
+# License info for reactions-and-rates
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+credits.html 

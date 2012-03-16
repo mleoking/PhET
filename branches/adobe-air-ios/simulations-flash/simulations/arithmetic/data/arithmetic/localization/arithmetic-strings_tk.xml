@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_tk.xml created Wed Oct 12 16:48:52 PKT 2011 using: arithmetic 2.03.00 (51677), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<SimStrings>
+<string key="level" value="dereje"/>
+<string key="typeAnswer" value="Jogaby girizip, Entere bas"/>
+<string key="clickToSelect" value="Dogry jogaply öýjüge bas"/>
+<string key="correct" value="Dogry!"/>
+<string key="end" value="Soňy"/>
+<string key="isWrong" value="ýalňyş"/>
+<string key="start" value="Başla"/>
+<string key="simTitle" value="Arifmetika"/>
+<string key="time" value="Wagt (sek)"/>
+<string key="finalTime" value="Umumy wagt"/>
+<string key="multiply" value="Köpelt"/>
+<string key="tryAgain" value="Täzeden synanş"/>
+<string key="sound" value="Ses"/>
+<string key="divide" value="Böl"/>
+<string key="factor" value="Çöz"/>
+<string key="minute" value="minut"/>
+<string key="finalScore" value="Jemi utuklar"/>
+<string key="nbrRight" value="dogry jogap"/>
+<string key="mustTypeNbr" value="San giriz"/>
+<string key="score" value="Utuklar"/>
+<string key="scorePer" value="utuklar"/>
+<string key="nbrWrong" value="ýalňyş jogap"/>
+<string key="reset" value="Täzeden başla"/>
+<string key="clock" value="sagat"/>
+<string key="title" value="Arifmetiki türgenleşik"/>
+</SimStrings>

@@ -1,0 +1,53 @@
+PhET Weekly Progress Report
+John Blanco
+August 22nd, 2011
+
+Time period covered: August 17th through August 22nd.  Note that this is 4 work days instead of the usual 5 due to a change in the meeting schedule.
+
+Balance and Torque - 7.0 hrs
+
+•	Enlarged the level indicators.
+•	Removed the prototype code for alternative level indicators.
+•	Fixed issue with the rotational stopping point.
+•	Made ruler transparent.
+•	Removed tick marks from ruler and put "meters" label at bottom.
+•	Reviewed with design team & brainstormed road map and next steps.
+•	Fixed bug where masses could be placed in the same location on the plank.
+•	Changed the mass labels for the shape masses to be two lines and enlarged the font.
+
+Gene Expression Basics - 15.0 hrs
+
+•	Fixed an issue with nodes returning to the tool box.
+•	Made hints work for transcription factors.
+•	Created a utility for creating random shapes within certain constraints, used for creating transcription factor shapes.
+•	Made 2nd and 3rd biomolecule tool boxes have different transcription factors.
+•	Added random walk motion to non-attached biomolecules.
+•	Added the ability for biomolecules to find and move towards attachment sites on the DNA molecule.
+•	Got attachment/detachment of biomolecules basically working.
+•	Reviewed with Mike K, wrote up and circulated notes.
+
+Molecule Polarity - 1.0 hr
+
+•	Prototyped a rotation cursor (which turned out to be unnecessary, since Noah P was already creating one).
+
+Environment - 1.0 hr
+
+•	Made some changes to the DRK-12 spreadsheet based on feedback from the weekly meeting.
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+•	Weekly status report.
+•	Weekly PhET meeting.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave
+
+•	Planning to take the Friday before Labor day (September 2nd).
+
+What’s Next
+
+•	Continue developing Gene Expression simulation.
+•	Continue developing Balance & Torque simulation.
+•	Continue developing States of Matter: Basics.
+•	Tackle a couple of installer issues.

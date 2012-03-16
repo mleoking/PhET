@@ -1,0 +1,85 @@
+PhET Weekly Progress Report
+John Blanco
+March 1st, 2012
+
+Time period covered: February 16th through February 29th (two week period due to canceled status meeting).
+
+Gene Expression - 36.5 hrs
+
+-	Refactored to support multiple transcription factors, added to 2nd and 3rd genes.
+-	Changes transcription factor positions so that pos and neg are not in same place but overlap in order to block each other.
+-	Prevented polymerase from attaching to DNA in such a way that it overlaps the transcription factor.
+-	Added "fade-out label" for mRNA.
+-	Reviewed notes from interviews (thanks to JC and EM for these).  Most items have been addressed, but a few still need discussion.
+-	Changed motion strategies to that molecules that don't bind to the DNA don't wander over it (this created some confusion in interviews).
+-	Implemented initial model for 2nd tab (mRNA production).
+-	Implemented user interface for 2nd tab.
+-	Worked out and implemented motion bounds for 2nd tab.
+-	Implemented reset for 2nd tab.
+
+Tablet Investigation - 10 hrs
+
+-	Improved the HTML5 sim "Simple Build and Atom" to the point where we would be comfortable sharing it with the CK
+    o Made the buckets have the faux 3D look.
+    o Labeled buckets.
+    o Made particles permanent and stack in bucket reasonably well.
+    o Improved reset behavior, as well as the look of the button.
+
+Balancing Act - 2.0 hrs
+
+-	Sent log of sim sharing messages from game that include points scored to Min Chi to see if it meets her needs.  No response as of yet.
+-	Sent some of the Scala code that interprets sim sharing data to Min Chi for evaluation.
+
+Sim Sharing and Data Collection - 4.0 hrs
+
+-	Created a load test that uses more of the sim sharing infrastructure.  All tests run so far have succeeded.
+-	Changed initial ID dialog to have boarder.
+
+Energy Forms and Changes - 2.0 hrs
+
+-	Read through spec, did some edits, asked questions.
+
+Math Sims - 1.5 hrs
+
+-	Discussed planned simulations with Ariel P.
+
+Fractions - 3.0 hrs
+
+-	Collaborated with Sam R on game tab.
+-	Discussed design of 1st tab with Ariel P.
+
+States of Matter - 1.0 hr
+
+-	Discussed some issues that she saw during classroom use.  Ariel P also was involved.
+
+Nuclear Fission - 1.0 hr
+
+-	Investigated issue raised by user about decay of U-239.
+
+Math Sims - 1.0 hr
+
+-	Met with Ariel to discuss work on upcoming math simulations.
+
+Common Code - 1.5 hrs
+
+-	Verification of fixes by other developers (#3258,
+
+Environment - 1.0 hrs
+
+-	Worked with Doug J to make sure the server we planned to purchase would work in his environment.
+-	New server is in the house (Oliver's office), will probably start setup on Monday.
+
+Outreach and Fund Raising - 1.5 hrs
+
+-	Participated in conference call to discuss the use of PhET sims by the CK-12 Foundation.
+
+Professional Development - 1.0 hr
+
+-	Colloquium on quantum computing.
+
+Meetings, Email, and Other Administrative Overhead - 13.0 hrs
+
+-	Weekly status meeting.
+-	Weekly status report.
+-	Review, prioritization, and updating of Unfuddle issues.
+-	Normal email and administrative overhead.

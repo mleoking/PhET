@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_ko.xml created Sun Jul 24 15:24:07 KST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) 2월 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="시뮬레이션 속도"/>
+<string key="sameFrequency" value="동일 진동수"/>
+<string key="sameSpring" value="동일 스프링 k"/>
+<string key="slow" value="천천히"/>
+<string key="mixedMAndK" value="m과 k의 혼합"/>
+<string key="numberOfResonators" value="공명기의 수"/>
+<string key="pause" value="정지"/>
+<string key="amplitude" value="진폭"/>
+<string key="frequencyEqualsXHz" value="진동수 = {0} Hz"/>
+<string key="step" value="단계"/>
+<string key="driver" value="드라이버"/>
+<string key="on" value="켜짐"/>
+<string key="ruler" value="자"/>
+<string key="resonance.simTitle" value="공명"/>
+<string key="springConstant" value="스프링 상수"/>
+<string key="frequency" value="진동수"/>
+<string key="resetAll" value="모두 재설정"/>
+<string key="mass" value="질량"/>
+<string key="sameMass" value="공동질량 m"/>
+<string key="resonator" value="공명기"/>
+<string key="play" value="작동"/>
+<string key="gravityColon" value="중력"/>
+<string key="paused" value="정지됨"/>
+<string key="off" value="꺼짐"/>
+<string key="dampingConstant" value="감폭상수"/>
+<string key="normal" value="정상적"/>
+<string key="selectPreset" value="설정 선택"/>
+</SimStrings>

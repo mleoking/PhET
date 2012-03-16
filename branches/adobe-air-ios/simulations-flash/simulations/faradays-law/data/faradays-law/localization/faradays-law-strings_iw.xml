@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_iw.xml created Mon Oct 17 14:45:45 MDT 2011 using: faradays-law 2.02.00 (52648), translation-utility 2.12.00 (57171) Oct 3, 2011-->
+<SimStrings>
+<string key="twoCoils" value="שני סלילים"/>
+<string key="n" value="N"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;center&gt;דוידסון אונליין - למידה מתוקשבת &lt;Br&gt;http://davidson.weizmann.ac.il/online/tikshuv &lt;/center&gt;&lt;/html&gt;"/>
+<string key="noSound" value="ללא קול"/>
+<string key="showFieldLines" value="הראה קווי שדה"/>
+<string key="voltage" value="מתח"/>
+<string key="simTitle" value="חוק פראדי"/>
+<string key="flipMagnet" value="הפוך מגנט"/>
+<string key="oneCoil" value="סליל אחד"/>
+<string key="moveMe" value="הזז אותי!"/>
+<string key="s" value="S"/>
+</SimStrings>

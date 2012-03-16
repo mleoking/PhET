@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_eu.xml created Fri Dec 16 19:55:16 CET 2011 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) dic 8, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Mugi atomo horiak \nberdeen gainean"/>
+<string key="physics" value="Fisika"/>
+<string key="reset" value="Berrabiatu"/>
+<string key="simTitle" value="Marruskadura"/>
+<string key="chemistry" value="Kimika"/>
+</SimStrings>

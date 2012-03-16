@@ -1,0 +1,1 @@
+A copy of the PhET web site should now be available in the directory that you specified during the installation.  For further support for this installation, which was customized for integration with the Young & Freedman text book, please contact john.blanco@colorado.edu or phethelp@gmail.com.

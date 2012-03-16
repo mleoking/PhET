@@ -1,0 +1,35 @@
+PhET Weekly Progress Report
+John Blanco
+December 21st, 2011
+
+Time period covered: December 15th through December 21st.
+
+Gene Expression - 6.5 hrs
+
+•	Made cells have "cell-like" shapes on the 3rd tab.
+•	Made slider for moving from one to 'many' cells work.
+•	Added an auto zoom out feature for keeping the cells in view. 
+•	Met with George Emanuel to go through the model that he developed for the 3rd tab.
+•	Added model from George E to SVN and started integrating with simulation.
+
+Tablet Investigation - 28.0 hrs 
+
+•	Tried out star sequence app from Kevin Lee of UNL.
+•	Discussed HTML5 and JavaScript development with JO, worked with him to get set up to do development from IntelliJ.
+•	Investigated several JavaScript scene graph libraries for potential use in development of HTML5-based simulations.  Built prototypes with several of these.
+•	Created a stripped-down version of Build an Atom in HTML5/ JavaScript, got working on the iPad.
+
+Fractions - 0.5 hrs
+
+•	Reviewed and discussed latest version with Ariel P.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Weekly status meeting.
+•	Weekly status report.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+•	Taking off the week between Christmas and New Year’s Day.

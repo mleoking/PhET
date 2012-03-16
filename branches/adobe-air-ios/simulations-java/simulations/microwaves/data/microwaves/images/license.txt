@@ -1,0 +1,11 @@
+###################################
+# License info for microwaves
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+coffee-cup-2.gif author=PhET 
+thermometer-background.png author=PhET 
+thermometer.gif author=PhET 
+thermometer.png author=PhET 
+water-molecule.gif author=PhET 
+water-molecule.png author=PhET 

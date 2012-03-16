@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" >
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+    <link href="guide.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="quickguide">
+      <a name="TOP"></a>
+      <div id="chapter">
+        <h1 class="main">BitRock Autoupdater<br>Quick Guide</h1>
+      </div>
+      <div id="chapter">
+        <a name="TABLEOFCONTENTS"></a>
+        <h1>Table of contents</h1> 
+        <p><a href="#OVERVIEW">Overview</a></p>
+        <p><a href="#WHATSNEW">What's New</a></p>	
+        <p><a href="#CONFIGURATION">Configuration</a>
+        <p><a href="#SERVER">Configuring the server</a></p>
+        <p><a href="#CLIENT">Configuring the client</a></p>
+        <p><a href="#TESTING">Testing the update</a></p>
+        <p><a href="#CUSTOMIZATION">Integration and customization</a></p>
+      </div>
+      <div id="chapter">
+          <a name="OVERVIEW"></a>
+          <h1>Overview</h1>
+          <p>BitRock AutoUpdater allows you to add automatic update capabilities to your software.
+	  End users can launch an autoupdate wizard directly
+	  or you can invoke it from inside your application.
+	  The wizard will guide the end user through the steps of discovering,
+	  downloading and installing a new version of your software. The wizard
+	  can work in text, GUI and unattended modes.</p>	  
+      </div>
+      <div id="chapter">
+          <a name="WHATSNEW"></a>
+          <h1>What's New</h1>
+          <p>The first version of BitRock AutoUpdater includes support for HTTP and FTP protocols.
+	    The update wizards run on Windows, Linux and OS X. Future versions 
+	    will include support for additional protocols and platforms.</p>
+      </div>
+      <div id="chapter">
+          <a name="CONFIGURATION"></a>
+          <h1>Configuration</h1>
+	  <p>The BitRock Autoupdate system consists of two pieces: the autoupdate
+wizard, which runs on the client side, and a remotely hosted XML file that contains information about which updates are available and where to download them.
+The auto update wizard is a self-contained binary that you bundle with your application. 
+When started, it guides the user through the process of finding available updates for your software, 
+downloading and installing them. The information regarding which updates are available is stored in 
+an XML file that the wizard accesses over the Internet.</p>
+          <div id="chapter">
+              <a name="SERVER"></a>
+              <h2>Configuring the server</h2>
+              <p>As part of the update process, the wizard downloads an XML file from an HTTP URL specified in its
+configuration file (this is covered in a later section.) The XML file contains information about available updates
+for each supported platform. The following is an example of what an XML update file looks like:</p>
+
+              <pre>
+&lt;installerInformation&gt;
+    &lt;versionId&gt;101&lt;/versionId&gt;
+    &lt;version&gt;1.0.1&lt;/version&gt;
+    &lt;platformFileList&gt;
+        &lt;platformFile&gt;
+            &lt;filename&gt;myprogram-1.0.1.exe&lt;/filename&gt;
+            &lt;platform&gt;windows&lt;/platform&gt;
+        &lt;/platformFile&gt;
+        &lt;platformFile&gt;
+            &lt;filename&gt;myprogram-1.0.1.bin&lt;/filename&gt;
+            &lt;platform&gt;linux&lt;/platform&gt;
+        &lt;/platformFile&gt;
+        &lt;platformFile&gt;
+            &lt;filename&gt;myprogram-1.0.1.tgz&lt;/filename&gt;
+            &lt;platform&gt;osx&lt;/platform&gt;
+        &lt;/platformFile&gt;
+    &lt;/platformFileList&gt;
+    &lt;downloadLocationList&gt;
+        &lt;downloadLocation&gt;
+            &lt;url&gt;http://example.com:8080/downloads/&lt;/url&gt;
+        &lt;/downloadLocation&gt;
+    &lt;/downloadLocationList&gt;
+&lt;/installerInformation&gt;</pre>
+              
+              <p>
+              <b>installerInformation</b> is the element that defines the
+              file as a valid update file for BitRock AutoUpdater.</p>
+
+              <p>It contains the following tags</p>
+              <ul>
+                  <li><b>version</b>: Specifies the version of the update. This is
+the version that will be displayed to the end user. It
+                  is not taken into account by the update wizard when
+determining  whether or not there is an
+                  update available. Instead, <b>versionId</b> is used for that.</li>
+                  <li><b>versionId</b>: This is an integer, whose value is compared with
+                  the one located in the local <i>update.ini</i> file. If the value of
+versionId is bigger than the local one, it indicates that there is a new version of the software
+available.</li>
+                  <li><b>platformFileList</b>: This lists which files to download as
+                  part of the update. Each file is defined as a
+                  <b>platformFile</b>, in which you specify a <b>filename</b>
+                  that will be downloaded only if the user's operating system matches the one 
+                  defined as <b>platform</b>. At the moment, OS X installers are expected to be compressed in a .tgz file but future versions will allow users to use other formats.</li>
+                  <li><b>downloadLocationList</b>: List of
+                  <b>downloadLocation</b>, each containing a <b>url</b>
+                  element pointing to the remote folder where the files are
+                  located, which is used to generate the list of mirrors
+                  selectable in the AutoUpdater user interface. The HTTP URL containing the update will 
+be constructed by appending the <b>file</b> field to the mirror <b>url</b>. In the example above,
+it means the Linux version will be downloaded from http://example.com:8080/downloads/myprogram-1.0.1.bin</li>
+              </ul>
+              </p>
+          </div>
+          <div id="chapter">
+              <a name="CLIENT"></a>
+              <h2>Configuring the autoupdate client</h2>
+              <p>The version data present in the remote location must be
+              compared with local version data to decide whether there is an update
+              available or not. This local information is stored in a file
+              named by default <b>update.ini</b>, which should be located in the same
+              folder as the AutoUpdater binary.</p>
+
+              <p>The format of <i>update.ini</i> is very simple as well. It is shown in the following example:</p>
+
+              <pre>[Update]
+url = http://example.com:8080/update.xml
+version_id = 100
+update_download_location = /tmp
+check_for_updates = 1</pre>
+
+              <p>
+              <ul>
+                  <li><b>url</b>: Points to the remote location of the update data. Currently only
+		  HTTP is supported.</li>
+                  <li><b>version_id</b>: The local version identifier, which is
+                  compared to the remote version identifier to trigger the
+                  update process.</li>
+                  <li><b>update_download_location</b>: The path to the folder
+                  where the downloaded files will be saved. Downloading a
+                  file that already exists in the download location path will
+                  result in the new file being renamed in an incremental way,
+                  by appending a number at the end of the file name. If the download
+		  folder does not exist, the automatic update process will attempt to create it.
+		  If not specified, it defaults to ~/.bitrock/updates</li>
+                  <li><b>check_for_updates</b>: It is possible to enable and
+                  disable the AutoUpdater on demand by setting this boolean
+                  value.</li>
+              </ul>
+              </p>
+          </div>
+      </div>
+      <div id="chapter">
+          <a name="TESTING"></a>
+              <h1>Testing</h1>
+          <p>This section provides a step-by-step guide on how to test the automatic update
+functionality. It assumes that you have created an <i>update.xml</i> file 
+and have placed it on a web server. The server could be local or remote. You will
+need to replace example.com in the sample XML provided in an earlier section with
+the address or domain name of your server. If you are using a local server you can
+simply use 127.0.0.1  If you need to setup a web server, you can download WAMPStack
+or LAMPStack from the bitnami.org website. This section also assumes that an
+<i>update.ini</i> file has been placed in the same folder as the
+auto update binary.</p>
+
+<h2>GUI mode</h2>
+
+          <p>To start the AutoUpdater in graphical mode,
+          double click on the binary. You will then be presented with
+          the following screen (please note that the screenshots have been
+          taken on a Windows machine (Linux and OS X
+          dialogs will be slightly different because they are customized to match the system
+          theme):</p>
+
+          <img src="images/au_welcome.png"/><br><br>
+
+          <p>After the welcome page, the AutoUpdater tells the user that it
+          will connect to the Internet to look for updates. If a
+          proxy needs to be configured to have access to the outside, it is
+          possible to check the <i>use HTTP proxy</i> option to configure it.</p>
+
+          <img src="images/au_proxy.png"/><br><br>
+
+          <p>The following screen shows whether or not an update is available. In the
+          background, AutoUpdater has connected to the remote server and
+          obtained the data from the remote XML file to determine whether or not an
+update is indeed available.</p>
+
+          <img src="images/au_available.png"/><br><br>
+
+          <p>If no update is available or the server cannot be contacted, the next
+screen simply informs the user that is the case and the wizard exits with
+an error code.</p>
+
+
+          <p>If an update is available, pressing <i>Next</i>
+          will display a list of mirrors (generated using the remote update
+          data file). Selecting a mirror and pressing <i>Next</i> will start
+          the download. Once it completes, the recently downloaded installer
+          will be launched to start the application update process.</p>
+
+          <img src="images/au_mirror.png"/><br><br> <img src="images/au_download.png"/><br><br>
+
+<h2>Text mode</h2>
+          <p>The flow the autoupdate wizard text mode follows is exactly the same as the
+          graphical one. You can start the wizard in text mode using the --mode text switch</p>
+
+
+      </div>
+      <div id="chapter">
+          <a name="CONFIGURATION"></a>
+          <h1>Configuration</h1>
+          <h2>Overwriting the values of the <i>update.ini</i> file</h2>
+          <p>If you invoke the autoupdate wizard from your application, you may
+	  want to override the values from the configuration file.
+           You can overwrite the contents of the <i>update.ini</i> file (or
+          even select a different file) from the command line by providing
+          extra parameters to the program invocation. A complete list of
+          supported parameters is included below.</p>
+
+          <pre>BitRock AutoUpdater 1.0.0
+Usage:
+
+ --help                         Display the list of valid options
+
+ --settings_file &lt;settings_file&gt; Path to the local settings file, containing the HTTP URL to update
+                                and the current version ID.
+                                Default: update.ini
+
+ --url &lt;url&gt;                    HTTP URL that points to the xml file containing the update data.
+                                Default: 
+
+ --version_id &lt;version_id&gt;      Version ID of the local installation.
+                                Default: 
+
+ --update_download_location &lt;update_download_location&gt; Path where the downloaded files will 
+                               be stored.
+                                Default: ~/.bitrock/updates
+
+ --check_for_updates &lt;check_for_updates&gt; Boolean value to specify whether to check for 
+                                updates or not.
+                                Default: 1
+</pre>
+          <h2>Asking for updates silently</h2>
+          <p>It is possible to use the AutoUpdater as a notifier. For example,
+          you can invoke the AutoUpdater from your application to show whether
+or not a new update is available in your user
+          interface. To do so, you need to
+          start the AutoUpdater in an unattended mode, by appending <i>--mode
+              unattended</i> to the command line arguments.</p>
+
+          <p>The exit code of the AutoUpdater will be 0 if an update is
+          available and 1 if not. Depending on the result you can display
+	  the appropriate message to the end user.</p>
+      </div>
+      <div id="chapter">
+          <a name="CUSTOMIZATION"></a>
+          <h1>Integration and customization</h1>
+          <h2>Changing the look and feel of your autoupdate tool</h2>
+          <p>It is possible to change the images, program name displayed, etc. in your autoupdate tool. To do so, use the bundled 'customize' configuration tool. The syntax is as follows: </p>
+
+<pre>customize build /path/to/project.xml</pre>
+
+<p>Where project is an XML file that contains the autoupdate customization information. The command will customize the default autoupdate runtime for the current platform and place it in the output folder. Optionally, you can pass a platform argument and it will be built for that platform:</p>
+
+<pre>customize build /path/to/project.xml linux</pre>
+
+          <h2>Autoupdate XML project syntax</h2>
+
+<p>The format of the file for autoupdate project configuration is based on XML. It has a base &lt;autoUpdateProject&gt; tag and it admits a number of different tags:</p>
+
+<ul><li><b>&lt;allowLanguageSelection&gt;</b> : Allow language selection. If this setting is enabled, the user will be required to specify the language for the autoupdate process</li>
+<li><b>&lt;allowedLanguages&gt;</b> : Space separated list of allowed language codes</li>
+<li><b>&lt;customLanguageFileList&gt;</b> : </li>
+<li><b>&lt;defaultLanguage&gt;</b> : Default language for the AutoUpdate</li>
+<li><b>&lt;disableSplashScreen&gt;</b> : Disable the initial splash screen.</li>
+<li><b>&lt;fullName&gt;</b> : The full product name, as it will be displayed in the autoupdater</li>
+<li><b>&lt;height&gt;</b> : Autoupdate wizard window height</li>
+<li><b>&lt;installerFilename&gt;</b> : Name of the AutoUpdate installer created by the build process.</li>
+<li><b>&lt;leftImage&gt;</b> : 163x314 GIF or PNG image that will be placed at the left side of the autoupdate wizard in the Welcome and Update Finished pages. If no image is specified, the default image will be used</li>
+<li><b>&lt;logoImage&gt;</b> : 48x48 GIF or PNG logo image that will be placed at the top right corner of the autoupdate wizard. If no image is specified, the default image will be used</li>
+<li><b>&lt;osxApplicationBundleIcon&gt;</b> : ICNS file to include in the AutoUpdate Application Bundle</li>
+<li><b>&lt;osxPlatforms&gt;</b> : Space separated list of platforms that will be supported when generating OSX bundles. Can be osx-intel, osx-ppc and osx-10.2</li>
+<li><b>&lt;outputDirectory&gt;</b> : Directory where the AutoUpdate installers will be placed once they are built</li>
+<li><b>&lt;overrideGtkButtonText&gt;</b> : Translate buttons to the selected language instead of using system-built values for Unix GTK mode</li>
+<li><b>&lt;postUpdateDownloadActionList&gt;</b> : </li>
+<li><b>&lt;rebootRequired&gt;</b> : Determines whether or not to ask the user to reboot after the AutoUpdate process is completed (Windows-specific option).</li>
+<li><b>&lt;removeLogFile&gt;</b> : This project property controls automatic deletion of the generated log file after installation. It is set to 0 by default. If set to 1, the installer will remove the log file</li>
+<li><b>&lt;requestedExecutionLevel&gt;</b> : UAC execution level of the AutoUpdate on Windows</li>
+<li><b>&lt;requireInstallationByRootUser&gt;</b> : Whether or not running the autoupdater will require super user privileges (root on Linux, Administrator user on Windows and OS X). This setting will prevent the autoupdate from running if the user is not root or Administrator on all operating systems except for OS X. In OS X, the regular authentication dialog window will be shown, asking the user for the administrator password so the autoupdate wizard can be run with root privileges</li>
+<li><b>&lt;saveRelativePaths&gt;</b> : Determines whether or not to convert absolute paths to relative paths when saving project files. This is important if the same project file is used by multiple developers. The path will be relative to the location of the project file.</li>
+<li><b>&lt;shortName&gt;</b> : The short version of product name. It can only contain alphanumeric characters</li>
+<li><b>&lt;singleInstanceCheck&gt;</b> : Check that only one autoupdater instance is running</li>
+<li><b>&lt;splashImage&gt;</b> : The GIF or PNG image that will appear when launching the autoupdate wizard.</li>
+<li><b>&lt;splashScreenDelay&gt;</b> : Extra display time of the splash screen in milliseconds</li>
+<li><b>&lt;vendor&gt;</b> : Vendor name</li>
+<li><b>&lt;version&gt;</b> : Product version number.</li>
+<li><b>&lt;width&gt;</b> : Autoupdate wizard window width</li>
+<li><b>&lt;windowsExecutableIcon&gt;</b> : ICO file with an specific format to set the icon for the autoupdate executable file on Windows systems.</li>
+<li><b>&lt;windowsResourceComments&gt;</b> : Comments for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceCompanyName&gt;</b> : Company Name for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceFileDescription&gt;</b> : File Description for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceFileVersion&gt;</b> : File version for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceInternalName&gt;</b> : Internal Name for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceLegalCopyright&gt;</b> : Legal Copyright for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceLegalTrademarks&gt;</b> : Legal Trademarks for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceOriginalFilename&gt;</b> : Original Filename for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceProductName&gt;</b> : Product Name for resources embedded in Windows executable</li>
+<li><b>&lt;windowsResourceProductVersion&gt;</b> : Product Version for resources embedded in Windows executable</li>
+<li><b>&lt;wmImage&gt;</b> : 48x48 GIF or PNG logo image that will be shown in the window manager task bar on Unix systems. If no image is specified, the default logo image will be used</li>
+<li><b>&lt;xmlOriginFile&gt;</b> : </li>
+</ul>
+
+      </div>
+    </div>
+  </body>
+</html>

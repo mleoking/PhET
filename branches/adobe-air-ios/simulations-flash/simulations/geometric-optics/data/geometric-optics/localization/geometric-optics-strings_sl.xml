@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_sl.xml created Sat Apr 04 11:03:31 CEST 2009 using: geometric-optics 1.00.00 (22386), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="draggableScreen" value="PREMAKNI ZASLON"/>
+<string key="draggableLens" value="PREMAKNI LEČO"/>
+<string key="screen" value="Zaslon"/>
+<string key="draggableRuler" value="PREMAKNI RAVNILO"/>
+<string key="showHelp" value="Pomoč"/>
+<string key="moveMe" value="PREMAKNI ME!"/>
+<string key="showGuides" value="Vodič"/>
+<string key="diameter" value="PREMER LEČE"/>
+<string key="ruler" value="Ravnilo"/>
+<string key="focalPoint" value="GORIŠČE"/>
+<string key="curvatureRadius" value="KRIVINSKI RADIJ"/>
+<string key="changeObject" value="Zamenjaj predmet"/>
+<string key="principalRays" value="Trije žarki"/>
+<string key="marginalRays" value="Krajna žarka"/>
+<string key="virtualImage" value="Navidezna slika"/>
+<string key="noRays" value="Brez žarkov"/>
+<string key="secondSource" value="Dodatno svetilo"/>
+<string key="hideHelp" value="Skrij pomoč"/>
+<string key="refractiveIndex" value="LOMNI KOLIČNIK"/>
+<string key="manyRays" value="Veliko žarkov"/>
+</SimStrings>

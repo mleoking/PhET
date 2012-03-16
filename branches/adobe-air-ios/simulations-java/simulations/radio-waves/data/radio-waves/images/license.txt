@@ -1,0 +1,23 @@
+###################################
+# License info for radio-waves
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+background.gif author=PhET 
+blue-sml.gif author=PhET
+blue-ssml.gif author=PhET 
+deep-green-sml.gif author=PhET
+deep-green-xsml.gif author=PhET 
+deep-red-sml.gif author=PhET 
+deep-red-xsml.gif author=PhET 
+green-sml.gif author=PhET 
+green-xsml.gif author=PhET 
+multi-electron.gif author=PhET 
+particle-green-med.gif author=PhET 
+particle-green-sml.gif author=PhET
+particle-red-med.gif author=PhET 
+particle-red-sml.gif author=PhET 
+Phet-Flatirons-logo-3-small.gif author=PhET 
+red-electron.gif author=PhET 
+small-yellow-electron.gif author=PhET 
+yellow-electron.gif author=PhET 

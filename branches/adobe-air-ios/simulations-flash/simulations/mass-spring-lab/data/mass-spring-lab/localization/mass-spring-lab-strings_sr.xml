@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_sr.xml created Fri Jul 02 06:33:26 CEST 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.01.00 (31673) May 14, 2009-->
+<SimStrings>
+<string key="pause" value="Пауза"/>
+<string key="earth" value="Земља"/>
+<string key="dontBother" value="Ма,нема проблема"/>
+<string key="16thTime" value="1/16 времена"/>
+<string key="nothinOK" value="НЕ! ОК?"/>
+<string key="mass1Label" value="50 gr"/>
+<string key="mass3Label" value="250 gr"/>
+<string key="planetX" value="Планета Х"/>
+<string key="showEnergyOf" value="Покажи Енергију опруге број"/>
+<string key="hangMe" value="ПОВУЦИ АКО СМЕШ!"/>
+<string key="resetTimer" value="На почетак"/>
+<string key="hard" value="тврда"/>
+<string key="mass7Label" value="100 gr"/>
+<string key="stopWatch" value="Хронометар"/>
+<string key="none" value="без"/>
+<string key="realTime" value="реално време"/>
+<string key="startTimer" value="старт/пауза"/>
+<string key="help4" value="ПОМИЧНИ ХРОНОМЕТАР"/>
+<string key="help3" value="Помери тег у страну да би га скинуо са опруге"/>
+<string key="showHelp" value="Покажи помоћ"/>
+<string key="lots" value="пуно"/>
+<string key="help2" value="ПОМИЧНИ РЕФЕРЕНТНИ НИВО"/>
+<string key="help1" value="ПОМИЧНИ ЛЕЊИР"/>
+<string key="friction" value="ТРЕЊЕ"/>
+<string key="PEelas" value="ЕПеласт"/>
+<string key="jupiter" value="Јупитер"/>
+<string key="moon" value="Месец"/>
+<string key="energyOf" value="Енергија"/>
+<string key="total" value="Укупна"/>
+<string key="sound" value="Звук"/>
+<string key="PEgrav" value="ЕПграв"/>
+<string key="mass2Label" value="100 gr"/>
+<string key="thermal" value="Топлотна"/>
+<string key="quarterTime" value="1/4 времена"/>
+<string key="KE" value="ЕК"/>
+<string key="hideHelp" value="Сакриј помоћ"/>
+<string key="noHelp" value="без помоћи"/>
+<string key="soft" value="мека"/>
+<string key="softness" value="еластичност опруге 3"/>
+<string key="simTitle" value="ОПРУГЕ &amp; ТЕГОВИ"/>
+<string key="totalE" value="УКУПНА Е"/>
+<string key="noShow" value="Не приказуј"/>
+<string key="paused" value="Заустављено"/>
+</SimStrings>

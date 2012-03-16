@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_tk.xml created Fri Oct 21 11:15:22 PKT 2011 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.12.00 (57171) Oct 4, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Giriş"/>
+<string key="properties.mass" value="Agram"/>
+<string key="controlPanel.showVectorValues" value="Güýç"/>
+<string key="forceArrows.contact" value="Galtaşma"/>
+<string key="mode.objectsOfSameVolume" value="Deň göwrümli"/>
+<string key="mysteryObject.densityColumnHeader" value="Dykyzlyk ({0})"/>
+<string key="material.aluminum" value="Alýuminiý"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Howa"/>
+<string key="material.custom" value="Meniň bölegim"/>
+<string key="material.gasoline" value="Gazolin"/>
+<string key="customObject.material" value="Jisim"/>
+<string key="mode.mysteryObjects" value="Näbelli"/>
+<string key="customObject.custom" value="Meniň bölegim"/>
+<string key="material.wood" value="Agaç"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="Iki"/>
+<string key="material.styrofoam" value="Plastik"/>
+<string key="material.honey" value="Bal"/>
+<string key="material.apple" value="Alma"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Buz"/>
+<string key="buoyancy.tab.playground" value="Suw howdany"/>
+<string key="fluid.controls.intro.label" value="Ergin"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="Ç"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Göwher"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Bölekler"/>
+<string key="material.oliveOil" value="Zeýtun ýagy"/>
+<string key="material.lead" value="Elektrik sim"/>
+<string key="forceArrows.buoyancy" value="Ýüzüjilik ukyby"/>
+<string key="properties.fluidDensity" value="Erginiň dykyzlygy"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/l"/>
+<string key="customObject.properties" value="Eýeçilik "/>
+<string key="forceArrows.gravity" value="Agramlyk güýji"/>
+<string key="material.brick" value="Kerpiç"/>
+<string key="mysteryObject.material" value="Jisim"/>
+<string key="mysteryObject.table.title" value="Dürli jisimleriň dykyzlygy"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="Ýag"/>
+<string key="properties.volumeLiterValue" value="{0} l"/>
+<string key="mode.objectsOfSameDensity" value="Deň dykyzlykly"/>
+<string key="density.simTitle" value="Dykyzlyk"/>
+<string key="controlPanel.readouts" value="Abzallaryň görkezijileri "/>
+<string key="properties.volumeMilliLiterValue" value="{0} ml"/>
+<string key="mode.customObject" value="Adaty"/>
+<string key="mode.objectsOfSameMass" value="Deň agramly"/>
+<string key="application.resetAll" value="Täzeden"/>
+<string key="material.gold" value="Altyn"/>
+<string key="properties.densityValue" value="{0} kg/l"/>
+<string key="forceArrowControlPanelTitle" value="Güýç"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="ady"/>
+<string key="controlPanel.showMasses" value="Agramlyklar"/>
+<string key="material.water" value="Suw"/>
+<string key="properties.massGramValue" value="{0} gr"/>
+<string key="properties.density" value="Dykyzlyk"/>
+<string key="material.waterBalloon" value="Suw şary"/>
+<string key="mysteryObject.table.showTable" value="Jetwel"/>
+<string key="mode.one" value="Bir"/>
+<string key="properties.volume" value="Göwrüm"/>
+<string key="buoyancy.simTitle" value="Ýüzüjilik ukyby"/>
+<string key="properties.kilogramPerLiter" value="kg/l"/>
+<string key="properties.volumeLiter" value="l"/>
+</SimStrings>

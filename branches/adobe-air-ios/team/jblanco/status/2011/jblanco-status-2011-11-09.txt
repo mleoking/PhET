@@ -1,0 +1,65 @@
+PhET Weekly Progress Report
+John Blanco
+November 9th, 2011
+
+Time period covered: November 3rd through November 9th.
+
+Balancing Act - 14.0 hrs
+
+•	Fixed an issue where items added to the plank could sometimes end up on the ground.
+•	Fixed an issue where masses were not always going back to the tool box.
+•	Fixed an issue where humans could point the wrong direction if added to the center of a tipped plank.
+•	Fixed an issue with the level indicator on the game tab, see #3149.
+•	Made the indicator for points awarded in the game more prominent, see #3150.
+•	Addressed all issues raised by the code review with the exception of writing up implementation and model notes.
+
+Balance and Torque - 2.5 hrs
+
+•	Discussed design with Ariel P.
+•	Drew up sketch of proposed 2nd tab.
+•	Discussed sim design with Physics Team.
+
+States of Matter Basics - 3.5 hrs
+
+•	Changed the stove to be a single unit with a vertical slider.
+•	Removed the "0" from the stove heat control and replaced it with a tick mark.
+•	Changed the labels on the stove so that now it only says "Heat" and "Cool".
+•	Published a release candidate for review, see http://www.colorado.edu/physics/phet/dev/states-of-matter/1.08.10/.
+
+Gene Expression - 7.0 hr
+
+•	Met with Tom Perkins to discuss model for 3rd tab.
+•	Wrote up meeting notes, added to spec, circulated for review.
+•	Added protein base class and three proteins with different shapes.
+•	Started implementation of the shape algorithm for animating the transcription of mRNA.
+•	Added the protein collection box.
+
+Nuclear Physics - 2.0 hrs
+
+•	Made the arrow that adjusts the half life on the charts bigger and more symmetrical.
+•	Made the half life line move more when switching to the custom atom.
+•	Deployed a release candidate for review, see http://www.colorado.edu/physics/phet/dev/nuclear-physics/3.24.04/.
+•	Updated all associated unfuddle tickets, continued discussions for making these changes better.
+
+Common Code - 1.0 hr
+
+•	Worked with Sam R on an issue that was preventing some sims from launching under Java 7.
+
+Installers - 2.0 hrs
+
+•	Updated and closed bugs related to BitRock upgrade.
+•	Discussed removing "How to Run Simulations" page from local mirrors with JO.
+•	Worked with JO on wording of installer download page, since full collection of installers no longer fits on a CD-ROM, see #3123.
+•	Tested the auto-generated installer to make sure that it wasn't negatively impacted by the database upgrade.
+
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+•	Weekly status meeting.
+•	Weekly status report.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Will likely take some additional time off over Thanksgiving week.

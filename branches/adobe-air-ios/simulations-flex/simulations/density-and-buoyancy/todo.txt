@@ -1,0 +1,1 @@
+Getters should be rewritten from JavaBean style to 'function get' style

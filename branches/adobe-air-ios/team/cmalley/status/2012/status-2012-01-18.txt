@@ -1,0 +1,62 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: Jan 12-18, 2011
+
+Acid-Base Solutions
+- misc changes to data collection to support study
+- meeting with KL, JC and SR
+
+Beer's Law Lab
+- discussed change requests with JC and KL
+- implemented some (but not all) change requests
+- published 0.00.06
+
+Molarity
+- met with JC and KL about how to make this a sim
+- implemented all change requests
+- reviewed with JC
+- published 0.00.14
+
+Faraday's Electromagnetic Lab
+- estimated cost to add data collection feature
+- added data collection in 2.07.01
+
+Molecule Shapes
+- replaced custom Teacher menu with phetcommon version
+
+Data Collection
+- lots of work with SR
+- created ticket to "autosave log" feature
+- refinements to "Standard Logs" dialog
+- revised how "value controls" (slider+textfield) are instrumented
+- added "component type" to user messages
+- refined the pattern used to construct message parameters
+
+Common Code
+- changed DefaultDecimalFormat to use "nearest neighbor" rounding
+
+Tablet Investigation
+- learning Objective-C
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Acid-Base Solutions: support for study
+- Beer's Law Lab: design & implementation
+- Molarity: publish 1.00
+- Reactants, Products and Leftovers: add data collection feature
+- Data Collection: help out with changes
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- Feb 24-26 (not working)
+
+--

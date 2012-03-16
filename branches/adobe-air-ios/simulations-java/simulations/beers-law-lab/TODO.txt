@@ -1,0 +1,30 @@
+TODO list for beers-law-lab
+
+DEADLINES
+- 5/14/12: "feature complete dev version, ready for interviews and/or classroom testing"
+
+DESIGN
+- confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
+
+HIGH
+- interviews: versions with and without Wavelength control
+
+MEDIUM
+- common: meter bodies may run off right side of stage if text is too long
+- common: #3242, make combo box popup appear on top of everything in the scenegraph
+- common: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
+- BeersLawModel: compute drag bounds of various movable objects based on stage size
+
+LOW
+- nasty bounds hack in WavelengthControlNode
+- common: objects flicker/tear while dragging (dropper, shaker, probes, cuvette, ...)
+- Concentration: shaker dispenses more than the max amount of solute, model doesn't keep track of solute falling from shaker
+- Concentration: use CompositeProperty for Shaker.dispensingRate?
+
+SIM-SHARING
+
+MIGRATE TO COMMON
+- MomentaryButtonNode to piccolo-phet
+- ToggleButtonNode to piccolo-phet
+- TiledBackgroundNode to piccolo-phet
+- BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>)

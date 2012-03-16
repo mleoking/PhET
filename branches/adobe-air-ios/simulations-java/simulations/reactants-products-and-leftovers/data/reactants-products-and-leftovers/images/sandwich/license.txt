@@ -1,0 +1,3 @@
+bread.png author=PhET
+cheese.png author=PhET
+meat.png author=PhET

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_lv.xml created Thu Mar 24 23:51:50 EET 2011 using: flash-common-strings 2.03.00 (48823), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="About..." value="Par..."/>
+<string key="SoftwareDevelopment" value="Programmatūras izstrāde"/>
+<string key="Cancel" value="Atcelt"/>
+<string key="StatisticsField-host_flash_accessibility" value="Izmantot pieejamo ierīci?:"/>
+<string key="Privacy" value="Privātums"/>
+<string key="Version" value="Versija"/>
+<string key="NewVersionAvailable" value="Pieejama jaunāka versija"/>
+<string key="SoftwareAgreement" value="Programmatūras vienošanās"/>
+<string key="PhETInstallation" value="Lai lejupielādētu jaunu instalatoru ar visjaunāko simulāciju. lūdzu, apmeklējiet&lt;a href='{0}'&gt;PhET bezsaites mājas lapas instalatora lapu&lt;/a&gt;."/>
+<string key="StatisticsField-sim_version_timestamp" value="Simulācijas versija (laikspiedogs):"/>
+<string key="StatisticsField-sim_dev_version" value="Simulācijas versija (izstr.):"/>
+<string key="AskLater" value="Pajautāt vēlāk"/>
+<string key="AcceptContinue" value="Piekrist un turpināt"/>
+<string key="BuildDate" value="Laidiena datums"/>
+<string key="TellMore" value="Papildu informācija..."/>
+<string key="FlashVersion" value="Flash versija"/>
+<string key="PhetSoftwareAgreement" value="PhET programmatūras vienošanās"/>
+<string key="NoUpdatesAvailable" value="Atjauninājumi nav pieejami"/>
+<string key="StatisticsField-message_type" value="Ziņas veids:"/>
+<string key="InstallationDated" value="PhET bezsaites mājas lapas instalācijas versija datēta {0}."/>
+<string key="CheckUpdates" value="Automātiski pārbaudīt atjauninājumus"/>
+<string key="UpToDate" value="Visjaunākā"/>
+<string key="StatisticsField-sim_major_version" value="Simulācijas versija (galvenā):"/>
+<string key="StatisticsField-user_total_sessions" value="Kopējais visu simulāciju palaišanas reižu skaits:"/>
+<string key="InstallationNewer" value="Ir pieejama jaunāka versija, datēta {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="Simulācijas palaišanas reižu skaits kopš pēdējā tiešsaistes savienojuma:"/>
+<string key="StatisticsField-sim_distribution_tag" value="Simulācijas versija (distribūcija):"/>
+<string key="Yes!" value="Jā!"/>
+<string key="StatisticsField-host_flash_domain" value="Simulācijas domēns:"/>
+<string key="DesignTeam" value="Dizaina komanda"/>
+<string key="PhETPreferences" value="PhET iestatījumi"/>
+<string key="Preferences" value="Iestatījumi..."/>
+<string key="AllowMessages" value="Atļaut sūtīt informāciju PhET serverim"/>
+<string key="Updates" value="Atjauninājumi"/>
+<string key="StatisticsField-sim_revision" value="Simulācijas versija (pārskatīšanas):"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Iestatījumu faila izveidošanas laiks:"/>
+<string key="Interviews" value="Intervijas"/>
+<string key="StatisticsField-host_flash_time_offset" value="Laika zona:"/>
+<string key="MostCurrentVersion" value="Jums pašlaik ir visjaunākā ({0}) {1} versija."/>
+<string key="StatisticsField-sim_deployment" value="Izvietošanas veids:"/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; ir brīvi pieejams pateicoties dotācijām, kas liek mums ievākt nelielu anonīmas informācijas daudzumu, lai palīdzētu datēt PhET simulāciju izmantošanas apjomus un lai mūsu lietotājiem sniegtu labāko."/>
+<string key="StatisticsField-sim_type" value="Simulācijas veids:"/>
+<string key="Close" value="Aizvērt"/>
+<string key="StatisticsField-sim_dev" value="Vai šī ir izstrādātāja versija?:"/>
+<string key="InstallerAsk" value="Vai vēlaties iegūt visjaunāko PhET bezsaites mājas lapas instalatora versiju?"/>
+<string key="PrivacyMessage2" value="Nospiežot &quot;Piekrist un turpināt&quot;, jūs piekrītat PhET programmatūras vienošanās līgumam, ieskaitot mūsu privāto politiku, šo un katru reizi, kad palaižat PhET simulācijas. (Lai saņemtu sīkāku informāciju, &lt;a href=&quot;{0}&quot;&gt;noklikšķiniet šeit&lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Kopējais simulācijas palaišanas reižu skaits:"/>
+<string key="PrivacyMessage1" value="Visās PhET simulācijās mēs ievācam nelielu anonīmas &lt;a href=&quot;{0}&quot;&gt;informācijas&lt;/a&gt; daudzumu, katru reizi, kad simulācija tiek palaista (piem., simulācijas versija, operētājsistēma). Jūs jebkurā laikā varat izslēgt šīs informācijas sūtīšanu, izmantojot Iestatījumu pogu."/>
+<string key="StatisticsField-user_installation_timestamp" value="PhET instalācijas laikspiedogs:"/>
+<string key="StatisticsField-sim_name" value="Simulācijas nosaukums:"/>
+<string key="UpdateOptionsAvailable" value="Atjaunināšanas opcijas pieejamas &lt;i&gt;Iestatījumos&lt;/i&gt;."/>
+<string key="PhetDevelopmentTeam" value="PhET izstrādes komanda"/>
+<string key="InstallerInfo2" value="Ja izvēlēsieties iegūt visjaunāku versiju, pārlūkprogramma atvērs PhET mājas lapu, kurā varēsiet lejupielādēt PhET bezsaites mājas lapas instalatoru."/>
+<string key="InstallerInfo1" value="Nodrošinot jūsu PhET bezsaites mājas lapas instalācijas visjaunāko versiju, nodrošinās arī to, ka jums ir pieejamas visjaunākās PhET simulācijas&lt;br&gt;un papildu materiāli."/>
+<string key="StatisticsField-sim_minor_version" value="Simulācijas apakšversija:"/>
+<string key="translation.credits" value="Arvis Lācis (@arvislacis)"/>
+<string key="Credits" value="Autori"/>
+<string key="StatisticsField-host_flash_version" value="Flash atskaņotāja versija:"/>
+<string key="TryNow" value="Pamēģināt tagad"/>
+<string key="PrivacySkip" value="Izlaist šo versiju"/>
+<string key="CheckInstallationUpdates" value="Pārbaudīt PhET bezsaites mājas lapas instalatora versiju..."/>
+<string key="StatisticsField-sim_locale_language" value="Valoda:"/>
+<string key="Distribution" value="Distribūcija"/>
+<string key="LicenseLibraries" value="Izmantoto bibliotēku licencēšanas informācija:"/>
+<string key="PrivacyDetails" value="Privātuma informācija"/>
+<string key="NotUpdateSim" value="Šī simulācija nevar tikt atjaunināta automātiski."/>
+<string key="CurrentVersionIs" value="Pašreizējā &quot;{0}&quot; versija ir {1}."/>
+<string key="StatisticsField-host_flash_os" value="Operētājsistēma un nosaukums:"/>
+<string key="TranslatedBy" value="Iztulkojis"/>
+<string key="OK" value="Labi"/>
+<string key="Error" value="Kļūda"/>
+<string key="CheckSimUpdates" value="Pārbaudīt simulācijas versiju..."/>
+<string key="NewerVersionIs" value="Ir pieejama jaunāka {0} versija."/>
+<string key="StatisticsField-sim_project" value="Projekta nosaukums:"/>
+<string key="SentInformation" value="Zemāk redzamā informācija tiks nosūtīta PhET serverim katru reizi, kad simulācija tiks palaista."/>
+<string key="OSVersion" value="OS"/>
+<string key="Details" value="Informācija"/>
+<string key="StatisticsField-message_version" value="Ziņas versija:"/>
+<string key="LeadDesign" value="Galvenais dizains"/>
+<string key="StatisticsField-host_locale_language" value="Resursdatora valoda:"/>
+<string key="AboutSim" value="Par {0}"/>
+<string key="VersionError2" value="Lūdzu, vēlāk mēģiniet vēlreiz vai apmeklējiet &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
+<string key="VersionError1" value="Radās kļūda, mēģinot iegūt versijas informāciju."/>
+<string key="StatisticsField-sim_locale_country" value="Valsts:"/>
+</SimStrings>

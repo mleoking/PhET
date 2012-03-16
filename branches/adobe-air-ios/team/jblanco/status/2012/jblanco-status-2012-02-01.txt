@@ -1,0 +1,45 @@
+PhET Weekly Progress Report
+John Blanco
+February 1st, 2012
+
+Time period covered: January 26th through February 1st.
+
+Gene Expression - 23.5 hrs
+
+-	Implemented a "separating axis test" in order to make the placement of the cells on the last tab happen more quickly (this was adding several seconds to the startup time).
+-	Made the proteins larger.
+-	Made the wording clearer that the it is the type of protein that is being collected.
+-	Changed the labels for transcription factors to use words rather than + and - symbols.
+-	Changed the layout of the biomolecule toolbox to make users more likely to start with positive transcription factor and use the negative one last.
+-	Adjusted parameter ranges and scale of graph 3rd tab to try to make changes more apparent.
+-	Optimized the placement of the cells on the last tab, since layout was taking as much as 8 seconds during startup.
+-	Made the DNA change shape when being transcribed.
+-	Contacted people about using images of GFP in E. Coli in the sim.
+-	Met with Kathy P. to discuss the design of the 2nd tab.
+-	Added better hint for collecting the proteins.
+
+Sim Sharing and Data Collection - 6.0 hrs
+
+-	Discussed issues concerning data processing using Scala.
+-	Worked with Sam R to try to resolve issues with the database that were causing issues with the Dallas study.
+-	Worked on backup of sim sharing DB, see #3227.  Able to mount the phetbackup network drive and have a backup command that works.  Next step is to automate.
+
+Energy Skate Park Basics - 2.5 hrs
+
+-	Code review and testing.
+
+Balancing Act - 1.0 hrs
+
+-	Discussed data collection via email with the Stanford group, set up meeting to discuss.
+
+Customer Support - 1.0 hrs
+
+-	Discussed metadata with JO, contacted Oregon Virtual School District (OVSD) people about the possibility of using it to keep their site up to date.
+-	Wrote up summary of work performed over the last year for OVSD.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+-	Weekly status meeting.
+-	Weekly status report.
+-	Review, prioritization, and updating of Unfuddle issues.
+-	Normal email and administrative overhead.

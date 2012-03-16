@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_ko.xml created Sun Aug 08 11:49:26 KST 2010 using: lunar-lander 2.02.00 (37307), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="help2" value="초기화"/>
+<string key="landingSpeedEq" value="착륙속도 ="/>
+<string key="help1" value="키보드 컨트롤:"/>
+<string key="label7" value="연료가 떨어지기 전에 평면지역에 몇 차례나 착륙할 수 있나요?  - 연착륙시 가산점(v &lt; 2 m/s) 있음. \n바위에 충돌하거나 파손 착륙하면 게임 종료 (v &gt; 6 m/s)."/>
+<string key="label6" value="스페이스바 = 추진력 보강/보강제거"/>
+<string key="label5" value="우"/>
+<string key="label4" value="하"/>
+<string key="label3" value="좌"/>
+<string key="unpause" value="정지되지 않았음"/>
+<string key="start" value="시작"/>
+<string key="velVector" value="속력 벡터"/>
+<string key="simTitle" value="달 착륙선"/>
+<string key="label2" value="상"/>
+<string key="accVector" value="가속벡터"/>
+<string key="label1" value="착륙선을 키보드로 조정"/>
+<string key="vectors" value="벡터"/>
+<string key="hitBoulder" value="바위에출동 \n다리파손 \n연료손실"/>
+<string key="altitude" value="고도(m)"/>
+<string key="softLanding" value="연착륙"/>
+<string key="sound" value="소리"/>
+<string key="range" value="범위(m)"/>
+<string key="r" value="R"/>
+<string key="p" value="P"/>
+<string key="hardLandingsColon" value="경착륙"/>
+<string key="longHelp" value="연료가 떨어지기 전에  여러 평면지역에 착륙 함. \n착륙 후에는 추진력을 높여 이륙 함. \n같은 지역에 다시 착륙하면 점수 없음. \n작거나 착륙이 힘든 지역에 착륙하면 가산점 있음. \n쉬운 지역 = 5점.\n아주 힘든 지역 = 50점.  \n연착륙( v &lt; 2m/s)시 가산점 10점. \n바위에 충돌하면 게임이 종료됨. (바위에 착륙할 수 없음!). \파손 착륙하면 게임이 종료됨 (v &gt; 12 m/s)."/>
+<string key="score" value="점수:"/>
+<string key="thrust" value="추진력(N)"/>
+<string key="crash2" value="파손 착륙, 승무원 사망"/>
+<string key="softLandingsColon" value="연착륙:"/>
+<string key="crash1" value="파손 착륙, 다리 파손"/>
+<string key="paused" value="정지"/>
+<string key="reset" value="초기화"/>
+<string key="hardLanding" value="경착륙"/>
+<string key="help3" value="정지"/>
+<string key="fuel" value="연료(kg)"/>
+</SimStrings>

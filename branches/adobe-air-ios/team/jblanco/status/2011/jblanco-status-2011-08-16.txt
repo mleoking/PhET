@@ -1,0 +1,64 @@
+PhET Weekly Progress Report
+John Blanco
+August 16th, 2011
+
+Time period covered: August 10th through August 16th.
+
+Balance and Torque - 18.5
+
+•	Finished integrating the "scrolling mass kit".
+•	Added animation for returning things to the tool box.
+•	Added labels to the mystery objects.
+•	Added mass labels and the ability to turn them on and off.
+•	Prevented masses from going in the middle.
+•	Added "Remove Supports" button.
+•	Sketched up some options for simpler game.
+•	Prototyped three balance indicators based on discussions with design team (decided on one at design team meeting).
+•	Removed first attempt at distance representation (vectors from the pivot point).
+•	Added snap-on ruler.
+•	Published a version for review.
+•	Met with design team, wrote up and circulated notes and placed into spec.
+•	Discussed ideas for adding a 2nd tab about levers with Ariel P.
+
+Gene Expression Basics - 10.0 hrs
+
+•	Added negative transcription factor to tool box.
+•	Added placement hints.
+
+States of Matter Basics - 2.0 hrs
+
+•	Met with design team, reviewed and dispositioned all suggestions as to whether to implement them and whether they should be done for existing version as well as "basics" version.
+
+Sugar and Salt Solutions - 1.5 hrs
+
+•	Collaborated with Sam R to replace ethanol with glucose.
+
+Greenhouse - 0.5 hrs
+
+•	Deployed a new version to dev to enable verification of issue with slider knobs, see #2979.
+
+Common Code 0.5 hrs
+
+•	Verified #3039, which made scale factor for arrow heads visible.
+
+Environment 0.5 hrs
+
+•	Talked with JR about getting 10.7 on PhET Test Mac.  He’s swamped at the moment, but in a week or two he can probably get to it.
+
+Meetings, Email, and Other Administrative Overhead - 6.5 hrs
+
+•	Weekly status report.
+•	Weekly PhET meeting.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave
+
+•	Planning to take the Friday before Labor day (September 2nd).
+
+What’s Next
+
+•	Continue developing Gene Expression simulation.
+•	Continue developing Balance & Torque simulation.
+•	Continue developing States of Matter: Basics.
+•	Tackle a couple of installer issues.

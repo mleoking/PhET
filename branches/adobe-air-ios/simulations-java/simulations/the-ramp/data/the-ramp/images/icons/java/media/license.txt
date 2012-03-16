@@ -1,0 +1,14 @@
+###################################
+# License info for the-ramp
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+Movie24.gif source=java 
+Pause16.gif source=java 
+Pause24.gif source=java 
+Play16.gif source=java 
+Play24.gif source=java 
+Rewind24.gif source=java 
+StepBack24.gif source=java 
+StepForward24.gif source=java 
+Stop24.gif source=java 

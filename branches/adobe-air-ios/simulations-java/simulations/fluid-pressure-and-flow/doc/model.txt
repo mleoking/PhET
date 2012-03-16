@@ -1,0 +1,47 @@
+Pressure tab:
+
+When underwater, pressure is getStandardAirPressure() + liquidDensity.get() * gravity.get() * abs( -y );
+When above water, pressure is a linear function based on y=0 has one standard air pressure and y=500 ft = earth air pressure at 500ft according to http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+
+EARTH_AIR_PRESSURE = 101325 Pa
+EARTH_AIR_PRESSURE_AT_500_FT = 99490;
+see http://en.wikipedia.org/wiki/Atmospheric_pressure
+
+LEARNING GOALS
+pressure at depth h is given by: p = p0 + rho g h
+water pressure increases linearly with depth
+air pressure decreases with altitude
+water pressure at the top of water equals air pressure at the same
+pressure doesn't change as you move horizontally through a fluid
+water pressure increases linearly with fluid density
+water pressure increases linearly with gravity
+
+Flow Tab:
+
+The fluid is treated as incompressible, so the flow rate must remain constant throughout the pipe,
+Hence flux = rate / area, and rate = flux * area, where the rate of fluid flow is measured in volume (m^3) per second
+
+Friction slows down particles closer to the edges of the pipe, but not to zero at the edge, otherwise an infinite amount of particles would pile up at the corners.
+Instead the flow rate falls off quadratically near the edges
+
+Note that when the velocity becomes too high, Bernoulli's equation gives a negative pressure.
+The pressure doesn't really go negative then, it just means Bernoulli's equation is inapplicable in that situation
+So we have to make sure the distance threshold is high enough that Bernoulli's equation never gives a negative pressure
+
+LEARNING GOALS
+p + 0.5 rho v^2 + rho g y = constant (16-17 = bernoulli's equation)
+Objects move faster when passageway is constricted
+Pressure is lower when passageway is constricted
+Fluid is conserved, just redistributed based on container dimensions (continuity equation)
+Learning goals from Tab 1 still apply under fluid flow
+
+Water tower tab:
+
+Water flows in through the top faucet and out through the hole in the water tower (if open), which may connect to a hose
+The speed of the water coming out is sqrt( 2 * g * h ), where h is the distance between the output point of the water and the top of the water
+
+LEARNING GOALS:
+1.  torricelli's theorem v = sqrt(2gh), see http://mysite.du.edu/~jcalvert/tech/fluids/bernoul.htm
+See also http://en.wikipedia.org/wiki/Torricelli's_law
+This learning goal also includes the subgoals v = f(g,h) and  v!=f(rho, y)
+2. p + 0.5 rho v^2 + rho g y = constant (16-17 = bernoulli's equation), mostly as it pertains to torricelli’s theorem

@@ -1,0 +1,9 @@
+salt_empty.png author=PhET
+salt_full.png author=PhET
+salt_micro.png author=PhET
+sugar_closed.png author=PhET
+sugar_empty_closed.png author=PhET
+sugar_empty_open.png author=PhET
+sugar_micro_closed.png author=PhET
+sugar_micro_open.png author=PhET
+sugar_open.png author=PhET

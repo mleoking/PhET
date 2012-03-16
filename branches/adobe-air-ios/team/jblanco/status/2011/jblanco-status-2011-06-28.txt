@@ -1,0 +1,58 @@
+PhET Weekly Progress Report
+John Blanco
+June 28nd, 2011
+
+Time period covered: June 23rd through June 28nd.  Note that this is 6 days instead of the usual 7, in order to get in sync with the new weekly meeting schedule.
+
+Isotopes - 3.0 hrs
+
+•	Changed caption for making the isotope box white to "White Isotope Box"
+•	Cleaned up the last of the code review notes, updated the related Unfuddle tickets.
+•	Looked at issue of tiny slider knobs.
+
+Gene Expression Basics - 9.25 hrs
+
+•	Experimented with various approaches for allowing navigation along the DNA strand, settled on one that uses built-in Piccolo support (in collaboration with Sam R).
+•	Created the DNA strand, including the wrapping, layering for faux 3D effect, and the base pairs.
+•	Met with Mike K (twice) to discuss sim design.  See meeting notes in Gene Expression specification for details.
+•	Modified specification based on input from Mike K.
+•	Published a dev version.
+
+Balance and Torque - 7.0 hrs
+
+•	Added the weight box, from which users can drag weights (currently just bricks) on to the balance.
+•	Added the ability to have the weights come and go from the model (in collaboration with Sam R).
+
+Sugar and Salt Solutions - 0.75 hrs
+
+•	Worked on adding a combo box for selecting solute on the 2nd tab (in collaboration with Sam R).
+
+Atomic Interactions - 1.5 hrs
+
+•	Met with Noah P to discuss the modeling assumptions section of the teacher tips for this sim, wrote up the section and sent to Trish L for review.
+
+Common Code - 3.5 hrs
+
+•	Modified the LinearValueControl class so that the knobs would look larger on Windows 7, see #2979.
+•	Tested a number of simulations that could have been affected by the fixes made for the small slider knob issue, see #2979.
+
+Installers - 1.0
+
+•	Worked with Jonathan O to finalize wording of web page where user can download installer.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+•	Weekly PhET status meeting.
+•	Weekly status report.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+•	Planning vacation from July 1st through July 7th.
+
+What’s Next
+
+•	Continue working on Gene Expression simulation.
+•	Continue working on Balance & Torque simulation.
+•	Finish testing installer with activities.  Oliver has consented to help with this.

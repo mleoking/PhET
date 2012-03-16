@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--friction-strings_ru.xml created Thu Apr 07 20:18:05 MSD 2011 using: friction 2.02.00 (37305), translation-utility 2.10.00 (48775) фев 9, 2011-->
+<SimStrings>
+<string key="rubYellowAtoms" value="Потрите желтые атомы о зеленые"/>
+<string key="physics" value="Физика"/>
+<string key="reset" value="Сброс"/>
+<string key="simTitle" value="Трение"/>
+<string key="chemistry" value="Химия"/>
+</SimStrings>

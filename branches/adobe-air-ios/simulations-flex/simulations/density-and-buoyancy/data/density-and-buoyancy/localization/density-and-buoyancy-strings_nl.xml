@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_nl.xml created Mon Apr 18 11:48:23 CEST 2011 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.10.00 (48775) feb 9, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Inleiding"/>
+<string key="properties.mass" value="Massa"/>
+<string key="controlPanel.showVectorValues" value="Grootte van de krachten"/>
+<string key="forceArrows.contact" value="Contact"/>
+<string key="mode.objectsOfSameVolume" value="Zelfde volume"/>
+<string key="mysteryObject.densityColumnHeader" value="Dichtheid ({0})"/>
+<string key="material.aluminum" value="Aluminium"/>
+<string key="material.air" value="Lucht"/>
+<string key="material.custom" value="Mijn blok"/>
+<string key="material.gasoline" value="Mazout"/>
+<string key="customObject.material" value="Materiaal"/>
+<string key="mode.mysteryObjects" value="Mysterie"/>
+<string key="customObject.custom" value="Mijn blok"/>
+<string key="material.wood" value="Hout"/>
+<string key="mode.two" value="Twee"/>
+<string key="material.styrofoam" value="Piepschuim"/>
+<string key="material.honey" value="Honing"/>
+<string key="material.apple" value="Appel"/>
+<string key="material.ice" value="IJs"/>
+<string key="translation.credits" value="Roland Van Kerschaver"/>
+<string key="buoyancy.tab.playground" value="Speelplaats"/>
+<string key="fluid.controls.intro.label" value="Vloeistof"/>
+<string key="material.diamond" value="Diamant"/>
+<string key="mode.title" value="Blokken"/>
+<string key="material.oliveOil" value="Olijfolie"/>
+<string key="material.lead" value="Lood"/>
+<string key="forceArrows.buoyancy" value="Drijven"/>
+<string key="properties.fluidDensity" value="Dichtheid vloeistof"/>
+<string key="customObject.properties" value="Eigenschappen"/>
+<string key="forceArrows.gravity" value="Zwaartekracht"/>
+<string key="mysteryObject.table.title" value="Dichtheden van verschillende materialen"/>
+<string key="material.brick" value="Baksteen"/>
+<string key="mysteryObject.material" value="Materiaal"/>
+<string key="material.oil" value="Olie"/>
+<string key="mode.objectsOfSameDensity" value="Zelfde dichtheid"/>
+<string key="density.simTitle" value="Dichtheid"/>
+<string key="controlPanel.readouts" value="Metingen"/>
+<string key="mode.customObject" value="Gewoon"/>
+<string key="mode.objectsOfSameMass" value="Zelfde massa"/>
+<string key="application.resetAll" value="Alles opnieuw"/>
+<string key="material.gold" value="Goud"/>
+<string key="forceArrowControlPanelTitle" value="Toon krachten"/>
+<string key="customObject.name" value="naam"/>
+<string key="controlPanel.showMasses" value="Massa's"/>
+<string key="properties.density" value="Dichtheid"/>
+<string key="material.waterBalloon" value="Waterballon"/>
+<string key="mysteryObject.table.showTable" value="Toon Tabel"/>
+<string key="mode.one" value="Een"/>
+<string key="buoyancy.simTitle" value="Drijven"/>
+</SimStrings>

@@ -1,0 +1,19 @@
+###################################
+# License info for discharge-lamps
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+actual-lamps.jpg author=PhET 
+battery-w-wires-2.png author=PhET 
+battery-w-wires-2a.png author=PhET 
+battery-w-wires.png author=PhET 
+battery.png author=PhET 
+coil-2.png author=PhET 
+coil-2b-org.png author=PhET 
+coil-2b.png author=PhET 
+electrode-2.png author=PhET 
+electrode.png author=PhET 
+electron.gif author=PhET 
+sliderKnob.png author=PhET 
+sliderKnobHighlight.png author=PhET 
+spectrometer-panel.png author=PhET 

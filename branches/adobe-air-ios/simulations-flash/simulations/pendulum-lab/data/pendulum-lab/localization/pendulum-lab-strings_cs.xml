@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_cs.xml created Fri Feb 06 18:24:41 CET 2009 using: pendulum-lab 1.00.00 (22386), translation-utility 1.09.00 (26682)-->
+<SimStrings>
+<string key="resetStopwatch" value="reset"/>
+<string key="earth" value="Země"/>
+<string key="showPhotoGateTimer" value="stopky"/>
+<string key="planetX" value="Planeta X"/>
+<string key="acceleration" value="zrychlení"/>
+<string key="showEnergyOf" value="Ukaž energii:"/>
+<string key="PE" value="Ep"/>
+<string key="velocity" value="rychlost"/>
+<string key="realTime" value="skutečný čas"/>
+<string key="length" value="délka"/>
+<string key="lots" value="velké"/>
+<string key="friction" value="tření"/>
+<string key="showSecondPendulum" value="Ukaž druhé kyvadlo"/>
+<string key="start" value="Start"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Měsíc"/>
+<string key="energyOf" value="energie"/>
+<string key="period" value="perioda:"/>
+<string key="noneFriction" value="žádné"/>
+<string key="total" value="celkem"/>
+<string key="mass2" value="hmotnost 2:"/>
+<string key="pendulum" value="Kyvadlo:"/>
+<string key="startPauseStopwatch" value="start/pauza"/>
+<string key="show" value="Ukaž:"/>
+<string key="length2" value="délka 2:"/>
+<string key="photoGateTimer" value="stopky"/>
+<string key="thermal" value="teplo"/>
+<string key="pausePlay" value="pausa/pokračuj"/>
+<string key="reset" value="Reset"/>
+<string key="mass" value="hmotnost"/>
+<string key="quarterTime" value="t/4"/>
+<string key="KE" value="Ek"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="skryj"/>
+<string key="otherTools" value="Další pomůcky"/>
+<string key="angleUnit" value="úhel"/>
+<string key="paused" value="pozastaveno"/>
+<string key="sixteenthTime" value="t/16"/>
+</SimStrings>

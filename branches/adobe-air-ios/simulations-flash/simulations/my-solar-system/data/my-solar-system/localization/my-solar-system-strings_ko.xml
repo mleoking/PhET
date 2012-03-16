@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_ko.xml created Sun Aug 08 12:03:07 KST 2010 using: my-solar-system 2.02.00 (37313), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="slingshot" value="단발"/>
+<string key="binaryStarPlanet" value="연성, 행성"/>
+<string key="sunAndPlanet" value="테양과 행성"/>
+<string key="body4" value="물체 4"/>
+<string key="numberOfBodies" value="물체번호"/>
+<string key="body3" value="물체 3"/>
+<string key="body2" value="물체 2"/>
+<string key="body1" value="물체 1"/>
+<string key="velocity" value="속력"/>
+<string key="doubleDouble" value="2중 2발"/>
+<string key="massEquals" value="질량 ="/>
+<string key="hyperbolics" value="쌍곡선"/>
+<string key="help9" value="저작권: PhET 사업단과 콜로라도대학교"/>
+<string key="help8" value="Runge-Kutta 알고리즘과는 달리 Verlet 알고리즘은 진동시스템의 에너지를 보존시켜 안정된 궤도를 만듭니다. 기타의 시간고정-단계속력 알고리즘과 마찬가지로 Verlet 알고리즘은 물체들이 너무 가까울 경우 가속도가 너무 커집니다.  이를 방지하기 위해 너무 가까운 물체는 모멘텀 보존 충돌에 융합됩니다."/>
+<string key="help6" value="이 시뮬레이션은 궤적을 통합하기 위해 시간고정-단계속력의 Verlet 알고리즘을 사용합니다."/>
+<string key="stop" value="정지"/>
+<string key="help5" value="&quot;시스템 중앙 조정&quot;을 체크하면 시스템의 질량중심운동이 제거됩니다."/>
+<string key="help4" value="현재의 위치와 속력을 알려면 정지를 누르고  마우스를 물체위로 가져가세요."/>
+<string key="help3" value="질량을 3천보다 적게 유지하지 않으면 이상한 결과가 나타납니다. "/>
+<string key="help2" value="거리, 질량 및 시간의 단위는 임의적 입니다. 자신의 단위를 만들어 보세요."/>
+<string key="help1" value="자신의 태양계를 만들기 위해 물체들과 V기호(V는 속력)를 드래그하거나.  \n초기세팅표에 자료를 입력하세요."/>
+<string key="help0" value="태양계 궤도 시뮬레이터"/>
+<string key="doubleSlingshot" value="2중 답발"/>
+<string key="systemCentered" value="시스템 중앙 조정"/>
+<string key="start" value="시작"/>
+<string key="showTraces" value="흔적 보기"/>
+<string key="back" value="도움말 닫기"/>
+<string key="tapeMeasure" value="줄자 측정"/>
+<string key="accurate" value="천천히"/>
+<string key="help" value="도움말"/>
+<string key="selectPreset" value="초기화 선택"/>
+<string key="showGrid" value="그리드 보기"/>
+<string key="timeEquals" value="시간 ="/>
+<string key="ellipses" value="타원"/>
+<string key="trojanAsteroids" value="트로이 소행성"/>
+<string key="fourStarBallet" value="4별의 발레"/>
+<string key="position" value="위치"/>
+<string key="reset" value="초기화"/>
+<string key="mass" value="질량"/>
+<string key="fast" value="빠르게"/>
+<string key="simTitle" value="나의 태양계"/>
+<string key="sunPlanetMoon" value="태양, 행성, 달"/>
+<string key="initialSettings" value="초기세팅:"/>
+<string key="sunPlanetComet" value="태양, 행성, 혜성"/>
+</SimStrings>

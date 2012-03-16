@@ -1,0 +1,323 @@
+# 0.00.56 (62498) Mar 12, 2012
+Intro & Equality Lab: Fixed: Out of memory exception when adding/subtracting lots of 3d cake slices
+# 0.00.55 (62473) Mar 12, 2012
+Equality Lab: Made the green arrow draggable
+Matching Game: Limit values to <= 2.0 since otherwise it would go off the chart for the number line
+# 0.00.54 (62462) Mar 12, 2012
+Matching Game: Fixed: 2x2 and 3x3 grid don't show the right value
+# 0.00.53 (62448) Mar 12, 2012
+Equality Lab: Added left/right spinners
+Matching Game: Removed values for denominator > 10
+Matching Game: Scale representations to a width of 110 so it will be a good fit for the starting cells and score cells
+Equality Lab: Put the fraction that is on the bucket on the left hand side, to help students visually parse.
+Intro: Moved the vertical bars down to center them between icon bar and top of fraction
+# 0.00.52 (62396) Mar 10, 2012
+Intro & Equality Lab: Fixed: When clicking on a water glass, the dragged amount doesn't subtract from the original amount (just during press--it updates on drag)
+Matching Game: Fractions return to the closest open cell, not just the one from which they originated
+Equality Lab: Fixed: Pies don't fill on Equality lab
+Matching Game: Removed plus signs, grids and pyramids from level 1
+# 0.00.51 (62332) Mar 8, 2012
+Matching Game: Made plus signs larger when there are less plus signs
+Matching Game: Added a 2x2 grid
+Matching Game: Added plus sign representations for denominator 2-6
+Matching Game: Added a developer control for resampling the current level
+Matching Game: Added developer controls
+Matching Game: Fixed: scales + number line should be centered vertically between cells at top and bottom
+Matching Game: Moved scales and starting cell areas down a little bit
+Matching Game: Added some vertical padding to the top of the cells
+Matching Game: Center "my matches" under the top left cell
+Intro & Equality Lab: Fixed: If you change the denominator then click on glass then it creates a cup of the incorrect height
+Intro & Equality Lab: Fixed: When clicking on water glasses (or maybe others), it leaves one behind and doesn't update the numerator right away
+Intro & Equality Lab: Fixed: Double clicking causes problems for bars, makes things go out of sync
+Intro & Equality Lab: Fixed: Put the clipping region just below the bucket
+Intro & Equality Lab: Fixed: The image of the "cup" on the Equality Lab bucket isn't right (it shows the vertical boxes).
+Matching Game: Fixed: Some edges appear to get cut off in the matching game when the matches are put in the containers
+# 0.00.50 (62249) Mar 6, 2012
+Matching Game: Fixed: Audio turns off after each level
+Matching Game: Added delay time to the pitch playback so that low sounds don't end too quickly
+Matching Game: Avoid matching numerical representations
+Matching Game: Fixed: With numbers larger than 1, the representations shrink a bit too much when in the containers
+Matching Game: Fixed: With the "+" representation, several edges seem to get cut off
+Matching Game: When a match is kept, have the matches in the containers be each closer to the equal sign instead of pushed to the edge of the match "container"
+Matching Game: Made the equals sign in score cells larger
+Matching Game: Made yellow bars in equals sign thicker
+Matching Game: Changed "My matches" to "My Matches"
+Equality Lab: Fixed: The numbers do not look quite centered over the fraction dividing line
+Equality Lab: Move the "right side" spinners over to the right (currently very tight to the fraction line on the equivalent fraction)
+Equality Lab: Fixed: The icon for the horizontal bar on the bucket appears to have the right most edge cut off
+Equality Lab: Fixed: The "icons" for both the horizontal bar and water cups should be shrunk slightly to fit better in the buttons
+Fixed: The the representation control panel icons should be square
+Equality Lab: Fixed: The Reset All button should have the same position as in tab 1, it is currently tucked more in the corner.
+Intro: Fixed: Thicker borders should be grayed out when nothing in the pie
+Intro: Increased spacing between the cakes
+Intro: Shrink the cup "icon" 10 percent or so to fit better in the icon button
+Intro: Fixed: The cups are not centered in the display area
+Intro: Shrink the vertical bar "icon" in the vertical direction and give it an aspect ratio more similar to the representation
+Intro: Shrink the vertical bars somewhat vertically
+Intro: Space the vertical bars a bit more horizontally
+Intro: Increased the font size for the max number text
+Intro: Vertically center the pie representations in the negative space between the icon bar and the top of the fraction
+Equality Lab: Added an arrow pointing to the number line location because the ticks can get too close together to distinguish between them
+Equality Lab: Increased vertical space between horizontal bars
+# 0.00.49 (62179) Mar 5, 2012
+First 2 tabs: Fixed: Clicking on an in-flight pie piece causes numerator to get out of sync, by making it so you can't drag an animating piece
+Equality Lab: Fixed a bug that caused the highlight to cover up tick marks on the scaled number line
+Equality Lab: Reduced the width of the horizontal bars, and reduced its bucket width to match the others
+Fractions Intro: Changed all inner stroke widths to 1.0 while leaving the exterior stroke width thick
+Fractions Intro: Removed unused cake code
+Fractions Intro: Fixed: Cake container slices do not match up exactly with the slice locations
+# 0.00.48 (62151) Mar 3, 2012
+Matching Game: Rounded edges of the equals sign and tuned its size and stroke thickness
+Matching Game: Reduced pitch by an octave
+Matching Game: Change all representations to be blue and green
+Matching Game: Moved "keep match" button to the side of the scale
+Matching Game: Added "My Matches" text under the score cells
+Matching Game: Added "play again" button above "next level" button.
+Matching Game: Made the score cells bigger
+Matching Game: Changed "Keep" button to "Keep Match" with a line break
+# 0.00.47 (62116) Mar 2, 2012
+Equality Lab: Made it so you can't drag the blue representation
+Equality Lab: Center representations vertically
+Equality Lab: Made representation control panels 20% smaller
+Equality Lab: Added scaled number line representation
+Intro: Fixed: Number line should respect the user-selected max
+Equality Lab: Added scaled water glasses representation
+Equality Lab: Align the right side of the water glasses with the right edge of the representation control panel
+Equality Lab: Changed max number of filled containers to 4
+Intro: Fixed: Account for max value when changing the denominator enabled/disabled
+Intro: Fixed cake image angles for denominator = 2
+Intro: Fixed cake image angles
+Intro: Moved up bucket 20px
+# 0.00.46 (62047) Mar 1, 2012
+# 0.00.45 (62028) Feb 29, 2012
+# 0.00.44 (61986) Feb 29, 2012
+Intro: Applied workaround for other representations so they don't get out of sync
+Intro: Fixed more inter-representation synchronization
+Intro: Fixed: There is a bug where if you just put the mouse over a piece and click over and over, the bucket continues to fill
+Intro: Fixed: For vertical bars (and all representations), animating pieces should be in front instead of behind.
+Intro: Fixed: Cake piece angle sometimes seems buggy
+Intro: Fixed: Cake pieces are floating out of the bucket
+Intro: Fixed: Cake pieces are too high--too close to the top control panel, move them down a bit
+Intro: Fixed: Number line causes exception when dragging or clicking past the max
+# 0.00.43 (61954) Feb 29, 2012
+Intro: Made it so you cannot drag the bucket icon
+Intro: Increased the bucket size by 35% vertically, downward
+Intro: Stagger vertical and horizontal bars vertically in the buckets to make them more distinguishable
+Intro: Moved the fraction control away from the left edge and closer to the bucket
+Intro: Put more horizontal space between bucket icon and fraction icon on bucket
+Intro: move max to upper right (right side of representation control panel).
+Matching Game: Shrink values >1 more so they will both fit in the score box.
+Matching Game: Added fraction representations for numbers > 1
+Matching Game: Added audio buttons
+Matching Game: Made audio off by default
+Matching Game: Made black outline of "=" sign a bit thicker
+Matching Game: Got rid of solid black "=" sign & click-to-toggle
+Matching Game: Show the name of the next level
+Matching Game: Fixed: Shouldn't be able to drag pieces out of the scoreboard
+# 0.00.42 (61921) Feb 28, 2012
+Moved the matching grid up a little to give it more negative space on the bottom
+Added more levels and randomization
+Fixed: make fractions sit on the scale instead of centered on it
+# 0.00.41 (61879) Feb 28, 2012
+Added prototype for matching game
+Buffer audio to avoid mark/reset not supported error
+# 0.00.40 (61737) Feb 24, 2012
+Added special case for half-pies since they should be vertical instead of horizontal (like pies)
+Added bucket/dragging for cake slices
+# 0.00.39 (61666) Feb 23, 2012
+Fixed: exception when removing a slice after max spinner reduced
+Fixed: When adding cups with the spinner, container cup fills up before animated cup gets there
+Made it possible to drag water away from cups
+When decreasing the max below the current value, animate slices to return
+Put the "Max" label centered above the spinner and number
+Reduced the size of the bucket icon so that larger representations will fit
+Made the bucket bottom "bottomless" so the long vertical bars don't stick out the bottom
+# 0.00.38 (61577) Feb 22, 2012
+Fixed: Vertical bars should fill from the bottom to match water glasses
+Fixed: Slices duplicated when dragging out of containers (not just bucket)
+Fixed: Bucket pie slices shouldn't jump around when changing the max spinner
+Made empty containers gray, but have them turn black when it contains anything (as in toggle-based version)
+Disable numerator spinner as a function of min/max spinner
+Update numerator/denominator based on max
+Centered containers horizontally on the screen based on max value
+Wired up max spinner (still several special cases to handle)
+Added a spinner for Max (not wired up)
+Made bucket supply of slices limitless
+Added a fraction readout on the bucket next to the icon
+For icon on bucket, show an entire "full icon" and the piece within it
+Added shadows for animating pieces
+Added buckets/dragging for vertical bars
+# 0.00.37 (61374) Feb 15, 2012
+Added buckets/dragging for horizontal bars
+Factored factory pattern out of PieSet in preparation for more bucket/drag representations
+# 0.00.36 (61366) Feb 14, 2012
+Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
+When increasing numerator, take from slices in front (higher z-ordering)
+Reduced shadow offset to 50% distance
+Made shadow black with 75% opacity
+# 0.00.35 (61302) Feb 13, 2012
+Show a shadow behind the object so it will look like it is a bit out of the screen and hence not part of the fraction
+Added a piece icon to the bucket
+Performance improvements: don't construct water glasses unless visible
+# 0.00.34 (61278) Feb 13, 2012
+# 0.00.33 (61275) Feb 13, 2012
+Fixed: if a slice is moving toward the pie when the user presses "down" on the numerator, it should turn around and head back to the bucket
+Changed from IntClientProperty back to IntegerProperty
+Fixed a bug in PieSet.toContainerState
+Generalized interfaces to SettableProperty and IntClientProperty
+Switched to immutable model with public property interface
+When changing the numerator, move pieces from the bucket to the pies
+Fixed: When animating to bucket, pieces should rotate up and have their tip go to the tip location
+Fixed: When animating to bucket, pieces should have their tip go to the tip location
+Fixed: Exception when dragging a piece that animated to the bucket.
+Animate pieces to the bucket
+Fixed: Pieces don't drag the right amount when the screen is scaled
+Fixed: Pieces should be pointing up in bucket so they are in alignment with nearest target cells
+Randomize the location of slices in the bucket
+Fixed: Get rid of pie slice line
+Fixed bucket location
+Added Lombok for data classes
+Added pie model and view to main sim
+Require pieces to intersect with cells before they are dropped
+Fixed: when dragged, piece should not be contained by a cell
+Added detection of cells
+Removed "click to toggle" cell feature
+In the icon, change the number line to go from "0 to 1" with no tick marks in between to give a consistent view of "the whole"
+Fixed: The number of pieces in the bucket should be equal to the max numerator value - number in the slices
+Fixed: Adding values with the bucket should change the spinner
+Hide the bucket for number line
+Fixed: Pieces should be the right size or jump to right size when dragged out of bucket
+Added buckets
+# 0.00.32 (61123) Feb 8, 2012
+Intro tab: When changing the denominator, have pieces stay as close to their original location as possible (no animation) instead of all filling from the left
+Make the bars a little smaller in the representation control panel buttons
+Show entire filled whole icons in the representation control panel, not objects with divisions
+Intro tab: Removed reduced/mixed control panel
+Fixed: Fraction goes off the screen to the left on mac
+# 0.00.31 (59741) Dec 28, 2011
+Removed other tabs for posting feasibility test for Tab 1
+Nudged cakes slightly to the right to avoid colliding with left edge of window
+# 0.00.30 (59737) Dec 28, 2011
+Fixed: If cake slices are removed by clicking so there is an empty cake, the spinners fail to function
+Made the cake button icon image to be in fourths to be consistent with the others
+Improved empty cake piece detection
+# 0.00.29 (59730) Dec 27, 2011
+Fixed a bug in cake slice selection
+# 0.00.28 (59727) Dec 27, 2011
+Added cakes for 1-8 denominator
+Removed cakes for 1/12 divisions
+Started click-to-toggle cake feature
+# 0.00.27 (59713) Dec 27, 2011
+Put the cake after the glass of water, and the number line last in the representation control panel
+Added more cake images for testing
+# 0.00.26 (59710) Dec 27, 2011
+Fixed: When clicking the water glasses, the clicking action works fine but does not appear to affect the fraction value.
+# 0.00.25 (59702) Dec 27, 2011
+Added new images for cake 1/2 and 1/3 divisions
+Show empty cake divisions up to 6 pies
+# 0.00.24 (59700) Dec 27, 2011
+Made division bar rounded for reduced and mixed fractions
+Changed "Reduced" and "Mixed" from radio buttons to checkboxes
+Made water glasses clickable
+Change the numerator when clicking anywhere in the number line
+# 0.00.23 (59585) Dec 21, 2011
+Fixed: Vertical bars should fill bottom to top instead of top to bottom
+For water glasses, added a darker thicker water edge for the "front" edge that aligns with the tick mark
+Show 6 empty cups on startup for cup mode
+Move "cup" button between "vertical bars" and "number line" to fit the pattern: "green stuff on the left"
+# 0.00.22 (59569) Dec 20, 2011
+Made vertical and horizontal bars click-to-toggle
+Made number line draggable
+# 0.00.21 (59553) Dec 20, 2011
+Made default numerator 0
+Fixed initialization bug that caused it to show only 1 pie on startup
+Show all 6 pies all the time and gray out if empty
+Show a "+" button for adding empty pies
+Don't show next pie as empty
+Removed "Random/In Order" control panel
+# 0.00.20 (59522) Dec 20, 2011
+Fixed: Whole pie node has a line at theta=0
+Rewrote pie to use individual slices
+Added empty pie after a filled pie
+# 0.00.19 (59488) Dec 20, 2011
+Fixed: a "zero" is not displayed for the "mixed" option.
+# 0.00.18 (59483) Dec 19, 2011
+Made water tick marks darker
+Enabled "holding down the spinner" to cycle through the numbers at a medium speed
+Changed max denominator back to 8
+Fixed: Cursor hand should turn into an arrow when spinner button disables
+Fixed: When pressing toggle button, mouse hand should turn into an arrow
+Fixed: If toggle button already pressed, it shouldn't have a mouse hand
+Allow numerator to go to 0
+Renamed "improper" -> "reduced"
+Truncated the number line at 6 (the max value for fractions to be displayed on the screen)
+Use a cup image instead of beaker
+Made liquid green instead of blue
+Added logic for "random fill"
+# 0.00.17 (59365) Dec 14, 2011
+Added beaker of water leveraging as much code from dilutions as possible, see #3185
+Added "None" option to the fraction equality display control panel
+# 0.00.16 (59341) Dec 13, 2011
+Added cake representation to intro tab
+Temporarily increased denominator from 8 to 12 in intro tab for purposes of testing cake with given images
+Fixed "Reset all" on intro tab
+Centered representations vertically on Intro tab
+Removed the grid
+Made pie representation first in the control panel
+Made pie representation selected by default
+# 0.00.15 (59324) Dec 13, 2011
+Made 6 vertical bars exactly fit the width of the screen
+Made pies exactly fit the width of the screen
+Constrain the horizontal bar representation to fill the screen when there are 6 and to take up 2 rows
+Fixed: Oddly, the circles look well centered and such when there are 6 "wholes" but 6 circles divided into "fifths" goes slightly off screen.
+# 0.00.14 (59312) Dec 13, 2011
+Improvements in Intro tab
+Started Equivalence Lab
+Removed "Representation" control panel text
+Constrain denominator based on the numerator so that the entire number is less than or equal to 6
+# 0.00.13 (59217) Dec 9, 2011
+Added highlight for number line
+Made number line maximum 6 instead of 12
+Reduced the size of the number line dot from 6 to 5
+Increased the size of the number line icon in the representation panel
+Increased the size of the representation panel
+Added borders for items in the representation panel
+Increased font for representation and buttons/controls from 16 to 20
+Limited the numerator based on the denominator so that the entire number is less than or equal to 6
+# 0.00.12 (59189) Dec 8, 2011
+Got rid of "click to toggle piece" feature
+Rounded the corners for the fraction division bar
+Increased pie size so that 6 pies fill the screen horizontally
+Changed max denominator from 12 to 8
+# 0.00.11 (58974) Dec 1, 2011
+Added images from NP for spinner buttons
+# 0.00.10 (58800) Nov 28, 2011
+Increased the size of pie graphics
+Add a border around number line circle
+Highlight selected representation
+Fixes for number line
+# 0.00.09 (58684) Nov 16, 2011
+Added more revisions for intro tab
+Matching game: Added horizontal and vertical bars
+# 0.00.08 (58036) Oct 26, 2011
+Matching game: Removed decimals
+# 0.00.07 (58023) Oct 26, 2011
+Matching game: Added "six plus signs pattern"
+Matching game: Added grid pattern
+Matching game: Move object to the front when grabbed
+Matching game: Prevent multiple objects from sitting on the same balance platform by moving off the object that has been there for the longest time
+Matching game: Fixed: Scored nodes can be dragged
+# 0.00.06 (57894) Oct 22, 2011
+Improved look and randomization of fraction representations
+Added balance and weight model
+# 0.00.05 (57746) Oct 19, 2011
+Matching Game tab: Fixed centering of fractions
+Added other tabs
+# 0.00.04 (57665) Oct 15, 2011
+Added pie representation
+# 0.00.03 (57658) Oct 14, 2011
+Added percent representation
+# 0.00.02 (57653) Oct 14, 2011
+Added spinner control for fraction
+Added toolbox for multiple representations
+# 0.00.01 (57365) Oct 6, 2011

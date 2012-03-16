@@ -1,0 +1,57 @@
+PhET Weekly Progress Report
+John Blanco
+October 19th, 2011
+
+Time period covered: October 13th through October 19th.
+
+States of Matter Basics - 7.5 hrs
+
+•	Discussed floating control panel with design team, decided against.
+•	Put black labels on the control panel labels.
+•	Made thermometer and other red colors use the color-blind-friendly version of red.
+•	Made the graphics used by the stove (fire and ice) translucent.
+•	Made the green arrows that act as the "hint" for moving the finger only point one direction when at top of range.
+•	Prototyped and circulated a version of the stove node with the control on the side and the slider moving up and down.  Design team decided to stick with the original.
+•	Fixed an issue where Reset All wasn't restarting the clock if it was paused.
+•	Published a release candidate for review.
+
+Balance and Torque - 9.0 hrs
+
+•	Made balance challenges unique with a game, and up to several iterations of the game.
+•	Made mass deduction challenges use each mass once before repeating in another challenge.
+•	Discussed plans for HS version in the physics meeting.
+•	Made the New Game button have no confirmation dialog (after discussion with design team).
+•	Cleaned up licenses for artwork.
+
+Nuclear Physics - 6.5 hrs
+
+•	Fixed all graphs in this family of sims (Alpha Decay, Beta Decay, Nuclear Fission, and Radioactive Dating Game) so that they work on net books, see #3071.
+
+Molecule Shapes - 2.5 hrs
+
+•	Logged issue about failing on XP platforms, tested on several different machines to gather data about where it does and doesn't run.
+•	Worked with Jonathan O to try to upgrade a machine where Molecule Shapes wasn't running to see if this fixed the issue.
+
+Gravity and Orbits - 1.5 hrs
+
+•	Worked with Sam R to test performance improvements, see #2963.
+
+Installer - 4.0 hrs
+
+•	Solved an issue where the Molecule Shapes simulation was failing when run from the installed version due to some JME files that were missing.
+•	Created a new version of the installer with all the latest sims for Kathy P to use on her trip to CA.
+•	Worked on an issue where the CD-ROM installer no longer fits on a CD-ROM.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+•	Weekly status meeting.
+•	Weekly Physics team meeting.
+•	Logged hours for September.
+•	Weekly status report.
+•	Review, prioritization, and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	No vacation on the immediate horizon.
+

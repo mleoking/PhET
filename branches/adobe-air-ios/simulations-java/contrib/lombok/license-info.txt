@@ -1,0 +1,1 @@
+lombok license=The MIT License (MIT) licensefile=mit-license.txt name=Lombok description=Spice up your java copyright=2009-2011, Reinier Zwitserloot, Roel Spilker, Robbert Jan Grootjans website=http://projectlombok.org/

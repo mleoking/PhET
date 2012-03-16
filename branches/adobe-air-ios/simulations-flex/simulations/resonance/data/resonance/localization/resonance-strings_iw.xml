@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_iw.xml created Sun Jul 24 22:44:58 IDT 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) פבר 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="מהירות סימולציה"/>
+<string key="sameFrequency" value="זהה תדירות"/>
+<string key="sameSpring" value="k זהה קפיץ"/>
+<string key="slow" value="איטי"/>
+<string key="mixedMAndK" value="מעורבים m ו k"/>
+<string key="numberOfResonators" value="מספר קפיצים"/>
+<string key="kg" value="ק&quot;ג"/>
+<string key="pause" value="עצור"/>
+<string key="amplitude" value="משרעת"/>
+<string key="frequencyEqualsXHz" value="תדירות = {0} הרץ"/>
+<string key="sloMo" value="הילוך איטי"/>
+<string key="step" value="שלב"/>
+<string key="cm" value="ס&quot;מ"/>
+<string key="driver" value="מנוע"/>
+<string key="on" value="דולק"/>
+<string key="ruler" value="סרגל"/>
+<string key="resonance.simTitle" value="תהודה"/>
+<string key="springConstant" value="קבוע קפיץ"/>
+<string key="frequency" value="תדירות"/>
+<string key="resetAll" value="אתחל הכל"/>
+<string key="mass" value="מסה"/>
+<string key="sameMass" value="m זהה מסה "/>
+<string key="resonator" value="מחולל תהודה"/>
+<string key="translation.credits" value="&lt;hrml&gt;&lt;center&gt;דוידסון אונליין&lt;br&gt;www.weizmann.ac.il/davidson/tikshuv&lt;/center&gt;&lt;/html&gt;"/>
+<string key="hz" value="הרץ"/>
+<string key="gravityColon" value=":כבידה"/>
+<string key="play" value="המשך"/>
+<string key="paused" value="נעצר"/>
+<string key="off" value="כבוי "/>
+<string key="dampingConstant" value="קבוע ריסון"/>
+<string key="normal" value="נורמלי"/>
+<string key="selectPreset" value="הגדרות בחר"/>
+</SimStrings>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_pl.xml created Thu Mar 10 18:13:29 CET 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) lut 9, 2011-->
+<SimStrings>
+<string key="PlayPauseButtons.step" value="Do Przodu"/>
+<string key="MomentumView.total" value="Suma"/>
+<string key="ControlPanel.sound" value="Dźwięk"/>
+<string key="ControlPanel.showMomentumVectors" value="Wektory Pędu"/>
+<string key="ControlPanel.oneHundredPercent" value="100%"/>
+<string key="DataTable.lessData" value="Mniej Danych"/>
+<string key="translation.credits" value="Paweł Wiśniewski"/>
+<string key="MomentumView.momenta" value="Moment Siły"/>
+<string key="DataTable.ball" value="piłka"/>
+<string key="TableView.kineticEnergy" value="Energia Kinetyczna = {0} J"/>
+<string key="ControlPanel.showVelocities" value="Wektory Prędkości"/>
+<string key="ControlPanel.showPaths" value="Pokaż Tory"/>
+<string key="DataTable.mass" value="masa"/>
+<string key="DataTable.addBall" value="Dodaj Piłkę"/>
+<string key="DataTable.py" value="Py"/>
+<string key="DataTable.px" value="Px"/>
+<string key="PlayPauseButtons.pause" value="Pauza"/>
+<string key="DataTable.vy" value="Vy"/>
+<string key="DataTable.vx" value="Vx"/>
+<string key="ControlPanel.2d" value="2 Wymiary"/>
+<string key="DataTable.moreData" value="Więcej Danych"/>
+<string key="ControlPanel.reflectingBorder" value="Ramka Odbijająca"/>
+<string key="DataTable.y" value="y"/>
+<string key="DataTable.removeBall" value="Usuń Piłkę"/>
+<string key="DataTable.x" value="x"/>
+<string key="ControlPanel.resetAll" value="Wyczyść "/>
+<string key="ControlPanel.momentaDiagram" value="Wykres Momentów"/>
+<string key="ControlPanel.elasticity" value="Elastyczność"/>
+<string key="ControlPanel.showCenterOfMass" value="Środek Masy"/>
+<string key="ControlPanel.zeroPercent" value="0%"/>
+<string key="TableView.timeRate" value="Tempo"/>
+<string key="simTitle" value="Symulacja Kolizji"/>
+<string key="PlayPauseButtons.play" value="Start"/>
+<string key="PlayPauseButtons.back" value="Do Tyłu"/>
+<string key="MomentumView.tipToTail" value="Zaczepione"/>
+<string key="TableView.time" value="Czas = {0} s"/>
+<string key="PlayPauseButtons.rewind" value="Początek"/>
+<string key="ControlPanel.1d" value="1 Wymiar"/>
+</SimStrings>

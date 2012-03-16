@@ -1,0 +1,46 @@
+PhET Weekly Progress Report
+John Blanco
+January 25th, 2012
+
+Time period covered: January 19th through January 25th.
+
+Balancing Act - 15.5 hrs
+
+-   Instrumented all three tabs with sim sharing messages.  The data that is collected is the best initial guess at what the Stanford people need for their study.
+-   Contacted Min Chi of Stanford about discussing and testing this newly implemented sim.
+-   Published a version to dev that includes the new "study" (i.e. sim sharing) flavor.
+
+Gene Expression - 5.0 hrs
+
+-	Fixed an issue where Reset All wasn't zooming back to the appropriate place on the DNA if the user had zoomed out from the 2nd or 3rd gene.
+-	Published a version with the middle tab omitted, sent to Mike K for potential use in his teaching this semester.
+-	Discussed design of 2nd tab with Kathy P.
+-	Discussed some potential improvements to the existing tabs with Ariel P (in person and via email) and Noah P (via email).
+-	Reviewed learning goals and brainstormed design changes to 2nd tab.
+
+Sim Sharing and Data Collection - 5.0 hrs
+
+-	Worked with Sam R to get ramped up on the common code support for the Sim Sharing feature.
+-	Worked with Chris M to add the ability to use the class name as the user component.
+-	Worked with Chris M to add generalized sim sharing support to the common code that supports kit selection nodes.
+-	Worked with Chris M and Sam R on an issue with how the parameter sets are created, see #3225.
+-	Worked on plan and procedure for automatic periodic backups of sim sharing database, see #3227.
+
+Customer Support - 0.5 hrs
+
+-	Contacted the engineer from Oregon Virtual School District to see if Linux issue is adequately resolved, see #3210.
+
+Environment - 0.5 hrs
+
+-	Assisted Oliver N with setup of SVN repository on a new PC.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+-	Weekly status meeting.
+-	Weekly status report.
+-	Review, prioritization, and updating of Unfuddle issues.
+-	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 6.5 hrs
+
+-	Took most of one day as sick leave due to illness.

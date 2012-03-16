@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_fr.xml created Sat Apr 11 16:00:55 CEST 2009 using: pendulum-lab 1.00.00 (22386), translation-utility 1.12.00 (29256)-->
+<SimStrings>
+<string key="resetStopwatch" value="RAZ"/>
+<string key="earth" value="Terre"/>
+<string key="showPhotoGateTimer" value="Chronomètre"/>
+<string key="planetX" value="Planet X"/>
+<string key="acceleration" value="Accélération"/>
+<string key="showEnergyOf" value="Montrer l'énergie de :"/>
+<string key="PE" value="Potentiel"/>
+<string key="velocity" value="Vitesse"/>
+<string key="realTime" value="Temps réel"/>
+<string key="length" value="Longueur"/>
+<string key="lots" value="Beaucoup"/>
+<string key="friction" value="Frottements"/>
+<string key="showSecondPendulum" value="Montrer le 2ème pendule"/>
+<string key="start" value="Départ"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Lune"/>
+<string key="energyOf" value="Energie du pendule "/>
+<string key="period" value="Période :"/>
+<string key="noneFriction" value="Aucun"/>
+<string key="total" value="Total"/>
+<string key="mass2" value="Masse 2 :"/>
+<string key="pendulum" value="Pendule : "/>
+<string key="startPauseStopwatch" value="Départ/pause"/>
+<string key="show" value="Montrer :"/>
+<string key="length2" value="Longueur 2 :"/>
+<string key="photoGateTimer" value="Chronomètre"/>
+<string key="thermal" value="Thermique"/>
+<string key="pausePlay" value="Pause/Départ"/>
+<string key="reset" value="RAZ"/>
+<string key="mass" value="Masse"/>
+<string key="quarterTime" value="1/4"/>
+<string key="KE" value="Cinétique"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="Aucun"/>
+<string key="otherTools" value="Autres outils"/>
+<string key="angleUnit" value=" degrés "/>
+<string key="paused" value="En pause"/>
+<string key="sixteenthTime" value="1/16ème"/>
+</SimStrings>

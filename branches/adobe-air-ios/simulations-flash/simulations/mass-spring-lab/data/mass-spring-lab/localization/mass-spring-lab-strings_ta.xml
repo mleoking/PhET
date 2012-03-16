@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_ta.xml created Fri Aug 05 20:51:30 EDT 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="pause" value="சற்று நில்"/>
+<string key="earth" value="புவி"/>
+<string key="dontBother" value="விடு"/>
+<string key="16thTime" value="1/16 நேரம்"/>
+<string key="nothinOK" value="எதுவும் சரியில்லை?"/>
+<string key="mass1Label" value="50 கிராம்"/>
+<string key="mass3Label" value="250 கிராம்"/>
+<string key="planetX" value="கோள் X"/>
+<string key="showEnergyOf" value="ஆற்றல் காட்டு"/>
+<string key="hangMe" value="மாட்டு என்னை"/>
+<string key="resetTimer" value="மீளமை"/>
+<string key="hard" value="கெட்டி"/>
+<string key="mass7Label" value="100 கிராம்"/>
+<string key="translation.credits" value="C.R.Selvakumar"/>
+<string key="stopWatch" value="நிறுத்து மணிகாட்டி"/>
+<string key="none" value="இல்லை"/>
+<string key="realTime" value="நிகழ் நேரம்"/>
+<string key="startTimer" value="தொடக்கு/நிறுத்தம்"/>
+<string key="help4" value="நேரங்காட்டி"/>
+<string key="help3" value="கழற்ற, நிறையைப் பக்கவாட்டில் நகர்த்து"/>
+<string key="showHelp" value="உதவி காட்டு"/>
+<string key="lots" value="நிறைய"/>
+<string key="help2" value="தொடக்க நிலை"/>
+<string key="help1" value="அளவுகோல்"/>
+<string key="friction" value="உராய்வு"/>
+<string key="PEelas" value="நிலை ஆ. மீண்மை"/>
+<string key="jupiter" value="வியாழன்"/>
+<string key="moon" value="நிலா"/>
+<string key="energyOf" value="ஆற்றல்"/>
+<string key="total" value="மொத்தம்"/>
+<string key="sound" value="ஒலி"/>
+<string key="PEgrav" value="ந்லை ஈர்ப்பு"/>
+<string key="mass2Label" value="100 கிராம்"/>
+<string key="thermal" value="வெப்பம்"/>
+<string key="quarterTime" value="1/4 நேரம்"/>
+<string key="KE" value="இயங்கு ஆற்றல்"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="hideHelp" value="உதவி மறை"/>
+<string key="noHelp" value="உதவி இல்லை"/>
+<string key="soft" value="மென்மை"/>
+<string key="softness" value="மென்மைச் சுருள் 3"/>
+<string key="simTitle" value="நிறைகளும் சுருள்களும்"/>
+<string key="totalE" value="மொத்த ஆற்றல்"/>
+<string key="noShow" value="இல்லை"/>
+<string key="paused" value="நின்றுள்ளது"/>
+</SimStrings>

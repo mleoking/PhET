@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_it.xml created Tue Apr 12 19:51:13 CEST 2011 using: arithmetic 2.02.00 (37294), translation-utility 2.10.00 (48775) feb 9, 2011-->
+<SimStrings>
+<string key="level" value="livello"/>
+<string key="typeAnswer" value="Scrivi la risposta, \n premi il tasto invio"/>
+<string key="clickToSelect" value="premi sulla  \n casella corretta"/>
+<string key="correct" value="Esatto!"/>
+<string key="end" value="Fine"/>
+<string key="isWrong" value=" è sbagliato."/>
+<string key="start" value="Via"/>
+<string key="simTitle" value="tabelline"/>
+<string key="time" value="Tempo (sec)"/>
+<string key="finalTime" value="Tempo finale:"/>
+<string key="multiply" value="moltiplica"/>
+<string key="tryAgain" value="Riprova!"/>
+<string key="sound" value="Suono"/>
+<string key="divide" value="Dividi"/>
+<string key="factor" value="Fattori"/>
+<string key="minute" value="minuti"/>
+<string key="finalScore" value="Punteggio finale:"/>
+<string key="nbrRight" value="numero esatto:"/>
+<string key="mustTypeNbr" value="Devi scrivere \n un numero"/>
+<string key="score" value="Punteggio:"/>
+<string key="scorePer" value="punti"/>
+<string key="translation.credits" value="&lt;html&gt;Vito Garganese&lt;br&gt;vito.garganese@alice.it&lt;html&gt;"/>
+<string key="nbrWrong" value="numero sbagliato:"/>
+<string key="reset" value="ricomincia"/>
+<string key="clock" value="orologio"/>
+<string key="title" value="Le tabelline"/>
+</SimStrings>

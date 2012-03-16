@@ -1,0 +1,2 @@
+
+You can also display another license for the user to agree.

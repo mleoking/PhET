@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_zh_CN.xml created Sun May 15 14:26:39 CST 2011 using: geometric-optics 2.04.00 (37306), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="draggableScreen" value="可拖动屏"/>
+<string key="draggableLens" value="可拖动镜头"/>
+<string key="screen" value="光屏"/>
+<string key="draggableRuler" value="可拖动尺子"/>
+<string key="simTitle" value="几何光学"/>
+<string key="showHelp" value="显示帮助"/>
+<string key="moveMe" value="移动我"/>
+<string key="showGuides" value="显示参考线"/>
+<string key="diameter" value="直径(m)"/>
+<string key="ruler" value="尺子"/>
+<string key="focalPoint" value="焦点"/>
+<string key="curvatureRadius" value="曲率半径(m)"/>
+<string key="changeObject" value="改换物体"/>
+<string key="principalRays" value="主光线"/>
+<string key="marginalRays" value="边界光线"/>
+<string key="virtualImage" value="虚像"/>
+<string key="noRays" value="无光线"/>
+<string key="secondSource" value="第二个光点"/>
+<string key="hideHelp" value="隐藏帮助"/>
+<string key="refractiveIndex" value="折射率"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;&lt;p&gt;&lt;strong&gt;张大红&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt;天铁第二中学&lt;/strong&gt;&lt;/p&gt;&#10;&lt;/html&gt;"/>
+<string key="manyRays" value="更多的光线"/>
+</SimStrings>

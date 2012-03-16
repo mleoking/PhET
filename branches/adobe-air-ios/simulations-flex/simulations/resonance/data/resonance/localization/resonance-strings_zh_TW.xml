@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_zh_TW.xml created Tue Jul 26 10:03:37 CST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="模擬速度"/>
+<string key="sameFrequency" value="振動頻率相同"/>
+<string key="sameSpring" value="彈簧相同"/>
+<string key="slow" value="慢"/>
+<string key="mixedMAndK" value="質量與彈力係數均不固定"/>
+<string key="numberOfResonators" value="共振器數量"/>
+<string key="kg" value="公斤(kg)"/>
+<string key="pause" value="暫停"/>
+<string key="amplitude" value="振幅"/>
+<string key="frequencyEqualsXHz" value="頻率 = {0} Hz"/>
+<string key="sloMo" value="慢動作"/>
+<string key="step" value="往前一步"/>
+<string key="cm" value="公分(cm)"/>
+<string key="driver" value="驅動器"/>
+<string key="on" value="開啟"/>
+<string key="ruler" value="量尺"/>
+<string key="resonance.simTitle" value="共振"/>
+<string key="springConstant" value="彈性係數"/>
+<string key="frequency" value="頻率"/>
+<string key="resetAll" value="重置"/>
+<string key="mass" value="質量"/>
+<string key="sameMass" value="物體質量相同"/>
+<string key="resonator" value="共鳴器"/>
+<string key="translation.credits" value="Amber Chang"/>
+<string key="hz" value="頻率(Hz)"/>
+<string key="gravityColon" value="重力"/>
+<string key="off" value="關閉"/>
+<string key="dampingConstant" value="阻尼係數"/>
+<string key="normal" value="正常"/>
+<string key="selectPreset" value="選擇實驗設計"/>
+</SimStrings>

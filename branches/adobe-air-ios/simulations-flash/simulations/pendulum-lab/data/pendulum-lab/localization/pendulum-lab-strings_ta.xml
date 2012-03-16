@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_ta.xml created Wed Aug 03 19:26:33 EDT 2011 using: pendulum-lab 2.03.00 (52288), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="resetStopwatch" value="மீளமை"/>
+<string key="earth" value="புவி"/>
+<string key="showPhotoGateTimer" value="ஒளிக் கதவம் நேர அளவி"/>
+<string key="planetX" value="கோள் X"/>
+<string key="acceleration" value="முடுக்கம்"/>
+<string key="showEnergyOf" value="இன் ஆற்றலைக் காட்டு"/>
+<string key="PE" value="நிலை ஆற்றல்"/>
+<string key="velocity" value="விரைவு"/>
+<string key="translation.credits" value="C.R.Selvakumar"/>
+<string key="realTime" value="நிகழ்நேரத்தில்"/>
+<string key="length" value="நீளம்"/>
+<string key="lots" value="நிறைய"/>
+<string key="friction" value="உராய்வு"/>
+<string key="showSecondPendulum" value="2 ஆவது ஊசலைக் காட்டு"/>
+<string key="start" value="தொடக்கு"/>
+<string key="mass_unit" value="கிலோ.கி"/>
+<string key="jupiter" value="வியாழன்"/>
+<string key="moon" value="நிலா"/>
+<string key="energyOf" value="இன் ஆற்றால்"/>
+<string key="period" value="கால இடைவெளி"/>
+<string key="simStrings" value="ஊசல் செய்முறைச் சாலை"/>
+<string key="noneFriction" value="ஏதும் இல்லை"/>
+<string key="total" value="மொத்தம்"/>
+<string key="mass2" value="நிறை 2"/>
+<string key="pendulum" value="ஊசல்"/>
+<string key="startPauseStopwatch" value="தொடக்கு/சற்று நிறுத்து"/>
+<string key="show" value="காட்டு"/>
+<string key="length2" value="நீளம் 2"/>
+<string key="photoGateTimer" value="ஒளிக்கதவ கால அளவி"/>
+<string key="thermal" value="வெப்ப"/>
+<string key="pausePlay" value="பொறு/இயக்கு"/>
+<string key="reset" value="மீளமை"/>
+<string key="mass" value="நிறை"/>
+<string key="quarterTime" value="1/4 நேரம்"/>
+<string key="KE" value="இயங்கு ஆற்றல்"/>
+<string key="gEqZero" value="புவியீர்ப்பு = 0"/>
+<string key="length_unit" value="மீ"/>
+<string key="noneEnergy" value="ஏதும் இல்லை"/>
+<string key="simTitle" value="ஊசல் செய்முறைச் சாலை"/>
+<string key="otherTools" value="மற்ற கருவிகள்"/>
+<string key="angleUnit" value="பாகை"/>
+<string key="paused" value="நின்றுள்ளது"/>
+<string key="sixteenthTime" value="1/16 நேரம்"/>
+</SimStrings>

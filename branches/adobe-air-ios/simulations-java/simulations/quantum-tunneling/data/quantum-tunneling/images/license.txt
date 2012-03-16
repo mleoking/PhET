@@ -1,0 +1,11 @@
+###################################
+# License info for quantum-tunneling
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+arrowL2R.png author=PhET 
+arrowL2RSelected.png author=PhET 
+arrowR2L.png author=PhET 
+arrowR2LSelected.png author=PhET 
+zoomIn.gif author=PhET notes=chris 
+zoomOut.gif author=PhET notes=chris 

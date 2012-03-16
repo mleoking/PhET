@@ -1,0 +1,69 @@
+
+
+General rules about how the biomolecules interact with one another.
+
+Summary: Here is what a biomolecule does at each time step:
+- Moves.
+- Updates its "attachment state", which determine how it will move during the
+  subsequent time step.
+
+At each step in time, a biomolecule first moves based on its current motion
+strategy.  After this, it looks at its attachment state and decides whether
+to seek out any new attachments.  If it is available for attachments, it will
+poll other molecules that it could potentially attach to in order to see if
+there are attachment sites that are open and are close enough. It does this by
+"proposing an attachment" to the other biomolecule(s).  The convention for this
+is that each biomolecule has a method called "considerProposalFrom", and the
+type signature specifies the proposer.  If a proposal is accepted, an
+attachment site is returned, and the proposing biomolecule will start moving
+toward that site.
+
+Biomolecules propose attachments to other biomolecules.  If the biomolecule
+that receives the proposal has an attachment site that is close enough and is
+open, it will generally accept the attachment request.  Once a proposal is
+accepted, the proposing molecule starts moving toward the attachment site on
+the accepting molecule.
+
+Motion Strategies
+
+The motion of each biomolecule is controlled by a motion strategy, which is a
+class that essentially decides where the molecule should go next in model
+space at each time step.  For the most part, the motion strategy is set by the
+molecule's attachment state machine (more on attachment state machines below).
+
+Question to self: Are there places where the ASM doesn't set the motion
+strategy and, if so, why is it necessary to do this?
+
+Attachment Sites
+
+Attachment sites can only have one biomolecule attached at a time.
+
+In each attachment that occurs, there is an attacher and an attachee.
+
+Attachment sites do not specify the tip of biomolecule that can attach to it.
+It is up to the individual biomolecules to keep track of which attachment sites
+are appropriate for which biomolecules.  This was done because it is possible
+in some cases to have one attachment site pertain to a number of different
+types of biomolecules.
+
+12/12/2011 - Here's a thought: Should there be two attachment sites involved
+in each attachment?  Then, when they overlap one another, the attachment has
+been made.  This way, the attacher and the attachee can behave more
+symmetrically than they currently do.
+
+Attachment State Machine
+
+There are many aspects of the way that biomolecules interact with each other
+that is common to all or most of the biomolecules.  In order to enable reuse
+of the code that controls this behavior, the design encapsulates the attachment
+behavior in an Attachment State Machine.  Each mobile biomolecule has one of
+of these.  The state machine is designed so that each subclass of mobile
+biomolecule can use as much or as little of the default attachment behavior as
+needed.
+
+
+
+
+Note about something to add: I should say that the desired behavior is
+often intended to emerge from the model, and is not explicitly directed.
+
