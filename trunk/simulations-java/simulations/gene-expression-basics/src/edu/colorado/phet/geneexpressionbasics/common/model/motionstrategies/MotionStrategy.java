@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
  * Base class for motion strategies that can be used to exhibit different sorts
@@ -111,5 +112,9 @@ public abstract class MotionStrategy {
 
     protected static ImmutableVector2D getVectorTowardsDestination( Point2D currentLocation, Point2D destination, double velocity ) {
         return new ImmutableVector2D( currentLocation, destination ).getInstanceOfMagnitude( velocity );
+    }
+
+    protected static boolean rangesOverlap( DoubleRange r1, DoubleRange r2 ) {
+        return !( r1.getMin() > r2.getMax() || r1.getMax() < r2.getMin() );
     }
 }
