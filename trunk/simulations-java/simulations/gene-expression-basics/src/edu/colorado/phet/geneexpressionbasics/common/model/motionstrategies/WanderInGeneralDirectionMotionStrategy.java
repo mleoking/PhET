@@ -63,8 +63,10 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
     }
 
     @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
+        // The 3D version of this motion strategy doesn't move in the z
+        // direction.  This may change some day.
         Point2D nextLocation2D = getNextLocation( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ), shape, dt );
-        return new Point3D.Double( nextLocation2D.getX(), nextLocation2D.getY(), 0 );
+        return new Point3D.Double( nextLocation2D.getX(), nextLocation2D.getY(), currentLocation.getZ() );
     }
 
     private double generateDirectionChangeCountdownValue() {
