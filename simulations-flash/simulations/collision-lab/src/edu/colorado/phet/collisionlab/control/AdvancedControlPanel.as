@@ -1,4 +1,4 @@
-package edu.colorado.phet.collisionlab.control {
+﻿package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.view.MainView;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
@@ -67,7 +67,7 @@ public class AdvancedControlPanel extends ControlPanel {
 
     override public function get sub_background(): MovieClip { return background; }
 
-    override public function get sub_cmIcon(): CenterOfMass { return cmIcon; }
+//    override public function get sub_cmIcon(): String { return cmIcon; }
 
     public function get sub_oneD_rb(): RadioButton { return oneD_rb; }
 

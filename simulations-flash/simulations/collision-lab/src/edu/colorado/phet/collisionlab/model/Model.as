@@ -814,8 +814,8 @@ public class Model {
             sumXiMi += m * x;
             sumYiMi += m * y;
         }
-        this.CM.x = sumXiMi / totMass;
-        this.CM.y = sumYiMi / totMass;
+//        this.CM.x = sumXiMi / totMass;
+//        this.CM.y = sumYiMi / totMass;
     }//end setCenterOfMass();
 
     private function playClickSound(): void {

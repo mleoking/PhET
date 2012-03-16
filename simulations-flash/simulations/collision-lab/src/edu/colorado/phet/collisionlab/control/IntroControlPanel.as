@@ -47,7 +47,7 @@ public class IntroControlPanel extends ControlPanel {
 
     override public function get sub_background(): MovieClip { return background; }
 
-    override public function get sub_cmIcon(): CenterOfMass { return cmIcon; }
+//    override public function get sub_cmIcon(): CenterOfMass { return cmIcon; }
 
     override public function get sub_showVelocities_cb(): CheckBox { return showVelocities_cb; }
 
