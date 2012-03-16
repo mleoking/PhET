@@ -14,7 +14,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -52,14 +53,14 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
         addChild( new PlacementHintNode( mvt, messengerRna.mRnaDestroyerPlacementHint ) );
 
         // Add the label. This fades in during synthesis, then fades out.
-        final FadeLabel label = new FadeLabel( "mRNA", false );
+        final FadeLabel label = new FadeLabel( "mRNA", false, messengerRna.existenceStrength );
         addChild( label );
         messengerRna.beingSynthesized.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean beingSynthesized ) {
-                if ( beingSynthesized ){
+                if ( beingSynthesized ) {
                     label.startFadeIn( 3000 ); // Fade time chosen empirically.
                 }
-                else if ( !beingSynthesized ){
+                else if ( !beingSynthesized ) {
                     label.startFadeOut( 1000 ); // Fade time chosen empirically.
                 }
             }
@@ -180,53 +181,66 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
 
         private double opacity;
         private double fadeDelta;
+        private final Property<Double> existenceStrength;
 
-        public FadeLabel( String text, boolean initiallyVisible ) {
-            final PNode label = new PText( text ){{ setFont( FONT ); }};
+        public FadeLabel( String text, boolean initiallyVisible, final Property<Double> existenceStrength ) {
+            this.existenceStrength = existenceStrength;
+            final PNode label = new PText( text ) {{ setFont( FONT ); }};
             addChild( label );
-            if ( !initiallyVisible ){
+            if ( !initiallyVisible ) {
                 setTransparency( 0 );
                 opacity = 0;
             }
-            else{
+            else {
                 opacity = 1;
             }
 
             // Create the timers that will be used for fading in and out.
             fadeInTimer = new Timer( TIMER_DELAY, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    opacity = Math.min( opacity + fadeDelta, 1 );
-                    setTransparency( (float) opacity );
-                    if (opacity >= 1 ){
+                    opacity = Math.min( opacity + fadeDelta, existenceStrength.get() );
+                    updateTransparency();
+                    if ( opacity >= 1 ) {
                         fadeInTimer.stop();
                     }
                 }
             } );
             fadeOutTimer = new Timer( TIMER_DELAY, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    opacity = Math.max( opacity - fadeDelta, 0 );
-                    setTransparency( (float) opacity );
-                    if (opacity <= 0 ){
+                    opacity = Math.min( Math.max( opacity - fadeDelta, 0 ), existenceStrength.get() );
+                    updateTransparency();
+                    if ( opacity <= 0 ) {
                         fadeOutTimer.stop();
                     }
                 }
             } );
+
+            // Update if existence strength changes.
+            existenceStrength.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateTransparency();
+                }
+            } );
         }
 
-        public void startFadeIn( double time ){
-            if ( fadeOutTimer.isRunning() ){
+        public void startFadeIn( double time ) {
+            if ( fadeOutTimer.isRunning() ) {
                 fadeOutTimer.stop();
             }
             fadeDelta = TIMER_DELAY / time;
             fadeInTimer.restart();
         }
 
-        public void startFadeOut( double time ){
-            if ( fadeInTimer.isRunning() ){
+        public void startFadeOut( double time ) {
+            if ( fadeInTimer.isRunning() ) {
                 fadeInTimer.stop();
             }
             fadeDelta = TIMER_DELAY / time;
             fadeOutTimer.restart();
+        }
+
+        private void updateTransparency() {
+            setTransparency( (float) Math.min( existenceStrength.get(), opacity ) );
         }
     }
 }
