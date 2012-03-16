@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 
 /**
  * Base class for motion strategies that can be used to exhibit different sorts
@@ -114,7 +115,54 @@ public abstract class MotionStrategy {
         return new ImmutableVector2D( currentLocation, destination ).getInstanceOfMagnitude( velocity );
     }
 
-    protected static boolean rangesOverlap( DoubleRange r1, DoubleRange r2 ) {
+    // Utility function for determining if ranges overlap.
+    private static boolean rangesOverlap( DoubleRange r1, DoubleRange r2 ) {
         return !( r1.getMin() > r2.getMax() || r1.getMax() < r2.getMin() );
+    }
+
+    /**
+     * Utility function for determining the distance between two ranges.
+     *
+     * @param r1
+     * @param r2
+     * @return
+     */
+    private static double calculateDistanceBetweenRanges( DoubleRange r1, DoubleRange r2 ) {
+        double distance;
+        if ( rangesOverlap( r1, r2 ) ) {
+            // Ranges overlap, so there is no distance between them.
+            distance = 0;
+        }
+        else if ( r1.getMax() < r2.getMin() ) {
+            distance = r2.getMin() - r1.getMax();
+        }
+        else {
+            distance = r1.getMin() - r2.getMax();
+        }
+        return distance;
+    }
+
+    /**
+     * Limit the Z position so that biomolecules don't look transparent when
+     * on top of the DNA, and become less transparent as they get close so
+     * that they don't appear to pop forward when connected to the DNA (or just
+     * wandering above it).
+     *
+     * @param shape
+     * @param positionXY
+     * @return
+     */
+    protected static double getMinZ( Shape shape, Point2D positionXY ) {
+        DoubleRange shapeYRange = new DoubleRange( positionXY.getY() - shape.getBounds2D().getHeight() / 2,
+                                                   positionXY.getY() + shape.getBounds2D().getHeight() / 2 );
+        DoubleRange dnaYRange = new DoubleRange( DnaMolecule.Y_POS - DnaMolecule.DIAMETER / 2, DnaMolecule.Y_POS + DnaMolecule.DIAMETER / 2 );
+        double minZ = -1;
+        double distanceToEdgeOfDna = calculateDistanceBetweenRanges( shapeYRange, dnaYRange );
+        if ( distanceToEdgeOfDna < shapeYRange.getLength() / 2 ) {
+            // Limit the z-dimension so that the biomolecule is at the front
+            // when over the DNA and make a gradient as it gets close to the DNA.
+            minZ = -distanceToEdgeOfDna / ( shapeYRange.getLength() / 2 );
+        }
+        return minZ;
     }
 }

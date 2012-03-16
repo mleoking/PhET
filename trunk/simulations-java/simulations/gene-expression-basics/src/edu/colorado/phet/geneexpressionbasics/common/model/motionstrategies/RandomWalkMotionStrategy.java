@@ -10,9 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 
 /**
  * This class defines a motion strategy that produces a random walk, meaning
@@ -32,7 +30,7 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
     private static final Random RAND = new Random();
 
     private double directionChangeCountdown = 0;
-    private ImmutableVector2D currentXYMotionVector = new Vector2D( 0, 0 );
+    private ImmutableVector2D currentMotionVector2D = new Vector2D( 0, 0 );
     private double currentZVelocity = 0;
 
     public RandomWalkMotionStrategy( Property<MotionBounds> motionBoundsProperty ) {
@@ -54,7 +52,7 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
             // Time to change direction.
             double newXYVelocity = MIN_XY_VELOCITY + RAND.nextDouble() * ( MAX_XY_VELOCITY - MIN_XY_VELOCITY );
             double newXYAngle = Math.PI * 2 * RAND.nextDouble();
-            currentXYMotionVector = ImmutableVector2D.createPolar( newXYVelocity, newXYAngle );
+            currentMotionVector2D = ImmutableVector2D.createPolar( newXYVelocity, newXYAngle );
             currentZVelocity = MIN_Z_VELOCITY + RAND.nextDouble() * ( MAX_Z_VELOCITY - MIN_Z_VELOCITY );
             currentZVelocity = RAND.nextBoolean() ? -currentZVelocity : currentZVelocity;
             // Reset the countdown timer.
@@ -63,30 +61,23 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 
         // Make sure that current motion will not cause the model element to
         // move outside of the motion bounds.
-        if ( !motionBounds.testIfInMotionBounds( shape, currentXYMotionVector, dt ) ) {
+        if ( !motionBounds.testIfInMotionBounds( shape, currentMotionVector2D, dt ) ) {
             // The current motion vector would take this element out of bounds,
             // so it needs to "bounce".
-            currentXYMotionVector = getMotionVectorForBounce( shape, currentXYMotionVector, dt, MAX_XY_VELOCITY );
+            currentMotionVector2D = getMotionVectorForBounce( shape, currentMotionVector2D, dt, MAX_XY_VELOCITY );
             // Reset the timer.
             directionChangeCountdown = generateDirectionChangeCountdownValue();
         }
 
-        // To prevent odd-looking situations, nothing is allowed to be
-        // transparent when over the DNA strand.
-        DoubleRange shapeYRange = new DoubleRange( currentLocation.getY() - shape.getBounds2D().getHeight() / 2,
-                                                   currentLocation.getY() + shape.getBounds2D().getHeight() / 2 );
-        DoubleRange dnaYRange = new DoubleRange( DnaMolecule.Y_POS - DnaMolecule.DIAMETER / 2, DnaMolecule.Y_POS + DnaMolecule.DIAMETER / 2 );
-        double minZ = -1;
-        if ( rangesOverlap( shapeYRange, dnaYRange ) ) {
-            // Can't be transparent.
-            minZ = 0;
-        }
+        // To prevent odd-looking situations, the Z direction is limited so
+        // that biomolecules don't appear transparent when on top of the DNA
+        // molecule.
+        double minZ = getMinZ( shape, new Point2D.Double( currentLocation.getX(), currentLocation.getY() ) );
 
-        // Calculate the next location based on the motion vector.
-        Point3D nextLocation = new Point3D.Double( currentLocation.getX() + currentXYMotionVector.getX() * dt,
-                                                   currentLocation.getY() + currentXYMotionVector.getY() * dt,
-                                                   MathUtil.clamp( minZ, currentLocation.getZ() + currentZVelocity * dt, 0 ) );
-        return nextLocation;
+        // Calculate the next location based on current motion.
+        return new Point3D.Double( currentLocation.getX() + currentMotionVector2D.getX() * dt,
+                                   currentLocation.getY() + currentMotionVector2D.getY() * dt,
+                                   MathUtil.clamp( minZ, currentLocation.getZ() + currentZVelocity * dt, 0 ) );
     }
 
     private double generateDirectionChangeCountdownValue() {
