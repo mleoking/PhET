@@ -19,6 +19,7 @@
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="games" />
     <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module" module-name="chemistry" />
   </component>
 </module>
 
