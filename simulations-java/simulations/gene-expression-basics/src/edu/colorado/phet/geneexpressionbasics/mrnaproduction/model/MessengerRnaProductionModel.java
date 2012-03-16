@@ -58,7 +58,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 8;
 
     // Number of RNA polymerase molecules present.
-    public static final int RNA_POLYMERASE_COUNT = 2;
+    public static final int RNA_POLYMERASE_COUNT = 7;
 
     // etc.
     private static final Random RAND = new Random();
@@ -319,8 +319,8 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         if ( numPolymeraseOnRightSide > RNA_POLYMERASE_COUNT / 2 && furthestRightPolymerase != null ) {
             // Teleport the polymerase to a random location near the point
             // where transcription starts.
-            double xPos = -1000 + RAND.nextDouble() * 900;
-            double yPos = 200 + RAND.nextDouble() * 200;
+            double xPos = dnaMolecule.getBasePairXOffsetByIndex( dnaMolecule.getGenes().get( 0 ).getTranscribedRegion().getMin() ) + ( RAND.nextDouble() - 0.5 ) * 2000;
+            double yPos = 700;
             furthestRightPolymerase.forceDetach();
             furthestRightPolymerase.setPosition3D( new Point3D.Double( xPos, yPos, -1 ) );
         }
