@@ -10,7 +10,9 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 
 /**
  * This class defines a motion strategy that produces a random walk, meaning
@@ -69,10 +71,21 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
             directionChangeCountdown = generateDirectionChangeCountdownValue();
         }
 
+        // To prevent odd-looking situations, nothing is allowed to be
+        // transparent when over the DNA strand.
+        DoubleRange shapeYRange = new DoubleRange( currentLocation.getY() - shape.getBounds2D().getHeight() / 2,
+                                                   currentLocation.getY() + shape.getBounds2D().getHeight() / 2 );
+        DoubleRange dnaYRange = new DoubleRange( DnaMolecule.Y_POS - DnaMolecule.DIAMETER / 2, DnaMolecule.Y_POS + DnaMolecule.DIAMETER / 2 );
+        double minZ = -1;
+        if ( rangesOverlap( shapeYRange, dnaYRange ) ) {
+            // Can't be transparent.
+            minZ = 0;
+        }
+
         // Calculate the next location based on the motion vector.
         Point3D nextLocation = new Point3D.Double( currentLocation.getX() + currentXYMotionVector.getX() * dt,
                                                    currentLocation.getY() + currentXYMotionVector.getY() * dt,
-                                                   MathUtil.clamp( -1, currentLocation.getZ() + currentZVelocity * dt, 0 ) );
+                                                   MathUtil.clamp( minZ, currentLocation.getZ() + currentZVelocity * dt, 0 ) );
         return nextLocation;
     }
 
