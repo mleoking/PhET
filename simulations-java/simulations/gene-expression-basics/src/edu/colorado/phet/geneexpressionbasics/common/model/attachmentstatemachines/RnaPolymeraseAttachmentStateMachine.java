@@ -224,7 +224,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     }
 
     protected class AttachedAndTranscribingState extends AttachmentState {
-        private static final double TRANSCRIPTION_VELOCITY = 750; // In picometers per second.
+        private static final double TRANSCRIPTION_VELOCITY = 1000; // In picometers per second.
         private final Point2D endOfGene = new Point2D.Double();
         private MessengerRna messengerRna;
 
