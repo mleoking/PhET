@@ -253,7 +253,7 @@ public class PhotoelectricModel extends DischargeLampModel {
      * @return The current that will hit the cathode based on the electrons that are currently leaving
      *         the anode
      */
-    public double getCurrent() {
+    @Override public double getCurrent() {
         return getCurrentForVoltage( getVoltage() );
     }
 
@@ -284,6 +284,7 @@ public class PhotoelectricModel extends DischargeLampModel {
             electronsPerSecondToAnode = getStoppingVoltage() < retardingVoltage ? electronsPerSecondFromTarget : 0;
         }
         // #3281: Any number of electrons <1 is effectively zero. This presents non-zero current readings when no electrons are reaching the anode.
+        System.out.println( "electronsPerSecondToAnode = " + electronsPerSecondToAnode );
         if ( electronsPerSecondToAnode < 1 ) {
             electronsPerSecondToAnode = 0;
         }
