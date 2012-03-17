@@ -32,7 +32,7 @@ import java.util.Random;
 /**
  * PhotoelectricTarget
  * <p/>
- * The plate in the photoelectric model that is bombarded with light. It is primarilly
+ * The plate in the photoelectric model that is bombarded with light. It is primarily
  * an ElectronSource, but it also adds an ElectronSink to the model that removes electrons
  * that are bent back into it when the battery voltage is high enough to prevent the
  * electrons emitted from the target from reaching the anode.
@@ -72,7 +72,7 @@ public class PhotoelectricTarget extends Plate {
 
     private Random random = new Random();
     // The line segment defined by the target
-    private Line2D line;
+    private final Line2D line;
     // The target material
     private DischargeLampElementProperties targetMaterial;
     // The strategy that determines the speed of emitted electrons
@@ -87,15 +87,6 @@ public class PhotoelectricTarget extends Plate {
     public PhotoelectricTarget( DischargeLampModel model, Point2D p1, Point2D p2 ) {
         super( model, model, p1, p2 );
         line = new Line2D.Double( p1, p2 );
-    }
-
-    /**
-     * @param p1
-     * @param p2
-     */
-    public void setEndpoints( Point2D p1, Point2D p2 ) {
-        line = new Line2D.Double( p1, p2 );
-        super.setEndpoints( new Point2D[]{p1, p2} );
     }
 
     /**
