@@ -27,7 +27,7 @@ public class PhotoelectricModelUtil {
      * Discovered while investigating #2989.
      */
     public static double intensityToPhotonRate( double intensity, double wavelength ) {
-        System.out.println( "PhotoelectricModelUtil.intensityToPhotonRate intensity=" + intensity + " wavelength=" + wavelength );
+//        System.out.println( "PhotoelectricModelUtil.intensityToPhotonRate intensity=" + intensity + " wavelength=" + wavelength );
         return intensity * wavelength / PhotoelectricConfig.MAX_WAVELENGTH;
     }
 
