@@ -28,6 +28,8 @@ import mx.core.UIComponent;
 
 import org.aswing.JAccordion;
 
+//array of button which control and display spectrum of modes
+//two display modes: vertitcal and horizontal
 public class ButtonArrayPanel extends Canvas{
 
     private var myMainView: MainView;
@@ -180,16 +182,31 @@ public class ButtonArrayPanel extends Canvas{
     //color buttons to indicate amplitude of mode
     public function setButtonColors():void{
         var N:int = this.myModel2.N;
+        var polarizationX:Boolean;    //true if polarization is horizontal
+        if(this.myModel2.xModes){
+            polarizationX = true;
+        }else{
+            polarizationX = false;
+        }
         var springLength:Number = 1/(N + 1);
         var largeAmplitude = 0.3*springLength;
         for(var i: int = 1; i <= N; i++ ){
             for( var j: int = 1; j <= N; j++ ){
-                var Xamplitude = this.myModel2.getModeAmpliX( i, j );
-                var Yamplitude = this.myModel2.getModeAmpliY( i, j );
-                var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/largeAmplitude ));
-                var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/largeAmplitude ));
+                //var Xamplitude = this.myModel2.getModeAmpliX( i, j );
+                //var Yamplitude = this.myModel2.getModeAmpliY( i, j );
+                var amplitude:Number;  //amplitude of mode (i,j)
+                if(polarizationX){
+                    amplitude = this.myModel2.getModeAmpliX( i, j );
+                }else{
+                    amplitude = this.myModel2.getModeAmpliY( i, j );
+                }
+                //var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/largeAmplitude ));
+                //var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/largeAmplitude ));
+                var colorSize:int = Math.round( 16 * Math.min( 1, amplitude/largeAmplitude ));
                 //trace("ButtonArrayPanel.setButtonColors() called. i ="+i+"  j="+j+"  colorX="+colorX+"  colorY="+colorY);
-                if( this.myModel2.xModes ){
+                this.button_arr[i][j].changeBackgroundHeight( colorSize );
+                //trace("amplitude=" + amplitude + "  polarizationX="+polarizationX + "   i=" + i + "  j=" + j + "   colorSize=" + colorSize);
+                /*if( this.myModel2.xModes ){
                     //this.button_arr[i][j].setLabel( colorX.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorX );
                     //this.button_arr[i][j].changeColor( this.color_arr[ colorX ]);
@@ -197,7 +214,7 @@ public class ButtonArrayPanel extends Canvas{
                     //this.button_arr[i][j].setLabel( colorY.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorY );
                     //this.button_arr[i][j].changeColor( this.color_arr[ colorY ]);
-                }
+                }*/
             }
         }
     }//end setButtonColors();

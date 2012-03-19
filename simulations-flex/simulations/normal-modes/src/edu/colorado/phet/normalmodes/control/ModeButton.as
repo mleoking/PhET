@@ -19,11 +19,13 @@ import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
 import mx.utils.object_proxy;
-
+//button which displays amplitude of x,y 2D mode by filling with color
+//amount of color fill indicates amplitude of mode
 public class ModeButton extends Sprite{
     private var myModel2; Model2;
-    private var rIndex:int;
-    private var sIndex:int;
+    private var rIndex:int;                //r-Index = x mode number
+    private var sIndex:int;                //s-Index = y mode number
+    //private var polarization:String;       //polarization = "vertical" or "horizontal" indicates which polarization the button displays
     private var colorLayer:Sprite;         //bottom layer of sprite is a solid color
     private var colorLayerMask:Sprite;     //mask for colorLayer.  mask is shape of rounded rect button
     private var nMax;                      //number of different color layers
@@ -31,6 +33,8 @@ public class ModeButton extends Sprite{
     private var sizeInPix:Number;
     private var buttonColor:Number;
     private var fullColor:Number;
+    private var fullColorV:Number;        //color fill for vertical mode
+    private var fullColorH:Number;        //color fill for horizontal mode
     private var emptyColor:Number;
     private var myColorTransform:ColorTransform;   //to change color of colorLayer
     private var modeXColor:Number;                 //color corresponding to x-polarization mode
@@ -47,7 +51,9 @@ public class ModeButton extends Sprite{
         this.sIndex = jIndx;
         this.sizeInPix = sizeInPix;
         //this.buttonColor = 0xffffff ;      //default color
-        this.fullColor = 0x00ff00;
+        this.fullColor;// = 0x00ff00;
+        this.fullColorV = 0x00ff00;          //green for vertical
+        this.fullColorH = 0x8888ff;          //light blue for horizontal
         this.emptyColor = 0xffffff;
         myColorTransform = new ColorTransform();
         this.nMax = 16
@@ -70,6 +76,7 @@ public class ModeButton extends Sprite{
         this.addChild( this.trimAndLabelLayer );
         this.trimAndLabelLayer.addChild(this.label_txt);
     }//end constructor
+
 
     public function drawEmptyButton():void{
         var w:int = this.sizeInPix;       //width and height of button in pixels
@@ -127,9 +134,14 @@ public class ModeButton extends Sprite{
         //this.colorLayer.transform.colorTransform = this.myColorTransform;
     }
 
-    //draw colorLayer to height indicating amplitude of mode
-    public function changeBackgroundHeight( inputHeight:int ):void{
+    //draw colorLayer to height(for xMode) or width(yMode) indicating amplitude of mode
+    public function changeBackgroundHeight( inputHeight:int):void{
         //this.colorLayer = this.colorLayer_arr[ inputHeight ];
+        if(this.myModel2.xModes){
+            this.fullColor = this.fullColorH;
+        } else{
+            this.fullColor = this.fullColorV;
+        }
         var w:int = this.sizeInPix;
         var hMax:int = this.sizeInPix;
         var h:Number = inputHeight*hMax/this.nMax;
