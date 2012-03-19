@@ -92,7 +92,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
 
         // Add some layers for enforcing some z-order relationships needed in
         // order to keep things looking good.
-        PNode dnaLayer = new PNode();
+        final PNode dnaLayer = new PNode();
         modelRootNode.addChild( dnaLayer );
         final PNode biomoleculeToolBoxLayer = new PNode();
         modelRootNode.addChild( biomoleculeToolBoxLayer );
@@ -213,11 +213,30 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
             public void apply( final MobileBiomolecule addedBiomolecule ) {
                 final PNode biomoleculeNode;
                 biomoleculeNode = new MobileBiomoleculeNode( mvt, addedBiomolecule );
-                topBiomoleculeLayer.addChild( biomoleculeNode );
+                // Add a listener that moves the child on to a lower layer when
+                // it connects to the DNA so that we see the desired overlap
+                // behavior.
+                addedBiomolecule.attachedToDna.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean attachedToDna ) {
+                        if ( attachedToDna ) {
+                            topBiomoleculeLayer.removeChild( biomoleculeNode );
+                            dnaLayer.addChild( biomoleculeNode );
+                        }
+                        else {
+                            dnaLayer.removeChild( biomoleculeNode );
+                            topBiomoleculeLayer.addChild( biomoleculeNode );
+                        }
+                    }
+                } );
                 model.mobileBiomoleculeList.addElementRemovedObserver( new VoidFunction1<MobileBiomolecule>() {
                     public void apply( MobileBiomolecule removedBiomolecule ) {
                         if ( removedBiomolecule == addedBiomolecule ) {
-                            topBiomoleculeLayer.removeChild( biomoleculeNode );
+                            if ( topBiomoleculeLayer.isAncestorOf( biomoleculeNode ) ) {
+                                topBiomoleculeLayer.removeChild( biomoleculeNode );
+                            }
+                            else if ( dnaLayer.isAncestorOf( biomoleculeNode ) ) {
+                                dnaLayer.removeChild( biomoleculeNode );
+                            }
                         }
                     }
                 } );
