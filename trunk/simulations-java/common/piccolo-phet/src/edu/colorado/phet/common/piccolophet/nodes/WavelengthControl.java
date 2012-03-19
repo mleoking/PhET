@@ -449,18 +449,18 @@ public class WavelengthControl extends PhetPNode {
             }
             else {
                 // Input was a number, but it was out of range
-                revertTextField( ParameterValues.rangeError, text );
+                revertTextField( commitAction, ParameterValues.rangeError, text );
             }
         }
         catch ( NumberFormatException nfe ) {
             // input was not a number
-            revertTextField( ParameterValues.numberFormatException, text );
+            revertTextField( commitAction, ParameterValues.numberFormatException, text );
         }
     }
 
     // Reverts the text field when it contains bogus input
-    private void revertTextField( IParameterValue errorType, String bogusValue ) {
-        sendCorrectedMessage( errorType, bogusValue, wavelength );
+    private void revertTextField( IParameterValue commitAction, IParameterValue errorType, String bogusValue ) {
+        sendCorrectedMessage( commitAction, errorType, bogusValue, wavelength );
         badInput();
         valueDisplay.setValue( wavelength );
     }
@@ -642,7 +642,7 @@ public class WavelengthControl extends PhetPNode {
                             setWavelength( newWavelength );
                         }
                         else {
-                            sendCorrectedMessage( ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
+                            sendCorrectedMessage( ParameterValues.upKey, ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
                             badInput();
                         }
                     }
@@ -653,7 +653,7 @@ public class WavelengthControl extends PhetPNode {
                             setWavelength( newWavelength );
                         }
                         else {
-                            sendCorrectedMessage( ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
+                            sendCorrectedMessage( ParameterValues.downKey, ParameterValues.rangeError, String.valueOf( newWavelength ), wavelength );
                             badInput();
                         }
                     }
@@ -740,9 +740,12 @@ public class WavelengthControl extends PhetPNode {
     }
 
     // Invalid input is encountered and corrected in the text field.
-    protected void sendCorrectedMessage( IParameterValue errorType, String bogusValue, double correctedValue ) {
+    protected void sendCorrectedMessage( IParameterValue commitAction, IParameterValue errorType, String bogusValue, double correctedValue ) {
         sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCorrected,
-                         parameterSet( ParameterKeys.errorType, errorType ).add( ParameterKeys.value, bogusValue ).add( ParameterKeys.correctedValue, correctedValue ) );
+                         parameterSet( ParameterKeys.errorType, errorType ).
+                                 add( ParameterKeys.commitAction, commitAction ).
+                                 add( ParameterKeys.value, bogusValue ).
+                                 add( ParameterKeys.correctedValue, correctedValue ) );
     }
 
     // Simple test, see TestWavelengthControl for a more extensive test.
