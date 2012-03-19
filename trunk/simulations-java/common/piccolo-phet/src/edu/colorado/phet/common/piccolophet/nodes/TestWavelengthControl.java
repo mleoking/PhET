@@ -96,12 +96,7 @@ public class TestWavelengthControl extends JFrame {
         // UV & IR with custom colors, fonts, etc
         final WavelengthControl c7 = new WavelengthControl( new UserComponent( "c7" ), true, TRACK_WIDTH, TRACK_HEIGHT, 90, 900, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
         c7.setWavelength( VisibleColor.MIN_WAVELENGTH );
-        c7.setTextFieldColors( c7.getWavelengthColor(), Color.BLACK );
-        c7.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                c7.setTextFieldColors( c7.getWavelengthColor(), Color.WHITE );
-            }
-        } );
+        c7.setTextFieldColors( Color.WHITE, Color.BLACK );
         c7.setUnitsForeground( Color.BLUE );
         c7.setTextFieldFont( new PhetFont( Font.PLAIN, 20 ) );
         c7.setUnitsFont( new PhetFont( Font.ITALIC, 14 ) );
