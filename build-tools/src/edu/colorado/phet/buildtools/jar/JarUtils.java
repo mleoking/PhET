@@ -120,12 +120,11 @@ public class JarUtils {
      * Reads SimulationProperties from a jar.
      *
      * @param jarFileName
-     * @param locale
      * @return SimulationProperties
      * @throws IOException
      */
     public static SimulationProperties readSimulationProperties( String jarFileName ) throws IOException {
-        return SimulationPropertiesFactory.createSimulationProperties( jarFileName );
+        return new SimulationProperties( JarUtils.readProperties( jarFileName, SimulationProperties.FILENAME ) );
     }
 
     /**

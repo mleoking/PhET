@@ -1,3 +1,4 @@
+3/19/12 #2486, delete obsolete code related to discovery of project and sim names
 # 2.13.00 (59150) Dec 7, 2011
 12/7/11 > add additional country-specific locales for Spanish (#3179)
 # 2.12.00 (57171) Oct 3, 2011
