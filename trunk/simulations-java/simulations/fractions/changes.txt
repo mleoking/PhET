@@ -1,3 +1,4 @@
+# 0.00.57 (62599) Mar 19, 2012
 Intro: Added different colors for horizontal bars, vertical bars and orange glasses
 # 0.00.56 (62498) Mar 12, 2012
 Intro & Equality Lab: Fixed: Out of memory exception when adding/subtracting lots of 3d cake slices
