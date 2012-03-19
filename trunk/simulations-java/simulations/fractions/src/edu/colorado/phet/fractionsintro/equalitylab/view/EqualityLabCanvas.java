@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionControlNode;
@@ -66,11 +67,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
         final double representationControlPanelScale = 0.80;
         final int padding = 7;
-        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getIcons( leftRepresentation, LIGHT_GREEN ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
+        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getIcons( leftRepresentation, Colors.LIGHT_GREEN ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getIcons( model.rightRepresentation, LIGHT_BLUE ), padding ) {{scale( representationControlPanelScale );}} ) {{
+        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getIcons( model.rightRepresentation, Colors.LIGHT_BLUE ), padding ) {{scale( representationControlPanelScale );}} ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
         }};
 
@@ -148,7 +149,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 @Override public void update() {
                     removeAllChildren();
                     final Shape shape = scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1 ).head().getShape();
-                    addChild( WaterGlassSetNode.createEmptyCellsNode( LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
+                    addChild( WaterGlassSetNode.createEmptyCellsNode( Colors.LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
                 }
             } );
             setChildrenPickable( false );
@@ -158,7 +159,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         //Experiment with making semi-transparent
 //        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, new Color( LIGHT_BLUE.getRed(), LIGHT_BLUE.getGreen(), LIGHT_BLUE.getBlue(), 200 ) ) {{
-        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, new Color( LIGHT_BLUE.getRed(), LIGHT_BLUE.getGreen(), LIGHT_BLUE.getBlue(), 200 ), true ) {{
+        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, new Color( Colors.LIGHT_BLUE.getRed(), Colors.LIGHT_BLUE.getGreen(), Colors.LIGHT_BLUE.getBlue(), 200 ), true ) {{
             setOffset( 385 + 200, 445 );
 
             //Can't interact with right-side representations
@@ -196,10 +197,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         //For water glasses
         final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
-        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
+        addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, Colors.LIGHT_GREEN, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, LIGHT_GREEN, true ) {{
+        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, Colors.LIGHT_GREEN, true ) {{
             setOffset( 385, 445 );
         }} );
     }
