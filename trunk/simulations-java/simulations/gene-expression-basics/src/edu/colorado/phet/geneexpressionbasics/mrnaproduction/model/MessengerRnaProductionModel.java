@@ -58,7 +58,8 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 8;
 
     // Number of RNA polymerase molecules present.
-    public static final int RNA_POLYMERASE_COUNT = 7;
+//    public static final int RNA_POLYMERASE_COUNT = 7;
+    public static final int RNA_POLYMERASE_COUNT = 1;
 
     // etc.
     private static final Random RAND = new Random();
@@ -141,9 +142,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         Rectangle2D polymeraseSize = new RnaPolymerase().getShape().getBounds2D();
         double recycleZoneCenterX = dnaMolecule.getBasePairXOffsetByIndex( dnaMolecule.getGenes().get( 0 ).getTranscribedRegion().getMin() ) + ( RAND.nextDouble() - 0.5 ) * 2000;
         double recycleZoneCenterY = DnaMolecule.Y_POS + polymeraseSize.getHeight() * 1.5;
-        polymeraseRecycleReturnBounds = new Rectangle2D.Double( recycleZoneCenterX - polymeraseSize.getWidth() * 3,
+        polymeraseRecycleReturnBounds = new Rectangle2D.Double( recycleZoneCenterX - polymeraseSize.getWidth() * 2,
                                                                 recycleZoneCenterY - polymeraseSize.getHeight() * 0.6,
-                                                                polymeraseSize.getWidth() * 6,
+                                                                polymeraseSize.getWidth() * 4,
                                                                 polymeraseSize.getHeight() * 1.2 );
 
         // Reset this model in order to set initial state.
