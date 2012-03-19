@@ -220,7 +220,12 @@ public class WavelengthControl extends PhetPNode {
                                                                      public void apply( Double wavelength ) {
                                                                          setWavelength( wavelength );
                                                                      }
-                                                                 } ) );
+                                                                 } ) {
+            // Add wavelength value to set of standard parameters
+            @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
+                return ParameterSet.parameterSet( ParameterKeys.wavelength, getWavelength() ).add( super.getParametersForAllEvents( event ) );
+            }
+        } );
 
         // Value Display interactivity
         valueDisplay.addInputEventListener( new CursorHandler() );

@@ -24,5 +24,6 @@ public enum ParameterKeys implements IParameterKey {
     ipAddress,
     mountainTime,
     errorType,
-    commitAction
+    commitAction,
+    wavelength
 }
