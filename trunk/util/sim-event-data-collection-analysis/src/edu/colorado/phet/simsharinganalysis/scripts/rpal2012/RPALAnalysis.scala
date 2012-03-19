@@ -125,9 +125,7 @@ object RPALAnalysis extends StateMachine[SimState] {
 
   def nextState(state: SimState, e: Entry) = {
 
-    //When the sim gets reset, go back to the first state
-    if ( e.messageType == "system" && e.component == "application" && e.action == "exited" ) SimState(e.time)
-    else if ( e.enabled == false ) state.copy(time = e.time)
+    if ( e.enabled == false ) state.copy(time = e.time)
     else if ( e.componentType == "tab" ) state.copy(tab = e.component match {
       case "sandwichShopTab" => 0
       case "realReactionTab" => 1
