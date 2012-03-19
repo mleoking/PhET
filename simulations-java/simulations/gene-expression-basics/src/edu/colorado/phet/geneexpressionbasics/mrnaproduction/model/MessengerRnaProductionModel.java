@@ -140,7 +140,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         // make transcription more likely to occur.
         Rectangle2D polymeraseSize = new RnaPolymerase().getShape().getBounds2D();
         double recycleZoneCenterX = dnaMolecule.getBasePairXOffsetByIndex( dnaMolecule.getGenes().get( 0 ).getTranscribedRegion().getMin() ) + ( RAND.nextDouble() - 0.5 ) * 2000;
-        double recycleZoneCenterY = DnaMolecule.Y_POS + new RnaPolymerase().getShape().getBounds2D().getHeight() * 3;
+        double recycleZoneCenterY = DnaMolecule.Y_POS + polymeraseSize.getHeight() * 1.5;
         polymeraseRecycleReturnBounds = new Rectangle2D.Double( recycleZoneCenterX - polymeraseSize.getWidth() * 3,
                                                                 recycleZoneCenterY - polymeraseSize.getHeight() * 0.6,
                                                                 polymeraseSize.getWidth() * 6,
