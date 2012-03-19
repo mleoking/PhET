@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +66,10 @@ public class RnaPolymerase extends MobileBiomolecule {
     // TODO: Temp for working out conformed shape of polymerase, remove before publication.
     public int seed = 0;
 
+    // Copy of the attachment state machine reference from base class, but
+    // with the more specific type.
+    private final RnaPolymeraseAttachmentStateMachine rnaPolymeraseAttachmentStateMachine;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -79,6 +84,7 @@ public class RnaPolymerase extends MobileBiomolecule {
 
     public RnaPolymerase( GeneExpressionModel model, Point2D position ) {
         super( model, createShape(), NOMINAL_COLOR );
+        rnaPolymeraseAttachmentStateMachine = (RnaPolymeraseAttachmentStateMachine) attachmentStateMachine;
         setPosition( position );
         seed = 259;
     }
@@ -104,6 +110,14 @@ public class RnaPolymerase extends MobileBiomolecule {
         return model.getDnaMolecule().considerProposalFrom( this );
     }
 
+    public void setRecycleMode( boolean recycleMode ) {
+        rnaPolymeraseAttachmentStateMachine.setRecycleMode( recycleMode );
+
+    }
+
+    public void setRecycleReturnZone( Rectangle2D recycleReturnZone ) {
+        rnaPolymeraseAttachmentStateMachine.setRecycleReturnZone( recycleReturnZone );
+    }
 
     private static Shape createShape() {
         // Shape is meant to look like illustrations in "The Machinery of

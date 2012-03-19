@@ -2,6 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.TeleportMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaSeparation;
@@ -55,6 +57,13 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // to detach completely from the DNA at a given time step.
     private double detachFromDnaThreshold = 1;
 
+    // A flag that tracks whether this state machine should use the "recycle
+    // mode", which causes the polymerase to return to some new location once
+    // it has completed transcription.
+    private boolean recycleMode = false;
+
+    private Rectangle2D recycleReturnZone = new Rectangle2D.Double( 0, 0, 0, 0 );
+
     /**
      * Constructor.
      *
@@ -73,6 +82,14 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
         // Initialize the attachment site used when transcribing.
         transcribingAttachmentSite.attachedOrAttachingMolecule.set( rnaPolymerase );
+    }
+
+    public void setRecycleMode( boolean recycleMode ) {
+        this.recycleMode = recycleMode;
+    }
+
+    public void setRecycleReturnZone( Rectangle2D recycleReturnZone ) {
+        this.recycleReturnZone.setFrame( recycleReturnZone );
     }
 
     // Subclass of the "attached" state for polymerase when it is attached to
@@ -306,10 +323,6 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             biomolecule.changeConformation( conformationalChangeAmount );
             dnaStrandSeparation.setProportionOfTargetAmount( conformationalChangeAmount );
             if ( conformationalChangeAmount == 0 ) {
-                // Change back to original conformation complete, time to detach.
-                asm.detach();
-                asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
-
                 // Remove the DNA separator, which makes the DNA close back up.
                 rnaPolymerase.getModel().getDnaMolecule().removeSeparation( dnaStrandSeparation );
 
@@ -319,6 +332,16 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 // Make sure that we enter the correct initial state upon the
                 // next attachment.
                 attachedState = attachedAndWanderingState;
+
+                // Detach from the DNA.
+                attachmentSite.attachedOrAttachingMolecule.set( null );
+                attachmentSite = null;
+                if ( recycleMode ) {
+                    setState( new BeingRecycledState( recycleReturnZone ) );
+                }
+                else {
+                    forceImmediateUnattachedButUnavailable();
+                }
             }
         }
 
@@ -327,6 +350,34 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             asm.biomolecule.movableByUser.set( false );
 
             conformationalChangeAmount = 1;
+        }
+    }
+
+    protected class BeingRecycledState extends AttachmentState {
+
+        private final Rectangle2D recycleReturnZone;
+
+        public BeingRecycledState( Rectangle2D recycleReturnZone ) {
+            this.recycleReturnZone = recycleReturnZone;
+        }
+
+        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
+
+            // Verify that state is consistent.
+            assert asm.attachmentSite == null;
+
+            if ( recycleReturnZone.contains( asm.biomolecule.getPosition() ) ) {
+                // The motion strategy has returned the biomolecule to the
+                // recycle return zone, so this state is complete.
+                asm.setState( unattachedAndAvailableState );
+            }
+        }
+
+        @Override public void entered( AttachmentStateMachine asm ) {
+            // Prevent user interaction.
+            asm.biomolecule.movableByUser.set( false );
+            // Set the motion to move back to the recyle zone.
+            asm.biomolecule.setMotionStrategy( new TeleportMotionStrategy( new ImmutableVector2D( 0, 1 ), recycleReturnZone, biomolecule.motionBoundsProperty ) );
         }
     }
 
