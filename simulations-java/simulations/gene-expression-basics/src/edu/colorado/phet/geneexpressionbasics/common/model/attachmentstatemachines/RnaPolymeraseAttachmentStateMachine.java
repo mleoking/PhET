@@ -14,6 +14,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.DriftThenTeleportMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaSeparation;
@@ -369,6 +370,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             if ( recycleReturnZone.contains( asm.biomolecule.getPosition() ) ) {
                 // The motion strategy has returned the biomolecule to the
                 // recycle return zone, so this state is complete.
+                asm.biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
                 asm.setState( unattachedAndAvailableState );
             }
         }

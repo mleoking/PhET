@@ -54,9 +54,9 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
     @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
         countdown -= dt;
         if ( countdown <= 0 && !destinationBounds.contains( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ) ) ) {
-            // Time to teleport.
+            // Time to teleport.  Should be at back of Z space when this occurs.
             Point2D destination2D = generateRandomLocationInBounds( destinationBounds, shape );
-            return new Point3D.Double( destination2D.getX(), destination2D.getY(), 0 );
+            return new Point3D.Double( destination2D.getX(), destination2D.getY(), -1 );
         }
         else {
             // Move in the wander direction, if it doesn't take us out of bounds.
