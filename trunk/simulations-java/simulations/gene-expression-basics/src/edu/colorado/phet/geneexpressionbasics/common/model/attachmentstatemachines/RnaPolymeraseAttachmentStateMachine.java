@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.DriftThenTeleportMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.TeleportMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaSeparation;
@@ -374,10 +374,15 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
+
             // Prevent user interaction.
             asm.biomolecule.movableByUser.set( false );
-            // Set the motion to move back to the recyle zone.
-            asm.biomolecule.setMotionStrategy( new TeleportMotionStrategy( new ImmutableVector2D( 0, 1 ), recycleReturnZone, biomolecule.motionBoundsProperty ) );
+
+            // Set the motion strategy that will move the polymerase clear of
+            // the DNA, then teleport it so a location within the specified bounds.
+            asm.biomolecule.setMotionStrategy( new DriftThenTeleportMotionStrategy( new ImmutableVector2D( 0, 1 ),
+                                                                                    recycleReturnZone,
+                                                                                    biomolecule.motionBoundsProperty ) );
         }
     }
 

@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public class TeleportMotionStrategy extends MotionStrategy {
+public class DriftThenTeleportMotionStrategy extends MotionStrategy {
 
     private static final double PRE_TELEPORT_TIME = 2; // In seconds.
     private static final double PRE_TELEPORT_VELOCITY = 100; // In picometers per second.
@@ -34,12 +34,12 @@ public class TeleportMotionStrategy extends MotionStrategy {
     private ImmutableVector2D velocityXY;
     private double velocityZ = 0;
 
-    public TeleportMotionStrategy( ImmutableVector2D wanderDirection, Rectangle2D destinationBounds, Property<MotionBounds> motionBoundsProperty ) {
+    public DriftThenTeleportMotionStrategy( ImmutableVector2D wanderDirection, Rectangle2D destinationBounds, Property<MotionBounds> motionBoundsProperty ) {
         this.destinationBounds = destinationBounds;
         this.wanderDirection = wanderDirection;
         motionBoundsProperty.addObserver( new VoidFunction1<MotionBounds>() {
             public void apply( MotionBounds motionBounds ) {
-                TeleportMotionStrategy.this.motionBounds = motionBounds;
+                DriftThenTeleportMotionStrategy.this.motionBounds = motionBounds;
             }
         } );
         velocityXY = wanderDirection.getScaledInstance( PRE_TELEPORT_VELOCITY );

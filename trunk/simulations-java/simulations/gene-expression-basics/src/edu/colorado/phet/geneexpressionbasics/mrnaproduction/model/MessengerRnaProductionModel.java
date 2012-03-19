@@ -112,6 +112,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // The one gene that is on this DNA strand.
     private final Gene gene;
 
+    // The bounds within which polymerase is moved when it is recycled.
+    private final Rectangle2D polymeraseRecycleReturnBounds;
+
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -131,6 +134,17 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
         // Set up a node that depicts motion bounds.  This is for debug.
         moleculeMotionBounds = getMotionBounds( new RnaPolymerase( this, new Point2D.Double( 0, 0 ) ) ).getBounds();
+
+        // Set up the area where RNA polymerase goes when it is recycled.
+        // This is near the beginning of the transcribed region in order to
+        // make transcription more likely to occur.
+        Rectangle2D polymeraseSize = new RnaPolymerase().getShape().getBounds2D();
+        double recycleZoneCenterX = dnaMolecule.getBasePairXOffsetByIndex( dnaMolecule.getGenes().get( 0 ).getTranscribedRegion().getMin() ) + ( RAND.nextDouble() - 0.5 ) * 2000;
+        double recycleZoneCenterY = DnaMolecule.Y_POS + new RnaPolymerase().getShape().getBounds2D().getHeight() * 3;
+        polymeraseRecycleReturnBounds = new Rectangle2D.Double( recycleZoneCenterX - polymeraseSize.getWidth() * 3,
+                                                                recycleZoneCenterY - polymeraseSize.getHeight() * 0.6,
+                                                                polymeraseSize.getWidth() * 6,
+                                                                polymeraseSize.getHeight() * 1.2 );
 
         // Reset this model in order to set initial state.
         reset();
@@ -258,6 +272,8 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             RnaPolymerase rnaPolymerase = new RnaPolymerase( this, new Point2D.Double( 0, 0 ) );
             rnaPolymerase.setPosition3D( generateInitialLocation3D( rnaPolymerase ) );
             rnaPolymerase.set3DMotionEnabled( true );
+            rnaPolymerase.setRecycleMode( true );
+            rnaPolymerase.setRecycleReturnZone( polymeraseRecycleReturnBounds );
             addMobileBiomolecule( rnaPolymerase, true );
         }
     }
@@ -298,32 +314,31 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         // code checks to see if more than half of the polymerase molecules are
         // in the right portion of the motion bounds and, if they are,
         // "teleports" one back to the area near the beginning of the gene.
-        double motionBoundsCenterX = getMotionBounds( new RnaPolymerase() ).getBounds().getBounds2D().getCenterX();
-        int numPolymeraseOnRightSide = 0;
-        RnaPolymerase furthestRightPolymerase = null;
-        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
-            if ( mobileBiomolecule instanceof RnaPolymerase && mobileBiomolecule.getPosition().getX
-                    () > motionBoundsCenterX ) {
-                numPolymeraseOnRightSide++;
-                if ( furthestRightPolymerase == null ) {
-                    if ( !mobileBiomolecule.attachedToDna.get() ) {
-                        furthestRightPolymerase = (RnaPolymerase) mobileBiomolecule;
-                    }
-                }
-                else if ( furthestRightPolymerase.getPosition().getX() < mobileBiomolecule.getPosition().getX() && !mobileBiomolecule.attachedToDna.get() ) {
-                    furthestRightPolymerase = (RnaPolymerase) mobileBiomolecule;
-                }
-            }
-        }
-
-        if ( numPolymeraseOnRightSide > RNA_POLYMERASE_COUNT / 2 && furthestRightPolymerase != null ) {
-            // Teleport the polymerase to a random location near the point
-            // where transcription starts.
-            double xPos = dnaMolecule.getBasePairXOffsetByIndex( dnaMolecule.getGenes().get( 0 ).getTranscribedRegion().getMin() ) + ( RAND.nextDouble() - 0.5 ) * 2000;
-            double yPos = 700;
-            furthestRightPolymerase.forceDetach();
-            furthestRightPolymerase.setPosition3D( new Point3D.Double( xPos, yPos, -1 ) );
-        }
+//        double motionBoundsCenterX = getMotionBounds( new RnaPolymerase() ).getBounds().getBounds2D().getCenterX();
+//        int numPolymeraseOnRightSide = 0;
+//        RnaPolymerase furthestRightPolymerase = null;
+//        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
+//            if ( mobileBiomolecule instanceof RnaPolymerase && mobileBiomolecule.getPosition().getX() > motionBoundsCenterX ) {
+//                numPolymeraseOnRightSide++;
+//                if ( furthestRightPolymerase == null ) {
+//                    if ( !mobileBiomolecule.attachedToDna.get() ) {
+//                        furthestRightPolymerase = (RnaPolymerase) mobileBiomolecule;
+//                    }
+//                }
+//                else if ( furthestRightPolymerase.getPosition().getX() < mobileBiomolecule.getPosition().getX() && !mobileBiomolecule.attachedToDna.get() ) {
+//                    furthestRightPolymerase = (RnaPolymerase) mobileBiomolecule;
+//                }
+//            }
+//        }
+//
+//        if ( numPolymeraseOnRightSide > RNA_POLYMERASE_COUNT / 2 && furthestRightPolymerase != null ) {
+//            Teleport the polymerase to a random location near the point
+//            where transcription starts.
+//            double xPos = dnaMolecule.getBasePairXOffsetByIndex( dnaMolecule.getGenes().get( 0 ).getTranscribedRegion().getMin() ) + ( RAND.nextDouble() - 0.5 ) * 2000;
+//            double yPos = 700;
+//            furthestRightPolymerase.forceDetach();
+//            furthestRightPolymerase.setPosition3D( new Point3D.Double( xPos, yPos, -1 ) );
+//        }
     }
 
     // Generate a random, valid, initial location, including the Z dimension.
