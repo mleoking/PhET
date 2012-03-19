@@ -5,11 +5,9 @@ import fj.F;
 import fj.Function;
 import lombok.Data;
 
-import java.awt.Color;
-
 import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -104,14 +102,13 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
         double pieY = 250 + 20;
 
         final F<Site, Site> siteMap = Function.identity();
-        final Color sliceColor = AbstractFractionsCanvas.LIGHT_GREEN;
 
         final double distanceBetweenBars = 20 * 1.3;
         Dimension2D bucketSize = new Dimension2D( 350, 135 );
-        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, bucketSize, pieDiameter, pieX, pieY, siteMap, sliceColor ),
-                               new HorizontalSliceFactory( bucketPosition, bucketSize, sliceColor ),
-                               new VerticalSliceFactory( -35.5, 125, 200, false, bucketPosition, bucketSize, sliceColor, distanceBetweenBars ),
-                               new VerticalSliceFactory( 60, 100, 200, true, bucketPosition, bucketSize, sliceColor, distanceBetweenBars ),
+        return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, bucketSize, pieDiameter, pieX, pieY, siteMap, Colors.CIRCLE_COLOR ),
+                               new HorizontalSliceFactory( bucketPosition, bucketSize, Colors.HORIZONTAL_SLICE_COLOR ),
+                               new VerticalSliceFactory( -35.5, 125, 200, false, bucketPosition, bucketSize, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars ),
+                               new VerticalSliceFactory( 60, 100, 200, true, bucketPosition, bucketSize, Colors.CUP_COLOR, distanceBetweenBars ),
                                new CakeSliceFactory( bucketPosition, bucketSize ) );
     }
 }

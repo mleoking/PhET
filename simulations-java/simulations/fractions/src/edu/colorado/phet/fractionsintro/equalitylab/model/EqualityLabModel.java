@@ -26,8 +26,8 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.StackedHori
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.VerticalSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
-import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.LIGHT_BLUE;
-import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.LIGHT_GREEN;
+import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
+import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 
 /**
  * Model for the Equality Lab tab.  Reuses lots of code from the Intro tab by composition for displaying and allowing interaction with the representations.

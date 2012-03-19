@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
@@ -29,8 +30,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBars
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.LIGHT_GREEN;
-import static edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas.LIGHT_BLUE;
+import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
 import static fj.data.List.*;
@@ -76,7 +76,7 @@ public class Levels {
                                                              },
                                                              new F<Fraction, PNode>() {
                                                                  @Override public PNode f( Fraction f ) {
-                                                                     return new HorizontalBarsNode( f, 0.9, LIGHT_BLUE );
+                                                                     return new HorizontalBarsNode( f, 0.9, Colors.LIGHT_BLUE );
                                                                  }
                                                              }
     );
@@ -88,7 +88,7 @@ public class Levels {
                                                            },
                                                            new F<Fraction, PNode>() {
                                                                @Override public PNode f( Fraction f ) {
-                                                                   return new VerticalBarsNode( f, 0.9, LIGHT_BLUE );
+                                                                   return new VerticalBarsNode( f, 0.9, Colors.LIGHT_BLUE );
                                                                }
                                                            }
     );
@@ -100,7 +100,7 @@ public class Levels {
                                                    },
                                                    new F<Fraction, PNode>() {
                                                        @Override public PNode f( Fraction f ) {
-                                                           return myPieNode( f, LIGHT_BLUE );
+                                                           return myPieNode( f, Colors.LIGHT_BLUE );
                                                        }
                                                    }
     );
@@ -159,7 +159,7 @@ public class Levels {
                               },
                               new F<Fraction, PNode>() {
                                   @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( pyramid.f( length ), f.numerator, LIGHT_BLUE );
+                                      return new PatternNode( pyramid.f( length ), f.numerator, Colors.LIGHT_BLUE );
                                   }
                               }
         );

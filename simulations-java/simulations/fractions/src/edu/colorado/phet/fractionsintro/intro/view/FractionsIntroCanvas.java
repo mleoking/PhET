@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode.Horizontal;
 import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
@@ -35,10 +36,10 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
         final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation, new RepresentationIcon[] {
-                new PieIcon( model.representation, LIGHT_GREEN ),
-                new HorizontalBarIcon( model.representation, LIGHT_GREEN ),
-                new VerticalBarIcon( model.factorySet.verticalSliceFactory ),
-                new WaterGlassIcon( model.representation, LIGHT_GREEN ),
+                new PieIcon( model.representation, Colors.CIRCLE_COLOR ),
+                new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ),
+                new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ),
+                new WaterGlassIcon( model.representation, Colors.CUP_COLOR ),
                 new CakeIcon( model.representation ),
                 new NumberLineIcon( model.representation ),
         }, 0 ) {{
@@ -65,7 +66,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
         //For water glasses
         final Rectangle2D b = model.factorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
-        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, LIGHT_GREEN, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
+        addChild( new RepresentationNode( model.representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, Colors.CUP_COLOR, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
 
         //For draggable cakes
         addChild( new RepresentationNode( model.representation, CAKE, new CakeSetNode( model.cakeSet, rootNode, iconTextOnTheRight ) ) );
@@ -76,7 +77,7 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
         }
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum, new Horizontal(), 32, LIGHT_GREEN, false ) {{
+        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, model.representation.valueEquals( NUMBER_LINE ), model.maximum, new Horizontal(), 32, Colors.NUMBER_LINE, false ) {{
             setOffset( INSET + 10, representationControlPanel.getFullBounds().getMaxY() + 100 + 15 );
         }} );
 
