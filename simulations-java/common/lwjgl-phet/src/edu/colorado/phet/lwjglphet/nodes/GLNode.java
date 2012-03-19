@@ -85,7 +85,7 @@ public class GLNode {
     }
 
     protected void renderChildren( GLOptions options ) {
-        for ( GLNode child : children ) {
+        for ( GLNode child : new ArrayList<GLNode>( children ) ) {
             child.render( options );
         }
     }
