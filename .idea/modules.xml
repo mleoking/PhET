@@ -38,6 +38,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/eating-and-exercise/eating-and-exercise.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/eating-and-exercise/eating-and-exercise.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/efield/efield.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/efield/efield.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/electric-hockey/electric-hockey.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/electric-hockey/electric-hockey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/energy-forms-and-changes/energy-forms-and-changes.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/energy-forms-and-changes/energy-forms-and-changes.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/energy-skate-park/energy-skate-park.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/energy-skate-park/energy-skate-park.iml" />
       <module fileurl="file://$PROJECT_DIR$/team/jblanco/experiments/experiments.iml" filepath="$PROJECT_DIR$/team/jblanco/experiments/experiments.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" />
@@ -147,7 +148,7 @@
       <module fileurl="file://$PROJECT_DIR$/team/jolson/utilities/utilities.iml" filepath="$PROJECT_DIR$/team/jolson/utilities/utilities.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" filepath="$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/work-energy/work-energy.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/work-energy/work-energy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/work-        /work-energy.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/work-        /work-energy.iml" />
     </modules>
   </component>
 </project>
