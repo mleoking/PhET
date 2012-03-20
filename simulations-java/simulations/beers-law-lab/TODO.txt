@@ -10,7 +10,7 @@ HIGH
 - interviews: versions with and without Wavelength control
 
 MEDIUM
-- common: EvaporationControlNode resizes when slider thumb is dragged all the way to the right, due to HSliderNode changes in #3255
+- common: EvaporationControlNode resizes when slider thumb is dragged all the way to the right, tick lines are missing (due to HSliderNode changes in #3255)
 - common: meter bodies may run off right side of stage if text is too long
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 - common: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
