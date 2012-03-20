@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class LGSimSharing {
 
     public static enum UserComponents implements IUserComponent {
-        introTab, gameTab
+        introTab, gameTab,
+        yFormSlopeInterceptRadioButton, xFormSlopeInterceptRadioButton
     }
 }
