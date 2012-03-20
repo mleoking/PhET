@@ -9,6 +9,7 @@ import javax.swing.JMenu;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.reactantsproductsandleftovers.dev.DevTestGameRewardMenuItem;
 import edu.colorado.phet.reactantsproductsandleftovers.dev.DevTestReactionsMenuItem;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameModule;
 import edu.colorado.phet.reactantsproductsandleftovers.module.realreaction.RealReactionModule;
@@ -33,6 +34,7 @@ public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplica
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new DevTestReactionsMenuItem() );
+        developerMenu.add( new DevTestGameRewardMenuItem() );
 
         // Teacher menu
         getPhetFrame().addMenu( new RPALTeacherMenu() );
