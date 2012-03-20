@@ -2,7 +2,43 @@
 
 package edu.colorado.phet.reactantsproductsandleftovers;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.chemistry.molecules.C2H2Node;
+import edu.colorado.phet.chemistry.molecules.C2H4Node;
+import edu.colorado.phet.chemistry.molecules.C2H5ClNode;
+import edu.colorado.phet.chemistry.molecules.C2H5OHNode;
+import edu.colorado.phet.chemistry.molecules.C2H6Node;
+import edu.colorado.phet.chemistry.molecules.CH2ONode;
+import edu.colorado.phet.chemistry.molecules.CH3OHNode;
+import edu.colorado.phet.chemistry.molecules.CH4Node;
+import edu.colorado.phet.chemistry.molecules.H2ONode;
+import edu.colorado.phet.chemistry.molecules.H2SNode;
+import edu.colorado.phet.chemistry.molecules.HClNode;
+import edu.colorado.phet.chemistry.molecules.HFNode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CNode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CO2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CONode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CS2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.Cl2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.F2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.H2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.N2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.N2ONode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.NONode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.O2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.SNode;
+import edu.colorado.phet.chemistry.molecules.NH3Node;
+import edu.colorado.phet.chemistry.molecules.NO2Node;
+import edu.colorado.phet.chemistry.molecules.OF2Node;
+import edu.colorado.phet.chemistry.molecules.P4Node;
+import edu.colorado.phet.chemistry.molecules.PCl3Node;
+import edu.colorado.phet.chemistry.molecules.PCl5Node;
+import edu.colorado.phet.chemistry.molecules.PF3Node;
+import edu.colorado.phet.chemistry.molecules.PH3Node;
+import edu.colorado.phet.chemistry.molecules.SO2Node;
+import edu.colorado.phet.chemistry.molecules.SO3Node;
 
 /**
  * Images used in this project.
@@ -55,10 +91,43 @@ public class RPALImages {
     public static final BufferedImage SO2 = getMoleculeImage( "SO2.png" );
     public static final BufferedImage SO3 = getMoleculeImage( "SO3.png" );
     
-    // all molcule images, used in game
-    public static final BufferedImage[] ALL_MOLECULES = {
-        C, C2H2, C2H4, C2H5Cl, C2H5Cl, C2H5OH, C2H6, CH2O, CH3OH, CH4, CO, CO2, CS2, Cl2,
-        F2, H2, H2O, H2S, HCl, HF, N2, N2O, NH3, NO, NO2, O2, OF2, P4, PCl3, PCl5, PF3, PH3, S, SO2, SO3
+    // all molecule images, used in game
+    public static final Image[] ALL_MOLECULES = {
+            new CNode().toImage(),
+            new C2H2Node().toImage(),
+            new C2H4Node().toImage(),
+            new C2H5ClNode().toImage(),
+            new C2H5ClNode().toImage(),
+            new C2H5OHNode().toImage(),
+            new C2H6Node().toImage(),
+            new CH2ONode().toImage(),
+            new CH3OHNode().toImage(),
+            new CH4Node().toImage(),
+            new CONode().toImage(),
+            new CO2Node().toImage(),
+            new CS2Node().toImage(),
+            new Cl2Node().toImage(),
+            new F2Node().toImage(),
+            new H2Node().toImage(),
+            new H2ONode().toImage(),
+            new H2SNode().toImage(),
+            new HClNode().toImage(),
+            new HFNode().toImage(),
+            new N2Node().toImage(),
+            new N2ONode().toImage(),
+            new NH3Node().toImage(),
+            new NONode().toImage(),
+            new NO2Node().toImage(),
+            new O2Node().toImage(),
+            new OF2Node().toImage(),
+            new P4Node().toImage(),
+            new PCl3Node().toImage(),
+            new PCl5Node().toImage(),
+            new PF3Node().toImage(),
+            new PH3Node().toImage(),
+            new SNode().toImage(),
+            new SO2Node().toImage(),
+            new SO3Node().toImage()
     };
     
     private static final BufferedImage getSandwichImage( String name ) {
