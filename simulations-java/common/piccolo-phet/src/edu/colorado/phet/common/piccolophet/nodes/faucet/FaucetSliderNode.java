@@ -2,7 +2,6 @@
 package edu.colorado.phet.common.piccolophet.nodes.faucet;
 
 import java.awt.Color;
-import java.awt.Paint;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -57,10 +56,7 @@ public class FaucetSliderNode extends HSliderNode {
                 }
             }
         } );
+        setTrackFillPaint( Color.white );
     }
 
-    // Use white because the faucet is a 3D-looking shaded gray image.
-    @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-        return Color.WHITE;
-    }
 }

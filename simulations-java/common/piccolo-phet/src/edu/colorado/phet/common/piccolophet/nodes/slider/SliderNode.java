@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.slider;
 
+import java.awt.Paint;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -65,4 +66,6 @@ public abstract class SliderNode extends PNode {
         }
         return sum / v.size();
     }
+
+    public abstract void setTrackFillPaint( final Paint paint );
 }
