@@ -5,6 +5,7 @@ DEADLINES
 DESIGN
 
 HIGH
+- reuse spinner buttons from fractions, see SpinnerButtonNode
 
 MEDIUM
 
