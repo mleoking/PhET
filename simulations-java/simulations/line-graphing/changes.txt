@@ -1,0 +1,2 @@
+3/20/12 create MVC structure for Intro and Game tabs
+3/20/12 set up project skeleton in SVN
