@@ -1,3 +1,4 @@
+3/20/12 English strings for Intro tab
 3/20/12 add "Reset All" button to Intro canvas
 3/20/12 create MVC structure for Intro and Game tabs
 3/20/12 set up project skeleton in SVN
