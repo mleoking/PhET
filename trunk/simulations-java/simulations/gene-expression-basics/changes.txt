@@ -1,3 +1,4 @@
+Fixed layout for HorizontalSliderWithLabelAtEnds, see #3255
 Rewrote HSliderNode to use VSliderNode as a composite, see #3255
 Added code to move biomolecules that attach to the DNA to a lower "layer" of the scene graph so that they are always behind other biomolecules.  This prevents odd-looking cases where biomolecules appear to move between the DNA and a molecule that is attached to it.
 Made the polymerase be "recycled" on the 2nd tab, so that it fades out when it finishes transcribing, then reappears in a good position to transcribe again.

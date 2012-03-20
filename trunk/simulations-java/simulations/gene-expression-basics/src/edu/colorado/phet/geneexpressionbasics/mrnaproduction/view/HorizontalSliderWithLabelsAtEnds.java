@@ -25,7 +25,7 @@ class HorizontalSliderWithLabelsAtEnds extends PNode {
     //TODO: There is an incorrect behavior based on which side the slider knob is on.
     //This bug seems like it was introduced with changes to the HSliderNode, but I can't tell why it was working in 0.00.18
     //To compensate, I have increased the inter element spacing, but it makes one label further from the slider than the other
-    private static final double INTER_ELEMENT_SPACING = 17;
+    private static final double INTER_ELEMENT_SPACING = 5;
 
     HorizontalSliderWithLabelsAtEnds( UserComponent userComponent, Property<Double> doubleProperty, double min, double max, String leftLabel, String rightLabel ) {
         PText leftLabelNode = new PText( leftLabel ) {{
