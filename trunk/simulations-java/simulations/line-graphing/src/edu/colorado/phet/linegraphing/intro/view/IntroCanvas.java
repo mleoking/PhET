@@ -71,5 +71,6 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         slopeInterceptForm.reset();
         unitPositiveSlopeVisible.reset();
         unitNegativeSlopeVisible.reset();
+        //TODO erase lines
     }
 }
