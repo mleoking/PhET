@@ -45,9 +45,8 @@ public class VSliderNode extends SliderNode {
     protected PhetPPath trackNode;
     protected PNode knobNode;
 
-    // Root node to which all other nodes should be added.  This is done to
-    // allow the offset of this node to be at (0, 0).  Use this when adding
-    // children in subclasses if you want to keep the origin at (0, 0).
+    // Root node to which all other nodes should be added.  This is done to allow the offset of this node to be at (0, 0).
+    // Use this when adding children in subclasses if you want to keep the origin at (0, 0).
     public final PNode rootNode = new PNode();
     public final double trackLength;
     public final double trackThickness;
@@ -67,7 +66,7 @@ public class VSliderNode extends SliderNode {
         addChild( rootNode );
 
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackThickness, trackLength );
-        trackNode = new PhetPPath( trackPath, new GradientPaint( 0, 0, Color.gray, 0, (float) trackLength, Color.white, false ), new BasicStroke( 1 ), getTrackStrokePaint( trackThickness, trackLength ) );
+        trackNode = new PhetPPath( trackPath, new GradientPaint( 0, 0, Color.gray, 0, (float) trackLength, Color.white, false ), new BasicStroke( 1 ), Color.BLACK );
         rootNode.addChild( trackNode );
         knobNode = new ZeroOffsetNode( new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             rotate( Math.PI * 2 * 3.0 / 4.0 );
@@ -118,16 +117,31 @@ public class VSliderNode extends SliderNode {
                 }
             } );
         }};
+
+        //Create an invisible rectangle that will account for where the knob could be
+        //This is so that the knob won't overlap other layout elements that are positioned using this node's full bounds
+        Rectangle2D leftKnobRect = getKnobRect( min );
+        Rectangle2D rightKnobRect = getKnobRect( max );
+        PhetPPath knobBackground = new PhetPPath( leftKnobRect.createUnion( rightKnobRect ), null, null, null ) {{
+            setPickable( false );
+            setChildrenPickable( false );
+        }};
+        rootNode.addChild( knobBackground );
+
         rootNode.addChild( knobNode );
 
         adjustOrigin();
     }
 
-    protected Point2D.Double createEndPoint() {return new Point2D.Double( 0, trackNode.getFullBounds().getHeight() );}
-
-    protected Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
-        return Color.BLACK;
+    private Rectangle2D getKnobRect( double value ) {
+        Rectangle2D leftKnobRect = knobNode.getFullBounds();
+        final double x = trackNode.getFullBounds().getWidth() / 2 - knobNode.getFullBounds().getWidth() / 2;
+        final double y = getViewY( value ) - knobNode.getFullBounds().getHeight() / 2;
+        leftKnobRect.setRect( x, y, leftKnobRect.getWidth(), leftKnobRect.getHeight() );
+        return leftKnobRect;
     }
+
+    protected Point2D.Double createEndPoint() {return new Point2D.Double( 0, trackNode.getFullBounds().getHeight() );}
 
     protected double getViewY( double value ) {
         return new Function.LinearFunction( max, min, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
@@ -140,11 +154,8 @@ public class VSliderNode extends SliderNode {
         adjustOrigin();
     }
 
-    /**
-     * Adjust the origin of this node so that it is at (0, 0) in screen
-     * coordinates.  This will only work if all items have been added to the
-     * root node.
-     */
+    //Adjust the origin of this node so that it is at (0, 0) in screen coordinates.
+    //This will only work if all items have been added to the root node.
     protected void adjustOrigin() {
         removeAllChildren();
         addChild( new ZeroOffsetNode( rootNode ) );
