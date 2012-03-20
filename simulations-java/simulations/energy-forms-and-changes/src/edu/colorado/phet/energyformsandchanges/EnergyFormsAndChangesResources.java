@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.energyformsandchanges;
 
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
@@ -18,6 +20,6 @@ public class EnergyFormsAndChangesResources {
 
     //Images
     public static class Images {
-
+        public static final BufferedImage FIRST_TAB_DRAWING = RESOURCES.getImage( "first-tab-drawing.png" );
     }
 }
