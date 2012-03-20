@@ -8,6 +8,8 @@ HIGH
 - reuse spinner buttons from fractions, see SpinnerButtonNode
 
 MEDIUM
+- add icons for standard line check boxes
+- add "Show" title for standard lines control panel
 
 LOW
 

@@ -19,11 +19,14 @@ import edu.umd.cs.piccolo.PNode;
 public class IntroCanvas extends LGCanvas {
 
     private final Property<SlopeInterceptForm> slopeInterceptForm = new Property<SlopeInterceptForm>( SlopeInterceptForm.Y_FORM ); //TODO relocate
+    private final Property<Boolean> unitPositiveSlopeVisible = new Property<Boolean>( false ); //TODO relocate
+    private final Property<Boolean> unitNegativeSlopeVisible = new Property<Boolean>( false ); //TODO relocate
 
     public IntroCanvas( IntroModel model ) {
 
         PNode savedLinesControl = new SavedLinesControl();
         PNode slopeInterceptFormControl = new SlopeInterceptFormControl( slopeInterceptForm );
+        PNode standardEquationsControl = new StandardEquationsControl( unitPositiveSlopeVisible, unitNegativeSlopeVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( model, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
@@ -32,6 +35,7 @@ public class IntroCanvas extends LGCanvas {
         {
             addChild( savedLinesControl );
             addChild( slopeInterceptFormControl );
+            addChild( standardEquationsControl );
             addChild( resetAllButtonNode );
         }
 
@@ -41,9 +45,11 @@ public class IntroCanvas extends LGCanvas {
             final double xMargin = 20;
             final double yMargin = 20;
             savedLinesControl.setOffset( getStageSize().getWidth() - savedLinesControl.getFullBoundsReference().getWidth() - xMargin,
-                                       100 );
+                                         100 );
             slopeInterceptFormControl.setOffset( getStageSize().getWidth() - slopeInterceptFormControl.getFullBoundsReference().getWidth() - xMargin,
                                                  savedLinesControl.getFullBoundsReference().getMaxY() + 20 );
+            standardEquationsControl.setOffset( getStageSize().getWidth() - standardEquationsControl.getFullBoundsReference().getWidth() - xMargin,
+                                                slopeInterceptFormControl.getFullBoundsReference().getMaxY() + 20 );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
