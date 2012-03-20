@@ -25,6 +25,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterValue;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
@@ -110,7 +111,8 @@ public class SimSharingJSpinner extends JSpinner {
             // Focus lost
             focusListener = new FocusAdapter() {
                 @Override public void focusLost( FocusEvent e ) {
-                    focusLost = true;
+                    System.out.println( "focusLost value=" + getValue() );//XXX
+                    focusLost = true && isEnabled();
                 }
             };
             JComponent editor = getEditor();
@@ -120,6 +122,11 @@ public class SimSharingJSpinner extends JSpinner {
                 textField.addFocusListener( focusListener );
             }
         }
+    }
+
+    @Override public void setEnabled( boolean enabled ) {
+        System.out.println( "setEnabled " + enabled + " value=" + getValue() );//XXX
+        super.setEnabled( enabled );
     }
 
     // Rewire the text field listeners
@@ -162,22 +169,26 @@ public class SimSharingJSpinner extends JSpinner {
             // don't change buttonPressed, this will be handled by the MouseListener
         }
         else if ( enterPressed ) {
-            sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, ParameterValues.enterKey ).add( getCommonParameters() ) );
+            sendTextFieldCommittedMessage( ParameterValues.enterKey );
             enterPressed = false;
         }
         else if ( focusLost ) {
-            sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, ParameterValues.focusLost ).add( getCommonParameters() ) );
+            sendTextFieldCommittedMessage( ParameterValues.focusLost );
             focusLost = false;
         }
         else if ( upPressed ) {
-            sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, ParameterValues.upKey ).add( getCommonParameters() ) );
+            sendTextFieldCommittedMessage( ParameterValues.upKey );
             upPressed = false;
         }
         else if ( downPressed ) {
-            sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, ParameterValues.downKey ).add( getCommonParameters() ) );
+            sendTextFieldCommittedMessage( ParameterValues.downKey );
             downPressed = false;
         }
         super.fireStateChanged();
+    }
+
+    private void sendTextFieldCommittedMessage( IParameterValue commitAction ) {
+       sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).add( getCommonParameters() ) );
     }
 
     // Parameters that are common to all messages.
