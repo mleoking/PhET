@@ -1,3 +1,4 @@
+3/20/12 Beers: restore Wavelength control
 # 1.00.02 (62641) Mar 20, 2012
 3/20/12 interview version with Wavelength control hidden
 3/20/12 Beers: temporarily hide Wavelength control for interviews
