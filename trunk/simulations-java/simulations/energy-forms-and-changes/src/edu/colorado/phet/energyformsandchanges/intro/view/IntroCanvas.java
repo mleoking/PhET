@@ -47,6 +47,6 @@ public class IntroCanvas extends PhetPCanvas {
         PImage drawing = new PImage( EnergyFormsAndChangesResources.Images.FIRST_TAB_DRAWING );
         drawing.setOffset( 0, 0 );
         drawing.setScale( DEFAULT_STAGE_SIZE.getWidth() / drawing.getFullBoundsReference().getWidth() );
-        addWorldChild( drawing );
+        rootNode.addChild( drawing );
     }
 }
