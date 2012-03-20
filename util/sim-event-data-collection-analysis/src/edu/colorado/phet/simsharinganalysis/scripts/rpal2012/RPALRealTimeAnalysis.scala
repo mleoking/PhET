@@ -10,11 +10,9 @@ import java.awt.Dimension
  * @author Sam Reid
  */
 object RPALRealTimeAnalysis extends App {
-
   val canvas = new PhetPCanvas()
   val chartFrame = new Frame {
     contents = new Component {
-
       override lazy val peer = canvas
     }
     size = new Dimension(1024, 100)
