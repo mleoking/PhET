@@ -32,7 +32,7 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
         double max = 10;
 
         Piccolo3DCanvas timeSliderCanvas = new Piccolo3DCanvas( new HSliderNode( UserComponents.timeSpeedSlider,
-                                                                                 min, max, 100, 5,
+                                                                                 min, max, 5, 100,
                                                                                  speedProperty, new Property<Boolean>( true ) ) {{
             addLabel( min, new PText( Strings.TIME_SLOW ) );
             addLabel( max, new PText( Strings.TIME_FAST ) );
