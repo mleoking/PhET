@@ -5,7 +5,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
-import java.awt.Paint;
 import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -49,12 +48,11 @@ public class StoveControlSliderNode extends VSliderNode {
                 value.set( 0.0 );
             }
         } );
-    }
 
-    // Show a gradient in the track that goes from orange to light blue to
-    // indicate the heat/coolness setting.
-    @Override public Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-        return new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackHeight, BOTTOM_SIDE_TRACK_COLOR, false );
+
+        // Show a gradient in the track that goes from orange to light blue to
+        // indicate the heat/coolness setting.
+        setTrackFillPaint( new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackLength, BOTTOM_SIDE_TRACK_COLOR, false ) );
     }
 
     // Convenience class for create a tick mark that works for this slider.
