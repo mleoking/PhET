@@ -114,8 +114,8 @@ public class GameBeforeNode extends AbstractBeforeNode {
         // attach read-only value nodes to reactants of reaction
         for ( int i = 0; i < valueNodes.size(); i++ ) {
             QuantityValueNode valueNode = valueNodes.get( i );
-            valueNode.setSubstance( reaction.getReactant( i ) );
             valueNode.setEditable( false );
+            valueNode.setSubstance( reaction.getReactant( i ) );
         }
         
         // hide guess images
@@ -144,8 +144,8 @@ public class GameBeforeNode extends AbstractBeforeNode {
         // attach value nodes to reactants of guess, optionally editable
         for ( int i = 0; i < valueNodes.size(); i++ ) {
             QuantityValueNode valueNode = valueNodes.get( i );
-            valueNode.setSubstance( guess.getReactant( i ) );
             valueNode.setEditable( editable );
+            valueNode.setSubstance( guess.getReactant( i ) );
         }
         
         // show guess images

@@ -40,6 +40,10 @@ public class IntegerSpinnerNode extends PNode {
         } );
     }
 
+    public void setEnabled( boolean enabled ) {
+        spinner.setEnabled( enabled );
+    }
+
     public void setValue( int value ) {
         spinner.setIntValue( value );
     }

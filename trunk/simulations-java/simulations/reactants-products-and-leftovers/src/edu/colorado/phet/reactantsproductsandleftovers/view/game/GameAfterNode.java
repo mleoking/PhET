@@ -122,16 +122,16 @@ public class GameAfterNode extends AbstractAfterNode {
         ArrayList<QuantityValueNode> productValueNodes = getProductValueNodes();
         for ( int i = 0; i < productValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = productValueNodes.get( i );
-            valueNode.setSubstance( reaction.getProduct( i ) );
             valueNode.setEditable( false );
+            valueNode.setSubstance( reaction.getProduct( i ) );
         }
         
         // attach read-only value nodes to leftovers of the answer
         ArrayList<LeftoversValueNode> leftoverValueNodes = getLeftoverValueNodes();
         for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
             LeftoversValueNode valueNode = leftoverValueNodes.get( i );
-            valueNode.setReactant( reaction.getReactant( i ) );
             valueNode.setEditable( false );
+            valueNode.setReactant( reaction.getReactant( i ) );
         }
         
         // hide guess images
@@ -160,16 +160,16 @@ public class GameAfterNode extends AbstractAfterNode {
         ArrayList<QuantityValueNode> productValueNodes = getProductValueNodes();
         for ( int i = 0; i < productValueNodes.size(); i++ ) {
             QuantityValueNode valueNode = productValueNodes.get( i );
-            valueNode.setSubstance( guess.getProduct( i ) );
             valueNode.setEditable( editable );
+            valueNode.setSubstance( guess.getProduct( i ) );
         }
         
         // attach value nodes to leftovers of guess, optionally editable
         ArrayList<LeftoversValueNode> leftoverValueNodes = getLeftoverValueNodes();
         for ( int i = 0; i < leftoverValueNodes.size(); i++ ) {
             LeftoversValueNode valueNode = leftoverValueNodes.get( i );
-            valueNode.setReactant( guess.getReactant( i ) );
             valueNode.setEditable( editable );
+            valueNode.setReactant( guess.getReactant( i ) );
         }
         
         // show guess images
