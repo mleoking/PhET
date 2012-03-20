@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SavedLinesControl extends PNode {
+class SavedLinesControl extends PNode {
 
     public SavedLinesControl() {
 
