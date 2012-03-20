@@ -1,0 +1,15 @@
+TODO list for line-graphing
+
+DEADLINES
+
+DESIGN
+
+HIGH
+
+MEDIUM
+
+LOW
+
+SIM-SHARING
+
+MIGRATE TO COMMON
