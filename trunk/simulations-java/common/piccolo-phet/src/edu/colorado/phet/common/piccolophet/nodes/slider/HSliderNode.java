@@ -47,7 +47,8 @@ public class HSliderNode extends SliderNode {
         this( userComponent, min, max, DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, enabled );
     }
 
-    public HSliderNode( final IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    public HSliderNode( final IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength,
+                        final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( userComponent, min, max, value );
         this.trackLength = trackLength;
 
@@ -78,13 +79,16 @@ public class HSliderNode extends SliderNode {
             rotate( -Math.PI / 2 );
         }} );
         node.rootNode.addChild( label );
-        label.setOffset( node.knobNode.getFullBounds().getWidth() / 2 + node.trackThickness / 2, node.getViewY( value ) - label.getFullBounds().getHeight() / 2 );
+        label.setOffset( node.knobNode.getFullBounds().getWidth() / 2 + node.trackThickness / 2,
+                         node.getViewY( value ) - label.getFullBounds().getHeight() / 2 );
 
         //Add the tick mark, At discussion on 10/6/2011 we decided every label should have a tick mark that extends to the track but is also visible when the knob is over it
         float tickStrokeWidth = 1.5f;
         double tickLength = 15;
         double tickOffset = 8;
-        final PhetPPath tickMark = new PhetPPath( new Line2D.Double( label.getCenterX() - tickOffset, label.getCenterY(), label.getCenterX() - tickOffset - tickLength, label.getCenterY() ), new BasicStroke( tickStrokeWidth ), Color.darkGray );
+        final PhetPPath tickMark = new PhetPPath( new Line2D.Double( label.getCenterX() - tickOffset, label.getCenterY(),
+                                                                     label.getCenterX() - tickOffset - tickLength, label.getCenterY() ),
+                                                  new BasicStroke( tickStrokeWidth ), Color.darkGray );
         node.rootNode.addChild( tickMark );
 
         //Make the tick mark appear behind the track and knob
@@ -117,7 +121,8 @@ public class HSliderNode extends SliderNode {
                         } );
                     }};
 
-                    final HSliderNode sliderNode = new HSliderNode( new UserComponent( "mySlider" ), 0, 100, DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, sliderValue, new Property<Boolean>( true ) ) {{
+                    final HSliderNode sliderNode = new HSliderNode( new UserComponent( "mySlider" ), 0, 100,
+                                                                    DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, sliderValue, new Property<Boolean>( true ) ) {{
                         addLabel( 0.0, new PhetPText( "None" ) );
                         addLabel( 100.0, new PhetPText( "Lots" ) );
                         setOffset( 150, 250 );
