@@ -3,8 +3,6 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -24,8 +22,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 class DoubleParameterSliderNode extends PNode {
 
     private static final Font TITLE_FONT = new PhetFont( 14 );
-    private static final double SLIDER_TRACK_WIDTH = 100;
-    private static final double SLIDER_TRACK_HEIGHT = 4;
+    private static final double SLIDER_TRACK_LENGTH = 100;
+    private static final double SLIDER_TRACK_THICKNESS = 4;
     private static final Font LABEL_FONT = new PhetFont( 12 );
 
     DoubleParameterSliderNode( IUserComponent userComponent, double min, double max, final SettableProperty<Double> settableProperty, String htmlLabelText ) {
@@ -36,11 +34,9 @@ class DoubleParameterSliderNode extends PNode {
         }};
 
         // Create the slider node.
-        HSliderNode sliderNode = new HSliderNode( userComponent, min, max, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, settableProperty, new BooleanProperty( true ) ) {
-            @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-                return Color.BLACK;
-            }
-        };
+        HSliderNode sliderNode = new HSliderNode( userComponent, min, max, SLIDER_TRACK_THICKNESS, SLIDER_TRACK_LENGTH, settableProperty, new BooleanProperty( true ) ) {{
+            setTrackFillPaint( Color.black );
+        }};
 
         // Add the labels to the slider node.
         // TODO: i18n

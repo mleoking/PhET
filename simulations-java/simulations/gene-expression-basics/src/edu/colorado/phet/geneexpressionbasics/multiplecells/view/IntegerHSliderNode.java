@@ -2,8 +2,6 @@
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import java.awt.Color;
-import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -33,11 +31,11 @@ class IntegerHSliderNode extends PNode {
      * @param userComponent
      * @param min
      * @param max
-     * @param trackWidth
-     * @param trackHeight
+     * @param trackThickness
+     * @param trackLength
      * @param settableProperty
      */
-    IntegerHSliderNode( IUserComponent userComponent, int min, int max, double trackWidth, double trackHeight, final SettableProperty<Integer> settableProperty ) {
+    IntegerHSliderNode( IUserComponent userComponent, int min, int max, double trackThickness, double trackLength, final SettableProperty<Integer> settableProperty ) {
 
         // Create a property of type double and hook it to the integer
         // property.  This makes it so that when the double property
@@ -60,11 +58,9 @@ class IntegerHSliderNode extends PNode {
         } );
 
         // Create the slider node.
-        hSliderNode = new HSliderNode( userComponent, min, max, trackWidth, trackHeight, doubleProperty, new BooleanProperty( true ) ) {
-            @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-                return Color.BLACK;
-            }
-        };
+        hSliderNode = new HSliderNode( userComponent, min, max, trackThickness, trackLength, doubleProperty, new BooleanProperty( true ) ) {{
+            setTrackFillPaint( Color.black );
+        }};
 
         addChild( hSliderNode );
     }
