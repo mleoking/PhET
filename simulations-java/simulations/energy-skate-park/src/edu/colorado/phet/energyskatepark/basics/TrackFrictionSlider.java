@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyskatepark.basics;
 
 import java.awt.Color;
-import java.awt.Paint;
 
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -38,13 +37,11 @@ public class TrackFrictionSlider extends PNode {
         } );
 
         // Create and add the slider node.
-        final HSliderNode sliderNode = new HSliderNode( trackFrictionSlider, 0, FRICTION_MAX, 90, 5, frictionAmount, module.frictionEnabled ) {
-            @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-                // Override the gradient and fill with white.  The gradient
-                // just looked weird.
-                return Color.WHITE;
-            }
-        };
+        final HSliderNode sliderNode = new HSliderNode( trackFrictionSlider, 0, FRICTION_MAX, 5, 90, frictionAmount, module.frictionEnabled ) {{
+            // Override the gradient and fill with white.  The gradient
+            // just looked weird.
+            setTrackFillPaint( Color.white );
+        }};
         sliderNode.addLabel( 0, new PText( EnergySkateParkResources.getString( "controls.gravity.none" ) ) );
         sliderNode.addLabel( FRICTION_MAX, new PText( EnergySkateParkResources.getString( "controls.gravity.lots" ) ) );
         addChild( sliderNode );

@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyskatepark.basics;
 
 import java.awt.Color;
-import java.awt.Paint;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -26,19 +25,13 @@ public class MassControl extends PNode {
         final int MIN_MASS = 60;
         final int MAX_MASS = 100;
         addChild( new VBox( 10, new PhetPText( EnergySkateParkResources.getString( "skater.mass" ), EnergySkateParkBasicsModule.TITLE_FONT ),
-                            new HSliderNode( skaterMassSlider, MIN_MASS, MAX_MASS, 90, 5, module.mass, new Property<Boolean>( true ) ) {
-
-                                @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-                                    // Override the gradient and fill with white.  The gradient
-                                    // just looked weird.
-                                    return Color.WHITE;
-                                }
-
-                                {
-                                    addLabel( min, new PText( EnergySkateParkResources.getString( "small" ) ) );
-                                    addLabel( max, new PText( EnergySkateParkResources.getString( "large" ) ) );
-                                }
-                            } ) );
+                            new HSliderNode( skaterMassSlider, MIN_MASS, MAX_MASS, 5, 90, module.mass, new Property<Boolean>( true ) ) {{
+                                // Override the gradient and fill with white.  The gradient
+                                // just looked weird.
+                                setTrackFillPaint( Color.white );
+                                addLabel( min, new PText( EnergySkateParkResources.getString( "small" ) ) );
+                                addLabel( max, new PText( EnergySkateParkResources.getString( "large" ) ) );
+                            }} ) );
 
 
         module.mass.addObserver( new VoidFunction1<Double>() {
