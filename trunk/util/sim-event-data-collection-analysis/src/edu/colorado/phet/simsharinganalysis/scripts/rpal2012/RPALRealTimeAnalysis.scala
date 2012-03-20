@@ -3,8 +3,9 @@ package edu.colorado.phet.simsharinganalysis.scripts.rpal2012
 
 import edu.colorado.phet.simsharinganalysis.RealTimeAnalysis
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import swing.{Component, Frame}
 import java.awt.Dimension
+import swing._
+import javax.swing.JFileChooser
 
 /**
  * @author Sam Reid
@@ -32,5 +33,20 @@ object RPALRealTimeAnalysis extends App {
     "Tab 1 reaction: " + states.last.end.tab1.reaction + "\n" +
     "\nLast 5 events (most recent at the bottom):\n" +
     states.map(_.entry).takeRight(5).mkString("\n")
-  }).main(args)
+  }) {
+    top.menuBar = new MenuBar {
+      contents += new Menu("File") {
+        contents += new MenuItem(Action("Plot Directory") {
+                                                            val chooser = new JFileChooser() {
+                                                              setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+                                                            }
+                                                            val result = chooser.showOpenDialog(top.peer)
+                                                            result match {
+                                                              case JFileChooser.APPROVE_OPTION => PlotCharts.main(Array(chooser.getSelectedFile.getAbsolutePath))
+                                                              case _ => {}
+                                                            }
+                                                          })
+      }
+    }
+  }.main(args)
 }
