@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Color;
-import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.LGConstants;
@@ -19,12 +18,15 @@ public class IntroCanvas extends LGCanvas {
 
     public IntroCanvas( IntroModel model ) {
 
+        final PNode savedLinesControl = new SavedLinesControl();
+
         PNode resetAllButtonNode = new ResetAllButtonNode( model, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
 
         // rendering order
         {
+            addChild( savedLinesControl );
             addChild( resetAllButtonNode );
         }
 
@@ -33,6 +35,8 @@ public class IntroCanvas extends LGCanvas {
             // NOTE: Nodes that have corresponding model elements handle their own offsets.
             final double xMargin = 20;
             final double yMargin = 20;
+            savedLinesControl.setOffset( getStageSize().getWidth() - savedLinesControl.getFullBoundsReference().getWidth() - xMargin,
+                                       100 );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
