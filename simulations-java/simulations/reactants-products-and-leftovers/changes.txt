@@ -1,3 +1,4 @@
+# 1.03.06 (62628) Mar 19, 2012
 #3204, eliminated stray "textFieldCommitted" message that was occurring in RPAL Game
 # 1.03.05 (62576) Mar 15, 2012
 3/15/12 #3286, add build dependency on chemistry (for molecule representation)
