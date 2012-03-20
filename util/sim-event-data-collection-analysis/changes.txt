@@ -1,3 +1,4 @@
+Added a list view for which plots to view
 Added rough draft of charts for rpal 2012
 # 00.00.32 (62636) Mar 19, 2012
 Count spinner clicks in each game
