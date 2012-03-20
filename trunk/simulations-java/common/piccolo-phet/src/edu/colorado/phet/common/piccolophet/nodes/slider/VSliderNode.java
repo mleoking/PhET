@@ -36,29 +36,38 @@ import edu.umd.cs.piccolox.PFrame;
  */
 public class VSliderNode extends SliderNode {
 
-    private static final double DEFAULT_TRACK_WIDTH = 6;
-    private static final double DEFAULT_TRACK_HEIGHT = 200;
+    //the default width of the track (thin dimension)
+    public static final double DEFAULT_TRACK_THICKNESS = 6;
 
+    //The size of the track (how far the knob can move)
+    public static final double DEFAULT_TRACK_LENGTH = 200;
 
-    private PhetPPath trackNode;
-    private PNode knobNode;
-    private int trackWidth;
+    protected PhetPPath trackNode;
+    protected PNode knobNode;
 
     // Root node to which all other nodes should be added.  This is done to
     // allow the offset of this node to be at (0, 0).  Use this when adding
     // children in subclasses if you want to keep the origin at (0, 0).
-    protected PNode rootNode = new PNode();
+    public final PNode rootNode = new PNode();
+    public final double trackLength;
+    public final double trackThickness;
 
     public VSliderNode( IUserComponent userComponent, double min, double max, SettableProperty<Double> value ) {
-        this( userComponent, min, max, DEFAULT_TRACK_WIDTH, DEFAULT_TRACK_HEIGHT, value, new Property<Boolean>( true ) );
+        this( userComponent, min, max, DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, new Property<Boolean>( true ) );
     }
 
-    public VSliderNode( IUserComponent userComponent, final double min, final double max, double trackWidth, double trackHeight, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    @Override public void setTrackFillPaint( final Paint paint ) {
+        trackNode.setPaint( paint );
+    }
+
+    public VSliderNode( IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( userComponent, min, max, value );
+        this.trackLength = trackLength;
+        this.trackThickness = trackThickness;
         addChild( rootNode );
 
-        final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackWidth, trackHeight );
-        trackNode = new PhetPPath( trackPath, getTrackFillPaint( trackWidth, trackHeight ), new BasicStroke( 1 ), getTrackStrokePaint( trackWidth, trackHeight ) );
+        final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackThickness, trackLength );
+        trackNode = new PhetPPath( trackPath, new GradientPaint( 0, 0, Color.gray, 0, (float) trackLength, Color.white, false ), new BasicStroke( 1 ), getTrackStrokePaint( trackThickness, trackLength ) );
         rootNode.addChild( trackNode );
         knobNode = new ZeroOffsetNode( new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             rotate( Math.PI * 2 * 3.0 / 4.0 );
@@ -95,7 +104,7 @@ public class VSliderNode extends SliderNode {
                     final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
 
                     Point2D minGlobal = trackNode.localToGlobal( new Point2D.Double( 0, 0 ) );
-                    Point2D maxGlobal = trackNode.localToGlobal( new Point2D.Double( 0, trackNode.getFullBounds().getHeight() ) );
+                    Point2D maxGlobal = trackNode.localToGlobal( createEndPoint() );
                     final ImmutableVector2D unitVector = new ImmutableVector2D( minGlobal, maxGlobal ).getNormalizedInstance();
                     double viewDelta = vector.dot( unitVector );
 
@@ -114,9 +123,7 @@ public class VSliderNode extends SliderNode {
         adjustOrigin();
     }
 
-    protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-        return new GradientPaint( 0, 0, Color.gray, 0, (float) trackHeight, Color.white, false );
-    }
+    protected Point2D.Double createEndPoint() {return new Point2D.Double( 0, trackNode.getFullBounds().getHeight() );}
 
     protected Paint getTrackStrokePaint( double trackWidth, double trackHeight ) {
         return Color.BLACK;
@@ -129,7 +136,7 @@ public class VSliderNode extends SliderNode {
     //Add a label to appear under the slider at the specified location
     public void addLabel( double value, PNode label ) {
         rootNode.addChild( label );
-        label.setOffset( knobNode.getFullBounds().getWidth() / 2 + trackWidth / 2, getViewY( value ) - label.getFullBounds().getHeight() / 2 );
+        label.setOffset( knobNode.getFullBounds().getWidth() / 2 + trackThickness / 2, getViewY( value ) - label.getFullBounds().getHeight() / 2 );
         adjustOrigin();
     }
 
@@ -138,7 +145,7 @@ public class VSliderNode extends SliderNode {
      * coordinates.  This will only work if all items have been added to the
      * root node.
      */
-    private void adjustOrigin() {
+    protected void adjustOrigin() {
         removeAllChildren();
         addChild( new ZeroOffsetNode( rootNode ) );
     }

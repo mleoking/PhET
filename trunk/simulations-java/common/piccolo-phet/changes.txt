@@ -1,3 +1,4 @@
+3/19/12 Rewrote HSliderNode to use VSliderNode as a composite, see #3255
 3/12/12 #3276, fixed coordinate frame problem in WavelengthControl
 3/12/12 #3277 add sim-sharing to WavelengthControl (first pass)
 2/29/12 #2920 changes to PhotonImageFactory (now PhotonImageChange and PhotonNode)
