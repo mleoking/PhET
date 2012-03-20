@@ -82,7 +82,7 @@ public class HSliderNode extends SliderNode {
 
         //Add the tick mark, At discussion on 10/6/2011 we decided every label should have a tick mark that extends to the track but is also visible when the knob is over it
         float tickStrokeWidth = 1.5f;
-        double tickLength = 6;
+        double tickLength = 15;
         double tickOffset = 8;
         final PhetPPath tickMark = new PhetPPath( new Line2D.Double( label.getCenterX() - tickOffset, label.getCenterY(), label.getCenterX() - tickOffset - tickLength, label.getCenterY() ), new BasicStroke( tickStrokeWidth ), Color.darkGray );
         node.rootNode.addChild( tickMark );
