@@ -126,7 +126,7 @@ public class GameBeforeNode extends AbstractBeforeNode {
         setValueNodeImagesVisible( showImages );
         moleculesHiddenNode.setVisible( !showImages );
         
-        // possibily hide numbers
+        // possibly hide numbers
         setNumbersVisible( showNumbers );
         numbersHiddenNode.setVisible( !showNumbers );
     }
