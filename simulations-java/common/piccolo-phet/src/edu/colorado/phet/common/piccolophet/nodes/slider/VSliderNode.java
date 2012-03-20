@@ -47,7 +47,7 @@ public class VSliderNode extends SliderNode {
 
     // Root node to which all other nodes should be added.  This is done to allow the offset of this node to be at (0, 0).
     // Use this when adding children in subclasses if you want to keep the origin at (0, 0).
-    public final PNode rootNode = new PNode();
+    protected final PNode rootNode = new PNode();
     public final double trackLength;
     public final double trackThickness;
 
