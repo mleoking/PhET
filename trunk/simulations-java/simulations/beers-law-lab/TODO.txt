@@ -7,7 +7,6 @@ DESIGN
 - confusing to have different slider thumbs for Evaporation and Concentration sliders? (#3195, customize slider thumb)
 
 HIGH
-- interviews: versions with and without Wavelength control
 
 MEDIUM
 - common: EvaporationControlNode resizes when slider thumb is dragged all the way to the right, tick lines are missing (due to HSliderNode changes in #3255)

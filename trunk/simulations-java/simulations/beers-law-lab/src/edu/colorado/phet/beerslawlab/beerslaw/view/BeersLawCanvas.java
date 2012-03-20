@@ -39,7 +39,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
 
         // Rendering order
         {
-            addChild( wavelengthControlNode );
+//            addChild( wavelengthControlNode );
             addChild( detectorNode );
             addChild( cuvetteNode );
             addChild( beamNode );
