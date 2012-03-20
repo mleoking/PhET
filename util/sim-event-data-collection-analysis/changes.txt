@@ -1,3 +1,4 @@
+# 00.00.32 (62636) Mar 19, 2012
 Count spinner clicks in each game
 Fixed: Checks and points are broken, always empty in done game summaries
 Fixed: Game in progress false after closing the application
