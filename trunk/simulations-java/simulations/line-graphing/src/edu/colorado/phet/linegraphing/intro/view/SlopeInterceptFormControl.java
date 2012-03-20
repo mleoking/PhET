@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeInterceptFormControl extends PNode {
+class SlopeInterceptFormControl extends PNode {
 
     public static enum SlopeInterceptForm {Y_FORM, X_FORM}
 
