@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class StandardEquationsControl extends PNode {
+class StandardEquationsControl extends PNode {
 
     private static final String UNIT_POSITIVE_EQUATION = MessageFormat.format( "{0} = (+1){1}",
                                                                       Strings.SYMBOL_VERTICAL_AXIS,
