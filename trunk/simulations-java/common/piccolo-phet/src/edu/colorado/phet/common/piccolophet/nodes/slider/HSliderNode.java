@@ -71,11 +71,11 @@ public class HSliderNode extends SliderNode {
     }
 
     //Adds a label to the slider node
-    public void addLabel( double value, PNode x ) {
+    public void addLabel( double value, PNode labelNode ) {
 
         //Wrap in a zero offset node for rotating the label
         //Wrap in another layer for setting the offset independently of the rotation
-        final ZeroOffsetNode label = new ZeroOffsetNode( new ZeroOffsetNode( x ) {{
+        final ZeroOffsetNode label = new ZeroOffsetNode( new ZeroOffsetNode( labelNode ) {{
             rotate( -Math.PI / 2 );
         }} );
         node.rootNode.addChild( label );
