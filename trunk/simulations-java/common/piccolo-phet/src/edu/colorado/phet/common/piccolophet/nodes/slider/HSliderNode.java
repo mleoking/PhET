@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.slider;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Paint;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import javax.swing.SwingUtilities;
@@ -14,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PCanvas;
@@ -67,6 +71,7 @@ public class HSliderNode extends SliderNode {
 
     //Adds a label to the slider node
     public void addLabel( double value, PNode x ) {
+
         //Wrap in a zero offset node for rotating the label
         //Wrap in another layer for setting the offset independently of the rotation
         final ZeroOffsetNode label = new ZeroOffsetNode( new ZeroOffsetNode( x ) {{
@@ -74,6 +79,17 @@ public class HSliderNode extends SliderNode {
         }} );
         node.rootNode.addChild( label );
         label.setOffset( node.knobNode.getFullBounds().getWidth() / 2 + node.trackThickness / 2, node.getViewY( value ) - label.getFullBounds().getHeight() / 2 );
+
+        //Add the tick mark, At discussion on 10/6/2011 we decided every label should have a tick mark that extends to the track but is also visible when the knob is over it
+        float tickStrokeWidth = 1.5f;
+        double tickLength = 6;
+        double tickOffset = 8;
+        final PhetPPath tickMark = new PhetPPath( new Line2D.Double( label.getCenterX() - tickOffset, label.getCenterY(), label.getCenterX() - tickOffset - tickLength, label.getCenterY() ), new BasicStroke( tickStrokeWidth ), Color.darkGray );
+        node.rootNode.addChild( tickMark );
+
+        //Make the tick mark appear behind the track and knob
+        tickMark.moveToBack();
+
         node.adjustOrigin();
     }
 
