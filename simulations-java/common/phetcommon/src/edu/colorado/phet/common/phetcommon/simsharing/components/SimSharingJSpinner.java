@@ -123,6 +123,12 @@ public class SimSharingJSpinner extends JSpinner {
         }
     }
 
+    // Guard against corner case where focusLost=true because fireStateChanged hasn't been called.
+    @Override public void setEnabled( boolean enabled ) {
+        focusLost = focusLost && enabled;
+        super.setEnabled( enabled );
+    }
+
     // Rewire the text field listeners
     @Override public void setEditor( JComponent editor ) {
         JComponent currentEditor = getEditor();

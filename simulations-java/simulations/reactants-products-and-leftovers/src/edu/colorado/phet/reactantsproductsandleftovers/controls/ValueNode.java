@@ -135,6 +135,7 @@ public class ValueNode extends PhetPNode {
 
     public void setEditable( boolean editable ) {
         spinnerNode.setPickable( editable );
+        spinnerNode.setEnabled( editable );
         if ( editable ) {
             addChild( spinnerNode );
             removeChild( valueNode );
