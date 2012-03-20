@@ -3,8 +3,6 @@ package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Paint;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -28,8 +26,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 class LogarithmicParameterSliderNode extends PNode {
 
     private static final Font TITLE_FONT = new PhetFont( 14 );
-    private static final double SLIDER_TRACK_WIDTH = 100;
-    private static final double SLIDER_TRACK_HEIGHT = 4;
+    private static final double SLIDER_TRACK_LENGTH = 100;
+    private static final double SLIDER_TRACK_THICKNESS = 4;
     private static final Font LABEL_FONT = new PhetFont( 12 );
 
     LogarithmicParameterSliderNode( IUserComponent userComponent, final double min, final double max, final SettableProperty<Double> settableProperty, String htmlLabelText ) {
@@ -55,11 +53,9 @@ class LogarithmicParameterSliderNode extends PNode {
         final Property<Double> passThroughProperty = new Property<Double>( Math.log10( settableProperty.get() ) );
 
         // Create the slider node.
-        HSliderNode sliderNode = new HSliderNode( userComponent, sliderMin, sliderMax, SLIDER_TRACK_WIDTH, SLIDER_TRACK_HEIGHT, passThroughProperty, new BooleanProperty( true ) ) {
-            @Override protected Paint getTrackFillPaint(  double trackWidth, double trackHeight  ) {
-                return Color.BLACK;
-            }
-        };
+        HSliderNode sliderNode = new HSliderNode( userComponent, sliderMin, sliderMax, SLIDER_TRACK_THICKNESS, SLIDER_TRACK_LENGTH, passThroughProperty, new BooleanProperty( true ) ) {{
+            setTrackFillPaint( Color.black );
+        }};
 
         // Conversion to exponential.
         passThroughProperty.addObserver( new VoidFunction1<Double>() {

@@ -221,7 +221,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             PNode title = new HTMLNode( "<center>Number of<br>Cells</center>", Color.black, new PhetFont( 16, true ) );
 
             // Create the slider.
-            IntegerHSliderNode sliderNode = new IntegerHSliderNode( UserComponents.numberOfCellsSlider, 1, MultipleCellsModel.MAX_CELLS, 100, 4, model.numberOfVisibleCells );
+            IntegerHSliderNode sliderNode = new IntegerHSliderNode( UserComponents.numberOfCellsSlider, 1, MultipleCellsModel.MAX_CELLS, 4, 100, model.numberOfVisibleCells );
             sliderNode.addLabel( 1, new PLabel( "One", 14 ) );
             sliderNode.addLabel( (double) MultipleCellsModel.MAX_CELLS, new PLabel( "Many", 14 ) );
             addChild( sliderNode );
