@@ -1,3 +1,4 @@
+3/20/12 Extend ticks to the track, see #3255
 3/19/12 Added invisible padding around VSliderNode, see #3255, resolves comments 15 and 17
 3/19/12 Rewrote HSliderNode to use VSliderNode as a composite, see #3255
 3/12/12 #3276, fixed coordinate frame problem in WavelengthControl
