@@ -242,7 +242,7 @@ public class HandleNode extends GLNode {
                     if ( model.allowsDivergentMotion() && ( pullingLeft != isRightHandle ) ) {
                         model.motionType.set( MotionType.DIVERGENT );
                     }
-                    else if ( pullingLeft == isRightHandle ) {
+                    else if ( model.allowsConvergentMotion() && pullingLeft == isRightHandle ) {
                         model.motionType.set( MotionType.CONVERGENT );
                     }
                     else {
