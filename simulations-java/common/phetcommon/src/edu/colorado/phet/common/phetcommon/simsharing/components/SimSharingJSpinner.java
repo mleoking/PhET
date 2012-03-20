@@ -111,8 +111,7 @@ public class SimSharingJSpinner extends JSpinner {
             // Focus lost
             focusListener = new FocusAdapter() {
                 @Override public void focusLost( FocusEvent e ) {
-                    System.out.println( "focusLost value=" + getValue() );//XXX
-                    focusLost = true && isEnabled();
+                    focusLost = true;
                 }
             };
             JComponent editor = getEditor();
@@ -122,11 +121,6 @@ public class SimSharingJSpinner extends JSpinner {
                 textField.addFocusListener( focusListener );
             }
         }
-    }
-
-    @Override public void setEnabled( boolean enabled ) {
-        System.out.println( "setEnabled " + enabled + " value=" + getValue() );//XXX
-        super.setEnabled( enabled );
     }
 
     // Rewire the text field listeners
