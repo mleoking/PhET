@@ -27,8 +27,8 @@ class SavedLinesControl extends PNode {
         addChild( saveLineButton );
         addChild( eraseLinesButton );
 
-        // "Erase" to right of "Save"
-        eraseLinesButton.setOffset( saveLineButton.getFullBoundsReference().getWidth() + 10, saveLineButton.getYOffset() );
+        // "Erase" below "Save"
+        eraseLinesButton.setOffset( saveLineButton.getXOffset(), saveLineButton.getFullBoundsReference().getHeight() + 10 );
 
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

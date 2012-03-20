@@ -4,6 +4,8 @@ package edu.colorado.phet.linegraphing.intro.view;
 import java.awt.Insets;
 import java.text.MessageFormat;
 
+import javax.swing.Box;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -22,7 +24,7 @@ class SlopeInterceptFormControl extends PNode {
 
     public static enum SlopeInterceptForm {Y_FORM, X_FORM}
 
-    private static final PhetFont FONT = new PhetFont( 22 );
+    private static final PhetFont FONT = new PhetFont( 20 );
     private static final String PATTERN = "{0} = {1}{2} + {3}"; // eg, y = mx + b
 
     // y = mx + b
@@ -57,9 +59,10 @@ class SlopeInterceptFormControl extends PNode {
         xFormRadioButton.setFont( FONT );
 
         GridPanel panel = new GridPanel();
-        panel.setGridX( 0 ); // vertical
+        panel.setGridY( 0 ); // vertical
         panel.setInsets( new Insets( 5, 5, 5, 5 ) );
         panel.add( yFormRadioButton );
+        panel.add( Box.createHorizontalStrut( 10 ) );
         panel.add( xFormRadioButton );
 
         addChild( new ControlPanelNode( panel ) );
