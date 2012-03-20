@@ -57,7 +57,7 @@ object RPALAnalysis extends StateMachine[SimState] {
 
     import Hiding._
 
-    case class GameResult(time: Long, level: Int, score: Double, finished: Boolean, hiding: Hiding, checks: List[Check]) {
+    case class GameResult(time: Long, level: Int, spinnerClicks: Int, score: Double, finished: Boolean, hiding: Hiding, checks: List[Check]) {
       def points = {
         val buffer = new ArrayBuffer[Int]
         for ( e <- checks ) {
@@ -77,7 +77,7 @@ object RPALAnalysis extends StateMachine[SimState] {
 
     def gameResults: List[GameResult] = {
       ( for ( state <- userStates if state.entry.matches("game", "aborted") || state.entry.matches("game", "completed") ) yield {
-        GameResult(state.entry.time - state.start.tab2.gameStartTime.get, state.end.tab2.level, state.entry("score").toDouble, state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
+        GameResult(state.entry.time - state.start.tab2.gameStartTime.get, state.end.tab2.level, state.end.tab2.spinnerClicksInGame, state.entry("score").toDouble, state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
       } ).toList
     }
 
@@ -110,6 +110,7 @@ object RPALAnalysis extends StateMachine[SimState] {
                                                                  "\tlevel: " + gameResults(i).level + "\n" +
                                                                  "\tHiding: " + gameResults(i).hiding + "\n" +
                                                                  "\ttime: " + gameResults(i).time / 1000.0 / 60.0 + " minutes\n" +
+                                                                 "\tspinner clicks: " + gameResults(i).spinnerClicks + "\n" +
                                                                  "\tscore: " + gameResults(i).score + "\n" +
                                                                  "\tfinished: " + gameResults(i).finished + "\n" +
                                                                  "\tchecks: " + gameResults(i).checks + "\n" +
