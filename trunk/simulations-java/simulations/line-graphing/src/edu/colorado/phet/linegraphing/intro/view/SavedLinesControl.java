@@ -40,7 +40,7 @@ public class SavedLinesControl extends PNode {
         eraseLinesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( false );
-                //TODO erase the saved line
+                //TODO erase the saved lines
             }
         } );
     }
