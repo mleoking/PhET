@@ -1,3 +1,4 @@
+3/20/12 Beers: temporarily hide Wavelength control for interviews
 # 1.00.01 (62562) Mar 15, 2012
 3/15/12 2nd tab is feature complete
 3/13/12 Beers: support for up/down arrows in Concentration text field
