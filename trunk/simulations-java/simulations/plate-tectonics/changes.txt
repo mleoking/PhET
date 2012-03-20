@@ -1,3 +1,4 @@
+Fixed: hard color boundary between above/below sea level terrain was causing "instant" changes of flashing terrain
 Fixed: bug where dragging two young oceanic plates together (even though not visually allowed) would crash sim
 # 0.00.27 (62534) Mar 13, 2012
 Added smoke to volcanoes
