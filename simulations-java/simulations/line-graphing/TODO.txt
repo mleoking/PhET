@@ -6,10 +6,13 @@ DESIGN
 
 HIGH
 - reuse spinner buttons from fractions, see SpinnerButtonNode
+- implement GraphNode
+- implement SlopeInterceptEquationNode
 
 MEDIUM
 - add icons for standard line check boxes
 - add "Show" title for standard lines control panel
+- erase lines on Reset All
 
 LOW
 
