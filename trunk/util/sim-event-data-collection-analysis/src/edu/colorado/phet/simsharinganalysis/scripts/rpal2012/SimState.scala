@@ -82,7 +82,7 @@ import Hiding._
 
 case class Check(attempts: Int, correct: Boolean)
 
-case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding,
+case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding, spinnerClicksInGame: Int,
 
                 //When the game started for purposes of finding how long it took
                 gameStartTime: Option[Long],
@@ -110,11 +110,15 @@ case class Tab2(level: Int, timer: Boolean, sound: Boolean, hide: Hiding,
       case Entry(_, "user", "nothingRadioButton", _, "pressed", _) => copy(hide = nothing)
       case Entry(_, "user", "moleculesRadioButton", _, "pressed", _) => copy(hide = molecules)
       case Entry(_, "user", "numbersRadioButton", _, "pressed", _) => copy(hide = numbers)
-      case Entry(_, "user", "startGameButton", _, "pressed", _) => copy(gameStartTime = Some(e.time), checks = Nil, gameInProgress = true)
+      case Entry(_, "user", "startGameButton", _, "pressed", _) => copy(gameStartTime = Some(e.time), checks = Nil, gameInProgress = true, spinnerClicksInGame = 0)
       case Entry(_, "model", "game", _, "aborted", _) => copy(gameInProgress = false)
       case Entry(_, "model", "game", _, "completed", _) => copy(gameInProgress = false)
       case Entry(_, "user", "checkButton", _, "pressed", _) => copy(checks = checks ::: List(Check(e("attempts").toInt, e("correct").toBoolean)))
-      //      case Entry(_, "user", "nextButton", _, "pressed", _) => copy(checks = Nil)
+
+      //Count spinner clicks in each game
+      case Entry(_, "user", _, "spinner", "buttonPressed", _) => copy(spinnerClicksInGame = this.spinnerClicksInGame + 1)
+      case Entry(_, "user", _, "spinner", "textFieldCommitted", _) => copy(spinnerClicksInGame = this.spinnerClicksInGame + 1)
+      case Entry(_, "user", _, "spinner", "focusLost", _) => copy(spinnerClicksInGame = this.spinnerClicksInGame + 1)
 
       //Nothing happened to change the state
       case _ => this
