@@ -72,6 +72,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/ladybug-motion-2d/ladybug-motion-2d.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/ladybug-motion-2d/ladybug-motion-2d.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/lasers/lasers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/lasers/lasers.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/licensing/licensing.iml" filepath="$PROJECT_DIR$/util/licensing/licensing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/line-graphing/line-graphing.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/line-graphing/line-graphing.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/localization-strings/localization-strings.iml" filepath="$PROJECT_DIR$/util/localization-strings/localization-strings.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/log4j/log4j.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/log4j/log4j.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/lwjgl/lwjgl.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/lwjgl/lwjgl.iml" />
