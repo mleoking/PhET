@@ -24,6 +24,8 @@ public class IntroCanvas extends LGCanvas {
 
     public IntroCanvas( IntroModel model ) {
 
+        PNode graphNode = new GraphNode();
+        PNode equationNode = new SlopeInterceptEquationNode();
         PNode savedLinesControl = new SavedLinesControl();
         PNode slopeInterceptFormControl = new SlopeInterceptFormControl( slopeInterceptForm );
         PNode standardEquationsControl = new StandardEquationsControl( unitPositiveSlopeVisible, unitNegativeSlopeVisible );
@@ -33,6 +35,8 @@ public class IntroCanvas extends LGCanvas {
 
         // rendering order
         {
+            addChild( graphNode );
+            addChild( equationNode );
             addChild( savedLinesControl );
             addChild( slopeInterceptFormControl );
             addChild( standardEquationsControl );
@@ -44,12 +48,15 @@ public class IntroCanvas extends LGCanvas {
             // NOTE: Nodes that have corresponding model elements handle their own offsets.
             final double xMargin = 20;
             final double yMargin = 20;
+            graphNode.setOffset( xMargin, yMargin );
             savedLinesControl.setOffset( getStageSize().getWidth() - savedLinesControl.getFullBoundsReference().getWidth() - xMargin,
                                          100 );
             slopeInterceptFormControl.setOffset( getStageSize().getWidth() - slopeInterceptFormControl.getFullBoundsReference().getWidth() - xMargin,
                                                  savedLinesControl.getFullBoundsReference().getMaxY() + 20 );
+            equationNode.setOffset( getStageSize().getWidth() - equationNode.getFullBoundsReference().getWidth() - xMargin,
+                                                 slopeInterceptFormControl.getFullBoundsReference().getMaxY() + 20 );
             standardEquationsControl.setOffset( getStageSize().getWidth() - standardEquationsControl.getFullBoundsReference().getWidth() - xMargin,
-                                                slopeInterceptFormControl.getFullBoundsReference().getMaxY() + 20 );
+                                                equationNode.getFullBoundsReference().getMaxY() + 20 );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
