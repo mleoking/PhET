@@ -4,7 +4,6 @@ package edu.colorado.phet.statesofmatter.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GradientPaint;
-import java.awt.Paint;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -53,11 +52,9 @@ public class StoveControlSliderNode3 extends HSliderNode {
                 value.set( 0.0 );
             }
         } );
-    }
 
-    // Show a gradient in the track that goes from orange to light blue to
-    // indicate the heat/coolness setting.
-    @Override protected Paint getTrackFillPaint( double trackWidth, double trackHeight ) {
-        return new GradientPaint( 0, 0, LEFT_SIDE_TRACK_COLOR, (float)trackWidth, 0, RIGHT_SIDE_TRACK_COLOR, false );
+        // Show a gradient in the track that goes from orange to light blue to
+        // indicate the heat/coolness setting.
+        setTrackFillPaint( new GradientPaint( 0, 0, LEFT_SIDE_TRACK_COLOR, (float) super.trackLength, 0, RIGHT_SIDE_TRACK_COLOR, false ) );
     }
 }
