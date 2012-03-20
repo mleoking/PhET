@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.LGConstants;
@@ -16,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntroCanvas extends LGCanvas {
+public class IntroCanvas extends LGCanvas implements Resettable {
 
     private final Property<SlopeInterceptForm> slopeInterceptForm = new Property<SlopeInterceptForm>( SlopeInterceptForm.Y_FORM ); //TODO relocate
     private final Property<Boolean> unitPositiveSlopeVisible = new Property<Boolean>( false ); //TODO relocate
@@ -29,7 +30,7 @@ public class IntroCanvas extends LGCanvas {
         PNode savedLinesControl = new SavedLinesControl();
         PNode slopeInterceptFormControl = new SlopeInterceptFormControl( slopeInterceptForm );
         PNode standardEquationsControl = new StandardEquationsControl( unitPositiveSlopeVisible, unitNegativeSlopeVisible );
-        PNode resetAllButtonNode = new ResetAllButtonNode( model, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
+        PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
 
@@ -49,17 +50,26 @@ public class IntroCanvas extends LGCanvas {
             final double xMargin = 20;
             final double yMargin = 20;
             graphNode.setOffset( xMargin, yMargin );
-            savedLinesControl.setOffset( getStageSize().getWidth() - savedLinesControl.getFullBoundsReference().getWidth() - xMargin,
-                                         100 );
-            slopeInterceptFormControl.setOffset( getStageSize().getWidth() - slopeInterceptFormControl.getFullBoundsReference().getWidth() - xMargin,
-                                                 savedLinesControl.getFullBoundsReference().getMaxY() + 20 );
-            equationNode.setOffset( getStageSize().getWidth() - equationNode.getFullBoundsReference().getWidth() - xMargin,
-                                                 slopeInterceptFormControl.getFullBoundsReference().getMaxY() + 20 );
-            standardEquationsControl.setOffset( getStageSize().getWidth() - standardEquationsControl.getFullBoundsReference().getWidth() - xMargin,
-                                                equationNode.getFullBoundsReference().getMaxY() + 20 );
+            // upper-right of graph
+            savedLinesControl.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
+                                         graphNode.getFullBoundsReference().getMinY() );
+            // center-right of graph
+            slopeInterceptFormControl.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
+                                                 savedLinesControl.getFullBoundsReference().getMaxY() + 60 );
+            equationNode.setOffset( slopeInterceptFormControl.getXOffset(),
+                                    slopeInterceptFormControl.getFullBoundsReference().getMaxY() + 20 );
+            // bottom-right of graph
+            standardEquationsControl.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
+                                                graphNode.getFullBoundsReference().getMaxY() - standardEquationsControl.getFullBoundsReference().getHeight() );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
         }
+    }
+
+    public void reset() {
+        slopeInterceptForm.reset();
+        unitPositiveSlopeVisible.reset();
+        unitNegativeSlopeVisible.reset();
     }
 }
