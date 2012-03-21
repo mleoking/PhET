@@ -118,10 +118,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         backgroundCellLayer = new PNode();
         addWorldChild( backgroundCellLayer );
 
-        // Set up the node where all controls should be placed.  These will
+        // Set up the node where all controls that need to be below the
+        // biomolecules should be placed.  This node and its children will
         // stay in one place and not scroll.
-        final PNode controlsRootNode = new PNode();
-        addWorldChild( controlsRootNode );
+        final PNode backControlsLayer = new PNode();
+        addWorldChild( backControlsLayer );
 
         // Set up the root node for all model objects.  Nodes placed under
         // this one will scroll when the user moves along the DNA strand.
@@ -140,6 +141,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         modelRootNode.addChild( topBiomoleculeLayer );
         final PNode placementHintLayer = new PNode();
         modelRootNode.addChild( placementHintLayer );
+
+        // Set up the node where all controls that need to be above the
+        // biomolecules should be placed.  This node and its children will
+        // stay in one place and not scroll.
+        final PNode frontControlsLayer = new PNode();
+        addWorldChild( frontControlsLayer );
 
         // Add the background cell that will enclose the DNA strand.  Clicking
         // on this cell will zoom in when we are in the zoomed out state.
@@ -197,7 +204,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         final ProteinCollectionNode proteinCollectionNode = new ProteinCollectionNode( model, mvt ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
-        controlsRootNode.addChild( proteinCollectionNode );
+        backControlsLayer.addChild( proteinCollectionNode );
 
         // TODO: Temp for debug - show the protein capture area.  Remove eventually.
 //        final PPath proteinCaptureAreaNode = new PhetPPath( new BasicStroke( 5 ), Color.RED );
@@ -265,7 +272,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 }
             } );
         }};
-        controlsRootNode.addChild( nextGeneButton );
+        frontControlsLayer.addChild( nextGeneButton );
         // TODO: i18n
         final HTMLImageButtonNode previousGeneButton = new HTMLImageButtonNode( "Previous Gene", flipX( GRAY_ARROW ) ) {{
             setTextPosition( TextPosition.RIGHT );
@@ -283,14 +290,14 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 }
             } );
         }};
-        controlsRootNode.addChild( previousGeneButton );
+        frontControlsLayer.addChild( previousGeneButton );
 
         // Add the Reset All button.
         final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
         }};
-        controlsRootNode.addChild( resetAllButton );
+        frontControlsLayer.addChild( resetAllButton );
 
         // Monitor the active gene and move the view port to be centered on it
         // whenever it changes.
@@ -346,7 +353,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 }
             } );
         }};
-        controlsRootNode.addChild( zoomInButton );
+        frontControlsLayer.addChild( zoomInButton );
         final PNode zoomOutButton = new TextButtonNode( "Zoom Out", new PhetFont( 18 ), Color.YELLOW ) {{
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
             addActionListener( new ActionListener() {
@@ -355,7 +362,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                 }
             } );
         }};
-        controlsRootNode.addChild( zoomOutButton );
+        frontControlsLayer.addChild( zoomOutButton );
 
         // Monitor the zoom and set the visibility of various controls.
         modelRootNode.addPropertyChangeListener( new PropertyChangeListener() {
