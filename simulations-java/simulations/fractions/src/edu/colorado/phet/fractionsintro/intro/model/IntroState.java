@@ -39,12 +39,9 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
     public final Representation representation;
     public final int maximum;
 
-    //Initial state
-    public static final IntroState INTRO_STATE = newState( 1, createFactorySet() );
-
     public static IntroState newState( int maximum, FactorySet factories ) {
         int denominator = 1;
-        return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim(), false, false,
+        return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim().maximum( maximum ), false, false,
                                new PieSet( maximum, factories.circularSliceFactory ),
                                new PieSet( maximum, factories.horizontalSliceFactory ),
                                new PieSet( maximum, factories.verticalSliceFactory ),

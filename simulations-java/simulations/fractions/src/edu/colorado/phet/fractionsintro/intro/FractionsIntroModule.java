@@ -10,6 +10,8 @@ import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 
+import static edu.colorado.phet.fractionsintro.intro.model.IntroState.createFactorySet;
+
 /**
  * Module for "Fractions Intro" sim
  *
@@ -17,7 +19,7 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
  */
 public class FractionsIntroModule extends AbstractFractionsModule {
     public FractionsIntroModule() {
-        this( new FractionsIntroModel( IntroState.INTRO_STATE, IntroState.createFactorySet() ) );
+        this( new FractionsIntroModel( IntroState.newState( 1, createFactorySet() ), createFactorySet() ) );
     }
 
     private FractionsIntroModule( FractionsIntroModel model ) {
