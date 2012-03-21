@@ -311,12 +311,12 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                 return createRegularView( name + " Overlay", new OverlayCamera( getStageSize(), getApp().canvasSize,
                                                                                 new CanvasTransformedBounds( canvasTransform,
                                                                                                              rectangle2DProperty ) ) {
-                                              @Override public void positionMe() {
-                                                  setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
-                                                  setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
-                                                  lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
-                                              }
-                                          }, RenderPosition.MAIN );
+                    @Override public void positionMe() {
+                        setFrustumPerspective( 45f, (float) ( rectangle2DProperty.get().getWidth() / rectangle2DProperty.get().getHeight() ), 1f, 1000f );
+                        setLocation( new Vector3f( 0, 0, 45 ) ); // slightly farther back, to avoid intersection with the main play area. yeah.
+                        lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+                    }
+                }, RenderPosition.MAIN );
             }
         };
 
@@ -476,7 +476,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         if ( lastDragging != dragging ) {
             SimSharingManager.sendUserMessage( draggingState, UserComponentTypes.unknown, UserActions.changed,
                                                parameterSet( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
-                                                       add( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
+                                                       with( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }

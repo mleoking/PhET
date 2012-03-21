@@ -137,7 +137,7 @@ public class BondTypeControlNode extends PNode {
 
         final String moleculeGeometry = molecule.getCentralVseprConfiguration().name;
         String moleculeGeometryName = moleculeGeometry == null ? MoleculeShapesResources.Strings.SHAPE__EMPTY : moleculeGeometry;
-        SimSharingManager.sendModelMessage( ModelObjects.molecule, ModelComponentTypes.modelElement, ModelActions.bondsChanged, ParameterSet.parameterSet( ParamKeys.electronGeometry, electronGeometryName ).add( ParamKeys.moleculeGeometry, moleculeGeometryName ) );
+        SimSharingManager.sendModelMessage( ModelObjects.molecule, ModelComponentTypes.modelElement, ModelActions.bondsChanged, ParameterSet.parameterSet( ParamKeys.electronGeometry, electronGeometryName ).with( ParamKeys.moleculeGeometry, moleculeGeometryName ) );
     }
 
     private boolean hasMatchingGroup() {
