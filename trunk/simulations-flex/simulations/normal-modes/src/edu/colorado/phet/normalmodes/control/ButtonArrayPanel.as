@@ -55,7 +55,7 @@ public class ButtonArrayPanel extends Canvas{
         this.myMainView = myMainView;
         this.myModel2 = myModel2;
         this.myModel2.registerView( this );
-        this.nMax = this.myModel2.nMax;
+        this.nMax = this.myModel2.nMax;     //in 2D, number of mobile masses is nMax*nMax
         this.maxContainerWidth = 250;
         //this.color_arr = new Array();
         //this.makeColorArray();
