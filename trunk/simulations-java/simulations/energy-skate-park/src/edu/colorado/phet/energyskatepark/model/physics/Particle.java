@@ -545,7 +545,7 @@ public class Particle implements Serializable {
             boolean velocityTowardTrack = isVelocityTowardTrack( origLoc, cubicSpline, newAlpha );
             if ( bounce || !velocityTowardTrack ) {
 
-                SimSharingManager.sendModelMessage( skater, ModelComponentTypes.modelElement, bounced, ParameterSet.parameterSet( trackIndex, cubicSpline.index ).add( isFloor, cubicSpline instanceof LinearFloorSpline2D ) );
+                SimSharingManager.sendModelMessage( skater, ModelComponentTypes.modelElement, bounced, ParameterSet.parameterSet( trackIndex, cubicSpline.index ).with( isFloor, cubicSpline instanceof LinearFloorSpline2D ) );
                 double energyBeforeBounce = getTotalEnergy();
                 setVelocity( newVelocity );
 
@@ -563,7 +563,7 @@ public class Particle implements Serializable {
             else {
                 //grab the track
                 double dE0 = getTotalEnergy() - origEnergy;
-                SimSharingManager.sendModelMessage( skater, ModelComponentTypes.modelElement, landed, ParameterSet.parameterSet( trackIndex, cubicSpline.index ).add( isFloor, cubicSpline instanceof LinearFloorSpline2D ) );
+                SimSharingManager.sendModelMessage( skater, ModelComponentTypes.modelElement, landed, ParameterSet.parameterSet( trackIndex, cubicSpline.index ).with( isFloor, cubicSpline instanceof LinearFloorSpline2D ) );
                 switchToTrack( cubicSpline, newAlpha, origAbove[searchState.getIndex()] );
                 double dE2 = getTotalEnergy() - origEnergy;
                 if ( Math.abs( dE2 ) > 1E-6 ) {

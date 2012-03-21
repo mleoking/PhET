@@ -85,11 +85,11 @@ public class SplineToolboxNode extends PNode {
             @Override public ParameterSet getStartDragParameters( PInputEvent event ) {
 
                 //Use the class count to get the new track ID, assumes nothing else will happen between now and then to change that index
-                return super.getStartDragParameters( event ).add( numTracks, energySkateParkSimulationPanel.getEnergySkateParkModel().getNumSplines() + 1 ).add( trackIndex, ParametricFunction2D.count );
+                return super.getStartDragParameters( event ).with( numTracks, energySkateParkSimulationPanel.getEnergySkateParkModel().getNumSplines() + 1 ).with( trackIndex, ParametricFunction2D.count );
             }
 
             @Override public ParameterSet getEndDragParameters( PInputEvent event ) {
-                return super.getEndDragParameters( event ).add( ParameterSet.parameterSet( trackIndex, createdSurface.getParametricFunction2D().index ) );
+                return super.getEndDragParameters( event ).with( ParameterSet.parameterSet( trackIndex, createdSurface.getParametricFunction2D().index ) );
             }
 
             @Override protected void startDrag( PInputEvent event ) {

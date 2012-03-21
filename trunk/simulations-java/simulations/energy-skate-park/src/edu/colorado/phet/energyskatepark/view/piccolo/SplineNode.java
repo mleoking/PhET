@@ -110,7 +110,7 @@ public class SplineNode extends PNode {
         dragHandler = new SimSharingDragHandler( chain( EnergySkateParkSimSharing.UserComponents.track, spline.getParametricFunction2D().index ), UserComponentTypes.sprite ) {
 
             @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                return super.getParametersForAllEvents( event ).add( trackIndex, spline.getParametricFunction2D().index );
+                return super.getParametersForAllEvents( event ).with( trackIndex, spline.getParametricFunction2D().index );
             }
 
             @Override protected void drag( PInputEvent event ) {
@@ -239,8 +239,8 @@ public class SplineNode extends PNode {
             EnergySkateParkSpline result = attach( index, startMatch );
             SimSharingManager.sendUserMessage( chain( EnergySkateParkSimSharing.UserComponents.track, spline.getParametricFunction2D().index ), UserComponentTypes.sprite, attached
                     , ParameterSet.parameterSet( inputTrack1, spline.getParametricFunction2D().index ).
-                    add( inputTrack2, startMatch.getEnergySkateParkSpline().getParametricFunction2D().index ).
-                    add( outputTrack, result.getParametricFunction2D().index ) );
+                    with( inputTrack2, startMatch.getEnergySkateParkSpline().getParametricFunction2D().index ).
+                    with( outputTrack, result.getParametricFunction2D().index ) );
             return true;
         }
         return false;
@@ -362,7 +362,7 @@ public class SplineNode extends PNode {
                 }
 
                 @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return super.getParametersForAllEvents( event ).add( trackIndex, spline.getParametricFunction2D().index );
+                    return super.getParametersForAllEvents( event ).with( trackIndex, spline.getParametricFunction2D().index );
                 }
 
                 @Override protected void drag( PInputEvent event ) {
