@@ -295,10 +295,10 @@ public class RealMoleculesTab extends MoleculeViewTab {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-                                      public void update() {
-                                          rebuildMolecule( false );
-                                      }
-                                  }, false );
+            public void update() {
+                rebuildMolecule( false );
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -474,7 +474,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
         if ( lastDragging != dragging ) {
             SimSharingManager.sendUserMessage( MoleculeShapesSimSharing.UserComponents.draggingState, UserComponentTypes.unknown, UserActions.changed,
                                                parameterSet( MoleculeShapesSimSharing.ParamKeys.dragging, dragging ).
-                                                       add( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
+                                                       with( MoleculeShapesSimSharing.ParamKeys.dragMode, dragMode.toString() ) );
         }
         lastDragging = dragging;
     }
