@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+
 /**
  * Parameter portion of a sim-sharing event.
  * Standardizes the rules for formatting parameters, so that we can also standardize on a parser.
@@ -31,7 +33,10 @@ public class Parameter {
         this( name, value + "" );
     }
 
+    //Ensures that the delimiter doesn't appear in the string, which would cause problems for the parsers, see #3260
     public Parameter( IParameterKey name, String value ) {
+        assert !name.toString().contains( SimSharingManager.DELIMITER );
+        assert !value.contains( SimSharingManager.DELIMITER );
         this.name = name;
         this.value = value;
     }
