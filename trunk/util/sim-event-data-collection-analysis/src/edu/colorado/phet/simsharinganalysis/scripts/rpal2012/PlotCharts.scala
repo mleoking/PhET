@@ -6,7 +6,6 @@ import java.io.{FilenameFilter, File}
 import org.jfree.data.xy.{XYSeries, XYSeriesCollection}
 import org.jfree.chart.plot.{XYPlot, PlotOrientation}
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer
-import org.jfree.data.statistics.Regression._
 import swing.{Frame, ListView, Component, BorderPanel}
 import java.awt.Dimension
 import org.jfree.chart.{ChartPanel, ChartFactory}
@@ -63,11 +62,13 @@ object PlotCharts extends App {
       }))
     }
 
-    val regressions = 0.until(seriesCollection.getSeriesCount).map(getOLSRegression(seriesCollection, _))
-    regressions.foreach(array => println("a = " + array(0) + ", b = " + array(1)))
-    val slopes = regressions.map(_(1))
-    val averageSlope = slopes.sum / slopes.length
-    println("average slope = " + averageSlope)
+    //TODO: When computing average slope, need to handle this exception
+    //Exception in thread "AWT-EventQueue-0" java.lang.IllegalArgumentException: Not enough data.
+    //    val regressions = 0.until(seriesCollection.getSeriesCount).map(getOLSRegression(seriesCollection, _))
+    //    regressions.foreach(array => println("a = " + array(0) + ", b = " + array(1)))
+    //    val slopes = regressions.map(_(1))
+    //    val averageSlope = slopes.sum / slopes.length
+    //    println("average slope = " + averageSlope)
 
     val scatterPlot = ChartFactory.createScatterPlot("title", "guesses", "points", seriesCollection, PlotOrientation.VERTICAL, true, false, false)
     val p = scatterPlot.getPlot.asInstanceOf[XYPlot]
