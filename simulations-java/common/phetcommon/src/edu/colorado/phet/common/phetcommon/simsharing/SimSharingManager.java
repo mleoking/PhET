@@ -29,16 +29,14 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.tests.MongoLoadTesterSimLauncher;
-import edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingMessage.MessageType.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.*;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.*;
-import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMountainTime.whatIsMountainTime;
-import static edu.colorado.phet.common.phetcommon.simsharing.util.WhatIsMyIPAddress.whatIsMyIPAddress;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.sentEvent;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.SystemActions.started;
 
 /**
  * Central access point for sim-sharing initialization and event sending.
@@ -146,13 +144,6 @@ public class SimSharingManager {
             //Look up additional external info and report in a separate thread so it doesn't slow down the main thread too much
             new Thread() {
                 @Override public void run() {
-                    if ( WhatIsMountainTime.enabled ) {
-                        sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, mountainTimeLookup, parameterSet( mountainTime, whatIsMountainTime() ) );
-                    }
-                    if ( simSharingConfig.collectIPAddress ) {
-                        sendSystemMessage( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, ipAddressLookup, parameterSet( ipAddress, whatIsMyIPAddress() ) );
-                    }
-
                     if ( MongoLoadTesterSimLauncher.PERFORM_LOAD_TESTING ) {
                         MongoLoadTesterSimLauncher.performLoadTesting();
                     }
