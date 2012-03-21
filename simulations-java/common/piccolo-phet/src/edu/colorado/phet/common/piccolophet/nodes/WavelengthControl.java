@@ -223,7 +223,7 @@ public class WavelengthControl extends PhetPNode {
                                                                  } ) {
             // Add wavelength value to set of standard parameters
             @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                return ParameterSet.parameterSet( ParameterKeys.wavelength, getWavelength() ).add( super.getParametersForAllEvents( event ) );
+                return ParameterSet.parameterSet( ParameterKeys.wavelength, getWavelength() ).with( super.getParametersForAllEvents( event ) );
             }
         } );
 
@@ -741,16 +741,16 @@ public class WavelengthControl extends PhetPNode {
     // User does something to commit the text field.
     protected void sendCommittedMessage( IParameterValue commitAction, double value ) {
         SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.textField, UserActions.textFieldCommitted,
-                                           ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).add( ParameterKeys.value, value ) );
+                                           ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).with( ParameterKeys.value, value ) );
     }
 
     // Invalid input is encountered and corrected in the text field.
     protected void sendCorrectedMessage( IParameterValue commitAction, IParameterValue errorType, String bogusValue, double correctedValue ) {
         sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCorrected,
                          parameterSet( ParameterKeys.errorType, errorType ).
-                                 add( ParameterKeys.commitAction, commitAction ).
-                                 add( ParameterKeys.value, bogusValue ).
-                                 add( ParameterKeys.correctedValue, correctedValue ) );
+                                 with( ParameterKeys.commitAction, commitAction ).
+                                 with( ParameterKeys.value, bogusValue ).
+                                 with( ParameterKeys.correctedValue, correctedValue ) );
     }
 
     // Simple test, see TestWavelengthControl for a more extensive test.
