@@ -80,11 +80,6 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         // Set the background color.
         setBackground( new Color( 171, 202, 217 ) );
 
-        // Set up the node where all controls should be placed.  These will
-        // stay in one place and not scroll.
-        final PNode controlsRootNode = new PNode();
-        addWorldChild( controlsRootNode );
-
         // Set up the root node for all model objects.  Nodes placed under
         // this one will scroll when the user moves along the DNA strand.
         modelRootNode = new PNode();
@@ -102,6 +97,8 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         modelRootNode.addChild( topBiomoleculeLayer );
         final PNode placementHintLayer = new PNode();
         modelRootNode.addChild( placementHintLayer );
+        final PNode controlsNode = new PNode();
+        addWorldChild( controlsNode );
 
         // Add the representation of the DNA strand.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt, 5, false );
@@ -130,16 +127,16 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
                 new TranscriptionFactorControlPanel( model,
                                                      model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
                                                      gene.getTranscriptionFactorAffinityProperty( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
-        controlsRootNode.addChild( positiveTranscriptionFactorControlPanel );
+        controlsNode.addChild( positiveTranscriptionFactorControlPanel );
         PolymeraseAffinityControlPanel polymeraseAffinityControlPanel = new PolymeraseAffinityControlPanel( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
                                                                                                             positiveTranscriptionFactorControlPanel.getFullBoundsReference().height,
                                                                                                             gene.getPolymeraseAffinityProperty() );
-        controlsRootNode.addChild( polymeraseAffinityControlPanel );
+        controlsNode.addChild( polymeraseAffinityControlPanel );
         final TranscriptionFactorControlPanel negativeTranscriptionFactorControlPanel =
                 new TranscriptionFactorControlPanel( model,
                                                      model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG,
                                                      gene.getTranscriptionFactorAffinityProperty( model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
-        controlsRootNode.addChild( negativeTranscriptionFactorControlPanel );
+        controlsNode.addChild( negativeTranscriptionFactorControlPanel );
 
         // Add the check box for showing/hiding the control panel for the
         // negative transcription factor.
@@ -147,7 +144,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         PNode negativeFactorEnabledCheckBox = new PropertyCheckBoxNode( negativeTranscriptionFactorCheckBox,
                                                                         "Negative Transcription Factor",
                                                                         negativeTranscriptionFactorEnabled );
-        controlsRootNode.addChild( negativeFactorEnabledCheckBox );
+        controlsNode.addChild( negativeFactorEnabledCheckBox );
 
         // Only show the control for the negative transcription factor if it
         // is enabled.
@@ -173,7 +170,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         final FloatingClockControlNode floatingClockControlNode = new FloatingClockControlNode( clockRunning, null,
                                                                                                 model.getClock(), null,
                                                                                                 new Property<Color>( Color.white ) );
-        controlsRootNode.addChild( floatingClockControlNode );
+        controlsNode.addChild( floatingClockControlNode );
 
         // Make sure that the floating clock control sees the change when the
         // clock gets started.
@@ -187,7 +184,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
         }};
-        controlsRootNode.addChild( resetAllButton );
+        controlsNode.addChild( resetAllButton );
 
         // Lay out the controls.
         positiveTranscriptionFactorControlPanel.setOffset( INSET,
