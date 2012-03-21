@@ -29,8 +29,11 @@
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084" jdkType="__CompositeFlexSdk__" />
+    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="aswing-a3" />
+    <orderEntry type="module" module-name="common-as3" />
+    <orderEntry type="module" module-name="flexcommon" />
   </component>
 </module>
 
