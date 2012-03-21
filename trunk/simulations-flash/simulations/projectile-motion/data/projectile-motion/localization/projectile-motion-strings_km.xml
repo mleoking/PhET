@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--projectile-motion-strings_km.xml created Wed Dec 22 10:31:04 ICT 2010 using: projectile-motion 2.02.00 (37323), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--178_projectile-motion-strings_km.xml created Tue Feb 14 09:40:23 ICT 2012 using: projectile-motion 2.02.00 (37323), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="dragLabel" value="អូស​មេគុណកកិត"/>
-<string key="userChoice" value="ជម្រើស​របស់​អ្នក​ប្រើ"/>
+<string key="userChoice" value="ជម្រើសអ្នក​ប្រើ"/>
 <string key="altitudeLabel" value="រយៈកំពស់ (m)"/>
 <string key="football" value="បាល់ទាត់"/>
-<string key="golfball" value="កូនហ្គោល"/>
+<string key="golfball" value="កូនគោល"/>
 <string key="simTitle" value="ចលនាគ្រាប់បាញ់"/>
 <string key="collision" value="ទង្គិច !"/>
 <string key="adultHuman" value="មនុស្ស"/>
 <string key="time" value="រយៈពេល (s)"/>
 <string key="buick" value="កូនឡាន"/>
-<string key="diameter" value="បន្ទាត់​ផ្ចិត (m)"/>
-<string key="initSpeed" value="ល្បឿនដំបូង (m/s)"/>
+<string key="diameter" value="អង្កត់ផ្ចិត (m)"/>
+<string key="initSpeed" value="ល្បឿនដើម (m/s)"/>
 <string key="bowlingball" value="បាល់ប៊ូលលីង"/>
 <string key="piano" value="ព្យាណូ"/>
 <string key="sound" value="សំឡេង"/>
-<string key="range" value="ប្រវែង​បាញ់ (m)"/>
+<string key="range" value="ចម្ងាយ​ធ្លាក់ (m)"/>
 <string key="mass" value="ម៉ាស (kg)"/>
-<string key="height" value="កម្ពស់ (m)"/>
+<string key="height" value="កម្ពស់ឡើង (m)"/>
 <string key="pumpkin" value="ល្ពៅ"/>
 <string key="score" value="ពិន្ទុ !"/>
 <string key="angle" value="មុំ (ដឺក្រេ)"/>
-<string key="baseball" value="បាល់អោប"/>
+<string key="baseball" value="បាល់ឱប"/>
 <string key="airResistance" value="រ៉េស៊ីស្តង់​ខ្យល់"/>
 <string key="fire" value="បាញ់"/>
 <string key="erase" value="លុប"/>
