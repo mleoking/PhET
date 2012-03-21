@@ -1,3 +1,4 @@
+# 00.00.34 (62725) Mar 21, 2012
 # 00.00.33 (62674) Mar 20, 2012
 Added a list view for which plots to view
 Added rough draft of charts for rpal 2012
