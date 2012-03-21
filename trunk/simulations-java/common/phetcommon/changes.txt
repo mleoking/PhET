@@ -1,10 +1,11 @@
-3/19/12 #3204, eliminated stray "textFieldCommitted" message that was occurring in RPAL Game
-3/13/12 #3285, add support for testing if sim-sharing is running with a specific configuration
+3/21/12 #3260 Verify that no delimiters appear in sim sharing parameters
+3/19/12 #3204 eliminated stray "textFieldCommitted" message that was occurring in RPAL Game
+3/13/12 #3285 add support for testing if sim-sharing is running with a specific configuration
 3/13/12 #3283, sim-sharing fixes for spinners
-3/13/12 #3284, add Parameter(IParameterKey, IParameterValue) constructor
+3/13/12 #3284 add Parameter(IParameterKey, IParameterValue) constructor
 3/12/12 add "isSelected" parameter to SimSharingJCheckBoxMenuItem user messages
-2/28/12 #3267, address sim-sharing problems in SimSharingJSpinner
-2/15/12 #3258, created SimSharingJTextField
+2/28/12 #3267 address sim-sharing problems in SimSharingJSpinner
+2/15/12 #3258 created SimSharingJTextField
 2/12/12 Moved Property.valueEquals to ObservableProperty
 2/6/12 simsharing: Improve sim sharing for purposes of developing (e.g. test mains): SimSharingManager.getInstance doesn't require init() and default config doesn't send to server
 2/2/12 simsharing: factor out duplication of component/type/action throughout SimSharingJ* classes
