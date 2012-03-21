@@ -36,16 +36,17 @@ object RPALRealTimeAnalysis extends App {
   }) {
     top.menuBar = new MenuBar {
       contents += new Menu("File") {
-        contents += new MenuItem(Action("Plot Directory") {
-                                                            val chooser = new JFileChooser() {
-                                                              setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
-                                                            }
-                                                            val result = chooser.showOpenDialog(top.peer)
-                                                            result match {
-                                                              case JFileChooser.APPROVE_OPTION => PlotCharts.main(Array(chooser.getSelectedFile.getAbsolutePath))
-                                                              case _ => {}
-                                                            }
-                                                          })
+        contents += new MenuItem(Action("Plot Directory"
+        ) {
+            val chooser = new JFileChooser() {
+              setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+            }
+            val result = chooser.showOpenDialog(top.peer)
+            result match {
+              case JFileChooser.APPROVE_OPTION => PlotCharts.main(Array(chooser.getSelectedFile.getAbsolutePath))
+              case _ => {}
+            }
+          })
       }
     }
   }.main(args)
