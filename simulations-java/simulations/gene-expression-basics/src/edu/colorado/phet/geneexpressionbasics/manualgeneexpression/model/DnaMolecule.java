@@ -655,13 +655,13 @@ public class DnaMolecule {
         if ( basePairIndex != 0 ) {
             AttachmentSite potentialSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex - 1 );
             if ( potentialSite.attachedOrAttachingMolecule.get() == null ) {
-                attachmentSites.add( attachmentSite );
+                attachmentSites.add( potentialSite );
             }
         }
         if ( basePairIndex != basePairs.size() - 1 ) {
             AttachmentSite potentialSite = getRnaPolymeraseAttachmentSiteForBasePairIndex( basePairIndex + 1 );
             if ( potentialSite.attachedOrAttachingMolecule.get() == null ) {
-                attachmentSites.add( attachmentSite );
+                attachmentSites.add( potentialSite );
             }
         }
 
