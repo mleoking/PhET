@@ -116,9 +116,9 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterS
         attempts++;
         SimSharingManager.sendModelMessage( GameSimSharing.ModelComponents.game, ModelComponentTypes.feature, guessChecked,
                                             parameterSet( Parameters.equation, currentEquation.get().getName() ).
-                                                    add( Parameters.attempts, attempts ).
-                                                    add( Parameters.isBalancedAndSimplified, currentEquation.get().isBalancedAndSimplified() ).
-                                                    add( Parameters.isBalanced, currentEquation.get().isBalanced() ) );
+                                                    with( Parameters.attempts, attempts ).
+                                                    with( Parameters.isBalancedAndSimplified, currentEquation.get().isBalancedAndSimplified() ).
+                                                    with( Parameters.isBalanced, currentEquation.get().isBalanced() ) );
         if ( currentEquation.get().isBalancedAndSimplified() ) {
 
             // award points
