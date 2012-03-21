@@ -188,7 +188,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         return dnaMolecule;
     }
 
-    public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule, boolean interactsWithDna ) {
+    public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
 
         // Set the motion bounds such that the molecules move around above and
@@ -300,7 +300,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             rnaPolymerase.set3DMotionEnabled( true );
             rnaPolymerase.setRecycleMode( true );
             rnaPolymerase.setRecycleReturnZone( polymeraseRecycleReturnBounds );
-            addMobileBiomolecule( rnaPolymerase, true );
+            addMobileBiomolecule( rnaPolymerase );
         }
     }
 
@@ -362,7 +362,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
                 TranscriptionFactor transcriptionFactor = new TranscriptionFactor( this, tcConfig, new Point2D.Double( 0, 0 ) );
                 transcriptionFactor.setPosition3D( generateInitialLocation3D( transcriptionFactor ) );
                 transcriptionFactor.set3DMotionEnabled( true );
-                addMobileBiomolecule( transcriptionFactor, true );
+                addMobileBiomolecule( transcriptionFactor );
             }
         }
         else if ( targetCount < currentLevel ) {

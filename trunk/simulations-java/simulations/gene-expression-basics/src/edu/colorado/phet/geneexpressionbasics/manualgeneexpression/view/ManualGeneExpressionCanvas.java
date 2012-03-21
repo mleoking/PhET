@@ -76,7 +76,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     private static final double SCALE_COMPARISON_FACTOR = 1E-4;
 
     // Debug variable for turning on the visibility of the motion bounds.
-    private static final boolean SHOW_MOTION_BOUNDS = false;
+    private static final boolean SHOW_MOTION_BOUNDS = true;
 
     private final ModelViewTransform mvt;
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
@@ -416,7 +416,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             modelRootNode.addChild( motionBoundsIndicator );
             model.activeGene.addObserver( new VoidFunction1<Gene>() {
                 public void apply( Gene gene ) {
-                    motionBoundsIndicator.setPathTo( mvt.modelToView( model.getBoundsForActiveGene( true ).getBounds() ) );
+                    motionBoundsIndicator.setPathTo( mvt.modelToView( model.getBoundsForActiveGene().getBounds() ) );
                 }
             } );
         }
