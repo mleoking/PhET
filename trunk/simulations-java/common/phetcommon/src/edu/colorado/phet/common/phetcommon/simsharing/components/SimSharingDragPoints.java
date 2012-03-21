@@ -45,12 +45,12 @@ public class SimSharingDragPoints {
             }
         } );
         return ParameterSet.parameterSet( numberDragEvents, points.size() ).
-                add( minX, min( xValues ) ).
-                add( maxX, max( xValues ) ).
-                add( averageX, average( xValues ) ).
-                add( minY, min( yValues ) ).
-                add( maxY, max( yValues ) ).
-                add( averageY, average( yValues ) );
+                with( minX, min( xValues ) ).
+                with( maxX, max( xValues ) ).
+                with( averageX, average( xValues ) ).
+                with( minY, min( yValues ) ).
+                with( maxY, max( yValues ) ).
+                with( averageY, average( yValues ) );
     }
 
     private ArrayList<Double> extract( ArrayList<Point2D> all, Function1<Point2D, Double> extractor ) {

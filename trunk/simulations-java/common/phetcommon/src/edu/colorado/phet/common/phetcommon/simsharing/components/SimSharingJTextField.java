@@ -146,7 +146,7 @@ public class SimSharingJTextField extends JTextField {
     // Called when a key is pressed. Enter is ignored so we don't have duplication with fireActionPerformed.
     @Override protected void processKeyEvent( KeyEvent e ) {
         if ( keyPressedMessagesEnabled && e.getID() == KeyEvent.KEY_PRESSED && e.getKeyCode() != KeyEvent.VK_ENTER ) {
-            sendUserMessage( UserActions.keyPressed, getParameters().add( ParameterKeys.key, KeyEvent.getKeyText( e.getKeyCode() ) ) );
+            sendUserMessage( UserActions.keyPressed, getParameters().with( ParameterKeys.key, KeyEvent.getKeyText( e.getKeyCode() ) ) );
         }
         super.processKeyEvent( e );
     }
@@ -158,14 +158,14 @@ public class SimSharingJTextField extends JTextField {
      */
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            sendUserMessage( UserActions.pressed, parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( UserActions.pressed, parameterSet( enabled, isEnabled() ).with( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
 
     // Parameters that are common to all messages
     protected ParameterSet getParameters() {
-        return new ParameterSet().add( ParameterKeys.text, getText() );
+        return new ParameterSet().with( ParameterKeys.text, getText() );
     }
 
     // All messages are sent via this method, so that they all have the same component and component type.

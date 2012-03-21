@@ -78,7 +78,7 @@ public class ParameterSet implements Iterable<Parameter> {
 
     // Various methods for adding parameters to a parameter set
 
-    public ParameterSet add( final Parameter parameter ) {
+    public ParameterSet with( final Parameter parameter ) {
         if ( containsKey( parameter.name ) ) {
             if ( !getValue( parameter.name ).equals( parameter.value ) ) {
                 throw new RuntimeException( "Parameter name already contained with different value: " + get( parameter.name ) + ", newValue = " + parameter.value );
@@ -95,36 +95,36 @@ public class ParameterSet implements Iterable<Parameter> {
         }
     }
 
-    public ParameterSet add( IParameterKey name, IParameterValue value ) {
-        return add( new Parameter( name, value ) );
+    public ParameterSet with( IParameterKey name, IParameterValue value ) {
+        return with( new Parameter( name, value ) );
     }
 
-    public ParameterSet add( IParameterKey name, boolean value ) {
-        return add( new Parameter( name, value ) );
+    public ParameterSet with( IParameterKey name, boolean value ) {
+        return with( new Parameter( name, value ) );
     }
 
-    public ParameterSet add( IParameterKey name, double value ) {
-        return add( new Parameter( name, value ) );
+    public ParameterSet with( IParameterKey name, double value ) {
+        return with( new Parameter( name, value ) );
     }
 
-    public ParameterSet add( IParameterKey name, String value ) {
-        return add( new Parameter( name, value ) );
+    public ParameterSet with( IParameterKey name, String value ) {
+        return with( new Parameter( name, value ) );
     }
 
-    public ParameterSet add( IParameterKey name, int value ) {
-        return add( new Parameter( name, value ) );
+    public ParameterSet with( IParameterKey name, int value ) {
+        return with( new Parameter( name, value ) );
     }
 
-    public ParameterSet add( Parameter[] parameters ) {
+    public ParameterSet with( Parameter[] parameters ) {
         ParameterSet p = this;
         for ( Parameter parameter : parameters ) {
-            p = p.add( parameter );
+            p = p.with( parameter );
         }
         return p;
     }
 
-    public ParameterSet add( ParameterSet param ) {
-        return add( param.parameters.toArray( new Parameter[param.parameters.size()] ) );
+    public ParameterSet with( ParameterSet param ) {
+        return with( param.parameters.toArray( new Parameter[param.parameters.size()] ) );
     }
 
     public Iterator<Parameter> iterator() {
@@ -132,11 +132,11 @@ public class ParameterSet implements Iterable<Parameter> {
     }
 
     public static void main( String[] args ) {
-        ParameterSet set1 = ParameterSet.parameterSet( ParameterKeys.value, 1 ).add( ParameterKeys.x, 2 ).add( ParameterKeys.y, 2 );
+        ParameterSet set1 = ParameterSet.parameterSet( ParameterKeys.value, 1 ).with( ParameterKeys.x, 2 ).with( ParameterKeys.y, 2 );
         ParameterSet set2 = new ParameterSet() {{
-            add( ParameterKeys.value, 1 );
-            add( ParameterKeys.x, 2 );
-            add( ParameterKeys.y, 2 );
+            with( ParameterKeys.value, 1 );
+            with( ParameterKeys.x, 2 );
+            with( ParameterKeys.y, 2 );
         }};
         final String delimiter = " ";
         assert ( set1.toString( delimiter ).equals( set2.toString( delimiter ) ) );

@@ -157,7 +157,7 @@ public class SimSharingJSpinner extends JSpinner {
     //TODO: this might not work right since spinner is composite
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            sendMessage( UserActions.mousePressed, getCommonParameters().add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendMessage( UserActions.mousePressed, getCommonParameters().with( enabled, isEnabled() ).with( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
@@ -188,17 +188,17 @@ public class SimSharingJSpinner extends JSpinner {
     }
 
     private void sendTextFieldCommittedMessage( IParameterValue commitAction ) {
-       sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).add( getCommonParameters() ) );
+        sendMessage( UserActions.textFieldCommitted, ParameterSet.parameterSet( ParameterKeys.commitAction, commitAction ).with( getCommonParameters() ) );
     }
 
     // Parameters that are common to all messages.
     protected ParameterSet getCommonParameters() {
-       return parameterSet( value, getValue().toString() );
+        return parameterSet( value, getValue().toString() );
     }
 
     // Sends a message with common parameters.
     protected void sendMessage( IUserAction action ) {
-       sendMessage( action, getCommonParameters() );
+        sendMessage( action, getCommonParameters() );
     }
 
     // Sends a message with custom parameters.

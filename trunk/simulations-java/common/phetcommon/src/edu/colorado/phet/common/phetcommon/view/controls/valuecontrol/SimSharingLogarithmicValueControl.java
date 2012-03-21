@@ -45,13 +45,13 @@ public class SimSharingLogarithmicValueControl extends LogarithmicValueControl {
     }
 
     @Override protected void textFieldCommitted( IParameterValue commitAction, double value ) {
-        sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCommitted, parameterSet( ParameterKeys.commitAction, commitAction ).add( ParameterKeys.value, value ) );
+        sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCommitted, parameterSet( ParameterKeys.commitAction, commitAction ).with( ParameterKeys.value, value ) );
         super.textFieldCommitted( commitAction, value );
     }
 
     //TODO this should probably be a system or model message
     @Override protected void textFieldCorrected( IParameterValue errorType, String value, double correctedValue ) {
-        sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCorrected, parameterSet( ParameterKeys.errorType, errorType ).add( ParameterKeys.value, value ).add( ParameterKeys.correctedValue, correctedValue ) );
+        sendUserMessage( userComponent, UserComponentTypes.textField, textFieldCorrected, parameterSet( ParameterKeys.errorType, errorType ).with( ParameterKeys.value, value ).with( ParameterKeys.correctedValue, correctedValue ) );
         super.textFieldCorrected( errorType, value, correctedValue );
     }
 }
