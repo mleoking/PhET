@@ -2,7 +2,6 @@
 package edu.colorado.phet.lwjglphet;
 
 import java.awt.AWTEvent;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -79,14 +78,18 @@ public class ComponentImage extends TextureImage {
         ImmutableVector2F swingPoint = localToComponentCoordinates( new ImmutableVector2F( rawX, rawY ) );
         final double x = swingPoint.x;
         final double y = swingPoint.y;
-//        System.out.println( "swingPoint: " + swingPoint );
+
+        final int eventButton = Mouse.getEventButton();
+        final boolean eventButtonState = Mouse.getEventButtonState();
+
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                if ( Mouse.getEventButton() == -1 ) {
+                if ( eventButton == -1 ) {
                     sendAWTMouseEvent( (int) x, (int) y, false, MouseEvent.NOBUTTON );
                 }
                 else {
-                    sendAWTMouseEvent( (int) x, (int) y, Mouse.getEventButtonState(), getSwingButtonIndex( Mouse.getEventButton() ) );
+                    System.out.println( "Mouse.getEventButtonState() = " + eventButtonState );
+                    sendAWTMouseEvent( (int) x, (int) y, eventButtonState, getSwingButtonIndex( eventButton ) );
                 }
             }
         } );
