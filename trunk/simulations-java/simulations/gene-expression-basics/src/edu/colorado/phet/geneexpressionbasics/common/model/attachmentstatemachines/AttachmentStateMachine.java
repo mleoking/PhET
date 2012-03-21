@@ -33,10 +33,6 @@ public abstract class AttachmentStateMachine {
     // Current attachment state.  Changes with each state transition.
     private AttachmentState attachmentState;
 
-    // Direction used when detaching, can be changed by subclasses.  Default is
-    // to move up.
-    protected Vector2D detachDirection = new Vector2D( 0, 1 );
-
     // Offset to use when moving towards attachment sites.  This is used when
     // the molecule attaches to an attachment site at some location other than
     // its geometric center.

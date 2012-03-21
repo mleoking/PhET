@@ -12,6 +12,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
+ * A motion strategy where the user moves in a general direction with some
+ * random direction changes every once in a while.
+ *
  * @author John Blanco
  */
 public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {

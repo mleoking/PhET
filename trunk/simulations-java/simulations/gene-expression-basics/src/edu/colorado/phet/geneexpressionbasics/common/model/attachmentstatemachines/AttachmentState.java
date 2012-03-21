@@ -3,7 +3,6 @@ package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachi
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.FollowAttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MeanderToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
@@ -132,7 +131,8 @@ public abstract class AttachmentState {
             if ( attachCountdownTime <= 0 ) {
                 // Detach.
                 gsm.detach();
-                gsm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), gsm.biomolecule.motionBoundsProperty ) );
+                gsm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( gsm.biomolecule.getDetachDirection(),
+                                                                                               gsm.biomolecule.motionBoundsProperty ) );
             }
         }
 

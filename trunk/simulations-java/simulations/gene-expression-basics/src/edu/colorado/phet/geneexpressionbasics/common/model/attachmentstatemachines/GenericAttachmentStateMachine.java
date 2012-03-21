@@ -47,7 +47,8 @@ public class GenericAttachmentStateMachine extends AttachmentStateMachine {
             attachmentSite.attachedOrAttachingMolecule.set( null );
         }
         attachmentSite = null;
-        biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( detachDirection, biomolecule.motionBoundsProperty ) );
+        biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( biomolecule.getDetachDirection(),
+                                                                                   biomolecule.motionBoundsProperty ) );
         setState( unattachedButUnavailableState );
     }
 }
