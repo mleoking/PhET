@@ -227,7 +227,7 @@ class ConcentrationMeterNode extends PhetPNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new MovableDragHandler( UserComponents.concentrationMeterProbe, meter.probe, this ) {
                 @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return super.getParametersForAllEvents( event ).add( ParameterKeys.isInSolution, isInSolution() );
+                    return super.getParametersForAllEvents( event ).with( ParameterKeys.isInSolution, isInSolution() );
                 }
             } );
         }
