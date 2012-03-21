@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -46,7 +45,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // that the molecules don't move off of the screen when looking at a given
     // gene.
     private static final double BIOMOLECULE_STAGE_WIDTH = 10000; // In picometers.
-    private static final double BIOMOLECULE_STAGE_HEIGHT = 5250; // In picometers.
+    private static final double BIOMOLECULE_STAGE_HEIGHT = 6700; // In picometers.
 
     // Size of the DNA strand.
     private static final int NUM_BASE_PAIRS_ON_DNA_STRAND = 2000;
@@ -162,9 +161,9 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
         activeGene.set( dnaMolecule.getGenes().get( i ) );
     }
 
-    public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule, boolean interactsWithDna ) {
+    public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
-        mobileBiomolecule.setMotionBounds( getBoundsForActiveGene( interactsWithDna ) );
+        mobileBiomolecule.setMotionBounds( getBoundsForActiveGene() );
 
         // Hook up an observer that will activate and deactivate placement
         // hints for this molecule.
@@ -268,7 +267,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
 
     public void addMessengerRna( final MessengerRna messengerRna ) {
         messengerRnaList.add( messengerRna );
-        messengerRna.setMotionBounds( getBoundsForActiveGene( false ) );
+        messengerRna.setMotionBounds( getBoundsForActiveGene() );
     }
 
     @Override public void removeMessengerRna( MessengerRna messengerRnaBeingDestroyed ) {
@@ -322,16 +321,12 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
      * Get the motion bounds for any biomolecule that is going to be associated
      * with the currently active gene.  This is used to keep the biomolecules
      * from wandering outside of the area that the user can see.
-     *
-     * @param includeDnaStrand - Flag to signify whether these bounds should
-     *                         include the DNA strand.  This should be true for molecules that
-     *                         interact with the DNA, false for those that don't.
      */
-    public MotionBounds getBoundsForActiveGene( boolean includeDnaStrand ) {
+    public MotionBounds getBoundsForActiveGene() {
 
-        // The bottom of the bounds depends on whether or not the DNA strand
-        // is included.
-        double bottomYPos = includeDnaStrand ? DnaMolecule.Y_POS - DnaMolecule.DIAMETER * 3 : DnaMolecule.Y_POS + DnaMolecule.DIAMETER / 2;
+        // The bottom bounds are intended to be roughly at the bottom of the
+        // viewport.  The value was empirically determined.
+        double bottomYPos = DnaMolecule.Y_POS - 2000;
 
         // Get the nominal bounds for this gene.
         Area bounds = new Area( new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,

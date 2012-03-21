@@ -56,7 +56,7 @@ public class RnaDestroyerAttachmentStateMachine extends GenericAttachmentStateMa
             // Grow the mRNA fragment, release it if it is time to do so.
             if ( messengerRnaFragment == null ) {
                 messengerRnaFragment = new MessengerRnaFragment( biomolecule.getModel(), biomolecule.getPosition() );
-                biomolecule.getModel().addMobileBiomolecule( messengerRnaFragment, false );
+                biomolecule.getModel().addMobileBiomolecule( messengerRnaFragment );
                 targetFragmentLength = MRNA_FRAGMENT_LENGTH_RANGE.getMin() + RAND.nextDouble() * MRNA_FRAGMENT_LENGTH_RANGE.getLength();
             }
             messengerRnaFragment.addLength( RNA_DESTRUCTION_RATE * dt );
