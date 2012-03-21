@@ -1,3 +1,4 @@
+3/21/12 #3229 Removed WhatIsMountainTime and WhatIsMyIPAddress
 3/21/12 #3260 Verify that no delimiters appear in sim sharing parameters
 3/19/12 #3204 eliminated stray "textFieldCommitted" message that was occurring in RPAL Game
 3/13/12 #3285 add support for testing if sim-sharing is running with a specific configuration
