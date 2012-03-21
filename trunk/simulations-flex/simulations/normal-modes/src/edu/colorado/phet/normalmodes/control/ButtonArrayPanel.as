@@ -16,6 +16,8 @@ import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 import edu.colorado.phet.normalmodes.view.MainView;
 
+import flash.display.Graphics;
+
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -163,9 +165,18 @@ public class ButtonArrayPanel extends Canvas{
                 this.button_arr[i][j].y = ySpacer + yOffset + ( i-1 )*(size + 4);
             }
         }
+        var borderWidth:Number = 5;
         this.label_txt.x = 0;//0.5*container.width - label_txt.width/2;  //xOffset;
-        this.label_txt.y = ySpacer - 1.1*label_txt.height; //yOffset - 1.3 * label_txt.height;
+        this.label_txt.y = ySpacer + yOffset + N*(size+4)+2*borderWidth;//  ySpacer //- 1.1*label_txt.height; //yOffset - 1.3 * label_txt.height;
         this.myPolarizationPanel.x = label_txt.width + 15;
+        //draw border around button array
+        var gC:Graphics = this.container.graphics;
+        gC.clear();
+        gC.lineStyle( 3, 0x0000ff, 1 );
+
+
+        gC.drawRoundRect(xOffset - borderWidth -2 , ySpacer + yOffset - borderWidth - 2, N*(size+4) +2*borderWidth, N*(size+4)+2*borderWidth, 0.6*size, 0.6*size  );
+
 
         //trace( "ButtonArrayPanel.myPolarizationPanel.height = " + myPolarizationPanel.height );
         //this.myPolarizationPanel.y = 0;//- myPolarizationPanel.height;
