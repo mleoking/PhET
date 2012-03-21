@@ -97,12 +97,12 @@ public class GameOverNode extends PhetPNode {
          */
         SimSharingManager.sendModelMessage( ModelComponents.game, ModelComponentTypes.feature, ModelActions.completed,
                                             ParameterSet.parameterSet( ParameterKeys.level, level ).
-                                                    add( ParameterKeys.score, score ).
-                                                    add( ParameterKeys.perfectScore, perfectScore ).
-                                                    add( ParameterKeys.time, time ).
-                                                    add( ParameterKeys.bestTime, bestTime ).
-                                                    add( ParameterKeys.isNewBestTime, isNewBestTime ).
-                                                    add( ParameterKeys.timerVisible, timerVisible ) );
+                                                    with( ParameterKeys.score, score ).
+                                                    with( ParameterKeys.perfectScore, perfectScore ).
+                                                    with( ParameterKeys.time, time ).
+                                                    with( ParameterKeys.bestTime, bestTime ).
+                                                    with( ParameterKeys.isNewBestTime, isNewBestTime ).
+                                                    with( ParameterKeys.timerVisible, timerVisible ) );
 
         this.scoreFormat = scoreFormat;
         this.listeners = new EventListenerList();
