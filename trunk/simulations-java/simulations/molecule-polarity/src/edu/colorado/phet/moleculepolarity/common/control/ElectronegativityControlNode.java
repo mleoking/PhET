@@ -291,7 +291,7 @@ public class ElectronegativityControlNode extends PhetPNode {
 
         // Add some custom parameters
         @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
-            return super.getParametersForAllEvents( event ).add( Parameters.atom, atom.getName() ).add( Parameters.electronegativity, atom.electronegativity.get() );
+            return super.getParametersForAllEvents( event ).with( Parameters.atom, atom.getName() ).with( Parameters.electronegativity, atom.electronegativity.get() );
         }
 
         // snaps to the closest value
