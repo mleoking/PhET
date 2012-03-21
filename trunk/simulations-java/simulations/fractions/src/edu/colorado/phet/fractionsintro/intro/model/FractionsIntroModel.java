@@ -50,7 +50,7 @@ public class FractionsIntroModel {
     private final IntroState initialState;//For resetting
     public final FactorySet factorySet;
 
-    public FractionsIntroModel( IntroState s, final FactorySet factorySet ) {
+    public FractionsIntroModel( IntroState initialState, final FactorySet factorySet ) {
         this.factorySet = factorySet;
 
         final SliceFactory cakeSliceFactory = factorySet.cakeSliceFactory;
@@ -59,8 +59,8 @@ public class FractionsIntroModel {
         final SliceFactory CircularSliceFactory = factorySet.circularSliceFactory;
         final SliceFactory WaterGlassSetFactory = factorySet.waterGlassSetFactory;
 
-        initialState = s;
-        state = new Property<IntroState>( s );
+        this.initialState = initialState;
+        state = new Property<IntroState>( initialState );
         clock = new ConstantDtClock() {{
             addClockListener( new ClockAdapter() {
                 @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
