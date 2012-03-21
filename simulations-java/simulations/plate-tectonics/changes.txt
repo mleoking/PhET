@@ -1,3 +1,4 @@
+# 0.00.28 (62693) Mar 21, 2012
 Fixed: various mouse-press and drag issues, including the play/pause pressing bug noted earlier
 Fixed: bug where borders of the "draggable crust pieces" were cut off when window was resized
 Fixed: hard color boundary between above/below sea level terrain was causing "instant" changes of flashing terrain
