@@ -98,8 +98,8 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         } );
     }};
 
-    // For debug - node that represents molecule motion bounds.
-    public final Shape moleculeMotionBounds;
+    // Motion bounds for the mobile biomolecules.
+    public final MotionBounds moleculeMotionBounds;
 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
@@ -132,8 +132,34 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         gene = new GeneA( dnaMolecule, (int) Math.round( NUM_BASE_PAIRS_ON_DNA_STRAND * 0.45 ) );
         dnaMolecule.addGene( gene );
 
-        // Set up a node that depicts motion bounds.  This is for debug.
-        moleculeMotionBounds = getMotionBounds( new RnaPolymerase( this, new Point2D.Double( 0, 0 ) ) ).getBounds();
+        // Set up the motion bounds for the biomolecules.
+        {
+            // The bottom of the bounds, based off center point of the DNA
+            // molecule.  Offset was empirically determined.
+            double minY = DnaMolecule.Y_POS - 1500;
+
+            // The max Y position is set to make it so that molecules can move
+            // outside of the view port, but not way outside.  Its value was
+            // empirically determined.
+            double maxY = DnaMolecule.Y_POS + 1500;
+
+            // Figure out the X bounds based on the length of the gene.  This
+            // extends a little less in the -x direction than in the +x, since the
+            // beginning of the gene is in the center of the view port.
+            double minX = gene.getStartX() - gene.getTranscribedRegionLength() / 2;
+            double maxX = gene.getEndX() + 400; // Needs to be long enough to allow the polymerase to get to the end.
+
+            // Create the nominal rectangular bounds.
+            Area bounds = new Area( new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY ) );
+
+            // Subtract off any off limits areas.
+            for ( Shape offLimitMotionSpace : offLimitsMotionSpaces ) {
+                if ( bounds.intersects( offLimitMotionSpace.getBounds2D() ) ) {
+                    bounds.subtract( new Area( offLimitMotionSpace ) );
+                }
+            }
+            moleculeMotionBounds = new MotionBounds( bounds );
+        }
 
         // Set up the area where RNA polymerase goes when it is recycled.
         // This is near the beginning of the transcribed region in order to
@@ -167,7 +193,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
         // Set the motion bounds such that the molecules move around above and
         // on top of the DNA.
-        mobileBiomolecule.setMotionBounds( getMotionBounds( mobileBiomolecule ) );
+        mobileBiomolecule.setMotionBounds( moleculeMotionBounds );
 
         // Hook up an observer that will activate and deactivate placement
         // hints for this molecule.
@@ -311,10 +337,10 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     // Generate a random, valid, initial location, including the Z dimension.
     private Point3D generateInitialLocation3D( MobileBiomolecule biomolecule ) {
-        double xMin = moleculeMotionBounds.getBounds2D().getMinX() + biomolecule.getShape().getBounds2D().getWidth() / 2;
-        double yMin = moleculeMotionBounds.getBounds2D().getMinY() + biomolecule.getShape().getBounds2D().getHeight() / 2;
-        double xMax = moleculeMotionBounds.getBounds2D().getMaxX() - biomolecule.getShape().getBounds2D().getWidth() / 2;
-        double yMax = moleculeMotionBounds.getBounds2D().getMaxY() - biomolecule.getShape().getBounds2D().getHeight() / 2;
+        double xMin = moleculeMotionBounds.getBounds().getBounds2D().getMinX() + biomolecule.getShape().getBounds2D().getWidth() / 2;
+        double yMin = moleculeMotionBounds.getBounds().getBounds2D().getMinY() + biomolecule.getShape().getBounds2D().getHeight() / 2;
+        double xMax = moleculeMotionBounds.getBounds().getBounds2D().getMaxX() - biomolecule.getShape().getBounds2D().getWidth() / 2;
+        double yMax = moleculeMotionBounds.getBounds().getBounds2D().getMaxY() - biomolecule.getShape().getBounds2D().getHeight() / 2;
         double xPos = xMin + RAND.nextDouble() * ( xMax - xMin );
         double yPos = yMin + RAND.nextDouble() * ( yMax - yMin );
         double zPos = -RAND.nextDouble(); // Valid z values are from -1 to 0.
@@ -355,42 +381,5 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
                 }
             }
         }
-    }
-
-    /**
-     * Get the motion bounds for the biomolecules in this model.  These
-     * bounds are set up to stay above and around the DNA molecule, and to
-     * go in and out of the area that the user is likely to be viewing.
-     * However, there is no direct interaction with the view to determine the
-     * bounds - they are fixed based on the expected view.
-     */
-    public MotionBounds getMotionBounds( MobileBiomolecule mobileBiomolecule ) {
-
-        // The bottom of the bounds depends on the size of the biomolecule.  A
-        // little bit of margin is added.
-        double minY = DnaMolecule.Y_POS - mobileBiomolecule.getShape().getBounds2D().getHeight() / 2 * 1.4;
-
-        // The max Y position is set to make it so that molecules can move
-        // outside of the view port, but not way outside.  Its value was
-        // empirically determined.
-        double maxY = minY + 1500;
-
-        // Figure out the X bounds based on the length of the gene.  This
-        // extends a little less in the -x direction than in the +x, since the
-        // beginning of the gene is in the center of the view port.
-        double minX = gene.getStartX() - gene.getTranscribedRegionLength() / 2;
-        double maxX = gene.getEndX() + 400; // Needs to be long enough to allow the polymerase to get to the end.
-
-        // Get the nominal bounds.
-        Area bounds = new Area( new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY ) );
-
-        // Subtract off any off limits areas.
-        for ( Shape offLimitMotionSpace : offLimitsMotionSpaces ) {
-            if ( bounds.intersects( offLimitMotionSpace.getBounds2D() ) ) {
-                bounds.subtract( new Area( offLimitMotionSpace ) );
-            }
-        }
-
-        return new MotionBounds( bounds );
     }
 }

@@ -46,7 +46,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
     private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
     // For debug.
-    private static final boolean SHOW_MOTION_BOUNDS = false;
+    private static final boolean SHOW_MOTION_BOUNDS = true;
 
     // Inset for several of the controls.
     private static final double INSET = 15;
@@ -118,7 +118,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
 
         // Add motion bounds indicator, if turned on.
         if ( SHOW_MOTION_BOUNDS ) {
-            topBiomoleculeLayer.addChild( new PhetPPath( mvt.modelToView( model.moleculeMotionBounds ), new BasicStroke( 2 ), Color.RED ) );
+            topBiomoleculeLayer.addChild( new PhetPPath( mvt.modelToView( model.moleculeMotionBounds.getBounds() ), new BasicStroke( 2 ), Color.RED ) );
         }
 
         // Get a reference to the gene being controlled.
