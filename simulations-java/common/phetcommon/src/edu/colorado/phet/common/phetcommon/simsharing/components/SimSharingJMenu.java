@@ -58,7 +58,7 @@ public class SimSharingJMenu extends JMenu {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            sendUserMessage( parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( parameterSet( enabled, isEnabled() ).with( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }

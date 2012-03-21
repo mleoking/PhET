@@ -272,30 +272,30 @@ public class SimSharingManager {
     private void sendStartupMessage( PhetApplicationConfig config ) {
         assert ( enabled );
         sendSystemMessageNS( SYSTEM_COMPONENT, SYSTEM_COMPONENT_TYPE, started, parameterSet( time, simStartedTime ).
-                add( name, config.getName() ).
-                add( version, config.getVersion().formatForAboutDialog() ).
-                add( project, config.getProjectName() ).
-                add( flavor, config.getFlavor() ).
-                add( locale, config.getLocale().toString() ).
-                add( distributionTag, config.getDistributionTag() ).
-                add( javaVersion, System.getProperty( "java.version" ) ).
-                add( osName, System.getProperty( "os.name" ) ).
-                add( osVersion, System.getProperty( "os.version" ) ).
-                add( parserVersion, PARSER_VERSION ).
-                add( study, studyName ).
-                add( id, studentId ).
-                add( commandLineArgs, new ObservableList<String>( config.getCommandLineArgs() ).mkString( " " ) ).
-                add( ParameterKeys.machineCookie, machineCookie ).
-                add( ParameterKeys.sessionId, sessionId ) );
+                with( name, config.getName() ).
+                with( version, config.getVersion().formatForAboutDialog() ).
+                with( project, config.getProjectName() ).
+                with( flavor, config.getFlavor() ).
+                with( locale, config.getLocale().toString() ).
+                with( distributionTag, config.getDistributionTag() ).
+                with( javaVersion, System.getProperty( "java.version" ) ).
+                with( osName, System.getProperty( "os.name" ) ).
+                with( osVersion, System.getProperty( "os.version" ) ).
+                with( parserVersion, PARSER_VERSION ).
+                with( study, studyName ).
+                with( id, studentId ).
+                with( commandLineArgs, new ObservableList<String>( config.getCommandLineArgs() ).mkString( " " ) ).
+                with( ParameterKeys.machineCookie, machineCookie ).
+                with( ParameterKeys.sessionId, sessionId ) );
     }
 
-    public static String generateSessionId(){
+    public static String generateSessionId() {
         // MongoDB documentation says that collections should start with a
         // letter, so we prepend one here.
         return "s" + generateStrongId();
     }
 
-    public static String generateMachineCookie(){
+    public static String generateMachineCookie() {
         return generateStrongId();
     }
 

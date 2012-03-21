@@ -102,11 +102,11 @@ public class LoadTester {
         ParameterSet p = new ParameterSet();
         for ( int i = 0; i < numParams; i++ ) {
             if ( i == 0 ) {
-                p = p.add( ParameterKeys.messageIndex, messageIndex );
+                p = p.with( ParameterKeys.messageIndex, messageIndex );
                 messageIndex++;
             }
             else {
-                p = p.add( randomParam( i ) );
+                p = p.with( randomParam( i ) );
             }
         }
         return p;

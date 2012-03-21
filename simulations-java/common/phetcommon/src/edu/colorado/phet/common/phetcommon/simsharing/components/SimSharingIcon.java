@@ -40,7 +40,7 @@ public class SimSharingIcon extends JLabel {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED ) {
-            SimSharingManager.sendUserMessage( object, icon, pressed, parameterSet( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            SimSharingManager.sendUserMessage( object, icon, pressed, parameterSet( enabled, isEnabled() ).with( interactive, isEnabled() ) );
             function.apply();
         }
         super.processMouseEvent( e );

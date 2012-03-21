@@ -24,7 +24,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.enabled;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.checkBox;
 
 /**
@@ -95,7 +94,7 @@ public class SimSharingJCheckBox extends JCheckBox {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            sendUserMessage( getParameters().add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( getParameters().with( enabled, isEnabled() ).with( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
@@ -107,14 +106,14 @@ public class SimSharingJCheckBox extends JCheckBox {
 
     // Gets parameters. Custom parameters are added following standard parameters.
     private ParameterSet getParameters() {
-        return new ParameterSet().add( ParameterKeys.isSelected, isSelected() ).add( getCustomParameters() );
+        return new ParameterSet().with( ParameterKeys.isSelected, isSelected() ).with( getCustomParameters() );
     }
 
     // Override this is you want to add custom parameters via subclassing.
     protected ParameterSet getCustomParameters() {
         ParameterSet parameterSet = new ParameterSet();
         for ( Function0<ParameterSet> function : customParameterFunctions ) {
-            parameterSet.add( function.apply() );
+            parameterSet.with( function.apply() );
         }
         return parameterSet;
     }

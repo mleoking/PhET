@@ -16,7 +16,6 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterK
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.drag;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.slider;
 
 /**
@@ -71,7 +70,7 @@ public class SimSharingJSlider extends JSlider {
     //Only works if enableEvents has been called.  See #3218
     @Override protected void processMouseEvent( MouseEvent e ) {
         if ( e.getID() == MouseEvent.MOUSE_PRESSED && !isEnabled() ) {
-            sendUserMessage( parameterSet( ParameterKeys.value, getValue() ).add( enabled, isEnabled() ).add( interactive, isEnabled() ) );
+            sendUserMessage( parameterSet( ParameterKeys.value, getValue() ).with( enabled, isEnabled() ).with( interactive, isEnabled() ) );
         }
         super.processMouseEvent( e );
     }
