@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--geometric-optics-strings_km.xml created Fri Dec 24 15:42:38 ICT 2010 using: geometric-optics 2.04.00 (37306), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--geometric-optics-strings_km.xml created Tue Jan 31 11:46:52 PST 2012 using: geometric-optics 2.04.00 (37306), translation-utility 2.10.00 (48775) Feb 8, 2011-->
 <SimStrings>
 <string key="draggableScreen" value="អេក្រង់​អាច​ផ្លាស់ទីបាន"/>
 <string key="draggableLens" value="ឡង់ទី​អាច​ផ្លាស់ទី​បាន"/>
 <string key="screen" value="អេក្រង់"/>
 <string key="draggableRuler" value="បន្ទាត់​អាច​ផ្លាស់ទី​បាន"/>
 <string key="simTitle" value="អុបទិច​ធរណីមាត្រ"/>
-<string key="showHelp" value="បង្ហាញ​​ព័ត៌មាន​ជំនួយ"/>
+<string key="showHelp" value="បង្ហាញ​ជំនួយ"/>
 <string key="moveMe" value="ផ្លាស់ទី​ខ្ញុំ !"/>
 <string key="showGuides" value="បង្ហាញ​​បន្ទាត់​"/>
 <string key="diameter" value="បន្ទាត់​ផ្ចិត (m)"/>
@@ -14,12 +14,12 @@
 <string key="focalPoint" value="កំណុំ"/>
 <string key="curvatureRadius" value="កាំ​កំណោង (m)"/>
 <string key="changeObject" value="ប្ដូរ​វត្ថុ"/>
-<string key="principalRays" value="កាំរស្មី​មេ"/>
+<string key="principalRays" value="កាំពន្លឺ"/>
 <string key="marginalRays" value="កាំរស្មី​តាមគែម​ឡង់ទី"/>
 <string key="virtualImage" value="រូបភាព​មិន​ពិត"/>
 <string key="noRays" value="គ្មានកាំរស្មី"/>
 <string key="secondSource" value="ប្រភព​ទី​ពីរ"/>
-<string key="hideHelp" value="លាក់​ព័ត៌មាន​ជំនួយ"/>
+<string key="hideHelp" value="លាក់​ជំនួយ"/>
 <string key="refractiveIndex" value="ចំណាំង​បែរ"/>
-<string key="manyRays" value="កាំរស្មី​ច្រើន"/>
+<string key="manyRays" value="បាច់​ពន្លឺ"/>
 </SimStrings>
