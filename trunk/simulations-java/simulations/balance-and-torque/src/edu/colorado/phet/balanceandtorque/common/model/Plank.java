@@ -237,9 +237,9 @@ public class Plank extends ShapeModelElement {
                                                 modelElement,
                                                 massAddedToPlank,
                                                 new ParameterSet() {{
-                                                    add( new Parameter( massUserComponent, mass.getUserComponent().toString() ) );
-                                                    add( new Parameter( massValue, mass.getMass() ) );
-                                                    add( new Parameter( distanceFromPlankCenter, distanceFromCenter ) );
+                                                    with( new Parameter( massUserComponent, mass.getUserComponent().toString() ) );
+                                                    with( new Parameter( massValue, mass.getMass() ) );
+                                                    with( new Parameter( distanceFromPlankCenter, distanceFromCenter ) );
                                                 }} );
         }
 
@@ -287,7 +287,7 @@ public class Plank extends ShapeModelElement {
                                             modelElement,
                                             massRemovedFromPlank,
                                             new ParameterSet() {{
-                                                add( new Parameter( massUserComponent, mass.getUserComponent().toString() ) );
+                                                with( new Parameter( massUserComponent, mass.getUserComponent().toString() ) );
                                             }} );
 
     }
