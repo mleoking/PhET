@@ -259,7 +259,7 @@ class ConcentrationSliderNode extends PhetPNode {
         }
 
         @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
-            return super.getParametersForAllEvents( event ).add( ParameterKeys.value, modelValue.get() );
+            return super.getParametersForAllEvents( event ).with( ParameterKeys.value, modelValue.get() );
         }
     }
 }

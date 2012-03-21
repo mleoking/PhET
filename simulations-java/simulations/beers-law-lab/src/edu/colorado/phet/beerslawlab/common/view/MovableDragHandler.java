@@ -55,7 +55,7 @@ public class MovableDragHandler extends SimSharingDragHandler {
     }
 
     @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-        return super.getParametersForAllEvents( event ).add( ParameterKeys.locationX, (int) movable.location.get().getX() ).add( ParameterKeys.locationY, (int) movable.location.get().getY() );
+        return super.getParametersForAllEvents( event ).with( ParameterKeys.locationX, (int) movable.location.get().getX() ).with( ParameterKeys.locationY, (int) movable.location.get().getY() );
     }
 
     // Constrains xy coordinates to be within the specified bounds.

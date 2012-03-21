@@ -123,10 +123,10 @@ class ATDetectorNode extends PhetPNode {
                     else {
                         String text;
                         if ( detector.mode.get() == ATDetectorMode.TRANSMITTANCE ) {
-                           text = MessageFormat.format( Strings.PATTERN_0PERCENT, TRANSMITTANCE_FORMAT.format( value ) );
+                            text = MessageFormat.format( Strings.PATTERN_0PERCENT, TRANSMITTANCE_FORMAT.format( value ) );
                         }
                         else {
-                           text = ABSORBANCE_FORMAT.format( value );
+                            text = ABSORBANCE_FORMAT.format( value );
                         }
                         valueNode.setText( text );
                         // right justified
@@ -149,7 +149,7 @@ class ATDetectorNode extends PhetPNode {
 
             PImage imageNode = new PImage( Images.AT_DETECTOR_PROBE );
             addChild( imageNode );
-            imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth()/2, -PROBE_CENTER_Y_OFFSET );
+            imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -PROBE_CENTER_Y_OFFSET );
 
             // show origin and vertical "diameter" line, for debugging PROBE_CENTER_OFFSET
             PNode originNode = new DebugOriginNode();
@@ -172,7 +172,7 @@ class ATDetectorNode extends PhetPNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new MovableDragHandler( UserComponents.detectorProbe, detector.probe, this, mvt ) {
                 @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-                    return super.getParametersForAllEvents( event ).add( ParameterKeys.inBeam, detector.probeInBeam() );
+                    return super.getParametersForAllEvents( event ).with( ParameterKeys.inBeam, detector.probeInBeam() );
                 }
             } );
         }
