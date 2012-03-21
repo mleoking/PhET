@@ -52,10 +52,10 @@ public abstract class SliderNode extends PNode {
         dragValues.add( value.get() );
         SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.slider, endDrag,
                                            parameterSet( ParameterKeys.value, value.get() ).
-                                                   add( numberDragEvents, dragValues.size() ).
-                                                   add( minValue, Collections.min( dragValues ) ).
-                                                   add( maxValue, Collections.max( dragValues ) ).
-                                                   add( averageValue, average( dragValues ) ) );
+                                                   with( numberDragEvents, dragValues.size() ).
+                                                   with( minValue, Collections.min( dragValues ) ).
+                                                   with( maxValue, Collections.max( dragValues ) ).
+                                                   with( averageValue, average( dragValues ) ) );
         dragValues.clear();
     }
 
