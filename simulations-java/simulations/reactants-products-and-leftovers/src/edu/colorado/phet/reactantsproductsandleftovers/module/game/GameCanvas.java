@@ -155,11 +155,11 @@ public class GameCanvas extends RPALCanvas {
         // buttons, all under the same parent, to facilitate moving between Before & After boxes
         buttonsParentNode = new PhetPNode();
         parentNode.addChild( buttonsParentNode );
-        checkButton = new GameButtonNode( UserComponents.checkButton, RPALStrings.BUTTON_CHECK  ) {{
+        checkButton = new GameButtonNode( UserComponents.checkButton, RPALStrings.BUTTON_CHECK ) {{
             setParameters( new Function0<ParameterSet>() {
                 public ParameterSet apply() {
                     return ParameterSet.parameterSet( ParameterKeys.correct, model.getChallenge().isCorrect() ).
-                            add( ParameterKeys.attempts, model.getAttempts() + 1 );
+                            with( ParameterKeys.attempts, model.getAttempts() + 1 );
                 }
             } );
         }};
