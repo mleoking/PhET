@@ -89,6 +89,6 @@ public class ABSConductivityTesterNode extends ConductivityTesterNode {
     private static void sendProbeEvent( IUserComponent object, IUserAction action, boolean inSolution, boolean circuitCompleted ) {
         SimSharingManager.sendUserMessage( object, UserComponentTypes.sprite, action,
                                            ParameterSet.parameterSet( ParameterKeys.isInSolution, inSolution ).
-                                                   add( ParameterKeys.isCircuitCompleted, circuitCompleted ) );
+                                                   with( ParameterKeys.isCircuitCompleted, circuitCompleted ) );
     }
 }

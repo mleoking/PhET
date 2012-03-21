@@ -115,7 +115,7 @@ public class MagnifyingGlassNode extends PhetPNode {
                 }
                 SimSharingManager.sendUserMessage( UserComponents.magnifyingGlass, UserComponentTypes.sprite, UserActions.pressed,
                                                    parameterSet( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.interactive, false ).
-                                                           add( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.part, partValue.toString() ) );
+                                                           with( edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.part, partValue.toString() ) );
             }
         } );
     }
