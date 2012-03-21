@@ -28,13 +28,13 @@ public class ModeButton extends Sprite{
     //private var polarization:String;       //polarization = "vertical" or "horizontal" indicates which polarization the button displays
     private var colorLayer:Sprite;         //bottom layer of sprite is a solid color
     private var colorLayerMask:Sprite;     //mask for colorLayer.  mask is shape of rounded rect button
-    private var nMax;                      //number of different color layers
+    private var nMax;                      //number of different color fill heights
     private var trimAndLabelLayer:Sprite;  //next layer has trim and label
     private var sizeInPix:Number;
     private var buttonColor:Number;
-    private var fullColor:Number;
-    private var fullColorV:Number;        //color fill for vertical mode
-    private var fullColorH:Number;        //color fill for horizontal mode
+    private var fillColor:Number;
+    private var fillColorV:Number;        //color fill for vertical mode
+    private var fillColorH:Number;        //color fill for horizontal mode
     private var emptyColor:Number;
     private var myColorTransform:ColorTransform;   //to change color of colorLayer
     private var modeXColor:Number;                 //color corresponding to x-polarization mode
@@ -51,9 +51,9 @@ public class ModeButton extends Sprite{
         this.sIndex = jIndx;
         this.sizeInPix = sizeInPix;
         //this.buttonColor = 0xffffff ;      //default color
-        this.fullColor;// = 0x00ff00;
-        this.fullColorV = 0x00ff00;          //green for vertical
-        this.fullColorH = 0x8888ff;          //light blue for horizontal
+        this.fillColor;// = 0x00ff00;
+        this.fillColorV = 0x00ff00;          //green for vertical
+        this.fillColorH = 0x8888ff;          //light blue for horizontal
         this.emptyColor = 0xffffff;
         myColorTransform = new ColorTransform();
         this.nMax = 16
@@ -134,26 +134,36 @@ public class ModeButton extends Sprite{
         //this.colorLayer.transform.colorTransform = this.myColorTransform;
     }
 
-    //draw colorLayer to height(for xMode) or width(yMode) indicating amplitude of mode
+    //draw colorLayer to height(for xModes) or width(yModes) indicating amplitude of mode
     public function changeBackgroundHeight( inputHeight:int):void{
         //this.colorLayer = this.colorLayer_arr[ inputHeight ];
         if(this.myModel2.xModes){
-            this.fullColor = this.fullColorH;
+            this.fillColor = this.fillColorH;
         } else{
-            this.fullColor = this.fullColorV;
+            this.fillColor = this.fillColorV;
         }
         var w:int = this.sizeInPix;
         var hMax:int = this.sizeInPix;
         var h:Number = inputHeight*hMax/this.nMax;
         var gC:Graphics = this.colorLayer.graphics;
         gC.clear();
-        gC.beginFill( this.fullColor );
-        gC.drawRect( 0, hMax - h, w, h)
-        gC.endFill();
-        gC.beginFill( this.emptyColor );
-        gC.drawRect( 0, 0, w, hMax - h)
-        gC.endFill();
-        //trace("ModeButton.changeBackgroundColor. color = " + this.fullColor.toString(16));
+        if(this.myModel2.xModes){  //if horizontal polarization, fill from left to right
+            gC.beginFill( this.fillColor );
+            gC.drawRect( 0, 0, h, w);   //x, y, width, height
+            gC.endFill();
+            gC.beginFill( this.emptyColor );
+            gC.drawRect( h, 0, hMax - h, w )
+            gC.endFill();
+        }else{  //if vertical polarization, fill from bottom to top
+            gC.beginFill( this.fillColor );
+            gC.drawRect( 0, hMax - h, w, h);
+            gC.endFill();
+            gC.beginFill( this.emptyColor );
+            gC.drawRect( 0, 0, w, hMax - h)
+            gC.endFill();
+        }
+
+        //trace("ModeButton.changeBackgroundColor. color = " + this.fillColor.toString(16));
     }
 
     private function makeLabel():void{
