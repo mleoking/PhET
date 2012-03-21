@@ -68,7 +68,7 @@ public class GameModel extends RPALModel {
         gameSettings = new RPALGameSettings( LEVEL_RANGE, DEFAULT_TIMER_VISIBLE, DEFAULT_SOUND_ENABLED, DEFAULT_CHALLENGE_VISIBILITY );
         listeners = new EventListenerList();
 
-        bestTimes = new long[ gameSettings.getNumberOfLevels() ]; // all zero by default
+        bestTimes = new long[gameSettings.getNumberOfLevels()]; // all zero by default
         for ( int i = 0; i < bestTimes.length; i++ ) {
             bestTimes[i] = NO_TIME;
         }
@@ -175,6 +175,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Checks the user's guess and awards points accordingly.
+     *
      * @return true if the guess is correct, false if incorrect
      */
     public boolean checkGuess() {
@@ -185,7 +186,7 @@ public class GameModel extends RPALModel {
             if ( getAttempts() == 1 ) {
                 setPoints( getPoints() + POINTS_FIRST_ATTEMPT );
             }
-            else if ( getAttempts() == 2 ){
+            else if ( getAttempts() == 2 ) {
                 setPoints( getPoints() + POINTS_SECOND_ATTEMPT );
             }
             else {
@@ -242,13 +243,14 @@ public class GameModel extends RPALModel {
         if ( sendModelMessage ) {
             SimSharingManager.sendModelMessage( ModelComponents.gameChallenge, ModelComponentTypes.modelElement, ModelActions.created,
                                                 ParameterSet.parameterSet( ParameterKeys.formula, challenge.getReaction().getEquationPlainText() ).
-                                                        add( ParameterKeys.quantities, challenge.getReaction().getQuantitiesString() ) );
+                                                        with( ParameterKeys.quantities, challenge.getReaction().getQuantitiesString() ) );
         }
         fireChallengeChanged();
     }
 
     /**
      * Gets the number of challenges per game.
+     *
      * @return
      */
     public static int getChallengesPerGame() {
@@ -282,6 +284,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Gets the difficulty level of the current game.
+     *
      * @return
      */
     public int getLevel() {
@@ -290,6 +293,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Is the game timer visible?
+     *
      * @return
      */
     public boolean isTimerVisible() {
@@ -305,6 +309,7 @@ public class GameModel extends RPALModel {
 
     /**
      * What is visible while the user is solving a challenge?
+     *
      * @return
      */
     public ChallengeVisibility getChallengeVisibility() {
@@ -313,6 +318,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Gets the time since the current game was started.
+     *
      * @return time, in ms
      */
     public long getTime() {
@@ -321,6 +327,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Gets the best time for the current game's level.
+     *
      * @return time, in ms
      */
     public long getBestTime() {
@@ -340,7 +347,7 @@ public class GameModel extends RPALModel {
      * @param level
      */
     private long getBestTime( int level ) {
-        return bestTimes[ level - LEVEL_RANGE.getMin() ];
+        return bestTimes[level - LEVEL_RANGE.getMin()];
     }
 
     /*
@@ -349,7 +356,7 @@ public class GameModel extends RPALModel {
      * @param time in ms
      */
     private void setBestTime( int level, long time ) {
-        bestTimes[ level - LEVEL_RANGE.getMin() ] = time;
+        bestTimes[level - LEVEL_RANGE.getMin()] = time;
     }
 
     /**
@@ -361,6 +368,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Gets the number of attempts that the user has made at solving the current challenge.
+     *
      * @return
      */
     public int getAttempts() {
@@ -369,6 +377,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Sets the number of points scored so far for the current game.
+     *
      * @return
      */
     private void setPoints( double points ) {
@@ -380,6 +389,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Gets the number of points scored so far for the current game.
+     *
      * @return
      */
     public double getPoints() {
@@ -388,6 +398,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Is the current score a perfect score?
+     *
      * @return
      */
     public boolean isPerfectScore() {
@@ -396,6 +407,7 @@ public class GameModel extends RPALModel {
 
     /**
      * Gets the number of points that constitutes a perfect score in a completed game.
+     *
      * @return
      */
     public static double getPerfectScore() {
@@ -410,16 +422,27 @@ public class GameModel extends RPALModel {
 
     public interface GameListener extends EventListener {
         public void newGame(); // user requested to start a new game
+
         public void gameStarted(); // a new game was started
+
         public void gameCompleted(); // the current game was completed
+
         public void gameAborted(); // the current game was aborted before it was completed
+
         public void challengeChanged(); // the challenge changed
+
         public void guessChanged(); // user's guess changed
+
         public void pointsChanged(); // the number of points changed
+
         public void levelChanged(); // the level of difficulty changed
+
         public void timerVisibleChanged(); // the timer visibility changed
+
         public void soundEnabledChanged(); // sound was toggled on or off
+
         public void challengeVisibilityChanged(); // what's visible while the user is solving a challenge has changed
+
         public void timeChanged(); // the time shown on the timer changed
     }
 
@@ -428,16 +451,27 @@ public class GameModel extends RPALModel {
      */
     public static class GameAdapter implements GameListener {
         public void newGame() {}
+
         public void gameStarted() {}
+
         public void gameCompleted() {}
+
         public void gameAborted() {}
+
         public void challengeChanged() {}
+
         public void guessChanged() {}
+
         public void pointsChanged() {}
+
         public void levelChanged() {}
+
         public void timerVisibleChanged() {}
+
         public void soundEnabledChanged() {}
+
         public void challengeVisibilityChanged() {}
+
         public void timeChanged() {}
     }
 
