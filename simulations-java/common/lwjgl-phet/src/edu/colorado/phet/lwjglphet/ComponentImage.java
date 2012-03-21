@@ -2,6 +2,7 @@
 package edu.colorado.phet.lwjglphet;
 
 import java.awt.AWTEvent;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -124,6 +125,24 @@ public class ComponentImage extends TextureImage {
 
         //Fix for rendering problems on 1.5, see #3122
         component.printAll( g );
+
+        /*---------------------------------------------------------------------------*
+        * debugging visuals
+        *----------------------------------------------------------------------------*/
+//        g.setStroke( new BasicStroke( 0 ) );
+//        g.setPaint( new Color( 0f, 0f, 1f, 0.25f ) );
+//        debuggingRectangle( g, component.getPreferredSize().width, component.getPreferredSize().height );
+//
+//        g.setTransform( new AffineTransform() );
+//        g.setPaint( new Color( 1f, 0f, 0f, 0.5f ) );
+//        debuggingRectangle( g, getWidth(), getHeight() );
+    }
+
+    private void debuggingRectangle( Graphics2D g, int w, int h ) {
+        g.drawRect( 0, 0, w, 1 );
+        g.drawRect( 0, 0, 1, h );
+        g.drawRect( w - 1, 0, 1, h );
+        g.drawRect( 0, h - 1, w, 1 );
     }
 
     private static void layoutComponent( Component component ) {

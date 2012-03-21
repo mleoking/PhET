@@ -2,6 +2,7 @@
 package edu.colorado.phet.lwjglphet;
 
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
@@ -46,8 +47,16 @@ public abstract class TextureImage {
         // paint within the EDT thread
         Graphics2D g = paintableImage.createGraphics();
 
+        g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+        g.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
+        g.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+        g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g.setRenderingHint( RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY );
+
         // transform the subsequent calls
-        g.transform( imageTransform );
+        // TODO: the full transform (including the translation) is causing jittery unexplained behavior. only using the scale part for now
+        g.scale( imageTransform.getScaleX(), imageTransform.getScaleY() );
+//        g.transform( imageTransform );
 
         // paint onto the graphics (on the BufferedImage)
         paint( g );

@@ -199,7 +199,7 @@ public class OrthoComponentNode extends GLNode {
         // these are our stage bounds, relative to the SwingJMENode's location
         PBounds localBounds = new PBounds( position.get().getX(), position.get().getY(), size.width, size.height );
 
-        // here we calculate our actual JME bounds
+        // here we calculate our actual canvas bounds
         Rectangle2D transformedBounds = canvasTransform.getTransformedBounds( localBounds );
 
         // for rendering the image, we need to know how much to scale it by
@@ -219,27 +219,21 @@ public class OrthoComponentNode extends GLNode {
         final int hudHeight = LWJGLUtils.toPowerOf2( ( (int) Math.ceil( transformedBounds.getMaxY() ) ) - offsetY );
 
         // debugging for the translation image-offset issues
-//        if ( this instanceof PiccoloJMENode ) {
-//            PiccoloJMENode pthis = (PiccoloJMENode) this;
-//            PNode node = pthis.getNode();
-//            if ( node != null && node.getClass().getName().equals( "edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel" ) ) {
-//                System.out.println( "----" );
-//                System.out.println( "hash: " + node.hashCode() );
-//                System.out.println( "canvas: " + module.getCanvasSize() );
-//                System.out.println( "position: " + position.get() );
-//                System.out.println( "localBounds: " + localBounds );
-//                System.out.println( "transformedBounds: " + transformedBounds );
-//                System.out.println( "scales: " + scaleX + ", " + scaleY );
-//                System.out.println( "offsets: " + offsetX + ", " + offsetY );
-//                System.out.println( "image offsets: " + imageOffsetX + ", " + imageOffsetY );
-//                System.out.println( "hud dimension: " + hudWidth + ", " + hudHeight );
-//                System.out.println( "----" );
-//            }
-//        }
+//        System.out.println( "----" );
+//        System.out.println( "transform: " + canvasTransform.transform.get() );
+//        System.out.println( "position: " + position.get() );
+//        System.out.println( "localBounds: " + localBounds );
+//        System.out.println( "transformedBounds: " + transformedBounds );
+//        System.out.println( "scales: " + scaleX + ", " + scaleY );
+//        System.out.println( "offsets: " + offsetX + ", " + offsetY );
+//        System.out.println( "image offsets: " + imageOffsetX + ", " + imageOffsetY );
+//        System.out.println( "hud dimension: " + hudWidth + ", " + hudHeight );
+//        System.out.println( "----" );
 
         // create the new image within the EDT
         final ComponentImage newComponentImage = new ComponentImage( hudWidth, hudHeight, true, GL_NEAREST, GL_NEAREST, new AffineTransform() {{
-            translate( imageOffsetX, imageOffsetY );
+            // TODO: note that these image offset values are being ignored in TextureImage due to unexplained "jittery" behavior when slight offsets are encountered
+            translate( imageOffsetX, -imageOffsetY );
             scale( scaleX, scaleY );
         }}, component );
 
