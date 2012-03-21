@@ -7,7 +7,9 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -59,6 +61,9 @@ public class TranscriptionFactor extends MobileBiomolecule {
         // Default config used if no match found.
         add( new TranscriptionFactorConfig( Integer.MAX_VALUE, BioShapeUtils.createRandomShape( SIZE, 123 ), false, Color.magenta ) );
     }};
+
+    // Random number generator.
+    private static final Random RAND = new Random( System.currentTimeMillis() - 8 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -143,6 +148,11 @@ public class TranscriptionFactor extends MobileBiomolecule {
                 break;
             }
         }
+    }
+
+    @Override public ImmutableVector2D getDetachDirection() {
+        // Randomly either up or down when detaching from DNA.
+        return RAND.nextBoolean() ? new ImmutableVector2D( 0, 1 ) : new ImmutableVector2D( 0, -1 );
     }
 
     /**

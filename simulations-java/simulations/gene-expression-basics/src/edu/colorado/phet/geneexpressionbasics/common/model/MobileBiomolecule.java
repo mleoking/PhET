@@ -4,7 +4,9 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 import java.awt.Color;
 import java.awt.Shape;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -177,6 +179,16 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      */
     public void set3DMotionEnabled( boolean zMotionEnabled ) {
         this.zMotionEnabled = zMotionEnabled;
+    }
+
+    /**
+     * Get the direction to move when detaching from other molecules (including
+     * DNA).  Can be changed in subclasses, default is to move up.
+     *
+     * @return Vector indicated the direction.
+     */
+    public ImmutableVector2D getDetachDirection() {
+        return new Vector2D( 0, 1 );
     }
 
     public GeneExpressionModel getModel() {

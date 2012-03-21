@@ -117,7 +117,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
             asm.attachmentSite.attachedOrAttachingMolecule.set( null );
             asm.attachmentSite = null;
             asm.setState( unattachedButUnavailableState );
-            biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 1 ), biomolecule.motionBoundsProperty ) );
+            biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( biomolecule.getDetachDirection(), biomolecule.motionBoundsProperty ) );
             detachFromDnaThreshold = 1; // Reset this threshold.
             asm.biomolecule.attachedToDna.set( false ); // Update externally visible state indication.
         }

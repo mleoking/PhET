@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -58,6 +59,9 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Colors used by this molecule.
     private static final Color NOMINAL_COLOR = new Color( 0, 153, 210 );
     private static final Color CONFORMED_COLOR = Color.CYAN;
+
+    // Random number generator.
+    private static final Random RAND = new Random( System.currentTimeMillis() + 2 );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -110,9 +114,13 @@ public class RnaPolymerase extends MobileBiomolecule {
         return model.getDnaMolecule().considerProposalFrom( this );
     }
 
+    @Override public ImmutableVector2D getDetachDirection() {
+        // Randomly either up or down when detaching from DNA.
+        return RAND.nextBoolean() ? new ImmutableVector2D( 0, 1 ) : new ImmutableVector2D( 0, -1 );
+    }
+
     public void setRecycleMode( boolean recycleMode ) {
         rnaPolymeraseAttachmentStateMachine.setRecycleMode( recycleMode );
-
     }
 
     public void setRecycleReturnZone( Rectangle2D recycleReturnZone ) {
