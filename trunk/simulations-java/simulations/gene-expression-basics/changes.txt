@@ -1,3 +1,4 @@
+Changed the motion bounds on both the 1st and 2nd tabs so that molecules are allowed to move below the DNA.
 Fixed layout for HorizontalSliderWithLabelAtEnds, see #3255
 Rewrote HSliderNode to use VSliderNode as a composite, see #3255
 Added code to move biomolecules that attach to the DNA to a lower "layer" of the scene graph so that they are always behind other biomolecules.  This prevents odd-looking cases where biomolecules appear to move between the DNA and a molecule that is attached to it.
