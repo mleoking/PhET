@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -9,14 +11,26 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
-import edu.colorado.phet.bendinglight.view.*;
+import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
+import edu.colorado.phet.bendinglight.view.BendingLightResetAllButtonNode;
+import edu.colorado.phet.bendinglight.view.LaserView;
+import edu.colorado.phet.bendinglight.view.MediumControlPanel;
+import edu.colorado.phet.bendinglight.view.MediumNode;
+import edu.colorado.phet.bendinglight.view.ProtractorNode;
+import edu.colorado.phet.bendinglight.view.ToolboxNode;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.*;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.Function3;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -60,9 +74,8 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
                new Function1<Double, Double>() {
                    public Double apply( Double angle ) {
-                       if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
-                       if ( angle < Math.PI / 2 && angle > 0 ) { angle = Math.PI / 2; }
-                       return angle;
+                       while ( angle < 0 ) { angle += Math.PI * 2; }
+                       return MathUtil.clamp( Math.PI / 2, angle, Math.PI );
                    }
                },
                //Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
