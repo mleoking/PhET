@@ -278,7 +278,7 @@ public class OverridingBehavior extends PlateBehavior {
         }
         //            float chance = (float) ( 1 - Math.exp( -millionsOfYears * 10 ) );
         float chance = millionsOfYears / 0.16f / 1.5f;
-        System.out.println( millionsOfYears );
+//        System.out.println( millionsOfYears );
 
         boolean shouldSmoke = ( Math.random() < chance );
 
