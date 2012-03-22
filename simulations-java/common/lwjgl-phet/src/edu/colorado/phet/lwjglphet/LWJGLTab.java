@@ -53,7 +53,7 @@ public abstract class LWJGLTab implements Tab {
                 if ( initialCanvasSize == null && canvasSize.get().getWidth() != 0 && canvasSize.get().getHeight() != 0 ) {
                     initialCanvasSize = canvasSize.get();
                 }
-                System.out.println( "Canvas size: " + canvasSize.get() );
+//                System.out.println( "Canvas size: " + canvasSize.get() );
             }
         } );
     }

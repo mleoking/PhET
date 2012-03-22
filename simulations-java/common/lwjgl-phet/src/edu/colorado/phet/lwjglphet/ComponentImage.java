@@ -88,7 +88,6 @@ public class ComponentImage extends TextureImage {
                     sendAWTMouseEvent( (int) x, (int) y, false, MouseEvent.NOBUTTON );
                 }
                 else {
-                    System.out.println( "Mouse.getEventButtonState() = " + eventButtonState );
                     sendAWTMouseEvent( (int) x, (int) y, eventButtonState, getSwingButtonIndex( eventButton ) );
                 }
             }

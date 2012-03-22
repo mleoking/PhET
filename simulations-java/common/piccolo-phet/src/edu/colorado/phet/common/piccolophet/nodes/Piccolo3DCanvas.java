@@ -63,7 +63,9 @@ public class Piccolo3DCanvas extends PSwingCanvas {
 
         // make extra-sure our canvas size changes
         // TODO: how to handle bounds that don't have origin of 0,0?
-        setPreferredSize( new Dimension( (int) Math.ceil( bounds.width ), (int) Math.ceil( bounds.height ) ) );
+        // TODO: once JME is phased out, use the ceil version
+//        setPreferredSize( new Dimension( (int) Math.ceil( bounds.width ), (int) Math.ceil( bounds.height ) ) );
+        setPreferredSize( new Dimension( (int) bounds.width, (int) bounds.height ) );
         setSize( getPreferredSize() );
 
         alreadyInLoop = false;
