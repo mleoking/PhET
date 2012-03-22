@@ -63,7 +63,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // it has completed transcription.
     private boolean recycleMode = false;
 
-    private Rectangle2D recycleReturnZone = new Rectangle2D.Double( 0, 0, 0, 0 );
+    private List<Rectangle2D> recycleReturnZones = new ArrayList<Rectangle2D>();
 
     /**
      * Constructor.
@@ -89,8 +89,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
         this.recycleMode = recycleMode;
     }
 
-    public void setRecycleReturnZone( Rectangle2D recycleReturnZone ) {
-        this.recycleReturnZone.setFrame( recycleReturnZone );
+    public void addRecycleReturnZone( Rectangle2D recycleReturnZone ) {
+        this.recycleReturnZones.add( recycleReturnZone );
     }
 
     // Subclass of the "attached" state for polymerase when it is attached to
@@ -338,7 +338,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
                 attachmentSite.attachedOrAttachingMolecule.set( null );
                 attachmentSite = null;
                 if ( recycleMode ) {
-                    setState( new BeingRecycledState( recycleReturnZone ) );
+                    setState( new BeingRecycledState( recycleReturnZones ) );
                 }
                 else {
                     forceImmediateUnattachedButUnavailable();
@@ -356,10 +356,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
     protected class BeingRecycledState extends AttachmentState {
 
-        private final Rectangle2D recycleReturnZone;
+        private final List<Rectangle2D> recycleReturnZones;
 
-        public BeingRecycledState( Rectangle2D recycleReturnZone ) {
-            this.recycleReturnZone = recycleReturnZone;
+        public BeingRecycledState( List<Rectangle2D> recycleReturnZones ) {
+            this.recycleReturnZones = recycleReturnZones;
         }
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
@@ -367,7 +367,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             // Verify that state is consistent.
             assert asm.attachmentSite == null;
 
-            if ( recycleReturnZone.contains( asm.biomolecule.getPosition() ) ) {
+            if ( pointContainedInBoundsList( asm.biomolecule.getPosition(), RnaPolymeraseAttachmentStateMachine.this.recycleReturnZones ) ) {
                 // The motion strategy has returned the biomolecule to the
                 // recycle return zone, so this state is complete.
                 asm.biomolecule.setMotionStrategy( new RandomWalkMotionStrategy( biomolecule.motionBoundsProperty ) );
@@ -383,7 +383,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             // Set the motion strategy that will move the polymerase clear of
             // the DNA, then teleport it so a location within the specified bounds.
             asm.biomolecule.setMotionStrategy( new DriftThenTeleportMotionStrategy( new ImmutableVector2D( 0, 1 ),
-                                                                                    recycleReturnZone,
+                                                                                    recycleReturnZones,
                                                                                     biomolecule.motionBoundsProperty ) );
         }
     }
@@ -408,5 +408,14 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // Map an affinity value to a half life of attachment.
     private static double calculateHalfLifeFromAffinity( double affinity ) {
         return HALF_LIFE_FOR_HALF_AFFINITY * ( affinity / ( 1 - affinity ) );
+    }
+
+    private static boolean pointContainedInBoundsList( Point2D p, List<Rectangle2D> boundsList ) {
+        for ( Rectangle2D bounds : boundsList ) {
+            if ( bounds.contains( p ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 }

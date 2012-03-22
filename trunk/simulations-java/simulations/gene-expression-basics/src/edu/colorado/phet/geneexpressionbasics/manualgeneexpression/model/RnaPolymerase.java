@@ -123,8 +123,8 @@ public class RnaPolymerase extends MobileBiomolecule {
         rnaPolymeraseAttachmentStateMachine.setRecycleMode( recycleMode );
     }
 
-    public void setRecycleReturnZone( Rectangle2D recycleReturnZone ) {
-        rnaPolymeraseAttachmentStateMachine.setRecycleReturnZone( recycleReturnZone );
+    public void addRecycleReturnZone( Rectangle2D recycleReturnZone ) {
+        rnaPolymeraseAttachmentStateMachine.addRecycleReturnZone( recycleReturnZone );
     }
 
     private static Shape createShape() {

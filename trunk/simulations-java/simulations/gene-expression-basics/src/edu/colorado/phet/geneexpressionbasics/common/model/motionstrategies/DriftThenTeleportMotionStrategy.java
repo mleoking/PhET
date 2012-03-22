@@ -4,6 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -27,15 +28,17 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
     private static final double PRE_TELEPORT_VELOCITY = 100; // In picometers per second.
     private static final Random RAND = new Random();
 
-    private final Rectangle2D destinationBounds;
     private final ImmutableVector2D wanderDirection;
+
+    // List of valid places where the item can teleport. 
+    private final List<Rectangle2D> destinationZones;
 
     private double countdown = PRE_TELEPORT_TIME;
     private ImmutableVector2D velocityXY;
     private double velocityZ = 0;
 
-    public DriftThenTeleportMotionStrategy( ImmutableVector2D wanderDirection, Rectangle2D destinationBounds, Property<MotionBounds> motionBoundsProperty ) {
-        this.destinationBounds = destinationBounds;
+    public DriftThenTeleportMotionStrategy( ImmutableVector2D wanderDirection, List<Rectangle2D> destinationZones, Property<MotionBounds> motionBoundsProperty ) {
+        this.destinationZones = destinationZones;
         this.wanderDirection = wanderDirection;
         motionBoundsProperty.addObserver( new VoidFunction1<MotionBounds>() {
             public void apply( MotionBounds motionBounds ) {
@@ -53,9 +56,9 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
 
     @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
         countdown -= dt;
-        if ( countdown <= 0 && !destinationBounds.contains( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ) ) ) {
+        if ( countdown <= 0 && !pointContainedInBoundsList( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ), destinationZones ) ) {
             // Time to teleport.  Should be at back of Z space when this occurs.
-            Point2D destination2D = generateRandomLocationInBounds( destinationBounds, shape );
+            Point2D destination2D = generateRandomLocationInBounds( destinationZones, shape );
             return new Point3D.Double( destination2D.getX(), destination2D.getY(), -1 );
         }
         else {
@@ -71,7 +74,21 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
         }
     }
 
-    private Point2D generateRandomLocationInBounds( Rectangle2D destinationBounds, Shape shape ) {
+    private boolean pointContainedInBoundsList( Point2D p, List<Rectangle2D> boundsList ) {
+        for ( Rectangle2D bounds : boundsList ) {
+            if ( bounds.contains( p ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Point2D generateRandomLocationInBounds( List<Rectangle2D> destinationZones, Shape shape ) {
+
+        // Randomly choose one of the destination zones.
+        Rectangle2D destinationBounds = destinationZones.get( RAND.nextInt( destinationZones.size() ) );
+
+        // Generate a random valid location within the chosen zone.
         double reducedBoundsWidth = destinationBounds.getWidth() - shape.getBounds2D().getWidth();
         double reducedBoundsHeight = destinationBounds.getHeight() - shape.getBounds2D().getHeight();
         if ( reducedBoundsWidth <= 0 || reducedBoundsHeight <= 0 ) {
