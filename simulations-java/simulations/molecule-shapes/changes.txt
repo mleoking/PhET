@@ -1,3 +1,4 @@
+# 1.02.08 (62754) Mar 22, 2012
 Made the "drop-down" tab 2 the only option
 # 1.02.07 (62738) Mar 22, 2012
 Re-enabled the kit-only and drop-down-only versions of the sim (thanks for CM for fixing the underlying issue)
