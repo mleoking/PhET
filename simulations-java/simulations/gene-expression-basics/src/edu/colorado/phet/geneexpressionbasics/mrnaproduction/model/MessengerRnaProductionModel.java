@@ -112,8 +112,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // The one gene that is on this DNA strand.
     private final Gene gene;
 
-    // The bounds within which polymerase is moved when it is recycled.
-    private final Rectangle2D polymeraseRecycleReturnBounds;
+    // The bounds within which polymerase may be moved when recycled.
+    private final Rectangle2D aboveDnaPolymeraseReturnBounds;
+    private final Rectangle2D belowDnaPolymeraseReturnBounds;
 
     //------------------------------------------------------------------------
     // Constructor
@@ -166,11 +167,16 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         // make transcription more likely to occur.
         Rectangle2D polymeraseSize = new RnaPolymerase().getShape().getBounds2D();
         double recycleZoneCenterX = dnaMolecule.getBasePairXOffsetByIndex( dnaMolecule.getGenes().get( 0 ).getTranscribedRegion().getMin() ) + ( RAND.nextDouble() - 0.5 ) * 2000;
-        double recycleZoneCenterY = DnaMolecule.Y_POS + polymeraseSize.getHeight() * 1.5;
-        polymeraseRecycleReturnBounds = new Rectangle2D.Double( recycleZoneCenterX - polymeraseSize.getWidth() * 2,
-                                                                recycleZoneCenterY - polymeraseSize.getHeight() * 0.6,
-                                                                polymeraseSize.getWidth() * 4,
-                                                                polymeraseSize.getHeight() * 1.2 );
+        double recycleZoneHeight = polymeraseSize.getHeight() * 1.2;
+        double recycleZoneWidth = polymeraseSize.getWidth() * 4;
+        aboveDnaPolymeraseReturnBounds = new Rectangle2D.Double( recycleZoneCenterX - polymeraseSize.getWidth() * 2,
+                                                                 DnaMolecule.Y_POS + polymeraseSize.getHeight(),
+                                                                 recycleZoneWidth,
+                                                                 recycleZoneHeight );
+        belowDnaPolymeraseReturnBounds = new Rectangle2D.Double( recycleZoneCenterX - polymeraseSize.getWidth() * 2,
+                                                                 DnaMolecule.Y_POS - polymeraseSize.getHeight() - recycleZoneHeight,
+                                                                 recycleZoneWidth,
+                                                                 polymeraseSize.getHeight() * 1.2 );
 
         // Reset this model in order to set initial state.
         reset();
@@ -299,7 +305,8 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             rnaPolymerase.setPosition3D( generateInitialLocation3D( rnaPolymerase ) );
             rnaPolymerase.set3DMotionEnabled( true );
             rnaPolymerase.setRecycleMode( true );
-            rnaPolymerase.setRecycleReturnZone( polymeraseRecycleReturnBounds );
+            rnaPolymerase.addRecycleReturnZone( aboveDnaPolymeraseReturnBounds );
+            rnaPolymerase.addRecycleReturnZone( belowDnaPolymeraseReturnBounds );
             addMobileBiomolecule( rnaPolymerase );
         }
     }
