@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.tests.MongoLoadTesterSimLauncher;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -63,6 +64,8 @@ public class SimSharingManager {
     // Delimiter between fields. We use Tab instead of comma since it is much less common in string representation of objects.
     // Must be public for usage in the processing tools (in Scala)
     public static final String DELIMITER = "\t";
+
+    public static final String DELIMITER_REPLACEMENT = "&#9;"; // HTML entity equivalent of DELIMITER
 
     // Command line option to enable sim-sharing
     private static final String COMMAND_LINE_OPTION = "-study";
