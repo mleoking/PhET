@@ -25,6 +25,9 @@ public class MoleculeShapesSimSharing {
         devToggleRealModelButtonsVisible,
         devToggle2ndTabBondAngles,
 
+        devToggleKitTab,
+        devToggleDropDownTab,
+
         // these are actually used, just accessed by UserComponents.valueOf()
         CO2, H2O, SO2, XeF2, BF3, ClF3, NH3, CH4, SF4, XeF4, BrF5, PCl5, SF6
     }

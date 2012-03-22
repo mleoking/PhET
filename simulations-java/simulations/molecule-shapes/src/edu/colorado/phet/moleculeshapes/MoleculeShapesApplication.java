@@ -32,8 +32,8 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
     private RealMoleculesTab tab2;
     private RealMoleculesTab tab3;
 
-    public static final Property<Boolean> tab2Visible = new Property<Boolean>( true );
-    public static final Property<Boolean> tab3Visible = new Property<Boolean>( true );
+    public static final Property<Boolean> tab2Visible = new Property<Boolean>( false );
+    public static final Property<Boolean> tab3Visible = new Property<Boolean>( false );
     public static final Property<Boolean> showRealMoleculeRadioButtons = new Property<Boolean>( true );
     private static final Property<Boolean> whiteBackground = new Property<Boolean>( false );
     private PhetApplicationConfig config;
@@ -66,34 +66,34 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
             addTab( tab1 = new MoleculeShapesTab( Strings.MOLECULE__SHAPES__TITLE, false ) );
 
 //            if ( config.hasCommandLineArg( "use.combobox" ) ) {
-            addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false, false ) );
+                addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false, false ) );
 //            }
 //            if ( config.hasCommandLineArg( "use.kits" ) ) {
-//                addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
+                addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
 //            }
 
 
 //            tab2Visible.addObserver( new SimpleObserver() {
-//                public void update() {
-//                    if ( tab2Visible.get() ) {
-//                        addTab( tab2 );
-//                    }
-//                    else {
-//                        removeTab( tab2 );
-//                    }
-//                }
-//            }, false );
+//                                         public void update() {
+//                                             if ( tab2Visible.get() ) {
+//                                                 addTab( tab2 );
+//                                             }
+//                                             else {
+//                                                 removeTab( tab2 );
+//                                             }
+//                                         }
+//                                     }, false );
 //
 //            tab3Visible.addObserver( new SimpleObserver() {
-//                public void update() {
-//                    if ( tab3Visible.get() ) {
-//                        addTab( tab3 );
-//                    }
-//                    else {
-//                        removeTab( tab3 );
-//                    }
-//                }
-//            }, false );
+//                                         public void update() {
+//                                             if ( tab3Visible.get() ) {
+//                                                 addTab( tab3 );
+//                                             }
+//                                             else {
+//                                                 removeTab( tab3 );
+//                                             }
+//                                         }
+//                                     }, false );
         }} );
     }
 
@@ -127,8 +127,8 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
         DeveloperOptions.addDeveloperOptions( developerMenu, frame, tab1 );
 
         developerMenu.add( new JSeparator() );
-//        developerMenu.add( new PropertyCheckBoxMenuItem( "Show drop-down 2nd tab", tab2Visible ) );
-//        developerMenu.add( new PropertyCheckBoxMenuItem( "Show kit 2nd tab", tab3Visible ) );
+//        developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleDropDownTab, "Show drop-down 2nd tab", tab2Visible ) );
+//        developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleKitTab, "Show kit 2nd tab", tab3Visible ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleRealModelButtonsVisible, "Show Real/Model radio buttons", showRealMoleculeRadioButtons ) );
         if ( tab2 != null || tab3 != null ) {
             developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggle2ndTabBondAngles, "Show 2nd tab bond angles", ( tab2 == null ? tab3 : tab2 ).showBondAngles ) );
