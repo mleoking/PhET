@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -21,7 +22,6 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.Kit;
 import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.jmephet.JMEUtils;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
@@ -116,7 +116,7 @@ public class RealMoleculesControlPanel extends PNode {
                 comboBoxMolecules[0],
                 new Function1<RealMoleculeShape, PNode>() {
                     public PNode apply( RealMoleculeShape realMoleculeShape ) {
-                        return new HTMLNode( ChemUtils.toSubscript( realMoleculeShape.getDisplayName() ) );
+                        return new HTMLNode( ChemUtils.toSubscript( realMoleculeShape.getDisplayName() ), Color.BLACK, new PhetFont( 18, true ) );
                     }
                 }
         ) {{
