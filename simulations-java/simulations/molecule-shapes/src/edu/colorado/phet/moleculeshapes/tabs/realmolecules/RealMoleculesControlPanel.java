@@ -150,53 +150,44 @@ public class RealMoleculesControlPanel extends PNode {
             addChild( moleculeSelectionSpacer );
 
             /*---------------------------------------------------------------------------*
-            * real / model radio buttons
+            * real / model radio buttons (moved to RealMoleculesTab)
             *----------------------------------------------------------------------------*/
-            final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.realViewCheckBox, Strings.CONTROL__REAL_VIEW, module.showRealView, true );
-
-            // visibility handling (and initial adding)
-            MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
-                public void update() {
-                    if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
-                        addChild( realRadioNode );
-                    }
-                    else {
-                        removeChild( realRadioNode );
-                    }
-                }
-            } );
-
-            final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.modelViewCheckBox, Strings.CONTROL__MODEL_VIEW, module.showRealView, false );
-
-            // visibility handling (and initial adding)
-            MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
-                public void update() {
-                    if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
-                        addChild( modelRadioNode );
-                    }
-                    else {
-                        removeChild( modelRadioNode );
-                    }
-                }
-            } );
-
-//            if ( module.shouldUseKit() ) {
-            // center the radio buttons side-by-side
-            double spacer = 10;
-            double width = realRadioNode.getFullBounds().getWidth() + spacer + modelRadioNode.getFullBounds().getWidth();
-            double x = ( INNER_WIDTH - width ) / 2;
-            double y = moleculeSelectionSpacer.getFullBounds().getMaxY();
-            realRadioNode.setOffset( x, y );
-            modelRadioNode.setOffset( x + realRadioNode.getFullBounds().getWidth() + spacer, y );
-//            }
-//            else {
-//                // center the radio buttons individually, with one on top of the other
-//                final double maxWidth = Math.max( realRadioNode.getFullBounds().getWidth(), modelRadioNode.getFullBounds().getWidth() );
-//                double radioButtonHorizontalOffset = ( MoleculeShapesConstants.RIGHT_MIN_WIDTH - maxWidth ) / 2;
+//            final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.realViewCheckBox, Strings.CONTROL__REAL_VIEW, module.showRealView, true );
 //
-//                realRadioNode.setOffset( radioButtonHorizontalOffset, moleculeSelectionSpacer.getFullBounds().getMaxY() );
-//                modelRadioNode.setOffset( radioButtonHorizontalOffset, realRadioNode.getFullBounds().getMaxY() );
-//            }
+//            // visibility handling (and initial adding)
+//            MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
+//                        addChild( realRadioNode );
+//                    }
+//                    else {
+//                        removeChild( realRadioNode );
+//                    }
+//                }
+//            } );
+//
+//            final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.modelViewCheckBox, Strings.CONTROL__MODEL_VIEW, module.showRealView, false );
+//
+//            // visibility handling (and initial adding)
+//            MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
+//                        addChild( modelRadioNode );
+//                    }
+//                    else {
+//                        removeChild( modelRadioNode );
+//                    }
+//                }
+//            } );
+//
+////            if ( module.shouldUseKit() ) {
+//            // center the radio buttons side-by-side
+//            double spacer = 10;
+//            double width = realRadioNode.getFullBounds().getWidth() + spacer + modelRadioNode.getFullBounds().getWidth();
+//            double x = ( INNER_WIDTH - width ) / 2;
+//            double y = moleculeSelectionSpacer.getFullBounds().getMaxY();
+//            realRadioNode.setOffset( x, y );
+//            modelRadioNode.setOffset( x + realRadioNode.getFullBounds().getWidth() + spacer, y );
         }}, Strings.CONTROL__MOLECULE, extraPaddingInsets );
         addChild( moleculePanel );
 

@@ -34,6 +34,7 @@ import edu.colorado.phet.jmephet.PhetJMEApplication.RenderPosition;
 import edu.colorado.phet.jmephet.hud.HUDNode;
 import edu.colorado.phet.jmephet.hud.PiccoloJMENode;
 import edu.colorado.phet.jmephet.input.JMEInputHandler;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesColor;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
@@ -42,9 +43,10 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelActions;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelComponentTypes;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelObjects;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.ModelParameterKeys;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
-import edu.colorado.phet.moleculeshapes.control.OptionsNode;
+import edu.colorado.phet.moleculeshapes.control.PropertyRadioButtonNode;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel;
 import edu.colorado.phet.moleculeshapes.model.AttractorModel.ResultMapping;
 import edu.colorado.phet.moleculeshapes.model.Bond;
@@ -59,6 +61,7 @@ import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
 import edu.colorado.phet.moleculeshapes.view.AtomNode;
 import edu.colorado.phet.moleculeshapes.view.LonePairNode;
 import edu.colorado.phet.moleculeshapes.view.MoleculeModelNode;
+import edu.umd.cs.piccolo.PNode;
 
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResult;
@@ -295,10 +298,10 @@ public class RealMoleculesTab extends MoleculeViewTab {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-            public void update() {
-                rebuildMolecule( false );
-            }
-        }, false );
+                                      public void update() {
+                                          rebuildMolecule( false );
+                                      }
+                                  }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
@@ -341,6 +344,52 @@ public class RealMoleculesTab extends MoleculeViewTab {
 //                        resizeDirty = true; // TODO: better way of getting this dependency?
 //                    }
 //                }, true );
+
+        /*---------------------------------------------------------------------------*
+        * real / model buttons
+        *----------------------------------------------------------------------------*/
+        final PNode realModelSelectionNode = new PNode() {{
+            // wrapper so our full bounds are handled correctly
+            addChild( new PNode() {{
+                scale( 1.5 );
+                final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.realViewCheckBox, Strings.CONTROL__REAL_VIEW, showRealView, true );
+
+                // visibility handling (and initial adding)
+                MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
+                    public void update() {
+                        if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
+                            addChild( realRadioNode );
+                        }
+                        else {
+                            removeChild( realRadioNode );
+                        }
+                    }
+                } );
+
+                final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.modelViewCheckBox, Strings.CONTROL__MODEL_VIEW, showRealView, false );
+
+                // visibility handling (and initial adding)
+                MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
+                    public void update() {
+                        if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
+                            addChild( modelRadioNode );
+                        }
+                        else {
+                            removeChild( modelRadioNode );
+                        }
+                    }
+                } );
+
+                modelRadioNode.setOffset( realRadioNode.getFullBounds().getMaxX() + 10, 0 );
+            }} );
+        }};
+
+
+        guiView.getScene().attachChild( new PiccoloJMENode( realModelSelectionNode, inputHandler, this, canvasTransform,
+                                                            new Property<ImmutableVector2D>( new ImmutableVector2D(
+                                                                    ( (int) ( getStageSize().width - realModelSelectionNode.getFullBounds().getWidth() - controlPanelNode.getFullBounds().getWidth() ) / 2 ),
+                                                                    ( (int) ( getStageSize().height - OUTSIDE_PADDING - realModelSelectionNode.getFullBounds().getHeight() ) )
+                                                            ) ) ) );
 
         /*---------------------------------------------------------------------------*
         * "geometry name" panel
