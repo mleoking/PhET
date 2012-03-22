@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_km.xml created Wed Dec 22 10:39:43 ICT 2010 using: pendulum-lab 2.02.00 (37319), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--pendulum-lab-strings_km.xml created Tue Jan 31 14:50:13 PST 2012 using: pendulum-lab 2.02.00 (37319), translation-utility 2.10.00 (48775) Feb 8, 2011-->
 <SimStrings>
 <string key="resetStopwatch" value="កំណត់​ឡើងវិញ"/>
 <string key="earth" value="ផែនដី"/>
@@ -9,18 +9,18 @@
 <string key="showEnergyOf" value="បង្ហាញថាមពល​របស់ ៖"/>
 <string key="PE" value="PE"/>
 <string key="velocity" value="ល្បឿន"/>
-<string key="realTime" value="រយៈ​ពេលធម្មតា"/>
+<string key="realTime" value="រយៈ​ពេលពិត"/>
 <string key="length" value="ប្រវែង"/>
 <string key="lots" value="ច្រើន"/>
 <string key="friction" value="ការ​កកិត"/>
 <string key="showSecondPendulum" value="បង្ហាញប៉ោលទី ២"/>
 <string key="start" value="ចាប់ផ្តើម"/>
-<string key="mass_unit" value="Kg"/>
-<string key="jupiter" value="ភពព្រហស្សត៍"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="ភពព្រហស្បតិ៍"/>
 <string key="moon" value="ព្រះច័ន្ទ"/>
 <string key="energyOf" value="ថាមពល​របស់"/>
 <string key="period" value="ថិរវេលា ៖"/>
-<string key="simStrings" value="ពិសោធន៍ប៉ោល"/>
+<string key="simStrings" value="មន្ទីរ​ពិសោធន៍ប៉ោល"/>
 <string key="noneFriction" value="គ្មាន"/>
 <string key="total" value="សរុប"/>
 <string key="mass2" value="ម៉ាស ២ ៖"/>
@@ -30,7 +30,7 @@
 <string key="length2" value="ប្រវែង ២ ៖"/>
 <string key="photoGateTimer" value="ក្រូណូម៉ែត្រ"/>
 <string key="thermal" value="កម្ដៅ"/>
-<string key="pausePlay" value="ផ្អាក/ចាប់ផ្តើម"/>
+<string key="pausePlay" value="ផ្អាក/ចាក់"/>
 <string key="reset" value="កំណត់​ឡើងវិញ"/>
 <string key="mass" value="ម៉ាស"/>
 <string key="quarterTime" value="1/4 នៃរយៈ​ពេល"/>
@@ -38,7 +38,7 @@
 <string key="gEqZero" value="g = 0"/>
 <string key="length_unit" value="m"/>
 <string key="noneEnergy" value="គ្មាន"/>
-<string key="simTitle" value="ពិសោធន៍​ប៉ោល"/>
+<string key="simTitle" value="មន្ទីរ​ពិសោធន៍​ប៉ោល"/>
 <string key="otherTools" value="ឧបករណ៍ផ្សេងទៀត"/>
 <string key="angleUnit" value=" deg"/>
 <string key="paused" value="បាន​ផ្អាក"/>
