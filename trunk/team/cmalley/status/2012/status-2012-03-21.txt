@@ -1,0 +1,51 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: March 15-21, 2011
+
+Beer's Law Lab
+- created a version for interviews without wavelength control
+
+Line Graphing
+- design discussions
+- started development
+
+Photoelectric Effect
+- working on non-zero current issue, #3281
+
+Reactants, Products and Leftovers
+- switched representation of atoms and molecules to use common-code implementation
+
+Data Collection
+- misc bug fixes
+- tweaks to Wavelength control
+
+Build Process
+- translation deployment process is not adding translations to English jars
+  (fixed on website, but need to identify and fix affected sims)
+
+Common Code
+- refinements, fixes and discussions about Piccolo sliders
+
+Administrative
+- status meeting
+- reports
+
+WHAT'S NEXT:
+
+- Line Graphing sim: design
+- Beer's Law Lab: 3rd tab?
+- Reactants, Products and Leftovers: add anything additional needed for study
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- April 23 - May 12 (bike trip, not working)
+- July 5-11 (CT, working)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working)
+
+--
