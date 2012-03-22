@@ -1,3 +1,4 @@
+Moved the real/model selection top and center, and increased size
 Brought the "options" box back up under the "molecules" box (included widening in the 2nd tab due to the now-wider molecules box)
 Switched CO2 and H2O order in drop-down box
 Made the 2nd tab the "drop-down" version by default
