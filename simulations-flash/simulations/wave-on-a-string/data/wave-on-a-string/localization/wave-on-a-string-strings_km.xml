@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_km.xml created Wed Dec 22 09:16:31 ICT 2010 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--wave-on-a-string-strings_km.xml created Tue Jan 31 14:37:53 ICT 2012 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="manual" value="ដោយដៃ"/>
-<string key="resetTimer" value="កំណត់​ឡើងវិញ"/>
-<string key="damping" value="សើម"/>
+<string key="resetTimer" value="កែតម្រូវ"/>
+<string key="damping" value="កម្រិត"/>
 <string key="simTitle" value="រលកលើខ្សែ"/>
-<string key="showHelp" value="បង្ហាញ​ជំនួយ"/>
-<string key="pulse" value="ញាក់"/>
-<string key="amplitude" value="អាំព្លីទុត"/>
+<string key="showHelp" value="បង្ហាញ"/>
+<string key="pulse" value="ញ័រ"/>
+<string key="amplitude" value="អំព្លីទុត"/>
 <string key="pausePlay" value="ផ្អាក/ផ្តើម"/>
 <string key="step" value="ជំហាន"/>
-<string key="tension" value="តំណឹង"/>
+<string key="tension" value="តង់ស្យុង"/>
 <string key="startTimer" value="ផ្តើម/ផ្អាក"/>
-<string key="pulseWidth" value="ទទឹង​ញាក់"/>
-<string key="rulerHelp" value="បន្ទាត់​អាច​ទាញ​បាន"/>
-<string key="high" value="កម្ពស់"/>
-<string key="wiggleWrench" value="រំកិល​ម៉ាឡេត"/>
-<string key="timer" value="ក្រូណូម៉ែត្រ"/>
-<string key="oscillate" value="យោល"/>
+<string key="pulseWidth" value="ទទឹងនៃការញ័រ"/>
+<string key="rulerHelp" value="ទាញបន្ទាត់"/>
+<string key="high" value="កំពស់"/>
+<string key="wiggleWrench" value="ទាញមូលម៉ាឡេត"/>
+<string key="timer" value="ក្រូណូមែត"/>
+<string key="oscillate" value="លំយោល"/>
 <string key="rulers" value="បន្ទាត់"/>
 <string key="frequency" value="ប្រេកង់"/>
-<string key="wrenchHelp" value="ម៉ាឡេត​អាច​ទាញ​បាន"/>
-<string key="fixedEnd" value="ចុងថេរ"/>
-<string key="refLineHelp" value="បន្ទាត់យោង​អាច​ទាញ​បាន"/>
+<string key="wrenchHelp" value="ទាញម៉ាឡេត"/>
+<string key="fixedEnd" value="ចុងនៅនឹង"/>
+<string key="refLineHelp" value="ទាញបន្ទាត់យោង"/>
 <string key="hideHelp" value="លាក់ជំនួយ"/>
-<string key="timerHelp" value="ក្រូណូម៉ែត្រ​អាច​ទាញ​បាន"/>
-<string key="looseEnd" value="ចុងធូរ"/>
+<string key="timerHelp" value="ទាញក្រូណូម៉ែត"/>
+<string key="looseEnd" value="ចុងមិនចង"/>
 <string key="noEnd" value="គ្មានចុង"/>
 <string key="paused" value="ផ្អាក"/>
-<string key="reset" value="កំណត់​ឡើងវិញ"/>
-<string key="pulse2" value="ញាក់"/>
+<string key="reset" value="កែតម្រូវ"/>
+<string key="pulse2" value="ញ័រ"/>
 <string key="low" value="ទាប"/>
 </SimStrings>
