@@ -1,3 +1,4 @@
+Tweaked bond angle readout spacing in 2nd tab
 Increased font size in the molecules drop-down box
 Moved the real/model selection top and center, and increased size
 Brought the "options" box back up under the "molecules" box (included widening in the 2nd tab due to the now-wider molecules box)

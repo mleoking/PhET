@@ -288,7 +288,8 @@ public class MoleculeModelNode extends Node {
                 final Vector3f screenCenter = camera.getScreenCoordinates( globalCenter );
                 final Vector3f screenMidpoint = camera.getScreenCoordinates( globalMidpoint );
 
-                float extensionFactor = 1.3f;
+                // add a slight extension for larger font sizes
+                float extensionFactor = 1.3f * ( ( tab instanceof RealMoleculesTab ) ? 1.1f : 1 );
                 final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
 
                 double angle = aDir.angleBetweenInDegrees( bDir );
@@ -391,13 +392,11 @@ public class MoleculeModelNode extends Node {
         public void attach( final String string, final float brightness, final Vector3f displayPoint ) {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
+                    float extraSizeFactor = ( tab instanceof RealMoleculesTab ) ? 1.5f : 1;
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
-                    float textScale = scaleOverride == 0 ? tab.getApproximateScale() : scaleOverride;
-                    if ( tab instanceof RealMoleculesTab ) {
-                        textScale *= 1.5;
-                    }
+                    float textScale = ( scaleOverride == 0 ? tab.getApproximateScale() : scaleOverride ) * extraSizeFactor;
                     text.setScale( textScale ); // change the font size based on the sim scale
                     float[] colors = MoleculeShapesColor.BOND_ANGLE_READOUT.get().getRGBColorComponents( null );
                     text.setTextPaint( new Color( colors[0], colors[1], colors[2], brightness ) );
