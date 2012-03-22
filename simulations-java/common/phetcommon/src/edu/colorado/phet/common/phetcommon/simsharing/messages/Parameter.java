@@ -37,7 +37,8 @@ public class Parameter {
     public Parameter( IParameterKey name, String value ) {
         assert !name.toString().contains( SimSharingManager.DELIMITER );
         this.name = name;
-        this.value = value;
+        this.value = ( value == null ) ? "null" : value.replaceAll( SimSharingManager.DELIMITER, SimSharingManager.DELIMITER_REPLACEMENT );
+        assert !this.value.toString().contains( SimSharingManager.DELIMITER );
     }
 
     @Override public String toString() {
