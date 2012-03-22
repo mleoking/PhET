@@ -116,10 +116,11 @@ public class RealMoleculesControlPanel extends PNode {
                 comboBoxMolecules[0],
                 new Function1<RealMoleculeShape, PNode>() {
                     public PNode apply( RealMoleculeShape realMoleculeShape ) {
-                        return new HTMLNode( ChemUtils.toSubscript( realMoleculeShape.getDisplayName() ), Color.BLACK, new PhetFont( 18, true ) );
+                        return new HTMLNode( ChemUtils.toSubscript( realMoleculeShape.getDisplayName() ), Color.BLACK, new PhetFont( 12, true ) );
                     }
                 }
         ) {{
+            scale( 1.5 );
             selectedItem.addObserver( new ChangeObserver<RealMoleculeShape>() {
                 public void update( final RealMoleculeShape newValue, RealMoleculeShape oldValue ) {
                     JMEUtils.invoke( new Runnable() {
