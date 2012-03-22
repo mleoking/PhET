@@ -36,7 +36,6 @@ public class Parameter {
     //Ensures that the delimiter doesn't appear in the string, which would cause problems for the parsers, see #3260
     public Parameter( IParameterKey name, String value ) {
         assert !name.toString().contains( SimSharingManager.DELIMITER );
-        assert !value.contains( SimSharingManager.DELIMITER );
         this.name = name;
         this.value = value;
     }
