@@ -1,3 +1,4 @@
+# 1.02.06 (62734) Mar 22, 2012
 Please use the NON-STUDY version: Temporarily showing both tab versions as a workaround to a sim-sharing code issue.
 > Renamed "Geometry Name" to "Name"
 Tweaked bond angle readout spacing in 2nd tab
