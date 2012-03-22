@@ -253,8 +253,8 @@ public class RealMoleculeShape {
 
     public static final RealMoleculeShape[] TAB_2_MOLECULES = new RealMoleculeShape[] {
             // CO2, H2O, SO2, XeF2, BF3, ClF3, NH3, CH4, SF4, XeF4, BrF5, PCl5, SF6
-            CARBON_DIOXIDE,
             WATER,
+            CARBON_DIOXIDE,
             SULFUR_DIOXIDE,
             XENON_DIFLUORIDE,
             BORON_TRIFLUORIDE,

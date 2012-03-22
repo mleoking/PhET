@@ -65,12 +65,12 @@ public class MoleculeShapesApplication extends JMEPhetApplication {
 
             addTab( tab1 = new MoleculeShapesTab( Strings.MOLECULE__SHAPES__TITLE, false ) );
 
-            if ( config.hasCommandLineArg( "use.combobox" ) ) {
-                addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false, false ) );
-            }
-            if ( config.hasCommandLineArg( "use.kits" ) ) {
-                addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
-            }
+//            if ( config.hasCommandLineArg( "use.combobox" ) ) {
+            addTab( tab2 = new RealMoleculesTab( Strings.REAL__MOLECULES, false, false ) );
+//            }
+//            if ( config.hasCommandLineArg( "use.kits" ) ) {
+//                addTab( tab3 = new RealMoleculesTab( Strings.REAL__MOLECULES, true, false ) );
+//            }
 
 
 //            tab2Visible.addObserver( new SimpleObserver() {

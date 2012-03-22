@@ -327,20 +327,20 @@ public class RealMoleculesTab extends MoleculeViewTab {
         /*---------------------------------------------------------------------------*
         * options
         *----------------------------------------------------------------------------*/
-        final MoleculeShapesPanelNode optionsPanelNode = new MoleculeShapesPanelNode( new OptionsNode( this ), Strings.CONTROL__OPTIONS );
-        final PiccoloJMENode optionsPanel = new PiccoloJMENode( optionsPanelNode, inputHandler, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D() ) );
-        guiView.getScene().attachChild( optionsPanel );
-        optionsPanel.onResize.addUpdateListener(
-                new UpdateListener() {
-                    public void update() {
-                        if ( optionsPanel != null ) {
-                            optionsPanel.position.set( new ImmutableVector2D(
-                                    getStageSize().width - optionsPanel.getComponentWidth() - OUTSIDE_PADDING,
-                                    OUTSIDE_PADDING ) );
-                        }
-                        resizeDirty = true; // TODO: better way of getting this dependency?
-                    }
-                }, true );
+//        final MoleculeShapesPanelNode optionsPanelNode = new MoleculeShapesPanelNode( new OptionsNode( this ), Strings.CONTROL__OPTIONS );
+//        final PiccoloJMENode optionsPanel = new PiccoloJMENode( optionsPanelNode, inputHandler, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D() ) );
+//        guiView.getScene().attachChild( optionsPanel );
+//        optionsPanel.onResize.addUpdateListener(
+//                new UpdateListener() {
+//                    public void update() {
+//                        if ( optionsPanel != null ) {
+//                            optionsPanel.position.set( new ImmutableVector2D(
+//                                    getStageSize().width - optionsPanel.getComponentWidth() - OUTSIDE_PADDING,
+//                                    OUTSIDE_PADDING ) );
+//                        }
+//                        resizeDirty = true; // TODO: better way of getting this dependency?
+//                    }
+//                }, true );
 
         /*---------------------------------------------------------------------------*
         * "geometry name" panel

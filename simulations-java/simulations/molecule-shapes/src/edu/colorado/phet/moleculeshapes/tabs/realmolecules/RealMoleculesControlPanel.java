@@ -26,6 +26,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing.UserComponents;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
+import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyCheckBoxNode;
 import edu.colorado.phet.moleculeshapes.control.PropertyRadioButtonNode;
 import edu.colorado.phet.moleculeshapes.control.TitledControlPanelNode.TitleNode;
@@ -135,6 +136,7 @@ public class RealMoleculesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * molecule panel
         *----------------------------------------------------------------------------*/
+        final int extraPaddingInsets = 15;
         final PNode moleculePanel = new MoleculeShapesPanelNode( new PNode() {{
             // ensure maximum width, and put it at the top so our panel node doesn't cut away the excess top padding
             addChild( new Spacer( 0, 0, INNER_WIDTH, 20 ) );
@@ -195,8 +197,15 @@ public class RealMoleculesControlPanel extends PNode {
 //                realRadioNode.setOffset( radioButtonHorizontalOffset, moleculeSelectionSpacer.getFullBounds().getMaxY() );
 //                modelRadioNode.setOffset( radioButtonHorizontalOffset, realRadioNode.getFullBounds().getMaxY() );
 //            }
-        }}, Strings.CONTROL__MOLECULE, 15 );
+        }}, Strings.CONTROL__MOLECULE, extraPaddingInsets );
         addChild( moleculePanel );
+
+        /*---------------------------------------------------------------------------*
+        * options
+        *----------------------------------------------------------------------------*/
+        final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module, INNER_WIDTH + extraPaddingInsets ), Strings.CONTROL__OPTIONS );
+        optionsPanel.setOffset( 0, moleculePanel.getFullBounds().getMaxY() + 20 );
+        addChild( optionsPanel );
 
         // set the combo box's offset based on our global full bounds, since the combo box is added to the root
         moleculeSelectionNode.setOffset( moleculeSelectionSpacer.getGlobalFullBounds().getX(), moleculeSelectionSpacer.getGlobalFullBounds().getY() - dropDownBoxTopPadding );

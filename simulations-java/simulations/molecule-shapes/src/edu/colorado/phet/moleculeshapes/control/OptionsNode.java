@@ -4,7 +4,6 @@ package edu.colorado.phet.moleculeshapes.control;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.jmephet.JMEUtils;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesProperties;
@@ -19,17 +18,18 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class OptionsNode extends PNode {
 
-    private static final String[] CHECKBOX_STRINGS = new String[] {
-            Strings.CONTROL__SHOW_BOND_ANGLES, Strings.CONTROL__SHOW_LONE_PAIRS
-    };
+//    private static final String[] CHECKBOX_STRINGS = new String[] {
+//            Strings.CONTROL__SHOW_BOND_ANGLES, Strings.CONTROL__SHOW_LONE_PAIRS
+//    };
 
-    public OptionsNode( final MoleculeViewTab module ) {
+    public OptionsNode( final MoleculeViewTab module, double INNER_WIDTH ) {
+        System.out.println( module + ", " + INNER_WIDTH );
         // enforce the width constraint
 
-        double INNER_WIDTH = 0;
-        for ( String checkboxString : CHECKBOX_STRINGS ) {
-            INNER_WIDTH = Math.max( INNER_WIDTH, new PropertyCheckBoxNode( new UserComponent( "dummy" ), checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
-        }
+//        double INNER_WIDTH = 0;
+//        for ( String checkboxString : CHECKBOX_STRINGS ) {
+//            INNER_WIDTH = Math.max( INNER_WIDTH, new PropertyCheckBoxNode( new UserComponent( "dummy" ), checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
+//        }
 
         addChild( new Spacer( 0, 0, INNER_WIDTH, 10 ) );
 

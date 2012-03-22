@@ -38,6 +38,9 @@ public class MoleculeShapesControlPanel extends PNode {
     private static final String[] TITLE_STRINGS = new String[] {
             Strings.CONTROL__BONDING, Strings.CONTROL__LONE_PAIR, Strings.CONTROL__OPTIONS, Strings.REAL_EXAMPLES__TITLE
     };
+    private static final String[] CHECKBOX_STRINGS = new String[] {
+            Strings.CONTROL__SHOW_BOND_ANGLES, Strings.CONTROL__SHOW_LONE_PAIRS
+    };
     public static final double INNER_WIDTH = Math.ceil( getRequiredInnerWidth() );
     private BondTypeControlNode singleBondNode;
     private BondTypeControlNode doubleBondNode;
@@ -138,6 +141,13 @@ public class MoleculeShapesControlPanel extends PNode {
                        lastBounds.getMaxY() + PANEL_SPACER - 4 );
         }};
         addChild( removeAllButtonNode );
+
+        /*---------------------------------------------------------------------------*
+        * options
+        *----------------------------------------------------------------------------*/
+        final MoleculeShapesPanelNode optionsPanel = new MoleculeShapesPanelNode( new OptionsNode( module, INNER_WIDTH ), Strings.CONTROL__OPTIONS );
+        optionsPanel.setOffset( 0, removeAllButtonNode.getFullBounds().getMaxY() + PANEL_SPACER * 1.5 );
+        addChild( optionsPanel );
     }
 
     public PBounds getSingleBondTargetBounds() {
@@ -171,6 +181,9 @@ public class MoleculeShapesControlPanel extends PNode {
                 width += 25;
             }
             maxWidth = Math.max( maxWidth, width );
+        }
+        for ( String checkboxString : CHECKBOX_STRINGS ) {
+            maxWidth = Math.max( maxWidth, new PropertyCheckBoxNode( new UserComponent( "dummy" ), checkboxString, new Property<Boolean>( true ) ).getFullBounds().getWidth() );
         }
         return maxWidth;
     }
