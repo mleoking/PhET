@@ -1,3 +1,4 @@
+# 1.02.07 (62738) Mar 22, 2012
 Re-enabled the kit-only and drop-down-only versions of the sim (thanks for CM for fixing the underlying issue)
 # 1.02.06 (62734) Mar 22, 2012
 Please use the NON-STUDY version: Temporarily showing both tab versions as a workaround to a sim-sharing code issue.
