@@ -1,6 +1,9 @@
+Adjusted the set point for liquid temperature so that water is between 0 and 100 degrees C when set to the liquid state.
 Rewrote HSliderNode to use VSliderNode as a composite, see #3255
 # 1.09.01 (62570) Mar 15, 2012
-3/15/12 Delploying to dev for review of some changes to temperature scaling.
+3/15/12 Deploying to dev for review of some changes to temperature scaling.
+Modified the internal model temperatures used in order to make water look like it is starting to freeze when at 0 degrees C.
+Fixed an issue where the substances would look strange if users were changing state when the sim was paused.
 # 1.09.00 (58569) Nov 14, 2011
 11/14/11 >Publication of the States of Matter Basics version to the production web site.
 # 1.08.10 (58434) Nov 8, 2011
