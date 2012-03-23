@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.equalitylab.view;
 
-import fj.data.List;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -208,9 +208,9 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
     }
 
     private List<Pair<PNode, Representation>> getIcons( SettableProperty<Representation> representation, Color color ) {
-        return List.list( new Pair<PNode, Representation>( new PieIcon( representation, color ), PIE ),
-                          new Pair<PNode, Representation>( new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}}, HORIZONTAL_BAR ),
-                          new Pair<PNode, Representation>( new WaterGlassIcon( representation, color ) {{scale( 0.8 );}}, WATER_GLASSES ),
-                          new Pair<PNode, Representation>( new NumberLineIcon( representation ), NUMBER_LINE ) );
+        return Arrays.asList( new Pair<PNode, Representation>( new PieIcon( representation, color ), PIE ),
+                              new Pair<PNode, Representation>( new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}}, HORIZONTAL_BAR ),
+                              new Pair<PNode, Representation>( new WaterGlassIcon( representation, color ) {{scale( 0.8 );}}, WATER_GLASSES ),
+                              new Pair<PNode, Representation>( new NumberLineIcon( representation ), NUMBER_LINE ) );
     }
 }
