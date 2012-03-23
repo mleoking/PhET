@@ -23,10 +23,10 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
 
     private static final double MIN_XY_VELOCITY = 200; // In picometers/s
     private static final double MAX_XY_VELOCITY = 400; // In picometers/s
-    private static final double MIN_Z_VELOCITY = 0.2; // In normalized units per sec
-    private static final double MAX_Z_VELOCITY = 0.5; // In normalized units per sec
+    private static final double MIN_Z_VELOCITY = 0.3; // In normalized units per sec
+    private static final double MAX_Z_VELOCITY = 0.6; // In normalized units per sec
     private static final double MIN_TIME_IN_ONE_DIRECTION = 0.25; // In seconds.
-    private static final double MAX_TIME_IN_ONE_DIRECTION = 1.0; // In seconds.
+    private static final double MAX_TIME_IN_ONE_DIRECTION = 0.8; // In seconds.
     private static final Random RAND = new Random();
 
     private double directionChangeCountdown = 0;

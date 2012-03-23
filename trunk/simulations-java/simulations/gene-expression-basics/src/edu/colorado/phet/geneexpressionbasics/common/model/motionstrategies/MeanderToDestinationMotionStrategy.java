@@ -31,7 +31,7 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
      */
     public MeanderToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, ImmutableVector2D destinationOffset ) {
         randomWalkMotionStrategy = new RandomWalkMotionStrategy( motionBoundsProperty );
-        directToDestinationMotionStrategy = new MoveDirectlyToDestinationMotionStrategy( destinationProperty, motionBoundsProperty, destinationOffset );
+        directToDestinationMotionStrategy = new MoveDirectlyToDestinationMotionStrategy( destinationProperty, motionBoundsProperty, destinationOffset, 750 );
         this.destinationProperty = destinationProperty;
     }
 
@@ -48,8 +48,8 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
         }
         else {
             // Use a combination of the random and linear motion.
-            Point3D intermediateLocation = randomWalkMotionStrategy.getNextLocation3D( currentLocation, shape, dt * 0.5 );
-            return directToDestinationMotionStrategy.getNextLocation3D( intermediateLocation, shape, dt * 0.5 );
+            Point3D intermediateLocation = randomWalkMotionStrategy.getNextLocation3D( currentLocation, shape, dt * 0.6 );
+            return directToDestinationMotionStrategy.getNextLocation3D( intermediateLocation, shape, dt * 0.4 );
         }
     }
 }
