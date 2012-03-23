@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.equalitylab.view;
 
+import fj.data.List;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
@@ -8,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -33,8 +36,7 @@ import edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
-import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
-import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationIcon;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RadioButtonStrip;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -67,11 +69,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
         final double representationControlPanelScale = 0.80;
         final int padding = 7;
-        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( leftRepresentation, getIcons( leftRepresentation, Colors.LIGHT_GREEN ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
+        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStrip<Representation>( leftRepresentation, getIcons( leftRepresentation, Colors.LIGHT_GREEN ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RepresentationControlPanel( model.rightRepresentation, getIcons( model.rightRepresentation, Colors.LIGHT_BLUE ), padding ) {{scale( representationControlPanelScale );}} ) {{
+        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStrip<Representation>( model.rightRepresentation, getIcons( model.rightRepresentation, Colors.LIGHT_BLUE ), padding ) {{scale( representationControlPanelScale );}} ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
         }};
 
@@ -205,12 +207,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} );
     }
 
-    private RepresentationIcon[] getIcons( SettableProperty<Representation> representation, Color color ) {
-        return new RepresentationIcon[] {
-                new PieIcon( representation, color ),
-                new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}},
-                new WaterGlassIcon( representation, color ) {{scale( 0.8 );}},
-                new NumberLineIcon( representation ),
-        };
+    private List<Pair<PNode, Representation>> getIcons( SettableProperty<Representation> representation, Color color ) {
+        return List.list( new Pair<PNode, Representation>( new PieIcon( representation, color ), PIE ),
+                          new Pair<PNode, Representation>( new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}}, HORIZONTAL_BAR ),
+                          new Pair<PNode, Representation>( new WaterGlassIcon( representation, color ) {{scale( 0.8 );}}, WATER_GLASSES ),
+                          new Pair<PNode, Representation>( new NumberLineIcon( representation ), NUMBER_LINE ) );
     }
 }
