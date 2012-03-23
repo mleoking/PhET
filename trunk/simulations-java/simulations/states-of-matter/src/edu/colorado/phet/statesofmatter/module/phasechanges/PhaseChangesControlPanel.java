@@ -48,6 +48,7 @@ public class PhaseChangesControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+
     private static final Font BUTTON_LABEL_FONT = new PhetFont( 14 );
     private static final Color ENABLED_TITLE_COLOR = Color.BLACK;
     private static final int INTERACTION_POTENTIAL_DIAGRAM_WIDTH = 200;
@@ -314,9 +315,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
     // has been empirically determined to always be right on the phase line.
     private double mapModelTempAndPressureToPhaseDiagramPressureAlternative1( double modelPressure, double modelTemperature ) {
         // This method is a total tweak fest.  All values and equations are
-        // made to map the the phase diagram, and are NOT based on any real
-        // world equations that define the phase.
-        double cutOverTemperature = 0.35;
+        // made to map the the phase diagram, and are NOT based on any real-
+        // world equations that define phases of matter.
+        double cutOverTemperature = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM - 0.025;
         double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature( modelTemperature );
         double mappedPressure;
         if ( mappedTemperature < cutOverTemperature ) {
