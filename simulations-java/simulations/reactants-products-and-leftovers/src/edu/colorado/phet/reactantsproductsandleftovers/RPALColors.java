@@ -36,7 +36,7 @@ public class RPALColors {
     }
 
     // Colors normally used in the simulation.
-    public static final ColorScheme NORMAL_COLOR_SCHEME = new ColorScheme( LIGHT_PURPLE, DARK_BLUE, Color.YELLOW, DARK_BLUE );
+    public static final ColorScheme NORMAL_COLOR_SCHEME = new ColorScheme( LIGHT_PURPLE, Color.BLACK, Color.YELLOW, DARK_BLUE );
     // Colors used for producing photocopy-able worksheets.
     public static final ColorScheme WORKSHEET_COLOR_SCHEME = new ColorScheme( Color.WHITE, Color.WHITE, Color.BLACK, Color.BLACK );
 
