@@ -70,6 +70,6 @@ public class Parameter {
         System.out.println( new Parameter( ParameterKeys.averageX, (IParameterValue) null ) );
         System.out.println( new Parameter( ParameterKeys.averageX, (String) null ) );
         System.out.println( new Parameter( ParameterKeys.averageX, "something\texciting!" ) );
-        System.out.println( new Parameter( ParameterKeys.averageX, "something\\\\texciting!" ) );
+        System.out.println( new Parameter( ParameterKeys.averageX, "something\\texciting!" ) );
     }
 }
