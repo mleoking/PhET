@@ -271,10 +271,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
             double modelTemperature = m_model.getTemperatureSetPoint();
             double modelPressure = m_model.getModelPressure();
             double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature( modelTemperature );
-            double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressure( modelPressure, modelTemperature );
+            double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressureAlternative1( modelPressure, modelTemperature );
             m_phaseDiagram.setStateMarkerPos( mappedTemperature, mappedPressure );
         }
-
     }
 
     private double mapModelTemperatureToPhaseDiagramTemperature( double modelTemperature ) {
@@ -307,6 +306,24 @@ public class PhaseChangesControlPanel extends ControlPanel {
         else {
             mappedPressure = 0.43 + ( 0.43 / 0.81 ) * ( mappedTemperature - 0.81 ) +
                              PRESSURE_FACTOR * Math.pow( modelPressure, 2 );
+        }
+        return Math.min( mappedPressure, 1 );
+    }
+
+    // Version that strictly maps the temperature to a spot on the chart that
+    // has been empirically determined to always be right on the phase line.
+    private double mapModelTempAndPressureToPhaseDiagramPressureAlternative1( double modelPressure, double modelTemperature ) {
+        // This method is a total tweak fest.  All values and equations are
+        // made to map the the phase diagram, and are NOT based on any real
+        // world equations that define the phase.
+        double cutOverTemperature = 0.35;
+        double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature( modelTemperature );
+        double mappedPressure;
+        if ( mappedTemperature < cutOverTemperature ) {
+            mappedPressure = Math.pow( mappedTemperature, 1.5 );
+        }
+        else {
+            mappedPressure = Math.pow( mappedTemperature - cutOverTemperature, 1.8 ) + 0.2;
         }
         return Math.min( mappedPressure, 1 );
     }
