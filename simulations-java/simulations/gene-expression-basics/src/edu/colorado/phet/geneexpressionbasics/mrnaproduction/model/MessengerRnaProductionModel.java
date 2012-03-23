@@ -137,17 +137,17 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         {
             // The bottom of the bounds, based off center point of the DNA
             // molecule.  Offset was empirically determined.
-            double minY = DnaMolecule.Y_POS - 1500;
+            double minY = DnaMolecule.Y_POS - 1200;
 
             // The max Y position is set to make it so that molecules can move
             // outside of the view port, but not way outside.  Its value was
             // empirically determined.
-            double maxY = DnaMolecule.Y_POS + 1500;
+            double maxY = DnaMolecule.Y_POS + 1100;
 
             // Figure out the X bounds based on the length of the gene.  This
             // extends a little less in the -x direction than in the +x, since the
             // beginning of the gene is in the center of the view port.
-            double minX = gene.getStartX() - gene.getTranscribedRegionLength() / 2;
+            double minX = gene.getStartX() - 1300;
             double maxX = gene.getEndX() + 400; // Needs to be long enough to allow the polymerase to get to the end.
 
             // Create the nominal rectangular bounds.
