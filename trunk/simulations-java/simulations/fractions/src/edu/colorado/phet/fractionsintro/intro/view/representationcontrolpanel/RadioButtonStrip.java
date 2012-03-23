@@ -18,7 +18,7 @@ import edu.colorado.phet.fractionsintro.intro.view.ToggleButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Control panel that lets you see and choose from different representation types.  The buttons look like toggle buttons and
+ * Control panel that lets you see and choose from different representation types.  The buttons look like toggle buttons and behave like real radio pushbuttons (like in an old car radio)
  *
  * @author Sam Reid
  */
