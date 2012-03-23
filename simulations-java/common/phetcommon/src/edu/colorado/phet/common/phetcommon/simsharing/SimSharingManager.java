@@ -27,7 +27,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.tests.MongoLoadTesterSimLauncher;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -65,7 +64,10 @@ public class SimSharingManager {
     // Must be public for usage in the processing tools (in Scala)
     public static final String DELIMITER = "\t";
 
-    public static final String DELIMITER_REPLACEMENT = "&#9;"; // HTML entity equivalent of DELIMITER
+    public static final String DELIMITER_REPLACEMENT = "\\\\t"; // HTML entity equivalent of DELIMITER
+
+    //String to use when a null value provided in parameter
+    public static final String NULL_STRING = "null";
 
     // Command line option to enable sim-sharing
     private static final String COMMAND_LINE_OPTION = "-study";
