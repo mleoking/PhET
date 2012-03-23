@@ -115,9 +115,9 @@ public class MultipleParticleModel implements Resettable {
     // for a given particle.
     public static final double TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE = 0.26;    // Empirically determined.
     public static final double CRITICAL_POINT_MONATOMIC_MODEL_TEMPERATURE = 0.8;  // Empirically determined.
-    private static final double NEON_TRIPLE_POINT_IN_KELVIN = 25;
+    private static final double NEON_TRIPLE_POINT_IN_KELVIN = 23;   // Tweaked a little from actual value for better temperature mapping.
     private static final double NEON_CRITICAL_POINT_IN_KELVIN = 44;
-    private static final double ARGON_TRIPLE_POINT_IN_KELVIN = 80;  // Tweaked a little from actual value for better temperature mapping.
+    private static final double ARGON_TRIPLE_POINT_IN_KELVIN = 75;  // Tweaked a little from actual value for better temperature mapping.
     private static final double ARGON_CRITICAL_POINT_IN_KELVIN = 151;
     private static final double O2_TRIPLE_POINT_IN_KELVIN = 54;
     private static final double O2_CRITICAL_POINT_IN_KELVIN = 155;
