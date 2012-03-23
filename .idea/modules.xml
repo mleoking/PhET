@@ -148,7 +148,7 @@
       <module fileurl="file://$PROJECT_DIR$/team/jolson/utilities/utilities.iml" filepath="$PROJECT_DIR$/team/jolson/utilities/utilities.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" filepath="$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/work-        /work-energy.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/work-        /work-energy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/work-energy/work-energy.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/work-energy/work-energy.iml" />
     </modules>
   </component>
 </project>
