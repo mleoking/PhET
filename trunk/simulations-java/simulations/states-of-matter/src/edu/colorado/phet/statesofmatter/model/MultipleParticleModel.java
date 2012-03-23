@@ -65,7 +65,7 @@ public class MultipleParticleModel implements Resettable {
     // The internal model temperature values for the various states.
     public static final double SOLID_TEMPERATURE = 0.15;
     public static final double SLUSH_TEMPERATURE = 0.33;
-    public static final double LIQUID_TEMPERATURE = 0.42;
+    public static final double LIQUID_TEMPERATURE = 0.34;
     public static final double GAS_TEMPERATURE = 1.0;
 
     // Constants that control various aspects of the model behavior.
@@ -93,9 +93,7 @@ public class MultipleParticleModel implements Resettable {
     public static final int NO_THERMOSTAT = 0;
     public static final int ISOKINETIC_THERMOSTAT = 1;
     public static final int ANDERSEN_THERMOSTAT = 2;
-    public static final int ADAPTIVE_THERMOSTAT = 3;   // Adaptive uses isokinetic when temperature is changing and
-    // Andersen when temperature is stable.  This is done because
-    // it provides the most visually appealing behavior.
+    public static final int ADAPTIVE_THERMOSTAT = 3;
 
     // Parameters to control rates of change of the container size.
     private static final double MAX_PER_TICK_CONTAINER_SHRINKAGE = 50;
@@ -115,15 +113,15 @@ public class MultipleParticleModel implements Resettable {
 
     // Values used for converting from model temperature to the temperature
     // for a given particle.
-    public static final double TRIPLE_POINT_MODEL_TEMPERATURE = 0.26;    // Empirically determined.
-    public static final double CRITICAL_POINT_MODEL_TEMPERATURE = 0.8;  // Empirically determined.
+    public static final double TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE = 0.26;    // Empirically determined.
+    public static final double CRITICAL_POINT_MONATOMIC_MODEL_TEMPERATURE = 0.8;  // Empirically determined.
     private static final double NEON_TRIPLE_POINT_IN_KELVIN = 25;
     private static final double NEON_CRITICAL_POINT_IN_KELVIN = 44;
-    private static final double ARGON_TRIPLE_POINT_IN_KELVIN = 84;
+    private static final double ARGON_TRIPLE_POINT_IN_KELVIN = 80;  // Tweaked a little from actual value for better temperature mapping.
     private static final double ARGON_CRITICAL_POINT_IN_KELVIN = 151;
     private static final double O2_TRIPLE_POINT_IN_KELVIN = 54;
     private static final double O2_CRITICAL_POINT_IN_KELVIN = 155;
-    private static final double WATER_TRIPLE_POINT_IN_KELVIN = 273;  // Not the real triple point - tweaked to get water to appear frozen when we want it.
+    private static final double WATER_TRIPLE_POINT_IN_KELVIN = 273;
     private static final double WATER_CRITICAL_POINT_IN_KELVIN = 647;
 
     // The following values are used for temperature conversion for the
@@ -417,15 +415,15 @@ public class MultipleParticleModel implements Resettable {
         switch( m_currentMolecule ) {
             case StatesOfMatterConstants.DIATOMIC_OXYGEN:
                 m_particleDiameter = OxygenAtom.RADIUS * 2;
-                m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / O2_TRIPLE_POINT_IN_KELVIN;
+                m_minModelTemperature = 0.5 * TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE / O2_TRIPLE_POINT_IN_KELVIN;
                 break;
             case StatesOfMatterConstants.NEON:
                 m_particleDiameter = NeonAtom.RADIUS * 2;
-                m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / NEON_TRIPLE_POINT_IN_KELVIN;
+                m_minModelTemperature = 0.5 * TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE / NEON_TRIPLE_POINT_IN_KELVIN;
                 break;
             case StatesOfMatterConstants.ARGON:
                 m_particleDiameter = ArgonAtom.RADIUS * 2;
-                m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ARGON_TRIPLE_POINT_IN_KELVIN;
+                m_minModelTemperature = 0.5 * TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE / ARGON_TRIPLE_POINT_IN_KELVIN;
                 break;
             case StatesOfMatterConstants.WATER:
                 // Use a radius value that is artificially large, because the
@@ -433,11 +431,11 @@ public class MultipleParticleModel implements Resettable {
                 // users can see the crystal structure better, and so that the
                 // solid form will look larger (since water expands when frozen).
                 m_particleDiameter = OxygenAtom.RADIUS * 2.9;
-                m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / WATER_TRIPLE_POINT_IN_KELVIN;
+                m_minModelTemperature = 0.5 * TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE / WATER_TRIPLE_POINT_IN_KELVIN;
                 break;
             case StatesOfMatterConstants.USER_DEFINED_MOLECULE:
                 m_particleDiameter = ConfigurableStatesOfMatterAtom.DEFAULT_RADIUS * 2;
-                m_minModelTemperature = 0.5 * TRIPLE_POINT_MODEL_TEMPERATURE / ADJUSTABLE_ATOM_TRIPLE_POINT_IN_KELVIN;
+                m_minModelTemperature = 0.5 * TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE / ADJUSTABLE_ATOM_TRIPLE_POINT_IN_KELVIN;
                 break;
             default:
                 assert false; // Should never happen, so it should be debugged if it does.
@@ -1358,8 +1356,8 @@ public class MultipleParticleModel implements Resettable {
             // We treat anything below the minimum temperature as absolute zero.
             temperatureInKelvin = 0;
         }
-        else if ( m_temperatureSetPoint < TRIPLE_POINT_MODEL_TEMPERATURE ) {
-            temperatureInKelvin = m_temperatureSetPoint * triplePoint / TRIPLE_POINT_MODEL_TEMPERATURE;
+        else if ( m_temperatureSetPoint < TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE ) {
+            temperatureInKelvin = m_temperatureSetPoint * triplePoint / TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE;
 
             if ( temperatureInKelvin < 0.5 ) {
                 // Don't return zero - or anything that would round to it - as
@@ -1367,13 +1365,13 @@ public class MultipleParticleModel implements Resettable {
                 temperatureInKelvin = 0.5;
             }
         }
-        else if ( m_temperatureSetPoint < CRITICAL_POINT_MODEL_TEMPERATURE ) {
-            double slope = ( criticalPoint - triplePoint ) / ( CRITICAL_POINT_MODEL_TEMPERATURE - TRIPLE_POINT_MODEL_TEMPERATURE );
-            double offset = triplePoint - ( slope * TRIPLE_POINT_MODEL_TEMPERATURE );
+        else if ( m_temperatureSetPoint < CRITICAL_POINT_MONATOMIC_MODEL_TEMPERATURE ) {
+            double slope = ( criticalPoint - triplePoint ) / ( CRITICAL_POINT_MONATOMIC_MODEL_TEMPERATURE - TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE );
+            double offset = triplePoint - ( slope * TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE );
             temperatureInKelvin = m_temperatureSetPoint * slope + offset;
         }
         else {
-            temperatureInKelvin = m_temperatureSetPoint * criticalPoint / CRITICAL_POINT_MODEL_TEMPERATURE;
+            temperatureInKelvin = m_temperatureSetPoint * criticalPoint / CRITICAL_POINT_MONATOMIC_MODEL_TEMPERATURE;
         }
         return temperatureInKelvin;
     }
