@@ -54,9 +54,9 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private static final int INTERACTION_POTENTIAL_DIAGRAM_HEIGHT = (int) ( INTERACTION_POTENTIAL_DIAGRAM_WIDTH * 0.8 );
 
     // Constants used when mapping the model pressure and temperature to the phase diagram.
-    private static final double TRIPLE_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.TRIPLE_POINT_MODEL_TEMPERATURE;
+    private static final double TRIPLE_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.TRIPLE_POINT_MONATOMIC_MODEL_TEMPERATURE;
     private static final double TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM = 0.375;
-    private static final double CRITICAL_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.CRITICAL_POINT_MODEL_TEMPERATURE;
+    private static final double CRITICAL_POINT_TEMPERATURE_IN_MODEL = MultipleParticleModel.CRITICAL_POINT_MONATOMIC_MODEL_TEMPERATURE;
     private static final double CRITICAL_POINT_TEMPERATURE_ON_DIAGRAM = 0.8;
     private static final double SLOPE_IN_1ST_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM / TRIPLE_POINT_TEMPERATURE_IN_MODEL;
     private static final double SLOPE_IN_2ND_REGION =
