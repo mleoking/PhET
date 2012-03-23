@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel;
+package edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,12 +14,13 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.fractionsintro.intro.view.ToggleButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * Control panel that lets you see and choose from different representation types.  The buttons look like toggle buttons and behave like real radio pushbuttons (like in an old car radio)
  * where pushing one in pops the others out.  Only one can be selected at a time.
+ * <p/>
+ * Designed by Ariel Paul for Fractions and generalized when it was needed for Fluid Pressure and Flow Tab 1
  *
  * @author Sam Reid
  */
