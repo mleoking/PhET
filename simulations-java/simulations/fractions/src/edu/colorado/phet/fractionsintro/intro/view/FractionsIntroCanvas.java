@@ -1,10 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view;
 
+import fj.data.List;
+
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -16,10 +19,10 @@ import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.Ca
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
-import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationControlPanel;
-import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RepresentationIcon;
+import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RadioButtonStrip;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.VerticalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
+import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 
@@ -35,16 +38,19 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
-        final RepresentationControlPanel representationControlPanel = new RepresentationControlPanel( model.representation, new RepresentationIcon[] {
-                new PieIcon( model.representation, Colors.CIRCLE_COLOR ),
-                new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ),
-                new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ),
-                new WaterGlassIcon( model.representation, Colors.CUP_COLOR ),
-                new CakeIcon( model.representation ),
-                new NumberLineIcon( model.representation ),
-        }, 0 ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
-        }};
+        final RadioButtonStrip<Representation> representationControlPanel =
+                new RadioButtonStrip<Representation>( model.representation, List.list(
+
+                        new Pair<PNode, Representation>( new PieIcon( model.representation, Colors.CIRCLE_COLOR ), PIE ),
+                        new Pair<PNode, Representation>( new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ), HORIZONTAL_BAR ),
+                        new Pair<PNode, Representation>( new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode(), VERTICAL_BAR ),
+                        new Pair<PNode, Representation>( new WaterGlassIcon( model.representation, Colors.CUP_COLOR ), WATER_GLASSES ),
+                        new Pair<PNode, Representation>( new CakeIcon( model.representation ), CAKE ),
+                        new Pair<PNode, Representation>( new NumberLineIcon( model.representation ), NUMBER_LINE ) ), 0 ) {
+                    {
+                        setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
+                    }
+                };
         addChild( representationControlPanel );
 
         //Show the fraction text icon on the right to keep it far away from the spinner fraction (which is to the left)

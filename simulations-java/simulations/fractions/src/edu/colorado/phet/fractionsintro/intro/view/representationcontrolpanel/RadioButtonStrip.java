@@ -1,5 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel;
+
+import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -7,33 +9,34 @@ import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.colorado.phet.fractionsintro.intro.view.ToggleButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Control panel that lets you see and choose from different representation types for the fraction.
+ * Control panel that lets you see and choose from different representation types.  The buttons look like toggle buttons and
  *
  * @author Sam Reid
  */
-public class RepresentationControlPanel extends ControlPanelNode {
-    public RepresentationControlPanel( SettableProperty<Representation> chosenRepresentation, RepresentationIcon[] elements, int padding ) {
-        super( new RepresentationControlPanelContentNode( chosenRepresentation, elements, padding ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
+public class RadioButtonStrip<T> extends ControlPanelNode {
+    public RadioButtonStrip( SettableProperty<T> selected, List<Pair<PNode, T>> elements, int padding ) {
+        super( new ContentNode<T>( selected, elements, padding ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
     }
 
-    private static class RepresentationControlPanelContentNode extends PNode {
-        private RepresentationControlPanelContentNode( final SettableProperty<Representation> selected, final RepresentationIcon[] elements, int padding ) {
+    //Inner class enables us to wrap the parent in ControlPanelNode
+    private static class ContentNode<T> extends PNode {
+        private ContentNode( final SettableProperty<T> selected, final List<Pair<PNode, T>> elements, int padding ) {
 
             double maxWidth = 0;
             double maxHeight = 0;
 
-            for ( RepresentationIcon representationIcon : elements ) {
-                PNode pNode = representationIcon.getNode();
+            for ( Pair<PNode, T> element : elements ) {
+                PNode pNode = element._1;
                 if ( pNode.getFullBounds().getWidth() > maxWidth ) {
                     maxWidth = pNode.getFullBounds().getWidth();
                 }
@@ -45,20 +48,20 @@ public class RepresentationControlPanel extends ControlPanelNode {
             final double finalMaxHeight = Math.max( maxWidth, maxHeight ) + padding;
             final double finalMaxWidth = finalMaxHeight;
             final HBox representationLayer = new HBox( 10 ) {{
-                for ( final RepresentationIcon element : elements ) {
+                for ( final Pair<PNode, T> element : elements ) {
 
                     PNode button = new PhetPPath( new RoundRectangle2D.Double( -2, -2, finalMaxWidth + 4, finalMaxHeight + 4, 20, 20 ), null ) {{
 
-                        final ZeroOffsetNode theNode = new ZeroOffsetNode( element.getNode() ) {{
+                        final ZeroOffsetNode theNode = new ZeroOffsetNode( element._1 ) {{
                             final Point2D.Double origOffset = new Point2D.Double( finalMaxWidth / 2 - getFullWidth() / 2, finalMaxHeight / 2 - getFullHeight() / 2 );
                             setOffset( origOffset );
                         }};
                         addChild( theNode );
                     }};
 
-                    addChild( new ToggleButtonNode( button, selected.valueEquals( element.getRepresentation() ), new VoidFunction0() {
+                    addChild( new ToggleButtonNode( button, selected.valueEquals( element._2 ), new VoidFunction0() {
                         public void apply() {
-                            selected.set( element.getRepresentation() );
+                            selected.set( element._2 );
                         }
                     } ) );
                 }
