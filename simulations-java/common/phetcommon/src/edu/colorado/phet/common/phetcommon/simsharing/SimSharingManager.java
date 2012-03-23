@@ -64,7 +64,7 @@ public class SimSharingManager {
     // Must be public for usage in the processing tools (in Scala)
     public static final String DELIMITER = "\t";
 
-    public static final String DELIMITER_REPLACEMENT = "\\\\t"; // HTML entity equivalent of DELIMITER
+    public static final String DELIMITER_REPLACEMENT = "\\t"; // HTML entity equivalent of DELIMITER
 
     //String to use when a null value provided in parameter
     public static final String NULL_STRING = "null";
