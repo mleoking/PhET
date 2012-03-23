@@ -3,12 +3,16 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStrip;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
@@ -22,7 +26,9 @@ import edu.colorado.phet.fluidpressureandflow.flow.view.GridNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.POTTED_PLANT;
 
@@ -127,5 +133,12 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         addChild( gravityControlPanelNode );
         addChild( fluidDensityControlNode );
+
+        RadioButtonStrip<String> radioButtonStrip = new RadioButtonStrip<String>( new Property<String>( "hello" ), Arrays.asList( new Pair<PNode, String>( new PText( "1" ), "1" ),
+                                                                                                                                  new Pair<PNode, String>( new PText( "2" ), "2" ),
+                                                                                                                                  new Pair<PNode, String>( new PText( "3" ), "3" ) ), 5 ) {{
+            setOffset( INSET, INSET );
+        }};
+        addChild( radioButtonStrip );
     }
 }
