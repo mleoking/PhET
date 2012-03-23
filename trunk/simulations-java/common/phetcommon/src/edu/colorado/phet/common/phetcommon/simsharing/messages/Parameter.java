@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.simsharing.messages;
 
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.*;
 
 /**
  * Parameter portion of a sim-sharing event.
@@ -18,7 +18,7 @@ public class Parameter {
     public final String value;
 
     public Parameter( IParameterKey name, IParameterValue value ) {
-        this( name, value.toString() );
+        this( name, value == null ? NULL_STRING : value.toString() );
     }
 
     public Parameter( IParameterKey name, boolean value ) {
@@ -35,10 +35,10 @@ public class Parameter {
 
     //Ensures that the delimiter doesn't appear in the string, which would cause problems for the parsers, see #3260
     public Parameter( IParameterKey name, String value ) {
-        assert !name.toString().contains( SimSharingManager.DELIMITER );
+        assert !name.toString().contains( DELIMITER );
         this.name = name;
-        this.value = ( value == null ) ? "null" : value.replaceAll( SimSharingManager.DELIMITER, SimSharingManager.DELIMITER_REPLACEMENT );
-        assert !this.value.toString().contains( SimSharingManager.DELIMITER );
+        this.value = ( value == null ) ? NULL_STRING : value.replace( DELIMITER, DELIMITER_REPLACEMENT );
+        assert !this.value.contains( DELIMITER );
     }
 
     @Override public String toString() {
@@ -63,5 +63,13 @@ public class Parameter {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + ( value != null ? value.hashCode() : 0 );
         return result;
+    }
+
+    //Test printing out different corner cases for parameter
+    public static void main( String[] args ) {
+        System.out.println( new Parameter( ParameterKeys.averageX, (IParameterValue) null ) );
+        System.out.println( new Parameter( ParameterKeys.averageX, (String) null ) );
+        System.out.println( new Parameter( ParameterKeys.averageX, "something\texciting!" ) );
+        System.out.println( new Parameter( ParameterKeys.averageX, "something\\\\texciting!" ) );
     }
 }
