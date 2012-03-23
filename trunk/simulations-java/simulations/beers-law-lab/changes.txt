@@ -1,3 +1,4 @@
+3/23/12 change request: change color of Before/After boxes from dark blue (RGB=46,107,178) to black
 3/22/12 restore flavors in build.properties
 # 1.00.03 (62761) Mar 22, 2012
 3/22/12 dev version for KL that contains only Beer's Law Lab in *_all.jar
