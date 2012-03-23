@@ -12,7 +12,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -28,6 +30,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
@@ -66,6 +70,10 @@ public class PhaseChangesControlPanel extends ControlPanel {
     private static final double OFFSET_IN_2ND_REGION = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM -
                                                        ( SLOPE_IN_2ND_REGION * TRIPLE_POINT_TEMPERATURE_IN_MODEL );
 
+    // Used for calculating moving averages needed to mellow out the graph
+    // behavior.  Value empirically determined.
+    private static final int MAX_NUM_HISTORY_SAMPLES = 100;
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -90,6 +98,8 @@ public class PhaseChangesControlPanel extends ControlPanel {
 
     private final boolean m_advanced;
 
+    private final List<Double> m_modelTemperatureHistory = new ArrayList<Double>( MAX_NUM_HISTORY_SAMPLES );
+
     //----------------------------------------------------------------------------
     // Constructor(s)
     //----------------------------------------------------------------------------
@@ -109,28 +119,25 @@ public class PhaseChangesControlPanel extends ControlPanel {
         m_phaseDiagramVisible = advanced;
         m_interactionDiagramVisible = advanced;
 
+        m_model.getClock().addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                // Update the phase diagram at each clock tick.
+                updatePhaseDiagram();
+            }
+        } );
+
         // Register with the model for events that affect the diagrams on this panel.
         m_model.addListener( new MultipleParticleModel.Adapter() {
             public void moleculeTypeChanged() {
                 m_interactionPotentialDiagram.setLjPotentialParameters( m_model.getSigma(), m_model.getEpsilon() );
                 m_moleculeSelectionPanel.setMolecule( m_model.getMoleculeType() );
-            }
-
-            public void temperatureChanged() {
-                updatePhaseDiagram();
-            }
-
-            public void pressureChanged() {
-                updatePhaseDiagram();
-            }
-
-            public void containerExplodedStateChanged( boolean containerExploded ) {
-                updatePhaseDiagram();
+                m_modelTemperatureHistory.clear();
             }
 
             public void resetOccurred() {
                 m_phaseDiagramVisible = m_advanced;
                 m_interactionDiagramVisible = m_advanced;
+                m_modelTemperatureHistory.clear();
                 updateVisibilityStates();
             }
         } );
@@ -269,12 +276,24 @@ public class PhaseChangesControlPanel extends ControlPanel {
         }
         else {
             m_phaseDiagram.setStateMarkerVisible( true );
-            double modelTemperature = m_model.getTemperatureSetPoint();
+            double movingAverageTemperature = updateMovingAverageTemperature( m_model.getTemperatureSetPoint() );
             double modelPressure = m_model.getModelPressure();
-            double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature( modelTemperature );
-            double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressureAlternative1( modelPressure, modelTemperature );
+            double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature( movingAverageTemperature );
+            double mappedPressure = mapModelTempAndPressureToPhaseDiagramPressureAlternative1( modelPressure, movingAverageTemperature );
             m_phaseDiagram.setStateMarkerPos( mappedTemperature, mappedPressure );
         }
+    }
+
+    private double updateMovingAverageTemperature( double newTemperatureValue ) {
+        if ( m_modelTemperatureHistory.size() == MAX_NUM_HISTORY_SAMPLES ) {
+            m_modelTemperatureHistory.remove( 0 );
+        }
+        m_modelTemperatureHistory.add( newTemperatureValue );
+        double totalOfAllTemperatures = 0;
+        for ( Double temperature : m_modelTemperatureHistory ) {
+            totalOfAllTemperatures += temperature;
+        }
+        return totalOfAllTemperatures / m_modelTemperatureHistory.size();
     }
 
     private double mapModelTemperatureToPhaseDiagramTemperature( double modelTemperature ) {
@@ -311,11 +330,15 @@ public class PhaseChangesControlPanel extends ControlPanel {
         return Math.min( mappedPressure, 1 );
     }
 
-    // Version that strictly maps the temperature to a spot on the chart that
-    // has been empirically determined to always be right on the phase line.
+    // TODO: This was added by jblanco on 3/23/2012 as part of effort to
+    // improve phase diagram behavior, see #3287. If kept, it needs to be
+    // cleaned up, including deletion of the previous version of this method.
+
+    // Map the model temperature and pressure to a normalized pressure value
+    // suitable for use in setting the marker position on the phase chart.
     private double mapModelTempAndPressureToPhaseDiagramPressureAlternative1( double modelPressure, double modelTemperature ) {
         // This method is a total tweak fest.  All values and equations are
-        // made to map the the phase diagram, and are NOT based on any real-
+        // made to map to the phase diagram, and are NOT based on any real-
         // world equations that define phases of matter.
         double cutOverTemperature = TRIPLE_POINT_TEMPERATURE_ON_DIAGRAM - 0.025;
         double mappedTemperature = mapModelTemperatureToPhaseDiagramTemperature( modelTemperature );
