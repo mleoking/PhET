@@ -1,3 +1,4 @@
+Modified phase diagram behavior to be smoother and to always track to the phase interface.
 Adjusted the set point for liquid temperature so that water is between 0 and 100 degrees C when set to the liquid state.
 Rewrote HSliderNode to use VSliderNode as a composite, see #3255
 # 1.09.01 (62570) Mar 15, 2012
