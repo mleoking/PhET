@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.intro.view;
+package edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -20,10 +20,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Button that can be pressed in, and stays in when selected like a real radio button in an old car stereo.
+ * Used by RadioButtonStrip
  *
  * @author Sam Reid
  */
-public class ToggleButtonNode extends PNode {
+class ToggleButtonNode extends PNode {
     private final DynamicCursorHandler cursorHandler = new DynamicCursorHandler();
 
     public ToggleButtonNode( final PNode node, final ObservableProperty<Boolean> selected, final VoidFunction0 pressed ) {

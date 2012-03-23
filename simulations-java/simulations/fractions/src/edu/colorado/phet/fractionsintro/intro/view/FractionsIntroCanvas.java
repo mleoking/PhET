@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStrip;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
@@ -17,7 +18,6 @@ import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.Ca
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
-import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.RadioButtonStrip;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.VerticalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
