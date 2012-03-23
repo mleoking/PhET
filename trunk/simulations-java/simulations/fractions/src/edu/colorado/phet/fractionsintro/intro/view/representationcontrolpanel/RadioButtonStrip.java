@@ -19,6 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Control panel that lets you see and choose from different representation types.  The buttons look like toggle buttons and behave like real radio pushbuttons (like in an old car radio)
+ * where pushing one in pops the others out.  Only one can be selected at a time.
  *
  * @author Sam Reid
  */
