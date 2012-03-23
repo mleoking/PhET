@@ -1,3 +1,5 @@
+# 0.00.19 (62767) Mar 23, 2012
+3/23/12 Deploying to dev for review
 Made changes to motion strategies and bounds in order to make the rate of transcription a little higher on the 2nd tab.
 Changed the way that polymerase is recycled such that it can be relocated either above or below the DNA when returned to the beginning of the transcribed region.
 Changed the motion bounds on both the 1st and 2nd tabs so that molecules are allowed to move below the DNA.
