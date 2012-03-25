@@ -38,6 +38,7 @@ public class ButtonArrayPanel extends Canvas{
     private var myModel2: Model2;
     private var container: Sprite;          //sprite container for array of buttons
     private var myPolarizationPanel: PolarizationPanel;
+    private var tabH: MiniTab;
     private var maxContainerWidth:Number;   //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
     //private var color_arr:Array;            //array of possible button colors
@@ -64,6 +65,7 @@ public class ButtonArrayPanel extends Canvas{
         //this.verticalPolarization = true;
         this.container = new Sprite();
         this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel2 );
+        this.tabH = new MiniTab( 100, 25, 0x00ff00, "Horizontal" );
 
         this.arrowGraphic = new TwoHeadedArrow();
         this.arrowGraphic.scaleX = 0.5;
@@ -89,6 +91,7 @@ public class ButtonArrayPanel extends Canvas{
             }
         }
         this.addChild( new SpriteUIComponent(this.label_txt) );
+        this.addChild( new SpriteUIComponent( this.tabH ) );
         //this.addChild( this.myPolarizationPanel );
         this.addChild( new SpriteUIComponent( this.container) );
         this.addChild( this.myPolarizationPanel );

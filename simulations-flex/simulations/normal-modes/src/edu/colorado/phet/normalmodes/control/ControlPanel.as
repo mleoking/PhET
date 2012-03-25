@@ -48,7 +48,7 @@ public class ControlPanel extends Canvas {
     private var horizArrow: TwoHeadedArrow;
     private var vertArrow: TwoHeadedArrow;
     */
-
+    private var innerBckgrnd2:HBox;
     private var innerBckgrnd3:HBox;
     private var showPhasesCheckBox: CheckBox;
     private var showPhasesLabel: NiceLabel;
@@ -156,7 +156,8 @@ public class ControlPanel extends Canvas {
         this.vertPolarizationButton.selected = true;
         this.directionOfMode_rbg.addEventListener( Event.CHANGE, setPolarization );
         */
-
+        this.innerBckgrnd2 = new HBox();
+        this.innerBckgrnd2.setStyle( "horizontalGap", 0 );
         this.innerBckgrnd3 = new HBox();
         this.innerBckgrnd3.setStyle( "horizontalGap", 0 );
         this.showPhasesCheckBox = new CheckBox();
@@ -174,7 +175,8 @@ public class ControlPanel extends Canvas {
         this.addChild( this.background );
 
         this.background.addChild( new SpriteUIComponent( this.startStopButton, true ));
-        this.background.addChild( this.mySloMoStepControl );
+        this.background.addChild( this.innerBckgrnd2 );
+        this.innerBckgrnd2.addChild( this.mySloMoStepControl);      //SloMoStepControl is a UIComponent, does not need wrapper
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
         this.background.addChild( new SpriteUIComponent( this.zeroPositionsButton, true ));
 
