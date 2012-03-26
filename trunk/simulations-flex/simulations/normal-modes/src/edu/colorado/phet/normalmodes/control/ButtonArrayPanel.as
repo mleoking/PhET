@@ -42,11 +42,13 @@ public class ButtonArrayPanel extends Canvas{
     private var maxContainerWidth:Number;   //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
     //private var color_arr:Array;            //array of possible button colors
-    private var label_txt: NiceLabel;        //Label for array
+    private var topLabel_txt: NiceLabel;
+    private var bottomLabel_txt: NiceLabel;        //Label for array
     private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
     //private var verticalPolarization:Boolean;
     private var tFormat: TextFormat;         //format for label
-    private var modesNxNy_str: String;      //text of Label
+    private var polarizationDisplay_str: String; //text of top label
+    private var modesNxNy_str: String;      //text of bottom label
     private var button_arr:Array;           //N x N array of pushbuttons
     private var topLeftX;Number;
     private var topLeftY:Number;
@@ -74,8 +76,9 @@ public class ButtonArrayPanel extends Canvas{
         this.arrowGraphic.rotation = 90;
         this.tFormat = new TextFormat();
         this.initializeStrings();
-        this.label_txt = new NiceLabel( 15, this.modesNxNy_str );
-        this.formatLabel();
+        this.topLabel_txt = new NiceLabel( 15, this.polarizationDisplay_str );
+        this.bottomLabel_txt = new NiceLabel( 15, this.modesNxNy_str );
+        this.formatLabels();
         var nbrMasses:int = this.myModel2.N;
         //button_arr is nMax+1 x nMax+1,  i = 0 row and j = 0 column are dummies
         //so that button_arr[i][j] corresponds to mode i, j.  Lowest mode is 1,1. Highest mode is nMax,nMax
@@ -90,39 +93,41 @@ public class ButtonArrayPanel extends Canvas{
                 this.container.addChild(this.button_arr[i][j]);    //don't add i = 0 or j = 0, since these are dummies
             }
         }
-        this.addChild( new SpriteUIComponent( this.label_txt ) );
+        this.addChild( new SpriteUIComponent( this.topLabel_txt ) );
         this.addChild( new SpriteUIComponent( this.miniTabBar ) );
         //this.addChild( this.myPolarizationPanel );
         this.addChild( new SpriteUIComponent( this.container) );
-        //this.addChild( this.myPolarizationPanel );
-        //this.myPolarizationPanel.setStyle( "horizontalAlign", "right");
-        //this.myPolarizationPanel.setStyle( "right" , 20 );
-        //this.myPolarizationPanel.x = 80;
-        //this.myPolarizationPanel.y = 0;
-        //this.addChild( new SpriteUIComponent( this.arrowGraphic ) );
+        this.addChild( new SpriteUIComponent( this.bottomLabel_txt ) );
+        this.positionChildren();
         this.setNbrButtons( );
 
     } //end constructor
 
     public function initializeStrings():void{
+        this.polarizationDisplay_str = FlexSimStrings.get("polarizationDisplay", "Polarization Display");
         this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode Numbers x, y");
     }
 
-    private function formatLabel():void{
-        //this.label_txt.text = this.modesNxNy_str;
-       // this.label_txt.autoSize = TextFieldAutoSize.LEFT;
+    private function formatLabels():void{
+        //this.bottomLabel_txt.text = this.modesNxNy_str;
+       // this.bottomLabel_txt.autoSize = TextFieldAutoSize.LEFT;
         this.tFormat.font = "Arial";
         this.tFormat.size = 16;
         this.tFormat.align = TextFormatAlign.LEFT;
-        this.label_txt.setTextFormat( this.tFormat );
-        //this.label_txt.y = - this.label_txt.height;
+        this.topLabel_txt.setTextFormat( this.tFormat );
+        this.bottomLabel_txt.setTextFormat( this.tFormat );
+        //this.bottomLabel_txt.y = - this.bottomLabel_txt.height;
     }
 
-
+    private function positionChildren():void{
+        this.topLabel_txt.y = 0;
+        this.miniTabBar.y = this.topLabel_txt.height;
+        
+    }
 
     //resets all buttons to zero state
     public function setNbrButtons( ):void{
-        var ySpacer:int = 55;
+        var ySpacer:int = this.miniTabBar.y + this.miniTabBar.height;
         for(var i: int = 1; i <= this.nMax; i++ ){
             for( var j: int = 1; j <= this.nMax; j++ ){
                 this.button_arr[i][j].visible = false;
@@ -156,9 +161,9 @@ public class ButtonArrayPanel extends Canvas{
             }
         }
         var borderWidth:Number = 5;
-        this.label_txt.x = 0;//0.5*container.width - label_txt.width/2;  //xOffset;
-        this.label_txt.y = ySpacer + yOffset + N*(size+4)+2*borderWidth;//  ySpacer //- 1.1*label_txt.height; //yOffset - 1.3 * label_txt.height;
-        //this.myPolarizationPanel.x = label_txt.width + 15;
+        this.bottomLabel_txt.x = 0;//0.5*container.width - bottomLabel_txt.width/2;  //xOffset;
+        this.bottomLabel_txt.y = ySpacer + yOffset + N*(size+4)+2*borderWidth;//  ySpacer //- 1.1*bottomLabel_txt.height; //yOffset - 1.3 * bottomLabel_txt.height;
+        //this.myPolarizationPanel.x = bottomLabel_txt.width + 15;
         //draw border around button array
         var gC:Graphics = this.container.graphics;
         gC.clear();
@@ -172,11 +177,11 @@ public class ButtonArrayPanel extends Canvas{
         //this.myPolarizationPanel.y = 0;//- myPolarizationPanel.height;
         /*
         if(this.verticalPolarization){
-           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 3;
+           this.arrowGraphic.x = bottomLabel_txt.x + 1*bottomLabel_txt.width + 3;
         }else{
-           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 10;
+           this.arrowGraphic.x = bottomLabel_txt.x + 1*bottomLabel_txt.width + 10;
         }
-        this.arrowGraphic.y = label_txt.y + 0.5*label_txt.height;
+        this.arrowGraphic.y = bottomLabel_txt.y + 0.5*bottomLabel_txt.height;
         */
     }//end setNbrButtons()
 
