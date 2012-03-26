@@ -1,3 +1,5 @@
+// Copyright 2002-2012, University of Colorado
+
 /**
  * Created by IntelliJ IDEA.
  * User: General User
@@ -33,12 +35,22 @@ public class MiniTabBar extends Sprite{
 
     public function setPolarization( polarizationType:String ): void {
         trace( "MiniTabBar.setPolarization() called. ");
-        if ( polarizationType == "H" ) {
+        var hTabDepth:int = this.getChildIndex( this.tabH );
+        var vTabDepth:int = this.getChildIndex( this.tabV );
+        if ( polarizationType == "H" ) {    //if horizontalTab selected
             this.myModel2.xModes = true;
+            if( vTabDepth > hTabDepth ){
+                this.swapChildren( this.tabH,  this.tabV );
+            }
+            
             //trace( "MiniTabBar.setPolarization called. polarizationType is "+ polarizationType);
         }
-        else {
+        else {   // if verticalTab selected
             this.myModel2.xModes =  false;
+            if( hTabDepth > vTabDepth ){
+                this.swapChildren( this.tabH,  this.tabV );
+            }
+
             //trace( "MiniTabBar.setPolarization called. polarizationType is "+ polarizationType);
         }
     }//end setPolarization();
