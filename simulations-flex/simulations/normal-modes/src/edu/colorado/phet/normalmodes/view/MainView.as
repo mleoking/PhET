@@ -110,7 +110,7 @@ public class MainView extends Canvas {
 
         this.myButtonArrayPanel =  new ButtonArrayPanel( this, this.myModel2 );
         this.myButtonArrayPanel.x = 0.70*stageW;
-        this.myButtonArrayPanel.y = 0.50*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
+        this.myButtonArrayPanel.y = 0.45*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
         this.myButtonArrayPanel.visible = false;
 
         this.myPausedSign = new PausedSign( this.myModel1 );
