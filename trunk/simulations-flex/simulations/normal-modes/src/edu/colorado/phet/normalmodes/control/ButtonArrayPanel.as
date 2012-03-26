@@ -31,7 +31,7 @@ import mx.core.UIComponent;
 import org.aswing.JAccordion;
 
 //array of button which control and display spectrum of modes
-//two display modes: vertitcal and horizontal
+//two display modes: vertical and horizontal
 public class ButtonArrayPanel extends Canvas{
 
     private var myMainView: MainView;
