@@ -17,22 +17,31 @@ import flash.events.MouseEvent;
 
 import mx.containers.Canvas;
 
-//2 miniTabs used for control of ButtonArrayPanel
+//2 miniTabs used for control of ButtonArrayPanel, each tab is the top of a rectangular folder which surrounds the button array
+//registration point is top left corner of 1st tab.
 public class MiniTab extends Sprite{
     private var myMiniTabBar: MiniTabBar;
     private var polarizationType:String;  //"H" for horiz polarization or "V" for vert polarization
+    private var tabNumber:int;  //1 for 1st tab on left, 2 for second tab, etc
     private var tabWidth:Number;   //width of tab in pixels
     private var tabHeight:Number;   //height of tab
+    private var xStartPosition:Number; //pixel coordinate of left edge of tab
     private var tabColor: uint;
     private var _selected:Boolean;
     private var tabLabel:NiceLabel;
     private var tabIcon:TwoHeadedArrow;
+    private var folderWidth:Number;
+    private var folderHeight:Number;
 
-    public function MiniTab( myMiniTabBar:MiniTabBar, tabWidth:Number, tabHeight:Number, tabColor:uint, labelText:String ) {
+    public function MiniTab( myMiniTabBar:MiniTabBar, tabNumber:int,  tabWidth:Number, tabHeight:Number, tabColor:uint, labelText:String ) {
         this.myMiniTabBar = myMiniTabBar;
+        this.tabNumber = tabNumber;
         this.tabWidth = tabWidth;
         this.tabHeight = tabHeight;
         this.tabColor = tabColor;
+        this.folderWidth = 300;
+        this.folderHeight = this.folderWidth;
+        this.xStartPosition = (this.tabNumber - 1)*(this.tabWidth + 0.25*this.tabHeight );
         this.tabLabel = new NiceLabel( 12, " " + labelText );  //NiceLabel(fontSize, text)
         if( labelText == "Horizontal" ){
             this.polarizationType = "H";
@@ -43,30 +52,48 @@ public class MiniTab extends Sprite{
         this.drawTabShape();
         this.activateTab();
         this.addChild( tabLabel );
-        this.setIcon();
+        this.positionFields();
         this.addChild( tabIcon );
 
     } //end constructor
 
-    public function setIcon():void{
-        this.tabIcon.width = 20;
+    public function positionFields():void{
+        this.tabLabel.x = this.xStartPosition;
+        this.tabIcon.width = 18;
         this.tabIcon.height = 10;
-        this.tabIcon.x = this.tabLabel.width + 6;
+        this.tabIcon.x = this.xStartPosition + this.tabLabel.width + 6;
         this.tabIcon.y = 0.5*this.tabLabel.height;
+        if(this.tabNumber == 2 ){     //tab 2 is the vertical polarization tab, so need vertical arrow icon
+            this.tabIcon.setRegistrationPointAtCenter( true );
+            this.tabIcon.rotation = 90;
+            this.tabIcon.x += 5;
+            this.tabIcon.y += 2;
+        }
     } //end setIcon()
 
     private function drawTabShape(){
-        var w:Number = this.tabWidth;
-        var h:Number = this.tabHeight;
+        var tW:Number = this.tabWidth;
+        var tH:Number = this.tabHeight;
+        var fW:Number = this.folderWidth;
+        var fH:Number = this.folderHeight;
+        var tN:Number = this.tabNumber;
         var g:Graphics = this.graphics;
         g.clear();
         g.lineStyle( 1.5, 0x0000ff, 1 );
         g.beginFill( this.tabColor );
-        g.moveTo( 0, 0 );
-        g.lineTo( w,  0 );
-        g.lineTo( w + 0.5*h, h );
-        g.lineTo( 0, h );
-        g.lineTo( 0, 0 );
+        //start at top, left corner of tab, 1st tab is at 0,0
+        var xStart:Number = this.xStartPosition;
+        with(g){
+            moveTo( xStart, 0 );    //+5 so that left edge of back folder shows 
+            lineTo( xStart + tW,  0);
+            lineTo( xStart + tW + tH,  tH );
+            lineTo( fW, tH );
+            lineTo( fW, tH + fH );
+            lineTo( 0, tH + fH);
+            lineTo( 0, tH );
+            lineTo( xStart,  tH );
+            lineTo( xStart,  0 )
+        }
         g.endFill();
     }//end drawTabShape
 
@@ -101,6 +128,7 @@ public class MiniTab extends Sprite{
             }
         }//end of tabBehave
     }//end of activateTab
+
 
 } //end class
 } //end package

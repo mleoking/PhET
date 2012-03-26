@@ -52,7 +52,7 @@ public class ModeButton extends Sprite{
         this.sizeInPix = sizeInPix;
         //this.buttonColor = 0xffffff ;      //default color
         this.fillColor;// = 0x00ff00;
-        this.fillColorV = 0x00ff00;          //green for vertical
+        this.fillColorV = 0x00cc00;          //green for vertical
         this.fillColorH = 0xffbb00;          //orange for horizontal
         this.emptyColor = 0xffffff;
         myColorTransform = new ColorTransform();

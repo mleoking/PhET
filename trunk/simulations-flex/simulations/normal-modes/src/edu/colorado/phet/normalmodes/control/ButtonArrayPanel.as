@@ -127,7 +127,7 @@ public class ButtonArrayPanel extends Canvas{
 
     //resets all buttons to zero state
     public function setNbrButtons( ):void{
-        var ySpacer:int = this.miniTabBar.y + this.miniTabBar.height;
+        var ySpacer:int = this.miniTabBar.y + this.miniTabBar.tabHeight;
         for(var i: int = 1; i <= this.nMax; i++ ){
             for( var j: int = 1; j <= this.nMax; j++ ){
                 this.button_arr[i][j].visible = false;
@@ -147,8 +147,8 @@ public class ButtonArrayPanel extends Canvas{
                 } else if( N >= 5 ){
                    size =  this.maxContainerWidth/N;
                 }
-                xOffset = this.maxContainerWidth/2 - N*size/2;
-                yOffset = 0; // xOffset;
+                xOffset = 5 + this.maxContainerWidth/2 - N*size/2;
+                yOffset = 5; // xOffset;
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
                 //this.button_arr[i][j].changeColor( 0xffffff );
@@ -165,12 +165,12 @@ public class ButtonArrayPanel extends Canvas{
         this.bottomLabel_txt.y = ySpacer + yOffset + N*(size+4)+2*borderWidth;//  ySpacer //- 1.1*bottomLabel_txt.height; //yOffset - 1.3 * bottomLabel_txt.height;
         //this.myPolarizationPanel.x = bottomLabel_txt.width + 15;
         //draw border around button array
-        var gC:Graphics = this.container.graphics;
-        gC.clear();
-        gC.lineStyle( 3, 0x0000ff, 1 );
+        //var gC:Graphics = this.container.graphics;
+        //gC.clear();
+        //gC.lineStyle( 3, 0x0000ff, 1 );
 
 
-        gC.drawRoundRect(xOffset - borderWidth -2 , ySpacer + yOffset - borderWidth - 2, N*(size+4) +2*borderWidth, N*(size+4)+2*borderWidth, 0.6*size, 0.6*size  );
+        //gC.drawRoundRect(xOffset - borderWidth -2 , ySpacer + yOffset - borderWidth - 2, N*(size+4) +2*borderWidth, N*(size+4)+2*borderWidth, 0.6*size, 0.6*size  );
 
 
         //trace( "ButtonArrayPanel.myPolarizationPanel.height = " + myPolarizationPanel.height );

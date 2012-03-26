@@ -17,20 +17,26 @@ public class MiniTabBar extends Sprite{
     private var tabH: MiniTab;
     private var tabV: MiniTab;
     private var tabWidth:Number;
+    private var _tabHeight:Number;
     public function MiniTabBar( myModel2:Model2 ) {
         this.myModel2 = myModel2;
         this.tabWidth = 100;
+        this._tabHeight = 25;
         trace("MiniTabBar Constructor creating Horizontal tab.");
-        this.tabH = new MiniTab( this, this.tabWidth,  20, 0xffff00, "Horizontal" ) ;
+        this.tabH = new MiniTab( this, 1, this.tabWidth,  this._tabHeight, 0xffff00, "Horizontal" ) ;
         trace("MiniTabBar Constructor creating Vertical tab.");
-        this.tabV = new MiniTab( this, this.tabWidth,  20, 0x00ff00, "Vertical" ) ;
+        this.tabV = new MiniTab( this, 2, this.tabWidth,  this._tabHeight, 0x44ff44, "Vertical" ) ;
         this.init();
     } //end constructor
 
     private function init():void{
         this.addChild( tabV );
         this.addChild( tabH );
-        this.tabV.x = 0.95*this.tabH.width;
+        //this.tabV.x = 0.95*this.tabH.width;
+    }
+
+    public function get tabHeight():Number{
+        return _tabHeight;
     }
 
     public function setPolarization( polarizationType:String ): void {
