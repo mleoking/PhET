@@ -59,14 +59,14 @@ public class MiniTab extends Sprite{
 
     public function positionFields():void{
         this.tabLabel.x = this.xStartPosition;
-        this.tabIcon.width = 18;
+        this.tabIcon.width = 18;        //icon is the double-headed arrow
         this.tabIcon.height = 10;
         this.tabIcon.x = this.xStartPosition + this.tabLabel.width + 6;
         this.tabIcon.y = 0.5*this.tabLabel.height;
         if(this.tabNumber == 2 ){     //tab 2 is the vertical polarization tab, so need vertical arrow icon
             this.tabIcon.setRegistrationPointAtCenter( true );
             this.tabIcon.rotation = 90;
-            this.tabIcon.x += 5;
+            this.tabIcon.x += 5;    //have to tweek position so icon doesn't collide with border
             this.tabIcon.y += 2;
         }
     } //end setIcon()
@@ -76,6 +76,7 @@ public class MiniTab extends Sprite{
         var tH:Number = this.tabHeight;
         var fW:Number = this.folderWidth;
         var fH:Number = this.folderHeight;
+        var cS:Number = 5;  //cornerSize
         var tN:Number = this.tabNumber;
         var g:Graphics = this.graphics;
         g.clear();
@@ -87,10 +88,13 @@ public class MiniTab extends Sprite{
             moveTo( xStart, 0 );    //+5 so that left edge of back folder shows 
             lineTo( xStart + tW,  0);
             lineTo( xStart + tW + tH,  tH );
-            lineTo( fW, tH );
-            lineTo( fW, tH + fH );
-            lineTo( 0, tH + fH);
-            lineTo( 0, tH );
+            lineTo( fW - cS, tH );      //top right corner of folder
+            lineTo( fW,  tH + cS );
+            lineTo( fW, tH + fH - cS ); //bottom right corner
+            lineTo( fW - cS,  tH + fH );
+            lineTo( 0 + cS, tH + fH);   //bottom left corner
+            lineTo( 0, tH + fH - cS );
+            lineTo( 0, tH );       //top left corner
             lineTo( xStart,  tH );
             lineTo( xStart,  0 )
         }
