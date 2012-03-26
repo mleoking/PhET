@@ -10,6 +10,7 @@ import flash.geom.Matrix;
 import flash.geom.Rectangle;
 import flash.text.*;
 
+//button with registration point at center of button
 public class NiceButton2 extends Sprite {
     private var buttonBody: Sprite;
     private var bodyColor:Number;
