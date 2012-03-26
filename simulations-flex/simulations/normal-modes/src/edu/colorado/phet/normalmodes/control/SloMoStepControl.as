@@ -21,6 +21,8 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+import mx.containers.Canvas;
+
 import mx.controls.HSlider;
 import mx.core.UIComponent;
 
@@ -29,6 +31,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     //private var myMainView: MainView;
     private var myControlPanel: ControlPanel;
     private var myModel: Object; //Model1 or Model1, can change with setModel();
+    //private var backGroundRectangle:Sprite;
     private var timeRateSlider:HSlider;
     //private var playPauseButton: Sprite;
     private var stepButton: Sprite;
@@ -49,28 +52,21 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     private var paused: Boolean;
 
     //public var playSlashPause_str: String;
-    public var timeEquals_str:String;
+    //public var timeEquals_str:String;
     //public var timeInSec_str:String;
     public var simSpeed_str:String;
     public var slow_str:String;
     public var normal_str:String;
-    //public var play_str: String;
-    //public var pause_str: String;    //Note well: pause_str and paused_str are two differerent strings
-    //public var paused_str: String;
-    //public var sloMo_str: String;    //slo-mo = slow-motion
     public var singleStep_str: String;
 
 
     public function SloMoStepControl( myControlPanel: ControlPanel, myModel: Object ) {  //( myMainView: MainView, myModel: Object ) {
 
         this.initializeStrings();
-
-        //this.myMainView = myMainView;
         this.myControlPanel = myControlPanel;
         this.myModel = myModel;
-        //this.myModel.registerView( this );
+        //this.backGroundRectangle = new Sprite();    //for testing only
         this.timeRateSlider = new HSlider();
-        //this.playPauseButton = new Sprite();
         this.stepButton = new Sprite();
         this.playIcon = new Sprite();
         this.pauseIcon = new Sprite();
@@ -92,51 +88,41 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.positionFields();
         this.initializeControls();
 
-
-        //this.addChild(this.canvas);
-        //this.playPauseButton.addChild( this.playIcon );
-        //this.playPauseButton.addChild( this.pauseIcon );
-        //this.addChild( this.currentTime_txt );
+        //this.addChild( this.backGroundRectangle );
         this.addChild(this.simSpeed_txt);
         this.addChild(this.slow_txt);
         this.addChild(this.normal_txt);
         this.addChild(this.timeRateSlider);
-        //this.addChild( this.playPauseButton );
-        //this.addChild( this.playPause_txt );
         this.addChild( this.stepButton );
         this.addChild( this.singleStep_txt );
         //this.addChild( this.paused_txt );
         //this.addChild( this.sloMo_txt );
+        this.explicitHeight = 30;
+        this.explicitWidth = 100;
 
     }  //end of constructor
 
     public function initializeStrings(): void {
-        this.timeEquals_str = "time = ";  //this string set by setTimeLabel() but need initial string to make height for positionLabels()
+        //this.timeEquals_str = "time = ";  //this string set by setTimeLabel() but need initial string to make height for positionLabels()
         this.simSpeed_str = FlexSimStrings.get("simSpeed", "sim speed");
         this.slow_str = FlexSimStrings.get("slow", "slow");
         this.normal_str = FlexSimStrings.get("normal", "normal");
-        //this.play_str = FlexSimStrings.get("play", "play");
-        //this.pause_str = FlexSimStrings.get("pause", "pause");
-        //this.paused_str = FlexSimStrings.get("paused", "PAUSED");
-        //this.sloMo_str = FlexSimStrings.get("sloMo", "SLO-MO");
         this.singleStep_str = FlexSimStrings.get("step", "step");
     }
 
     private function drawGraphics(): void {
         //draw button body
-        //var g1: Graphics = this.playPauseButton.graphics;
+        //var g1: Graphics = this.backGroundRectangle.graphics;
         var g2: Graphics = this.pauseIcon.graphics;
         var g3: Graphics = this.playIcon.graphics;
         var g4: Graphics = this.stepButton.graphics;
         var bH: Number = 25;    //width of button
         var bW: Number = 25;    //height of button
 
-        //play/pause button body
+        //background rectangle
         //g1.clear();
-        //g1.lineStyle( 2.5, 0x777777, 1, true, LineScaleMode.NONE );
-        //g1.beginFill( 0xdddddd );
-        //g1.drawRoundRect( -bW / 2, -bH / 2, bW, bH, bH / 2 )
-        //g1.endFill();
+        //g1.lineStyle( 1, 0x000000, 1 );
+        //g1.drawRect( 0, 0, 200, 50 );
         //pause icon
         g2.clear();
         g2.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE )
@@ -180,19 +166,12 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
 
     private function initializeControls(): void {
         this.timeRateSlider.value = 1;
-        //this.playPauseButton.buttonMode = true;
         this.stepButton.buttonMode = true;
-        //this.playPauseButton.mouseChildren = false;
         this.paused = false;
-        //this.myShakerModel.unPauseSim();
         this.playIcon.visible = false;
         this.pauseIcon.visible = true;
         var thisObject: SloMoStepControl = this;
-        //this.playPauseButton
         this.timeRateSlider.addEventListener(Event.CHANGE, onChangeTimeRate );
-        //this.playPauseButton.addEventListener( MouseEvent.MOUSE_UP, onMouseClick );
-        //this.playPauseButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
-        //this.playPauseButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
         this.stepButton.addEventListener( MouseEvent.MOUSE_DOWN, singleStep );
         this.stepButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
         this.stepButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
@@ -211,18 +190,12 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         function onMouseClick( evt: MouseEvent ): void {
             if ( thisObject.paused ) {   //unpause sim
                 thisObject.paused = false;
-                //thisObject.playIcon.visible = false;
-                //thisObject.pauseIcon.visible = true;
-                //thisObject.playPause_txt.text = thisObject.pause_str;
-                //thisObject.paused_txt.visible = false;
                 thisObject.myModel.unPauseSim();
             }
             else {                      //pause sim
                 thisObject.paused = true;
                 thisObject.playIcon.visible = true;
                 thisObject.pauseIcon.visible = false;
-                //thisObject.playPause_txt.text = thisObject.play_str;
-                //thisObject.paused_txt.visible = true;
                 thisObject.myModel.pauseSim();
             }
         }
@@ -235,13 +208,6 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
                 thisObject.tFormat1.bold = false;
             }
             thisObject.singleStep_txt.setTextFormat( thisObject.tFormat1 )
-            /*
-            if ( evt.target == thisObject.playPauseButton ) {
-                thisObject.playPause_txt.setTextFormat( thisObject.tFormat1 );
-            }
-            else {
-                thisObject.singleStep_txt.setTextFormat( thisObject.tFormat1 );
-            }  */
         }//end of buttonBehave
 
         function singleStep( evt: MouseEvent ): void {
@@ -266,7 +232,6 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
             this.paused = false;
             this.playIcon.visible = false;
             this.pauseIcon.visible = true;
-            //this.playPause_txt.text = this.pause_str;
             this.paused_txt.visible = false;
             this.myModel.unPauseSim();
         }
@@ -275,11 +240,6 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     public function setSliderExternally(rate:Number):void{
         this.timeRateSlider.value = rate;
         this.myModel.setTRate(rate);
-//        if(rate != 1){
-//            this.sloMo_txt.visible = true;
-//        }else{
-//           this.sloMo_txt.visible = false;
-//        }
     }
 
     private function initializeTextFields(): void {
@@ -290,7 +250,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.setTextField( this.singleStep_txt );
         this.setTextField( this.paused_txt );
         //this.setTextField( this.sloMo_txt );
-        this.currentTime_txt.text = timeEquals_str;
+        //this.currentTime_txt.text = timeEquals_str;
         this.currentTime_txt.selectable = false;
         this.currentTime_txt.autoSize = TextFieldAutoSize.LEFT;
         this.simSpeed_txt.text = this.simSpeed_str;
@@ -300,12 +260,6 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.singleStep_txt.text = this.singleStep_str;
         //this.paused_txt.text = this.paused_str;
         this.paused_txt.visible = false;
-        //this.sloMo_txt.text = this.sloMo_str;
-        //this.sloMo_txt.visible = false;
-        //this.playPause_txt.selectable = false;
-        //this.paused_txt.selectable = false;
-        //this.playPause_txt.autoSize = TextFieldAutoSize.CENTER;
-        //this.paused_txt.autoSize = TextFieldAutoSize.CENTER;
         this.tFormat0.font = "Arial";
         this.tFormat0.color = 0x000000;
         this.tFormat0.size = 12;
@@ -321,14 +275,10 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.normal_txt.setTextFormat( this.tFormat0 );
         this.tFormat0.italic = true;
         this.simSpeed_txt.setTextFormat( this.tFormat0 );
-        //this.playPause_txt.setTextFormat( this.tFormat1 );
         this.singleStep_txt.setTextFormat( this.tFormat1 );
         this.paused_txt.setTextFormat( this.tFormat2 );
-        //this.sloMo_txt.setTextFormat( this.tFormat2 );
-        //this.playPause_txt.defaultTextFormat = this.tFormat1;
         this.singleStep_txt.defaultTextFormat = this.tFormat1;
         this.paused_txt.defaultTextFormat = this.tFormat2;
-        //this.sloMo_txt.defaultTextFormat = this.tFormat2;
     }
 
     private function setTextField( tField: TextField ): void {
@@ -365,12 +315,9 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.normal_txt.x = timeRateSlider.x + timeRateSlider.width - normal_txt.width;
         this.normal_txt.y = 3;
         this.simSpeed_txt.y = this.timeRateSlider.y - 0.5*this.simSpeed_txt.height;
-        //this.playPause_txt.x = -0.5 * this.playPause_txt.width;
-        //this.playPause_txt.y = 0.5 * this.playPauseButton.height;
         this.paused_txt.x = -0.5 * this.paused_txt.width;
         this.paused_txt.y = -1.3 * this.paused_txt.height;
-        //this.sloMo_txt.x = this.timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*this.sloMo_txt.width;
-        //this.sloMo_txt.y = 0.4 * this.sloMo_txt.height;
+
 
         this.stepButton.x = this.timeRateSlider.width + 1.0 * this.stepButton.width;
         this.stepButton.y = 0;
