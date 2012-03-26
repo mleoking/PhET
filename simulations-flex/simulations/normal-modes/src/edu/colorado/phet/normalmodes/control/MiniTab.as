@@ -34,7 +34,7 @@ public class MiniTab extends Sprite{
         this.tabHeight = tabHeight;
         this.tabColor = tabColor;
         this.tabLabel = new NiceLabel( 12, " " + labelText );  //NiceLabel(fontSize, text)
-        if( labelText = "Horizontal" ){
+        if( labelText == "Horizontal" ){
             this.polarizationType = "H";
         }else{
             this.polarizationType = "V";

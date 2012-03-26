@@ -18,7 +18,9 @@ public class MiniTabBar extends Sprite{
     public function MiniTabBar( myModel2:Model2 ) {
         this.myModel2 = myModel2;
         this.tabWidth = 100;
+        trace("MiniTabBar Constructor creating Horizontal tab.");
         this.tabH = new MiniTab( this, this.tabWidth,  20, 0xffff00, "Horizontal" ) ;
+        trace("MiniTabBar Constructor creating Vertical tab.");
         this.tabV = new MiniTab( this, this.tabWidth,  20, 0x00ff00, "Vertical" ) ;
         this.init();
     } //end constructor
@@ -33,11 +35,11 @@ public class MiniTabBar extends Sprite{
         trace( "MiniTabBar.setPolarization() called. ");
         if ( polarizationType == "H" ) {
             this.myModel2.xModes = true;
-            trace( "MiniTabBar.setPolarization called. polarizationType is "+ polarizationType);
+            //trace( "MiniTabBar.setPolarization called. polarizationType is "+ polarizationType);
         }
         else {
             this.myModel2.xModes =  false;
-            trace( "MiniTabBar.setPolarization called. polarizationType is "+ polarizationType);
+            //trace( "MiniTabBar.setPolarization called. polarizationType is "+ polarizationType);
         }
     }//end setPolarization();
 } //end class
