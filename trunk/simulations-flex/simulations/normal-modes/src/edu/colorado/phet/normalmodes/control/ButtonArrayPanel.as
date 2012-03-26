@@ -37,7 +37,7 @@ public class ButtonArrayPanel extends Canvas{
     private var myMainView: MainView;
     private var myModel2: Model2;
     private var container: Sprite;          //sprite container for array of buttons
-    private var myPolarizationPanel: PolarizationPanel;
+    //private var myPolarizationPanel: PolarizationPanel;
     private var miniTabBar: MiniTabBar;
     private var maxContainerWidth:Number;   //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
@@ -64,7 +64,7 @@ public class ButtonArrayPanel extends Canvas{
         //this.makeColorArray();
         //this.verticalPolarization = true;
         this.container = new Sprite();
-        this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel2 );
+        //this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel2 );
         this.miniTabBar = new MiniTabBar( this.myModel2 );
 
         this.arrowGraphic = new TwoHeadedArrow();
@@ -94,11 +94,11 @@ public class ButtonArrayPanel extends Canvas{
         this.addChild( new SpriteUIComponent( this.miniTabBar ) );
         //this.addChild( this.myPolarizationPanel );
         this.addChild( new SpriteUIComponent( this.container) );
-        this.addChild( this.myPolarizationPanel );
+        //this.addChild( this.myPolarizationPanel );
         //this.myPolarizationPanel.setStyle( "horizontalAlign", "right");
         //this.myPolarizationPanel.setStyle( "right" , 20 );
-        this.myPolarizationPanel.x = 80;
-        this.myPolarizationPanel.y = 0;
+        //this.myPolarizationPanel.x = 80;
+        //this.myPolarizationPanel.y = 0;
         //this.addChild( new SpriteUIComponent( this.arrowGraphic ) );
         this.setNbrButtons( );
 
@@ -118,20 +118,7 @@ public class ButtonArrayPanel extends Canvas{
         //this.label_txt.y = - this.label_txt.height;
     }
 
-    /*
-    public function showVerticalPolarization( tOrF:Boolean ):void{
-       if( tOrF ){
-           this.arrowGraphic.rotation = 90;
-           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 6;
-           this.verticalPolarization = true;
-           this.setButtonColors();
-       }else{
-           this.arrowGraphic.rotation = 0;
-           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 13;
-           this.verticalPolarization = false;
-           this.setButtonColors();
-       }
-    } */
+
 
     //resets all buttons to zero state
     public function setNbrButtons( ):void{
@@ -171,7 +158,7 @@ public class ButtonArrayPanel extends Canvas{
         var borderWidth:Number = 5;
         this.label_txt.x = 0;//0.5*container.width - label_txt.width/2;  //xOffset;
         this.label_txt.y = ySpacer + yOffset + N*(size+4)+2*borderWidth;//  ySpacer //- 1.1*label_txt.height; //yOffset - 1.3 * label_txt.height;
-        this.myPolarizationPanel.x = label_txt.width + 15;
+        //this.myPolarizationPanel.x = label_txt.width + 15;
         //draw border around button array
         var gC:Graphics = this.container.graphics;
         gC.clear();
