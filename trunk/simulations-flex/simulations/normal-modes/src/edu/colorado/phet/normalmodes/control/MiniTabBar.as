@@ -22,9 +22,9 @@ public class MiniTabBar extends Sprite{
         this.myModel2 = myModel2;
         this.tabWidth = 100;
         this._tabHeight = 25;
-        trace("MiniTabBar Constructor creating Horizontal tab.");
-        this.tabH = new MiniTab( this, 1, this.tabWidth,  this._tabHeight, 0xffff00, "Horizontal" ) ;
-        trace("MiniTabBar Constructor creating Vertical tab.");
+        //trace("MiniTabBar Constructor creating Horizontal tab.");
+        this.tabH = new MiniTab( this, 1, this.tabWidth,  this._tabHeight, 0xffff55, "Horizontal" ) ;
+        //trace("MiniTabBar Constructor creating Vertical tab.");
         this.tabV = new MiniTab( this, 2, this.tabWidth,  this._tabHeight, 0x44ff44, "Vertical" ) ;
         this.init();
     } //end constructor
@@ -32,7 +32,12 @@ public class MiniTabBar extends Sprite{
     private function init():void{
         this.addChild( tabV );
         this.addChild( tabH );
+        //this.tabV.selected = true;  //start with vertical polarization
         //this.tabV.x = 0.95*this.tabH.width;
+    }
+
+    public function initializeMiniTabBarOnButtonArray():void{
+        this.tabV.selected = true;  //start with vertical polarization
     }
 
     public function get tabHeight():Number{
@@ -40,7 +45,7 @@ public class MiniTabBar extends Sprite{
     }
 
     public function setPolarization( polarizationType:String ): void {
-        trace( "MiniTabBar.setPolarization() called. ");
+        //trace( "MiniTabBar.setPolarization() called. ");
         var hTabDepth:int = this.getChildIndex( this.tabH );
         var vTabDepth:int = this.getChildIndex( this.tabV );
         if ( polarizationType == "H" ) {    //if horizontalTab selected

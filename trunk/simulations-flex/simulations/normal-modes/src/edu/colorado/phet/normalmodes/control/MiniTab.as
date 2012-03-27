@@ -56,6 +56,15 @@ public class MiniTab extends Sprite{
         this.addChild( tabIcon );
 
     } //end constructor
+    
+    public function set selected( tOrF:Boolean ):void{
+        this._selected = tOrF;
+        if( this.polarizationType == "V" ){
+            this.myMiniTabBar.setPolarization( "V" );
+        }else{
+            this.myMiniTabBar.setPolarization( "H" );
+        }
+    }
 
     public function positionFields():void{
         this.tabLabel.x = this.xStartPosition;
@@ -76,7 +85,7 @@ public class MiniTab extends Sprite{
         var tH:Number = this.tabHeight;
         var fW:Number = this.folderWidth;
         var fH:Number = this.folderHeight;
-        var cS:Number = 5;  //cornerSize
+        var cS:Number = 15;  //cornerSize
         var tN:Number = this.tabNumber;
         var g:Graphics = this.graphics;
         g.clear();
@@ -89,11 +98,14 @@ public class MiniTab extends Sprite{
             lineTo( xStart + tW,  0);
             lineTo( xStart + tW + tH,  tH );
             lineTo( fW - cS, tH );      //top right corner of folder
-            lineTo( fW,  tH + cS );
+            curveTo( fW,  tH, fW,  tH + cS)
+            //lineTo( fW,  tH + cS );
             lineTo( fW, tH + fH - cS ); //bottom right corner
-            lineTo( fW - cS,  tH + fH );
+            curveTo( fW,  tH + fH, fW - cS,  tH + fH)
+            //lineTo( fW - cS,  tH + fH );
             lineTo( 0 + cS, tH + fH);   //bottom left corner
-            lineTo( 0, tH + fH - cS );
+            curveTo( 0, tH + fH, 0, tH + fH - cS  );
+            //lineTo( 0, tH + fH - cS );
             lineTo( 0, tH );       //top left corner
             lineTo( xStart,  tH );
             lineTo( xStart,  0 )

@@ -97,8 +97,8 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.addChild( this.singleStep_txt );
         //this.addChild( this.paused_txt );
         //this.addChild( this.sloMo_txt );
-        this.explicitHeight = 30;
-        this.explicitWidth = 100;
+        //this.explicitHeight = 30;
+        //this.explicitWidth = 100;
 
     }  //end of constructor
 
@@ -265,7 +265,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.tFormat0.size = 12;
         this.tFormat1.font = "Arial";
         this.tFormat1.color = 0x000000;
-        this.tFormat1.size = 15;
+        this.tFormat1.size = 12;
         this.tFormat2.font = "Arial";
         this.tFormat2.bold = true;
         this.tFormat2.color = 0xf1c100;   //background is 0xffff99
@@ -285,6 +285,9 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         with ( tField ) {
             selectable = false;
             autoSize = TextFieldAutoSize.CENTER;
+            //for testing
+            //border = true;
+            //borderColor = 0x000000;
         }
     }
 
@@ -304,36 +307,45 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     }
 
     private function positionFields(): void {
-
-        this.timeRateSlider.x = 0;//-1*this.timeRateSlider.width;
-        this.timeRateSlider.y = 0;//-0.5*this.timeRateSlider.height;
+        //registration point at upper left, required for flex layout
+        //careful layout and setting of explicitWidth and explicitHeight required for UIComponent to function
+        //properly in autolayout
+        this.timeRateSlider.x = 0;  
         this.simSpeed_txt.x = timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*simSpeed_txt.width;
-        this.currentTime_txt.x = this.timeRateSlider.x;
-        this.currentTime_txt.y = this.timeRateSlider.y - 1.5*this.currentTime_txt.height;
         this.slow_txt.x =  this.timeRateSlider.x;
-        this.slow_txt.y = 3;
         this.normal_txt.x = timeRateSlider.x + timeRateSlider.width - normal_txt.width;
-        this.normal_txt.y = 3;
-        this.simSpeed_txt.y = this.timeRateSlider.y - 0.5*this.simSpeed_txt.height;
-        this.paused_txt.x = -0.5 * this.paused_txt.width;
-        this.paused_txt.y = -1.3 * this.paused_txt.height;
 
-
-        this.stepButton.x = this.timeRateSlider.width + 1.0 * this.stepButton.width;
-        this.stepButton.y = 0;
+        this.simSpeed_txt.y = 0;
+        this.timeRateSlider.y = simSpeed_txt.height - 0.5*this.timeRateSlider.height;
+        this.slow_txt.y = this.timeRateSlider.y + 0.6*this.timeRateSlider.height;
+        this.normal_txt.y = this.timeRateSlider.y + 0.6*this.timeRateSlider.height;
+        //registration point of step button is at center of button
+        this.stepButton.x = this.timeRateSlider.width + 0.8 * this.stepButton.width;
+        this.stepButton.y = 0.5*this.stepButton.height;
         this.singleStep_txt.x = this.stepButton.x - 0.5 * this.singleStep_txt.width;
-        this.singleStep_txt.y = 0.5 * this.stepButton.height;
-    }
+        this.singleStep_txt.y = this.stepButton.y + 0.5 * this.stepButton.height;
+        
+        this.explicitHeight = this.singleStep_txt.y + 0.8*this.singleStep_txt.height;
+        this.explicitWidth = this.singleStep_txt.x + this.singleStep_txt.width;
+        //this.currentTime_txt.x = this.timeRateSlider.x;
+        //this.currentTime_txt.y = this.timeRateSlider.y - 1.5*this.currentTime_txt.height;
+ 
+        //this.timeRateSlider.y - 0.5*this.simSpeed_txt.height;
+        //this.paused_txt.x = -0.5 * this.paused_txt.width;
+        //this.paused_txt.y = -1.3 * this.paused_txt.height;
+    } //end position fields
 
-    public function setTimeLabel():void{
+    //unused in this sim
+   /* public function setTimeLabel():void{
         var timeInSec:Number = this.myModel.t;
         var timeInSec_str:String = timeInSec.toFixed( 2 );
         //this.timeEquals_str =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
         this.currentTime_txt.text =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
     }
-
+    */
     public function update():void{
-        this.setTimeLabel();
+        //do nothing in this sim
+        //this.setTimeLabel();
     }
 
 } //end of class
