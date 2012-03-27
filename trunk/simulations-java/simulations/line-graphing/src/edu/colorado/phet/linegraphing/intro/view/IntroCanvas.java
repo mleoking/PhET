@@ -20,8 +20,8 @@ import edu.umd.cs.piccolo.PNode;
 public class IntroCanvas extends LGCanvas implements Resettable {
 
     private final Property<SlopeInterceptForm> slopeInterceptForm = new Property<SlopeInterceptForm>( SlopeInterceptForm.Y_FORM ); //TODO relocate
-    private final Property<Boolean> unitPositiveSlopeVisible = new Property<Boolean>( false ); //TODO relocate
-    private final Property<Boolean> unitNegativeSlopeVisible = new Property<Boolean>( false ); //TODO relocate
+    private final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false ); //TODO relocate
+    private final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false ); //TODO relocate
 
     public IntroCanvas( IntroModel model ) {
 
@@ -29,7 +29,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         PNode equationNode = new SlopeInterceptEquationNode();
         PNode savedLinesControl = new SavedLinesControl();
         PNode slopeInterceptFormControl = new SlopeInterceptFormControl( slopeInterceptForm );
-        PNode standardEquationsControl = new StandardEquationsControl( unitPositiveSlopeVisible, unitNegativeSlopeVisible );
+        PNode visibilityControls = new VisibilityControls( yEqualsXVisible, yEqualsNegativeXVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
@@ -40,7 +40,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             addChild( equationNode );
             addChild( savedLinesControl );
             addChild( slopeInterceptFormControl );
-            addChild( standardEquationsControl );
+            addChild( visibilityControls );
             addChild( resetAllButtonNode );
         }
 
@@ -59,8 +59,8 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             equationNode.setOffset( slopeInterceptFormControl.getXOffset(),
                                     slopeInterceptFormControl.getFullBoundsReference().getMaxY() + 20 );
             // bottom-right of graph
-            standardEquationsControl.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
-                                                graphNode.getFullBoundsReference().getMaxY() - standardEquationsControl.getFullBoundsReference().getHeight() );
+            visibilityControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
+                                          graphNode.getFullBoundsReference().getMaxY() - visibilityControls.getFullBoundsReference().getHeight() );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
@@ -69,8 +69,8 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     public void reset() {
         slopeInterceptForm.reset();
-        unitPositiveSlopeVisible.reset();
-        unitNegativeSlopeVisible.reset();
+        yEqualsXVisible.reset();
+        yEqualsNegativeXVisible.reset();
         //TODO erase lines
     }
 }
