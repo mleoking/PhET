@@ -68,6 +68,9 @@ public class IntroCanvas extends LGCanvas implements Resettable {
     public void reset() {
         yEqualsXVisible.reset();
         yEqualsNegativeXVisible.reset();
+        pointToolVisible.reset();
+        riseOverRunVisible.reset();
+        graphLinesVisible.reset();
         //TODO erase lines
     }
 }
