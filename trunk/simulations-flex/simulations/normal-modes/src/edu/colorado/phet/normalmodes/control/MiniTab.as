@@ -33,13 +33,13 @@ public class MiniTab extends Sprite{
     private var folderWidth:Number;
     private var folderHeight:Number;
 
-    public function MiniTab( myMiniTabBar:MiniTabBar, tabNumber:int,  tabWidth:Number, tabHeight:Number, tabColor:uint, labelText:String ) {
+    public function MiniTab( myMiniTabBar:MiniTabBar, tabNumber:int,  tabWidth:Number, tabHeight:Number, folderWidth:Number, tabColor:uint, labelText:String ) {
         this.myMiniTabBar = myMiniTabBar;
         this.tabNumber = tabNumber;
         this.tabWidth = tabWidth;
         this.tabHeight = tabHeight;
         this.tabColor = tabColor;
-        this.folderWidth = 300;
+        this.folderWidth = folderWidth;
         this.folderHeight = this.folderWidth;
         this.xStartPosition = (this.tabNumber - 1)*(this.tabWidth + 0.25*this.tabHeight );
         this.tabLabel = new NiceLabel( 12, " " + labelText );  //NiceLabel(fontSize, text)
@@ -59,11 +59,7 @@ public class MiniTab extends Sprite{
     
     public function set selected( tOrF:Boolean ):void{
         this._selected = tOrF;
-        if( this.polarizationType == "V" ){
-            this.myMiniTabBar.setPolarization( "V" );
-        }else{
-            this.myMiniTabBar.setPolarization( "H" );
-        }
+        this.tabLabel.setBold(tOrF);
     }
 
     public function positionFields():void{
@@ -139,7 +135,10 @@ public class MiniTab extends Sprite{
                 //trace("evt.name:"+evt.type);
 
             } else if ( evt.type == "mouseOut" ) {
-                localRef.tabLabel.setBold(false);
+
+                if(!localRef._selected) {
+                    localRef.tabLabel.setBold(false);
+                }
                 //trace("evt.name:"+evt.type);
             }
         }//end of tabBehave

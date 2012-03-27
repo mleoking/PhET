@@ -40,14 +40,15 @@ public class ButtonArrayPanel extends Canvas{
     //private var myPolarizationPanel: PolarizationPanel;
     private var miniTabBar: MiniTabBar;
     private var maxContainerWidth:Number;   //width of container in pixels
+    private var padding:Number;             //gap between buttons in pixels
     private var containerHeight:Number;     //height of array in pixels
     //private var color_arr:Array;            //array of possible button colors
     private var topLabel_txt: NiceLabel;
     private var bottomLabel_txt: NiceLabel;        //Label for array
-    private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
+    // private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
     //private var verticalPolarization:Boolean;
     private var tFormat: TextFormat;         //format for label
-    private var polarizationDisplay_str: String; //text of top label
+    private var modeSpectrumDisplay_str: String; //text of top label
     private var modesNxNy_str: String;      //text of bottom label
     private var button_arr:Array;           //N x N array of pushbuttons
     private var topLeftX;Number;
@@ -61,7 +62,8 @@ public class ButtonArrayPanel extends Canvas{
         this.myModel2 = myModel2;
         this.myModel2.registerView( this );
         this.nMax = this.myModel2.nMax;     //in 2D, number of mobile masses is nMax*nMax
-        this.maxContainerWidth = 250;
+        this.maxContainerWidth = 300;
+        this.padding = 4;
         //this.color_arr = new Array();
         //this.makeColorArray();
         //this.verticalPolarization = true;
@@ -69,14 +71,14 @@ public class ButtonArrayPanel extends Canvas{
         //this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel2 );
         this.miniTabBar = new MiniTabBar( this.myModel2 );
 
-        this.arrowGraphic = new TwoHeadedArrow();
-        this.arrowGraphic.scaleX = 0.5;
-        this.arrowGraphic.scaleY = 0.5;
-        this.arrowGraphic.setRegistrationPointAtCenter( true );
-        this.arrowGraphic.rotation = 90;
+        //this.arrowGraphic = new TwoHeadedArrow();
+        //this.arrowGraphic.scaleX = 0.5;
+        //this.arrowGraphic.scaleY = 0.5;
+        //this.arrowGraphic.setRegistrationPointAtCenter( true );
+        //this.arrowGraphic.rotation = 90;
         this.tFormat = new TextFormat();
         this.initializeStrings();
-        this.topLabel_txt = new NiceLabel( 15, this.polarizationDisplay_str );
+        this.topLabel_txt = new NiceLabel( 15, this.modeSpectrumDisplay_str );
         this.bottomLabel_txt = new NiceLabel( 15, this.modesNxNy_str );
         this.formatLabels();
         var nbrMasses:int = this.myModel2.N;
@@ -87,9 +89,12 @@ public class ButtonArrayPanel extends Canvas{
             this.button_arr[i] = new Array( nMax + 1 )
         }
         //i, j order of addChild() important so that buttons look OK when pressed
+        var buttonWidth:Number = ((this.maxContainerWidth - this.padding)/nbrMasses) - this.padding;
         for(i = nMax; i >= 1; i--){
             for(var j:int = nMax; j >= 1; j--){
-                this.button_arr[i][j] = new ModeButton( myModel2, i, j, this.maxContainerWidth/nbrMasses );
+                //nbrButtonsInRow*(buttonWidth + padding) + padding = maxContainerWidth  (need one extra padding on end of row)
+                //buttonWidth = [(MaxContainerWidth - padding)/nbrButtonsInRow] - padding
+                this.button_arr[i][j] = new ModeButton( myModel2, i, j, buttonWidth );
                 this.container.addChild(this.button_arr[i][j]);    //don't add i = 0 or j = 0, since these are dummies
             }
         }
@@ -108,7 +113,7 @@ public class ButtonArrayPanel extends Canvas{
     }
 
     public function initializeStrings():void{
-        this.polarizationDisplay_str = FlexSimStrings.get("polarizationDisplay", "Polarization Display");
+        this.modeSpectrumDisplay_str = FlexSimStrings.get("modeSpectrumDisplay", "Mode Spectrum Display");
         this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode Numbers x, y");
     }
 
@@ -131,6 +136,7 @@ public class ButtonArrayPanel extends Canvas{
 
     //resets all buttons to zero state
     public function setNbrButtons( ):void{
+        //trace("folder width is "+this.miniTabBar.tabWidth);
         var ySpacer:int = this.miniTabBar.y + this.miniTabBar.tabHeight;
         for(var i: int = 1; i <= this.nMax; i++ ){
             for( var j: int = 1; j <= this.nMax; j++ ){
@@ -139,20 +145,21 @@ public class ButtonArrayPanel extends Canvas{
         }
         var N:int = this.myModel2.N;
         //trace("ButtonArrayPanel.setNbrButtons called. N = " + N);
-        var size:Number = this.maxContainerWidth/N;
+        var size:Number = (this.maxContainerWidth - this.padding)/N - this.padding;
+        //trace("buttonArrayPanel. maxContainerWidth = "+this.maxContainerWidth+"   padding = "+this.padding+"  N="+N+"   buttonWidth = "+size);
         var xOffset:Number;
         var yOffset:Number;
         for(var i: int = 1; i <= N; i++ ){
             for( var j: int = 1; j <= N; j++ ){
                 if( N == 1 || N == 2){
-                    size = this.maxContainerWidth/5;
+                    size = this.maxContainerWidth/4;
                 }else if ( N == 3 || N == 4 ) {
                     size =  this.maxContainerWidth/5;
                 } else if( N >= 5 ){
-                   size =  this.maxContainerWidth/N;
+                   //do nothing; size =  (this.maxContainerWidth /N);
                 }
-                xOffset = 5 + this.maxContainerWidth/2 - N*size/2;
-                yOffset = 5; // xOffset;
+                xOffset = this.padding + this.maxContainerWidth/2 - (N*(size+this.padding)+this.padding)/2;
+                yOffset = this.padding; // xOffset;
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
                 //this.button_arr[i][j].changeColor( 0xffffff );
@@ -160,13 +167,13 @@ public class ButtonArrayPanel extends Canvas{
                 this.button_arr[i][j].pushedIn = false;
                 this.button_arr[i][j].activatedH = false;
                 this.button_arr[i][j].activatedV = false;
-                this.button_arr[i][j].x = xOffset + ( j-1 )*(size + 4);
-                this.button_arr[i][j].y = ySpacer + yOffset + ( i-1 )*(size + 4);
+                this.button_arr[i][j].x = xOffset + ( j-1 )*(size + this.padding);
+                this.button_arr[i][j].y = ySpacer +  yOffset +( i-1 )*(size + this.padding);   //
             }
         }
         var borderWidth:Number = 5;
-        this.bottomLabel_txt.x = 0;//0.5*container.width - bottomLabel_txt.width/2;  //xOffset;
-        this.bottomLabel_txt.y = ySpacer + yOffset + N*(size+4)+2*borderWidth;//  ySpacer //- 1.1*bottomLabel_txt.height; //yOffset - 1.3 * bottomLabel_txt.height;
+        this.bottomLabel_txt.x = 20;//0.5*container.width - bottomLabel_txt.width/2;  //xOffset;
+        this.bottomLabel_txt.y = ySpacer +  N*(size+this.padding)+this.padding;//yOffset +  ySpacer //- 1.1*bottomLabel_txt.height; //yOffset - 1.3 * bottomLabel_txt.height;
         //this.myPolarizationPanel.x = bottomLabel_txt.width + 15;
         //draw border around button array
         //var gC:Graphics = this.container.graphics;
