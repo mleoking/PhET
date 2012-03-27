@@ -1,3 +1,4 @@
+3/27/12 split up controls for saving and erasing lines, since they are unlikely to be co-located
 3/27/12 migrate PropertyCheckBoxWithIcon to phetcommon
 3/27/12 add placeholders for icons in "Show" control panel
 3/27/12 delete control for choosing from of slope-intercept equation, we're using only y=mx+b
