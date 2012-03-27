@@ -103,6 +103,10 @@ public class ButtonArrayPanel extends Canvas{
 
     } //end constructor
 
+    public function initializeButtonArray():void{
+        this.miniTabBar.initializeMiniTabBarOnButtonArray();
+    }
+
     public function initializeStrings():void{
         this.polarizationDisplay_str = FlexSimStrings.get("polarizationDisplay", "Polarization Display");
         this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode Numbers x, y");
