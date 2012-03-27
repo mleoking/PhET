@@ -1,3 +1,4 @@
+Removed the "kit" tab 2 version on "Basics" sim
 # 1.02.09 (62755) Mar 22, 2012
 # 1.02.08 (62754) Mar 22, 2012
 Made the "drop-down" tab 2 the only option
