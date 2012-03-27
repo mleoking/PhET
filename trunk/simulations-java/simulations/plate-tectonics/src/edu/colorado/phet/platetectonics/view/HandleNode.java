@@ -120,7 +120,8 @@ public class HandleNode extends GLNode {
 
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
-                    setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsTransformMotion() ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW() ) );
+//                    setVisible( ( motionType.get() == null && tab.getPlateMotionModel().allowsTransformMotion() ) || ( motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW() ) );
+                    setVisible( motionType.get() == MotionType.TRANSFORM && isRightHandle == model.isTransformMotionCCW() );
                 }
             };
             tab.getPlateMotionModel().motionType.addObserver( visibilityObserver );

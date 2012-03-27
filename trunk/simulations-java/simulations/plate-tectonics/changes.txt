@@ -1,3 +1,4 @@
+Removed "back" arrows for handles that can't be dragged back (for now, they still appear on the opposite side if you have the same crust types)
 # 0.00.28 (62693) Mar 21, 2012
 Fixed: various mouse-press and drag issues, including the play/pause pressing bug noted earlier
 Fixed: bug where borders of the "draggable crust pieces" were cut off when window was resized
