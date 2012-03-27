@@ -1,3 +1,4 @@
+3/27/12 migrate PropertyCheckBoxWithIcon to phetcommon
 3/27/12 add placeholders for icons in "Show" control panel
 3/27/12 delete control for choosing from of slope-intercept equation, we're using only y=mx+b
 3/27/12 add additional controls to "Show" control panel
