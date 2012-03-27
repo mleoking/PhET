@@ -1,6 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing;
 
+import java.awt.Image;
+
+import javax.annotation.Resources;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
@@ -32,5 +36,14 @@ public class LGResources {
         public static final String TAB_GAME = RESOURCES.getLocalizedString( "tab.game" );
 
         public static final String PATTERN_0SIGN_1AXIS = RESOURCES.getLocalizedString( "pattern.0sign.1axis" );
+    }
+
+    public static class Images {
+
+        public static final Image Y_EQUALS_X_ICON = RESOURCES.getImage( "under-construction.png" );
+        public static final Image Y_EQUALS_NEGATIVE_X_ICON = RESOURCES.getImage( "under-construction.png" );
+        public static final Image POINT_TOOL_ICON = RESOURCES.getImage( "under-construction.png" );
+        public static final Image RISE_OVER_RUN_ICON = RESOURCES.getImage( "under-construction.png" );
+        public static final Image GRAPH_LINES_ICON = RESOURCES.getImage( "under-construction.png" );
     }
 }
