@@ -2,20 +2,26 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Insets;
 import java.text.MessageFormat;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingIcon;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.linegraphing.LGResources.Images;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.umd.cs.piccolo.PNode;
@@ -47,15 +53,15 @@ class VisibilityControls extends PNode {
         JComponent title = new JLabel( Strings.SHOW ) {{
             setFont( TITLE_FONT );
         }};
-        JComponent positiveCheckBox = new VisibilityCheckBox( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, yEqualsXVisible );
-        JComponent negativeCheckBox = new VisibilityCheckBox( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, yEqualsNegativeXVisible );
-        JComponent pointToolCheckBox = new VisibilityCheckBox( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, pointToolVisible );
-        JComponent riseOverRunCheckBox = new VisibilityCheckBox( UserComponents.riseOverRunCheckBox, Strings.RISE_OVER_RUN, riseOverRunVisible );
-        JComponent graphLinesCheckBox = new VisibilityCheckBox( UserComponents.graphLinesCheckBox, Strings.GRAPH_LINES, graphLinesVisible );
+        JComponent positiveCheckBox = new CheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, Images.Y_EQUALS_X_ICON, yEqualsXVisible );
+        JComponent negativeCheckBox = new CheckBoxWithIcon( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, Images.Y_EQUALS_NEGATIVE_X_ICON, yEqualsNegativeXVisible );
+        JComponent pointToolCheckBox = new CheckBoxWithIcon( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, Images.POINT_TOOL_ICON, pointToolVisible );
+        JComponent riseOverRunCheckBox = new CheckBoxWithIcon( UserComponents.riseOverRunCheckBox, Strings.RISE_OVER_RUN, Images.RISE_OVER_RUN_ICON, riseOverRunVisible );
+        JComponent graphLinesCheckBox = new CheckBoxWithIcon( UserComponents.graphLinesCheckBox, Strings.GRAPH_LINES, Images.GRAPH_LINES_ICON, graphLinesVisible );
 
         GridPanel panel = new GridPanel();
         panel.setGridX( 0 ); // vertical
-        panel.setInsets( new Insets( 5, 5, 5, 5 ) );
+        panel.setInsets( new Insets( 2, 2, 2, 2 ) );
         panel.setAnchor( Anchor.CENTER ); // centered
         panel.add( title );
         panel.setAnchor( Anchor.WEST ); // left justified
@@ -68,10 +74,17 @@ class VisibilityControls extends PNode {
         addChild( new ControlPanelNode( panel ) );
     }
 
-    private static class VisibilityCheckBox extends PropertyCheckBox {
-        public VisibilityCheckBox( IUserComponent userComponent, final String text, final SettableProperty<Boolean> property ) {
-            super( userComponent, text, property );
-            setFont( CONTROL_FONT );
+    // Check box with associated icon. Clicking either the check box or icon toggles the property.
+    private static class CheckBoxWithIcon extends JPanel {
+        public CheckBoxWithIcon( IUserComponent userComponent, final String text, Image image, final SettableProperty<Boolean> property ) {
+            add( new PropertyCheckBox( userComponent, text, property ) {{
+                setFont( CONTROL_FONT );
+            }} );
+            add( new SimSharingIcon( userComponent, new ImageIcon( image ), new VoidFunction0() {
+                public void apply() {
+                    property.set( !property.get() );
+                }
+            } ) );
         }
     }
 }
