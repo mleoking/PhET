@@ -9,7 +9,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
 import edu.colorado.phet.linegraphing.intro.model.IntroModel;
-import edu.colorado.phet.linegraphing.intro.view.SlopeInterceptFormControl.SlopeInterceptForm;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -19,19 +18,18 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class IntroCanvas extends LGCanvas implements Resettable {
 
-    private final Property<SlopeInterceptForm> slopeInterceptForm = new Property<SlopeInterceptForm>( SlopeInterceptForm.Y_FORM ); //TODO relocate
-    private final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false ); //TODO relocate
-    private final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false ); //TODO relocate
-    private final Property<Boolean> pointToolVisible = new Property<Boolean>( false );  //TODO relocate
-    private final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );  //TODO relocate
-    private final Property<Boolean> graphLinesVisible = new Property<Boolean>( false );  //TODO relocate
+    //TODO relocate some (all?) of these properties into model
+    private final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false );
+    private final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
+    private final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
+    private final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );
+    private final Property<Boolean> graphLinesVisible = new Property<Boolean>( false );
 
     public IntroCanvas( IntroModel model ) {
 
         PNode graphNode = new GraphNode();
         PNode equationNode = new SlopeInterceptEquationNode();
         PNode savedLinesControl = new SavedLinesControl();
-        PNode slopeInterceptFormControl = new SlopeInterceptFormControl( slopeInterceptForm );
         PNode visibilityControls = new VisibilityControls( yEqualsXVisible, yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, graphLinesVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
@@ -42,7 +40,6 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             addChild( graphNode );
             addChild( equationNode );
             addChild( savedLinesControl );
-            addChild( slopeInterceptFormControl );
             addChild( visibilityControls );
             addChild( resetAllButtonNode );
         }
@@ -57,10 +54,8 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             savedLinesControl.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
                                          graphNode.getFullBoundsReference().getMinY() );
             // center-right of graph
-            slopeInterceptFormControl.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
+            equationNode.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
                                                  savedLinesControl.getFullBoundsReference().getMaxY() + 60 );
-            equationNode.setOffset( slopeInterceptFormControl.getXOffset(),
-                                    slopeInterceptFormControl.getFullBoundsReference().getMaxY() + 20 );
             // bottom-right of graph
             visibilityControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
                                           graphNode.getFullBoundsReference().getMaxY() - visibilityControls.getFullBoundsReference().getHeight() );
@@ -71,7 +66,6 @@ public class IntroCanvas extends LGCanvas implements Resettable {
     }
 
     public void reset() {
-        slopeInterceptForm.reset();
         yEqualsXVisible.reset();
         yEqualsNegativeXVisible.reset();
         //TODO erase lines
