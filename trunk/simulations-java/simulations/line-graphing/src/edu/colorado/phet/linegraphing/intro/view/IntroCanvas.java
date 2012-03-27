@@ -2,11 +2,15 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.linegraphing.LGConstants;
+import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
 import edu.colorado.phet.linegraphing.intro.model.IntroModel;
 import edu.umd.cs.piccolo.PNode;
@@ -29,7 +33,10 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
         PNode graphNode = new GraphNode();
         PNode equationNode = new SlopeInterceptEquationNode();
-        PNode savedLinesControl = new SavedLinesControl();
+        TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
+        final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) ) {{
+            setEnabled( false );
+        }};
         PNode visibilityControls = new VisibilityControls( yEqualsXVisible, yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, graphLinesVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
@@ -39,7 +46,8 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         {
             addChild( graphNode );
             addChild( equationNode );
-            addChild( savedLinesControl );
+            addChild( saveLineButton );
+            addChild( eraseLinesButton );
             addChild( visibilityControls );
             addChild( resetAllButtonNode );
         }
@@ -51,18 +59,35 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             final double yMargin = 20;
             graphNode.setOffset( xMargin, yMargin );
             // upper-right of graph
-            savedLinesControl.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
+            saveLineButton.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
                                          graphNode.getFullBoundsReference().getMinY() );
             // center-right of graph
             equationNode.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
-                                                 savedLinesControl.getFullBoundsReference().getMaxY() + 60 );
+                                                 saveLineButton.getFullBoundsReference().getMaxY() + 60 );
             // bottom-right of graph
             visibilityControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
                                           graphNode.getFullBoundsReference().getMaxY() - visibilityControls.getFullBoundsReference().getHeight() );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
+            // above Rest All button
+            eraseLinesButton.setOffset( resetAllButtonNode.getFullBoundsReference().getMaxX() - eraseLinesButton.getFullBoundsReference().getWidth(),
+                                        resetAllButtonNode.getFullBoundsReference().getMinY() - eraseLinesButton.getFullBoundsReference().getHeight() - 5 );
         }
+
+        saveLineButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                eraseLinesButton.setEnabled( true );
+                //TODO save the current line
+            }
+        } );
+
+        eraseLinesButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                eraseLinesButton.setEnabled( false );
+                //TODO erase the saved lines
+            }
+        } );
     }
 
     public void reset() {
