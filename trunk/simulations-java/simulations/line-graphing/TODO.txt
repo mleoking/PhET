@@ -8,13 +8,14 @@ HIGH
 - reuse spinner buttons from fractions, see SpinnerButtonNode
 - implement GraphNode
 - implement SlopeInterceptEquationNode
+- model
 
 MEDIUM
-- add icons for standard line check boxes
-- add "Show" title for standard lines control panel
+- add show/hide button for slope-intercept equation
 - erase lines on Reset All
 
 LOW
+- create check box icons
 
 SIM-SHARING
 
