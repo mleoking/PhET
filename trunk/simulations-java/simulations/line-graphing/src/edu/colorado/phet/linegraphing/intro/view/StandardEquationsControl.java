@@ -20,10 +20,10 @@ import edu.umd.cs.piccolo.PNode;
  */
 class StandardEquationsControl extends PNode {
 
-    private static final String UNIT_POSITIVE_EQUATION = MessageFormat.format( "{0} = (+1){1}",
+    private static final String UNIT_POSITIVE_EQUATION = MessageFormat.format( "{0} = +1{1}",
                                                                       Strings.SYMBOL_VERTICAL_AXIS,
                                                                       Strings.SYMBOL_HORIZONTAL_AXIS );
-    private static final String UNIT_NEGATIVE_EQUATION = MessageFormat.format( "{0} = (-1){1}",
+    private static final String UNIT_NEGATIVE_EQUATION = MessageFormat.format( "{0} = -1{1}",
                                                                       Strings.SYMBOL_VERTICAL_AXIS,
                                                                       Strings.SYMBOL_HORIZONTAL_AXIS );
 
