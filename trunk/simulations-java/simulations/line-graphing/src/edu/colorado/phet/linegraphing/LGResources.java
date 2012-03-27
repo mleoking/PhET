@@ -17,6 +17,9 @@ public class LGResources {
     public static class Strings {
 
         public static final String ERASE_LINES = RESOURCES.getLocalizedString( "eraseLines" );
+        public static final String GRAPH_LINES = RESOURCES.getLocalizedString( "graphLines" );
+        public static final String POINT_TOOL = RESOURCES.getLocalizedString( "pointTool" );
+        public static final String RISE_OVER_RUN = RESOURCES.getLocalizedString( "riseOverRun" );
         public static final String SAVE_LINE = RESOURCES.getLocalizedString( "saveLine" );
         public static final String SHOW = RESOURCES.getLocalizedString( "show" );
 
