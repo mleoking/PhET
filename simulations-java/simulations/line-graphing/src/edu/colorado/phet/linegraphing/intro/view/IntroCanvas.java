@@ -22,6 +22,9 @@ public class IntroCanvas extends LGCanvas implements Resettable {
     private final Property<SlopeInterceptForm> slopeInterceptForm = new Property<SlopeInterceptForm>( SlopeInterceptForm.Y_FORM ); //TODO relocate
     private final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false ); //TODO relocate
     private final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false ); //TODO relocate
+    private final Property<Boolean> pointToolVisible = new Property<Boolean>( false );  //TODO relocate
+    private final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );  //TODO relocate
+    private final Property<Boolean> graphLinesVisible = new Property<Boolean>( false );  //TODO relocate
 
     public IntroCanvas( IntroModel model ) {
 
@@ -29,7 +32,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         PNode equationNode = new SlopeInterceptEquationNode();
         PNode savedLinesControl = new SavedLinesControl();
         PNode slopeInterceptFormControl = new SlopeInterceptFormControl( slopeInterceptForm );
-        PNode visibilityControls = new VisibilityControls( yEqualsXVisible, yEqualsNegativeXVisible );
+        PNode visibilityControls = new VisibilityControls( yEqualsXVisible, yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, graphLinesVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
