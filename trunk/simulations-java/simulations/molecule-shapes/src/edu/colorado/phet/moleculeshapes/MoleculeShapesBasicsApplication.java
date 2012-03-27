@@ -54,7 +54,7 @@ public class MoleculeShapesBasicsApplication extends JMEPhetApplication {
         addModule( new MoleculeShapesModule( parentFrame ) {{
             addTab( tab = new MoleculeShapesTab( Strings.MOLECULE__SHAPES__BASICS__TITLE, true ) );
             addTab( new RealMoleculesTab( Strings.REAL__MOLECULES, false, true ) );
-            addTab( new RealMoleculesTab( Strings.REAL__MOLECULES, true, true ) );
+//            addTab( new RealMoleculesTab( Strings.REAL__MOLECULES, true, true ) );
         }} );
 
     }
