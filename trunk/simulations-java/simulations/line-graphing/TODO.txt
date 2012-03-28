@@ -9,14 +9,15 @@ DESIGN
 
 HIGH
 - reuse spinner buttons from fractions, see SpinnerButtonNode
-- implement GraphNode
 - implement SlopeInterceptEquationNode
-- model
+- direct manipulation of slope and intercept on line
+- rise/run brackets
 
 MEDIUM
+- show equations on lines
+- point tool
 - deal with undefined slope in SlopeInterceptLine
 - add show/hide button for slope-intercept equation
-- erase lines on Reset All
 
 LOW
 - create check box icons
@@ -24,3 +25,4 @@ LOW
 SIM-SHARING
 
 MIGRATE TO COMMON
+- SpinnerButtonNode in fractions
