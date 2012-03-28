@@ -7,14 +7,12 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.linegraphing.LGResources;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.umd.cs.piccolo.PNode;
@@ -32,12 +30,10 @@ import edu.umd.cs.piccolo.util.PDimension;
 class LineGraphNode extends PhetPNode {
 
     // grid
-    private static final Stroke GRID_LINE_STROKE = new BasicStroke( 0.25f );
-    private static final Color GRID_LINE_COLOR = Color.LIGHT_GRAY;
-
-    // outline
-    private final Stroke OUTLINE_STROKE = GRID_LINE_STROKE;
-    private final Color OUTLINE_COLOR = GRID_LINE_COLOR;
+    private static final Stroke MINOR_GRID_LINE_STROKE = new BasicStroke( 0.25f );
+    private static final Color MINOR_GRID_LINE_COLOR = Color.LIGHT_GRAY;
+    private static final Stroke MAJOR_GRID_LINE_STROKE = new BasicStroke( 0.5f );
+    private static final Color MAJOR_GRID_LINE_COLOR = Color.LIGHT_GRAY;
 
     // axes
     private final PDimension AXIS_ARROW_SIZE = new PDimension( 10, 10 );
@@ -69,11 +65,20 @@ class LineGraphNode extends PhetPNode {
             final double maxX = mvt.modelToViewDeltaX( graph.maxX );
             // add one line for each unit of grid spacing
             for ( int i = 0; i < numberOfHorizontalGridLines; i++ ) {
-                final double yOffset = mvt.modelToViewDeltaY( graph.minY + i );
-                PPath gridLineNode = new PPath( new Line2D.Double( minX, yOffset, maxX, yOffset ) );
-                gridLineNode.setStroke( GRID_LINE_STROKE );
-                gridLineNode.setStrokePaint( GRID_LINE_COLOR );
-                horizontalGridLinesNode.addChild( gridLineNode );
+                final int modelY = graph.minY + i;
+                if ( modelY != 0 ) { // skip origin
+                    final double yOffset = mvt.modelToViewDeltaY( modelY );
+                    PPath gridLineNode = new PPath( new Line2D.Double( minX, yOffset, maxX, yOffset ) );
+                    horizontalGridLinesNode.addChild( gridLineNode );
+                    if ( Math.abs( modelY ) % MAJOR_TICK_SPACING == 0 ) {
+                        gridLineNode.setStroke( MAJOR_GRID_LINE_STROKE );
+                        gridLineNode.setStrokePaint( MAJOR_GRID_LINE_COLOR );
+                    }
+                    else {
+                        gridLineNode.setStroke( MINOR_GRID_LINE_STROKE );
+                        gridLineNode.setStrokePaint( MINOR_GRID_LINE_COLOR );
+                    }
+                }
             }
         }
 
@@ -85,19 +90,22 @@ class LineGraphNode extends PhetPNode {
             final double maxY = mvt.modelToViewDeltaX( graph.minY );
             // add one line for each unit of grid spacing
             for ( int i = 0; i < numberOfVerticalGridLines; i++ ) {
-                final double xOffset = mvt.modelToViewDeltaY( graph.minX + i );
-                PPath gridLineNode = new PPath( new Line2D.Double( xOffset, minY, xOffset, maxY ) );
-                gridLineNode.setStroke( GRID_LINE_STROKE );
-                gridLineNode.setStrokePaint( GRID_LINE_COLOR );
-                verticalGridLinesNode.addChild( gridLineNode );
+                final double modelX = graph.minX + i;
+                if ( modelX != 0 ) { // skip origin
+                    final double xOffset = mvt.modelToViewDeltaY( modelX );
+                    PPath gridLineNode = new PPath( new Line2D.Double( xOffset, minY, xOffset, maxY ) );
+                    verticalGridLinesNode.addChild( gridLineNode );
+                    if ( Math.abs( modelX ) % MAJOR_TICK_SPACING == 0 ) {
+                        gridLineNode.setStroke( MAJOR_GRID_LINE_STROKE );
+                        gridLineNode.setStrokePaint( MAJOR_GRID_LINE_COLOR );
+                    }
+                    else {
+                        gridLineNode.setStroke( MINOR_GRID_LINE_STROKE );
+                        gridLineNode.setStrokePaint( MINOR_GRID_LINE_COLOR );
+                    }
+                }
             }
         }
-
-        // Outline around the graph
-        PPath outlineNode = new PPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( graph.minX ), mvt.modelToViewDeltaY( graph.maxY ),
-                                                               mvt.modelToViewDeltaX( graph.getWidth() ), mvt.modelToViewDeltaY( -graph.getHeight() ) ) );
-        outlineNode.setStroke( OUTLINE_STROKE );
-        outlineNode.setStrokePaint( OUTLINE_COLOR );
 
         // X axis
         PNode xAxisNode = new PNode();
@@ -204,7 +212,6 @@ class LineGraphNode extends PhetPNode {
             addChild( verticalGridLinesNode );
             addChild( xAxisNode );
             addChild( yAxisNode );
-            addChild( outlineNode );
         }
     }
 }
