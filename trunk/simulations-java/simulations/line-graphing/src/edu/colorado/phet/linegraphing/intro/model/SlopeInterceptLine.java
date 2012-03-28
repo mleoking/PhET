@@ -18,6 +18,8 @@ public class SlopeInterceptLine {
         this.intercept = intercept;
     }
 
+    //TODO deal with the case where run == 0, and the equation does not have unique solutions.
+
     public double getSlope() {
         return ( (double) rise ) / run;
     }
