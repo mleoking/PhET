@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -34,7 +35,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.yEqualsXLine, model.yEqualsNegativeXLine );
         PNode graphNode = new ZeroOffsetNode( lineGraphNode );
         PNode equationNode = new SlopeInterceptEquationNode();
-        TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
+        final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) ) {{
             setEnabled( false );
         }};
@@ -80,6 +81,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( true );
+                saveLineButton.setEnabled( false );
                 lineGraphNode.saveLine( model.interactiveLine.get(), Color.GREEN ); //TODO same or different colors for saved lines?
             }
         } );
@@ -89,6 +91,13 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( false );
                 lineGraphNode.eraseLines();
+            }
+        } );
+
+        // When the interactive line has been changed, enabled the "Save" button.
+        model.interactiveLine.addObserver( new SimpleObserver() {
+            public void update() {
+                saveLineButton.setEnabled( true );
             }
         } );
     }
