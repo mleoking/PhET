@@ -61,21 +61,22 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             final double xMargin = 20;
             final double yMargin = 20;
             graphNode.setOffset( xMargin, yMargin );
+
             // upper-right of graph
-            saveLineButton.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
-                                         graphNode.getFullBoundsReference().getMinY() );
-            // center-right of graph
             equationNode.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
-                                                 saveLineButton.getFullBoundsReference().getMaxY() + 60 );
-            // bottom-right of graph
-            visibilityControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
-                                          graphNode.getFullBoundsReference().getMaxY() - visibilityControls.getFullBoundsReference().getHeight() );
+                                    50 );
+            // centered below equation
+            saveLineButton.setOffset( equationNode.getFullBoundsReference().getCenterX() - ( saveLineButton.getFullBoundsReference().getWidth() / 2 ),
+                                      equationNode.getFullBoundsReference().getMaxY() + 10 );
+            // centered below equation
+            visibilityControls.setOffset( equationNode.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
+                                          saveLineButton.getFullBoundsReference().getMaxY() + 50 );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
-            // above Rest All button
-            eraseLinesButton.setOffset( resetAllButtonNode.getFullBoundsReference().getMaxX() - eraseLinesButton.getFullBoundsReference().getWidth(),
-                                        resetAllButtonNode.getFullBoundsReference().getMinY() - eraseLinesButton.getFullBoundsReference().getHeight() - 5 );
+            // left of Rest All button
+            eraseLinesButton.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - eraseLinesButton.getFullBoundsReference().getWidth() - 10,
+                                        resetAllButtonNode.getYOffset() );
         }
 
         // Save the current state of the interactive line.
