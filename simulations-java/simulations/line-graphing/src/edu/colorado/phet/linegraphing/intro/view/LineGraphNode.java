@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -27,7 +26,6 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
-    private final ArrayList<SlopeInterceptLineNode> savedLineNodes;
     private SlopeInterceptLineNode interactiveLineNode;
     private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
     private PNode savedLinesParentNode, standardLinesParentNode, interactiveLineParentNode; // intermediate nodes, for consistent rendering order
@@ -52,7 +50,6 @@ class LineGraphNode extends GraphNode implements Resettable {
 
         // Saved lines
         savedLinesParentNode = new PComposite();
-        savedLineNodes = new ArrayList<SlopeInterceptLineNode>();
 
         // Rendering order
         addChild( standardLinesParentNode );
@@ -102,17 +99,12 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     // "Saves" a line, displaying it on the graph.
     public void saveLine( SlopeInterceptLine line, Color color ) {
-        SlopeInterceptLineNode lineNode = new SlopeInterceptLineNode( line, graph, mvt, color );
-        savedLineNodes.add( lineNode );
-        savedLinesParentNode.addChild( lineNode );
+        savedLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt, color ) );
     }
 
     // Erases all of the "saved" lines
     public void eraseLines() {
-        for ( SlopeInterceptLineNode node : new ArrayList<SlopeInterceptLineNode>( savedLineNodes ) ) {
-            removeChild( node );
-            savedLineNodes.remove( node );
-        }
+        savedLinesParentNode.removeAllChildren();
     }
 
 }
