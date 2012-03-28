@@ -169,6 +169,7 @@ public class MainView extends Canvas {
             this.myControlPanel.mySloMoStepControl.setModel( this.myModel1 );
             this.myPausedSign.setModel( this.myModel1 );
             this.myControlPanel.setNbrMassesExternallyWithNoAction( this.myModel1.N );
+            this.myControlPanel.x = 0.83 * stageW; //- 3 * this.myControlPanel.width;
             //this.myControlPanel.showPhasesVisible( true );
         }else if(oneOrTwo == 2){
             this.myModel1.interruptSim();
@@ -185,6 +186,7 @@ public class MainView extends Canvas {
             this.myControlPanel.mySloMoStepControl.setModel( this.myModel2 );
             this.myPausedSign.setModel( this.myModel2 );
             this.myControlPanel.setNbrMassesExternallyWithNoAction( this.myModel2.N );
+            this.myControlPanel.x = 0.78 * stageW; //- 3 * this.myControlPanel.width;
             //this.myControlPanel.showPhasesVisible( false );
         }
         this.myControlPanel.setShowPhasesControl();
