@@ -108,6 +108,5 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         lineGraphNode.reset();
         pointToolVisible.reset();
         riseOverRunVisible.reset();
-        lineGraphNode.eraseLines();
     }
 }
