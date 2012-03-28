@@ -56,6 +56,8 @@ class GraphNode extends PhetPNode {
 
     public GraphNode( LineGraph graph, ModelViewTransform mvt ) {
 
+        //TODO review duplication for horizontal vs vertical grid, axis, etc.
+
         // Horizontal grid lines
         PNode horizontalGridLinesNode = new PNode();
         final int numberOfHorizontalGridLines = graph.maxX - graph.minX + 1;
