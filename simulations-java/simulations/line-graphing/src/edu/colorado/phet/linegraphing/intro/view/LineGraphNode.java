@@ -2,18 +2,14 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Color;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
-import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Graph that displays lines.
@@ -28,8 +24,8 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
-    private final ArrayList<StaticLineNode> savedLineNodes;
-    private final StaticLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
+    private final ArrayList<SlopeInterceptLineNode> savedLineNodes;
+    private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
 
     public LineGraphNode( LineGraph graph, ModelViewTransform mvt, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
         super( graph, mvt );
@@ -37,11 +33,11 @@ class LineGraphNode extends GraphNode implements Resettable {
         this.graph = graph;
         this.mvt = mvt;
 
-        savedLineNodes = new ArrayList<StaticLineNode>();
+        savedLineNodes = new ArrayList<SlopeInterceptLineNode>();
 
-        yEqualsXLineNode = new StaticLineNode( yEqualsXLine, graph, mvt, Color.BLUE );
+        yEqualsXLineNode = new SlopeInterceptLineNode( yEqualsXLine, graph, mvt, Color.BLUE );
         addChild( yEqualsXLineNode );
-        yEqualsNegativeXLineNode = new StaticLineNode( yEqualsNegativeXLine, graph, mvt, Color.CYAN );
+        yEqualsNegativeXLineNode = new SlopeInterceptLineNode( yEqualsNegativeXLine, graph, mvt, Color.CYAN );
         addChild( yEqualsNegativeXLineNode );
 
         yEqualsXVisible.addObserver( new SimpleObserver() {
@@ -74,37 +70,17 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     // "Saves" a line, displaying it on the graph.
     public void saveLine( SlopeInterceptLine line, Color color ) {
-        StaticLineNode lineNode = new StaticLineNode( line, graph, mvt, color );
+        SlopeInterceptLineNode lineNode = new SlopeInterceptLineNode( line, graph, mvt, color );
         savedLineNodes.add( lineNode );
         addChild( lineNode );
     }
 
     // Erases all of the "saved" lines
     public void eraseLines() {
-        for ( StaticLineNode node : new ArrayList<StaticLineNode>( savedLineNodes ) ) {
+        for ( SlopeInterceptLineNode node : new ArrayList<SlopeInterceptLineNode>( savedLineNodes ) ) {
             removeChild( node );
             savedLineNodes.remove( node );
         }
     }
 
-    // A static line that does not change
-    public static class StaticLineNode extends PComposite {
-
-        private static final PDimension ARROW_HEAD_SIZE = new PDimension( 8, 8 );
-        private static final double LINE_THICKNESS = 1;
-        private static final double LINE_EXTENT = 0.5; // how far line extends past edges of graph, in model coordinates
-
-        public StaticLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, Color color ) {
-            final double tipX = graph.minX - LINE_EXTENT;
-            final double tailX = graph.maxX + LINE_EXTENT;
-            Point2D tipLocation = new Point2D.Double( mvt.modelToViewDeltaX( tipX ),
-                                                      mvt.modelToViewDeltaY( line.solve( tipX ) ) );
-            Point2D tailLocation = new Point2D.Double( mvt.modelToViewDeltaX( tailX ),
-                                                      mvt.modelToViewDeltaY( line.solve( tailX ) ) );
-            DoubleArrowNode arrowNode = new DoubleArrowNode( tailLocation, tipLocation, ARROW_HEAD_SIZE.getHeight(), ARROW_HEAD_SIZE.getWidth(), LINE_THICKNESS );
-            arrowNode.setPaint( color );
-            arrowNode.setStroke( null ); // DoubleArrowNode is a shape that we fill, no need to stroke
-            addChild( arrowNode );
-        }
-    }
 }
