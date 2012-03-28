@@ -9,7 +9,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
@@ -17,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
+import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -44,9 +44,9 @@ class SlopeInterceptEquationNode extends PhetPNode {
         // TODO quick-and-dirty implementation using JSpinners
         {
             // Swing controls
-            final IntegerSpinner riseSpinner = new IntegerSpinner( new UserComponent( "riseSpinner" ), new IntegerRange( 0, 10, interactiveLine.get().rise ) );
-            final IntegerSpinner runSpinner = new IntegerSpinner( new UserComponent( "runSpinner" ), new IntegerRange( -10, 10, interactiveLine.get().run ) );
-            final IntegerSpinner interceptSpinner = new IntegerSpinner( new UserComponent( "interceptSpinner" ), new IntegerRange( -10, 10, interactiveLine.get().intercept ) );
+            final IntegerSpinner riseSpinner = new IntegerSpinner( UserComponents.riseSpinner, new IntegerRange( 0, 10, interactiveLine.get().rise ) );
+            final IntegerSpinner runSpinner = new IntegerSpinner( UserComponents.runSpinner, new IntegerRange( -10, 10, interactiveLine.get().run ) );
+            final IntegerSpinner interceptSpinner = new IntegerSpinner( UserComponents.interceptSpinner, new IntegerRange( -10, 10, interactiveLine.get().intercept ) );
 
             // Update line when the spinners change
             final ChangeListener changeListener = new ChangeListener() {
@@ -84,7 +84,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
             parentNode.addChild( xPlus );
             parentNode.addChild( pswingIntercept );
 
-            // layout
+            // layout, in y=mx+b format
             pswingRise.setOffset( yEquals.getFullBoundsReference().getMaxX() + 2,
                                   yEquals.getFullBoundsReference().getMaxY() - pswingRise.getFullBoundsReference().getHeight() );
             lineNode.setOffset( pswingRise.getXOffset(),
@@ -96,10 +96,9 @@ class SlopeInterceptEquationNode extends PhetPNode {
             pswingIntercept.setOffset( xPlus.getFullBoundsReference().getMaxX() + 2,
                                        xPlus.getFullBoundsReference().getCenterY() - ( pswingIntercept.getFullBoundsReference().getHeight() / 2 ) );
 
+            // make it larger, put it in a control panel
             parentNode.scale( 1.8 );
             addChild( new ControlPanelNode( parentNode ) );
-
-
         }
     }
 }
