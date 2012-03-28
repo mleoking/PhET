@@ -22,7 +22,7 @@ public class IntroModel implements Resettable {
     public final LineGraph graph;
 
     public IntroModel() {
-        mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 30, -30 ); // y is inverted
+        mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 28, -28 ); // y is inverted
         line = new SlopeInterceptLine( 5, 5, 0 );
         yEqualsXLine = new SlopeInterceptLine( 1, 1, 0 );
         yEqualsNegativeXLine = new SlopeInterceptLine( 1, -1, 0 );
