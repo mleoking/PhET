@@ -24,13 +24,23 @@ public class SlopeInterceptLine {
         return ( (double) rise ) / run;
     }
 
-    // y=mx+b
-    public double solve( double x ) {
-        return solve( getSlope(), x, intercept );
+    // y = mx + b
+    public double solveY( double x ) {
+        return solveY( getSlope(), x, intercept );
     }
 
-    // y=mx+b
-    public static double solve( double m, double x, double b ) {
+    // y = mx + b
+    public static double solveY( double m, double x, double b ) {
         return ( m * x ) + b;
+    }
+
+    // x = (y-b)/m
+    public double solveX( double y ) {
+       return solveX( y, intercept, getSlope() );
+    }
+
+    // x = (y-b)/m
+    public static double solveX( double y, double b, double m ) {
+        return ( y - b ) / m;
     }
 }
