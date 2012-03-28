@@ -6,6 +6,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 public class TerrainSample {
     private float elevation;
     private ImmutableVector2F textureCoordinates;
+    private float randomElevationOffset = 0;
 
     public TerrainSample( float elevation, ImmutableVector2F textureCoordinates ) {
         this.elevation = elevation;
@@ -31,5 +32,13 @@ public class TerrainSample {
 
     public void setTextureCoordinates( ImmutableVector2F textureCoordinates ) {
         this.textureCoordinates = textureCoordinates;
+    }
+
+    public float getRandomElevationOffset() {
+        return randomElevationOffset;
+    }
+
+    public void setRandomElevationOffset( float randomElevationOffset ) {
+        this.randomElevationOffset = randomElevationOffset;
     }
 }

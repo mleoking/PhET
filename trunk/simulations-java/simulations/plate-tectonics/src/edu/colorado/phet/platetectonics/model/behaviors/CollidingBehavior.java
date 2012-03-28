@@ -90,8 +90,8 @@ public class CollidingBehavior extends PlateBehavior {
             for ( int row = 0; row < getTerrain().getNumRows(); row++ ) {
                 final TerrainSample terrainSample = getPlate().getTerrain().getSample( col, row );
                 float mountainRatio = (float) MathUtil.clamp( 0, ( terrainSample.getElevation() - 6000 ) / ( 13000 - 6000 ), 1 );
-                float elevationOffset = (float) ( mountainRatio * ( Math.random() * 1000 - 500 ) );
-                elevationOffset /= 2;
+                float elevationOffset = mountainRatio * ( terrainSample.getRandomElevationOffset() );
+                elevationOffset *= millionsOfYears / 2;
                 terrainSample.setElevation( terrainSample.getElevation() + elevationOffset );
                 if ( row == getPlate().getTerrain().getFrontZIndex() ) {
                     final Sample sample = getCrust().getTopBoundary().samples.get( col );
