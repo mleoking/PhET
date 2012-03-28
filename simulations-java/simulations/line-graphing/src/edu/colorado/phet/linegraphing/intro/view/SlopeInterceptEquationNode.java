@@ -3,7 +3,6 @@ package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Font;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import javax.swing.event.ChangeEvent;
@@ -12,7 +11,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -48,19 +47,25 @@ class SlopeInterceptEquationNode extends PhetPNode {
             final IntegerSpinner riseSpinner = new IntegerSpinner( new UserComponent( "riseSpinner" ), new IntegerRange( 0, 10, interactiveLine.get().rise ) );
             final IntegerSpinner runSpinner = new IntegerSpinner( new UserComponent( "runSpinner" ), new IntegerRange( -10, 10, interactiveLine.get().run ) );
             final IntegerSpinner interceptSpinner = new IntegerSpinner( new UserComponent( "interceptSpinner" ), new IntegerRange( -10, 10, interactiveLine.get().intercept ) );
-            final VoidFunction0 updateLine = new VoidFunction0() {
-                public void apply() {
-                    interactiveLine.set( new SlopeInterceptLine( riseSpinner.getIntValue(), runSpinner.getIntValue(), interceptSpinner.getIntValue() ) );
-                }
-            };
+
+            // Update line when the spinners change
             final ChangeListener changeListener = new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    updateLine.apply();
+                    interactiveLine.set( new SlopeInterceptLine( riseSpinner.getIntValue(), runSpinner.getIntValue(), interceptSpinner.getIntValue() ) );
                 }
             };
             riseSpinner.addChangeListener( changeListener );
             runSpinner.addChangeListener( changeListener );
             interceptSpinner.addChangeListener( changeListener );
+
+            // update spinners when line changes
+            interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
+                public void apply( SlopeInterceptLine line ) {
+                    riseSpinner.setIntValue( line.rise );
+                    runSpinner.setIntValue( line.run );
+                    interceptSpinner.setIntValue( line.intercept );
+                }
+            } );
 
             // nodes
             PText yEquals = new PText( "y = " ) {{ setFont( new PhetFont( Font.BOLD, 14 )); }};
@@ -93,6 +98,8 @@ class SlopeInterceptEquationNode extends PhetPNode {
 
             parentNode.scale( 1.8 );
             addChild( new ControlPanelNode( parentNode ) );
+
+
         }
     }
 }
