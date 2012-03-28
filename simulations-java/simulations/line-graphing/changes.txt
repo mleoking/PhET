@@ -1,3 +1,4 @@
+3/28/12 add intermediate nodes to maintain rendering order for interactive, standard and saved lines
 3/28/12 add interactive line to graph
 3/28/12 wire up Save Line and Erase Lines buttons
 3/28/12 disable check boxes for standard lines when "Graph lines" is unchecked
