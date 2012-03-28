@@ -1,3 +1,4 @@
+3/28/12 wire up Save Line and Erase Lines buttons
 3/28/12 disable check boxes for standard lines when "Graph lines" is unchecked
 3/28/12 wire up "Graph lines" check box
 3/28/12 make SlopeInterceptLine immutable

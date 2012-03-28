@@ -29,7 +29,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     private final LineGraphNode lineGraphNode;
 
-    public IntroCanvas( IntroModel model ) {
+    public IntroCanvas( final IntroModel model ) {
 
         lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.yEqualsXLine, model.yEqualsNegativeXLine );
         PNode graphNode = new ZeroOffsetNode( lineGraphNode );
@@ -79,14 +79,14 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( true );
-                //TODO save the current line
+                lineGraphNode.saveLine( model.line.get(), Color.GREEN ); //TODO same or different colors for saved lines?
             }
         } );
 
         eraseLinesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( false );
-                //TODO erase the saved lines
+                lineGraphNode.eraseLines();
             }
         } );
     }

@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -25,10 +26,18 @@ class LineGraphNode extends GraphNode implements Resettable {
     public final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false );
     public final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
 
+    private final LineGraph graph;
+    private final ModelViewTransform mvt;
+    private final ArrayList<StaticLineNode> savedLineNodes;
     private final StaticLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
 
     public LineGraphNode( LineGraph graph, ModelViewTransform mvt, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
         super( graph, mvt );
+
+        this.graph = graph;
+        this.mvt = mvt;
+
+        savedLineNodes = new ArrayList<StaticLineNode>();
 
         yEqualsXLineNode = new StaticLineNode( yEqualsXLine, graph, mvt, Color.BLUE );
         addChild( yEqualsXLineNode );
@@ -52,15 +61,30 @@ class LineGraphNode extends GraphNode implements Resettable {
         } );
     }
 
+    public void reset() {
+        yEqualsXVisible.reset();
+        yEqualsNegativeXVisible.reset();
+        linesVisible.reset();
+    }
+
     private void updateLinesVisibility() {
         yEqualsXLineNode.setVisible( linesVisible.get() && yEqualsXVisible.get() );
         yEqualsNegativeXLineNode.setVisible( linesVisible.get() && yEqualsNegativeXVisible.get() );
     }
 
-    public void reset() {
-        yEqualsXVisible.reset();
-        yEqualsNegativeXVisible.reset();
-        linesVisible.reset();
+    // "Saves" a line, displaying it on the graph.
+    public void saveLine( SlopeInterceptLine line, Color color ) {
+        StaticLineNode lineNode = new StaticLineNode( line, graph, mvt, color );
+        savedLineNodes.add( lineNode );
+        addChild( lineNode );
+    }
+
+    // Erases all of the "saved" lines
+    public void eraseLines() {
+        for ( StaticLineNode node : new ArrayList<StaticLineNode>( savedLineNodes ) ) {
+            removeChild( node );
+            savedLineNodes.remove( node );
+        }
     }
 
     // A static line that does not change
