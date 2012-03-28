@@ -14,6 +14,7 @@ HIGH
 - model
 
 MEDIUM
+- deal with undefined slope in SlopeInterceptLine
 - add show/hide button for slope-intercept equation
 - erase lines on Reset All
 
