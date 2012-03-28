@@ -349,6 +349,7 @@ public class PlateMotionPlate extends Plate {
                 float delta = ( randomValue ) * hillMagnitude + hillOffset;
                 final TerrainSample terrainSample = getTerrain().getSample( columnIndex, rowIndex );
                 terrainSample.setElevation( terrainSample.getElevation() + delta );
+                terrainSample.setRandomElevationOffset( delta );
 
                 // if at the front, update the crust
                 if ( rowIndex == getTerrain().getFrontZIndex() ) {
