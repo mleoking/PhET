@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Graph that displays lines.
@@ -28,6 +30,7 @@ class LineGraphNode extends GraphNode implements Resettable {
     private final ArrayList<SlopeInterceptLineNode> savedLineNodes;
     private SlopeInterceptLineNode interactiveLineNode;
     private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
+    private PNode savedLinesParentNode, standardLinesParentNode, interactiveLineParentNode; // intermediate nodes, for consistent rendering order
 
     public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt, final Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
         super( graph, mvt );
@@ -35,21 +38,33 @@ class LineGraphNode extends GraphNode implements Resettable {
         this.graph = graph;
         this.mvt = mvt;
 
+        // Interactive line
+        interactiveLineParentNode = new PComposite();
+        interactiveLineNode = new SlopeInterceptLineNode( interactiveLine.get(), graph, mvt, Color.RED );
+        interactiveLineParentNode.addChild( interactiveLineNode );
+
+        // Standard lines
+        standardLinesParentNode = new PComposite();
+        yEqualsXLineNode = new SlopeInterceptLineNode( yEqualsXLine, graph, mvt, Color.BLUE );
+        standardLinesParentNode.addChild( yEqualsXLineNode );
+        yEqualsNegativeXLineNode = new SlopeInterceptLineNode( yEqualsNegativeXLine, graph, mvt, Color.CYAN );
+        standardLinesParentNode.addChild( yEqualsNegativeXLineNode );
+
+        // Saved lines
+        savedLinesParentNode = new PComposite();
         savedLineNodes = new ArrayList<SlopeInterceptLineNode>();
 
-        interactiveLineNode = new SlopeInterceptLineNode( interactiveLine.get(), graph, mvt, Color.RED );
-        addChild( interactiveLineNode );
-        yEqualsXLineNode = new SlopeInterceptLineNode( yEqualsXLine, graph, mvt, Color.BLUE );
-        addChild( yEqualsXLineNode );
-        yEqualsNegativeXLineNode = new SlopeInterceptLineNode( yEqualsNegativeXLine, graph, mvt, Color.CYAN );
-        addChild( yEqualsNegativeXLineNode );
+        // Rendering order
+        addChild( standardLinesParentNode );
+        addChild( savedLinesParentNode );
+        addChild( interactiveLineParentNode );
 
         // When the interactive line changes, update the graph.
         interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
             public void apply( SlopeInterceptLine line ) {
-                removeChild( interactiveLineNode );
+                interactiveLineParentNode.removeChild( interactiveLineNode );
                 interactiveLineNode = new SlopeInterceptLineNode( interactiveLine.get(), graph, mvt, Color.RED );
-                addChild( interactiveLineNode );
+                interactiveLineParentNode.addChild( interactiveLineNode );
             }
         } );
 
@@ -69,8 +84,6 @@ class LineGraphNode extends GraphNode implements Resettable {
                 updateLinesVisibility();
             }
         } );
-
-        interactiveLineNode.moveToFront();
     }
 
     public void reset() {
@@ -80,17 +93,18 @@ class LineGraphNode extends GraphNode implements Resettable {
     }
 
     private void updateLinesVisibility() {
-        interactiveLineNode.setVisible( linesVisible.get() );
-        yEqualsXLineNode.setVisible( linesVisible.get() && yEqualsXVisible.get() );
-        yEqualsNegativeXLineNode.setVisible( linesVisible.get() && yEqualsNegativeXVisible.get() );
+        interactiveLineParentNode.setVisible( linesVisible.get() );
+        savedLinesParentNode.setVisible( linesVisible.get() );
+        standardLinesParentNode.setVisible( linesVisible.get() );
+        yEqualsXLineNode.setVisible( yEqualsXVisible.get() );
+        yEqualsNegativeXLineNode.setVisible( yEqualsNegativeXVisible.get() );
     }
 
     // "Saves" a line, displaying it on the graph.
     public void saveLine( SlopeInterceptLine line, Color color ) {
         SlopeInterceptLineNode lineNode = new SlopeInterceptLineNode( line, graph, mvt, color );
         savedLineNodes.add( lineNode );
-        addChild( lineNode );
-        interactiveLineNode.moveToFront(); // interactive line is always in the foreground
+        savedLinesParentNode.addChild( lineNode );
     }
 
     // Erases all of the "saved" lines
