@@ -97,6 +97,7 @@ public class MainView extends Canvas {
         //this.mySloMoStepControl.x = 0.93 * stageW ;           // hard-coded, unfortunately
         //this.mySloMoStepControl.y = 0.42 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
         //trace("MainView:  "+this.myPlayPauseButtons.width )
+        //trace("MainView starting.");
         this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel1 );
         this.mySliderArrayPanel.x = 0*stageW;
         this.mySliderArrayPanel.y = 0.5*stageH;

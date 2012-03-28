@@ -63,6 +63,11 @@ public class NiceLabel extends Sprite {
         this.label_txt.backgroundColor = 0xffffff ;
     }
 
+    public function makeTextMultiline( maxWidthOfText:Number ):void{
+        this.label_txt.wordWrap = true;
+        this.label_txt.width = maxWidthOfText;
+    }
+
 
     public function setTextFormat (tFormat:TextFormat):void{
         this.tFormat = tFormat;
