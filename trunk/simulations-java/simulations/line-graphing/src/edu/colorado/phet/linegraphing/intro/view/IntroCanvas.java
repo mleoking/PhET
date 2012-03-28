@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
@@ -31,7 +32,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     public IntroCanvas( IntroModel model ) {
 
-        PNode graphNode = new LineGraphNode( model.graph, model.mvt );
+        PNode graphNode = new ZeroOffsetNode( new LineGraphNode( model.graph, model.mvt ) );
         PNode equationNode = new SlopeInterceptEquationNode();
         TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) ) {{

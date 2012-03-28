@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 /**
  * Graph that can display zero or more lines.
  * One of the lines can be directly manipulated.
- * The node's origin is at the upper-left corner of the grid, at model coordinate (maxY,minX).
+ * The node's origin is at model coordinate (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -24,25 +24,20 @@ class LineGraphNode extends PhetPNode {
 
     private static final Stroke GRID_LINE_STROKE = new BasicStroke( 0.25f );
     private static final Color GRID_LINE_COLOR = Color.LIGHT_GRAY;
+    private static final int GRID_SPACING = 1; // model coordinates
     private final Stroke OUTLINE_STROKE = GRID_LINE_STROKE;
     private final Color OUTLINE_COLOR = GRID_LINE_COLOR;
 
     public LineGraphNode( LineGraph graph, ModelViewTransform mvt ) {
 
-        // Outline around the graph
-        final double outlineWidth = mvt.modelToViewDeltaX( graph.maxX - graph.minX );
-        final double outlineHeight = Math.abs( mvt.modelToViewDeltaX( graph.maxY - graph.minY ) );
-        PPath outlineNode = new PPath( new Rectangle2D.Double( 0, 0, outlineWidth, outlineHeight ) );
-        outlineNode.setStroke( OUTLINE_STROKE );
-        outlineNode.setStrokePaint( OUTLINE_COLOR );
-
         // Horizontal grid lines
         PNode horizontalGridLinesNode = new PNode();
         final int numberOfHorizontalGridLines = graph.maxX - graph.minX + 1;
-        final double deltaY = mvt.modelToViewDeltaX( 1 );
+        final double minX = mvt.modelToViewDeltaX( graph.minX );
+        final double maxX = mvt.modelToViewDeltaX( graph.maxX );
         for ( int i = 0; i < numberOfHorizontalGridLines; i++ ) {
-            final double yOffset = i * deltaY;
-            PPath gridLineNode = new PPath( new Line2D.Double( 0, yOffset, outlineWidth, yOffset ) );
+            final double yOffset = mvt.modelToViewDeltaY( graph.minY + ( i * GRID_SPACING ) );
+            PPath gridLineNode = new PPath( new Line2D.Double( minX, yOffset, maxX, yOffset ) );
             gridLineNode.setStroke( GRID_LINE_STROKE );
             gridLineNode.setStrokePaint( GRID_LINE_COLOR );
             horizontalGridLinesNode.addChild( gridLineNode );
@@ -51,14 +46,23 @@ class LineGraphNode extends PhetPNode {
         // Vertical grid lines
         PNode verticalGridLinesNode = new PNode();
         final int numberOfVerticalGridLines = graph.maxX - graph.minX + 1;
-        final double deltaX = mvt.modelToViewDeltaX( 1 );
+        final double minY = mvt.modelToViewDeltaX( graph.maxY );
+        final double maxY = mvt.modelToViewDeltaX( graph.minY );
         for ( int i = 0; i < numberOfVerticalGridLines; i++ ) {
-            final double xOffset = i * deltaX;
-            PPath gridLineNode = new PPath( new Line2D.Double( xOffset, 0, xOffset, outlineHeight ) );
+            final double xOffset = mvt.modelToViewDeltaY( graph.minX + ( i * GRID_SPACING ) );
+            PPath gridLineNode = new PPath( new Line2D.Double( xOffset, minY, xOffset, maxY ) );
             gridLineNode.setStroke( GRID_LINE_STROKE );
             gridLineNode.setStrokePaint( GRID_LINE_COLOR );
             verticalGridLinesNode.addChild( gridLineNode );
         }
+
+        // Outline around the graph
+        System.out.println( mvt.modelToViewDeltaX( graph.minX ) + "," + mvt.modelToViewDeltaY( graph.maxY ) + "," +
+                            mvt.modelToViewDeltaX( graph.getWidth() ) + "," + mvt.modelToViewDeltaY( graph.getHeight() ) );
+        PPath outlineNode = new PPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( graph.minX ), mvt.modelToViewDeltaY( graph.maxY ),
+                                                               mvt.modelToViewDeltaX( graph.getWidth() ), mvt.modelToViewDeltaY( -graph.getHeight() ) ) );
+        outlineNode.setStroke( OUTLINE_STROKE );
+        outlineNode.setStrokePaint( OUTLINE_COLOR );
 
         // X axis
 

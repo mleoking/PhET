@@ -20,4 +20,12 @@ public class LineGraph {
         this.minY = minY;
         this.maxY = maxY;
     }
+
+    public int getWidth() {
+        return maxX - minX;
+    }
+
+    public int getHeight() {
+        return maxY - minY;
+    }
 }
