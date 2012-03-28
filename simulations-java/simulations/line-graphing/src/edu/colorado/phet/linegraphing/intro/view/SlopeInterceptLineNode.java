@@ -23,17 +23,8 @@ public class SlopeInterceptLineNode extends PComposite {
 
     public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, Color color ) {
 
-        // constrain the line to the range of the graph
-        double tipX = graph.minX;
-        double tipY = line.solveY( tipX );
-        if ( tipY < graph.minY ) {
-            tipX = line.solveX( graph.minY );
-        }
-        else if ( tipY > graph.maxY ) {
-            tipX = line.solveX( graph.maxY );
-        }
-
-        double tailX = graph.maxX;
+        // tail is the left-most end point. Compute x such that the point is inside the grid.
+        double tailX = graph.minX;
         double tailY = line.solveY( tailX );
         if ( tailY < graph.minY ) {
             tailX = line.solveX( graph.minY );
@@ -42,10 +33,21 @@ public class SlopeInterceptLineNode extends PComposite {
             tailX = line.solveX( graph.maxY );
         }
 
-        Point2D tipLocation = new Point2D.Double( mvt.modelToViewDeltaX( tipX ),
-                                                  mvt.modelToViewDeltaY( line.solveY( tipX ) ) );
+        // tip is the right-most end point. Compute x such that the point is inside the grid.
+        double tipX = graph.maxX;
+        double tipY = line.solveY( tipX );
+        if ( tipY < graph.minY ) {
+            tipX = line.solveX( graph.minY );
+        }
+        else if ( tipY > graph.maxY ) {
+            tipX = line.solveX( graph.maxY );
+        }
+
+        // double-headed arrow
         Point2D tailLocation = new Point2D.Double( mvt.modelToViewDeltaX( tailX ),
-                                                   mvt.modelToViewDeltaY( line.solveY( tailX ) ) );
+                                                  mvt.modelToViewDeltaY( line.solveY( tailX ) ) );
+        Point2D tipLocation = new Point2D.Double( mvt.modelToViewDeltaX( tipX ),
+                                                   mvt.modelToViewDeltaY( line.solveY( tipX ) ) );
         DoubleArrowNode arrowNode = new DoubleArrowNode( tailLocation, tipLocation, ARROW_HEAD_SIZE.getHeight(), ARROW_HEAD_SIZE.getWidth(), LINE_THICKNESS );
         arrowNode.setPaint( color );
         arrowNode.setStroke( null ); // DoubleArrowNode is a shape that we fill, no need to stroke
