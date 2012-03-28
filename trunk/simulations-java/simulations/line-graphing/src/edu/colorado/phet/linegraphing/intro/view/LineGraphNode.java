@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
@@ -38,14 +39,12 @@ class LineGraphNode extends GraphNode implements Resettable {
 
         // Interactive line
         interactiveLineParentNode = new PComposite();
-        interactiveLineNode = new SlopeInterceptLineNode( interactiveLine.get(), graph, mvt, Color.RED );
-        interactiveLineParentNode.addChild( interactiveLineNode );
 
         // Standard lines
         standardLinesParentNode = new PComposite();
-        yEqualsXLineNode = new SlopeInterceptLineNode( yEqualsXLine, graph, mvt, Color.BLUE );
+        yEqualsXLineNode = new SlopeInterceptLineNode( yEqualsXLine, graph, mvt, LGColors.Y_EQUALS_X );
         standardLinesParentNode.addChild( yEqualsXLineNode );
-        yEqualsNegativeXLineNode = new SlopeInterceptLineNode( yEqualsNegativeXLine, graph, mvt, Color.CYAN );
+        yEqualsNegativeXLineNode = new SlopeInterceptLineNode( yEqualsNegativeXLine, graph, mvt, LGColors.Y_EQUALS_NEGATIVE_X );
         standardLinesParentNode.addChild( yEqualsNegativeXLineNode );
 
         // Saved lines
@@ -59,8 +58,10 @@ class LineGraphNode extends GraphNode implements Resettable {
         // When the interactive line changes, update the graph.
         interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
             public void apply( SlopeInterceptLine line ) {
-                interactiveLineParentNode.removeChild( interactiveLineNode );
-                interactiveLineNode = new SlopeInterceptLineNode( interactiveLine.get(), graph, mvt, Color.RED );
+                if ( interactiveLineNode != null ) {
+                    interactiveLineParentNode.removeChild( interactiveLineNode );
+                }
+                interactiveLineNode = new SlopeInterceptLineNode( interactiveLine.get(), graph, mvt, LGColors.INTERACTIVE_LINE );
                 interactiveLineParentNode.addChild( interactiveLineNode );
             }
         } );
