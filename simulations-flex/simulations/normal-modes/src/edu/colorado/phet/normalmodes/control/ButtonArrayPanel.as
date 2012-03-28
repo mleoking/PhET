@@ -131,7 +131,7 @@ public class ButtonArrayPanel extends Canvas{
 
     private function positionChildren():void{
         this.topLabel_txt.y = 0;
-        this.miniTabBar.y = this.topLabel_txt.height;
+        this.miniTabBar.y = 1.2*this.topLabel_txt.height;
         
     }
 
@@ -198,7 +198,7 @@ public class ButtonArrayPanel extends Canvas{
     }//end setNbrButtons()
 
     //color buttons to indicate amplitude of mode
-    public function setButtonColors():void{
+    private function setButtonColors():void{
         //trace("ButtonArrayPanel.setButtonColors called.");
         var N:int = this.myModel2.N;
         var polarizationX:Boolean;    //true if polarization is horizontal
@@ -214,16 +214,20 @@ public class ButtonArrayPanel extends Canvas{
                 //var Xamplitude = this.myModel2.getModeAmpliX( i, j );
                 //var Yamplitude = this.myModel2.getModeAmpliY( i, j );
                 var amplitude:Number;  //amplitude of mode (i,j)
+                var borderColor:uint;  //color of button trim, depends on polarization shown
                 if(polarizationX){
                     amplitude = this.myModel2.getModeAmpliX( i, j );
+                    borderColor = 0xff0000;
                 }else{
                     amplitude = this.myModel2.getModeAmpliY( i, j );
+                    borderColor = 0x0000ff;
                 }
                 //var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/largeAmplitude ));
                 //var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/largeAmplitude ));
                 var colorSize:int = Math.round( 16 * Math.min( 1, amplitude/largeAmplitude ));
                 //trace("ButtonArrayPanel.setButtonColors() called. i ="+i+"  j="+j+"  colorX="+colorX+"  colorY="+colorY);
                 this.button_arr[i][j].changeBackgroundHeight( colorSize );
+                this.button_arr[i][j].borderColor = borderColor;
                 //trace("amplitude=" + amplitude + "  polarizationX="+polarizationX + "   i=" + i + "  j=" + j + "   colorSize=" + colorSize);
                 /*if( this.myModel2.xModes ){
                     //this.button_arr[i][j].setLabel( colorX.toString());
