@@ -14,7 +14,6 @@ HIGH
 - rise/run brackets
 
 MEDIUM
-- extend lines a bit beyond the bounds of the grid
 - show equations on lines
 - point tool
 - deal with undefined slope in SlopeInterceptLine
