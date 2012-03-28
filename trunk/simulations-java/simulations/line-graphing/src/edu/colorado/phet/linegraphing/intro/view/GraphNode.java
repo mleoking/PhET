@@ -21,13 +21,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Graph that can display zero or more lines.
- * One of the lines can be directly manipulated.
+ * Basic graph, displays grid and axes.
  * The node's origin is at model coordinate (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class LineGraphNode extends PhetPNode {
+class GraphNode extends PhetPNode {
 
     // grid
     private static final Stroke MINOR_GRID_LINE_STROKE = new BasicStroke( 0.25f );
@@ -55,7 +54,7 @@ class LineGraphNode extends PhetPNode {
     private final double TICK_LABEL_SPACING = 2;
     private final double MINUS_SIGN_WIDTH = new PhetPText( "-", MAJOR_TICK_FONT ).getFullBoundsReference().getWidth();
 
-    public LineGraphNode( LineGraph graph, ModelViewTransform mvt ) {
+    public GraphNode( LineGraph graph, ModelViewTransform mvt ) {
 
         // Horizontal grid lines
         PNode horizontalGridLinesNode = new PNode();
