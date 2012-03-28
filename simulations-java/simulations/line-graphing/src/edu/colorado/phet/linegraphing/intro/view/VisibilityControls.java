@@ -9,6 +9,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -43,11 +44,11 @@ class VisibilityControls extends PNode {
         JComponent title = new JLabel( Strings.SHOW ) {{
             setFont( TITLE_FONT );
         }};
-        JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, Images.Y_EQUALS_X_ICON, yEqualsXVisible );
-        JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, Images.Y_EQUALS_NEGATIVE_X_ICON, yEqualsNegativeXVisible );
         JComponent pointToolCheckBox = new PropertyCheckBoxWithIcon( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, CONTROL_FONT, Images.POINT_TOOL_ICON, pointToolVisible );
         JComponent riseOverRunCheckBox = new PropertyCheckBoxWithIcon( UserComponents.riseOverRunCheckBox, Strings.RISE_OVER_RUN, CONTROL_FONT, Images.RISE_OVER_RUN_ICON, riseOverRunVisible );
         JComponent graphLinesCheckBox = new PropertyCheckBoxWithIcon( UserComponents.graphLinesCheckBox, Strings.GRAPH_LINES, CONTROL_FONT, Images.GRAPH_LINES_ICON, graphLinesVisible );
+        final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, Images.Y_EQUALS_X_ICON, yEqualsXVisible );
+        final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, Images.Y_EQUALS_NEGATIVE_X_ICON, yEqualsNegativeXVisible );
 
         // layout
         GridPanel panel = new GridPanel();
@@ -56,13 +57,20 @@ class VisibilityControls extends PNode {
         panel.setAnchor( Anchor.CENTER ); // centered
         panel.add( title );
         panel.setAnchor( Anchor.WEST ); // left justified
-        panel.add( positiveCheckBox );
-        panel.add( negativeCheckBox );
         panel.add( pointToolCheckBox );
         panel.add( riseOverRunCheckBox );
         panel.add( graphLinesCheckBox );
+        panel.add( positiveCheckBox );
+        panel.add( negativeCheckBox );
 
         // wrap Swing in a Piccolo control panel
         addChild( new ControlPanelNode( panel ) );
+
+        graphLinesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                positiveCheckBox.setEnabled( visible );
+                negativeCheckBox.setEnabled( visible );
+            }
+        } );
     }
 }
