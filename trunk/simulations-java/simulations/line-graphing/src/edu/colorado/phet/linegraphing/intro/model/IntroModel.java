@@ -16,14 +16,14 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 public class IntroModel implements Resettable {
 
     public final ModelViewTransform mvt;
-    public final SlopeInterceptLine line;
+    public final Property<SlopeInterceptLine> line;
     public final SlopeInterceptLine yEqualsXLine, yEqualsNegativeXLine;
     public final Property<ArrayList<SlopeInterceptLine>> savedLines;
     public final LineGraph graph;
 
     public IntroModel() {
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 28, -28 ); // y is inverted
-        line = new SlopeInterceptLine( 5, 5, 0 );
+        line = new Property<SlopeInterceptLine>( new SlopeInterceptLine( 5, 5, 0 ) );
         yEqualsXLine = new SlopeInterceptLine( 1, 1, 0 );
         yEqualsNegativeXLine = new SlopeInterceptLine( 1, -1, 0 );
         savedLines = new Property<ArrayList<SlopeInterceptLine>>( new ArrayList<SlopeInterceptLine>() );

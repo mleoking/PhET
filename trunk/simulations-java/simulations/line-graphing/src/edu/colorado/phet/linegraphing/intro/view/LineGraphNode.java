@@ -59,8 +59,6 @@ class LineGraphNode extends GraphNode implements Resettable {
         private static final double LINE_EXTENT = 0.5; // how far line extends past edges of graph, in model coordinates
 
         public StaticLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, Color color ) {
-            double m = line.slope.get();
-            int b = line.intercept.get();
             final double tipX = graph.minX - LINE_EXTENT;
             final double tailX = graph.maxX + LINE_EXTENT;
             Point2D tipLocation = new Point2D.Double( mvt.modelToViewDeltaX( tipX ),
