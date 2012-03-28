@@ -17,19 +17,19 @@ public class IntroModel implements Resettable {
     private static final SlopeInterceptLine DEFAULT_LINE = new SlopeInterceptLine( 5, 5, 1 );
 
     public final ModelViewTransform mvt;
-    public final Property<SlopeInterceptLine> line;
+    public final Property<SlopeInterceptLine> interactiveLine;
     public final SlopeInterceptLine yEqualsXLine, yEqualsNegativeXLine;
     public final LineGraph graph;
 
     public IntroModel() {
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 28, -28 ); // y is inverted
-        line = new Property<SlopeInterceptLine>( DEFAULT_LINE );
+        interactiveLine = new Property<SlopeInterceptLine>( DEFAULT_LINE );
         yEqualsXLine = new SlopeInterceptLine( 1, 1, 0 );
         yEqualsNegativeXLine = new SlopeInterceptLine( 1, -1, 0 );
         graph = new LineGraph( -10, 10, -10, 10 );
     }
 
     public void reset() {
-        line.reset();
+        interactiveLine.reset();
     }
 }

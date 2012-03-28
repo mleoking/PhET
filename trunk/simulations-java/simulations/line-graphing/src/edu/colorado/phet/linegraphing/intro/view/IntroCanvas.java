@@ -31,7 +31,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     public IntroCanvas( final IntroModel model ) {
 
-        lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.yEqualsXLine, model.yEqualsNegativeXLine );
+        lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.yEqualsXLine, model.yEqualsNegativeXLine );
         PNode graphNode = new ZeroOffsetNode( lineGraphNode );
         PNode equationNode = new SlopeInterceptEquationNode();
         TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
@@ -76,13 +76,15 @@ public class IntroCanvas extends LGCanvas implements Resettable {
                                         resetAllButtonNode.getFullBoundsReference().getMinY() - eraseLinesButton.getFullBoundsReference().getHeight() - 5 );
         }
 
+        // Save the current state of the interactive line.
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( true );
-                lineGraphNode.saveLine( model.line.get(), Color.GREEN ); //TODO same or different colors for saved lines?
+                lineGraphNode.saveLine( model.interactiveLine.get(), Color.GREEN ); //TODO same or different colors for saved lines?
             }
         } );
 
+        // Erase all lines that have been saved.
         eraseLinesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( false );
