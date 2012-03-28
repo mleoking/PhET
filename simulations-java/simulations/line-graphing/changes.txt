@@ -1,3 +1,4 @@
+3/28/12 add standard lines and wire up to visibility controls
 3/28/12 add support for different color and stroke for major grid lines
 3/28/12 add major and minor ticks to graph
 3/28/12 add axes (no ticks yet)

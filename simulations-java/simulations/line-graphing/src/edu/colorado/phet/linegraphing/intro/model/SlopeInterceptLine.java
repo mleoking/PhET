@@ -27,4 +27,14 @@ public class SlopeInterceptLine {
             }
         }, this.rise, this.run );
     }
+
+    // y=mx+b
+    public double solve( double x ) {
+        return solve( slope.get(), x, intercept.get() );
+    }
+
+    // y=mx+b
+    public static double solve( double m, double x, double b ) {
+        return ( m * x ) + b;
+    }
 }
