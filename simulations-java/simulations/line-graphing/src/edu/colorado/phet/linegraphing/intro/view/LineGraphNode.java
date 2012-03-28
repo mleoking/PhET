@@ -88,6 +88,7 @@ class LineGraphNode extends GraphNode implements Resettable {
         yEqualsXVisible.reset();
         yEqualsNegativeXVisible.reset();
         linesVisible.reset();
+        eraseLines();
     }
 
     private void updateLinesVisibility() {
