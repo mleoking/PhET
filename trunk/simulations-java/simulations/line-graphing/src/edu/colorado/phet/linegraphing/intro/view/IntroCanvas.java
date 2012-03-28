@@ -24,21 +24,22 @@ import edu.umd.cs.piccolo.PNode;
 public class IntroCanvas extends LGCanvas implements Resettable {
 
     //TODO relocate some (all?) of these properties into model
-    private final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false );
-    private final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
     private final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
     private final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );
     private final Property<Boolean> graphLinesVisible = new Property<Boolean>( false );
 
+    private final LineGraphNode lineGraphNode;
+
     public IntroCanvas( IntroModel model ) {
 
-        PNode graphNode = new ZeroOffsetNode( new GraphNode( model.graph, model.mvt ) );
+        lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.yEqualsXLine, model.yEqualsNegativeXLine );
+        PNode graphNode = new ZeroOffsetNode( lineGraphNode );
         PNode equationNode = new SlopeInterceptEquationNode();
         TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) ) {{
             setEnabled( false );
         }};
-        PNode visibilityControls = new VisibilityControls( yEqualsXVisible, yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, graphLinesVisible );
+        PNode visibilityControls = new VisibilityControls( lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, graphLinesVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
@@ -92,8 +93,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
     }
 
     public void reset() {
-        yEqualsXVisible.reset();
-        yEqualsNegativeXVisible.reset();
+        lineGraphNode.reset();
         pointToolVisible.reset();
         riseOverRunVisible.reset();
         graphLinesVisible.reset();
