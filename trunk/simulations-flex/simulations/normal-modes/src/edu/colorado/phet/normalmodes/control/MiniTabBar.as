@@ -21,7 +21,7 @@ public class MiniTabBar extends Sprite{
     private var _folderWidth:Number;
     public function MiniTabBar( myModel2:Model2 ) {
         this.myModel2 = myModel2;
-        this._tabWidth = 100;
+        this._tabWidth = 125;
         this._tabHeight = 25;
         this._folderWidth = 300;
         //trace("MiniTabBar Constructor creating Horizontal tab.");
@@ -40,6 +40,8 @@ public class MiniTabBar extends Sprite{
 
     public function initializeMiniTabBarOnButtonArray():void{
         this.tabV.selected = true;  //start with vertical polarization
+        this.tabH.selected = false;
+        this.setPolarization( "V" );
     }
 
     public function get tabHeight():Number{

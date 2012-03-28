@@ -35,7 +35,8 @@ public class ModeButton extends Sprite{
     private var fillColor:Number;
     private var fillColorV:Number;        //color fill for vertical mode
     private var fillColorH:Number;        //color fill for horizontal mode
-    private var emptyColor:Number;
+    private var emptyColor:uint;
+    private var _borderColor:uint;
     private var myColorTransform:ColorTransform;   //to change color of colorLayer
     private var modeXColor:Number;                 //color corresponding to x-polarization mode
     private var modeYColor:Number;                 //color corresponding to y-polarization mode
@@ -55,6 +56,7 @@ public class ModeButton extends Sprite{
         this.fillColorV = 0x00cc00;          //green for vertical
         this.fillColorH = 0xffbb00;          //orange for horizontal
         this.emptyColor = 0xffffff;
+        this._borderColor = 0x0000ff;
         myColorTransform = new ColorTransform();
         this.nMax = 16
         //this.colorLayer_arr = new Array( nMax );
@@ -78,12 +80,12 @@ public class ModeButton extends Sprite{
     }//end constructor
 
 
-    public function drawEmptyButton():void{
+    public function drawEmptyButton( ):void{
         var w:int = this.sizeInPix;       //width and height of button in pixels
         var h:int = this.sizeInPix;
         var gT:Graphics = this.trimAndLabelLayer.graphics;
         gT.clear();
-        gT.lineStyle( 2, 0x0000ff, 1 );
+        gT.lineStyle( 2, this._borderColor, 1 );
         gT.drawRoundRect( 0, 0, w,  h,  w/2 );
 
         var gM:Graphics = this.colorLayerMask.graphics;
@@ -115,13 +117,24 @@ public class ModeButton extends Sprite{
     public function set activatedV( tOrF:Boolean ):void{
         this._activatedV = tOrF;
     }
+    
+    public function set borderColor( bColor:uint ):void{
+        this._borderColor = bColor;
+        //redraw button trim
+        var w:int = this.sizeInPix;       //width and height of button in pixels
+        var h:int = this.sizeInPix;
+        var gT:Graphics = this.trimAndLabelLayer.graphics;
+        gT.clear();
+        gT.lineStyle( 2, this._borderColor, 1 );
+        gT.drawRoundRect( 0, 0, w,  h,  w/2 );
+    }
 
     private function setBorderThickness( borderThickness:Number ):void{
         var gT:Graphics = this.trimAndLabelLayer.graphics;
         var w:int = this.sizeInPix;       //width and height of button in pixels
         var h:int = this.sizeInPix;
         gT.clear();
-        gT.lineStyle( borderThickness, 0x0000ff, 1 );
+        gT.lineStyle( borderThickness, this._borderColor, 1 );
         //gT.beginFill( this.buttonColor, 1);
         gT.drawRoundRect( 0, 0, w,  h,  w/2 );
         //gT.endFill();

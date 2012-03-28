@@ -30,6 +30,7 @@ import mx.core.UIComponent;
 
 import org.aswing.JAccordion;
 
+
 //array of button which control and display spectrum of modes
 //two display modes: vertical and horizontal
 public class ButtonArrayPanel extends Canvas{
@@ -43,8 +44,8 @@ public class ButtonArrayPanel extends Canvas{
     private var padding:Number;             //gap between buttons in pixels
     private var containerHeight:Number;     //height of array in pixels
     //private var color_arr:Array;            //array of possible button colors
-    private var topLabel_txt: NiceLabel;
-    private var bottomLabel_txt: NiceLabel;        //Label for array
+    private var topLabel_txt: NiceLabel;           //Mode Spectrum label above array
+    private var bottomLabel_txt: NiceLabel;        //Mode Numbers label below array
     // private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
     //private var verticalPolarization:Boolean;
     private var tFormat: TextFormat;         //format for label
@@ -172,7 +173,7 @@ public class ButtonArrayPanel extends Canvas{
             }
         }
         var borderWidth:Number = 5;
-        this.bottomLabel_txt.x = 20;//0.5*container.width - bottomLabel_txt.width/2;  //xOffset;
+        this.bottomLabel_txt.x = this.maxContainerWidth/2 - bottomLabel_txt.width/2;  //xOffset;
         this.bottomLabel_txt.y = ySpacer +  N*(size+this.padding)+this.padding;//yOffset +  ySpacer //- 1.1*bottomLabel_txt.height; //yOffset - 1.3 * bottomLabel_txt.height;
         //this.myPolarizationPanel.x = bottomLabel_txt.width + 15;
         //draw border around button array
@@ -198,6 +199,7 @@ public class ButtonArrayPanel extends Canvas{
 
     //color buttons to indicate amplitude of mode
     public function setButtonColors():void{
+        //trace("ButtonArrayPanel.setButtonColors called.");
         var N:int = this.myModel2.N;
         var polarizationX:Boolean;    //true if polarization is horizontal
         if(this.myModel2.xModes){

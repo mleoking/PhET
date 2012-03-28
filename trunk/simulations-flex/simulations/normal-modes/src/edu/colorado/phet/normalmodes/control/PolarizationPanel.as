@@ -45,7 +45,7 @@ public class PolarizationPanel extends Canvas {
     }//end constructor
 
     private function init():void{
-        this.polarization_str = FlexSimStrings.get( "polarization:", "Polarization:");
+        this.polarization_str = FlexSimStrings.get( "polarization:", "Polarization Control:");
 
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {

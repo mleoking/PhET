@@ -1,3 +1,5 @@
+// Copyright 2002-2012, University of Colorado
+
 /**
  * Created by IntelliJ IDEA.
  * User: General User
@@ -42,7 +44,7 @@ public class MiniTab extends Sprite{
         this.folderWidth = folderWidth;
         this.folderHeight = this.folderWidth;
         this.xStartPosition = (this.tabNumber - 1)*(this.tabWidth + 0.25*this.tabHeight );
-        this.tabLabel = new NiceLabel( 12, " " + labelText );  //NiceLabel(fontSize, text)
+        this.tabLabel = new NiceLabel( 12, "   " + labelText );  //NiceLabel(fontSize, text)
         if( labelText == "Horizontal" ){
             this.polarizationType = "H";
         }else{
@@ -129,7 +131,7 @@ public class MiniTab extends Sprite{
                 }
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseOver" ) {
-                localRef.tabLabel.setBold(true);
+                //localRef.tabLabel.setBold(true);  //bold when hover over deemed unecessary
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseUp" ) {
                 //trace("evt.name:"+evt.type);
