@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.LGResources;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
@@ -33,7 +34,6 @@ class LineGraphNode extends PhetPNode {
     // grid
     private static final Stroke GRID_LINE_STROKE = new BasicStroke( 0.25f );
     private static final Color GRID_LINE_COLOR = Color.LIGHT_GRAY;
-    private static final int GRID_SPACING = 1; // model coordinates
 
     // outline
     private final Stroke OUTLINE_STROKE = GRID_LINE_STROKE;
@@ -43,21 +43,33 @@ class LineGraphNode extends PhetPNode {
     private final PDimension AXIS_ARROW_SIZE = new PDimension( 10, 10 );
     private final double AXIS_THICKNESS = 1;
     private final Color AXIS_COLOR = Color.BLACK;
-    private final double AXIS_EXTENT = 0.5; // how far the arrow extends past the min/max ticks, in model coordinates
+    private final double AXIS_EXTENT = 1.0; // how far the arrow extends past the min/max ticks, in model coordinates
     private final PhetFont AXIS_LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private final double AXIS_LABEL_SPACING = 2; // space between end of axis and label
+
+    // ticks
+    private final int MAJOR_TICK_SPACING = 5; // model units
+    private final double MINOR_TICK_LENGTH = 3; // how far a minor tick extends from the axis
+    private final Stroke MINOR_TICK_STROKE = new BasicStroke( 0.5f );
+    private final Color MINOR_TICK_COLOR = Color.BLACK;
+    private final double MAJOR_TICK_LENGTH = 6; // how far a major tick extends from the axis
+    private final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
+    private final Color MAJOR_TICK_COLOR = Color.BLACK;
+    private final PhetFont MAJOR_TICK_FONT = new PhetFont( Font.PLAIN, 12 );
+    private final double TICK_LABEL_SPACING = 2;
+    private final double MINUS_SIGN_WIDTH = new PhetPText( "-", MAJOR_TICK_FONT ).getFullBoundsReference().getWidth();
 
     public LineGraphNode( LineGraph graph, ModelViewTransform mvt ) {
 
         // Horizontal grid lines
         PNode horizontalGridLinesNode = new PNode();
+        final int numberOfHorizontalGridLines = graph.maxX - graph.minX + 1;
         {
-            final int numberOfHorizontalGridLines = graph.maxX - graph.minX + 1;
             final double minX = mvt.modelToViewDeltaX( graph.minX );
             final double maxX = mvt.modelToViewDeltaX( graph.maxX );
             // add one line for each unit of grid spacing
             for ( int i = 0; i < numberOfHorizontalGridLines; i++ ) {
-                final double yOffset = mvt.modelToViewDeltaY( graph.minY + ( i * GRID_SPACING ) );
+                final double yOffset = mvt.modelToViewDeltaY( graph.minY + i );
                 PPath gridLineNode = new PPath( new Line2D.Double( minX, yOffset, maxX, yOffset ) );
                 gridLineNode.setStroke( GRID_LINE_STROKE );
                 gridLineNode.setStrokePaint( GRID_LINE_COLOR );
@@ -67,13 +79,13 @@ class LineGraphNode extends PhetPNode {
 
         // Vertical grid lines
         PNode verticalGridLinesNode = new PNode();
+        final int numberOfVerticalGridLines = graph.maxX - graph.minX + 1;
         {
-            final int numberOfVerticalGridLines = graph.maxX - graph.minX + 1;
             final double minY = mvt.modelToViewDeltaX( graph.maxY );
             final double maxY = mvt.modelToViewDeltaX( graph.minY );
             // add one line for each unit of grid spacing
             for ( int i = 0; i < numberOfVerticalGridLines; i++ ) {
-                final double xOffset = mvt.modelToViewDeltaY( graph.minX + ( i * GRID_SPACING ) );
+                final double xOffset = mvt.modelToViewDeltaY( graph.minX + i );
                 PPath gridLineNode = new PPath( new Line2D.Double( xOffset, minY, xOffset, maxY ) );
                 gridLineNode.setStroke( GRID_LINE_STROKE );
                 gridLineNode.setStrokePaint( GRID_LINE_COLOR );
@@ -104,6 +116,37 @@ class LineGraphNode extends PhetPNode {
             xAxisNode.addChild( labelNode );
             labelNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + AXIS_LABEL_SPACING,
                                  lineNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
+
+            // ticks
+            for ( int i = 0; i < numberOfVerticalGridLines; i++ ) {
+                final int modelX = graph.minX + i;
+                if ( modelX != 0 ) { // skip the origin
+                    final double x = mvt.modelToViewDeltaX( modelX );
+                    if ( Math.abs( modelX ) % MAJOR_TICK_SPACING == 0 ) {
+                        // major tick line
+                        PPath tickLineNode = new PPath( new Line2D.Double( x, -MAJOR_TICK_LENGTH, x, MAJOR_TICK_LENGTH ) );
+                        tickLineNode.setStroke( MAJOR_TICK_STROKE );
+                        tickLineNode.setPaint( MAJOR_TICK_COLOR );
+                        xAxisNode.addChild( tickLineNode );
+                        // major tick label
+                        PText tickLabelNode = new PText( String.valueOf( modelX ) );
+                        tickLabelNode.setFont( MAJOR_TICK_FONT );
+                        tickLabelNode.setTextPaint( MAJOR_TICK_COLOR );
+                        xAxisNode.addChild( tickLabelNode );
+                        // center label under line, compensate for minus sign
+                        final double signXOffset = ( modelX < 0 ) ? -( MINUS_SIGN_WIDTH / 2 ) : 0;
+                        tickLabelNode.setOffset( tickLineNode.getFullBoundsReference().getCenterX() - ( tickLabelNode.getFullBoundsReference().getWidth() / 2 ) + signXOffset,
+                                                 tickLineNode.getFullBoundsReference().getMaxY() + TICK_LABEL_SPACING );
+                    }
+                    else {
+                        // minor tick with no label
+                        PPath tickLineNode = new PPath( new Line2D.Double( x, -MINOR_TICK_LENGTH, x, MINOR_TICK_LENGTH ) );
+                        tickLineNode.setStroke( MINOR_TICK_STROKE );
+                        tickLineNode.setPaint( MINOR_TICK_COLOR );
+                        xAxisNode.addChild( tickLineNode );
+                    }
+                }
+            }
         }
 
         // Y axis
@@ -123,6 +166,36 @@ class LineGraphNode extends PhetPNode {
             yAxisNode.addChild( labelNode );
             labelNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ),
                                  lineNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - AXIS_LABEL_SPACING );
+
+            // ticks
+            for ( int i = 0; i < numberOfHorizontalGridLines; i++ ) {
+                final int modelY = graph.minY + i;
+                if ( modelY != 0 ) { // skip the origin
+                    final double y = mvt.modelToViewDeltaY( modelY );
+                    if ( Math.abs( modelY ) % MAJOR_TICK_SPACING == 0 ) {
+                        // major tick line
+                        PPath tickLineNode = new PPath( new Line2D.Double( -MAJOR_TICK_LENGTH, y, MAJOR_TICK_LENGTH, y ) );
+                        tickLineNode.setStroke( MAJOR_TICK_STROKE );
+                        tickLineNode.setPaint( MAJOR_TICK_COLOR );
+                        yAxisNode.addChild( tickLineNode );
+                        // major tick label
+                        PText tickLabelNode = new PText( String.valueOf( modelY ) );
+                        tickLabelNode.setFont( MAJOR_TICK_FONT );
+                        tickLabelNode.setTextPaint( MAJOR_TICK_COLOR );
+                        yAxisNode.addChild( tickLabelNode );
+                        // center label to left of line
+                        tickLabelNode.setOffset( tickLineNode.getFullBoundsReference().getMinX() - tickLabelNode.getFullBoundsReference().getWidth() - TICK_LABEL_SPACING,
+                                                 tickLineNode.getFullBoundsReference().getCenterY() - ( tickLabelNode.getFullBoundsReference().getHeight() / 2 ) );
+                    }
+                    else {
+                        // minor tick with no label
+                        PPath tickLineNode = new PPath( new Line2D.Double( -MINOR_TICK_LENGTH, y, MINOR_TICK_LENGTH, y ) );
+                        tickLineNode.setStroke( MINOR_TICK_STROKE );
+                        tickLineNode.setPaint( MINOR_TICK_COLOR );
+                        yAxisNode.addChild( tickLineNode );
+                    }
+                }
+            }
         }
 
         // rendering order
