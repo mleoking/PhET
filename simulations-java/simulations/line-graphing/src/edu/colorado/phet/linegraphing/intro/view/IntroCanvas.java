@@ -32,7 +32,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     public IntroCanvas( IntroModel model ) {
 
-        PNode graphNode = new ZeroOffsetNode( new LineGraphNode( model.graph, model.mvt ) );
+        PNode graphNode = new ZeroOffsetNode( new GraphNode( model.graph, model.mvt ) );
         PNode equationNode = new SlopeInterceptEquationNode();
         TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) ) {{
