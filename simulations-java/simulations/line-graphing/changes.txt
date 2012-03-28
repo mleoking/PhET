@@ -1,3 +1,4 @@
+3/28/12 create LGColors
 3/28/12 constrain lines to the range of the graph
 3/28/12 quick-and-dirty implementation of equation using Swing spinners
 3/28/12 disable "Save Line" button until the line has been changed

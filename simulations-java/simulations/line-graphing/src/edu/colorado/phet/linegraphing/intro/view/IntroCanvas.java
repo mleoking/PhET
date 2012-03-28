@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
@@ -82,7 +83,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( true );
                 saveLineButton.setEnabled( false );
-                lineGraphNode.saveLine( model.interactiveLine.get(), Color.GREEN ); //TODO same or different colors for saved lines?
+                lineGraphNode.saveLine( model.interactiveLine.get(), LGColors.SAVED_LINE ); //TODO same or different colors for saved lines?
             }
         } );
 
