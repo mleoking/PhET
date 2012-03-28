@@ -21,7 +21,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class SlopeInterceptLineNode extends PComposite {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 8, 8 );
-    private static final double LINE_THICKNESS = 1;
+    private static final double LINE_THICKNESS = 2;
     private static final double LINE_EXTENT = 0.5;
 
     public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, Color color ) {
