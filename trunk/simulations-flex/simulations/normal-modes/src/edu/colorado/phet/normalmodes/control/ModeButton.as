@@ -8,6 +8,7 @@
 package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.util.Util;
 
 import flash.display.Graphics;
 import flash.display.PixelSnapping;
@@ -30,7 +31,8 @@ public class ModeButton extends Sprite{
     private var colorLayerMask:Sprite;     //mask for colorLayer.  mask is shape of rounded rect button
     private var nMax;                      //number of different color fill heights
     private var trimAndLabelLayer:Sprite;  //next layer has trim and label
-    private var sizeInPix:Number;
+    private var sizeInPix:Number;          //width of button body in pix
+    private var lineWidth:Number;          //width of button body border in pix
     private var buttonColor:Number;
     private var fillColor:Number;
     private var fillColorV:Number;        //color fill for vertical mode
@@ -53,8 +55,8 @@ public class ModeButton extends Sprite{
         this.sizeInPix = sizeInPix;
         //this.buttonColor = 0xffffff ;      //default color
         this.fillColor;// = 0x00ff00;
-        this.fillColorV = 0x00cc00;          //green for vertical
-        this.fillColorH = 0xffbb00;          //orange for horizontal
+        this.fillColorV = 0x009900;          //green for vertical
+        this.fillColorH = 0xff5500;          //orange for horizontal
         this.emptyColor = 0xffffff;
         this._borderColor = 0x0000ff;
         myColorTransform = new ColorTransform();
@@ -83,9 +85,11 @@ public class ModeButton extends Sprite{
     public function drawEmptyButton( ):void{
         var w:int = this.sizeInPix;       //width and height of button in pixels
         var h:int = this.sizeInPix;
+        //although lineWidth is a Number, lineStyle only accepts integer values of lineWidth
+        this.lineWidth = Math.max( 2, this.sizeInPix/25 );
         var gT:Graphics = this.trimAndLabelLayer.graphics;
         gT.clear();
-        gT.lineStyle( 2, this._borderColor, 1 );
+        gT.lineStyle( this.lineWidth, this._borderColor, 1 );
         gT.drawRoundRect( 0, 0, w,  h,  w/2 );
 
         var gM:Graphics = this.colorLayerMask.graphics;
@@ -102,6 +106,18 @@ public class ModeButton extends Sprite{
         gC.drawRoundRect( 0, 0, w,  h,  w/2 );
         gC.endFill();
         */
+        var nbrButtonsInRow = this.myModel2.N;
+        var textSize:Number;
+        if(nbrButtonsInRow == 10){
+           textSize = 10;
+        } else if( nbrButtonsInRow < 10 && nbrButtonsInRow >= 7 ){
+           textSize = 14;
+        } else if( nbrButtonsInRow < 7 && nbrButtonsInRow >= 3) {
+           textSize = 18;
+        } else {
+            textSize = 20;
+        }
+        this.sizeText( textSize );
         this.positionLabel();
     }
 
@@ -125,10 +141,11 @@ public class ModeButton extends Sprite{
         var h:int = this.sizeInPix;
         var gT:Graphics = this.trimAndLabelLayer.graphics;
         gT.clear();
-        gT.lineStyle( 2, this._borderColor, 1 );
+        gT.lineStyle( this.lineWidth, this._borderColor, 1 );
         gT.drawRoundRect( 0, 0, w,  h,  w/2 );
     }
 
+    //used to temporarily increase border thickness when mouse hovers over button
     private function setBorderThickness( borderThickness:Number ):void{
         var gT:Graphics = this.trimAndLabelLayer.graphics;
         var w:int = this.sizeInPix;       //width and height of button in pixels
@@ -187,6 +204,11 @@ public class ModeButton extends Sprite{
         this.tFormat.color = 0x000000;
         this.label_txt.autoSize = TextFieldAutoSize.CENTER;
         //this.label_txt.border = true;    //for testing only
+        this.label_txt.setTextFormat( this.tFormat);
+    }
+    
+    private function sizeText( size:Number ):void{
+        this.tFormat.size = size;
         this.label_txt.setTextFormat( this.tFormat);
     }
 
@@ -270,7 +292,7 @@ public class ModeButton extends Sprite{
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseOver" ) {
 
-                localRef.setBorderThickness( 3 );
+                localRef.setBorderThickness( localRef.lineWidth + 1.5 );
                 localRef.tFormat.bold = true;
                 localRef.label_txt.setTextFormat( localRef.tFormat );
 
@@ -303,7 +325,7 @@ public class ModeButton extends Sprite{
                     localRef._pushedIn = false;
                 }
 
-                localRef.setBorderThickness( 2 );
+                localRef.setBorderThickness( localRef.lineWidth );
             }
         }//end of buttonBehave
     }//end of activateButton
