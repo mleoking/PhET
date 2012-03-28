@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.view.controls;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -22,14 +23,24 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class PropertyCheckBoxWithIcon extends JPanel {
 
+    private final JComponent checkBox, icon;
+
     public PropertyCheckBoxWithIcon( IUserComponent userComponent, final String text, final PhetFont font, Image image, final SettableProperty<Boolean> property ) {
-        add( new PropertyCheckBox( userComponent, text, property ) {{
+        checkBox = new PropertyCheckBox( userComponent, text, property ) {{
             setFont( font );
-        }} );
-        add( new SimSharingIcon( UserComponentChain.chain( userComponent, "icon" ), new ImageIcon( image ), new VoidFunction0() {
+        }};
+        icon = new SimSharingIcon( UserComponentChain.chain( userComponent, "icon" ), new ImageIcon( image ), new VoidFunction0() {
             public void apply() {
                 property.set( !property.get() );
             }
-        } ) );
+        } );
+        add( checkBox );
+        add( icon );
+    }
+
+    @Override public void setEnabled( boolean enabled ) {
+        super.setEnabled( enabled );
+        checkBox.setEnabled( enabled );
+        icon.setEnabled( enabled );
     }
 }
