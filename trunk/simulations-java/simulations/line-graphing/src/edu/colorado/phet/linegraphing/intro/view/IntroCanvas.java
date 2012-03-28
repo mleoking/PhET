@@ -26,7 +26,6 @@ public class IntroCanvas extends LGCanvas implements Resettable {
     //TODO relocate some (all?) of these properties into model
     private final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
     private final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );
-    private final Property<Boolean> graphLinesVisible = new Property<Boolean>( false );
 
     private final LineGraphNode lineGraphNode;
 
@@ -39,7 +38,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) ) {{
             setEnabled( false );
         }};
-        PNode visibilityControls = new VisibilityControls( lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, graphLinesVisible );
+        PNode visibilityControls = new VisibilityControls( lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, lineGraphNode.linesVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
@@ -96,7 +95,6 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         lineGraphNode.reset();
         pointToolVisible.reset();
         riseOverRunVisible.reset();
-        graphLinesVisible.reset();
         //TODO erase lines
     }
 }

@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
@@ -21,6 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class LineGraphNode extends GraphNode implements Resettable {
 
+    public final Property<Boolean> linesVisible = new Property<Boolean>( true );
     public final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false );
     public final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
 
@@ -34,21 +36,32 @@ class LineGraphNode extends GraphNode implements Resettable {
         yEqualsNegativeXLineNode = new StaticLineNode( yEqualsNegativeXLine, graph, mvt, Color.CYAN );
         addChild( yEqualsNegativeXLineNode );
 
-        yEqualsXVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                yEqualsXLineNode.setVisible( visible );
+        yEqualsXVisible.addObserver( new SimpleObserver() {
+            public void update() {
+                updateLinesVisibility();
             }
         } );
-         yEqualsNegativeXVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                yEqualsNegativeXLineNode.setVisible( visible );
+        yEqualsNegativeXVisible.addObserver( new SimpleObserver() {
+            public void update() {
+                updateLinesVisibility();
             }
         } );
+        linesVisible.addObserver( new SimpleObserver() {
+            public void update() {
+                updateLinesVisibility();
+            }
+        } );
+    }
+
+    private void updateLinesVisibility() {
+        yEqualsXLineNode.setVisible( linesVisible.get() && yEqualsXVisible.get() );
+        yEqualsNegativeXLineNode.setVisible( linesVisible.get() && yEqualsNegativeXVisible.get() );
     }
 
     public void reset() {
         yEqualsXVisible.reset();
         yEqualsNegativeXVisible.reset();
+        linesVisible.reset();
     }
 
     // A static line that does not change
