@@ -1,3 +1,5 @@
+# 0.00.48 (62879) Mar 29, 2012
+3/29/12 Final version, ready for publishing (I hope).
 # 0.00.47 (62827) Mar 27, 2012
 3/27/12 Rebuilt interface for ButtonArray in 2D mode.
 # 0.00.46 (57650) Oct 14, 2011
