@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -79,6 +80,14 @@ public class IntegerSpinner extends SimSharingJSpinner {
                 } );
             }
         } );
+    }
+
+    public void setTextForeground( Color color ) {
+        textField.setForeground( color );
+    }
+
+    public void setTextBackground( Color color ) {
+        textField.setBackground( color );
     }
 
     public void setIntValue( int value ) {
