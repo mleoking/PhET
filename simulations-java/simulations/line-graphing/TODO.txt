@@ -8,7 +8,7 @@ DESIGN
 - if "Graph lines" is unchecked, how does this affect controls that deal with lines on graph? are they disabled?
 
 HIGH
-- direct manipulation of slope and intercept on line
+- drag handlers for slope and intercept manipulators
 - rise/run brackets
 
 MEDIUM

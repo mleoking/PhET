@@ -1,3 +1,4 @@
+3/29/12 added manipulators for slope and intercept (no drag handlers yet)
 3/29/12 create specialization of graph that deals with direct manipulation and interactivity
 3/29/12 add show/hide button for slope-intercept equation
 3/29/12 color coding for slope and intercept
