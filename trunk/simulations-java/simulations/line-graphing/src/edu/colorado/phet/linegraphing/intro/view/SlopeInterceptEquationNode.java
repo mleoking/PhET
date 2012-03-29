@@ -96,9 +96,9 @@ class SlopeInterceptEquationNode extends PhetPNode {
             pswingIntercept.setOffset( xPlus.getFullBoundsReference().getMaxX() + 2,
                                        xPlus.getFullBoundsReference().getCenterY() - ( pswingIntercept.getFullBoundsReference().getHeight() / 2 ) );
 
-            // make it larger, put it in a control panel
-            parentNode.scale( 1.8 );
-            addChild( new ControlPanelNode( parentNode ) );
+            // make the equation larger
+            parentNode.scale( 1.8 ); //TODO scaling up is bad
+            addChild( parentNode );
         }
     }
 }

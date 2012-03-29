@@ -7,11 +7,9 @@ import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
@@ -35,11 +33,10 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
         lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.yEqualsXLine, model.yEqualsNegativeXLine );
         PNode graphNode = new ZeroOffsetNode( lineGraphNode );
-        PNode equationNode = new SlopeInterceptEquationNode( model.interactiveLine );
-        final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) ) {{
             setEnabled( false );
         }};
+        PNode equationControlPanel = new EquationControlPanel( model.interactiveLine, lineGraphNode, eraseLinesButton );
         PNode visibilityControls = new VisibilityControls( lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, lineGraphNode.linesVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
@@ -48,8 +45,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         // rendering order
         {
             addChild( graphNode );
-            addChild( equationNode );
-            addChild( saveLineButton );
+            addChild( equationControlPanel );
             addChild( eraseLinesButton );
             addChild( visibilityControls );
             addChild( resetAllButtonNode );
@@ -63,14 +59,11 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             graphNode.setOffset( xMargin, yMargin );
 
             // upper-right of graph
-            equationNode.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
-                                    50 );
+            equationControlPanel.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
+                                            50 );
             // centered below equation
-            saveLineButton.setOffset( equationNode.getFullBoundsReference().getCenterX() - ( saveLineButton.getFullBoundsReference().getWidth() / 2 ),
-                                      equationNode.getFullBoundsReference().getMaxY() + 10 );
-            // centered below equation
-            visibilityControls.setOffset( equationNode.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
-                                          saveLineButton.getFullBoundsReference().getMaxY() + 50 );
+            visibilityControls.setOffset( equationControlPanel.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
+                                          equationControlPanel.getFullBoundsReference().getMaxY() + 50 );
             // lower right
             resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
                                           getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
@@ -79,27 +72,11 @@ public class IntroCanvas extends LGCanvas implements Resettable {
                                         resetAllButtonNode.getYOffset() );
         }
 
-        // Save the current state of the interactive line.
-        saveLineButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                eraseLinesButton.setEnabled( true );
-                saveLineButton.setEnabled( false );
-                lineGraphNode.saveLine( model.interactiveLine.get(), LGColors.SAVED_LINE ); //TODO same or different colors for saved lines?
-            }
-        } );
-
         // Erase all lines that have been saved.
         eraseLinesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( false );
                 lineGraphNode.eraseLines();
-            }
-        } );
-
-        // When the interactive line has been changed, enabled the "Save" button.
-        model.interactiveLine.addObserver( new SimpleObserver() {
-            public void update() {
-                saveLineButton.setEnabled( true );
             }
         } );
     }
