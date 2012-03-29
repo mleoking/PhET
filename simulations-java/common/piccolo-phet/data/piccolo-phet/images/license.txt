@@ -13,3 +13,7 @@ lightBulbBase.png source=PhET notes=reused from faraday
 lightBulbGlass.png source=PhET notes=reused from faraday
 lightBulbGlassMask.png source=PhET notes=reused from faraday
 lightBulbMask.png source=PhET notes=masked version of lightBulbGlass.png
+button_pressed.png source=PhET
+button_pressed_disabled.png source=PhET
+button_unpressed.png source=PhET
+button_unpressed_disabled.png source=PhET
