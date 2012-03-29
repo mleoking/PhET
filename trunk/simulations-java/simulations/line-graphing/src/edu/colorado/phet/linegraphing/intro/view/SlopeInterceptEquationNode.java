@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
@@ -44,9 +44,15 @@ class SlopeInterceptEquationNode extends PhetPNode {
         // TODO quick-and-dirty implementation using JSpinners
         {
             // Swing controls
-            final IntegerSpinner riseSpinner = new IntegerSpinner( UserComponents.riseSpinner, new IntegerRange( 0, 10, interactiveLine.get().rise ) );
-            final IntegerSpinner runSpinner = new IntegerSpinner( UserComponents.runSpinner, new IntegerRange( -10, 10, interactiveLine.get().run ) );
-            final IntegerSpinner interceptSpinner = new IntegerSpinner( UserComponents.interceptSpinner, new IntegerRange( -10, 10, interactiveLine.get().intercept ) );
+            final IntegerSpinner riseSpinner = new IntegerSpinner( UserComponents.riseSpinner, new IntegerRange( 0, 10, interactiveLine.get().rise ) ) {{
+                setTextBackground( LGColors.SLOPE_COLOR );
+            }};
+            final IntegerSpinner runSpinner = new IntegerSpinner( UserComponents.runSpinner, new IntegerRange( -10, 10, interactiveLine.get().run ) ) {{
+                setTextBackground( LGColors.SLOPE_COLOR );
+            }};
+            final IntegerSpinner interceptSpinner = new IntegerSpinner( UserComponents.interceptSpinner, new IntegerRange( -10, 10, interactiveLine.get().intercept ) ) {{
+                setTextBackground( LGColors.INTERCEPT_COLOR );
+            }};
 
             // Update line when the spinners change
             final ChangeListener changeListener = new ChangeListener() {
