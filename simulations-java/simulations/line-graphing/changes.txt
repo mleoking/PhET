@@ -1,4 +1,5 @@
-3/28/12 color coding for slope and intercept
+3/29/12 add show/hide button for slope-intercept equation
+3/29/12 color coding for slope and intercept
 3/28/12 move Save Lines button into equation control panel
 3/28/12 extend lines a bit beyond the bounds of the grid
 3/28/12 create LGColors
