@@ -182,7 +182,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
         } );
 
         // TODO: improve initialization here
-        RealMoleculeShape startingMolecule = RealMoleculeShape.TAB_2_MOLECULES[0];
+        RealMoleculeShape startingMolecule = isBasicsVersion ? RealMoleculeShape.TAB_2_BASIC_MOLECULES[0] : RealMoleculeShape.TAB_2_MOLECULES[0];
         RealMolecule startingMoleculeModel = new RealMolecule( startingMolecule );
         setMolecule( startingMoleculeModel );
         realMolecule.set( startingMolecule );
@@ -348,48 +348,49 @@ public class RealMoleculesTab extends MoleculeViewTab {
         /*---------------------------------------------------------------------------*
         * real / model buttons
         *----------------------------------------------------------------------------*/
-        final PNode realModelSelectionNode = new PNode() {{
-            // wrapper so our full bounds are handled correctly
-            addChild( new PNode() {{
-                scale( 1.5 );
-                final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.realViewCheckBox, Strings.CONTROL__REAL_VIEW, showRealView, true );
+        if ( !isBasicsVersion ) {
+            final PNode realModelSelectionNode = new PNode() {{
+                // wrapper so our full bounds are handled correctly
+                addChild( new PNode() {{
+                    scale( 1.5 );
+                    final PNode realRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.realViewCheckBox, Strings.CONTROL__REAL_VIEW, showRealView, true );
 
-                // visibility handling (and initial adding)
-                MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
-                    public void update() {
-                        if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
-                            addChild( realRadioNode );
+                    // visibility handling (and initial adding)
+                    MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
+                        public void update() {
+                            if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
+                                addChild( realRadioNode );
+                            }
+                            else {
+                                removeChild( realRadioNode );
+                            }
                         }
-                        else {
-                            removeChild( realRadioNode );
+                    } );
+
+                    final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.modelViewCheckBox, Strings.CONTROL__MODEL_VIEW, showRealView, false );
+
+                    // visibility handling (and initial adding)
+                    MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
+                        public void update() {
+                            if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
+                                addChild( modelRadioNode );
+                            }
+                            else {
+                                removeChild( modelRadioNode );
+                            }
                         }
-                    }
-                } );
+                    } );
 
-                final PNode modelRadioNode = new PropertyRadioButtonNode<Boolean>( UserComponents.modelViewCheckBox, Strings.CONTROL__MODEL_VIEW, showRealView, false );
+                    modelRadioNode.setOffset( realRadioNode.getFullBounds().getMaxX() + 10, 0 );
+                }} );
+            }};
 
-                // visibility handling (and initial adding)
-                MoleculeShapesApplication.showRealMoleculeRadioButtons.addObserver( new SimpleObserver() {
-                    public void update() {
-                        if ( MoleculeShapesApplication.showRealMoleculeRadioButtons.get() ) {
-                            addChild( modelRadioNode );
-                        }
-                        else {
-                            removeChild( modelRadioNode );
-                        }
-                    }
-                } );
-
-                modelRadioNode.setOffset( realRadioNode.getFullBounds().getMaxX() + 10, 0 );
-            }} );
-        }};
-
-
-        guiView.getScene().attachChild( new PiccoloJMENode( realModelSelectionNode, inputHandler, this, canvasTransform,
-                                                            new Property<ImmutableVector2D>( new ImmutableVector2D(
-                                                                    ( (int) ( getStageSize().width - realModelSelectionNode.getFullBounds().getWidth() - controlPanelNode.getFullBounds().getWidth() ) / 2 ),
-                                                                    ( (int) ( getStageSize().height - OUTSIDE_PADDING - realModelSelectionNode.getFullBounds().getHeight() ) )
-                                                            ) ) ) );
+            guiView.getScene().attachChild( new PiccoloJMENode( realModelSelectionNode, inputHandler, this, canvasTransform,
+                                                                new Property<ImmutableVector2D>( new ImmutableVector2D(
+                                                                        ( (int) ( getStageSize().width - realModelSelectionNode.getFullBounds().getWidth() - controlPanelNode.getFullBounds().getWidth() ) / 2 ),
+                                                                        ( (int) ( getStageSize().height - OUTSIDE_PADDING - realModelSelectionNode.getFullBounds().getHeight() ) )
+                                                                ) ) ) );
+        }
 
         /*---------------------------------------------------------------------------*
         * "geometry name" panel
