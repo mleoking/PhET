@@ -8,8 +8,7 @@ DESIGN
 - if "Graph lines" is unchecked, how does this affect controls that deal with lines on graph? are they disabled?
 
 HIGH
-- reuse spinner buttons from fractions, see SpinnerButtonNode
-- implement SlopeInterceptEquationNode
+- add show/hide button for slope-intercept equation
 - direct manipulation of slope and intercept on line
 - rise/run brackets
 
@@ -19,7 +18,8 @@ MEDIUM
 - show equations on lines
 - point tool
 - deal with undefined slope in SlopeInterceptLine
-- add show/hide button for slope-intercept equation
+- reuse spinner buttons from fractions, see SpinnerButtonNode
+- implement SlopeInterceptEquationNode
 
 LOW
 - create check box icons
