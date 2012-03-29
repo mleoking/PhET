@@ -30,15 +30,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 class SlopeInterceptEquationNode extends PhetPNode {
 
-    private static final String PATTERN = "{0} = {1}{2} + {3}"; // eg, y = mx + b
-
-    // y = mx + b
-    private static String EQUATION = MessageFormat.format( PATTERN,
-                                                         Strings.SYMBOL_VERTICAL_AXIS,
-                                                         Strings.SYMBOL_SLOPE,
-                                                         Strings.SYMBOL_HORIZONTAL_AXIS,
-                                                         Strings.SYMBOL_INTERCEPT );
-
     public SlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine ) {
 
         // TODO quick-and-dirty implementation using JSpinners
