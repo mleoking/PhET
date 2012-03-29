@@ -1,3 +1,4 @@
+# 0.00.29 (62874) Mar 29, 2012
 Removed "Step" button temporarily
 Fixed continental-continental collisions for handling any timestep size (fixes the "step" bug for this motion type)
 Fixed mountain size consistency in continental-continental collision for the 2nd tab
