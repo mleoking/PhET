@@ -45,7 +45,7 @@ public class PolarizationPanel extends Canvas {
     }//end constructor
 
     private function init():void{
-        this.polarization_str = FlexSimStrings.get( "polarization:", "Polarization Control:");
+        this.polarization_str = FlexSimStrings.get( "polarization:", "Polarization<br>Control:");
 
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {
@@ -64,7 +64,7 @@ public class PolarizationPanel extends Canvas {
         }
 
         //Set up polarization radio button box
-        this.polarizationLabel = new NiceLabel( 12, polarization_str );
+        this.polarizationLabel = new NiceLabel( 12, polarization_str, true );
         this.modeTypeHBox = new HBox();
         this.directionOfMode_rbg = new RadioButtonGroup();
         this.horizPolarizationButton = new RadioButton();

@@ -21,11 +21,17 @@ public class NiceLabel extends Sprite {
     private var fontColor:Number;
     private var action:Function;    //action to be performed if label is editable
 
-    public function NiceLabel( fontSize:int = 15, labelText_str:String = "Label") {
+    public function NiceLabel( fontSize:int = 15, labelText_str:String = "Label", htmlTextUsed:Boolean = false ) {
         this.fontSize = fontSize;
         this.fontColor = 0x000000;       //default color is black
         this.label_txt = new TextField();
-        this.label_txt.text = labelText_str;
+        if( htmlTextUsed ){
+            this.label_txt.multiline = true;
+            this.label_txt.htmlText = labelText_str;
+            //trace("NiceLabel: htmlText used")
+        }else{
+            this.label_txt.text = labelText_str;
+        }
         this.tFormat = new TextFormat();
         this.setDefaultTextFormat();
         this.setLabel();
