@@ -1,3 +1,4 @@
+3/28/12 move Save Lines button into equation control panel
 3/28/12 extend lines a bit beyond the bounds of the grid
 3/28/12 create LGColors
 3/28/12 constrain lines to the range of the graph

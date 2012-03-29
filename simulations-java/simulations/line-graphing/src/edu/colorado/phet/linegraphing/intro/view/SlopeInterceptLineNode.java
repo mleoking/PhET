@@ -7,9 +7,11 @@ import java.awt.geom.Point2D;
 import javax.sound.sampled.Line;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -23,6 +25,7 @@ public class SlopeInterceptLineNode extends PComposite {
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 8, 8 );
     private static final double LINE_THICKNESS = 2;
     private static final double LINE_EXTENT = 0.5;
+    private static final PhetFont EQUATION_FONT = new PhetFont( 12 );
 
     public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, Color color ) {
 
