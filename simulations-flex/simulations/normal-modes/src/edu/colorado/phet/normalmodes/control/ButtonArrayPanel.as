@@ -150,17 +150,26 @@ public class ButtonArrayPanel extends Canvas{
         //trace("buttonArrayPanel. maxContainerWidth = "+this.maxContainerWidth+"   padding = "+this.padding+"  N="+N+"   buttonWidth = "+size);
         var xOffset:Number;
         var yOffset:Number;
+
+
         for(var i: int = 1; i <= N; i++ ){
             for( var j: int = 1; j <= N; j++ ){
+                //if..else to keep buttons and bottom label well-placed in folder regardless of number of buttons
                 if( N == 1 || N == 2){
                     size = this.maxContainerWidth/4;
-                }else if ( N == 3 || N == 4 ) {
+                    yOffset = this.padding + 0.5*this.maxContainerWidth/2 - (1*(size+this.padding)+this.padding)/2;
+                }else if ( N == 3 ) {
                     size =  this.maxContainerWidth/5;
+                    yOffset = this.padding + 0.8*this.maxContainerWidth/2 - (N*(size+this.padding)+this.padding)/2;
+                } else if ( N == 4 ){
+                    size =  this.maxContainerWidth/5;
+                    yOffset = this.padding + this.maxContainerWidth/2 - (N*(size+this.padding)+this.padding)/2;
                 } else if( N >= 5 ){
-                   //do nothing; size =  (this.maxContainerWidth /N);
+                    yOffset = this.padding + this.maxContainerWidth/2 - (N*(size+this.padding)+this.padding)/2;
+                    //do nothing; size =  (this.maxContainerWidth /N);
                 }
+                //yOffset = this.padding + this.maxContainerWidth/2 - (N*(size+this.padding)+this.padding)/2;
                 xOffset = this.padding + this.maxContainerWidth/2 - (N*(size+this.padding)+this.padding)/2;
-                yOffset = this.padding; // xOffset;
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
                 //this.button_arr[i][j].changeColor( 0xffffff );
@@ -174,7 +183,10 @@ public class ButtonArrayPanel extends Canvas{
         }
         var borderWidth:Number = 5;
         this.bottomLabel_txt.x = this.maxContainerWidth/2 - bottomLabel_txt.width/2;  //xOffset;
-        this.bottomLabel_txt.y = ySpacer +  N*(size+this.padding)+this.padding;//yOffset +  ySpacer //- 1.1*bottomLabel_txt.height; //yOffset - 1.3 * bottomLabel_txt.height;
+        if( N == 4 ){
+            yOffset -= 10; //Kludge to prevent bottomLabel from colliding with bottom edge of folder
+        }
+        this.bottomLabel_txt.y = ySpacer + yOffset + N*(size+this.padding)+this.padding;//yOffset +  ySpacer //- 1.1*bottomLabel_txt.height; //yOffset - 1.3 * bottomLabel_txt.height;
         //this.myPolarizationPanel.x = bottomLabel_txt.width + 15;
         //draw border around button array
         //var gC:Graphics = this.container.graphics;
