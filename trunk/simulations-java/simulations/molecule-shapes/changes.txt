@@ -1,3 +1,4 @@
+Basics 1st tab bond angle font size increase
 A few fixes for the "Basics" version
 # 1.02.10 (62828) Mar 27, 2012
 Removed the "kit" tab 2 version on "Basics" sim

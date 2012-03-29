@@ -30,6 +30,7 @@ import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.Molecule;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.tabs.MoleculeViewTab;
+import edu.colorado.phet.moleculeshapes.tabs.moleculeshapes.MoleculeShapesTab;
 import edu.colorado.phet.moleculeshapes.tabs.realmolecules.RealMoleculesTab;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -289,7 +290,7 @@ public class MoleculeModelNode extends Node {
                 final Vector3f screenMidpoint = camera.getScreenCoordinates( globalMidpoint );
 
                 // add a slight extension for larger font sizes
-                float extensionFactor = 1.3f * ( ( tab instanceof RealMoleculesTab ) ? 1.1f : 1 );
+                float extensionFactor = 1.3f * ( ( tab instanceof RealMoleculesTab ) ? 1.1f : 1.05f );
                 final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
 
                 double angle = aDir.angleBetweenInDegrees( bDir );
@@ -392,7 +393,9 @@ public class MoleculeModelNode extends Node {
         public void attach( final String string, final float brightness, final Vector3f displayPoint ) {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
-                    float extraSizeFactor = ( tab instanceof RealMoleculesTab ) ? 1.5f : 1;
+                    float extraSizeFactor = ( tab instanceof MoleculeShapesTab )
+                                            ? ( ( (MoleculeShapesTab) tab ).isBasicsVersion() ? 1.2f : 1 )
+                                            : 1.5f;
                     if ( !text.getText().equals( string ) ) {
                         text.setText( string );
                     }
