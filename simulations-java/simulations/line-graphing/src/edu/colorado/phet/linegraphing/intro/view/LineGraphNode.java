@@ -6,7 +6,6 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
@@ -15,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Graph that displays lines.
+ * Graph that displays static lines.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -27,18 +26,14 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
-    private SlopeInterceptLineNode interactiveLineNode;
     private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
-    private PNode savedLinesParentNode, standardLinesParentNode, interactiveLineParentNode; // intermediate nodes, for consistent rendering order
+    private PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
 
-    public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt, final Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
+    public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
         super( graph, mvt );
 
         this.graph = graph;
         this.mvt = mvt;
-
-        // Interactive line
-        interactiveLineParentNode = new PComposite();
 
         // Standard lines
         standardLinesParentNode = new PComposite();
@@ -53,18 +48,6 @@ class LineGraphNode extends GraphNode implements Resettable {
         // Rendering order
         addChild( standardLinesParentNode );
         addChild( savedLinesParentNode );
-        addChild( interactiveLineParentNode );
-
-        // When the interactive line changes, update the graph.
-        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
-                if ( interactiveLineNode != null ) {
-                    interactiveLineParentNode.removeChild( interactiveLineNode );
-                }
-                interactiveLineNode = new SlopeInterceptLineNode( interactiveLine.get(), graph, mvt, LGColors.INTERACTIVE_LINE );
-                interactiveLineParentNode.addChild( interactiveLineNode );
-            }
-        } );
 
         // Visibility of lines
         yEqualsXVisible.addObserver( new SimpleObserver() {
@@ -91,8 +74,7 @@ class LineGraphNode extends GraphNode implements Resettable {
         eraseLines();
     }
 
-    private void updateLinesVisibility() {
-        interactiveLineParentNode.setVisible( linesVisible.get() );
+    protected void updateLinesVisibility() {
         savedLinesParentNode.setVisible( linesVisible.get() );
         standardLinesParentNode.setVisible( linesVisible.get() );
         yEqualsXLineNode.setVisible( yEqualsXVisible.get() );
