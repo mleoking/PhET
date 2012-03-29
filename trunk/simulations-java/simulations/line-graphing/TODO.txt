@@ -21,6 +21,7 @@ MEDIUM
 - implement SlopeInterceptEquationNode
 
 LOW
+- horizontally center "Erase Lines" and "Reset All" under other controls
 - improve look of title + show/hide button in equation control panel
 - create check box icons
 
