@@ -13,7 +13,7 @@ HIGH
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
-- Save Line button is enabled when interactive equation changes, but the reduce form of the line may be the same
+- Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 - show equations on lines
 - point tool
 - deal with undefined slope in SlopeInterceptLine
