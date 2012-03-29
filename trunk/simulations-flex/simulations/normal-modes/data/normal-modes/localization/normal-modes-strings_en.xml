@@ -5,7 +5,7 @@
     <string key="stop" value = "Stop"/>
     <string key="resetPositions" value = "Initial Positions"/>
     <string key="zeroPositions" value = "Zero Positions"/>
-    <string key="polarization:" value = "Polarizaton Control:"/>
+    <string key="polarization:" value = "Polarizaton<br>Control:"/>
     <string key="showPhases" value = "Show Phases"/>
     <string key="showSprings" value = "Show Springs"/>
     <string key="modeSpectrumDisplay" value = "Mode Spectrum Display"/>
