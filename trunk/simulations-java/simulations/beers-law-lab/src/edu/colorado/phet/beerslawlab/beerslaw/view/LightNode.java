@@ -5,6 +5,8 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Images;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
+import edu.colorado.phet.common.piccolophet.nodes.ToggleButtonNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -27,11 +29,13 @@ class LightNode extends PNode {
                                     -lightHousingNode.getFullBoundsReference().getHeight() / 2 );
 
         // button, scaled to fit image
-        ToggleButtonNode buttonNode = new ToggleButtonNode( UserComponents.lightButton, light.on );
+        ToggleButtonNode buttonNode = new ToggleButtonNode( UserComponents.lightButton, light.on,
+                                                            PiccoloPhetResources.getImage( "button_pressed.png" ),
+                                                            PiccoloPhetResources.getImage( "button_unpressed.png" ) );
         addChild( buttonNode );
         buttonNode.scale( 0.65 * lightHousingNode.getFullBoundsReference().getHeight() / buttonNode.getFullBoundsReference().getHeight() );
-        buttonNode.setOffset( lightHousingNode.getFullBoundsReference().getMaxX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ) - 40,
-                              lightHousingNode.getFullBoundsReference().getCenterY() );
+        buttonNode.setOffset( lightHousingNode.getFullBoundsReference().getMaxX() - buttonNode.getFullBoundsReference().getWidth() - 40,
+                              lightHousingNode.getFullBoundsReference().getCenterY() - ( buttonNode.getFullBoundsReference().getHeight() / 2 ) );
 
         setOffset( mvt.modelToView( light.location.toPoint2D() ) );
     }

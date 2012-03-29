@@ -24,8 +24,10 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetResources;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.MomentaryButtonNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -38,7 +40,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 class DropperNode extends PhetPNode {
 
     private static final boolean SHOW_ORIGIN = false;
-    private static final double BUTTON_Y_OFFSET = 30; // y offset of button center in dropper image file
+    private static final double BUTTON_Y_OFFSET = 13; // y offset of button location in dropper image file
     private static final double LABEL_Y_OFFSET = 130; // y offset of the label's center in dropper image file
 
     public static final double TIP_WIDTH = 15; // specific to image file
@@ -72,9 +74,10 @@ class DropperNode extends PhetPNode {
             setPaint( ColorUtils.createColor( new Color( 240, 240, 240 ), 150 ) );
             setStroke( null );
         }};
-        MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.dropperButton, dropper.on, dropper.enabled ) {{
+        MomentaryButtonNode buttonNode = new MomentaryButtonNode( UserComponents.dropperButton,
+                                                                  dropper.on, PiccoloPhetResources.getImage( "button_pressed.png" ), PiccoloPhetResources.getImage( "button_unpressed.png" ),
+                                                                  dropper.enabled, PiccoloPhetResources.getImage( "button_pressed_disabled.png" ), PiccoloPhetResources.getImage( "button_unpressed_disabled.png" ) ) {{
             scale( 0.3 );
-            rotate( Math.toRadians( 110 ) ); // rotate to match lighting in dropper images
         }};
 
         // rendering order
@@ -94,8 +97,8 @@ class DropperNode extends PhetPNode {
             foregroundImageNode.setOffset( -foregroundImageNode.getFullBoundsReference().getWidth() / 2, -foregroundImageNode.getFullBoundsReference().getHeight() );
             backgroundImageNode.setOffset( -backgroundImageNode.getFullBoundsReference().getWidth() / 2, -backgroundImageNode.getFullBoundsReference().getHeight() );
             // center the button in the dropper's bulb
-            buttonNode.setOffset( foregroundImageNode.getFullBoundsReference().getCenterX(),
-                                  foregroundImageNode.getFullBoundsReference().getMaxY() - ( foregroundImageNode.getFullBoundsReference().getHeight() - BUTTON_Y_OFFSET ) );
+            buttonNode.setOffset( foregroundImageNode.getFullBoundsReference().getCenterX() - ( buttonNode.getFullBoundsReference().getWidth() / 2 ),
+                                  foregroundImageNode.getFullBoundsReference().getMinY() + BUTTON_Y_OFFSET );
             //NOTE: label will be positioned whenever its text is set, to keep it centered in the dropper's glass
         }
 
