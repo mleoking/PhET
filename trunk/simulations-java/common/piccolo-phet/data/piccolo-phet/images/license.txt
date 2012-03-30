@@ -7,12 +7,14 @@ button_unpressed.png source=PhET
 button_unpressed_disabled.png source=PhET
 faucet_front.png author=PhET notes=NP
 faucet_pipe.png author=PhET notes=NP
+gray-arrow.png author=PhET notes=SR, modified from one in motion-series
 lightBulbBase.png source=PhET notes=reused from faraday
 lightBulbGlass.png source=PhET notes=reused from faraday
 lightBulbGlassMask.png source=PhET notes=reused from faraday
 lightBulbMask.png source=PhET notes=masked version of lightBulbGlass.png
 measuringTape.gif source=PhET
 measuringTape.png source=PhET notes=NP
+speedometer_point.png source=PhET notes=SR
 velocity_left.png author=phet notes=NP
 velocity_center.png author=phet notes=NP
 velocity_right.png author=phet notes=NP
