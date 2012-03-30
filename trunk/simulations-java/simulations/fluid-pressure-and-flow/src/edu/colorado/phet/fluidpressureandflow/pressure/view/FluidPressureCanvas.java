@@ -5,8 +5,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.Arrays;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -25,6 +25,7 @@ import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.flow.view.GridNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -63,13 +64,24 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Variables for convenient access
         final FluidPressureModel model = module.model;
-        final Pool pool = model.pool;
+        final IPool pool = model.pool.get();
 
         //Add a background behind the pool so earth doesn't bleed through transparent pool
-        addChild( new PhetPPath( transform.modelToView( pool.getShape() ), Color.white ) );
+        addPoolSpecificNode( model, new Function1<IPool, PNode>() {
+            @Override public PNode apply( final IPool p ) {
+                return new PhetPPath( transform.modelToView( p.getShape() ), Color.white );
+            }
+        } );
 
         //Show the height on the side of the pool in selected right units
-        addChild( new SidePoolHeightReadoutNode( transform, pool, model.units ) );
+        addPoolSpecificNode( model, new Function1<IPool, PNode>() {
+            @Override public PNode apply( final IPool p ) {
+                if ( p instanceof Pool ) {
+                    return new SidePoolHeightReadoutNode( transform, (Pool) p, model.units );
+                }
+                else { return new PNode(); }
+            }
+        } );
 
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel( module ) ) {{
@@ -93,7 +105,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
         for ( PressureSensor pressureSensor : model.getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, model.units, pool, visibleModelBounds ) {{
+            addChild( new PressureSensorNode( transform, pressureSensor, model.units, model.squarePool, visibleModelBounds ) {{
 
                 //Since it is the focus of this tab, make the pressure sensor nodes larger
                 scale( 1.2 );
@@ -103,18 +115,22 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Show the ruler
         //Some nodes go behind the pool so that it looks like they submerge
         //Position the meter stick so that its origin is at the top of the pool since the rulers measure down in this tab
-        final Point2D.Double rulerModelOrigin = new Point2D.Double( pool.getMinX(), pool.getMinY() );
-        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, new Point2D.Double( rulerModelOrigin.getX(), pool.getMaxY() - MeterStick.LENGTH_SMALL ), model, true );
+        final Point2D.Double rulerModelOrigin = new Point2D.Double( model.squarePool.getMinX(), model.squarePool.getMinY() );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, new Point2D.Double( rulerModelOrigin.getX(), model.squarePool.getMaxY() - MeterStick.LENGTH_SMALL ), model, true );
         final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, model, true );
         synchronizeRulerLocations( meterStick, englishRuler );
         addChild( meterStick );
         addChild( englishRuler );
 
         //Show the pool itself
-        addChild( new PoolNode( transform, pool, model.liquidDensity ) );
+        addPoolSpecificNode( model, new Function1<IPool, PNode>() {
+            @Override public PNode apply( final IPool p ) {
+                return new PoolNode( transform, p, model.liquidDensity );
+            }
+        } );
 
         addChild( new GridNode( module.gridVisible, transform, model.units ) {{
-            translate( -transform.modelToViewDeltaX( pool.getWidth() / 2 ), 0 );
+            translate( -transform.modelToViewDeltaX( model.squarePool.getWidth() / 2 ), 0 );
         }} );
 
         //Create and show the fluid density and gravity controls
@@ -134,11 +150,21 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         addChild( gravityControlPanelNode );
         addChild( fluidDensityControlNode );
 
-        RadioButtonStrip<String> radioButtonStrip = new RadioButtonStrip<String>( new Property<String>( "hello" ), Arrays.asList( new Pair<PNode, String>( new PText( "1" ), "1" ),
-                                                                                                                                  new Pair<PNode, String>( new PText( "2" ), "2" ),
-                                                                                                                                  new Pair<PNode, String>( new PText( "3" ), "3" ) ), 5 ) {{
+        RadioButtonStrip<IPool> radioButtonStrip = new RadioButtonStrip<IPool>( model.pool, Arrays.asList( new Pair<PNode, IPool>( new PText( "square" ), model.squarePool ),
+                                                                                                           new Pair<PNode, IPool>( new PText( "trapezoid" ), model.trapezoidPool ) ), 5 ) {{
             setOffset( INSET, INSET );
         }};
         addChild( radioButtonStrip );
+    }
+
+    private void addPoolSpecificNode( final FluidPressureModel model, final Function1<IPool, PNode> f ) {
+        addChild( new PNode() {{
+            model.pool.addObserver( new VoidFunction1<IPool>() {
+                @Override public void apply( final IPool p ) {
+                    removeAllChildren();
+                    addChild( f.apply( p ) );
+                }
+            } );
+        }} );
     }
 }

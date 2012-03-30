@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fluidpressureandflow.pressure.view.WaterColor.*;
@@ -24,7 +24,7 @@ public class PoolNode extends PNode {
     //Density of the fluid
     private final Property<Double> fluidDensity;
 
-    public PoolNode( final ModelViewTransform transform2D, final Pool pool, Property<Double> fluidDensity ) {
+    public PoolNode( final ModelViewTransform transform2D, final IPool pool, Property<Double> fluidDensity ) {
         this.fluidDensity = fluidDensity;
         final PhetPPath path = new PhetPPath( transform2D.modelToView( pool.getShape() ), createPaint( transform2D, pool ) ) {{
             waterColor.addObserver( new SimpleObserver() {
@@ -44,7 +44,7 @@ public class PoolNode extends PNode {
     }
 
     //Create the GradientPaint for the water--must be transparent so objects can submerge
-    private GradientPaint createPaint( ModelViewTransform transform2D, Pool pool ) {
+    private GradientPaint createPaint( ModelViewTransform transform2D, IPool pool ) {
         Color topColor = getTopColor( fluidDensity.get() );
         Color bottomColor = getBottomColor( fluidDensity.get() );
         double yBottom = transform2D.modelToViewY( -pool.getHeight() );//fade color halfway down
