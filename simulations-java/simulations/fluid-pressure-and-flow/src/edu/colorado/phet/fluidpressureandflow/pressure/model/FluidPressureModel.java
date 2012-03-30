@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
@@ -17,8 +18,11 @@ import static java.lang.Math.abs;
  */
 public class FluidPressureModel extends FluidPressureAndFlowModel {
 
+    public final Pool squarePool = new Pool();
+    public final IPool trapezoidPool = new TrapezoidPool();
+
     //Pool within which the user can measure the pressure
-    public final Pool pool = new Pool();
+    public final Property<IPool> pool = new Property<IPool>( squarePool );
 
     //Flag indicating whether the atmosphere is enabled or not.  it's nice to be able to turn it off and just focus on the water.
     //It also emphasizes that the reason that p is not zero at the top of the water IS the atmosphere.

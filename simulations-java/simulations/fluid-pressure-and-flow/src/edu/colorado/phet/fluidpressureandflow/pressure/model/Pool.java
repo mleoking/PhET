@@ -12,7 +12,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
  *
  * @author Sam Reid
  */
-public class Pool {
+public class Pool implements IPool {
 
     //10 foot deep pool, a customary depth for the deep end in the United States
     public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );
