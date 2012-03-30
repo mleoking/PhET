@@ -18,29 +18,40 @@ public class SlopeInterceptLine {
         this.intercept = intercept;
     }
 
-    //TODO deal with the case where run == 0, and the equation does not have unique solutions.
+    // Line is undefined if it's slope (rise/run) is undefined.
+    public boolean isDefined() {
+        return ( run != 0 );
+    }
 
-    public double getSlope() {
+    // Gets the slope, m=rise/run.
+    private double getSlope() {
+        assert( run != 0 );
         return ( (double) rise ) / run;
     }
 
-    // y = mx + b
+    // y = mx + b, returns 0 if there is no unique solution
     public double solveY( double x ) {
         return solveY( getSlope(), x, intercept );
     }
 
     // y = mx + b
-    public static double solveY( double m, double x, double b ) {
+    private static double solveY( double m, double x, double b ) {
         return ( m * x ) + b;
     }
 
     // x = (y-b)/m
     public double solveX( double y ) {
-       return solveX( y, intercept, getSlope() );
+        if ( run == 0 ) {
+            return 0;
+        }
+        else {
+            return solveX( y, intercept, getSlope() );
+        }
     }
 
     // x = (y-b)/m
-    public static double solveX( double y, double b, double m ) {
+    private static double solveX( double y, double b, double m ) {
+        assert( m != 0 );
         return ( y - b ) / m;
     }
 }

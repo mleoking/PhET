@@ -12,7 +12,6 @@ DESIGN
 
 HIGH
 - drag handlers for slope and intercept manipulators
-- deal with undefined slope in SlopeInterceptLine
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed

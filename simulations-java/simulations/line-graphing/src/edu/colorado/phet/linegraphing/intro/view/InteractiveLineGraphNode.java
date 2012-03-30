@@ -99,22 +99,37 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
         // replace the rise/run brackets
         bracketsParentNode.removeAllChildren();
-        if ( line.run != 0 ) {
-            final Direction direction = line.rise > 0 ? Direction.UP : Direction.DOWN;
-            final BracketLabelNode runBracketNode = new BracketLabelNode( direction, mvt.modelToViewDeltaX( line.run ), String.valueOf( line.run ) );
+        if ( line.isDefined() ) {
+
+            // run bracket
+            final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
+            final BracketLabelNode runBracketNode = new BracketLabelNode( runDirection, mvt.modelToViewDeltaX( line.run ), String.valueOf( line.run ) );
             bracketsParentNode.addChild( runBracketNode );
             runBracketNode.setOffset( mvt.modelToViewDeltaX( 0 ), mvt.modelToViewDeltaY( line.intercept ) );
+
+            // rise bracket
+            if ( line.rise != 0 ) {
+                final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
+                final BracketLabelNode riseBracket = new BracketLabelNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), String.valueOf( line.rise ) );
+                bracketsParentNode.addChild( riseBracket );
+                riseBracket.setOffset( mvt.modelToViewDeltaX( line.run ), mvt.modelToViewDeltaY( line.intercept ) );
+            }
         }
-        if ( line.rise != 0 ) {
-            final Direction direction = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
-            final BracketLabelNode riseBracket = new BracketLabelNode( direction, mvt.modelToViewDeltaX( line.rise ), String.valueOf( line.rise ) );
-            bracketsParentNode.addChild( riseBracket );
-            riseBracket.setOffset( mvt.modelToViewDeltaX( line.run ), mvt.modelToViewDeltaY( line.intercept ) );
-        }
+
 
         // move the manipulators
         final int y = line.rise + line.intercept;
-        slopeManipulatorNode.setOffset( mvt.modelToView( line.solveX( y ), y ) );
+        double x;
+        if ( line.run == 0 ) {
+            x = 0;
+        }
+        else if ( line.rise == 0 ) {
+            x = line.run;
+        }
+        else {
+            x = line.solveX( y );
+        }
+        slopeManipulatorNode.setOffset( mvt.modelToView( x, y ) );
         interceptManipulatorNode.setOffset( mvt.modelToView( 0, line.intercept ) );
     }
 
