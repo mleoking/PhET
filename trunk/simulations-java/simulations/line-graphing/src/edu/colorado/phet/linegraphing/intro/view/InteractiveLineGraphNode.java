@@ -13,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.intro.view.BracketLabelNode.Direction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -22,6 +23,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class InteractiveLineGraphNode extends LineGraphNode {
+
+    public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( true );
+    public final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
 
     private PNode interactiveLineParentNode, bracketsParentNode;
     private PNode slopeManipulatorNode, interceptManipulatorNode;
@@ -54,11 +58,24 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             }
         } );
 
+        // Visibility of rise and run brackets
+        riseOverRunVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                bracketsParentNode.setVisible( visible );
+            }
+        } );
+
         slopeManipulatorNode.addInputEventListener( new CursorHandler() );
         //TODO drag handler for slope
 
         interceptManipulatorNode.addInputEventListener( new CursorHandler() );
         //TODO drag handler for intercept
+    }
+
+    @Override public void reset() {
+        super.reset();
+        pointToolVisible.reset();
+        riseOverRunVisible.reset();
     }
 
     // Updates the line and its associated decorations
@@ -71,14 +88,16 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         // replace the rise/run brackets
         bracketsParentNode.removeAllChildren();
         if ( line.run != 0 ) {
-            final BracketLabelNode runBracketNode = new BracketLabelNode( String.valueOf( line.run ), Math.abs( mvt.modelToViewDeltaX( line.run ) ), new PhetFont( 12 ),
-                                                                          Color.BLACK, Color.BLACK, new BasicStroke( 0.5f ) );
+            final Direction direction = line.rise > 0 ? Direction.UP : Direction.DOWN;
+            final BracketLabelNode runBracketNode = new BracketLabelNode( direction, mvt.modelToViewDeltaX( line.run ), String.valueOf( line.run ) );
             bracketsParentNode.addChild( runBracketNode );
-            final double xOffset = ( line.run > 0 ) ? 0 : line.run;
-            runBracketNode.setOffset( mvt.modelToViewDeltaX( xOffset ), mvt.modelToViewDeltaY( line.intercept ) );
+            runBracketNode.setOffset( mvt.modelToViewDeltaX( 0 ), mvt.modelToViewDeltaY( line.intercept ) );
         }
         if ( line.rise != 0 ) {
-
+            final Direction direction = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
+            final BracketLabelNode riseBracket = new BracketLabelNode( direction, mvt.modelToViewDeltaX( line.rise ), String.valueOf( line.rise ) );
+            bracketsParentNode.addChild( riseBracket );
+            riseBracket.setOffset( mvt.modelToViewDeltaX( line.run ), mvt.modelToViewDeltaY( line.intercept ) );
         }
 
         // move the manipulators

@@ -24,8 +24,7 @@ import edu.umd.cs.piccolo.PNode;
 public class IntroCanvas extends LGCanvas implements Resettable {
 
     //TODO relocate some (all?) of these properties into model
-    private final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
-    private final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );
+
 
     private final InteractiveLineGraphNode lineGraphNode;
 
@@ -38,7 +37,8 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         }};
         PNode equationControlPanel = new EquationControlPanel( model.interactiveLine, lineGraphNode, eraseLinesButton,
                                                                IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE );
-        PNode visibilityControls = new VisibilityControls( lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible, pointToolVisible, riseOverRunVisible, lineGraphNode.linesVisible );
+        PNode visibilityControls = new VisibilityControls( lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible,
+                                                           lineGraphNode.pointToolVisible, lineGraphNode.riseOverRunVisible, lineGraphNode.linesVisible );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
@@ -84,7 +84,5 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     public void reset() {
         lineGraphNode.reset();
-        pointToolVisible.reset();
-        riseOverRunVisible.reset();
     }
 }
