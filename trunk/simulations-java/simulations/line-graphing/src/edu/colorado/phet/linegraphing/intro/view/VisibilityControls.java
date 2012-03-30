@@ -37,18 +37,19 @@ class VisibilityControls extends PNode {
                                                                             Strings.SYMBOL_VERTICAL_AXIS,
                                                                             Strings.SYMBOL_HORIZONTAL_AXIS );
 
-    public VisibilityControls( Property<Boolean> yEqualsXVisible, Property<Boolean> yEqualsNegativeXVisible,
-                               Property<Boolean> pointToolVisible, Property<Boolean> riseOverRunVisible, Property<Boolean> graphLinesVisible ) {
+    public VisibilityControls( Property<Boolean> linesVisible, Property<Boolean> riseOverRunVisible,
+                               Property<Boolean> yEqualsXVisible, Property<Boolean> yEqualsNegativeXVisible,
+                               Property<Boolean> pointToolVisible ) {
 
         // components
         JComponent title = new JLabel( Strings.SHOW ) {{
             setFont( TITLE_FONT );
         }};
-        JComponent pointToolCheckBox = new PropertyCheckBoxWithIcon( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, CONTROL_FONT, Images.POINT_TOOL_ICON, pointToolVisible );
-        JComponent riseOverRunCheckBox = new PropertyCheckBoxWithIcon( UserComponents.riseOverRunCheckBox, Strings.RISE_OVER_RUN, CONTROL_FONT, Images.RISE_OVER_RUN_ICON, riseOverRunVisible );
-        JComponent graphLinesCheckBox = new PropertyCheckBoxWithIcon( UserComponents.graphLinesCheckBox, Strings.GRAPH_LINES, CONTROL_FONT, Images.GRAPH_LINES_ICON, graphLinesVisible );
+        JComponent linesCheckBox = new PropertyCheckBoxWithIcon( UserComponents.graphLinesCheckBox, Strings.LINES, CONTROL_FONT, Images.LINES_ICON, linesVisible );
+        final JComponent riseOverRunCheckBox = new PropertyCheckBoxWithIcon( UserComponents.riseOverRunCheckBox, Strings.RISE_OVER_RUN, CONTROL_FONT, Images.RISE_OVER_RUN_ICON, riseOverRunVisible );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, Images.Y_EQUALS_X_ICON, yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, Images.Y_EQUALS_NEGATIVE_X_ICON, yEqualsNegativeXVisible );
+        JComponent pointToolCheckBox = new PropertyCheckBoxWithIcon( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, CONTROL_FONT, Images.POINT_TOOL_ICON, pointToolVisible );
 
         // layout
         GridPanel panel = new GridPanel();
@@ -57,17 +58,18 @@ class VisibilityControls extends PNode {
         panel.setAnchor( Anchor.CENTER ); // centered
         panel.add( title );
         panel.setAnchor( Anchor.WEST ); // left justified
-        panel.add( pointToolCheckBox );
+        panel.add( linesCheckBox );
         panel.add( riseOverRunCheckBox );
-        panel.add( graphLinesCheckBox );
         panel.add( positiveCheckBox );
         panel.add( negativeCheckBox );
+        panel.add( pointToolCheckBox );
 
         // wrap Swing in a Piccolo control panel
         addChild( new ControlPanelNode( panel ) );
 
-        graphLinesVisible.addObserver( new VoidFunction1<Boolean>() {
+        linesVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
+                riseOverRunCheckBox.setEnabled( visible );
                 positiveCheckBox.setEnabled( visible );
                 negativeCheckBox.setEnabled( visible );
             }

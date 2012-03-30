@@ -20,20 +20,21 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class LineGraphNode extends GraphNode implements Resettable {
 
-    public final Property<Boolean> linesVisible = new Property<Boolean>( true );
     public final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false );
     public final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
+    private final Property<Boolean> linesVisible;
     private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
     private PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
 
-    public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
+    public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine, Property<Boolean> linesVisible ) {
         super( graph, mvt );
 
         this.graph = graph;
         this.mvt = mvt;
+        this.linesVisible = linesVisible;
 
         // Standard lines
         standardLinesParentNode = new PComposite();
