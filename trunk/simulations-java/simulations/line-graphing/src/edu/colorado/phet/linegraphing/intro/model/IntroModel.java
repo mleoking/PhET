@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.intro.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -27,6 +28,7 @@ public class IntroModel implements Resettable {
     public final Property<SlopeInterceptLine> interactiveLine;
     public final SlopeInterceptLine yEqualsXLine, yEqualsNegativeXLine;
     public final LineGraph graph;
+    public final Property<ImmutableVector2D> pointToolLocation;
 
     public IntroModel() {
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 28, -28 ); // y is inverted
@@ -34,9 +36,11 @@ public class IntroModel implements Resettable {
         yEqualsXLine = new SlopeInterceptLine( 1, 1, 0 );
         yEqualsNegativeXLine = new SlopeInterceptLine( 1, -1, 0 );
         graph = new LineGraph( X_RANGE.getMin(), X_RANGE.getMax(), Y_RANGE.getMin(), Y_RANGE.getMax() );
+        pointToolLocation = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
     }
 
     public void reset() {
         interactiveLine.reset();
+        pointToolLocation.reset();
     }
 }
