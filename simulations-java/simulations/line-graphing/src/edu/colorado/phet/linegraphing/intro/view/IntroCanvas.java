@@ -25,13 +25,12 @@ import edu.umd.cs.piccolo.PNode;
 public class IntroCanvas extends LGCanvas implements Resettable {
 
     public final Property<Boolean> linesVisible = new Property<Boolean>( true ); //TODO this property is problematic...
-    public final Property<ImmutableVector2D> point = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );//TODO move to model
 
     private final InteractiveLineGraphNode lineGraphNode;
 
     public IntroCanvas( final IntroModel model ) {
 
-        lineGraphNode = new InteractiveLineGraphNode( model.graph, model.mvt, model.interactiveLine, model.yEqualsXLine, model.yEqualsNegativeXLine, linesVisible, point );
+        lineGraphNode = new InteractiveLineGraphNode( model.graph, model.mvt, model.interactiveLine, model.yEqualsXLine, model.yEqualsNegativeXLine, linesVisible, model.pointToolLocation );
         PNode graphNode = new ZeroOffsetNode( lineGraphNode );
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) ) {{
             setEnabled( false );

@@ -33,7 +33,7 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
     public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
                                      Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine,
-                                     Property<Boolean> linesVisible, Property<ImmutableVector2D> point ) {
+                                     Property<Boolean> linesVisible, Property<ImmutableVector2D> pointToolLocation ) {
         super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine, linesVisible );
 
         this.linesVisible = linesVisible;
@@ -51,7 +51,7 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         bracketsParentNode = new PComposite();
 
         // Point tool
-        PNode pointTool = new PointToolNode( point, pointToolVisible, mvt, graph );
+        PNode pointTool = new PointToolNode( pointToolLocation, pointToolVisible, mvt, graph );
 
         // rendering order
         addChild( interactiveLineParentNode );
