@@ -16,10 +16,11 @@ HIGH
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
+- disable Save Line button when "Lines" is unchecked
 - show equations on lines
 - point tool
 - reuse spinner buttons from fractions, see SpinnerButtonNode
-- implement SlopeInterceptEquationNode
+- implement a nicer looking interactive equation
 
 LOW
 - round corners of rise/run brackets
