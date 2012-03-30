@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.event;
 import java.awt.Image;
 import java.awt.Paint;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -27,9 +28,9 @@ public abstract class HighlightHandler extends PBasicInputEventHandler {
     /**
      * Implemented by subclasses, handles the node highlighting.
      *
-     * @param b true=show highlight, false=show normal
+     * @param highlighted true=show highlight, false=show normal
      */
-    protected abstract void setHighlighted( boolean b );
+    protected abstract void setHighlighted( boolean highlighted );
 
     @Override
     public void mouseEntered( PInputEvent event ) {
@@ -73,8 +74,8 @@ public abstract class HighlightHandler extends PBasicInputEventHandler {
             this.highlight = highlight;
         }
 
-        protected void setHighlighted( boolean b ) {
-            node.setPaint( b ? highlight : normal );
+        protected void setHighlighted( boolean highlighted ) {
+            node.setPaint( highlighted ? highlight : normal );
         }
 
         public void setNormal( Paint normal ) {
@@ -100,8 +101,8 @@ public abstract class HighlightHandler extends PBasicInputEventHandler {
             this.highlight = highlight;
         }
 
-        protected void setHighlighted( boolean b ) {
-            node.setImage( b ? highlight : normal );
+        protected void setHighlighted( boolean highlighted ) {
+            node.setImage( highlighted ? highlight : normal );
         }
 
         public void setNormal( Image normal ) {
@@ -110,6 +111,22 @@ public abstract class HighlightHandler extends PBasicInputEventHandler {
 
         public void setHighlight( Image highlight ) {
             this.highlight = highlight;
+        }
+    }
+
+    /**
+     * Calls a function when highlighting changes.
+     */
+    public static class FunctionHighlightHandler extends HighlightHandler {
+
+        private VoidFunction1<Boolean> function;
+
+        public FunctionHighlightHandler( VoidFunction1<Boolean> function ) {
+            this.function = function;
+        }
+
+        protected void setHighlighted( boolean highlighted ) {
+            function.apply( highlighted );
         }
     }
 }
