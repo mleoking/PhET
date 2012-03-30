@@ -10,14 +10,13 @@ DESIGN
 HIGH
 - rise/run brackets
 - drag handlers for slope and intercept manipulators
-- mouse-over saved line to highlight
+- deal with undefined slope in SlopeInterceptLine
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 - show equations on lines
 - point tool
-- deal with undefined slope in SlopeInterceptLine
 - reuse spinner buttons from fractions, see SpinnerButtonNode
 - implement SlopeInterceptEquationNode
 

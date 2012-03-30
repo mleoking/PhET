@@ -107,7 +107,7 @@ class EquationControlPanel extends PhetPNode {
             public void actionPerformed( ActionEvent e ) {
                 eraseLinesButton.setEnabled( true );
                 saveLineButton.setEnabled( false );
-                lineGraphNode.saveLine( interactiveLine.get(), LGColors.SAVED_LINE ); //TODO same or different colors for saved lines?
+                lineGraphNode.saveLine( interactiveLine.get() );
             }
         } );
 
