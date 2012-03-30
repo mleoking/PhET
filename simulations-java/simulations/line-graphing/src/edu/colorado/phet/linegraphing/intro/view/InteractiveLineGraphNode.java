@@ -7,6 +7,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.linegraphing.LGColors;
@@ -22,11 +23,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class InteractiveLineGraphNode extends LineGraphNode {
 
-    private SlopeInterceptLineNode interactiveLineNode;
-    private PNode interactiveLineParentNode;
+    private PNode interactiveLineParentNode, bracketsParentNode;
     private PNode slopeManipulatorNode, interceptManipulatorNode;
 
-    public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt, final Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
+    public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt, Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
         super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine );
 
         // Interactive line
@@ -38,22 +38,19 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         slopeManipulatorNode = new SphericalNode( manipulatorDiameter, LGColors.SLOPE_COLOR, new BasicStroke( 1f ), Color.BLACK, false );
         interceptManipulatorNode = new SphericalNode( manipulatorDiameter, LGColors.INTERCEPT_COLOR, new BasicStroke( 1f ), Color.BLACK, false );
 
+        // Rise and run brackets
+        bracketsParentNode = new PComposite();
+
         // rendering order
         addChild( interactiveLineParentNode );
+        addChild( bracketsParentNode );
         addChild( slopeManipulatorNode );
         addChild( interceptManipulatorNode );
 
         // When the interactive line changes, update the graph.
         interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
             public void apply( SlopeInterceptLine line ) {
-                if ( interactiveLineNode != null ) {
-                    interactiveLineParentNode.removeChild( interactiveLineNode );
-                }
-                interactiveLineNode = new SlopeInterceptLineNode( interactiveLine.get(), graph, mvt, LGColors.INTERACTIVE_LINE );
-                interactiveLineParentNode.addChild( interactiveLineNode );
-                final int y = line.rise + line.intercept;
-                slopeManipulatorNode.setOffset( mvt.modelToView( line.solveX( y ), y ) );
-                interceptManipulatorNode.setOffset( mvt.modelToView( 0, line.intercept ) );
+                updateInteractiveLine( line, graph, mvt );
             }
         } );
 
@@ -64,6 +61,33 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         //TODO drag handler for intercept
     }
 
+    // Updates the line and its associated decorations
+    private void updateInteractiveLine( final SlopeInterceptLine line, final LineGraph graph, final ModelViewTransform mvt ) {
+
+        // replace the line node
+        interactiveLineParentNode.removeAllChildren();
+        interactiveLineParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt, LGColors.INTERACTIVE_LINE ) );
+
+        // replace the rise/run brackets
+        bracketsParentNode.removeAllChildren();
+        if ( line.run != 0 ) {
+            final BracketLabelNode runBracketNode = new BracketLabelNode( String.valueOf( line.run ), Math.abs( mvt.modelToViewDeltaX( line.run ) ), new PhetFont( 12 ),
+                                                                          Color.BLACK, Color.BLACK, new BasicStroke( 0.5f ) );
+            bracketsParentNode.addChild( runBracketNode );
+            final double xOffset = ( line.run > 0 ) ? 0 : line.run;
+            runBracketNode.setOffset( mvt.modelToViewDeltaX( xOffset ), mvt.modelToViewDeltaY( line.intercept ) );
+        }
+        if ( line.rise != 0 ) {
+
+        }
+
+        // move the manipulators
+        final int y = line.rise + line.intercept;
+        slopeManipulatorNode.setOffset( mvt.modelToView( line.solveX( y ), y ) );
+        interceptManipulatorNode.setOffset( mvt.modelToView( 0, line.intercept ) );
+    }
+
+    // Updates the visibility of lines in the graph
     @Override protected void updateLinesVisibility() {
         super.updateLinesVisibility();
         if ( interactiveLineParentNode != null ) {
