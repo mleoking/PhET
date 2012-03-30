@@ -27,11 +27,16 @@ public class InteractiveLineGraphNode extends LineGraphNode {
     public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( true );
     public final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
 
+    private final Property<Boolean> linesVisible;
     private PNode interactiveLineParentNode, bracketsParentNode;
     private PNode slopeManipulatorNode, interceptManipulatorNode;
 
-    public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt, Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
-        super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine );
+    public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
+                                     Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine,
+                                     Property<Boolean> linesVisible ) {
+        super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine, linesVisible );
+
+        this.linesVisible = linesVisible;
 
         // Interactive line
         interactiveLineParentNode = new PComposite();
@@ -61,7 +66,14 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         // Visibility of rise and run brackets
         riseOverRunVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
-                bracketsParentNode.setVisible( visible );
+                updateLinesVisibility();
+            }
+        } );
+
+        // Hide the rise and run brackets when lines aren't visible
+        linesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                updateLinesVisibility();
             }
         } );
 
@@ -109,10 +121,15 @@ public class InteractiveLineGraphNode extends LineGraphNode {
     // Updates the visibility of lines in the graph
     @Override protected void updateLinesVisibility() {
         super.updateLinesVisibility();
+
         if ( interactiveLineParentNode != null ) {
             interactiveLineParentNode.setVisible( linesVisible.get() );
             slopeManipulatorNode.setVisible( linesVisible.get() );
             interceptManipulatorNode.setVisible( linesVisible.get() );
+        }
+
+        if ( bracketsParentNode != null ) {
+            bracketsParentNode.setVisible( riseOverRunVisible.get() && linesVisible.get() );
         }
     }
 }
