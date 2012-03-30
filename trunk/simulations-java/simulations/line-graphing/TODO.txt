@@ -6,11 +6,15 @@ DESIGN
 - same or different colors for saved lines? if different, how to choose colors?
 - does the origin need to be labeled (0,0)? if so, how?
 - if "Graph lines" is unchecked, how does this affect controls that deal with lines on graph? are they disabled?
+- limit range of rise, run and intercept to 1/2 of grid range?
+- change range to 0-20?
+- constrain to quadrants 1 & 4, so that numerator is positive?
 
 HIGH
 - rise/run brackets
 - drag handlers for slope and intercept manipulators
 - deal with undefined slope in SlopeInterceptLine
+- "Graph Lines" to "Lines" and make it affect only the interactive and saved lines
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
