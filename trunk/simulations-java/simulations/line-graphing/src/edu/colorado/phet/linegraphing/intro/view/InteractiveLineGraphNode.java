@@ -68,6 +68,8 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         super.updateLinesVisibility();
         if ( interactiveLineParentNode != null ) {
             interactiveLineParentNode.setVisible( linesVisible.get() );
+            slopeManipulatorNode.setVisible( linesVisible.get() );
+            interceptManipulatorNode.setVisible( linesVisible.get() );
         }
     }
 }
