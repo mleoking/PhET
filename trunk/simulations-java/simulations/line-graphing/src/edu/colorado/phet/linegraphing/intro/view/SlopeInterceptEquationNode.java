@@ -37,15 +37,15 @@ class SlopeInterceptEquationNode extends PhetPNode {
         {
             // Swing controls
             final IntegerSpinner riseSpinner = new IntegerSpinner( UserComponents.riseSpinner,
-                                                                   new IntegerRange( riseRange.getMin(), riseRange.getMax(), interactiveLine.get().rise ) ) {{
+                                                                   new IntegerRange( riseRange.getMin(), riseRange.getMax(), (int) interactiveLine.get().rise ) ) {{
                 setTextBackground( LGColors.SLOPE_COLOR );
             }};
             final IntegerSpinner runSpinner = new IntegerSpinner( UserComponents.runSpinner,
-                                                                  new IntegerRange( runRange.getMin(), runRange.getMax(), interactiveLine.get().run ) ) {{
+                                                                  new IntegerRange( runRange.getMin(), runRange.getMax(), (int) interactiveLine.get().run ) ) {{
                 setTextBackground( LGColors.SLOPE_COLOR );
             }};
             final IntegerSpinner interceptSpinner = new IntegerSpinner( UserComponents.interceptSpinner,
-                                                                        new IntegerRange( interceptRange.getMin(), interceptRange.getMax(), interactiveLine.get().intercept ) ) {{
+                                                                        new IntegerRange( interceptRange.getMin(), interceptRange.getMax(), (int) interactiveLine.get().intercept ) ) {{
                 setTextBackground( LGColors.INTERCEPT_COLOR );
             }};
 
@@ -62,18 +62,18 @@ class SlopeInterceptEquationNode extends PhetPNode {
             // update spinners when line changes
             interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
                 public void apply( SlopeInterceptLine line ) {
-                    riseSpinner.setIntValue( line.rise );
-                    runSpinner.setIntValue( line.run );
-                    interceptSpinner.setIntValue( line.intercept );
+                    riseSpinner.setIntValue( (int) line.rise );
+                    runSpinner.setIntValue( (int) line.run );
+                    interceptSpinner.setIntValue( (int) line.intercept );
                 }
             } );
 
             // nodes
-            PText yEquals = new PText( "y = " ) {{ setFont( new PhetFont( Font.BOLD, 14 )); }};
+            PText yEquals = new PText( "y = " ) {{ setFont( new PhetFont( Font.BOLD, 14 ) ); }};
             PSwing pswingRise = new PSwing( riseSpinner );
             PSwing pswingRun = new PSwing( runSpinner );
             PPath lineNode = new PPath( new Line2D.Double( 0, 0, pswingRise.getFullBoundsReference().getWidth(), 0 ) );
-            PText xPlus = new PText( "x +" ) {{ setFont( new PhetFont( Font.BOLD, 14 )); }};
+            PText xPlus = new PText( "x +" ) {{ setFont( new PhetFont( Font.BOLD, 14 ) ); }};
             PSwing pswingIntercept = new PSwing( interceptSpinner );
 
             // rendering order
@@ -89,7 +89,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
             pswingRise.setOffset( yEquals.getFullBoundsReference().getMaxX() + 2,
                                   yEquals.getFullBoundsReference().getMaxY() - pswingRise.getFullBoundsReference().getHeight() );
             lineNode.setOffset( pswingRise.getXOffset(),
-                                 pswingRise.getFullBoundsReference().getMaxY() + 2 );
+                                pswingRise.getFullBoundsReference().getMaxY() + 2 );
             pswingRun.setOffset( pswingRise.getXOffset(),
                                  lineNode.getFullBoundsReference().getMaxY() + 2 );
             xPlus.setOffset( pswingRise.getFullBoundsReference().getMaxX() + 4,

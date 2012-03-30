@@ -8,11 +8,11 @@ package edu.colorado.phet.linegraphing.intro.model;
  */
 public class SlopeInterceptLine {
 
-    public final int rise;
-    public final int run;
-    public final int intercept;
+    public final double rise;
+    public final double run;
+    public final double intercept;
 
-    public SlopeInterceptLine( int rise, int run, int intercept ) {
+    public SlopeInterceptLine( double rise, double run, double intercept ) {
         this.rise = rise;
         this.run = run;
         this.intercept = intercept;

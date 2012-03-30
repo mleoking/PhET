@@ -1,3 +1,4 @@
+3/30/12 convert line model to double precision, to support continuous dragging
 3/30/12 handle cases where rise or run is zero
 3/30/12 change "Graph Lines" check box to "Lines"
 3/30/12 add rise and run brackets, wire up to check boxes
