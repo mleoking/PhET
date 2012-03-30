@@ -118,7 +118,7 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
 
         // move the manipulators
-        final int y = line.rise + line.intercept;
+        final double y = line.rise + line.intercept;
         double x;
         if ( line.run == 0 ) {
             x = 0;
