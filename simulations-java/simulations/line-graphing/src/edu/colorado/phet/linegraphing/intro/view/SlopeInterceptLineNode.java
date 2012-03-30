@@ -4,14 +4,12 @@ package edu.colorado.phet.linegraphing.intro.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import javax.sound.sampled.Line;
-
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -25,6 +23,18 @@ public class SlopeInterceptLineNode extends PComposite {
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 8, 8 );
     private static final double LINE_THICKNESS = 2;
     private static final double LINE_EXTENT = 0.75; // how far the line extends past the grid, in model units
+
+    private final DoubleArrowNode arrowNode;
+
+    // This constructor adds highlighting on mouseOver.
+    public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, final Color color, final Color highlightColor ) {
+        this( line, graph, mvt, color );
+        addInputEventListener( new FunctionHighlightHandler( new VoidFunction1<Boolean>() {
+            public void apply( Boolean highlighted ) {
+                updateColor( highlighted ? highlightColor : color );
+            }
+        } ) );
+    }
 
     public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, Color color ) {
 
@@ -53,9 +63,13 @@ public class SlopeInterceptLineNode extends PComposite {
                                                   mvt.modelToViewDeltaY( line.solveY( tailX ) ) );
         Point2D tipLocation = new Point2D.Double( mvt.modelToViewDeltaX( tipX ),
                                                    mvt.modelToViewDeltaY( line.solveY( tipX ) ) );
-        DoubleArrowNode arrowNode = new DoubleArrowNode( tailLocation, tipLocation, ARROW_HEAD_SIZE.getHeight(), ARROW_HEAD_SIZE.getWidth(), LINE_THICKNESS );
+        arrowNode = new DoubleArrowNode( tailLocation, tipLocation, ARROW_HEAD_SIZE.getHeight(), ARROW_HEAD_SIZE.getWidth(), LINE_THICKNESS );
         arrowNode.setPaint( color );
         arrowNode.setStroke( null ); // DoubleArrowNode is a shape that we fill, no need to stroke
         addChild( arrowNode );
+    }
+
+    protected void updateColor( Color color ) {
+        arrowNode.setPaint( color );
     }
 }

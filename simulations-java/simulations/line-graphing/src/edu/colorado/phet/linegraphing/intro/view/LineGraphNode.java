@@ -43,7 +43,7 @@ class LineGraphNode extends GraphNode implements Resettable {
         standardLinesParentNode.addChild( yEqualsNegativeXLineNode );
 
         // Saved lines
-        savedLinesParentNode = new PComposite();
+        savedLinesParentNode = new PNode();
 
         // Rendering order
         addChild( standardLinesParentNode );
@@ -82,8 +82,8 @@ class LineGraphNode extends GraphNode implements Resettable {
     }
 
     // "Saves" a line, displaying it on the graph.
-    public void saveLine( SlopeInterceptLine line, Color color ) {
-        savedLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt, color ) );
+    public void saveLine( SlopeInterceptLine line ) {
+        savedLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt, LGColors.SAVED_LINE_NORMAL, LGColors.SAVED_LINE_HIGHLIGHT ) );
     }
 
     // Erases all of the "saved" lines

@@ -1,3 +1,4 @@
+3/30/12 highlight saved lines on mouseOver
 3/30/12 hide manipulators when interactive line is not visible
 3/29/12 added manipulators for slope and intercept (no drag handlers yet)
 3/29/12 create specialization of graph that deals with direct manipulation and interactivity
