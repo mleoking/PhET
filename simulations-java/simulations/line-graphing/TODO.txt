@@ -8,8 +8,9 @@ DESIGN
 - if "Graph lines" is unchecked, how does this affect controls that deal with lines on graph? are they disabled?
 
 HIGH
-- drag handlers for slope and intercept manipulators
 - rise/run brackets
+- drag handlers for slope and intercept manipulators
+- mouse-over saved line to highlight
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
