@@ -1,3 +1,4 @@
+3/30/12 for development, allow all values to range (-10,+10)
 3/30/12 add horizontal bracket for displaying run
 3/30/12 highlight saved lines on mouseOver
 3/30/12 hide manipulators when interactive line is not visible
