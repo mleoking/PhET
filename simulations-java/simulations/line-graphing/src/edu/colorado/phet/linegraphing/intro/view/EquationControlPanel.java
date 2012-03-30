@@ -10,6 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -42,13 +43,14 @@ class EquationControlPanel extends PhetPNode {
                                                            Strings.SYMBOL_HORIZONTAL_AXIS,
                                                            Strings.SYMBOL_INTERCEPT );
 
-    public EquationControlPanel( final Property<SlopeInterceptLine> interactiveLine, final LineGraphNode lineGraphNode, final TextButtonNode eraseLinesButton ) {
+    public EquationControlPanel( final Property<SlopeInterceptLine> interactiveLine, final LineGraphNode lineGraphNode, final TextButtonNode eraseLinesButton,
+                                 IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
 
         final Property<Boolean> maximized = new Property<Boolean>( true );
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new MinimizeMaximizeButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized );
-        final PNode equationNode = new ZeroOffsetNode( new SlopeInterceptEquationNode( interactiveLine ) );
+        final PNode equationNode = new ZeroOffsetNode( new SlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange ) );
         PNode strutNode = new PPath( new Rectangle2D.Double( 0, 0, getFullBoundsReference().getWidth(), 1 ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, new Color( 0, 255, 255 ) );
 

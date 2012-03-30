@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 /**
@@ -13,6 +14,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class IntroModel implements Resettable {
+
+    private static final IntegerRange X_RANGE = new IntegerRange( -10, 10 );
+    private static final IntegerRange Y_RANGE = new IntegerRange( -10, 10 );
+    public static final IntegerRange RISE_RANGE = new IntegerRange( -10, 10 );
+    public static final IntegerRange RUN_RANGE = new IntegerRange( -10, 10 );
+    public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -10, 10 );
 
     private static final SlopeInterceptLine DEFAULT_LINE = new SlopeInterceptLine( 5, 5, 1 );
 
@@ -26,7 +33,7 @@ public class IntroModel implements Resettable {
         interactiveLine = new Property<SlopeInterceptLine>( DEFAULT_LINE );
         yEqualsXLine = new SlopeInterceptLine( 1, 1, 0 );
         yEqualsNegativeXLine = new SlopeInterceptLine( 1, -1, 0 );
-        graph = new LineGraph( -10, 10, -10, 10 );
+        graph = new LineGraph( X_RANGE.getMin(), X_RANGE.getMax(), Y_RANGE.getMin(), Y_RANGE.getMax() );
     }
 
     public void reset() {

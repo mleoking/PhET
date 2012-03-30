@@ -9,6 +9,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
@@ -30,18 +31,21 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 class SlopeInterceptEquationNode extends PhetPNode {
 
-    public SlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine ) {
+    public SlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine, IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
 
         // TODO quick-and-dirty implementation using JSpinners
         {
             // Swing controls
-            final IntegerSpinner riseSpinner = new IntegerSpinner( UserComponents.riseSpinner, new IntegerRange( 0, 10, interactiveLine.get().rise ) ) {{
+            final IntegerSpinner riseSpinner = new IntegerSpinner( UserComponents.riseSpinner,
+                                                                   new IntegerRange( riseRange.getMin(), riseRange.getMax(), interactiveLine.get().rise ) ) {{
                 setTextBackground( LGColors.SLOPE_COLOR );
             }};
-            final IntegerSpinner runSpinner = new IntegerSpinner( UserComponents.runSpinner, new IntegerRange( -10, 10, interactiveLine.get().run ) ) {{
+            final IntegerSpinner runSpinner = new IntegerSpinner( UserComponents.runSpinner,
+                                                                  new IntegerRange( runRange.getMin(), runRange.getMax(), interactiveLine.get().run ) ) {{
                 setTextBackground( LGColors.SLOPE_COLOR );
             }};
-            final IntegerSpinner interceptSpinner = new IntegerSpinner( UserComponents.interceptSpinner, new IntegerRange( -10, 10, interactiveLine.get().intercept ) ) {{
+            final IntegerSpinner interceptSpinner = new IntegerSpinner( UserComponents.interceptSpinner,
+                                                                        new IntegerRange( interceptRange.getMin(), interceptRange.getMax(), interactiveLine.get().intercept ) ) {{
                 setTextBackground( LGColors.INTERCEPT_COLOR );
             }};
 
