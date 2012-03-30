@@ -12,17 +12,18 @@ DESIGN
 
 HIGH
 - drag handlers for slope and intercept manipulators
+- show equations on lines
+- point tool
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 - disable Save Line button when "Lines" is unchecked
-- show equations on lines
-- point tool
 - reuse spinner buttons from fractions, see SpinnerButtonNode
 - implement a nicer looking interactive equation
 
 LOW
+- tiny close buttons on tip ends of lines?
 - round corners of rise/run brackets
 - horizontally center "Erase Lines" and "Reset All" under other controls
 - improve look of title + show/hide button in equation control panel
