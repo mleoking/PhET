@@ -43,5 +43,6 @@ public class LGResources {
         public static final Image POINT_TOOL_ICON = RESOURCES.getImage( "under-construction.png" );
         public static final Image RISE_OVER_RUN_ICON = RESOURCES.getImage( "under-construction.png" );
         public static final Image LINES_ICON = RESOURCES.getImage( "under-construction.png" );
+        public static final Image POINT_TOOL = RESOURCES.getImage( "point-tool.png" );
     }
 }

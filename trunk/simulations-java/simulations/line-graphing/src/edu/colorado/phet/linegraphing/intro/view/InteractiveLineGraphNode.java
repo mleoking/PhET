@@ -4,10 +4,10 @@ package edu.colorado.phet.linegraphing.intro.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 import edu.colorado.phet.linegraphing.LGColors;
@@ -33,7 +33,7 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
     public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
                                      Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine,
-                                     Property<Boolean> linesVisible ) {
+                                     Property<Boolean> linesVisible, Property<ImmutableVector2D> point ) {
         super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine, linesVisible );
 
         this.linesVisible = linesVisible;
@@ -50,11 +50,15 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         // Rise and run brackets
         bracketsParentNode = new PComposite();
 
+        // Point tool
+        PNode pointTool = new PointToolNode( point, pointToolVisible, mvt, graph );
+
         // rendering order
         addChild( interactiveLineParentNode );
         addChild( bracketsParentNode );
         addChild( slopeManipulatorNode );
         addChild( interceptManipulatorNode );
+        addChild( pointTool );
 
         // When the interactive line changes, update the graph.
         interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
