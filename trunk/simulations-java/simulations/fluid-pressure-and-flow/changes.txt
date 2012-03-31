@@ -1,3 +1,6 @@
+Intro tab: Added trapezoidal shape for pool
+Intro tab: Added a toolbox for pressure sensors
+Intro tab: Increased number of pressure sensors
 # 0.00.47 (60952) Feb 2, 2012
 Improved layout for control panels
 Fixed: Pressure gauges change number of digits when atmosphere turns on/off

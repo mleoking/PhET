@@ -13,7 +13,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStrip;
-import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
@@ -21,7 +20,6 @@ import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCa
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.GravityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
-import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.flow.view.GridNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
@@ -103,15 +101,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             setOffset( 115.50960118168459, 249.0989660265875 );//determined with a draghandler
         }} );
 
-        //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
-        for ( PressureSensor pressureSensor : model.getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, model.units, model.squarePool, visibleModelBounds ) {{
-
-                //Since it is the focus of this tab, make the pressure sensor nodes larger
-                scale( 1.2 );
-            }} );
-        }
-
         //Show the ruler
         //Some nodes go behind the pool so that it looks like they submerge
         //Position the meter stick so that its origin is at the top of the pool since the rulers measure down in this tab
@@ -155,8 +144,13 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             setOffset( INSET, INSET );
         }};
         addChild( radioButtonStrip );
+
+        //Add the sensor toolbox node, which also adds the velocity and pressure sensors
+        //Doing this last ensures that the draggable sensors will appear in front of everything else
+        addSensorToolboxNode( model, controlPanelNode );
     }
 
+    //When the pool changes, replace the existing node with one for the given pool.
     private void addPoolSpecificNode( final FluidPressureModel model, final Function1<IPool, PNode> f ) {
         addChild( new PNode() {{
             model.pool.addObserver( new VoidFunction1<IPool>() {

@@ -208,7 +208,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     //This is necessary since we want the pressure sensor to have the right readout within the control panel.
     //This also has the advantages of sizing the control panel so it will fit internationalized versions of the components
     public void addSensorToolboxNode( final FluidPressureAndFlowModel model, final FluidPressureAndFlowControlPanelNode controlPanelNode ) {
-        final EmptyNode velocitySensorArea = new EmptyNode( new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ) ) );
+        final EmptyNode velocitySensorArea = new EmptyNode( model.getVelocitySensors().length > 0 ? new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ) ) : new PNode() );
         final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], new Property<UnitSet>( UnitSet.METRIC ), visibleModelBounds ) );
         final FluidPressureAndFlowControlPanelNode sensorToolBoxNode = new FluidPressureAndFlowControlPanelNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
 
