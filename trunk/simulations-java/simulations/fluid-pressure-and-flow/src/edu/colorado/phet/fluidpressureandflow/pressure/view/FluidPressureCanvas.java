@@ -3,16 +3,13 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 
-import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
-import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStrip;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
@@ -27,7 +24,6 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.POTTED_PLANT;
 
@@ -139,15 +135,14 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         addChild( gravityControlPanelNode );
         addChild( fluidDensityControlNode );
 
-        RadioButtonStrip<IPool> radioButtonStrip = new RadioButtonStrip<IPool>( model.pool, Arrays.asList( new Pair<PNode, IPool>( new PText( "square" ), model.squarePool ),
-                                                                                                           new Pair<PNode, IPool>( new PText( "trapezoid" ), model.trapezoidPool ) ), 5 ) {{
+        //Add the sensor toolbox node, which also adds the velocity and pressure sensors
+        //Doing this later on ensures that the draggable sensors will appear in front of everything else
+        addSensorToolboxNode( model, controlPanelNode );
+
+        FluidPressureRadioButtonStrip fluidPressureRadioButtonStrip = new FluidPressureRadioButtonStrip( this, model ) {{
             setOffset( INSET, INSET );
         }};
-        addChild( radioButtonStrip );
-
-        //Add the sensor toolbox node, which also adds the velocity and pressure sensors
-        //Doing this last ensures that the draggable sensors will appear in front of everything else
-        addSensorToolboxNode( model, controlPanelNode );
+        addChild( fluidPressureRadioButtonStrip );
     }
 
     //When the pool changes, replace the existing node with one for the given pool.
