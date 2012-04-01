@@ -260,4 +260,8 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         Point2D sceneCenter = rootNode.globalToLocal( globalCenter );
         return transform.viewToModel( new ImmutableVector2D( sceneCenter ) );
     }
+
+    public PNode getRootNode() {
+        return rootNode;
+    }
 }
