@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -273,10 +274,26 @@ public class OverridingBehavior extends PlateBehavior {
             puff.alpha.set( alpha / 15 );
             final ImmutableVector3F heightChange = new ImmutableVector3F( 0, millionsOfYears * 2000f, 0 );
 
-            // TODO: the adding randoms together actually causes less variation with smaller timesteps
+            final Property<Integer> count = new Property<Integer>( 0 );
+            final Property<Double> xRandom = new Property<Double>( 0.0 );
+            final Property<Double> yRandom = new Property<Double>( 0.0 );
+
+            // TODO: remove this quick hackish method of distributing the randomness
+            recursiveSplitCall(
+                    new VoidFunction1<Float>() {
+                        public void apply( Float millionsOfYears ) {
+                            count.set( count.get() + 1 );
+                            xRandom.set( xRandom.get() + Math.random() );
+                            yRandom.set( yRandom.get() + Math.random() );
+                        }
+                    }, millionsOfYears, 0.1f
+            );
+            xRandom.set( xRandom.get() / count.get() );
+            yRandom.set( yRandom.get() / count.get() );
+
             final ImmutableVector3F randomness = new ImmutableVector3F(
-                    (float) ( ( Math.random() - 0.5 ) * 400 ),
-                    (float) ( ( Math.random() - 0.5 ) * 100 ),
+                    (float) ( ( xRandom.get() - 0.5 ) * 800 ),
+                    (float) ( ( yRandom.get() - 0.5 ) * 100 ),
                     0
             ).times( millionsOfYears * 15 );
             puff.position.set( puff.position.get().plus( heightChange.plus( randomness )
