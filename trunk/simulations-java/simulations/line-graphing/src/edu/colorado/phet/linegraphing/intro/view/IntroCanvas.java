@@ -42,14 +42,16 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
             setConfirmationEnabled( false );
         }};
+        PNode buttonsParent = new PNode();
 
         // rendering order
         {
             addChild( graphNode );
             addChild( equationControlPanel );
-            addChild( eraseLinesButton );
             addChild( visibilityControls );
-            addChild( resetAllButtonNode );
+            addChild( buttonsParent );
+            buttonsParent.addChild( eraseLinesButton );
+            buttonsParent.addChild( resetAllButtonNode );
         }
 
         // layout
@@ -65,12 +67,11 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             // centered below equation
             visibilityControls.setOffset( equationControlPanel.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
                                           equationControlPanel.getFullBoundsReference().getMaxY() + 50 );
-            // lower right
-            resetAllButtonNode.setOffset( getStageSize().getWidth() - resetAllButtonNode.getFullBoundsReference().getWidth() - xMargin,
-                                          getStageSize().getHeight() - resetAllButtonNode.getFullBoundsReference().getHeight() - yMargin );
-            // left of Rest All button
-            eraseLinesButton.setOffset( resetAllButtonNode.getFullBoundsReference().getMinX() - eraseLinesButton.getFullBoundsReference().getWidth() - 10,
-                                        resetAllButtonNode.getYOffset() );
+            // buttons centered below control panel
+            eraseLinesButton.setOffset( 0, 0 );
+            resetAllButtonNode.setOffset( eraseLinesButton.getFullBoundsReference().getWidth() + 10, 0 );
+            buttonsParent.setOffset( visibilityControls.getFullBoundsReference().getCenterX() - ( buttonsParent.getFullBoundsReference().getWidth() / 2 ),
+                                     getStageSize().getHeight() - yMargin - buttonsParent.getFullBoundsReference().getHeight() );
         }
 
         // Erase all lines that have been saved.
