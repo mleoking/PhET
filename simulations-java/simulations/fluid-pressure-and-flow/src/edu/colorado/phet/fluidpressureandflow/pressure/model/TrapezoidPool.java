@@ -30,10 +30,7 @@ public class TrapezoidPool implements IPool {
     public final double height = 3;
     public final Property<Double> flowRatePercentage = new Property<Double>( 0.0 );
     public final ObservableProperty<Boolean> faucetEnabled;
-    private double passageHeight = 0.25;
 
-    //Thickness into the screen, for computing volumes.
-    private double thickness = 1.0;
     private final CompositeProperty<Shape> waterShape;
     public final Property<Double> waterVolume = new Property<Double>( 0.0 );
 
@@ -89,6 +86,7 @@ public class TrapezoidPool implements IPool {
     }
 
     private Shape passage() {
+        final double passageHeight = 0.25;
         return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + passageHeight, separation, passageHeight );
     }
 
@@ -145,8 +143,7 @@ public class TrapezoidPool implements IPool {
                 double y0 = -height + waterHeight;
                 double p0 = Pool.getPressureAboveGround( y0, atmosphere, standardAirPressure, gravity );
                 double distanceBelowWater = Math.abs( -y + y0 );
-                double p = p0 + liquidDensity * gravity * distanceBelowWater;
-                return p;
+                return p0 + liquidDensity * gravity * distanceBelowWater;
             }
         }
     }
