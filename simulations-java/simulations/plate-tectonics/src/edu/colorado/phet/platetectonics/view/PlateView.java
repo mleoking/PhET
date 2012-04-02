@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -150,7 +151,7 @@ public class PlateView extends GLNode {
         GLOptions transparencyOptions = options.getCopy();
         transparencyOptions.renderPass = RenderPass.TRANSPARENCY;
 
-        for ( GLNode child : getChildren() ) {
+        for ( GLNode child : new ArrayList<GLNode>( getChildren() ) ) {
             child.render( transparencyOptions );
         }
     }

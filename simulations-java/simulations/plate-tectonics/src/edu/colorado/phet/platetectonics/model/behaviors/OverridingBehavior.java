@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -24,7 +25,7 @@ public class OverridingBehavior extends PlateBehavior {
     public static final float MELT_PADDING_Y = 10000;
 
     public static final float MELT_SPEED = 10000f; // pretty slow. like 3mm/year
-    public static final float MELT_CHANCE_FACTOR = 0.0002f;
+    public static final float MELT_CHANCE_FACTOR = 0.0001f;
 
     // melting X positions, determined by commented-out code below. update this if the magma chamber isn't centered properly
     public static final float OLD_MELT_X = 103157.875f;
@@ -39,6 +40,8 @@ public class OverridingBehavior extends PlateBehavior {
 
     private float minElevationInTimestep;
     private float maxElevationInTimestep;
+
+    private float timeElapsed = 0;
 
     private Region magmaTube;
 
@@ -63,7 +66,8 @@ public class OverridingBehavior extends PlateBehavior {
         return (SubductingBehavior) getOtherPlate().getBehavior();
     }
 
-    @Override public void stepInTime( float millionsOfYears ) {
+    @Override public void stepInTime( final float millionsOfYears ) {
+        timeElapsed += millionsOfYears;
 
         // initialize the magma chamber if we haven't already
         if ( magmaChamber == null ) {
@@ -89,7 +93,7 @@ public class OverridingBehavior extends PlateBehavior {
 
         animateMagma( millionsOfYears );
 
-        if ( chamberFullness >= 1 ) {
+        if ( areMountainsRisingYet() ) {
             animateMountains( millionsOfYears );
         }
 
@@ -172,23 +176,19 @@ public class OverridingBehavior extends PlateBehavior {
         * handle melt
         *----------------------------------------------------------------------------*/
 
-        ImmutableVector2F lowMeltPoint = getSubductingBehavior().getLowestMeltingLocation();
-        ImmutableVector2F highMeltPoint = getSubductingBehavior().getHighestMeltingLocation();
+        final ImmutableVector2F lowMeltPoint = getSubductingBehavior().getLowestMeltingLocation();
+        final ImmutableVector2F highMeltPoint = getSubductingBehavior().getHighestMeltingLocation();
 
         if ( lowMeltPoint != null && highMeltPoint != null ) {
-            // melting can start over this region
-            float chanceOfMelting = (float) ( 1 - Math.exp( -millionsOfYears * MELT_CHANCE_FACTOR * ( highMeltPoint.y - lowMeltPoint.y ) ) );
+            FunctionalUtils.repeat(
+                    new Runnable() {
+                        public void run() {
+                            ImmutableVector2F location = lowMeltPoint.plus( highMeltPoint.minus( lowMeltPoint ).times( (float) Math.random() ) );
 
-            boolean shouldCreateMelt = ( Math.random() < chanceOfMelting );
-
-//            System.out.println( "center melt x: " + lowMeltPoint.plus( highMeltPoint ).times( 0.5f ).x );
-
-            if ( shouldCreateMelt ) {
-                // randomly pick a location on the available span
-                ImmutableVector2F location = lowMeltPoint.plus( highMeltPoint.minus( lowMeltPoint ).times( (float) Math.random() ) );
-
-                addMagma( location, 0.7f );
-            }
+                            MagmaRegion blob = addMagma( location, 0.7f );
+                            animateMagmaBlob( blob, (float) ( Math.random() * millionsOfYears ), false );
+                        }
+                    }, samplePoisson( millionsOfYears * MELT_CHANCE_FACTOR * ( lowMeltPoint.getDistance( highMeltPoint ) ) ) );
         }
 
         {
@@ -207,8 +207,13 @@ public class OverridingBehavior extends PlateBehavior {
         /*---------------------------------------------------------------------------*
         * smoke animation
         *----------------------------------------------------------------------------*/
-        if ( chamberFullness >= 1 ) {
+        if ( areMountainsRisingYet() ) {
             float zStep = (float) ( 2 * Math.PI * MOUNTAIN_Z_PERIOD_FACTOR );
+
+            for ( SmokePuff puff : new ArrayList<SmokePuff>( plate.getModel().smokePuffs ) ) {
+                agePuff( millionsOfYears, puff );
+            }
+
             // TODO: remove this. copy/paste helped in a jam
             createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep, 0 ), millionsOfYears );
             createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -zStep ), millionsOfYears );
@@ -225,37 +230,14 @@ public class OverridingBehavior extends PlateBehavior {
             createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep - 6000, -9 * zStep ), millionsOfYears );
             createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 8000, -10 * zStep ), millionsOfYears );
             createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 8000, -11 * zStep ), millionsOfYears );
-
-            for ( SmokePuff puff : new ArrayList<SmokePuff>( plate.getModel().smokePuffs ) ) {
-                puff.age += millionsOfYears;
-
-                float alpha = ( -puff.age * puff.age / 4 + puff.age );
-                if ( alpha < 0 ) {
-                    plate.getModel().smokePuffs.remove( puff );
-                }
-                else {
-                    puff.scale.set( (float) Math.sqrt( puff.age ) );
-                    puff.alpha.set( alpha / 15 );
-                    final ImmutableVector3F heightChange = new ImmutableVector3F( 0, millionsOfYears * 2000f, 0 );
-
-                    // TODO: the adding randoms together actually causes less variation with smaller timesteps
-                    final ImmutableVector3F randomness = new ImmutableVector3F(
-                            (float) ( puff.age * ( Math.random() - 0.5 ) * 400 ),
-                            (float) ( puff.age * ( Math.random() - 0.5 ) * 100 ),
-                            0
-                    ).times( millionsOfYears * 15 );
-                    puff.position.set( puff.position.get().plus( heightChange.plus( randomness )
-                    ) );
-                }
-            }
         }
 
         /*---------------------------------------------------------------------------*
         * magma tube animation
         *----------------------------------------------------------------------------*/
 
-        magmaTube.setAllAlphas( chamberFullness );
-        if ( chamberFullness >= 1 ) {
+        magmaTube.setAllAlphas( areMountainsRisingYet() ? 1 : getChamberFullness() );
+        if ( areMountainsRisingYet() ) {
             // 250m offset down so it doesn't go quite to the top
             float topDelta = maxElevationInTimestep - 250 - magmaTube.getTopElevation( 0 );
             for ( Sample sample : magmaTube.getTopBoundary().samples ) {
@@ -272,23 +254,81 @@ public class OverridingBehavior extends PlateBehavior {
         }
     }
 
-    private void createSmokeAt( final ImmutableVector3F location, float millionsOfYears ) {
+    private void agePuff( float millionsOfYears, SmokePuff puff ) {
+        puff.age += millionsOfYears;
+
+        float alpha = ( -puff.age * puff.age / 4 + puff.age );
+        if ( alpha < 0 ) {
+            plate.getModel().smokePuffs.remove( puff );
+        }
+        else {
+            puff.scale.set( (float) Math.sqrt( puff.age ) );
+            puff.alpha.set( alpha / 15 );
+            final ImmutableVector3F heightChange = new ImmutableVector3F( 0, millionsOfYears * 2000f, 0 );
+
+            // TODO: the adding randoms together actually causes less variation with smaller timesteps
+            final ImmutableVector3F randomness = new ImmutableVector3F(
+                    (float) ( ( Math.random() - 0.5 ) * 400 ),
+                    (float) ( ( Math.random() - 0.5 ) * 100 ),
+                    0
+            ).times( millionsOfYears * 15 );
+            puff.position.set( puff.position.get().plus( heightChange.plus( randomness )
+            ) );
+        }
+    }
+
+    private int samplePoisson( float lambda ) {
+        double l = Math.exp( -lambda );
+        int k = 0;
+        double p = 1;
+        do {
+            k = k + 1;
+            p = p * Math.random();
+        } while ( p > l );
+        return k - 1;
+    }
+
+    private float getChamberFullness() {
+        boolean young = getOtherPlate().getPlateType() == PlateType.YOUNG_OCEANIC;
+        float min = young ? 22 : 18.5f;
+        float max = young ? 26.5f : 24;
+
+        // oceanic magma pools fill 5x faster (in model)
+        if ( getPlate().getPlateType().isOceanic() ) {
+            max = ( max - min ) / 5 + min;
+        }
+
+        if ( timeElapsed < min ) {
+            return 0;
+        }
+        if ( timeElapsed > max ) {
+            return 1;
+        }
+        return ( timeElapsed - min ) / ( max - min );
+    }
+
+    private boolean areMountainsRisingYet() {
+        // TODO: don't hard-code these constants. just makes it easier to patch the bugs
+        return timeElapsed >= ( getOtherPlate().getPlateType() == PlateType.YOUNG_OCEANIC ? 26.5 : 24 );
+    }
+
+    private void createSmokeAt( final ImmutableVector3F location, final float millionsOfYears ) {
         if ( maxElevationInTimestep < 0 ) {
             return;
         }
-        //            float chance = (float) ( 1 - Math.exp( -millionsOfYears * 10 ) );
-        float chance = millionsOfYears / 0.16f / 1.5f;
-//        System.out.println( millionsOfYears );
 
-        boolean shouldSmoke = ( Math.random() < chance );
-
-        if ( shouldSmoke ) {
-            plate.getModel().smokePuffs.add( new SmokePuff() {{
-                position.set( location );
-                scale.set( 0.1f );
-                alpha.set( 0f );
-            }} );
-        }
+        FunctionalUtils.repeat(
+                new Runnable() {
+                    public void run() {
+                        final SmokePuff puff = new SmokePuff() {{
+                            position.set( location );
+                            scale.set( 0.1f );
+                            alpha.set( 0f );
+                        }};
+                        plate.getModel().smokePuffs.add( puff );
+                        agePuff( (float) ( Math.random() * millionsOfYears ), puff );
+                    }
+                }, samplePoisson( millionsOfYears * 8 ) );
     }
 
     private void animateMountains( float millionsOfYears ) {
@@ -341,6 +381,6 @@ public class OverridingBehavior extends PlateBehavior {
 
         chamberFullness = Math.min( 1, chamberFullness + ( plate.getPlateType().isContinental() ? 0.05f : 0.25f ) );
 
-        magmaChamber.setAllAlphas( chamberFullness );
+        magmaChamber.setAllAlphas( getChamberFullness() );
     }
 }
