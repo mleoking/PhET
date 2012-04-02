@@ -3,6 +3,7 @@ package edu.colorado.phet.energyskatepark.view.piccolo;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.TimeControlListener;
+import edu.colorado.phet.common.piccolophet.nodes.SlowMotionNormalTimeControlPanel;
 import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents;
 

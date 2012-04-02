@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.energyskatepark.view.piccolo;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.Color;
 
