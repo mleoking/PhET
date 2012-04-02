@@ -3,6 +3,8 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import java.awt.Shape;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+
 /**
  * Abstraction for different kinds of pools (square, trapezoidal, chambers)
  *
@@ -13,5 +15,5 @@ public interface IPool {
 
     double getHeight();
 
-    Shape getWaterShape();
+    ObservableProperty<Shape> getWaterShape();
 }

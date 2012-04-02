@@ -5,6 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 
 /**
@@ -18,6 +19,7 @@ public class Pool implements IPool {
     public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );
     private static final double HEIGHT = DEFAULT_HEIGHT;
     private static final double WIDTH = 4;
+    private final Property<Shape> waterShape = new Property<Shape>( getContainerShape() );
 
     public Pool() {
     }
@@ -26,8 +28,8 @@ public class Pool implements IPool {
         return HEIGHT;
     }
 
-    @Override public Shape getWaterShape() {
-        return getContainerShape();
+    @Override public Property<Shape> getWaterShape() {
+        return waterShape;
     }
 
     public double getWidth() {

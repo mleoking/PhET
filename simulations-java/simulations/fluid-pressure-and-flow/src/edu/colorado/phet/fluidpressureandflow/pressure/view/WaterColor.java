@@ -23,7 +23,7 @@ public class WaterColor {
     public static final Property<Color> waterColor = new Property<Color>( new Color( 100, 214, 247 ) );
 
     private static final double GAS_DENSITY = 719;//si
-    private static final double WATER_DENSITY = 1000;
+    public static final double WATER_DENSITY = 1000;
     private static final double HONEY_DENSITY = 1360;
     private static final Color HONEY_COLOR = new Color( 255, 191, 0 );
     private static final Color GAS_COLOR = Color.gray;

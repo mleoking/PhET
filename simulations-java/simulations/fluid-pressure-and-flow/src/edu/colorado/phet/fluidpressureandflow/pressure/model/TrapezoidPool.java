@@ -6,8 +6,11 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -26,17 +29,43 @@ public class TrapezoidPool implements IPool {
     private final double yAtTop = 0;
     public final double height = 3;
     public final Property<Double> flowRatePercentage = new Property<Double>( 0.0 );
-    public final ObservableProperty<Boolean> faucetEnabled = new Property<Boolean>( true );
+    public final ObservableProperty<Boolean> faucetEnabled;
     private double passageHeight = 0.25;
 
     //Thickness into the screen, for computing volumes.
     private double thickness = 1.0;
+    private final CompositeProperty<Shape> waterShape;
+    public final Property<Double> waterVolume = new Property<Double>( 0.0 );
 
-    @Override public Shape getContainerShape() {
-        return getShape( height );
+    public TrapezoidPool() {
+        this.waterShape = new CompositeProperty<Shape>( new Function0<Shape>() {
+            @Override public Shape apply() {
+                final Shape containerShape = getContainerShape();
+                double height = getWaterHeight();
+                Rectangle2D whole = containerShape.getBounds2D();
+
+                //just keep the bottom part that is occupied by water
+                final Rectangle2D part = new Rectangle2D.Double( whole.getX(), whole.getY(), whole.getWidth(), height );
+                return new Area( containerShape ) {{
+                    intersect( new Area( part ) );
+                }};
+            }
+        }, waterVolume );
+        faucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
+            @Override public Boolean apply() {
+                return getWaterHeight() < height;
+            }
+        }, waterVolume );
     }
 
-    public Shape getShape( double height ) {
+    //Find out how high the water will rise given a volume of water.
+    //This is tricky because of the connecting passage which has nonzero volume
+    //It is used to subtract out the part of the water that is not
+    public double getWaterHeight() {
+        return Math.min( waterVolume.get(), height );
+    }
+
+    @Override public Shape getContainerShape() {
         return new Area( leftChamber() ) {{
             add( new Area( rightChamber() ) );
             add( new Area( passage() ) );
@@ -50,10 +79,6 @@ public class TrapezoidPool implements IPool {
 //        return 0.0;
 //    }
 
-    private Shape passage() {
-        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + passageHeight, separation, passageHeight );
-    }
-
     public Shape fromLines( final ImmutableVector2D... pts ) {
         if ( pts.length == 0 ) { return new Rectangle2D.Double( 0, 0, 0, 0 ); }
         return new DoubleGeneralPath( pts[0] ) {{
@@ -61,6 +86,10 @@ public class TrapezoidPool implements IPool {
                 lineTo( pts[i] );
             }
         }}.getGeneralPath();
+    }
+
+    private Shape passage() {
+        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + passageHeight, separation, passageHeight );
     }
 
     private Shape leftChamber() {
@@ -85,7 +114,16 @@ public class TrapezoidPool implements IPool {
         return getContainerShape().getBounds2D().getHeight();
     }
 
-    @Override public Shape getWaterShape() {
-        return new Rectangle2D.Double();
+    @Override public ObservableProperty<Shape> getWaterShape() {
+        return waterShape;
+    }
+
+    public void stepInTime( final double dt ) {
+        waterVolume.set( waterVolume.get() + flowRatePercentage.get() * dt );
+    }
+
+    public void reset() {
+        flowRatePercentage.reset();
+        waterVolume.reset();
     }
 }
