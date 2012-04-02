@@ -1,12 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 
@@ -39,9 +38,9 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         addPressureSensor( new PressureSensor( this, -4, 2 ) );
         addPressureSensor( new PressureSensor( this, -4, 2 ) );
 
-        getClock().addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
-                trapezoidPool.stepInTime( clockEvent.getSimulationTimeChange() );
+        getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {
+            @Override public void apply( final Double dt ) {
+                trapezoidPool.stepInTime( dt );
             }
         } );
     }
