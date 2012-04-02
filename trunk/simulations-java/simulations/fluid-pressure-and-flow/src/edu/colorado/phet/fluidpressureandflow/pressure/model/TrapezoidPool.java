@@ -118,6 +118,39 @@ public class TrapezoidPool implements IPool {
         return waterShape;
     }
 
+    @Override public double getPressure( final double x, final double y, final boolean atmosphere, final double standardAirPressure, final double liquidDensity, final double gravity ) {
+        if ( y >= 0 ) {
+            return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure );
+        }
+        else {
+            //Under the ground
+            final Shape containerShape = getContainerShape();
+            final Shape waterShape = getWaterShape().get();
+
+            //In the ground, return 0.0 (no reading)
+            if ( !containerShape.contains( x, y ) ) {
+                return 0.0;
+            }
+
+            //in the container but not the water
+            else if ( containerShape.contains( x, y ) && !waterShape.contains( x, y ) ) {
+                return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure );
+            }
+
+            //In the water, but the container may not be completely full
+            else {// if ( containerShape.contains( x, y ) && waterShape.contains( x, y ) ) {
+
+                //Y value at the top of the water to compute the air pressure there
+                final double waterHeight = getWaterHeight();
+                double y0 = -height + waterHeight;
+                double p0 = Pool.getPressureAboveGround( y0, atmosphere, standardAirPressure );
+                double distanceBelowWater = Math.abs( -y + y0 );
+                double p = p0 + liquidDensity * gravity * distanceBelowWater;
+                return p;
+            }
+        }
+    }
+
     public void stepInTime( final double dt ) {
         waterVolume.set( waterVolume.get() + flowRatePercentage.get() * dt );
     }

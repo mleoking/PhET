@@ -16,4 +16,6 @@ public interface IPool {
     double getHeight();
 
     ObservableProperty<Shape> getWaterShape();
+
+    double getPressure( final double x, final double y, boolean atmosphere, double standardAirPressure, double liquidDensity, double gravity );
 }

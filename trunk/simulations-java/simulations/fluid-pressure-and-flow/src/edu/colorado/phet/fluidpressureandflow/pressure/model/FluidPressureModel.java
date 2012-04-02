@@ -10,7 +10,6 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ATMOSPHERES;
-import static java.lang.Math.abs;
 
 /**
  * Model for the "pressure" tab
@@ -53,17 +52,14 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
     @Override public void addPressureChangeObserver( SimpleObserver updatePressure ) {
         super.addPressureChangeObserver( updatePressure );
         atmosphere.addObserver( updatePressure );
+        pool.addObserver( updatePressure );
+        liquidDensity.addObserver( updatePressure );
+        standardAirPressure.addObserver( updatePressure );
+        gravity.addObserver( updatePressure );
     }
 
     //Gets the pressure at the specified location.
     @Override public double getPressure( double x, double y ) {
-
-        //TODO: Account for gravity on air pressure
-        if ( y < 0 ) {
-            return ( atmosphere.get() ? getStandardAirPressure() : 0.0 ) + liquidDensity.get() * gravity.get() * abs( -y );
-        }
-        else {
-            return atmosphere.get() ? super.getPressure( x, y ) : 0.0;
-        }
+        return pool.get().getPressure( x, y, atmosphere.get(), standardAirPressure.get(), liquidDensity.get(), gravity.get() );
     }
 }

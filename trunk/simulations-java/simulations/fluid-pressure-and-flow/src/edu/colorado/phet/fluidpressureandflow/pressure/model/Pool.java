@@ -5,8 +5,12 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
+
+import static java.lang.Math.abs;
 
 /**
  * The pool is the region of water in which the sensors can be submerged.
@@ -30,6 +34,23 @@ public class Pool implements IPool {
 
     @Override public Property<Shape> getWaterShape() {
         return waterShape;
+    }
+
+    @Override public double getPressure( final double x, final double y, boolean atmosphere, double standardAirPressure, double liquidDensity, double gravity ) {
+
+        //TODO: Account for gravity on air pressure
+        if ( y < 0 ) {
+            return ( atmosphere ? standardAirPressure : 0.0 ) + liquidDensity * gravity * abs( -y );
+        }
+        else {
+            return getPressureAboveGround( y, atmosphere, standardAirPressure );
+        }
+    }
+
+    //TODO: This should be a function of gravity too
+    public static double getPressureAboveGround( final double y, final boolean atmosphere, final double standardAirPressure ) {
+        LinearFunction f = new LinearFunction( 0, 500, standardAirPressure, FluidPressureAndFlowModel.EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+        return atmosphere ? f.evaluate( y ) : 0.0;
     }
 
     public double getWidth() {

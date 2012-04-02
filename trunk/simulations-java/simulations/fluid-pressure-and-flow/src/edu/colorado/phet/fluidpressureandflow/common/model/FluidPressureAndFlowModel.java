@@ -52,7 +52,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
 
     //Constants for air pressure in Pascals, Pascals is SI, see http://en.wikipedia.org/wiki/Atmospheric_pressure
     private static final double EARTH_AIR_PRESSURE = 101325;
-    private static final double EARTH_AIR_PRESSURE_AT_500_FT = 99490;
+    public static final double EARTH_AIR_PRESSURE_AT_500_FT = 99490;
 
     //Construct a FluidPressureAndFlow model with the specified set of units (such as metric)
     public FluidPressureAndFlowModel( UnitSet unitSet ) {
