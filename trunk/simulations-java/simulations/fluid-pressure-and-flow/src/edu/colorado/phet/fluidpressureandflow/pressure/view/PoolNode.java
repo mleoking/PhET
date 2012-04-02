@@ -3,9 +3,11 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -26,10 +28,15 @@ public class PoolNode extends PNode {
 
     public PoolNode( final ModelViewTransform transform2D, final IPool pool, Property<Double> fluidDensity ) {
         this.fluidDensity = fluidDensity;
-        final PhetPPath path = new PhetPPath( transform2D.modelToView( pool.getWaterShape() ), createPaint( transform2D, pool ) ) {{
+        final PhetPPath path = new PhetPPath( createPaint( transform2D, pool ) ) {{
             waterColor.addObserver( new SimpleObserver() {
                 public void update() {
                     setPaint( createPaint( transform2D, pool ) );
+                }
+            } );
+            pool.getWaterShape().addObserver( new VoidFunction1<Shape>() {
+                @Override public void apply( final Shape shape ) {
+                    setPathTo( transform2D.modelToView( shape ) );
                 }
             } );
         }};
