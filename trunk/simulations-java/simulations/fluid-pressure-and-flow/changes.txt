@@ -1,3 +1,4 @@
+Pressure tab: Made scene radio buttons non-square
 Pressure tab: Trapezoid scene: Fill pool when water flows
 Pressure tab: Added water flowing from the faucet as a solid rectangle
 Pressure tab: Removed background from radio button strip

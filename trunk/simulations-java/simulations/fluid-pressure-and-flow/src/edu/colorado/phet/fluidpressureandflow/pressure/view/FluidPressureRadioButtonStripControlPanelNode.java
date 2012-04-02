@@ -2,13 +2,20 @@
 package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.Pair;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.RadioButtonStripNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.PNode;
@@ -20,10 +27,37 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  *
  * @author Sam Reid
  */
-public class FluidPressureRadioButtonStripControlPanelNode extends RadioButtonStripNode<IPool> {
-    public FluidPressureRadioButtonStripControlPanelNode( final FluidPressureCanvas canvas, FluidPressureModel model ) {
-        super( model.pool, Arrays.asList( new Pair<PNode, IPool>( createIcon( canvas, model.pool, model.squarePool ), model.squarePool ),
-                                          new Pair<PNode, IPool>( createIcon( canvas, model.pool, model.trapezoidPool ), model.trapezoidPool ) ), 5 );
+public class FluidPressureRadioButtonStripControlPanelNode extends PNode {
+    public FluidPressureRadioButtonStripControlPanelNode( final FluidPressureCanvas canvas, final FluidPressureModel model ) {
+        final List<Pair<PNode, IPool>> elements = createButtons( canvas, model );
+
+        //Copied code from RadioButtonStripControlPanelNode so we could make non-square
+        final HBox representationLayer = new HBox( 5 ) {{
+            for ( final Pair<PNode, IPool> element : elements ) {
+
+                double delta = 10;
+                PNode button = new PhetPPath( new RoundRectangle2D.Double( -delta / 2, -delta / 2, element._1.getFullBounds().getWidth() + delta, element._1.getFullBounds().getHeight() + delta, 20, 20 ), null ) {{
+
+                    final ZeroOffsetNode theNode = new ZeroOffsetNode( element._1 ) {{
+                        final Point2D.Double origOffset = new Point2D.Double( element._1.getFullBounds().getWidth() / 2 - getFullWidth() / 2, element._1.getFullBounds().getHeight() / 2 - getFullHeight() / 2 );
+                        setOffset( origOffset );
+                    }};
+                    addChild( theNode );
+                }};
+
+                addChild( new ToggleButtonNode( button, model.pool.valueEquals( element._2 ), new VoidFunction0() {
+                    public void apply() {
+                        model.pool.set( element._2 );
+                    }
+                } ) );
+            }
+        }};
+        addChild( representationLayer );
+    }
+
+    private static List<Pair<PNode, IPool>> createButtons( final FluidPressureCanvas canvas, final FluidPressureModel model ) {
+        return Arrays.asList( new Pair<PNode, IPool>( createIcon( canvas, model.pool, model.squarePool ), model.squarePool ),
+                              new Pair<PNode, IPool>( createIcon( canvas, model.pool, model.trapezoidPool ), model.trapezoidPool ) );
     }
 
     //Creates an icon that displays the track.
