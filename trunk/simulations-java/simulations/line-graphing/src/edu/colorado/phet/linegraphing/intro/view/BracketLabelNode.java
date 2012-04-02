@@ -31,7 +31,8 @@ public class BracketLabelNode extends PComposite {
     private static final Color LABEL_COLOR = Color.BLACK;
     private final double MINUS_SIGN_WIDTH = new PhetPText( "-", LABEL_FONT ).getFullBoundsReference().getWidth();
 
-    private static final double BRACKET_END_HEIGHT = 5;
+    private static final double BRACKET_END_HEIGHT = 10;
+    private static final double BRACKET_CORNER_RADIUS = 0.5 * BRACKET_END_HEIGHT;
     private static final double BRACKET_TIP_WIDTH = 6;
     private static final double BRACKET_TIP_HEIGHT = 6;
 
@@ -110,12 +111,12 @@ public class BracketLabelNode extends PComposite {
 
             GeneralPath path = new GeneralPath();
             path.moveTo( 0, 0 );
-            path.lineTo( 0, (float) BRACKET_END_HEIGHT );
+            path.quadTo( 0, (float) BRACKET_END_HEIGHT, (float) BRACKET_CORNER_RADIUS, (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) ( ( width - BRACKET_TIP_WIDTH ) / 2 ), (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) ( width / 2 ), (float) ( BRACKET_END_HEIGHT + BRACKET_TIP_HEIGHT ) );
             path.lineTo( (float) ( ( width + BRACKET_TIP_WIDTH ) / 2 ), (float) BRACKET_END_HEIGHT );
-            path.lineTo( (float) width, (float) BRACKET_END_HEIGHT );
-            path.lineTo( (float) width, 0 );
+            path.lineTo( (float) ( width - BRACKET_CORNER_RADIUS ), (float) BRACKET_END_HEIGHT );
+            path.quadTo( (float) width, (float)BRACKET_END_HEIGHT, (float) width, 0 );
             setPathTo( path );
         }
     }

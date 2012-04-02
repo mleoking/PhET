@@ -24,7 +24,6 @@ MEDIUM
 
 LOW
 - tiny close buttons on tip ends of lines?
-- round corners of rise/run brackets
 - improve look of title + show/hide button in equation control panel
 - create check box icons
 
