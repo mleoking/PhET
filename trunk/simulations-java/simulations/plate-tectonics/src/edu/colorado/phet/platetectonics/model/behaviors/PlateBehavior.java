@@ -172,7 +172,7 @@ public abstract class PlateBehavior {
 
     }
 
-    public void addMagma( ImmutableVector2F position, float initialAlpha ) {
+    public MagmaRegion addMagma( ImmutableVector2F position, float initialAlpha ) {
         ImmutableVector2F dirToTarget = magmaTarget.minus( position ).normalized();
         float angle = (float) Math.atan2( dirToTarget.y, dirToTarget.x );
 
@@ -182,6 +182,7 @@ public abstract class PlateBehavior {
         magmaBlob.moveToFront();
         magmaChamber.moveToFront(); // keep the chamber in front
         magmaBlobs.add( magmaBlob );
+        return magmaBlob;
     }
 
     public void addMagma( ImmutableVector2F position ) {
@@ -191,27 +192,33 @@ public abstract class PlateBehavior {
     protected void animateMagma( float millionsOfYears ) {
         // animate the magma blobs
         for ( MagmaRegion blob : new LinkedList<MagmaRegion>( magmaBlobs ) ) {
-            final ImmutableVector2F currentPosition = blob.position.get();
-            final ImmutableVector2F directionToTarget = magmaTarget.minus( currentPosition ).normalized();
-            final ImmutableVector2F newPosition = currentPosition.plus( directionToTarget.times( magmaSpeed * millionsOfYears ) );
-            if ( newPosition.y > magmaTarget.y ) {
-                // get rid of blob and create a new one
-                assert plate.regions.contains( blob );
-                plate.regions.remove( blob );
-                assert !plate.regions.contains( blob );
-                assert !plate.getModel().getRegions().contains( blob );
-                magmaBlobs.remove( blob );
-                blob.position.set( newPosition );
+            animateMagmaBlob( blob, millionsOfYears, true );
+        }
+    }
+
+    protected void animateMagmaBlob( MagmaRegion blob, float millionsOfYears, boolean reAdd ) {
+        final ImmutableVector2F currentPosition = blob.position.get();
+        final ImmutableVector2F directionToTarget = magmaTarget.minus( currentPosition ).normalized();
+        final ImmutableVector2F newPosition = currentPosition.plus( directionToTarget.times( magmaSpeed * millionsOfYears ) );
+        if ( newPosition.y > magmaTarget.y ) {
+            // get rid of blob and create a new one
+            assert plate.regions.contains( blob );
+            plate.regions.remove( blob );
+            assert !plate.regions.contains( blob );
+            assert !plate.getModel().getRegions().contains( blob );
+            magmaBlobs.remove( blob );
+            blob.position.set( newPosition );
+            if ( reAdd ) {
                 onMagmaRemoved( blob );
             }
-            else {
-                // TODO: increase alpha!!
-                final float alphaSpeed = 0.25f;
-                if ( blob.alpha.get() < 1 ) {
-                    blob.alpha.set( Math.min( 1, blob.alpha.get() + alphaSpeed * millionsOfYears ) );
-                }
-                blob.position.set( newPosition );
+        }
+        else {
+            // TODO: increase alpha!!
+            final float alphaSpeed = 0.25f;
+            if ( blob.alpha.get() < 1 ) {
+                blob.alpha.set( Math.min( 1, blob.alpha.get() + alphaSpeed * millionsOfYears ) );
             }
+            blob.position.set( newPosition );
         }
     }
 }

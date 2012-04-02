@@ -23,7 +23,7 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
         super( clock );
 
         setRewindButtonVisible( false );
-        getStepButton().setVisible( false );
+//        getStepButton().setVisible( false );
         setTimeDisplayVisible( true );
         setUnits( Strings.MILLION_YEARS );
         setTimeFormat( new DecimalFormat( "0" ) );
