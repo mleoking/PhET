@@ -22,7 +22,7 @@ public class IntroModel implements Resettable {
     public static final IntegerRange RUN_RANGE = new IntegerRange( -10, 10 );
     public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -10, 10 );
 
-    private static final SlopeInterceptLine DEFAULT_LINE = new SlopeInterceptLine( 5, 5, 1 );
+    private static final SlopeInterceptLine DEFAULT_LINE = new SlopeInterceptLine( 5, 5, 2 );
 
     public final ModelViewTransform mvt;
     public final Property<SlopeInterceptLine> interactiveLine;
