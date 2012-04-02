@@ -49,7 +49,7 @@ class VisibilityControls extends PNode {
         final JComponent riseOverRunCheckBox = new PropertyCheckBoxWithIcon( UserComponents.riseOverRunCheckBox, Strings.RISE_OVER_RUN, CONTROL_FONT, Images.RISE_OVER_RUN_ICON, riseOverRunVisible );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, Images.Y_EQUALS_X_ICON, yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, Images.Y_EQUALS_NEGATIVE_X_ICON, yEqualsNegativeXVisible );
-        JComponent pointToolCheckBox = new PropertyCheckBoxWithIcon( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, CONTROL_FONT, Images.POINT_TOOL_ICON, pointToolVisible );
+        JComponent pointToolCheckBox = new PropertyCheckBoxWithIcon( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, CONTROL_FONT, PointToolNode.createImage( 35 ), pointToolVisible );
 
         // layout
         GridPanel panel = new GridPanel();
