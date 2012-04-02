@@ -9,7 +9,9 @@ import java.awt.Shape;
  * @author Sam Reid
  */
 public interface IPool {
-    Shape getShape();
+    Shape getContainerShape();
 
     double getHeight();
+
+    Shape getWaterShape();
 }
