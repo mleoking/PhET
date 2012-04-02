@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
@@ -218,60 +219,7 @@ public class RiftingBehavior extends PlateBehavior {
         {
             for ( int columnIndex = 0; columnIndex < getNumCrustXSamples(); columnIndex++ ) {
                 Sample topSample = getCrust().getTopBoundary().samples.get( columnIndex );
-                if ( topSample.getDensity() == PlateType.CONTINENTAL.getDensity() ) {
-                    /*---------------------------------------------------------------------------*
-                    * continental modifications
-                    *----------------------------------------------------------------------------*/
-
-                    // blending crust sizes here (and preferably lithosphere too?)
-                    float fakeNeighborhoodY = topSample.getPosition().y - topSample.getRandomTerrainOffset();
-                    int count = 1;
-                    if ( columnIndex > 0 ) {
-                        final Sample neighborSample = getCrust().getTopBoundary().samples.get( columnIndex - 1 );
-                        fakeNeighborhoodY += neighborSample.getPosition().y - neighborSample.getRandomTerrainOffset();
-                        count += 1;
-                    }
-                    if ( columnIndex < getNumCrustXSamples() - 1 ) {
-                        final Sample neighborSample = getCrust().getTopBoundary().samples.get( columnIndex + 1 );
-                        fakeNeighborhoodY += neighborSample.getPosition().y - neighborSample.getRandomTerrainOffset();
-                        count += 1;
-                    }
-                    fakeNeighborhoodY /= count;
-
-                    // this means any further accesses are relative to the actual position (thus it's a fake neighborhood)
-                    fakeNeighborhoodY += topSample.getRandomTerrainOffset();
-
-                    float currentCrustTop = getCrust().getTopElevation( columnIndex );
-                    float currentCrustBottom = getCrust().getBottomElevation( columnIndex );
-                    float currentLithosphereBottom = getLithosphere().getBottomElevation( columnIndex );
-                    float currentCrustWidth = currentCrustTop - currentCrustBottom;
-
-                    // try subtracting off top and bottom, and see how much all of this would change
-                    float resizeFactor = ( currentCrustWidth - 2 * ( currentCrustTop - fakeNeighborhoodY ) ) / currentCrustWidth;
-
-                    // don't ever grow the crust height
-                    if ( resizeFactor > 1 ) {
-                        resizeFactor = 1;
-                    }
-                    resizeFactor = (float) Math.pow( resizeFactor, 2 * millionsOfYears );
-                    float center = ( currentCrustTop + currentCrustBottom ) / 2;
-
-                    final float newCrustTop = ( currentCrustTop - center ) * resizeFactor + center;
-
-                    // x^2 the resizing factor for the bottoms so they shrink faster
-                    final float newCrustBottom = ( currentCrustBottom - center ) * resizeFactor * resizeFactor + center;
-                    final float newLithosphereBottom = ( currentLithosphereBottom - center ) * resizeFactor * resizeFactor + center;
-                    getCrust().layoutColumn( columnIndex,
-                                             newCrustTop,
-                                             newCrustBottom,
-                                             plate.getTextureStrategy(), true );
-                    getLithosphere().layoutColumn( columnIndex,
-                                                   newCrustBottom,
-                                                   newLithosphereBottom,
-                                                   plate.getTextureStrategy(), true );
-                    getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
-                }
-                else if ( topSample.getDensity() == PlateType.YOUNG_OCEANIC.getDensity() ) {
+                if ( topSample.getDensity() == PlateType.YOUNG_OCEANIC.getDensity() ) {
                     /*---------------------------------------------------------------------------*
                     * oceanic modifications
                     *----------------------------------------------------------------------------*/
@@ -283,6 +231,71 @@ public class RiftingBehavior extends PlateBehavior {
                     }
                 }
             }
+        }
+        {
+            // split the continental modifications if the timestep is too large
+            recursiveSplitCall(
+                    new VoidFunction1<Float>() {
+                        public void apply( Float millionsOfYears ) {
+                            for ( int columnIndex = 0; columnIndex < getNumCrustXSamples(); columnIndex++ ) {
+                                Sample topSample = getCrust().getTopBoundary().samples.get( columnIndex );
+                                if ( topSample.getDensity() == PlateType.CONTINENTAL.getDensity() ) {
+                                    /*---------------------------------------------------------------------------*
+                                    * continental modifications
+                                    *----------------------------------------------------------------------------*/
+
+                                    // blending crust sizes here (and preferably lithosphere too?)
+                                    float fakeNeighborhoodY = topSample.getPosition().y - topSample.getRandomTerrainOffset();
+                                    int count = 1;
+                                    if ( columnIndex > 0 ) {
+                                        final Sample neighborSample = getCrust().getTopBoundary().samples.get( columnIndex - 1 );
+                                        fakeNeighborhoodY += neighborSample.getPosition().y - neighborSample.getRandomTerrainOffset();
+                                        count += 1;
+                                    }
+                                    if ( columnIndex < getNumCrustXSamples() - 1 ) {
+                                        final Sample neighborSample = getCrust().getTopBoundary().samples.get( columnIndex + 1 );
+                                        fakeNeighborhoodY += neighborSample.getPosition().y - neighborSample.getRandomTerrainOffset();
+                                        count += 1;
+                                    }
+                                    fakeNeighborhoodY /= count;
+
+                                    // this means any further accesses are relative to the actual position (thus it's a fake neighborhood)
+                                    fakeNeighborhoodY += topSample.getRandomTerrainOffset();
+
+                                    float currentCrustTop = getCrust().getTopElevation( columnIndex );
+                                    float currentCrustBottom = getCrust().getBottomElevation( columnIndex );
+                                    float currentLithosphereBottom = getLithosphere().getBottomElevation( columnIndex );
+                                    float currentCrustWidth = currentCrustTop - currentCrustBottom;
+
+                                    // try subtracting off top and bottom, and see how much all of this would change
+                                    float resizeFactor = ( currentCrustWidth - 2 * ( currentCrustTop - fakeNeighborhoodY ) ) / currentCrustWidth;
+
+                                    // don't ever grow the crust height
+                                    if ( resizeFactor > 1 ) {
+                                        resizeFactor = 1;
+                                    }
+                                    resizeFactor = (float) Math.pow( resizeFactor, 2 * millionsOfYears );
+                                    float center = ( currentCrustTop + currentCrustBottom ) / 2;
+
+                                    final float newCrustTop = ( currentCrustTop - center ) * resizeFactor + center;
+
+                                    // x^2 the resizing factor for the bottoms so they shrink faster
+                                    final float newCrustBottom = ( currentCrustBottom - center ) * resizeFactor * resizeFactor + center;
+                                    final float newLithosphereBottom = ( currentLithosphereBottom - center ) * resizeFactor * resizeFactor + center;
+                                    getCrust().layoutColumn( columnIndex,
+                                                             newCrustTop,
+                                                             newCrustBottom,
+                                                             plate.getTextureStrategy(), true );
+                                    getLithosphere().layoutColumn( columnIndex,
+                                                                   newCrustBottom,
+                                                                   newLithosphereBottom,
+                                                                   plate.getTextureStrategy(), true );
+                                    getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
+                                }
+                            }
+                        }
+                    }, millionsOfYears, 0.1f
+            );
         }
 
         getPlate().getTerrain().elevationChanged.updateListeners();

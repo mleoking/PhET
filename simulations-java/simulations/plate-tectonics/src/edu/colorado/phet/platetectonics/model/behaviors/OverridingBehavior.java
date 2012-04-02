@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
@@ -121,54 +122,60 @@ public class OverridingBehavior extends PlateBehavior {
         *----------------------------------------------------------------------------*/
 
         // NOTE: somewhat copied code from RiftingBehavior, but only changes the crust
-        for ( int columnIndex = 0; columnIndex < getNumCrustXSamples(); columnIndex++ ) {
-            Sample topSample = getCrust().getTopBoundary().samples.get( columnIndex );
+        recursiveSplitCall(
+                new VoidFunction1<Float>() {
+                    public void apply( Float millionsOfYears ) {
+                        for ( int columnIndex = 0; columnIndex < getNumCrustXSamples(); columnIndex++ ) {
+                            Sample topSample = getCrust().getTopBoundary().samples.get( columnIndex );
 
-            // blending crust sizes here (and preferably lithosphere too?)
-            float fakeNeighborhoodY = topSample.getPosition().y;
-            int count = 1;
-            if ( columnIndex > 0 ) {
-                fakeNeighborhoodY += getCrust().getTopBoundary().samples.get( columnIndex - 1 ).getPosition().y;
-                count += 1;
-            }
-            if ( columnIndex < getNumCrustXSamples() - 1 ) {
-                fakeNeighborhoodY += getCrust().getTopBoundary().samples.get( columnIndex + 1 ).getPosition().y;
-                count += 1;
-            }
-            fakeNeighborhoodY /= count;
+                            // blending crust sizes here (and preferably lithosphere too?)
+                            float fakeNeighborhoodY = topSample.getPosition().y;
+                            int count = 1;
+                            if ( columnIndex > 0 ) {
+                                fakeNeighborhoodY += getCrust().getTopBoundary().samples.get( columnIndex - 1 ).getPosition().y;
+                                count += 1;
+                            }
+                            if ( columnIndex < getNumCrustXSamples() - 1 ) {
+                                fakeNeighborhoodY += getCrust().getTopBoundary().samples.get( columnIndex + 1 ).getPosition().y;
+                                count += 1;
+                            }
+                            fakeNeighborhoodY /= count;
 
-            float currentCrustTop = getCrust().getTopElevation( columnIndex );
-            float currentCrustBottom = getCrust().getBottomElevation( columnIndex );
-            float currentCrustWidth = currentCrustTop - currentCrustBottom;
+                            float currentCrustTop = getCrust().getTopElevation( columnIndex );
+                            float currentCrustBottom = getCrust().getBottomElevation( columnIndex );
+                            float currentCrustWidth = currentCrustTop - currentCrustBottom;
 
-            // try subtracting off top and bottom, and see how much all of this would change
-            float resizeFactor = ( currentCrustWidth - 2 * ( currentCrustTop - fakeNeighborhoodY ) ) / currentCrustWidth;
+                            // try subtracting off top and bottom, and see how much all of this would change
+                            float resizeFactor = ( currentCrustWidth - 2 * ( currentCrustTop - fakeNeighborhoodY ) ) / currentCrustWidth;
 
-            // don't ever grow the crust height
-            if ( resizeFactor > 1 ) {
-                resizeFactor = 1;
-            }
+                            // don't ever grow the crust height
+                            if ( resizeFactor > 1 ) {
+                                resizeFactor = 1;
+                            }
 
-            { // blend the resizeFactor to 1 the farther we get from the boundary, so we don't affect the mountains
-                final float THRESHOLD_X_DIFFERENCE = 50000;
-                final float ratio = Math.min( 1, Math.abs( topSample.getPosition().x ) / THRESHOLD_X_DIFFERENCE );
-                resizeFactor = ratio + ( 1 - ratio ) * resizeFactor;
-            }
+                            { // blend the resizeFactor to 1 the farther we get from the boundary, so we don't affect the mountains
+                                final float THRESHOLD_X_DIFFERENCE = 50000;
+                                final float ratio = Math.min( 1, Math.abs( topSample.getPosition().x ) / THRESHOLD_X_DIFFERENCE );
+                                resizeFactor = ratio + ( 1 - ratio ) * resizeFactor;
+                            }
 
-            resizeFactor = (float) Math.pow( resizeFactor, millionsOfYears );
-            float center = ( currentCrustTop + currentCrustBottom ) / 2;
+                            resizeFactor = (float) Math.pow( resizeFactor, millionsOfYears );
+                            float center = ( currentCrustTop + currentCrustBottom ) / 2;
 
-            final float newCrustTop = ( currentCrustTop - center ) * resizeFactor + center;
+                            final float newCrustTop = ( currentCrustTop - center ) * resizeFactor + center;
 
-            // compute new bottom with the same delta
-            final float newCrustBottom = currentCrustBottom + ( newCrustTop - currentCrustTop );
+                            // compute new bottom with the same delta
+                            final float newCrustBottom = currentCrustBottom + ( newCrustTop - currentCrustTop );
 
-            getCrust().layoutColumn( columnIndex,
-                                     newCrustTop,
-                                     newCrustBottom,
-                                     plate.getTextureStrategy(), true );
-            getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
-        }
+                            getCrust().layoutColumn( columnIndex,
+                                                     newCrustTop,
+                                                     newCrustBottom,
+                                                     plate.getTextureStrategy(), true );
+                            getTerrain().shiftColumnElevation( columnIndex, newCrustTop - currentCrustTop );
+                        }
+                    }
+                }, millionsOfYears, 0.1f
+        );
 
         getTerrain().elevationChanged.updateListeners();
 

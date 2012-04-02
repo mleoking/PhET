@@ -1,3 +1,4 @@
+Fixed plate "smoothing" in divergent and subduction cases, fixing the main "step" bug
 Significant model changes for a better working "subduction/overriding" model that works with the step button (still work to go on it)
 # 0.00.29 (62874) Mar 29, 2012
 Removed "Step" button temporarily

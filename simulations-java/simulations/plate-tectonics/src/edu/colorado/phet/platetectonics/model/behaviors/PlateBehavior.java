@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
@@ -219,6 +220,16 @@ public abstract class PlateBehavior {
                 blob.alpha.set( Math.min( 1, blob.alpha.get() + alphaSpeed * millionsOfYears ) );
             }
             blob.position.set( newPosition );
+        }
+    }
+
+    public static void recursiveSplitCall( VoidFunction1<Float> callback, float amount, float cutoff ) {
+        if ( amount > cutoff ) {
+            recursiveSplitCall( callback, amount / 2, cutoff );
+            recursiveSplitCall( callback, amount / 2, cutoff );
+        }
+        else {
+            callback.apply( amount );
         }
     }
 }
