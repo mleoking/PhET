@@ -63,10 +63,10 @@ class EquationControlPanel extends PhetPNode {
 
         double maxWidth = parentNode.getFullBoundsReference().getWidth();
 
-        // Background behind title
+        // Background behind title, prevents control panel from resizing when minimized
         final double backgroundHeight = Math.max( titleNode.getFullBoundsReference().getHeight(), minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() ) + 6;
         PNode titleBackgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, maxWidth, backgroundHeight, 10, 10 ) ) {{
-            setPaint( Color.LIGHT_GRAY );
+            setPaint( new Color( 0, 0, 0, 0 ) );
             setStroke( null );
         }};
         parentNode.addChild( titleBackgroundNode );
