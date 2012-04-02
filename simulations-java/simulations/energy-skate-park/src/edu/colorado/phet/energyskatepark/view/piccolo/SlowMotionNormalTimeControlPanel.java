@@ -13,8 +13,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.energyskatepark.EnergySkateParkResources.getString;
-
 /**
  * Clock control panel that shows "slow motion" and "normal" as radio buttons with a play/pause and step button.
  *
@@ -26,17 +24,19 @@ public class SlowMotionNormalTimeControlPanel extends RichPNode {
     private final PhetFont RADIO_BUTTON_FONT = new PhetFont( 16 );
     protected final PiccoloClockControlPanel piccoloClockControlPanel;
 
-    public SlowMotionNormalTimeControlPanel( IUserComponent slowMotionRadioButton, IUserComponent normalSpeedRadioButton, SettableProperty<Boolean> normalSpeed, IClock clock ) {
+    //Fully expanded constructor that allows sim-specific IUserComponents and Strings.  Defaults for these should be added in piccolo-phet and sims that were using sim-specific strings can cut over to the common versions
+    //as they become available.
+    public SlowMotionNormalTimeControlPanel( IUserComponent slowMotionRadioButton, String slowMotionText, String normalSpeedText, IUserComponent normalSpeedRadioButton, SettableProperty<Boolean> normalSpeed, IClock clock ) {
         piccoloClockControlPanel = new PiccoloClockControlPanel( clock ) {{
             setBackground( BLANK );
             getButtonCanvas().setBackground( BLANK );
             getBackgroundNode().setVisible( false );
         }};
 
-        addChild( new HBox( new PSwing( new PropertyRadioButton<Boolean>( slowMotionRadioButton, getString( "slow.motion" ), normalSpeed, false ) {{
+        addChild( new HBox( new PSwing( new PropertyRadioButton<Boolean>( slowMotionRadioButton, slowMotionText, normalSpeed, false ) {{
             setBackground( BLANK );
             setFont( RADIO_BUTTON_FONT );
-        }} ), new PSwing( new PropertyRadioButton<Boolean>( normalSpeedRadioButton, getString( "normal" ), normalSpeed, true ) {{
+        }} ), new PSwing( new PropertyRadioButton<Boolean>( normalSpeedRadioButton, normalSpeedText, normalSpeed, true ) {{
             setBackground( BLANK );
             setFont( RADIO_BUTTON_FONT );
         }} ), new PSwing( piccoloClockControlPanel ) ) );

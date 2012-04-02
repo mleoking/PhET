@@ -7,6 +7,7 @@ import edu.colorado.phet.energyskatepark.AbstractEnergySkateParkModule;
 import edu.colorado.phet.energyskatepark.EnergySkateParkSimSharing.UserComponents;
 
 import static edu.colorado.phet.energyskatepark.EnergySkateParkApplication.SIMULATION_TIME_DT;
+import static edu.colorado.phet.energyskatepark.EnergySkateParkResources.getString;
 
 /**
  * Adapter that wires up energy skate park module + clock to the reusable slow motion normal time control panel.
@@ -15,7 +16,7 @@ import static edu.colorado.phet.energyskatepark.EnergySkateParkApplication.SIMUL
  */
 public class EnergySkateParkTimeControlPanel extends SlowMotionNormalTimeControlPanel {
     public EnergySkateParkTimeControlPanel( final AbstractEnergySkateParkModule module, final ConstantDtClock clock ) {
-        super( UserComponents.slowMotionRadioButton, UserComponents.normalSpeedRadioButton, module.normalSpeed, clock );
+        super( UserComponents.slowMotionRadioButton, getString( "slow.motion" ), getString( "normal" ), UserComponents.normalSpeedRadioButton, module.normalSpeed, clock );
         module.normalSpeed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean normalSpeed ) {
                 clock.setDt( normalSpeed ? SIMULATION_TIME_DT : SIMULATION_TIME_DT / 4.0 );
