@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Visual representation of a line in slope-intercept form, with arrows on both ends.
+ * Visual representation of a line in slope-intercept form (y = mx + b), with arrows on both ends.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
