@@ -135,6 +135,17 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         addChild( gravityControlPanelNode );
         addChild( fluidDensityControlNode );
 
+        addChild( new FluidPressureFaucetNode( model.trapezoidPool.flowRatePercentage, model.trapezoidPool.faucetEnabled ) {{
+            model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
+                @Override public void apply( final Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+
+            //Center the faucet over the left opening, values sampled from a drag listener
+            setOffset( new Point2D.Double( 109.2584933530281, 157.19350073855244 ) );
+        }} );
+
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this later on ensures that the draggable sensors will appear in front of everything else
         addSensorToolboxNode( model, controlPanelNode );

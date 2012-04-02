@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 public class FPAFSimSharing {
 
     public enum UserComponents implements IUserComponent {
-        waterTowerFaucet, fluidDensitySlider, flowRateMetricSlider, gravitySlider, flowRateEnglishSlider
+        waterTowerFaucet, fluidDensitySlider, flowRateMetricSlider, gravitySlider, flowRateEnglishSlider,
+        fluidPressureFaucet
     }
 }
