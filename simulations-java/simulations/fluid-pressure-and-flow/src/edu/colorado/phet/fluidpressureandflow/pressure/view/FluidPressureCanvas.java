@@ -149,7 +149,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             }};
 
             //Show the water coming out of the faucet
-            addChild( new FlowingWaterNode( model.trapezoidPool, model.trapezoidPool.flowRatePercentage, transform, model.liquidDensity ) );
+            addChild( new FlowingWaterNode( model.trapezoidPool, model.trapezoidPool.flowRatePercentage, transform, model.liquidDensity, model.trapezoidPool.faucetEnabled ) );
             addChild( faucetNode );
 
         }};
