@@ -1,3 +1,4 @@
+Flow tab & Water tower tab: Added slow/full speed buttons and pause (like ESPB)
 Intro tab: Trapezoid scene: Added a faucet (not wired up)
 Intro tab: Added image icons for scene radio button strip
 Intro tab: Added trapezoidal shape for pool
