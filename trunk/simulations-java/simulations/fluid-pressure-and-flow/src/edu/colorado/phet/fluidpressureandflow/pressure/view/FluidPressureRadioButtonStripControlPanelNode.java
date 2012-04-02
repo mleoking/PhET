@@ -8,7 +8,7 @@ import java.util.Arrays;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStrip;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.RadioButtonStripNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.PNode;
@@ -20,8 +20,8 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  *
  * @author Sam Reid
  */
-public class FluidPressureRadioButtonStrip extends RadioButtonStrip<IPool> {
-    public FluidPressureRadioButtonStrip( final FluidPressureCanvas canvas, FluidPressureModel model ) {
+public class FluidPressureRadioButtonStripControlPanelNode extends RadioButtonStripNode<IPool> {
+    public FluidPressureRadioButtonStripControlPanelNode( final FluidPressureCanvas canvas, FluidPressureModel model ) {
         super( model.pool, Arrays.asList( new Pair<PNode, IPool>( createIcon( canvas, model.pool, model.squarePool ), model.squarePool ),
                                           new Pair<PNode, IPool>( createIcon( canvas, model.pool, model.trapezoidPool ), model.trapezoidPool ) ), 5 );
     }

@@ -24,14 +24,14 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class RadioButtonStrip<T> extends ControlPanelNode {
-    public RadioButtonStrip( SettableProperty<T> selected, List<Pair<PNode, T>> elements, int padding ) {
-        super( new ContentNode<T>( selected, elements, padding ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
+public class RadioButtonStripControlPanelNode<T> extends ControlPanelNode {
+    public RadioButtonStripControlPanelNode( SettableProperty<T> selected, List<Pair<PNode, T>> elements, int padding ) {
+        super( new RadioButtonStripNode<T>( selected, elements, padding ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
     }
 
-    //Inner class enables us to wrap the parent in ControlPanelNode
-    private static class ContentNode<T> extends PNode {
-        private ContentNode( final SettableProperty<T> selected, final List<Pair<PNode, T>> elements, int padding ) {
+    //Inner class enables us to wrap the parent in ControlPanelNode.  Public in case clients want to use it without the control panel exterior decoration.
+    public static class RadioButtonStripNode<T> extends PNode {
+        public RadioButtonStripNode( final SettableProperty<T> selected, final List<Pair<PNode, T>> elements, int padding ) {
 
             double maxWidth = 0;
             double maxHeight = 0;

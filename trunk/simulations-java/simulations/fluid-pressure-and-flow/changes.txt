@@ -1,9 +1,10 @@
+Pressure tab: Removed background from radio button strip
 Flow tab & Water tower tab: Added slow/full speed buttons and pause (like ESPB)
-Intro tab: Trapezoid scene: Added a faucet (not wired up)
-Intro tab: Added image icons for scene radio button strip
-Intro tab: Added trapezoidal shape for pool
-Intro tab: Added a toolbox for pressure sensors
-Intro tab: Increased number of pressure sensors
+Pressure tab: Trapezoid scene: Added a faucet (not wired up)
+Pressure tab: Added image icons for scene radio button strip
+Pressure tab: Added trapezoidal shape for pool
+Pressure tab: Added a toolbox for pressure sensors
+Pressure tab: Increased number of pressure sensors
 # 0.00.47 (60952) Feb 2, 2012
 Improved layout for control panels
 Fixed: Pressure gauges change number of digits when atmosphere turns on/off

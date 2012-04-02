@@ -47,7 +47,7 @@ import static edu.umd.cs.piccolo.PNode.PROPERTY_FULL_BOUNDS;
 public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> extends PhetPCanvas {
 
     //Standard inset used in many layouts
-    public static final double INSET = 10;
+    public static final double INSET = 5;
 
     //Transform from model to view
     protected final ModelViewTransform transform;
