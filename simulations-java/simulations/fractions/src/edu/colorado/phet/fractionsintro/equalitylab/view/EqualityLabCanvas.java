@@ -21,7 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStrip;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
@@ -69,11 +69,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
         final double representationControlPanelScale = 0.80;
         final int padding = 7;
-        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStrip<Representation>( leftRepresentation, getIcons( leftRepresentation, Colors.LIGHT_GREEN ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
+        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, Colors.LIGHT_GREEN ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStrip<Representation>( model.rightRepresentation, getIcons( model.rightRepresentation, Colors.LIGHT_BLUE ), padding ) {{scale( representationControlPanelScale );}} ) {{
+        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( model.rightRepresentation, getIcons( model.rightRepresentation, Colors.LIGHT_BLUE ), padding ) {{scale( representationControlPanelScale );}} ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
         }};
 

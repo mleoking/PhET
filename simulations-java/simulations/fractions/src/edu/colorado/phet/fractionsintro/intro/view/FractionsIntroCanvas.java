@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStrip;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
@@ -37,8 +37,8 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
     public FractionsIntroCanvas( final FractionsIntroModel model ) {
 
-        final RadioButtonStrip<Representation> representationControlPanel =
-                new RadioButtonStrip<Representation>( model.representation, asList(
+        final RadioButtonStripControlPanelNode<Representation> representationControlPanel =
+                new RadioButtonStripControlPanelNode<Representation>( model.representation, asList(
                         new Pair<PNode, Representation>( new PieIcon( model.representation, Colors.CIRCLE_COLOR ), PIE ),
                         new Pair<PNode, Representation>( new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ), HORIZONTAL_BAR ),
                         new Pair<PNode, Representation>( new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode(), VERTICAL_BAR ),
