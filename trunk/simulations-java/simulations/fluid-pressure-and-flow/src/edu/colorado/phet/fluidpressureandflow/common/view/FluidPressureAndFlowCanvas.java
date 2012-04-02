@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -21,11 +20,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
+import edu.colorado.phet.common.piccolophet.nodes.SlowMotionNormalTimeControlPanel;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
@@ -35,7 +33,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.normalSpeedRadioButton;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.slowMotionRadioButton;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.UNKNOWN_VELOCITY;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
 import static edu.umd.cs.piccolo.PNode.PROPERTY_FULL_BOUNDS;
 
 /**
@@ -108,18 +109,24 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         } );
 
         //Add clock controls (play/pause), including a time speed slider (no time readout)
-        addChild( createClockControls( module, module.model.clockRunning ) );
+        addChild( createClockControls( module ) );
     }
 
     //Create clock controls (play/pause), including a time speed slider (no time readout)
-    protected HBox createClockControls( final FluidPressureAndFlowModule<?> module, final Property<Boolean> clockRunning ) {
-        final Property<Double> dt = module.model.simulationTimeStep;
-        return new HBox( 10,
-                         //Set the time speed slider to go between 1/2 and 2x the default dt
-                         new SimSpeedControlPNode( dt.get() / 2, dt, dt.get() * 2, 0.0, new Property<Color>( Color.black ) ),
-                         new FloatingClockControlNode( clockRunning, null, module.getClock(), RESET, new Property<Color>( Color.white ) ) ) {{
+    protected PNode createClockControls( final FluidPressureAndFlowModule<?> module ) {
+        final double SIMULATION_TIME_DT = module.getConstantDtClock().getDt();
+        final Property<Boolean> normalSpeed = new Property<Boolean>( true );
+        SlowMotionNormalTimeControlPanel controlPanel = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, "Slow Motion", "Normal", normalSpeedRadioButton, normalSpeed, module.getClock() ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
+
+        normalSpeed.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean normalSpeed ) {
+                module.getConstantDtClock().setDt( normalSpeed ? SIMULATION_TIME_DT : SIMULATION_TIME_DT / 4.0 );
+            }
+        } );
+
+        return controlPanel;
     }
 
     protected void addChild( PNode node ) {

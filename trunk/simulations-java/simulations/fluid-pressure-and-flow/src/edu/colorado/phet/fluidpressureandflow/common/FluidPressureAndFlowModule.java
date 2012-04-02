@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.common;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -36,6 +37,10 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
 
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );
+    }
+
+    public ConstantDtClock getConstantDtClock() {
+        return model.getClock();
     }
 
     public void reset() {

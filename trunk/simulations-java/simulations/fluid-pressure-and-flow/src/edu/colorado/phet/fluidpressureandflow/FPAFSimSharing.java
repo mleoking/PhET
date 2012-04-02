@@ -12,6 +12,8 @@ public class FPAFSimSharing {
 
     public enum UserComponents implements IUserComponent {
         waterTowerFaucet, fluidDensitySlider, flowRateMetricSlider, gravitySlider, flowRateEnglishSlider,
-        fluidPressureFaucet
+        fluidPressureFaucet,
+        slowMotionRadioButton,
+        normalSpeedRadioButton,
     }
 }
