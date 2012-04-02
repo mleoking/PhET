@@ -43,14 +43,14 @@ public class Pool implements IPool {
             return ( atmosphere ? standardAirPressure : 0.0 ) + liquidDensity * gravity * abs( -y );
         }
         else {
-            return getPressureAboveGround( y, atmosphere, standardAirPressure );
+            return getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
         }
     }
 
     //TODO: This should be a function of gravity too
-    public static double getPressureAboveGround( final double y, final boolean atmosphere, final double standardAirPressure ) {
+    public static double getPressureAboveGround( final double y, final boolean atmosphere, final double standardAirPressure, final double gravity ) {
         LinearFunction f = new LinearFunction( 0, 500, standardAirPressure, FluidPressureAndFlowModel.EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
-        return atmosphere ? f.evaluate( y ) : 0.0;
+        return atmosphere ? f.evaluate( y ) * gravity / 9.8 : 0.0;
     }
 
     public double getWidth() {

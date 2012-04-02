@@ -1,3 +1,4 @@
+Pressure tab: Account for gravity in pressure computation
 Pressure tab: Trapezoid scene: Added pressure model which accounts for partially filled pool
 Pressure tab: Trapezoid scene: Fixed: Water comes out of faucet even when pool is full
 Pressure tab: Trapezoid scene: Update faucet fluid color based on the density of the fluid
