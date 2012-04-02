@@ -19,7 +19,7 @@ import static java.lang.Math.abs;
 public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     public final Pool squarePool = new Pool();
-    public final IPool trapezoidPool = new TrapezoidPool();
+    public final TrapezoidPool trapezoidPool = new TrapezoidPool();
 
     //Pool within which the user can measure the pressure
     public final Property<IPool> pool = new Property<IPool>( squarePool );

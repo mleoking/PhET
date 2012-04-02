@@ -6,6 +6,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -23,6 +25,8 @@ public class TrapezoidPool implements IPool {
 
     private final double yAtTop = 0;
     private final double height = 3;
+    public Property<Double> flowRatePercentage = new Property<Double>( 0.0 );
+    public ObservableProperty<Boolean> faucetEnabled = new Property<Boolean>( true );
 
     @Override public Shape getShape() {
         return new Area( leftChamber() ) {{

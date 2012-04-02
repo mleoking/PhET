@@ -1,3 +1,4 @@
+Intro tab: Trapezoid scene: Added a faucet (not wired up)
 Intro tab: Added image icons for scene radio button strip
 Intro tab: Added trapezoidal shape for pool
 Intro tab: Added a toolbox for pressure sensors
