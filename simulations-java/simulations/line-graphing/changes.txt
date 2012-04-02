@@ -1,3 +1,4 @@
+4/2/12 factor out LineManipulatorNode, so we can play with look of this
 4/2/12 round corners of rise/run brackets
 4/2/12 add quick-and-dirty icons for visibility controls related to lines
 4/2/12 point tool icon for control panel

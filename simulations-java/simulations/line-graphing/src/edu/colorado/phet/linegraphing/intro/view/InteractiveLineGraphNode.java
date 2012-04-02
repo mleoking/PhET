@@ -44,8 +44,8 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
         // Manipulators
         final double manipulatorDiameter = mvt.modelToViewDeltaX( 0.65 );
-        slopeManipulatorNode = new SphericalNode( manipulatorDiameter, LGColors.SLOPE_COLOR, new BasicStroke( 1f ), Color.BLACK, false );
-        interceptManipulatorNode = new SphericalNode( manipulatorDiameter, LGColors.INTERCEPT_COLOR, new BasicStroke( 1f ), Color.BLACK, false );
+        slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE_COLOR );
+        interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT_COLOR );
 
         // Rise and run brackets
         bracketsParentNode = new PComposite();
