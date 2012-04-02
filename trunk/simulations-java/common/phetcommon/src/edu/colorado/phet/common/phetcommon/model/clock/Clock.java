@@ -12,6 +12,8 @@ package edu.colorado.phet.common.phetcommon.model.clock;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+
 /**
  * This default clock implementation handles ClockListeners
  * and time conversion through an abstraction.
@@ -51,6 +53,21 @@ public abstract class Clock implements IClock {
      */
     public void removeClockListener( ClockListener clockListener ) {
         listeners.remove( clockListener );
+    }
+
+    /**
+     * Adds a listener that is notified when the simulation time changes.  The listener receives the value dt as a parameter.
+     * Note: this method does not allow for removal of the listener, do not use this method if you need to remove the listener.
+     * This method was written to enable closure-folding at call sites, since this method is commonly used.
+     *
+     * @param listener the function to be called when the simulation time changes.
+     */
+    public void addSimulationTimeChangeListener( final VoidFunction1<Double> listener ) {
+        addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                listener.apply( clockEvent.getSimulationTimeChange() );
+            }
+        } );
     }
 
     /**
