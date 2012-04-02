@@ -20,11 +20,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Button that can be pressed in, and stays in when selected like a real radio button in an old car stereo.
- * Used by RadioButtonStrip
+ * Used by RadioButtonStrip but public in case other usages need it
  *
  * @author Sam Reid
  */
-class ToggleButtonNode extends PNode {
+public class ToggleButtonNode extends PNode {
     private final DynamicCursorHandler cursorHandler = new DynamicCursorHandler();
 
     public ToggleButtonNode( final PNode node, final ObservableProperty<Boolean> selected, final VoidFunction0 pressed ) {
