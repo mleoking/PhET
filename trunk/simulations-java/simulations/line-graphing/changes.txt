@@ -1,3 +1,5 @@
+4/2/12 point tool icon for control panel
+4/2/12 adjust point tool image and font to fit (-10,-10)
 3/30/12 add point tool
 3/30/12 convert line model to double precision, to support continuous dragging
 3/30/12 handle cases where rise or run is zero

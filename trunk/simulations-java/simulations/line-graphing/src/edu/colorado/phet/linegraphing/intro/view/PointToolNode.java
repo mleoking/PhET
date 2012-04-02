@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.intro.view;
 
+import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -35,7 +36,7 @@ public class PointToolNode extends PhetPNode {
 
     private static final String COORDINATES_PATTERN = "({0},{1})";
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
-    private static final double COORDINATES_Y_OFFSET = 15; // from the top of the unscaled image file
+    private static final double COORDINATES_Y_CENTER = 28; // center of the display area, measured from the top of the unscaled image file
 
     public PointToolNode( Property<ImmutableVector2D> point, Property<Boolean> visible, final ModelViewTransform mvt, LineGraph graph ) {
 
@@ -45,7 +46,7 @@ public class PointToolNode extends PhetPNode {
 
         // coordinate display
         final PText coordinatesNode = new PText();
-        coordinatesNode.setFont( new PhetFont( 24 ) );
+        coordinatesNode.setFont( new PhetFont( 20 ) );
 
         // rendering order
         addChild( bodyNode );
@@ -59,7 +60,7 @@ public class PointToolNode extends PhetPNode {
                 setOffset( mvt.modelToView( point ).toPoint2D() );
                 coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( point.getX() ), COORDINATES_FORMAT.format( point.getY() ) ) );
                 coordinatesNode.setOffset( bodyNode.getFullBoundsReference().getCenterX() - ( coordinatesNode.getFullBoundsReference().getWidth() / 2 ),
-                                           bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_OFFSET );
+                                           bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( coordinatesNode.getFullBoundsReference().getHeight() / 2 ) );
             }
         } );
 
@@ -126,5 +127,11 @@ public class PointToolNode extends PhetPNode {
             return new ImmutableVector2D( Math.max( graph.minX, Math.min( graph.maxX, x ) ),
                                           Math.max( graph.minY, Math.min( graph.maxY, y ) ) );
         }
+    }
+
+    public static Image createImage( double width ) {
+        PNode toolNode = new PointToolNode( new Property<ImmutableVector2D>( new ImmutableVector2D( 1,2 ) ), new Property<Boolean>( true ), ModelViewTransform.createIdentity(), new LineGraph( -1, 1, -1, 1 ));
+        toolNode.scale( width / toolNode.getFullBoundsReference().getWidth() );
+        return toolNode.toImage();
     }
 }
