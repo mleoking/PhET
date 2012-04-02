@@ -1,3 +1,4 @@
+Pressure tab: Added water flowing from the faucet as a solid rectangle
 Pressure tab: Removed background from radio button strip
 Flow tab & Water tower tab: Added slow/full speed buttons and pause (like ESPB)
 Pressure tab: Trapezoid scene: Added a faucet (not wired up)

@@ -58,12 +58,11 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Variables for convenient access
         final FluidPressureModel model = module.model;
-        final IPool pool = model.pool.get();
 
         //Add a background behind the pool so earth doesn't bleed through transparent pool
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {
             @Override public PNode apply( final IPool p ) {
-                return new PhetPPath( transform.modelToView( p.getShape() ), Color.white );
+                return new PhetPPath( transform.modelToView( p.getContainerShape() ), Color.white );
             }
         } );
 
@@ -135,16 +134,26 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         addChild( gravityControlPanelNode );
         addChild( fluidDensityControlNode );
 
-        addChild( new FluidPressureFaucetNode( model.trapezoidPool.flowRatePercentage, model.trapezoidPool.faucetEnabled ) {{
+        //Create the faucet for the trapezoidal mode
+        final PNode faucetAndWater = new PNode() {{
             model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
                 @Override public void apply( final Boolean visible ) {
                     setVisible( visible );
                 }
             } );
 
-            //Center the faucet over the left opening, values sampled from a drag listener
-            setOffset( new Point2D.Double( 109.2584933530281, 157.19350073855244 ) );
-        }} );
+            final FluidPressureFaucetNode faucetNode = new FluidPressureFaucetNode( model.trapezoidPool.flowRatePercentage, model.trapezoidPool.faucetEnabled ) {{
+
+                //Center the faucet over the left opening, values sampled from a drag listener
+                setOffset( new Point2D.Double( 109.2584933530281, 157.19350073855244 ) );
+            }};
+
+            //Show the water coming out of the faucet
+            addChild( new FlowingWaterNode( model.trapezoidPool, model.trapezoidPool.flowRatePercentage, transform ) );
+            addChild( faucetNode );
+
+        }};
+        addChild( faucetAndWater );
 
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this later on ensures that the draggable sensors will appear in front of everything else

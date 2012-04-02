@@ -20,23 +20,38 @@ public class TrapezoidPool implements IPool {
     //Units in meters, describes the leftmost chamber and is used to create both
     private final double widthAtTop = 1;
     private final double widthAtBottom = 4;
-    private final double centerAtLeftChamberOpening = -2.9;
+    public final double centerAtLeftChamberOpening = -2.9;
     private final double separation = 3.9;//Between centers
 
     private final double yAtTop = 0;
-    private final double height = 3;
-    public Property<Double> flowRatePercentage = new Property<Double>( 0.0 );
-    public ObservableProperty<Boolean> faucetEnabled = new Property<Boolean>( true );
+    public final double height = 3;
+    public final Property<Double> flowRatePercentage = new Property<Double>( 0.0 );
+    public final ObservableProperty<Boolean> faucetEnabled = new Property<Boolean>( true );
+    private double passageHeight = 0.25;
 
-    @Override public Shape getShape() {
+    //Thickness into the screen, for computing volumes.
+    private double thickness = 1.0;
+
+    @Override public Shape getContainerShape() {
+        return getShape( height );
+    }
+
+    public Shape getShape( double height ) {
         return new Area( leftChamber() ) {{
             add( new Area( rightChamber() ) );
             add( new Area( passage() ) );
         }};
     }
 
+    //In meters squared, determine the area of the cross section the user can see.
+    //This is used for filling up the container at a constant volumetric rate
+//    public double getArea( double height ) {
+//        return widthAtTop + widthAtBottom;
+//        return 0.0;
+//    }
+
     private Shape passage() {
-        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + 0.25, separation, 0.25 );
+        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + passageHeight, separation, passageHeight );
     }
 
     public Shape fromLines( final ImmutableVector2D... pts ) {
@@ -67,6 +82,10 @@ public class TrapezoidPool implements IPool {
     }
 
     @Override public double getHeight() {
-        return getShape().getBounds2D().getHeight();
+        return getContainerShape().getBounds2D().getHeight();
+    }
+
+    @Override public Shape getWaterShape() {
+        return new Rectangle2D.Double();
     }
 }

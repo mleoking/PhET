@@ -26,24 +26,28 @@ public class Pool implements IPool {
         return HEIGHT;
     }
 
+    @Override public Shape getWaterShape() {
+        return getContainerShape();
+    }
+
     public double getWidth() {
         return WIDTH;
     }
 
-    public Shape getShape() {
+    public Shape getContainerShape() {
         return new Rectangle2D.Double( -WIDTH / 2, -HEIGHT, WIDTH, HEIGHT );
     }
 
     public double getMinX() {
-        return getShape().getBounds2D().getMinX();
+        return getContainerShape().getBounds2D().getMinX();
     }
 
     public double getMaxX() {
-        return getShape().getBounds2D().getMaxX();
+        return getContainerShape().getBounds2D().getMaxX();
     }
 
     public double getMaxY() {
-        return getShape().getBounds2D().getMaxY();
+        return getContainerShape().getBounds2D().getMaxY();
     }
 
     public double getMinY() {

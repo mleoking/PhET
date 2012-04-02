@@ -26,7 +26,7 @@ public class PoolNode extends PNode {
 
     public PoolNode( final ModelViewTransform transform2D, final IPool pool, Property<Double> fluidDensity ) {
         this.fluidDensity = fluidDensity;
-        final PhetPPath path = new PhetPPath( transform2D.modelToView( pool.getShape() ), createPaint( transform2D, pool ) ) {{
+        final PhetPPath path = new PhetPPath( transform2D.modelToView( pool.getWaterShape() ), createPaint( transform2D, pool ) ) {{
             waterColor.addObserver( new SimpleObserver() {
                 public void update() {
                     setPaint( createPaint( transform2D, pool ) );
