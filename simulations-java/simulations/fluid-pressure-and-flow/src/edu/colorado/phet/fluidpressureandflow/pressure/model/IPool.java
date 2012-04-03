@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Abstraction for different kinds of pools (square, trapezoidal, chambers)
@@ -20,4 +21,6 @@ public interface IPool {
     double getPressure( final double x, final double y, boolean atmosphere, double standardAirPressure, double liquidDensity, double gravity );
 
     void stepInTime( double dt );
+
+    void addPressureChangeObserver( SimpleObserver updatePressure );
 }

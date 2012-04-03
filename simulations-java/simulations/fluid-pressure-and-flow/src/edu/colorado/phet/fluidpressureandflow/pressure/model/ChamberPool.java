@@ -10,7 +10,9 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
  * Pool with separate chambers where the fluid can flow.  Weights can be added to either side.
@@ -35,12 +37,14 @@ public class ChamberPool implements IPool {
 
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
-        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageHeight, passageHeight ), false ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight, 0, passageHeight, passageHeight / 2 ), false ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight * 2, 0, passageHeight, passageHeight / 2 ), false ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageHeight, passageHeight ), false, 0.0, 2 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight, 0, passageHeight, passageHeight / 2 ), false, 0.0, 1 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight * 2, 0, passageHeight, passageHeight / 2 ), false, 0.0, 1 ) );
     }} );
+    private final Property<Double> gravity;
 
-    public ChamberPool() {
+    public ChamberPool( Property<Double> gravity ) {
+        this.gravity = gravity;
         this.waterShape = new CompositeProperty<Shape>( new Function0<Shape>() {
             @Override public Shape apply() {
                 final Shape containerShape = getContainerShape();
@@ -139,6 +143,29 @@ public class ChamberPool implements IPool {
 
     public void stepInTime( final double dt ) {
         waterVolume.set( waterVolume.get() + flowRatePercentage.get() * dt );
+        masses.set( updateMasses( masses.get(), dt ) );
+    }
+
+    @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
+        waterShape.addObserver( updatePressure );
+        masses.addObserver( updatePressure );
+    }
+
+    private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {
+        return masses.map( new Function1<Mass, Mass>() {
+            @Override public Mass apply( final Mass mass ) {
+                if ( mass.getMinY() > 0.0 && !mass.dragging ) {
+                    double force = -mass.mass * gravity.get();
+                    double acceleration = force / mass.mass;
+                    double newVelocity = mass.velocity + acceleration * dt;
+                    double newPosition = mass.getMinY() + newVelocity * dt;
+                    return mass.withMinY( Math.max( newPosition, 0.0 ) ).withVelocity( newVelocity );
+                }
+                else {
+                    return mass;
+                }
+            }
+        } );
     }
 
     public void reset() {

@@ -20,7 +20,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     public final Pool squarePool = new Pool();
     public final TrapezoidPool trapezoidPool = new TrapezoidPool();
-    public final ChamberPool chamberPool = new ChamberPool();
+    public final ChamberPool chamberPool;
 
     //Pool within which the user can measure the pressure
     public final Property<IPool> pool = new Property<IPool>( squarePool );
@@ -31,6 +31,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     public FluidPressureModel() {
         super( ATMOSPHERES );
+        chamberPool = new ChamberPool( gravity );
 
         //Show pressure partly submerged in the water, but at the top of the water
         addPressureSensor( new PressureSensor( this, 0, 0 ) );
@@ -58,6 +59,9 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         liquidDensity.addObserver( updatePressure );
         standardAirPressure.addObserver( updatePressure );
         gravity.addObserver( updatePressure );
+        squarePool.addPressureChangeObserver( updatePressure );
+        trapezoidPool.addPressureChangeObserver( updatePressure );
+        chamberPool.addPressureChangeObserver( updatePressure );
     }
 
     //Gets the pressure at the specified location.

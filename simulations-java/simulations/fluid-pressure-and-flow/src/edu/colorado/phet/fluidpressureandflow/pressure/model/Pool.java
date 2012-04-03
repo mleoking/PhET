@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 
@@ -48,6 +49,9 @@ public class Pool implements IPool {
     }
 
     @Override public void stepInTime( final double dt ) {
+    }
+
+    @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
     }
 
     //TODO: This should be a function of gravity too
