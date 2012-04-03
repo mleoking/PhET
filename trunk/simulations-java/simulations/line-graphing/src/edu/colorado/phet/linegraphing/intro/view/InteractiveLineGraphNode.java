@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
@@ -130,7 +131,6 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             }
         }
 
-
         // move the manipulators
         final double y = line.rise + line.intercept;
         double x;
@@ -192,12 +192,10 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             line.set( new SlopeInterceptLine( rise, run, line.get().intercept ) );
         }
 
-        // When dragging ends, snap to grid and modify the line.
         @Override protected void endDrag( PInputEvent event ) {
             super.endDrag( event );
-            int run = (int)( line.get().run + ( ( line.get().run >= 0 ) ? 0.5 : - 0.5 ) );
-            int rise = (int)( line.get().rise + ( ( line.get().rise >= 0 ) ? 0.5 : - 0.5 ) );
-            line.set( new SlopeInterceptLine( rise, run, line.get().intercept ) );
+            // snap to grid
+            line.set( new SlopeInterceptLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), line.get().intercept ) );
         }
     }
 
@@ -229,11 +227,10 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             line.set( new SlopeInterceptLine( line.get().rise, line.get().run, intercept ) );
         }
 
-        // When dragging ends, snap to grid and modify the line.
         @Override protected void endDrag( PInputEvent event ) {
             super.endDrag( event );
-            int intercept = (int)( line.get().intercept + ( ( line.get().intercept >= 0 ) ? 0.5 : - 0.5 ) );
-            line.set( new SlopeInterceptLine( line.get().rise, line.get().run, intercept ) );
+            // snap to grid
+            line.set( new SlopeInterceptLine( line.get().rise, line.get().run, MathUtil.round( line.get().intercept ) ) );
         }
     }
 }

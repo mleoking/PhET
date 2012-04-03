@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -111,9 +112,7 @@ public class PointToolNode extends PhetPNode {
         @Override protected void endDrag( PInputEvent event ) {
             super.endDrag( event );
             // snap to the grid
-            int gridX = (int)( point.get().getX() + ( ( point.get().getX() >= 0 ) ? 0.5 : - 0.5 ) );
-            int gridY = (int)( point.get().getY() + ( ( point.get().getY() >= 0 ) ? 0.5 : - 0.5 ) );
-            point.set( new ImmutableVector2D( gridX, gridY ) );
+            point.set( new ImmutableVector2D( MathUtil.round( point.get().getX() ), MathUtil.round( point.get().getY() ) ) );
         }
 
         @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
