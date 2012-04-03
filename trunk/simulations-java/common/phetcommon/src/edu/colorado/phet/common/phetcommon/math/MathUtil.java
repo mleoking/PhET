@@ -691,7 +691,7 @@ public class MathUtil {
      * Rounds to the nearest neighbor. This is the method that most of us were taught in grammar school.
      */
     public static int round( double d ) {
-        return (int)( d + ( ( d >= 0 ) ? 0.5 : - 0.5 ) );
+        return (int)( d + ( ( d >= 0 ) ? 0.5 : -0.5 ) );
     }
 
     /*
