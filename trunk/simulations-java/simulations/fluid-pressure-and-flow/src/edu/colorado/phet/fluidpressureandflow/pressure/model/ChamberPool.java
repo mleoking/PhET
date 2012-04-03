@@ -279,4 +279,13 @@ public class ChamberPool implements IPool {
         double leftDisplacement = Math.abs( 1.0 - leftWaterHeightAboveChamber.get() );
         return getStackedMasses().size() > 0 || Math.abs( leftDisplacement ) < 1E-2;
     }
+
+    public boolean isOverOpening( final Mass m ) {
+        return isOverOpening( m, leftOpening() ) || isOverOpening( m, rightOpening() );
+    }
+
+    private boolean isOverOpening( final Mass m, final Shape opening ) {
+        final Rectangle2D bounds2D = opening.getBounds2D();
+        return new Rectangle2D.Double( bounds2D.getX(), m.shape.getBounds2D().getY(), bounds2D.getWidth(), m.shape.getBounds2D().getHeight() ).intersects( m.shape.getBounds2D() );
+    }
 }

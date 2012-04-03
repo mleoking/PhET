@@ -79,9 +79,6 @@ public class MassesLayer extends PNode {
                     masses.set( masses.get().map( new Function1<Mass, Mass>() {
                         @Override public Mass apply( final Mass mass ) {
                             Mass translatedMass = mass.translate( modelDelta );
-//                            if ( translatedMass.shape.getBounds2D().getMinY() < 0 ) {
-//                                translatedMass = translatedMass.translate( new Dimension2DDouble( 0, -translatedMass.shape.getBounds2D().getMinY() ) );
-//                            }
                             return mass.dragging ? translatedMass : mass;
                         }
                     } ) );
@@ -92,18 +89,26 @@ public class MassesLayer extends PNode {
                     //Turn off the "dragging" flag
                     masses.set( masses.get().map( new Function1<Mass, Mass>() {
                         @Override public Mass apply( Mass m ) {
+
                             //Snap to the dotted line or above ground
                             if ( m.dragging ) {
+                                boolean intersected = false;
                                 final Shape dottedLineShape = getDottedLineShape( pool, m );
                                 if ( m.shape.intersects( dottedLineShape.getBounds2D() ) ) {
                                     m = m.withMinY( dottedLineShape.getBounds2D().getMinY() ).withCenterX( dottedLineShape.getBounds2D().getCenterX() );
+                                    intersected = true;
                                 }
                                 else if ( m.getMinY() < 0 ) {
                                     m = m.withMinY( 0.0 );
                                 }
+
+                                //if mass is over an opening, move it back to its initial position
+                                if ( pool.isOverOpening( m ) && !intersected ) {
+                                    m = m.withShape( m.initialShape );
+                                }
                             }
-                            m = m.withDragging( false );
-                            return m;
+
+                            return m.withDragging( false );
                         }
                     } ) );
                 }
