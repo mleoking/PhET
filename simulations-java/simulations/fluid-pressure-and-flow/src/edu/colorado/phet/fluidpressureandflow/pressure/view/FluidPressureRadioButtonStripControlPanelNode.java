@@ -22,6 +22,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
+import static edu.colorado.phet.common.phetcommon.util.Pair.pair;
+
 /**
  * Radio button strip that lets the user choose between different scenes in the pressure tab.
  *
@@ -29,11 +31,11 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  */
 public class FluidPressureRadioButtonStripControlPanelNode extends PNode {
     public FluidPressureRadioButtonStripControlPanelNode( final FluidPressureCanvas canvas, final FluidPressureModel model ) {
-        final List<Pair<PNode, IPool>> elements = createButtons( canvas, model );
+        final List<Pair<PNode, ? extends IPool>> elements = createButtons( canvas, model );
 
         //Copied code from RadioButtonStripControlPanelNode so we could make non-square
         final HBox representationLayer = new HBox( 5 ) {{
-            for ( final Pair<PNode, IPool> element : elements ) {
+            for ( final Pair<PNode, ? extends IPool> element : elements ) {
 
                 double delta = 10;
                 PNode button = new PhetPPath( new RoundRectangle2D.Double( -delta / 2, -delta / 2, element._1.getFullBounds().getWidth() + delta, element._1.getFullBounds().getHeight() + delta, 20, 20 ), null ) {{
@@ -55,14 +57,15 @@ public class FluidPressureRadioButtonStripControlPanelNode extends PNode {
         addChild( representationLayer );
     }
 
-    private static List<Pair<PNode, IPool>> createButtons( final FluidPressureCanvas canvas, final FluidPressureModel model ) {
-        return Arrays.asList( new Pair<PNode, IPool>( createIcon( canvas, model.pool, model.squarePool ), model.squarePool ),
-                              new Pair<PNode, IPool>( createIcon( canvas, model.pool, model.trapezoidPool ), model.trapezoidPool ) );
+    private static List<Pair<PNode, ? extends IPool>> createButtons( final FluidPressureCanvas canvas, final FluidPressureModel model ) {
+        return Arrays.asList( pair( icon( canvas, model.pool, model.squarePool ), model.squarePool ),
+                              pair( icon( canvas, model.pool, model.trapezoidPool ), model.trapezoidPool ),
+                              pair( icon( canvas, model.pool, model.chamberPool ), model.chamberPool ) );
     }
 
     //Creates an icon that displays the track.
     //Copied from code in EnergySkatePark's TrackButton
-    private static PNode createIcon( final FluidPressureCanvas canvas, SettableProperty<IPool> property, IPool pool ) {
+    private static PNode icon( final FluidPressureCanvas canvas, SettableProperty<IPool> property, IPool pool ) {
         IPool origPool = property.get();
 
         //Set the property that we wish to display

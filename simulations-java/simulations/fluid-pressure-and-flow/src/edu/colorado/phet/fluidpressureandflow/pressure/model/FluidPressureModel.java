@@ -20,6 +20,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     public final Pool squarePool = new Pool();
     public final TrapezoidPool trapezoidPool = new TrapezoidPool();
+    public final ChamberPool chamberPool = new ChamberPool();
 
     //Pool within which the user can measure the pressure
     public final Property<IPool> pool = new Property<IPool>( squarePool );
@@ -39,7 +40,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
         getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {
             @Override public void apply( final Double dt ) {
-                trapezoidPool.stepInTime( dt );
+                pool.get().stepInTime( dt );
             }
         } );
     }
@@ -47,6 +48,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
     @Override public void reset() {
         super.reset();
         trapezoidPool.reset();
+        chamberPool.reset();
     }
 
     @Override public void addPressureChangeObserver( SimpleObserver updatePressure ) {

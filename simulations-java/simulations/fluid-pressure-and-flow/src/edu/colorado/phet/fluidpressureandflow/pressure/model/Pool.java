@@ -47,6 +47,9 @@ public class Pool implements IPool {
         }
     }
 
+    @Override public void stepInTime( final double dt ) {
+    }
+
     //TODO: This should be a function of gravity too
     public static double getPressureAboveGround( final double y, final boolean atmosphere, final double standardAirPressure, final double gravity ) {
         LinearFunction f = new LinearFunction( 0, 500, standardAirPressure, FluidPressureAndFlowModel.EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
