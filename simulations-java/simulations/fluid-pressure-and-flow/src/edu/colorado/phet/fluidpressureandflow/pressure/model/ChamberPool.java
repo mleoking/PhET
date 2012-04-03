@@ -6,6 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -154,6 +155,10 @@ public class ChamberPool implements IPool {
 
     @Override public Point2D clampSensorPosition( final Point2D pt ) {
         return pt;
+    }
+
+    @Override public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+        return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 
     private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {

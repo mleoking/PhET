@@ -162,6 +162,10 @@ public class TrapezoidPool implements IPool {
         return pt;
     }
 
+    @Override public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+        return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
+    }
+
     public void reset() {
         flowRatePercentage.reset();
         waterVolume.reset();
