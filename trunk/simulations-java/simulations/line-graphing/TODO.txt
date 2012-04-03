@@ -22,7 +22,7 @@ MEDIUM
 - disable Save Line button when "Lines" is unchecked
 - reuse spinner buttons from fractions, see SpinnerButtonNode
 - implement a nicer looking interactive equation
-
+                                                                                  e
 LOW
 - improve look of title + show/hide button in equation control panel
 - improve icons, generate programmatically to match colors?
