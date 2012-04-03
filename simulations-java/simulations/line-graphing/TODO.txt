@@ -15,7 +15,8 @@ DESIGN
 - if user saves 2 lines with the same reduced form, they will see only 1 saved line (actually 2 identical lines on top of each other)
 
 HIGH
-- drag handlers for slope and intercept manipulators
+- slope and intercept manipulators jump around
+- prevent BracketNode assertion while manipulating line, disable brackets or program to support asserted condition
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
