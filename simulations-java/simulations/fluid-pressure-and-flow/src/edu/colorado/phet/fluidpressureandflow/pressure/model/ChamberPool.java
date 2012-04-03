@@ -27,7 +27,7 @@ public class ChamberPool implements IPool {
     public final ObservableProperty<Boolean> faucetEnabled;
 
     private final CompositeProperty<Shape> waterShape;
-    public final Property<Double> waterVolume = new Property<Double>( 0.0 );
+    public final Property<Double> waterVolume = new Property<Double>( 2.0 );
 
     private final double passageHeight = 0.5;
     private double rightOpeningWidth = 3;
