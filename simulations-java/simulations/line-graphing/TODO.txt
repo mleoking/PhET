@@ -9,7 +9,9 @@ DESIGN
 - limit range of rise, run and intercept to 1/2 of grid range?
 - change range to 0-20?
 - constrain to quadrants 1 & 4, so that numerator is positive?
+- what should point tool display while it's being dragged? nothing? closest grid point?
 - when should point tool light up? when it's on the interactive line? when it's on any line?
+- color scheme
 
 HIGH
 - drag handlers for slope and intercept manipulators
