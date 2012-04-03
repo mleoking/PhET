@@ -40,4 +40,9 @@ public class Pair<T, U> implements Serializable {
         result = 31 * result + ( _2 != null ? _2.hashCode() : 0 );
         return result;
     }
+
+    //Convenience method so pairs can be constructed with "pair(a,b)" instead of "new Pair<MyLongTypeNameForTypeA,MyLongTypeNameForTypeB>(a,b)"
+    public static <T, U> Pair<T, U> pair( T t, U u ) {
+        return new Pair<T, U>( t, u );
+    }
 }
