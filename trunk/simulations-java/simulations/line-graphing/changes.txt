@@ -1,3 +1,4 @@
+4/3/12 use white for all piccolo buttons until we work out more important color-coding issues
 4/3/12 3D look for line manipulators
 4/2/12 check for run==0 before rise==0
 4/2/12 show reduced equations on lines
