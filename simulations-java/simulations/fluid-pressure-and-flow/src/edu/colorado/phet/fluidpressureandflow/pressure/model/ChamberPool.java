@@ -6,6 +6,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -14,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
  * Pool with separate chambers where the fluid can flow.  Weights can be added to either side.
@@ -189,37 +190,63 @@ public class ChamberPool implements IPool {
     }
 
     private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {
-        return masses.map( new Function1<Mass, Mass>() {
-            @Override public Mass apply( final Mass mass ) {
-                final Double g = gravity.get();
+        ObservableList<Mass> newList = new ObservableList<Mass>();
+
+        final Double g = gravity.get();
+        ArrayList<Mass> stacked = getStackedMasses();
+        for ( Mass mass : masses ) {
+            if ( !stacked.contains( mass ) ) {
                 final double m = mass.mass;
                 if ( mass.getMinY() > 0.0 && !mass.dragging ) {
                     double force = -m * g;
                     double acceleration = force / m;
                     double newVelocity = mass.velocity + acceleration * dt;
                     double newPosition = mass.getMinY() + newVelocity * dt;
-                    return mass.withMinY( Math.max( newPosition, 0.0 ) ).withVelocity( newVelocity );
-                }
-                else if ( mass.getMinY() < 0 && !mass.dragging ) {
-
-                    //use newton’s laws to equalize pressure/force at interface
-                    final double h = getRightOpeningWaterShape().getBounds2D().getMaxY() - mass.getMinY();
-                    final Double rho = fluidDensity.get();
-                    final double gravityForce = -m * g;
-                    final double pressureForce = Math.abs( rho * g * h );
-//                    System.out.println( "rightWaterHeightAboveChamber = " + rightWaterHeightAboveChamber + ", h = " + h + ", pressure force = " + pressureForce );
-                    double force = gravityForce + pressureForce;
-                    double acceleration = force / m;
-                    final double frictionCoefficient = 0.98;
-                    double newVelocity = ( mass.velocity + acceleration * dt ) * frictionCoefficient;
-                    double newPosition = mass.getMinY() + newVelocity * dt;
-                    return mass.withMinY( newPosition ).withVelocity( newVelocity );
+                    newList.add( mass.withMinY( Math.max( newPosition, 0.0 ) ).withVelocity( newVelocity ) );
                 }
                 else {
-                    return mass;
+                    newList.add( mass );
                 }
             }
-        } );
+        }
+
+        //Account for the stacked masses together since their masses should add up.
+        if ( stacked.size() > 0 ) {
+            double stackedTotalMass = 0.0;
+            for ( Mass mass : stacked ) {
+                stackedTotalMass += mass.mass;
+            }
+
+            Collections.sort( stacked, new Comparator<Mass>() {
+                @Override public int compare( final Mass o1, final Mass o2 ) {
+                    return Double.compare( o1.getMinY(), o2.getMinY() );
+                }
+            } );
+            Mass mass = stacked.get( 0 );
+
+            //Update the bottom mass, then update the ones on top of it
+
+            final double m = stackedTotalMass;
+            //use newton’s laws to equalize pressure/force at interface
+            final double h = getRightOpeningWaterShape().getBounds2D().getMaxY() - mass.getMinY();
+            final Double rho = fluidDensity.get();
+            final double gravityForce = -m * g;
+            final double pressureForce = Math.abs( rho * g * h );
+//                    System.out.println( "rightWaterHeightAboveChamber = " + rightWaterHeightAboveChamber + ", h = " + h + ", pressure force = " + pressureForce );
+            double force = gravityForce + pressureForce;
+            double acceleration = force / m;
+            final double frictionCoefficient = 0.98;
+            double newVelocity = ( mass.velocity + acceleration * dt ) * frictionCoefficient;
+            double newPosition = mass.getMinY() + newVelocity * dt;
+            newList.add( mass.withMinY( newPosition ).withVelocity( newVelocity ) );
+
+            //Stack the others on this one
+            for ( int i = 1; i < stacked.size(); i++ ) {
+                newList.add( stacked.get( i ).withMinY( stacked.get( i - 1 ).getMaxY() ) );
+            }
+        }
+
+        return newList;
     }
 
     public void reset() {
