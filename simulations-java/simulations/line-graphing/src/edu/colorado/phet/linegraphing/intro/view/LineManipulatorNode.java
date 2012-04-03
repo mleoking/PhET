@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.intro.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
+import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
 
 /**
@@ -11,9 +12,10 @@ import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LineManipulatorNode extends SphericalNode {
+public class LineManipulatorNode extends ShadedSphereNode {
 
     public LineManipulatorNode( double diameter, Color fillColor ) {
-         super( diameter, fillColor, new BasicStroke( 1f ), Color.BLACK, false /* convertToImage */ );
+        super( diameter, fillColor, Color.WHITE, fillColor.darker().darker(), false /* convertToImage */ );
+        setStrokeAndPaint( new BasicStroke( 1f ), fillColor.darker().darker() );
     }
 }
