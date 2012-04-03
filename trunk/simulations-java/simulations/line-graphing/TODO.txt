@@ -12,6 +12,7 @@ DESIGN
 - what should point tool display while it's being dragged? nothing? closest grid point?
 - when should point tool light up? when it's on the interactive line? when it's on any line?
 - color scheme
+- if user saves 2 lines with the same reduced form, they will see only 1 saved line (actually 2 identical lines on top of each other)
 
 HIGH
 - drag handlers for slope and intercept manipulators
