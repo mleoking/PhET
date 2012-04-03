@@ -5,10 +5,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.geom.Area;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -18,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
@@ -25,6 +28,7 @@ import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Displays a button with a pointed arrow
@@ -233,5 +237,38 @@ public class KnobNode extends PNode {
         if ( component != null && !enabled ) {
             cursorHandler.mouseExited( (JComponent) component );
         }
+    }
+
+    /**
+     * Test harness.
+     *
+     * @param args
+     */
+    public static void main( String[] args ) {
+
+        Dimension2D stageSize = new PDimension( 500, 400 );
+
+        PhetPCanvas canvas = new PhetPCanvas();
+
+        // Set up the canvas-screen transform.
+        canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
+
+        // Add the default knob to the canvas.
+        canvas.addWorldChild( new KnobNode() {{
+            setOffset( 10, 10 );
+        }} );
+
+        // Add a node that is typical as of 4/3/2012.
+        canvas.addWorldChild( new KnobNode( new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
+            setOffset( 10, 50 );
+        }} );
+
+        // Boiler plate app stuff.
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.setSize( (int) stageSize.getWidth(), (int) stageSize.getHeight() );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.setLocationRelativeTo( null ); // Center.
+        frame.setVisible( true );
     }
 }
