@@ -1,3 +1,4 @@
+4/2/12 Added convenience method Pairs.pair so pairs can be constructed with "pair(a,b)" instead of "new Pair<MyLongTypeNameForTypeA,MyLongTypeNameForTypeB>(a,b)"
 4/2/12 Added Clock.addSimulationTimeChangeListener
 3/23/12 #3260 Changed replacement to "\\t" so it will render as "\t" with no tab
 3/23/12 #3260 Factored out null string in Parameter, use "\\\\t" as replacement for "\t", added test main
