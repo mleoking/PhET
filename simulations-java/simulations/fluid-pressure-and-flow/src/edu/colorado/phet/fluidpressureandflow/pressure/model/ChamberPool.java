@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -28,7 +27,6 @@ public class ChamberPool implements IPool {
     private final double separation = 3.9;//Between centers
 
     public final double height = 3;
-    public final ObservableProperty<Boolean> faucetEnabled;
 
     private final CompositeProperty<Shape> waterShape;
     public final Property<Double> waterVolume = new Property<Double>( 2.0 );
@@ -44,8 +42,8 @@ public class ChamberPool implements IPool {
     }} );
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;
-    private double leftWaterHeightAboveChamber = 1.0;
-    private double rightWaterHeightAboveChamber = 1.0;
+    private final Property<Double> leftWaterHeightAboveChamber = new Property<Double>( 1.0 );
+    private final Property<Double> rightWaterHeightAboveChamber = new Property<Double>( 1.0 );
     private final double CHAMBER_HEIGHT = 1.5;
 
     public ChamberPool( Property<Double> gravity, Property<Double> fluidDensity ) {
@@ -57,12 +55,7 @@ public class ChamberPool implements IPool {
             @Override public Shape apply() {
                 return createWaterShape();
             }
-        }, waterVolume, masses );
-        faucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
-            @Override public Boolean apply() {
-                return getWaterHeight() < height;
-            }
-        }, waterVolume );
+        }, waterVolume, masses, leftWaterHeightAboveChamber, rightWaterHeightAboveChamber );
     }
 
     private Shape createWaterShape() {
@@ -72,13 +65,6 @@ public class ChamberPool implements IPool {
             add( new Area( rightChamber() ) );
             add( new Area( getRightOpeningWaterShape() ) );
         }};
-    }
-
-    //Find out how high the water will rise given a volume of water.
-    //This is tricky because of the connecting passage which has nonzero volume
-    //It is used to subtract out the part of the water that is not
-    public double getWaterHeight() {
-        return Math.min( waterVolume.get(), height );
     }
 
     @Override public Shape getContainerShape() {
@@ -141,8 +127,7 @@ public class ChamberPool implements IPool {
             else {// if ( containerShape.contains( x, y ) && waterShape.contains( x, y ) ) {
 
                 //Y value at the top of the water to compute the air pressure there
-                final double waterHeight = getWaterHeight();
-                double y0 = -height + waterHeight;
+                double y0 = getWaterShape().get().getBounds2D().getMaxY();
                 double p0 = Pool.getPressureAboveGround( y0, atmosphere, standardAirPressure, gravity );
                 double distanceBelowWater = Math.abs( -y + y0 );
                 return p0 + liquidDensity * gravity * distanceBelowWater;
@@ -169,8 +154,8 @@ public class ChamberPool implements IPool {
             double equilibriumY = -height + CHAMBER_HEIGHT + 1.0;
             double leftDisplacement = Math.abs( equilibriumY - minY );
             double rightDisplacement = leftDisplacement / 5;
-            leftWaterHeightAboveChamber = 1.0 - leftDisplacement;
-            rightWaterHeightAboveChamber = 1.0 + rightDisplacement;
+            leftWaterHeightAboveChamber.set( 1.0 - leftDisplacement );
+            rightWaterHeightAboveChamber.set( 1.0 + rightDisplacement );
 
             this.waterShape.notifyIfChanged();
         }
@@ -179,6 +164,8 @@ public class ChamberPool implements IPool {
     @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
         waterShape.addObserver( updatePressure );
         masses.addObserver( updatePressure );
+        leftWaterHeightAboveChamber.addObserver( updatePressure );
+        rightWaterHeightAboveChamber.addObserver( updatePressure );
     }
 
     @Override public Point2D clampSensorPosition( final Point2D pt ) {
@@ -224,17 +211,18 @@ public class ChamberPool implements IPool {
 
     public void reset() {
         waterVolume.reset();
+        masses.reset();
+        leftWaterHeightAboveChamber.reset();
+        rightWaterHeightAboveChamber.reset();
     }
 
     public Shape getLeftOpeningWaterShape() {
         double openingY = 0 - height + CHAMBER_HEIGHT;
-        double waterHeight = leftWaterHeightAboveChamber;
-        return new Rectangle2D.Double( leftChamber().getBounds2D().getCenterX() - passageHeight / 2, openingY, passageHeight, waterHeight );
+        return new Rectangle2D.Double( leftChamber().getBounds2D().getCenterX() - passageHeight / 2, openingY, passageHeight, leftWaterHeightAboveChamber.get() );
     }
 
     public Shape getRightOpeningWaterShape() {
         double openingY = 0 - height + CHAMBER_HEIGHT;
-        double waterHeight = rightWaterHeightAboveChamber;
-        return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, waterHeight );
+        return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, rightWaterHeightAboveChamber.get() );
     }
 }
