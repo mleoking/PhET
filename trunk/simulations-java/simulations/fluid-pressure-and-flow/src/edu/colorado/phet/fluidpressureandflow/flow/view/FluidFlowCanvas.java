@@ -127,7 +127,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
 
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this last ensures that the draggable sensors will appear in front of everything else
-        addSensorToolboxNode( model, controlPanelNode );
+        addSensorToolboxNode( model, controlPanelNode, null );
     }
 
     private void addParticleNode( final Particle p ) {

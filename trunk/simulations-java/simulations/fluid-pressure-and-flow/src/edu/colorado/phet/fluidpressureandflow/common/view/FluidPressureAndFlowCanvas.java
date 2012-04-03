@@ -29,6 +29,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -214,9 +215,9 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     //This is done by creating dummy nodes based on actual model sensors to get the dimensions for the toolbox panel right.
     //This is necessary since we want the pressure sensor to have the right readout within the control panel.
     //This also has the advantages of sizing the control panel so it will fit internationalized versions of the components
-    public void addSensorToolboxNode( final FluidPressureAndFlowModel model, final FluidPressureAndFlowControlPanelNode controlPanelNode ) {
+    public void addSensorToolboxNode( final FluidPressureAndFlowModel model, final FluidPressureAndFlowControlPanelNode controlPanelNode, Property<IPool> poolProperty ) {
         final EmptyNode velocitySensorArea = new EmptyNode( model.getVelocitySensors().length > 0 ? new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ) ) : new PNode() );
-        final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], new Property<UnitSet>( UnitSet.METRIC ), visibleModelBounds ) );
+        final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], new Property<UnitSet>( UnitSet.METRIC ), poolProperty, visibleModelBounds ) );
         final FluidPressureAndFlowControlPanelNode sensorToolBoxNode = new FluidPressureAndFlowControlPanelNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
 
             //Position it to the left of the control panel, but leave extra space in case the pressure sensor node needs to jut off to the right;
@@ -241,7 +242,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
             model.addResetListener( updatePosition );
             updatePosition.apply();
 
-            addChild( new PressureSensorNode( transform, pressureSensor, model.units, visibleModelBounds ) {{
+            addChild( new PressureSensorNode( transform, pressureSensor, model.units, poolProperty, visibleModelBounds ) {{
 
                 //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
                 addInputEventListener( new MoveToFront( this ) );

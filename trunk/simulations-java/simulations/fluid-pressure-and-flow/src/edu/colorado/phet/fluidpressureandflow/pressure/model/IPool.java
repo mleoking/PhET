@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import java.awt.Shape;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -23,4 +24,6 @@ public interface IPool {
     void stepInTime( double dt );
 
     void addPressureChangeObserver( SimpleObserver updatePressure );
+
+    Point2D clampSensorPosition( Point2D pt );
 }

@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -18,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ThreeImageNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
-import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -33,14 +32,10 @@ import static java.text.MessageFormat.format;
  * @author Sam Reid
  */
 public class PressureSensorNode extends SensorNode {
-    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<UnitSet> units, Function0<ImmutableRectangle2D> visibleModelRect ) {
-        this( transform, sensor, units, null, visibleModelRect );
-    }
-
     public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<UnitSet> units,
 
                                //the area to constrain the node within or null if no constraints
-                               final Pool pool,
+                               final Property<IPool> pool,
 
                                final Function0<ImmutableRectangle2D> visibleModelRect ) {
         super( transform, sensor, getPressureUnit( units ) );
@@ -76,10 +71,7 @@ public class PressureSensorNode extends SensorNode {
                 Point2D pt = point2D;
                 //not allowed to go to negative Potential Energy in the pool
                 if ( pool != null ) {
-                    pt = new Point2D.Double( point2D.getX(), Math.max( point2D.getY(), pool.getMinY() ) );
-                    if ( pt.getY() < 0 ) {
-                        pt.setLocation( MathUtil.clamp( pool.getMinX(), pt.getX(), pool.getMaxX() ), pt.getY() );
-                    }
+                    pt = pool.get().clampSensorPosition( pt );
                 }
 
                 //Return the closest point within the visible model bounds, so it can't be dragged off-screen

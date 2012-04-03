@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -155,6 +156,10 @@ public class TrapezoidPool implements IPool {
 
     @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
         waterVolume.addObserver( updatePressure );
+    }
+
+    @Override public Point2D clampSensorPosition( final Point2D pt ) {
+        return pt;
     }
 
     public void reset() {

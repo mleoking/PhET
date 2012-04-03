@@ -2,7 +2,6 @@
 package edu.colorado.phet.fluidpressureandflow.common.model.units;
 
 import java.text.DecimalFormat;
-import java.text.FieldPosition;
 
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
 
@@ -16,18 +15,18 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  */
 public class Units {
     public static final Unit ATMOSPHERE = new LinearUnit( ATM, 9.8692E-6, new DecimalFormat( "0.0000" ) {
-        @Override
-        public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
-
-            //Show 0.9999 atm when lifted into the atmosphere so students don't think pressure doesn't decrease vs altitude
-            final StringBuffer answer = super.format( number, result, fieldPosition );
-            if ( answer.toString().equals( "1.0000" ) || number >= 1 ) {
-                return new StringBuffer( new DecimalFormat( "0.00" ).format( number ) );
-            }
-            else {
-                return answer;
-            }
-        }
+//        @Override
+//        public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
+//
+//            //Show 0.9999 atm when lifted into the atmosphere so students don't think pressure doesn't decrease vs altitude
+//            final StringBuffer answer = super.format( number, result, fieldPosition );
+//            if ( answer.toString().equals( "1.0000" ) || number >= 1 ) {
+//                return new StringBuffer( new DecimalFormat( "0.00" ).format( number ) );
+//            }
+//            else {
+//                return answer;
+//            }
+//        }
     } );
 
     //Units for atmosphere, see http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
