@@ -97,11 +97,11 @@ public class SlopeInterceptLineNode extends PComposite {
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
         equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.rise / line.run ) );
-        equationNode = new PText( "y = mx + b" );
+        equationNode = new PText( line.getEquation() );
         equationNode.setTextPaint( color );
         equationParentNode.addChild( equationNode );
-        equationNode.setOffset( -equationNode.getFullBoundsReference().getWidth() - 10,
-                                -equationNode.getFullBoundsReference().getHeight() - 5 );
+        equationNode.setOffset( -equationNode.getFullBoundsReference().getWidth() - 12,
+                                -equationNode.getFullBoundsReference().getHeight() - 12 );
     }
 
     protected void updateColor( Color color ) {
