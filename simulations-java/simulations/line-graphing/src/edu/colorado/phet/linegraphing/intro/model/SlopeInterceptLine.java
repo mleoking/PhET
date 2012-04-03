@@ -54,4 +54,23 @@ public class SlopeInterceptLine {
         assert( m != 0 );
         return ( y - b ) / m;
     }
+
+    //TODO i18n
+    public String getEquation() {
+        if ( run == 0 ) {
+            return "x = 0";
+        }
+        else if ( rise == 0 ) {
+            return "y = " + (int)intercept;
+        }
+        else if ( intercept == 0 ) {
+            return "y = (" + (int)rise + "/" + (int)run + ")x";
+        }
+        else if ( intercept < 0 ) {
+            return "y = (" + (int)rise + "/" + (int)run + ")x - " + (int)Math.abs( intercept );
+        }
+        else {
+            return "y = (" + (int)rise + "/" + (int)run + ")x + " + (int)Math.abs( intercept );
+        }
+    }
 }
