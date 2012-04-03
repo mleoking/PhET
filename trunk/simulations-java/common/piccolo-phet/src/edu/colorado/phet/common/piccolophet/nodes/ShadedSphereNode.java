@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import javax.swing.JFrame;
@@ -80,6 +81,11 @@ public class ShadedSphereNode extends PhetPNode {
             sphericalNode.setPaint( createPaint( diameter, highlightColor, mainColor, shadowColor ) );
             sphericalNode.setDiameter( diameter );
         }
+    }
+
+    public void setStrokeAndPaint( Stroke stroke, Paint strokePaint ) {
+        sphericalNode.setStroke( stroke );
+        sphericalNode.setStrokePaint( strokePaint );
     }
 
     /**
