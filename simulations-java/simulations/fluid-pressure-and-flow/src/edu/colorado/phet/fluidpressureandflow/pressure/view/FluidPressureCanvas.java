@@ -171,7 +171,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             addChild( new PhetPText( "Masses", new PhetFont( 18 ) ) {{
                 setOffset( new Point2D.Double( 54.01477104874449, 343.01329394387 ) );//Sampled from a drag listener
             }} );
-            addChild( new MassesLayer( model.chamberPool.masses, transform ) );
+            addChild( new MassesLayer( model.chamberPool, model.chamberPool.masses, transform ) );
         }};
         addChild( massesNode );
 

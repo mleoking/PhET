@@ -1,3 +1,4 @@
+Pressure tab: Chamber scene: Show a dotted line where masses can be dropped
 Pressure tab: Fixed: Number format should change when submerged, not when y<0
 Pressure tab: Initial scene: Fixed: dragging bounds for pressure sensors not respected
 Pressure tab: Trapezoid scene: Fixed: Pressure doesn't update as water is added
