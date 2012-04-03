@@ -5,6 +5,7 @@ import java.awt.Image;
 
 import javax.annotation.Resources;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
@@ -43,5 +44,9 @@ public class LGResources {
         public static final Image RISE_OVER_RUN_ICON = RESOURCES.getImage( "under-construction.png" );
         public static final Image LINES_ICON = RESOURCES.getImage( "lines_icon.png" );
         public static final Image POINT_TOOL = RESOURCES.getImage( "point-tool.png" );
+
+        public static final Image CLOSE_BUTTON = PhetCommonResources.getImage( "buttons/closeButton.png" );
+        public static final Image MINIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/minimizeButton.png" );
+        public static final Image MAXIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/maximizeButton.png" );
     }
 }
