@@ -28,7 +28,6 @@ public class ChamberPool implements IPool {
     private final double separation = 3.9;//Between centers
 
     public final double height = 3;
-    public final Property<Double> flowRatePercentage = new Property<Double>( 0.0 );
     public final ObservableProperty<Boolean> faucetEnabled;
 
     private final CompositeProperty<Shape> waterShape;
@@ -39,21 +38,26 @@ public class ChamberPool implements IPool {
 
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
-        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageHeight, passageHeight ), false, 0.0, 2 ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight, 0, passageHeight, passageHeight / 2 ), false, 0.0, 1 ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight * 2, 0, passageHeight, passageHeight / 2 ), false, 0.0, 1 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageHeight, passageHeight ), false, 0.0, 250 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight, 0, passageHeight, passageHeight / 2 ), false, 0.0, 100 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight * 2, 0, passageHeight, passageHeight / 2 ), false, 0.0, 100 ) );
     }} );
     private final Property<Double> gravity;
+    private final Property<Double> fluidDensity;
+    private double leftWaterHeightAboveChamber = 1.0;
+    private double rightWaterHeightAboveChamber = 1.0;
+    private final double CHAMBER_HEIGHT = 1.5;
 
-    public ChamberPool( Property<Double> gravity ) {
+    public ChamberPool( Property<Double> gravity, Property<Double> fluidDensity ) {
         this.gravity = gravity;
+        this.fluidDensity = fluidDensity;
 
         //just keep the bottom part that is occupied by water
         this.waterShape = new CompositeProperty<Shape>( new Function0<Shape>() {
             @Override public Shape apply() {
-                return createWaterShape( getContainerShape() );
+                return createWaterShape();
             }
-        }, waterVolume );
+        }, waterVolume, masses );
         faucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
             @Override public Boolean apply() {
                 return getWaterHeight() < height;
@@ -61,14 +65,12 @@ public class ChamberPool implements IPool {
         }, waterVolume );
     }
 
-    private Shape createWaterShape( Shape shape ) {
-        final Shape containerShape = getContainerShape();
-        double height = getWaterHeight();
-        Rectangle2D whole = containerShape.getBounds2D();
-
-        final Rectangle2D part = new Rectangle2D.Double( whole.getX(), whole.getY(), whole.getWidth(), height );
-        return new Area( shape ) {{
-            intersect( new Area( part ) );
+    private Shape createWaterShape() {
+        return new Area( getLeftOpeningWaterShape() ) {{
+            add( new Area( leftChamber() ) );
+            add( new Area( horizontalPassage() ) );
+            add( new Area( rightChamber() ) );
+            add( new Area( getRightOpeningWaterShape() ) );
         }};
     }
 
@@ -101,11 +103,11 @@ public class ChamberPool implements IPool {
     }
 
     private Shape leftChamber() {
-        return new Rectangle2D.Double( -4.5, -3, 3, 1.5 );
+        return new Rectangle2D.Double( -4.5, -3, 3, CHAMBER_HEIGHT );
     }
 
     private Shape rightChamber() {
-        return new Rectangle2D.Double( 0, -3, 1.5, 1.5 );
+        return new Rectangle2D.Double( 0, -3, CHAMBER_HEIGHT, CHAMBER_HEIGHT );
     }
 
     @Override public double getHeight() {
@@ -149,8 +151,29 @@ public class ChamberPool implements IPool {
     }
 
     public void stepInTime( final double dt ) {
-        waterVolume.set( waterVolume.get() + flowRatePercentage.get() * dt );
-        masses.set( updateMasses( masses.get(), dt ) );
+        int nsteps = 10;
+        for ( int i = 0; i < nsteps; i++ ) {
+            masses.set( updateMasses( masses.get(), dt / nsteps ) );
+        }
+
+        //how far have the masses pushed down the water
+        //Find the minimum y of masses that are not being dragged
+
+        Double minY = null;
+        for ( Mass mass : masses.get() ) {
+            if ( !mass.dragging && mass.getMinY() < 0 ) {
+                minY = mass.getMinY();
+            }
+        }
+        if ( minY != null ) {
+            double equilibriumY = -height + CHAMBER_HEIGHT + 1.0;
+            double leftDisplacement = Math.abs( equilibriumY - minY );
+            double rightDisplacement = leftDisplacement / 5;
+            leftWaterHeightAboveChamber = 1.0 - leftDisplacement;
+            rightWaterHeightAboveChamber = 1.0 + rightDisplacement;
+
+            this.waterShape.notifyIfChanged();
+        }
     }
 
     @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
@@ -169,12 +192,26 @@ public class ChamberPool implements IPool {
     private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {
         return masses.map( new Function1<Mass, Mass>() {
             @Override public Mass apply( final Mass mass ) {
+                final Double g = gravity.get();
+                final double m = mass.mass;
                 if ( mass.getMinY() > 0.0 && !mass.dragging ) {
-                    double force = -mass.mass * gravity.get();
-                    double acceleration = force / mass.mass;
+                    double force = -m * g;
+                    double acceleration = force / m;
                     double newVelocity = mass.velocity + acceleration * dt;
                     double newPosition = mass.getMinY() + newVelocity * dt;
                     return mass.withMinY( Math.max( newPosition, 0.0 ) ).withVelocity( newVelocity );
+                }
+                else if ( mass.getMinY() < 0 && !mass.dragging ) {
+                    final double h = getRightOpeningWaterShape().getBounds2D().getMaxY() - mass.getMinY();
+                    final Double rho = fluidDensity.get();
+                    final double gravityForce = -m * g;
+                    final double pressureForce = Math.abs( rho * g * h );
+//                    System.out.println( "rightWaterHeightAboveChamber = " + rightWaterHeightAboveChamber + ", h = " + h + ", pressure force = " + pressureForce );
+                    double force = gravityForce + pressureForce;
+                    double acceleration = force / m;
+                    double newVelocity = ( mass.velocity + acceleration * dt ) * 0.8;
+                    double newPosition = mass.getMinY() + newVelocity * dt;
+                    return mass.withMinY( newPosition ).withVelocity( newVelocity );
                 }
                 else {
                     return mass;
@@ -184,12 +221,18 @@ public class ChamberPool implements IPool {
     }
 
     public void reset() {
-        flowRatePercentage.reset();
         waterVolume.reset();
     }
 
     public Shape getLeftOpeningWaterShape() {
-        //Assumes non-empty
-        return createWaterShape( leftOpening() );
+        double openingY = 0 - height + CHAMBER_HEIGHT;
+        double waterHeight = leftWaterHeightAboveChamber;
+        return new Rectangle2D.Double( leftChamber().getBounds2D().getCenterX() - passageHeight / 2, openingY, passageHeight, waterHeight );
+    }
+
+    public Shape getRightOpeningWaterShape() {
+        double openingY = 0 - height + CHAMBER_HEIGHT;
+        double waterHeight = rightWaterHeightAboveChamber;
+        return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, waterHeight );
     }
 }
