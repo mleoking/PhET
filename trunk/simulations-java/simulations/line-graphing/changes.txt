@@ -1,3 +1,5 @@
+4/2/12 replace MinimizeMaximizeButtonNode with ToggleButtonNode
+4/2/12 load common images statically in LGResources
 4/2/12 use transparent background behind control panel title
 4/2/12 factor out LineManipulatorNode, so we can play with look of this
 4/2/12 round corners of rise/run brackets
