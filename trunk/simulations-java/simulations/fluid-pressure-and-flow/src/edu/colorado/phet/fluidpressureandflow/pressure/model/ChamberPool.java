@@ -44,7 +44,7 @@ public class ChamberPool implements IPool {
     }} );
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;
-    private final Property<Double> leftWaterHeightAboveChamber = new Property<Double>( 1.0 );
+    public final Property<Double> leftWaterHeightAboveChamber = new Property<Double>( 1.0 );
     private final CompositeProperty<Double> rightWaterHeightAboveChamber = new CompositeProperty<Double>( new Function0<Double>() {
         @Override public Double apply() {
             double leftDisplacement = Math.abs( 1.0 - leftWaterHeightAboveChamber.get() );
@@ -273,5 +273,10 @@ public class ChamberPool implements IPool {
             }
         }
         return m;
+    }
+
+    public boolean showDropRegion() {
+        double leftDisplacement = Math.abs( 1.0 - leftWaterHeightAboveChamber.get() );
+        return getStackedMasses().size() > 0 || Math.abs( leftDisplacement ) < 1E-2;
     }
 }
