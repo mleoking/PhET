@@ -1,4 +1,4 @@
-Pressure tab: Chamber scene: When dragging the 2nd mass, dotted line should be above 1st mass
+Pressure tab: Chamber scene: Masses should stack and increase net mass
 Pressure tab: Chamber scene: Fixed: Water should equalize after mass removed
 Pressure tab: Chamber scene: Weights push down the water
 Pressure tab: Chamber scene: Snap to drop site
