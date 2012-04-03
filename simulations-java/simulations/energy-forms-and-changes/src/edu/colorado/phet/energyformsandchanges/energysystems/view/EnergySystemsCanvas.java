@@ -44,7 +44,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // TODO: Temp - Drawing of the design of the tab.
-        PImage drawing = new PImage( EnergyFormsAndChangesResources.Images.FIRST_TAB_DRAWING );
+        PImage drawing = new PImage( EnergyFormsAndChangesResources.Images.SECOND_TAB_DRAWING );
         drawing.setOffset( 0, 0 );
         drawing.setScale( DEFAULT_STAGE_SIZE.getWidth() / drawing.getFullBoundsReference().getWidth() );
         rootNode.addChild( drawing );
