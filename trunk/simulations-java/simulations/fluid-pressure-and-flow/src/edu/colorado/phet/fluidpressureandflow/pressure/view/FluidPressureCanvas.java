@@ -168,8 +168,10 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
                     setVisible( visible );
                 }
             } );
-            setOffset( new Point2D.Double( 54.01477104874449, 343.01329394387 ) );//Sampled from a drag listener
-            addChild( new PhetPText( "Masses", new PhetFont( 18 ) ) );
+            addChild( new PhetPText( "Masses", new PhetFont( 18 ) ) {{
+                setOffset( new Point2D.Double( 54.01477104874449, 343.01329394387 ) );//Sampled from a drag listener
+            }} );
+            addChild( new MassesLayer( model.chamberPool.masses, transform ) );
         }};
         addChild( massesNode );
 

@@ -1,3 +1,4 @@
+Pressure tab: Chamber scene: Added draggable masses
 Pressure tab: hide potted plant for scenes 2-3
 Pressure tab: Chamber scene: Added container shape
 Pressure tab: Account for gravity in pressure computation

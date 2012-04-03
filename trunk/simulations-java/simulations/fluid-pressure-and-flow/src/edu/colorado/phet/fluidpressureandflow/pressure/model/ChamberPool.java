@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProper
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
@@ -31,6 +32,13 @@ public class ChamberPool implements IPool {
 
     private final double passageHeight = 0.5;
     private double rightOpeningWidth = 3;
+
+    public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
+        double massOffset = -4.9;
+        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageHeight, passageHeight ), false ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight, 0, passageHeight, passageHeight / 2 ), false ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight * 2, 0, passageHeight, passageHeight / 2 ), false ) );
+    }} );
 
     public ChamberPool() {
         this.waterShape = new CompositeProperty<Shape>( new Function0<Shape>() {
